@@ -123,15 +123,15 @@ namespace LASI
                 throw new ArgumentNullException("selector");
             int len = 2;
             return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
-                    (sb, e) => {
+                    (accumulator, e) => {
                         var cETS = selector(e) + delimiters.Item2 + " ";
                         len += cETS.Length;
                         if (len >= lineLength) {
                             len = cETS.Length;
-                            sb.Append('\n');
+                            accumulator.Append('\n');
                             len = 0;
                         }
-                        return sb.Append(cETS);
+                        return accumulator.Append(cETS);
                     }).ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3;
         }
 
@@ -320,34 +320,7 @@ namespace LASI
                 first = element;
             }
         }
-        public static IEnumerable<Tuple<TPairItem, TPairItem>> PairWise<T, TPairItem>(this IEnumerable<T> source, Func<T, TPairItem> itemSelector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (itemSelector == null)
-                throw new ArgumentNullException("itemSelector");
-            if (source.None())
-                throw new ArgumentException("Sequence contains no elements", "source");
-            T first = source.First();
-            foreach (var element in source.Skip(1)) {
-                yield return Tuple.Create(itemSelector(first), itemSelector(element));
-                first = element;
-            }
-        }
-        public static IEnumerable<Tuple<TResult1, TResult2>> PairWise<TSource, TResult1, TResult2>(this IEnumerable<TSource> source, Func<TSource, TResult1> item1Selector, Func<TSource, TResult2> item2Selector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (item1Selector == null)
-                throw new ArgumentNullException("selector1");
-            if (item2Selector == null)
-                throw new ArgumentNullException("selector2");
-            if (source.None())
-                throw new ArgumentException("Sequence contains no elements", "source");
-            TSource first = source.First();
-            foreach (var element in source.Skip(1)) {
-                yield return Tuple.Create(item1Selector(first), item2Selector(element));
-                first = element;
-            }
-        }
+
         /// <summary>
         /// Returns the maximal element of the given sequence, based on
         /// the given projection.
@@ -449,27 +422,27 @@ namespace LASI
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Except(second,
+        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Except(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
 
-        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Intersect(second,
+        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Intersect(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Union(second,
+        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Union(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.SequenceEqual(second,
+        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.SequenceEqual(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
@@ -478,31 +451,74 @@ namespace LASI
         /// Determines if the source collection contains the exact same elements as the second, Ignoring duplicate elements and ordering.
         /// </summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
-        /// <param name="source">The source sequence</param>
+        /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
         /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
-        public static bool SetEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
-            return source.Intersect(second).None();
+        public static bool SetEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second) {
+            return first.Intersect(second).None();
         }
         /// <summary>
         /// Determines if the source collection contains the same elements as the second under the projection. Ignores duplicate elements and element ordering.
         /// </summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
         /// <typeparam name="TKey">Type of the source sequence</typeparam>
-        /// <param name="source">The source sequence</param>
+        /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>        
         /// <param name="selector">A function which extracts a key from each element by which equality is determined.</param>        
         /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
-        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
-            return source.Select(selector).SetEqual(second.Select(selector));
+        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
+            return first.Select(selector).SetEqual(second.Select(selector));
         }
-
-        public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(this IEnumerable<T1> source, IEnumerable<T2> second, IEnumerable<T3> third, Func<T1, T2, T3, TResult> selector) {
-            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
+        /// <summary>
+        /// Merges three sequences by using the specified function to select elements.
+        /// </summary>
+        /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="third">The third sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the three sequences.</param>
+        /// <returns>
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
+        /// of three input sequences.
+        /// </returns>
+        public static IEnumerable<TResult> Zip<TFirst,
+            TSecond,
+            TThird,
+            TResult>(this IEnumerable<TFirst> first,
+                IEnumerable<TSecond> second,
+                IEnumerable<TThird> third,
+                Func<TFirst, TSecond, TThird, TResult> selector) {
+            return first.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
         }
-        public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(this IEnumerable<T1> source,
-            IEnumerable<T2> second, IEnumerable<T3> third, IEnumerable<T4> fourth, Func<T1, T2, T3, T4, TResult> selector) {
-            return source.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
+        /// <summary>
+        /// Merges four sequences by using the specified function to select elements.
+        /// </summary>
+        /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
+        /// <typeparam name="TFourth">The type of the elements of the fourth input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="third">The third sequence to merge.</param>
+        /// <param name="fourth">The fourth sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the four sequences.</param>
+        /// <returns>
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
+        /// of three input sequences.
+        /// </returns>
+        public static IEnumerable<TResult> Zip<TFirst,
+            TSecond,
+            TThird,
+            TFourth,
+            TResult>(this IEnumerable<TFirst> first,
+                IEnumerable<TSecond> second, IEnumerable<TThird> third,
+                IEnumerable<TFourth> fourth,
+                Func<TFirst, TSecond, TThird, TFourth, TResult> selector) {
+            return first.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
 
 
