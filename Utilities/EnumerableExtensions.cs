@@ -257,31 +257,9 @@ namespace LASI
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> equals, Func<TSource, int> getHashCode) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            return new HashSet<TSource>(source, new CustomComaparer<TSource>(equals, getHashCode));
+            return new HashSet<TSource>(source, new CustomComparer<TSource>(equals, getHashCode));
         }
-        /// <summary>
-        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
-        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            return new SortedSet<TSource>(source);
-        }
-        /// <summary>
-        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
-        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer) where TSource : IComparable<TSource> {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            return new SortedSet<TSource>(source, comparer);
-        }
+
 
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
@@ -323,13 +301,20 @@ namespace LASI
 
         }
 
-
-        public static IEnumerable<Tuple<TSource, TSource>> PairWise<TSource>(this IEnumerable<TSource> source) {
+        /// <summary>
+        /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; from which to build a pairwise sequence.</param> 
+        /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (source.None())
                 throw new ArgumentException("Sequence contains no elements", "source");
-            TSource first = source.First();
+            T first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(first, element);
                 first = element;
@@ -460,45 +445,54 @@ namespace LASI
             if (source == null) { throw new ArgumentNullException("source"); }
             if (selector == null) { throw new ArgumentNullException("selector"); }
             return source.Distinct(
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return source.Except(second,
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
 
         static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return source.Intersect(second,
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return source.Union(second,
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return source.SequenceEqual(second,
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         /// <summary>
-        /// Determines if the source collection contains the same exact same elements as the second. Ignores duplicate elements and element order.
+        /// Determines if the source collection contains the exact same elements as the second, Ignoring duplicate elements and ordering.
         /// </summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
         /// <param name="source">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
-        /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
+        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
         public static bool SetEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
             return source.Intersect(second).None();
         }
+        /// <summary>
+        /// Determines if the source collection contains the same elements as the second under the projection. Ignores duplicate elements and element ordering.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the source sequence</typeparam>
+        /// <param name="source">The source sequence</param>
+        /// <param name="second">The sequence to compare against.</param>        
+        /// <param name="selector">A function which extracts a key from each element by which equality is determined.</param>        
+        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
             return source.Select(selector).SetEqual(second.Select(selector));
         }
@@ -508,37 +502,10 @@ namespace LASI
         }
         public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(this IEnumerable<T1> source,
             IEnumerable<T2> second, IEnumerable<T3> third, IEnumerable<T4> fourth, Func<T1, T2, T3, T4, TResult> selector) {
-            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => new { a.x, a.y, b }).Zip(fourth, (l, r) => selector(l.x, l.y, l.b, r));
+            return source.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
 
-        #region Reductive Operators
 
-        public static bool Sum(this IEnumerable<bool> source) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(false, (result, b) => result | b);
-        }
-        public static bool? Sum(this IEnumerable<bool?> source) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(default(bool?), (result, b) => result | b);
-        }
-        public static bool Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(false, (result, b) => result | selector(b));
-        }
-        public static bool? Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
-        }
-
-        public static bool Product(this IEnumerable<bool> source) { return source.Aggregate(false, (result, b) => result | b); }
-        public static bool Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
-            return source.Aggregate(false, (result, b) => result | selector(b));
-        }
-        public static bool? Product(this IEnumerable<bool?> source) { return source.Aggregate(default(bool?), (result, b) => result | b); }
-        public static bool? Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
-            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
-        }
-        #endregion
 
         #endregion
 
@@ -548,16 +515,35 @@ namespace LASI
         /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
         /// </summary>
         /// <typeparam name="T">The type of objects to compare.</typeparam>
-        public class CustomComaparer<T> : EqualityComparer<T>
+        public class CustomComparer<T> : EqualityComparer<T>
         {
             #region Constructors
-            public CustomComaparer(Func<T, T, bool> equals) {
+            /// <summary>
+            /// Initializes a new instance of the CustomComparer class which will use the provided equals function. to define element equality.
+            /// </summary>
+            /// <param name="equals">A function which determines if two objects of type T are equal.</param>
+            /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function is null.</exception>
+            /// <remarks>
+            /// A custom hashing function is automatically provided, ensuring that equality comparisons take place except when reference is null.
+            /// While this provides clean, customizable semantics for set operations, more expensive to use having a complexity of N^2
+            /// </remarks>
+            public CustomComparer(Func<T, T, bool> equals) {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
                 this.equals = equals;
                 getHashCode = o => o == null ? 0 : 1;
             }
-            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
+            /// <summary>
+            /// Initializes a new instance of the CustomComparer class which will use the provided equals and get hashcode functions.
+            /// </summary>
+            /// <param name="equals">A function which determines if two objects of type T are equal.</param>
+            /// <param name="getHashCode">A function which generates a hash code from an element of type T.</param>
+            /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function or <paramref name="getHashCode"/> is null.</exception>
+            /// <remarks>Proper usage requires that elements which will compare equal under the specified equals function will also produce identical hashcodes.
+            /// Elements may yield identical hash codes, without being considered equal.
+            /// </remarks>
+
+            public CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
                 if (equals == null)
                     throw new ArgumentNullException("equals", "A null equals function was provided.");
                 if (getHashCode == null)
@@ -568,6 +554,12 @@ namespace LASI
             #endregion
 
             #region Methods
+            /// <summary>
+            /// Determines whether two objects of type T are equal.
+            /// </summary>
+            /// <param name="x">The first object to compare.</param>
+            /// <param name="y">The second object to compare.</param>
+            /// <returns>true if the specified objects are equal; otherwise, false.</returns>
             public override bool Equals(T x, T y) {
                 if (ReferenceEquals(x, null))
                     return ReferenceEquals(y, null);
@@ -576,6 +568,11 @@ namespace LASI
                 else
                     return equals(x, y);
             }
+            /// <summary>
+            /// Serves as a hash function for the specified object for hashing algorithms and data structures, such as a hash table.
+            /// </summary>
+            /// <param name="obj">The object for which to get a hash code.</param>
+            /// <returns>A hash code for the specified object.</returns>
             public override int GetHashCode(T obj) {
                 return getHashCode(obj);
             }
