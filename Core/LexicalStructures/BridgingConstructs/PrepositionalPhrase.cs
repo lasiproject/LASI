@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -12,6 +9,8 @@ namespace LASI.Core
     /// </summary>
     public class PrepositionalPhrase : Phrase, IPrepositional
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the PrepositionalPhrase class.
         /// </summary>
@@ -20,20 +19,10 @@ namespace LASI.Core
             : base(composedWords) {
             Role = PrepositionRole.Undetermined;
         }
-        /// <summary>
-        /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
-        /// </summary>
-        public virtual ILexical ToTheRightOf {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
-        /// </summary>
-        public virtual ILexical ToTheLeftOf {
-            get;
-            set;
-        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Returns a string representation of the PrepositionalPhrase.
@@ -55,13 +44,7 @@ namespace LASI.Core
 
 
 
-        /// <summary>
-        /// Gets the object of the IPrepositional construct.
-        /// </summary>
-        public ILexical BoundObject {
-            get;
-            protected set;
-        }
+
         /// <summary>
         /// Binds an ILexical construct as the object of the PrepositionalPhrase. 
         /// Lexical constructs include word, Phrase, and Clause Types.
@@ -71,13 +54,33 @@ namespace LASI.Core
             BoundObject = prepositionalObject;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the ILexical construct on the right-hand-side of the Preposition.
+        /// </summary>
+        public virtual ILexical ToTheRightOf {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Gets or sets the ILexical construct on the left-hand-side of the Preposition.
+        /// </summary>
+        public virtual ILexical ToTheLeftOf {
+            get;
+            set;
+        }  /// <summary>
+        /// Gets the object of the IPrepositional construct.
+        /// </summary>
+        public ILexical BoundObject { get; private set; }
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
         /// <see cref="PrepositionRole"/>
-        public PrepositionRole Role {
-            get;
-            set;
-        }
+        public PrepositionRole Role { get; set; }
+        #endregion
+
     }
 }

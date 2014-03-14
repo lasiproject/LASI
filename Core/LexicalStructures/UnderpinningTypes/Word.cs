@@ -54,10 +54,6 @@ namespace LASI.Core
         /// Gets the text content of the word instance.
         /// </summary>
         public string Text { get; protected set; }
-        /// <summary>
-        /// Gets the globally-unique identification number associated with the word instance.
-        /// </summary>
-        public int ID { get; private set; }
 
         /// <summary>
         /// Gets the document instance to which the word belongs.

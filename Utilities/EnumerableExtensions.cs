@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -389,17 +390,12 @@ namespace LASI
             if (selector == null) { throw new ArgumentNullException("selector"); }
             return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Min);
         }
-        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
-            var orderedByProjection =
-                from e in source
-                select new { Element = e, Value = selector(e) } into withMax
-                orderby withMax.Value descending
-                select withMax.Element;
 
-            return minmax == MinMax.Max ? orderedByProjection.First() : orderedByProjection.Last();
+        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
+
+            return (minmax == MinMax.Max ? source.OrderByDescending(selector) : source.OrderBy(selector)).First();
         }
         private enum MinMax { Min, Max }
-
 
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given key selector
@@ -443,8 +439,7 @@ namespace LASI
         }
         static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.SequenceEqual(second,
-                new CustomComparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
+                new CustomComparer<TSource>((x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         /// <summary>
@@ -525,82 +520,10 @@ namespace LASI
 
         #endregion
 
-        #region Helpers
 
-        /// <summary>
-        /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        public class CustomComparer<T> : EqualityComparer<T>
-        {
-            #region Constructors
-            /// <summary>
-            /// Initializes a new instance of the CustomComparer class which will use the provided equals function. to define element equality.
-            /// </summary>
-            /// <param name="equals">A function which determines if two objects of type T are equal.</param>
-            /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function is null.</exception>
-            /// <remarks>
-            /// A custom hashing function is automatically provided, ensuring that equality comparisons take place except when reference is null.
-            /// While this provides clean, customizable semantics for set operations, more expensive to use having a complexity of N^2
-            /// </remarks>
-            public CustomComparer(Func<T, T, bool> equals) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                this.equals = equals;
-                getHashCode = o => o == null ? 0 : 1;
-            }
-            /// <summary>
-            /// Initializes a new instance of the CustomComparer class which will use the provided equals and get hashcode functions.
-            /// </summary>
-            /// <param name="equals">A function which determines if two objects of type T are equal.</param>
-            /// <param name="getHashCode">A function which generates a hash code from an element of type T.</param>
-            /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function or <paramref name="getHashCode"/> is null.</exception>
-            /// <remarks>Proper usage requires that elements which will compare equal under the specified equals function will also produce identical hashcodes.
-            /// Elements may yield identical hash codes, without being considered equal.
-            /// </remarks>
-
-            public CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                if (getHashCode == null)
-                    throw new ArgumentNullException("getHashCode", "A null getHashCode function was provided.");
-                this.equals = equals;
-                this.getHashCode = getHashCode;
-            }
-            #endregion
-
-            #region Methods
-            /// <summary>
-            /// Determines whether two objects of type T are equal.
-            /// </summary>
-            /// <param name="x">The first object to compare.</param>
-            /// <param name="y">The second object to compare.</param>
-            /// <returns>true if the specified objects are equal; otherwise, false.</returns>
-            public override bool Equals(T x, T y) {
-                if (ReferenceEquals(x, null))
-                    return ReferenceEquals(y, null);
-                else if (ReferenceEquals(y, null))
-                    return ReferenceEquals(x, null);
-                else
-                    return equals(x, y);
-            }
-            /// <summary>
-            /// Serves as a hash function for the specified object for hashing algorithms and data structures, such as a hash table.
-            /// </summary>
-            /// <param name="obj">The object for which to get a hash code.</param>
-            /// <returns>A hash code for the specified object.</returns>
-            public override int GetHashCode(T obj) {
-                return getHashCode(obj);
-            }
-            #endregion
-
-            #region Fields
-            private Func<T, T, bool> equals;
-            private Func<T, int> getHashCode;
-            #endregion
-        }
-
-        #endregion
 
     }
+
+
+
 }

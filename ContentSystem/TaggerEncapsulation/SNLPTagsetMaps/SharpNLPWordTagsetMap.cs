@@ -17,17 +17,16 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
-    /// <see cref="WordTagsetMap"/>
-    ///<see cref="WordFactory"/> 
     /// </summary>    
     /// <example>
-    /// Example:
     /// <code>
     /// var wordMap = new SharpNLPWordTagsetMap();
     /// var constructorFunction = wordMap["TAG"];
     /// var runTimeWord = constructorFunction(itemText);
     /// </code>
-    /// </example>
+    /// </example>    
+    /// <see cref="WordTagsetMap"/>
+    /// <see cref="WordFactory"/> 
     sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
         #region Fields
