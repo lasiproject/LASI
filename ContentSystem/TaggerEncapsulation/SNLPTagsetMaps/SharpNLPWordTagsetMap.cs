@@ -130,7 +130,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
                     return map.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
                 }
                 catch (InvalidOperationException) {
-                    throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
+                    throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1}",
                         wordCreator, string.Join(", ", from param in wordCreator.Method.GetParameters() select param.ParameterType.FullName,
                         wordCreator.Method.ReturnType.FullName)));
                 }

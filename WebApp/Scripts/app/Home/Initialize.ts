@@ -130,17 +130,4 @@ interface Map<K, V> {
         }
     }
 
-    // Map augmentations
-    if (!Map.prototype.hasOwnProperty("toArray")) {
-        Map.prototype.toArray = function <K, V>(): Array< { K; V }> {
-            var results = [];
-            this.forEach((v: V, k: Key) => {
-                results[results.length] = {
-                    value: v, key: k
-                }
-            });
-            return results;
-        };
-    }
-
 } ());

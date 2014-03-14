@@ -40,7 +40,7 @@ var LASI;
             $("input:submit").click(function (e) {
                 $("input:file").each(function (index, element) {
                     var files = $("input:file").toArray().flatMap(function (item) {
-                        var result, i;
+                        var result = new Array(), i;
                         for (i = 0; i < item.files.length; i += 1) {
                             result.push(item.files[i]);
                         }

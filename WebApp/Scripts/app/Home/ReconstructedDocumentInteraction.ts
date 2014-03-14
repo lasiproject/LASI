@@ -9,7 +9,7 @@ module LASI.Results.ContextProviders {
     export interface RefencerContext {
         referredTo: number[];
     };
- }
+}
 
 module LASI.Results {
     "use strict";
@@ -26,7 +26,7 @@ module LASI.Results {
                 .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
                 .click(event=> {
                     event.preventDefault();
-                    relatedElementIds
+                    (relatedElementIds || new Array<number>())
                         .map((element, index) => $("#" + element.toString()))
                         .forEach(elementAction);
                 });
@@ -35,7 +35,7 @@ module LASI.Results {
 
         var verbals = $(".lexical-content-block span.verbal");
 
-        verbals.on("contextmenu", event=> {
+        verbals.on("contextmenu", event => {
             var verbalInfo: ContextProviders.VerbalContext;
             event.preventDefault();
             // Deselect any elements selected by a previous selection.
@@ -49,7 +49,8 @@ module LASI.Results {
                 // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
                 left: event.pageX,
                 top: event.pageY
-            }); var highlightRelatedElement = (element, index) => $(element).addClass("selected");
+            });
+            var highlightRelatedElement = (element, index) => $(element).addClass("selected");
 
             configureMenu(
                 contextMenu.find("ul").children(".view-subects-menu-item"),

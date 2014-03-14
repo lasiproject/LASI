@@ -29,7 +29,7 @@ var LASI;
                     return relatedElementIds ? $(element).show() : $(element).hide();
                 }).click(function (event) {
                     event.preventDefault();
-                    relatedElementIds.map(function (element, index) {
+                    (relatedElementIds || new Array()).map(function (element, index) {
                         return $("#" + element.toString());
                     }).forEach(elementAction);
                 });

@@ -84,18 +84,5 @@
             return results;
         };
     }
-
-    // Map augmentations
-    if (!Map.prototype.hasOwnProperty("toArray")) {
-        Map.prototype.toArray = function () {
-            var results = [];
-            this.forEach(function (v, k) {
-                results[results.length] = {
-                    value: v, key: k
-                };
-            });
-            return results;
-        };
-    }
 }());
 //# sourceMappingURL=Initialize.js.map

@@ -59,7 +59,7 @@ namespace LASI.WebApp.Controllers
         private const short CHART_ITEM_MAX = 5;
 
         public ActionResult Progress() {
-            return View();
+            return GetJobStatus();
         }
 
         public async Task<ActionResult> Results() {
@@ -92,8 +92,7 @@ namespace LASI.WebApp.Controllers
                 percentComplete += e.Increment;
                 statusMessage = e.Message;
             };
-            var documents = await Task.Run(async () => await analyzer.ProcessAsync());
-            return documents;
+            return await Task.Run(async () => await analyzer.ProcessAsync());
         }
         private static double percentComplete;
 
