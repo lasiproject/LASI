@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -123,15 +124,15 @@ namespace LASI
                 throw new ArgumentNullException("selector");
             int len = 2;
             return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
-                    (sb, e) => {
+                    (accumulator, e) => {
                         var cETS = selector(e) + delimiters.Item2 + " ";
                         len += cETS.Length;
                         if (len >= lineLength) {
                             len = cETS.Length;
-                            sb.Append('\n');
+                            accumulator.Append('\n');
                             len = 0;
                         }
-                        return sb.Append(cETS);
+                        return accumulator.Append(cETS);
                     }).ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3;
         }
 
@@ -257,31 +258,9 @@ namespace LASI
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> equals, Func<TSource, int> getHashCode) {
             if (source == null)
                 throw new ArgumentNullException("source");
-            return new HashSet<TSource>(source, new CustomComaparer<TSource>(equals, getHashCode));
+            return new HashSet<TSource>(source, new CustomComparer<TSource>(equals, getHashCode));
         }
-        /// <summary>
-        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
-        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            return new SortedSet<TSource>(source);
-        }
-        /// <summary>
-        /// Returns a SortedSet representation of the given sequence using the default IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting SortedSet.</param>
-        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        /// <returns>A System.Collections.Generic.SortedSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
-        public static SortedSet<TSource> ToSortedSet<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer) where TSource : IComparable<TSource> {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            return new SortedSet<TSource>(source, comparer);
-        }
+
 
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
@@ -323,46 +302,26 @@ namespace LASI
 
         }
 
-
-        public static IEnumerable<Tuple<TSource, TSource>> PairWise<TSource>(this IEnumerable<TSource> source) {
+        /// <summary>
+        /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; from which to build a pairwise sequence.</param> 
+        /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
+        public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
             if (source == null)
                 throw new ArgumentNullException("source");
             if (source.None())
                 throw new ArgumentException("Sequence contains no elements", "source");
-            TSource first = source.First();
+            T first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(first, element);
                 first = element;
             }
         }
-        public static IEnumerable<Tuple<TPairItem, TPairItem>> PairWise<T, TPairItem>(this IEnumerable<T> source, Func<T, TPairItem> itemSelector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (itemSelector == null)
-                throw new ArgumentNullException("itemSelector");
-            if (source.None())
-                throw new ArgumentException("Sequence contains no elements", "source");
-            T first = source.First();
-            foreach (var element in source.Skip(1)) {
-                yield return Tuple.Create(itemSelector(first), itemSelector(element));
-                first = element;
-            }
-        }
-        public static IEnumerable<Tuple<TResult1, TResult2>> PairWise<TSource, TResult1, TResult2>(this IEnumerable<TSource> source, Func<TSource, TResult1> item1Selector, Func<TSource, TResult2> item2Selector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (item1Selector == null)
-                throw new ArgumentNullException("selector1");
-            if (item2Selector == null)
-                throw new ArgumentNullException("selector2");
-            if (source.None())
-                throw new ArgumentException("Sequence contains no elements", "source");
-            TSource first = source.First();
-            foreach (var element in source.Skip(1)) {
-                yield return Tuple.Create(item1Selector(first), item2Selector(element));
-                first = element;
-            }
-        }
+
         /// <summary>
         /// Returns the maximal element of the given sequence, based on
         /// the given projection.
@@ -431,17 +390,12 @@ namespace LASI
             if (selector == null) { throw new ArgumentNullException("selector"); }
             return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Min);
         }
-        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
-            var orderedByProjection =
-                from e in source
-                select new { Element = e, Value = selector(e) } into withMax
-                orderby withMax.Value descending
-                select withMax.Element;
 
-            return minmax == MinMax.Max ? orderedByProjection.First() : orderedByProjection.Last();
+        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
+
+            return (minmax == MinMax.Max ? source.OrderByDescending(selector) : source.OrderBy(selector)).First();
         }
         private enum MinMax { Min, Max }
-
 
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given key selector
@@ -460,134 +414,116 @@ namespace LASI
             if (source == null) { throw new ArgumentNullException("source"); }
             if (selector == null) { throw new ArgumentNullException("selector"); }
             return source.Distinct(
-                new CustomComaparer<TSource>(
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Except(second,
-                new CustomComaparer<TSource>(
+        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Except(second,
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
 
-        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Intersect(second,
-                new CustomComaparer<TSource>(
+        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Intersect(second,
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.Union(second,
-                new CustomComaparer<TSource>(
+        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.Union(second,
+                new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return source.SequenceEqual(second,
-                new CustomComaparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
+        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+            return first.SequenceEqual(second,
+                new CustomComparer<TSource>((x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
         /// <summary>
-        /// Determines if the source collection contains the same exact same elements as the second. Ignores duplicate elements and element order.
+        /// Determines if the source collection contains the exact same elements as the second, Ignoring duplicate elements and ordering.
         /// </summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
-        /// <param name="source">The source sequence</param>
+        /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
-        /// <returns>False if any elements in the source sequence pass the test in the specified predicate; otherwise, true.</returns>
-        public static bool SetEqual<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> second) {
-            return source.Intersect(second).None();
+        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        public static bool SetEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second) {
+            return first.Intersect(second).None();
         }
-        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> source, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
-            return source.Select(selector).SetEqual(second.Select(selector));
-        }
-
-        public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(this IEnumerable<T1> source, IEnumerable<T2> second, IEnumerable<T3> third, Func<T1, T2, T3, TResult> selector) {
-            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
-        }
-        public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(this IEnumerable<T1> source,
-            IEnumerable<T2> second, IEnumerable<T3> third, IEnumerable<T4> fourth, Func<T1, T2, T3, T4, TResult> selector) {
-            return source.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => new { a.x, a.y, b }).Zip(fourth, (l, r) => selector(l.x, l.y, l.b, r));
-        }
-
-        #region Reductive Operators
-
-        public static bool Sum(this IEnumerable<bool> source) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(false, (result, b) => result | b);
-        }
-        public static bool? Sum(this IEnumerable<bool?> source) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(default(bool?), (result, b) => result | b);
-        }
-        public static bool Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(false, (result, b) => result | selector(b));
-        }
-        public static bool? Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
-        }
-
-        public static bool Product(this IEnumerable<bool> source) { return source.Aggregate(false, (result, b) => result | b); }
-        public static bool Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector) {
-            return source.Aggregate(false, (result, b) => result | selector(b));
-        }
-        public static bool? Product(this IEnumerable<bool?> source) { return source.Aggregate(default(bool?), (result, b) => result | b); }
-        public static bool? Product<TSource>(this IEnumerable<TSource> source, Func<TSource, bool?> selector) {
-            return source.Aggregate(default(bool?), (result, b) => result | selector(b));
-        }
-        #endregion
-
-        #endregion
-
-        #region Helpers
-
         /// <summary>
-        /// An EqualityComparer{T} whose Equals and GetHashCode implementations are specified by functions provided as constructor arguments.
+        /// Determines if the source collection contains the same elements as the second under the projection. Ignores duplicate elements and element ordering.
         /// </summary>
-        /// <typeparam name="T">The type of objects to compare.</typeparam>
-        public class CustomComaparer<T> : EqualityComparer<T>
-        {
-            #region Constructors
-            public CustomComaparer(Func<T, T, bool> equals) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                this.equals = equals;
-                getHashCode = o => o == null ? 0 : 1;
-            }
-            public CustomComaparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
-                if (equals == null)
-                    throw new ArgumentNullException("equals", "A null equals function was provided.");
-                if (getHashCode == null)
-                    throw new ArgumentNullException("getHashCode", "A null getHashCode function was provided.");
-                this.equals = equals;
-                this.getHashCode = getHashCode;
-            }
-            #endregion
-
-            #region Methods
-            public override bool Equals(T x, T y) {
-                if (ReferenceEquals(x, null))
-                    return ReferenceEquals(y, null);
-                else if (ReferenceEquals(y, null))
-                    return ReferenceEquals(x, null);
-                else
-                    return equals(x, y);
-            }
-            public override int GetHashCode(T obj) {
-                return getHashCode(obj);
-            }
-            #endregion
-
-            #region Fields
-            private Func<T, T, bool> equals;
-            private Func<T, int> getHashCode;
-            #endregion
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the source sequence</typeparam>
+        /// <param name="first">The source sequence</param>
+        /// <param name="second">The sequence to compare against.</param>        
+        /// <param name="selector">A function which extracts a key from each element by which equality is determined.</param>        
+        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
+            return first.Select(selector).SetEqual(second.Select(selector));
+        }
+        /// <summary>
+        /// Merges three sequences by using the specified function to select elements.
+        /// </summary>
+        /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="third">The third sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the three sequences.</param>
+        /// <returns>
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
+        /// of three input sequences.
+        /// </returns>
+        public static IEnumerable<TResult> Zip<TFirst,
+            TSecond,
+            TThird,
+            TResult>(this IEnumerable<TFirst> first,
+                IEnumerable<TSecond> second,
+                IEnumerable<TThird> third,
+                Func<TFirst, TSecond, TThird, TResult> selector) {
+            return first.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
+        }
+        /// <summary>
+        /// Merges four sequences by using the specified function to select elements.
+        /// </summary>
+        /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
+        /// <typeparam name="TFourth">The type of the elements of the fourth input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="third">The third sequence to merge.</param>
+        /// <param name="fourth">The fourth sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the four sequences.</param>
+        /// <returns>
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
+        /// of three input sequences.
+        /// </returns>
+        public static IEnumerable<TResult> Zip<TFirst,
+            TSecond,
+            TThird,
+            TFourth,
+            TResult>(this IEnumerable<TFirst> first,
+                IEnumerable<TSecond> second, IEnumerable<TThird> third,
+                IEnumerable<TFourth> fourth,
+                Func<TFirst, TSecond, TThird, TFourth, TResult> selector) {
+            return first.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
 
+
+
         #endregion
+
+
 
     }
+
+
+
 }

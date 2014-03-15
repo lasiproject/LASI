@@ -77,7 +77,7 @@ namespace LASI.UnitTests
             public override string this[Func<IEnumerable<Word>, Phrase> mappedConstructor] {
                 get {
                     return (from tm in mapping
-                            where tm.Value.GetMethodInfo().ReturnType == mappedConstructor.GetMethodInfo().ReturnType
+                            where tm.Value.GetMethodInfo().ReturnParameter.ParameterType == mappedConstructor.GetMethodInfo().ReturnType
                             select tm.Key).Single();
                 }
             }
@@ -85,14 +85,14 @@ namespace LASI.UnitTests
             public override string this[Phrase phrase] {
                 get {
                     return (from tm in mapping
-                            where tm.Value.GetMethodInfo().ReturnType == phrase.GetType()
+                            where (tm.Value.Method.GetCustomAttributes()).GetType() == phrase.GetType()
                             select tm.Key).First();
                 }
             }
             protected override IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary {
                 get { return mapping; }
             }
-            private static readonly IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> mapping = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
+            private readonly IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> mapping = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
                 { "NP", ws => new NounPhrase(ws) },
                 { "VP", ws => new VerbPhrase(ws) },
             };

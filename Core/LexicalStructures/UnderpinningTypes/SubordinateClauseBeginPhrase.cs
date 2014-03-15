@@ -19,23 +19,18 @@ namespace LASI.Core
             : base(composed) {
         }
         private void deterimineEndOfClause() {
-            EndOfClause = Sentence.Words.SkipWhile(w => w != Words.Last()).First(w => w is Punctuator) as Punctuator;
+            EndOfClause = Sentence.Words
+                .SkipWhile(w => w != Words.Last())
+                .First(w => w is Punctuator) as Punctuator;
         }
         /// <summary>
         /// Gets or sets the Punctuation which terminates the Clause.
         /// </summary>
         public Punctuator EndOfClause {
             get;
-            set;
+            protected set;
         }
 
-        public ILexical Subordinates {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public ILexical Subordinates { get; set; }
     }
 }

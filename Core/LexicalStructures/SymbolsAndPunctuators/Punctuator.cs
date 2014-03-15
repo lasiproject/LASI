@@ -11,13 +11,13 @@ namespace LASI.Core
     public class Punctuator : Symbol
     {
         /// <summary>
-        /// Initializes a new instance of the Punctuation class.
+        /// Initializes a new instance of the Punctuator class.
         /// </summary>
-        /// <param name="punctuation">The punctuation character symbol.</param>
-        public Punctuator(char punctuation)
-            : base(punctuation) {
+        /// <param name="symbol">The literal character representation of the punctuator.</param>
+        public Punctuator(char symbol)
+            : base(symbol) {
 
-            ActualCharacter = punctuation;
+            ActualCharacter = symbol;
             AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
 
@@ -43,7 +43,7 @@ namespace LASI.Core
         /// </summary>
         public string AliasString {
             get;
-            protected set;
+            private set;
         }
 
         /// <summary>

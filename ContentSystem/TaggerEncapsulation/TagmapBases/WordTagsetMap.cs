@@ -13,18 +13,17 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide their runtime representations of the tag.
     /// This class represents the tagset => runtime-type mapping for word occurances.
-    /// <see cref="WordTagsetMap"/>
-    /// <seealso cref="PhraseTagsetMap"/>  
-    /// <seealso cref="WordFactory"/>
+    /// </summary>      
     /// <example>
-    /// Example:
     ///<code> 
     /// var wordMap = new WordTagSetMap();
     /// var constructorFunction = map["TAG"];
     /// var runtimeWord = constructorFunction(itemText);
     /// </code>
     /// </example>
-    /// </summary>
+    /// <see cref="WordTagsetMap"/>
+    /// <seealso cref="PhraseTagsetMap"/>  
+    /// <seealso cref="WordFactory"/>
     public abstract class WordTagsetMap
     {
         #region Properties and Indexers

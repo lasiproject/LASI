@@ -15,8 +15,8 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the QuotationMark class.
         /// </summary>
-        /// <param name="punctuationSymbol">The literal textual of the punctuation word.</param>
-        protected QuotationMark(char punctuationSymbol) : base(punctuationSymbol) { }
+        /// <param name="symbol">The literal character representation of the quotation mark.</param>
+        protected QuotationMark(char symbol) : base(symbol) { }
         /// <summary>
         /// Pairs one QuotationMark with another QuotationMark, establishing a reflexive link between the two.
         /// </summary>
@@ -35,7 +35,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the QuotationMark&lt;TQuote&gt;.</returns>
         public override string ToString() {
-            return base.ToString() + " Paired With " + (PairedWith != null ? (PairedWith.Text + PairedWith.ID) : string.Empty);
+            return base.ToString() + " Paired With " + (PairedWith != null ? (PairedWith.Type + ": " + PairedWith.Text) : string.Empty);
         }
     }
 }

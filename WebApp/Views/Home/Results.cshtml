@@ -52,10 +52,10 @@
                     foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                         <p class="lexical-content-block">
                             @foreach (var e in paragraphData) {
-                                <span class="@styleMap[e.Phrase].CssClass"
-                                      title='@(e.Phrase.ToString()
+                                <span class=@styleMap[e.Phrase].CssClass
+                                      title=@(e.Phrase.ToString()
                                                               .SplitRemoveEmpty('\n', '\r')
-                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id="@e.Id">
+                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n")) id=@e.Id>
                                     @e.Phrase.Text
                                     <span id="@("context" + e.Id)" hidden="hidden">
                                         @(e.Phrase.Match().Yield<dynamic>().With<IVerbal>(v => v.GetJsonMenuData()).Result(() => null))
@@ -139,6 +139,7 @@
     <!--I can confirm that these Unix Style filepaths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
     <!--aggreed-->
     @Scripts.Render("~/Scripts/App/Home/Initialize.js")
+    @Scripts.Render("~/Scripts/App/Home/Progress.js")
     @Scripts.Render("~/Scripts/App/Home/Results.js")
     @Scripts.Render("~/Scripts/App/Home/Index.js")
     @Scripts.Render("~/Scripts/App/Home/ReconstructedDocumentInteraction.js")

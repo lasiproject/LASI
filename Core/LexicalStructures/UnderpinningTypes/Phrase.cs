@@ -46,8 +46,7 @@ namespace LASI.Core
             Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
-            foreach (var w in Words)
-                w.EstablishParent(this);
+            foreach (var w in Words) { w.EstablishParent(this); }
         }
         #endregion
 
@@ -73,11 +72,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Clause to which the Phrase belongs.
         /// </summary>
-        public Clause Clause { get; set; }
+        public Clause Clause { get; private set; }
         /// <summary>
         /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
-        public Sentence Sentence { get; set; }
+        public Sentence Sentence { get; private set; }
         /// <summary>
         /// Gets or the Paragraph to which the Phrase belongs.
         /// </summary>
@@ -85,20 +84,21 @@ namespace LASI.Core
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
-        public Document Document { get; protected set; }
+        public Document Document { get; private set; }
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
         public string Text {
             get {
-                return text = text ?? string.Join(" ", Words.Select(w => w.Text));
+                text = text ?? string.Join(" ", Words.Select(w => w.Text));
+                return text;
             }
         }
 
         /// <summary>
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
-        public IEnumerable<Word> Words { get; protected set; }
+        public IEnumerable<Word> Words { get; private set; }
 
 
 

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExtensions.cs" />
+    <Compile Include="CustomComparer.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Output.cs" />

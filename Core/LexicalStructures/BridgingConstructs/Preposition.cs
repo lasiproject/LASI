@@ -23,13 +23,10 @@ namespace LASI.Core
         /// <param name="text">The key text content of the Preposition.</param>
         public Preposition(string text)
             : base(text) {
-            Role = GetPrepositionalRole(Text);
-        }
-
-        private static PrepositionRole GetPrepositionalRole(string text) {
-            return knownSubordinators.Contains(text) ?
+            Role = knownSubordinators.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
+
         /// <summary>
         /// Returns a string representation of the Preposition.
         /// </summary>
@@ -37,10 +34,11 @@ namespace LASI.Core
         public override string ToString() {
             return base.ToString() + (Word.VerboseOutput ? " " + Role : string.Empty);
         }
+
         #endregion
 
-
         #region Methods
+
         /// <summary>
         /// Binds an ILexical construct as the object of the Preposition. 
         /// Lexical constructs include word, Phrase, and Clause Types.
@@ -57,55 +55,42 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the PrepositionLinkable construct on the right-hand-side of the Preposition.
         /// </summary>
-        public virtual ILexical ToTheRightOf {
-            get;
-            set;
-        }
+        public virtual ILexical ToTheRightOf { get; set; }
         /// <summary>
         /// Gets or sets the PrepositionLinkable construct on the left-hand-side of the Preposition.
         /// </summary>
-        public virtual ILexical ToTheLeftOf {
-            get;
-            set;
-        }
+        public virtual ILexical ToTheLeftOf { get; set; }
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical BoundObject {
-            get;
-            protected set;
-        }
+        public ILexical BoundObject { get; private set; }
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the Preposition.
         /// </summary>
         /// <see cref="Role"/>
-        public PrepositionRole Role {
-            get;
-            set;
-        }
+        public PrepositionRole Role { get; set; }
+        /// <summary>
+        /// Gets or sets the Lexical construct which is subordinated by the Preposition.
+        /// </summary>
+        public ILexical Subordinates { get; set; }
+
         #endregion
-
-
 
         /// <summary>
         /// Static constructor which loads preposition identification and categorization information.
         /// </summary>
         static Preposition() {
-            using (var reader = new System.IO.StreamReader(ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"]))
-                knownSubordinators = reader.ReadToEnd()
-                    .SplitRemoveEmpty('\r', '\n')
-                    .Select(line => { var len = line.IndexOf('/'); return line.Substring(0, len > 0 ? len : line.Length); }).ToHashSet(StringComparer.OrdinalIgnoreCase);
-
+            using (var reader = new System.IO.StreamReader(PrepositionaInfoFilePath)) {
+                knownSubordinators = (
+                        from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                        let len = line.IndexOf('/')
+                        select line.Substring(0, len > 0 ? len : line.Length)
+                    ).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            }
         }
 
-        private static readonly IEnumerable<string> knownSubordinators;
+        private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
+        private static readonly HashSet<string> knownSubordinators;
 
-        /// <summary>
-        /// Gets or sets the Lexical construct which is subordinated by the Preposition.
-        /// </summary>
-        public ILexical Subordinates {
-            get;
-            set;
-        }
     }
 }

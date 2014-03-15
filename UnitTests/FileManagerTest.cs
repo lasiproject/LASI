@@ -55,10 +55,10 @@ namespace LASI.UnitTests
 
 
         ////  Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup() {
-        //    //FileManager.DecimateProject();
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup() {
+            FileManager.DecimateProject();
+        }
         //Use TestInitialize to run code before running each test
         [TestInitialize()]
         public void MyTestInitialize() {

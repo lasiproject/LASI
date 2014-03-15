@@ -169,13 +169,6 @@ namespace LASI.Core
 
 
 
-        public ILexical Subordinates {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
-        }
+        public ILexical Subordinates { get; set; }
     }
 }

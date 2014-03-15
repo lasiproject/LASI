@@ -217,13 +217,6 @@ namespace LASI.UnitTests
         }
 
 
-
-
-
-
-
-
-
         /// <summary>
         ///A test for Paragraphs
         ///</summary>
@@ -248,9 +241,10 @@ namespace LASI.UnitTests
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            var expectedResult = actual.Zip(
-                new[] { "We", "must attack", "blue team", "!", "We", "must do", "this", "quickly", "!" },
-                (r, s) => r.Text == s).Aggregate(true, (aggr, val) => aggr && val);
+            var expectedResult = actual
+                .Zip(new[] { "We", "must attack", "blue team", "We", "must do", "this", "quickly" },
+                (r, s) => r.Text == s)
+                .Aggregate(true, (aggr, val) => aggr && val);
             Assert.IsTrue(expectedResult);
         }
 
@@ -321,14 +315,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void NameTest() {
-            IEnumerable<Paragraph> content = null; // TODO: Initialize to an appropriate value
-            Document target = new Document(content); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            Document target = CreateUnboundUnweightedTestDocument();
+            string expected = "testname";
             string actual;
             target.Name = expected;
             actual = target.Name;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>

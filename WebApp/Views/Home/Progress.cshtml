@@ -11,8 +11,7 @@
 <h2>Progress</h2>
 <br />
 <ul id="documentlist">
-    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>)
-    {
+    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
         <li class="list-group-item">
 
             <div class="progress progress-striped active">
@@ -21,7 +20,8 @@
                 </div>
             </div>
         </li>
-    }  
+    }
 </ul>
 
+@Scripts.Render("~/Sripts/App/Home/Initialize.js")
 @Scripts.Render("~/Sripts/App/Home/Progress.js")

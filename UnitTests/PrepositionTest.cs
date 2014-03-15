@@ -71,7 +71,12 @@ namespace LASI.UnitTests
         public void PrepositionConstructorTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            Assert.IsTrue(target.Text == "into" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
+            Assert.IsTrue(
+                target.Text == "into" &&
+                target.ToTheLeftOf == null &&
+                target.ToTheRightOf == null &&
+                target.BoundObject == null
+            );
         }
 
         /// <summary>
