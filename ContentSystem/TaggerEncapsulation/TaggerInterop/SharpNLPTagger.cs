@@ -26,7 +26,9 @@ namespace TaggerInterop
         public SharpNLPTagger(TaggerMode taggingMode) {
             TaggingMode = taggingMode;
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
+            //mModelPath = @"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\OpenNLP\OpenNLP\Models";
             mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
+            //mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(@"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\WordNet\2.1\dict");
 
         }
 

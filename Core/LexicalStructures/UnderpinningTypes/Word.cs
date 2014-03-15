@@ -78,7 +78,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentence the word belongs to.
         /// </summary>
-        public Sentence Sentence { get; private set; }
+        public Sentence Sentence { get { return Phrase.Sentence; } }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>

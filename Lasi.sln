@@ -1,10 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\Program Files (x86)\IronPython 2.7\ipy64.exe.config = ..\..\..\..\..\Program Files (x86)\IronPython 2.7\ipy64.exe.config
 		TestSettings.runsettings = TestSettings.runsettings
 		WE2013-settings.xml = WE2013-settings.xml
 		WebEssentials-Settings.json = WebEssentials-Settings.json
@@ -59,7 +58,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp", "WebApp\L_WebApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp.UnitTests", "WebAppUnitTests\L_WebApp.UnitTests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IronPythonExperimentation", "ExperimentalClientProjects\IronPythonExperimentation\IronPythonExperimentation.pyproj", "{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = LasiClassFramework.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -195,6 +199,16 @@ Global
 		{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}.Release|x64.ActiveCfg = Release|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,14 +221,12 @@ Global
 		{F57E105E-00CD-429A-8819-FAC415678F84} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 		{970D43A8-BC52-4953-AF25-C93DB2F5134A} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 		{C5304A4C-A870-4ACF-B3EE-30A789159774} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
+		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ExperimentalClientProjects\Experimentation\Experimentation.csproj
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = LasiClassFramework.vsmdi
 	EndGlobalSection
 EndGlobal
