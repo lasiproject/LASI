@@ -14,12 +14,16 @@ LASI is implemented in C# 5.0 and targets the .NET framework 4.5
 
 You are also welcome to extend LASI using any .NET 4.5 compliant language, including Visual Basic and F#, note that use of C++/CLI is supported but discouraged
 
+LASI has added IronPython support. We are working to integrate full Python support.
+
+LASI has added a preliminary web application running on ASP.NET using MVC framework. See more in the WebApp project
+
 User - System - Requirements
 - x64 based dual core CPU
 - 64 bit operating system
 - 4GB RAM
 
-Developer - System - Requirements
+Developer - System - Recommendations
 - Intel core i7 quad core CPU
 - 8GB DDR3 1333+ with low latency and tight timings.
 - Solid State Disk with 200+ MB/s read
