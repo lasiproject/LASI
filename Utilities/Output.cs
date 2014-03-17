@@ -16,6 +16,7 @@ namespace LASI
         #region Static Constructor
 
         static Output() {
+
             SetToConsole();
         }
 
@@ -38,11 +39,16 @@ namespace LASI
         public static void SetToFile(string path = @".\LasiLog.txt") {
             OutputMode = OutputMode.File;
             var newFile = !File.Exists(path);
-            fileStream = new FileStream(path, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write);
+            fileStream = new FileStream(path, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine((newFile ? "" : "\n\n") + "LASI Message Log: {0}", System.DateTime.Now); }
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-            AppDomain.CurrentDomain.DomainUnload += (s, e) => { fileStream.Flush(); fileStream.Dispose(); };
+
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => {
+                fileStream.Close();
+                //fileStream.Flush();
+                //fileStream.Dispose();
+            };
         }
 
         private static FileStream fileStream;

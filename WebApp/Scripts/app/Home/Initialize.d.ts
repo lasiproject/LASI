@@ -6,7 +6,7 @@
     */
     flatMap<TIntermediate, TResult>(collectionSelector: (element: T) => TIntermediate[], elementSelector?: (element: TIntermediate) => TResult): TResult[];
     /**
-    * Correlates the elements from two sequences based on the strict (===) equality of the keys selected from each element
+    * Correlates the elements from two sequences based on the strict ( === ) equality of the keys selected from each element
     * by the provided selector functions. Models the semantics of a relational inner join.
     * Returns an array of tuple like elements containing all pairs of elements with equal keys.
     * @param inner An array whose elements will be correlated with the source array.

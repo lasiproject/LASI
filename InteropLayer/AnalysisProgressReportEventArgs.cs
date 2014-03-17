@@ -13,7 +13,7 @@ namespace LASI.Interop
     [System.Runtime.InteropServices.ComVisible(true)]
     public class AnalysisProgressReportEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
-        internal AnalysisProgressReportEventArgs(string message, double increment) {
+        public AnalysisProgressReportEventArgs(string message, double increment) {
             Message = message;
             Increment = increment;
         }

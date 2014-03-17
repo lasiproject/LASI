@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
@@ -37,13 +36,13 @@ namespace LASI.WebApp
                           .With<IDescriptor>(new Style { CssClass = "descriptor", })
                           .With<IAdverbial>(new Style { CssClass = "adverbial", })
                           .With<IConjunctive>(new Style { CssClass = "conjunctive", })
-.Result(new Style { CssClass = "lexical-default-style", }))
-                  .With<Word>(w => w.Match().Yield<Style>()
+                        .Result(new Style { CssClass = "lexical-default-style", }))
+                    .With<Word>(w => w.Match().Yield<Style>()
                           .With<Adjective>(new Style { CssClass = "adjective", })
                           .With<PresentParticipleGerund>(new Style { CssClass = "presentparticiplegerund", })
                           .With<Verb>(new Style { CssClass = "verbal", }).With<IConjunctive>(new Style { CssClass = "conjunctive", })
-                      .Result(new Style { CssClass = "lexical-default-style", }))
-                  .Result();
+                    .Result(new Style { CssClass = "lexical-default-style", }))
+                .Result();
             }
         }
     }

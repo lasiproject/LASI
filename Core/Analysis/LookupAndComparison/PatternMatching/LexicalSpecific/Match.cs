@@ -100,7 +100,7 @@ namespace LASI.Core.Patternization
         }
         /// <summary>
         /// Appends a When expression to the current pattern. 
-        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
         /// <param name="condition">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression</returns>     
@@ -209,7 +209,7 @@ namespace LASI.Core.Patternization
         #region When Expressions
         /// <summary>
         /// Appends a When expression to the current pattern. 
-        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
         /// <param name="predicate">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>
@@ -218,7 +218,7 @@ namespace LASI.Core.Patternization
         }
         /// <summary>
         /// Appends a When expression to the current pattern. 
-        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
         /// <typeparam name="TPattern">The Type to match with. That the value being matched is of this type is also necessary for the following then expression to be selected.</typeparam>
         /// <param name="predicate">The predicate to test the value being matched.</param>
@@ -229,7 +229,7 @@ namespace LASI.Core.Patternization
         }
         /// <summary>
         /// Appends a When expression to the current pattern. 
-        /// This applies a predicate to the value being matched suched that the subsequent Then expression will only be chosen if the predicate returns true.
+        /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
         /// <param name="condition">The predicate to test the value being matched.</param>
         /// <returns>The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be followed by a single Then expression.</returns>

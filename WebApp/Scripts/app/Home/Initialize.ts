@@ -9,7 +9,7 @@ interface Array<T> {
     flatMap<TIntermediate, TResult>(collectionSelector: (element: T) => Array<TIntermediate>,
         elementSelector?: (element: TIntermediate) => TResult): Array<TResult>;
     /** 
-      * Correlates the elements from two sequences based on the strict (===) equality of the keys selected from each element
+      * Correlates the elements from two sequences based on the strict ( === ) equality of the keys selected from each element
       * by the provided selector functions. Models the semantics of a relational inner join.
       * Returns an array of tuple like elements containing all pairs of elements with equal keys.
       * @param inner An array whose elements will be correlated with the source array.  
@@ -110,14 +110,14 @@ interface Map<K, V> {
         Array.prototype.sum = function <T>(valueSelector?: (element: T) => number): number {
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
-            var projection = valueSelector || (x=> Number(x));
+            var projection = valueSelector || (x => Number(x));
             return this.length == 0 ? NaN :
                 this.reduce((total, element, index) => total + projection(element), 0);
         };
     }
     if (!Array.prototype.hasOwnProperty("average")) {
         Array.prototype.average = function <T>(valueSelector?: (element: T) => number): number {
-            return this.sum(valueSelector || (x=> Number(x))) / this.length;
+            return this.sum(valueSelector || (x => Number(x))) / this.length;
         };
     }
     if (!Array.prototype.hasOwnProperty("toMap")) {

@@ -465,9 +465,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\App\ajaxlogin.js" />
-    <Content Include="Scripts\App\todo.viewmodel.js" />
-    <Content Include="Scripts\App\todo.datacontext.js" />
-    <Content Include="Scripts\App\todo.model.js" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
@@ -499,14 +496,12 @@
     <Content Include="Scripts\jquery.validate.min.js.map">
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
-    <Content Include="Views\Test\Homepage.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
     <Folder Include="Models\Example\" />
-    <Folder Include="Views\JobStatus\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
