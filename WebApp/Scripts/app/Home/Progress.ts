@@ -1,12 +1,16 @@
-﻿//$(function () {
+﻿$(() => {
+    var jobId = (function () {
+        var id = $.makeArray($.getJSON("./GetJobStatus"))
+            .map((x: any, i: number) => x.id)
+            .reduce((sofar: number, x: number) => sofar ^ x, 0);
+        return setInterval(event => {
 
-//    var jobId = setInterval(function (event) {
-//        $.getJSON("./GetJobStatus?jobId=" + jobId.toString(), { cache: false }, (data, status, jqXhr) => {
-
-//            var $progress = $(".progress-bar");
-//            $progress.css("width", Math.min(100, data.percent).toString() + "%");
-//            $progress.text(data.message);
-//        });
-//    }, 1000);
-    
-//});
+            $.getJSON("./GetJobStatus?jobId=" + (jobId), function (data, status, jqXhr) {
+                var $progress = $(".progress-bar");
+                $progress.css("width", data.percent.toString() + "%");
+                $progress.text(data.message);
+            });
+        }, 1000);
+        return id += 1;
+    })();
+});

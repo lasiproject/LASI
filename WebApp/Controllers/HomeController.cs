@@ -19,7 +19,7 @@ namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private static IDictionary<string, dynamic> statusDictionary = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
+        private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
         private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
@@ -104,23 +104,28 @@ namespace LASI.WebApp.Controllers
 
         //static int timesExecuted = 0;
         [HttpGet]
-        public ContentResult GetJobStatus(string jobId) {
-            percentComplete = percentComplete > 100 ? 0.0 : percentComplete;
-            //var t = new System.Threading.Timer(dueTime: 0, state: timesExecuted, period: 1000L, callback: (state) => { percentComplete += 0.5; statusMessage = "executed " + state + " times"; });
-            var update = new
-                 {
-                     Message = statusMessage ?? "Test",
-                     Percent = percentComplete,
-
-                 };
-
-            var content = Content(JsonConvert.SerializeObject(update, new JsonSerializerSettings {
+        public ContentResult GetJobStatus(string jobId = "") {
+            var serializerSettings = new JsonSerializerSettings {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-            }));
-            statusDictionary[jobId] = update;
+            };
+            if (jobId == "") {
+                return Content(JsonConvert.SerializeObject(trackedJobs.Select(j => new { j.Value.Message, j.Value.Percent, Id = j.Key }).ToArray(), serializerSettings));
+            }
+            percentComplete %= 100;
+
+            bool extant = trackedJobs.ContainsKey(jobId);
+
+            var update = new
+            {
+                Message = statusMessage ?? "Test",
+                Percent = extant ? percentComplete : 0
+
+            };
+
+            var content = Content(JsonConvert.SerializeObject(update, serializerSettings));
+            trackedJobs[jobId] = update;
             return content;
         }
-
 
     }
 }
