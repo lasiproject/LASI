@@ -24,8 +24,10 @@
         };
     }
 
-    /** Adds the correlate function to  Array.prototype, endowing all Arrays instances with it.
-    * correlate takes pairs the two arrays of elements based on the key selector functions, and returns the associated elements as a new array.
+    /** Adds the correlate function to  Array.prototype, endowing all
+    * Arrays instances with it.
+    * correlate takes pairs the two arrays of elements based on
+    * the key selector functions, and returns the associated elements as a new array.
     * An optional function performs a projection on each element of the resulting flat array.
     * This function is analagous to SelectMany in Linq, and flatMap in Scala.
     */
@@ -61,7 +63,7 @@
             var projection = valueSelector || (function (x) {
                 return Number(x);
             });
-            return this.length == 0 ? NaN : this.reduce(function (total, element, index) {
+            return this.length === 0 ? NaN : this.reduce(function (total, element, index) {
                 return total + projection(element);
             }, 0);
         };
@@ -82,6 +84,11 @@
                 results.set(keySelector(element), valueSelector(element));
             });
             return results;
+        };
+    }
+    if (!String.prototype.hasOwnProperty("fmtAsPct")) {
+        String.prototype.fmtAsPct = function (num) {
+            return num.toString() + "%";
         };
     }
 }());

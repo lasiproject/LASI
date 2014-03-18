@@ -49,9 +49,9 @@ module LASI.Index {
 
                 var jobId = setInterval(function (event) {
                     $.getJSON("./GetJobStatus?jobId=" + (jobId), (data, status, jqXhr) => {
-
+                        var st = Progress.Status.fromJson(data);
                         var $progress = $(".progress-bar");
-                        $progress.css("width", Math.min(99, data.percent).toString() + "%");
+                        $progress.css("width", Math.min(99, st.percent).toString() + "%");
                         $progress.text(data.message);
                     });
                 }, 1000);

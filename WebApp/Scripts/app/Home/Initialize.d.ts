@@ -39,3 +39,6 @@ interface Map<K, V> {
     */
     toArray(): any;
 }
+interface String {
+    fmtAsPct(num: number): any;
+}

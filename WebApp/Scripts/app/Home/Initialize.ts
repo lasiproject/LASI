@@ -49,7 +49,9 @@ interface Map<K, V> {
      */
     toArray();
 }
-
+interface String {
+    fmtAsPct(num: number);
+}
 
 
 /**
@@ -77,8 +79,10 @@ interface Map<K, V> {
             return resultSelector ? results.map(resultSelector) : results;
         };
     }
-    /** Adds the correlate function to  Array.prototype, endowing all Arrays instances with it.
-      * correlate takes pairs the two arrays of elements based on the key selector functions, and returns the associated elements as a new array. 
+    /** Adds the correlate function to  Array.prototype, endowing all 
+      * Arrays instances with it.
+      * correlate takes pairs the two arrays of elements based on 
+      * the key selector functions, and returns the associated elements as a new array. 
       * An optional function performs a projection on each element of the resulting flat array.
       * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
       */
@@ -111,7 +115,7 @@ interface Map<K, V> {
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
             var projection = valueSelector || (x => Number(x));
-            return this.length == 0 ? NaN :
+            return this.length === 0 ? NaN :
                 this.reduce((total, element, index) => total + projection(element), 0);
         };
     }
@@ -129,5 +133,9 @@ interface Map<K, V> {
             return results;
         }
     }
-
+    if (!String.prototype.hasOwnProperty("fmtAsPct")) {
+        String.prototype.fmtAsPct = function (num: number) {
+            return num.toString() + "%";
+        }
+    }
 } ());

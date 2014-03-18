@@ -15,7 +15,7 @@ namespace LASI.Interop
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class AnalysisController : Progress<AnalysisProgressReportEventArgs>
+    public sealed class AnalysisController : Progress<ProgressReportEventArgs>
     {        /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
@@ -36,8 +36,8 @@ namespace LASI.Interop
             }
 
         private void AttachProxyLookupLoadingHandlers() {
-            Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
-            Lookup.ResourceLoaded += lookupResourceLoaded = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
+            Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new ProgressReportEventArgs("Loading " + e.Message, 1.5)); };
+            Lookup.ResourceLoaded += lookupResourceLoaded = (s, e) => { OnReport(new ProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace LASI.Interop
 
 
         private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IUntaggedTextSource> rawTextDocuments) {
-            OnReport(new AnalysisProgressReportEventArgs("Tagging Documents", 0));
+            OnReport(new ProgressReportEventArgs("Tagging Documents", 0));
             var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await Tagger.TaggedFromRawAsync(raw))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.ContentSystem.ITaggedTextSource>();
             while (tasks.Any()) {
@@ -85,9 +85,9 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
+                OnReport(new ProgressReportEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
             }
-            OnReport(new AnalysisProgressReportEventArgs("Tagged Documents", 3));
+            OnReport(new ProgressReportEventArgs("Tagged Documents", 3));
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
@@ -103,23 +103,23 @@ namespace LASI.Interop
         }
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Loading...", fileName), 0));
+            OnReport(new ProgressReportEventArgs(string.Format("{0}: Loading...", fileName), 0));
             var document = await Tagger.DocumentFromTaggedAsync(tagged);
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
+            OnReport(new ProgressReportEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
+            OnReport(new ProgressReportEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
             foreach (var bindingTask in document.GetBindingTasks()) {
-                OnReport(new AnalysisProgressReportEventArgs(bindingTask.InitializationMessage, 0));
+                OnReport(new ProgressReportEventArgs(bindingTask.InitializationMessage, 0));
                 await bindingTask.Task;
-                OnReport(new AnalysisProgressReportEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new ProgressReportEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.5 / sourceCount));
             }
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
+            OnReport(new ProgressReportEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
             foreach (var task in document.GetWeightingTasks()) {
-                OnReport(new AnalysisProgressReportEventArgs(task.InitializationMessage, 1 / sourceCount));
+                OnReport(new ProgressReportEventArgs(task.InitializationMessage, 1 / sourceCount));
                 await task.Task;
-                OnReport(new AnalysisProgressReportEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new ProgressReportEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
             }
 
-            OnReport(new AnalysisProgressReportEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
+            OnReport(new ProgressReportEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
             return document;
         }
 

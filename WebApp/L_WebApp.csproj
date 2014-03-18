@@ -384,9 +384,6 @@
     <TypeScriptCompile Include="Scripts\App\Home\Progress.ts" />
     <TypeScriptCompile Include="Scripts\App\Home\ReconstructedDocumentInteraction.ts" />
     <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
-    <Content Include="Scripts\App\Home\Progress.js" />
-    <Content Include="Scripts\App\Home\Results.js" />
-    <Content Include="Scripts\App\Home\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -498,6 +495,7 @@
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
     <Content Include="Views\Account\Login.cshtml" />
+    <TypeScriptCompile Include="Scripts\App\Home\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.form\jquery.form.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
