@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
-
+using LASI.Utilities;
 
 namespace LASI.App
 {

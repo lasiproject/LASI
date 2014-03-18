@@ -8,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Core.Analysis.LookupAndComparison.Syntactic.Support;
 
 namespace LASI.Core.Heuristics.Morphemization
 {
     /// <summary>
     /// Performs both noun root extraction and noun form generation.
     /// </summary>
-    public static class NounMorpher
+    public class NounMorpher : IWordMorpher<Noun>
     {
 
         static NounMorpher() {
@@ -27,12 +28,15 @@ namespace LASI.Core.Heuristics.Morphemization
         /// </summary>
         /// <param name="nounForm">The root of a noun as a string.</param>
         /// <returns>All forms of the noun root.</returns>
-        public static IEnumerable<string> GetLexicalForms(string nounForm) {
+        public IEnumerable<string> GetLexicalForms(string nounForm) {
             return TryComputeConjugations(nounForm);
 
         }
+        public IEnumerable<string> GetLexicalForms(Noun search) {
+            return GetLexicalForms(search.Text);
+        }
 
-        private static IEnumerable<string> TryComputeConjugations(string nounForm) {
+        private IEnumerable<string> TryComputeConjugations(string nounForm) {
             var hyphenIndex = nounForm.LastIndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? nounForm.Substring(0, hyphenIndex) : nounForm);
             List<string> results;
@@ -56,7 +60,7 @@ namespace LASI.Core.Heuristics.Morphemization
         /// </summary>
         /// <param name="nounForm">The noun string to find the root of.</param>
         /// <returns>The root of the given noun string. If no root can be found, the noun string itself is returned.</returns>
-        public static string FindRoot(string nounForm) {
+        public string FindRoot(string nounForm) {
             return CheckSpecialForms(nounForm).FirstOrDefault() ?? ComputeBaseForm(nounForm).FirstOrDefault() ?? nounForm;
 
         }
@@ -65,9 +69,9 @@ namespace LASI.Core.Heuristics.Morphemization
         /// </summary>
         /// <param name="noun">The Noun to find the root of.</param>
         /// <returns>The root of the given Noun. If no root can be found, the Noun's orignal text is returned.</returns>
-        public static string FindRoot(Noun noun) { return FindRoot(noun.Text); }
+        public string FindRoot(Noun noun) { return FindRoot(noun.Text); }
 
-        private static IEnumerable<string> ComputeBaseForm(string nounForm) {
+        private IEnumerable<string> ComputeBaseForm(string nounForm) {
             var result = new List<string>();
             for (var i = 0; i < SUFFICIES.Length; i++) {
                 if (nounForm.EndsWith(SUFFICIES[i])) {
@@ -79,7 +83,7 @@ namespace LASI.Core.Heuristics.Morphemization
         }
 
 
-        private static IEnumerable<string> CheckSpecialForms(string nounForm) {
+        private IEnumerable<string> CheckSpecialForms(string nounForm) {
             return from nounExceptKVs in exceptionData
                    where nounExceptKVs.Value.Contains(nounForm)
                    select nounExceptKVs.Key;
@@ -107,6 +111,8 @@ namespace LASI.Core.Heuristics.Morphemization
         private static readonly string[] ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
         #endregion
+
+
 
     }
 }

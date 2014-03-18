@@ -17,7 +17,6 @@
     })(LASI.Progress || (LASI.Progress = {}));
     var Progress = LASI.Progress;
 })(LASI || (LASI = {}));
-
 $(function () {
     // Import class Status
     var Status = LASI.Progress.Status;
@@ -27,17 +26,17 @@ $(function () {
     var jobId = (function () {
         // Gets all ungoing jobs from the server and generates a new
         // Id number by using a bitwise xor
-        var id = $.makeArray($.getJSON("./GetJobStatus")).map(function (x, i) {
-            return x.id;
-        }).reduce(function (sofar, x) {
-            return sofar ^ x;
-        }, 0);
         return (function () {
+            var id = $.makeArray($.getJSON("./GetJobStatus")).map(function (x, i) {
+                return x.id;
+            }).reduce(function (sofar, x) {
+                return sofar ^ x;
+            }, 0);
             setInterval(function (event) {
                 $.getJSON("./GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
-                    var st = Status.fromJson(data);
+                    var st = Status.fromJson(jqXhr.responseText);
                     var $progress = $(".progress-bar");
-                    $progress.css("width", st.percent);
+                    $progress.css("width", st.formattedPercent);
                     $progress.text(st.message);
                 });
             }, 1000);

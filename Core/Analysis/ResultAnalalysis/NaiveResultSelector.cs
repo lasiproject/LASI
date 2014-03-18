@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
+using LASI.Utilities;
+
 namespace LASI.Core
 {
     public static class NaiveResultSelector
@@ -66,7 +68,8 @@ namespace LASI.Core
                        .With<IEntity>(entity)
                    .Result()
                    where e != null
-                   group e by new {
+                   group e by new
+                   {
                        e.Text,
                        e.Weight
                    } into entity
@@ -90,7 +93,8 @@ namespace LASI.Core
         internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
             return from e in elementsToConvert.Distinct()
                    orderby e.CombinedWeight
-                   select new {
+                   select new
+                   {
                        Subject = e.Subject != null ? e.Subject.Text : string.Empty,
                        Verbal = e.Verbal != null ?
                                 (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)

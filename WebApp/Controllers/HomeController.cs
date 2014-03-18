@@ -104,21 +104,27 @@ namespace LASI.WebApp.Controllers
 
         //static int timesExecuted = 0;
         [HttpGet]
-        public ContentResult GetJobStatus(string jobId = "") {
+        public JsonResult GetJobStatus(string jobId = "") {
             var serializerSettings = new JsonSerializerSettings {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
             };
             if (jobId == "") {
-                return Content(JsonConvert.SerializeObject(trackedJobs.Select(j => new { j.Value.Message, j.Value.Percent, Id = j.Key }).ToArray(), serializerSettings));
+                return Json(JsonConvert.SerializeObject(trackedJobs
+                      .Select(j => new
+                      {
+                          j.Value.Message, j.Value.Percent, Id = j.Key
+                      })
+                      .ToArray(),
+                      serializerSettings));
             }
+
             percentComplete %= 100;
 
             bool extant = trackedJobs.ContainsKey(jobId);
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
-            var content = Content(JsonConvert.SerializeObject(update, serializerSettings));
             trackedJobs[jobId] = update;
-            return content;
+            return Json(JsonConvert.SerializeObject(update, serializerSettings));
         }
 
     }

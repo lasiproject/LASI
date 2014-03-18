@@ -69,8 +69,7 @@ var LASI;
                     event.preventDefault();
                     var referencerInfo;
                 });
-            });
-
+            })();
             $(document).click(function (event) {
                 return contextMenu.find("li").off().hide();
             });

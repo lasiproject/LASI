@@ -90,10 +90,12 @@ namespace LASI.Core.Heuristics
         public ISet<string> AllNouns { get { return allNouns = allNouns ?? new SortedSet<string>(data.SelectMany(nss => nss.Value.Words)); } }
 
         internal override ISet<string> this[string search] {
+
             get {
+                var morpher = new NounMorpher();
                 try {
-                    return new HashSet<string>(SearchFor(NounMorpher.FindRoot(search))
-                        .SelectMany(syn => NounMorpher.GetLexicalForms(syn))
+                    return new HashSet<string>(SearchFor(morpher.FindRoot(search))
+                        .SelectMany(syn => morpher.GetLexicalForms(syn))
                         .DefaultIfEmpty(search));
                 }
                 catch (AggregateException) { }

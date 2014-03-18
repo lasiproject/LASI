@@ -15,9 +15,9 @@ namespace LASI.WebApp.Controllers.Tests
         [TestMethod()]
         public void GetJobStatusTest1() {
             HomeController target = new HomeController();
-            dynamic json = JsonConvert.DeserializeObject(target.GetJobStatus("1").Content);
+            dynamic json = JsonConvert.DeserializeObject(target.GetJobStatus("1").Data.ToString());
             Assert.IsTrue(json.percent == 0);
-            Assert.IsTrue(json.message == "Test");
+            Assert.IsTrue(json.message == null);
         }
     }
 }

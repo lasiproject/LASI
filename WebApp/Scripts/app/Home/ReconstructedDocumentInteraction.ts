@@ -1,5 +1,4 @@
-﻿
-module LASI.Results.ContextProviders {
+﻿module LASI.Results.ContextProviders {
     export interface VerbalContext {
         subjects: number[];
         directObjects: number[];
@@ -72,9 +71,7 @@ module LASI.Results {
                 event.preventDefault();
                 var referencerInfo: ContextProviders.RefencerContext;
             });
-        });
-
+        })();
         $(document).click(event=> contextMenu.find("li").off().hide());
-
     });
 };

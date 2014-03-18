@@ -2131,7 +2131,7 @@ namespace LASI.UnitTests
             string conjugated = "birds";
             string expected = "bird"; // TODO: Initialize to an appropriate value
             string actual;
-            actual = NounMorpher.FindRoot(conjugated);
+            actual = new NounMorpher().FindRoot(conjugated);
             Assert.AreEqual(expected, actual);
         }
 
@@ -2143,7 +2143,7 @@ namespace LASI.UnitTests
             string root = "kitten";
             IEnumerable<string> expected = new[] { "kittens" }; // TODO: Initialize to an appropriate value
             IEnumerable<string> actual;
-            actual = NounMorpher.GetLexicalForms(root);
+            actual = new NounMorpher().GetLexicalForms(root);
             foreach (var a in expected) {
                 Assert.IsTrue(actual.Contains(a));
             }
