@@ -5,68 +5,58 @@ which will optimize page load time.
 */
 
 module LASI.Index {
-    (function () {
+    {
+        jobIds: (function () {
 
-        // All top level functions should start with this directive. nested functions inherit it.
-        "use strict";
+            // All top level functions should start with this directive. nested functions inherit it.
+            "use strict";
 
-        var y = [[1, 2, 3, 4], [53, 556]].flatMap(e=> e.map(a=> a), e=> e.toString());
-        //This function disables submit button 
-        $(function () {
-            $("input:submit").attr("disabled", "true");
-            $("input:file").change(function () {
-                if ($(this).val()) {
-                    $("input:submit").removeAttr("disabled");
-                } else {
-                    $("input:submit").attr("disabled", "true");
-                }
-            });
-        });
-        $("input:submit").click({}, function (event) {
-            var fileCount = $("input:file")
-                .map((index, element: HTMLInputElement) => element.files.length).toArray()
-                .reduce((sum, current, index) => sum + current);
-        });
-
-
-
-        $("input:submit").click(function (e) {
-            $("input:file").each(function (index, element) {
-                var files = $("input:file").toArray().flatMap((item: HTMLInputElement) => {
-                    var result = new Array<File>(), i: number;
-                    for (i = 0; i < item.files.length; i += 1) {
-                        result.push(item.files[i]);
+            var y = [[1, 2, 3, 4], [53, 556]]
+                .flatMap(
+                element=> element.map(a=> a),
+                element=> element.toString()
+                );
+            //This function disables submit button 
+            $(function () {
+                $("input:submit").attr("disabled", "true");
+                $("input:file").change(function () {
+                    if ($(this).val()) {
+                        $("input:submit").removeAttr("disabled");
+                    } else {
+                        $("input:submit").attr("disabled", "true");
                     }
-                    return result;
                 });
-                var xhr = $.ajax({
-                    url: "/Home/Upload/",
-                    type: "POST",
-                    data: files,
-                    processData: false
+            });
+            $("#submitdocumentbutton").click(e => {
+
+                $("input:file").each((index, element: HTMLInputElement) => {
+                    var file = element.files[0];
+                    $.ajax("\\Home\\Upload", {
+                        processData: false, data: file,
+                        type: "POST",
+                        success: (d: Object, s: string, t: JQueryXHR) => {
+                            console.log(t.status);
+
+                        },
+                    });
+                    $(e.target).css("width", "0%");
                 });
+                //e.preventDefault();
 
             });
-        });
-        var jobIds = (function () {
 
+            $(function () {
 
-            $(document).ready(function () {
-                var serverJobs = [];
-                $.ajaxSetup({ cache: false });
-                (function () {
-                    var jobId = setInterval(function (event) {
-                        $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, (data, status, jqXhr) => {
-                            var $progress = $(".progress-bar");
-                            $progress.width(data.Percent);
-                            $progress.text(data.Message);
-                        });
-                    }, 1000);
-                    serverJobs.push(jobId);
-                });
-                return serverJobs;
+                var jobId = setInterval(function (event) {
+                    $.getJSON("./GetJobStatus?jobId=" + (jobId), (data, status, jqXhr) => {
+
+                        var $progress = $(".progress-bar");
+                        $progress.css("width", Math.min(99, data.percent).toString() + "%");
+                        $progress.text(data.message);
+                    });
+                }, 1000);
 
             });
-        } ());
-    } ());
-}
+        } ())
+    }
+};

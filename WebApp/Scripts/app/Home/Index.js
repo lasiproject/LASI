@@ -6,73 +6,59 @@ which will optimize page load time.
 var LASI;
 (function (LASI) {
     (function (Index) {
-        (function () {
-            // All top level functions should start with this directive. nested functions inherit it.
-            "use strict";
+         {
+            jobIds:
+            (function () {
+                // All top level functions should start with this directive. nested functions inherit it.
+                "use strict";
 
-            var y = [[1, 2, 3, 4], [53, 556]].flatMap(function (e) {
-                return e.map(function (a) {
-                    return a;
+                var y = [[1, 2, 3, 4], [53, 556]].flatMap(function (element) {
+                    return element.map(function (a) {
+                        return a;
+                    });
+                }, function (element) {
+                    return element.toString();
                 });
-            }, function (e) {
-                return e.toString();
-            });
 
-            //This function disables submit button
-            $(function () {
-                $("input:submit").attr("disabled", "true");
-                $("input:file").change(function () {
-                    if ($(this).val()) {
-                        $("input:submit").removeAttr("disabled");
-                    } else {
-                        $("input:submit").attr("disabled", "true");
-                    }
-                });
-            });
-            $("input:submit").click({}, function (event) {
-                var fileCount = $("input:file").map(function (index, element) {
-                    return element.files.length;
-                }).toArray().reduce(function (sum, current, index) {
-                    return sum + current;
-                });
-            });
-
-            $("input:submit").click(function (e) {
-                $("input:file").each(function (index, element) {
-                    var files = $("input:file").toArray().flatMap(function (item) {
-                        var result = new Array(), i;
-                        for (i = 0; i < item.files.length; i += 1) {
-                            result.push(item.files[i]);
+                //This function disables submit button
+                $(function () {
+                    $("input:submit").attr("disabled", "true");
+                    $("input:file").change(function () {
+                        if ($(this).val()) {
+                            $("input:submit").removeAttr("disabled");
+                        } else {
+                            $("input:submit").attr("disabled", "true");
                         }
-                        return result;
-                    });
-                    var xhr = $.ajax({
-                        url: "/Home/Upload/",
-                        type: "POST",
-                        data: files,
-                        processData: false
                     });
                 });
-            });
-            var jobIds = (function () {
-                $(document).ready(function () {
-                    var serverJobs = [];
-                    $.ajaxSetup({ cache: false });
-                    (function () {
-                        var jobId = setInterval(function (event) {
-                            $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
-                                var $progress = $(".progress-bar");
-                                $progress.width(data.Percent);
-                                $progress.text(data.Message);
-                            });
-                        }, 1000);
-                        serverJobs.push(jobId);
+                $("#submitdocumentbutton").click(function (e) {
+                    $("input:file").each(function (index, element) {
+                        var file = element.files[0];
+                        $.ajax("\\Home\\Upload", {
+                            processData: false, data: file,
+                            type: "POST",
+                            success: function (d, s, t) {
+                                console.log(t.status);
+                            }
+                        });
+                        $(e.target).css("width", "0%");
                     });
-                    return serverJobs;
+                    //e.preventDefault();
+                });
+
+                $(function () {
+                    var jobId = setInterval(function (event) {
+                        $.getJSON("./GetJobStatus?jobId=" + (jobId), function (data, status, jqXhr) {
+                            var $progress = $(".progress-bar");
+                            $progress.css("width", Math.min(99, data.percent).toString() + "%");
+                            $progress.text(data.message);
+                        });
+                    }, 1000);
                 });
             }());
-        }());
+        }
     })(LASI.Index || (LASI.Index = {}));
     var Index = LASI.Index;
 })(LASI || (LASI = {}));
+;
 //# sourceMappingURL=Index.js.map

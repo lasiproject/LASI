@@ -28,8 +28,9 @@ namespace LASI.WebApp.Controllers
 
             return View(new LASI.WebApp.Models.User.UserModel());
         }
+
         [HttpPost]
-        public async Task<ActionResult> Upload(params object[] args) {
+        public ActionResult Upload() {
             var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             if (!Directory.Exists(SERVER_PATH)) {
                 Directory.CreateDirectory(SERVER_PATH);
@@ -51,15 +52,16 @@ namespace LASI.WebApp.Controllers
 
                 file.SaveAs(path);
             }
-            await Results();
+            //Results().Wait;
 
             return RedirectToAction("Results");
+
         }
 
         private const short CHART_ITEM_MAX = 5;
 
         public ActionResult Progress() {
-            return GetJobStatus();
+            return View();
         }
 
         public async Task<ActionResult> Results() {
@@ -102,18 +104,21 @@ namespace LASI.WebApp.Controllers
 
         //static int timesExecuted = 0;
         [HttpGet]
-        public ContentResult GetJobStatus(string jobId = "", dynamic _ = null) {
-
+        public ContentResult GetJobStatus(string jobId) {
+            percentComplete = percentComplete > 100 ? 0.0 : percentComplete;
             //var t = new System.Threading.Timer(dueTime: 0, state: timesExecuted, period: 1000L, callback: (state) => { percentComplete += 0.5; statusMessage = "executed " + state + " times"; });
+            var update = new
+                 {
+                     Message = statusMessage ?? "Test",
+                     Percent = percentComplete,
 
-            var status = new
-            {
-                Message = statusMessage ?? "Test",
-                Percent = percentComplete.ToString() + "%"
-            };
-            //statusDictionary[jobId] = status;
-            percentComplete += 1D;
-            return Content(JsonConvert.SerializeObject(status), "application/json");
+                 };
+
+            var content = Content(JsonConvert.SerializeObject(update, new JsonSerializerSettings {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            }));
+            statusDictionary[jobId] = update;
+            return content;
         }
 
 

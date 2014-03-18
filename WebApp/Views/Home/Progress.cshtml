@@ -11,17 +11,18 @@
 <h2>Progress</h2>
 <br />
 <ul id="documentlist">
-    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
-        <li class="list-group-item">
 
-            <div class="progress progress-striped active">
-                <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                    <span class="sr-only">45% Complete</span>
-                </div>
+    <li class="list-group-item">
+
+        <div class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+                <span class="sr-only">45% Complete</span>
             </div>
-        </li>
-    }
+        </div>
+    </li>
+
 </ul>
 
-@Scripts.Render("~/Sripts/App/Home/Initialize.js")
-@Scripts.Render("~/Sripts/App/Home/Progress.js")
+@Scripts.Render("~/Scripts/App/Home/Initialize.js")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/Scripts/App/Home/Progress.js")

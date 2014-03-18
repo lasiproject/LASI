@@ -33,7 +33,7 @@ namespace LASI.Interop
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
             AttachProxyLookupLoadingHandlers();
-        }
+            }
 
         private void AttachProxyLookupLoadingHandlers() {
             Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new AnalysisProgressReportEventArgs("Loading " + e.Message, 1.5)); };
