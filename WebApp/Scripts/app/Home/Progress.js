@@ -19,22 +19,30 @@
 })(LASI || (LASI = {}));
 
 $(function () {
+    // Import class Status
     var Status = LASI.Progress.Status;
+
+    // Sets listening for progress automatically.
+    // This needs to be refactored into more re-usable code.
     var jobId = (function () {
+        // Gets all ungoing jobs from the server and generates a new
+        // Id number by using a bitwise xor
         var id = $.makeArray($.getJSON("./GetJobStatus")).map(function (x, i) {
             return x.id;
         }).reduce(function (sofar, x) {
             return sofar ^ x;
         }, 0);
-        return setInterval(function (event) {
-            $.getJSON("./GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
-                var st = Status.fromJson(data);
-                var $progress = $(".progress-bar");
-                $progress.css("width", st.percent);
-                $progress.text(st.message);
-            });
-        }, 1000);
-        return id += 1;
+        return (function () {
+            setInterval(function (event) {
+                $.getJSON("./GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
+                    var st = Status.fromJson(data);
+                    var $progress = $(".progress-bar");
+                    $progress.css("width", st.percent);
+                    $progress.text(st.message);
+                });
+            }, 1000);
+            return id += 1;
+        })();
     })();
 });
 //# sourceMappingURL=Progress.js.map

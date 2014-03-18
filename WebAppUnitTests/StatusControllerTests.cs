@@ -5,14 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.WebApp.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+
 namespace LASI.WebApp.Controllers.Tests
 {
     [TestClass()]
     public class StatusControllerTests
     {
         [TestMethod()]
-        public void GetJobStatusTest() {
-            Assert.Fail();
+        public void GetJobStatusTest1() {
+            HomeController target = new HomeController();
+            dynamic json = JsonConvert.DeserializeObject(target.GetJobStatus("1").Content);
+            Assert.IsTrue(json.percent == 0);
+            Assert.IsTrue(json.message == "Test");
         }
     }
 }

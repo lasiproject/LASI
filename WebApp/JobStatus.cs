@@ -14,21 +14,21 @@ namespace LASI.WebApp
     {
 
 
-        public JobStatus(int jobId, string currentOperation, double percentComplete) {
+        public JobStatus(int jobId, string message, double percent) {
             JobId = jobId;
-            CurrentOperation = currentOperation;
-            PercentComplete = percentComplete;
+            Message = message;
+            Percent = percent;
         }
         public int JobId { get; private set; }
         /// <summary>
         /// Gets a textual description of the ongoing work. 
         /// </summary>
-        public string CurrentOperation { get; private set; }
+        public string Message { get; private set; }
 
         /// <summary>
         /// Gets the percentage complete of the work corresponding to the Job.
         /// </summary>
-        public double PercentComplete { get; private set; }
+        public double Percent { get; private set; }
 
         /// <summary>
         /// Returns the Job serialized as a JSON string.
@@ -44,13 +44,13 @@ namespace LASI.WebApp
             return obj != null && this == (JobStatus)obj;
         }
         public override int GetHashCode() {
-            return JobId.GetHashCode() ^ CurrentOperation.GetHashCode() ^ PercentComplete.GetHashCode();
+            return JobId.GetHashCode() ^ Message.GetHashCode() ^ Percent.GetHashCode();
         }
         public static bool operator ==(JobStatus left, JobStatus right) {
             return
                 left.JobId == right.JobId &&
-                left.CurrentOperation == right.CurrentOperation &&
-                left.PercentComplete == right.PercentComplete;
+                left.Message == right.Message &&
+                left.Percent == right.Percent;
         }
         public static bool operator !=(JobStatus left, JobStatus right) {
             return !(left == right);

@@ -18,8 +18,8 @@ namespace LASI.WebApp.Controllers.Tests
         public void JobTest() {
             var id = new Random().Next();
             var job = new JobStatus(id, "parsing", 10);
-            Assert.AreEqual(job.PercentComplete, 10d);
-            Assert.AreEqual(job.CurrentOperation, "parsing");
+            Assert.AreEqual(job.Percent, 10d);
+            Assert.AreEqual(job.Message, "parsing");
         }
 
         [TestMethod()]
@@ -28,12 +28,10 @@ namespace LASI.WebApp.Controllers.Tests
 
             var job = new JobStatus(id, "parsing", 10.0);
             var json = job.ToJson();
-            Assert.AreEqual(string.Format("{{\"{0}\":{1},\"{2}\":\"{3}\",\"{4}\":{5:0.0}}}",
-               job.GetType().GetProperty("JobId").Name, job.JobId,
-            job.GetType().GetProperty("CurrentOperation").Name, job.CurrentOperation,
-               job.GetType().GetProperty("PercentComplete").Name, job.PercentComplete),
-               json, ignoreCase: true);
-            var deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<JobStatus>(json);
+            Assert.AreEqual(string.Format("{{\"{0}\":{1},\"{2}\":\"{3}\",\"{4}\":{5:0.0}}}", "jobId", job.JobId, "message", job.Message, "percent", job.Percent), json);
+            var deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<JobStatus>(json, new Newtonsoft.Json.JsonSerializerSettings {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            });
             Assert.AreEqual(job, deserialized);
         }
         [TestMethod()]

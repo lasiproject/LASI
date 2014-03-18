@@ -92,14 +92,14 @@ namespace LASI.WebApp.Controllers
             var analyzer = new AnalysisController(files);
             analyzer.ProgressChanged += (s, e) => {
                 percentComplete += e.Increment;
-                statusMessage = e.Message;
+                currentOperation = e.Message;
             };
             return await Task.Run(async () => await analyzer.ProcessAsync());
         }
         private static double percentComplete;
 
 
-        private static string statusMessage;
+        private static string currentOperation;
 
 
         //static int timesExecuted = 0;
@@ -114,14 +114,8 @@ namespace LASI.WebApp.Controllers
             percentComplete %= 100;
 
             bool extant = trackedJobs.ContainsKey(jobId);
-
-            var update = new
-            {
-                Message = statusMessage ?? "Test",
-                Percent = extant ? percentComplete : 0
-
-            };
-
+            int id;
+            var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
             var content = Content(JsonConvert.SerializeObject(update, serializerSettings));
             trackedJobs[jobId] = update;
             return content;
