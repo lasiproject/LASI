@@ -85,7 +85,7 @@ namespace LASI.UnitTests
             AdverbPhrase advp = new AdverbPhrase(new[] { adv });
             target.ModifyWith(adv);
             target.ModifyWith(advp);
-            Assert.IsTrue(target.Modifiers.Contains(adv) && target.Modifiers.Contains(advp));
+            Assert.IsTrue(target.AdverbialModifiers.Contains(adv) && target.AdverbialModifiers.Contains(advp));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace LASI.UnitTests
             string text = string.Empty; // TODO: Initialize to an appropriate value
             Adjective target = new Adjective(text); // TODO: Initialize to an appropriate value
             IEnumerable<IAdverbial> actual;
-            actual = target.Modifiers;
+            actual = target.AdverbialModifiers;
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
 

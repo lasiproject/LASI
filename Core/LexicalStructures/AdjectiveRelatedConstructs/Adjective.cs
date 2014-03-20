@@ -41,7 +41,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
         /// </summary>
-        public virtual IEnumerable<IAdverbial> Modifiers {
+        public virtual IEnumerable<IAdverbial> AdverbialModifiers {
             get {
                 return modifiers;
             }

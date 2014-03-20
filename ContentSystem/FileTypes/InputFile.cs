@@ -8,7 +8,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.
     /// </summary>
-    public abstract class InputFile : IUntaggedTextSource
+    public abstract class InputFile : IRawTextSource
     {
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.

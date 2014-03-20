@@ -64,11 +64,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase NextPhrase { get; set; }
+        public Phrase NextPhrase { get; internal set; }
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase PreviousPhrase { get; set; }
+        public Phrase PreviousPhrase { get; internal set; }
         /// <summary>
         /// Gets or sets the Clause to which the Phrase belongs.
         /// </summary>

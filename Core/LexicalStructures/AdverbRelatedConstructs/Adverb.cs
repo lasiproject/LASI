@@ -35,18 +35,17 @@ namespace LASI.Core
         /// <param name="adv">The IAdverbial construct by which to modify the current Adverb.</param>
         /// </summary>
         public void ModifyWith(IAdverbial adv) {
-            if (!modifiers.Contains(adv)) {
-                modifiers.Add(adv);
-            }
+            modifiers.Add(adv);
+            adv.Modifies = this;
         }
         /// <summary>
         /// Gets the List of IAdverbial modifiers which modify the Adverb.
         /// </summary>
-        public IEnumerable<IAdverbial> Modifiers {
+        public IEnumerable<IAdverbial> AdverbialModifiers {
             get {
                 return modifiers;
             }
         }
-        private ICollection<IAdverbial> modifiers = new List<IAdverbial>();
+        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
     }
 }

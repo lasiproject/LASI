@@ -185,7 +185,7 @@ namespace LASI.Core.Binding
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
                     .With<VerbPhrase>(phr => {
-                        phr.AdjectivalModifier = M.lastAdjectivals.Last();
+                        phr.PostpositiveDescriptor = M.lastAdjectivals.Last();
                         M.lastAdjectivals.Clear();
                         M.s1.Transition(Stream.Get());
                     })

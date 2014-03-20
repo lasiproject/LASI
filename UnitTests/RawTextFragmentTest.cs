@@ -63,26 +63,17 @@ namespace LASI.UnitTests
         #endregion
 
 
-        /// <summary>
-        ///A test for RawTextFragment Constructor
-        ///</summary>
-        [TestMethod()]
-        public void RawTextFragmentConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            string name = string.Empty; // TODO: Initialize to an appropriate value
-            RawTextFragment target = new RawTextFragment(text, name);
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
 
         /// <summary>
         ///A test for RawTextFragment Constructor
         ///</summary>
         [TestMethod()]
-        public void RawTextFragmentConstructorTest1() {
-            IEnumerable<string> text = null; // TODO: Initialize to an appropriate value
-            string name = string.Empty; // TODO: Initialize to an appropriate value
+        public void RawTextFragmentConstructorTest() {
+            IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
+            string name = "test fragment";
             RawTextFragment target = new RawTextFragment(text, name);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(target.SourceName, name);
+            Assert.AreEqual(target.GetText(), string.Join("\n", text));
         }
 
         /// <summary>
@@ -90,14 +81,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            IEnumerable<string> text = null; // TODO: Initialize to an appropriate value
-            string name = string.Empty; // TODO: Initialize to an appropriate value
-            RawTextFragment target = new RawTextFragment(text, name); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.GetText();
+            IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
+            string name = "test fragment";
+            RawTextFragment target = new RawTextFragment(text, name);
+            string expected = string.Join("\n", text);
+            string actual = target.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -105,14 +94,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            IEnumerable<string> text = null; // TODO: Initialize to an appropriate value
-            string name = string.Empty; // TODO: Initialize to an appropriate value
-            RawTextFragment target = new RawTextFragment(text, name); // TODO: Initialize to an appropriate value
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
+            IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
+            string name = "test fragment";
+            RawTextFragment target = new RawTextFragment(text, name);
+            string expected = string.Join("\n", text);
+            string actual = target.GetTextAsync().Result;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -120,12 +107,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void op_ImplicitTest() {
-            RawTextFragment fragment = null; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
+            string name = "test fragment";
+            RawTextFragment fragment = new RawTextFragment(text, name);
+            string expected = string.Join("\n", text);
             string actual;
             actual = fragment;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

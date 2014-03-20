@@ -83,7 +83,7 @@ namespace LASI.UnitTests
             VerbPhrase target = CreateVerbPhrase();
             IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
-            Assert.IsTrue(target.Modifiers.Contains(adv));
+            Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
         }
 
         /// <summary>
@@ -246,13 +246,15 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AdjectivalModifierTest() {
-            VerbPhrase target = CreateVerbPhrase();
-            IDescriptor expected = null; // TODO: Initialize to an appropriate value
+            VerbPhrase target = new VerbPhrase(new[] { new Verb("grew", VerbForm.Past) });
+            IEntity subject = new PersonalPronoun("he");
+            target.BindSubject(subject);
+            IDescriptor expected = new Adjective("tall");
             IDescriptor actual;
-            target.AdjectivalModifier = expected;
-            actual = target.AdjectivalModifier;
+            target.PostpositiveDescriptor = expected;
+            actual = target.PostpositiveDescriptor;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(subject.Descriptors.Contains(expected));
         }
 
         /// <summary>

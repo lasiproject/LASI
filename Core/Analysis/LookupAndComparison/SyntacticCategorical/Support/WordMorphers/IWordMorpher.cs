@@ -21,7 +21,7 @@ namespace LASI.Core.Analysis.LookupAndComparison.Syntactic.Support
         /// Returns the base form of the given type of word.
         /// If the word is already in its base form, the text content of the Word will simply be returned.
         /// </summary>
-        /// <param name="word">A string whose text represents the lexical form a word of the given type.</param>
+        /// <param name="wordText">A string whose text represents the lexical form a word of the given type.</param>
         /// <returns>The base form of the given type of word.
         /// If the word is already in its base form, the text content of the Word will simply be returned.</returns>
         string FindRoot(string wordText);

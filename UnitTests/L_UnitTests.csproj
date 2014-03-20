@@ -133,7 +133,7 @@
     <Compile Include="IQuantifiableTest.cs" />
     <Compile Include="ISimpleGenderedTest.cs" />
     <Compile Include="ITaggedTextSourceTest.cs" />
-    <Compile Include="IUntaggedTextSourceTest.cs" />
+    <Compile Include="IRawTextSourceTest.cs" />
     <Compile Include="LookupTests.cs" />
     <Compile Include="ModalAuxilaryTest.cs" />
     <Compile Include="ModalTest.cs" />

@@ -20,14 +20,14 @@ namespace LASI.Interop
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSource">An untagged english language written work.</param>
-        public AnalysisController(IUntaggedTextSource rawTextSource)
+        public AnalysisController(IRawTextSource rawTextSource)
             : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged english language written works.</param>
-        public AnalysisController(IEnumerable<LASI.ContentSystem.IUntaggedTextSource> rawTextSources)
+        public AnalysisController(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextSources)
             : base(e => { }) {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
@@ -76,7 +76,7 @@ namespace LASI.Interop
 
 
 
-        private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IUntaggedTextSource> rawTextDocuments) {
+        private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextDocuments) {
             OnReport(new ProgressReportEventArgs("Tagging Documents", 0));
             var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await Tagger.TaggedFromRawAsync(raw))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.ContentSystem.ITaggedTextSource>();
@@ -129,7 +129,7 @@ namespace LASI.Interop
         private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded;
         private double sourceCount;
         private double stepMagnitude;
-        private IEnumerable<IUntaggedTextSource> rawTextSources;
+        private IEnumerable<IRawTextSource> rawTextSources;
 
         #endregion
 

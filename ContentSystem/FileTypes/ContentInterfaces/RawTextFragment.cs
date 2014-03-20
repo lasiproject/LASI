@@ -9,7 +9,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// Encapsulates a string containing Raw, untagged text and an associated name. Provides synchronous and asynchronous acess to it contents.
     /// </summary>
-    public class RawTextFragment : IUntaggedTextSource
+    public class RawTextFragment : IRawTextSource
     {
         private string content;
         /// <summary>

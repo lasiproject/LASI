@@ -79,7 +79,7 @@ namespace LASI.Core
     ///	as/is operator semantics, which do not consider user defined conversions, it will not naturally adjust if the such conversions are defined)
     /// </para>
     /// </remarks>
-    public static class Matcher
+    public static class PatternMatcher
     {
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.

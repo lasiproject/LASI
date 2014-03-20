@@ -151,7 +151,7 @@ namespace LASI.UnitTests
             Verb target = new Verb(text, tense);
             IAdverbial adv = new Adverb("sufficiently");
             target.ModifyWith(adv);
-            Assert.IsTrue(target.Modifiers.Contains(adv) && target.Modifiers.Count() == 1);
+            Assert.IsTrue(target.AdverbialModifiers.Contains(adv) && target.AdverbialModifiers.Count() == 1);
         }
 
 
@@ -202,11 +202,11 @@ namespace LASI.UnitTests
             VerbForm form = VerbForm.Past;
             Verb target = new Verb(text, form);
             IEnumerable<IAdverbial> actual;
-            actual = target.Modifiers;
+            actual = target.AdverbialModifiers;
             Assert.IsTrue(!actual.Any());
             IAdverbial modifier = new Adverb("swiftly");
             target.ModifyWith(modifier);
-            actual = target.Modifiers;
+            actual = target.AdverbialModifiers;
             Assert.IsTrue(actual.Contains(modifier));
             Assert.IsTrue(modifier.Modifies == target);
         }

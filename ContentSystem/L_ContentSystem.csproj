@@ -78,7 +78,7 @@
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
     <Compile Include="FileTypes\ContentInterfaces\ITaggedTextSource.cs" />
-    <Compile Include="FileTypes\ContentInterfaces\IUntaggedTextSource.cs" />
+    <Compile Include="FileTypes\ContentInterfaces\IRawTextSource.cs" />
     <Compile Include="FileTypes\ContentInterfaces\RawTextFragment.cs" />
     <Compile Include="FileTypes\ContentInterfaces\TaggedTextFragment.cs" />
     <Compile Include="Serialization\XML\DocumentElementExtensions\SerializationExtensions.cs" />

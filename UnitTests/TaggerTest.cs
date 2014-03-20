@@ -135,7 +135,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DocumentFromRawTest2() {
-            IUntaggedTextSource textSource = null; // TODO: Initialize to an appropriate value
+            IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
             Document actual;
             actual = Tagger.DocumentFromRaw(textSource);
@@ -161,7 +161,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DocumentFromRawAsyncTest1() {
-            IUntaggedTextSource textSource = null; // TODO: Initialize to an appropriate value
+            IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
             Task<Document> actual;
             actual = Tagger.DocumentFromRawAsync(textSource);
@@ -239,7 +239,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void TaggedFromRawTest1() {
-            IUntaggedTextSource textSource = null; // TODO: Initialize to an appropriate value
+            IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             ITaggedTextSource expected = null; // TODO: Initialize to an appropriate value
             ITaggedTextSource actual;
             actual = Tagger.TaggedFromRaw(textSource);
@@ -252,7 +252,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void TaggedFromRawAsyncTest() {
-            IUntaggedTextSource textSource = null; // TODO: Initialize to an appropriate value
+            IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Task<ITaggedTextSource> expected = null; // TODO: Initialize to an appropriate value
             Task<ITaggedTextSource> actual;
             actual = Tagger.TaggedFromRawAsync(textSource);
@@ -265,12 +265,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void TaggerModeTest() {
-            TaggerMode expected = new TaggerMode(); // TODO: Initialize to an appropriate value
+            TaggerMode expected = TaggerMode.FullyNestingParse;
             TaggerMode actual;
             Tagger.TaggerMode = expected;
             actual = Tagger.TaggerMode;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

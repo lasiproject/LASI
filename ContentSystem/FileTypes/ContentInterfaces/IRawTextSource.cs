@@ -9,7 +9,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// Exposes the behaviors of a source of raw text and an associated name
     /// </summary>
-    public interface IUntaggedTextSource
+    public interface IRawTextSource
     {
         /// <summary>
         /// Returns a string containing all of the text in the IRawTextSource.

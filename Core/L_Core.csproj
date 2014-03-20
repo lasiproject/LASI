@@ -111,7 +111,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\Generalized\Basis\MatchClause.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Matcher.cs" />
+    <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\PatternMatcher.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />

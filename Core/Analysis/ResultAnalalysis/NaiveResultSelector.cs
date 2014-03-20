@@ -99,8 +99,8 @@ namespace LASI.Core
                        Verbal = e.Verbal != null ?
                                 (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
                                 + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
-                                + e.Verbal.Text + (e.Verbal.Modifiers.Any() ? " (adv)> "
-                                + string.Join(" ", e.Verbal.Modifiers.Select(m => m.Text)) : string.Empty) :
+                                + e.Verbal.Text + (e.Verbal.AdverbialModifiers.Any() ? " (adv)> "
+                                + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)) : string.Empty) :
                                 string.Empty,
                        Direct = e.Direct != null ?
                                 (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text

@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of IAdverbial constructs which modify the IAdverbialModifiable.
         /// </summary>
-        IEnumerable<IAdverbial> Modifiers {
+        IEnumerable<IAdverbial> AdverbialModifiers {
             get;
         }
     }

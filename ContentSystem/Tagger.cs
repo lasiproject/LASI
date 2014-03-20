@@ -85,7 +85,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromRaw(IUntaggedTextSource textSource) {
+        public static Document DocumentFromRaw(IRawTextSource textSource) {
             var doc = DocumentFromTagged(new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.GetText()), textSource.SourceName));
             doc.Name = textSource.SourceName;
             return doc;
@@ -95,7 +95,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>A Task&lt;Document&gt; which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static async Task<Document> DocumentFromRawAsync(IUntaggedTextSource textSource) {
+        public static async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) {
             var doc = DocumentFromTagged(new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.SourceName));
             doc.Name = textSource.SourceName;
             return doc;
@@ -157,7 +157,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>An ITaggedTextSource containing the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public static ITaggedTextSource TaggedFromRaw(IUntaggedTextSource textSource) {
+        public static ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
             return new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.GetText()), textSource.SourceName);
         }
         /// <summary>
@@ -165,7 +165,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>A Task&lt;ITaggedTextSource&gt; which will contain the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public static async Task<ITaggedTextSource> TaggedFromRawAsync(IUntaggedTextSource textSource) {
+        public static async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {
             return new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.SourceName);
 
         }

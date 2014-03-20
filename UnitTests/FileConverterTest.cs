@@ -68,27 +68,27 @@ namespace LASI.UnitTests
         public void ConvertFileTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(); // TODO: Initialize to an appropriate value
-            TDestination expected = default(TDestination); // TODO: Initialize to an appropriate value
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>();
             TDestination actual;
-            actual = target.ConvertFile();
+            actual = target.ConvertFile() as TDestination;
+            TDestination expected = new TxtFile(sourcePath.Substring(0, sourcePath.LastIndexOf('.')) + ".txt") as TDestination;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         internal virtual FileConverter<TSource, TDestination> CreateFileConverter<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
             // TODO: Instantiate an appropriate concrete class.
-            FileConverter<TSource, TDestination> target = null;
+            FileConverter<TSource, TDestination> target = new DocxToTextConverter(
+                new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx")) as FileConverter<TSource, TDestination>;
+
             return target;
         }
 
         [TestMethod()]
         public void ConvertFileTest() {
-            Assert.Inconclusive("No appropriate type parameter is found to satisfies the type constraint(s) of TSo" +
-                    "urce. Please call ConvertFileTestHelper<TSource, TDestination>() with appropriat" +
-                    "e type parameters.");
+            ConvertFileTestHelper<DocXFile, TxtFile>();
         }
 
         /// <summary>
@@ -97,19 +97,18 @@ namespace LASI.UnitTests
         public void ConvertFileAsyncTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(); // TODO: Initialize to an appropriate value
-            Task<TDestination> expected = null; // TODO: Initialize to an appropriate value
-            Task<TDestination> actual;
-            actual = target.ConvertFileAsync();
+            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>();
+            TDestination actual;
+            actual = target.ConvertFileAsync().Result;
+            TDestination expected = new TxtFile(sourcePath.Substring(0, sourcePath.LastIndexOf('.')) + ".txt") as TDestination;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
         }
 
         [TestMethod()]
         public void ConvertFileAsyncTest() {
-            Assert.Inconclusive("No appropriate type parameter is found to satisfies the type constraint(s) of TSo" +
-                    "urce. Please call ConvertFileAsyncTestHelper<TSource, TDestination>() with appro" +
-                    "priate type parameters.");
+            ConvertFileAsyncTestHelper<DocXFile, TxtFile>();
         }
     }
 }

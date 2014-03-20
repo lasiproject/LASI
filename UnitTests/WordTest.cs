@@ -125,18 +125,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for NextWord
-        ///</summary>
-        [TestMethod()]
-        public void NextWordTest() {
-            Word target = CreateWord();
-            Word expected = new ToLinker();
-            Word actual;
-            target.NextWord = expected;
-            actual = target.NextWord;
-            Assert.AreEqual(expected, actual);
-        }
+
 
         /// <summary>
         ///A test for Document
@@ -151,18 +140,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for PreviousWord
-        ///</summary>
-        [TestMethod()]
-        public void PreviousWordTest() {
-            Word target = CreateWord();
-            Word expected = new Determiner("the");
-            Word actual;
-            target.PreviousWord = expected;
-            actual = target.PreviousWord;
-            Assert.AreEqual(expected, actual);
-        }
+
 
         /// <summary>
         ///A test for Text

@@ -450,7 +450,7 @@ namespace LASI
         /// <param name="second">The sequence to compare against.</param>
         /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
         public static bool SetEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second) {
-            return first.Intersect(second).None();
+            return first.Except(second).None() && second.Except(first).None();
         }
         /// <summary>
         /// Determines if the source collection contains the same elements as the second under the projection. Ignores duplicate elements and element ordering.

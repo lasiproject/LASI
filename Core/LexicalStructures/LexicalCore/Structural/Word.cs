@@ -62,11 +62,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
         /// </summary>
-        public Word NextWord { get; set; }
+        public Word NextWord { get; internal set; }
         /// <summary>
         /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
         /// </summary>
-        public Word PreviousWord { get; set; }
+        public Word PreviousWord { get; internal set; }
         /// <summary>
         /// Gets or the Phrase the word belongs to.
         /// </summary>
@@ -78,7 +78,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
-        public IPrepositional PrepositionOnLeft { get; set; }
+        public IPrepositional PrepositionOnLeft { get;  set; }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Right of the word.
         /// </summary>

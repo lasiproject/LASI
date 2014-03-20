@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <returns>True if the Verb is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
-            return !IsPossessive && Modality == null && Modifiers.None() && syns.Contains("is", caseIgnoringComp);
+            return !IsPossessive && Modality == null && AdverbialModifiers.None() && syns.Contains("is", caseIgnoringComp);
         }
 
 
@@ -207,7 +207,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or the collection of IAdverbial modifiers which modify the Verb.
         /// </summary>
-        public virtual IEnumerable<IAdverbial> Modifiers { get { return modifiers; } }
+        public virtual IEnumerable<IAdverbial> AdverbialModifiers { get { return modifiers; } }
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the Verb.
         /// </summary>

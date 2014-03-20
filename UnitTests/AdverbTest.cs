@@ -109,11 +109,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifiersTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
-            IEnumerable<IAdverbial> actual;
-            actual = target.Modifiers;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            string text = "unfothomably";
+            Adverb target = new Adverb(text);
+            IEnumerable<IAdverbial> actual = new[] { new Adverb("uncertainly"), new Adverb("possibly") };
+            foreach (var m in actual) { target.ModifyWith(m); }
+            foreach (var m in actual) { Assert.IsTrue(target.AdverbialModifiers.Contains(m) && m.Modifies == target); }
         }
 
         /// <summary>
@@ -121,11 +121,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
-            IAdverbial adv = null; // TODO: Initialize to an appropriate value
+            string text = "unfothomably";
+            Adverb target = new Adverb(text);
+            IAdverbial adv = new Adverb("uncertainly");
             target.ModifyWith(adv);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
+            target.ModifyWith(adv);
+            Assert.AreEqual(adv.Modifies, target);
         }
 
     }

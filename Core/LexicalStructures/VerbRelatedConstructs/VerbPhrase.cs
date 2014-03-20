@@ -59,7 +59,8 @@ namespace LASI.Core
             if (subject != null) {
                 subjects.Add(subject);
                 subject.SubjectOf = this;
-                foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
+                if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
+                foreach (var v in this.Words.OfVerb()) { v.BindSubject(subject); }
             }
         }
 
@@ -71,7 +72,7 @@ namespace LASI.Core
             if (directObject != null) {
                 directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
+                foreach (var v in this.Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive) {
                     foreach (var subject in this.Subjects) {
                         subject.AddPossession(directObject);
@@ -107,7 +108,7 @@ namespace LASI.Core
                 result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
-                result += Modifiers.Any() ? "\nModifiers: " + Modifiers.Format(s => s.Text + '\n') : string.Empty;
+                result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + '\n') : string.Empty;
                 result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
             }
             return result;
@@ -129,7 +130,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
-            return !IsPossessive && Modality == null && Modifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
+            return !IsPossessive && Modality == null && AdverbialModifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
         }
 
 
@@ -225,7 +226,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
-        public IEnumerable<IAdverbial> Modifiers {
+        public IEnumerable<IAdverbial> AdverbialModifiers {
             get {
                 return modifiers;
             }
@@ -233,7 +234,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IDescriptor which modifies, by way of the Verbal, its Subject.
         /// </summary>
-        public IDescriptor AdjectivalModifier { get; set; }
+        public IDescriptor PostpositiveDescriptor {
+            get { return postpositiveDescriptor; }
+            set { postpositiveDescriptor = value; foreach (var described in Subjects)described.BindDescriptor(value); }
+        }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
         /// <see cref="VerbForm"/>
@@ -293,6 +297,7 @@ namespace LASI.Core
         private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
         private bool? classifier = null;
         private bool? possessive = null;
+        private IDescriptor postpositiveDescriptor;
         #endregion
     }
 }

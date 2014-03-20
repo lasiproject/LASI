@@ -9,39 +9,73 @@ using LASI.Utilities;
 
 namespace LASI.Core.Analysis.LookupAndComparison.PatternMatching.LexicalSpecific.Experimental.Extractors
 {
-    class Extractor<T> where T : class, ILexical
+    abstract class Extractor<TLexical, TResult> where TLexical : class, ILexical
     {
-        internal Extractor(T value) { this.Value = value; }
 
-        public T Value { get; private set; }
+        internal Extractor(TLexical value) { this.Value = value; ResultValue = default(TResult); }
+
+        public TLexical Value { get; private set; }
+        public virtual TResult Result() { return ResultValue; }
+        public virtual TResult Result(TResult defaultValue) {
+            return defaultValue;
+        }
+        public virtual TResult Result(Func<TResult> defaultValueFactory) {
+            return defaultValueFactory();
+        }
+        public virtual TResult Result(Func<TLexical, TResult> defaultValueFactory) {
+            return (Value != null) ? defaultValueFactory(Value) : ResultValue;
+        }
+        public Extractor<TLexical, TResult> With<TPattern>(TResult result) where TPattern : class, ILexical {
+            if (!Accepted) { ResultValue = result; }
+            return this;
+        }
+
+        public virtual Extractor<TLexical, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
+            return this.With<TPattern>((v, s) => func(v));
+        }
+        public virtual Extractor<TLexical, TResult> With<TPattern>(Func<TPattern, string, TResult> func) where TPattern : class, ILexical {
+            if (!Accepted) {
+                var matched = Value as TPattern;
+                if (matched != null) {
+                    Accepted = true;
+                    ResultValue = func(matched, matched.Text);
+                }
+            }
+            return this;
+        }
+        protected bool Accepted { get; set; }
+
+        protected TResult ResultValue { get; set; }
     }
-    class WordExtractor<TR> : Extractor<Word>
+    class WordExtractor<TWord, TResult> : Extractor<TWord, TResult> where TWord : Word
     {
-        internal WordExtractor(Word value)
+        internal WordExtractor(TWord value)
             : base(value) { }
-        public WordExtractor<TR> Match<TP>(Func<TP, String, TR> exec) where TP : class, ILexical {
 
 
-            throw new NotImplementedException();
+
+    }
+    class PhraseExtractor<TPhrase, TResult> : Extractor<TPhrase, TResult> where TPhrase : Phrase
+    {
+        internal PhraseExtractor(TPhrase value)
+            : base(value) { }
+        public virtual PhraseExtractor<TPhrase, TResult> With<TPattern>(Func<TPattern, string, IEnumerable<Word>, TResult> func) where TPattern : class,ILexical {
+            if (!Accepted) {
+                var matched = Value as TPattern;
+                if (matched != null) {
+                    Accepted = true;
+                    ResultValue = func(matched, Value.Text, Value.Words);
+                }
+            }
+            return this;
         }
 
     }
-    class PhraseExtractor<TR> : Extractor<Phrase>
+    class ClauseExtractor<TClause, TResult> : Extractor<TClause, TResult> where TClause : Clause
     {
-        internal PhraseExtractor(Phrase value)
+        internal ClauseExtractor(TClause value)
             : base(value) { }
-
-        public PhraseExtractor<TR> Match<TP>(Func<TP, String, IEnumerable<Word>, TR> exec) where TP : class, ILexical {
-            throw new NotImplementedException();
-        }
-
-    }
-    class ClauseExtractor<TR> : Extractor<Clause>
-    {
-        internal ClauseExtractor(Clause value)
-            : base(value) { }
-
-        public ClauseExtractor<TR> Match<TP>(Func<TP, String, IEnumerable<Phrase>, TR> exec) where TP : class, ILexical {
+        public virtual ClauseExtractor<TClause, TResult> With<TPattern>(Func<TPattern, string, IEnumerable<Phrase>, TResult> func) where TPattern : class,ILexical {
             throw new NotImplementedException();
         }
 
