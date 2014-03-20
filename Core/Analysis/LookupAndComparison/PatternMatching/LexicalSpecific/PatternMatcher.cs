@@ -10,6 +10,9 @@ namespace LASI.Core
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
+    /// <see cref="LASI.Core.PatternMatching.Match{T}"/>
+    /// <seealso cref="LASI.Core.PatternMatching.Match{T, TResult}"/>
+    /// <seealso cref="LASI.Core.PatternMatching"/>
     ///<remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of performing subtype dependent operations which could not be described by traditional virtual method approaches in an expressive or practical manner.
@@ -40,7 +43,7 @@ namespace LASI.Core
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    /// 		.With&lt;IReferencer&gt;(r => r.ReferredTo.Weight)
+    ///         .With&lt;IReferencer&gt;(r => r.ReferredTo.Weight)
     ///     	.With&lt;IEntity&gt;(e => e.Weight)
     ///     	.With&lt;IVerbal&gt;(v => v.HasSubject()? v.Subject.Weight : 0)
     ///		.Result(1);	
@@ -69,6 +72,17 @@ namespace LASI.Core
     /// </code>
     /// </example>
     /// <para>
+    /// When a Yield clause is not applied, the Match Expression will not yield a value. Instead it will behave much as a Type driven switch statement. 
+    /// <example>
+    /// <code>
+    /// myLexical.Match()
+    ///         .With&lt;Phrase&gt;(p => Console.Write(&quot;Phrase: &quot;, p.Text))
+    ///		    .With&lt;Word&gt;(w => Console.Write(&quot;Word: &quot;, w.Text))
+    ///	    .Default(() => Console.Write(&quot;Not a Word or Phrase&quot;));
+    /// </code>
+    /// </example>
+    /// </para>
+    /// <para>
     /// * a: The visitor pattern provides statically type safe double dispatch, at the cost of increased code complexity and increased class coupling.
     /// b: As LASI is implemented using C# 5.0, it has access to the language's built in support for truly dynamic multi-methods with arbitrary numbers of arguments.
     /// However while experimenting with this approach, in a constrained scope and environment involving a fixed set of method overloads, this approach still had the drawbacks
@@ -89,6 +103,5 @@ namespace LASI.Core
         public static LASI.Core.PatternMatching.Match<T> Match<T>(this T value) where T : class, ILexical {
             return new LASI.Core.PatternMatching.Match<T>(value);
         }
-
     }
 }

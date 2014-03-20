@@ -161,7 +161,7 @@
     <Compile Include="LexicalStructures\LexicalCore\Behavioral\IPossesser.cs" />
     <Compile Include="LexicalStructures\LexicalCore\Behavioral\IQuantifer.cs" />
     <Compile Include="LexicalStructures\LexicalCore\Behavioral\IModalityModdifiable.cs" />
-    <Compile Include="Analysis\LookupAndComparison\Support\Exceptions\LexicalComparers.cs" />
+    <Compile Include="Analysis\LookupAndComparison\Support\LexicalComparers.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\AdverbLookup.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\NounMorpher.cs" />

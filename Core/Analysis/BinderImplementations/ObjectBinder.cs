@@ -36,7 +36,14 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Initializes a new instance of ObjectBinder class.
         /// </summary>
-        public ObjectBinder() { s0 = new S0(this); s1 = new S1(this); s2 = new S2(this); s3 = new S3(this); s4 = new S4(this); s5 = new S5(this); }
+        public ObjectBinder() {
+            s0 = new S0(this);
+            s1 = new S1(this);
+            s2 = new S2(this);
+            s3 = new S3(this);
+            s4 = new S4(this);
+            s5 = new S5(this);
+        }
 
         #region Methods
 
@@ -111,49 +118,44 @@ namespace LASI.Core.Binding
 
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                    .With<PrepositionalPhrase>(phr => {
-                        M.lastPrepositional = phr;
+                    .With<PrepositionalPhrase>(p => {
+                        M.lastPrepositional = p;
                         if (M.inputstream.Count > 1) { M.s0.Transition(Stream.Get()); }
                     })
-                    .With<VerbPhrase>(phr => new ObjectBinder().Bind(Stream.ToList().Prepend(phr)))
+                    .With<VerbPhrase>(v => new ObjectBinder().Bind(Stream.ToList().Prepend(v)))
                     .With<AdverbPhrase>(phr => {
                         M.bindingTarget.ModifyWith(phr);
-                        if (Stream.None)
+                        if (Stream.None) {
                             return;
+                        }
                         M.s0.Transition(Stream.Get());
                     })
-                    .With<ConjunctionPhrase>(phr => {
+                    .With<ConjunctionPhrase>(c => {
                         if (M.lastPrepositional != null) {
-                            phr.PrepositionOnLeft = M.lastPrepositional;
-                            M.lastPrepositional.ToTheRightOf = phr;
+                            c.PrepositionOnLeft = M.lastPrepositional;
+                            M.lastPrepositional.ToTheRightOf = c;
                         }
                         if (Stream.None) {
-                            if (!M.directFound)
-                                M.AssociateDirect();
-                            else
-                                M.AssociateIndirect();
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                             return;
                         }
                         M.s2.Transition(Stream.Get());
                     })
-                    .With<NounPhrase>(phr => {
+                    .With<NounPhrase>(n => {
                         if (M.lastPrepositional != null) {
-                            phr.PrepositionOnLeft = M.lastPrepositional;
-                            M.lastPrepositional.ToTheRightOf = phr;
-                            M.bindingTarget.AttachObjectViaPreposition(phr.PrepositionOnLeft);
+                            n.PrepositionOnLeft = M.lastPrepositional;
+                            M.lastPrepositional.ToTheRightOf = n;
+                            M.bindingTarget.AttachObjectViaPreposition(n.PrepositionOnLeft);
                         }
-                        M.entities.Push(phr);
+                        M.entities.Push(n);
                         if (Stream.None) {
-                            if (!M.directFound)
-                                M.AssociateDirect();
-                            else
-                                M.AssociateIndirect();
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                             return;
                         }
                         M.s2.Transition(Stream.Get());
                     })
-                    .With<AdjectivePhrase>(phr => {
-                        M.lastAdjectivals.Add(phr);
+                    .With<AdjectivePhrase>(a => {
+                        M.lastAdjectivals.Add(a);
                         if (M.inputstream.Any)
                             M.s1.Transition(Stream.Get());
                     })
@@ -184,25 +186,25 @@ namespace LASI.Core.Binding
 
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                    .With<VerbPhrase>(phr => {
-                        phr.PostpositiveDescriptor = M.lastAdjectivals.Last();
+                    .With<VerbPhrase>(v => {
+                        v.PostpositiveDescriptor = M.lastAdjectivals.Last();
                         M.lastAdjectivals.Clear();
                         M.s1.Transition(Stream.Get());
                     })
-                    .With<NounPhrase>(phr => {
-                        M.entities.Push(phr);
-                        M.BindBuiltupAdjectivePhrases(phr);
+                    .With<NounPhrase>(n => {
+                        M.entities.Push(n);
+                        M.BindBuiltupAdjectivePhrases(n);
                         if (Stream.None) {
                             if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                             return;
                         }
                         M.s2.Transition(Stream.Get());
                     })
-                    .With<PrepositionalPhrase>(phr => {
-                        M.lastPrepositional = phr;
+                    .With<PrepositionalPhrase>(p => {
+                        M.lastPrepositional = p;
                         M.s0.Transition(Stream.Get());
                     })
-                    .With<ConjunctionPhrase>(phr => M.lastConjunctive = phr)
+                    .With<ConjunctionPhrase>(c => M.lastConjunctive = c)
                 .Default(() => base.Transition(phrase));
             }
 
@@ -216,55 +218,53 @@ namespace LASI.Core.Binding
             }
 
             private void InternalBind(Phrase phrase) {
-                phrase.Match().
-                    With<ConjunctionPhrase>(phr => {
-                        phr.JoinedLeft = M.entities.Peek();
-                        M.lastConjunctive = phr;
+                phrase.Match()
+                    .With<ConjunctionPhrase>(c => {
+                        c.JoinedLeft = M.entities.Peek();
+                        M.lastConjunctive = c;
                         M.ConjunctNounPhrases.Add(M.entities.Peek());
                         if (Stream.None) {
-                            if (!M.directFound)
-                                M.AssociateDirect();
-                            else
-                                M.AssociateIndirect();
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                             return;
                         }
                         M.s3.Transition(Stream.Get());
-                    }).
-                    With<AdjectivePhrase>(phr => {
+                    })
+                    .With<AdjectivePhrase>(a => {
                         M.AssociateIndirect();
                         M.s3.Transition(Stream.Get());
-                    }).
-                    With<AdverbPhrase>(phr => {
-                        M.bindingTarget.ModifyWith(phr);
+                    })
+                    .With<AdverbPhrase>(a => {
+                        M.bindingTarget.ModifyWith(a);
                         foreach (var e in M.entities) {
-                            if (!M.directFound)
+                            if (!M.directFound) {
                                 M.bindingTarget.BindDirectObject(e);
-                            else
+                            } else {
                                 M.bindingTarget.BindIndirectObject(e);
+                            }
                         }
                         if (Stream.Any) { M.s0.Transition(Stream.Get()); }
                     })
-                    .With<VerbPhrase>(phr => {
+                    .With<VerbPhrase>(v => {
                         InfinitivePhrase infinitive = new InfinitivePhrase(
                             phrase.Words.Concat(
                             phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).AllWords()));
                         M.directObject = infinitive;
                     })
-                    .With<IPrepositional>(phr => {
+                    .With<IPrepositional>(p => {
                         foreach (var e in M.entities) { M.bindingTarget.BindDirectObject(e); }
-                        M.lastPrepositional = phr;
+                        M.lastPrepositional = p;
                         M.entities.Last().PrepositionOnRight = M.lastPrepositional;
-                        phr.ToTheLeftOf = M.entities.Last();
+                        p.ToTheLeftOf = M.entities.Last();
                         M.entities.Clear();
                         M.directFound = true;
                         M.ConjunctNounPhrases.Clear();
                         M.s0.Transition(Stream.Get());
                     })
-                    .With<NounPhrase>(phr => {
+                    .With<NounPhrase>(n => {
                         foreach (var e in M.entities) { M.bindingTarget.BindIndirectObject(e); }
                         M.entities.Clear();
                         M.ConjunctNounPhrases.Clear();
-                        M.entities.Push(phr);
+                        M.entities.Push(n);
                         if (Stream.None) {
                             M.AssociateDirect();
                             return;
@@ -303,25 +303,19 @@ namespace LASI.Core.Binding
                 .With<AdjectivePhrase>(phr => {
                     M.lastAdjectivals.Add(phr);
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
                     M.s4.Transition(Stream.Get());
                 })
-                .With<NounPhrase>(phr => {
-                    M.entities.Push(phr);
-                    M.ConjunctNounPhrases.Add(phr);
+                .With<NounPhrase>(n => {
+                    M.entities.Push(n);
+                    M.ConjunctNounPhrases.Add(n);
                     if (M.lastConjunctive != null) {
-                        M.lastConjunctive.JoinedRight = phr;
+                        M.lastConjunctive.JoinedRight = n;
                     }
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
                     M.s2.Transition(Stream.Get());
@@ -343,29 +337,21 @@ namespace LASI.Core.Binding
             }
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                .With<NounPhrase>(phr => {
-                    M.ConjunctNounPhrases.Add(phr);
-                    M.entities.Push(phr);
-                    M.BindBuiltupAdjectivePhrases(phr);
+                .With<NounPhrase>(n => {
+                    M.ConjunctNounPhrases.Add(n);
+                    M.entities.Push(n);
+                    M.BindBuiltupAdjectivePhrases(n);
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
-
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
                     M.s2.Transition(Stream.Get());
                 })
-                .With<ConjunctionPhrase>(phr => {
-                    phr.JoinedLeft = M.lastAdjectivals.Last();
-                    M.lastConjunctive = phr;
+                .With<ConjunctionPhrase>(c => {
+                    c.JoinedLeft = M.lastAdjectivals.Last();
+                    M.lastConjunctive = c;
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
-
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
 
@@ -388,28 +374,22 @@ namespace LASI.Core.Binding
 
             private void InternalBind(Phrase phrase) {
                 phrase.Match()
-                .With<AdjectivePhrase>(phr => {
-                    M.lastAdjectivals.Add(phr);
+                .With<AdjectivePhrase>(a => {
+                    M.lastAdjectivals.Add(a);
                     M.lastConjunctive.JoinedRight = phrase;
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
                     M.s4.Transition(Stream.Get());
                 })
-                .With<NounPhrase>(phr => {
-                    M.entities.Push(phr);
-                    M.ConjunctNounPhrases.Add(phr);
-                    M.lastConjunctive.JoinedRight = phr;
-                    M.BindBuiltupAdjectivePhrases(phr);
+                .With<NounPhrase>(n => {
+                    M.entities.Push(n);
+                    M.ConjunctNounPhrases.Add(n);
+                    M.lastConjunctive.JoinedRight = n;
+                    M.BindBuiltupAdjectivePhrases(n);
                     if (Stream.None) {
-                        if (!M.directFound)
-                            M.AssociateDirect();
-                        else
-                            M.AssociateIndirect();
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
                         return;
                     }
                     M.s2.Transition(Stream.Get());
@@ -419,8 +399,6 @@ namespace LASI.Core.Binding
 
             public S5(ObjectBinder machine) : base(machine, "s5") { }
         }
-
-
         abstract class State
         {
             protected State(ObjectBinder machine, string stateName) { M = machine; Stream = machine.inputstream; StateName = stateName; }
@@ -432,7 +410,6 @@ namespace LASI.Core.Binding
             protected string StateName { get; private set; }
             public ObjectBinder M { get; private set; }
             public PhraseStackWrapper Stream { get; set; }
-
         }
         #endregion
 
