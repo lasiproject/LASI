@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Interop.Reporting
 {
+    /// <summary>
+    /// Contains numeric and textual data related to an event.
+    /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
     public abstract class ReportEventArgs : EventArgs

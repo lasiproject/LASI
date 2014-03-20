@@ -9,12 +9,12 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
+    /// <summary>
+    /// Contains methods which compute and yield the top results from a document based on simple, naive heuristics.
+    /// </summary>
     public static class NaiveResultSelector
     {
-        #region General Chart Building Methods
 
-
-        #endregion
         public static IEnumerable<KeyValuePair<string, float>> GetTopResultsByVerbal(Document doc) {
             var data = GetVerbWiseRelationships(doc);
             return from svs in data
@@ -84,34 +84,34 @@ namespace LASI.Core
 
 
 
-        /// <summary>
-        /// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
-        /// The resulting sequence is suitable for direct insertion into a DataGrid.
-        /// </summary>
-        /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
-        /// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
-        internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
-            return from e in elementsToConvert.Distinct()
-                   orderby e.CombinedWeight
-                   select new
-                   {
-                       Subject = e.Subject != null ? e.Subject.Text : string.Empty,
-                       Verbal = e.Verbal != null ?
-                                (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
-                                + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
-                                + e.Verbal.Text + (e.Verbal.AdverbialModifiers.Any() ? " (adv)> "
-                                + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)) : string.Empty) :
-                                string.Empty,
-                       Direct = e.Direct != null ?
-                                (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
-                                : string.Empty + e.Direct.Text) :
-                                string.Empty,
-                       Indirect = e.Indirect != null ?
-                                (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
-                                + e.Indirect.Text :
-                                string.Empty
+        ///// <summary>
+        ///// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
+        ///// The resulting sequence is suitable for direct insertion into a DataGrid.
+        ///// </summary>
+        ///// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
+        ///// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
+        //internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
+        //    return from e in elementsToConvert.Distinct()
+        //           orderby e.CombinedWeight
+        //           select new
+        //           {
+        //               Subject = e.Subject != null ? e.Subject.Text : string.Empty,
+        //               Verbal = e.Verbal != null ?
+        //                        (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
+        //                        + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
+        //                        + e.Verbal.Text + (e.Verbal.AdverbialModifiers.Any() ? " (adv)> "
+        //                        + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)) : string.Empty) :
+        //                        string.Empty,
+        //               Direct = e.Direct != null ?
+        //                        (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
+        //                        : string.Empty + e.Direct.Text) :
+        //                        string.Empty,
+        //               Indirect = e.Indirect != null ?
+        //                        (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
+        //                        + e.Indirect.Text :
+        //                        string.Empty
 
-                   };
-        }
+        //           };
+        //}
     }
 }

@@ -30,7 +30,9 @@ namespace LASI.Core
             get;
             protected set;
         }
-
+        /// <summary>
+        /// Gets or sets the Lexical construct which is subordinated by the SubordinateClauseBeginPhrase.
+        /// </summary>
         public ILexical Subordinates { get; set; }
     }
 }

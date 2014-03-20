@@ -90,7 +90,9 @@ namespace LASI.Core.Heuristics
 
         private bool boolean;
         private double rational;
-
+        /// <summary>
+        /// Returns the rational value representing the degree of the determined for the SimilarityRatio.
+        /// </summary>
         public double ActualRatio {
             get { return rational; }
         }

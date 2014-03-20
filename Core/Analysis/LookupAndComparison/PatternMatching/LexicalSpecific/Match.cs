@@ -358,6 +358,11 @@ namespace LASI.Core.PatternMatching
     public class PredicatedMatch<T> : PredicatedMatchBase<T> where T : class, ILexical
     {
 
+        /// <summary>
+        /// Initializes a new instance of the PredicatedMatch&lt;T&gt; class which will match attempt to match against the value of supplied Match if accepted argument is true.
+        /// </summary>
+        /// <param name="accepted">Indicates if match operations are to be tested. If false, Then expressions will have no effect and simply return the original match.</param>
+        /// <param name="inner">The match which has been predicated.</param>
         public PredicatedMatch(bool accepted, Match<T> inner)
             : base(accepted) {
             this.inner = inner;

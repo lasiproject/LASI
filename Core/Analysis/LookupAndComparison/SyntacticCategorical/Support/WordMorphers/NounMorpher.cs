@@ -32,8 +32,13 @@ namespace LASI.Core.Heuristics.Morphemization
             return TryComputeConjugations(nounForm);
 
         }
-        public IEnumerable<string> GetLexicalForms(Noun search) {
-            return GetLexicalForms(search.Text);
+        /// <summary>
+        /// Gets all forms of the noun root.
+        /// </summary>
+        /// <param name="noun">The root of a noun as a string.</param>
+        /// <returns>All forms of the noun root.</returns>
+        public IEnumerable<string> GetLexicalForms(Noun noun) {
+            return GetLexicalForms(noun.Text);
         }
 
         private IEnumerable<string> TryComputeConjugations(string nounForm) {
