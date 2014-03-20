@@ -1,5 +1,5 @@
 ﻿using LASI.Core.Binding;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using LASI.Core.Heuristics;
 using LASI.Core.Heuristics.Morphemization;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

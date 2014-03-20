@@ -1,5 +1,5 @@
 ﻿using System;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

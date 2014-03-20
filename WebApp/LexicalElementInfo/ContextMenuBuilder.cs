@@ -1,5 +1,5 @@
 ﻿using LASI.Core;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using LASI.Utilities;
 using LASI.ContentSystem;
 using System;

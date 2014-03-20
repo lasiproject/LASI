@@ -1,7 +1,7 @@
 ﻿
 using LASI.Core.DocumentStructures;
 using LASI.Utilities;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;

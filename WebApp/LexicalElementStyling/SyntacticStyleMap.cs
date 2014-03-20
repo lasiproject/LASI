@@ -9,7 +9,7 @@ using WebMatrix.WebData;
 using LASI.Core;
 using System.Web.UI.WebControls;
 using System.Drawing;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 
 namespace LASI.WebApp
 {

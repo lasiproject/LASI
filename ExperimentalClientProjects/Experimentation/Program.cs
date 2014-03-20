@@ -4,7 +4,7 @@ using LASI.Core.Binding;
 using LASI.Core.DocumentStructures;
 using LASI.Core.Heuristics;
 using LASI.Core.Heuristics.Morphemization;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;

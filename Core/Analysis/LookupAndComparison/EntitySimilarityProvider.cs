@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Heuristics
 {

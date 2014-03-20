@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Heuristics
 {

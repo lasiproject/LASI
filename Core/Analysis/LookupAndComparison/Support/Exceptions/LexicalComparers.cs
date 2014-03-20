@@ -1,6 +1,6 @@
 ﻿using LASI;
 using LASI.Core.Heuristics;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;

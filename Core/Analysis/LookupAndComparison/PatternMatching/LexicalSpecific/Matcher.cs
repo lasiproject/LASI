@@ -49,9 +49,23 @@ namespace LASI.Core
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///			.With&lt;Phrase&gt;(p => p.Words.Average(w => w.Weight)
+    ///			.With&lt;Phrase&gt;(p => p.Words.Average(w => w.Weight))
     ///			.With&lt;Word&gt;(w => w.Weight)
     ///		.Result();
+    /// </code>
+    /// </example>
+    /// <para>
+    /// Patterns may be nested arbitrarily as in the following example
+    /// </para>
+    /// <example>
+    /// <code>
+    /// var weight = myLexical.Match().Yield&lt;double&gt;()
+    ///         .With&lt;IReferencer&gt;(r => r.ReferredTo
+    ///             .Match().Yield&lt;double&gt;()
+    ///                 .With&lt;Phrase&gt;(p => p.Words.OfNoun().Average(w => w.Weight))
+    ///             .Result())
+    ///         .With&lt;Noun&gt;(n => n.Weight)
+    ///     .Result();
     /// </code>
     /// </example>
     /// <para>
@@ -70,10 +84,10 @@ namespace LASI.Core
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.
         /// </summary> 
-        /// <param name="value">The ILexical value to match with.</param>
+        /// <param name="value">The Lexical value to match with.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
-        public static LASI.Core.Patternization.Match<T> Match<T>(this T value) where T : class, ILexical {
-            return new LASI.Core.Patternization.Match<T>(value);
+        public static LASI.Core.PatternMatching.Match<T> Match<T>(this T value) where T : class, ILexical {
+            return new LASI.Core.PatternMatching.Match<T>(value);
         }
 
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics.Morphemization;
-using LASI.Core.Patternization;
+using LASI.Core.PatternMatching;
 using LASI.Utilities;
 
 namespace LASI.Core

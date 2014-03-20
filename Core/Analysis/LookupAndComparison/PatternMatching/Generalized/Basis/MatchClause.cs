@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 ///// <summary>
 ///// Contains constructs for type based pattern matching over any Type.
 ///// </summary>
-namespace LASI.Core.Patternization.Generalized
+namespace LASI.Core.PatternMatching.Generalized
 {
     class MatchClause<TResult>
     {

@@ -1,4 +1,4 @@
-﻿using LASI.Core.Patternization;
+﻿using LASI.Core.PatternMatching;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
 using System;
