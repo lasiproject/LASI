@@ -22,24 +22,29 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Initializes a new instances of the Punctuation class.
+        /// Initializes a new instance of the Punctuator class.
         /// </summary>
-        /// <param name="punctuation">Text which is an alias for a punctuator character. e.g. "LEFT_SQUARE_BRACKET"</param>
+        /// <param name="punctuation">The single character string which comprises the Punctuator"</param>
         public Punctuator(string punctuation)
             : base(punctuation) {
-            AliasString = punctuation;
-            ActualCharacter = PunctuationAliasMap.GetCharForAliasString(AliasString);
-
+            //if (punctuation.Length != 1) {
+            //    throw new ArgumentException(
+            //        string.Format("The supplied string must only contain single character\nprovided value: {0}", punctuation),
+            //        "punctuation"
+            //    );
+            //}
+            ActualCharacter = punctuation[0];
+            AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
         }
         /// <summary>
-        /// Gets the literal punctuation character.
+        /// Gets the literal punctuation character of the Punctuator.
         /// </summary>
         public char ActualCharacter {
             get;
             protected set;
         }
         /// <summary>
-        /// Gets the alias string corresponding to the punctuation symbol.
+        /// Gets the alias string corresponding to the Punctuator.
         /// </summary>
         public string AliasString {
             get;
@@ -60,8 +65,7 @@ namespace LASI.Core
             };
 
             public static char GetCharForAliasString(string alias) {
-                char result;
-                return aliasMap.TryGetValue(alias, out result) ? result : ' ';
+                return aliasMap[alias];
             }
             public static string GetAliasStringForChar(char actual) {
 
@@ -73,17 +77,6 @@ namespace LASI.Core
             }
 
         }
-        //public override int GetHashCode() {
-        //    return ActualCharacter.GetHashCode();
-        //}
-        //public override bool Equals(object obj) {
-        //    return ReferenceEquals(this, obj) || this == obj as Punctuator;
-        //}
-        //public static bool operator ==(Punctuator first, Punctuator second) {
-        //    return first.ActualCharacter == second.ActualCharacter;
-        //}
-        //public static bool operator !=(Punctuator first, Punctuator second) {
-        //    return !(first == second);
-        //}
+
     }
 }

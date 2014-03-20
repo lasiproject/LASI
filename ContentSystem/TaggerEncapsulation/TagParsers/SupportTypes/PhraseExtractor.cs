@@ -8,14 +8,13 @@ namespace LASI.ContentSystem.TaggerEncapsulation
 {
     internal class PhraseExtractor
     {
-        public TextNode ExtractAndConsume(ref string phraseString)
-        {
+        public TextNode ExtractAndConsume(ref string phraseString) {
             phraseString = phraseString.Trim();
             var tagStart = 0;
             var tagEnd = phraseString.Substring(tagStart).IndexOf(" (");
             if (tagEnd == -1 || tagEnd < tagStart) {
-                var tt = phraseString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var taggedPair = new TextTagPair(elementText: tt[1], elementTag: tt[0]);
+                var tt = phraseString.SplitRemoveEmpty(' ');
+                var taggedPair = new TaggedText(text: tt[1], tag: tt[0]);
                 phraseString = "";
                 return new TextNode(taggedPair.Tag + ":  " + taggedPair.Text);
             }
@@ -26,14 +25,14 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             var innerText = phraseString.Substring(tagEnd + 1, innerTextLen);
             if (innerText.Count(c => c == '(') > 0) {
                 phraseString = phraseString.Substring(tagLength + innerText.Length).Trim();
-                var taggedPair = new TextTagPair(elementTag: tag, elementText: innerText);
+                var taggedPair = new TaggedText(tag: tag, text: innerText);
                 var result = new TextNode(taggedPair.Tag + ":  " + taggedPair.Text);
                 result.AppentChild(ExtractAndConsume(ref innerText));
                 return result;
             } else {
                 phraseString = phraseString.Substring(innerTextEnd + 1).Trim();
-                var taggedPair = new TextTagPair(elementTag: "X", elementText: string.Format("({0} {1})", tag, innerText));
-                var result = new TextNode(taggedPair.Tag + ":  " + taggedPair.Text);
+                var tagged = new TaggedText(tag: "X", text: string.Format("({0} {1})", tag, innerText));
+                var result = new TextNode(tagged.Tag + ":  " + tagged.Text);
                 result.AppentChild(ExtractAndConsume(ref innerText));
                 return result;
             }
@@ -42,30 +41,25 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     internal class TextNode
     {
 
-        public TextNode(string text)
-        {
+        public TextNode(string text) {
             Text = text;
             Children = new List<TextNode>();
         }
-        public override string ToString()
-        {
+        public override string ToString() {
             string result = Text;
             foreach (var c in Children)
                 Text += c.ToString();
             return result;
         }
 
-        public void AppentChild(TextNode child)
-        {
+        public void AppentChild(TextNode child) {
             Children.Add(child);
         }
-        public string Text
-        {
+        public string Text {
             get;
             private set;
         }
-        public List<TextNode> Children
-        {
+        public List<TextNode> Children {
             get;
             private set;
         }

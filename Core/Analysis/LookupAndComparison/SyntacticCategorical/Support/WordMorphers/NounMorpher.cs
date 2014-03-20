@@ -103,7 +103,7 @@ namespace LASI.Core.Heuristics.Morphemization
         }
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
-            var kvstr = exceptionLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var kvstr = exceptionLine.SplitRemoveEmpty(' ');
             return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);

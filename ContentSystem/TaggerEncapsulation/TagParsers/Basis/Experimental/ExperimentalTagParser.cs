@@ -86,7 +86,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
         }
 
         private IEnumerable<string> BreakSentences(string paraText) {
-            return paraText.Split(new[] { "(TOP" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable().Select(s => s.Trim());
+            return paraText.SplitRemoveEmpty("(TOP").AsEnumerable().Select(s => s.Trim());
         }
 
         #region Fields

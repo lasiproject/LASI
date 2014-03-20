@@ -53,7 +53,7 @@ namespace LASI.Core.Heuristics
 
             IEnumerable<SetReference> referencedSets =
                 from Match match in POINTER_REGEX.Matches(line)
-                let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                let split = match.Value.SplitRemoveEmpty(' ')
                 where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 

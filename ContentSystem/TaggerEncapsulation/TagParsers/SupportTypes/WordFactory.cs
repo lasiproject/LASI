@@ -31,7 +31,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="ttp">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
-        public Word Create(TextTagPair ttp) {
+        public Word Create(TaggedText ttp) {
             if (string.IsNullOrWhiteSpace(ttp.Text)) { return null; }
             try {
                 var wordCreator = context[ttp.Tag];

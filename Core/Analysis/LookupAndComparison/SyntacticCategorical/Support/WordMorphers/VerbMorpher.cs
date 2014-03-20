@@ -84,8 +84,8 @@ namespace LASI.Core.Heuristics.Morphemization
 
         private static void LoadExceptionFile() {
             using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc")) {
-                var exceptions = from line in reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                                 select line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Replace('_', '-'));
+                var exceptions = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                                 select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-'));
 
                 exceptionData = new ConcurrentDictionary<string, IEnumerable<string>>(
                     from items in exceptions

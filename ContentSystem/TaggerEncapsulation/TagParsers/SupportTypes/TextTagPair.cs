@@ -8,16 +8,15 @@ namespace LASI.ContentSystem
 {
     /// <summary>
     /// Holds a pair of strings representing a piece of natural language text and its NLP word tag.
-    /// Note, use with the elegant object initializer sytnax when creating an instance. 
     /// </summary>
-    internal struct TextTagPair
+    struct TaggedText
     {
         /// <summary>
-        /// Initializes a new instance of the TextTagPair structure from the provided text string and pos tag string.
+        /// Initializes a new instance of the TaggedText structure from the provided text string and pos tag string.
         /// </summary>
-        /// <param name="elementText">The text content string of the element.</param>
-        /// <param name="elementTag">The pos tag string of the element.</param>
-        public TextTagPair(string elementText, string elementTag) : this() { Text = elementText; Tag = elementTag.Trim(); }
+        /// <param name="text">The text content string of the element.</param>
+        /// <param name="tag">The pos tag string of the element. Any whitespace will be removed.</param>
+        public TaggedText(string text, string tag) : this() { Text = text; Tag = tag.Trim(); }
 
         /// <summary>
         /// Gets the english text of a tagged word.
@@ -27,7 +26,7 @@ namespace LASI.ContentSystem
             private set;
         }
         /// <summary>
-        /// Gets the text of the pos tag associated with the word.
+        /// Gets the text of the pos tag associated with the piece of text.
         /// </summary>
         public string Tag {
             get;

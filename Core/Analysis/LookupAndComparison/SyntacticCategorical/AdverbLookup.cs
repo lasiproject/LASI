@@ -27,7 +27,7 @@ namespace LASI.Core.Heuristics
         internal override void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
 
-                foreach (var line in reader.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(HEADER_LENGTH)) {
+                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(HEADER_LENGTH)) {
                     try { allSets.Add(CreateSet(line)); }
                     catch (KeyNotFoundException) { }
                 }
@@ -42,7 +42,7 @@ namespace LASI.Core.Heuristics
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
-                                 let split = match.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 let split = match.Value.SplitRemoveEmpty(' ')
                                  where split.Count() > 1 && interSetMap.ContainsKey(split[0])
                                  select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 

@@ -72,7 +72,7 @@ namespace LASI.ContentSystem
                                  select s) {
                 var parsedClauses = new List<Clause>();
                 var parsedPhrases = new List<Phrase>();
-                var chunks = from chunk in sent.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries)
+                var chunks = from chunk in sent.SplitRemoveEmpty("[", "]")
                              let s = chunk.Trim()
                              where s.IsNotWsOrNull()
                              select s;
@@ -82,7 +82,7 @@ namespace LASI.ContentSystem
                     if (s.IsNotWsOrNull() && s.Contains('/')) {
                         char token = SkipToNextElement(s);
                         if (token == ' ') {
-                            var currentPhrase = ParsePhrase(new TextTagPair(elementText: s.Substring(s.IndexOf(' ')), elementTag: s.Substring(0, s.IndexOf(' '))));
+                            var currentPhrase = ParsePhrase(new TaggedText(text: s.Substring(s.IndexOf(' ')), tag: s.Substring(0, s.IndexOf(' '))));
                             if (currentPhrase.Words.Any(w => w.Text.IsNotWsOrNull()))
                                 parsedPhrases.Add(currentPhrase);
 
@@ -169,7 +169,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the start and its Tag.</param>
         /// <returns>A LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it.</returns>
-        protected virtual Phrase ParsePhrase(TextTagPair taggedPhraseElement) {
+        protected virtual Phrase ParsePhrase(TaggedText taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = CreateWords(taggedPhraseElement.Text);
             return parsePhrase(phraseTag, words);
@@ -179,7 +179,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="taggedPhraseElement">The TextTagPair instance which contains the content of the Phrase and its Tag.</param>
         /// <returns>A Task&lt;string&gt; which, when awaited, yields a LASI.Algorithm.Phrase instance corresponding to the given phrase tag and containing the words within it. </returns>
-        protected virtual async Task<Phrase> ParsePhraseAsync(TextTagPair taggedPhraseElement) {
+        protected virtual async Task<Phrase> ParsePhraseAsync(TaggedText taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var words = await CreateWordsAsync(taggedPhraseElement.Text);
             return parsePhrase(phraseTag, words);
@@ -199,7 +199,7 @@ namespace LASI.ContentSystem
                 return new UnknownPhrase(words);
             }
         }
-        protected virtual Func<Phrase> CreatePhraseExpression(TextTagPair taggedPhraseElement) {
+        protected virtual Func<Phrase> CreatePhraseExpression(TaggedText taggedPhraseElement) {
             var phraseTag = taggedPhraseElement.Tag.Trim();
             var wordExprs = CreateWordExpressions(taggedPhraseElement.Text);
             try {
@@ -232,7 +232,7 @@ namespace LASI.ContentSystem
 
             var wordMapper = new WordFactory(wordTagset);
             foreach (var element in GetTaggedWordStrings(text)) {
-                TextTagPair? textTagPair = wordExtractor.Extract(element);
+                TaggedText? textTagPair = wordExtractor.Extract(element);
                 if (textTagPair.HasValue) {
                     try {
                         parsedWords.Add(wordMapper.Create(textTagPair.Value));
@@ -247,7 +247,7 @@ namespace LASI.ContentSystem
         }
 
         private static string[] GetTaggedWordStrings(string wordData) {
-            var elements = wordData.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            var elements = wordData.SplitRemoveEmpty(' ', '\r', '\n', '\t');
             return elements;
         }
         /// <summary>
@@ -264,7 +264,7 @@ namespace LASI.ContentSystem
             var posExtractor = new TaggedWordExtractor();
             var tagParser = new WordFactory(wordTagset);
             foreach (var element in elements) {
-                TextTagPair? textTagPair = posExtractor.Extract(element);
+                TaggedText? textTagPair = posExtractor.Extract(element);
                 if (textTagPair.HasValue) {
                     try {
                         wordExpressions.Add(new Lazy<Word>(() => tagParser.Create(textTagPair.Value)));

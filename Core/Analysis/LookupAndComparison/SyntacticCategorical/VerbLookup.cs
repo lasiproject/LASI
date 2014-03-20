@@ -45,7 +45,7 @@ namespace LASI.Core.Heuristics
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match M in POINTER_REGEX.Matches(line)
-                                 let split = M.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 let split = M.Value.SplitRemoveEmpty(' ')
                                  where split.Count() > 1
                                  select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 
