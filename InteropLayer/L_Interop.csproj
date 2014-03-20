@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalysisProgressReportEventArgs.cs" />
+    <Compile Include="ProgressReportEventArgs.cs" />
     <Compile Include="ISyntacticColorizer.cs" />
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="AnalysisController.cs" />

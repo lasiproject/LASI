@@ -13,7 +13,7 @@ namespace LASI.Core
     /// <see cref="DocumentStructures.Document"/>
     /// <seealso cref="DocumentStructures.Sentence"/>
     /// <seealso cref="DocumentStructures.Paragraph"/>
-    public static partial class LASIEnumerable
+    public static partial class LexicalEnumerable
     {
         #region Sequential Implementations
 

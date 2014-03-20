@@ -10,7 +10,7 @@ namespace LASI.Core
     /// Defines extension methods for sequences of ILexical instances which are in themselves sequences of ILexical instances of arbitrary recursive depth.
     /// </summary>
     /// <see cref="ILexical"/>
-    public static partial class LASIEnumerable
+    public static partial class LexicalEnumerable
     {
         /// <summary>
         /// Returns a recursively defined enumerable collection which, when enumerated, will yield the members of each subsequence, along with the element providing it, in turn.

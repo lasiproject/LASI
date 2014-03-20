@@ -12,7 +12,7 @@ namespace LASI.Core
     /// Defines extension methods for sequences of Word instances.
     /// </summary>
     /// <see cref="Word"/>
-    public static partial class LASIEnumerable
+    public static partial class LexicalEnumerable
     {
         #region Sequential Implementations
 

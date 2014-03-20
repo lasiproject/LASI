@@ -33,7 +33,7 @@ namespace LASI.Interop
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
             AttachProxyLookupLoadingHandlers();
-            }
+        }
 
         private void AttachProxyLookupLoadingHandlers() {
             Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new ProgressReportEventArgs("Loading " + e.Message, 1.5)); };
@@ -65,7 +65,7 @@ namespace LASI.Interop
         }
 
         /// <summary>
-        /// Removes the proxy event handlers from the associated LASI.Core.Heuristics.Lookup events.
+        /// Removes the proxy event handlers from the associated LASI.Core.Heuristics.Lookup events.    
         /// This allows the AnalysisController to be garbage collected transparently.
         /// </summary>
         /// <see cref="LASI.Core.Heuristics.Lookup"/>

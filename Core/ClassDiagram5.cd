@@ -215,7 +215,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LASI.Core.LASIEnumerable" Collapsed="true">
+  <Class Name="LASI.Core.LexicalEnumerable" Collapsed="true">
     <Position X="79" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAGQZAAEAQQGAAQAghEEIAQAQhAAgiEEShHAQEQgCA=</HashCode>
@@ -484,7 +484,7 @@
     <Position X="4.5" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EgQQAAgAAAAAgAAEBCAAAAAAACAAAAACIQAACAAgAAA=</HashCode>
-      <FileName>LexicalCore\Structural\Clause.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Structural\Clause.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -499,7 +499,7 @@
     <Position X="20.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EhAAABAAAAAAAAAEBCgCAAgAACAAAAAKIQAACAAgAAA=</HashCode>
-      <FileName>LexicalCore\Structural\Phrase.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Structural\Phrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -523,7 +523,7 @@
     <Position X="38" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EgAQABAAQAAAAAAEBCAAAAAAACAAAAACIRAACAAAAAA=</HashCode>
-      <FileName>LexicalCore\Structural\Word.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Structural\Word.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -668,14 +668,14 @@
     <Position X="75.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
-      <FileName>Experimental\ObjectBinderV2.cs</FileName>
+      <FileName>Analysis\BinderImplementations\Experimental\ObjectBinderV2.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Core.Binding.Experimental.PreBinder" Collapsed="true">
     <Position X="80.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Experimental\PreBinder.cs</FileName>
+      <FileName>Analysis\BinderImplementations\Experimental\PreBinder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LASI.Core.Binding.Experimental.AggregateNounPhrase" Collapsed="true" BaseTypeListCollapsed="true">
@@ -917,7 +917,7 @@
   <Class Name="LASI.Core.Heuristics.Morphemization.NounMorpher" Collapsed="true">
     <Position X="72" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAADIUAAAAMAAAAAQAAAAA=</HashCode>
+      <HashCode>ACAAAAAAAAAAAAAAAAAABAAADIUAAAAMAAAAAQAAAAA=</HashCode>
       <FileName>Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\NounMorpher.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -991,14 +991,14 @@
     <Position X="26.25" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IAdverbial.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IAdverbial.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IAdverbialModifiable" Collapsed="true">
     <Position X="47.25" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IAdverbialModifiable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IAdverbialModifiable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IConjunctive" Collapsed="true">
@@ -1040,56 +1040,56 @@
     <Position X="10.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IDescribable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IDescribable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IEntity" Collapsed="true">
     <Position X="19.5" Y="14.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IEntity.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IEntity.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IPossessable" Collapsed="true">
     <Position X="17.25" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IPossessable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IPossessable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IPossesser" Collapsed="true">
     <Position X="28.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IPossesser.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IPossesser.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IQuantifier" Collapsed="true">
     <Position X="30.75" Y="14.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IQuantifer.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IQuantifer.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IQuantifiable" Collapsed="true">
     <Position X="30.75" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IQuantifiable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IQuantifiable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IReferenceable" Collapsed="true">
     <Position X="2.5" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IReferenceable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IReferenceable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IReferencer" Collapsed="true">
     <Position X="18.5" Y="16.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IReferencer.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IReferencer.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.ISimpleGendered" Collapsed="true">
@@ -1103,7 +1103,7 @@
     <Position X="28.5" Y="14.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IWeakPossessor.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IWeakPossessor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IDescriptor" Collapsed="true">
@@ -1138,63 +1138,63 @@
     <Position X="20.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAABCAAAAAAACAAAAAAAQAACAAAAAA=</HashCode>
-      <FileName>LexicalCore\Structural\ILexical.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Structural\ILexical.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IDirectObjectTaker" Collapsed="true">
     <Position X="38.25" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAQAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IDirectObjectTaker.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IDirectObjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IInderectObjectTaker" Collapsed="true">
     <Position X="40.5" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAABAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IInderectObjectTaker.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IInderectObjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IModalityModifiable" Collapsed="true">
     <Position X="42.75" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IModalityModdifiable.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IModalityModdifiable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.ISubjectTaker" Collapsed="true">
     <Position X="45" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\ISubjectTaker.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\ISubjectTaker.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IVerbal" Collapsed="true">
     <Position X="22.75" Y="14.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAERAQAAAICAAAAAABAAAoAAAAAAAAAAAACAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IVerbal.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IVerbal.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IVerbalObject" Collapsed="true">
     <Position X="5.25" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IVerbalObject.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IVerbalObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.IVerbalSubject" Collapsed="true">
     <Position X="21.75" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalCore\Behavioral\IVerbalSubject.cs</FileName>
+      <FileName>LexicalStructures\LexicalCore\Behavioral\IVerbalSubject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.Binding.Experimental.INestableLexical&lt;TLexical&gt;" Collapsed="true">
     <Position X="19.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Experimental\INestableLexical.cs</FileName>
+      <FileName>LexicalStructures\ExperimentalTypes\INestableLexical.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="LASI.Core.Binding.Experimental.IAggregateLexical&lt;TPrimary, TBase&gt;" Collapsed="true">

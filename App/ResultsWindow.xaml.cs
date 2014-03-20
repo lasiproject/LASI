@@ -139,7 +139,11 @@ namespace LASI.App
                 }
             };
             var elementLabels = new List<Label>();
-            var phrases = document.Paginate(100, 50).Select(p => p.Sentences).DefaultIfEmpty(document.Sentences).SelectMany(ss => ss.SelectMany(s => s.Phrases));
+            var phrases = document.Paginate(80, 20)
+                .Take(1)
+                .Select(page => page.Sentences)
+                .DefaultIfEmpty(document.Sentences)
+                .SelectMany(sen => sen.AllPhrases());
             var colorizer = new SyntacticColorMap();
             foreach (var phrase in phrases) {
                 var label = new Label {
@@ -151,7 +155,7 @@ namespace LASI.App
                     Padding = new Thickness(1, 1, 1, 1),
                     ContextMenu = ContextMenuFactory.ForLexical(phrase, elementLabels) ?? new ContextMenu(),
                     ToolTip = phrase.ToString()
-                        .Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                        .SplitRemoveEmpty('\n', '\r')
                         .Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
                 };
                 elementLabels.Add(label);

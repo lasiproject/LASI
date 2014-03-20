@@ -31,7 +31,7 @@ namespace LASI.Core.DocumentStructures
             this.paragraphs = content.ToList();
             paragraphsWithBulletsOrHeadings =
                 (from p in this.paragraphs
-                 where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent
+                 where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent || p.ParagraphKind == ParagraphKind.Heading
                  select p).ToList();
 
             AssignMembers();
@@ -45,13 +45,13 @@ namespace LASI.Core.DocumentStructures
             sentences = (from p in this.paragraphs
                          from s in p.Sentences
                          where s.Words.OfVerb().Any()
-                         select s).ToList().AsReadOnly();
+                         select s).ToList();
             phrases = (from s in sentences
                        from r in s.Phrases
-                       select r).ToList().AsReadOnly();
+                       select r).ToList();
             words = (from s in sentences
                      from w in s.Words.Append(s.EndingPunctuation)
-                     select w).ToList().AsReadOnly();
+                     select w).ToList();
         }
 
         #endregion
@@ -128,23 +128,7 @@ namespace LASI.Core.DocumentStructures
                 yield return lexical;
 
         }
-        ///// <summary>
-        ///// Returns a representation of the Document as sequence of pages based on the given number sentences per page.
-        ///// </summary>
-        ///// <param name="sentencesPerPage">The number of sentences each page can contain. This varies inversely with the number of pages in the resulting sequence.</param>
-        ///// <returns>A representation of the Document as sequence of pages.</returns>
-        //public IEnumerable<Page> Paginate(int sentencesPerPage) {
-        //    if (sentencesPerPage < 1) {
-        //        throw new ArgumentOutOfRangeException(
-        //            "sentencesPerPage",
-        //            "The supplied page length was invalid. A page must be allowed to have at least 1 sentence."
-        //        );
 
-        //    }
-        //    foreach (var page in Sentences.Split(sentencesPerPage).Select(sentences => new Page(sentences, this))) {
-        //        yield return page;
-        //    }
-        //}
         /// <summary>
         /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
         /// The supplied text measurement function is applied to determine the amount of space any piece text takes up relative to a line.
@@ -154,30 +138,13 @@ namespace LASI.Core.DocumentStructures
         /// <param name="measureText">A function used to measure the length of text.</param>
         /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
         public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText) {
-            if (lineLength < 1) {
-                throw new ArgumentOutOfRangeException(
-                    "lineLength",
-                    "The supplied line length cannot be less than 0"
-                );
-            }
-            if (linesPerPage < 1) {
-                throw new ArgumentOutOfRangeException(
-                    "linesPerPage",
-                    "The supplied number of lines per page cannot be less than 0"
-                );
-            }
-
-
+            if (lineLength < 1) { throw new ArgumentOutOfRangeException("lineLength", "The supplied line length cannot be less than 0"); }
+            if (linesPerPage < 1) { throw new ArgumentOutOfRangeException("linesPerPage", "The supplied number of lines per page cannot be less than 0"); }
             var measuredParagraphs =
-                from p in paragraphs
+                from p in Paragraphs
                 let lines = (int)Math.Floor(measureText(p.Text) / lineLength)
                 let actualLines = lines + Math.Round(measureText(p.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
-                select new {
-                    Paragraph = p,
-                    LinesUsed = actualLines
-                };
-
-
+                select new { Paragraph = p, LinesUsed = actualLines };
             // note that start is modified within and only within the predicate given to TakeWhile
             var skip = 0;
             while (skip < measuredParagraphs.Count()) {
@@ -194,10 +161,7 @@ namespace LASI.Core.DocumentStructures
                 var page = new Page(paras, this);
                 yield return page;
                 skip += paras.Count() + 1;
-
             }
-
-
         }
         /// <summary>
         /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
@@ -232,14 +196,22 @@ namespace LASI.Core.DocumentStructures
         /// Gets the Paragraphs the document contains in linear, left to right order.
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
-            get { return paragraphs.Except(paragraphsWithBulletsOrHeadings); }
+            get {
+                return from p in paragraphs
+                       where p.ParagraphKind == ParagraphKind.Default
+                       select p;
+            }
         }
 
 
         /// <summary>
         /// Gets the Clauses the document contains in linear, left to right order.
         /// </summary>
-        public IEnumerable<Clause> Clauses { get { return from s in Sentences from c in s.Clauses select c; } }
+        public IEnumerable<Clause> Clauses {
+            get {
+                return from s in Sentences from c in s.Clauses select c;
+            }
+        }
         /// <summary>
         /// Gets the Phrases the document contains in linear, left to right order.
         /// </summary>
@@ -260,7 +232,6 @@ namespace LASI.Core.DocumentStructures
 
         private IReadOnlyList<Word> words;
         private IReadOnlyList<Phrase> phrases;
-        //private IList<Clause> _clauses;
         private IReadOnlyList<Sentence> sentences;
         private IReadOnlyList<Paragraph> paragraphs;
         private IReadOnlyList<Paragraph> paragraphsWithBulletsOrHeadings;
@@ -292,10 +263,14 @@ namespace LASI.Core.DocumentStructures
             /// </summary>
             public IEnumerable<Paragraph> Paragraphs {
                 get {
-                    return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
-                           group s.Index by s.Sentence.Paragraph into g
-                           orderby g.First()
-                           select g.Key;
+                    return from sentence in Sentences
+                           let paragraph = sentence.Paragraph
+                           orderby paragraph
+                           select paragraph;
+                    //return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
+                    //       group s.Index by s.Sentence.Paragraph into g
+                    //       orderby g.First()
+                    //       select g.Key;
                 }
             }
             /// <summary>
