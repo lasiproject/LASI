@@ -23,9 +23,7 @@ namespace LASI.WebApp.Controllers
         private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
-            returnUrl = string.Empty;
             ViewBag.ReturnUrl = returnUrl;
-
             return View(new LASI.WebApp.Models.User.UserModel());
         }
 
@@ -119,7 +117,6 @@ namespace LASI.WebApp.Controllers
             }
 
             percentComplete %= 100;
-
             bool extant = trackedJobs.ContainsKey(jobId);
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
