@@ -144,10 +144,10 @@
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\tests.js" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Tests.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\qunit\qunit.d.ts" />
   </ItemGroup>
   <ItemGroup>

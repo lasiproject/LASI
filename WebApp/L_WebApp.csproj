@@ -420,6 +420,8 @@
     <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
+    <Content Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -500,8 +502,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <TypeScriptCompile Include="Scripts\App\Home\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
