@@ -64,45 +64,54 @@ namespace LASI.UnitTests
 
         internal virtual ITaggedTextSource CreateITaggedTextSource() {
             // TODO: Instantiate an appropriate concrete class.
-            ITaggedTextSource target = null;
+            ITaggedTextSource target = new TaggedTextFragment(Tagger.TaggedFromRaw(new[] { 
+                "John enjoyed, with his usual lack of humility, consuming the object in question.", 
+                "Some may call him a heathen, but they are mistaken.", 
+                "Heathens are far less dangerous than he." }),
+                "test fragment");
             return target;
         }
-
+        private static string GetExpectedText() {
+            string expected = Tagger.TaggedFromRaw(new[] { 
+                "John enjoyed, with his usual lack of humility, consuming the object in question.", 
+                "Some may call him a heathen, but they are mistaken.", 
+                "Heathens are far less dangerous than he." });
+            return expected;
+        }
         /// <summary>
         ///A test for GetText
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            ITaggedTextSource target = CreateITaggedTextSource(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            ITaggedTextSource target = CreateITaggedTextSource();
+            string expected = GetExpectedText();
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
+
+
 
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            ITaggedTextSource target = CreateITaggedTextSource(); // TODO: Initialize to an appropriate value
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
+            ITaggedTextSource target = CreateITaggedTextSource();
+            string expected = GetExpectedText();
+            string actual;
+            actual = target.GetTextAsync().Result;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
-
         /// <summary>
         ///A test for Name
         ///</summary>
         [TestMethod()]
         public void NameTest() {
-            ITaggedTextSource target = CreateITaggedTextSource(); // TODO: Initialize to an appropriate value
+            ITaggedTextSource target = CreateITaggedTextSource();
             string actual;
             actual = target.SourceName;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual("test fragment", actual);
         }
     }
 }

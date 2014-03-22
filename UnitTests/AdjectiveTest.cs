@@ -111,11 +111,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifiersTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Adjective target = new Adjective(text); // TODO: Initialize to an appropriate value
+            string text = "funny";
+            Adjective target = new Adjective(text);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(target.AdverbialModifiers.None());
         }
 
 

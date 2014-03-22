@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for IQuantifiableTest and is intended
     ///to contain all IQuantifiableTest Unit Tests
@@ -63,7 +63,7 @@ namespace LASI.UnitTests
 
         internal virtual IQuantifiable CreateIQuantifiable() {
             // TODO: Instantiate an appropriate concrete class.
-            IQuantifiable target = null;
+            IQuantifiable target = new CommonPluralNoun("mittens");
             return target;
         }
 
@@ -73,12 +73,11 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void QuantifiedByTest() {
             IQuantifiable target = CreateIQuantifiable(); // TODO: Initialize to an appropriate value
-            IQuantifier expected = null; // TODO: Initialize to an appropriate value
+            IQuantifier expected = new Quantifier("all");
             IQuantifier actual;
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

@@ -341,15 +341,20 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void HasSubjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
-            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
-            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            string text = "hired";
+            VerbForm form = VerbForm.Past;
+            Verb target = new Verb(text, form);
+            Assert.IsFalse(target.HasSubject());
+            target.BindSubject(new PersonalPronoun("him"));
+            Func<IEntity, bool> predicate = s => s.Text == "her";
+            bool expected = false;
             bool actual;
             actual = target.HasSubject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            target.BindSubject(new PersonalPronoun("her"));
+            expected = true;
+            actual = target.HasSubject(predicate);
+            Assert.AreEqual(expected, actual);
         }
 
 

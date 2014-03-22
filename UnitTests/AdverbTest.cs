@@ -94,14 +94,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifiesTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Adverb target = new Adverb(text); // TODO: Initialize to an appropriate value
-            IAdverbialModifiable expected = null; // TODO: Initialize to an appropriate value
+            string text = "quickly";
+            Adverb target = new Adverb(text);
+            IAdverbialModifiable expected = new Verb("ran", VerbForm.Base);
             IAdverbialModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>

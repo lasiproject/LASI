@@ -195,9 +195,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PersonalPronounConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "her";
             PersonalPronoun target = new PersonalPronoun(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
+            Assert.IsTrue(target.IsFemale());
+            Assert.IsTrue(target.IsThirdPerson());
+            Assert.IsTrue(target.EntityKind == EntityKind.PersonFemale);
         }
     }
 }
