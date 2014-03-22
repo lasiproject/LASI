@@ -94,6 +94,19 @@ namespace LASI
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
-
+        /// <summary>
+        /// Returns a new string in which all characters which are known to be problematic for jQuery's Sizzle Selector engine are replaced with underscores.
+        /// </summary>
+        /// <param name="value">The string to transform.</param>
+        /// <returns>A new string in which all characters which are known to be problematic for jQuery's Sizzle Selector engine are replaced with underscores.</returns>
+        public static string ToSizzleSafeString(this string value) {
+            return value.Replace(' ', '_')
+                .Replace('(', '_')
+                .Replace(')', '_')
+                .Replace('[', '_')
+                .Replace(']', '_')
+                .Replace('{', '_')
+                .Replace('}', '_');
+        }
     }
 }

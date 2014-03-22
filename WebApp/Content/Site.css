@@ -249,3 +249,8 @@ footer {
     padding-right: 14px;
     padding-top: 2px;
 }
+
+.text-aligned-progress-bar {
+    /*padding-left: 3em;*/
+    text-align: left;
+}

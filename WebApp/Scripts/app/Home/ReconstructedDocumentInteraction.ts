@@ -72,6 +72,9 @@ module LASI.Results {
                 var referencerInfo: ContextProviders.RefencerContext;
             });
         })();
-        $(document).click(event=> contextMenu.find("li").off().hide());
+        $(document).click(event=> {
+            contextMenu.hide();
+            contextMenu.find("li").off().hide();
+        });
     });
 };

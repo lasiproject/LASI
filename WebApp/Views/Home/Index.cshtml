@@ -18,16 +18,20 @@
 </header>
 
 <div id="main-content">
+    <div>
+        <p id="progress-text"></p>
+    </div>
     <div class="progress">
-        <div id="progress1" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="max-width:100%;">
 
+        <div id="progress1" class="progress-bar text-aligned-progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%;">
         </div>
     </div>
     <div>
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "post1target1" })) {
 
-            @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, allowMoreFilesToBeAdded: false, includeFormTag: false, addText: "upload")
-            <input type="submit" value="submit" name="submitdocumentbutton" id="submitdocumentbutton" role="button" />  }
+            @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
+            <input type="submit" name="submit" value="upload" />
+        }
     </div>
     <iframe class="hidden" id="post1target1" src=""></iframe>
 </div>

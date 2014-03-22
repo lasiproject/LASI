@@ -71,7 +71,8 @@ var LASI;
                 });
             })();
             $(document).click(function (event) {
-                return contextMenu.find("li").off().hide();
+                contextMenu.hide();
+                contextMenu.find("li").off().hide();
             });
         });
     })(LASI.Results || (LASI.Results = {}));

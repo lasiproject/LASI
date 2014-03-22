@@ -1,4 +1,6 @@
-﻿module LASI.Progress {
+﻿
+
+module LASI.Progress {
     export class Status {
         formattedPercent: string;
         constructor(public message: string, public percent: number) {
@@ -22,16 +24,15 @@ $(() => {
         // Id number by using a bitwise xor
 
         return (function () {
-            var id = $.makeArray($.getJSON("./GetJobStatus"))
+            var id = $.makeArray($.getJSON("\\Home\\GetJobStatus"))
                 .map((x: any, i: number) => x.id)
                 .reduce((sofar: number, x: number) => sofar ^ x, 0);
             setInterval(event => {
-                $.getJSON("./GetJobStatus?jobId=" + jobId,
+                $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId,
                     function (data, status, jqXhr) {
                         var st = Status.fromJson(jqXhr.responseText);
-                        var $progress = $(".progress-bar");
-                        $progress.css("width", st.formattedPercent);
-                        $progress.text(st.message);
+                        $(".progress-bar").css("width", st.formattedPercent);
+                        $("#progress-text").text(st.message);
                     });
             }, 1000);
             return id += 1;

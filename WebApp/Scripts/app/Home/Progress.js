@@ -27,17 +27,16 @@ $(function () {
         // Gets all ungoing jobs from the server and generates a new
         // Id number by using a bitwise xor
         return (function () {
-            var id = $.makeArray($.getJSON("./GetJobStatus")).map(function (x, i) {
+            var id = $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(function (x, i) {
                 return x.id;
             }).reduce(function (sofar, x) {
                 return sofar ^ x;
             }, 0);
             setInterval(function (event) {
-                $.getJSON("./GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
+                $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
                     var st = Status.fromJson(jqXhr.responseText);
-                    var $progress = $(".progress-bar");
-                    $progress.css("width", st.formattedPercent);
-                    $progress.text(st.message);
+                    $(".progress-bar").css("width", st.formattedPercent);
+                    $("#progress-text").text(st.message);
                 });
             }, 1000);
             return id += 1;

@@ -23,7 +23,7 @@
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                     @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name)>
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name)>
                                 @doc.Name
                             </button>
                         </li>
@@ -33,9 +33,7 @@
 
             <br />
             <div>
-                @{
-                    Phrase.VerboseOutput = true;
-                }
+
                 @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                     var pages = doc.Paginate(80, 30);
                     <div id=@doc.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
@@ -46,22 +44,24 @@
                                     <h4 class="modal-title" id="document-title">@doc.Name</h4>
                                 </div>
                                 <div class="modal-body">
-                                    @{
+                                    @{                 
+                    Phrase.VerboseOutput = true;
+
                     var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
                     var styleMap = new SyntacticStyleMap();
                     foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
-                        <p class="lexical-content-block">
-                            @foreach (var e in paragraphData) {
-                                <span class=@styleMap[e.Phrase].CssClass
+                                        <p class="lexical-content-block">
+                                            @foreach (var e in paragraphData) {
+                                                <span class=@styleMap[e.Phrase].CssClass
                                       title=@(e.Phrase.ToString()
                                                               .SplitRemoveEmpty('\n', '\r')
                                                               .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n")) id=@e.Id>
-                                    @e.Phrase.Text
-                                    <span id="@("context" + e.Id)" hidden="hidden">
-                                        @(e.Phrase.Match().Yield<dynamic>().With<IVerbal>(v => v.GetJsonMenuData()).Result(() => null))
-                                    </span>
-                                </span>}
-                        </p>}
+                                                    @e.Phrase.Text
+                                                    <span id="@("context" + e.Id)" hidden="hidden">
+                                                        @(e.Phrase.Match().Yield<dynamic>().With<IVerbal>(v => v.GetJsonMenuData()).Result(() => null))
+                                                    </span>
+                                                </span>}
+                                        </p>}
                                     }
 
                                 </div>
@@ -71,7 +71,7 @@
                     </div>
                 }
                 <div id="verbalContextMenu" class="dropdown clearfix" hidden>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
                         <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
                         <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
                         <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
@@ -84,14 +84,14 @@
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                 @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#'+doc.Name+"_topresults")>
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name.ToSizzleSafeString() + "_topresults")>
                             @doc.Name
                         </button>
                     </li>
                 }
             </ul>
             @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
-                <div id=@(doc.Name+"_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
+                <div id=@(doc.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -101,8 +101,8 @@
                             </div>
                             <div class="modal-body">
 
-                                <div class="container chart-container" id=@(doc.Name+"_resultschart")>
-                                    <span id=@(doc.Name+"_topresultrows") hidden>
+                                <div class="container chart-container" id=@(doc.Name.ToSizzleSafeString() + "_resultschart")>
+                                    <span id=@(doc.Name.ToSizzleSafeString() + "_topresultrows") hidden>
                                         @((ViewData["charts"] as IDictionary<Document, string>)[doc])
                                     </span>
                                 </div>
@@ -116,9 +116,12 @@
             <div class="container add-document-container">
                 <h1>Add documents</h1>
                 <div id="main-content">
+                    <div>
+                        <p id="progress-text"></p>
+                    </div>
                     <div class="progress">
-                        <div id="progress1" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%; max-width:100%;">
 
+                        <div id="progress1" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0; max-width: 100%">
                         </div>
                     </div>
 

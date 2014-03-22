@@ -5,58 +5,43 @@ which will optimize page load time.
 */
 
 module LASI.Index {
-    {
-        jobIds: (function () {
 
-            // All top level functions should start with this directive. nested functions inherit it.
-            "use strict";
+    jobIds: (function () {
 
-            var y = [[1, 2, 3, 4], [53, 556]]
-                .flatMap(
-                element=> element.map(a=> a),
-                element=> element.toString()
-                );
-            //This function disables submit button 
-            $(function () {
-                $("input:submit").attr("disabled", "true");
-                $("input:file").change(function () {
-                    if ($(this).val()) {
-                        $("input:submit").removeAttr("disabled");
-                    } else {
-                        $("input:submit").attr("disabled", "true");
-                    }
+        // All top level functions should start with this directive. nested functions inherit it.
+        "use strict";
+
+
+        //This function disables submit button 
+        $(function () {
+            $("input:submit").attr("disabled", "true");
+            $("input:file").change(function () {
+                if ($(this).val()) {
+                    $("input:submit").removeAttr("disabled");
+                } else {
+                    $("input:submit").attr("disabled", "true");
+                }
+            });
+        });
+        $("#submitdocumentbutton").click(e => {
+
+            $("input:file").each((index, element: HTMLInputElement) => {
+                var file = element.files[0];
+                $.ajax("\\Home\\Upload", {
+                    processData: false, data: file,
+                    type: "POST",
+                    success: (d: Object, s: string, t: JQueryXHR) => {
+                        console.log(t.status);
+
+                    },
                 });
+                $(e.target).css("width", "0%");
             });
-            $("#submitdocumentbutton").click(e => {
+            //e.preventDefault();
 
-                $("input:file").each((index, element: HTMLInputElement) => {
-                    var file = element.files[0];
-                    $.ajax("\\Home\\Upload", {
-                        processData: false, data: file,
-                        type: "POST",
-                        success: (d: Object, s: string, t: JQueryXHR) => {
-                            console.log(t.status);
+        });
 
-                        },
-                    });
-                    $(e.target).css("width", "0%");
-                });
-                //e.preventDefault();
 
-            });
+    } ())
 
-            $(function () {
-
-                var jobId = setInterval(function (event) {
-                    $.getJSON("./GetJobStatus?jobId=" + (jobId), (data, status, jqXhr) => {
-                        var st = Progress.Status.fromJson(data);
-                        var $progress = $(".progress-bar");
-                        $progress.css("width", Math.min(99, st.percent).toString() + "%");
-                        $progress.text(data.message);
-                    });
-                }, 1000);
-
-            });
-        } ())
-    }
 };

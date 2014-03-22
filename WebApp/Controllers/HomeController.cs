@@ -19,7 +19,7 @@ namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
+
         private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
@@ -50,8 +50,6 @@ namespace LASI.WebApp.Controllers
 
                 file.SaveAs(path);
             }
-            //Results().Wait;
-
             return RedirectToAction("Results");
 
         }
@@ -61,6 +59,9 @@ namespace LASI.WebApp.Controllers
         public ActionResult Progress() {
             return View();
         }
+        private static HashSet<LASI.Core.DocumentStructures.Document> processedDocuments =
+            new HashSet<LASI.Core.DocumentStructures.Document>(new CustomComparer<LASI.Core.DocumentStructures.Document>(
+                (dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
         public async Task<ActionResult> Results() {
             var documents = await LoadResults();
@@ -85,34 +86,36 @@ namespace LASI.WebApp.Controllers
                     }
                     catch (ArgumentException) { return null; }
                 })
-                .Where(file => file != null);
-
+                .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisController(files);
             analyzer.ProgressChanged += (s, e) => {
                 percentComplete += e.Increment;
                 currentOperation = e.Message;
             };
-            return await Task.Run(async () => await analyzer.ProcessAsync());
+            var documents = await Task.Run(async () => await analyzer.ProcessAsync());
+            processedDocuments.UnionWith(documents);
+            return processedDocuments;
+
         }
         private static double percentComplete;
 
 
         private static string currentOperation;
 
+        private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
 
         //static int timesExecuted = 0;
         [HttpGet]
-        public JsonResult GetJobStatus(string jobId = "") {
+        public ContentResult GetJobStatus(string jobId = "") {
             var serializerSettings = new JsonSerializerSettings {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
             };
             if (jobId == "") {
-                return Json(JsonConvert.SerializeObject(trackedJobs
-                      .Select(j => new
-                      {
-                          j.Value.Message, j.Value.Percent, Id = j.Key
-                      })
-                      .ToArray(),
+                return Content(JsonConvert.SerializeObject(trackedJobs
+                    .Select(j => new
+                    {
+                        j.Value.Message, j.Value.Percent, Id = j.Key
+                    }).ToArray(),
                       serializerSettings));
             }
 
@@ -121,7 +124,7 @@ namespace LASI.WebApp.Controllers
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
             trackedJobs[jobId] = update;
-            return Json(JsonConvert.SerializeObject(update, serializerSettings));
+            return Content(JsonConvert.SerializeObject(update, serializerSettings));
         }
 
     }

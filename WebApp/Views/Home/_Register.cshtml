@@ -6,16 +6,13 @@
     <fieldset>
         <legend>Registration Form</legend>
         <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
+            <li>@Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName, new { id = "registerName" })
             </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
+            <li>@Html.LabelFor(m => m.Password)
                 @Html.PasswordFor(m => m.Password)
             </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
+            <li>@Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
             <li>

@@ -115,7 +115,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb has any subjects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasSubject(Func<IEntity, bool> predicate) {
-            return Subjects.Any(predicate) || Subjects.OfType<IReferencer>().Any(p => p.ReferredTo != null && predicate(p.ReferredTo));
+            return HasBoundEntitiyImpl(Subjects, predicate);
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct objects bound to it.
@@ -129,7 +129,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasDirectObject(Func<IEntity, bool> predicate) {
-            return DirectObjects.Any(predicate) || DirectObjects.OfType<IReferencer>().Any(p => p.ReferredTo != null && predicate(p.ReferredTo));
+            return HasBoundEntitiyImpl(DirectObjects, predicate);
         }
         /// <summary>
         /// Return a value indicating if the Verb has any indirect objects bound to it.
@@ -143,7 +143,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function; otherwise, false.</returns>
         public bool HasIndirectObject(Func<IEntity, bool> predicate) {
-            return IndirectObjects.Any(predicate) || IndirectObjects.OfType<IReferencer>().Any(p => p.ReferredTo != null && predicate(p.ReferredTo));
+            return HasBoundEntitiyImpl(IndirectObjects, predicate);
         }
         /// <summary>
         /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
@@ -175,7 +175,9 @@ namespace LASI.Core
         public bool HasSubjectOrObject(Func<IEntity, bool> predicate) {
             return HasObject(predicate) || HasSubject(predicate);
         }
-
+        private static bool HasBoundEntitiyImpl(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) {
+            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(p => p.ReferredTo != null && predicate(p.ReferredTo));
+        }
         #endregion
 
         #region Properties
