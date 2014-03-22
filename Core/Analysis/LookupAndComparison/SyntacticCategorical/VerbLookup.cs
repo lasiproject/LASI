@@ -44,9 +44,9 @@ namespace LASI.Core.Heuristics
         private static VerbSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match M in POINTER_REGEX.Matches(line)
+            var referencedSets = from Match M in RELATIONSHIP_REGEX.Matches(line)
                                  let split = M.Value.SplitRemoveEmpty(' ')
-                                 where split.Count() > 1
+                                 where split.Length >= 3
                                  select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
 
             var words = from Match ContainedWord in WORD_REGEX.Matches(line.Substring(17))
@@ -65,7 +65,7 @@ namespace LASI.Core.Heuristics
                     data[word].Words.Concat(synset.Words),
                     data[word].RelatedSetsByRelationKind
                     .Concat(synset.RelatedSetsByRelationKind)
-                    .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), synset.LexicalCategory)
+                    .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), synset.Category)
 
             : data[word] = synset;
             }
@@ -85,10 +85,10 @@ namespace LASI.Core.Heuristics
                 data.Where(kv => kv.Value.Words.Contains(root)).Select(kv => kv.Value).FirstOrDefault();
 
                 return containingSet != null ?
-                    containingSet.ReferencedIndeces
+                    containingSet[VerbSetLink.Verb_Group, VerbSetLink.Hypernym]
                          .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); }).Select(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp : null; })
                          .Where(set => set != null)
-                         .Where(set => set.LexicalCategory == containingSet.LexicalCategory)
+                    //.Where(set => set.Category == containingSet.Category)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Append(root) : new[] { search };
             }));
@@ -121,8 +121,23 @@ namespace LASI.Core.Heuristics
         private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>(concurrencyLevel: 100, capacity: 30000);
         private ConcurrentDictionary<string, VerbSynSet> data = new ConcurrentDictionary<string, VerbSynSet>(concurrencyLevel: 100, capacity: 30000);
+        /// <summary>
+        /// The regular expression describes a string which
+        /// starts at a word(in the regex sense of word) boundary: \b
+        /// consisting of any combination of alpha, underscore, and minus(dash), that is at least 2 characters in length: [A-Za-z-_]{2,}
+        /// </summary>
         private static readonly Regex WORD_REGEX = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
-        private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+[\d]+", RegexOptions.Compiled);
+        /// <summary>
+        /// The regular expression describes a string which 
+        /// starts with at least one but not more than two non-digit characters (matches the pointer symbol): \D{1,2}
+        /// followed by 0 or more whitespace characters: \s*
+        /// followed by 8 decimal digits (matches the related set id): [\d]{8}
+        /// followed by a single space: [\s]
+        /// followed by any single character (matches the syntactic category of the relationship n, v, a, s, r): .
+        /// followed by a single space: [\s]
+        /// ends with the sequence 0000 (indicates that the source/target relationship between to the set is semantic as opposed to lexical): [0]{4,}
+        /// </summary>
+        private static readonly Regex RELATIONSHIP_REGEX = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, VerbSetLink> interSetMap = new Dictionary<string, VerbSetLink> {
@@ -131,7 +146,7 @@ namespace LASI.Core.Heuristics
             { "~", VerbSetLink.Hyponym },
             { "*", VerbSetLink.Entailment },
             { ">", VerbSetLink.Cause },
-            { "^", VerbSetLink. AlsoSee },
+            { "^", VerbSetLink.AlsoSee },
             { "$", VerbSetLink.Verb_Group },
             { "+", VerbSetLink.DerivationallyRelatedForm },
             { ";c", VerbSetLink.DomainOfSynset_TOPIC },

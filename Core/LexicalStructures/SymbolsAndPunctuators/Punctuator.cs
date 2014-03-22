@@ -16,9 +16,7 @@ namespace LASI.Core
         /// <param name="symbol">The literal character representation of the punctuator.</param>
         public Punctuator(char symbol)
             : base(symbol) {
-
-            ActualCharacter = symbol;
-            AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
+            AliasString = PunctuationAliasMap.GetAliasStringForChar(LiteralCharacter);
         }
 
         /// <summary>
@@ -26,23 +24,16 @@ namespace LASI.Core
         /// </summary>
         /// <param name="punctuation">The single character string which comprises the Punctuator"</param>
         public Punctuator(string punctuation)
-            : base(punctuation) {
+            : base(punctuation[0]) {
             //if (punctuation.Length != 1) {
             //    throw new ArgumentException(
             //        string.Format("The supplied string must only contain single character\nprovided value: {0}", punctuation),
             //        "punctuation"
             //    );
-            //}
-            ActualCharacter = punctuation[0];
-            AliasString = PunctuationAliasMap.GetAliasStringForChar(ActualCharacter);
+            //} 
+            AliasString = PunctuationAliasMap.GetAliasStringForChar(LiteralCharacter);
         }
-        /// <summary>
-        /// Gets the literal punctuation character of the Punctuator.
-        /// </summary>
-        public char ActualCharacter {
-            get;
-            protected set;
-        }
+
         /// <summary>
         /// Gets the alias string corresponding to the Punctuator.
         /// </summary>

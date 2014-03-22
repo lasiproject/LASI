@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// A specialization of Punctuation which represents character which demarcate the end of a sentence.
     /// </summary>
-    public class SentenceEnding : Punctuator
+    public sealed class SentenceEnding : Punctuator
     {
         /// <summary>
         /// Initializes a new instance of the SentenceEnding class.
@@ -21,6 +21,18 @@ namespace LASI.Core
             if (sentenceEnding != '.' && sentenceEnding != '!' &&
                 sentenceEnding != '?')
                 throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", sentenceEnding));
+        }
+        public override int GetHashCode() {
+            return LiteralCharacter;
+        }
+        public override bool Equals(object obj) {
+            return obj is SentenceEnding && (SentenceEnding)(obj) == this;
+        }
+        public static bool operator ==(SentenceEnding left, SentenceEnding right) {
+            return left.LiteralCharacter == right.LiteralCharacter;
+        }
+        public static bool operator !=(SentenceEnding left, SentenceEnding right) {
+            return !(left == right);
         }
     }
 }

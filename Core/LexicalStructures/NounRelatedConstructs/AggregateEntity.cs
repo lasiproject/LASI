@@ -29,7 +29,7 @@ namespace LASI.Core
                       select aggregate == null ? new[] { e } : aggregate.AsEnumerable() into ens
                       from e in ens
                       select e;
-            EntityKind = Core.EntityKind.ThingUnknownMultiple;
+            EntityKind = Core.EntityKind.ThingMultiple;
         }
 
         #region Methods

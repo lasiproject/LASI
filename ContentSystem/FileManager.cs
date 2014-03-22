@@ -660,7 +660,7 @@ namespace LASI.ContentSystem
             get;
             private set;
         }
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.DEFAULT);
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnsupportedFormatHandling.Throw);
         #endregion
 
         #region Fields
@@ -676,20 +676,17 @@ namespace LASI.ContentSystem
     /// Defines modes which determine handling attempts to map unsupported file format.
     /// The default it to Throw.
     /// </summary>
-    public enum UnsupportedFileTypeHandling
+    public enum UnsupportedFormatHandling
     {
         /// <summary>
         /// Throw an exception when trying to map to an unknown file extension.
         /// </summary>
-        DEFAULT = 0,
+        Throw,
         /// <summary>
         /// Return null when trying to map to an unkown file extension.
         /// </summary>
         YieldNull,
-        /// <summary>
-        /// Throw an exception when trying to map to an unknown file extension.
-        /// </summary>
-        Throw = DEFAULT,
+
 
     }
     #region Helper Types
@@ -700,13 +697,13 @@ namespace LASI.ContentSystem
     /// <see cref="LASI.ContentSystem.InputFile"/>
     public class ExtensionWrapperMap
     {
-        UnsupportedFileTypeHandling unsupportedMappingMode;
+        UnsupportedFormatHandling unsupportedMappingMode;
         private IDictionary<string, Func<string, InputFile>> mapping;
         /// <summary>
         /// Initializes a new instance of the ExtensionWrapperMap class.
         /// </summary>
         /// <param name="unknownHandlingMode">The specifies the manner in which unsupported extensions are handled.</param>
-        public ExtensionWrapperMap(UnsupportedFileTypeHandling unknownHandlingMode) {
+        public ExtensionWrapperMap(UnsupportedFormatHandling unknownHandlingMode) {
 
             this.unsupportedMappingMode = unknownHandlingMode;
             mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase){
@@ -733,9 +730,9 @@ namespace LASI.ContentSystem
                 }
                 catch (KeyNotFoundException) {
                     switch (unsupportedMappingMode) {
-                        case UnsupportedFileTypeHandling.YieldNull:
+                        case UnsupportedFormatHandling.YieldNull:
                             return path => null;
-                        case UnsupportedFileTypeHandling.DEFAULT:
+                        case UnsupportedFormatHandling.Throw:
                             return path => { throw new ArgumentException("unmapped " + path); };
                         default:
                             return path => { throw new ArgumentException(); };

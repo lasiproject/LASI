@@ -30,11 +30,17 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
-        /// <param name="relationship">The kind of external set references to relationships to return.</param>
+        /// <param name="relationships">The kinds of external set relationships to consider return.</param>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
-        public IEnumerable<int> this[TSetRelationship relationship] {
+        public IEnumerable<int> this[params TSetRelationship[] relationships] {
 
-            get { if (relatedSetsByRelationKind == null)relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return relatedSetsByRelationKind[relationship]; }
+            get {
+                if (relatedSetsByRelationKind == null)
+                    relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value);
+                foreach (var r in relationships) {
+                    foreach (var related in relatedSetsByRelationKind[r]) { yield return related; }
+                }
+            }
         }
         private ILookup<TSetRelationship, int> relatedSetsByRelationKind;
         private IEnumerable<KeyValuePair<TSetRelationship, int>> relatedSetsByRelationKindSource;
@@ -94,9 +100,9 @@ namespace LASI.Core.Heuristics
     {
         public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetLink, int>> pointerRelationships, VerbLookup.Category lexicalCategory)
             : base(id, words, pointerRelationships) {
-            LexicalCategory = lexicalCategory;
+            Category = lexicalCategory;
         }
-        public VerbLookup.Category LexicalCategory { get; private set; }
+        public VerbLookup.Category Category { get; private set; }
     }
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.

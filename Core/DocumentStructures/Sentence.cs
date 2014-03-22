@@ -31,11 +31,11 @@ namespace LASI.Core.DocumentStructures
         /// Initializes a new instance of the Sentence class.
         /// </summary>
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
-        /// <param name="sentencePunctuation">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
-        public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentencePunctuation)
+        /// <param name="sentenceEnding">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
+        public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentenceEnding)
             : this() {
             Clauses = clauses;
-            EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
+            EndingPunctuation = sentenceEnding ?? new SentenceEnding('.');
         }
         /// <summary>
         /// Returns the Phrase elements in the Sentence, following and not including the given Phrase. 

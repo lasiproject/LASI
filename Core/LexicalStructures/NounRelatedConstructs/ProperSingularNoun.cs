@@ -27,7 +27,10 @@ namespace LASI.Core
             get {
                 gender = gender ?? (this.IsFemaleFirst() ? Gender.Female :
                                     this.IsMaleFirst() ? Gender.Male :
-                                    this.IsLastName() ? Gender.Neutral : Gender.Unknown);
+                                    this.IsLastName() ||
+                                    this.EntityKind == EntityKind.Organization ||
+                                    this.EntityKind == EntityKind.Location ||
+                                    this.EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Unknown);
                 return gender.Value;
             }
         }

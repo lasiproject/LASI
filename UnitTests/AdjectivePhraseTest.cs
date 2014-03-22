@@ -2,6 +2,7 @@
 using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace LASI.UnitTests
@@ -77,11 +78,15 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AdverbialModifiersTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            AdjectivePhrase target = new AdjectivePhrase(composedWords); // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Conjunction("and"), new Adjective("silky") };
+            AdjectivePhrase target = new AdjectivePhrase(composedWords);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual.None());
+            IAdverbial modifier = new Adverb("very");
+            target.ModifyWith(modifier);
+            Assert.IsTrue(target.AdverbialModifiers.Contains(modifier));
+
         }
 
         /// <summary>
@@ -89,14 +94,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DescribesTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            AdjectivePhrase target = new AdjectivePhrase(composedWords); // TODO: Initialize to an appropriate value
-            IEntity expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Adverb("very"), new Adjective("tall") };
+            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            IEntity expected = new CommonSingularNoun("tree");
             IEntity actual;
             target.Describes = expected;
             actual = target.Describes;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -104,11 +108,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ModifyWithTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            AdjectivePhrase target = new AdjectivePhrase(composedWords); // TODO: Initialize to an appropriate value
-            IAdverbial adv = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Adjective("tall") };
+            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            IAdverbial adv = new Adverb("overly");
             target.ModifyWith(adv);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
         }
 
 

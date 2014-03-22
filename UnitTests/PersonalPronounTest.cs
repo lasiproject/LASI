@@ -181,11 +181,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void EntityKindTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            PersonalPronoun target = new PersonalPronoun(text); // TODO: Initialize to an appropriate value
+            string text = "they";
+            PersonalPronoun target = new PersonalPronoun(text);
             EntityKind actual;
             actual = target.EntityKind;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(EntityKind.Undefined, actual);
+            target.BindAsReferringTo(new NounPhrase(new[] { new CommonPluralNoun("apples") }));
+            Assert.AreEqual(EntityKind.ThingMultiple, target.EntityKind);
         }
 
         /// <summary>

@@ -122,12 +122,11 @@ namespace LASI.UnitTests
         public void IsInvertedTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
-            bool expected = false; // TODO: Initialize to an appropriate value
+            bool expected = false;
             bool actual;
             target.IsInverted = expected;
             actual = target.IsInverted;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -137,9 +136,8 @@ namespace LASI.UnitTests
         public void DocumentTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
-            Document actual;
+            Document actual = new Document(new[] { new Paragraph(new[] { target }, ParagraphKind.Default) });
             actual = target.Document;
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
 
@@ -176,10 +174,25 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void SentenceConstructorTest() {
-            IEnumerable<Clause> clauses = null; // TODO: Initialize to an appropriate value
-            SentenceEnding sentencePunctuation = null; // TODO: Initialize to an appropriate value
-            Sentence target = new Sentence(clauses, sentencePunctuation);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            IEnumerable<Clause> clauses = new Clause[] {
+                        new Clause(new Phrase[] { 
+                            new NounPhrase(new Word[] {    
+                                new PersonalPronoun("We") 
+                            }),
+                            new VerbPhrase(new Word[] { 
+                                new ModalAuxilary("must"),
+                                new Verb("attack", VerbForm.Base) 
+                            }),
+                            new NounPhrase(new Word[] { 
+                                new Adjective("blue"), 
+                                new CommonSingularNoun("team") }
+                                )}
+                            )};
+            SentenceEnding sentenceEnding = new SentenceEnding('!');
+            Sentence target = new Sentence(clauses, sentenceEnding);
+            AssertHelper.AreSequenceEqual(clauses, target.Clauses);
+            Assert.AreEqual(target.EndingPunctuation, sentenceEnding);
+            Assert.AreEqual(target.Text, string.Join(" ", clauses.Select(c => c.Text).ToArray()) + sentenceEnding.Text);
         }
 
 

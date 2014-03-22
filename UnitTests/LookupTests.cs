@@ -81,12 +81,14 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod()]
         public void GetSynonymsTest() {
-            Assert.IsTrue(new CommonSingularNoun("ball").GetSynonyms().Any());
+            Noun noun = new CommonSingularNoun("ball");
+            Assert.IsTrue(noun.GetSynonyms().Any(n => !n.EqualsIgnoreCase(noun.Text)));
         }
 
         [TestMethod()]
         public void GetSynonymsTest1() {
-            Assert.IsTrue(new Verb("heal", VerbForm.Base).GetSynonyms().Any());
+            Verb verb = new Verb("heal", VerbForm.Base);
+            Assert.IsTrue(verb.GetSynonyms().Any(v => !v.EqualsIgnoreCase(verb.Text)));
         }
 
         [TestMethod()]
@@ -100,12 +102,16 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod()]
         public void GetSynonymsTest3() {
-            Assert.IsTrue(new Adjective("pale").GetSynonyms().Any());
+            Adjective adjective = new Adjective("pale");
+            Assert.IsTrue(adjective.GetSynonyms().Any(a => a.EqualsIgnoreCase(adjective.Text)));
         }
 
         [TestMethod()]
         public void IsSynonymForTest() {
-            Assert.Fail();
+            Verb verb1 = new Verb("walk", VerbForm.Base);
+            Verb verb2 = new Verb("perambulate", VerbForm.Base);
+            Assert.IsTrue(verb1.IsSynonymFor(verb2));
+            Assert.IsTrue(verb2.IsSynonymFor(verb1));
         }
 
         [TestMethod()]

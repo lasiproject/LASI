@@ -80,7 +80,7 @@ namespace LASI.UnitTests
         public void SingleQuoteConstructorTest() {
             SingleQuote target = new SingleQuote();
             Assert.IsTrue(target.Text == "'");
-            Assert.AreEqual(target.ActualCharacter, '\'');
+            Assert.AreEqual(target.LiteralCharacter, '\'');
         }
     }
 }

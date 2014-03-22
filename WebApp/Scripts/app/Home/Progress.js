@@ -44,4 +44,3 @@ $(function () {
         })();
     })();
 });
-//# sourceMappingURL=Progress.js.map

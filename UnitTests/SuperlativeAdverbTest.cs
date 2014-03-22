@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SuperlativeAdverbTest and is intended
     ///to contain all SuperlativeAdverbTest Unit Tests
@@ -66,9 +66,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void SuperlativeAdverbConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "worthiest";
             SuperlativeAdverb target = new SuperlativeAdverb(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(text, target.Text);
+            Assert.IsTrue(target.Modifies == null);
         }
     }
 }

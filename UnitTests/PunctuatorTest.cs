@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         public void PunctuatorConstructorTest() {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
-            Assert.IsTrue(target.ActualCharacter == puncChar, "Punctuator Character Constructor Works!");
+            Assert.IsTrue(target.LiteralCharacter == puncChar, "Punctuator Character Constructor Works!");
         }
 
 
@@ -107,7 +107,7 @@ namespace LASI.UnitTests
             char punctuation = '.';
             Punctuator target = new Punctuator(punctuation);
             char expected = '.';
-            char actual = target.ActualCharacter;
+            char actual = target.LiteralCharacter;
             Assert.AreEqual(expected, actual);
         }
     }

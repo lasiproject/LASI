@@ -48,15 +48,11 @@ namespace LASI.Core
         /// </summary>
         ThingUnknown,
         /// <summary>
-        /// Thing Unknown Multiple
-        /// </summary>
-        ThingUnknownMultiple,
-        /// <summary>
         /// Thing
         /// </summary>
         Thing,
         /// <summary>
-        /// Thing Multiple
+        /// Thing Unknown Multiple
         /// </summary>
         ThingMultiple,
         /// <summary>

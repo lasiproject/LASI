@@ -291,11 +291,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DescriptorsTest() {
-            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
+            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new CommonSingularNoun("elephants") };
             NounPhrase target = new NounPhrase(composed);
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(target.Descriptors.None());
+            IDescriptor descriptor = new Adjective("large");
+            target.BindDescriptor(descriptor);
+            Assert.IsTrue(target.Descriptors.Contains(descriptor));
         }
 
 

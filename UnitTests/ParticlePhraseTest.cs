@@ -180,6 +180,6 @@ namespace LASI.UnitTests
             Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
 
-      
+
     }
 }

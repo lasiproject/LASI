@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SymbolTest and is intended
     ///to contain all SymbolTest Unit Tests
@@ -66,10 +66,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void SymbolConstructorTest() {
-            char character = '\0'; // TODO: Initialize to an appropriate value
+            char character = ',';
             Symbol target = new Symbol(character);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(character, target.LiteralCharacter);
+            Assert.AreEqual(character.ToString(), target.Text);
         }
- 
+
     }
 }

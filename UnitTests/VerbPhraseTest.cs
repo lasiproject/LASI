@@ -179,7 +179,10 @@ namespace LASI.UnitTests
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(target.IndirectObjects.None());
+            IEntity indirectObject = new PersonalPronoun("them");
+            target.BindIndirectObject(indirectObject);
+            Assert.IsTrue(target.IndirectObjects.Contains(indirectObject));
         }
 
         /// <summary>
@@ -190,7 +193,10 @@ namespace LASI.UnitTests
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(target.DirectObjects.None());
+            IEntity directObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("book") });
+            target.BindDirectObject(directObject);
+            Assert.IsTrue(target.DirectObjects.Contains(directObject));
         }
 
         /// <summary>

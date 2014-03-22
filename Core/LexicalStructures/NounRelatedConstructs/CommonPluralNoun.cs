@@ -17,7 +17,7 @@ namespace LASI.Core
         /// <param name="text">The key text content of the GenericPluralNoun</param>
         public CommonPluralNoun(string text)
             : base(text) {
-            EntityKind = EntityKind.ThingUnknownMultiple;
+            EntityKind = EntityKind.ThingMultiple;
         }
 
         /// <summary>

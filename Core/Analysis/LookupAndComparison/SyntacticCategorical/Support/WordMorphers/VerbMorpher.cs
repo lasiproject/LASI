@@ -23,7 +23,7 @@ namespace LASI.Core.Heuristics.Morphemization
         /// <returns>All forms of the verb root.</returns>
         public static IEnumerable<string> GetConjugations(string verbForm) {
 
-            var hyphIndex = verbForm.LastIndexOf('-');
+            var hyphIndex = verbForm.IndexOf('-');
 
             var root = hyphIndex > -1 ? verbForm.Substring(0, hyphIndex) : verbForm;
             var afterHyphen = hyphIndex > -1 ? verbForm.Substring(hyphIndex) : string.Empty;
@@ -48,14 +48,14 @@ namespace LASI.Core.Heuristics.Morphemization
         }
 
         private static IEnumerable<string> BuildLexicalForms(string verbForm) {
-            var hyphIndex = verbForm.LastIndexOf('-');
+            var hyphIndex = verbForm.IndexOf('-');
             var afterHyphen = hyphIndex > -1 ? verbForm.Substring(hyphIndex) : string.Empty;
             var results = new List<string>();
             for (var i = ENDINGS.Count - 1; i >= 0; --i) {
                 if (verbForm.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
                     checked {
                         try {
-                            var possibleRoot = verbForm.Substring(0, verbForm.Length - SUFFICIES[i].Length);
+                            var possibleRoot = verbForm.Substring(0, verbForm.Length - (SUFFICIES[i].Length + afterHyphen.Length));
 
                             if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
                                 results.Add(possibleRoot);

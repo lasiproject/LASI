@@ -5,8 +5,8 @@ using LASI.Core.Heuristics;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ISimpleGenderedTest and is intended
     ///to contain all ISimpleGenderedTest Unit Tests
@@ -62,21 +62,44 @@ namespace LASI.UnitTests
         #endregion
 
 
-        internal virtual ISimpleGendered CreateISimpleGendered() {
-            // TODO: Instantiate an appropriate concrete class.
-            ISimpleGendered target = null;
-            return target;
-        }
 
         /// <summary>
         ///A test for Gender
         ///</summary>
         [TestMethod()]
-        public void GenderTest() {
-            ISimpleGendered target = CreateISimpleGendered(); // TODO: Initialize to an appropriate value
+        public void GenderTest1() {
+            ISimpleGendered target = new ProperSingularNoun("Jack");
             Gender actual;
             actual = target.Gender;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(Gender.Male, actual);
         }
+        /// <summary>
+        ///A test for Gender
+        ///</summary>
+        [TestMethod()]
+        private void GenderTest2() {
+            ISimpleGendered target = new ProperSingularNoun("Jill");
+            Gender actual = target.Gender;
+            Assert.AreEqual(Gender.Female, actual);
+        }
+        /// <summary>
+        ///A test for Gender
+        ///</summary>
+        [TestMethod()]
+        private void GenderTest3() {
+            ISimpleGendered target = new ProperSingularNoun("Carnegie");
+            Gender actual = target.Gender;
+            Assert.AreEqual(Gender.Neutral, actual);
+        }
+        /// <summary>
+        ///A test for Gender
+        ///</summary>
+        [TestMethod()]
+        private void GenderTest4() {
+            ISimpleGendered target = new ProperSingularNoun("LASI");
+            Gender actual = target.Gender;
+            Assert.AreEqual(Gender.Neutral, actual);
+        }
+
     }
 }

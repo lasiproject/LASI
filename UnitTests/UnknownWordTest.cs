@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for UnknownWordTest and is intended
     ///to contain all UnknownWordTest Unit Tests
@@ -66,9 +66,9 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void UnknownWordConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "qmilgestroph";
             UnknownWord target = new UnknownWord(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.IsTrue(target.Text == text);
         }
     }
 }

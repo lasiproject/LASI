@@ -33,15 +33,15 @@ namespace LASI.Core.Binding.Experimental
                             where PrimaryConstituents.All(c => {
                                 return c.EntityKind == knd ||
                                     c.EntityKind == EntityKind.Person && knd == EntityKind.PersonMultiple ||
-                                    c.EntityKind == EntityKind.ThingUnknown && knd == EntityKind.ThingUnknownMultiple ||
+                                    c.EntityKind == EntityKind.ThingUnknown && knd == EntityKind.ThingMultiple ||
                                     c.EntityKind == EntityKind.PersonMultiple && knd == EntityKind.Person ||
-                                    c.EntityKind == EntityKind.ThingUnknownMultiple && knd == EntityKind.ThingUnknown;
+                                    c.EntityKind == EntityKind.ThingMultiple && knd == EntityKind.ThingUnknown;
                             })
                             select knd;
                 var kind = kinds.FirstOrDefault();
                 return kind == EntityKind.Person || kind == EntityKind.PersonMultiple ? EntityKind.PersonMultiple :
-                    kind == EntityKind.ThingUnknown || kind == EntityKind.ThingUnknownMultiple ?
-                    EntityKind.ThingUnknownMultiple : kind;
+                    kind == EntityKind.ThingUnknown || kind == EntityKind.ThingMultiple ?
+                    EntityKind.ThingMultiple : kind;
             }
         }
 

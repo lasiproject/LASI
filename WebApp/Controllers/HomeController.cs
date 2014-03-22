@@ -77,7 +77,7 @@ namespace LASI.WebApp.Controllers
 
         private async Task<IEnumerable<Core.DocumentStructures.Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            var extensionMap = new ExtensionWrapperMap(UnsupportedFileTypeHandling.YieldNull);
+            var extensionMap = new ExtensionWrapperMap(UnsupportedFormatHandling.YieldNull);
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
                     try {
