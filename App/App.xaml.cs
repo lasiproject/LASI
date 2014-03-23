@@ -10,8 +10,7 @@ namespace LASI.App
     /// </summary>
     public partial class App : Application
     {
-        App()
-        {
+        App() {
             LoadPreferences();
             Exit += (sender, e) => {
                 if (Settings.Default.AutoCleanProjectFiles) {
@@ -24,11 +23,10 @@ namespace LASI.App
             };
         }
 
-        private static void LoadPreferences()
-        {
-            PerforamanceLevel performanceLevel;
-            if (Enum.TryParse<PerforamanceLevel>(Settings.Default.PerformanceLevel, out performanceLevel)) {
-                PerformanceManager.SetPerformanceLevel(performanceLevel);
+        private static void LoadPreferences() {
+            Performance.Mode performanceLevel;
+            if (Enum.TryParse<Performance.Mode>(Settings.Default.PerformanceLevel, out performanceLevel)) {
+                Performance.SetPerformanceLevel(performanceLevel);
             }
         }
     }

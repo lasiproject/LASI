@@ -15,7 +15,7 @@ namespace LASI.Interop
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class AnalysisController : Progress<ProgressReportEventArgs>
+    public sealed class AnalysisController : Progress<AnalysisUpdateEventArgs>
     {        /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
@@ -32,13 +32,10 @@ namespace LASI.Interop
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
-            AttachProxyLookupLoadingHandlers();
+            //AttachProxyLookupLoadingHandlers();
         }
 
-        private void AttachProxyLookupLoadingHandlers() {
-            Lookup.ResourceLoading += lookupResourceLoading = (s, e) => { OnReport(new ProgressReportEventArgs("Loading " + e.Message, 1.5)); };
-            Lookup.ResourceLoaded += lookupResourceLoaded = (s, e) => { OnReport(new ProgressReportEventArgs("Loaded " + e.Message, 1.5)); };
-        }
+
 
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
@@ -59,25 +56,17 @@ namespace LASI.Interop
 
             var taggedFiles = await TagFilesAsync(rawTextSources);
             var results = await BindAndWeightDocumentsAsync(taggedFiles);
-            DetachProxyLookupLoadingHandlers();
+            //DetachProxyLookupLoadingHandlers();
 
             return results;
         }
 
-        /// <summary>
-        /// Removes the proxy event handlers from the associated LASI.Core.Heuristics.Lookup events.    
-        /// This allows the AnalysisController to be garbage collected transparently.
-        /// </summary>
-        /// <see cref="LASI.Core.Heuristics.Lookup"/>
-        private void DetachProxyLookupLoadingHandlers() {
-            Lookup.ResourceLoading -= lookupResourceLoading;
-            Lookup.ResourceLoaded -= lookupResourceLoaded;
-        }
+
 
 
 
         private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextDocuments) {
-            OnReport(new ProgressReportEventArgs("Tagging Documents", 0));
+            OnReport(new AnalysisUpdateEventArgs("Tagging Documents", 0));
             var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await Tagger.TaggedFromRawAsync(raw))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.ContentSystem.ITaggedTextSource>();
             while (tasks.Any()) {
@@ -85,9 +74,9 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                OnReport(new ProgressReportEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
+                OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
             }
-            OnReport(new ProgressReportEventArgs("Tagged Documents", 3));
+            OnReport(new AnalysisUpdateEventArgs("Tagged Documents", 3));
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
@@ -103,30 +92,28 @@ namespace LASI.Interop
         }
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;
-            OnReport(new ProgressReportEventArgs(string.Format("{0}: Loading...", fileName), 0));
+            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loading...", fileName), 0));
             var document = await Tagger.DocumentFromTaggedAsync(tagged);
-            OnReport(new ProgressReportEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
-            OnReport(new ProgressReportEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
+            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
+            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
             foreach (var bindingTask in document.GetBindingTasks()) {
-                OnReport(new ProgressReportEventArgs(bindingTask.InitializationMessage, 0));
+                OnReport(new AnalysisUpdateEventArgs(bindingTask.InitializationMessage, 0));
                 await bindingTask.Task;
-                OnReport(new ProgressReportEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new AnalysisUpdateEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.5 / sourceCount));
             }
-            OnReport(new ProgressReportEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
+            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
             foreach (var task in document.GetWeightingTasks()) {
-                OnReport(new ProgressReportEventArgs(task.InitializationMessage, 1 / sourceCount));
+                OnReport(new AnalysisUpdateEventArgs(task.InitializationMessage, 1 / sourceCount));
                 await task.Task;
-                OnReport(new ProgressReportEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new AnalysisUpdateEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
             }
 
-            OnReport(new ProgressReportEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
+            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
             return document;
         }
 
         #region Fields
 
-        private EventHandler<ResourceLoadEventArgs> lookupResourceLoading;
-        private EventHandler<ResourceLoadEventArgs> lookupResourceLoaded;
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IRawTextSource> rawTextSources;

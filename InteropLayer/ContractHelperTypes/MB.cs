@@ -1,86 +1,14 @@
-﻿using System;
+﻿using LASI.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Utilities
+namespace LASI.Interop
 {
     /// <summary>
-    /// Centrailizes management and control of the concurrency level of concurrent operations.
-    /// </summary>
-    public static class Concurrency
-    {
-        /// <summary>
-        /// Sets the maximum allowed Concurrency level based on the supplied ResourceUsageMode.
-        /// </summary>
-        /// <param name="mode">The ResourceUsageMode value from which to determine concurrency settings.</param>
-        public static void SetByPerformanceMode(PeformanceMode mode) {
-            var logicalCPUs = System.Environment.ProcessorCount;
-            Max = mode == PeformanceMode.High ?
-                logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1 :
-               mode == PeformanceMode.Normal ?
-                logicalCPUs < 3 ? 2 : logicalCPUs - 2 :
-               mode == PeformanceMode.Low ?
-                logicalCPUs < 4 ? 1 : logicalCPUs - 3 : GetDefaultParallelMax();
-        }
-        /// <summary>
-        /// Gets the default maxiumum number of logical CPU cores, based on the executing hardware, the document analysis process is allowed to utilize.
-        /// </summary>
-        /// <returns>The default maxiumum number of logical CPU cores the document analysis process is allowed to utilize.</returns>
-        private static int GetDefaultParallelMax() {
-            var logicalCPUs = System.Environment.ProcessorCount;
-            return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1;
-        }
-        /// <summary>
-        /// Gets the maximum allowed Concurrency level for Parallel operations.
-        /// </summary>
-        public static int Max { get; private set; }
-
-        static Concurrency() { Max = GetDefaultParallelMax(); }
-
-    }
-    /// <summary>
-    /// Centrailizes management and control of the memory (RAM) consumed by lookup caches.
-    /// </summary>
-    public static class Memory
-    {
-
-        /// <summary>
-        /// Sets the maximum size to which the lookup caches can collectively grow based on the specified ResourceMode
-        /// </summary>
-        /// <param name="mode">The ResourceMode which will be used to determine the maximum collective cache size</param>
-        public static void SetFromResourceMode(PeformanceMode mode) {
-            MinRamThreshold = mode == PeformanceMode.High ? (MB)2048 : mode == PeformanceMode.Normal ? (MB)3072 : (MB)4096;
-        }
-        /// <summary>
-        /// The maxiumum number of MBs to which the lookup caches can collectively grow.
-        /// </summary>
-        public static MB MinRamThreshold { get; private set; }
-
-        /// <summary>
-        /// Static constructor, sets the maximum size to which the lookup caches can collectively grow
-        /// </summary>
-        static Memory() {
-            SetFromResourceMode(PeformanceMode.Low);
-            var checkIntervalTimer = new System.Timers.Timer(10000);
-            checkIntervalTimer.Start();
-            checkIntervalTimer.Elapsed += (sender, e) => {
-                if (GetAvailableMemory() <= MinRamThreshold) {
-                    CriticalMemoryUsage(new object(), new EventArgs());
-                }
-            };
-        }
-        /// <summary>
-        /// Raised when less than the minimum amount of available ram remains.
-        /// </summary>
-        public static event EventHandler CriticalMemoryUsage = delegate { };
-        private static MB GetAvailableMemory() {
-            return (MB)(uint)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
-        }
-    }
-    /// <summary>
-    /// Represents a quantity of MegaBytes.
+    /// Represents a positive quantity in MegaBytes.
     /// </summary>
     public struct MB
     {
@@ -115,7 +43,7 @@ namespace LASI.Utilities
         /// <summary>
         /// Gets the quantity of MegaBytes the MB represents.
         /// </summary>
-        public uint Quantity { get; private set; }
+        private uint Quantity;
         #endregion
 
         #region conversion operators
@@ -365,23 +293,5 @@ namespace LASI.Utilities
         /// <returns>True if the uint on the left is not equal to the MB on the right.</returns>
         public static bool operator !=(uint left, MB right) { return !(left == right); }
         #endregion
-    }
-    /// <summary>
-    /// Broadly specifies the various resource usage profiles of the program.
-    /// </summary>
-    public enum PeformanceMode
-    {
-        /// <summary>
-        /// High resource usage indicates a liberal allocation and consumption of available system resources.
-        /// </summary>
-        High,
-        /// <summary>
-        /// Noraml resource usage indicates a modest allocation and consumption of available system resources.
-        /// </summary>
-        Normal,
-        /// <summary>
-        /// High resource usage indicates a conservative allocation and consumption of available system resources.
-        /// </summary>
-        Low,
     }
 }

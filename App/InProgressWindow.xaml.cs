@@ -43,17 +43,36 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
-
-            var analysisProvider = new AnalysisController(FileManager.TxtFiles);
-            analysisProvider.ProgressChanged += async (sender, e) => {
+            var systemNotifier = new ResourceNotifier();
+            systemNotifier.ResourceLoading += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.Increment;
+                var animateStep = 0.028 * e.PercentOfWorkRepresented;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
                     await Task.Delay(1);
                 }
             };
+            systemNotifier.ResourceLoading += async (sender, e) => {
+                progressLabel.Content = e.Message;
+                progressBar.ToolTip = e.Message;
+                var animateStep = 0.028 * e.PercentOfWorkRepresented;
+                for (int i = 0; i < 33; ++i) {
+                    progressBar.Value += animateStep;
+                    await Task.Delay(1);
+                }
+            };
+            var analysisProvider = new AnalysisController(FileManager.TxtFiles);
+            analysisProvider.ProgressChanged += async (sender, e) => {
+                progressLabel.Content = e.Message;
+                progressBar.ToolTip = e.Message;
+                var animateStep = 0.028 * e.PercentOfWorkRepresented;
+                for (int i = 0; i < 33; ++i) {
+                    progressBar.Value += animateStep;
+                    await Task.Delay(1);
+                }
+            };
+
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
 
             progressBar.Value = 100;

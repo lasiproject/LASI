@@ -89,7 +89,7 @@ namespace LASI.WebApp.Controllers
                 .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisController(files);
             analyzer.ProgressChanged += (s, e) => {
-                percentComplete += e.Increment;
+                percentComplete += e.PercentOfWorkRepresented;
                 currentOperation = e.Message;
             };
             var documents = await Task.Run(async () => await analyzer.ProcessAsync());

@@ -20,7 +20,7 @@ namespace LASI.Core.Interop.Reporting
         /// <summary>
         /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
         /// </summary>
-        public double Increment { get; protected set; }
+        public double PercentOfWorkRepresented { get; protected set; }
 
     }
 }

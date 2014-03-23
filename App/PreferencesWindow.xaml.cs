@@ -22,7 +22,7 @@ namespace LASI.App
         }
         private void saveButton_Click(object sender, RoutedEventArgs e) {
             Properties.Settings.Default.Save();
-            PerformanceManager.SetPerformanceLevel(ChosenPerformanceLevel);
+            Performance.SetPerformanceLevel(PerformanceLevel);
             this.DialogResult = true;
         }
         private void cancelButton_Click(object sender, RoutedEventArgs e) {
@@ -48,21 +48,22 @@ namespace LASI.App
 
         private void LoadAdvancedPreferences() {
             try {
-                ChosenPerformanceLevel = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), Settings.Default.PerformanceLevel);
-                switch (ChosenPerformanceLevel) {
-                    case PerforamanceLevel.High:
+                PerformanceLevel = (Performance.Mode)Enum.Parse(typeof(Performance.Mode), Settings.Default.PerformanceLevel);
+                switch (PerformanceLevel) {
+                    case Performance.Mode.High:
                         High.IsChecked = true;
                         break;
-                    case PerforamanceLevel.Normal:
+                    case Performance.Mode.Normal:
                         Normal.IsChecked = true;
                         break;
-                    case PerforamanceLevel.Low:
+                    case Performance.Mode.Low:
                         Low.IsChecked = true;
                         break;
                 }
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException) {
                 Normal.IsChecked = true;
-                ChosenPerformanceLevel = PerforamanceLevel.Normal;
+                PerformanceLevel = Performance.Mode.Normal;
             }
         }
 
@@ -72,7 +73,7 @@ namespace LASI.App
             var checkBox = sender as RadioButton;
             if (checkBox.IsChecked ?? false) {
                 Settings.Default.PerformanceLevel = checkBox.Name;
-                ChosenPerformanceLevel = (PerforamanceLevel)Enum.Parse(typeof(PerforamanceLevel), checkBox.Name);
+                PerformanceLevel = (Performance.Mode)Enum.Parse(typeof(Performance.Mode), checkBox.Name);
             }
         }
 
@@ -92,7 +93,7 @@ namespace LASI.App
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public PerforamanceLevel ChosenPerformanceLevel { get; private set; }
+        public Performance.Mode PerformanceLevel { get; private set; }
 
 
         #region Fields

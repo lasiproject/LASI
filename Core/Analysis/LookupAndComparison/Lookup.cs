@@ -253,18 +253,23 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-        public static void ClearAllCaches() {
+        public static void ClearAdjectiveCache() {
             cachedAdjectiveData.Clear();
-            cachedAdverbData.Clear();
-            cachedVerbData.Clear();
+        }
+
+
+        public static void ClearNounCache() {
             cachedNounData.Clear();
         }
-        static Lookup() {
-            Memory.SetFromResourceMode(LASI.Utilities.PeformanceMode.High);
-            Memory.CriticalMemoryUsage += (sender, e) => {
-                ClearAllCaches();
-            };
+
+        public static void ClearVerbCache() {
+            cachedVerbData.Clear();
         }
+
+        public static void ClearAdverbCache() {
+            cachedAdverbData.Clear();
+        }
+
 
         #region Internal Syonym Lookup Methods
 
@@ -290,7 +295,7 @@ namespace LASI.Core.Heuristics
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             lookup.Load();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
 
             return lookup;
         }
@@ -362,7 +367,7 @@ namespace LASI.Core.Heuristics
             var timer = System.Diagnostics.Stopwatch.StartNew();
             var val = new NameProvider();
             val.Load();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return val;
         }, true);
 
@@ -384,7 +389,7 @@ namespace LASI.Core.Heuristics
             }
 
 
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedTime = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
 
             timer.Stop();
             return dict;

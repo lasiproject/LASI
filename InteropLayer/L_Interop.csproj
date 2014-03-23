@@ -56,11 +56,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProgressReportEventArgs.cs" />
+    <Compile Include="ContractHelperTypes\Base\SystemResourceNotifierDualizer.cs" />
+    <Compile Include="ContractHelperTypes\Base\SystemResourceLoadingNotifier.cs" />
+    <Compile Include="ContractHelperTypes\Base\SystemResourceNotifier.cs" />
+    <Compile Include="ContractHelperTypes\ResourceLoadEventArgs.cs" />
+    <Compile Include="ContractHelperTypes\MB.cs" />
+    <Compile Include="ContractHelperTypes\MemoryThresholdExceededEventArgs.cs" />
+    <Compile Include="ContractHelperTypes\ProgressReportEventArgs.cs" />
     <Compile Include="ISyntacticColorizer.cs" />
-    <Compile Include="PerformanceManager.cs" />
+    <Compile Include="Performance.cs" />
     <Compile Include="AnalysisController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceLayerProviders.cs" />
+    <Compile Include="ResourceNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">

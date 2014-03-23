@@ -17,7 +17,7 @@ let main argv =
     Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
     Lookup.ResourceLoaded.Add
         (fun e -> 
-        printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedTime)
+        printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedMiliseconds)
     // tag, parse, and construct a Document 
     // perform default binding on the Document
     // perform default weighting on the Document

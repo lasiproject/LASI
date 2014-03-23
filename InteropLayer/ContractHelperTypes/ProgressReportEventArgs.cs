@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LASI.Core;
+using LASI.Core.Heuristics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,18 +13,17 @@ namespace LASI.Interop
     /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class ProgressReportEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
+    public class AnalysisUpdateEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
         /// <summary>
         /// Intializes a new instance of the ProgressReportEventArgs class.
         /// </summary>
         /// <param name="message">The message pertaining to an ongoing operation</param>
-        /// <param name="increment">The numerical increase in the progress of the operation since the event was last raised.</param>
-        public ProgressReportEventArgs(string message, double increment) {
+        /// <param name="percentOfWorkRepresented">The numerical increase in the progress of the operation since the event was last raised.</param>
+        public AnalysisUpdateEventArgs(string message, double percentOfWorkRepresented) {
             Message = message;
-            Increment = increment;
+            PercentOfWorkRepresented = percentOfWorkRepresented;
         }
-
 
     }
 }

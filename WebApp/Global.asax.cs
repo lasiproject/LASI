@@ -23,6 +23,14 @@ namespace LASI.WebApp
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            InitializeCoreHooks();
+        }
+        /// <summary>
+        /// Application specific initialization for concurrency management, memory management, and logging.
+        /// </summary>
+        private void InitializeCoreHooks() {
+            LASI.Interop.Performance.SetPerformanceLevel(LASI.Interop.Performance.Mode.High);
         }
     }
 }

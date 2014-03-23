@@ -14,7 +14,7 @@ namespace LASI.Core
     public class ResourceLoadEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
         internal ResourceLoadEventArgs() {
-            ElapsedTime = 0L;
+            ElapsedMiliseconds = 0L;
             Message = string.Empty;
         }
         /// <summary>
@@ -25,12 +25,12 @@ namespace LASI.Core
         public ResourceLoadEventArgs(string message, double increment)
             : this() {
             Message = message;
-            Increment = increment;
+            PercentOfWorkRepresented = increment;
         }
         /// <summary>
         /// The number of miliseconds consumed by the loading task associated with the event.
         /// </summary>
-        public long ElapsedTime { get; internal set; }
+        public long ElapsedMiliseconds { get; internal set; }
 
 
     }
