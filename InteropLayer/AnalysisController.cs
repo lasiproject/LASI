@@ -32,7 +32,6 @@ namespace LASI.Interop
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
-            //AttachProxyLookupLoadingHandlers();
         }
 
 
@@ -56,7 +55,6 @@ namespace LASI.Interop
 
             var taggedFiles = await TagFilesAsync(rawTextSources);
             var results = await BindAndWeightDocumentsAsync(taggedFiles);
-            //DetachProxyLookupLoadingHandlers();
 
             return results;
         }
@@ -67,7 +65,7 @@ namespace LASI.Interop
 
         private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextDocuments) {
             OnReport(new AnalysisUpdateEventArgs("Tagging Documents", 0));
-            var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await Tagger.TaggedFromRawAsync(raw))).ToList();
+            var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await new Tagger().TaggedFromRawAsync(raw))).ToList();
             var taggedFiles = new ConcurrentBag<LASI.ContentSystem.ITaggedTextSource>();
             while (tasks.Any()) {
                 var task = await Task.WhenAny(tasks);
@@ -93,7 +91,7 @@ namespace LASI.Interop
         private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loading...", fileName), 0));
-            var document = await Tagger.DocumentFromTaggedAsync(tagged);
+            var document = await new Tagger().DocumentFromTaggedAsync(tagged);
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
             foreach (var bindingTask in document.GetBindingTasks()) {
