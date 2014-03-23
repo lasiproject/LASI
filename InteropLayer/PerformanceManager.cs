@@ -21,16 +21,16 @@ namespace LASI.Interop
         public static void SetPerformanceLevel(PerforamanceLevel mode) {
             switch (mode) {
                 case PerforamanceLevel.High:
-                    Concurrency.SetFromResourceMode(ResourceMode.High);
-                    Memory.SetFromResourceMode(ResourceMode.High);
+                    Concurrency.SetByPerformanceMode(PeformanceMode.High);
+                    Memory.SetFromResourceMode(PeformanceMode.High);
                     break;
                 case PerforamanceLevel.Normal:
-                    Concurrency.SetFromResourceMode(ResourceMode.Normal);
-                    Memory.SetFromResourceMode(ResourceMode.Normal);
+                    Concurrency.SetByPerformanceMode(PeformanceMode.Normal);
+                    Memory.SetFromResourceMode(PeformanceMode.Normal);
                     break;
                 case PerforamanceLevel.Low:
-                    Concurrency.SetFromResourceMode(ResourceMode.Low);
-                    Memory.SetFromResourceMode(ResourceMode.Low);
+                    Concurrency.SetByPerformanceMode(PeformanceMode.Low);
+                    Memory.SetFromResourceMode(PeformanceMode.Low);
                     break;
             }
         }

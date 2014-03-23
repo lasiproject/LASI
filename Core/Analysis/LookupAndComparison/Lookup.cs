@@ -253,6 +253,18 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
+        public static void ClearAllCaches() {
+            cachedAdjectiveData.Clear();
+            cachedAdverbData.Clear();
+            cachedVerbData.Clear();
+            cachedNounData.Clear();
+        }
+        static Lookup() {
+            Memory.SetFromResourceMode(LASI.Utilities.PeformanceMode.High);
+            Memory.CriticalMemoryUsage += (sender, e) => {
+                ClearAllCaches();
+            };
+        }
 
         #region Internal Syonym Lookup Methods
 

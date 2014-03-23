@@ -55,7 +55,7 @@ namespace LASI
         /// in the current instance have been removed.
         /// </summary>
         /// <param name="value">The string to filter.</param>
-        /// <param name="remove">Zero or more strings to remove from the string.</param>
+        /// <param name="remove">Zero or more substrings whose occurences will be removed.</param>
         /// <returns>A new string in which all occurrences of any of the specified strings
         /// in the current instance have been removed.</returns>         
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
@@ -64,7 +64,7 @@ namespace LASI
             if (value == null)
                 throw new ArgumentNullException("value");
             if (remove.Contains(string.Empty))
-                throw new ArgumentException("The string[] removed contained an empty string", "remove");
+                throw new ArgumentException("The string[] remove contained an empty string", "remove");
             foreach (var r in remove) {
                 value = value.Replace(r, string.Empty);
             }
@@ -91,22 +91,26 @@ namespace LASI
         /// <param name="value">The first string to compare.</param>
         /// <param name="other">The second string to compare</param>
         /// <returns>True if the given strings are equal; otherwise, false.</returns>
+        /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
         /// <summary>
-        /// Returns a new string in which all characters which are known to be problematic for jQuery's Sizzle Selector engine are replaced with underscores.
+        /// Returns a new string in which all characters which are known to be problematic for jQuery's Sizzle Selector 
+        /// engine have been replaced with a single distinct character, delimited by an underscore on either side.
         /// </summary>
         /// <param name="value">The string to transform.</param>
         /// <returns>A new string in which all characters which are known to be problematic for jQuery's Sizzle Selector engine are replaced with underscores.</returns>
+        /// <remarks>The extra underscores which pad the replacement are costly but allow for the name to remain legible. Note that a space is replaced by a single underscore.</remarks>
         public static string ToSizzleSafeString(this string value) {
             return value.Replace(' ', '_')
-                .Replace('(', '_')
-                .Replace(')', '_')
-                .Replace('[', '_')
-                .Replace(']', '_')
-                .Replace('{', '_')
-                .Replace('}', '_');
+                .Replace("(", "_a_")
+                .Replace(")", "_b_")
+                .Replace("[", "_c_")
+                .Replace("]", "_d_")
+                .Replace("{", "_e_")
+                .Replace("}", "_f_")
+                .Replace("+", "_g_");
         }
     }
 }

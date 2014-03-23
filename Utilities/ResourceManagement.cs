@@ -15,13 +15,13 @@ namespace LASI.Utilities
         /// Sets the maximum allowed Concurrency level based on the supplied ResourceUsageMode.
         /// </summary>
         /// <param name="mode">The ResourceUsageMode value from which to determine concurrency settings.</param>
-        public static void SetFromResourceMode(ResourceMode mode) {
+        public static void SetByPerformanceMode(PeformanceMode mode) {
             var logicalCPUs = System.Environment.ProcessorCount;
-            Max = mode == ResourceMode.High ?
+            Max = mode == PeformanceMode.High ?
                 logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1 :
-               mode == ResourceMode.Normal ?
+               mode == PeformanceMode.Normal ?
                 logicalCPUs < 3 ? 2 : logicalCPUs - 2 :
-               mode == ResourceMode.Low ?
+               mode == PeformanceMode.Low ?
                 logicalCPUs < 4 ? 1 : logicalCPUs - 3 : GetDefaultParallelMax();
         }
         /// <summary>
@@ -38,33 +38,46 @@ namespace LASI.Utilities
         public static int Max { get; private set; }
 
         static Concurrency() { Max = GetDefaultParallelMax(); }
+
     }
     /// <summary>
     /// Centrailizes management and control of the memory (RAM) consumed by lookup caches.
     /// </summary>
     public static class Memory
     {
+
         /// <summary>
         /// Sets the maximum size to which the lookup caches can collectively grow based on the specified ResourceMode
         /// </summary>
         /// <param name="mode">The ResourceMode which will be used to determine the maximum collective cache size</param>
-        public static void SetFromResourceMode(ResourceMode mode) {
-            MaxLookupCacheSize = mode == ResourceMode.High ? (MB)4096 : mode == ResourceMode.Normal ? (MB)3072 : (MB)1536;
+        public static void SetFromResourceMode(PeformanceMode mode) {
+            MinRamThreshold = mode == PeformanceMode.High ? (MB)2048 : mode == PeformanceMode.Normal ? (MB)3072 : (MB)4096;
         }
-        /// <summary>
-        /// Sets the maximum size to which the lookup caches can collectively grow to the specified number of MegaBytes (MB)
-        /// </summary>
-        /// <param name="maxMemUsage">The maximum allowed collective cache size in MB</param>
-        public static void SetMaxCacheSize(MB maxMemUsage) { MaxLookupCacheSize = maxMemUsage; }
         /// <summary>
         /// The maxiumum number of MBs to which the lookup caches can collectively grow.
         /// </summary>
-        public static MB MaxLookupCacheSize { get; private set; }
+        public static MB MinRamThreshold { get; private set; }
 
         /// <summary>
-        /// Static constructor, sets the maximum size to which the lookup caches can collectively grow to 4096M 
+        /// Static constructor, sets the maximum size to which the lookup caches can collectively grow
         /// </summary>
-        static Memory() { MaxLookupCacheSize = (MB)4096; }
+        static Memory() {
+            SetFromResourceMode(PeformanceMode.Low);
+            var checkIntervalTimer = new System.Timers.Timer(10000);
+            checkIntervalTimer.Start();
+            checkIntervalTimer.Elapsed += (sender, e) => {
+                if (GetAvailableMemory() <= MinRamThreshold) {
+                    CriticalMemoryUsage(new object(), new EventArgs());
+                }
+            };
+        }
+        /// <summary>
+        /// Raised when less than the minimum amount of available ram remains.
+        /// </summary>
+        public static event EventHandler CriticalMemoryUsage = delegate { };
+        private static MB GetAvailableMemory() {
+            return (MB)(uint)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
+        }
     }
     /// <summary>
     /// Represents a quantity of MegaBytes.
@@ -356,7 +369,7 @@ namespace LASI.Utilities
     /// <summary>
     /// Broadly specifies the various resource usage profiles of the program.
     /// </summary>
-    public enum ResourceMode
+    public enum PeformanceMode
     {
         /// <summary>
         /// High resource usage indicates a liberal allocation and consumption of available system resources.

@@ -35,10 +35,9 @@ module LASI.Index {
 
                     },
                 });
-                $(e.target).css("width", "0%");
-            });
-            //e.preventDefault();
 
+            });
+            $(e.target).css("width", "0%");
         });
 
 

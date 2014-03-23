@@ -32,9 +32,8 @@ var LASI;
                             console.log(t.status);
                         }
                     });
-                    $(e.target).css("width", "0%");
                 });
-                //e.preventDefault();
+                $(e.target).css("width", "0%");
             });
         }());
     })(LASI.Index || (LASI.Index = {}));

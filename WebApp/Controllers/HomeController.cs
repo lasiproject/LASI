@@ -93,6 +93,8 @@ namespace LASI.WebApp.Controllers
                 currentOperation = e.Message;
             };
             var documents = await Task.Run(async () => await analyzer.ProcessAsync());
+            percentComplete = 100;
+            currentOperation = "Analysis Complete.";
             processedDocuments.UnionWith(documents);
             return processedDocuments;
 
@@ -119,11 +121,14 @@ namespace LASI.WebApp.Controllers
                       serializerSettings));
             }
 
-            percentComplete %= 100;
+            percentComplete %= 101;
             bool extant = trackedJobs.ContainsKey(jobId);
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
             trackedJobs[jobId] = update;
+            //if (trackedJobs.All(j => j.Value >= 100)) {
+            //    trackedJobs.Clear();
+            //}
             return Content(JsonConvert.SerializeObject(update, serializerSettings));
         }
 
