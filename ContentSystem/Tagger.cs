@@ -17,7 +17,7 @@ namespace LASI.ContentSystem
     /// </summary>
     public static class Tagger
     {
-        /// <summary>
+        /// <summary>   
         /// Parses any number of untagged strings into a new Document instance.
         /// </summary>
         /// <param name="strs">The untagged, raw strings to parse.</param>
