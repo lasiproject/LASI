@@ -20,11 +20,17 @@ namespace LASI.Interop
         /// <summary>
         /// Raised when a System Core resource is finished loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoaded { add { notificationProvider.ProgressChanged += value; } remove { notificationProvider.ProgressChanged -= value; } }
+        public event EventHandler<ResourceLoadEventArgs> ResourceLoaded {
+            add { notificationProvider.ProgressChanged += value; }
+            remove { notificationProvider.ProgressChanged -= value; }
+        }
 
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoading { add { notificationProvider.ProgressChanging += value; } remove { notificationProvider.ProgressChanging -= value; } }
+        public event EventHandler<ResourceLoadEventArgs> ResourceLoading {
+            add { notificationProvider.ProgressChanging += value; }
+            remove { notificationProvider.ProgressChanging -= value; }
+        }
     }
 }

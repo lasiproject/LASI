@@ -16,14 +16,15 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// </summary>
         public SystemResourceNotifier()
             : base("Loaded") {
-
-            LASI.Core.Heuristics.Lookup.ResourceLoaded += (sender, e) =>
-                OnReport(TranslateEventArgs(e));
+            LASI.Core.Heuristics.Lookup.ResourceLoaded += (sender, e) => OnReport(TranslateEventArgs(e));
         }
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ProgressChanging { add { loadingProvider.ProgressChanged += value; } remove { loadingProvider.ProgressChanged -= value; } }
+        public event EventHandler<ResourceLoadEventArgs> ProgressChanging {
+            add { loadingProvider.ProgressChanged += value; }
+            remove { loadingProvider.ProgressChanged -= value; }
+        }
         private LASI.Interop.ContractHelperTypes.Base.SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
 
     }
