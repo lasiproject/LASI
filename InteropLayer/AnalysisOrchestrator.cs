@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace LASI.Interop
 {
 
@@ -15,19 +16,19 @@ namespace LASI.Interop
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronoun callback based progress reports.
     /// </summary>
-    public sealed class AnalysisController : Progress<AnalysisUpdateEventArgs>
+    public sealed class AnalysisOrchestrator : Progress<AnalysisUpdateEventArgs>
     {        /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSource">An untagged english language written work.</param>
-        public AnalysisController(IRawTextSource rawTextSource)
+        public AnalysisOrchestrator(IRawTextSource rawTextSource)
             : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged english language written works.</param>
-        public AnalysisController(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextSources)
+        public AnalysisOrchestrator(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextSources)
             : base(e => { }) {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
@@ -48,7 +49,13 @@ namespace LASI.Interop
         /// <example>
         ///Example event registration:
         ///<code>
-        /// myProcessController.ProgressChanged += async (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// myAnalysisOrchestrator.ProgressChanged += (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// </code>
+        /// </example>
+        /// <example>
+        /// Attaching an Asyncrhonous Event Handler
+        /// <code>
+        /// myAnalysisOrchestrator.ProgressChanged += async (sender, e) => await Task.Run(myAction());
         /// </code>
         /// </example>
         public async Task<IEnumerable<Document>> ProcessAsync() {

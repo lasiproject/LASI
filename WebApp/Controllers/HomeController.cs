@@ -87,7 +87,7 @@ namespace LASI.WebApp.Controllers
                     catch (ArgumentException) { return null; }
                 })
                 .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
-            var analyzer = new AnalysisController(files);
+            var analyzer = new AnalysisOrchestrator(files);
             analyzer.ProgressChanged += (s, e) => {
                 percentComplete += e.PercentOfWorkRepresented;
                 currentOperation = e.Message;

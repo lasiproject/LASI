@@ -62,7 +62,7 @@ namespace LASI.App
                     await Task.Delay(1);
                 }
             };
-            var analysisProvider = new AnalysisController(FileManager.TxtFiles);
+            var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
             analysisProvider.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
