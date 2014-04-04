@@ -12,7 +12,7 @@ module LASI.Progress {
         }
     }
 }
-$(() => {
+$(function() {
 
     // Import class Status
     var Status = LASI.Progress.Status;

@@ -29,12 +29,15 @@ let main argv =
         | "txt" -> new TxtFile(s) :> InputFile
         | "pdf" -> new PdfFile(s) :> InputFile
         | _ -> null
-    
-    let controller = 
-        AnalysisController
+         
+    let resourceLoadNotifier = ResourceNotifier()
+
+    resourceLoadNotifier.ResourceLoaded.Add (fun e->printfn "Update: %s" e.Message)
+    resourceLoadNotifier.ResourceLoading.Add (fun e->printfn "Update: %s" e.Message)
+    let orchestrator = 
+        AnalysisOrchestrator
             (fileWrapper @"C:\Users\Aluan\Desktop\Documents\ducks.txt")
-    controller.ProgressChanged.Add(fun e -> printfn "Update: %s" e.Message)
-    let docTask = async { return controller.ProcessAsync().Result }
+    let docTask = async { return orchestrator.ProcessAsync().Result }
     let doc = Async.RunSynchronously(docTask).First()
     let toAttack = Verb("attack", VerbForm.Base)
     let bellicoseVerbals = 

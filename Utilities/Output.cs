@@ -25,7 +25,7 @@ namespace LASI
         #region Methods
 
         /// <summary>
-        /// Sets the current output stream to Console.Out, the default.
+        /// Sets the current output stream to Console.Out, the default which is the default which on run.
         /// </summary>
         public static void SetToConsole() {
             OutputMode = OutputMode.Console;
