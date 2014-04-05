@@ -34,9 +34,10 @@ $(function() {
                         $(".progress-bar").css("width", st.formattedPercent);
                         $("#progress-text").text(st.message);
                         // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
-                        if (st.percent >= 100 && $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(e=> e.percent).every(x=> x >= 100)) {
-                            $("#proceed-to-results").show();
-                        }
+                        if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(e=> e.percent).every(x=> x >= 100)) {
+                            $("#proceed-to-results").show().click();
+                            
+                         }
                     });
             }, 1000);
             return id += 1;

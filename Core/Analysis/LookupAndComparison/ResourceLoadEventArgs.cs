@@ -25,7 +25,7 @@ namespace LASI.Core
         public ResourceLoadEventArgs(string message, double increment)
             : this() {
             Message = message;
-            PercentOfWorkRepresented = increment;
+            PercentWorkRepresented = increment;
         }
         /// <summary>
         /// The number of miliseconds consumed by the loading task associated with the event.

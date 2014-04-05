@@ -8,7 +8,7 @@
     <StartupFile>IronPythonExperimentation.py</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>C:\Users\books\Source\Repos\LASI</WorkingDirectory>
+    <WorkingDirectory>C:\Users\Aluan\Documents\GitHub\LASI</WorkingDirectory>
     <InterpreterId>{fcc291aa-427c-498c-a4d7-4502d6449b8c}</InterpreterId>
     <LaunchProvider>IronPython (.NET) launcher</LaunchProvider>
     <InterpreterVersion>2.7</InterpreterVersion>

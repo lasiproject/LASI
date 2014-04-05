@@ -251,7 +251,7 @@ namespace LASI.Core
         /// </summary>
         internal WeightingUpdateEventArgs(string message, double increment) {
             Message = message;
-            PercentOfWorkRepresented = increment;
+            PercentWorkRepresented = increment;
         }
 
     }

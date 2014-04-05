@@ -22,7 +22,7 @@ namespace LASI.Interop
         /// <param name="percentOfWorkRepresented">The numerical increase in the progress of the operation since the event was last raised.</param>
         public AnalysisUpdateEventArgs(string message, double percentOfWorkRepresented) {
             Message = message;
-            PercentOfWorkRepresented = percentOfWorkRepresented;
+            PercentWorkRepresented = percentOfWorkRepresented;
         }
 
     }

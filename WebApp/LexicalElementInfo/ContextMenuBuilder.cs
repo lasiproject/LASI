@@ -19,17 +19,13 @@ namespace LASI.WebApp
     {
         private static int idGenerator = 0;
         private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
-        public static int GetSerializationId(this ILexical element) {
+        public static int GetSerializationId(this ILexical element)
+        {
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
-        public static dynamic GetJsonMenuData(this IVerbal verbal) {
+        public static dynamic GetJsonMenuData(this IVerbal verbal)
+        {
             if (verbal == null) { throw new ArgumentNullException("verbal"); }
-            var serializerSettings = new JsonSerializerSettings {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
             var data = new
             {
                 Verbal = verbal.GetSerializationId(),
@@ -37,7 +33,32 @@ namespace LASI.WebApp
                 DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 IndirectObjects = verbal.HasIndirectObject() ? verbal.IndirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
             };
-            return JsonConvert.SerializeObject(data, serializerSettings);
+            return JsonConvert.SerializeObject(data, SerializerSettings);
+        }
+
+        private static JsonSerializerSettings SerializerSettings
+        {
+            get
+            {
+                return new JsonSerializerSettings {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+            }
+        }
+
+        public static dynamic GetJsonMenuData(this IReferencer referencer)
+        {
+            if (referencer == null) { throw new ArgumentNullException("referencer"); }
+            var data = new
+            {
+                Referencer = referencer.GetSerializationId(),
+
+                RefererredTo = referencer.ReferredTo.Any() ? referencer.ReferredTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
+            };
+            return JsonConvert.SerializeObject(data, SerializerSettings);
         }
     }
 }
