@@ -8,7 +8,7 @@ namespace LASI.Core.Binding.Experimental
     /// <summary>
     /// An experimental class which uses a variety of binding techniques to infer the likely clause structure of a set of contiguous lexical elements.
     /// </summary>
-    public static class ClauseSeperatingBranchingBinder
+    public static class AdaptivePronounBinder
     {
         /// <summary>
         /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
@@ -26,14 +26,14 @@ namespace LASI.Core.Binding.Experimental
                         .Take(splitPoints.First())
                         .Concat(words.Skip(splitter)));
                 // for now, we will take the most fruitful branch. That is, the branch which produces the most actions 
-                var actionByBranch = from branch in branches
-                                         //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                     let actions = GetBranchActions(branch)
-                                     where actions.Any()
-                                     orderby actions.Count() descending
-                                     select actions;
-                if (actionByBranch.Any()) {
-                    actionByBranch.First().ToList().ForEach(a => a());
+                var actionsByBranch = from branch in branches
+                                          //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                      let actions = GetBranchActions(branch)
+                                      where actions.Any()
+                                      orderby actions.Count() descending
+                                      select actions;
+                if (actionsByBranch.Any()) {
+                    foreach (var action in actionsByBranch.First()) action();
                 }
             }
         }
@@ -42,31 +42,30 @@ namespace LASI.Core.Binding.Experimental
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words) {
             var wordList = words.ToList();
             var actions =
-                from o in
+                from noun in
                     from noun in wordList.OfNoun()
                     where noun.Phrase is IEntity
                     select new
                     {
                         Noun = noun,
-                        Kind = noun.Match().Yield<char>()
-                          .With<ProperSingularNoun>(proper => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
-                              proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
-                          .With<CommonSingularNoun>('S')
-                          .With<IQuantifiable>('P')
-                        .Result('U')
+                        Key = noun.Match().Yield<char>()
+                              .With<ProperSingularNoun>(proper => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
+                                  proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
+                              .With<CommonSingularNoun>('S')
+                              .With<IQuantifiable>('P')
+                            .Result('U')
                     }
-                join i in
+                join pronoun in
                     from pronoun in words.OfPronoun()
                     select new
                     {
                         Pronoun = pronoun,
-                        Kind = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' :
-                        pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
+                        Key = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' : pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
                     }
-                on o.Kind equals i.Kind
-                where wordList.IndexOf(o.Noun) < wordList.IndexOf(i.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
-                group o.Noun by i.Pronoun into byPronoun
-                select (Action)(() => byPronoun.Key.BindAsReferringTo(byPronoun.First()));
+                on noun.Key equals pronoun.Key
+                where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
+                group noun.Noun by pronoun.Pronoun into byPronoun
+                select new Action(() => byPronoun.Key.BindAsReferringTo(byPronoun.First()));
             return actions;
         }
     }
