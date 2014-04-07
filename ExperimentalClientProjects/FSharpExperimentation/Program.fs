@@ -10,26 +10,24 @@ open LASI.ContentSystem
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
-
+let wrapFile (s:string) = 
+        match s.Split('.').Last() with
+        | "doc" -> new DocFile(s) :> IRawTextSource
+        | "docx" -> new DocXFile(s) :> IRawTextSource
+        | "txt" -> new TxtFile(s) :> IRawTextSource
+        | "pdf" -> new PdfFile(s) :> IRawTextSource
+        | _ -> null
 [<EntryPoint>]
 let main argv = 
    
-//    Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
-//    Lookup.ResourceLoaded.Add
-//        (fun e -> 
-//        printfn "Finished loading %s ms elapsed: %d" e.Message 
-//            e.ElapsedMiliseconds)
-    // tag, parse, and construct a Document 
-    // perform default binding on the Document
-    // perform default weighting on the Document
+    Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
+    Lookup.ResourceLoaded.Add
+        (fun e -> 
+        printfn "Finished loading %s ms elapsed: %d" e.Message 
+            e.ElapsedMiliseconds)
+     
     
-    let fileWrapper (s:string) = 
-        match s.Split('.').Last() with
-        | "doc" -> new DocFile(s) :> InputFile
-        | "docx" -> new DocXFile(s) :> InputFile
-        | "txt" -> new TxtFile(s) :> InputFile
-        | "pdf" -> new PdfFile(s) :> InputFile
-        | _ -> null
+    
     
     let resourceLoadNotifier = ResourceNotifier()
   
@@ -38,19 +36,18 @@ let main argv =
     // Register callbacks to print operation progress to the terminal
     resourceLoadNotifier.ResourceLoaded.Add(fun e->
         prog := e.PercentWorkRepresented + !prog
-        printfn "Update: %s \nProgress: %A" e.Message !prog)
+        printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     resourceLoadNotifier.ResourceLoading.Add(fun e->
         prog := e.PercentWorkRepresented + !prog
-        printfn "Update: %s \nProgress: %A" e.Message !prog)
+        printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     
          
     let orchestrator = 
-        AnalysisOrchestrator
-            (fileWrapper @"C:\Users\Aluan\Desktop\Documents\ducks.txt")
+        AnalysisOrchestrator([wrapFile @"C:\Users\Aluan\Desktop\Documents\ducks.txt"; wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt";])
      // Register callbacks to print operation progress to the terminal
     orchestrator.ProgressChanged.Add(fun e->
         prog := e.PercentWorkRepresented + !prog
-        printfn "Update: %s \nProgress: %A" e.Message !prog)
+        printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     let docTask = async { return orchestrator.ProcessAsync().Result }
     let doc = Async.RunSynchronously(docTask).First()
     let toAttack = Verb("attack", VerbForm.Base)
@@ -86,7 +83,7 @@ let main argv =
             processPhrases tail // recursive tail call to continue processing
         | [] -> printfn "" // list has been exhausted
     
-    do processPhrases (Seq.toList doc.Phrases) //bind and output the document.
+//    do processPhrases (Seq.toList doc.Phrases) //bind and output the document.
     //
     //    let svgs = 
     //        query {
