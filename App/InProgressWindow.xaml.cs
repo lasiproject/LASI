@@ -47,7 +47,7 @@ namespace LASI.App
             systemNotifier.ResourceLoading += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.PercentOfWorkRepresented;
+                var animateStep = 0.028 * e.PercentWorkRepresented;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
                     await Task.Delay(1);
@@ -56,7 +56,7 @@ namespace LASI.App
             systemNotifier.ResourceLoading += async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.PercentOfWorkRepresented;
+                var animateStep = 0.028 * e.PercentWorkRepresented;
                 for (int i = 0; i < 33; ++i) {
                     progressBar.Value += animateStep;
                     await Task.Delay(1);

@@ -32,14 +32,14 @@ namespace LASI.Core.Heuristics.Morphemization
             return TryComputeConjugations(nounForm);
 
         }
-        /// <summary>
-        /// Gets all forms of the noun root.
-        /// </summary>
-        /// <param name="noun">The root of a noun as a string.</param>
-        /// <returns>All forms of the noun root.</returns>
-        public IEnumerable<string> GetLexicalForms(Noun noun) {
-            return GetLexicalForms(noun.Text);
-        }
+        ///// <summary>
+        ///// Gets all forms of the noun.
+        ///// </summary>
+        ///// <param name="noun">The of a noun.</param>
+        ///// <returns>All forms of the noun.</returns>
+        //public IEnumerable<string> GetLexicalForms(Noun noun) {
+        //    return GetLexicalForms(noun.Text);
+        //}
 
         private IEnumerable<string> TryComputeConjugations(string nounForm) {
             var hyphenIndex = nounForm.LastIndexOf('-');
@@ -47,7 +47,9 @@ namespace LASI.Core.Heuristics.Morphemization
             List<string> results;
             if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
-                for (var i = 0; i < SUFFICIES.Length; i++) {
+                for (var i = 0;
+                i < SUFFICIES.Length;
+                i++) {
                     if (root.EndsWith(ENDINGS[i]) || ENDINGS[i].Length == 0) {
                         results.Add(root.Substring(0, root.Length - ENDINGS[i].Length) + SUFFICIES[i]);
                         break;
@@ -78,7 +80,9 @@ namespace LASI.Core.Heuristics.Morphemization
 
         private IEnumerable<string> ComputeBaseForm(string nounForm) {
             var result = new List<string>();
-            for (var i = 0; i < SUFFICIES.Length; i++) {
+            for (var i = 0;
+            i < SUFFICIES.Length;
+            i++) {
                 if (nounForm.EndsWith(SUFFICIES[i])) {
                     result.Add(nounForm.Substring(0, nounForm.Length - SUFFICIES[i].Length) + ENDINGS[i]);
                     break;

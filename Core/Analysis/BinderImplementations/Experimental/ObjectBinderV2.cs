@@ -25,8 +25,7 @@ namespace LASI.Core.Binding.Experimental
                         .With<IVerbal>(phrase)
                         .With<SubordinateClauseBeginPhrase>(phrase)
                         .With<SymbolPhrase>(phrase)
-                        .Result()
-
+                    .Result()
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));

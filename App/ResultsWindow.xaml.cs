@@ -3,10 +3,8 @@ using LASI.App.LexicalElementInfo;
 using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.XML;
 using LASI.Core;
-using LASI.Core.Binding;
 using LASI.Core.Heuristics;
 using LASI.Core.DocumentStructures;
-using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -72,9 +70,9 @@ namespace LASI.App
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    group np by new { np.Text, np.Type }
                                        into npg
-                                       let first = npg.First()
-                                       orderby first.Weight descending
-                                       select CreateLabelForWeightedView(first);
+                                   let first = npg.First()
+                                   orderby first.Weight descending
+                                   select CreateLabelForWeightedView(first);
 
             var weightedListPanel = new StackPanel();
             var grid = new Grid();
@@ -93,7 +91,8 @@ namespace LASI.App
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
             var gender = np.GetGender();
-            var label = new Label {
+            var label = new Label
+            {
                 Tag = np,
                 Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
                 Foreground = Brushes.Black,
@@ -130,9 +129,11 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
-                Content = new ScrollViewer {
+                Content = new ScrollViewer
+                {
                     Content = panel,
                     Background = Brushes.White,
                     OpacityMask = Brushes.White,
@@ -146,7 +147,8 @@ namespace LASI.App
                 .SelectMany(sen => sen.AllPhrases());
             var colorizer = new SyntacticColorMap();
             foreach (var phrase in phrases) {
-                var label = new Label {
+                var label = new Label
+                {
                     Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
                     Tag = phrase,
                     Foreground = colorizer[phrase],
@@ -230,7 +232,9 @@ namespace LASI.App
         }
 
         private async Task StepProgress(double steps) {
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0;
+            i < 9;
+            i++) {
                 currentOperationProgressBar.Value += 1;
                 await Task.Delay(1);
             }
@@ -283,7 +287,8 @@ namespace LASI.App
             SharedWindowFunctionality.ProcessOpenManualRequest(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow {
+            var componentsDisplay = new ComponentInfoDialogWindow
+            {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this
@@ -306,7 +311,8 @@ namespace LASI.App
             exportDialog.ShowDialog();
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CrossJoinSelectDialog(this) {
+            var dialog = new CrossJoinSelectDialog(this)
+            {
                 Left = this.Left,
                 Top = this.Top,
             };
@@ -317,7 +323,8 @@ namespace LASI.App
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -326,7 +333,9 @@ namespace LASI.App
             if (openDialog.FileNames.Count() <= 0) {
                 return;
             }
-            for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
+            for (int i = 0;
+            i < openDialog.SafeFileNames.Length;
+            i++) {
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));

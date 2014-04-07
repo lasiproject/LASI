@@ -22,7 +22,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         protected ResourceLoadEventArgs TranslateEventArgs(Core.ResourceLoadEventArgs e) {
             return new ResourceLoadEventArgs {
                 Message = e.Message + " " + messageAdjunct,
-                PercentOfWorkRepresented = 1.5,
+                PercentWorkRepresented = 1.5,
                 ElapsedMiliseconds = e.ElapsedMiliseconds
             };
         }

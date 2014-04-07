@@ -53,10 +53,10 @@ namespace LASI.Core.Heuristics
                     .Then((from referent in referee.ReferredTo
                            let gen =
                            referent.Match().Yield<Gender>()
-                            .With<NounPhrase>(n => GetNounPhraseGender(n))
-                            .With<Pronoun>(r => r.Gender)
-                            .With<ProperSingularNoun>(r => r.Gender)
-                            .With<CommonNoun>(n => Gender.Neutral)
+                               .With<NounPhrase>(n => GetNounPhraseGender(n))
+                               .With<Pronoun>(r => r.Gender)
+                               .With<ProperSingularNoun>(r => r.Gender)
+                               .With<CommonNoun>(n => Gender.Neutral)
                            .Result()
                            group gen by gen into byGen
                            where byGen.Count() == referee.ReferredTo.Count()
@@ -253,19 +253,28 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
+        /// <summary>
+        /// Clears the cache of Noun synonym data.
+        /// </summary>
+        public static void ClearNounCache() {
+            cachedNounData.Clear();
+        }
+        /// <summary>
+        /// Clears the cache of Verb synonym data.
+        /// </summary>
+        public static void ClearVerbCache() {
+            cachedVerbData.Clear();
+        }
+        /// <summary>
+        /// Clears the cache of Adjective synonym data.
+        /// </summary>
         public static void ClearAdjectiveCache() {
             cachedAdjectiveData.Clear();
         }
 
-
-        public static void ClearNounCache() {
-            cachedNounData.Clear();
-        }
-
-        public static void ClearVerbCache() {
-            cachedVerbData.Clear();
-        }
-
+        /// <summary>
+        /// Clears the cache of Adverb synonym data.
+        /// </summary>
         public static void ClearAdverbCache() {
             cachedAdverbData.Clear();
         }
@@ -409,10 +418,10 @@ namespace LASI.Core.Heuristics
         {
             public void Load() {
                 Task.Factory.ContinueWhenAll(
-                  new[] {  
+                  new[] {
                     Task.Run(async () => last = await GetLinesAsync(lastFilePath)),
                     Task.Run(async () => female = await GetLinesAsync(femaleFilePath)),
-                    Task.Run(async () => male = await GetLinesAsync(maleFilePath)) 
+                    Task.Run(async () => male = await GetLinesAsync(maleFilePath))
                 },
                   results => {
                       genderAmbiguous =

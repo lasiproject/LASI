@@ -29,9 +29,14 @@ namespace LASI.Core.Heuristics.Morphemization
         public IEnumerable<string> GetLexicalForms(string search) {
             return TryComputeConjugations(search);
         }
-        public IEnumerable<string> GetLexicalForms(Adverb search) {
-            return GetLexicalForms(search.Text);
-        }
+        ///// <summary>
+        ///// Gets all forms of the adverb.
+        ///// </summary>
+        ///// <param name="adverb">The adverb to morph.</param>
+        ///// <returns>All forms of the adverb.</returns>
+        //public IEnumerable<string> GetLexicalForms(Adverb adverb) {
+        //    return GetLexicalForms(adverb.Text);
+        //}
 
         private IEnumerable<string> TryComputeConjugations(string containingRoot) {
             var hyphenIndex = containingRoot.IndexOf('-');
@@ -39,7 +44,9 @@ namespace LASI.Core.Heuristics.Morphemization
             List<string> results;
             if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
-                for (var i = 0; i < SUFFICIES.Length; i++) {
+                for (var i = 0;
+                i < SUFFICIES.Length;
+                i++) {
                     if (root.EndsWith(ENDINGS[i]) || string.IsNullOrEmpty(ENDINGS[i])) {
                         results.Add(root.Substring(0, root.Length - ENDINGS[i].Length) + SUFFICIES[i]);
                         break;
@@ -73,7 +80,9 @@ namespace LASI.Core.Heuristics.Morphemization
 
         private IEnumerable<string> ComputeBaseForm(string adverbText) {
             var result = new List<string>();
-            for (var i = 0; i < SUFFICIES.Length; i++) {
+            for (var i = 0;
+            i < SUFFICIES.Length;
+            i++) {
                 if (adverbText.EndsWith(SUFFICIES[i])) {
                     result.Add(adverbText.Substring(0, adverbText.Length - SUFFICIES[i].Length) + ENDINGS[i]);
                     break;

@@ -25,7 +25,7 @@ namespace LASI.Interop.ContractHelperTypes
         /// <summary>
         /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
         /// </summary>
-        public double PercentOfWorkRepresented { get; internal set; }
+        public double PercentWorkRepresented { get; internal set; }
 
     }
 }

@@ -51,9 +51,12 @@ namespace LASI.Core.Heuristics.Morphemization
             var hyphIndex = verbForm.IndexOf('-');
             var afterHyphen = hyphIndex > -1 ? verbForm.Substring(hyphIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = ENDINGS.Count - 1; i >= 0; --i) {
+            for (var i = ENDINGS.Count - 1;
+            i >= 0;
+            --i) {
                 if (verbForm.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
-                    checked {
+                    checked
+                    {
                         try {
                             var possibleRoot = verbForm.Substring(0, verbForm.Length - (SUFFICIES[i].Length + afterHyphen.Length));
 
@@ -104,7 +107,7 @@ namespace LASI.Core.Heuristics.Morphemization
         private readonly static IList<string> SUFFICIES = new[] { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" }.ToList();
         private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>> {
             { "", new []{ "s",  "es",  "ed", "ing" } },
-            { "e", new []{ "es", "ed", "ing"} },    
+            { "e", new []{ "es", "ed", "ing"} },
             { "y", new []{ "ies" } },
         };
 

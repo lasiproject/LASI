@@ -100,7 +100,7 @@ namespace LASI.Core
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(sentence => PronounBinder.Bind(sentence));
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => ClauseSeperatingBranchingBinder.Bind(sentence.Words));
+                .ForAll(sentence => AdaptivePronounBinder.Bind(sentence.Words));
 
         }
 

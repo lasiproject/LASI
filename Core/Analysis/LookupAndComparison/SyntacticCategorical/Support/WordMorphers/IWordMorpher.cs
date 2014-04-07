@@ -33,12 +33,12 @@ namespace LASI.Core.Analysis.LookupAndComparison.Syntactic.Support
         /// <returns>The collection of all conjugated forms of the word specified by the given text.</returns>
         /// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
         IEnumerable<string> GetLexicalForms(string search);
-        /// <summary>
-        /// Computes and returns the list of all conjugated forms of the specified word.
-        /// </summary>
-        /// <param name="search">The word whose lexical forms are to be generated and produced.</param>
-        /// <returns>The collection of all conjugated forms of the specified word.</returns>
-        /// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
-        IEnumerable<string> GetLexicalForms(TWord search);
+        ///// <summary>
+        ///// Computes and returns the list of all conjugated forms of the specified word.
+        ///// </summary>
+        ///// <param name="search">The word whose lexical forms are to be generated and produced.</param>
+        ///// <returns>The collection of all conjugated forms of the specified word.</returns>
+        ///// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
+        //IEnumerable<string> GetLexicalForms(TWord search);
     }
 }

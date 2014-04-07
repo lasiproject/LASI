@@ -18,9 +18,9 @@ namespace LASI.Interop
     /// </summary>
     public sealed class AnalysisOrchestrator : Progress<AnalysisUpdateEventArgs>
     {        /// <summary>
-        /// Initializes a new instance of the AnalysisController class.
-        /// </summary>
-        /// <param name="rawTextSource">An untagged english language written work.</param>
+             /// Initializes a new instance of the AnalysisController class.
+             /// </summary>
+             /// <param name="rawTextSource">An untagged english language written work.</param>
         public AnalysisOrchestrator(IRawTextSource rawTextSource)
             : this(new[] { rawTextSource }) { }
 
@@ -104,13 +104,13 @@ namespace LASI.Interop
             foreach (var bindingTask in document.GetBindingTasks()) {
                 OnReport(new AnalysisUpdateEventArgs(bindingTask.InitializationMessage, 0));
                 await bindingTask.Task;
-                OnReport(new AnalysisUpdateEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new AnalysisUpdateEventArgs(bindingTask.CompletionMessage, bindingTask.PercentWorkRepresented * 0.58 / sourceCount));
             }
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
             foreach (var task in document.GetWeightingTasks()) {
                 OnReport(new AnalysisUpdateEventArgs(task.InitializationMessage, 1 / sourceCount));
                 await task.Task;
-                OnReport(new AnalysisUpdateEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.5 / sourceCount));
+                OnReport(new AnalysisUpdateEventArgs(task.CompletionMessage, task.PercentWorkRepresented * 0.59 / sourceCount));
             }
 
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));

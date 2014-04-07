@@ -9,8 +9,8 @@ using System.Text.RegularExpressions;
 
 namespace LASI.Core.Heuristics
 {
-    using SetReference = System.Collections.Generic.KeyValuePair<NounSetLink, int>;
-    using LASI.Core.Heuristics.Morphemization;
+    using SetReference = KeyValuePair<NounSetLink, int>;
+    using Morphemization;
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>
@@ -55,15 +55,15 @@ namespace LASI.Core.Heuristics
                 from Match match in POINTER_REGEX.Matches(line)
                 let split = match.Value.SplitRemoveEmpty(' ')
                 where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
-                select new SetReference(interSetMap[split[0]], Int32.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
+                select new SetReference(interSetMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 
 
             IEnumerable<string> words = from Match match in WORD_REGEX.Matches(line)
                                         select match.Value.Replace('_', '-');
 
-            int id = Int32.Parse(line.Substring(0, 8));
+            int id = int.Parse(line.Substring(0, 8));
 
-            Category lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
+            Category lexCategory = (Category)int.Parse(line.Substring(9, 2));
 
             return new NounSynSet(id, words, referencedSets, lexCategory);
         }
@@ -158,26 +158,27 @@ namespace LASI.Core.Heuristics
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink>{ 
-            { "!", NounSetLink.Antonym },
-            { "@", NounSetLink.HypERnym },
-            { "@i", NounSetLink.InstanceHypERnym },
-            { "~", NounSetLink.HypOnym },
-            { "~i", NounSetLink.InstanceHypOnym },
-            { "#m", NounSetLink.MemberHolonym },
-            { "#s", NounSetLink.SubstanceHolonym },
-            { "#p", NounSetLink.PartHolonym },
-            { "%m", NounSetLink.MemberMeronym },
-            { "%s", NounSetLink.SubstanceMeronym },
-            { "%p", NounSetLink.PartMeronym },
-            { "=", NounSetLink.Attribute },
-            { "+", NounSetLink.DerivationallyRelatedForm },
-            { ";c", NounSetLink.DomainOfSynset_TOPIC },
-            { "-c", NounSetLink.MemberOfThisDomain_TOPIC },
-            { ";r", NounSetLink.DomainOfSynset_REGION },
-            { "-r", NounSetLink.MemberOfThisDomain_REGION },
-            { ";u", NounSetLink.DomainOfSynset_USAGE },
-            { "-u", NounSetLink.MemberOfThisDomain_USAGE }
+        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink>
+        {
+            ["!"] = NounSetLink.Antonym,
+            ["@"] = NounSetLink.HypERnym,
+            ["@i"] = NounSetLink.InstanceHypERnym,
+            ["~"] = NounSetLink.HypOnym,
+            ["~i"] = NounSetLink.InstanceHypOnym,
+            ["#m"] = NounSetLink.MemberHolonym,
+            ["#s"] = NounSetLink.SubstanceHolonym,
+            ["#p"] = NounSetLink.PartHolonym,
+            ["%m"] = NounSetLink.MemberMeronym,
+            ["%s"] = NounSetLink.SubstanceMeronym,
+            ["%p"] = NounSetLink.PartMeronym,
+            ["="] = NounSetLink.Attribute,
+            ["+"] = NounSetLink.DerivationallyRelatedForm,
+            [";c"] = NounSetLink.DomainOfSynset_TOPIC,
+            ["-c"] = NounSetLink.MemberOfThisDomain_TOPIC,
+            [";r"] = NounSetLink.DomainOfSynset_REGION,
+            ["-r"] = NounSetLink.MemberOfThisDomain_REGION,
+            [";u"] = NounSetLink.DomainOfSynset_USAGE,
+            ["-u"] = NounSetLink.MemberOfThisDomain_USAGE
         };
         /// <summary>
         /// Defines the broad lexical categories assigned to Nouns in the WordNet system.

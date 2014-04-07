@@ -15,7 +15,7 @@ namespace LASI.Core
     public static class NaiveResultSelector
     {
 
-        public static IEnumerable<KeyValuePair<string, float>> GetTopResultsByVerbal(Document doc) {
+        private static IEnumerable<KeyValuePair<string, float>> GetTopResultsByVerbal(Document doc) {
             var data = GetVerbWiseRelationships(doc);
             return from svs in data
                    let SV = new KeyValuePair<string, float>(
@@ -39,7 +39,8 @@ namespace LASI.Core
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SVORelationship {
+                      select new SVORelationship
+                      {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -58,9 +59,13 @@ namespace LASI.Core
                  select svps;
             return data;
         }
-
-        public static IEnumerable<KeyValuePair<string, float>> GetTopResultsByEntity(Document doc) {
-            return from entity in doc.Phrases.OfEntity()
+        /// <summary>
+        /// Returns top results for the given document using a heuristic which emphasises the occurence of Entities above other metrics.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<string, float>> GetTopResultsByEntity(Document document) {
+            return from entity in document.Phrases.OfEntity()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()

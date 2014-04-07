@@ -44,7 +44,8 @@ namespace LASI.App
                 }
                 //data = data.Take(CHART_ITEM_LIMIT);
                 chart.Series.Clear();
-                chart.Series.Add(new BarSeries {
+                chart.Series.Add(new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = data,
@@ -64,7 +65,8 @@ namespace LASI.App
         public static async Task ToColumnCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new ColumnSeries {
+                var series = new ColumnSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -84,7 +86,8 @@ namespace LASI.App
         public static async Task ToPieCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new PieSeries {
+                var series = new PieSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -108,7 +111,8 @@ namespace LASI.App
             await Task.Yield();
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new BarSeries {
+                var series = new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -125,7 +129,8 @@ namespace LASI.App
         public static async Task InitChartDisplayAsync(Document document) {
             var chart = await BuildBarChart(document);
             documentsByChart.Add(chart, document);
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
                 Content = chart,
                 Tag = chart
@@ -146,7 +151,8 @@ namespace LASI.App
                 GetVerbWiseData(document);
             // Materialize item source so that changing chart types is less expensive.s
             var topPoints = dataPointSource.OrderByDescending(point => point.Value).Take(CHART_ITEM_LIMIT).ToList();
-            Series series = new BarSeries {
+            Series series = new BarSeries
+            {
                 DependentValuePath = "Value",
                 IndependentValuePath = "Key",
                 ItemsSource = topPoints,
@@ -155,7 +161,8 @@ namespace LASI.App
 
             };
 
-            var chart = new Chart {
+            var chart = new Chart
+            {
                 Title = string.Format("Key Subjects in {0}", document.Name),
                 Tag = topPoints
             };
@@ -213,7 +220,8 @@ namespace LASI.App
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SVORelationship {
+                      select new SVORelationship
+                      {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -256,10 +264,12 @@ namespace LASI.App
             var transformedData = await Task.Factory.StartNew(() => {
                 return TransformToGrid(GetVerbWiseRelationships(document));
             });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
+            {
                 ItemsSource = transformedData,
             };
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
                 Content = wpfToolKitDataGrid
             };

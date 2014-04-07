@@ -1,5 +1,6 @@
 ﻿using LASI.Core.DocumentStructures;
 using System;
+using LASI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,66 @@ namespace LASI.Core
     /// <seealso cref="DocumentStructures.Paragraph"/>
     public static partial class LexicalEnumerable
     {
+        static bool Match<T1, TResult>(this Sentence s,
+                  Func<T1, Func<TResult>> logic)
+                  where T1 : class, ILexical {
+            return s.Phrases.FirstOrDefault().Match().Yield<bool>().With<T1>(l => { logic(l); return true; }).Result();
+        }
+        static bool Match<T1, T2, TResult>(this Sentence s,
+                     Func<T1, Func<T2, Func<Func<TResult>>>> logic)
+                     where T1 : class, ILexical
+                     where T2 : class, ILexical { return false; }
+
+
+        static bool Match<T1, T2, T3, TResult>(this Sentence s,
+                              Func<T1, Func<T2, Func<T3, Func<Func<TResult>>>>> logic)
+                  where T1 : class, ILexical
+                  where T2 : class, ILexical
+                  where T3 : class, ILexical { return false; }
+        static bool Match<T1, T2, T3, T4, TResult>(this Sentence s,
+                     Func<T1, Func<T2, Func<T3, Func<T4, Func<Func<TResult>>>>>> logic)
+                     where T1 : class, ILexical
+                     where T2 : class, ILexical
+                     where T3 : class, ILexical
+                     where T4 : class, ILexical { return false; }
+        static bool Match<T1, T2, T3, T4, T5, TResult>(this Sentence s,
+                  Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<Func<TResult>>>>>>> logic)
+                  where T1 : class, ILexical
+                  where T2 : class, ILexical
+                  where T3 : class, ILexical
+                  where T4 : class, ILexical
+                  where T5 : class, ILexical { return false; }
+        static bool Match<T1, T2, T3, T4, T5, T6, TResult>(this Sentence s,
+               Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<TResult>>>>>>> logic)
+               where T1 : class, ILexical
+               where T2 : class, ILexical
+               where T3 : class, ILexical
+               where T4 : class, ILexical
+               where T5 : class, ILexical
+               where T6 : class, ILexical { return false; }
+        static bool Match<T1, T2, T3, T4, T5, T6, T7, TResult>(this Sentence s,
+            Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<TResult>>>>>>>> logic)
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical { return false; }
+        static bool Match<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Sentence s,
+            Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, TResult>>>>>>>> logic)
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical
+            where T8 : class, ILexical { return false; }
+        static TResult RecursiveMatch<TSource, TResult>(this IEnumerable<TSource> list, Func<TSource, TResult> processHead, Func<TResult, TResult, TResult> accumulator) {
+            return list.Any() ? accumulator(processHead(list.First()), list.Skip(1).RecursiveMatch(processHead, accumulator)) : default(TResult);
+        }
+
         #region Sequential Implementations
 
         /// <summary>

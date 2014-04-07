@@ -1,4 +1,4 @@
-﻿using LASI.Utilities.Functional;
+﻿using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

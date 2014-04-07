@@ -9,7 +9,7 @@ using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Heuristics
 {
-    public static class CommonLexicalRepresentationChooser
+    static class CommonLexicalRepresentationChooser
     {
         public static KeyedByTypeCollection<IEnumerable<ILexical>> ToCommonRepresentation(this IEnumerable<ILexical> source) {
 

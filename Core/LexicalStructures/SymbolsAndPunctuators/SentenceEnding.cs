@@ -22,15 +22,36 @@ namespace LASI.Core
                 sentenceEnding != '?')
                 throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", sentenceEnding));
         }
+        /// <summary>
+        /// Gets a hash code for the SentenceEnding.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode() {
             return LiteralCharacter;
         }
+        /// <summary>
+        /// Determines if the given SentenceEnding is equal to the current instance.
+        /// </summary>
+        /// <param name="obj">A SentenceEnding to compare with the current instance.</param>
+        /// <returns>True if the given SentenceEnding is equal to the current instance; false otherwise.</returns>
         public override bool Equals(object obj) {
             return obj is SentenceEnding && (SentenceEnding)(obj) == this;
         }
+        /// <summary>
+        /// Determines if two Sentence Endings are equal.
+        /// </summary>
+        /// <param name="left">The first SentenceEnding to compare.</param>
+        /// <param name="right">The second SentenceEnding to compare.</param>
+        /// <returns>True if the Sentence Endings are equal; false otherwise.</returns>
         public static bool operator ==(SentenceEnding left, SentenceEnding right) {
             return left.LiteralCharacter == right.LiteralCharacter;
         }
+        /// <summary>
+        /// Determines if two Sentence Endings are not equal.
+        /// </summary>
+        /// <param name="left">The first SentenceEnding to compare.</param>
+        /// <param name="right">The second SentenceEnding to compare.</param>
+        /// <returns>True if the Sentence Endings are not equal; false otherwise.</returns>
         public static bool operator !=(SentenceEnding left, SentenceEnding right) {
             return !(left == right);
         }

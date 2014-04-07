@@ -78,7 +78,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
-        public IPrepositional PrepositionOnLeft { get;  set; }
+        public IPrepositional PrepositionOnLeft { get; set; }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Right of the word.
         /// </summary>

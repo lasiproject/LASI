@@ -12,7 +12,7 @@ using LASI.Interop;
 using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
- 
+
 namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
@@ -20,34 +20,29 @@ namespace LASI.WebApp.Controllers
 
         private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
-        public ActionResult Index(string returnUrl)
-        {
+        public ActionResult Index(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
             return View(new Models.User.UserModel());
         }
 
         [HttpPost]
-        public ActionResult Upload()
-        {
+        public ActionResult Upload() {
             var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            if (!Directory.Exists(SERVER_PATH))
-            {
+            if (!Directory.Exists(SERVER_PATH)) {
                 Directory.CreateDirectory(SERVER_PATH);
             }
-            for (var i = 0; i < Request.Files.Count; ++i)
-            {
+            for (var i = 0;
+            i < Request.Files.Count;
+            ++i) {
 
                 var file = Request.Files[i];// file in Request.Files where file != null && file.ContentLength > 0 select file;
                 foreach (var remnant in from remnant in new DirectoryInfo(SERVER_PATH).EnumerateFileSystemInfos()
                                         where remnant.Name.Contains(file.FileName.SplitRemoveEmpty('\\').Last())
-                                        select remnant)
-                {
+                                        select remnant) {
                     var dir = remnant as DirectoryInfo;
-                    if (dir != null)
-                    {
+                    if (dir != null) {
                         dir.Delete(true);
-                    }                     else
-                    {
+                    } else {
                         remnant.Delete();
                     }
                 }
@@ -68,8 +63,7 @@ namespace LASI.WebApp.Controllers
             new HashSet<Core.DocumentStructures.Document>(new CustomComparer<Core.DocumentStructures.Document>(
                 (dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
-        public async Task<ActionResult> Results()
-        {
+        public async Task<ActionResult> Results() {
             var documents = await LoadResults();
 
             ViewData["docs"] = documents;
@@ -82,18 +76,15 @@ namespace LASI.WebApp.Controllers
             return View();
         }
 
-        private async Task<IEnumerable<Core.DocumentStructures.Document>> LoadResults()
-        {
+        private async Task<IEnumerable<Core.DocumentStructures.Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             var extensionMap = new ExtensionWrapperMap(UnsupportedFormatHandling.YieldNull);
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
-                    try
-                    {
+                    try {
                         return extensionMap[file.SplitRemoveEmpty('.').Last()](file);
                     }
-                    catch (ArgumentException)
-                    { return null; }
+                    catch (ArgumentException) { return null; }
                 })
                 .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
@@ -117,9 +108,9 @@ namespace LASI.WebApp.Controllers
 
         //static int timesExecuted = 0;
         [HttpGet]
-        public ContentResult GetJobStatus(string jobId = "")
-        {
-            var serializerSettings = new JsonSerializerSettings {
+        public ContentResult GetJobStatus(string jobId = "") {
+            var serializerSettings = new JsonSerializerSettings
+            {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
             };
             if (jobId == "") {
@@ -134,15 +125,14 @@ namespace LASI.WebApp.Controllers
             }
             percentComplete %= 101;
 
-            if (percentComplete > 100)
-            {
+            if (percentComplete > 100) {
                 percentComplete = 0;
             }
             bool extant = trackedJobs.ContainsKey(jobId);
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
             trackedJobs[jobId] = update;
-            
+
             return Content(JsonConvert.SerializeObject(update, serializerSettings));
         }
 

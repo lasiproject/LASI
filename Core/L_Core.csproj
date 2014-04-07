@@ -77,12 +77,13 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\Helper.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Experimental\Extractors\Extractor.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
-    <Compile Include="Analysis\BinderImplementations\ClauseSeperatingBranchingBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
