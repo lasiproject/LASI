@@ -54,7 +54,7 @@ namespace LASI.Core.Heuristics
                                         select match.Value.Replace('_', '-');
             int id = Int32.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
-            Category lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
+            AdjectiveCategory lexCategory = (AdjectiveCategory)Int32.Parse(line.Substring(9, 2));
             return new AdjectiveSynSet(id, words, referencedSets, lexCategory);
 
 
@@ -83,7 +83,7 @@ namespace LASI.Core.Heuristics
                 return SearchFor(search);
             }
         }
-        internal override ISet<string> this[Adjective search] {
+        internal override ISet<string> this[Core.Adjective search] {
             get {
                 return this[search.Text];
             }
@@ -96,7 +96,7 @@ namespace LASI.Core.Heuristics
 
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         private static readonly IReadOnlyDictionary<string, AdjectiveSetLink> interSetMap = new Dictionary<string, AdjectiveSetLink> {
-            { "!", AdjectiveSetLink. Antonym }, 
+            { "!", AdjectiveSetLink. Antonym },
             { "&", AdjectiveSetLink.SimilarTo},
             { "<", AdjectiveSetLink.ParticipleOfVerb},
             { @"\", AdjectiveSetLink.Pertainym_pertains_to_noun},
@@ -106,25 +106,26 @@ namespace LASI.Core.Heuristics
             { ";r", AdjectiveSetLink.DomainOfSynset_REGION },
             { ";u", AdjectiveSetLink.DomainOfSynset_USAGE}
         };
-        /// <summary>
-        /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
-        /// </summary>
-        public enum Category : byte
-        {
-            /// <summary>
-            /// all adjective clusters
-            /// </summary>
-            All = 0,
-            /// <summary>
-            /// relational adjectives (pertainyms)
-            /// </summary>
-            Pert = 1,
-            /// <summary>
-            /// participial adjectives
-            /// </summary>
-            PPL = 44,
-        }
-    }
 
+    }
+    /// <summary>
+    /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
+    /// </summary>
+    public enum AdjectiveCategory : byte
+    {
+        /// <summary>
+        /// all adjective clusters
+        /// </summary>
+        All = 0,
+        /// <summary>
+        /// relational adjectives (pertainyms)
+        /// </summary>
+        Pert = 1,
+        /// <summary>
+        /// participial adjectives
+        /// </summary>
+        PPL = 44,
+    }
 }
+
 

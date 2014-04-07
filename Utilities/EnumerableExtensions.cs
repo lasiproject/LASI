@@ -140,21 +140,21 @@ namespace LASI
         #endregion
 
         #region Generator Methods
-        /// <summary>
-        /// Generates a sequence of integral numbers within the specified range.
-        /// </summary>
-        /// <param name="start">The value of the first integer in the sequence.</param>
-        /// <param name="count">The number of sequential integers to generate.</param>
-        /// <returns>
-        /// A lazily evaluated sequence of integral numbers. 
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
-        ///</exception>
-        public static IEnumerable<int> Until(this int start, int count) {
-            if (start - count < 0) { throw new ArgumentOutOfRangeException("to", start - count, "Cannot generate a sequence of fewer than 0 values."); }
-            return Enumerable.Range(start, count);
-        }
+        ///// <summary>
+        ///// Generates a sequence of integral numbers within the specified range.
+        ///// </summary>
+        ///// <param name="start">The value of the first integer in the sequence.</param>
+        ///// <param name="count">The number of sequential integers to generate.</param>
+        ///// <returns>
+        ///// A lazily evaluated sequence of integral numbers. 
+        ///// </returns>
+        ///// <exception cref="System.ArgumentOutOfRangeException">
+        ///// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
+        /////</exception>
+        //public static IEnumerable<int> Until(this int start, int count) {
+        //    if (start - count < 0) { throw new ArgumentOutOfRangeException("to", start - count, "Cannot generate a sequence of fewer than 0 values."); }
+        //    return Enumerable.Range(start, count);
+        //}
 
         #endregion
 

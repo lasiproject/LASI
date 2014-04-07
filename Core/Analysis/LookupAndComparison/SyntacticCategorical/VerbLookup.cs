@@ -9,9 +9,9 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
-    using LASI.Core.Heuristics.Morphemization;
-    using SetReference = System.Collections.Generic.KeyValuePair<VerbSetLink, int>;
-
+    using Morphemization;
+    using SetReference = KeyValuePair<VerbSetLink, int>;
+    using LinkType = VerbSetLink;
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
         /// <summary>
@@ -32,69 +32,54 @@ namespace LASI.Core.Heuristics
                     .AsParallel()
                     .Select(line => CreateSet(line));
                 OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
-
-                foreach (var set in sets)
-                    LinkSynset(set);
+                foreach (var set in sets) { LinkSynset(set); }
                 OnReport(new ResourceLoadEventArgs("Loaded", 0));
-
             }
         }
 
 
-        private static VerbSynSet CreateSet(string fileLine) {
-            var line = fileLine.Substring(0, fileLine.IndexOf('|'));
+        private static VerbSynSet CreateSet(string setLine) {
+            var line = setLine.Substring(0, setLine.IndexOf('|')).Replace('_', '-');
 
-            var referencedSets = from Match M in RELATIONSHIP_REGEX.Matches(line)
-                                 let split = M.Value.SplitRemoveEmpty(' ')
-                                 where split.Length >= 3
-                                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
+            var referencedSets =
+                from Match m in RELATIONSHIP_REGEX.Matches(line)
+                let segments = m.Value.SplitRemoveEmpty(' ')
+                where segments.Length >= 3
+                select new SetReference(interSetMap[segments[0]], int.Parse(segments[1]));
 
-            var words = from Match ContainedWord in WORD_REGEX.Matches(line.Substring(17))
-                        select ContainedWord.Value.Replace('_', '-').ToLower();
-            var id = Int32.Parse(line.Substring(0, 8));
-            var lexCategory = (Category)Int32.Parse(line.Substring(9, 2));
-            return new VerbSynSet(id, words, referencedSets, lexCategory);
+            var words = from Match m in WORD_REGEX.Matches(line.Substring(17)) select m.Value;
+            var id = int.Parse(line.Substring(0, 8));
+            var category = (VerbCategory)int.Parse(line.Substring(9, 2));
+            return new VerbSynSet(id, words, referencedSets, category);
         }
 
 
-        private void LinkSynset(VerbSynSet synset) {
-            setsBySetID[synset.Id] = synset;
-            foreach (var word in synset.Words) {
-                data[word] = data.ContainsKey(word) ?
-                new VerbSynSet(data[word].Id,
-                    data[word].Words.Concat(synset.Words),
-                    data[word].RelatedSetsByRelationKind
-                    .Concat(synset.RelatedSetsByRelationKind)
-                    .SelectMany(grouping => grouping.Select(pointer => new SetReference(grouping.Key, pointer))), synset.Category)
-
-            : data[word] = synset;
+        private void LinkSynset(VerbSynSet set) {
+            setsById[set.Id] = set;
+            foreach (var word in set.Words) {
+                if (setsByWord.TryGetValue(word, out VerbSynSet extantSet)) {
+                    extantSet.Words.UnionWith(set.Words);
+                    extantSet.ReferencedSets.UnionWith(set.ReferencedSets);
+                } else {
+                    setsByWord[word] = set;
+                }
             }
         }
-
         private ISet<string> SearchFor(string search) {
-
             var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-
-            result.UnionWith(verbRoots.AsParallel().SelectMany(root => {
-
-                VerbSynSet containingSet;
-                data.TryGetValue(root, out containingSet);
-
-                containingSet = containingSet ??
-                data.Where(kv => kv.Value.Words.Contains(root)).Select(kv => kv.Value).FirstOrDefault();
-
-                return containingSet != null ?
-                    containingSet[VerbSetLink.Verb_Group, VerbSetLink.Hypernym]
-                         .SelectMany(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp.ReferencedIndeces : Enumerable.Empty<int>(); }).Select(id => { VerbSynSet temp; return setsBySetID.TryGetValue(id, out temp) ? temp : null; })
+            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
+                setsByWord.TryGetValue(root, out var containingSet);
+                containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.Words.Contains(root)).Select(kv => kv.Value).FirstOrDefault();
+                return containingSet == null ? new[] { search } :
+                    containingSet[LinkType.Verb_Group, LinkType.Hypernym]
+                         .SelectMany(id => setsById.TryGetValue(id, out VerbSynSet set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>())
+                         .Select(id => setsById.TryGetValue(id, out VerbSynSet s) ? s : null)
                          .Where(set => set != null)
-                    //.Where(set => set.Category == containingSet.Category)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
-                         .Append(root) : new[] { search };
-            }));
+                         .Append(root);
+            })));
             return result;
-
-            //return new HashSet<string>(new[] { search }, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -119,8 +104,8 @@ namespace LASI.Core.Heuristics
             }
         }
         private string filePath;
-        private ConcurrentDictionary<int, VerbSynSet> setsBySetID = new ConcurrentDictionary<int, VerbSynSet>(concurrencyLevel: 100, capacity: 30000);
-        private ConcurrentDictionary<string, VerbSynSet> data = new ConcurrentDictionary<string, VerbSynSet>(concurrencyLevel: 100, capacity: 30000);
+        private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(concurrencyLevel: Concurrency.Max, capacity: 30000);
+        private ConcurrentDictionary<string, VerbSynSet> setsByWord = new ConcurrentDictionary<string, VerbSynSet>(concurrencyLevel: Concurrency.Max, capacity: 30000);
         /// <summary>
         /// The regular expression describes a string which
         /// starts at a word(in the regex sense of word) boundary: \b
@@ -140,82 +125,82 @@ namespace LASI.Core.Heuristics
         private static readonly Regex RELATIONSHIP_REGEX = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
-        private static readonly IReadOnlyDictionary<string, VerbSetLink> interSetMap = new Dictionary<string, VerbSetLink> {
-            { "!", VerbSetLink. Antonym }, 
-            { "@", VerbSetLink.Hypernym },
-            { "~", VerbSetLink.Hyponym },
-            { "*", VerbSetLink.Entailment },
-            { ">", VerbSetLink.Cause },
-            { "^", VerbSetLink.AlsoSee },
-            { "$", VerbSetLink.Verb_Group },
-            { "+", VerbSetLink.DerivationallyRelatedForm },
-            { ";c", VerbSetLink.DomainOfSynset_TOPIC },
-            { ";r", VerbSetLink.DomainOfSynset_REGION },
-            { ";u", VerbSetLink.DomainOfSynset_USAGE}
-        };
-        /// <summary>
-        /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
-        /// </summary>
-        public enum Category : byte
+        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
         {
-            /// <summary>
-            /// Body
-            /// </summary>
-            Body = 29,
-            /// <summary>
-            /// Cognition
-            /// </summary>
-            Cognition,
-            /// <summary>
-            /// Communication
-            /// </summary>
-            Communication,
-            /// <summary>
-            /// Competition
-            /// </summary>
-            Competition,
-            /// <summary>
-            /// Consumption
-            /// </summary>
-            Consumption,
-            /// <summary>
-            /// Contact
-            /// </summary>
-            Contact,
-            /// <summary>
-            /// Creation
-            /// </summary>
-            Creation,
-            /// <summary>
-            /// Emotion
-            /// </summary>
-            Emotion,
-            /// <summary>
-            /// Motion
-            /// </summary>
-            Motion,
-            /// <summary>
-            /// Perception
-            /// </summary>
-            Perception,
-            /// <summary>
-            /// Possession
-            /// </summary>
-            Possession,
-            /// <summary>
-            /// Social
-            /// </summary>
-            Social,
-            /// <summary>
-            /// Stative
-            /// </summary>
-            Stative,
-            /// <summary>
-            /// Weather
-            /// </summary>
-            Weather,
-        }
-
-
+            ["!"] = LinkType.Antonym,
+            ["@"] = LinkType.Hypernym,
+            ["~"] = LinkType.Hyponym,
+            ["*"] = LinkType.Entailment,
+            [">"] = LinkType.Cause,
+            ["^"] = LinkType.AlsoSee,
+            ["$"] = LinkType.Verb_Group,
+            ["+"] = LinkType.DerivationallyRelatedForm,
+            [";c"] = LinkType.DomainOfSynset_TOPIC,
+            [";r"] = LinkType.DomainOfSynset_REGION,
+            [";u"] = LinkType.DomainOfSynset_USAGE
+        };
     }
+    /// <summary>
+    /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
+    /// </summary>
+    public enum VerbCategory : byte
+    {
+        /// <summary>
+        /// Body
+        /// </summary>
+        Body = 29,
+        /// <summary>
+        /// Cognition
+        /// </summary>
+        Cognition,
+        /// <summary>
+        /// Communication
+        /// </summary>
+        Communication,
+        /// <summary>
+        /// Competition
+        /// </summary>
+        Competition,
+        /// <summary>
+        /// Consumption
+        /// </summary>
+        Consumption,
+        /// <summary>
+        /// Contact
+        /// </summary>
+        Contact,
+        /// <summary>
+        /// Creation
+        /// </summary>
+        Creation,
+        /// <summary>
+        /// Emotion
+        /// </summary>
+        Emotion,
+        /// <summary>
+        /// Motion
+        /// </summary>
+        Motion,
+        /// <summary>
+        /// Perception
+        /// </summary>
+        Perception,
+        /// <summary>
+        /// Possession
+        /// </summary>
+        Possession,
+        /// <summary>
+        /// Social
+        /// </summary>
+        Social,
+        /// <summary>
+        /// Stative
+        /// </summary>
+        Stative,
+        /// <summary>
+        /// Weather
+        /// </summary>
+        Weather,
+    }
+
 }

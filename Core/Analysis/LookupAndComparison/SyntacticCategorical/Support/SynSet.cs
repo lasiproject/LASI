@@ -13,7 +13,7 @@ namespace LASI.Core.Heuristics
             Id = id;
             Words = new HashSet<string>(words);
             relatedSetsByRelationKindSource = pointerRelationships;
-            ReferencedIndeces = new HashSet<int>(pointerRelationships.Select(p => p.Value));
+            ReferencedSets = new HashSet<int>(pointerRelationships.Select(p => p.Value));
         }
         /// <summary>
         /// Gets the ID of the SynSet.
@@ -26,7 +26,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Gets the IDs of all sets referenced by the SynSet.
         /// </summary>
-        public HashSet<int> ReferencedIndeces { get; private set; }
+        public HashSet<int> ReferencedSets { get; private set; }
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
@@ -35,21 +35,21 @@ namespace LASI.Core.Heuristics
         public IEnumerable<int> this[params TSetRelationship[] relationships] {
 
             get {
-                if (relatedSetsByRelationKind == null)
-                    relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value);
+                if (referencedSetsByLinkType == null)
+                    referencedSetsByLinkType = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value);
                 foreach (var r in relationships) {
-                    foreach (var related in relatedSetsByRelationKind[r]) { yield return related; }
+                    foreach (var related in referencedSetsByLinkType[r]) { yield return related; }
                 }
             }
         }
-        private ILookup<TSetRelationship, int> relatedSetsByRelationKind;
+        private ILookup<TSetRelationship, int> referencedSetsByLinkType;
         private IEnumerable<KeyValuePair<TSetRelationship, int>> relatedSetsByRelationKindSource;
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
         public ILookup<TSetRelationship, int> RelatedSetsByRelationKind {
-            get { if (relatedSetsByRelationKind == null)relatedSetsByRelationKind = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return relatedSetsByRelationKind; }
+            get { if (referencedSetsByLinkType == null) referencedSetsByLinkType = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return referencedSetsByLinkType; }
         }
 
         public override int GetHashCode() {
@@ -86,46 +86,46 @@ namespace LASI.Core.Heuristics
     /// </summary>
     internal sealed class NounSynSet : SynSet<NounSetLink>
     {
-        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetLink, int>> pointerRelationships, NounLookup.Category lexicalCategory)
+        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetLink, int>> pointerRelationships, NounCategory category)
             : base(id, words, pointerRelationships) {
-            LexicalCategory = lexicalCategory;
+            Category = category;
         }
 
-        public NounLookup.Category LexicalCategory { get; private set; }
+        public NounCategory Category { get; private set; }
     }
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
     internal sealed class VerbSynSet : SynSet<VerbSetLink>
     {
-        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetLink, int>> pointerRelationships, VerbLookup.Category lexicalCategory)
-            : base(id, words, pointerRelationships) {
-            Category = lexicalCategory;
+        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetLink, int>> referencedSets, VerbCategory category)
+            : base(id, words, referencedSets) {
+            Category = category;
         }
-        public VerbLookup.Category Category { get; private set; }
+        public VerbCategory Category { get; private set; }
     }
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
     internal sealed class AdjectiveSynSet : SynSet<AdjectiveSetLink>
     {
-        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetLink, int>> pointerRelationships, AdjectiveLookup.Category lexicalCategory)
+        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetLink, int>> pointerRelationships, AdjectiveCategory category)
             : base(id, words, pointerRelationships) {
-            LexicalCategory = lexicalCategory;
+            Category = category;
         }
 
-        public AdjectiveLookup.Category LexicalCategory { get; private set; }
+        public AdjectiveCategory Category { get; private set; }
     }
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
     internal sealed class AdverbSynSet : SynSet<AdverbSetLink>
     {
-        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetLink, int>> pointerRelationships, AdverbLookup.Category lexicalCategory)
+        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetLink, int>> pointerRelationships, AdverbCategory category)
             : base(id, words, pointerRelationships) {
-            LexicalCategory = lexicalCategory;
+            Category = category;
         }
-        public AdverbLookup.Category LexicalCategory { get; private set; }
+        public AdverbCategory Category { get; private set; }
     }
 
 }

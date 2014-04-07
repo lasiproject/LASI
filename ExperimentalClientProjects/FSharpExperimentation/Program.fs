@@ -10,12 +10,13 @@ open LASI.ContentSystem
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
+
 let wrapFile (s:string) = 
         match s.Split('.').Last() with
-        | "doc" -> new DocFile(s) :> IRawTextSource
-        | "docx" -> new DocXFile(s) :> IRawTextSource
-        | "txt" -> new TxtFile(s) :> IRawTextSource
-        | "pdf" -> new PdfFile(s) :> IRawTextSource
+        | "docx" -> DocXFile s :> IRawTextSource
+        | "doc" -> DocFile s :> IRawTextSource
+        | "txt" -> TxtFile s :> IRawTextSource
+        | "pdf" -> PdfFile s :> IRawTextSource
         | _ -> null
 [<EntryPoint>]
 let main argv = 
@@ -43,67 +44,61 @@ let main argv =
     
          
     let orchestrator = 
-        AnalysisOrchestrator([wrapFile @"C:\Users\Aluan\Desktop\Documents\ducks.txt"; wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt";])
+        AnalysisOrchestrator
+            [
+                wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"; 
+                wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt";
+            ]
      // Register callbacks to print operation progress to the terminal
     orchestrator.ProgressChanged.Add(fun e->
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     let docTask = async { return orchestrator.ProcessAsync().Result }
-    let doc = Async.RunSynchronously(docTask).First()
-    let toAttack = Verb("attack", VerbForm.Base)
-    let bellicoseVerbals = 
-        doc.GetVerbals() 
-        |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
-    let bellicoseIndividuals = 
-        doc.GetEntities() 
-        |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
-    let attackerAttackeePairs = 
-        bellicoseVerbals.WithDirectObject().WithSubject() 
-        |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
-    do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
-    let (|Entity|Referee|Action|Other|) (lex : ILexical) = 
-        match lex with
-        | :? IReferencer as r -> Referee(r)
-        | :? IEntity as e -> Entity(e)
-        | :? IVerbal as a -> Action(a)
-        | _ -> Other
- 
-    // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
-    let rec processPhrases (phrs : Phrase List) = 
-        match phrs with
-        | head :: tail -> 
-            match head with // process the first phrase in the list
-            | Entity e -> 
-                match head.Paragraph.Phrases with
-                | :? IReferencer as pro -> e.BindReferencer pro // bind naively (this is just an example)
-                | _ -> ()
-                printfn "Matched %A" e
-            | Action a -> printfn "Matched %A" a
-            | p -> printfn "Unmatched %A" p
-            processPhrases tail // recursive tail call to continue processing
-        | [] -> printfn "" // list has been exhausted
+    let docs = Async.RunSynchronously(docTask)
+    for doc in docs do 
+        let toAttack = Verb("attack", VerbForm.Base)
+        let bellicoseVerbals = 
+            doc.GetVerbals() 
+            |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
+        let bellicoseIndividuals = 
+            doc.GetEntities() 
+            |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
+        let attackerAttackeePairs = 
+            bellicoseVerbals.WithDirectObject().WithSubject() 
+            |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
+        do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
     
-//    do processPhrases (Seq.toList doc.Phrases) //bind and output the document.
-    //
-    //    let svgs = 
-    //        query {
-    //            for a in doc.GetActions() do 
-    //            for a2 in doc.GetActions() do 
-    //            where(op(a.IsSimilarTo a2)  && a <> a2)
-    //            groupBy a
-    //        }
-    //    let r= 
-    //        seq { 
-    //            for x in svgs -> x.Key.Text + x.Select(fun e->(snd e).Text).Distinct().Aggregate(" ",(fun s i->s + i+ "\n\t" )) 
-    //        } 
-    //    do Seq.iter(fun i-> printfn "Group:  %s" i) r 
-    // keep reading from the console until the string "exit" is entered.
+        let (|Entity|Referencer|Action|Other|) (lex : ILexical) = 
+            match lex with
+            | :? IReferencer as r -> Referencer r
+            | :? IEntity as e -> Entity e
+            | :? IVerbal as a -> Action a
+            | _ -> Other lex
+    
+        let rec bind (head:Phrase)=
+            match head with // process the first phrase in the list
+                | Entity e -> 
+                    head.Paragraph.Phrases
+                    |> Seq.takeWhile (fun x-> not (x = head))
+                    |> Seq.filter (fun x-> match x with |Referencer r-> r.IsGenderEquivalentTo e |_ -> false)
+                    |> Seq.iter (fun x-> match x with  | Referencer r -> r.BindAsReferringTo e | _ ->()); printfn "Matched %A" head
+                | Action a -> printfn "Matched %A" a
+                | p -> printfn "Unmatched %A" p
+        // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
+        let rec processPhrases (phrases : Phrase List) = 
+            match phrases with
+            | head :: tail -> bind head; processPhrases tail // recursive tail call to continue processing
+            | [] -> () // list has been exhausted
+
+        processPhrases (Seq.toList doc.Phrases) //bind and output the document.
+    
     let rec checkForExit line = 
         printfn "type quit to exit..."
         match line with
         | "quit" -> ()
         | _ -> checkForExit (stdin.ReadLine())
-    do printfn "type quit to exit..."
-    let waitForUser = checkForExit (stdin.ReadLine())
+    printfn "type quit to exit..."
+    let input =stdin.ReadLine()
+    checkForExit input
     // the last value computed by the function is the exit code
     0

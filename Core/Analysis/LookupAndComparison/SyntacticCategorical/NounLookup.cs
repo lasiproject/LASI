@@ -22,7 +22,7 @@ namespace LASI.Core.Heuristics
             //InitCategoryGroupsDictionary();
         }
 
-        ConcurrentDictionary<int, NounSynSet> data;
+        ConcurrentDictionary<int, NounSynSet> setsById;
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -33,23 +33,18 @@ namespace LASI.Core.Heuristics
                     reader.ReadLine();
                 }
 
-                data = new ConcurrentDictionary<int, NounSynSet>(
-                    concurrencyLevel: 100,
-
-                    capacity: 90000);
+                setsById = new ConcurrentDictionary<int, NounSynSet>(concurrencyLevel: Concurrency.Max, capacity: 90000);
                 foreach (var item in from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').AsParallel()
                                      let set = CreateSet(line)
                                      select new KeyValuePair<int, NounSynSet>(set.Id, set)) {
-                    data[item.Key] = item.Value;
+                    setsById[item.Key] = item.Value;
                 }
-
-
             }
         }
 
         private static NounSynSet CreateSet(string fileLine) {
 
-            string line = fileLine.Substring(0, fileLine.IndexOf('|'));
+            string line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
             IEnumerable<SetReference> referencedSets =
                 from Match match in POINTER_REGEX.Matches(line)
@@ -58,12 +53,12 @@ namespace LASI.Core.Heuristics
                 select new SetReference(interSetMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 
 
-            IEnumerable<string> words = from Match match in WORD_REGEX.Matches(line)
-                                        select match.Value.Replace('_', '-');
+            IEnumerable<string> words = from Match m in WORD_REGEX.Matches(line)
+                                        select m.Value;
 
             int id = int.Parse(line.Substring(0, 8));
 
-            Category lexCategory = (Category)int.Parse(line.Substring(9, 2));
+            NounCategory lexCategory = (NounCategory)int.Parse(line.Substring(9, 2));
 
             return new NounSynSet(id, words, referencedSets, lexCategory);
         }
@@ -71,7 +66,7 @@ namespace LASI.Core.Heuristics
 
 
         private ISet<string> SearchFor(string word) {
-            var containingSet = data.Values.FirstOrDefault(set => set.Words.Contains(word));
+            var containingSet = setsById.Values.FirstOrDefault(set => set.Words.Contains(word));
             if (containingSet != null) {
                 try {
                     List<string> results = new List<string>();
@@ -87,7 +82,7 @@ namespace LASI.Core.Heuristics
         }
 
 
-        public ISet<string> AllNouns { get { return allNouns = allNouns ?? new SortedSet<string>(data.SelectMany(nss => nss.Value.Words)); } }
+        public ISet<string> AllNouns { get { return allNouns = allNouns ?? new HashSet<string>(setsById.SelectMany(nss => nss.Value.Words)); } }
 
         internal override ISet<string> this[string search] {
 
@@ -114,12 +109,12 @@ namespace LASI.Core.Heuristics
 
         private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
             results.AddRange(containingSet.Words);
-            results.AddRange(containingSet[NounSetLink.HypERnym].Where(set => data.ContainsKey(set)).SelectMany(set => data[set].Words));
+            results.AddRange(containingSet[NounSetLink.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedIndeces
+            foreach (var set in containingSet.ReferencedSets
                 .Except(containingSet[NounSetLink.HypERnym])
-                .Select(pointer => { NounSynSet result; data.TryGetValue(pointer, out result); return result; })) {
-                if (set != null && set.LexicalCategory == containingSet.LexicalCategory && !setsSearched.Contains(set)) {
+                .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; })) {
+                if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set)) {
                     SearchSubsets(set, results, setsSearched);
                 }
             }
@@ -128,16 +123,16 @@ namespace LASI.Core.Heuristics
 
 
         private void InitCategoryGroupsDictionary() {
-            foreach (Category e in Enum.GetValues(typeof(Category))) {
+            foreach (NounCategory e in Enum.GetValues(typeof(NounCategory))) {
                 lexicalGoups[e] = new List<NounSynSet>();
             }
         }
 
-        private ConcurrentDictionary<Category, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<Category, List<NounSynSet>>();
+        private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
 
         private string filePath;
 
-        private SortedSet<string> allNouns;
+        private HashSet<string> allNouns;
 
         private static bool IncludeReference(NounSetLink referenceRelationship) {
             return
@@ -180,116 +175,117 @@ namespace LASI.Core.Heuristics
             [";u"] = NounSetLink.DomainOfSynset_USAGE,
             ["-u"] = NounSetLink.MemberOfThisDomain_USAGE
         };
+    }
+    /// <summary>
+    /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
+    /// </summary>
+    public enum NounCategory : byte
+    {
         /// <summary>
-        /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
+        /// Tops
         /// </summary>
-        public enum Category : byte
-        {
-            /// <summary>
-            /// Tops
-            /// </summary>
-            Tops = 3,
-            /// <summary>
-            /// Act
-            /// </summary>
-            Act,
-            /// <summary>
-            /// Animal
-            /// </summary>
-            Animal,
-            /// <summary>
-            /// Artifact
-            /// </summary>
-            Artifact,
-            /// <summary>
-            /// Attribute
-            /// </summary>
-            Attribute,
-            /// <summary>
-            /// Body
-            /// </summary>
-            Body,
-            /// <summary>
-            /// Cognition
-            /// </summary>
-            Cognition,
-            /// <summary>
-            /// Communication
-            /// </summary>
-            Communication,
-            /// <summary>
-            /// Event
-            /// </summary>
-            Event,
-            /// <summary>
-            /// Feeling
-            /// </summary>
-            Feeling,
-            /// <summary>
-            /// Food
-            /// </summary>
-            Food,
-            /// <summary>
-            /// Group
-            /// </summary>
-            Group,
-            /// <summary>
-            /// Location
-            /// </summary>
-            Location,
-            /// <summary>
-            /// Motive
-            /// </summary>
-            Motive,
-            /// <summary>
-            /// Object
-            /// </summary>
-            Object,
-            /// <summary>
-            /// Person
-            /// </summary>
-            Person,
-            /// <summary>
-            /// Phenomenon
-            /// </summary>
-            Phenomenon,
-            /// <summary>
-            /// Plant
-            /// </summary>
-            Plant,
-            /// <summary>
-            /// Possession
-            /// </summary>
-            Possession,
-            /// <summary>
-            /// Process
-            /// </summary>
-            Process,
-            /// <summary>
-            /// Quantity
-            /// </summary>
-            Quantity,
-            /// <summary>
-            /// Relation
-            /// </summary>
-            Relation,
-            /// <summary>
-            /// Shape
-            /// </summary>
-            Shape,
-            /// <summary>
-            /// State
-            /// </summary>
-            State,
-            /// <summary>
-            /// Substance
-            /// </summary>
-            Substance,
-            /// <summary>
-            /// Time
-            /// </summary>
-            Time,
+        Tops = 3,
+        /// <summary>
+        /// Act
+        /// </summary>
+        Act,
+        /// <summary>
+        /// Animal
+        /// </summary>
+        Animal,
+        /// <summary>
+        /// Artifact
+        /// </summary>
+        Artifact,
+        /// <summary>
+        /// Attribute
+        /// </summary>
+        Attribute,
+        /// <summary>
+        /// Body
+        /// </summary>
+        Body,
+        /// <summary>
+        /// Cognition
+        /// </summary>
+        Cognition,
+        /// <summary>
+        /// Communication
+        /// </summary>
+        Communication,
+        /// <summary>
+        /// Event
+        /// </summary>
+        Event,
+        /// <summary>
+        /// Feeling
+        /// </summary>
+        Feeling,
+        /// <summary>
+        /// Food
+        /// </summary>
+        Food,
+        /// <summary>
+        /// Group
+        /// </summary>
+        Group,
+        /// <summary>
+        /// Location
+        /// </summary>
+        Location,
+        /// <summary>
+        /// Motive
+        /// </summary>
+        Motive,
+        /// <summary>
+        /// Object
+        /// </summary>
+        Object,
+        /// <summary>
+        /// Person
+        /// </summary>
+        Person,
+        /// <summary>
+        /// Phenomenon
+        /// </summary>
+        Phenomenon,
+        /// <summary>
+        /// Plant
+        /// </summary>
+        Plant,
+        /// <summary>
+        /// Possession
+        /// </summary>
+        Possession,
+        /// <summary>
+        /// Process
+        /// </summary>
+        Process,
+        /// <summary>
+        /// Quantity
+        /// </summary>
+        Quantity,
+        /// <summary>
+        /// Relation
+        /// </summary>
+        Relation,
+        /// <summary>
+        /// Shape
+        /// </summary>
+        Shape,
+        /// <summary>
+        /// State
+        /// </summary>
+        State,
+        /// <summary>
+        /// Substance
+        /// </summary>
+        Substance,
+        /// <summary>
+        /// Time
+        /// </summary>
+        Time,
 
-        }
+
     }
 }

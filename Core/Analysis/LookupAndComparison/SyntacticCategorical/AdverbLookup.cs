@@ -50,14 +50,14 @@ namespace LASI.Core.Heuristics
                                         select match.Value.Replace('_', '-');
 
             int id = Int32.Parse(line.Substring(0, 8));
-            return new AdverbSynSet(id, words, referencedSets, Category.All);
+            return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
 
         private ISet<string> SearchFor(string word) {
             var containingSet = allSets.FirstOrDefault(s => s.Words.Contains(word));
             if (containingSet != null) {
                 return (from sw in allSets
-                        where containingSet.ReferencedIndeces.Contains(sw.Id)
+                        where containingSet.ReferencedSets.Contains(sw.Id)
                         select sw.Words).SelectMany(words => words).ToHashSet();
             } else { return new HashSet<string>(); }
             //gets pointers of searched word
@@ -114,22 +114,23 @@ namespace LASI.Core.Heuristics
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
         private static readonly IReadOnlyDictionary<string, AdverbSetLink> interSetMap = new Dictionary<string, AdverbSetLink> {
-            { "!", AdverbSetLink. Antonym }, 
+            { "!", AdverbSetLink. Antonym },
             { @"\", AdverbSetLink.DerivedFromAdjective},
             { ";c", AdverbSetLink.DomainOfSynset_TOPIC },
             { ";r", AdverbSetLink.DomainOfSynset_REGION },
             { ";u", AdverbSetLink.DomainOfSynset_USAGE}
         };
+    }
+    /// <summary>
+    /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
+    /// </summary>
+    public enum AdverbCategory : byte
+    {
         /// <summary>
-        /// Defines the broad lexical categories assigned to Adverbs in the WordNet system.
+        /// All adverbs have the same category. This value is simply included for completeness.
         /// </summary>
-        public enum Category : byte
-        {
-            /// <summary>
-            /// All adverbs have the same category. This value is simply included for completeness.
-            /// </summary>
-            All = 2
-        }
+        All = 2
+
     }
 }
 
