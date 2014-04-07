@@ -13,37 +13,50 @@ open System.Threading.Tasks
 
 [<EntryPoint>]
 let main argv = 
-    // Register callbacks to print operation progress to the terminal
-    Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
-    Lookup.ResourceLoaded.Add
-        (fun e -> 
-        printfn "Finished loading %s ms elapsed: %d" e.Message 
-            e.ElapsedMiliseconds)
+   
+//    Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
+//    Lookup.ResourceLoaded.Add
+//        (fun e -> 
+//        printfn "Finished loading %s ms elapsed: %d" e.Message 
+//            e.ElapsedMiliseconds)
     // tag, parse, and construct a Document 
     // perform default binding on the Document
     // perform default weighting on the Document
-    let fileWrapper (s : string) = 
+    
+    let fileWrapper (s:string) = 
         match s.Split('.').Last() with
         | "doc" -> new DocFile(s) :> InputFile
         | "docx" -> new DocXFile(s) :> InputFile
         | "txt" -> new TxtFile(s) :> InputFile
         | "pdf" -> new PdfFile(s) :> InputFile
         | _ -> null
-         
+    
     let resourceLoadNotifier = ResourceNotifier()
+  
+    let prog = ref 0.0 
 
-    resourceLoadNotifier.ResourceLoaded.Add (fun e->printfn "Update: %s" e.Message)
-    resourceLoadNotifier.ResourceLoading.Add (fun e->printfn "Update: %s" e.Message)
+    // Register callbacks to print operation progress to the terminal
+    resourceLoadNotifier.ResourceLoaded.Add(fun e->
+        prog := e.PercentWorkRepresented + !prog
+        printfn "Update: %s \nProgress: %A" e.Message !prog)
+    resourceLoadNotifier.ResourceLoading.Add(fun e->
+        prog := e.PercentWorkRepresented + !prog
+        printfn "Update: %s \nProgress: %A" e.Message !prog)
+    
+         
     let orchestrator = 
         AnalysisOrchestrator
             (fileWrapper @"C:\Users\Aluan\Desktop\Documents\ducks.txt")
+     // Register callbacks to print operation progress to the terminal
+    orchestrator.ProgressChanged.Add(fun e->
+        prog := e.PercentWorkRepresented + !prog
+        printfn "Update: %s \nProgress: %A" e.Message !prog)
     let docTask = async { return orchestrator.ProcessAsync().Result }
     let doc = Async.RunSynchronously(docTask).First()
     let toAttack = Verb("attack", VerbForm.Base)
     let bellicoseVerbals = 
         doc.GetVerbals() 
-        |> Seq.filter 
-               (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
+        |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
     let bellicoseIndividuals = 
         doc.GetEntities() 
         |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
@@ -57,7 +70,7 @@ let main argv =
         | :? IEntity as e -> Entity(e)
         | :? IVerbal as a -> Action(a)
         | _ -> Other
-    
+ 
     // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
     let rec processPhrases (phrs : Phrase List) = 
         match phrs with
