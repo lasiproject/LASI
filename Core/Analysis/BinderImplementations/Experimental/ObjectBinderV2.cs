@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LASI.Core.Binding.Experimental
 {
     class ObjectBinderV2
-    {
+    { 
         public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
         public void Bind(IEnumerable<Phrase> phrases) {
             if (phrases.OfVerbPhrase().None()) { throw new VerblessPhrasalSequenceException(); }

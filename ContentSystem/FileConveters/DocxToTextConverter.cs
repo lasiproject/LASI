@@ -34,17 +34,17 @@ namespace LASI.ContentSystem
         /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
         /// <returns>An object referring to the newly created zipfile.</returns>
-        protected virtual ZipArchive DocxToZip() {
+        protected virtual void DocxToZip() {
             string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
             File.Copy(Original.FullPath, zipName, true);
 
             if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt)) {
                 Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, true);
             }
-            ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, false);
-            ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
-            XmlFile = GetRelevantXMLFile(ZipArch);
-            return ZipArch;
+            using (var ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, false)) {
+                ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
+                XmlFile = GetRelevantXMLFile(ZipArch);
+            }
         }
 
         /// <summary>
@@ -55,13 +55,9 @@ namespace LASI.ContentSystem
         public override TxtFile ConvertFile() {
             DocxToZip();
             XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings {
-                IgnoreWhitespace = true
-            })) {
+            using (XmlReader xmlReader = XmlReader.Create(new FileStream(XmlFile.FullPath, FileMode.Open, FileAccess.Read), new XmlReaderSettings { IgnoreWhitespace = true })) {
                 using (var writer = new StreamWriter(
-                    new FileStream(DestinationInfo.FullPathSansExt + ".txt",
-                        FileMode.Create),
-                        Encoding.UTF8, 100)) {
+                    new FileStream(DestinationInfo.FullPathSansExt + ".txt", FileMode.Create), Encoding.UTF8, 100)) {
                     xmlReader.ReadStartElement();
                     while (xmlReader.Read()) {
                         if (xmlReader.Name == "w:p") {
@@ -130,13 +126,7 @@ namespace LASI.ContentSystem
             get;
             set;
         }
-        /// <summary>
-        /// Gets or sets the ziparchive which is created during the conversion process.
-        /// </summary>
-        protected virtual ZipArchive ZipArch {
-            get;
-            set;
-        }
+
 
         /// <summary>
         /// Gets the document object which is the fruit of the conversion process

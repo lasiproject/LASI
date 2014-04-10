@@ -243,8 +243,8 @@ namespace LASI.UnitTests
             actual = target.FullPath;
             Assert.AreEqual(System.IO.Path.GetFullPath(relativePath), actual);
         }        /// <summary>
-        ///A test for FullPath
-        ///</summary>
+                 ///A test for FullPath
+                 ///</summary>
         [TestMethod()]
         public void FullPathTest1() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";

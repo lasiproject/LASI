@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LASI.UnitTests
 {
@@ -14,8 +15,8 @@ namespace LASI.UnitTests
     [TestClass()]
     public class FileConverterTest
     {
-
-
+        private const string TEST_FILE_LOCATION = @"..\..\..\TestDocs\";
+        private const string TEST_FILE_NAME = @"Draft_Environmental_Assessment.docx";
         private TestContext testContextInstance;
 
         /// <summary>
@@ -59,6 +60,20 @@ namespace LASI.UnitTests
         //{
         //}
         //
+
+        private class FileHandler(private readonly string testFolderName, private readonly string fileLocation = TEST_FILE_LOCATION, private readonly string sourceName = TEST_FILE_NAME)
+        {
+            public string WorkingDirectory { get { return Path.Combine(fileLocation, testFolderName); } }
+            public string FilePath { get { return Path.Combine(WorkingDirectory, sourceName); } }
+            public void Init() {
+                if (!Directory.Exists(WorkingDirectory)) { Directory.CreateDirectory(WorkingDirectory); }
+                File.Copy(Path.Combine(fileLocation, sourceName), Path.Combine(WorkingDirectory, sourceName), overwrite: true);
+            }
+            public void Clean() {
+                Directory.Delete(WorkingDirectory, true);
+            }
+        }
+
         #endregion
 
 
@@ -68,20 +83,23 @@ namespace LASI.UnitTests
         public void ConvertFileTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>();
+            var fileHandler = new FileHandler("FileConverter_ConvertFile");
+            fileHandler.Init();
+            var filePath = fileHandler.FilePath;
+            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(filePath);
             TDestination actual;
             actual = target.ConvertFile() as TDestination;
-            TDestination expected = new TxtFile(sourcePath.Substring(0, sourcePath.LastIndexOf('.')) + ".txt") as TDestination;
+            TDestination expected = new TxtFile(filePath.Substring(0, filePath.LastIndexOf('.')) + ".txt") as TDestination;
             Assert.AreEqual(expected, actual);
+            fileHandler.Clean();
         }
 
-        internal virtual FileConverter<TSource, TDestination> CreateFileConverter<TSource, TDestination>()
+
+        internal virtual FileConverter<TSource, TDestination> CreateFileConverter<TSource, TDestination>(string filePath)
             where TSource : InputFile
             where TDestination : InputFile {
-            // TODO: Instantiate an appropriate concrete class.
             FileConverter<TSource, TDestination> target = new DocxToTextConverter(
-                new DocXFile(@"..\..\..\TestDocs\Draft_Environmental_Assessment.docx")) as FileConverter<TSource, TDestination>;
+                new DocXFile(filePath)) as FileConverter<TSource, TDestination>;
 
             return target;
         }
@@ -97,13 +115,15 @@ namespace LASI.UnitTests
         public void ConvertFileAsyncTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>();
+            var fileHandler = new FileHandler("FileConverter_ConvertFileAsync");
+            fileHandler.Init();
+            var filePath = fileHandler.FilePath;
+            FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(filePath);
             TDestination actual;
             actual = target.ConvertFileAsync().Result;
-            TDestination expected = new TxtFile(sourcePath.Substring(0, sourcePath.LastIndexOf('.')) + ".txt") as TDestination;
+            TDestination expected = new TxtFile(filePath.Substring(0, filePath.LastIndexOf('.')) + ".txt") as TDestination;
             Assert.AreEqual(expected, actual);
-
+            fileHandler.Clean();
         }
 
         [TestMethod()]
