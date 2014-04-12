@@ -11,11 +11,22 @@ namespace LASI.Core
     /// <para> Defines the role requirements for Entity constructs, including Nouns, NounPhrases, and Gerunds. </para>
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IEntity interface provides for generalization and abstraction over many otherwise disparate element types and Type hierarchies. </para>
     /// </summary>
-    public interface IEntity : IVerbalSubject, IVerbalObject, IReferenceable, IDescribable, IPossesser, IPossessable, ILexical
+    public interface IEntity : IVerbalSubject, IVerbalObject, IReferenceable, IPossesser, IPossessable, ILexical
     {
         /// <summary>
         /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
         /// </summary>
         EntityKind EntityKind { get; }
+        /// <summary>
+        /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the IDescribable.
+        /// </summary>
+        /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
+        void BindDescriptor(IDescriptor descriptor);
+        /// <summary>
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the IDescibable.
+        /// </summary>
+        IEnumerable<IDescriptor> Descriptors {
+            get;
+        }
     }
 }

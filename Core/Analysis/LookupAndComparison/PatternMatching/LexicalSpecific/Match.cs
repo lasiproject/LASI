@@ -479,18 +479,13 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private TResult result = default(TResult);
         #endregion
-
-        #region Operators
-
-
-        //public static implicit operator bool(Match<T, TResult> match) { return match.Accepted; }
-
-
-        #endregion
-
+ 
 
     }
-
+    /// <summary>
+    /// Provides for the representation and free-form structuring of a non result yielding Match expression which is predicated by an arbitrary condition.
+    /// </summary>
+    /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     [DebuggerStepThrough]
     public abstract class PredicatedMatchBase<T> where T : class, ILexical
     {
@@ -507,6 +502,10 @@ namespace LASI.Core.PatternMatching
         protected bool ConditionMet { get; private set; }
         #endregion
     }
+    /// <summary>
+    /// Provides for the representation and free-form structuring of a non result yielding Match expression which is predicated by an arbitrary condition.
+    /// </summary>
+    /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     [DebuggerStepThrough]
     public class PredicatedMatch<T> : PredicatedMatchBase<T> where T : class, ILexical
     {
@@ -540,11 +539,19 @@ namespace LASI.Core.PatternMatching
         }
 
 
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary> 
+        /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
+        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Then(Action action) {
             return ConditionMet ? inner.With<T>(action) : inner;
         }
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <param name="action">The Action which, if this With expression is Matched, will be invoked on the value being matched over.</param>
+        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Then(Action<T> action) {
             return ConditionMet ? inner.With<T>(action) : inner;
         }
@@ -552,11 +559,20 @@ namespace LASI.Core.PatternMatching
         private Match<T> inner;
         #endregion
     }
+    /// <summary>
+    /// Provides for the representation and free-form structuring of a result yielding Match expression which is predicated by an arbitrary condition.
+    /// </summary>
+    /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
+    /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
     [DebuggerStepThrough]
     public class PredicatedMatch<T, TResult> : PredicatedMatchBase<T> where T : class, ILexical
     {
         #region Constructors
-
+        /// <summary>
+        /// Initializes a new isntance of the PredicatedMatchBase&lt;T, TResult&gt; class.
+        /// </summary>
+        /// <param name="predicateSucceeded">A value indicating if the predicate is true for the value being matched over.</param>
+        /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
           : base(predicateSucceeded) {
             this.inner = inner;
@@ -564,32 +580,59 @@ namespace LASI.Core.PatternMatching
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
+        /// <param name="result">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
+        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TPattern>(TResult result)
              where TPattern : class, ILexical {
             return ConditionMet ? inner.With<TPattern>(result) : inner;
         }
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TPattern">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
+        /// <param name="func">The function whose result will be the result of the Then match expression.</param>
+        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TPattern>(Func<TResult> func)
             where TPattern : class, ILexical {
             return ConditionMet ? inner.With<TPattern>(func) : inner;
         }
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
+        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
         public Match<T, TResult> Then<TPattern>(Func<TPattern, TResult> func)
             where TPattern : class, ILexical {
             return ConditionMet ? inner.With<TPattern>(func) : inner;
         }
 
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <param name="func">The function whose which will be called on the value being matched over to produce the result of the Then expression.</param>
+        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then(Func<T, TResult> func) {
             return ConditionMet ? inner.With<T>(func) : inner;
         }
 
-
-        public Match<T, TResult> Then(TResult resultValue) {
-            return ConditionMet ? inner.With<T>(resultValue) : inner;
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <param name="result">The value which, if this Then expression is Matched, will be the result of the Pattern Match.</param>
+        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
+        public Match<T, TResult> Then(TResult result) {
+            return ConditionMet ? inner.With<T>(result) : inner;
         }
-
+        /// <summary>
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <param name="func">The function whose result will be the result of the Then match expression.</param>
+        /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then(Func<TResult> func) {
             return ConditionMet ? inner.With<T>(func) : inner;
         }

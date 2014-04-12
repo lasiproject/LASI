@@ -8,7 +8,8 @@ namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the broad role requirements for the weightable, countable textual elements, of a written work. </para>
-    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and type hierarchies. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and type hierarchies. 
+    /// </para>
     /// </summary>
     public interface ILexical
     {

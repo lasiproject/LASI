@@ -26,8 +26,15 @@ namespace LASI.Core
 
         #endregion
 
-        #region Methods
+        #region Methods  
 
+        /// <summary>
+        /// Attaches an IAdverbial as a modifier of the SubordinateClause.
+        /// </summary>
+        /// <param name="adv">The modifier to attach.</param>
+        public void ModifyWith(IAdverbial adv) {
+            throw new NotImplementedException();
+        }
 
 
         #endregion
@@ -72,11 +79,21 @@ namespace LASI.Core
                                         descriptive modifier of\n{2}", this, value, modifies));
             }
         }
+        /// <summary>
+        /// Gets the sequence of IAdverbial constructs which modify the SubordinateClause.
+        /// </summary>
+        public IEnumerable<IAdverbial> AdverbialModifiers {
+            get {
+                return adverbialModifiers;
+            }
+        }
         #endregion
 
         #region Fields
         private IEntity described;
         private IAdverbialModifiable modifies;
+        private HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
+
         #endregion
 
     }

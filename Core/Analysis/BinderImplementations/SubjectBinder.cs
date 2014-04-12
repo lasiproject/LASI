@@ -150,6 +150,9 @@ namespace LASI.Core.Binding
             Final
         }
     }
+    /// <summary>
+    /// Defines extension methods for Phrase elements to aid Subject -> Verbal binding scenarios.
+    /// </summary>
     public static class SubjectBinderPhraseExtensions
     {
         /// <summary>

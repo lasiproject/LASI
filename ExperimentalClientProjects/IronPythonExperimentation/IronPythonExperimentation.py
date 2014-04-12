@@ -28,10 +28,10 @@ clr.AddReferenceToFileAndPath(os.path.join(interopDir,"Interop.dll"))
 
 
 import LASI as lasi
-from LASI import Core as C
-clr.ImportExtensions(C)
-import System.Linq as L
-clr.ImportExtensions(L)
+from LASI import Core as core
+clr.ImportExtensions(core)
+import System.Linq as linq
+clr.ImportExtensions(linq)
 from LASI import *  
 from LASI.Core import *  
 """
