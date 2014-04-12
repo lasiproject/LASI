@@ -5,11 +5,11 @@
             function Status(message, percent) {
                 this.message = message;
                 this.percent = percent;
-                this.formattedPercent = percent.toString() + "%";
+                this.percentString = percent.toString() + "%";
             }
             Status.fromJson = function (jsonString) {
-                var js = JSON.parse(jsonString);
-                return new Status(js.message, js.percent);
+                var json = JSON.parse(jsonString);
+                return new Status(json.message, json.percent);
             };
             return Status;
         })();
@@ -32,16 +32,17 @@ $(function () {
             }).reduce(function (sofar, x) {
                 return sofar ^ x;
             }, 0);
+
             setInterval(function (event) {
                 $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
                     var st = Status.fromJson(jqXhr.responseText);
-                    $(".progress-bar").css("width", st.formattedPercent);
+                    $(".progress-bar").css("width", st.percentString);
                     $("#progress-text").text(st.message);
 
                     // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
                     if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(function (e) {
                         return e.percent;
-                    }).every(function (x) {
+                    }).some(function (x) {
                         return x >= 100;
                     })) {
                         $("#proceed-to-results").show().click();

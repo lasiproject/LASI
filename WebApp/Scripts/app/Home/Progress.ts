@@ -2,17 +2,17 @@
 
 module LASI.Progress {
     export class Status {
-        formattedPercent: string;
+        percentString: string;
         constructor(public message: string, public percent: number) {
-            this.formattedPercent = percent.toString() + "%";
+            this.percentString = percent.toString() + "%";
         }
         static fromJson(jsonString: string): Status {
-            var js = JSON.parse(jsonString);
-            return new Status(js.message, js.percent);
+            var json = JSON.parse(jsonString);
+            return new Status(json.message, json.percent);
         }
     }
 }
-$(function() {
+$(function () {
 
     // Import class Status
     var Status = LASI.Progress.Status;
@@ -27,17 +27,20 @@ $(function() {
             var id = $.makeArray($.getJSON("\\Home\\GetJobStatus"))
                 .map((x: any, i: number) => x.id)
                 .reduce((sofar: number, x: number) => sofar ^ x, 0);
+
             setInterval(event => {
                 $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId,
                     function (data, status, jqXhr) {
                         var st = Status.fromJson(jqXhr.responseText);
-                        $(".progress-bar").css("width", st.formattedPercent);
+                        $(".progress-bar").css("width", st.percentString);
                         $("#progress-text").text(st.message);
                         // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
-                        if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(e=> e.percent).every(x=> x >= 100)) {
+                        if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus"))
+                            .map(e=> e.percent)
+                            .some(x=> x >= 100)) {
                             $("#proceed-to-results").show().click();
-                            
-                         }
+
+                        }
                     });
             }, 1000);
             return id += 1;

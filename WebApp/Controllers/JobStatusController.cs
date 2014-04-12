@@ -1,48 +1,34 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
-namespace LASI.WebService.Controllers
+namespace LASI.WebApp
 {
-    public class StatusController : Controller
+    public class JobStatusController : ApiController
     {
-        //
-        // GET: /JobStatus/jobId
-        public ContentResult GetJobStatus(string jobId) {
-
-            var json = nodeJobs[jobId].ToJson();
-            return new ContentResult { Content = json, ContentType = "application/json" };
+        // GET api/<controller>
+        public IEnumerable<string> Get() {
+            return new string[] { "value1", "value2" };
         }
 
-
-        /// <summary>
-        /// Hypothetical data structure representing jobs on a worker node.
-        /// </summary>
-        static IDictionary<string, Job> nodeJobs = new Dictionary<string, Job>();
-
-
-
-
-    }
-
-    public class Job
-    {
-
-        public Job(string currentOperation, double percentComplete) {
-            JobId = "Job" + idGenerator++;
-            CurrentOperation = currentOperation;
-            PercentComplete = percentComplete;
+        // GET api/<controller>/5
+        public string Get(int id) {
+            return "value";
         }
-        public string JobId { get; private set; }
-        public string CurrentOperation { get; private set; }
-        public double PercentComplete { get { return Math.Round(percentComplete, 1); } private set { percentComplete = value; } }
-        private double percentComplete;
-        [JsonIgnore]
-        private static int idGenerator = 0;
 
-        public string ToJson() { return JsonConvert.SerializeObject(this); }
+        // POST api/<controller>
+        public void Post([FromBody]string value) {
+        }
+
+        // PUT api/<controller>/5
+        public void Put(int id, [FromBody]string value) {
+        }
+
+        // DELETE api/<controller>/5
+        public void Delete(int id) {
+        }
     }
 }

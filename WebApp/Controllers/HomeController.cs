@@ -105,23 +105,22 @@ namespace LASI.WebApp.Controllers
         private static string currentOperation;
 
         private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
-
+        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+        };
         //static int timesExecuted = 0;
         [HttpGet]
-        public ContentResult GetJobStatus(string jobId = "") {
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-            };
+        public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
-                return Content(JsonConvert.SerializeObject(trackedJobs
+                return JsonConvert.SerializeObject(trackedJobs
                     .Select(j => new
                 {
                     j.Value.Message,
                     j.Value.Percent,
                     Id = j.Key
                 }).ToArray(),
-                      serializerSettings));
+                      serializerSettings);
             }
             percentComplete %= 101;
 
@@ -133,7 +132,7 @@ namespace LASI.WebApp.Controllers
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
             trackedJobs[jobId] = update;
 
-            return Content(JsonConvert.SerializeObject(update, serializerSettings));
+            return JsonConvert.SerializeObject(update, serializerSettings);
         }
 
     }

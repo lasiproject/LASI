@@ -282,6 +282,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JobStatus.cs" />
+    <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMap.cs" />
     <Compile Include="Models\Home\ProgressModel.cs" />
     <Compile Include="Models\UserAccountModels.cs" />
@@ -500,7 +501,6 @@
       <DependentUpon>jquery.validate.js</DependentUpon>
     </Content>
     <Content Include="Views\Account\Login.cshtml" />
-    <TypeScriptCompile Include="Scripts\App\Home\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
   </ItemGroup>
   <ItemGroup>

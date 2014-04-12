@@ -2,7 +2,7 @@
     class Status {
         public message: string;
         public percent: number;
-        public formattedPercent: string;
+        public percentString: string;
         constructor(message: string, percent: number);
         static fromJson(jsonString: string): Status;
     }

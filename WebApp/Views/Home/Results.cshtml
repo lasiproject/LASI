@@ -21,8 +21,7 @@
             <div>
 
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>)
-                    {
+                    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                         <li class="list-group-item">
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name)>
                                 @doc.Name
@@ -35,8 +34,7 @@
             <br />
             <div>
 
-                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>)
-                {
+                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                     var pages = doc.Paginate(80, 30);
                     <div id=@doc.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -48,25 +46,21 @@
                                 <div class="modal-body">
                                     @{
                                         Phrase.VerboseOutput = true;
-
                                         var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
                                         var styleMap = new SyntacticStyleMap();
-                                        foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph)
-                                        {
+                                        foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
                                             <p class="lexical-content-block">
-                                                @foreach (var e in paragraphData)
-                                                {
+                                                @foreach (var e in paragraphData) {
                                                     <span class=@styleMap[e.Phrase].CssClass
-                                                          title=@(e.Phrase.ToString()
+                                                          title='@(e.Phrase.ToString()
                                                               .SplitRemoveEmpty('\n', '\r')
-                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n")) id=@e.Id>
+                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id=@e.Id>
                                                         @e.Phrase.Text
                                                         <span id="@("context" + e.Id)" hidden="hidden">
-                                                            @(
-                                                    e.Phrase.Match().Yield<dynamic>()
-                                                        .With<IVerbal>(v => v.GetJsonMenuData())
-                                                        .With<IReferencer>(r => r.GetJsonMenuData())
-                                                        .Result(() => null))
+                                                            @(e.Phrase.Match().Yield<dynamic>()
+                                                                .With<IVerbal>(v => v.GetJsonMenuData())
+                                                                .With<IReferencer>(r => r.GetJsonMenuData())
+                                                            .Result(() => null))
                                                         </span>
                                                     </span>}
                                             </p>}
@@ -94,8 +88,7 @@
         </div>
         <div class="tab-pane fade" id="topresults">
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>)
-                {
+                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                     <li class="list-group-item">
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name.ToSizzleSafeString() + "_topresults")>
                             @doc.Name
@@ -103,8 +96,7 @@
                     </li>
                 }
             </ul>
-            @foreach (var doc in ViewData["docs"] as IEnumerable<Document>)
-            {
+            @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
                 <div id=@(doc.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -140,8 +132,7 @@
                     </div>
 
                     <div>
-                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
+                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
                             @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
                             <input type="submit" name="submit" value="upload" />
                         }
