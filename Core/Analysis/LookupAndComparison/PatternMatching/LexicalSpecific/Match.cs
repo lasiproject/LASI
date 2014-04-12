@@ -479,7 +479,7 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private TResult result = default(TResult);
         #endregion
- 
+
 
     }
     /// <summary>

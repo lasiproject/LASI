@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using LASI;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Core.DocumentStructures;
 
 
@@ -17,7 +13,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     internal static class DeclarativeBinder
     {
         static void Test(Sentence s) {
-            var b = new Test.BinderComponent() {
+            var b = new InitializerSyntaxEnabled.BinderComponent() {
                 (IEntity e1) => (IVerbal v) => (IEntity e2) => {
                     v.BindSubject(e1);
                     v.BindDirectObject(e2);

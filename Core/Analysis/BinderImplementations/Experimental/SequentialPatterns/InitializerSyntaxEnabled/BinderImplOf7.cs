@@ -1,11 +1,7 @@
 ﻿#pragma warning disable 1591
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns.Test
+namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns.InitializerSyntaxEnabled
 {
     // Alias types to shorten name and thus file size.
     using E = IEntity;
@@ -16,9 +12,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     using A = IAdverbial;
     using P = IPrepositional;
     using S = SymbolPhrase;
-    using EB = System.ComponentModel.EditorBrowsableAttribute;
-    using N = System.ComponentModel.EditorBrowsableState;
-    using KK = System.ComponentModel.BrowsableAttribute;
 
     public partial class BinderComponent : 
         IBinderComponent<E, V, C, D, R, A, P>,

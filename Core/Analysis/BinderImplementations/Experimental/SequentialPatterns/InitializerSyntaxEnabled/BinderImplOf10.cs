@@ -1,11 +1,7 @@
 ﻿#pragma warning disable 1591
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns.Test
+namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns.InitializerSyntaxEnabled
 {
     // Alias types to shorten name and thus file size.
     using E = IEntity;
