@@ -20,6 +20,14 @@ namespace LASI.Core
         public ParticlePhrase(IEnumerable<Word> words)
             : base(words) {
         }
+        /// <summary>
+        /// Initializes a new instance of the ParticlePhrase class.
+        /// </summary>
+        /// <param name="first">The first Word of the ParticlePhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the ParticlePhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public ParticlePhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
 
         /// <summary>
         /// Binds an ILexical construct as the object of the ParticlePhrase. 

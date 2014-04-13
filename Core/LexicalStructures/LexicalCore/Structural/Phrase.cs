@@ -29,8 +29,11 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Phrase class.
         /// </summary>
-        /// <param name="words">The one or more instances of the Word class which are composed to form the Phrase.</param>
-        protected Phrase(params Word[] words) : this(words.AsEnumerable()) { }
+        /// <param name="first">The first Word of the Phrase.</param>
+        /// <param name="rest">The rest of the Words comprise the Phrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        protected Phrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
 
         #endregion
 

@@ -22,6 +22,14 @@ namespace LASI.Core
             : base(composedWords) {
         }
         /// <summary>
+        /// Initializes a new instance of the AdjectivePhrase class.
+        /// </summary>
+        /// <param name="first">The first Word of the AdjectivePhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the AdjectivePhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public AdjectivePhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+        /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the AdjectivePhrase.
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>

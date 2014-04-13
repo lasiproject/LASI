@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Interop;
+using LASI.Output;
 
 namespace LASI.Experimentation.CommandLine
 {
@@ -24,15 +25,15 @@ This means that companies can fire employees for no reason as long as doing so d
 Virginia takes many of it's political views from the religious right wing. 
 It has a very prominent conservative community.", "Test");
             var percent = 0d;
-            var resourceNotifier = new ResourceNotifier();
-            resourceNotifier.ResourceLoaded += (s, e) => {
+            var notfier = new ResourceNotifier();
+            notfier.ResourceLoaded += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
+                WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
             };
             var orchestrator = new AnalysisOrchestrator(fragment);
             orchestrator.ProgressChanged += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine("Update : {0} Percent : {1}", e.Message, percent);
+                WriteLine("Update : {0} Percent : {1}", e.Message, percent);
             };
 
             var document = orchestrator.ProcessAsync().Result.First();
@@ -42,6 +43,9 @@ It has a very prominent conservative community.", "Test");
                 .Yield<string>()
                 .With((IEntity e) => e.Text)
                 .Result();
+
+
+
 
 
 

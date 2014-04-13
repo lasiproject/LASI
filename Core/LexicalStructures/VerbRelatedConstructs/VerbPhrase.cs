@@ -32,8 +32,12 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
         /// </summary>
-        /// <param name="words">The words which compose to form the VerbPhrase.</param>
-        public VerbPhrase(params Word[] words) : this(words.AsEnumerable()) { }
+        /// <param name="first">The first Word of the VerbPhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the VerbPhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of VerbPhrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public VerbPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+
 
         #endregion
 

@@ -13,12 +13,20 @@ namespace LASI.Core
     public class UnknownPhrase : Phrase
     {
         /// <summary>
-        /// Initializes a new instance of the UndeterminedPhrase class.
+        /// Initializes a new instance of the UnknownPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the UndeterminedPhrase.</param>
+        /// <param name="composedWords">The words which compose to form the UnknownPhrase.</param>
         public UnknownPhrase(IEnumerable<Word> composedWords)
             : base(composedWords) {
         }
+        /// <summary>
+        /// Initializes a new instance of the UnknownPhrase class.
+        /// </summary>
+        /// <param name="first">The first Word of the UnknownPhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the UnknownPhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of UnknownPhrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public UnknownPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
 
 
 

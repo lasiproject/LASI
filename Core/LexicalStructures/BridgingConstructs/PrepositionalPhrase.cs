@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -19,7 +20,14 @@ namespace LASI.Core
             : base(composedWords) {
             Role = PrepositionRole.Undetermined;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the PrepositionalPhrase class.
+        /// </summary>
+        /// <param name="first">The first Word of the PrepositionalPhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the PrepositionalPhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public PrepositionalPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
         #endregion
 
         #region Methods
@@ -72,8 +80,8 @@ namespace LASI.Core
             get;
             set;
         }  /// <summary>
-        /// Gets the object of the IPrepositional construct.
-        /// </summary>
+           /// Gets the object of the IPrepositional construct.
+           /// </summary>
         public ILexical BoundObject { get; private set; }
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.

@@ -22,9 +22,11 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the InfinitivePhrase class.
         /// </summary>
-        /// <param name="words">The words which comprise the InfinitivePhrase.</param>
-        public InfinitivePhrase(params Word[] words) : this(words.AsEnumerable()) { }
-
+        /// <param name="first">The first Word of the InfinitivePhrase.</param>
+        /// <param name="rest">The rest of the Words comprise the InfinitivePhrase.</param>
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of InfinitivePhrases. 
+        /// Thus, its purpose is to simplifiy test code.</remarks>
+        public InfinitivePhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
         #endregion
 
         #region Properties

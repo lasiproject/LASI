@@ -26,6 +26,14 @@ namespace LASI.Core
                 .OfPronoun()
                 .Where(p => p.ReferredTo != null));
         }
+        /// <summary>
+         /// Initializes a new instance of the PronounPhrase class.
+         /// </summary>
+         /// <param name="first">The first Word of the PronounPhrase.</param>
+         /// <param name="rest">The rest of the Words comprise the PronounPhrase.</param>
+         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of PronounPhrases. 
+         /// Thus, its purpose is to simplifiy test code.</remarks>
+        public PronounPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
 
 
         /// <summary>

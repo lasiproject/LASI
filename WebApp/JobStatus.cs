@@ -13,7 +13,6 @@ namespace LASI.WebApp
     public class JobStatus
     {
 
-
         public JobStatus(int jobId, string message, double percent) {
             JobId = jobId;
             Message = message;
@@ -35,7 +34,8 @@ namespace LASI.WebApp
         /// </summary>
         /// <returns>The Job serialized as a JSON string.</returns>
         public string ToJson() {
-            var settings = new JsonSerializerSettings {
+            var settings = new JsonSerializerSettings
+            {
                 ContractResolver = new CamelCasePropertyNamesContractResolver { }
             };
             return JsonConvert.SerializeObject(this, settings);
