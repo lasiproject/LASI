@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for RoughListPhraseTest and is intended
     ///to contain all RoughListPhraseTest Unit Tests

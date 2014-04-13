@@ -16,10 +16,11 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the ParticlePhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the ParticlePhrase.</param>
-        public ParticlePhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+        /// <param name="words">The words which compose to form the ParticlePhrase.</param>
+        public ParticlePhrase(IEnumerable<Word> words)
+            : base(words) {
         }
+
         /// <summary>
         /// Binds an ILexical construct as the object of the ParticlePhrase. 
         /// Lexical constructs include word, Phrase, and Clause Types.

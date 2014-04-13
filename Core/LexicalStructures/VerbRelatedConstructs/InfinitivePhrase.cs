@@ -15,10 +15,15 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the InfinitivePhrase class.
         /// </summary>
-        /// <param name="composed">The words which comprise the InfinitivePhrase.</param>
-        public InfinitivePhrase(IEnumerable<Word> composed)
-            : base(composed) {
+        /// <param name="words">The words which comprise the InfinitivePhrase.</param>
+        public InfinitivePhrase(IEnumerable<Word> words)
+            : base(words) {
         }
+        /// <summary>
+        /// Initializes a new instance of the InfinitivePhrase class.
+        /// </summary>
+        /// <param name="words">The words which comprise the InfinitivePhrase.</param>
+        public InfinitivePhrase(params Word[] words) : this(words.AsEnumerable()) { }
 
         #endregion
 

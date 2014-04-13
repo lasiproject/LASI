@@ -88,7 +88,7 @@ namespace LASI.UnitTests
         public void BindObjectOfPrepositionTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("about") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("house") });
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("house"));
             target.BindObject(prepositionalObject);
             Assert.AreEqual(target.BoundObject, prepositionalObject);
         }
@@ -128,14 +128,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheRightOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
+            ParticlePhrase target = new ParticlePhrase(composedWords);
+            ILexical expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -143,14 +142,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheLeftOfTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
+            ParticlePhrase target = new ParticlePhrase(composedWords);
+            ILexical expected = new PronounPhrase(new[] { new PersonalPronoun("they") });
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -158,14 +156,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void RoleTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
-            PrepositionRole expected = new PrepositionRole(); // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
+            ParticlePhrase target = new ParticlePhrase(composedWords);
+            PrepositionRole expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -173,11 +170,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            ParticlePhrase target = new ParticlePhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical prepositionalObject = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
+            ParticlePhrase target = new ParticlePhrase(composedWords);
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
             target.BindObject(prepositionalObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(target.BoundObject, prepositionalObject);
+            IVerbal linkedVerbal = new VerbPhrase(new PastTenseVerb("jumped"));
+            linkedVerbal.AttachObjectViaPreposition(target);
+            Assert.AreEqual(linkedVerbal.ObjectOfThePreoposition, prepositionalObject);
         }
 
 

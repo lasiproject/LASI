@@ -94,6 +94,7 @@
     <Compile Include="Analysis\BinderImplementations\Experimental\ObjectBinderV2.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\BinderImplementations\SubordinateClauseIdentifier.cs" />
+    <Compile Include="LexicalStructures\MiscLanguageConstructs\InvertedClauseBeginPhrase.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\SingleQuote.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\QuotationMark.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\DoubleQuote.cs" />

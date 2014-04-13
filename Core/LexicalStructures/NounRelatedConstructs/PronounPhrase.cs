@@ -19,13 +19,14 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the PronounPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the PronounPhrase.</param>
-        public PronounPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
-            referredTo = new AggregateEntity(composedWords
+        /// <param name="words">The words which compose to form the PronounPhrase.</param>
+        public PronounPhrase(IEnumerable<Word> words)
+            : base(words) {
+            referredTo = new AggregateEntity(words
                 .OfPronoun()
                 .Where(p => p.ReferredTo != null));
         }
+
 
         /// <summary>
         /// Returns a string representation of the PronounPhrase

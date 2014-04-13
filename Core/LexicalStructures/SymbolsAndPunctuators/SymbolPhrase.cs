@@ -15,11 +15,17 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the SymbolPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the SymbolPhrase.</param>
-        public SymbolPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
-            LastPunctutionWord = composedWords.Last(p => p is Punctuator) as Punctuator;
+        /// <param name="words">The words which compose to form the SymbolPhrase.</param>
+        public SymbolPhrase(IEnumerable<Word> words)
+            : base(words) {
+            LastPunctutionWord = words.Last(p => p is Punctuator) as Punctuator;
         }
+        /// <summary>
+        /// Initializes a new instance of the SymbolPhrase class.
+        /// </summary>
+        /// <param name="words">The words which compose to form the SymbolPhrase.</param>
+        public SymbolPhrase(params Word[] words) : this(words.AsEnumerable()) { }
+
         /// <summary>
         /// Gets the last punctuation Word in the SymbolPhrase.
         /// </summary>

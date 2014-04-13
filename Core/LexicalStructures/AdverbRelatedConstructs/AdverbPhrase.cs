@@ -15,10 +15,11 @@ namespace LASI.Core
         /// <summary>
         /// Initializes entity new instance of the AdverbPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the AdverbPhrase.</param>
-        public AdverbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+        /// <param name="words">The words which compose to form the AdverbPhrase.</param>
+        public AdverbPhrase(IEnumerable<Word> words)
+            : base(words) {
         }
+
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the AdverPhrase Modifies. 
         /// </summary>

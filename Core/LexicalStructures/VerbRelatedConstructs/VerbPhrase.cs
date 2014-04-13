@@ -19,16 +19,21 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
         /// </summary>
-        /// <param name="composedWords">The words which compose to form the VerbPhrase.</param>
-        public VerbPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+        /// <param name="words">The words which compose to form the VerbPhrase.</param>
+        public VerbPhrase(IEnumerable<Word> words)
+            : base(words) {
 
-            Tense = (from v in composedWords.OfVerb()
+            Tense = (from v in words.OfVerb()
                      group v.Tense by v.Tense into byTense
                      select new { Count = byTense.Count(), byTense.Key } into tenseCount
                      orderby tenseCount.Count
                      select tenseCount.Key).FirstOrDefault();
         }
+        /// <summary>
+        /// Initializes a new instance of the VerbPhrase class.
+        /// </summary>
+        /// <param name="words">The words which compose to form the VerbPhrase.</param>
+        public VerbPhrase(params Word[] words) : this(words.AsEnumerable()) { }
 
         #endregion
 
@@ -238,7 +243,7 @@ namespace LASI.Core
         /// </summary>
         public IDescriptor PostpositiveDescriptor {
             get { return postpositiveDescriptor; }
-            set { postpositiveDescriptor = value; foreach (var described in Subjects)described.BindDescriptor(value); }
+            set { postpositiveDescriptor = value; foreach (var described in Subjects) described.BindDescriptor(value); }
         }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.

@@ -20,12 +20,17 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Phrase class.
         /// </summary>
-        /// <param name="composedWords">The one or more instances of the word class of which the Phrase is composed.</param>
-        protected Phrase(IEnumerable<Word> composedWords) {
-            Words = composedWords;
+        /// <param name="words">The one or more instances of the Word class which are composed to form the Phrase.</param>
+        protected Phrase(IEnumerable<Word> words) {
+            Words = words;
             Weight = 1;
             MetaWeight = 1;
         }
+        /// <summary>
+        /// Initializes a new instance of the Phrase class.
+        /// </summary>
+        /// <param name="words">The one or more instances of the Word class which are composed to form the Phrase.</param>
+        protected Phrase(params Word[] words) : this(words.AsEnumerable()) { }
 
         #endregion
 

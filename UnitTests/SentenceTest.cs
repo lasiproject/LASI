@@ -175,16 +175,16 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void SentenceConstructorTest() {
             IEnumerable<Clause> clauses = new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new Verb("attack", VerbForm.Base)
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )};
