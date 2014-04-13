@@ -88,7 +88,7 @@ namespace LASI.UnitTests
         public void BindObjectOfPrepositionTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("about") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("house"));
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("house") });
             target.BindObject(prepositionalObject);
             Assert.AreEqual(target.BoundObject, prepositionalObject);
         }
@@ -130,7 +130,7 @@ namespace LASI.UnitTests
         public void ToTheRightOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical expected = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
@@ -172,7 +172,7 @@ namespace LASI.UnitTests
         public void BindObjectTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("world"));
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
             target.BindObject(prepositionalObject);
             Assert.AreEqual(target.BoundObject, prepositionalObject);
             IVerbal linkedVerbal = new VerbPhrase(new PastTenseVerb("jumped"));
