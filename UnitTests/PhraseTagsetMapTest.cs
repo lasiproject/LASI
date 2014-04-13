@@ -77,7 +77,7 @@ namespace LASI.UnitTests
             public override string this[Func<IEnumerable<Word>, Phrase> mappedConstructor] {
                 get {
                     return (from tm in mapping
-                            where tm.Value.GetMethodInfo().ReturnParameter.ParameterType == mappedConstructor.GetMethodInfo().ReturnType
+                            where tm.Value.Invoke(new Word[] { }).GetType() == mappedConstructor.Invoke(new Word[] { }).GetType()
                             select tm.Key).Single();
                 }
             }
@@ -85,8 +85,8 @@ namespace LASI.UnitTests
             public override string this[Phrase phrase] {
                 get {
                     return (from tm in mapping
-                            where (tm.Value.Method.GetCustomAttributes()).GetType() == phrase.GetType()
-                            select tm.Key).First();
+                            where tm.Value.Invoke(new Word[] { }).Type == phrase.Type
+                            select tm.Key).Single();
                 }
             }
             protected override IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary {
@@ -115,7 +115,7 @@ namespace LASI.UnitTests
             Func<IEnumerable<Word>, Phrase> actual;
             actual = target[tag];
             var phrase = actual(new Word[] { new PersonalPronoun("he") });
-            Assert.IsTrue(target[actual] == target[phrase]);
+            Assert.AreEqual(tag, target[phrase]);
         }
 
         /// <summary>
@@ -123,11 +123,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ItemTest1() {
-            PhraseTagsetMap target = CreatePhraseTagsetMap(); // TODO: Initialize to an appropriate value
-            Func<IEnumerable<Word>, Phrase> mappedConstructor = null; // TODO: Initialize to an appropriate value
+            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            Func<IEnumerable<Word>, Phrase> mappedConstructor = ws => new NounPhrase(ws);
             string actual;
             actual = target[mappedConstructor];
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual("NP", actual);
         }
 
         /// <summary>
@@ -135,11 +135,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ItemTest2() {
-            PhraseTagsetMap target = CreatePhraseTagsetMap(); // TODO: Initialize to an appropriate value
-            Phrase phrase = null; // TODO: Initialize to an appropriate value
+            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });
             string actual;
             actual = target[phrase];
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual("NP", actual);
         }
     }
 }

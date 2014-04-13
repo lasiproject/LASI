@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,8 @@ namespace LASI.ContentSystem
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
         public TxtFile(string path)
             : base(path) {
-            if (!this.Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
+            if (!Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
         }
 
 
@@ -28,13 +29,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
         public override string GetText() {
-            using (var reader = new System.IO.StreamReader(
-                new System.IO.FileStream(this.FullPath,
-                    System.IO.FileMode.Open,
-                    System.IO.FileAccess.Read,
-                    System.IO.FileShare.Read)
-                    )
-                ) {
+            using (var reader = new StreamReader(
+                new FileStream(FullPath,
+                    FileMode.Open,
+                    FileAccess.Read, FileShare.Read,
+                    1024, FileOptions.Asynchronous)
+                    , Encoding.UTF8, false, 1024, false)) {
                 return reader.ReadToEnd();
             }
         }
@@ -43,13 +43,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
         public override async Task<string> GetTextAsync() {
-            using (var reader = new System.IO.StreamReader(
-                new System.IO.FileStream(this.FullPath,
-                    System.IO.FileMode.Open,
-                    System.IO.FileAccess.Read,
-                    System.IO.FileShare.Read)
-                    )
-                ) {
+            using (var reader = new StreamReader(
+                new FileStream(FullPath,
+                    FileMode.Open,
+                    FileAccess.Read, FileShare.Read,
+                    1024, FileOptions.Asynchronous)
+                    , Encoding.UTF8, false, 1024, false)) {
                 return await reader.ReadToEndAsync();
             }
         }

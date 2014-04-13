@@ -2,11 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using LASI.UnitTests.TestHelpers;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for InterjectionPhraseTest and is intended
     ///to contain all InterjectionPhraseTest Unit Tests
@@ -67,9 +68,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void InterjectionPhraseConstructorTest() {
-            IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composed = new Word[] { new Preposition("by"), new Interjection("jove") };
             InterjectionPhrase target = new InterjectionPhrase(composed);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual("by jove", target.Text);
+            AssertHelper.AreSequenceEqual(composed, target.Words);
         }
     }
 }

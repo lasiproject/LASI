@@ -69,16 +69,16 @@ namespace LASI.ContentSystem
         /// Checks for the existence of the project subject-directories and creates them if they do not exist.
         /// </summary>
         private static void CheckDirectoryExistence() {
-            foreach (var path in new[] { 
+            foreach (var path in new[] {
                 ProjectDir,
                 InputFilesDir,
-                AnalysisDir, 
-                ResultsDir, 
-                DocFilesDir, 
-                DocxFilesDir, 
+                AnalysisDir,
+                ResultsDir,
+                DocFilesDir,
+                DocxFilesDir,
                 PdfFilesDir,
-                TaggedFilesDir, 
-                TxtFilesDir, 
+                TaggedFilesDir,
+                TxtFilesDir,
             }) {
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
@@ -264,14 +264,14 @@ namespace LASI.ContentSystem
             }
             try {
                 await Task.WhenAll(
-                    ConvertPdfToTextAsync(),
-                    Task.Run(async () => {
-                        try {
-                            await ConvertDocToTextAsync();
-                        }
-                        catch (FileConversionFailureException) { throw; }
-                    }),
-                    ConvertDocxToTextAsync());
+                        Task.Run(async () => await ConvertPdfToTextAsync()),
+                        Task.Run(async () => {
+                            try {
+                                await ConvertDocToTextAsync();
+                            }
+                            catch (FileConversionFailureException) { throw; }
+                        }),
+                        Task.Run(async () => await ConvertDocxToTextAsync()));
             }
             catch (FileConversionFailureException) {
                 throw;
@@ -711,7 +711,7 @@ namespace LASI.ContentSystem
                 { "doc", p => new DocFile(p) },
                 { "docx", p => new DocXFile(p) },
                 { "pdf", p => new PdfFile(p) },
-                { "tagged", p => new TaggedFile(p) }, 
+                { "tagged", p => new TaggedFile(p) },
             };
         }
         /// <summary>

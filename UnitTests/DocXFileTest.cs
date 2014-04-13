@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for DocXFileTest and is intended
     ///to contain all DocXFileTest Unit Tests

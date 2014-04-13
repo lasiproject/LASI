@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for SimpleDeclarativeClauseBeginPhraseTest and is intended
     ///to contain all SimpleDeclarativeClauseBeginPhraseTest Unit Tests

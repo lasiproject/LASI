@@ -46,7 +46,10 @@ namespace LASI
         /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
-            return source.Aggregate(new StringBuilder(delimiters.Item1 + " "), (sum, current) => sum.Append(current.ToString() + delimiters.Item2 + ' ')).ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+            if (source == null)
+                throw new ArgumentNullException("source");
+            return source.Aggregate(new StringBuilder(delimiters.Item1 + " "), (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '))
+                .ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
@@ -61,7 +64,7 @@ namespace LASI
                 throw new ArgumentNullException("source");
             if (selector == null)
                 throw new ArgumentNullException("selector");
-            return source.Aggregate(new StringBuilder("[ "), (sum, current) => sum.Append(selector(current) + ", ")).ToString().TrimEnd(' ', ',') + " ]";
+            return source.Format(Tuple.Create('[', ',', ']'), selector);
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
@@ -139,24 +142,6 @@ namespace LASI
 
         #endregion
 
-        #region Generator Methods
-        ///// <summary>
-        ///// Generates a sequence of integral numbers within the specified range.
-        ///// </summary>
-        ///// <param name="start">The value of the first integer in the sequence.</param>
-        ///// <param name="count">The number of sequential integers to generate.</param>
-        ///// <returns>
-        ///// A lazily evaluated sequence of integral numbers. 
-        ///// </returns>
-        ///// <exception cref="System.ArgumentOutOfRangeException">
-        ///// to is less than 0.-or-start + count -1 is larger than System.Int32.MaxValue."
-        /////</exception>
-        //public static IEnumerable<int> Until(this int start, int count) {
-        //    if (start - count < 0) { throw new ArgumentOutOfRangeException("to", start - count, "Cannot generate a sequence of fewer than 0 values."); }
-        //    return Enumerable.Range(start, count);
-        //}
-
-        #endregion
 
         #region Additional Query Operators
 
@@ -356,7 +341,7 @@ namespace LASI
                 throw new InvalidCastException("Sequence Contains no elements");
             if (selector == null)
                 throw new ArgumentNullException("selector");
-            return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Max);
+            return MinMaxImplementation(source, selector, MinMax.Max);
         }
         /// <summary>
         /// Returns the minimal element of the given sequence, based on
@@ -388,7 +373,7 @@ namespace LASI
             if (source == null) { throw new ArgumentNullException("source"); }
             if (source.None()) { throw new InvalidCastException("Sequence Contains no elements"); }
             if (selector == null) { throw new ArgumentNullException("selector"); }
-            return MinMaxImplementation<TSource, TKey>(source, selector, MinMax.Min);
+            return MinMaxImplementation(source, selector, MinMax.Min);
         }
 
         private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {

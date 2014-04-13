@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LASI.UnitTests
 {
@@ -15,6 +16,7 @@ namespace LASI.UnitTests
     public class DocFileTest
     {
 
+        const string DOC_TEST_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment1.doc";
 
         private TestContext testContextInstance;
 
@@ -67,9 +69,9 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void DocFileConstructorTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocFile target = new DocFile(absolutePath);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            DocFile target = new DocFile(DOC_TEST_FILE_PATH);
+            Assert.AreEqual(target.Ext, DocFile.EXTENSION);
+            Assert.AreEqual(target.FullPath, Path.GetFullPath(DOC_TEST_FILE_PATH));
         }
 
         /// <summary>
@@ -77,13 +79,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocFile target = new DocFile(absolutePath); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            DocFile target = new DocFile(DOC_TEST_FILE_PATH);
+            string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";
+            string expected = new DocxToTextConverter(new DocToDocXConverter(target, conversionLocation).ConvertFile()).ConvertFile().GetText();
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -91,11 +92,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocFile target = new DocFile(absolutePath); // TODO: Initialize to an appropriate value
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
+            DocFile target = new DocFile(DOC_TEST_FILE_PATH);
+            string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";
+            string expected = new DocxToTextConverter(new DocToDocXConverter(target, conversionLocation).ConvertFile()).ConvertFile().GetText();
+            string actual;
+            actual = target.GetTextAsync().Result;
             Assert.AreEqual(expected, actual);
         }
     }

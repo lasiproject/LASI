@@ -29,23 +29,23 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
-        private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator> {
-            
-            { "VP", ws => ws.Any(w=> w is Punctuator) ? new SymbolPhrase(ws): ws.TakeWhile(w=>!(w is IVerbal)).FirstOrDefault(w=>w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
-            { "NP", ws => ws.OfType<IEntity>().Any()&&ws.All(w=>w is Pronoun) ? new PronounPhrase(ws) : ws.All(w=>w is Adverb) ?new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
-            { "PP", ws => new PrepositionalPhrase(ws) },
-            { "ADVP", ws => new AdverbPhrase(ws) },
-            { "ADJP", ws => new AdjectivePhrase(ws) },
-            { "PRT", ws => new ParticlePhrase(ws) },
-            { "CONJP", ws => new ConjunctionPhrase(ws) },
-            { "S", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
-            { "SINV", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
-            { "SQ", ws => new InterrogativePhrase(ws) },
-            { "SBARQ", ws => new InterrogativePhrase(ws) },
-            { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
-            { "LST", ws => new RoughListPhrase(ws) },
-            { "INTJ", ws => new InterjectionPhrase(ws) },
-            { "", ws => { throw new EmptyPhraseTagException(string.Join(" ",ws.Select(w=>w.Text))); } },
+        private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator>
+        {
+            ["VP"] = ws => ws.Any(w => w is Punctuator) ? new SymbolPhrase(ws) : ws.TakeWhile(w => !(w is IVerbal)).FirstOrDefault(w => w is ToLinker) != null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase,
+            ["NP"] = ws => ws.OfType<IEntity>().Any() && ws.All(w => w is Pronoun) ? new PronounPhrase(ws) : ws.All(w => w is Adverb) ? new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase,
+            ["PP"] = ws => new PrepositionalPhrase(ws),
+            ["ADVP"] = ws => new AdverbPhrase(ws),
+            ["ADJP"] = ws => new AdjectivePhrase(ws),
+            ["PRT"] = ws => new ParticlePhrase(ws),
+            ["CONJP"] = ws => new ConjunctionPhrase(ws),
+            ["S"] = ws => new SimpleDeclarativeClauseBeginPhrase(ws),
+            ["SINV"] = ws => new SimpleDeclarativeClauseBeginPhrase(ws),
+            ["SQ"] = ws => new InterrogativePhrase(ws),
+            ["SBARQ"] = ws => new InterrogativePhrase(ws),
+            ["SBAR"] = ws => new SubordinateClauseBeginPhrase(ws),
+            ["LST"] = ws => new RoughListPhrase(ws),
+            ["INTJ"] = ws => new InterjectionPhrase(ws),
+            [""] = ws => { throw new EmptyPhraseTagException(string.Join(" ", ws.Select(w => w.Text))); },
         };
 
         #endregion

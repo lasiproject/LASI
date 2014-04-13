@@ -16,7 +16,8 @@ namespace LASI.UnitTests
     public class FileConverterTest
     {
         private const string TEST_FILE_LOCATION = @"..\..\..\TestDocs\";
-        private const string TEST_FILE_NAME = @"Draft_Environmental_Assessment.docx";
+        private const string TEST_FILE_NAME = @"Draft_Environmental_Assessment2.docx";
+        private const string TEST_WORKING_PATH = @"..\..\..FileConverterTest";
         private TestContext testContextInstance;
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace LASI.UnitTests
         //}
         //
 
-        private class FileHandler(private readonly string testFolderName, private readonly string fileLocation = TEST_FILE_LOCATION, private readonly string sourceName = TEST_FILE_NAME)
+        private class FileHandler(private readonly string testFolderName = TEST_WORKING_PATH, private readonly string fileLocation = TEST_FILE_LOCATION, private readonly string sourceName = TEST_FILE_NAME)
         {
             public string WorkingDirectory { get { return Path.Combine(fileLocation, testFolderName); } }
             public string FilePath { get { return Path.Combine(WorkingDirectory, sourceName); } }
@@ -83,7 +84,7 @@ namespace LASI.UnitTests
         public void ConvertFileTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            var fileHandler = new FileHandler("FileConverter_ConvertFile");
+            var fileHandler = new FileHandler();
             fileHandler.Init();
             var filePath = fileHandler.FilePath;
             FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(filePath);
@@ -115,7 +116,7 @@ namespace LASI.UnitTests
         public void ConvertFileAsyncTestHelper<TSource, TDestination>()
             where TSource : InputFile
             where TDestination : InputFile {
-            var fileHandler = new FileHandler("FileConverter_ConvertFileAsync");
+            var fileHandler = new FileHandler();
             fileHandler.Init();
             var filePath = fileHandler.FilePath;
             FileConverter<TSource, TDestination> target = CreateFileConverter<TSource, TDestination>(filePath);

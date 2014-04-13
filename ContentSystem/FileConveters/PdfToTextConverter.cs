@@ -81,10 +81,16 @@ namespace LASI.ContentSystem
             /// <returns>the extracted text</returns>
             public void ExtractText(string inFileName, string outFileName) {
                 // Create a reader for the given PDF file   
-                PdfReader reader = new PdfReader(inFileName);
+                PdfReader reader = new PdfReader(new System.IO.FileStream(
+                  inFileName,
+                  System.IO.FileMode.Open,
+                  System.IO.FileAccess.Read,
+                  System.IO.FileShare.Read, 1024, System.IO.FileOptions.Asynchronous));
                 Console.Write("Processing: ");
                 using (var outFile = new System.IO.StreamWriter(outFileName, false, System.Text.Encoding.UTF8)) {
-                    for (int page = 1; page <= reader.NumberOfPages; page++) {
+                    for (int page = 1;
+                    page <= reader.NumberOfPages;
+                    page++) {
                         outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(page)) + " ");
                     }
                 }
@@ -116,11 +122,15 @@ namespace LASI.ContentSystem
 
                 // Keep previous chars to get extract numbers etc.:
                 char[] previousCharacters = new char[_numberOfCharsToKeep];
-                for (int j = 0; j < _numberOfCharsToKeep; j++)
+                for (int j = 0;
+                j < _numberOfCharsToKeep;
+                j++)
                     previousCharacters[j] = ' ';
 
 
-                for (int i = 0; i < input.Length; i++) {
+                for (int i = 0;
+                i < input.Length;
+                i++) {
                     char c = (char)input[i];
 
                     if (inTextObject) {
@@ -176,7 +186,9 @@ namespace LASI.ContentSystem
 
                     // Store the recent characters for 
                     // when we have to go back for a checking
-                    for (int j = 0; j < _numberOfCharsToKeep - 1; j++) {
+                    for (int j = 0;
+                    j < _numberOfCharsToKeep - 1;
+                    j++) {
                         previousCharacters[j] = previousCharacters[j + 1];
                     }
                     previousCharacters[_numberOfCharsToKeep - 1] = c;

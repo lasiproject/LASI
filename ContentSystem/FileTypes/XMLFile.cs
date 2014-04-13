@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
- 
+
 using System.Xml.Schema;
 using System.Xml.Serialization;
- 
+
 using System.Xml.XPath;
 using System.Xml.Xsl;
 
@@ -41,7 +41,7 @@ namespace LASI.ContentSystem
                 FullPath,
                 System.IO.FileMode.Open,
                 System.IO.FileAccess.Read,
-                System.IO.FileShare.Read)))) {
+                System.IO.FileShare.Read, 1024, System.IO.FileOptions.Asynchronous)), new XmlReaderSettings { Async = true, IgnoreWhitespace = true })) {
                 return reader.ReadContentAsString();
             }
         }
@@ -54,7 +54,7 @@ namespace LASI.ContentSystem
                   FullPath,
                   System.IO.FileMode.Open,
                   System.IO.FileAccess.Read,
-                  System.IO.FileShare.Read)))) {
+                  System.IO.FileShare.Read, 1024, System.IO.FileOptions.Asynchronous)), new XmlReaderSettings { Async = true, IgnoreWhitespace = true })) {
                 return await reader.ReadContentAsStringAsync();
             }
         }

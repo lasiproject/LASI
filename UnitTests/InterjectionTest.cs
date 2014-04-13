@@ -4,8 +4,8 @@ using System;
 
 namespace LASI.UnitTests
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for InterjectionTest and is intended
     ///to contain all InterjectionTest Unit Tests
@@ -66,9 +66,9 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void InterjectionConstructorTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
+            string text = "ha";
             Interjection target = new Interjection(text);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(target.Text, text);
         }
     }
 }

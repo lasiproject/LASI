@@ -71,7 +71,7 @@ namespace LASI.UnitTests
             VerbForm past = VerbForm.Past;
             PastTenseVerb target = new PastTenseVerb(text);
             Assert.IsTrue(target.Text == text);
-            Assert.IsTrue(target.Tense == past);
+            Assert.IsTrue(target.VerbForm == past);
         }
 
     }

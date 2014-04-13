@@ -132,14 +132,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheRightOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Particle target = new Particle(text); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            string text = "about";
+            Particle target = new Particle(text);
+            ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -147,14 +146,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void ToTheLeftOfTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Particle target = new Particle(text); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
+            string text = "about";
+            Particle target = new Particle(text);
+            ILexical expected = new PastTenseVerb("walked");
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -162,14 +160,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void RoleTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Particle target = new Particle(text); // TODO: Initialize to an appropriate value
-            PrepositionRole expected = new PrepositionRole(); // TODO: Initialize to an appropriate value
+            string text = "about";
+            Particle target = new Particle(text);
+            PrepositionRole expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -177,11 +174,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindObjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Particle target = new Particle(text); // TODO: Initialize to an appropriate value
-            ILexical prepositionalObject = null; // TODO: Initialize to an appropriate value
+            string text = "about";
+            Particle target = new Particle(text);
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonPluralNoun("grounds") });
             target.BindObject(prepositionalObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(prepositionalObject, target.BoundObject);
+            IVerbal verbal = new PastTenseVerb("walked");
+            verbal.AttachObjectViaPreposition(target);
+            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreoposition);
         }
 
 

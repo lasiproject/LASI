@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.UnitTests.TestHelpers;
 
 namespace LASI.UnitTests
 {
@@ -74,7 +75,7 @@ namespace LASI.UnitTests
             Verb target = new Verb(text, tense);
 
             Assert.IsTrue(target.Text == text);
-            Assert.IsTrue(target.Tense == tense);
+            Assert.IsTrue(target.VerbForm == tense);
             Assert.IsTrue(target.Subjects.Count() == 0);
             Assert.IsTrue(target.DirectObjects.Count() == 0);
             Assert.IsTrue(target.IndirectObjects.Count() == 0);
@@ -281,12 +282,16 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AggregateSubjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
-            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
             IAggregateEntity actual;
             actual = target.AggregateSubject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual.Any());
+            IEntity subject = new CommonPluralNoun("monkeys");
+            target.BindSubject(subject);
+            actual = target.AggregateSubject;
+            AssertHelper.AreSetEqual(new[] { subject }, actual);
         }
 
         /// <summary>
@@ -294,12 +299,16 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AggregateIndirectObjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
-            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual.Any());
+            IEntity indirectObject = new CommonPluralNoun("monkeys");
+            target.BindIndirectObject(indirectObject);
+            actual = target.AggregateIndirectObject;
+            AssertHelper.AreSetEqual(new[] { indirectObject }, actual);
         }
 
         /// <summary>
@@ -307,12 +316,16 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AggregateDirectObjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
-            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual.Any());
+            IEntity directObject = new CommonPluralNoun("monkeys");
+            target.BindDirectObject(directObject);
+            actual = target.AggregateDirectObject;
+            AssertHelper.AreSetEqual(new[] { directObject }, actual);
         }
 
 
@@ -323,15 +336,30 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void HasSubjectOrObjectTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
-            Verb target = new Verb(text, form); // TODO: Initialize to an appropriate value
-            Func<IEntity, bool> predicate = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            string text = "attack";
+            VerbForm form = VerbForm.Base;
+            Verb target = new Verb(text, form);
+            IEntity entity = new CommonPluralNoun("monkeys");
+            int rand = new Random().Next(-1, 2);
+            switch (rand) {
+                case -1:
+                    target.BindSubject(entity);
+                    break;
+                case 0:
+                    target.BindDirectObject(entity);
+                    break;
+                case 1:
+                    target.BindDirectObject(entity);
+                    break;
+                default:
+                    Assert.Fail();
+                    break;
+            }
+            Func<IEntity, bool> predicate = e => e.Text == "monkeys";
+            bool expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
 

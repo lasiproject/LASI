@@ -114,7 +114,6 @@
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
     <Compile Include="FileConverterTest.cs" />
-    <Compile Include="FileManagerExceptionTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="FunctionExtensionsTest.cs" />

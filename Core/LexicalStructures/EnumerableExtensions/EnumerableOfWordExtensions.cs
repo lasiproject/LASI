@@ -133,7 +133,7 @@ namespace LASI.Core
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
         public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words, VerbForm tense) {
-            return words.OfType<Verb>().Where(v => v.Tense == tense);
+            return words.OfType<Verb>().Where(v => v.VerbForm == tense);
         }
         /// <summary>
         /// Returns all ToLinkers in the collection.
@@ -279,7 +279,7 @@ namespace LASI.Core
         /// <param name="tense">The tense to match against</param>
         /// <returns>All Verbs in the collection.</returns>
         public static ParallelQuery<Verb> OfVerb(this ParallelQuery<Word> words, VerbForm tense) {
-            return words.OfType<Verb>().Where(v => v.Tense == tense);
+            return words.OfType<Verb>().Where(v => v.VerbForm == tense);
         }
         /// <summary>
         /// Returns all ToLinkers in the collection.

@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <param name="form">The tense of the verb</param>
         public Verb(string text, VerbForm form)
             : base(text) {
-            Tense = form;
+            VerbForm = form;
         }
         #region Methods
 
@@ -217,7 +217,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbForm Tense { get; protected set; }
+        public VerbForm VerbForm { get; protected set; }
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>

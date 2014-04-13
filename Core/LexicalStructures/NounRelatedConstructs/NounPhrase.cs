@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
+using System.Math;
 
 namespace LASI.Core
 {
@@ -32,15 +33,11 @@ namespace LASI.Core
         /// selecting the most common Noun between its nouns and from its bound pronouns 
         /// </summary>
         private void DetermineEntityKind() {
-
-            var kindsOfNouns = from N in Words.OfType<IEntity>()
-                               group N by N.EntityKind into KindGroup
-                               orderby KindGroup.Count()
-                               select KindGroup.Key;
-
-            EntityKind = kindsOfNouns.FirstOrDefault();
+            EntityKind = Words.OfEntity()
+                .Select(e => e.EntityKind).DefaultIfEmpty()
+                .GroupBy(e => e)
+                .MaxBy(v => v.Count()).Key;
         }
-
 
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
@@ -76,16 +73,28 @@ namespace LASI.Core
             var result = base.ToString();
 
             if (Phrase.VerboseOutput) {
-                result += Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty;
-                result += Possesser != null ? "\nOwned By: " + Possesser.Text : string.Empty;
-                result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
-                result += OuterAttributive != null ? "\nDefines: " + OuterAttributive.Text : string.Empty;
-                result += (AliasLookup.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(this).Format() : string.Empty);
-                result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
-                result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
-                result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
                 var gender = this.GetGender();
-                result += gender.IsDefined() ? "\nPrevailing Gender: " + this.GetGender() : string.Empty;
+                var aliases = this.GetDefinedAliases();
+                result += string.Format("{0}{2}{3}{4}{5}{6}{7}{8}",
+                        Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty,
+                        Possesser != null ? "\nPossessed By: " + Possesser.Text : string.Empty,
+                        OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : string.Empty,
+                        InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty,
+                        aliases.Any() ? "\nClassified as: " + aliases.Format() : string.Empty,
+                        SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty,
+                        DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty,
+                        IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty,
+                        gender.IsDefined() ? "\nPrevailing Gender: " + gender : string.Empty
+                    );
+                //result += string.Empty;
+                //result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
+                //result += OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : string.Empty;
+                //result += (AliasLookup.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(this).Format() : string.Empty);
+                //result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
+                //result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
+                //result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
+                //var gender = this.GetGender();
+                //result += gender.IsDefined() ? "\nPrevailing Gender: " + this.GetGender() : string.Empty;
             }
             return result;
 

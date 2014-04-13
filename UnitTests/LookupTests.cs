@@ -93,7 +93,6 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod()]
         public void GetSynonymsTest2() {
-            //Assert.IsTrue(new Adverb("pale").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slow").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slowly").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slowest").GetSynonyms().Any());
@@ -108,6 +107,14 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod()]
         public void IsSynonymForTest() {
+            Noun noun1 = new CommonSingularNoun("hobby");
+            Noun noun2 = new CommonSingularNoun("passtime");
+            Assert.IsTrue(noun1.IsSynonymFor(noun2));
+            Assert.IsTrue(noun2.IsSynonymFor(noun1));
+        }
+
+        [TestMethod()]
+        public void IsSynonymForTest1() {
             Verb verb1 = new Verb("walk", VerbForm.Base);
             Verb verb2 = new Verb("perambulate", VerbForm.Base);
             Assert.IsTrue(verb1.IsSynonymFor(verb2));
@@ -115,18 +122,19 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod()]
-        public void IsSynonymForTest1() {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void IsSynonymForTest2() {
-            Assert.Fail();
+            Adverb adverb1 = new Adverb("fertively");
+            Adverb adverb2 = new Adverb("stealthily");
+            Assert.IsTrue(adverb1.IsSynonymFor(adverb2));
+            Assert.IsTrue(adverb2.IsSynonymFor(adverb1));
         }
 
         [TestMethod()]
         public void IsSynonymForTest3() {
-            Assert.Fail();
+            Adjective adjective1 = new Adjective("pale");
+            Adjective adjective2 = new Adjective("palid");
+            Assert.IsTrue(adjective1.IsSynonymFor(adjective2));
+            Assert.IsTrue(adjective2.IsSynonymFor(adjective1));
         }
     }
 }

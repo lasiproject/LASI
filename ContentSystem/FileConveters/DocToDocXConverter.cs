@@ -40,17 +40,17 @@ namespace LASI.ContentSystem
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
         public override DocXFile ConvertFile() {
-            var process = new Process {
+            var process = new Process
+            {
                 EnableRaisingEvents = true,
-                StartInfo = new ProcessStartInfo {
+                StartInfo = new ProcessStartInfo
+                {
                     FileName = System.IO.Path.Combine(doc2xPath, "doc2x.exe"),
                     Arguments = Original.FullPath,
                     WorkingDirectory = Original.Directory,
                     CreateNoWindow = true,
                     UseShellExecute = false,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
+
                 }
             };
             process.OutputDataReceived += (sender, e) => Output.Write(e.Data);

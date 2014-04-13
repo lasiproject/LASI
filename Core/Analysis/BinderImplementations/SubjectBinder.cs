@@ -115,7 +115,9 @@ namespace LASI.Core.Binding
         /// </summary>
         public void Display() {
 
-            for (int i = 0; i < stateList.Count; i++) {
+            for (int i = 0;
+            i < stateList.Count;
+            i++) {
 
                 Output.Write(stateList[i].StatePhrase);
                 Output.WriteLine();
@@ -161,13 +163,12 @@ namespace LASI.Core.Binding
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>
         public static bool HasSubjectPronoun(this Phrase p) {
-            bool val = false;
             foreach (var w in p.Words) {
                 if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she")) {
-                    val = true;
+                    return true;
                 }
             }
-            return val;
+            return false;
         }
     }
 }

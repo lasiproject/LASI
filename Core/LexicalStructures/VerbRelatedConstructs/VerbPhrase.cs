@@ -24,7 +24,7 @@ namespace LASI.Core
             : base(words) {
 
             Tense = (from v in words.OfVerb()
-                     group v.Tense by v.Tense into byTense
+                     group v.VerbForm by v.VerbForm into byTense
                      select new { Count = byTense.Count(), byTense.Key } into tenseCount
                      orderby tenseCount.Count
                      select tenseCount.Key).FirstOrDefault();

@@ -27,12 +27,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
         public override string GetText() {
-            using (var reader = new System.IO.StreamReader(
-                new FileStream(
-                    this.FullPath,
+            using (var reader = new StreamReader(
+                new FileStream(FullPath,
                     FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.Read))) {
+                    FileAccess.Read, FileShare.Read,
+                    1024, FileOptions.Asynchronous)
+                    , Encoding.UTF8, false, 1024, false)) {
                 return reader.ReadToEnd();
             }
         }
@@ -41,12 +41,12 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
         public override async Task<string> GetTextAsync() {
-            using (var reader = new System.IO.StreamReader(
-                new FileStream(
-                    this.FullPath,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.Read))) { return await reader.ReadToEndAsync(); }
+            using (var reader = new StreamReader(
+                  new FileStream(FullPath,
+                      FileMode.Open,
+                      FileAccess.Read, FileShare.Read,
+                      1024, FileOptions.Asynchronous)
+                      , Encoding.UTF8, false, 1024, false)) { return await reader.ReadToEndAsync(); }
         }
         /// <summary>
         /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.

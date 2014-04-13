@@ -202,11 +202,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void BindObjectTest() {
-            IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords); // TODO: Initialize to an appropriate value
-            ILexical prepositionalObject = null; // TODO: Initialize to an appropriate value
+            var composedWords = new[] { new Preposition("on") };
+            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("table") });
             target.BindObject(prepositionalObject);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(prepositionalObject, target.BoundObject);
+            IVerbal verbal = new Verb("is", VerbForm.ThirdPersonSingularPresent);
+            verbal.AttachObjectViaPreposition(target);
+            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreoposition);
         }
 
 

@@ -137,7 +137,11 @@ namespace LASI.UnitTests
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
             Document actual = new Document(new[] { new Paragraph(new[] { target }, ParagraphKind.Default) });
-            actual = target.Document;
+
+            Assert.AreEqual(actual, target.Document);
+            foreach (var p in phrases) {
+                Assert.AreEqual(actual, target.Document);
+            }
         }
 
 
@@ -149,12 +153,11 @@ namespace LASI.UnitTests
         public void GetPhrasesAfterTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
-            Phrase phrase = null; // TODO: Initialize to an appropriate value
-            IEnumerable<Phrase> expected = null; // TODO: Initialize to an appropriate value
+            Phrase phrase = phrases[1];
+            IEnumerable<Phrase> expected = new[] { phrases[2] };
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(phrase);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            AssertHelper.AreSequenceEqual(expected, actual);
         }
 
         /// <summary>
@@ -164,9 +167,13 @@ namespace LASI.UnitTests
         public void EstablishParenthoodTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
-            Paragraph parent = null; // TODO: Initialize to an appropriate value
+            Paragraph parent = new Paragraph(new[] { target }, ParagraphKind.Default);
             target.EstablishParenthood(parent);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            Assert.AreEqual(parent, target.Paragraph);
+            foreach (var p in phrases) {
+                Assert.AreEqual(parent, p.Paragraph);
+                Assert.AreEqual(target, p.Sentence);
+            }
         }
 
         /// <summary>

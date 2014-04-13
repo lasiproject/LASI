@@ -335,19 +335,19 @@ namespace LASI.Core.Heuristics
 
 
         private static WordNetLookup<Noun> NounLookup {
-            get { return Lookup.nounLookup.Value; }
+            get { return nounLookup.Value; }
         }
 
         private static WordNetLookup<Verb> VerbLookup {
-            get { return Lookup.verbLookup.Value; }
+            get { return verbLookup.Value; }
         }
 
         private static WordNetLookup<Adjective> AdjectiveLookup {
-            get { return Lookup.adjectiveLookup.Value; }
+            get { return adjectiveLookup.Value; }
         }
 
         private static WordNetLookup<Adverb> AdverbLookup {
-            get { return Lookup.adverbLookup.Value; }
+            get { return adverbLookup.Value; }
         }
         #region Private Fields
         // WordNet Data File Paths
@@ -381,7 +381,7 @@ namespace LASI.Core.Heuristics
         }, true);
 
         private static NameProvider Names {
-            get { return Lookup.names.Value; }
+            get { return names.Value; }
         }
 
         private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {

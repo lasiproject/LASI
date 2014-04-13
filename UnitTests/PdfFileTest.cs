@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LASI.UnitTests
 {
@@ -14,8 +15,7 @@ namespace LASI.UnitTests
     [TestClass()]
     public class PdfFileTest
     {
-
-
+        private const string TEST_PDF_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
         private TestContext testContextInstance;
 
         /// <summary>
@@ -67,12 +67,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void PdfFileConstructorTest() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
-            PdfFile target = new PdfFile(path);
-            var sfi = new System.IO.FileInfo(path);
-            Assert.AreEqual(sfi.FullName, target.FullPath);
-            Assert.AreEqual(sfi.Name, target.FileName);
-            Assert.AreEqual(sfi.Extension, target.Ext);
+            PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
+            FileInfo pdfInfo = new FileInfo(TEST_PDF_FILE_PATH);
+            Assert.AreEqual(pdfInfo.FullName, target.FullPath);
+            Assert.AreEqual(pdfInfo.Name, target.FileName);
+            Assert.AreEqual(pdfInfo.Extension, target.Ext);
         }
 
         /// <summary>
@@ -80,9 +79,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
-            PdfFile target = new PdfFile(path);
-            string expected = new System.IO.StreamReader(path).ReadToEnd();
+            PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
+            string expected = new PdfToTextConverter(target).ConvertFile().GetText();
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
@@ -93,13 +91,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            string path = TEST_PDF_FILE_PATH;
             PdfFile target = new PdfFile(path);
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
+            string expected = new PdfToTextConverter(target).ConvertFile().GetText();
+            string actual;
+            actual = target.GetTextAsync().Result;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }
