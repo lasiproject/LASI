@@ -10,27 +10,25 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     internal static class DeclarativeBinder
     {
         static void Test(Sentence sentence) {
-            sentence.Match()
-                .WithRule(BindingRule.SkipAdjectivals)
-                .TryPath(
-                (IEntity e1, IVerbal v, IEntity e2) => {
+            sentence
+               .Match()
+                .When(() => true)
+                .FilterAll(lex => lex is IDescriptor)       
+                .TryPath((IEntity e1, IVerbal v, IEntity e2) => {
                     v.BindSubject(e1);
                     v.BindDirectObject(e2);
                 })
-                .TryPath(
-                (IAdverbial a, IDescriptor d, IEntity e) => {
+                .TryPath((IAdverbial a, IDescriptor d, IEntity e) => {
                     e.BindDescriptor(d);
                     d.ModifyWith(a);
                 })
-                .TryPath(
-                (IVerbal v1, IConjunctive c, IVerbal v2, IEntity e) => {
+                .TryPath((IVerbal v1, IConjunctive c, IVerbal v2, IEntity e) => {
                     c.JoinedLeft = v1;
                     c.JoinedRight = v2;
                     v1.BindDirectObject(e);
                     v2.BindDirectObject(e);
                 })
-                .TryPath(
-                (IEntity e1, IConjunctive c, IEntity e2, IVerbal v, IEntity e3, IPrepositional p1, IEntity e4) => {
+                .TryPath((IEntity e1, IConjunctive c, IEntity e2, IVerbal v, IEntity e3, IPrepositional p1, IEntity e4) => {
                     c.JoinedLeft = e1;
                     c.JoinedRight = e2;
                     v.BindSubject(e1);

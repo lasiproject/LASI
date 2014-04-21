@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents the word "TO", a dynamic prepositional construct which can link words, componentPhrases and clauses together.
+    /// Represents the word "TO", a dynamic prepositional construct which can link Words, Phrases and Clauses together.
     /// </summary>
     public class ToLinker : Word, IPrepositional
     {

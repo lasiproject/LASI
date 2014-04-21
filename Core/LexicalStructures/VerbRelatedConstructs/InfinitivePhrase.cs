@@ -24,7 +24,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first Word of the InfinitivePhrase.</param>
         /// <param name="rest">The rest of the Words comprise the InfinitivePhrase.</param>
-        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of InfinitivePhrases. 
+        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public InfinitivePhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
         #endregion

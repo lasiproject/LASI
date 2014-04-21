@@ -194,7 +194,7 @@ namespace LASI.UnitTests
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
             Assert.IsTrue(target.DirectObjects.None());
-            IEntity directObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("book") });
+            IEntity directObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("book"));
             target.BindDirectObject(directObject);
             Assert.IsTrue(target.DirectObjects.Contains(directObject));
         }
@@ -206,8 +206,8 @@ namespace LASI.UnitTests
         public void AggregateSubjectTest() {
             VerbPhrase target = CreateVerbPhrase();
             var subject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
-                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
+                new NounPhrase(new PossessivePronoun("his"), new CommonPluralNoun("cats"))
             });
             target.BindSubject(subject);
             IAggregateEntity actual;
@@ -222,8 +222,8 @@ namespace LASI.UnitTests
         public void AggregateIndirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
             var indirectObject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
-                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
+                new NounPhrase(new PossessivePronoun("his"),new CommonPluralNoun("cats"))
             });
             target.BindIndirectObject(indirectObject);
             IAggregateEntity actual;
@@ -238,8 +238,8 @@ namespace LASI.UnitTests
         public void AggregateDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
             IAggregateEntity directObject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
-                new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
+                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
+                new NounPhrase(new PossessivePronoun("his"),new CommonPluralNoun("cats"))
             });
             target.BindDirectObject(directObject);
             IAggregateEntity actual;
@@ -252,7 +252,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AdjectivalModifierTest() {
-            VerbPhrase target = new VerbPhrase(new[] { new Verb("grew", VerbForm.Past) });
+            VerbPhrase target = new VerbPhrase(new Verb("grew", VerbForm.Past));
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
             IDescriptor expected = new Adjective("tall");
@@ -398,7 +398,7 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BindDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            IEntity directObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("forest") });
+            IEntity directObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("forest"));
             target.BindDirectObject(directObject);
             Assert.IsTrue(target.HasDirectObject(e => e == directObject));
         }
@@ -408,9 +408,9 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void AttachObjectViaPrepositionTest() {
-            VerbPhrase target = new VerbPhrase(new Word[] { new Verb("consume", VerbForm.Base) });
+            VerbPhrase target = new VerbPhrase(new Verb("consume", VerbForm.Base));
             IPrepositional prepositional = new Preposition("with");
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Adjective("great"), new CommonSingularNoun("haste") });
+            ILexical prepositionalObject = new NounPhrase(new Adjective("great"), new CommonSingularNoun("haste"));
             prepositional.BindObject(prepositionalObject);
             target.AttachObjectViaPreposition(prepositional);
             Assert.AreEqual(target.ObjectOfThePreoposition, prepositionalObject);
