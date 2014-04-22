@@ -79,6 +79,7 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\Action.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\BindingHelpers.cs" />
     <Compile Include="Analysis\LookupAndComparison\PatternMatching\LexicalSpecific\Experimental\Extractors\Extractor.cs" />
