@@ -1035,14 +1035,22 @@ where TLexical : class, ILexical {
                 };
             }
         }
-        private IReadOnlyList<ILexical> values { get { return test(value).ToList(); } }
+        private List<ILexical> values {
+            get { return test(value).ToList(); }
+            set { values = value; }
+        }
         protected bool Accepted { get; set; }
+        internal ContinuationMode ContinuationMode {
+            get;
+            private set;
+        }
 
         public SentenceMatch TryPath<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3);
+                values = values.Skip(3);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4>(Action<T1, T2, T3, T4> pattern)
@@ -1052,6 +1060,7 @@ where TLexical : class, ILexical {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4);
+                values = values.Skip(4);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> pattern)
@@ -1064,6 +1073,7 @@ where TLexical : class, ILexical {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5);
+                values = values.Skip(5);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> pattern)
@@ -1078,6 +1088,7 @@ where TLexical : class, ILexical {
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6);
+                values = values.Skip(6);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> pattern)
@@ -1093,6 +1104,7 @@ where TLexical : class, ILexical {
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7);
+                values = values.Skip(7);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> pattern)
@@ -1109,6 +1121,7 @@ where TLexical : class, ILexical {
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8);
+                values = values.Skip(8);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> pattern)
@@ -1127,6 +1140,7 @@ where TLexical : class, ILexical {
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9);
+                values = values.Skip(9);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> pattern)
@@ -1145,6 +1159,7 @@ where TLexical : class, ILexical {
                 if (Accepted)
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10);
+                values = values.Skip(10);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> pattern)
@@ -1165,6 +1180,7 @@ where T11 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11);
+                values = values.Skip(11);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> pattern)
@@ -1186,6 +1202,7 @@ where T11 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12);
+                values = values.Skip(12);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> pattern)
@@ -1208,6 +1225,7 @@ where T11 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13);
+                values = values.Skip(13);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> pattern)
@@ -1231,6 +1249,7 @@ where T14 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14);
+                values = values.Skip(14);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> pattern)
@@ -1255,6 +1274,7 @@ where T15 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15);
+                values = values.Skip(15);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> pattern)
@@ -1280,6 +1300,7 @@ where T16 : class, ILexical {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15, values[15] as T16);
+                values = values.Skip(16);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> pattern)
@@ -1307,6 +1328,7 @@ where T17 : class, ILexical {
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15,
                             values[15] as T16, values[16] as T17);
+                values = values.Skip(17);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern)
@@ -1335,6 +1357,7 @@ where T17 : class, ILexical {
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15,
                             values[15] as T16, values[16] as T17, values[17] as T18);
+                values = values.Skip(18);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> pattern)
@@ -1364,6 +1387,7 @@ where T17 : class, ILexical {
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15,
                             values[15] as T16, values[16] as T17, values[17] as T18, values[18] as T19);
+                values = values.Skip(19);
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> pattern)
@@ -1389,11 +1413,13 @@ where T17 : class, ILexical {
             where T20 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(values[0] as T1, values[1] as T2, values[2] as T3, values[3] as T4, values[4] as T5,
                             values[5] as T6, values[6] as T7, values[7] as T8, values[8] as T9, values[9] as T10,
                             values[10] as T11, values[11] as T12, values[12] as T13, values[13] as T14, values[14] as T15,
                             values[15] as T16, values[16] as T17, values[17] as T18, values[18] as T19, values[19] as T20);
+                    values = values.Skip(20);
+                }
             });
         }
 
@@ -1531,6 +1557,10 @@ where T17 : class, ILexical {
             checkOncePredicates.Add(predicate);
             return this;
         }
+        public SentenceMatch WithContinuationMode(ContinuationMode mode) {
+            this.ContinuationMode = mode;
+            return this;
+        }
     }
 }
 
@@ -1552,4 +1582,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
     }
 
+}
+
+namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
+{
+    public enum ContinuationMode
+    {
+        Recursive,
+        TraverseOnce,
+    }
 }
