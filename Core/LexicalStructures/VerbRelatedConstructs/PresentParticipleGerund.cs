@@ -65,7 +65,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of pronouns which are known to refer to the Gerund.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
         /// <summary>
         /// The Verb construct which the Gerund is the subject of.
         /// </summary>

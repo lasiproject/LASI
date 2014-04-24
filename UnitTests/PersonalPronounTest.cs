@@ -85,7 +85,7 @@ namespace LASI.UnitTests
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro));
+            Assert.IsTrue(target.Referencers.Contains(pro));
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace LASI.UnitTests
             IEntity expected = new ProperSingularNoun("Aluan");
             IAggregateEntity actual;
             target.BindAsReferringTo(expected);
-            actual = target.ReferredTo;
+            actual = target.ReferesTo;
             Assert.IsTrue(actual.Contains(expected));
         }
 
@@ -158,7 +158,7 @@ namespace LASI.UnitTests
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun referencer = new PersonalPronoun("himslef");
             target.BindReferencer(referencer);
-            Assert.IsTrue(target.Referees.Contains(referencer));
+            Assert.IsTrue(target.Referencers.Contains(referencer));
         }
 
         /// <summary>

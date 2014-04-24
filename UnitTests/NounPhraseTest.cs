@@ -99,7 +99,7 @@ namespace LASI.UnitTests
             NounPhrase target = new NounPhrase(composedWords);
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro) && pro.ReferredTo.Any(e => e == target));
+            Assert.IsTrue(target.Referencers.Contains(pro) && pro.ReferesTo.Any(e => e == target));
         }
 
 
@@ -164,10 +164,10 @@ namespace LASI.UnitTests
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.IsFalse(target.Referees.Any());
+            Assert.IsFalse(target.Referencers.Any());
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro) && pro.ReferredTo.Any(e => e == target));
+            Assert.IsTrue(target.Referencers.Contains(pro) && pro.ReferesTo.Any(e => e == target));
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace LASI.UnitTests
             foreach (var r in expected) {
                 target.BindReferencer(r);
             }
-            actual = target.Referees;
+            actual = target.Referencers;
             Assert.IsTrue(expected.All(e => actual.Contains(e)));
         }
 
@@ -312,7 +312,7 @@ namespace LASI.UnitTests
             NounPhrase target = new NounPhrase(composed);
             IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.All(r => r.ReferredTo.Contains(target)));
+            Assert.IsTrue(target.Referencers.All(r => r.ReferesTo.Contains(target)));
 
         }
 

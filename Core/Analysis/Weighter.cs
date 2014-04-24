@@ -1,5 +1,4 @@
-﻿
-using LASI.Core.DocumentStructures;
+﻿using LASI.Core.DocumentStructures;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
 using LASI.Core.PatternMatching;
@@ -108,7 +107,7 @@ namespace LASI.Core
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                              let result = e.Match().Yield<IEntity>()
                                    .With<Noun>(e)
-                                   .With<IReferencer>(r => r.ReferredTo ?? r as IEntity)
+                                   .With<IReferencer>(r => r.ReferesTo ?? r as IEntity)
                                .Result()
                              where result != null
                              select result;

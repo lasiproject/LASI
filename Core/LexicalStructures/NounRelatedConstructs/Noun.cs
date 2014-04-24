@@ -94,7 +94,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
+        public virtual IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.

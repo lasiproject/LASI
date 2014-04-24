@@ -56,7 +56,7 @@ namespace LASI.WebApp
             {
                 Referencer = referencer.GetSerializationId(),
 
-                RefererredTo = referencer.ReferredTo.Any() ? referencer.ReferredTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
+                RefererredTo = referencer.ReferesTo.Any() ? referencer.ReferesTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }

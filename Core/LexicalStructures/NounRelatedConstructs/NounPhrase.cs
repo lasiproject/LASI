@@ -116,7 +116,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return boundReferences; } }
+        public IEnumerable<IReferencer> Referencers { get { return boundReferences; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>

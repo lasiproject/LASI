@@ -70,7 +70,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
         /// </summary>
-        public IEnumerable<IReferencer> Referees {
+        public IEnumerable<IReferencer> Referencers {
             get {
                 return boundPronouns;
             }

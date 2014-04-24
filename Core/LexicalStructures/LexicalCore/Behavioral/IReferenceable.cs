@@ -13,12 +13,12 @@ namespace LASI.Core
         /// <summary>
         /// Binds an IReferencer, generally a Pronoun or PronounPhrase, as a reference to the IPronounBindable.
         /// </summary>
-        /// <param name="referee">The IReferencer which will be bound to refer to the IPronounBindable.</param>
-        void BindReferencer(IReferencer referee);
+        /// <param name="referencer">The IReferencer which will be bound to refer to the IPronounBindable.</param>
+        void BindReferencer(IReferencer referencer);
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the IReferenceable.
         /// </summary>
-        IEnumerable<IReferencer> Referees {
+        IEnumerable<IReferencer> Referencers {
             get;
         }
     }

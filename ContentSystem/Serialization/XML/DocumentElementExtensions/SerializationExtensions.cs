@@ -24,7 +24,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
                 { "DirectObjectOf", ElementNames[entity.DirectObjectOf] },
                 { "Referees",
                     new JArray(
-                    from r in entity.Referees 
+                    from r in entity.Referencers 
                     select ElementNames[r]) },
                 { "Descriptors",
                     new JArray(
@@ -50,7 +50,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
                     new XElement("IndirectObjectOf",
                         ElementNames[entity.IndirectObjectOf]),
                     new XElement("BoundPronouns",
-                        from r in entity.Referees
+                        from r in entity.Referencers
                         select new XElement("Referees", ElementNames[r])),
                     new XElement("Descriptors",
                         from d in entity.Descriptors

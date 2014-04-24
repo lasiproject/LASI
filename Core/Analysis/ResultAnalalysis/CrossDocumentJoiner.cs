@@ -91,7 +91,7 @@ namespace LASI.Core
                                      select verbal;
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
-                   entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferredTo.Any() ? asPro.ReferredTo : s : s))
+                   entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferesTo.Any() ? asPro.ReferesTo : s : s))
                    select new SVORelationship {
                        Verbal = verbal,
                        Subject = testPronouns(verbal.Subjects),
@@ -134,7 +134,7 @@ namespace LASI.Core
             }
         }
         private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y) {
-            return x.Match().Yield<bool>().With<IReferencer>(r => r.ReferredTo.Any(e =>
+            return x.Match().Yield<bool>().With<IReferencer>(r => r.ReferesTo.Any(e =>
                                 e.Text == y.Text ||
                                 e.IsAliasFor(y) ||
                                 e.IsSimilarTo(y))).Result();
@@ -142,7 +142,7 @@ namespace LASI.Core
         private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y) {
             var leftAsPro = x as IReferencer;
             var rightAsPro = y as IReferencer;
-            var result = rightAsPro != null && x.Referees.Contains(rightAsPro) || leftAsPro != null && y.Referees.Contains(leftAsPro);
+            var result = rightAsPro != null && x.Referencers.Contains(rightAsPro) || leftAsPro != null && y.Referencers.Contains(leftAsPro);
 
             if (!result) {
                 result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);

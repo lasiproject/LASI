@@ -101,7 +101,7 @@ namespace LASI.UnitTests
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro) && pro.ReferredTo.Any(e => e == target));
+            Assert.IsTrue(target.Referencers.Contains(pro) && pro.ReferesTo.Any(e => e == target));
         }
 
 
@@ -150,7 +150,7 @@ namespace LASI.UnitTests
         public void IndirectReferencesTest() {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
-            actual = target.Referees;
+            actual = target.Referencers;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }
 
@@ -225,12 +225,12 @@ namespace LASI.UnitTests
         public void RefereesTest() {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
-            actual = target.Referees;
+            actual = target.Referencers;
             Assert.IsTrue(!actual.Any());
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro));
-            Assert.IsTrue(target.Referees.All(r => r.ReferredTo == target || r.ReferredTo.Contains(target)));
+            Assert.IsTrue(target.Referencers.Contains(pro));
+            Assert.IsTrue(target.Referencers.All(r => r.ReferesTo == target || r.ReferesTo.Contains(target)));
         }
 
         /// <summary>
@@ -274,8 +274,8 @@ namespace LASI.UnitTests
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IReferencer pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro));
-            Assert.IsTrue(target.Referees.All(r => r.ReferredTo == target || r.ReferredTo.Contains(target)));
+            Assert.IsTrue(target.Referencers.Contains(pro));
+            Assert.IsTrue(target.Referencers.All(r => r.ReferesTo == target || r.ReferesTo.Contains(target)));
 
         }
 

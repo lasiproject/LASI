@@ -103,7 +103,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the EntityGroup.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the EntityGroup.
         /// </summary>

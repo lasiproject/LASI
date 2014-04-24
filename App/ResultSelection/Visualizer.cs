@@ -212,10 +212,10 @@ namespace LASI.App
             var data =
                  from svPair in
                      (from vp in doc.Phrases.OfVerbPhrase()
-                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).ReferredTo != null).Distinct((L, R) => L.IsSimilarTo(R))
+                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).ReferesTo != null).Distinct((L, R) => L.IsSimilarTo(R))
                           .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      let sub = s as IReferencer == null ? s : (s as IReferencer).ReferredTo
+                      let sub = s as IReferencer == null ? s : (s as IReferencer).ReferesTo
                       where sub != null
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()

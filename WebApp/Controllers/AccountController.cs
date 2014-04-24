@@ -22,7 +22,22 @@ namespace LASI.WebApp.Controllers
         public ActionResult Login() {
             return View();
         }
+        public ActionResult Authenticate(LoginModel credentials) {
+            bool authenticated = ValidateCredentials(credentials);
+            return authenticated ? Success() : Failure();
+        }
 
+        private ActionResult Failure() {
+            throw new NotImplementedException();
+        }
+
+        private ActionResult Success() {
+            throw new NotImplementedException();
+        }
+
+        private bool ValidateCredentials(LoginModel credentials) {
+            throw new NotImplementedException();
+        }
 
         public ActionResult CreateAccount() {
             return View(new UserModel());
@@ -35,7 +50,9 @@ namespace LASI.WebApp.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             };
             var userDataFile = Server.MapPath("~/App_Data/Users/" + model.Email + ".json");
-            using (var writer = new JsonTextWriter(new System.IO.StreamWriter(userDataFile, append: true)) { Formatting = Formatting.Indented }) {
+            using (var writer = new JsonTextWriter(new System.IO.StreamWriter(userDataFile, append: true)) {
+                Formatting = Formatting.Indented
+            }) {
                 JsonSerializer.Create(settings).Serialize(writer, model);
             }
             return RedirectToAction("Index", "Home");

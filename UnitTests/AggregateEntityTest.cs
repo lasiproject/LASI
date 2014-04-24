@@ -120,10 +120,10 @@ namespace LASI.UnitTests
             AggregateEntity target = new AggregateEntity(members);
             IReferencer pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referees.Contains(pro));
-            Assert.IsTrue(pro.ReferredTo.Contains(target) || pro.ReferredTo == target || pro.ReferredTo.SetEqual(target));
+            Assert.IsTrue(target.Referencers.Contains(pro));
+            Assert.IsTrue(pro.ReferesTo.Contains(target) || pro.ReferesTo == target || pro.ReferesTo.SetEqual(target));
             foreach (IEntity e in members) {
-                Assert.IsTrue(pro.ReferredTo.Contains(e) || pro.ReferredTo == e);
+                Assert.IsTrue(pro.ReferesTo.Contains(e) || pro.ReferesTo == e);
 
             }
         }
@@ -171,7 +171,7 @@ namespace LASI.UnitTests
             AggregateEntity target = new AggregateEntity(members); // TODO: Initialize to an appropriate value
             IEnumerable<IReferencer> actual;
             IEnumerable<IReferencer> expected = new[] { new PersonalPronoun("them") };
-            actual = target.Referees;
+            actual = target.Referencers;
             foreach (var pro in expected) { target.BindReferencer(pro); }
             foreach (var pro in expected) { Assert.IsTrue(actual.Contains(pro)); }
         }

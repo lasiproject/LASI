@@ -32,19 +32,19 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (ReferredTo == null) {
-                ReferredTo = new AggregateEntity(new[] { target });
+            if (ReferesTo == null) {
+                ReferesTo = new AggregateEntity(new[] { target });
             } else {
-                ReferredTo = new AggregateEntity(ReferredTo.Append(target));
+                ReferesTo = new AggregateEntity(ReferesTo.Append(target));
             }
-            EntityKind = ReferredTo.EntityKind;
+            EntityKind = ReferesTo.EntityKind;
         }
         /// <summary>   
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferredTo != null ? " referring to -> " + ReferredTo.Text : string.Empty) : string.Empty);
+            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferesTo != null ? " referring to -> " + ReferesTo.Text : string.Empty) : string.Empty);
 
         }
 
@@ -71,8 +71,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IPossessable possession) {
-            if (ReferredTo != null) {
-                ReferredTo.AddPossession(possession);
+            if (ReferesTo != null) {
+                ReferesTo.AddPossession(possession);
             } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
@@ -96,7 +96,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IAggregateEntity ReferredTo { get; private set; }
+        public virtual IAggregateEntity ReferesTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
@@ -109,7 +109,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IReferencer> Referees { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>

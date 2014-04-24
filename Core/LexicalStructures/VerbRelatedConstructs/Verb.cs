@@ -176,7 +176,7 @@ namespace LASI.Core
             return HasObject(predicate) || HasSubject(predicate);
         }
         private static bool HasBoundEntitiyImpl(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) {
-            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(p => p.ReferredTo != null && predicate(p.ReferredTo));
+            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(p => p.ReferesTo != null && predicate(p.ReferesTo));
         }
         #endregion
 
