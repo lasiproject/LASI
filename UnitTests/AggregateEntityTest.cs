@@ -69,13 +69,11 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AggregateEntityConstructorTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            foreach (var membr in members) {
-                Assert.IsTrue(members.Contains(membr));
-            }
+            foreach (var m in members) { Assert.IsTrue(members.Contains(m)); }
         }
 
         /// <summary>
@@ -84,11 +82,11 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void AddPossessionTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
+                new NounPhrase(new CommonPluralNoun("cats")),
+                new NounPhrase(new CommonPluralNoun("dogs"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            IPossessable possession = new NounPhrase(new Word[] { new CommonSingularNoun("fur") });
+            IPossessable possession = new NounPhrase(new CommonSingularNoun("fur"));
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessed.Contains(possession));
         }
@@ -99,8 +97,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BindDescriptorTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
             IDescriptor descriptor = new Adjective("rambunctious");
@@ -114,8 +112,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BindPronounTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
             IReferencer pro = new PersonalPronoun("them");
@@ -149,8 +147,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void ToStringTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members); // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
@@ -165,15 +163,15 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void BoundPronounsTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members); // TODO: Initialize to an appropriate value
             IEnumerable<IReferencer> actual;
             IEnumerable<IReferencer> expected = new[] { new PersonalPronoun("them") };
             actual = target.Referencers;
-            foreach (var pro in expected) { target.BindReferencer(pro); }
-            foreach (var pro in expected) { Assert.IsTrue(actual.Contains(pro)); }
+            foreach (var r in expected) { target.BindReferencer(r); }
+            foreach (var r in expected) { Assert.IsTrue(actual.Contains(r)); }
         }
 
         /// <summary>
@@ -182,8 +180,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void DescriptorsTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
             IEnumerable<IDescriptor> actual;
@@ -202,11 +200,11 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void DirectObjectOfTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
+                new NounPhrase(new CommonPluralNoun("cats")),
+                new NounPhrase(new CommonPluralNoun("dogs"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            IVerbal expected = new VerbPhrase(new Verb[] { new Verb("eat", VerbForm.Base) }); // TODO: Initialize to an appropriate value
+            IVerbal expected = new VerbPhrase(new Verb("eat", VerbForm.Base)); // TODO: Initialize to an appropriate value
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -220,7 +218,7 @@ namespace LASI.UnitTests
         public void IndirectObjectOfTest() {
             IEnumerable<IEntity> members = new[] { new CommonSingularNoun("spoon"), new CommonSingularNoun("fork") };
             AggregateEntity target = new AggregateEntity(members);
-            IVerbal expected = new VerbPhrase(new Verb[] { new PastTenseVerb("were"), new PastParticipleVerb("eaten") });
+            IVerbal expected = new VerbPhrase(new PastTenseVerb("were"), new PastParticipleVerb("eaten"));
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -247,12 +245,12 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void PossessedTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
+                new NounPhrase(new CommonPluralNoun("cats")),
+                new NounPhrase(new CommonPluralNoun("dogs"))
             };
             var possessions = new[]  {
-                new NounPhrase(new Word[] { new CommonPluralNoun("claws") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("teeth") })
+                new NounPhrase(new CommonPluralNoun("claws")),
+                new NounPhrase(new CommonPluralNoun("teeth"))
             };
             AggregateEntity target = new AggregateEntity(members);
             IEnumerable<IPossessable> actual;
@@ -268,11 +266,11 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void PossesserTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
+                new NounPhrase(new CommonPluralNoun("cats")),
+                new NounPhrase(new CommonPluralNoun("dogs"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            IPossesser expected = new NounPhrase(new Word[] { new ProperPluralNoun("Americans") });
+            IPossesser expected = new NounPhrase(new ProperPluralNoun("Americans"));
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
@@ -285,8 +283,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void SubjectOfTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new CommonPluralNoun("cats") }),
-                new NounPhrase(new Word[] { new CommonPluralNoun("dogs") })
+                new NounPhrase(new CommonPluralNoun("cats")),
+                new NounPhrase(new CommonPluralNoun("dogs"))
             };
             AggregateEntity target = new AggregateEntity(members);
             IVerbal expected = new Verb("eat", VerbForm.Base);
@@ -302,8 +300,8 @@ namespace LASI.UnitTests
         [TestMethod()]
         public void TextTest() {
             IEnumerable<IEntity> members = new[] {
-                new NounPhrase(new Word[] { new ProperPluralNoun("Americans") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("Canadians") })
+                new NounPhrase(new ProperPluralNoun("Americans")),
+                new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
             string actual;
