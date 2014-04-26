@@ -1,4 +1,5 @@
-﻿using LASI.Utilities;
+﻿using LASI.Core.Interop;
+using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,7 +139,7 @@ namespace LASI.Core
         /// <param name="describables">The sequence of IDescribables to filter.</param>
         /// <param name="condition">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
-        public static IEnumerable<T> WithDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> condition) where T : IEntity {
+        public static IEnumerable<T> HavingDescriptor<T>(this IEnumerable<T> describables, Func<IDescriptor, bool> condition) where T : IEntity {
             return describables.Where(d => d.Descriptors.Where(condition).Any());
         }
         #endregion
@@ -237,9 +238,8 @@ namespace LASI.Core
         public static ParallelQuery<T> InObjectRole<T>(this ParallelQuery<T> entities, Func<IVerbal, bool> condition) where T : IEntity {
             return entities.InDirectObjectRole(condition)
                 .AsSequential()
-                .Union(entities.InIndirectObjectRole(condition)
-                    .AsSequential()
-                ).AsParallel()
+                .Union(entities.InIndirectObjectRole(condition).AsSequential())
+                .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max);
         }
         /// <summary>
@@ -275,7 +275,7 @@ namespace LASI.Core
         /// <param name="describables">The sequence of IDescribables to filter.</param>
         /// <param name="condition">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
-        public static ParallelQuery<T> WithDescriptor<T>(this ParallelQuery<T> describables, Func<IDescriptor, bool> condition) where T : IEntity {
+        public static ParallelQuery<T> HavingDescriptor<T>(this ParallelQuery<T> describables, Func<IDescriptor, bool> condition) where T : IEntity {
             return describables.Where(d => d.Descriptors.Where(condition).Any());
         }
         #endregion

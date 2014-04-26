@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
+using LASI.Core.Interop;
 
 namespace LASI.Core
 {
@@ -27,7 +28,7 @@ namespace LASI.Core
                    select svg.Key;
 
         }
-        private static IEnumerable<SVORelationship> GetVerbWiseRelationships(Document doc) {
+        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
             var data =
                  from svPair in
                      (from vp in doc.Phrases.OfVerbPhrase()
@@ -39,7 +40,7 @@ namespace LASI.Core
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SVORelationship
+                      select new SvoRelationship
                       {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,

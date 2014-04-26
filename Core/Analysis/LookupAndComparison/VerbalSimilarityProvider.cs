@@ -25,7 +25,8 @@ namespace LASI.Core.Heuristics
         public static SimilarityResult IsSimilarTo(this IVerbal first, IVerbal second) {
             return
                 first.Match().Yield<SR>()
-                    .When(first.Text.ToUpper() == second.Text.ToUpper()).Then(SR.Similar)
+                    .When(first.Text.EqualsIgnoreCase(second.Text))
+                    .Then(SR.Similar)
                     .With<Verb>(v1 =>
                         second.Match().Yield<SR>()
                           .With<Verb>(v2 => v1.IsSimilarTo(v2))

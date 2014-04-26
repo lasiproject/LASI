@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.Core.Analysis.LookupAndComparison.Syntactic.Support;
+using LASI.Core.Interop;
 
 namespace LASI.Core.Heuristics.Morphemization
 {

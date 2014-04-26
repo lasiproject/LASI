@@ -124,35 +124,56 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> AllWords(this IEnumerable<Phrase> elements) {
-            return elements.SelectMany(p => p.Words);
+        public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements) {
+            return elements.SelectMany(e => {
+                var p = e as Phrase;
+                if (p != null) {
+                    return p.Words;
+                }
+                else {
+                    var c = e as Clause; if (c != null) {
+                        return c.Words;
+                    }
+                    var w = e as Word;
+                    return Enumerable.Repeat(w, w != null ? 1 : 0);
+
+                }
+            });
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
-        /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Clause> elements) {
-            return elements.SelectMany(c => c.Phrases);
+        /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
+        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements) {
+            return elements.SelectMany(e => {
+                var c = e as Clause;
+                if (c != null) {
+                    return c.Phrases;
+                }
+                else {
+                    var p = e as Phrase;
+                    return Enumerable.Repeat(p, p != null ? 1 : 0);
+                }
+            });
+        }
+        /// <summary>
+        /// Gets all of the Clause instances in the sequence of ILexicals.
+        /// </summary>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
+        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
+        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) {
+            return elements.OfType<Clause>();
         }
         /// <summary>
         /// Returns all IEntity instances in the sequence.
         /// </summary>
         /// <param name="elements">The sequence of ILexial instances to filter.</param>
         /// <returns>All IEntity in the sequence</returns>
-        public static IEnumerable<IEntity> OfEntity<TLexical>(this IEnumerable<TLexical> elements) where TLexical : ILexical {
+        public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) {
             return elements.OfType<IEntity>();
         }
-        /// <summary>
-        /// Returns a set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.
-        /// </summary>
-        /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        /// <param name="comparison">A function which compares two elements, returning false if they should be considered distinct and true otherwise.</param>
-        /// <returns>A set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.</returns>
-        public static ISet<TLexical> ToSet<TLexical>(this IEnumerable<TLexical> source, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return new HashSet<TLexical>(source, LexicalComparers.Create(comparison));
-        }
+
 
         #endregion
 
@@ -262,36 +283,60 @@ namespace LASI.Core
         /// Gets all of the word instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
-        /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> AllWords(this ParallelQuery<Phrase> elements) {
-            return elements.SelectMany(p => p.Words);
+        /// <returns>All of the word instances in the sequence of ILexicals.</returns>
+        public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) {
+            return elements.SelectMany(e => {
+                var p = e as Phrase;
+                if (p != null) {
+                    return p.Words;
+                }
+                else {
+                    var c = e as Clause; if (c != null) {
+                        return c.Words;
+                    }
+                    var w = e as Word;
+                    return Enumerable.Repeat(w, w != null ? 1 : 0);
+
+                }
+            });
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
-        /// <returns>all of the Phrase instances in the sequence of ILexicals.</returns>
-        static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Clause> elements) {
-            return elements.SelectMany(c => c.Phrases);
+        /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
+        static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) {
+            return elements.SelectMany(e => {
+                var c = e as Clause;
+                if (c != null) {
+                    return c.Phrases;
+                }
+                else {
+                    var p = e as Phrase;
+                    return Enumerable.Repeat(p, p != null ? 1 : 0);
+                }
+            });
         }
+        /// <summary>
+        /// Gets all of the Clause instances in the sequence of ILexicals.
+        /// </summary>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
+        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
+        public static ParallelQuery<Clause> OClause(this ParallelQuery<ILexical> elements) {
+            return elements.OfType<Clause>();
+        }
+
         /// <summary>
         /// Returns all AdjectivePhrases in the sequence.
         /// </summary>
         /// <param name="elements">The sequence of componentPhrases to filter</param>
         /// <returns>All AdjectivePhrases in the sequence</returns>
-        public static ParallelQuery<IEntity> OfEntity<TLexical>(this ParallelQuery<TLexical> elements) {
-            return elements.OfType<IEntity>();
+        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
+            return elements.AsNestedEnumerable().OfType<IEntity>();
         }
-        /// <summary>
-        /// Returns a set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.
-        /// </summary>
-        /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        /// <param name="comparison">A function which compares two elements, returning false if they should be considered distinct and true otherwise.</param>
-        /// <returns>A set representation of the given sequence of ILexical using the provided comparison function to determine element distinctness.</returns>
-        public static ISet<TLexical> ToSet<TLexical>(this ParallelQuery<TLexical> source, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
-            return new HashSet<TLexical>(source, LexicalComparers.Create(comparison));
-        }
+
+
+
         #endregion
 
     }

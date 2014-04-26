@@ -32,23 +32,20 @@ namespace LASI.Core.Binding.Experimental
                                       where actions.Any()
                                       orderby actions.Count() descending
                                       select actions;
-                if (actionsByBranch.Any()) {
-                    foreach (var action in actionsByBranch.First()) action();
+                foreach (var action in actionsByBranch.DefaultIfEmpty(Enumerable.Empty<Action>()).First()) {
+                    action();
                 }
             }
         }
-
-
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words) {
             var wordList = words.ToList();
             var actions =
                 from noun in
                     from noun in wordList.OfNoun()
                     where noun.Phrase is IEntity
-                    select new
-                    {
-                        Noun = noun,
-                        Key = noun.Match().Yield<char>()
+                    select new {
+                Noun = noun,
+                Key = noun.Match().Yield<char>()
                               .With<ProperSingularNoun>(proper => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
                                   proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
                               .With<CommonSingularNoun>('S')
@@ -57,10 +54,9 @@ namespace LASI.Core.Binding.Experimental
                     }
                 join pronoun in
                     from pronoun in words.OfPronoun()
-                    select new
-                    {
-                        Pronoun = pronoun,
-                        Key = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' : pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
+                    select new {
+                Pronoun = pronoun,
+                Key = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' : pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
                     }
                 on noun.Key equals pronoun.Key
                 where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.

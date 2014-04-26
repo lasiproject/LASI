@@ -12,6 +12,8 @@ namespace LASI.Core.Heuristics
     using Morphemization;
     using SetReference = KeyValuePair<VerbSetLink, int>;
     using LinkType = VerbSetLink;
+    using LASI.Core.Interop;
+
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
         /// <summary>

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Core.Interop;
 
 namespace LASI.Core
 {
@@ -22,14 +23,14 @@ namespace LASI.Core
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public async Task<IEnumerable<SVORelationship>> GetCommonResultsAsnyc(IEnumerable<Document> documents) {
+        public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsnyc(IEnumerable<Document> documents) {
             return await await Task.Factory.ContinueWhenAll(
-                new[] {  
+                new[] {
                     Task.Run(()=> GetCommonalitiesByVerbals(documents)),
                     Task.Run(()=> GetCommonalitiesByEntities(documents))
                 },
                 async tasks => {
-                    var results = new List<SVORelationship>();
+                    var results = new List<SvoRelationship>();
                     foreach (var t in tasks) {
                         results.AddRange(await t);
                     }
@@ -42,10 +43,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="documents">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public IEnumerable<SVORelationship> GetCommonResults(IEnumerable<Document> documents) {
+        public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<Document> documents) {
             return GetCommonResultsAsnyc(documents).Result;
         }
-        private async Task<IEnumerable<SVORelationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
             await Task.Yield();
             var topNPsByDoc = from doc in documents
                                .AsParallel()
@@ -62,7 +63,7 @@ namespace LASI.Core
             await Task.Yield();
             return from n in crossReferenced.Distinct(CompareNps)
                    orderby n.SubjectOf.Text
-                   select new SVORelationship {
+                   select new SvoRelationship {
                        Verbal = n.SubjectOf,
                        Subject = new AggregateEntity(new[] { n }),
                        Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
@@ -80,7 +81,7 @@ namespace LASI.Core
                        .Distinct(CompareNps)
                        .OrderBy(np => np.Weight);
         }
-        private async Task<IEnumerable<SVORelationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
             var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                                      select GetTopVerbPhrasesAsync(doc));
             var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -92,7 +93,7 @@ namespace LASI.Core
             return from verbal in verbalCominalities
                    let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                    entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferesTo.Any() ? asPro.ReferesTo : s : s))
-                   select new SVORelationship {
+                   select new SvoRelationship {
                        Verbal = verbal,
                        Subject = testPronouns(verbal.Subjects),
                        Direct = testPronouns(verbal.DirectObjects),

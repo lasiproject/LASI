@@ -246,7 +246,7 @@ namespace LASI.Core
         /// <param name="first">The Pronoun.</param>
         /// <param name="second">The ProperNoun.</param>
         /// <returns>True if Pronoun and the ProperNoun have the same gender; otherwise, false.</returns>
-        public static bool IsGenderEquivalentTo(this  Pronoun first, ProperNoun second) {
+        public static bool IsGenderEquivalentTo(this Pronoun first, ProperNoun second) {
             return first.Gender == second.GetGender();
         }
         /// <summary>
@@ -255,7 +255,7 @@ namespace LASI.Core
         /// <param name="first">The Pronoun.</param>
         /// <param name="second">The ProperNoun.</param>
         /// <returns>True if Pronoun and the ProperNoun have the same gender; otherwise, false.</returns>
-        public static bool IsGenderEquivalentTo(this  ProperNoun first, Pronoun second) {
+        public static bool IsGenderEquivalentTo(this ProperNoun first, Pronoun second) {
             return first.GetGender() == second.Gender;
         }
         /// <summary>
@@ -265,7 +265,7 @@ namespace LASI.Core
         /// <param name="second">The second IEntity instance to compare.</param>
         /// <returns>True both IEntity instances have the same gender; otherwise, false.
         /// </returns>
-        public static bool IsGenderEquivalentTo(this  IEntity first, IEntity second) {
+        public static bool IsGenderEquivalentTo(this IEntity first, IEntity second) {
             return first.GetGender() == second.GetGender();
         }
 

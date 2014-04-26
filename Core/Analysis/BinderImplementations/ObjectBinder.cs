@@ -247,7 +247,7 @@ namespace LASI.Core.Binding
                     .With<VerbPhrase>(v => {
                         InfinitivePhrase infinitive = new InfinitivePhrase(
                             phrase.Words.Concat(
-                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).AllWords()));
+                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).OfWord()));
                         M.directObject = infinitive;
                     })
                     .With<IPrepositional>(p => {

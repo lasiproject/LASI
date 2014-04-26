@@ -11,27 +11,45 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 {
 
 
-    internal static class Matcher
+    public static class Matcher
     {
         internal static SentenceMatch Match(this Sentence sentence) {
             return new SentenceMatch(sentence);
         }
+
+        internal static SentenceMatch Match(this IEnumerable<ILexical> sequencialElements) {
+
+            return new SentenceMatch(sequencialElements);
+        }
+
     }
-    public partial class SentenceMatch(private Sentence value)
+
+    public partial class SentenceMatch
     {
         private bool predicateSucceded;
         private bool guarded;
         List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        Func<Sentence, IEnumerable<ILexical>> test {
-            get {
-                return val => {
-                    var result = from v in val.Phrases where checkOncePredicates.All(f => f(v)) && predicates.All(f => f(v)) select v;
-                    checkOncePredicates.Clear();
-                    return result;
-                };
-            }
+
+        private IEnumerable<ILexical> value;
+
+        public SentenceMatch(IEnumerable<ILexical> sequencialElements) {
+            value = sequencialElements;
         }
+        public SentenceMatch(Sentence setence) {
+            value = setence.Phrases;
+
+        }
+        private IEnumerable<ILexical> test(IEnumerable<ILexical> val) {
+
+
+            var result = from v in val.OfClause() where checkOncePredicates.All(f => f(v)) && predicates.All(f => f(v)) select v;
+            checkOncePredicates.Clear();
+            return result;
+
+
+        }
+
         private List<ILexical> values {
             get { return test(value).ToList(); }
             set { values = value; }
@@ -160,17 +178,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical {
+        where T1 : class, ILexical
+        where T2 : class, ILexical
+        where T3 : class, ILexical
+        where T4 : class, ILexical
+        where T5 : class, ILexical
+        where T6 : class, ILexical
+        where T7 : class, ILexical
+        where T8 : class, ILexical
+        where T9 : class, ILexical
+        where T10 : class, ILexical
+        where T11 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -226,20 +244,20 @@ where T11 : class, ILexical {
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical
-where T12 : class, ILexical
-where T13 : class, ILexical
-where T14 : class, ILexical {
+        where T1 : class, ILexical
+        where T2 : class, ILexical
+        where T3 : class, ILexical
+        where T4 : class, ILexical
+        where T5 : class, ILexical
+        where T6 : class, ILexical
+        where T7 : class, ILexical
+        where T8 : class, ILexical
+        where T9 : class, ILexical
+        where T10 : class, ILexical
+        where T11 : class, ILexical
+        where T12 : class, ILexical
+        where T13 : class, ILexical
+        where T14 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -250,21 +268,21 @@ where T14 : class, ILexical {
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical
-where T12 : class, ILexical
-where T13 : class, ILexical
-where T14 : class, ILexical
-where T15 : class, ILexical {
+        where T1 : class, ILexical
+        where T2 : class, ILexical
+        where T3 : class, ILexical
+        where T4 : class, ILexical
+        where T5 : class, ILexical
+        where T6 : class, ILexical
+        where T7 : class, ILexical
+        where T8 : class, ILexical
+        where T9 : class, ILexical
+        where T10 : class, ILexical
+        where T11 : class, ILexical
+        where T12 : class, ILexical
+        where T13 : class, ILexical
+        where T14 : class, ILexical
+        where T15 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -275,22 +293,22 @@ where T15 : class, ILexical {
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical
-where T12 : class, ILexical
-where T13 : class, ILexical
-where T14 : class, ILexical
-where T15 : class, ILexical
-where T16 : class, ILexical {
+        where T1 : class, ILexical
+        where T2 : class, ILexical
+        where T3 : class, ILexical
+        where T4 : class, ILexical
+        where T5 : class, ILexical
+        where T6 : class, ILexical
+        where T7 : class, ILexical
+        where T8 : class, ILexical
+        where T9 : class, ILexical
+        where T10 : class, ILexical
+        where T11 : class, ILexical
+        where T12 : class, ILexical
+        where T13 : class, ILexical
+        where T14 : class, ILexical
+        where T15 : class, ILexical
+        where T16 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -301,23 +319,23 @@ where T16 : class, ILexical {
             });
         }
         public SentenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical
-where T12 : class, ILexical
-where T13 : class, ILexical
-where T14 : class, ILexical
-where T15 : class, ILexical
-where T16 : class, ILexical
-where T17 : class, ILexical {
+        where T1 : class, ILexical
+        where T2 : class, ILexical
+        where T3 : class, ILexical
+        where T4 : class, ILexical
+        where T5 : class, ILexical
+        where T6 : class, ILexical
+        where T7 : class, ILexical
+        where T8 : class, ILexical
+        where T9 : class, ILexical
+        where T10 : class, ILexical
+        where T11 : class, ILexical
+        where T12 : class, ILexical
+        where T13 : class, ILexical
+        where T14 : class, ILexical
+        where T15 : class, ILexical
+        where T16 : class, ILexical
+        where T17 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -516,7 +534,7 @@ where T17 : class, ILexical {
             return this;
         }
         public SentenceMatch FilterOnce<T1>()
-       where T1 : class, ILexical {
+        where T1 : class, ILexical {
             checkOncePredicates.Add(v => !(v is T1));
             return this;
         }

@@ -19,7 +19,7 @@ namespace LASI.Core
         /// <typeparam name="T">The Type of the elements of the source sequence. Must be a Type which implements the ILexical interface.</typeparam>
         /// <param name="source">The sequence of potentially IEnumerrable of T to enumerate recursively.</param>
         /// <returns>A recursively defined enumerable collection which, when enumerated, will yield the members of each subsequence, along with the element providing it, in turn.</returns>
-        public static IEnumerable<T> AsNestedEnumerable<T>(this IEnumerable<T> source) where T : class,ILexical {
+        public static IEnumerable<T> AsNestedEnumerable<T>(this IEnumerable<T> source) where T : class, ILexical {
             if (source == null) { yield break; }
             var stack = new Stack<IEnumerable<T>>();
             stack.Push(source.OfType<T>());
@@ -33,5 +33,10 @@ namespace LASI.Core
                 }
             }
         }
+        public static ParallelQuery<T> AsNestedEnumerable<T>(this ParallelQuery<T> source) where T : class, ILexical {
+            return source.AsNestedEnumerable().AsParallel();
+        }
+
+
     }
 }

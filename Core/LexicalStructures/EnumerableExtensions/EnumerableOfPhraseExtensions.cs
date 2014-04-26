@@ -51,7 +51,7 @@ namespace LASI.Core
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="after">The exclusive lower bound of the desired subset of Phrases.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the given Phrase in the source sequence.</returns>
-        public static IEnumerable<Phrase> PhrasesFollowing(this IEnumerable<Phrase> phrases, Phrase after) {
+        public static IEnumerable<Phrase> PhrasesAfter(this IEnumerable<Phrase> phrases, Phrase after) {
             return phrases.SkipWhile(r => r != after).Skip(1);
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace LASI.Core
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="startSelector">The function which will select be used to select the exclusive lower bound of the new sequence.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the first Phrase in the source sequence which matches the provided selector function..</returns>
-        public static IEnumerable<Phrase> PhrasesFollowing(this IEnumerable<Phrase> phrases, Func<Phrase, bool> startSelector) {
+        public static IEnumerable<Phrase> PhrasesAfter(this IEnumerable<Phrase> phrases, Func<Phrase, bool> startSelector) {
             return phrases.SkipWhile(r => !startSelector(r)).Skip(1);
         }
         /// <summary>
@@ -129,7 +129,7 @@ namespace LASI.Core
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="after">The exclusive lower bound of the desired subset of Phrases.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the given Phrase in the source sequence.</returns>
-        public static ParallelQuery<Phrase> PhrasesFollowing(this ParallelQuery<Phrase> phrases, Phrase after) {
+        public static ParallelQuery<Phrase> PhrasesAfter(this ParallelQuery<Phrase> phrases, Phrase after) {
             return phrases.SkipWhile(r => r != after).Skip(1);
         }
         /// <summary>
@@ -138,7 +138,7 @@ namespace LASI.Core
         /// <param name="phrases">The source sequence of Phrases.</param>
         /// <param name="startSelector">The function which will select be used to select the exclusive lower bound of the new sequence.</param>
         /// <returns>A new sequence containing all of the Phrases which follow the first Phrase in the source sequence which matches the provided selector function..</returns>
-        public static ParallelQuery<Phrase> PhrasesFollowing(this ParallelQuery<Phrase> phrases, Func<Phrase, bool> startSelector) {
+        public static ParallelQuery<Phrase> PhrasesAfter(this ParallelQuery<Phrase> phrases, Func<Phrase, bool> startSelector) {
             return phrases.SkipWhile(r => !startSelector(r)).Skip(1);
         }
         /// <summary>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities;
 using System.Threading.Tasks;
+using LASI.Core.Interop;
 
 namespace LASI.Core.Binding.Experimental
 {
@@ -32,7 +33,7 @@ namespace LASI.Core.Binding.Experimental
             Phrase last = null;
             foreach (var f in bindingActions) { last = f(); }
             if (last != null) {
-                Bind(phrases.PhrasesFollowing(last));
+                Bind(phrases.PhrasesAfter(last));
             }
         }
 
@@ -40,29 +41,29 @@ namespace LASI.Core.Binding.Experimental
             var results = new List<Func<Phrase>>();
             var targetVPS = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()
-                    .With<ConjunctionPhrase>(c => c.NextPhrase as VerbPhrase)
-                    .With<SymbolPhrase>(s =>
+                    .With((ConjunctionPhrase c) => c.NextPhrase as VerbPhrase)
+                    .With((SymbolPhrase s) =>
                         s.NextPhrase.Match().Yield<VerbPhrase>()
-                            .With<VerbPhrase>(v => v)
+                            .With((VerbPhrase v) => v)
                             .Result(s.NextPhrase.NextPhrase as VerbPhrase))
-                    .With<VerbPhrase>(v => v).Result()
+                    .With((VerbPhrase v) => v).Result()
                 )
                 .Distinct().TakeWhile(v => v != null);
             var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
                 results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
-                    .With<NounPhrase>(n => {
+                    .With((NounPhrase n) => () => {
                         targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
-                        return () => n;
+                        return n;
                     })
-                    .With<InfinitivePhrase>(i => {
+                    .With((InfinitivePhrase i) => () => {
                         targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
-                        return () => i;
+                        return i;
                     })
-                    .When<Phrase>(i => i.NextPhrase is IEntity)
-                    .Then<PrepositionalPhrase>(p => {
+                    .When(i => i.NextPhrase is IEntity)
+                    .Then((PrepositionalPhrase p) => () => {
                         targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
-                        return () => p;
+                        return p;
                     }).Result());
             }
             return results;

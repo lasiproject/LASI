@@ -1,4 +1,5 @@
 ﻿using LASI.Core.Analysis.LookupAndComparison.Syntactic.Support;
+using LASI.Core.Interop;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;

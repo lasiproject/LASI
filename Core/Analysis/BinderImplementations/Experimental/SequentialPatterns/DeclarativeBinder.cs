@@ -10,7 +10,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     internal static class DeclarativeBinder
     {
         static void Test(Sentence sentence) {
-            sentence.Match()
+            sentence.Phrases.Match()
             .When(sentence.Phrases.Count() > 2)
             .FilterContinuously<IAdverbial, IDescriptor>()
             .TryPath(

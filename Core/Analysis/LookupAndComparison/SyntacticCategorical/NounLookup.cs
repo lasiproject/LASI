@@ -11,6 +11,8 @@ namespace LASI.Core.Heuristics
 {
     using SetReference = KeyValuePair<NounSetLink, int>;
     using Morphemization;
+    using LASI.Core.Interop;
+
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>

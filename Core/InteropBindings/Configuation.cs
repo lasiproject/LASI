@@ -29,7 +29,7 @@ namespace LASI.Core.Interop
         internal static int MaxConcurrency { get; private set; }
     }
 }
-namespace LASI.Core
+namespace LASI.Core.Interop
 {
     /// <summary>
     /// Provides access to concurrency information.

@@ -26,7 +26,7 @@ namespace LASI.Core.Heuristics
         public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
             return
                 first.Match().Yield<SR>()
-                    .When(first.Text.ToUpper() == second.Text.ToUpper())
+                    .When(first.Text.EqualsIgnoreCase(second.Text))
                     .Then(SR.Similar).
                     With<Adjective>(j1 => second.Match().Yield<SR>().
                            With<Adjective>(j2 => new SR(j1.IsSynonymFor(j2))).
