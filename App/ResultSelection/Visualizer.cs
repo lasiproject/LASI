@@ -203,47 +203,39 @@ namespace LASI.App
 
         }
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
-            var data =
-                 from svPair in
-                     (from vp in doc.Phrases.OfVerbPhrase()
-                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).ReferesTo != null).Distinct((L, R) => L.IsSimilarTo(R))
-                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      let sub = s as IReferencer == null ? s : (s as IReferencer).ReferesTo
-                      where sub != null
-                      from dobj in vp.DirectObjects.DefaultIfEmpty()
-                      from iobj in vp.IndirectObjects.DefaultIfEmpty()
+            var consideredVerbals = doc.Phrases.OfVerbPhrase()
+                           .WithSubject(s => !(s is IReferencer) || (s as IReferencer).ReferesTo != null)
+                           .Distinct((x, y) => x.IsSimilarTo(y))
+                           .AsParallel()
+                           .WithDegreeOfParallelism(Concurrency.Max);
+            var relationships = from vp in consideredVerbals
+                                from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                let subject = s.Match().Yield<IEntity>().With((IReferencer r) => r.ReferesTo).Result(s)
+                                where subject != null
+                                from direct in vp.DirectObjects.DefaultIfEmpty()
+                                from indirect in vp.IndirectObjects.DefaultIfEmpty()
+                                let relationship = new SvoRelationship {
+                                    Subject = vp.AggregateSubject,
+                                    Verbal = vp,
+                                    Direct = vp.AggregateDirectObject,
+                                    Indirect = vp.AggregateIndirectObject,
+                                    Prepositional = vp.ObjectOfThePreoposition,
+                                    CombinedWeight = subject.Weight + vp.Weight + (direct != null ? direct.Weight : 0) + (indirect != null ? indirect.Weight : 0)
+                                }
+                                where relationship.Subject != null && relationship.Direct != null || relationship.Indirect != null && relationship.Subject.Text != (relationship.Direct ?? relationship.Indirect).Text
+                                select relationship;
+            return relationships.Distinct().OrderByDescending(r => r.CombinedWeight);
 
-                      select new SvoRelationship {
-                          Subject = vp.AggregateSubject,
-                          Verbal = vp,
-                          Direct = vp.AggregateDirectObject,
-                          Indirect = vp.AggregateIndirectObject,
-                          Prepositional = vp.ObjectOfThePreoposition,
-                          CombinedWeight = sub.Weight + vp.Weight + (dobj != null ? dobj.Weight : 0) + (iobj != null ? iobj.Weight : 0)
-                      } into tupple
-                      where
-                      tupple.Subject != null &&
-                        tupple.Direct != null ||
-                        tupple.Indirect != null &&
-                        tupple.Subject.Text != (tupple.Direct ?? tupple.Indirect).Text
-                      select tupple).Distinct()
-                 select svPair into svps
-                 orderby svps.CombinedWeight descending
-                 select svps;
-            return data;
         }
-        private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounWiseDataAsync(Document doc) { return await Task.Run(() => GetNounWiseData(doc)); }
+        private static async Task<IEnumerable<KeyValuePair<string, float>>> GetNounWiseDataAsync(Document doc) {
+            return await Task.Run(() => GetNounWiseData(doc));
+        }
 
         private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc) {
-            return (from NP in doc.Phrases.OfNounPhrase()
+            return from n in doc.Phrases.OfNounPhrase()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                    group NP by new {
-                NP.Text,
-                NP.Weight
-                    } into NP
-                    select NP.Key into master
-                    select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2))).Distinct();
+                   group n by new { n.Text, Weight = (float)Math.Round(n.Weight, 2) } into g
+                   select new KeyValuePair<string, float>(g.Key.Text, g.Key.Weight);
         }
 
         /// <summary>
@@ -254,7 +246,7 @@ namespace LASI.App
         public static async Task DisplayKeyRelationships(Document document) {
 
             var transformedData = await Task.Factory.StartNew(() => {
-                return TransformToGrid(GetVerbWiseRelationships(document));
+                return GetVerbWiseRelationships(document).ToTextItemSource();
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
                 ItemsSource = transformedData,
@@ -280,7 +272,9 @@ namespace LASI.App
 
         private const int CHART_ITEM_LIMIT = 14;
 
-
+        private static string GetTextIfNotNull<TLexical>(TLexical lexical) where TLexical : ILexical {
+            return lexical != null ? lexical.Text : string.Empty;
+        }
 
         /// <summary>
         /// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
@@ -288,27 +282,17 @@ namespace LASI.App
         /// </summary>
         /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
         /// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
-        internal static IEnumerable<object> TransformToGrid(IEnumerable<SvoRelationship> elementsToConvert) {
-            return from e in elementsToConvert.Distinct()
-                   orderby e.CombinedWeight
-                   select new {
-                Subject = e.Subject != null ? e.Subject.Text : string.Empty,
-                Verbal = e.Verbal != null ?
-                                (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
-                                + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
-                                + e.Verbal.Text + (e.Verbal.AdverbialModifiers.Any() ? " (adv)> "
-                                + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)) : string.Empty) :
-                                string.Empty,
-                Direct = e.Direct != null ?
-                                (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
-                                : string.Empty + e.Direct.Text) :
-                                string.Empty,
-                Indirect = e.Indirect != null ?
-                                (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
-                                + e.Indirect.Text :
-                                string.Empty
+        internal static IEnumerable<object> ToTextItemSource(this IEnumerable<SvoRelationship> elementsToConvert) {
+            return
+            from e in elementsToConvert
+            orderby e.CombinedWeight
+            select new {
+                Subject = GetTextIfNotNull(e.Subject),
+                Verbal = e.Verbal == null ? string.Empty : GetTextIfNotNull(e.Verbal.PrepositionOnLeft) + GetTextIfNotNull(e.Verbal.Modality) + e.Verbal.Text + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)),
+                Direct = e.Direct == null ? string.Empty : GetTextIfNotNull(e.Direct.PrepositionOnLeft) + e.Direct.Text,
+                Indirect = e.Indirect == null ? string.Empty : GetTextIfNotNull(e.Indirect.PrepositionOnLeft) + e.Indirect.Text
+            };
 
-                   };
         }
     }
 

@@ -14,83 +14,34 @@ namespace LASI.Core
     /// </summary>
     public class SvoRelationship : IEquatable<SvoRelationship>
     {
-        private IVerbal verbal;
-        private IAggregateEntity subject;
-        private IAggregateEntity direct;
-        private IAggregateEntity indirect;
-        private ILexical prepositional;
-        private HashSet<ILexical> elements = new HashSet<ILexical>();
+
 
         /// <summary>
         /// Gets or sets the Subject component of the SvoRelationship.
         /// </summary>
-        public IAggregateEntity Subject {
-            get {
-                return subject;
-            }
-            set {
-                subject = value;
-                elements.Add(value);
-            }
-        }
+        public IEntity Subject { get; set; }
 
         /// <summary>
         /// Gets or sets the Verbal component of the SvoRelationship.
         /// </summary>
-        public IVerbal Verbal {
-            get {
-                return verbal;
-            }
-            set {
-                verbal = value;
-                elements.Add(value);
-            }
-        }
+        public IVerbal Verbal { get; set; }
 
         /// <summary>
         /// Gets or sets the Direct Object component of the SvoRelationship.
         /// </summary>
-        public IAggregateEntity Direct {
-            get {
-                return direct;
-            }
-            set {
-                direct = value;
-                elements.Add(value);
-            }
-        }
+        public IEntity Direct { get; set; }
         /// <summary>
         /// Gets or sets the Indirect Object component of the SvoRelationship.
         /// </summary>
-        public IAggregateEntity Indirect {
-            get {
-                return indirect;
-            }
-            set {
-                indirect = value;
-                elements.Add(value);
-            }
-        }
+        public IEntity Indirect { get; set; }
         /// <summary>
         /// Gets or sets the Prepositional component of the SvoRelationship.
         /// </summary>
-        public ILexical Prepositional {
-            get {
-                return prepositional;
-            }
-            set {
-                prepositional = value;
-                elements.Add(value);
-            }
-        }
+        public ILexical Prepositional { get; set; }
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
-        public IEnumerable<ILexical> Elements {
-            get {
-                return elements;
-            }
-        }
+        public IEnumerable<ILexical> Elements { get { return new[] { Subject, Verbal, Direct, Indirect, Prepositional }; } }
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>
@@ -128,7 +79,7 @@ namespace LASI.Core
         /// Gets a hash code for the current Relationship instance.
         /// </summary>
         /// <returns>A hash code of the current Relationship instance.</returns>
-        public override int GetHashCode() { return elements.Count; }
+        public override int GetHashCode() { return Elements.Count(); }
         /// <summary>
         /// Determines if two SvoRelationship instances are considered equal.
         /// </summary>

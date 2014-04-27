@@ -166,14 +166,21 @@ namespace LASI.Core
             return elements.OfType<Clause>();
         }
         /// <summary>
-        /// Returns all IEntity instances in the sequence.
+        /// Returns all Entities in the sequence.
         /// </summary>
-        /// <param name="elements">The sequence of ILexial instances to filter.</param>
-        /// <returns>All IEntity in the sequence</returns>
+        /// <param name="elements">The sequence of Lexicalsto filter.</param>
+        /// <returns>All Entities in the sequence.</returns>
         public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) {
             return elements.OfType<IEntity>();
         }
-
+        /// <summary>
+        /// Returns all Verbals in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Verbals in the sequence.</returns>
+        public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements) {
+            return elements.AsNestedEnumerable().OfType<IVerbal>();
+        }
 
         #endregion
 
@@ -327,13 +334,22 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Returns all AdjectivePhrases in the sequence.
+        /// Returns all Entities in the sequence.
         /// </summary>
-        /// <param name="elements">The sequence of componentPhrases to filter</param>
-        /// <returns>All AdjectivePhrases in the sequence</returns>
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Entities in the sequence.</returns>
         public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
             return elements.AsNestedEnumerable().OfType<IEntity>();
         }
+        /// <summary>
+        /// Returns all Verbals in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Verbals in the sequence.</returns>
+        public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements) {
+            return elements.AsNestedEnumerable().OfType<IVerbal>();
+        }
+
 
 
 

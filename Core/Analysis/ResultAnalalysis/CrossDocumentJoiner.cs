@@ -90,20 +90,20 @@ namespace LASI.Core
                                             select verbs.Contains(verbal, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
                                             .All(x => x)
                                      select verbal;
-            return from verbal in verbalCominalities
-                   let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
-                   entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferesTo.Any() ? asPro.ReferesTo : s : s))
-                   select new SvoRelationship {
-                       Verbal = verbal,
-                       Subject = testPronouns(verbal.Subjects),
-                       Direct = testPronouns(verbal.DirectObjects),
-                       Indirect = testPronouns(verbal.IndirectObjects),
-                       Prepositional = verbal.ObjectOfThePreoposition
-                   } into result
-                   where result.Subject.Any()
-                   orderby result.Verbal.Weight
-                   group result by result.Verbal.Text into g
-                   select g.First();
+            var relationships = from verbal in verbalCominalities
+                                let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
+                                entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferesTo.Any() ? asPro.ReferesTo : s : s))
+                                let relationship = new SvoRelationship {
+                                    Verbal = verbal,
+                                    Subject = testPronouns(verbal.Subjects),
+                                    Direct = testPronouns(verbal.DirectObjects),
+                                    Indirect = testPronouns(verbal.IndirectObjects),
+                                    Prepositional = verbal.ObjectOfThePreoposition
+                                }
+                                where relationship.Subject != null
+                                orderby relationship.Verbal.Weight
+                                select relationship;
+            return relationships.DistinctBy(r => r.Verbal.Text.ToLower());
         }
         private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() =>

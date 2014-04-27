@@ -299,7 +299,7 @@ namespace LASI.App
 
             if (dialog.ShowDialog() ?? false) {
                 var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectDocuments);
-                metaRelationshipsDataGrid.ItemsSource = Visualizer.TransformToGrid(joinedRelationshipResults);
+                metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToTextItemSource();
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {

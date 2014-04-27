@@ -298,6 +298,7 @@
     <Compile Include="Models\Home\FileUploadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalElementInfo\ContextMenuBuilder.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
