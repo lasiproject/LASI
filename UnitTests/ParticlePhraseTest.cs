@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for ParticlePhraseTest and is intended
     ///to contain all ParticlePhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ParticlePhraseTest
     {
 
@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ParticlePhrase Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParticlePhraseConstructorTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -84,7 +84,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObjectOfPreposition
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectOfPrepositionTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("about") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnLeftSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -110,7 +110,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnRightSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnRightSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -126,7 +126,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheRightOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheRightOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -140,7 +140,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheLeftOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheLeftOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -154,7 +154,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Role
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RoleTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
@@ -168,7 +168,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectTest() {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
             ParticlePhrase target = new ParticlePhrase(composedWords);

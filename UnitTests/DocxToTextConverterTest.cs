@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for DocxToTextConverterTest and is intended
     ///to contain all DocxToTextConverterTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DocxToTextConverterTest
     {
 
@@ -93,7 +93,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFileAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public async Task ConvertFileAsyncTest() {
             var infile = InitInputFileWrapper();
             DocxToTextConverter target = new DocxToTextConverter(infile);
@@ -105,7 +105,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocxToTextConverter Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocxToTextConverterConstructorTest() {
             DocXFile infile = InitInputFileWrapper(); // TODO: Initialize to an appropriate value
             DocxToTextConverter target = new DocxToTextConverter(infile);
@@ -115,7 +115,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFile
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileTest() {
             DocXFile infile = null; // TODO: Initialize to an appropriate value
             DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value
@@ -129,7 +129,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFileAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileAsyncTest1() {
             DocXFile infile = null; // TODO: Initialize to an appropriate value
             DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value

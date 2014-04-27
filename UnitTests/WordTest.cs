@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for WordTest and is intended
     ///to contain all WordTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class WordTest
     {
 
@@ -73,7 +73,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest() {
             Word target = CreateWord();
             object obj = CreateWord();
@@ -92,7 +92,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for EstablishParent
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EstablishParentTest() {
             Word target = CreateWord();
             Phrase phrase = new NounPhrase(new Word[] { new Adjective("Psychotic"), target });
@@ -103,7 +103,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetHashCode
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetHashCodeTest() {
             Word target = CreateWord();
             int expected = (target).GetHashCode();
@@ -116,7 +116,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             Word target = CreateWord();
             string expected = target.Type.Name + " \"" + target.Text + "\"";
@@ -130,7 +130,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Document
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParentDocTest() {
             Word target = CreateWord();
             Document parent = new Document(new[] { new Paragraph(new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }, null) }, ParagraphKind.Default) });
@@ -145,7 +145,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             Word target = new Verb("run", VerbForm.Base);
             string expected = "run";
@@ -159,7 +159,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Weight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WeightTest() {
             Word target = CreateWord();
             double expected = new Random().NextDouble() * double.MaxValue;
@@ -172,7 +172,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for VerboseOutput
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerboseOutputTest() {
             bool expected = false;
             bool actual;
@@ -185,7 +185,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Type
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TypeTest() {
             Word target = CreateWord();
             Type expected = target.GetType();

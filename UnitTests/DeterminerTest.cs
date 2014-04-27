@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for DeterminerTest and is intended
     ///to contain all DeterminerTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DeterminerTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Determiner Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DeterminerConstructorTest() {
             string text = "the";
             Determiner target = new Determiner(text);
@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Determines
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DeterminesTest() {
             string text = "the";
             Determiner target = new Determiner(text);

@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for IEntityTest and is intended
     ///to contain all IEntityTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IEntityTest
     {
 
@@ -70,7 +70,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for EntityKind
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EntityKindTest() {
             IEntity target = CreateIEntity();
             EntityKind actual;

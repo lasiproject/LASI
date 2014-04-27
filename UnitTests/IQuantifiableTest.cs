@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for IQuantifiableTest and is intended
     ///to contain all IQuantifiableTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IQuantifiableTest
     {
 
@@ -70,7 +70,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for QuantifiedBy
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void QuantifiedByTest() {
             IQuantifiable target = CreateIQuantifiable(); // TODO: Initialize to an appropriate value
             IQuantifier expected = new Quantifier("all");

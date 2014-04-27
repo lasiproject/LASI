@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for ForeignWordTest and is intended
     ///to contain all ForeignWordTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ForeignWordTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ForeignWord Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ForeignWordConstructorTest() {
             string text = "Bonjour";
             ForeignWord target = new ForeignWord(text);
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for UsedAsType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void UsedAsTypeTest() {
             string text = "Bonjour";
             ForeignWord target = new ForeignWord(text);

@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for SimpleDeclarativeClauseBeginPhraseTest and is intended
     ///to contain all SimpleDeclarativeClauseBeginPhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SimpleDeclarativeClauseBeginPhraseTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SimpleDeclarativeClauseBeginPhrase Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SimpleDeclarativeClauseBeginPhraseConstructorTest() {
             IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
             SimpleDeclarativeClauseBeginPhrase target = new SimpleDeclarativeClauseBeginPhrase(composed);

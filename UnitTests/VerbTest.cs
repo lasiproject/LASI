@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for VerbTest and is intended
     ///to contain all VerbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class VerbTest
     {
 
@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Verb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbConstructorTest() {
             string text = "insulate";
             VerbForm tense = VerbForm.Base;
@@ -86,7 +86,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AttachObjectViaPreposition
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AttachObjectViaPrepositionTest() {
             string text = "insulate";
             VerbForm tense = VerbForm.Base;
@@ -101,7 +101,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDirectObjectTest() {
             string text = "gave";
             VerbForm tense = VerbForm.Base;
@@ -115,7 +115,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindIndirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindIndirectObjectTest() {
             string text = "gave";
             VerbForm tense = VerbForm.Base;
@@ -129,7 +129,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindSubject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindSubjectTest() {
             string text = "gave";
             VerbForm tense = VerbForm.Base;
@@ -145,7 +145,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ModifyWith
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifyWithTest() {
             string text = "insulate";
             VerbForm tense = VerbForm.Base;
@@ -160,7 +160,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modality
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModalityTest() {
             string text = "insulate";
             VerbForm tense = VerbForm.Base;
@@ -178,7 +178,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Subjects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubjectsTest() {
             string text = "attack";
             //            VerbForm form = (VerbForm)(new Random(DateTime.Now.Millisecond).Next(0, Enum.GetValues(typeof(VerbForm)).Length)); // TODO: Initialize to an appropriate value
@@ -197,7 +197,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifiers
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifiersTest() {
             string text = "attacked";
             VerbForm form = VerbForm.Past;
@@ -217,7 +217,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IsPossessive
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsPossessiveTest() {
             string text = "has";
             VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
@@ -230,7 +230,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IsClassifier
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsClassifierTest() {
             string text = "is";
             VerbForm form = new VerbForm(); // TODO: Initialize to an appropriate value
@@ -243,7 +243,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectsTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -262,7 +262,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectsTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -280,7 +280,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateSubject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateSubjectTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -297,7 +297,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateIndirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateIndirectObjectTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -314,7 +314,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateDirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateDirectObjectTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -334,7 +334,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for HasSubjectOrObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HasSubjectOrObjectTest() {
             string text = "attack";
             VerbForm form = VerbForm.Base;
@@ -367,7 +367,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for HasSubject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HasSubjectTest() {
             string text = "hired";
             VerbForm form = VerbForm.Past;

@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for SuperlativeAdverbTest and is intended
     ///to contain all SuperlativeAdverbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SuperlativeAdverbTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SuperlativeAdverb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SuperlativeAdverbConstructorTest() {
             string text = "worthiest";
             SuperlativeAdverb target = new SuperlativeAdverb(text);

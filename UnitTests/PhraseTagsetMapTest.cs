@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is a test class for PhraseTagsetMapTest and is intended
     ///to contain all PhraseTagsetMapTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PhraseTagsetMapTest
     {
 
@@ -108,7 +108,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ItemTest() {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             string tag = "NP";
@@ -121,7 +121,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ItemTest1() {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             Func<IEnumerable<Word>, Phrase> mappedConstructor = ws => new NounPhrase(ws);
@@ -133,7 +133,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ItemTest2() {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });

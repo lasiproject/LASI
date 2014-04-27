@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for TaggedFileTest and is intended
     ///to contain all TaggedFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TaggedFileTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggedFile Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggedFileConstructorTest() {
             string filePath = string.Empty; // TODO: Initialize to an appropriate value
             TaggedFile target = new TaggedFile(filePath);
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             string filePath = string.Empty; // TODO: Initialize to an appropriate value
             TaggedFile target = new TaggedFile(filePath); // TODO: Initialize to an appropriate value
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             string filePath = string.Empty; // TODO: Initialize to an appropriate value
             TaggedFile target = new TaggedFile(filePath); // TODO: Initialize to an appropriate value

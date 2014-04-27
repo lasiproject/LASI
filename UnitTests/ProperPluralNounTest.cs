@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for ProperPluralNounTest and is intended
     ///to contain all ProperPluralNounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ProperPluralNounTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ProperPluralNoun Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ProperPluralNounConstructorTest() {
             string text = "Canadians";
             ProperPluralNoun target = new ProperPluralNoun(text);
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for QuantifiedBy
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void QuantifierTest() {
             string text = "Canadians";
             ProperPluralNoun target = new ProperPluralNoun(text);

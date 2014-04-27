@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for SymbolTest and is intended
     ///to contain all SymbolTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SymbolTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Symbol Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SymbolConstructorTest() {
             char character = ',';
             Symbol target = new Symbol(character);

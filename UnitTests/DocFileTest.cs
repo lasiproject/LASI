@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for DocFileTest and is intended
     ///to contain all DocFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DocFileTest
     {
 
@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocFile Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocFileConstructorTest() {
             DocFile target = new DocFile(DOC_TEST_FILE_PATH);
             Assert.AreEqual(target.Ext, DocFile.EXTENSION);
@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             DocFile target = new DocFile(DOC_TEST_FILE_PATH);
             string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";
@@ -90,7 +90,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             DocFile target = new DocFile(DOC_TEST_FILE_PATH);
             string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";

@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for PastTenseVerbTest and is intended
     ///to contain all PastTenseVerbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PastTenseVerbTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PastTenseVerb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PastTenseVerbConstructorTest() {
             string text = "had";
             VerbForm past = VerbForm.Past;

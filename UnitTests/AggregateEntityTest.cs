@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for AggregateEntityTest and is intended
     ///to contain all AggregateEntityTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class AggregateEntityTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateEntity Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateEntityConstructorTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -79,7 +79,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AddPossession
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AddPossessionTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new CommonPluralNoun("cats")),
@@ -94,7 +94,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDescriptor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDescriptorTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -109,7 +109,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindPronoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindPronounTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -129,7 +129,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetEnumerator
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetEnumeratorTest() {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);
@@ -144,7 +144,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -160,7 +160,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BoundPronouns
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BoundPronounsTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -177,7 +177,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Descriptors
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescriptorsTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -197,7 +197,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectOfTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new CommonPluralNoun("cats")),
@@ -214,7 +214,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectOfTest() {
             IEnumerable<IEntity> members = new[] { new CommonSingularNoun("spoon"), new CommonSingularNoun("fork") };
             AggregateEntity target = new AggregateEntity(members);
@@ -228,7 +228,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for MetaWeight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void MetaWeightTest() {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);
@@ -242,7 +242,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Possessed
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossessedTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new CommonPluralNoun("cats")),
@@ -263,7 +263,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Possesser
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossesserTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new CommonPluralNoun("cats")),
@@ -280,7 +280,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SubjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubjectOfTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new CommonPluralNoun("cats")),
@@ -297,7 +297,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
@@ -312,7 +312,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Type
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TypeTest() {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);
@@ -325,7 +325,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Weight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WeightTest() {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);

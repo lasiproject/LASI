@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for ITaggedTextSourceTest and is intended
     ///to contain all ITaggedTextSourceTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ITaggedTextSourceTest
     {
 
@@ -82,7 +82,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = GetExpectedText();
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = GetExpectedText();
@@ -107,7 +107,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Name
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NameTest() {
             ITaggedTextSource target = CreateITaggedTextSource();
             string actual;

@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for PastParticipleVerbTest and is intended
     ///to contain all PastParticipleVerbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PastParticipleVerbTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PastParticipleVerb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PastParticipleVerbConstructorTest() {
             string text = "abided";
             PastParticipleVerb target = new PastParticipleVerb(text);

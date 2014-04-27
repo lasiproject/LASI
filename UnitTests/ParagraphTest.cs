@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is A test class for ParagraphTest and is intended
     ///to contain all ParagraphTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ParagraphTest
     {
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
@@ -102,7 +102,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             Phrase[] phrases1 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
@@ -135,7 +135,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for EstablishParent
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EstablishParentTest() {
             Phrase[] phrases1 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
@@ -166,7 +166,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Words
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WordsTest() {
             IEnumerable<Sentence> sentences = new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -209,7 +209,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Phrases
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhrasesTest() {
             IEnumerable<Sentence> sentences = new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -253,7 +253,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetPhrasesAfter
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetPhrasesAfterTest() {
             var startAfter = new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
@@ -296,7 +296,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Paragraph Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParagraphConstructorTest() {
             IEnumerable<Sentence> sentences = new Sentence[] { 
                     new Sentence(new Clause[] {

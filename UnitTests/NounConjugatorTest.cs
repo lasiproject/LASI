@@ -13,7 +13,7 @@ namespace LASI.UnitTests
     ///This is A test class for NounConjugatorTest and is intended
     ///to contain all NounConjugatorTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class NounConjugatorTest
     {
         #region Fields
@@ -2126,7 +2126,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for FindRoot
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FindRootTest() {
             string conjugated = "birds";
             string expected = "bird"; // TODO: Initialize to an appropriate value
@@ -2138,7 +2138,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetLexicalForms
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetConjugationsTest() {
             string root = "kitten";
             IEnumerable<string> expected = new[] { "kittens" }; // TODO: Initialize to an appropriate value

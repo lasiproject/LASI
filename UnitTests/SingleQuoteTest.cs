@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for SingleQuoteTest and is intended
     ///to contain all SingleQuoteTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SingleQuoteTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PairWith
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PairWithTest() {
             SingleQuote target = new SingleQuote(); 
             SingleQuote complement = new SingleQuote();
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SingleQuote Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SingleQuoteConstructorTest() {
             SingleQuote target = new SingleQuote();
             Assert.IsTrue(target.Text == "'");

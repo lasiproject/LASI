@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for ILexicalTest and is intended
     ///to contain all ILexicalTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ILexicalTest
     {
 
@@ -74,7 +74,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for MetaWeight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void MetaWeightTest() {
             ILexical target = CreateILexical();
             double expected = 1d;
@@ -87,7 +87,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PrepositionOnLeft
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PrepositionOnLeftTest() {
             ILexical target = CreateILexical();
             IPrepositional expected = new Preposition("with");
@@ -100,7 +100,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PrepositionOnRight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PrepositionOnRightTest() {
             ILexical target = CreateILexical();
             IPrepositional expected = new Preposition("with");
@@ -113,7 +113,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             ILexical target = CreateILexical();
             string actual;
@@ -124,7 +124,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Type
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TypeTest() {
             ILexical target = CreateILexical();  
             Type actual;
@@ -135,7 +135,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Weight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WeightTest() {
             ILexical target = CreateILexical();
             double expected = 1d;

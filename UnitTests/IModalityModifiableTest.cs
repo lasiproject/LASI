@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for IModalityModifiableTest and is intended
     ///to contain all IModalityModifiableTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IModalityModifiableTest
     {
 
@@ -70,7 +70,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modality
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModalityTest() {
             IModalityModifiable target = CreateIModalityModifiable();
             ModalAuxilary expected = new ModalAuxilary("might");

@@ -7,14 +7,14 @@ using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.UnitTests
 {
-    [TestClass()]
+    [TestClass]
     public class CharExtensionsTests
     {
         private const string CONSONANTS = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
         private const string VOWELS = "aeiouyAEIOUY";
         private const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        [TestMethod()]
+        [TestMethod]
         public void IsConsonantTest() {
             foreach (var c in CONSONANTS) {
                 Assert.IsTrue(c.IsConsonant());
@@ -22,14 +22,14 @@ namespace LASI.UnitTests
 
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IsVowelTest() {
             foreach (var c in VOWELS) {
                 Assert.IsTrue(c.IsVowel());
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IsEnglishLetterTest() {
             for (var c = char.MinValue; c < char.MaxValue; ++c) {
                 if (ALPHABET.Contains(c)) {
@@ -39,11 +39,11 @@ namespace LASI.UnitTests
                 }
             }
         }
-        [TestMethod()]
+        [TestMethod]
         public void IsUpperTest() {
             for (char c = char.MinValue; c < char.MaxValue; ++c) { Assert.AreEqual(c.IsUpper(), char.IsUpper(c)); }
         }
-        [TestMethod()]
+        [TestMethod]
         public void IsLowerTest() {
             for (char c = char.MinValue; c < char.MaxValue; ++c) { Assert.AreEqual(c.IsLower(), char.IsLower(c)); }
         }

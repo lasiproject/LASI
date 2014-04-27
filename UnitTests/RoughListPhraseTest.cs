@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for RoughListPhraseTest and is intended
     ///to contain all RoughListPhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class RoughListPhraseTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for RoughListPhrase Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RoughListPhraseConstructorTest() {
             IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
             RoughListPhrase target = new RoughListPhrase(composedWords);

@@ -13,7 +13,7 @@ namespace LASI.UnitTests
     ///This is a test class for TaggedTextFragmentTest and is intended
     ///to contain all TaggedTextFragmentTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TaggedTextFragmentTest
     {
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggedTextFragment Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggedTextFragmentConstructorTest() {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
@@ -84,7 +84,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
@@ -102,7 +102,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",

@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for PdfToTextConverterTest and is intended
     ///to contain all PdfToTextConverterTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PdfToTextConverterTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PdfToTextConverter Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PdfToTextConverterConstructorTest() {
             PdfFile infile = null; // TODO: Initialize to an appropriate value
             PdfToTextConverter target = new PdfToTextConverter(infile);
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFile
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileTest() {
             PdfFile infile = null; // TODO: Initialize to an appropriate value
             PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFileAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileAsyncTest() {
             PdfFile infile = null; // TODO: Initialize to an appropriate value
             PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value

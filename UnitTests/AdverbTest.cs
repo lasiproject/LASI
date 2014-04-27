@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for AdverbTest and is intended
     ///to contain all AdverbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class AdverbTest
     {
 
@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifies
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModiffiedTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
@@ -82,7 +82,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Adverb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AdverbConstructorTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
@@ -92,7 +92,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifies
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifiesTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
@@ -106,7 +106,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifiers
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifiersTest() {
             string text = "unfothomably";
             Adverb target = new Adverb(text);
@@ -118,7 +118,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ModifyWith
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifyWithTest() {
             string text = "unfothomably";
             Adverb target = new Adverb(text);

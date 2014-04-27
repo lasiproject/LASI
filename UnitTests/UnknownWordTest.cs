@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for UnknownWordTest and is intended
     ///to contain all UnknownWordTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class UnknownWordTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for UnknownWord Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void UnknownWordConstructorTest() {
             string text = "qmilgestroph";
             UnknownWord target = new UnknownWord(text);

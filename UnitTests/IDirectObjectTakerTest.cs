@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for IDirectObjectTakerTest and is intended
     ///to contain all IDirectObjectTakerTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IDirectObjectTakerTest
     {
 
@@ -71,7 +71,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDirectObjectTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
             IEntity directObject = new PersonalPronoun("them");
@@ -82,7 +82,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateDirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateDirectObjectTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
             IAggregateEntity aggregateObject = new AggregateEntity(new[]{
@@ -97,7 +97,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectsTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
             IEnumerable<IEntity> actual;

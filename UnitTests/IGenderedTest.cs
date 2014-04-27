@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for IGenderedTest and is intended
     ///to contain all IGenderedTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IGenderedTest
     {
 
@@ -71,7 +71,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Gender
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GenderTest() {
             ISimpleGendered target = CreateIGendered();  
             Gender actual;

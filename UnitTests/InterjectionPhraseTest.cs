@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for InterjectionPhraseTest and is intended
     ///to contain all InterjectionPhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class InterjectionPhraseTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for InterjectionPhrase Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void InterjectionPhraseConstructorTest() {
             IEnumerable<Word> composed = new Word[] { new Preposition("by"), new Interjection("jove") };
             InterjectionPhrase target = new InterjectionPhrase(composed);

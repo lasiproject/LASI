@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for PunctuatorTest and is intended
     ///to contain all PunctuatorTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PunctuatorTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Punctuation Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PunctuatorConstructorTest() {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Punctuator Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PunctuatorConstructorTest2() {
             string punctuation = "!";
             Punctuator target = new Punctuator(punctuation);
@@ -102,7 +102,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Punctuator Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PunctuatorConstructorTest3() {
             char punctuation = '.';
             Punctuator target = new Punctuator(punctuation);

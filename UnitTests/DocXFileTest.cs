@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for DocXFileTest and is intended
     ///to contain all DocXFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DocXFileTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocXFile Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocXFileConstructorTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
             DocXFile target = new DocXFile(absolutePath);
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
             DocXFile target = new DocXFile(absolutePath); // TODO: Initialize to an appropriate value
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
             DocXFile target = new DocXFile(absolutePath); // TODO: Initialize to an appropriate value

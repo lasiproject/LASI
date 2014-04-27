@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for InputFileTest and is intended
     ///to contain all InputFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class InputFileTest
     {
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
@@ -97,7 +97,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetHashCode
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetHashCodeTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
@@ -110,7 +110,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
@@ -125,7 +125,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
@@ -140,7 +140,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             InputFile target = CreateInputFile(); // TODO: Initialize to an appropriate value
             string expected = string.Format("{0}: {1} in: {2}", target.GetType(), target.FileName, target.Directory);
@@ -152,7 +152,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for op_Equality
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void op_EqualityTest() {
             InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
             InputFile right = null;
@@ -174,7 +174,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for op_Inequality
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void op_InequalityTest() {
             InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
             InputFile right = null;
@@ -196,7 +196,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Directory
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectoryTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
@@ -209,7 +209,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Ext
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ExtTest() {
             var fullPath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(fullPath);
@@ -222,7 +222,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for FileName
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FileNameTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
             InputFile target = new PdfFile(relativePath);
@@ -235,7 +235,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for FullPath
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FullPathTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
@@ -245,7 +245,7 @@ namespace LASI.UnitTests
         }        /// <summary>
                  ///A test for FullPath
                  ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FullPathTest1() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
@@ -257,7 +257,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Name
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NameTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment1.doc";
             InputFile target = new DocFile(relativePath);
@@ -270,7 +270,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for NameSansExt
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NameSansExtTest() {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
             InputFile target = new TxtFile(relativePath);
@@ -283,7 +283,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PathSansExt
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PathSansExtTest() {
             var absolutePath = System.IO.Path.GetFullPath(@"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf");
             InputFile target = new PdfFile(absolutePath);

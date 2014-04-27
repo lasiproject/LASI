@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is A test class for FunctionExtensionsTest and is intended
     ///to contain all FunctionExtensionsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class FunctionExtensionsTest
     {
         private TestContext testContextInstance;
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
 
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ComposeTest1() {
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
         }

@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for DoubleQuoteTest and is intended
     ///to contain all DoubleQuoteTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DoubleQuoteTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DoubleQuote Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DoubleQuoteConstructorTest() {
             DoubleQuote target = new DoubleQuote();
             Assert.AreEqual(target.PairedWith, null);
@@ -74,7 +74,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PairWith
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PairWithTest() {
             DoubleQuote target = new DoubleQuote();
             DoubleQuote complement = new DoubleQuote();

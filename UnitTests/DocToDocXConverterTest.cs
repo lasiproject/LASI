@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DocToDocXConverterTest
     {
 
@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocToDocXConverter Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocToDocXConverterConstructorTest() {
             var infile = InitInputFileWrapper();
             DocToDocXConverter target = new DocToDocXConverter(infile);
@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocToDocXConverter Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocToDocXConverterConstructorTest1() {
             var infile = InitInputFileWrapper();
             string DocxFilesDir = @"..\..\..\NewProject\input\docx";
@@ -94,7 +94,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFile
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileTest() {
             var infile = InitInputFileWrapper();
             DocToDocXConverter target = new DocToDocXConverter(infile);
@@ -106,7 +106,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ConvertFileAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public async Task ConvertFileAsyncTest() {
             var infile = InitInputFileWrapper();
             DocToDocXConverter target = new DocToDocXConverter(infile);

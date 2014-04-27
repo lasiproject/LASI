@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is a test class for TaggerTest and is intended
     ///to contain all TaggerTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TaggerTest
     {
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromDoc
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromDocTest() {
             DocFile doc = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -82,7 +82,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromDocX
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromDocXTest() {
             DocXFile docx = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -95,7 +95,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromPDF
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromPDFTest() {
             PdfFile pdf = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -108,7 +108,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromRaw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromRawTest() {
             IEnumerable<string> strs = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -121,7 +121,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromRaw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromRawTest1() {
             TxtFile txt = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -134,7 +134,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromRaw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromRawTest2() {
             IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -147,7 +147,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromRawAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromRawAsyncTest() {
             TxtFile txt = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
@@ -160,7 +160,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromRawAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromRawAsyncTest1() {
             IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
@@ -173,7 +173,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromTagged
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromTaggedTest() {
             ITaggedTextSource tagged = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -186,7 +186,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromTagged
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromTaggedTest1() {
             IEnumerable<string> tagged = null; // TODO: Initialize to an appropriate value
             Document expected = null; // TODO: Initialize to an appropriate value
@@ -199,7 +199,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromTaggedAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromTaggedAsyncTest() {
             ITaggedTextSource tagged = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
@@ -212,7 +212,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DocumentFromTaggedAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentFromTaggedAsyncTest1() {
             TaggedFile taggedFile = null; // TODO: Initialize to an appropriate value
             Task<Document> expected = null; // TODO: Initialize to an appropriate value
@@ -225,7 +225,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggedFromRaw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggedFromRawTest() {
             IEnumerable<string> strs = null; // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
@@ -238,7 +238,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggedFromRaw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggedFromRawTest1() {
             IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             ITaggedTextSource expected = null; // TODO: Initialize to an appropriate value
@@ -251,7 +251,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggedFromRawAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggedFromRawAsyncTest() {
             IRawTextSource textSource = null; // TODO: Initialize to an appropriate value
             Task<ITaggedTextSource> expected = null; // TODO: Initialize to an appropriate value
@@ -264,7 +264,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TaggerMode
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TaggerModeTest() {
             TaggerMode expected = TaggerMode.FullyNestingParse;
             TaggerMode actual;

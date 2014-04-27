@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for ProperNounTest and is intended
     ///to contain all ProperNounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ProperNounTest
     {
 
@@ -73,7 +73,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IsPersonalName
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsPersonalNameTest() {
             foreach (ProperNoun target in CreateProperNouns()) {
                 bool actual;

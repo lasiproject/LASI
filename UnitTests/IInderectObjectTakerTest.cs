@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for IInderectObjectTakerTest and is intended
     ///to contain all IInderectObjectTakerTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IInderectObjectTakerTest
     {
 
@@ -71,7 +71,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindIndirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindIndirectObjectTest() {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IEntity indirectObject = new NounPhrase(new Word[] { new PossessivePronoun("my"), new CommonSingularNoun("friend") });
@@ -83,7 +83,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AggregateIndirectObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AggregateIndirectObjectTest() {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IAggregateEntity actual =
@@ -99,7 +99,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectsTest() {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IEnumerable<IEntity> actual = new IEntity[] {

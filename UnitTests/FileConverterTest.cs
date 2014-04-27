@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for FileConverterTest and is intended
     ///to contain all FileConverterTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class FileConverterTest
     {
         private const string TEST_FILE_LOCATION = @"..\..\..\TestDocs\";
@@ -105,7 +105,7 @@ namespace LASI.UnitTests
             return target;
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileTest() {
             ConvertFileTestHelper<DocXFile, TxtFile>();
         }
@@ -127,7 +127,7 @@ namespace LASI.UnitTests
             fileHandler.Clean();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ConvertFileAsyncTest() {
             ConvertFileAsyncTestHelper<DocXFile, TxtFile>();
         }

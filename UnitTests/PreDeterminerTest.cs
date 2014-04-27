@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for PreDeterminerTest and is intended
     ///to contain all PreDeterminerTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PreDeterminerTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PreDeterminer Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PreDeterminerConstructorTest() {
             string text = "both";
             PreDeterminer target = new PreDeterminer(text);

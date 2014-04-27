@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for TextFileTest and is intended
     ///to contain all TextFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TextFileTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for TextFile Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextFileConstructorTest() {
             string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             TxtFile target = new TxtFile(path);
@@ -78,7 +78,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             TxtFile target = new TxtFile(path);
@@ -91,7 +91,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             TxtFile target = new TxtFile(path);

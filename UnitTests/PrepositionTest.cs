@@ -13,7 +13,7 @@ namespace LASI.UnitTests
     ///This is A test class for PrepositionTest and is intended
     ///to contain all PrepositionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PrepositionTest
     {
 
@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Preposition Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PrepositionConstructorTest() {
             string text = "into";
             Preposition target = new Preposition(text);
@@ -82,7 +82,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObjectOfPreposition
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectOfPrepositionTest() {
             string text = "into";
             Preposition target = new Preposition(text);
@@ -95,7 +95,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnLeftSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnLeftSideTest() {
             string text = "into";
             Preposition target = new Preposition(text);
@@ -110,7 +110,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnRightSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnRightSideTest() {
             string text = "into";
             Preposition target = new Preposition(text);
@@ -127,7 +127,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheRightOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheRightOfTest() {
             string text = "into";
             Preposition target = new Preposition(text);
@@ -141,7 +141,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheLeftOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheLeftOfTest() {
             string text = "inside";
             Preposition target = new Preposition(text);
@@ -153,25 +153,12 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Subordinates
-        ///</summary>
-        [TestMethod()]
-        public void SubordinatesTest() {
-            string text = string.Empty; // TODO: Initialize to an appropriate value
-            Preposition target = new Preposition(text); // TODO: Initialize to an appropriate value
-            ILexical expected = null; // TODO: Initialize to an appropriate value
-            ILexical actual;
-            target.Subordinates = expected;
-            actual = target.Subordinates;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+
 
         /// <summary>
         ///A test for Role
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RoleTest() {
             string text = "over";
             Preposition target = new Preposition(text);
@@ -185,7 +172,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             string text = "with";
             Preposition target = new Preposition(text);
@@ -198,7 +185,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectTest() {
             string text = "with";
             Preposition target = new Preposition(text);

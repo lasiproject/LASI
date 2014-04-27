@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for ISimpleGenderedTest and is intended
     ///to contain all ISimpleGenderedTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ISimpleGenderedTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Gender
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GenderTest1() {
             ISimpleGendered target = new ProperSingularNoun("Jack");
             Gender actual;
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Gender
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         private void GenderTest2() {
             ISimpleGendered target = new ProperSingularNoun("Jill");
             Gender actual = target.Gender;
@@ -85,7 +85,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Gender
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         private void GenderTest3() {
             ISimpleGendered target = new ProperSingularNoun("Carnegie");
             Gender actual = target.Gender;
@@ -94,7 +94,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Gender
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         private void GenderTest4() {
             ISimpleGendered target = new ProperSingularNoun("LASI");
             Gender actual = target.Gender;

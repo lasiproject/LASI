@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is A test class for VerbConjugatorTest and is intended
     ///to contain all VerbConjugatorTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class VerbConjugatorTest
     {
 
@@ -70,7 +70,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetLexicalForms
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetConjugationsTest() {
             string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 
@@ -88,7 +88,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for FindRoot
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FindRootTest() {
             string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
 

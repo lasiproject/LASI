@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for ConjunctionTest and is intended
     ///to contain all ConjunctionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ConjunctionTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Conjunction Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConjunctionConstructorTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnLeft
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnLeftTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
@@ -91,7 +91,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnRight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnRightTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);
@@ -105,7 +105,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for JoinedLeft
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void JoinedLeftTest() {
             string text = "or";
             Conjunction target = new Conjunction(text);
@@ -119,7 +119,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for JoinedRight
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void JoinedRightTest() {
             string text = "and";
             Conjunction target = new Conjunction(text);

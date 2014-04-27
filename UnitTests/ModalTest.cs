@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for ModalTest and is intended
     ///to contain all ModalTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ModalTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ModalAuxilary Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModalConstructorTest() {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
@@ -76,7 +76,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifies
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifiesTest() {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);

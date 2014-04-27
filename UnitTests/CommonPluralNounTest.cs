@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for GenericPluralNounTest and is intended
     ///to contain all GenericPluralNounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class CommonPluralNounTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for CommonPluralNoun Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CommonPluralNounConstructorTest() {
             string text = "clowns";
             CommonPluralNoun target = new CommonPluralNoun(text);
@@ -75,7 +75,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for QuantifiedBy
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void QuantifiedByTest() {
             string text = "clowns";
             CommonPluralNoun target = new CommonPluralNoun(text);

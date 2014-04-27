@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for NounPhraseTest and is intended
     ///to contain all NounPhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class NounPhraseTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for NounPhrase Constructorf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NounPhraseConstructorTest() {
             IEnumerable<Word> composedWords = new Word[] {
                 new ProperPluralNoun("Americans"),
@@ -81,7 +81,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDescriptor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -93,7 +93,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindPronoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindPronounTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -106,7 +106,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
@@ -116,7 +116,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Descriptors
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescribedByTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -132,7 +132,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -146,7 +146,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -160,7 +160,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectReferences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectReferencesTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -173,7 +173,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PossessesFor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossesserTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -188,7 +188,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SubjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubjectOfTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -203,7 +203,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AddPossession
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AddPossessionTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -215,7 +215,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy") };
             NounPhrase target = new NounPhrase(composedWords);
@@ -229,7 +229,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Referees
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RefereesTest() {
             IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
             NounPhrase target = new NounPhrase(composed);
@@ -246,7 +246,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Possessed
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossessedTest() {
             IEnumerable<Word> composed = new Word[] { new Adjective("large"), new CommonSingularNoun("elephants") };
             NounPhrase target = new NounPhrase(composed);
@@ -260,7 +260,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OuterAttributive
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OuterAttributiveTest() {
             NounPhrase target = new NounPhrase(new Word[] { new ProperSingularNoun("Catus") });
             NounPhrase expected = new NounPhrase(new Word[] { new ProperSingularNoun("Felis") });
@@ -273,7 +273,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for InnerAttributive
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void InnerAttributiveTest() {
             NounPhrase target = new NounPhrase(new Word[] { new ProperSingularNoun("Felis") });
             NounPhrase expected = new NounPhrase(new Word[] { new ProperSingularNoun("Catus") });
@@ -289,7 +289,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Descriptors
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescriptorsTest() {
             IEnumerable<Word> composed = new Word[] { new Determiner("the"), new CommonSingularNoun("elephants") };
             NounPhrase target = new NounPhrase(composed);
@@ -306,7 +306,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindReferencer
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindReferencerTest() {
             IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant") };
             NounPhrase target = new NounPhrase(composed);
@@ -319,7 +319,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDescriptor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDescriptorTest() {
             IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
             NounPhrase target = new NounPhrase(composed);

@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PdfFileTest
     {
         private const string TEST_PDF_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PdfFile Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PdfFileConstructorTest() {
             PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
             FileInfo pdfInfo = new FileInfo(TEST_PDF_FILE_PATH);
@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
             string expected = new PdfToTextConverter(target).ConvertFile().GetText();
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             string path = TEST_PDF_FILE_PATH;
             PdfFile target = new PdfFile(path);

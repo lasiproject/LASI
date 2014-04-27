@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for ExistentialTest and is intended
     ///to contain all ExistentialTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ExistentialTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Existential Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ExistentialConstructorTest() {
             string text = "there";
             Existential target = new Existential(text);

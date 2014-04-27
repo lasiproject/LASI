@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is A test class for NounTest and is intended
     ///to contain all NounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class NounTest
     {
 
@@ -74,7 +74,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for AddPossession
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AddPossessionTest() {
             Noun target = CreateNoun();
             IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
@@ -85,7 +85,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDescriptor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDescriberTest() {
             Noun target = CreateNoun();
             IDescriptor adjective = new Adjective("rambunctious");
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindPronoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindPronounTest() {
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
@@ -108,7 +108,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Descriptors
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescribedByTest() {
             Noun target = CreateNoun();
 
@@ -118,7 +118,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectOfTest() {
             Noun target = CreateNoun();
             IVerbal expected = new PastTenseVerb("walked");
@@ -133,7 +133,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectOfTest() {
             Noun target = CreateNoun();
             IVerbal expected = new PastTenseVerb("gave");
@@ -146,7 +146,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectReferences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectReferencesTest() {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
@@ -157,7 +157,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Possessed
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossessedTest() {
             Noun target = CreateNoun();
             IEnumerable<IPossessable> actual;
@@ -168,7 +168,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PossessesFor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PossesserTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
@@ -181,7 +181,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SubjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubjectOfTest() {
             Noun target = CreateNoun();
             IVerbal expected = new Verb("runs", VerbForm.SingularPresent);
@@ -194,7 +194,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SuperTaxonomicNoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SuperTaxonomicNounTest() {
             Noun target = CreateNoun();
             Noun expected = new ProperSingularNoun("Highland");
@@ -208,7 +208,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SubTaxonomicNoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubTaxonomicNounTest() {
             Noun target = CreateNoun();
             Noun expected = new CommonSingularNoun("food");
@@ -221,7 +221,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Referees
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RefereesTest() {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
@@ -236,7 +236,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for QuantifiedBy
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void QuantifiedByTest() {
             Noun target = CreateNoun();
             IQuantifier expected = new Quantifier("3");
@@ -251,7 +251,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Descriptors
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescriptorsTest() {
             Noun target = CreateNoun();
 
@@ -269,7 +269,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindReferencer
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindReferencerTest() {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IReferencer pro = new PersonalPronoun("it");
@@ -282,7 +282,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDeterminer
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDeterminerTest() {
             Noun target = CreateNoun();
             Determiner determiner = new Determiner("the");
@@ -294,7 +294,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindDescriptor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindDescriptorTest() {
             Noun target = CreateNoun();
             IDescriptor descriptor = new Adjective("red");

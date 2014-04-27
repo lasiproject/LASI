@@ -12,7 +12,7 @@ namespace LASI.Core
     /// <para> Represents a preposition such as "below", "atop", "into", "through", "by","via", or "for". </para> 
     /// <para> Example: The duplicitous blue bird, via its treacherous machinations, betrayed the ardent, hard-working dog. </para> 
     /// </summary>
-    public class Preposition : Word, IPrepositional, ISubordinator
+    public class Preposition : Word, IPrepositional
     {
 
         #region Constructors
@@ -69,10 +69,7 @@ namespace LASI.Core
         /// </summary>
         /// <see cref="Role"/>
         public PrepositionRole Role { get; set; }
-        /// <summary>
-        /// Gets or sets the Lexical construct which is subordinated by the Preposition.
-        /// </summary>
-        public ILexical Subordinates { get; set; }
+ 
 
         #endregion
 

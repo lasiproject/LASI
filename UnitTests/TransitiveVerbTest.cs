@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for TransitiveVerbTest and is intended
     ///to contain all TransitiveVerbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TransitiveVerbTest
     {
 

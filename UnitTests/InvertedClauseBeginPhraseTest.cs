@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for InvertedClauseBeginPhraseTest and is intended
     ///to contain all InvertedClauseBeginPhraseTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class InvertedClauseBeginPhraseTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for InvertedClauseBeginPhrase Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void InvertedClauseBeginPhraseConstructorTest() {
             IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
             InvertedClauseBeginPhrase target = new InvertedClauseBeginPhrase(composed);

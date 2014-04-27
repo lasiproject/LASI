@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is a test class for IUntaggedTextSourceTest and is intended
     ///to contain all IUntaggedTextSourceTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class IRawTextSourceTest
     {
 
@@ -70,7 +70,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
             IRawTextSource target = new RawTextFragment(text, "test fragment");
@@ -83,7 +83,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
             IRawTextSource target = new RawTextFragment(text, "test fragment");
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Name
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NameTest() {
             string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
             IRawTextSource target = new RawTextFragment(text, "test fragment");

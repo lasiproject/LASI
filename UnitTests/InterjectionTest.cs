@@ -10,7 +10,7 @@ namespace LASI.UnitTests
     ///This is a test class for InterjectionTest and is intended
     ///to contain all InterjectionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class InterjectionTest
     {
 
@@ -64,7 +64,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Interjection Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void InterjectionConstructorTest() {
             string text = "ha";
             Interjection target = new Interjection(text);

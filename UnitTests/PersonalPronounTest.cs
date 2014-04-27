@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for PronounTest and is intended
     ///to contain all PronounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PersonalPronounTest
     {
 
@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PersonalPronoun Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PronounConstructorTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -79,7 +79,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindPronoun
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindPronounTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -91,7 +91,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest() {
             string text = "her";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -109,7 +109,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BoundEntity
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BoundEntityTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -123,7 +123,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for DirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -138,7 +138,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectObjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -152,7 +152,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IndirectReferences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndirectReferencesTest() {
             string text = "he";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -164,7 +164,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for SubjectOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -179,7 +179,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for EntityKind
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EntityKindTest() {
             string text = "they";
             PersonalPronoun target = new PersonalPronoun(text);
@@ -193,7 +193,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PersonalPronoun Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PersonalPronounConstructorTest() {
             string text = "her";
             PersonalPronoun target = new PersonalPronoun(text);

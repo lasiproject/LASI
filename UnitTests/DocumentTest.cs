@@ -16,7 +16,7 @@ namespace LASI.UnitTests
     ///This is A test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class DocumentTest
     {
 
@@ -143,7 +143,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Document Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentConstructorTest() {
             Document doc = CreateUnboundUnweightedTestDocument();
             Assert.IsTrue(doc.Words
@@ -158,7 +158,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetActions
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetVerbalsTest() {
 
             Document target = CreateUnboundUnweightedTestDocument();
@@ -186,7 +186,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetEntities
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetEntitiesTest() {
 
             Document target = CreateUnboundUnweightedTestDocument();
@@ -220,7 +220,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Paragraphs
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParagraphsTest() {
             IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
             Document target = new Document(paragraphsIn);
@@ -235,7 +235,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Phrases
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhrasesTest() {
 
             Document target = CreateUnboundUnweightedTestDocument();
@@ -251,7 +251,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Sentences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SentencesTest() {
             Sentence[] firstParagraphSentences = new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -296,7 +296,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Words
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WordsTest() {
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Word> actual;
@@ -313,7 +313,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Name
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NameTest() {
             Document target = CreateUnboundUnweightedTestDocument();
             string expected = "testname";
@@ -326,7 +326,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Clauses
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ClausesTest() {
             Sentence[] firstParagraphSentences = new Sentence[] { 
                     new Sentence(new Clause[] {
@@ -370,7 +370,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             Document target = CreateUnboundUnweightedTestDocument();
             string expected = string.Join("", target.GetType(), ":  ", target.Name, "\nParagraphs: \n", target.Paragraphs.Format());
@@ -382,7 +382,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Paginate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PaginateTest() {
             Document target = CreateUnboundUnweightedTestDocument();
             int lineLength = 80;
@@ -401,7 +401,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Paginate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PaginateTest1() {
             Document target = CreateUnboundUnweightedTestDocument();
             int lineLength = 80;

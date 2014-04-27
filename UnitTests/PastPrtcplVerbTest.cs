@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for PastPrtcplVerbTest and is intended
     ///to contain all PastPrtcplVerbTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PastPrtcplVerbTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PastPrtcplVerb Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PastPrtcplVerbConstructorTest() {
             string text = "gone";
             VerbForm pastprt = VerbForm.PastParticiple;

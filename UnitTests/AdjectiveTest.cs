@@ -14,7 +14,7 @@ namespace LASI.UnitTests
     ///This is A test class for AdjectiveTest and is intended
     ///to contain all AdjectiveTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class AdjectiveTest
     {
 
@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Adjective Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AdjectiveConstructorTest() {
             string text = "orangish";
             Adjective target = new Adjective(text);
@@ -78,7 +78,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ModifyWith
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifyWithTest() {
             Adjective target = new Adjective("orangish");
             Adverb adv = new Adverb("demonstrably");
@@ -91,7 +91,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Describes
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DescribesTest() {
             string text = "funny";
             Adjective target = new Adjective(text);
@@ -109,7 +109,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Modifiers
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ModifiersTest() {
             string text = "funny";
             Adjective target = new Adjective(text);

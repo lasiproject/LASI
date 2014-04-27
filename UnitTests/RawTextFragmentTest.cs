@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is a test class for RawTextFragmentTest and is intended
     ///to contain all RawTextFragmentTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class RawTextFragmentTest
     {
 
@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for RawTextFragment Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RawTextFragmentConstructorTest() {
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
             string name = "test fragment";
@@ -79,7 +79,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetText
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextTest() {
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
             string name = "test fragment";
@@ -92,7 +92,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetTextAsync
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetTextAsyncTest() {
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
             string name = "test fragment";
@@ -105,7 +105,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for op_Implicit
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void op_ImplicitTest() {
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
             string name = "test fragment";

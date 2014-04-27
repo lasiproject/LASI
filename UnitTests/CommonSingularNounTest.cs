@@ -11,7 +11,7 @@ namespace LASI.UnitTests
     ///This is A test class for GenericSingularNounTest and is intended
     ///to contain all GenericSingularNounTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class CommonSingularNounTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for CommonSingularNoun Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CommonSingularNounConstructorTest() {
             string text = "LASI"; // TODO: Initialize to an appropriate value
             CommonSingularNoun target = new CommonSingularNoun(text);

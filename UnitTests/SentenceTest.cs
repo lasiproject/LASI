@@ -15,7 +15,7 @@ namespace LASI.UnitTests
     ///This is A test class for SentenceTest and is intended
     ///to contain all SentenceTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SentenceTest
     {
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -81,7 +81,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Text
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TextTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -93,7 +93,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Words
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WordsTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -106,7 +106,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Phrases
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhrasesTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -118,7 +118,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for IsInverted
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsInvertedTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -132,7 +132,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Document
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DocumentTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -149,7 +149,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for GetPhrasesAfter
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetPhrasesAfterTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -163,7 +163,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for EstablishParenthood
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EstablishParenthoodTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, new SentenceEnding('.'));
@@ -179,7 +179,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Sentence Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SentenceConstructorTest() {
             IEnumerable<Clause> clauses = new Clause[] {
                         new Clause(new Phrase[] {

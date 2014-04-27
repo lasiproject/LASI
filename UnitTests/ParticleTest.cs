@@ -12,7 +12,7 @@ namespace LASI.UnitTests
     ///This is A test class for ParticleTest and is intended
     ///to contain all ParticleTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ParticleTest
     {
 
@@ -66,7 +66,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Particle Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParticleConstructorTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObjectOfPreposition
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectOfPrepositionTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -89,7 +89,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnLeftSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnLeftSideTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -103,7 +103,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for OnRightSide
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnRightSideTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -117,7 +117,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for PrepositionalRole
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PrepositionalRoleTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -130,7 +130,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheRightOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheRightOfTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -144,7 +144,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for ToTheLeftOf
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToTheLeftOfTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -158,7 +158,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Role
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RoleTest() {
             string text = "about";
             Particle target = new Particle(text);
@@ -172,7 +172,7 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for BindObject
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BindObjectTest() {
             string text = "about";
             Particle target = new Particle(text);
