@@ -56,6 +56,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IronPythonExperimentation",
 		{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21} = {BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessingNodeService", "ProcessingNodeService\ProcessingNodeService.csproj", "{07DC9C25-40F9-430A-84C7-6E82FD9FE765}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessingNodeService.Tests", "ProcessingNodeService.Tests\ProcessingNodeService.Tests.csproj", "{BE09593B-EA60-40E3-93CE-49AE763461DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +114,14 @@ Global
 		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07DC9C25-40F9-430A-84C7-6E82FD9FE765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DC9C25-40F9-430A-84C7-6E82FD9FE765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DC9C25-40F9-430A-84C7-6E82FD9FE765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DC9C25-40F9-430A-84C7-6E82FD9FE765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE09593B-EA60-40E3-93CE-49AE763461DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE09593B-EA60-40E3-93CE-49AE763461DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE09593B-EA60-40E3-93CE-49AE763461DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE09593B-EA60-40E3-93CE-49AE763461DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

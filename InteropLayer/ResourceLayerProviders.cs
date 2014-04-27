@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Interop
 {
-    using Mode = Performance.Mode;
+    using Mode = ResourceUsageManager.Mode;
     using MemoryHandler = EventHandler<MemoryThresholdExceededEventArgs>;
     /// <summary>
     /// Centrailizes management and control of the concurrency level of concurrent operations.
@@ -67,14 +67,13 @@ namespace LASI.Interop
 
         static Memory() {
             // Default to a medium or "normal" memory usage profile if none is specified.
-            SetFromPerformanceMode(Performance.Mode.Normal);
+            SetFromPerformanceMode(ResourceUsageManager.Mode.Normal);
             var checkIntervalTimer = new System.Timers.Timer(10000);
             checkIntervalTimer.Start();
             checkIntervalTimer.Elapsed += (sender, e) => {
                 var available = GetAvailableMemory();
                 if (available < MinRamThreshold) {
-                    MemoryUsageCritical(null, new MemoryThresholdExceededEventArgs
-                    {
+                    MemoryUsageCritical(null, new MemoryThresholdExceededEventArgs {
                         RemainingMemory = available,
                         TriggeringThreshold = MinRamThreshold
                     });
@@ -96,12 +95,12 @@ namespace LASI.Interop
                 var available = GetAvailableMemory();
                 if (available < threshold) {
                     availableRamDecreased(null,
-                        new MemoryThresholdExceededEventArgs
-                    {
-                        RemainingMemory = available,
-                        TriggeringThreshold = threshold
-                    });
-                } else if (available >= threshold + 128) {
+                        new MemoryThresholdExceededEventArgs {
+                            RemainingMemory = available,
+                            TriggeringThreshold = threshold
+                        });
+                }
+                else if (available >= threshold + 128) {
                     increased(null, new MemoryThresholdExceededEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
                 }
             };
@@ -115,6 +114,7 @@ namespace LASI.Interop
             return (MB)(uint)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
         }
 
+       
     }
 
 }

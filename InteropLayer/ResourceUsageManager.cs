@@ -12,7 +12,7 @@ namespace LASI.Interop
     /// <summary>
     /// Controls global performance and resource usage settings.
     /// </summary>
-    public static class Performance
+    public static class ResourceUsageManager
     {
         /// <summary>
         /// Sets the overall performance level based on the provided enumeration value, providing for coarse grained adjustments to the CPU and RAM consumption.
@@ -22,6 +22,20 @@ namespace LASI.Interop
             Concurrency.SetFromPerformanceMode(mode);
             Memory.SetFromPerformanceMode(mode);
         }
+        /// <summary>
+        /// Returns a ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.
+        /// </summary>
+        /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>
+        public static ResourceSample GetCurrentUsage() {
+            return new ResourceSample {
+                MemoryUsage = new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
+                CpuUsage = new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue(),
+                TimeWhenTaken = DateTime.Now
+            };
+        }
+
+
+
 
 
         /// <summary>
@@ -34,7 +48,7 @@ namespace LASI.Interop
             remove { Memory.MemoryUsageCritical -= value; }
         }
 
-        static Performance() {
+        static ResourceUsageManager() {
             MemoryThresholdExceeded += (sender, e) => {
                 LASI.Core.Heuristics.Lookup.ClearNounCache();
                 LASI.Core.Heuristics.Lookup.ClearVerbCache();
@@ -64,4 +78,30 @@ namespace LASI.Interop
         }
     }
 
+}
+
+namespace LASI.Interop
+{
+    /// <summary>
+    /// Represents a resource usage sample.
+    /// </summary>
+    public struct ResourceSample
+    {
+        /// <summary>
+        /// Gets the current CPU usage % of the machine hosting the application.        
+        /// </summary>
+        public float CpuUsage { get; internal set; }
+        /// <summary>
+        /// Gets the current Memory usage % of the machine hosting the application.        
+        /// </summary>
+        public float MemoryUsage { get; internal set; }
+        /// <summary>
+        /// Gets the local time of the machine hosting the application when the sample was taken.
+        /// </summary>
+        /// <returns></returns>
+        public DateTime TimeWhenTaken { get; internal set; }
+
+
+
+    }
 }
