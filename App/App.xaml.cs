@@ -24,9 +24,9 @@ namespace LASI.App
         }
 
         private static void LoadPreferences() {
-            Performance.Mode performanceLevel;
-            if (Enum.TryParse<Performance.Mode>(Settings.Default.PerformanceLevel, out performanceLevel)) {
-                Performance.SetPerformanceLevel(performanceLevel);
+            ResourceUsageManager.Mode performanceLevel;
+            if (Enum.TryParse<ResourceUsageManager.Mode>(Settings.Default.PerformanceLevel, out performanceLevel)) {
+                ResourceUsageManager.SetPerformanceLevel(performanceLevel);
             }
         }
     }

@@ -31,7 +31,8 @@ namespace LASI.WebApp.Areas.HelpPage
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly",
             MessageId = "bsonspec",
             Justification = "Part of a URI.")]
-        public static void Register(HttpConfiguration config) {
+        public static void Register(HttpConfiguration config)
+        {
             //// Uncomment the following to use the documentation from XML documentation file.
             //config.SetDocumentationProvider(new XmlDocumentationProvider(HttpContext.Current.Server.MapPath("~/App_Data/XmlDocument.xml")));
 
