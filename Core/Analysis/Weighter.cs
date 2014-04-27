@@ -107,9 +107,10 @@ namespace LASI.Core
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                              let result = e.Match().Yield<IEntity>()
-                                   .With<Noun>(e)
-                                   .With<IReferencer>(r => r.ReferesTo ?? r as IEntity)
-                               .Result()
+                                   .With((Noun n) => n)
+                                   .When((IReferencer r) => r.ReferesTo != null)
+                                   .Then((IReferencer r) => r.ReferesTo)
+                               .Result(e)
                              where result != null
                              select result;
 
@@ -129,9 +130,8 @@ namespace LASI.Core
         }
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                group e by new { e.Type, e.Text } into g
-                                select g.ToList();
-            byTypeAndText.ForAll(g => g.ForEach(e => e.Weight += g.Count));
+                                group e by new { e.Type, e.Text };
+            byTypeAndText.ForAll(g => { var elements = g.ToList(); elements.ForEach(e => e.Weight += elements.Count); });
 
         }
         /// <summary>
@@ -182,18 +182,20 @@ namespace LASI.Core
         }
         private static void WeightSimilarEntities(Document document) {
             var entities = document.GetEntities().ToList();
-
-            document.GetEntities().AsParallel().WithDegreeOfParallelism(Concurrency.Max).ForAll(outer => {
-                var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                             where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
-                             group inner by outer;
-                foreach (var group in groups) {
-                    var weightIncrease = group.Count() * .5;
-                    foreach (var inner in group) {
-                        inner.Weight += weightIncrease;
+            document.GetEntities()
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(outer => {
+                    var groups = from inner in entities.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                 where inner.IsAliasFor(outer) || inner.IsSimilarTo(outer)
+                                 group inner by outer;
+                    foreach (var group in groups) {
+                        var weightIncrease = group.Count() * .5;
+                        foreach (var inner in group) {
+                            inner.Weight += weightIncrease;
+                        }
                     }
-                }
-            });
+                });
 
         }
         private static void HackSubjectPropernounImportance(Document document) {
@@ -206,17 +208,17 @@ namespace LASI.Core
         private static void OldNormalizationProcedure(Document document) {
             double TotPhraseWeight = 0.0;
             double MaxWeight = 0.0;
-            int NonZeroWghts = 0;
+            int nonZeroWeights = 0;
             foreach (var w in document.Phrases) {
                 TotPhraseWeight += w.Weight;
 
                 if (w.Weight > 0)
-                    NonZeroWghts++;
+                    nonZeroWeights++;
 
                 if (w.Weight > MaxWeight)
                     MaxWeight = w.Weight;
             }
-            if (NonZeroWghts != 0) {//Caused a divide by zero exception if document was empty.
+            if (nonZeroWeights != 0) {//Caused a divide by zero exception if document was empty.
                 var ratio = 100 / MaxWeight;
 
                 foreach (var p in document.Phrases) {

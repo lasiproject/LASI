@@ -265,7 +265,7 @@ namespace LASI.Core.DocumentStructures
                 get {
                     return from sentence in Sentences
                            let paragraph = sentence.Paragraph
-                           orderby paragraph
+                           orderby Document.paragraphs.ToList().IndexOf(paragraph)
                            select paragraph;
                     //return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
                     //       group s.Index by s.Sentence.Paragraph into g
