@@ -223,6 +223,5 @@ WebEssentials-Settings.json
 
 TestDocs/Draft_Environmental_Assessment.txt
 *.docx
+*.doc
 *.zip
-*.zip
-*.docx
