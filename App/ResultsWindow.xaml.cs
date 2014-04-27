@@ -298,7 +298,7 @@ namespace LASI.App
             };
 
             if (dialog.ShowDialog() ?? false) {
-                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectDocuments);
+                var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
                 metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToTextItemSource();
             }
         }
