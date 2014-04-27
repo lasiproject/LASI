@@ -18,21 +18,21 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
         public static JObject ToJObject(this IEntity entity) {
             return new JObject{
                 { "Name: ", ElementNames[entity] },
-                { "Weight", entity.Weight }, 
+                { "Weight", entity.Weight },
                 { "MetaWeight", entity.MetaWeight },
                 { "SubjectOf", ElementNames[entity.SubjectOf] },
                 { "DirectObjectOf", ElementNames[entity.DirectObjectOf] },
                 { "Referees",
                     new JArray(
-                    from r in entity.Referencers 
+                    from r in entity.Referencers
                     select ElementNames[r]) },
                 { "Descriptors",
                     new JArray(
-                    from d in entity.Descriptors 
+                    from d in entity.Descriptors
                     select ElementNames[d]) },
                 { "Possessed",
                     new JArray(
-                    from p in entity.Possessed 
+                    from p in entity.Possessed
                     select ElementNames[p]) },
             };
         }
@@ -67,7 +67,7 @@ namespace LASI.ContentSystem.Serialization.XML.ILexicalExtensions
             public string this[ILexical element] { get { return GetNodeName(element); } }
             private string GetNodeName(ILexical element) {
                 return element != null ?
-                    element.Type.Name + " " + elementIds.GetOrAdd(element, e => System.Threading.Interlocked.Increment(ref wordIdGenerator)) :
+                    element.GetType().Name + " " + elementIds.GetOrAdd(element, e => System.Threading.Interlocked.Increment(ref wordIdGenerator)) :
                     string.Empty;
             }
             private int wordIdGenerator;

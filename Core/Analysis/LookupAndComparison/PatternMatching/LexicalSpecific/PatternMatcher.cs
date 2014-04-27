@@ -43,17 +43,17 @@ namespace LASI.Core
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .With&lt;IReferencer&gt;(r => r.ReferredTo.Weight)
-    ///     	.With&lt;IEntity&gt;(e => e.Weight)
-    ///     	.With&lt;IVerbal&gt;(v => v.HasSubject()? v.Subject.Weight : 0)
+    ///         .With((IReferencer r) => r.ReferredTo.Weight)
+    ///     	.With((IEntity e) => e.Weight)
+    ///     	.With((IVerbal v) => v.HasSubject()? v.Subject.Weight : 0)
     ///		.Result(1);	
     /// </code>
     /// </example>
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///			.With&lt;Phrase&gt;(p => p.Words.Average(w => w.Weight))
-    ///			.With&lt;Word&gt;(w => w.Weight)
+    ///			.With((Phrase p) => p.Words.Average(w => w.Weight))
+    ///			.With((Word w) => w.Weight)
     ///		.Result();
     /// </code>
     /// </example>
@@ -63,11 +63,11 @@ namespace LASI.Core
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .With&lt;IReferencer&gt;(r => r.ReferredTo
+    ///         .With((IReferencer r) => r.ReferredTo
     ///             .Match().Yield&lt;double&gt;()
-    ///                 .With&lt;Phrase&gt;(p => p.Words.OfNoun().Average(w => w.Weight))
+    ///                 .With((Phrase p) => p.Words.OfNoun().Average(w => w.Weight))
     ///             .Result())
-    ///         .With&lt;Noun&gt;(n => n.Weight)
+    ///         .With((Noun n) => n.Weight)
     ///     .Result();
     /// </code>
     /// </example>
@@ -76,8 +76,8 @@ namespace LASI.Core
     /// <example>
     /// <code>
     /// myLexical.Match()
-    ///         .With&lt;Phrase&gt;(p => Console.Write(&quot;Phrase: &quot;, p.Text))
-    ///		    .With&lt;Word&gt;(w => Console.Write(&quot;Word: &quot;, w.Text))
+    ///         .With((Phrase p) => Console.Write(&quot;Phrase: &quot;, p.Text))
+    ///		    .With((Word w) => Console.Write(&quot;Word: &quot;, w.Text))
     ///	    .Default(() => Console.Write(&quot;Not a Word or Phrase&quot;));
     /// </code>
     /// </example>

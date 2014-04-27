@@ -44,7 +44,7 @@ namespace LASI.Core
         /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying Noun and its text content.</returns>
-        public override string ToString() { return Type.Name + " \"" + Text + "\""; }
+        public override string ToString() { return this.GetType().Name + " \"" + Text + "\""; }
 
         #endregion
 
@@ -84,15 +84,9 @@ namespace LASI.Core
         /// </summary>
         public IPrepositional PrepositionOnRight { get; set; }
         /// <summary>
-        /// Gets the System.Type of the current Word instance.
-        /// </summary>
-        public Type Type { get { return GetType(); } }
-
-        /// <summary>
         /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>
         public double Weight { get; set; }
-
         /// <summary>
         /// Gets or sets the numeric Weight of the word over the context of all extant documents.
         /// </summary>

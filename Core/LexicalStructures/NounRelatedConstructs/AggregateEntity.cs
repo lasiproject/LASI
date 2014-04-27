@@ -77,7 +77,7 @@ namespace LASI.Core
         public override string ToString() {
             return string.Format("{0}{1}", members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty, string.Join(" ", members.AsNestedEnumerable()
                 .Where(m => !(m is IAggregateEntity))
-                .Select(p => p.Type.Name + " \"" + p.Text + "\"")));
+                .Select(p => p.GetType().Name + " \"" + p.Text + "\"")));
         }
 
         #endregion

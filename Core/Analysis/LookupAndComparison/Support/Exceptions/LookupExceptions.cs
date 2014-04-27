@@ -18,7 +18,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="unsupported">The ILexical Type which was looked up</param>
         public NoSynonymLookupForTypeException(ILexical unsupported)
-            : base(string.Format("Thesaurus Operations are Not Supported for Words of type {0}\n{1}", unsupported.Type, unsupported)) {
+            : base(string.Format("Thesaurus Operations are Not Supported for Words of type {0}\n{1}", unsupported.GetType(), unsupported)) {
         }
         private NoSynonymLookupForTypeException(System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context)

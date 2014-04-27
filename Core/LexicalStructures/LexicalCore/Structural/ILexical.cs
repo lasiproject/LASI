@@ -26,10 +26,6 @@ namespace LASI.Core
         /// Gets the textual content of the Lexical element.
         /// </summary>
         string Text { get; }
-        /// <summary>
-        /// Gets the System.Type of the Lexical element.
-        /// </summary>
-        Type Type { get; }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Lexical element construct within its document.

@@ -87,10 +87,6 @@ namespace LASI.Core
         /// </summary>
         public int ID { get; private set; }
         /// <summary>
-        /// Gets the System.Type of the Clause.
-        /// </summary>
-        public Type Type { get { return GetType(); } }
-        /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the Clause.
         /// </summary>
         public IPrepositional PrepositionOnLeft { get; set; }

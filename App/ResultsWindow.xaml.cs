@@ -68,7 +68,7 @@ namespace LASI.App
                                    select s.Phrases.OfNounPhrase() into nounPhrases
                                    from np in nounPhrases
                                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   group np by new { np.Text, np.Type }
+                                   group np by new { np.Text, Type = np.GetType() }
                                        into npg
                                    let first = npg.First()
                                    orderby first.Weight descending
@@ -98,7 +98,7 @@ namespace LASI.App
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                np.Type.Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
+                np.GetType().Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
             };
             var menuItem1 = new MenuItem { Header = "View definition" };
             menuItem1.Click += (s, e) => Process.Start(string.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));

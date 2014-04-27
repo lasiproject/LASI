@@ -36,7 +36,7 @@ namespace LASI.ContentSystem.Serialization.XML
                                  new XAttribute("Range", degreeOfOutput),
                              from e in source.Zip(Enumerable.Range(0, Int32.MaxValue), (x, i) => new { Element = x, Id = i })
                              let l = e.Element
-                             select new XElement(l.Type.Name,
+                             select new XElement(l.GetType().Name,
                                  //new XAttribute("Id", e.Id),
                                  new XAttribute("Text", l.Text),
                                  new XElement("Weights",

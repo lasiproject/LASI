@@ -34,7 +34,8 @@ namespace LASI.Core
         public void BindAsReferringTo(IEntity target) {
             if (ReferesTo == null) {
                 ReferesTo = new AggregateEntity(new[] { target });
-            } else {
+            }
+            else {
                 ReferesTo = new AggregateEntity(ReferesTo.Append(target));
             }
             EntityKind = ReferesTo.EntityKind;
@@ -44,7 +45,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferesTo != null ? " referring to -> " + ReferesTo.Text : string.Empty) : string.Empty);
+            return this.GetType().Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferesTo != null ? " referring to -> " + ReferesTo.Text : string.Empty) : string.Empty);
 
         }
 
@@ -73,7 +74,8 @@ namespace LASI.Core
         public virtual void AddPossession(IPossessable possession) {
             if (ReferesTo != null) {
                 ReferesTo.AddPossession(possession);
-            } else {
+            }
+            else {
                 possessed.Add(possession);
                 possession.Possesser = this;
             }

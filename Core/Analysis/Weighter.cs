@@ -130,7 +130,7 @@ namespace LASI.Core
         }
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
             var byTypeAndText = from e in syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                group e by new { e.Type, e.Text };
+                                group e by new { Type = e.GetType(), e.Text };
             byTypeAndText.ForAll(g => { var elements = g.ToList(); elements.ForEach(e => e.Weight += elements.Count); });
 
         }

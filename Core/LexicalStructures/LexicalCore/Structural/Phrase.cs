@@ -44,7 +44,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
-            return Type.Name + " \"" + Text + "\"";
+            return this.GetType().Name + " \"" + Text + "\"";
         }
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
@@ -109,15 +109,6 @@ namespace LASI.Core
         public IEnumerable<Word> Words { get; private set; }
 
 
-
-        /// <summary>
-        /// Gets the System.Type of the current Instance.
-        /// </summary>
-        public Type Type {
-            get {
-                return GetType();
-            }
-        }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.

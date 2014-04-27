@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         internal virtual ILexical CreateILexical() {
             ILexical target = new AggregateEntity(new IEntity[] {
                     new PersonalPronoun("him"),
-                    new ProperSingularNoun("Patrick"), 
+                    new ProperSingularNoun("Patrick"),
                     new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
                 });
             return target;
@@ -121,16 +121,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(target.Text, actual);
         }
 
-        /// <summary>
-        ///A test for Type
-        ///</summary>
-        [TestMethod]
-        public void TypeTest() {
-            ILexical target = CreateILexical();  
-            Type actual;
-            actual = target.Type;
-            Assert.AreEqual(target.GetType(), actual);
-        }
 
         /// <summary>
         ///A test for Weight
@@ -144,6 +134,6 @@ namespace LASI.UnitTests
             actual = target.Weight;
             Assert.AreEqual(expected, actual);
         }
- 
+
     }
 }

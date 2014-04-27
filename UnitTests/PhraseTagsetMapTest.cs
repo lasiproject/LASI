@@ -85,7 +85,7 @@ namespace LASI.UnitTests
             public override string this[Phrase phrase] {
                 get {
                     return (from tm in mapping
-                            where tm.Value.Invoke(new Word[] { }).Type == phrase.Type
+                            where tm.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
                             select tm.Key).Single();
                 }
             }

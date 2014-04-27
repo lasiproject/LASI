@@ -88,10 +88,9 @@ namespace LASI.Core.Binding.Experimental
         public IPrepositional PrepositionOnRight { get; set; }
         public string Text {
             get {
-                return string.Format("{0} with constituents\n{1}", this.Type, PrimaryConstituents.Format(p => p.Type + ": " + p.Text));
+                return string.Format("{0} with constituents\n{1}", this.GetType(), PrimaryConstituents.Format(p => p.GetType() + ": " + p.Text));
             }
         }
-        public Type Type { get { return GetType(); } }
         public double Weight { get; set; }
 
         public double MetaWeight { get; set; }

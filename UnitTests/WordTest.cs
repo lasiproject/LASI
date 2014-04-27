@@ -119,7 +119,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ToStringTest() {
             Word target = CreateWord();
-            string expected = target.Type.Name + " \"" + target.Text + "\"";
+            string expected = target.GetType().Name + " \"" + target.Text + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -180,18 +180,6 @@ namespace LASI.UnitTests
             actual = Word.VerboseOutput;
             Assert.AreEqual(expected, actual);
 
-        }
-
-        /// <summary>
-        ///A test for Type
-        ///</summary>
-        [TestMethod]
-        public void TypeTest() {
-            Word target = CreateWord();
-            Type expected = target.GetType();
-            Type actual;
-            actual = target.Type;
-            Assert.AreEqual(expected, actual);
         }
 
 
