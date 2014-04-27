@@ -58,7 +58,7 @@ namespace LASI.Core.Heuristics.Morphemization
                     checked
                     {
                         try {
-                            var possibleRoot = verbForm.Substring(0, verbForm.Length - (SUFFICIES[i].Length + afterHyphen.Length));
+                            var possibleRoot = verbForm.Substring(0, verbForm.Length - (SUFFICIES[i].Length));
 
                             if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
                                 results.Add(possibleRoot);
