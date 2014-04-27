@@ -96,7 +96,6 @@
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
-    <Compile Include="Tagger.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
@@ -117,6 +116,7 @@
     <Compile Include="Exceptions\POSTaggerExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TextTagPair.cs" />
+    <Compile Include="TaggerEncapsulation\TaggerImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />

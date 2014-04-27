@@ -1,4 +1,5 @@
 ﻿using LASI.ContentSystem;
+using LASI.ContentSystem.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -64,17 +65,17 @@ namespace LASI.UnitTests
 
         internal virtual ITaggedTextSource CreateITaggedTextSource() {
             // TODO: Instantiate an appropriate concrete class.
-            ITaggedTextSource target = new TaggedTextFragment(Tagger.TaggedFromRaw(new[] { 
-                "John enjoyed, with his usual lack of humility, consuming the object in question.", 
-                "Some may call him a heathen, but they are mistaken.", 
+            ITaggedTextSource target = new TaggedTextFragment(Tagger.TaggedFromRaw(new[] {
+                "John enjoyed, with his usual lack of humility, consuming the object in question.",
+                "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." }),
                 "test fragment");
             return target;
         }
         private static string GetExpectedText() {
-            string expected = Tagger.TaggedFromRaw(new[] { 
-                "John enjoyed, with his usual lack of humility, consuming the object in question.", 
-                "Some may call him a heathen, but they are mistaken.", 
+            string expected = Tagger.TaggedFromRaw(new[] {
+                "John enjoyed, with his usual lack of humility, consuming the object in question.",
+                "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." });
             return expected;
         }

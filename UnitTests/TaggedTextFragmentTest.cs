@@ -1,4 +1,5 @@
 ﻿using LASI.ContentSystem;
+using LASI.ContentSystem.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -70,10 +71,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void TaggedTextFragmentConstructorTest() {
-            var lines = Tagger.TaggedFromRaw(new[] { 
-                "This is a test which i will not regret.", 
-                "While it may yield me, in the context of the system at large, only ", 
-                "a little confidence, each test makes everything else that much better." 
+            var lines = Tagger.TaggedFromRaw(new[] {
+                "This is a test which i will not regret.",
+                "While it may yield me, in the context of the system at large, only ",
+                "a little confidence, each test makes everything else that much better."
             });
             string name = "Test Fragment";
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
@@ -85,10 +86,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextTest() {
-            var lines = Tagger.TaggedFromRaw(new[] { 
-                "This is a test which i will not regret.", 
-                "While it may yield me, in the context of the system at large, only ", 
-                "a little confidence, each test makes everything else that much better." 
+            var lines = Tagger.TaggedFromRaw(new[] {
+                "This is a test which i will not regret.",
+                "While it may yield me, in the context of the system at large, only ",
+                "a little confidence, each test makes everything else that much better."
             });
             string name = "Test Fragment";
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
@@ -103,10 +104,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod()]
         public void GetTextAsyncTest() {
-            var lines = Tagger.TaggedFromRaw(new[] { 
-                "This is a test which i will not regret.", 
-                "While it may yield me, in the context of the system at large, only ", 
-                "a little confidence, each test makes everything else that much better." 
+            var lines = Tagger.TaggedFromRaw(new[] {
+                "This is a test which i will not regret.",
+                "While it may yield me, in the context of the system at large, only ",
+                "a little confidence, each test makes everything else that much better."
             });
             string name = "Test Fragment";
             TaggedTextFragment target = new TaggedTextFragment(lines, name);

@@ -5,6 +5,7 @@ using LASI.Core.DocumentStructures;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaggerInterop;
+using LASI.ContentSystem.TaggerEncapsulation;
 
 namespace LASI.UnitTests
 {

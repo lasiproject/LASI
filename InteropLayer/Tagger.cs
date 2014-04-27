@@ -14,11 +14,11 @@ using LASI.ContentSystem.TaggerEncapsulation.TagParsers;
 namespace LASI.Interop
 {
 
-    using ContentSystemTagger = LASI.ContentSystem.Tagger;
+    using TaggerImpl = LASI.ContentSystem.TaggerEncapsulation.Tagger;
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.
     /// </summary>
-    public class Tagger : LASI.Interop.ITagger
+    public class Tagger
     {
         /// <summary>
         /// Parses any number of untagged strings into a new Document instance.
@@ -26,49 +26,49 @@ namespace LASI.Interop
         /// <param name="strs">The untagged, raw strings to parse.</param>
         /// <returns>The contents of the raw strings composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public virtual Document DocumentFromRaw(IEnumerable<string> strs) { return ContentSystemTagger.DocumentFromRaw(strs); }
+        public virtual Document DocumentFromRaw(IEnumerable<string> strs) { return TaggerImpl.DocumentFromRaw(strs); }
         /// <summary>
         /// Parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual Document DocumentFromRaw(TxtFile txt) { return ContentSystemTagger.DocumentFromRaw(txt); }
+        public virtual Document DocumentFromRaw(TxtFile txt) { return TaggerImpl.DocumentFromRaw(txt); }
         /// <summary>
         /// Parses the contents of a raw, untagged DocXFile into a new Document instance.
         /// </summary>
         /// <param name="docx">The raw, untagged DocXFile to parse.</param>
         /// <returns>The contents of the DocXFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual Document DocumentFromDocX(DocXFile docx) { return ContentSystemTagger.DocumentFromDocX(docx); }
+        public virtual Document DocumentFromDocX(DocXFile docx) { return TaggerImpl.DocumentFromDocX(docx); }
         /// <summary>
         /// Parses the contents of a raw, untagged PdfFile into a new Document instance.
         /// </summary>
         /// <param name="pdf">The raw, untagged PdfFile to parse.</param>
         /// <returns>The contents of the PdfFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual Document DocumentFromPDF(PdfFile pdf) { return ContentSystemTagger.DocumentFromPDF(pdf); }
+        public virtual Document DocumentFromPDF(PdfFile pdf) { return TaggerImpl.DocumentFromPDF(pdf); }
         /// <summary>
         /// Parses the contents of a raw, untagged DocFile into a new Document instance.
         /// </summary>
         /// <param name="doc">The raw, untagged DocFile to parse.</param>
         /// <returns>The contents of the DocFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual Document DocumentFromDoc(DocFile doc) { return ContentSystemTagger.DocumentFromDoc(doc); }
+        public virtual Document DocumentFromDoc(DocFile doc) { return TaggerImpl.DocumentFromDoc(doc); }
         /// <summary>
         /// Asynchronously parses the contents of a raw, untagged TextFile into a new Document instance.
         /// </summary>
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual async Task<Document> DocumentFromRawAsync(TxtFile txt) { return await ContentSystemTagger.DocumentFromRawAsync(txt); }
+        public virtual async Task<Document> DocumentFromRawAsync(TxtFile txt) { return await TaggerImpl.DocumentFromRawAsync(txt); }
         /// <summary>
         /// Parses the contents of an IRawTextSource containing raw, untagged text. into a new Document instance.
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual Document DocumentFromRaw(IRawTextSource textSource) { return ContentSystemTagger.DocumentFromRaw(textSource); }
+        public virtual Document DocumentFromRaw(IRawTextSource textSource) { return TaggerImpl.DocumentFromRaw(textSource); }
         /// <summary>
         /// Asynchronously parses the contents of an IRawTextSource containing raw, untagged text and returns a Task&lt;Document&gt; representing the ongoing asynchronous operation.
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>A Task&lt;Document&gt; which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) { return await ContentSystemTagger.DocumentFromRawAsync(textSource); }
+        public virtual async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) { return await TaggerImpl.DocumentFromRawAsync(textSource); }
         /// <summary>
         /// Parses the contents of an ITaggedTextSource containing tagged strings to parse into a new Document instance.
         /// </summary>
@@ -80,14 +80,14 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
         /// <returns>A Task&lt;Document&gt; which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public virtual async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) { return await ContentSystemTagger.DocumentFromTaggedAsync(tagged); }
+        public virtual async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) { return await TaggerImpl.DocumentFromTaggedAsync(tagged); }
         /// <summary>
         /// Parses any number of untagged strings with the tagger and returns a single string containing the tagged result.
         /// </summary>
         /// <param name="strs">The untagged, raw strings to parse.</param>
         /// <returns>A single string containing the tagged result. The form is identical to what it would be appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public virtual string TaggedFromRaw(IEnumerable<string> strs) { return ContentSystemTagger.TaggedFromRaw(strs); }
+        public virtual string TaggedFromRaw(IEnumerable<string> strs) { return TaggerImpl.TaggedFromRaw(strs); }
         /// <summary>
         /// Parses any number of pre-tagged strings into a new Document instance.
         /// </summary>
@@ -106,12 +106,12 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>An ITaggedTextSource containing the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public virtual ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) { return ContentSystemTagger.TaggedFromRaw(textSource); }
+        public virtual ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) { return TaggerImpl.TaggedFromRaw(textSource); }
         /// <summary>
         /// Asynchronously parses the contents of an IRawTextSource with the tagger and returns a Task&lt;ITaggedTextSource&gt; containing the result.
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>A Task&lt;ITaggedTextSource&gt; which will contain the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public virtual async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) { return await ContentSystemTagger.TaggedFromRawAsync(textSource); }
+        public virtual async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) { return await TaggerImpl.TaggedFromRawAsync(textSource); }
     }
 }

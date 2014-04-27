@@ -2,7 +2,6 @@
 using LASI.Core;
 using LASI.Core.DocumentStructures;
 using LASI.ContentSystem;
-using LASI.ContentSystem.TaggerEncapsulation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaggerInterop;
 
-namespace LASI.ContentSystem
+namespace LASI.ContentSystem.TaggerEncapsulation
 {
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.

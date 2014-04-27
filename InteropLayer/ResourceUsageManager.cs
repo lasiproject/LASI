@@ -25,7 +25,7 @@ namespace LASI.Interop
         /// <summary>
         /// Returns a ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.
         /// </summary>
-        /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>
+        /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>w
         public static ResourceSample GetCurrentUsage() {
             return new ResourceSample {
                 MemoryUsage = new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
@@ -97,8 +97,7 @@ namespace LASI.Interop
         public float MemoryUsage { get; internal set; }
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
-        /// </summary>
-        /// <returns></returns>
+        /// </summary> 
         public DateTime TimeWhenTaken { get; internal set; }
 
 
