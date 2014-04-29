@@ -46,10 +46,10 @@ namespace LASI.Core.Binding.Experimental
                     select new {
                 Noun = noun,
                 Key = noun.Match().Yield<char>()
-                              .With<ProperSingularNoun>(proper => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
+                              .With((ProperSingularNoun proper) => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
                                   proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
-                              .With<CommonSingularNoun>('S')
-                              .With<IQuantifiable>('P')
+                              .With((CommonSingularNoun s) => 'S')
+                              .With((IQuantifiable q) => 'P')
                             .Result('U')
                     }
                 join pronoun in

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Core.PatternMatching
 {
     /// <summary>
-    /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions which match with a value of Type T and does not yield a result. 
+    /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions which match over a value of Type T and does not yield a result. 
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     /// <summary>
@@ -193,7 +193,7 @@ namespace LASI.Core.PatternMatching
                 Accepted = true;
                 action();
             }
-            return this.With<TPattern>(x => action());
+            return this.With((TPattern ex) => action());
         }
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -252,7 +252,8 @@ namespace LASI.Core.PatternMatching
 
     }
     /// <summary>
-    /// Provides for the representation and free form structuring of Type based Pattern Matching expressions from a match with value of Type T to a result of Type TResult.
+    /// Provides for the representation and free form structuring of Type based Pattern Matching expressions from a match over a value of Type T to a result of Type TResult.
+    /// If no Type is matched, the result will be the default value for the Type TResult. 
     /// </summary>
     /// <typeparam name="T">The Type of the value which the the Pattern Matching expression will match with.</typeparam>
     /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
@@ -470,7 +471,7 @@ namespace LASI.Core.PatternMatching
                 result = defaultValue;
                 Accepted = true;
             }
-            return this.result;
+            return result;
         }
 
 
@@ -493,7 +494,7 @@ namespace LASI.Core.PatternMatching
         /// Initializes a new instance of the PredicatedMatchBase&lt;T;&gt; class.
         /// </summary>
         /// <param name="predicateSucceeded">A value indicating whether or not the proceding When clause succeeded.</param>
-        protected PredicatedMatchBase(bool predicateSucceeded) { this.ConditionMet = predicateSucceeded; }
+        protected PredicatedMatchBase(bool predicateSucceeded) { ConditionMet = predicateSucceeded; }
         #region Fields
         /// <summary>
         /// Gets a value indicating if condition upon which the match is predicated has was satisfied.
@@ -553,7 +554,7 @@ namespace LASI.Core.PatternMatching
         /// <param name="action">The Action which, if this With expression is Matched, will be invoked on the value being matched over.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Then(Action<T> action) {
-            return ConditionMet ? inner.With<T>(action) : inner;
+            return ConditionMet ? inner.With(action) : inner;
         }
         #region Fields
         private Match<T> inner;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Collections;
 
 namespace LASI.Core
 {
@@ -102,6 +103,287 @@ namespace LASI.Core
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
         public static LASI.Core.PatternMatching.Match<T> Match<T>(this T value) where T : class, ILexical {
             return new LASI.Core.PatternMatching.Match<T>(value);
+        }
+        static void Test(ILexical l) {
+            var x = l
+            | new Case { (ILexical v) => v.Weight }
+            | new Case { };
+
+        }
+    }
+    public static class Pattern
+    {
+    }
+    public class Pattern<TResult> : System.Collections.IEnumerable
+    {
+
+        private bool accepted = false;
+        private List<Func<ILexical, TResult>> patterns = new List<Func<ILexical, TResult>>();
+        private ILexical value; TResult result = default(TResult);
+
+        public TResult Result {
+            get {
+                return result;
+            }
+        }
+
+        private void StorePattern<TPattern>(Func<TPattern, TResult> f)
+            where TPattern : class, ILexical { patterns.Add(x => { var y = value as TPattern; accepted = y != null; return (y != null) ? f(y) : default(TResult); }); }
+        private void Apply(ILexical value) {
+            this.value = value;
+            for (var i = 0; !accepted && i < patterns.Count; i++) {
+                result = patterns[i](value);
+            }
+        }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IAggregateEntity, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IEntity, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IReferencer, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IDescriptor, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IAdverbial, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IConjunctive, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IPrepositional, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Adverb, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperSingularNoun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperPluralNoun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<NounPhrase, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<AdjectivePhrase, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<PronounPhrase, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<VerbPhrase, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<InfinitivePhrase, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Adjective, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Preposition, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Conjunction, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<CommonNoun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperNoun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Noun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Pronoun, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ILexical, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Word, TResult> f) { p.StorePattern(f); return p; }
+        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Phrase, TResult> f) { p.StorePattern(f); return p; }
+
+
+        public void Add(Func<IVerbal, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IAggregateEntity, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IEntity, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IReferencer, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IDescriptor, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IAdverbial, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IConjunctive, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<IPrepositional, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Adverb, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<ProperSingularNoun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<ProperPluralNoun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<NounPhrase, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<PronounPhrase, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<VerbPhrase, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<InfinitivePhrase, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Adjective, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Preposition, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Conjunction, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<CommonNoun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<ProperNoun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Noun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Pronoun, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<ILexical, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Word, TResult> f) {
+            StorePattern(f);
+        }
+        public void Add(Func<Phrase, TResult> f) {
+            StorePattern(f);
+        }
+        //public static TResult operator |(ILexical value, Pattern<TResult> pattern) {
+        //    pattern.Apply(value); return pattern.result;
+        //}
+
+
+        //public static implicit operator TResult(Pattern<TResult> pattern) {
+        //    return pattern.result;
+        //}
+        ////public static TResult operator |(Pattern<TResult> pattern, Func<IEntity, TResult> f) {
+        //    var x = default(IEntity)
+        //        | new Case { (IEntity y) => f(y) }
+        //        | new Case { (IEntity y) => default(TResult) }
+        //        | new Case { (IEntity e) => default(TResult) };
+
+
+
+        //    return new Pattern<TResult> { };
+        //}
+        IEnumerator IEnumerable.GetEnumerator() {
+            throw new NotImplementedException();
+        }
+
+    }
+    public class Case : System.Collections.IEnumerable
+    {
+        //public Pattern<TResult> Add(Func<IEntity, TResult> f) {
+        //    return new Pattern<TResult> { };
+        //}
+        public static implicit operator Case(Func<IAggregateEntity, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IVerbal, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IEntity, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IReferencer, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IDescriptor, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IAdverbial, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IConjunctive, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<IPrepositional, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Adverb, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<ProperSingularNoun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<ProperPluralNoun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<NounPhrase, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<AdjectivePhrase, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<PronounPhrase, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<VerbPhrase, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<InfinitivePhrase, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Adjective, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Preposition, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Conjunction, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<CommonNoun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<ProperNoun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Noun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Pronoun, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<ILexical, object> f) { return new Case { }; }
+        public static implicit operator Case(Func<Word, object> f) { return new Case { }; }
+        public static Case operator |(Case p, Func<IAggregateEntity, object> f) { return p; }
+        public static Case operator |(Case p, Func<IVerbal, object> f) { return p; }
+        public static Case operator |(Case p, Func<IEntity, object> f) { return p; }
+        public static Case operator |(Case p, Func<IReferencer, object> f) { return p; }
+        public static Case operator |(Case p, Func<IDescriptor, object> f) { return p; }
+        public static Case operator |(Case p, Func<IAdverbial, object> f) { return p; }
+        public static Case operator |(Case p, Func<IConjunctive, object> f) { return p; }
+        public static Case operator |(Case p, Func<IPrepositional, object> f) { return p; }
+        public static Case operator |(Case p, Func<Adverb, object> f) { return p; }
+        public static Case operator |(Case p, Func<ProperSingularNoun, object> f) { return p; }
+        public static Case operator |(Case p, Func<ProperPluralNoun, object> f) { return p; }
+        public static Case operator |(Case p, Func<NounPhrase, object> f) { return p; }
+        public static Case operator |(Case p, Func<AdjectivePhrase, object> f) { return p; }
+        public static Case operator |(Case p, Func<PronounPhrase, object> f) { return p; }
+        public static Case operator |(Case p, Func<VerbPhrase, object> f) { return p; }
+        public static Case operator |(Case p, Func<InfinitivePhrase, object> f) { return p; }
+        public static Case operator |(Case p, Func<Adjective, object> f) { return p; }
+        public static Case operator |(Case p, Func<Preposition, object> f) { return p; }
+        public static Case operator |(Case p, Func<Conjunction, object> f) { return p; }
+        public static Case operator |(Case p, Func<CommonNoun, object> f) { return p; }
+        public static Case operator |(Case p, Func<ProperNoun, object> f) { return p; }
+        public static Case operator |(Case p, Func<Noun, object> f) { return p; }
+        public static Case operator |(Case p, Func<Pronoun, object> f) { return p; }
+        public static Case operator |(Case p, Func<ILexical, object> f) { return p; }
+        public static Case operator |(Case p, Func<Word, object> f) { return p; }
+        public static implicit operator double (Case c) { return 0; }
+
+        public Case Add(Func<Phrase, object> f) { return this; }
+        public Case Add(Func<IAggregateEntity, object> f) { return this; }
+        public Case Add(Func<IEntity, object> f) { return this; }
+        public Case Add(Func<IVerbal, object> f) { return this; }
+        public Case Add(Func<IReferencer, object> f) { return this; }
+        public Case Add(Func<IDescriptor, object> f) { return this; }
+        public Case Add(Func<IAdverbial, object> f) { return this; }
+        public Case Add(Func<IConjunctive, object> f) { return this; }
+        public Case Add(Func<IPrepositional, object> f) { return this; }
+        public Case Add(Func<Adverb, object> f) { return this; }
+        public Case Add(Func<ProperSingularNoun, object> f) { return this; }
+        public Case Add(Func<ProperPluralNoun, object> f) { return this; }
+        public Case Add(Func<NounPhrase, object> f) { return this; }
+        public Case Add(Func<AdjectivePhrase, object> f) { return this; }
+        public Case Add(Func<PronounPhrase, object> f) { return this; }
+        public Case Add(Func<VerbPhrase, object> f) { return this; }
+        public Case Add(Func<InfinitivePhrase, object> f) { return this; }
+        public Case Add(Func<Adjective, object> f) { return this; }
+        public Case Add(Func<Preposition, object> f) { return this; }
+        public Case Add(Func<Conjunction, object> f) { return this; }
+        public Case Add(Func<CommonNoun, object> f) { return this; }
+        public Case Add(Func<ProperNoun, object> f) { return this; }
+        public Case Add(Func<Noun, object> f) { return this; }
+        public Case Add(Func<Pronoun, object> f) { return this; }
+        public Case Add(Func<ILexical, object> f) { return this; }
+        public Case Add(Func<Word, object> f) { return this; }
+        public Case Add(Case p, Func<Phrase, object> f) { return this; }
+
+
+        //public Case(Func<Phrase, object> f) { }
+        //public Case(Func<IAggregateEntity, object> f) { }
+        //public Case(Func<IEntity, object> f) { }
+        //public Case(Func<IReferencer, object> f) { }
+        //public Case(Func<IDescriptor, object> f) { }
+        //public Case(Func<IAdverbial, object> f) { }
+        //public Case(Func<IConjunctive, object> f) { }
+        //public Case(Func<IPrepositional, object> f) { }
+        //public Case(Func<Adverb, object> f) { }
+        //public Case(Func<ProperSingularNoun, object> f) { }
+        //public Case(Func<ProperPluralNoun, object> f) { }
+        //public Case(Func<NounPhrase, object> f) { }
+        //public Case(Func<AdjectivePhrase, object> f) { }
+        //public Case(Func<PronounPhrase, object> f) { }
+        //public Case(Func<VerbPhrase, object> f) { }
+        //public Case(Func<InfinitivePhrase, object> f) { }
+        //public Case(Func<Adjective, object> f) { }
+        //public Case(Func<Preposition, object> f) { }
+        //public Case(Func<Conjunction, object> f) { }
+        //public Case(Func<CommonNoun, object> f) { }
+        //public Case(Func<ProperNoun, object> f) { }
+        //public Case(Func<Noun, object> f) { }
+        //public Case(Func<Pronoun, object> f) { }
+        //public Case(Func<ILexical, object> f) { }
+        //public Case(Func<Word, object> f) { }
+        //public Case(Case p, Func<Phrase, object> f) { }
+
+        //public static Case operator |(Case p, Func<IEntity, TResult> f) {
+        //    return new Case { };
+        //}
+        public static Case operator |(Case p, Case f) {
+            return new Case { };
+        }
+        public static Case operator |(ILexical p, Case f) {
+            return new Case { };
+        }
+        public IEnumerator GetEnumerator() {
+            throw new NotImplementedException();
         }
     }
 }
