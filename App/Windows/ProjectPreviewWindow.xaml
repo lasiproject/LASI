@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Project - L.A.S.I."
     ResizeMode="CanResizeWithGrip"
-    Icon="MiscImages\LasiLogo.ico"
+    Icon="..\MiscImages\LasiLogo.ico"
     WindowState="Normal"
     WindowStartupLocation="Manual"
     AllowDrop="True"

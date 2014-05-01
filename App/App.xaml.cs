@@ -12,22 +12,27 @@ namespace LASI.App
     {
         App() {
             LoadPreferences();
-            Exit += (sender, e) => {
-                if (Settings.Default.AutoCleanProjectFiles) {
-                    try {
-                        LASI.ContentSystem.FileManager.DecimateProject();
-                    }
-                    catch (ContentSystem.FileManagerNotInitializedException) {
-                    }
-                }
-            };
+            BindEventHandlers();
         }
-
         private static void LoadPreferences() {
             ResourceUsageManager.Mode performanceLevel;
-            if (Enum.TryParse<ResourceUsageManager.Mode>(Settings.Default.PerformanceLevel, out performanceLevel)) {
+            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceLevel)) {
                 ResourceUsageManager.SetPerformanceLevel(performanceLevel);
             }
         }
+        private void Application_Exit(object sender, ExitEventArgs e) {
+            if (Settings.Default.AutoCleanProjectFiles) {
+                try {
+                    ContentSystem.FileManager.DecimateProject();
+                }
+                catch (ContentSystem.FileManagerNotInitializedException) {
+                }
+            }
+        }
+        private void BindEventHandlers() {
+            Exit += Application_Exit;
+        }
+
+
     }
 }

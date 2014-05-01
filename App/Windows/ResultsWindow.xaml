@@ -11,7 +11,7 @@
     Width="800"
     MinWidth="800"
     ResizeMode="CanResizeWithGrip"
-    Icon="MiscImages\LasiLogo.ico"
+    Icon="..\MiscImages\LasiLogo.ico"
     WindowStartupLocation="Manual"
     WindowState="Normal"
     Drop="Grid_Drop"

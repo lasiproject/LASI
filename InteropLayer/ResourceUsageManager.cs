@@ -77,11 +77,6 @@ namespace LASI.Interop
             Low,
         }
     }
-
-}
-
-namespace LASI.Interop
-{
     /// <summary>
     /// Represents a resource usage sample.
     /// </summary>
@@ -103,4 +98,5 @@ namespace LASI.Interop
 
 
     }
+
 }

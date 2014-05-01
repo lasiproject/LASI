@@ -40,8 +40,7 @@ namespace LASI.Core
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SvoRelationship
-                      {
+                      select new SvoRelationship {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -74,50 +73,14 @@ namespace LASI.Core
                        .With<IEntity>(entity)
                    .Result()
                    where e != null
-                   group e by new
-                   {
-                       e.Text,
-                       e.Weight
+                   group e by new {
+                e.Text,
+                e.Weight
                    } into entity
                    select entity.Key into master
                    select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2)) into item
                    group item by item.Key into g
                    select g.MaxBy(x => x.Value);
         }
-
-
-
-
-
-
-        ///// <summary>
-        ///// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
-        ///// The resulting sequence is suitable for direct insertion into a DataGrid.
-        ///// </summary>
-        ///// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
-        ///// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
-        //internal static IEnumerable<object> TransformToGrid(IEnumerable<SVORelationship> elementsToConvert) {
-        //    return from e in elementsToConvert.Distinct()
-        //           orderby e.CombinedWeight
-        //           select new
-        //           {
-        //               Subject = e.Subject != null ? e.Subject.Text : string.Empty,
-        //               Verbal = e.Verbal != null ?
-        //                        (e.Verbal.PrepositionOnLeft != null ? e.Verbal.PrepositionOnLeft.Text : string.Empty)
-        //                        + (e.Verbal.Modality != null ? e.Verbal.Modality.Text : string.Empty)
-        //                        + e.Verbal.Text + (e.Verbal.AdverbialModifiers.Any() ? " (adv)> "
-        //                        + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)) : string.Empty) :
-        //                        string.Empty,
-        //               Direct = e.Direct != null ?
-        //                        (e.Direct.PrepositionOnLeft != null ? e.Direct.PrepositionOnLeft.Text
-        //                        : string.Empty + e.Direct.Text) :
-        //                        string.Empty,
-        //               Indirect = e.Indirect != null ?
-        //                        (e.Indirect.PrepositionOnLeft != null ? e.Indirect.PrepositionOnLeft.Text : string.Empty)
-        //                        + e.Indirect.Text :
-        //                        string.Empty
-
-        //           };
-        //}
     }
 }

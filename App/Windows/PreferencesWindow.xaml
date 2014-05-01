@@ -113,33 +113,4 @@
         </Grid>
     </Grid>
 </Window>
-<!--<TabControl
-            x:Name="tabControl"
-            Margin="0,0,0,54">
-            <TabItem
-                Header="Projects">
-
-            </TabItem>
-            <TabItem
-                Header="Advanced">
-                <Grid
-                    Background="#FFDDDDDD"
-                    RenderTransformOrigin="1,0.5">
-                    <Label
-                        x:Name="label"
-                        Content="CPU Consumption"
-                        HorizontalAlignment="Left"
-                        Margin="10,10,0,0"
-                        VerticalAlignment="Top"
-                        Height="26"
-                        Width="106" />
-                    <Slider
-                        x:Name="slider"
-                        HorizontalAlignment="Left"
-                        Margin="19,41,0,0"
-                        VerticalAlignment="Top"
-                        Height="21"
-                        Width="97" />
-                </Grid>
-            </TabItem>
-        </TabControl>-->
+ 

@@ -121,13 +121,13 @@
     </Compile>
     <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
-    <Compile Include="InProgressWindow.xaml.cs">
+    <Compile Include="Windows\InProgressWindow.xaml.cs">
       <DependentUpon>InProgressWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreferencesWindow.xaml.cs">
+    <Compile Include="Windows\PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProjectPreviewWindow.xaml.cs">
+    <Compile Include="Windows\ProjectPreviewWindow.xaml.cs">
       <DependentUpon>ProjectPreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
@@ -149,15 +149,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreferencesWindow.xaml">
+    <Page Include="Windows\PreferencesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResultsWindow.xaml">
+    <Page Include="Windows\ResultsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartupWindow.xaml">
+    <Page Include="Windows\StartupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,18 +165,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ResultsWindow.xaml.cs">
+    <Compile Include="Windows\ResultsWindow.xaml.cs">
       <DependentUpon>ResultsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartupWindow.xaml.cs">
+    <Compile Include="Windows\StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="InProgressWindow.xaml">
+    <Page Include="Windows\InProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProjectPreviewWindow.xaml">
+    <Page Include="Windows\ProjectPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -758,6 +758,9 @@
     <None Include="Resources\WordNetThesaurusData\dictionary.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="SplashScreen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

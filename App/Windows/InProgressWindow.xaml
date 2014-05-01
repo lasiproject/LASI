@@ -6,7 +6,7 @@
     Height="360"
     Width="660"
     ResizeMode="CanMinimize"
-    Icon="MiscImages\LasiLogo.ico"
+    Icon="..\MiscImages\LasiLogo.ico"
     WindowStartupLocation="Manual"
     WindowStyle="None"
     BorderBrush="#FF636366"
@@ -29,7 +29,7 @@
                 Canvas.Left="34"
                 Canvas.Top="10"
                 Width="295"
-                Source="MiscImages\inprogress.png"
+                Source="..\MiscImages\inprogress.png"
                 Stretch="UniformToFill" />
             <Image
                 x:Name="pawPrintImg1"
@@ -37,7 +37,7 @@
                 Canvas.Left="306"
                 Canvas.Top="251"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
@@ -79,7 +79,7 @@
                 Canvas.Left="541"
                 Canvas.Top="94"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
                 <Image.Triggers>
                     <EventTrigger
@@ -119,7 +119,7 @@
                 Canvas.Left="443"
                 Canvas.Top="94"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
                 <Image.Triggers>
                     <EventTrigger
@@ -159,7 +159,7 @@
                 Canvas.Left="478"
                 Canvas.Top="169"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
                 <Image.Triggers>
                     <EventTrigger
@@ -199,7 +199,7 @@
                 Canvas.Left="377"
                 Canvas.Top="175"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.5,0.5">
                 <Image.Triggers>
                     <EventTrigger
@@ -239,7 +239,7 @@
                 Canvas.Left="403"
                 Canvas.Top="240"
                 Width="77"
-                Source="MiscImages\print.png"
+                Source="..\MiscImages\print.png"
                 RenderTransformOrigin="0.241,1.304">
                 <Image.Triggers>
                     <EventTrigger
