@@ -380,7 +380,10 @@ namespace LASI
 
             return (minmax == MinMax.Max ? source.OrderByDescending(selector) : source.OrderBy(selector)).First();
         }
-        private enum MinMax { Min, Max }
+        private enum MinMax
+        {
+            Min, Max
+        }
 
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given key selector

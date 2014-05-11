@@ -61,8 +61,9 @@ namespace LASI.Core.Heuristics
             foreach (var word in set.Words) {
                 if (setsByWord.TryGetValue(word, out VerbSynSet extantSet)) {
                     extantSet.Words.UnionWith(set.Words);
-                    extantSet.ReferencedSets.UnionWith(set.ReferencedSets);
-                } else {
+                    extantSet.ReferencedSetIds.UnionWith(set.ReferencedSetIds);
+                }
+                else {
                     setsByWord[word] = set;
                 }
             }
@@ -72,11 +73,11 @@ namespace LASI.Core.Heuristics
             var verbRoots = VerbMorpher.FindRoots(search);
             result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
                 setsByWord.TryGetValue(root, out var containingSet);
-                containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.Words.Contains(root)).Select(kv => kv.Value).FirstOrDefault();
+                containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
                 return containingSet == null ? new[] { search } :
                     containingSet[LinkType.Verb_Group, LinkType.Hypernym]
                          .SelectMany(id => setsById.TryGetValue(id, out VerbSynSet set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>())
-                         .Select(id => setsById.TryGetValue(id, out VerbSynSet s) ? s : null)
+                         .Select(id => setsById.TryGetValue(id, out var referenced) ? referenced : null)
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Append(root);
@@ -127,8 +128,7 @@ namespace LASI.Core.Heuristics
         private static readonly Regex RELATIONSHIP_REGEX = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
-        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
-        {
+        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType> {
             ["!"] = LinkType.Antonym,
             ["@"] = LinkType.Hypernym,
             ["~"] = LinkType.Hyponym,

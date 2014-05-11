@@ -53,13 +53,15 @@ namespace LASI.Core.Heuristics
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
 
-        private ISet<string> SearchFor(string word) {
-            var containingSet = allSets.FirstOrDefault(s => s.Words.Contains(word));
-            if (containingSet != null) {
-                return (from sw in allSets
-                        where containingSet.ReferencedSets.Contains(sw.Id)
-                        select sw.Words).SelectMany(words => words).ToHashSet();
-            } else { return new HashSet<string>(); }
+        private ISet<string> SearchFor(string search) {
+            return (from containingSet in allSets
+                    where containingSet.ContainsWord(search)
+                    from linkedSet in allSets
+                    where containingSet.DirectlyReferences(linkedSet)
+                    from word in linkedSet.Words
+                    select word).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+
             //gets pointers of searched word
             //var tempResults = from sn in allSets
             //                  where sn.Words.Contains(word)
@@ -114,11 +116,11 @@ namespace LASI.Core.Heuristics
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
         private static readonly IReadOnlyDictionary<string, AdverbSetLink> interSetMap = new Dictionary<string, AdverbSetLink> {
-            { "!", AdverbSetLink. Antonym },
-            { @"\", AdverbSetLink.DerivedFromAdjective},
-            { ";c", AdverbSetLink.DomainOfSynset_TOPIC },
-            { ";r", AdverbSetLink.DomainOfSynset_REGION },
-            { ";u", AdverbSetLink.DomainOfSynset_USAGE}
+            ["!"] = AdverbSetLink.Antonym,
+            [@"\"] = AdverbSetLink.DerivedFromAdjective,
+            [";c"] = AdverbSetLink.DomainOfSynset_TOPIC,
+            [";r"] = AdverbSetLink.DomainOfSynset_REGION,
+            [";u"] = AdverbSetLink.DomainOfSynset_USAGE
         };
     }
     /// <summary>

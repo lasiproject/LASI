@@ -42,7 +42,8 @@ namespace LASI.WebApp.Controllers
                     var dir = remnant as DirectoryInfo;
                     if (dir != null) {
                         dir.Delete(true);
-                    } else {
+                    }
+                    else {
                         remnant.Delete();
                     }
                 }
@@ -105,8 +106,7 @@ namespace LASI.WebApp.Controllers
         private static string currentOperation;
 
         private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
-        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
-        {
+        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings {
             ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
         };
         //static int timesExecuted = 0;
@@ -114,8 +114,7 @@ namespace LASI.WebApp.Controllers
         public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
                 return JsonConvert.SerializeObject(trackedJobs
-                    .Select(j => new
-                {
+                    .Select(j => new {
                     j.Value.Message,
                     j.Value.Percent,
                     Id = j.Key

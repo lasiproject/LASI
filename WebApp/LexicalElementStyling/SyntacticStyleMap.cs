@@ -22,30 +22,32 @@ namespace LASI.WebApp
         /// <returns>A System.Windows.Media.Brush enumeration value mapped to the syntactic role of the element.</returns>
         public Style this[ILexical syntacticElement] {
             get {
-                return syntacticElement.Match().Yield<Style>()
-                  .With<Phrase>(px => px.Match().Yield<Style>()
-                          .With<PronounPhrase>(new Style { CssClass = "referencer" })
-                          .When<NounPhrase>(n => n.Words.OfProperNoun().Any())
-                          .Then(new Style { CssClass = "nounphrase proper" })
-                          .With<NounPhrase>(new Style { CssClass = "nounphrase", })
-                          .With<InfinitivePhrase>(new Style { CssClass = "infinitive", })
-                          .With<IReferencer>(new Style { CssClass = "referencer", })
-                          .With<IEntity>(new Style { CssClass = "entity", })
-                          .With<IVerbal>(new Style { CssClass = "verbal", })
-                          .With<IPrepositional>(new Style { CssClass = "prepositional", })
-                          .With<IDescriptor>(new Style { CssClass = "descriptor", })
-                          .With<IAdverbial>(new Style { CssClass = "adverbial", })
-                          .With<IConjunctive>(new Style { CssClass = "conjunctive", })
-                        .Result(new Style { CssClass = "lexical-default-style", }))
-                    .With<Word>(w => w.Match().Yield<Style>()
-                          .With<Adjective>(new Style { CssClass = "adjective", })
-                          .With<PresentParticipleGerund>(new Style { CssClass = "presentparticiplegerund", })
-                          .With<Verb>(new Style { CssClass = "verbal", }).With<IConjunctive>(new Style { CssClass = "conjunctive", })
-                    .Result(new Style { CssClass = "lexical-default-style", }))
-                .Result();
+                return new Style {
+                    CssClass =
+                    syntacticElement.Match().Yield<string>()
+                    .With((Phrase px) => px.Match().Yield<string>()
+                        .With((PronounPhrase p) => "referencer")
+                        .With((NounPhrase n) => n.Words.OfProperNoun().Any() ? "nounphrase proper" : "nounphrase")
+                        .With((InfinitivePhrase i) => "infinitive")
+                        .With((IReferencer r) => "referencer")
+                        .With((IEntity e) => "entity")
+                        .With((IVerbal v) => "verbal")
+                        .With((IPrepositional p) => "prepositional")
+                        .With((IDescriptor p) => "descriptor")
+                        .With((IAdverbial a) => "adverbial")
+                        .With((IConjunctive c) => "conjunctive").Result())
+                   .With((Word w) => w.Match().Yield<string>()
+                         .With((Adjective p) => "adjective")
+                         .With((PresentParticipleGerund p) => "presentparticiplegerund")
+                         .With((Verb p) => "verbal")
+                         .With((IConjunctive p) => "conjunctive").Result())
+                    .Result("lexical-default-style")
+                };
+
+
+
+
             }
         }
     }
-
-
 }

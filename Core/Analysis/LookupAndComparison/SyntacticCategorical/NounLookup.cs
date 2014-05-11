@@ -31,7 +31,9 @@ namespace LASI.Core.Heuristics
         /// </summary>
         internal override void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
-                for (int i = 0; i < HEADER_LENGTH; ++i) {
+                for (int i = 0;
+                i < HEADER_LENGTH;
+                ++i) {
                     reader.ReadLine();
                 }
 
@@ -113,7 +115,7 @@ namespace LASI.Core.Heuristics
             results.AddRange(containingSet.Words);
             results.AddRange(containingSet[NounSetLink.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedSets
+            foreach (var set in containingSet.ReferencedSetIds
                 .Except(containingSet[NounSetLink.HypERnym])
                 .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; })) {
                 if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set)) {
@@ -155,8 +157,7 @@ namespace LASI.Core.Heuristics
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink>
-        {
+        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink> {
             ["!"] = NounSetLink.Antonym,
             ["@"] = NounSetLink.HypERnym,
             ["@i"] = NounSetLink.InstanceHypERnym,

@@ -62,20 +62,14 @@ namespace LASI.Core.Heuristics
         }
         private const string pointerRegex = @"\D{1,2}\s*\d{8}";
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
-        private ISet<string> SearchFor(string word) {
+        private ISet<string> SearchFor(string search) {
 
 
             //gets words of searched word
-            var tempWords = from sw in allSets
-                            where sw.Words.Contains(word)
-                            select sw.Words;
-            HashSet<string> results = new HashSet<string>(
-                (from Q in tempWords
-                 from q in Q
-                 select q).Distinct());
-
-
-            return results;
+            return allSets.AsParallel()
+                .Where(set => set.ContainsWord(search))
+                .SelectMany(set => set.Words)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         }
         internal override ISet<string> this[string search] {
@@ -96,15 +90,15 @@ namespace LASI.Core.Heuristics
 
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         private static readonly IReadOnlyDictionary<string, AdjectiveSetLink> interSetMap = new Dictionary<string, AdjectiveSetLink> {
-            { "!", AdjectiveSetLink. Antonym },
-            { "&", AdjectiveSetLink.SimilarTo},
-            { "<", AdjectiveSetLink.ParticipleOfVerb},
-            { @"\", AdjectiveSetLink.Pertainym_pertains_to_noun},
-            { "=", AdjectiveSetLink.Attribute},
-            { "^", AdjectiveSetLink.AlsoSee },
-            { ";c", AdjectiveSetLink.DomainOfSynset_TOPIC },
-            { ";r", AdjectiveSetLink.DomainOfSynset_REGION },
-            { ";u", AdjectiveSetLink.DomainOfSynset_USAGE}
+            ["!"] = AdjectiveSetLink.Antonym,
+            ["&"] = AdjectiveSetLink.SimilarTo,
+            ["<"] = AdjectiveSetLink.ParticipleOfVerb,
+            [@"\"] = AdjectiveSetLink.Pertainym_pertains_to_noun,
+            ["="] = AdjectiveSetLink.Attribute,
+            ["^"] = AdjectiveSetLink.AlsoSee,
+            [";c"] = AdjectiveSetLink.DomainOfSynset_TOPIC,
+            [";r"] = AdjectiveSetLink.DomainOfSynset_REGION,
+            [";u"] = AdjectiveSetLink.DomainOfSynset_USAGE
         };
 
     }

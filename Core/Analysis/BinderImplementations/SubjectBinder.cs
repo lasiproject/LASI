@@ -163,13 +163,11 @@ namespace LASI.Core.Binding
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>
         public static bool HasSubjectPronoun(this Phrase p) {
-            foreach (var w in p.Words) {
-                if ((w is Pronoun) && (w.Text == "he") || (w.Text == "they") || (w.Text == "she")) {
-                    return true;
-                }
-            }
-            return false;
+            return p.Words
+                .OfPronoun()
+                .Any(w => subjectPronounStrings.Contains(w.Text));
         }
+        private static readonly HashSet<string> subjectPronounStrings = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "he", "she", "it", "they" };
     }
 }
 

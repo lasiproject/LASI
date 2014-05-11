@@ -11,9 +11,10 @@ namespace LASI.Core.Heuristics
     {
         protected SynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<TSetRelationship, int>> pointerRelationships) {
             Id = id;
-            Words = new HashSet<string>(words);
+            Words = new HashSet<string>(words, StringComparer.OrdinalIgnoreCase);
+
             relatedSetsByRelationKindSource = pointerRelationships;
-            ReferencedSets = new HashSet<int>(pointerRelationships.Select(p => p.Value));
+            ReferencedSetIds = new HashSet<int>(pointerRelationships.Select(p => p.Value));
         }
         /// <summary>
         /// Gets the ID of the SynSet.
@@ -26,7 +27,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Gets the IDs of all sets referenced by the SynSet.
         /// </summary>
-        public HashSet<int> ReferencedSets { get; private set; }
+        public HashSet<int> ReferencedSetIds { get; private set; }
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
@@ -48,9 +49,21 @@ namespace LASI.Core.Heuristics
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
-        public ILookup<TSetRelationship, int> RelatedSetsByRelationKind {
+        public ILookup<TSetRelationship, int> RelatedSetIdsByRelationKind {
             get { if (referencedSetsByLinkType == null) referencedSetsByLinkType = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value); return referencedSetsByLinkType; }
         }
+        /// <summary>
+        /// Returns a value indicating whether the given word is directly contained within the SynSet.
+        /// </summary>
+        /// <param name="word">The word to find.</param>
+        /// <returns>True if the given word is directly contained within the Synset; otherwise false.</returns>
+        public bool ContainsWord(string word) { return word.Contains(word); }
+        /// <summary>
+        /// Returns a value indicating whether the current SynSet directly links to the given SynSet.
+        /// </summary>
+        /// <param name="other">The SynSet to find.</param>
+        /// <returns>True if the current SynSet directly links to given SynSet; otherwise false.</returns>
+        public bool DirectlyReferences(SynSet<TSetRelationship> other) { return ReferencedSetIds.Contains(other.Id); }
 
         public override int GetHashCode() {
             return Id;
@@ -70,17 +83,23 @@ namespace LASI.Core.Heuristics
             return "[" + Id + "] " + Words
                 .Format(Tuple.Create(' ', ',', ' '));
         }
-        public static bool operator ==(SynSet<TSetRelationship> lhs, SynSet<TSetRelationship> rhs) {
-            if (ReferenceEquals(lhs, null))
-                return ReferenceEquals(rhs, null);
-            if (ReferenceEquals(rhs, null))
-                return ReferenceEquals(lhs, null);
-            return lhs.Id == rhs.Id;
+        public static bool operator ==(SynSet<TSetRelationship> left, SynSet<TSetRelationship> right) {
+            if (ReferenceEquals(left, null))
+                return ReferenceEquals(right, null);
+            if (ReferenceEquals(right, null))
+                return ReferenceEquals(left, null);
+            return left.Id == right.Id;
         }
-        public static bool operator !=(SynSet<TSetRelationship> lhs, SynSet<TSetRelationship> rhs) {
-            return !(lhs == rhs);
+        public static bool operator !=(SynSet<TSetRelationship> left, SynSet<TSetRelationship> right) {
+            return !(left == right);
         }
+
+
     }
+
+
+
+
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
