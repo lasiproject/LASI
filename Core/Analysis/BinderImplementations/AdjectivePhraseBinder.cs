@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace LASI.Core.Binding
 {
     /// <summary>
-    /// A Binder which binds the AdjectivePhrases within a sentence to Applicable NounPhrases.
+    /// A Binder which binds the AdjectivePhrases within a sentence to applicable phrase level entities.
     /// </summary>
     public static class AdjectivePhraseBinder
     {
         /// <summary>
-        /// Binds the AdjectivePhrases within a sentence to Applicable NounPhrases.
+        /// Binds the AdjectivePhrases within a sentence to applicable phrase level entities.
         /// </summary>
         /// <param name="sentence">The Sentence to bind within.</param>
         public static void Bind(Sentence sentence) {
@@ -23,19 +23,11 @@ namespace LASI.Core.Binding
         }
 
         private static IEnumerable<Action> GetPossibilities(Sentence sentence) {
-            return
-                from bindingPair in
-                    (
-                        from ADJP in sentence.Phrases.OfAdjectivePhrase()
-                        let NP = ADJP.NextPhrase as NounPhrase
-                        select new { ADJP, NP })
-                        .Concat(
-                        from clause in sentence.Clauses
-                        from ADJP in clause.Phrases.Reverse().Take(1).OfAdjectivePhrase()
-                        let NP = ADJP.PreviousPhrase as NounPhrase
-                        select new { ADJP, NP })
-                where bindingPair.NP != null && bindingPair.NP.Clause == bindingPair.ADJP.Clause
-                select new Action(() => bindingPair.NP.BindDescriptor(bindingPair.ADJP));
+            return from adjectival in sentence.Phrases.OfAdjectivePhrase().Concat(sentence.Clauses.SelectMany(c => c.Phrases.OfAdjectivePhrase().Reverse().Take(1)))
+                   where adjectival.Clause == adjectival.NextPhrase.Clause
+                   let described = adjectival.NextPhrase as NounPhrase
+                   where described != null
+                   select new Action(() => described.BindDescriptor(adjectival));
         }
     }
 }
