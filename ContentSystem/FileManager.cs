@@ -27,8 +27,8 @@ namespace LASI.ContentSystem
             ProjectName = projectDir.Substring(projectDir.LastIndexOf('\\') + 1);
             ProjectDir = projectDir;
             InitializeDirProperties();
-            CheckProjectDirs();
-            Initialized = true;
+            CheckDirectoryExistence();
+            CheckInputDirectories(); Initialized = true;
         }
 
         private static void InitializeDirProperties() {
@@ -42,13 +42,6 @@ namespace LASI.ContentSystem
             ResultsDir = ProjectDir + @"\results";
         }
 
-        /// <summary>
-        /// Checks the existing contents of the current project directory and automatically loads the files it finds. Called by initialize
-        /// </summary>
-        private static void CheckProjectDirs() {
-            CheckDirectoryExistence();
-            CheckInputDirectories();
-        }
 
         /// <summary>
         /// Checks for the existence of the extension statiffied input file project subject-directories and creates them if they do not exist.

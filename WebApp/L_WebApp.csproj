@@ -421,7 +421,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\CreateAccount.cshtml" />
-    <Content Include="App_Data\Users\Users.Json" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -511,6 +510,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
+    <Folder Include="App_Data\Users\" />
     <Folder Include="Models\Example\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>

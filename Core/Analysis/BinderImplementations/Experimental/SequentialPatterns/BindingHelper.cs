@@ -14,8 +14,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                       where T1 : class, ILexical
                       where T2 : class, ILexical
                       where T3 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             return elements.Count >= 3 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -27,8 +26,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                          where T2 : class, ILexical
                          where T3 : class, ILexical
                          where T4 : class, ILexical
-                         where TLexical : class, ILexical
-        {
+                         where TLexical : class, ILexical {
             return elements.Count >= 4 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -42,8 +40,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                         where T3 : class, ILexical
                         where T4 : class, ILexical
                         where T5 : class, ILexical
-                        where TLexical : class, ILexical
-        {
+                        where TLexical : class, ILexical {
             return elements.Count >= 5 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -60,8 +57,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                         where T4 : class, ILexical
                         where T5 : class, ILexical
                         where T6 : class, ILexical
-                        where TLexical : class, ILexical
-        {
+                        where TLexical : class, ILexical {
             return elements.Count >= 6 &&
                elements[0] is T1 &&
                elements[1] is T2 &&
@@ -79,8 +75,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                        where T5 : class, ILexical
                        where T6 : class, ILexical
                        where T7 : class, ILexical
-                       where TLexical : class, ILexical
-        {
+                       where TLexical : class, ILexical {
             return elements.Count >= 7 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -101,8 +96,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                       where T6 : class, ILexical
                       where T7 : class, ILexical
                       where T8 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             return elements.Count >= 8 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -124,8 +118,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                      where T7 : class, ILexical
                      where T8 : class, ILexical
                      where T9 : class, ILexical
-                     where TLexical : class, ILexical
-        {
+                     where TLexical : class, ILexical {
             return elements.Count >= 9 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -148,8 +141,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                      where T8 : class, ILexical
                      where T9 : class, ILexical
                      where T10 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             return elements.Count >= 10 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -175,8 +167,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                      where T9 : class, ILexical
                      where T10 : class, ILexical
                      where T11 : class, ILexical
-                     where TLexical : class, ILexical
-        {
+                     where TLexical : class, ILexical {
             return elements.Count >= 11 &&
                           elements[0] is T1 &&
                           elements[1] is T2 &&
@@ -205,8 +196,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                    where T10 : class, ILexical
                    where T11 : class, ILexical
                    where T12 : class, ILexical
-                   where TLexical : class, ILexical
-        {
+                   where TLexical : class, ILexical {
             return elements.Count >= 12 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -238,8 +228,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                where T11 : class, ILexical
                where T12 : class, ILexical
                where T13 : class, ILexical
-               where TLexical : class, ILexical
-        {
+               where TLexical : class, ILexical {
             return elements.Count >= 13 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -271,8 +260,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
            where T12 : class, ILexical
            where T13 : class, ILexical
            where T14 : class, ILexical
-           where TLexical : class, ILexical
-        {
+           where TLexical : class, ILexical {
             return elements.Count >= 14 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -307,8 +295,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T13 : class, ILexical
         where T14 : class, ILexical
         where T15 : class, ILexical
-        where TLexical : class, ILexical
-        {
+        where TLexical : class, ILexical {
             return elements.Count >= 15 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -346,8 +333,7 @@ where T13 : class, ILexical
 where T14 : class, ILexical
 where T15 : class, ILexical
 where T16 : class, ILexical
-where TLexical : class, ILexical
-        {
+where TLexical : class, ILexical {
             return elements.Count >= 16 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -386,8 +372,7 @@ where T14 : class, ILexical
 where T15 : class, ILexical
 where T16 : class, ILexical
 where T17 : class, ILexical
-where TLexical : class, ILexical
-        {
+where TLexical : class, ILexical {
             return elements.Count >= 17 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -430,8 +415,7 @@ where T15 : class, ILexical
 where T16 : class, ILexical
 where T17 : class, ILexical
 where T18 : class, ILexical
-where TLexical : class, ILexical
-        {
+where TLexical : class, ILexical {
             return elements.Count >= 18 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -474,8 +458,7 @@ where T16 : class, ILexical
 where T17 : class, ILexical
 where T18 : class, ILexical
 where T19 : class, ILexical
-where TLexical : class, ILexical
-        {
+where TLexical : class, ILexical {
             return elements.Count >= 19 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -519,8 +502,7 @@ where T17 : class, ILexical
 where T18 : class, ILexical
 where T19 : class, ILexical
 where T20 : class, ILexical
-where TLexical : class, ILexical
-        {
+where TLexical : class, ILexical {
             return elements.Count >= 19 &&
               elements[0] is T1 &&
               elements[1] is T2 &&
@@ -548,8 +530,7 @@ where TLexical : class, ILexical
                       where T1 : class, ILexical
                       where T2 : class, ILexical
                       where T3 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             return elements.Count >= 3 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -560,8 +541,7 @@ where TLexical : class, ILexical
                          where T2 : class, ILexical
                          where T3 : class, ILexical
                          where T4 : class, ILexical
-                         where TLexical : class, ILexical
-        {
+                         where TLexical : class, ILexical {
             return elements.Count >= 4 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -574,8 +554,7 @@ where TLexical : class, ILexical
                       where T3 : class, ILexical
                       where T4 : class, ILexical
                       where T5 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             return elements.Count >= 5 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -590,8 +569,7 @@ where TLexical : class, ILexical
                    where T4 : class, ILexical
                    where T5 : class, ILexical
                    where T6 : class, ILexical
-                   where TLexical : class, ILexical
-        {
+                   where TLexical : class, ILexical {
             return elements.Count == 6 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -608,8 +586,7 @@ where TLexical : class, ILexical
                   where T5 : class, ILexical
                   where T6 : class, ILexical
                   where T7 : class, ILexical
-                  where TLexical : class, ILexical
-        {
+                  where TLexical : class, ILexical {
             return elements.Count == 7 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -628,8 +605,7 @@ where TLexical : class, ILexical
                 where T6 : class, ILexical
                 where T7 : class, ILexical
                 where T8 : class, ILexical
-                where TLexical : class, ILexical
-        {
+                where TLexical : class, ILexical {
             return elements.Count == 8 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -650,8 +626,7 @@ where TLexical : class, ILexical
               where T7 : class, ILexical
               where T8 : class, ILexical
               where T9 : class, ILexical
-              where TLexical : class, ILexical
-        {
+              where TLexical : class, ILexical {
             return elements.Count == 9 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -673,8 +648,7 @@ where TLexical : class, ILexical
             where T7 : class, ILexical
             where T8 : class, ILexical
             where T9 : class, ILexical
-            where TLexical : class, ILexical
-        {
+            where TLexical : class, ILexical {
             return elements.Count == 10 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
@@ -694,8 +668,7 @@ where TLexical : class, ILexical
                                   where T1 : class, ILexical
                                   where T2 : class, ILexical
                                   where T3 : class, ILexical
-                                  where TLexical : class, ILexical
-        {
+                                  where TLexical : class, ILexical {
             pattern(elements[0] as T1)(elements[1] as T2)(elements[2] as T3);
         }
         internal static void Apply<T1, T2, T3, T4, TLexical>(this Func<T1, Func<T2, Func<T3, Action<T4>>>> pattern, IReadOnlyList<TLexical> elements)
@@ -703,8 +676,7 @@ where TLexical : class, ILexical
                          where T2 : class, ILexical
                          where T3 : class, ILexical
                          where T4 : class, ILexical
-                         where TLexical : class, ILexical
-        {
+                         where TLexical : class, ILexical {
             pattern(
                     elements[0] as T1)(
                 elements[1] as T2)(
@@ -717,8 +689,7 @@ where TLexical : class, ILexical
                       where T3 : class, ILexical
                       where T4 : class, ILexical
                       where T5 : class, ILexical
-                      where TLexical : class, ILexical
-        {
+                      where TLexical : class, ILexical {
             pattern(elements[0] as T1)(
                 elements[1] as T2)(
                 elements[2] as T3)(
@@ -732,8 +703,7 @@ where TLexical : class, ILexical
                    where T4 : class, ILexical
                    where T5 : class, ILexical
                    where T6 : class, ILexical
-                   where TLexical : class, ILexical
-        {
+                   where TLexical : class, ILexical {
             pattern(
                elements[0] as T1)(
                 elements[1] as T2)(
@@ -750,8 +720,7 @@ where TLexical : class, ILexical
                   where T5 : class, ILexical
                   where T6 : class, ILexical
                   where T7 : class, ILexical
-                  where TLexical : class, ILexical
-        {
+                  where TLexical : class, ILexical {
             pattern(
                 elements[0] as T1)(
                 elements[1] as T2)(
@@ -770,8 +739,7 @@ where TLexical : class, ILexical
                 where T6 : class, ILexical
                 where T7 : class, ILexical
                 where T8 : class, ILexical
-                where TLexical : class, ILexical
-        {
+                where TLexical : class, ILexical {
             pattern(elements[0] as T1)(
                 elements[1] as T2)(
                 elements[2] as T3)(
@@ -791,8 +759,7 @@ where TLexical : class, ILexical
               where T7 : class, ILexical
               where T8 : class, ILexical
               where T9 : class, ILexical
-              where TLexical : class, ILexical
-        {
+              where TLexical : class, ILexical {
             pattern(elements[0] as T1)(
                 elements[1] as T2)(
                 elements[2] as T3)(
@@ -813,8 +780,7 @@ where TLexical : class, ILexical
             where T7 : class, ILexical
             where T8 : class, ILexical
             where T9 : class, ILexical
-            where T10 : class, ILexical
-        {
+            where T10 : class, ILexical {
             pattern(
                    elements[0] as T1)(
                 elements[1] as T2)(
@@ -831,8 +797,7 @@ where TLexical : class, ILexical
         internal static bool ApplyIfApplicable<T1, T2, T3>(this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<ILexical> elements)
                                 where T1 : class, ILexical
                                 where T2 : class, ILexical
-                                where T3 : class, ILexical
-        {
+                                where T3 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -842,8 +807,7 @@ where TLexical : class, ILexical
                          where T1 : class, ILexical
                          where T2 : class, ILexical
                          where T3 : class, ILexical
-                         where T4 : class, ILexical
-        {
+                         where T4 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -855,8 +819,7 @@ where TLexical : class, ILexical
                       where T2 : class, ILexical
                       where T3 : class, ILexical
                       where T4 : class, ILexical
-                      where T5 : class, ILexical
-        {
+                      where T5 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -869,8 +832,7 @@ where TLexical : class, ILexical
                    where T3 : class, ILexical
                    where T4 : class, ILexical
                    where T5 : class, ILexical
-                   where T6 : class, ILexical
-        {
+                   where T6 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -884,8 +846,7 @@ where TLexical : class, ILexical
                   where T4 : class, ILexical
                   where T5 : class, ILexical
                   where T6 : class, ILexical
-                  where T7 : class, ILexical
-        {
+                  where T7 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -900,8 +861,7 @@ where TLexical : class, ILexical
                 where T5 : class, ILexical
                 where T6 : class, ILexical
                 where T7 : class, ILexical
-                where T8 : class, ILexical
-        {
+                where T8 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -917,8 +877,7 @@ where TLexical : class, ILexical
               where T6 : class, ILexical
               where T7 : class, ILexical
               where T8 : class, ILexical
-              where T9 : class, ILexical
-        {
+              where T9 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -935,8 +894,7 @@ where TLexical : class, ILexical
             where T7 : class, ILexical
             where T8 : class, ILexical
             where T9 : class, ILexical
-            where T10 : class, ILexical
-        {
+            where T10 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -946,8 +904,7 @@ where TLexical : class, ILexical
         internal static bool ApplyIfApplicable<T1, T2, T3>(this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<Phrase> elements)
                                where T1 : class, ILexical
                                where T2 : class, ILexical
-                               where T3 : class, ILexical
-        {
+                               where T3 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -957,8 +914,7 @@ where TLexical : class, ILexical
                          where T1 : class, ILexical
                          where T2 : class, ILexical
                          where T3 : class, ILexical
-                         where T4 : class, ILexical
-        {
+                         where T4 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -970,8 +926,7 @@ where TLexical : class, ILexical
                       where T2 : class, ILexical
                       where T3 : class, ILexical
                       where T4 : class, ILexical
-                      where T5 : class, ILexical
-        {
+                      where T5 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -984,8 +939,7 @@ where TLexical : class, ILexical
                    where T3 : class, ILexical
                    where T4 : class, ILexical
                    where T5 : class, ILexical
-                   where T6 : class, ILexical
-        {
+                   where T6 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -999,8 +953,7 @@ where TLexical : class, ILexical
                   where T4 : class, ILexical
                   where T5 : class, ILexical
                   where T6 : class, ILexical
-                  where T7 : class, ILexical
-        {
+                  where T7 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -1015,8 +968,7 @@ where TLexical : class, ILexical
                 where T5 : class, ILexical
                 where T6 : class, ILexical
                 where T7 : class, ILexical
-                where T8 : class, ILexical
-        {
+                where T8 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -1032,8 +984,7 @@ where TLexical : class, ILexical
               where T6 : class, ILexical
               where T7 : class, ILexical
               where T8 : class, ILexical
-              where T9 : class, ILexical
-        {
+              where T9 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);
@@ -1050,8 +1001,7 @@ where TLexical : class, ILexical
             where T7 : class, ILexical
             where T8 : class, ILexical
             where T9 : class, ILexical
-            where T10 : class, ILexical
-        {
+            where T10 : class, ILexical {
             var r = pattern.Applicable(elements);
             if (r)
                 pattern.Apply(elements);

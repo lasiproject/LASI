@@ -14,8 +14,8 @@ namespace LASI.App.LexicalElementInfo
 
         public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
             return element.Match().Yield<ContextMenu>()
-                .With<IVerbal>(e => ForVerbal(e, labelsInContext))
-                .With<IReferencer>(e => ForReferencer(e, labelsInContext))
+                .With((IVerbal v) => ForVerbal(v, labelsInContext))
+                .With((IReferencer r) => ForReferencer(r, labelsInContext))
                 .Result();
         }
         #region Lexical Element Context Menu Construction
@@ -126,7 +126,7 @@ namespace LASI.App.LexicalElementInfo
                     ResetLabelBrushes(labelsInContext);
                     var labels = from l in labelsInContext
                                  where pro.ReferesTo == l.Tag || l.Tag is NounPhrase &&
-                                 pro.ReferesTo.ToHashSet().Overlaps((l.Tag as NounPhrase).Words.OfEntity())
+                                 pro.ReferesTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
                                  select l;
                     foreach (var l in labels) {
                         l.Foreground = Brushes.White;

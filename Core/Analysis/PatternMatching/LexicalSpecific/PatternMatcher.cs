@@ -105,7 +105,7 @@ namespace LASI.Core
             return new LASI.Core.PatternMatching.Match<T>(value);
         }
         static void Test(ILexical l) {
-            var x = l
+            double x = l
             | new Case { (ILexical v) => v.Weight }
             | new Case { };
 

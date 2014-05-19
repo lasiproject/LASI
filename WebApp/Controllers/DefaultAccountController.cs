@@ -26,7 +26,8 @@ namespace LASI.WebApp.Controllers
                 if (WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)) {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return Json(new { success = true, redirect = returnUrl });
-                } else {
+                }
+                else {
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
             }
@@ -141,11 +142,13 @@ namespace LASI.WebApp.Controllers
 
                     if (changePasswordSucceeded) {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    } else {
+                    }
+                    else {
                         ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
                     }
                 }
-            } else {
+            }
+            else {
                 // User does not have a local password so remove any validation errors caused by a missing
                 // OldPassword field
                 ModelState state = ModelState["OldPassword"];
@@ -196,7 +199,8 @@ namespace LASI.WebApp.Controllers
                 // If the current user is logged in add the new account
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
                 return RedirectToLocal(returnUrl);
-            } else {
+            }
+            else {
                 // User is new, ask for their desired membership name
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
@@ -235,7 +239,8 @@ namespace LASI.WebApp.Controllers
                         OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
                         return RedirectToLocal(returnUrl);
-                    } else {
+                    }
+                    else {
                         ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
                     }
                 }
@@ -283,7 +288,8 @@ namespace LASI.WebApp.Controllers
         private ActionResult RedirectToLocal(string returnUrl) {
             if (Url.IsLocalUrl(returnUrl)) {
                 return Redirect(returnUrl);
-            } else {
+            }
+            else {
                 return RedirectToAction("Index", "Home");
             }
         }

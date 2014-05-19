@@ -16,7 +16,7 @@ namespace LASI.App
         public Brush this[ILexical syntactic] {
             get {
                 return syntactic.Match().Yield<Brush>()
-                  .With((Phrase p) => p.Match().Yield<Brush>()
+                    .With((Phrase p) => p.Match().Yield<Brush>()
                           .With((PronounPhrase e) => Brushes.HotPink)
                           .When((NounPhrase n) => n.Words.OfProperNoun().Any())
                           .Then(Brushes.DarkBlue)
@@ -28,13 +28,13 @@ namespace LASI.App
                           .With((IPrepositional e) => Brushes.DarkOrange)
                           .With((IDescriptor e) => Brushes.Indigo)
                           .With((IAdverbial e) => Brushes.Orange)
-                      .Result(Brushes.Black))
-                  .With((Word w) => w.Match().Yield<Brush>()
+                          .Result(Brushes.Black))
+                    .With((Word w) => w.Match().Yield<Brush>()
                           .With((Adjective e) => Brushes.Indigo)
                           .With((PresentParticipleGerund e) => Brushes.DarkGreen)
                           .With((Verb e) => Brushes.Green)
-                      .Result(Brushes.Black))
-                  .Result();
+                          .Result(Brushes.Black))
+                    .Result();
             }
         }
     }

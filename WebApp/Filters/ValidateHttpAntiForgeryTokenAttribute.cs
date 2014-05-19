@@ -18,7 +18,8 @@ namespace LASI.WebApp.Filters
             try {
                 if (IsAjaxRequest(request)) {
                     ValidateRequestHeader(request);
-                } else {
+                }
+                else {
                     AntiForgery.Validate();
                 }
             }

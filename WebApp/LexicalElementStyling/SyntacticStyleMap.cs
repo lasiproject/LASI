@@ -23,9 +23,8 @@ namespace LASI.WebApp
         public Style this[ILexical syntacticElement] {
             get {
                 return new Style {
-                    CssClass =
-                    syntacticElement.Match().Yield<string>()
-                    .With((Phrase px) => px.Match().Yield<string>()
+                    CssClass = syntacticElement.Match().Yield<string>()
+                    .With((Phrase phrase) => phrase.Match().Yield<string>()
                         .With((PronounPhrase p) => "referencer")
                         .With((NounPhrase n) => n.Words.OfProperNoun().Any() ? "nounphrase proper" : "nounphrase")
                         .With((InfinitivePhrase i) => "infinitive")
@@ -36,11 +35,11 @@ namespace LASI.WebApp
                         .With((IDescriptor p) => "descriptor")
                         .With((IAdverbial a) => "adverbial")
                         .With((IConjunctive c) => "conjunctive").Result())
-                   .With((Word w) => w.Match().Yield<string>()
-                         .With((Adjective p) => "adjective")
-                         .With((PresentParticipleGerund p) => "presentparticiplegerund")
-                         .With((Verb p) => "verbal")
-                         .With((IConjunctive p) => "conjunctive").Result())
+                    .With((Word word) => word.Match().Yield<string>()
+                         .With((Adjective w) => "adjective")
+                         .With((PresentParticipleGerund w) => "presentparticiplegerund")
+                         .With((Verb w) => "verbal")
+                         .With((IConjunctive w) => "conjunctive").Result())
                     .Result("lexical-default-style")
                 };
 

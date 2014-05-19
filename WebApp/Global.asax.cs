@@ -23,7 +23,6 @@ namespace LASI.WebApp
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
             InitializeCoreHooks();
         }
         /// <summary>
