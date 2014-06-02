@@ -480,8 +480,64 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private TResult result = default(TResult);
         #endregion
+        #region Operators
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IAggregateEntity, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IVerbal, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IEntity, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IReferencer, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IDescriptor, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IAdverbial, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IConjunctive, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<IPrepositional, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Adverb, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<ProperSingularNoun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<ProperPluralNoun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<NounPhrase, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<AdjectivePhrase, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<PronounPhrase, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<VerbPhrase, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<InfinitivePhrase, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Adjective, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Preposition, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Conjunction, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<CommonNoun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<ProperNoun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Noun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Pronoun, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<ILexical, TResult> f) { return m.With(f); }
+        public static Match<T, TResult> operator |(Match<T, TResult> m, Func<Word, TResult> f) { return m.With(f); }
+
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IAggregateEntity, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IVerbal, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IEntity, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IReferencer, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IDescriptor, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IAdverbial, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IConjunctive, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<IPrepositional, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Adverb, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<ProperSingularNoun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<ProperPluralNoun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<NounPhrase, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<AdjectivePhrase, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<PronounPhrase, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<VerbPhrase, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<InfinitivePhrase, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Adjective, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Preposition, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Conjunction, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<CommonNoun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<ProperNoun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Noun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Pronoun, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<ILexical, bool> f) { return m.When(f); }
+        public static PredicatedMatch<T, TResult> operator &(Match<T, TResult> m, Func<Word, bool> f) { return m.When(f); }
 
 
+
+        public static TResult operator |(Match<T, TResult> m, TResult defaultValue) { return m.Result(defaultValue); }
+        //public static TResult operator |(Match<T, TResult> m, Func<TResult> defaultValueFactory) { return m.Result(defaultValueFactory); }
+        #endregion
     }
     /// <summary>
     /// Provides for the representation and free-form structuring of a non result yielding Match expression which is predicated by an arbitrary condition.
@@ -643,7 +699,37 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private Match<T, TResult> inner;
         #endregion
+        #region Operators
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IAggregateEntity, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IVerbal, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IEntity, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IReferencer, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IDescriptor, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IAdverbial, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IConjunctive, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IPrepositional, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Adverb, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperSingularNoun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperPluralNoun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<NounPhrase, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<AdjectivePhrase, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<PronounPhrase, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<VerbPhrase, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<InfinitivePhrase, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Adjective, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Preposition, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Conjunction, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<CommonNoun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperNoun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Noun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Pronoun, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ILexical, TResult> f) { return m.Then(f); }
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Word, TResult> f) { return m.Then(f); }
 
+        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, TResult defaultValue) { return m.Then(defaultValue); }
+        //public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<T, TResult> defaultValueFactory) { return m.Then(defaultValueFactory); }
+
+        #endregion
     }
 
 

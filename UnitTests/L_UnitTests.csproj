@@ -102,6 +102,7 @@
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\ExpressionExtensionsTests.cs" />
     <Compile Include="CharExtensionsTests.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />

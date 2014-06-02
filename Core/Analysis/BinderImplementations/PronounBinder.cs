@@ -30,13 +30,12 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Binds possessive pronouns located in the sequence of phrases sentence. 
         /// Example Sentence that this applies to:
-        /// "LASI binds it's pronouns."
-        /// Pronoun "it's" binds to the proper noun "LASI"
+        /// "LASI binds its pronouns."
+        /// Pronoun "its" binds to the proper noun "LASI"
         /// </summary>
         /// <param name="phrases">The sequence of phrases to bind within.</param>
         private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
-            foreach (var vp in phrases.OfVerbPhrase()
-                .WithObject(o => o is IWeakPossessor)) {
+            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor)) {
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns) {
                     pro.PossessesFor = new AggregateEntity(vp.Subjects);

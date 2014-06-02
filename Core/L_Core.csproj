@@ -124,11 +124,11 @@
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\IRelationshipLookup.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\SampleRelationshipLookup.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
+    <Compile Include="Analysis\RelationshipLookups\IRelationshipLookup.cs" />
+    <Compile Include="Analysis\RelationshipLookups\SampleRelationshipLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\BinderImplementations\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\InvalidStateTransitionException.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Analysis\BinderImplementations\SubjectBinder.cs" />
     <Compile Include="Analysis\Weighter.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
-    <Compile Include="LexicalStructures\RelationshipLookups\AliasDictionary.cs" />
+    <Compile Include="Analysis\RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIEntityExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />

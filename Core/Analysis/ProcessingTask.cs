@@ -41,8 +41,7 @@ namespace LASI.Core
             string initializationMessage,
             string completionMessage,
             double percentWorkRepresented)
-            :
-            this(Task.Run(workToPerform),
+            : this(Task.Run(workToPerform),
             initializationMessage,
             completionMessage,
             percentWorkRepresented) { }

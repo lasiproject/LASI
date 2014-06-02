@@ -70,13 +70,11 @@ namespace LASI.Core
                 sentences.AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence => {
-                        try { new SubjectBinder().Bind(sentence); }
-                        catch (Exception x) {
+                        try { new SubjectBinder().Bind(sentence); } catch (Exception x) {
                             if (x is NullReferenceException ||
                                 x is VerblessPhrasalSequenceException) { x.LogIfDebug(); } else { throw; }
                         }
-                        try { new ObjectBinder().Bind(sentence); }
-                        catch (Exception x) {
+                        try { new ObjectBinder().Bind(sentence); } catch (Exception x) {
                             if (x is InvalidStateTransitionException ||
                                 x is VerblessPhrasalSequenceException ||
                                 x is InvalidOperationException) {
@@ -84,8 +82,7 @@ namespace LASI.Core
                             } else { throw; }
                         }
                     });
-            }
-            catch (Exception x) { x.LogIfDebug(); }
+            } catch (Exception x) { x.LogIfDebug(); }
         }
 
 

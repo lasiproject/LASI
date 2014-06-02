@@ -33,22 +33,19 @@ namespace LASI.Interop
                 TimeWhenTaken = DateTime.Now
             };
         }
-
-
-
-
-
         /// <summary>
         /// Raised when less than the minimum amount of available RAM, in MB, remains.
         /// </summary>
         public static event EventHandler<MemoryThresholdExceededEventArgs> MemoryThresholdExceeded {
-            add {
-                Memory.MemoryUsageCritical += value;
-            }
+            add { Memory.MemoryUsageCritical += value; }
             remove { Memory.MemoryUsageCritical -= value; }
         }
 
         static ResourceUsageManager() {
+            BindDefaultHandlers();
+        }
+
+        private static void BindDefaultHandlers() {
             MemoryThresholdExceeded += (sender, e) => {
                 LASI.Core.Heuristics.Lookup.ClearNounCache();
                 LASI.Core.Heuristics.Lookup.ClearVerbCache();
@@ -56,6 +53,7 @@ namespace LASI.Interop
                 LASI.Core.Heuristics.Lookup.ClearAdverbCache();
             };
         }
+
 
 
         /// <summary>
@@ -94,9 +92,6 @@ namespace LASI.Interop
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary> 
         public DateTime TimeWhenTaken { get; internal set; }
-
-
-
     }
 
 }

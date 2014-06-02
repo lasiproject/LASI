@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
 {
-    using ActionReceiverPair = LASI.Core.Heuristics.ActionReceiverPair<IVerbal, IEntity>;
-    using EntityPair = LASI.Core.Heuristics.PerformerReceiverPair<IEntity, IEntity>;
+    using ActionReceiverPair = ActionReceiverPair<IVerbal, IEntity>;
+    using EntityPair = PerformerReceiverPair<IEntity, IEntity>;
     /// <summary>
     /// A sample (or test) implementation of the IRelationshipLookup interface.
     /// </summary>
@@ -26,15 +26,15 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="domain">The sequence of Sentence instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Sentence> domain)
-            : this(from s in domain.OfPhrase().OfVerbPhrase()
-                   select s) {
+            : this(from verbphrase in domain.OfPhrase().OfVerbPhrase()
+                   select verbphrase) {
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of Paragraph instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Paragraph> domain)
-            : this(domain.SelectMany(p => p.Sentences)) {
+            : this(domain.SelectMany(paragraph => paragraph.Sentences)) {
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
@@ -56,8 +56,7 @@ namespace LASI.Core.Heuristics
         /// <returns>The Verbals which are known to link the given action Performing Entity and action Receiving Entity.</returns>
         public IEnumerable<IVerbal> this[IEntity actionPerformer, IEntity actionReceiver] {
             get {
-                return
-                    verbalRelationshipDomain
+                return verbalRelationshipDomain
                     .WithSubject(p => p == actionPerformer)
                     .WithObject(r => r == actionReceiver);
             }
@@ -73,8 +72,7 @@ namespace LASI.Core.Heuristics
         /// <returns>The Verbals which are known to link the given action Performing Entity and action Receiving Entity.</returns>
         public IEnumerable<IVerbal> this[IEntity actionPerformer, Func<IEntity, IEntity, bool> performerComparer, IEntity actionReceiver, Func<IEntity, IEntity, bool> receiverComparer] {
             get {
-                return
-                    verbalRelationshipDomain
+                return verbalRelationshipDomain
                     .WithSubject(s => performerComparer(actionPerformer, s))
                     .WithObject(o => receiverComparer(actionReceiver, o));
             }
@@ -163,7 +161,10 @@ namespace LASI.Core.Heuristics
         /// <param name="action">The Action which the Performing Entity performs.</param>
         /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>
         /// <returns>The collection of entities which are the recipients of the given action when performed by the given action Performer.</returns>
-        public IEnumerable<IEntity> this[IEntity actionPerformer, Func<IEntity, IEntity, bool> performerComparer, IVerbal action, Func<IVerbal, IVerbal, bool> actionComparer] {
+        public IEnumerable<IEntity> this[IEntity actionPerformer,
+            Func<IEntity, IEntity, bool> performerComparer,
+            IVerbal action,
+            Func<IVerbal, IVerbal, bool> actionComparer] {
             get {
                 return from act in verbalRelationshipDomain
                        where actionComparer(act, action)

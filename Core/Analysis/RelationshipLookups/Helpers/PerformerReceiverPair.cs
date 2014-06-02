@@ -11,20 +11,19 @@ namespace LASI.Core.Heuristics
     /// <typeparam name="TPerformer">The Type of the Performer Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
     /// <typeparam name="TReceiver">The Type of the Receiver Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
     /// <remarks>Any instance of the PerformerReceiverPair struct is immutable unless passed as a 'ref' or 'out' argument to a function.</remarks>
-    public struct PerformerReceiverPair<TPerformer, TReceiver>
+    public struct PerformerReceiverPair<TPerformer, TReceiver>(TPerformer performer, TReceiver receiver)
         where TPerformer : IEntity
         where TReceiver : IEntity
     {
         /// <summary>
-        /// Initializes a new instance of the ActionReceiverPair structure from the provided action performer and action receiver.
+        /// Gets the Performer.
         /// </summary>
-        /// <param name="performer">The performer of the action.</param>
-        /// <param name="receiver">The receiver of the action.</param>
-        public PerformerReceiverPair(TPerformer performer, TReceiver receiver)
-            : this() {
-            Performer = performer;
-            Receiver = receiver;
-        }
+        public TPerformer Performer { get; } = performer;
+        /// <summary>
+        /// Gets the Receiver.
+        /// </summary>
+        public TReceiver Receiver { get; } = receiver;
+
         /// <summary>
         /// Determines if the current Relationship instance is equal to the specified System.Object.
         /// </summary>
@@ -42,20 +41,7 @@ namespace LASI.Core.Heuristics
         public override int GetHashCode() {
             return Performer.GetHashCode() ^ Receiver.GetHashCode();
         }
-        /// <summary>
-        /// Gets the Performer.
-        /// </summary>
-        public TPerformer Performer {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// Gets the Receiver.
-        /// </summary>
-        public TReceiver Receiver {
-            get;
-            private set;
-        }
+
         /// <summary>
         /// Determines if two PerformerReceiverPair&lt;TPerformer, TReceiver&gt; instances are considered equal.
         /// </summary>

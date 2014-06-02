@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core
 {
@@ -105,9 +106,10 @@ namespace LASI.Core
             return new LASI.Core.PatternMatching.Match<T>(value);
         }
         static void Test(ILexical l) {
-            double x = l
-            | new Case { (ILexical v) => v.Weight }
-            | new Case { };
+            //var x = l.Match().Yield<double>()
+            //    & (v => v.Weight > 0)
+            //    | ((ILexical v) => v.Weight)
+            //    | (() => 0.0);
 
         }
     }
@@ -135,31 +137,6 @@ namespace LASI.Core
                 result = patterns[i](value);
             }
         }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IAggregateEntity, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IEntity, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IReferencer, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IDescriptor, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IAdverbial, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IConjunctive, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<IPrepositional, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Adverb, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperSingularNoun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperPluralNoun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<NounPhrase, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<AdjectivePhrase, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<PronounPhrase, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<VerbPhrase, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<InfinitivePhrase, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Adjective, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Preposition, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Conjunction, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<CommonNoun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ProperNoun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Noun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Pronoun, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<ILexical, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Word, TResult> f) { p.StorePattern(f); return p; }
-        public static Pattern<TResult> operator |(Pattern<TResult> p, Func<Phrase, TResult> f) { p.StorePattern(f); return p; }
 
 
         public void Add(Func<IVerbal, TResult> f) {
@@ -242,15 +219,14 @@ namespace LASI.Core
         //}
 
 
-        //public static implicit operator TResult(Pattern<TResult> pattern) {
-        //    return pattern.result;
-        //}
-        ////public static TResult operator |(Pattern<TResult> pattern, Func<IEntity, TResult> f) {
+        public static implicit operator TResult(Pattern<TResult> pattern) {
+            return pattern.result;
+        }
+        //public static TResult operator |(Pattern<TResult> pattern, Func<IEntity, TResult> f) {
         //    var x = default(IEntity)
         //        | new Case { (IEntity y) => f(y) }
         //        | new Case { (IEntity y) => default(TResult) }
         //        | new Case { (IEntity e) => default(TResult) };
-
 
 
         //    return new Pattern<TResult> { };
@@ -265,6 +241,9 @@ namespace LASI.Core
         //public Pattern<TResult> Add(Func<IEntity, TResult> f) {
         //    return new Pattern<TResult> { };
         //}
+        public static Case operator <(Case p, Func<IAggregateEntity, object> f) { return p; }
+        public static Case operator >(Case p, Func<IAggregateEntity, object> f) { return p; }
+
         public static implicit operator Case(Func<IAggregateEntity, object> f) { return new Case { }; }
         public static implicit operator Case(Func<IVerbal, object> f) { return new Case { }; }
         public static implicit operator Case(Func<IEntity, object> f) { return new Case { }; }
@@ -290,6 +269,9 @@ namespace LASI.Core
         public static implicit operator Case(Func<Pronoun, object> f) { return new Case { }; }
         public static implicit operator Case(Func<ILexical, object> f) { return new Case { }; }
         public static implicit operator Case(Func<Word, object> f) { return new Case { }; }
+
+
+
         public static Case operator |(Case p, Func<IAggregateEntity, object> f) { return p; }
         public static Case operator |(Case p, Func<IVerbal, object> f) { return p; }
         public static Case operator |(Case p, Func<IEntity, object> f) { return p; }

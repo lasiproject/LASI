@@ -111,10 +111,10 @@ namespace LASI.Interop
         /// </summary>
         public static event MemoryHandler MemoryUsageCritical = delegate { };
         private static MB GetAvailableMemory() {
-            return (MB)(uint)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
+            return (MB)new System.Diagnostics.PerformanceCounter("Memory", "Available MBytes").NextValue();
         }
 
-       
+
     }
 
 }

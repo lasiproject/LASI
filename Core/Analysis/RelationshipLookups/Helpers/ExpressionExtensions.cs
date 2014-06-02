@@ -19,17 +19,16 @@ namespace LASI.Core.Heuristics
         /// <param name="receiver">The second IEntity, the receiver of the action.</param>
         /// <returns>An object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.</returns>
         public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
-            Func<IEntity, IEntity, bool> predicate = (L, R) => L.IsAliasFor(R) || L.IsSimilarTo(R);
+            Func<IEntity, IEntity, bool> predicate = (x, y) => x.IsAliasFor(y) || x.IsSimilarTo(y);
 
             var lookupTable = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
             if (lookupTable != null) {
 
                 var actions = lookupTable[performer, predicate, receiver, predicate];
-                if (actions.Any())
-                    return new ActionsRelatedOn(actions);
-                else
-                    return null;
-            } else {
+                if (actions.Any()) { return new ActionsRelatedOn(actions); }
+                else { return null; }
+            }
+            else {
                 throw new InvalidOperationException(string.Format(@"There is no relationship lookup context associated with {0} or {1}.\n
                     Please associate a context by calling {2}.SetRelationshipLookup or {3}.SetRelationshipLookup appropriately.",
                     performer, receiver,
@@ -58,7 +57,6 @@ namespace LASI.Core.Heuristics
 
 
 
-
         private static ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
     }
     /// <summary>
@@ -66,11 +64,11 @@ namespace LASI.Core.Heuristics
     /// </summary>
     public struct ActionsRelatedOn : IEquatable<ActionsRelatedOn>
     {
-
-        internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn)
-            : this() {
-            RelatedOn = actionsRelatedOn;
-        }
+        /// <summary>
+        /// Intializes a new instance of the ActionsRelatedOn structure.
+        /// </summary>
+        /// <param name="actionsRelatedOn"></param>
+        internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn) : this() { RelatedOn = actionsRelatedOn; }
         /// <summary>
         /// Determines if the current ActionsRelatedOn instance is equal to another ActionsRelatedOn instance.
         /// </summary>
@@ -92,47 +90,37 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <returns>The hash code for the ActionsRelatedOn instance.</returns>
         public override int GetHashCode() {
-            return RelatedOn.Aggregate(0, (hash, action) => hash ^ action.GetHashCode());
+            return RelatedOn
+                .Select(e => e.GetHashCode()).Aggregate(0, (hashSoFar, hash) => hashSoFar ^ hash);
         }
-        internal IEnumerable<IVerbal> RelatedOn {
-            get;
-            private set;
-        }
+        internal IEnumerable<IVerbal> RelatedOn { get; private set; }
         /// <summary>
         /// Returns true if the given the ActionsRelatedOn? is not null, false otherwise.
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
         /// <returns>True if the given the ActionsRelatedOn? is not null, false otherwise.</returns>
-        public static bool operator true(ActionsRelatedOn? actions) {
-            return actions != null;
-        }
+        public static bool operator true(ActionsRelatedOn? actions) { return actions != null; }
 
         /// <summary>
         /// Returms true only if given the ActionsRelatedOn? is null;
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
         /// <returns>True if the given ActionsRelatedOn? is null; otherwise, false.</returns>
-        public static bool operator false(ActionsRelatedOn? actions) {
-            return actions == null;
-        }
+        public static bool operator false(ActionsRelatedOn? actions) { return actions == null; }
         /// <summary>
         /// Determines if two ActionsRelatedOn instances are equa;.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
         /// <returns>True if the ActionsRelatedOn instances are equal; otherwise, false.</returns>
-        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) {
-            return left.Equals(right);
-        }
+        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
         /// <summary>
         /// Determines if two ActionsRelatedOn instances are unequal.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
         /// <returns>True if the ActionsRelatedOn instances are unequal; otherwise, false.</returns>
-        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) {
-            return !(left == right);
-        }
+        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
 
 
     }
