@@ -59,11 +59,11 @@ namespace LASI.Core.Heuristics
         private void LinkSynset(VerbSynSet set) {
             setsById[set.Id] = set;
             foreach (var word in set.Words) {
-                if (setsByWord.TryGetValue(word, out VerbSynSet extantSet)) {
+                VerbSynSet extantSet;
+                if (setsByWord.TryGetValue(word, out extantSet)) {
                     extantSet.Words.UnionWith(set.Words);
                     extantSet.ReferencedSetIds.UnionWith(set.ReferencedSetIds);
-                }
-                else {
+                } else {
                     setsByWord[word] = set;
                 }
             }
@@ -71,13 +71,15 @@ namespace LASI.Core.Heuristics
         private ISet<string> SearchFor(string search) {
             var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
-                setsByWord.TryGetValue(root, out var containingSet);
+            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root =>
+            {
+                VerbSynSet containingSet;
+                setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
                 return containingSet == null ? new[] { search } :
                     containingSet[LinkType.Verb_Group, LinkType.Hypernym]
-                         .SelectMany(id => setsById.TryGetValue(id, out VerbSynSet set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>())
-                         .Select(id => setsById.TryGetValue(id, out var referenced) ? referenced : null)
+                         .SelectMany(id => { VerbSynSet set; return setsById.TryGetValue(id, out set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>(); })
+                         .Select(id => { VerbSynSet referenced; return setsById.TryGetValue(id, out referenced) ? referenced : null; })
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Append(root);
@@ -129,17 +131,17 @@ namespace LASI.Core.Heuristics
 
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType> {
-            ["!"] = LinkType.Antonym,
-            ["@"] = LinkType.Hypernym,
-            ["~"] = LinkType.Hyponym,
-            ["*"] = LinkType.Entailment,
-            [">"] = LinkType.Cause,
-            ["^"] = LinkType.AlsoSee,
-            ["$"] = LinkType.Verb_Group,
-            ["+"] = LinkType.DerivationallyRelatedForm,
-            [";c"] = LinkType.DomainOfSynset_TOPIC,
-            [";r"] = LinkType.DomainOfSynset_REGION,
-            [";u"] = LinkType.DomainOfSynset_USAGE
+            { "!", LinkType.Antonym },
+            { "@", LinkType.Hypernym },
+            { "~", LinkType.Hyponym },
+            { "*", LinkType.Entailment },
+            { ">", LinkType.Cause },
+            { "^", LinkType.AlsoSee },
+            { "$", LinkType.Verb_Group },
+            { "+", LinkType.DerivationallyRelatedForm },
+            { ";c", LinkType.DomainOfSynset_TOPIC },
+            { ";r", LinkType.DomainOfSynset_REGION },
+            { ";u", LinkType.DomainOfSynset_USAGE }
         };
     }
     /// <summary>

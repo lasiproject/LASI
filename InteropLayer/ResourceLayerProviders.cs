@@ -9,7 +9,7 @@ namespace LASI.Interop
     using Mode = ResourceUsageManager.Mode;
     using MemoryHandler = EventHandler<MemoryThresholdExceededEventArgs>;
     /// <summary>
-    /// Centrailizes management and control of the concurrency level of concurrent operations.
+    /// Centralizes management and control of the concurrency level of concurrent operations.
     /// </summary>
     public static class Concurrency
     {
@@ -27,9 +27,9 @@ namespace LASI.Interop
                 logicalCPUs < 4 ? 1 : logicalCPUs - 3 : GetDefaultParallelMax();
         }
         /// <summary>
-        /// Gets the default maxiumum number of logical CPU cores, based on the executing hardware, the document analysis process is allowed to utilize.
+        /// Gets the default maximum number of logical CPU cores, based on the executing hardware, the document analysis process is allowed to utilize.
         /// </summary>
-        /// <returns>The default maxiumum number of logical CPU cores the document analysis process is allowed to utilize.</returns>
+        /// <returns>The default maximum number of logical CPU cores the document analysis process is allowed to utilize.</returns>
         private static int GetDefaultParallelMax() {
             var logicalCPUs = System.Environment.ProcessorCount;
             return logicalCPUs < 3 ? logicalCPUs : logicalCPUs - 1;
@@ -41,13 +41,13 @@ namespace LASI.Interop
 
         static Concurrency() {
             Max = GetDefaultParallelMax();
-            // This is critical for LASI.Core to obey the same concurrency contstraints as its client assemblies without a circular dependency
+            // This is critical for LASI.Core to obey the same concurrency constraints as its client assemblies without a circular dependency
             LASI.Core.Interop.Configuation.ConfigureConcurrency(() => Max);
         }
 
     }
     /// <summary>
-    /// Centrailizes management and control of the memory (RAM) consumed by lookup caches.
+    /// Centralizes management and control of the memory (RAM) consumed by lookup caches.
     /// </summary>
     public static class Memory
     {
@@ -61,7 +61,7 @@ namespace LASI.Interop
 
         }
         /// <summary>
-        /// The maxiumum number of MBs to which the lookup caches can collectively grow.
+        /// The maximum number of MBs to which the lookup caches can collectively grow.
         /// </summary>
         public static MB MinRamThreshold { get; private set; }
 
@@ -81,10 +81,10 @@ namespace LASI.Interop
             };
         }
         /// <summary>
-        /// Configures a custom memory usage event and sets up its periodic orchestratation and execution.
+        /// Configures a custom memory usage event and sets up its periodic orchestration and execution.
         /// </summary>
         /// <param name="threshold">The condition, in terms of MegaBytes available to the Operating System, which must be met for the event to fire.</param>
-        /// <param name="frequency">The number of miliseconds between checks.</param>
+        /// <param name="frequency">The number of milliseconds between checks.</param>
         /// <param name="availableRamDecreased">The function to be invoked when available memory drops below the specified threshold.</param>
         /// <param name="availableRamIncreased">The function to be invoked when available memory is least 128 MegaBytes greater than the specified threshold.</param>
         static void ConfigureRamEvent(MB threshold, uint frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased) {

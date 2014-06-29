@@ -58,8 +58,8 @@
                                                         @e.Phrase.Text
                                                         <span id="@("context" + e.Id)" hidden="hidden">
                                                             @(e.Phrase.Match().Yield<dynamic>()
-                                                                .With<IVerbal>(v => v.GetJsonMenuData())
-                                                                .With<IReferencer>(r => r.GetJsonMenuData())
+                                                                .With((IVerbal v) => v.GetJsonMenuData())
+                                                                .With((IReferencer r) => r.GetJsonMenuData())
                                                             .Result(() => null))
                                                         </span>
                                                     </span>}
@@ -145,8 +145,8 @@
 </div>
 @section scripts{
 
-    <!--I can confirm that these Unix Style filepaths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
-    <!--aggreed-->
+    <!--I can confirm that these Unix Style file paths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
+    <!--agreed-->
     @Scripts.Render("~/Scripts/App/Home/Initialize.js")
     @Scripts.Render("~/Scripts/App/Home/Progress.js")
     @Scripts.Render("~/Scripts/App/Home/Results.js")

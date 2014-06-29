@@ -6,16 +6,19 @@
     <ProjectGuid>95bdf76d-5ba6-433a-b62d-e67bd31f8ee5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>IronPythonExperimentation.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
-    <WorkingDirectory>C:\Users\Aluan\Documents\GitHub\LASI</WorkingDirectory>
-    <InterpreterId>{fcc291aa-427c-498c-a4d7-4502d6449b8c}</InterpreterId>
-    <LaunchProvider>IronPython (.NET) launcher</LaunchProvider>
-    <InterpreterVersion>2.7</InterpreterVersion>
+    <SearchPath>.\..\..\</SearchPath>
+    <WorkingDirectory>.\..\..\</WorkingDirectory>
+    <InterpreterId>
+    </InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterVersion>
+    </InterpreterVersion>
     <OutputPath>.</OutputPath>
     <Name>IronPythonExperimentation</Name>
     <RootNamespace>IronPythonExperimentation</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
+    <DebugStdLib>False</DebugStdLib>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,14 +32,32 @@
     <None Include="IronPythonExperimentation.py" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="{80659ab7-4d53-4e0c-8588-a766116cbd46}\2.7" />
-    <InterpreterReference Include="{fcc291aa-427c-498c-a4d7-4502d6449b8c}\2.7" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="testDocs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="testDocs\testDoc1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ContentSystem\L_ContentSystem.csproj">
+      <Name>L_ContentSystem</Name>
+      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\L_Core.csproj">
+      <Name>L_Core</Name>
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InteropLayer\L_Interop.csproj">
+      <Name>L_Interop</Name>
+      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\L_Utilities.csproj">
+      <Name>L_Utilities</Name>
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

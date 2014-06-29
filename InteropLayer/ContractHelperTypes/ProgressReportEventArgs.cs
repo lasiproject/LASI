@@ -1,10 +1,4 @@
-﻿using LASI.Core;
-using LASI.Core.Heuristics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace LASI.Interop
 {
@@ -13,7 +7,7 @@ namespace LASI.Interop
     /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class AnalysisUpdateEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
+    public class AnalysisUpdateEventArgs : Core.Interop.Reporting.ReportEventArgs
     {
         /// <summary>
         /// Intializes a new instance of the ProgressReportEventArgs class.

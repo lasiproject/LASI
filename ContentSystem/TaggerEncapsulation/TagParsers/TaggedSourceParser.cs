@@ -38,7 +38,8 @@ namespace LASI.ContentSystem
         /// <returns>A traversable, queriable LASI.Algorithm.DocumentConstructs.Document instance defining representing the textual constructs of the tagged file which the TaggedSourceParser governs. 
         /// </returns>
         public override Document LoadDocument() {
-            return new Document(LoadParagraphs()) {
+            return new Document(LoadParagraphs())
+            {
                 Name = TaggededDocumentFile != null ? TaggededDocumentFile.NameSansExt : "Untitled"
             };
         }
@@ -151,12 +152,13 @@ namespace LASI.ContentSystem
             data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ").RemoveElements("<enumeration>", "</enumeration>");
             return data;
         }/// <summary>
-        /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
-        /// </summary>
-        /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
-        /// <returns>The string containing the processed text.</returns>
+         /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, with tokens that are easier to reliably parse.
+         /// </summary>
+         /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
+         /// <returns>The string containing the processed text.</returns>
         protected virtual async Task<string> PreProcessTextAsync(string data) {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
                 data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ");

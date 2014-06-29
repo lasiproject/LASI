@@ -9,7 +9,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
     /// <summary>
     /// Provides for the subscription of events involving the loading of core resources.
     /// </summary>
-    class SystemResourceNotifier : LASI.Interop.ContractHelperTypes.Base.SystemResourceNotifierImplementation
+    class SystemResourceNotifier : SystemResourceNotifierImplementation
     {
         /// <summary>
         /// Initializes a new instance of the SystemResourceNotifier class which provides for the subscription of events corresponding to resource loading events.
@@ -25,7 +25,6 @@ namespace LASI.Interop.ContractHelperTypes.Base
             add { loadingProvider.ProgressChanged += value; }
             remove { loadingProvider.ProgressChanged -= value; }
         }
-        private LASI.Interop.ContractHelperTypes.Base.SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
-
+        private SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
     }
 }

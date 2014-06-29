@@ -5,10 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LASI.WebApp.Models;
-using LASI.WebApp.Models.User;
 using Newtonsoft.Json;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json.Serialization;
 
 namespace LASI.WebApp.Controllers
 {
@@ -16,8 +16,8 @@ namespace LASI.WebApp.Controllers
     {
         //public MongoDBEntities() : base("name=connectionString") { }
 
-        static MongoServer server = new MongoClient(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString).GetServer();
-        MongoDatabase MyDB = server.GetDatabase("test");
+        //static MongoServer server = new MongoClient(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString).GetServer();
+        //MongoDatabase MyDB = server.GetDatabase("test");
 
         public ActionResult Login() {
             return View();
@@ -40,17 +40,20 @@ namespace LASI.WebApp.Controllers
         }
 
         public ActionResult CreateAccount() {
-            return View(new UserModel());
+            return View(new AccountModel());
         }
 
         [HttpPost]
-        public ActionResult CreateNew(UserModel model) {
-            var settings = new JsonSerializerSettings {
+        public ActionResult CreateNew(AccountModel model) {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             };
             var userDataFile = Server.MapPath("~/App_Data/Users/" + model.Email + ".json");
-            using (var writer = new JsonTextWriter(new System.IO.StreamWriter(userDataFile, append: true)) {
+            using (var writer = new JsonTextWriter(new System.IO.StreamWriter(userDataFile, append: true))
+            {
                 Formatting = Formatting.Indented
             }) {
                 JsonSerializer.Create(settings).Serialize(writer, model);

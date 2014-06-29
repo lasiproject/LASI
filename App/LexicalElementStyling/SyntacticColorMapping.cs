@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace LASI.App
 {
-    class SyntacticColorMap : LASI.Interop.ISyntacticColorizer<ILexical, Brush>
+    class SyntacticColorMap : LASI.Interop.IStyleProvider<ILexical, Brush>
     {
         /// <summary>
         /// Maps a Lexical element to a syntax highlighting color. The returned value is a System.Windows.Media.Brush enumeration member.

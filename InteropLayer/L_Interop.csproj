@@ -64,7 +64,7 @@
     <Compile Include="ContractHelperTypes\MB.cs" />
     <Compile Include="ContractHelperTypes\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ContractHelperTypes\ProgressReportEventArgs.cs" />
-    <Compile Include="ISyntacticColorizer.cs" />
+    <Compile Include="IStyleProvider.cs" />
     <Compile Include="ResourceUsageManager.cs" />
     <Compile Include="AnalysisOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

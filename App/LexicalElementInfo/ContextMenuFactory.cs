@@ -155,7 +155,7 @@ namespace LASI.App.LexicalElementInfo
         }
         #endregion
 
-        private static readonly ISyntacticColorizer<ILexical, Brush> colorMapping = new SyntacticColorMap();
+        private static readonly IStyleProvider<ILexical, Brush> colorMapping = new SyntacticColorMap();
 
     }
 }

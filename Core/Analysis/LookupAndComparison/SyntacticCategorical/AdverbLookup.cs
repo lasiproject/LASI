@@ -116,11 +116,11 @@ namespace LASI.Core.Heuristics
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
         private static readonly IReadOnlyDictionary<string, AdverbSetLink> interSetMap = new Dictionary<string, AdverbSetLink> {
-            ["!"] = AdverbSetLink.Antonym,
-            [@"\"] = AdverbSetLink.DerivedFromAdjective,
-            [";c"] = AdverbSetLink.DomainOfSynset_TOPIC,
-            [";r"] = AdverbSetLink.DomainOfSynset_REGION,
-            [";u"] = AdverbSetLink.DomainOfSynset_USAGE
+            {"!", AdverbSetLink.Antonym },
+            {@"\", AdverbSetLink.DerivedFromAdjective },
+            {";c", AdverbSetLink.DomainOfSynset_TOPIC },
+            {";r", AdverbSetLink.DomainOfSynset_REGION },
+            {";u", AdverbSetLink.DomainOfSynset_USAGE }
         };
     }
     /// <summary>

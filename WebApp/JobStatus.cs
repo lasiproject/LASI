@@ -10,25 +10,27 @@ namespace LASI.WebApp
     /// <summary>
     /// Represents a unit of processing delegated to an asynchronous agent.
     /// </summary>
-    public class JobStatus(int jobId, string message, double percent)
+    public class JobStatus
     {
-        public int JobId { get; } = jobId;
+        public JobStatus(int jobId, string message, double percent) { JobId = jobId; Message = message; Percent = percent; }
+        public int JobId { get; private set; }
         /// <summary>
         /// Gets a textual description of the ongoing work. 
         /// </summary>
-        public string Message { get; }=message;
+        public string Message { get; private set; }
 
         /// <summary>
         /// Gets the percentage complete of the work corresponding to the Job.
         /// </summary>
-        public double Percent { get; }=percent;
+        public double Percent { get; private set; }
 
         /// <summary>
         /// Returns the Job serialized as a JSON string.
         /// </summary>
         /// <returns>The Job serialized as a JSON string.</returns>
         public string ToJson() {
-            var settings = new JsonSerializerSettings {
+            var settings = new JsonSerializerSettings
+            {
                 ContractResolver = new CamelCasePropertyNamesContractResolver { }
             };
             return JsonConvert.SerializeObject(this, settings);

@@ -13,7 +13,7 @@ using LASI.Core.PatternMatching;
 
 namespace LASI.WebApp
 {
-    public class SyntacticStyleMap : LASI.Interop.ISyntacticColorizer<ILexical, Style>
+    public class SyntacticStyleMap : LASI.Interop.IStyleProvider<ILexical, Style>
     {
         /// <summary>
         /// Maps a Lexical element to a CSS Style specification based on its syntactic nature. The returned value is a System.Windows.Media.Brush enumeration member.

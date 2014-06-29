@@ -2,6 +2,7 @@
 @using LASI;
 @using LASI.WebApp.Controllers;
 @using LASI.WebApp;
+@using LASI.WebApp.Models;
 @using Newtonsoft.Json;
 
 @{
@@ -13,7 +14,7 @@
 }
 <div class="col-md-12 container-fluid">
     @using (Html.BeginForm("CreateNew", "Account", FormMethod.Post, new { @class = "form-horizontal" })) {
-        @model LASI.WebApp.Models.User.UserModel
+        @model AccountModel
         <fieldset class=" col-md-4 create-account-form">
             <h2 class="form-horizontal-heading">Create account</h2>
             <!-- Text input-->
@@ -36,9 +37,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
                 <div class="col-md-7 col-md-offset-0">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-md", type = "email", required = true })
-
-
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-md", type = "email", required = true, autocomplete = "off" })
                 </div>
             </div>
 
@@ -46,7 +45,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
                 <div class="col-md-7 col-md-offset-0">
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-md", type = "password", required = true })
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-md", type = "password", required = true, autocomplete = "off" })
 
 
                 </div>

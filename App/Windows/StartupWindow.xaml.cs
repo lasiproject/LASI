@@ -81,7 +81,9 @@ namespace LASI.App
 
         private async Task InitializeFileManager() {
             var initPath = System.IO.Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
-            for (var i = 0; i < Int32.MaxValue - 1; ++i) {
+            for (var i = 0;
+            i < Int32.MaxValue - 1;
+            ++i) {
                 if (Directory.Exists(initPath))
                     initPath = initPath + i;
                 else
@@ -120,7 +122,9 @@ namespace LASI.App
             await SetUpDefaultDirectory();
 
             if (Height == 250) {
-                for (var i = 0; i < 270; i += 10) {
+                for (var i = 0;
+                i < 270;
+                i += 10) {
                     Height += 10;
                     await Task.Delay(8);
                 }
@@ -137,7 +141,9 @@ namespace LASI.App
             Resources["createButtonContent"] = "Create";
             mainGrid.AllowDrop = false;
             if (Height == 550) {
-                for (var i = 0; i < 270 && Height > 250; i += 10) {
+                for (var i = 0;
+                i < 270 && Height > 250;
+                i += 10) {
                     Height -= 10;
                     await Task.Delay(8);
                 }
@@ -149,13 +155,16 @@ namespace LASI.App
 
         private void browseForDocButton_Click(object sender, RoutedEventArgs e) {
             if (DocumentManager.CanAdd) {
-                var openDialog = new Microsoft.Win32.OpenFileDialog {
+                var openDialog = new Microsoft.Win32.OpenFileDialog
+                {
                     Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                     Multiselect = true
                 };
                 openDialog.ShowDialog(this);
                 if (openDialog.FileNames.Any()) {
-                    for (int i = 0; i < openDialog.FileNames.Length; i++) {
+                    for (int i = 0;
+                    i < openDialog.FileNames.Length;
+                    i++) {
                         if (!DocumentManager.FileNamePresent(openDialog.SafeFileNames[i])) {
                             var fileName = openDialog.SafeFileNames[i];
                             var filePath = openDialog.FileNames[i];

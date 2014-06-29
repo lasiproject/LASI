@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaggerInterop;
-using LASI.ContentSystem.TaggerEncapsulation.TagParsers;
+using LASI.ContentSystem.TaggerEncapsulation.Tagger;
 
 namespace LASI.Interop
 {

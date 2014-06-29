@@ -90,15 +90,15 @@ namespace LASI.Core.Heuristics
 
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         private static readonly IReadOnlyDictionary<string, AdjectiveSetLink> interSetMap = new Dictionary<string, AdjectiveSetLink> {
-            ["!"] = AdjectiveSetLink.Antonym,
-            ["&"] = AdjectiveSetLink.SimilarTo,
-            ["<"] = AdjectiveSetLink.ParticipleOfVerb,
-            [@"\"] = AdjectiveSetLink.Pertainym_pertains_to_noun,
-            ["="] = AdjectiveSetLink.Attribute,
-            ["^"] = AdjectiveSetLink.AlsoSee,
-            [";c"] = AdjectiveSetLink.DomainOfSynset_TOPIC,
-            [";r"] = AdjectiveSetLink.DomainOfSynset_REGION,
-            [";u"] = AdjectiveSetLink.DomainOfSynset_USAGE
+            {"!",AdjectiveSetLink.Antonym},
+            {"&",AdjectiveSetLink.SimilarTo},
+            {"<",AdjectiveSetLink.ParticipleOfVerb},
+            {@"\", AdjectiveSetLink.Pertainym_pertains_to_noun},
+            {"=",AdjectiveSetLink.Attribute},
+            {"^",AdjectiveSetLink.AlsoSee},
+            {";c", AdjectiveSetLink.DomainOfSynset_TOPIC},
+            {";r", AdjectiveSetLink.DomainOfSynset_REGION},
+            {";u", AdjectiveSetLink.DomainOfSynset_USAGE}
         };
 
     }

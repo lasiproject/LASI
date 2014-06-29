@@ -1,39 +1,60 @@
+
+ 
+
 import os
 import clr
 import System
- 
-clr.AddReference("System.Core")
+
 import System.Collections.Generic 
-
-
-"""
-Adding compiled LASI dll's to ironPython interpreter 
-"""
-
-
-coreDir = os.path.join(os.getcwd(),"Core","bin","Debug")
+cwd = os.getcwd()# System.IO.Directory.GetParent(System.IO.Directory.GetParent(os.getcwd()).FullName).FullName
+coreDir = os.path.join(cwd,"Core","bin","Debug")
 clr.AddReferenceToFileAndPath(os.path.join(coreDir,"Core.dll"))
 
 
-contentSystemDir = os.path.join(os.getcwd(),"ContentSystem","bin","Debug")
+contentSystemDir = os.path.join(cwd,"ContentSystem","bin","Debug")
 clr.AddReferenceToFileAndPath(os.path.join(contentSystemDir,"ContentSystem.dll"))
 
 
 
-utilitiesDir = os.path.join(os.getcwd(),"Utilities","bin","Debug")
+utilitiesDir = os.path.join(cwd,"Utilities","bin","Debug")
 clr.AddReferenceToFileAndPath(os.path.join(utilitiesDir,"Utilities.dll"))
 
-interopDir = os.path.join(os.getcwd(),"InteropLayer","bin","Debug")
+interopDir = os.path.join(cwd,"InteropLayer","bin","Debug")
 clr.AddReferenceToFileAndPath(os.path.join(interopDir,"Interop.dll"))
-
+    
 
 import LASI as lasi
-from LASI import Core as core
-clr.ImportExtensions(core)
-import System.Linq as linq
-clr.ImportExtensions(linq)
-from LASI import *  
-from LASI.Core import *  
+from LASI import *
+import LASI.Core as core
+filePath = os.path.join("C:\\","Users","Aluan","Documents","GitHub","LASI","ExperimentalClientProjects","IronPythonExperimentation","testDocs","testDoc1.txt")
+ContentSystem.TxtFile(filePath)
+a = ContentSystem.TxtFile(filePath)
+b = Interop.AnalysisOrchestrator(a)
+
+class callbackclass():
+    def __init__(self):
+        self.percentComplete = 0.
+    def callback(self,sender, event_args):
+        self.percentComplete += event_args.PercentWorkRepresented
+        print "Increment:",event_args.PercentWorkRepresented
+        print "Message:",event_args.Message
+
+c = callbackclass()
+b.ProgressChanged +=c .callback
+
+docs = b.ProcessAsync().Result
+
+#print "incrementSum:", c.percentComplete
+
+#print "Printing Verb Phrases"
+#for doc in docs:
+#    for vp in doc.Phrases.OfVerbPhrase():
+#        print vp
+
+#print "Printing Noun Phrases bound to a verbal"
+#for doc in docs:
+#    for np in doc.Phrases.OfNounPhrase().InSubjectOrObjectRole():
+#        print np
 """
 strlist=["Hello there you fool.",]
 
@@ -81,34 +102,3 @@ if __name__=='__main__':
 #    lasiPrompt().cmdloop()
 
 """
-lasi.Core.Phrase.VerboseOutput = True
-filePath = os.path.join("C:\\","Users","Aluan","Documents","GitHub","LASI","ExperimentalClientProjects","IronPythonExperimentation","testDocs","testDoc1.txt")
-lasi.Output.SetToFile()
-lasi.ContentSystem.TxtFile(filePath)
-a = lasi.ContentSystem.TxtFile(filePath)
-b = lasi.Interop.AnalysisOrchestrator(a)
-
-class callbackclass():
-    def __init__(self):
-        self.percentComplete = 0.
-    def callback(self,sender, event_args):
-        self.percentComplete += event_args.PercentWorkRepresented
-        print "Increment:",event_args.PercentWorkRepresented
-        print "Message:",event_args.Message
-
-c = callbackclass()
-b.ProgressChanged +=c .callback
-
-docs = b.ProcessAsync().Result
-
-print "incrementSum:", c.percentComplete
-
-print "Printing Verb Phrases"
-for doc in docs:
-    for vp in doc.Phrases.OfVerbPhrase():
-        print vp
-
-print "Printing Noun Phrases bound to a verbal"
-for doc in docs:
-    for np in doc.Phrases.OfNounPhrase().InSubjectOrObjectRole():
-        print np

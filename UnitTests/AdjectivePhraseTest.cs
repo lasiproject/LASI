@@ -16,9 +16,7 @@ namespace LASI.UnitTests
     [TestClass]
     public class AdjectivePhraseTest
     {
-
         private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -31,7 +29,6 @@ namespace LASI.UnitTests
                 testContextInstance = value;
             }
         }
-
         #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:

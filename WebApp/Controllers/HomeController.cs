@@ -12,6 +12,7 @@ using LASI.Interop;
 using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
+using LASI.WebApp.Models;
 
 namespace LASI.WebApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace LASI.WebApp.Controllers
 
         public ActionResult Index(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
-            return View(new Models.User.UserModel());
+            return View(new AccountModel());
         }
 
         [HttpPost]

@@ -17,7 +17,7 @@ namespace LASI.Interop
         /// <summary>
         /// Sets the overall performance level based on the provided enumeration value, providing for coarse grained adjustments to the CPU and RAM consumption.
         /// </summary>
-        /// <param name="mode">The PerformanceLevel value indicating the new performance and resource usage settings to adobt.</param>
+        /// <param name="mode">The PerformanceLevel value indicating the new performance and resource usage settings to adopt.</param>
         public static void SetPerformanceLevel(Mode mode) {
             Concurrency.SetFromPerformanceMode(mode);
             Memory.SetFromPerformanceMode(mode);
@@ -66,7 +66,7 @@ namespace LASI.Interop
             /// </summary>
             High,
             /// <summary>
-            /// Noraml resource usage indicates a modest allocation and consumption of available system resources.
+            /// Normal resource usage indicates a modest allocation and consumption of available system resources.
             /// </summary>
             Normal,
             /// <summary>

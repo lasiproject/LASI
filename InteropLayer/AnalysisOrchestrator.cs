@@ -14,21 +14,21 @@ namespace LASI.Interop
 
     /// <summary>
     /// Governs the complete analysis and processing of one or more text sources.
-    /// Provides synchronous and asynchronoun callback based progress reports.
+    /// Provides synchronous and asynchronous callback based progress reports.
     /// </summary>
     public sealed class AnalysisOrchestrator : Progress<AnalysisUpdateEventArgs>
     {        /// <summary>
              /// Initializes a new instance of the AnalysisController class.
              /// </summary>
-             /// <param name="rawTextSource">An untagged english language written work.</param>
+             /// <param name="rawTextSource">An untagged English language written work.</param>
         public AnalysisOrchestrator(IRawTextSource rawTextSource)
             : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
-        /// <param name="rawTextSources">A collection of untagged english language written works.</param>
-        public AnalysisOrchestrator(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextSources)
+        /// <param name="rawTextSources">A collection of untagged English language written works.</param>
+        public AnalysisOrchestrator(IEnumerable<IRawTextSource> rawTextSources)
             : base(e => { }) {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
@@ -39,11 +39,11 @@ namespace LASI.Interop
 
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
-        /// <para>which, when awaited, loads, analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as</para>
+        /// <para>which, when awaited, loads, analyzes, and aggregates all of the provided TextFile instances as individual documents, collecting them as</para>
         /// <body>a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.</body>
         /// </summary>
         /// <returns>
-        /// <para>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyizes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
+        /// <para>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyzes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
         /// a sequence of Bound and Weighted LASI.Algorithm.Document instances.</para>
         /// </returns>
         /// <example>
@@ -53,27 +53,24 @@ namespace LASI.Interop
         /// </code>
         /// </example>
         /// <example>
-        /// Attaching an Asyncrhonous Event Handler
+        /// Attaching an Asynchronous Event Handler
         /// <code>
         /// myAnalysisOrchestrator.ProgressChanged += async (sender, e) => await Task.Run(myAction());
         /// </code>
         /// </example>
         public async Task<IEnumerable<Document>> ProcessAsync() {
-
             var taggedFiles = await TagFilesAsync(rawTextSources);
-            var results = await BindAndWeightDocumentsAsync(taggedFiles);
-
-            return results;
+            return await BindAndWeightDocumentsAsync(taggedFiles);
         }
 
 
 
 
 
-        private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<LASI.ContentSystem.IRawTextSource> rawTextDocuments) {
+        private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments) {
             OnReport(new AnalysisUpdateEventArgs("Tagging Documents", 0));
             var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await new Tagger().TaggedFromRawAsync(raw))).ToList();
-            var taggedFiles = new ConcurrentBag<LASI.ContentSystem.ITaggedTextSource>();
+            var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
             while (tasks.Any()) {
                 var task = await Task.WhenAny(tasks);
                 var tagged = await task;
@@ -95,7 +92,7 @@ namespace LASI.Interop
             }
             return documents;
         }
-        private async Task<Document> ProcessTaggedFileAsync(LASI.ContentSystem.ITaggedTextSource tagged) {
+        private async Task<Document> ProcessTaggedFileAsync(ITaggedTextSource tagged) {
             var fileName = tagged.SourceName;
             OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loading...", fileName), 0));
             var document = await new Tagger().DocumentFromTaggedAsync(tagged);

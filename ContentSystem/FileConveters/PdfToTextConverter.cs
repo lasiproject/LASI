@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LASI.ContentSystem
 {
@@ -62,14 +63,10 @@ namespace LASI.ContentSystem
             // -5 Ts = subscript
 
             #region Fields
-
-            #region _numberOfCharsToKeep
             /// <summary>
             /// The number of characters to keep, when extracting text.
             /// </summary>
-            private const int _numberOfCharsToKeep = 15;
-            #endregion
-
+            private const int CHARS_TO_KEEP = 15;
             #endregion
 
             #region ExtractText
@@ -81,16 +78,14 @@ namespace LASI.ContentSystem
             /// <returns>the extracted text</returns>
             public void ExtractText(string inFileName, string outFileName) {
                 // Create a reader for the given PDF file   
-                PdfReader reader = new PdfReader(new System.IO.FileStream(
-                  inFileName,
-                  System.IO.FileMode.Open,
-                  System.IO.FileAccess.Read,
-                  System.IO.FileShare.Read, 1024, System.IO.FileOptions.Asynchronous));
-                Console.Write("Processing: ");
-                using (var outFile = new System.IO.StreamWriter(outFileName, false, System.Text.Encoding.UTF8)) {
-                    for (int page = 1;
-                    page <= reader.NumberOfPages;
-                    page++) {
+                PdfReader reader = new PdfReader(new FileStream(inFileName,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read, 1024,
+                    FileOptions.Asynchronous));
+                Output.Write("Processing: ");
+                using (var outFile = new StreamWriter(outFileName, false, Encoding.UTF8)) {
+                    for (int page = 1; page <= reader.NumberOfPages; page++) {
                         outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(page)) + " ");
                     }
                 }
@@ -106,9 +101,7 @@ namespace LASI.ContentSystem
             private string ExtractTextFromPDFBytes(byte[] input) {
                 if (input == null || input.Length == 0)
                     return "";
-
-                //try {
-                string resultString = "";
+                var resultString = string.Empty;
 
                 // Flag showing if we are we currently inside a text object
                 bool inTextObject = false;
@@ -120,29 +113,23 @@ namespace LASI.ContentSystem
                 // () Bracket nesting level. Text appears inside ()
                 int bracketDepth = 0;
 
-                // Keep previous chars to get extract numbers etc.:
-                char[] previousCharacters = new char[_numberOfCharsToKeep];
-                for (int j = 0;
-                j < _numberOfCharsToKeep;
-                j++)
-                    previousCharacters[j] = ' ';
+                // Keep previous chars to get extract numbers etc.: 
+                char[] previousCharacters = Enumerable.Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
-                for (int i = 0;
-                i < input.Length;
-                i++) {
+                for (int i = 0; i < input.Length; i++) {
                     char c = (char)input[i];
 
                     if (inTextObject) {
                         // Position the text
                         if (bracketDepth == 0) {
-                            if (CheckToken(new string[] { "TD", "Td" }, previousCharacters, 15)) {
+                            if (CheckToken(new[] { "TD", "Td" }, previousCharacters, 15)) {
                                 resultString += "\n\r";
                             } else {
-                                if (CheckToken(new string[] { "'", "T*", "\"" }, previousCharacters, 15)) {
+                                if (CheckToken(new[] { "'", "T*", "\"" }, previousCharacters, 15)) {
                                     resultString += "\n";
                                 } else {
-                                    if (CheckToken(new string[] { "Tj" }, previousCharacters, 15)) {
+                                    if (CheckToken(new[] { "Tj" }, previousCharacters, 15)) {
                                         resultString += " ";
                                     }
                                 }
@@ -152,7 +139,6 @@ namespace LASI.ContentSystem
                         // End of a text object, also go to a new line.
                         if (bracketDepth == 0 &&
                             CheckToken(new string[] { "ET" }, previousCharacters, 15)) {
-
                             inTextObject = false;
                             resultString += " ";
                         } else {
@@ -175,7 +161,6 @@ namespace LASI.ContentSystem
                                                 ((c >= 128) && (c < 255))) {
                                                 resultString += c.ToString();
                                             }
-
                                             nextLiteral = false;
                                         }
                                     }
@@ -186,12 +171,10 @@ namespace LASI.ContentSystem
 
                     // Store the recent characters for 
                     // when we have to go back for a checking
-                    for (int j = 0;
-                    j < _numberOfCharsToKeep - 1;
-                    j++) {
+                    for (int j = 0; j < CHARS_TO_KEEP - 1; j++) {
                         previousCharacters[j] = previousCharacters[j + 1];
                     }
-                    previousCharacters[_numberOfCharsToKeep - 1] = c;
+                    previousCharacters[CHARS_TO_KEEP - 1] = c;
 
                     // Start of a text object
                     if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters, 15)) {
@@ -199,10 +182,6 @@ namespace LASI.ContentSystem
                     }
                 }
                 return resultString;
-                //}
-                //catch (Exception) {
-                //    return "";
-                //}
             }
 
 
@@ -212,26 +191,24 @@ namespace LASI.ContentSystem
             /// </summary>
             /// <param name="tokens">the searched currentCharacterToken</param>
             /// <param name="recent">the recent character array</param>
-            /// <param name="_numberOfCharsToKeep"></param>
+            /// <param name="charsToKeep"></param>
             /// <returns></returns>
-            private bool CheckToken(string[] tokens, char[] recent, int _numberOfCharsToKeep) {
+            private bool CheckToken(string[] tokens, char[] recent, int charsToKeep) {
                 foreach (string currentCharacterToken in tokens) {
                     try {
-                        if ((recent[_numberOfCharsToKeep - 3] == currentCharacterToken[0]) &&
-                            (recent[_numberOfCharsToKeep - 2] == currentCharacterToken[1]) &&
-                            ((recent[_numberOfCharsToKeep - 1] == ' ') ||
-                            (recent[_numberOfCharsToKeep - 1] == 0x0d) ||
-                            (recent[_numberOfCharsToKeep - 1] == 0x0a)) &&
-                            ((recent[_numberOfCharsToKeep - 4] == ' ') ||
-                            (recent[_numberOfCharsToKeep - 4] == 0x0d) ||
-                            (recent[_numberOfCharsToKeep - 4] == 0x0a))
+                        if ((recent[charsToKeep - 3] == currentCharacterToken[0]) &&
+                            (recent[charsToKeep - 2] == currentCharacterToken[1]) &&
+                            ((recent[charsToKeep - 1] == ' ') ||
+                            (recent[charsToKeep - 1] == 0x0d) ||
+                            (recent[charsToKeep - 1] == 0x0a)) &&
+                            ((recent[charsToKeep - 4] == ' ') ||
+                            (recent[charsToKeep - 4] == 0x0d) ||
+                            (recent[charsToKeep - 4] == 0x0a))
                             ) {
                             return true;
                         }
                     }
-                    catch (IndexOutOfRangeException) {
-                        return false;
-                    }
+                    catch (IndexOutOfRangeException) { return false; }
                 }
                 return false;
             }

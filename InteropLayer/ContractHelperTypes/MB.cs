@@ -1,11 +1,4 @@
-﻿using LASI.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Interop
+﻿namespace LASI.Interop
 {
     /// <summary>
     /// Represents a positive quantity in MegaBytes.
@@ -41,7 +34,7 @@ namespace LASI.Interop
 
         #region properties
         /// <summary>
-        /// Gets the quantity of MegaBytes the MB represents.
+        /// Stores the quantity of MegaBytes the MB represents.
         /// </summary>
         private uint Quantity;
         #endregion
@@ -129,7 +122,7 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="left">The uint.</param>
         /// <param name="right">The MB.</param>
-        /// <returns>An MB representing the product of the the provided uint and the provided MB.</returns>                                                                                    
+        /// <returns>An MB representing the product of the the provided uint and the provided MB.</returns>
         public static MB operator *(uint left, MB right) { return new MB(left * right.Quantity); }
         #endregion
 
@@ -194,7 +187,6 @@ namespace LASI.Interop
         /// <param name="left">The uint to compare.</param>
         /// <param name="right">The MB to compare.</param>
         /// <returns>True if the uint on the left is less than the MB on the right.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         public static bool operator <(uint left, MB right) { return left < right.Quantity; }
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than a specified uint.

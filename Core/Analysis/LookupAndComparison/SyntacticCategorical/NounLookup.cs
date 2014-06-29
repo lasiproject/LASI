@@ -158,25 +158,25 @@ namespace LASI.Core.Heuristics
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
         private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink> {
-            ["!"] = NounSetLink.Antonym,
-            ["@"] = NounSetLink.HypERnym,
-            ["@i"] = NounSetLink.InstanceHypERnym,
-            ["~"] = NounSetLink.HypOnym,
-            ["~i"] = NounSetLink.InstanceHypOnym,
-            ["#m"] = NounSetLink.MemberHolonym,
-            ["#s"] = NounSetLink.SubstanceHolonym,
-            ["#p"] = NounSetLink.PartHolonym,
-            ["%m"] = NounSetLink.MemberMeronym,
-            ["%s"] = NounSetLink.SubstanceMeronym,
-            ["%p"] = NounSetLink.PartMeronym,
-            ["="] = NounSetLink.Attribute,
-            ["+"] = NounSetLink.DerivationallyRelatedForm,
-            [";c"] = NounSetLink.DomainOfSynset_TOPIC,
-            ["-c"] = NounSetLink.MemberOfThisDomain_TOPIC,
-            [";r"] = NounSetLink.DomainOfSynset_REGION,
-            ["-r"] = NounSetLink.MemberOfThisDomain_REGION,
-            [";u"] = NounSetLink.DomainOfSynset_USAGE,
-            ["-u"] = NounSetLink.MemberOfThisDomain_USAGE
+            {"!",   NounSetLink.Antonym },
+            {"@", NounSetLink.HypERnym },
+            {"@i", NounSetLink.InstanceHypERnym},
+            {"~", NounSetLink.HypOnym},
+            {"~i", NounSetLink.InstanceHypOnym},
+            {"#m", NounSetLink.MemberHolonym},
+            {"#s", NounSetLink.SubstanceHolonym},
+            {"#p", NounSetLink.PartHolonym},
+            {"%m", NounSetLink.MemberMeronym},
+            {"%s", NounSetLink.SubstanceMeronym},
+            {"%p", NounSetLink.PartMeronym},
+            {"=", NounSetLink.Attribute},
+            {"+", NounSetLink.DerivationallyRelatedForm},
+            {";c", NounSetLink.DomainOfSynset_TOPIC},
+            {"-c", NounSetLink.MemberOfThisDomain_TOPIC},
+            {";r", NounSetLink.DomainOfSynset_REGION},
+            {"-r", NounSetLink.MemberOfThisDomain_REGION},
+            {";u", NounSetLink.DomainOfSynset_USAGE},
+            {"-u", NounSetLink.MemberOfThisDomain_USAGE}
         };
     }
     /// <summary>

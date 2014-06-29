@@ -39,7 +39,7 @@ namespace LASI
         /// <summary>
         /// Waits for the user to enter a specific string before continuing.
         /// </summary>
-        /// <param name="stringToWaitFor">The specfic string to wait for before continuing.</param>
+        /// <param name="stringToWaitFor">The specific string to wait for before continuing.</param>
         /// <param name="ignoreCase">Indicates whether the string entered must the case of the stringToWaitFor.</param>
         public static void WaitForString(string stringToWaitFor, bool ignoreCase = true) {
             Console.WriteLine("Enter {0} to continue", stringToWaitFor);

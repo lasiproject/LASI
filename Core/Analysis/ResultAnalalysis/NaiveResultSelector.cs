@@ -40,7 +40,8 @@ namespace LASI.Core
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SvoRelationship {
+                      select new SvoRelationship
+                      {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -73,9 +74,10 @@ namespace LASI.Core
                        .With<IEntity>(entity)
                    .Result()
                    where e != null
-                   group e by new {
-                e.Text,
-                e.Weight
+                   group e by new
+                   {
+                       e.Text,
+                       e.Weight
                    } into entity
                    select entity.Key into master
                    select new KeyValuePair<string, float>(master.Text, (float)Math.Round(master.Weight, 2)) into item

@@ -1,12 +1,12 @@
 ﻿{
   "output": "Error",
-  "runOnSave": false,
-  "runOnBuild": false,
+  "runOnSave": true,
+  "runOnBuild": true,
   "cancelBuild": false,
   "ignore": [],
   "options": {
     "predef": {
-      "$": false
+      "$": true
     },
     "browser": true,
     "newcap": false,
