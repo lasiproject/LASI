@@ -36,7 +36,7 @@ namespace LASI.WebApp
             return JsonConvert.SerializeObject(this, settings);
         }
         public override bool Equals(object obj) {
-            return obj != null && this == (JobStatus)obj;
+            return obj is JobStatus && this == (JobStatus)obj;
         }
         public override int GetHashCode() {
             return JobId.GetHashCode() ^ Message.GetHashCode() ^ Percent.GetHashCode();

@@ -146,6 +146,15 @@ namespace LASI
         #region Additional Query Operators
 
         /// <summary>
+        /// Determines whether no element of a sequence satisfy a condition.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param> 
+        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
+        public static bool None<TSource>(this IEnumerable<TSource> source) {
+            return !source.Any();
+        }
+        /// <summary>
         /// Determines whether no elements of a sequence satisfy a condition.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
@@ -155,13 +164,14 @@ namespace LASI
         public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) {
             return !source.Any(predicate);
         }
+
         /// <summary>
-        /// Determines whether no element of a sequence satisfy a condition.
+        /// Determines whether a parallel sequence is empty.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
-        /// <param name="source">An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.</param> 
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">The sequence to check for emptiness.</param>
         /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
-        public static bool None<TSource>(this IEnumerable<TSource> source) {
+        public static bool None<T>(this ParallelQuery<T> source) {
             return !source.Any();
         }
         /// <summary>
@@ -174,15 +184,7 @@ namespace LASI
         public static bool None<TSource>(this ParallelQuery<TSource> source, Func<TSource, bool> predicate) {
             return !source.Any(predicate);
         }
-        /// <summary>
-        /// Determines whether a parallel sequence is empty.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements of source.</typeparam>
-        /// <param name="source">The sequence to check for emptiness.</param>
-        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
-        public static bool None<T>(this ParallelQuery<T> source) {
-            return !source.Any();
-        }
+
         /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consiting of the original sequence followed by the appended element.
         /// </summary>
