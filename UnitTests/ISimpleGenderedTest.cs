@@ -77,7 +77,7 @@ namespace LASI.UnitTests
         ///A test for Gender
         ///</summary>
         [TestMethod]
-        private void GenderTest2() {
+        public void GenderTest2() {
             ISimpleGendered target = new ProperSingularNoun("Jill");
             Gender actual = target.Gender;
             Assert.AreEqual(Gender.Female, actual);
@@ -86,7 +86,7 @@ namespace LASI.UnitTests
         ///A test for Gender
         ///</summary>
         [TestMethod]
-        private void GenderTest3() {
+        public void GenderTest3() {
             ISimpleGendered target = new ProperSingularNoun("Carnegie");
             Gender actual = target.Gender;
             Assert.AreEqual(Gender.Neutral, actual);
@@ -95,7 +95,7 @@ namespace LASI.UnitTests
         ///A test for Gender
         ///</summary>
         [TestMethod]
-        private void GenderTest4() {
+        public void GenderTest4() {
             ISimpleGendered target = new ProperSingularNoun("LASI");
             Gender actual = target.Gender;
             Assert.AreEqual(Gender.Neutral, actual);

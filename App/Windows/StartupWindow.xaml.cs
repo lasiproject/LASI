@@ -62,7 +62,8 @@ namespace LASI.App
         }
 
         private async Task SetUpDefaultDirectory() {
-            locationTextBox.Text = await Task.Run(() => {
+            locationTextBox.Text = await Task.Run(() =>
+            {
                 var location =
                     System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData,
                     System.Environment.SpecialFolderOption.Create),

@@ -107,11 +107,7 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
-        public string Text {
-            get {
-                return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuation.Text;
-            }
-        }
+        public string Text { get { return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuation.Text; } }
 
 
 

@@ -27,10 +27,10 @@ $(function () {
         // Gets all ungoing jobs from the server and generates a new
         // Id number by using a bitwise xor
         return (function () {
-            var id = $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(function (x, i) {
+            var id = $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(function (x) {
                 return x.id;
-            }).reduce(function (sofar, x) {
-                return sofar ^ x;
+            }).reduce(function (hash, x) {
+                return hash ^ x;
             }, 0);
 
             setInterval(function (event) {
@@ -45,7 +45,7 @@ $(function () {
                     }).some(function (x) {
                         return x >= 100;
                     })) {
-                        $("#proceed-to-results").show().click();
+                        $("#resultsnavitem").click();
                     }
                 });
             }, 1000);

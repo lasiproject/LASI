@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function () {
     test("flatMap defined test",
     function () {
         ok(Array.prototype.hasOwnProperty("flatMap"), "flatMap defined on Array.prototype!");

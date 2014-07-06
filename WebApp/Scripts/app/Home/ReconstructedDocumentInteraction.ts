@@ -20,6 +20,15 @@ module LASI.Results {
 
 
         var contextMenu = $("div#verbalContextMenu");
+        var displayContextMenuForElement = (menu: JQuery, event: JQueryEventObject) => menu.css({
+            // get the z-index of the parent modal containing the element and offset it by 50.
+            zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
+            position: "absolute",
+            display: "block",
+            // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
+            left: event.pageX,
+            top: event.pageY
+        });
         var GetInfoForVerbal = (rawData: string): ContextProviders.VerbalContext => {
             var dataSource: any = $.parseJSON(rawData);
             return dataSource;
@@ -29,48 +38,37 @@ module LASI.Results {
         };
 
 
-
+        var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
+            controls
+                .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
+                .click(event=> {
+                    event.preventDefault();
+                    (relatedElementIds || new Array<number>())
+                        .map((element, index) => $("#" + element.toString()))
+                        .forEach(elementAction);
+                });
+        };
         verbals.on("contextmenu", event => {
             event.preventDefault();
-            var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
-                controls
-                    .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
-                    .click(event=> {
-                        event.preventDefault();
-                        (relatedElementIds || new Array<number>())
-                            .map((element, index) => $("#" + element.toString()))
-                            .forEach(elementAction);
-                    });
-            };
-
-
-            var verbalInfo: ContextProviders.VerbalContext;
+            var verbalContext: ContextProviders.VerbalContext;
             // Deselect any elements selected by a previous selection.
             $(".lexical-content-block span").removeClass("selected");
-            verbalInfo = GetInfoForVerbal($.trim($(event.target).children("span").text()));
-            contextMenu.css({
-                // get the z-index of the parent modal containing the element and offset it by 50.
-                zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
-                position: "absolute",
-                display: "block",
-                // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
-                left: event.pageX,
-                top: event.pageY
-            });
+            verbalContext = GetInfoForVerbal($.trim($(event.target).children("span").text()));
+            displayContextMenuForElement(contextMenu, event);
 
             configureMenu(
                 contextMenu.find("ul").children(".view-subects-menu-item"),
-                verbalInfo.subjects,
+                verbalContext.subjects,
                 highlightRelatedElement);
             configureMenu(
                 contextMenu.find("ul").children(".view-directobjects-menu-item"),
-                verbalInfo.directObjects,
+                verbalContext.directObjects,
                 highlightRelatedElement);
             configureMenu(
                 contextMenu.find("ul").children(".view-indirectobjects-menu-item"),
-                verbalInfo.indirectObjects,
+                verbalContext.indirectObjects,
                 highlightRelatedElement);
-            return false;
+            //return false;
         });
 
 

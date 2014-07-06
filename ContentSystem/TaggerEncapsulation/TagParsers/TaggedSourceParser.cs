@@ -69,22 +69,22 @@ namespace LASI.ContentSystem
             var sentences = from s in SplitIntoSentences(paragraph, out hasBulletOrHeading)
                             select s.Trim();
             foreach (var sent in from s in sentences
-                                 where s.IsNotWsOrNull()
+                                 where !s.IsNullOrWhiteSpace()
                                  select s) {
                 var parsedClauses = new List<Clause>();
                 var parsedPhrases = new List<Phrase>();
                 var chunks = from chunk in sent.SplitRemoveEmpty("[", "]")
                              let s = chunk.Trim()
-                             where s.IsNotWsOrNull()
+                             where !s.IsNullOrWhiteSpace()
                              select s;
                 SentenceEnding sentencePunctuation = null;
 
                 foreach (var s in chunks) {
-                    if (s.IsNotWsOrNull() && s.Contains('/')) {
+                    if (!s.IsNullOrWhiteSpace() && s.Contains('/')) {
                         char token = SkipToNextElement(s);
                         if (token == ' ') {
                             var currentPhrase = ParsePhrase(new TaggedText(text: s.Substring(s.IndexOf(' ')), tag: s.Substring(0, s.IndexOf(' '))));
-                            if (currentPhrase.Words.Any(w => w.Text.IsNotWsOrNull()))
+                            if (currentPhrase.Words.Any(w => !w.Text.IsNullOrWhiteSpace()))
                                 parsedPhrases.Add(currentPhrase);
 
                             if (currentPhrase is SubordinateClauseBeginPhrase) {

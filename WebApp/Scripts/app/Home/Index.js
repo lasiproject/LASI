@@ -6,7 +6,6 @@ which will optimize page load time.
 var LASI;
 (function (LASI) {
     (function (Index) {
-        jobIds:
         (function () {
             // All top level functions should start with this directive. nested functions inherit it.
             "use strict";
@@ -21,19 +20,6 @@ var LASI;
                         $("input:submit").attr("disabled", "true");
                     }
                 });
-            });
-            $("#submitdocumentbutton").click(function (e) {
-                $("input:file").each(function (index, element) {
-                    var file = element.files[0];
-                    $.ajax("\\Home\\Upload", {
-                        processData: false, data: file,
-                        type: "POST",
-                        success: function (d, s, t) {
-                            console.log(t.status);
-                        }
-                    });
-                });
-                $(e.target).css("width", "0%");
             });
         }());
     })(LASI.Index || (LASI.Index = {}));

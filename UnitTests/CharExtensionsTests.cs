@@ -19,7 +19,6 @@ namespace LASI.UnitTests
             foreach (var c in CONSONANTS) {
                 Assert.IsTrue(c.IsConsonant());
             }
-
         }
 
         [TestMethod]

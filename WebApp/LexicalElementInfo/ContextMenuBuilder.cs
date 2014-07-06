@@ -19,12 +19,16 @@ namespace LASI.WebApp
     {
         private static int idGenerator = 0;
         private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
-        public static int GetSerializationId(this ILexical element)
-        {
+        public static int GetSerializationId(this ILexical element) {
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
-        public static dynamic GetJsonMenuData(this IVerbal verbal)
-        {
+        public static string GetJsonMenuData(this ILexical lexical) {
+            return lexical.Match().Yield<dynamic>()
+                .With((IReferencer r) => r.GetJsonMenuData())
+                .With((IVerbal v) => v.GetJsonMenuData())
+                .Result(() => null);
+        }
+        public static string  GetJsonMenuData(this IVerbal verbal) {
             if (verbal == null) { throw new ArgumentNullException("verbal"); }
             var data = new
             {
@@ -36,21 +40,7 @@ namespace LASI.WebApp
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
 
-        private static JsonSerializerSettings SerializerSettings
-        {
-            get
-            {
-                return new JsonSerializerSettings {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
-                    NullValueHandling = NullValueHandling.Ignore,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                };
-            }
-        }
-
-        public static dynamic GetJsonMenuData(this IReferencer referencer)
-        {
+        public static string GetJsonMenuData(this IReferencer referencer) {
             if (referencer == null) { throw new ArgumentNullException("referencer"); }
             var data = new
             {
@@ -60,5 +50,18 @@ namespace LASI.WebApp
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
+
+        private static JsonSerializerSettings SerializerSettings {
+            get {
+                return new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+            }
+        }
+
     }
 }

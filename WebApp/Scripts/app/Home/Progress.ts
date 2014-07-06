@@ -25,8 +25,8 @@ $(function () {
 
         return (function () {
             var id = $.makeArray($.getJSON("\\Home\\GetJobStatus"))
-                .map((x: any, i: number) => x.id)
-                .reduce((sofar: number, x: number) => sofar ^ x, 0);
+                .map((x) => x.id)
+                .reduce((hash: number, x: number) => hash ^ x, 0);
 
             setInterval(event => {
                 $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId,
@@ -38,7 +38,7 @@ $(function () {
                         if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus"))
                             .map(e=> e.percent)
                             .some(x=> x >= 100)) {
-                            $("#proceed-to-results").show().click();
+                            $("#resultsnavitem").click();
 
                         }
                     });

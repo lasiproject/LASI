@@ -1,32 +1,4 @@
 ﻿
-
-.documentselectiontab {
-    /*display: inline-block;*/
-    /*float: left;*/
-    margin: 5em;
-    outline-color: azure;
-    list-style-type: none;
-}
-
-.documentlist {
-    border: 1px;
-    border-color: tan;
-    clear: right;
-}
-
-.break-after {
-    break-after: always;
-}
-
-.lexical-content-block span {
-    position: relative;
-}
-
-.nounphrase {
-    color: darkblue;
-}
-
-
 .proper {
     color: darkred;
 }
@@ -51,7 +23,7 @@
     color: darkorange;
 }
 
-.descriptror {
+.descriptor {
     color: indigo;
 }
 
@@ -70,6 +42,49 @@
 .present-participle-gerund {
     color: forestgreen;
 }
+
+.documentselectiontab {
+    /*display: inline-block;*/
+    /*float: left;*/
+    margin: 5em;
+    outline-color: azure;
+    list-style-type: none;
+}
+
+
+
+.document {
+    background-color: ghostwhite;
+    text-wrap: normal;
+    text-align: left;
+    text-space-collapse: preserve-breaks;
+    text-indent: each-line;
+}
+
+
+.paragraph {
+    text-indent: each-line;
+}
+
+.page {
+}
+
+.sentence {
+}
+
+.documentlist {
+    border: 1px;
+    border-color: tan;
+    clear: right;
+}
+
+.break-after {
+    break-after: always;
+}
+
+.lexical-content-block span {
+}
+
 /*#region info and errors */
 .error {
     float: none;
@@ -103,7 +118,9 @@
 
 .view-indirectobjects-menu-item {
 }
+
 .view-referredto-menu-item {
 }
+
 .view-empty-menu-item {
 }

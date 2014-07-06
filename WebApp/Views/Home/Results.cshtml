@@ -2,14 +2,13 @@
 @using LASI.Core;
 @using LASI.Core.DocumentStructures;
 @using LASI.WebApp;
-@using Newtonsoft.Json;
-
+@using LASI.WebApp.Models;
+@using LASI.WebApp.ViewModels;
 @Styles.Render("~/Content/App/Home/Results.css")
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <title>@ViewBag.Title</title>
-
 <div class="results-pane">
     <ul class="nav nav-tabs" id="results">
         <li class="active"><a data-toggle="tab" href="#reconstructeddocuments">Reconstructed Documents</a></li>
@@ -21,7 +20,7 @@
             <div>
 
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
+                    @foreach (var doc in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
                         <li class="list-group-item">
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name)>
                                 @doc.Name
@@ -34,8 +33,7 @@
             <br />
             <div>
 
-                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
-                    var pages = doc.Paginate(80, 30);
+                @foreach (var doc in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
                     <div id=@doc.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -44,34 +42,28 @@
                                     <h4 class="modal-title" id="document-title">@doc.Name</h4>
                                 </div>
                                 <div class="modal-body">
-                                    @{
-                                        Phrase.VerboseOutput = true;
-                                        var withIds = doc.Phrases.Select(p => new { Phrase = p, Id = p.GetSerializationId() });
-                                        var styleMap = new SyntacticStyleMap();
-                                        foreach (var paragraphData in from ided in withIds group ided by ided.Phrase.Paragraph) {
-                                            <p class="lexical-content-block">
-                                                @foreach (var e in paragraphData) {
-                                                    <span class=@styleMap[e.Phrase].CssClass
-                                                          title='@(e.Phrase.ToString()
-                                                              .SplitRemoveEmpty('\n', '\r')
-                                                              .Format(Tuple.Create(' ', ' ', ' '), s => s + "\n"))' id=@e.Id>
-                                                        @e.Phrase.Text
-                                                        <span id="@("context" + e.Id)" hidden="hidden">
-                                                            @(e.Phrase.Match().Yield<dynamic>()
-                                                                .With((IVerbal v) => v.GetJsonMenuData())
-                                                                .With((IReferencer r) => r.GetJsonMenuData())
-                                                            .Result(() => null))
+                                    <div class="document">
+                                        @foreach (var paragraph in doc.ParagraphViewModels) {
+                                            <p class="lexical-content-block sentence">
+                                                @foreach (var phrase in paragraph.PhraseViewModels) {
+                                                    <span class=@phrase.Style.CssClass
+                                                          title=@(phrase.DetailText) id=@phrase.Id>
+                                                        @phrase.Text
+                                                        <span id=@("context" + phrase.Id) hidden="hidden">
+                                                            @(phrase.ContextMenuJson)
                                                         </span>
-                                                    </span>}
-                                            </p>}
-                                    }
+                                                    </span>
+                                                }
+                                            </p>
+                                        }
 
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                                        }
+                }
                 <div id="verbalContextMenu" class="dropdown clearfix" hidden>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
                         <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
@@ -87,16 +79,20 @@
 
         </div>
         <div class="tab-pane fade" id="topresults">
+
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
+                @foreach (var doc in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name.ToSizzleSafeString() + "_topresults")>
+                        <button type="button"
+                                class="btn btn-primary btn-lg"
+                                data-toggle="modal"
+                                data-target=@('#' + doc.Name.ToSizzleSafeString() + "_topresults")>
                             @doc.Name
                         </button>
                     </li>
                 }
             </ul>
-            @foreach (var doc in ViewData["docs"] as IEnumerable<Document>) {
+            @foreach (var doc in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
                 <div id=@(doc.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -106,10 +102,9 @@
 
                             </div>
                             <div class="modal-body">
-
                                 <div class="container chart-container" id=@(doc.Name.ToSizzleSafeString() + "_resultschart")>
                                     <span id=@(doc.Name.ToSizzleSafeString() + "_topresultrows") hidden>
-                                        @((ViewData["charts"] as IDictionary<Document, string>)[doc])
+                                        @(ViewBag.charts[doc])
                                     </span>
                                 </div>
                             </div>
@@ -117,6 +112,7 @@
                     </div>
                 </div>
             }
+
         </div>
         <div class="tab-pane fade" id="adddocuments">
             <div class="container add-document-container">
@@ -132,10 +128,11 @@
                     </div>
 
                     <div>
-                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-                            @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
+                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
+                            <input type="file" name="fileupload" form="fileuploadform" />
                             <input type="submit" name="submit" value="upload" />
                         }
+                        <iframe class="hidden" id="fileuploadtarget" name="fileuploadtarget" src=""></iframe>
                     </div>
                 </div>
             </div>
@@ -143,6 +140,7 @@
     </div>
 
 </div>
+
 @section scripts{
 
     <!--I can confirm that these Unix Style file paths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->

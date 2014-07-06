@@ -14,9 +14,6 @@ namespace LASI.Core.Binding.Tests
         public void BindTest() {
             Assert.Inconclusive("TODO: Implement code to verify target");
         }
-
-
-
         [TestMethod]
         public void HasSubjectPronounTest() {
             PronounPhrase phrase = new PronounPhrase(new[] { new PersonalPronoun("they"), new PersonalPronoun("themselves") });

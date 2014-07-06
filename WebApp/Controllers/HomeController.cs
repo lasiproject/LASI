@@ -13,47 +13,52 @@ using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
 using LASI.WebApp.Models;
+using LASI.WebApp.ViewModels;
+using LASI.Core.DocumentStructures;
+using System.Collections.Concurrent;
 
 namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-
-        private readonly string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
+        private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
+            trackedJobs.Clear();
+            currentOperation = string.Empty;
+            percentComplete = 0;
+            if (Directory.Exists(USER_UPLOADED_DOCUMENTS_DIR)) {
+                foreach (var fsi in new DirectoryInfo(USER_UPLOADED_DOCUMENTS_DIR).EnumerateFileSystemInfos()) {
+                    fsi.Delete();
+                }
+            }
             return View(new AccountModel());
         }
 
         [HttpPost]
-        public ActionResult Upload() {
-            var SERVER_PATH = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            if (!Directory.Exists(SERVER_PATH)) {
-                Directory.CreateDirectory(SERVER_PATH);
+        public async Task<ActionResult> Upload() {
+            var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
+            if (!Directory.Exists(serverPath)) {
+                Directory.CreateDirectory(serverPath);
             }
-            for (var i = 0;
-            i < Request.Files.Count;
-            ++i) {
-
+            for (var i = 0; i < Request.Files.Count; ++i) {
                 var file = Request.Files[i];// file in Request.Files where file != null && file.ContentLength > 0 select file;
-                foreach (var remnant in from remnant in new DirectoryInfo(SERVER_PATH).EnumerateFileSystemInfos()
+                foreach (var remnant in from remnant in new DirectoryInfo(serverPath).EnumerateFileSystemInfos()
                                         where remnant.Name.Contains(file.FileName.SplitRemoveEmpty('\\').Last())
                                         select remnant) {
                     var dir = remnant as DirectoryInfo;
                     if (dir != null) {
                         dir.Delete(true);
-                    }
-                    else {
+                    } else {
                         remnant.Delete();
                     }
                 }
-                var path = Path.Combine(SERVER_PATH, file.FileName);
+                var path = Path.Combine(serverPath, file.FileName.SplitRemoveEmpty('\\').Last());
 
                 file.SaveAs(path);
             }
-            return RedirectToAction("Results");
-
+            return await Results();
         }
 
         private const short CHART_ITEM_MAX = 5;
@@ -61,24 +66,26 @@ namespace LASI.WebApp.Controllers
         public ActionResult Progress() {
             return View();
         }
-        private static HashSet<Core.DocumentStructures.Document> processedDocuments =
-            new HashSet<Core.DocumentStructures.Document>(new CustomComparer<Core.DocumentStructures.Document>(
+        private static HashSet<Document> processedDocuments =
+            new HashSet<Document>(new CustomComparer<Document>(
                 (dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
-        public async Task<ActionResult> Results() {
+        public async Task<ViewResult> Results() {
             var documents = await LoadResults();
-
-            ViewData["docs"] = documents;
-            ViewData["charts"] = (from document in documents
-                                  let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                                  from r in naiveTopResults
-                                  orderby r.Value descending
-                                  group new object[] { r.Key, r.Value } by document).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
+            Phrase.VerboseOutput = true;
+            var data = (from document in documents
+                        let documentViewModel = new DocumentViewModel(document)
+                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                        from result in naiveTopResults
+                        orderby result.Value descending
+                        group new object[] { result.Key, result.Value } by documentViewModel).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
+            ViewData["charts"] = data;
+            ViewData["docs"] = data.Keys;
             ViewBag.Title = "Results";
             return View();
         }
 
-        private async Task<IEnumerable<Core.DocumentStructures.Document>> LoadResults() {
+        private async Task<IEnumerable<Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             var extensionMap = new ExtensionWrapperMap(UnsupportedFormatHandling.YieldNull);
             var files = Directory.EnumerateFiles(serverPath)
@@ -106,7 +113,7 @@ namespace LASI.WebApp.Controllers
 
         private static string currentOperation;
 
-        private static IDictionary<string, dynamic> trackedJobs = new Dictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
+        private static ConcurrentDictionary<string, dynamic> trackedJobs = new ConcurrentDictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings {
             ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
         };
@@ -116,10 +123,10 @@ namespace LASI.WebApp.Controllers
             if (jobId == "") {
                 return JsonConvert.SerializeObject(trackedJobs
                     .Select(j => new {
-                    j.Value.Message,
-                    j.Value.Percent,
-                    Id = j.Key
-                }).ToArray(),
+                        j.Value.Message,
+                        j.Value.Percent,
+                        Id = j.Key
+                    }).ToArray(),
                       serializerSettings);
             }
             percentComplete %= 101;

@@ -16,7 +16,7 @@ namespace LASI
         /// </summary>
         /// <param name="value">The string to test.</param>
         /// <returns>True if the value parameter is not null, not empty, and contains at least one non white space character.</returns>
-        public static bool IsNotWsOrNull(this string value) { return !string.IsNullOrWhiteSpace(value); }
+        public static bool IsNullOrWhiteSpace(this string value) { return string.IsNullOrWhiteSpace(value); }
 
         /// <summary>
         /// Returns a string array that contains the substrings in this string that are

@@ -12,7 +12,6 @@
 @using System.Net.Http;
 @using System.Web.Http;
 @using System.Web.Caching;
-
 <header>
     <h1>@ViewBag.Title</h1>
 </header>
@@ -27,19 +26,19 @@
         </div>
     </div>
     <div>
-        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "post1target1" })) {
 
-            @FileUpload.GetHtml(name: "upload1", initialNumberOfFiles: 1, includeFormTag: false, addText: "add a file", uploadText: "upload")
+
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
+            <input type="file" name="fileupload" form="fileuploadform" />
             <input type="submit" name="submit" value="upload" />
-        }
+        } <iframe class="hidden" id="fileuploadtarget" name="fileuploadtarget" src=""></iframe>
     </div>
-    <iframe class="hidden" id="post1target1" src=""></iframe>
 </div>
 
 @section scripts {
     @Scripts.Render("~/Scripts/App/Home/Initialize.js")
-    @Scripts.Render("~/Scripts/App/Home/Index.js")
     @Scripts.Render("~/Scripts/App/Home/Progress.js")
+    @Scripts.Render("~/Scripts/App/Home/Index.js")
 
 
 }

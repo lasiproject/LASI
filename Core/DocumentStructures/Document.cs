@@ -151,7 +151,8 @@ namespace LASI.Core.DocumentStructures
                 var totalLines = 0;
                 var paras = measuredParagraphs
                     .Skip(skip)
-                    .TakeWhile((p, index) => {
+                    .TakeWhile((p, index) =>
+                    {
                         bool forceOutput = totalLines == 0 && p.LinesUsed > linesPerPage;
                         totalLines += p.LinesUsed;
 
@@ -267,10 +268,6 @@ namespace LASI.Core.DocumentStructures
                            let paragraph = sentence.Paragraph
                            orderby Document.paragraphs.ToList().IndexOf(paragraph)
                            select paragraph;
-                    //return from s in Sentences.Select((s, i) => new { Sentence = s, Index = i })
-                    //       group s.Index by s.Sentence.Paragraph into g
-                    //       orderby g.First()
-                    //       select g.Key;
                 }
             }
             /// <summary>
