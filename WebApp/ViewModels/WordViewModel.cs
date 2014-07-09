@@ -7,7 +7,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.ViewModels
 {
-    public class WordViewModel : LexicalElementViewModel
+    public class WordViewModel : LexicalViewModel
     {
         public WordViewModel(Word word) : base(word) { }
     }

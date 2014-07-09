@@ -24,7 +24,7 @@ namespace LASI.Core
             : base(words) {
             referredTo = new AggregateEntity(words
                 .OfPronoun()
-                .Where(p => p.ReferesTo != null));
+                .Where(p => p.RefersTo != null));
         }
         /// <summary>
          /// Initializes a new instance of the PronounPhrase class.
@@ -41,17 +41,17 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
-            var result = base.ToString() + (ReferesTo != null && ReferesTo.Any() ? " referring to -> " + ReferesTo.Text : string.Empty);
-            result += (AliasLookup.GetDefinedAliases(ReferesTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(ReferesTo ?? this as IEntity).Format() : string.Empty);
+            var result = base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo.Text : string.Empty);
+            result += (AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Format() : string.Empty);
             return result;
         }
         private IAggregateEntity referredTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IAggregateEntity ReferesTo {
+        public IAggregateEntity RefersTo {
             get {
-                referredTo = referredTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.ReferesTo != null).Select(p => p.ReferesTo));
+                referredTo = referredTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
                 return referredTo;
             }
 

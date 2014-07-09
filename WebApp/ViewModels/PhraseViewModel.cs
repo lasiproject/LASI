@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace LASI.WebApp.ViewModels
 {
-    public class PhraseViewModel : LexicalElementViewModel
+    public class PhraseViewModel : LexicalViewModel
     {
         public PhraseViewModel(Phrase phrase) : base(phrase) {
             ContextMenuJson = phrase.GetJsonMenuData();

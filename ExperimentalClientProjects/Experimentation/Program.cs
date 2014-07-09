@@ -41,7 +41,7 @@ It has a very prominent conservative community.", "Test");
             var dd = document.GetEntities().FirstOrDefault();
             dd.Match()
                 .Yield<string>()
-                .With((IReferencer r) => r.Referencers != null ? r.ReferesTo.Text : r.Text)
+                .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .With((IEntity e) => e.Text)
                 .Result();
 

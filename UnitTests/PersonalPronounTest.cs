@@ -116,7 +116,7 @@ namespace LASI.UnitTests
             IEntity expected = new ProperSingularNoun("Aluan");
             IAggregateEntity actual;
             target.BindAsReferringTo(expected);
-            actual = target.ReferesTo;
+            actual = target.RefersTo;
             Assert.IsTrue(actual.Contains(expected));
         }
 

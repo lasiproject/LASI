@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LASI.Core;
 using System.Web.UI.WebControls;
+using LASI.Core.PatternMatching;
 
 namespace LASI.WebApp
 {
@@ -9,26 +10,26 @@ namespace LASI.WebApp
         /// <summary>
         /// Maps a Lexical element to a CSS Style specification based on its syntactic nature. The returned value is a System.Windows.Media.Brush enumeration member.
         /// </summary>
-        /// <param name="syntacticElement">The Lexical for which to get a color based on its syntactic role.</param>
+        /// <param name="element">The Lexical for which to get a color based on its syntactic role.</param>
         /// <returns>A System.Windows.Media.Brush enumeration value mapped to the syntactic role of the element.</returns>
-        public Style this[ILexical syntacticElement] {
+        public Style this[ILexical element] {
             get {
                 return new Style {
-                    CssClass = syntacticElement.Match().Yield<string>()
-                        .With((IReferencer r) => "referencer")
-                        .With((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
-                        .With((InfinitivePhrase i) => "infinitive")
-                        .With((IEntity e) => "entity")
-                        .With((IVerbal v) => "verbal")
-                        .With((IPrepositional p) => "prepositional")
-                        .With((IDescriptor p) => "descriptor")
-                        .With((IAdverbial a) => "adverbial")
-                        .With((IConjunctive c) => "conjunctive")
-                        .With((Adjective w) => "descriptor")
-                        .With((PresentParticipleGerund w) => "present-participle-gerund")
-                        .With((Verb w) => "verbal")
-                        .With((IConjunctive w) => "conjunctive")
-                    .Result("lexical-default-style")
+                    CssClass = element.Match().Yield<string>()
+                        | ((IReferencer r) => "referencer")
+                        | ((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
+                        | ((InfinitivePhrase i) => "infinitive")
+                        | ((IEntity e) => "entity")
+                        | ((IVerbal v) => "verbal")
+                        | ((IPrepositional p) => "prepositional")
+                        | ((IDescriptor p) => "descriptor")
+                        | ((IAdverbial a) => "adverbial")
+                        | ((IConjunctive c) => "conjunctive")
+                        | ((Adjective w) => "descriptor")
+                        | ((PresentParticipleGerund w) => "present-participle-gerund")
+                        | ((Verb w) => "verbal")
+                        | ((IConjunctive w) => "conjunctive")
+                        | (() => "lexical-default-style")
                 };
             }
         }

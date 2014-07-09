@@ -19,8 +19,8 @@ namespace LASI.ContentSystem
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .pdf extension.</exception>
         public PdfFile(string fullPath)
             : base(fullPath) {
-            if (!this.Ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
+            if (!Ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
 
         }
         /// <summary>

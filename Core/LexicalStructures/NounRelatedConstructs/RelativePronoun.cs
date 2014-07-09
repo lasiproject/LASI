@@ -26,11 +26,11 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (ReferesTo == null || ReferesTo.None())
-                ReferesTo = new AggregateEntity(new[] { target });
+            if (RefersTo == null || RefersTo.None())
+                RefersTo = new AggregateEntity(new[] { target });
             else
-                ReferesTo = new AggregateEntity(ReferesTo.Append(target));
-            EntityKind = ReferesTo.EntityKind;
+                RefersTo = new AggregateEntity(RefersTo.Append(target));
+            EntityKind = RefersTo.EntityKind;
         }
 
 
@@ -42,7 +42,7 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
             if (IsBound) {
-                ReferesTo.AddPossession(possession);
+                RefersTo.AddPossession(possession);
             } else {
                 possessed.Add(possession);
                 possession.Possesser = this;
@@ -91,7 +91,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
-        public IAggregateEntity ReferesTo { get; private set; }
+        public IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
         /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity;  of the Noun.

@@ -3,9 +3,9 @@ using LASI.Core;
 
 namespace LASI.WebApp.ViewModels
 {
-    public abstract class LexicalElementViewModel
+    public abstract class LexicalViewModel
     {
-        protected LexicalElementViewModel(ILexical element) {
+        protected LexicalViewModel(ILexical element) {
             this.element = element;
             Id = element.GetSerializationId();
             Text = element.Text;

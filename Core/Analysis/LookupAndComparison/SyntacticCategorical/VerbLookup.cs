@@ -71,8 +71,7 @@ namespace LASI.Core.Heuristics
         private ISet<string> SearchFor(string search) {
             var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root =>
-            {
+            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
                 VerbSynSet containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();

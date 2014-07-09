@@ -86,7 +86,7 @@
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatch.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
-    <Compile Include="Analysis\PatternMatching\Experimental\Pattern.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PatternSyntaxExperimentation.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\PatternMatching\Generalized\Basis\MatchClause.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PatternMatcher.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Matcher.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />

@@ -20,13 +20,13 @@ namespace LASI.Core.Binding.Experimental
             var releventElements =
                 from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 let result = phrase.Match().Yield<Phrase>()
-                        .With<IPrepositional>(phrase)
-                        .With<IConjunctive>(phrase)
-                        .With<IEntity>(phrase)
-                        .With<IVerbal>(phrase)
-                        .With<SubordinateClauseBeginPhrase>(phrase)
-                        .With<SymbolPhrase>(phrase)
-                    .Result()
+                        | ((IPrepositional p) => phrase)
+                        | ((IConjunctive p) => phrase)
+                        | ((IEntity p) => phrase)
+                        | ((IVerbal p) => phrase)
+                        | ((SubordinateClauseBeginPhrase p) => phrase)
+                        | ((SymbolPhrase p) => phrase)
+                        | null as Phrase
                 where result != null
                 select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));

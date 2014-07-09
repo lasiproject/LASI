@@ -14,9 +14,9 @@ namespace LASI.App.LexicalElementInfo
 
         public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
             return element.Match().Yield<ContextMenu>()
-                .With((IVerbal v) => ForVerbal(v, labelsInContext))
-                .With((IReferencer r) => ForReferencer(r, labelsInContext))
-                .Result();
+                | ((IVerbal v) => ForVerbal(v, labelsInContext))
+                | ((IReferencer r) => ForReferencer(r, labelsInContext))
+                | (() => null);
         }
         #region Lexical Element Context Menu Construction
         /// <summary>
@@ -49,7 +49,7 @@ namespace LASI.App.LexicalElementInfo
         /// <returns>A context menu based on the provided IReferencer in the contexxt of the provided labels.</returns>
         static ContextMenu ForReferencer(IReferencer referencer, IEnumerable<Label> labelsInContext) {
             var result = new ContextMenu();
-            if (referencer.ReferesTo != null && referencer.ReferesTo.Any()) {
+            if (referencer.RefersTo != null && referencer.RefersTo.Any()) {
                 result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(labelsInContext, referencer));
             }
             return result;
@@ -125,8 +125,8 @@ namespace LASI.App.LexicalElementInfo
                 visitBoundEntity.Click += (sender, e) => {
                     ResetLabelBrushes(labelsInContext);
                     var labels = from l in labelsInContext
-                                 where pro.ReferesTo == l.Tag || l.Tag is NounPhrase &&
-                                 pro.ReferesTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
+                                 where pro.RefersTo == l.Tag || l.Tag is NounPhrase &&
+                                 pro.RefersTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
                                  select l;
                     foreach (var l in labels) {
                         l.Foreground = Brushes.White;

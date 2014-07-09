@@ -105,8 +105,8 @@ namespace LASI.Core.Heuristics
                 .Then<IEntity>(e => e.SubjectOf
                     .DirectObjects
                     .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
-                        .When<IReferencer>(p => p.ReferesTo.Any())
-                        .Then<IReferencer>(p => p.ReferesTo.SelectMany(r => GetLikelyAliases(r)))
+                        .When<IReferencer>(p => p.RefersTo.Any())
+                        .Then<IReferencer>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
                         .With<Noun>(n => n.GetSynonyms())
                     .Result()))
                 .Result(defaultValue: Enumerable.Empty<string>());

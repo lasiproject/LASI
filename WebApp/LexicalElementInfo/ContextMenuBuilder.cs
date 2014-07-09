@@ -23,15 +23,14 @@ namespace LASI.WebApp
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
         public static string GetJsonMenuData(this ILexical lexical) {
-            return lexical.Match().Yield<dynamic>()
-                .With((IReferencer r) => r.GetJsonMenuData())
-                .With((IVerbal v) => v.GetJsonMenuData())
-                .Result(() => null);
+            return lexical.Match().Yield<string>()
+                |((IReferencer r) => r.GetJsonMenuData())
+                |((IVerbal v) => v.GetJsonMenuData())
+                |(() => null);
         }
-        public static string  GetJsonMenuData(this IVerbal verbal) {
+        public static string GetJsonMenuData(this IVerbal verbal) {
             if (verbal == null) { throw new ArgumentNullException("verbal"); }
-            var data = new
-            {
+            var data = new {
                 Verbal = verbal.GetSerializationId(),
                 Subjects = verbal.HasSubject() ? verbal.Subjects.Select(e => e.GetSerializationId()).ToArray() : null,
                 DirectObjects = verbal.HasDirectObject() ? verbal.DirectObjects.Select(e => e.GetSerializationId()).ToArray() : null,
@@ -42,19 +41,17 @@ namespace LASI.WebApp
 
         public static string GetJsonMenuData(this IReferencer referencer) {
             if (referencer == null) { throw new ArgumentNullException("referencer"); }
-            var data = new
-            {
+            var data = new {
                 Referencer = referencer.GetSerializationId(),
 
-                RefererredTo = referencer.ReferesTo.Any() ? referencer.ReferesTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
+                RefererredTo = referencer.RefersTo.Any() ? referencer.RefersTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
 
         private static JsonSerializerSettings SerializerSettings {
             get {
-                return new JsonSerializerSettings
-                {
+                return new JsonSerializerSettings {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     ObjectCreationHandling = ObjectCreationHandling.Reuse,
                     NullValueHandling = NullValueHandling.Ignore,

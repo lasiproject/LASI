@@ -12,7 +12,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets an an aggregate entity which represents all entities to which the Referencer refers.
         /// </summary>
-        IAggregateEntity ReferesTo {
+        IAggregateEntity RefersTo {
             get;
         }
         /// <summary>

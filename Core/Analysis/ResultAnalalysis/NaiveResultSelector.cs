@@ -32,16 +32,15 @@ namespace LASI.Core
             var data =
                  from svPair in
                      (from vp in doc.Phrases.OfVerbPhrase()
-                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).ReferesTo != null).Distinct((x, y) => x.IsSimilarTo(y))
+                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).RefersTo != null).Distinct((x, y) => x.IsSimilarTo(y))
                           .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      let sub = s as IReferencer == null ? s : (s as IReferencer).ReferesTo
+                      let sub = s as IReferencer == null ? s : (s as IReferencer).RefersTo
                       where sub != null
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SvoRelationship
-                      {
+                      select new SvoRelationship {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -70,12 +69,11 @@ namespace LASI.Core
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()
-                       .With<IReferencer>(r => r.ReferesTo != null && r.ReferesTo.Any() ? r.ReferesTo : null)
+                       .With<IReferencer>(r => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : null)
                        .With<IEntity>(entity)
                    .Result()
                    where e != null
-                   group e by new
-                   {
+                   group e by new {
                        e.Text,
                        e.Weight
                    } into entity

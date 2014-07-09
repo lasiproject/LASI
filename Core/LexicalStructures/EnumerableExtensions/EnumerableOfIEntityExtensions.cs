@@ -150,7 +150,7 @@ namespace LASI.Core
         /// <returns>All entities in the sequence such that, if they are referencers, their references will be returned in their place.</returns>
         public static IEnumerable<IEntity> ResolveReferences<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity {
             return entities.SelectMany(e => e.Match().Yield<IEnumerable<IEntity>>()
-            .With((IReferencer r) => r.ReferesTo)
+            .With((IReferencer r) => r.RefersTo)
             .With((IEntity i) => new[] { i })
             .Result());
         }
@@ -299,7 +299,7 @@ namespace LASI.Core
         /// <returns>All entities in the sequence such that, if they are referencers, their references will be returned in their place.</returns>
         public static ParallelQuery<IEntity> ResolveReferences<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : class, IEntity {
             return entities.SelectMany(e => e.Match().Yield<IEnumerable<IEntity>>()
-            .With((IReferencer r) => r.ReferesTo)
+            .With((IReferencer r) => r.RefersTo)
             .With((IEntity i) => new[] { i })
             .Result());
         }

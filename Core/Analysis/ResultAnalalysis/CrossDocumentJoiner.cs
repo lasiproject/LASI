@@ -92,7 +92,7 @@ namespace LASI.Core
                                      select verbal;
             var relationships = from verbal in verbalCominalities
                                 let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
-                                entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.ReferesTo.Any() ? asPro.ReferesTo : s : s))
+                                entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
                                 let relationship = new SvoRelationship {
                                     Verbal = verbal,
                                     Subject = testPronouns(verbal.Subjects),
@@ -135,7 +135,7 @@ namespace LASI.Core
             }
         }
         private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y) {
-            return x.Match().Yield<bool>().With<IReferencer>(r => r.ReferesTo.Any(e =>
+            return x.Match().Yield<bool>().With<IReferencer>(r => r.RefersTo.Any(e =>
                                 e.Text == y.Text ||
                                 e.IsAliasFor(y) ||
                                 e.IsSimilarTo(y))).Result();

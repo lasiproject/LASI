@@ -108,8 +108,8 @@ namespace LASI.Core
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                              let result = e.Match().Yield<IEntity>()
                                    .With((Noun n) => n)
-                                   .When((IReferencer r) => r.ReferesTo != null)
-                                   .Then((IReferencer r) => r.ReferesTo)
+                                   .When((IReferencer r) => r.RefersTo != null)
+                                   .Then((IReferencer r) => r.RefersTo)
                                .Result(e)
                              where result != null
                              select result;

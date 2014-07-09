@@ -32,20 +32,20 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (ReferesTo == null) {
-                ReferesTo = new AggregateEntity(new[] { target });
+            if (RefersTo == null) {
+                RefersTo = new AggregateEntity(new[] { target });
             }
             else {
-                ReferesTo = new AggregateEntity(ReferesTo.Append(target));
+                RefersTo = new AggregateEntity(RefersTo.Append(target));
             }
-            EntityKind = ReferesTo.EntityKind;
+            EntityKind = RefersTo.EntityKind;
         }
         /// <summary>   
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
         public override string ToString() {
-            return this.GetType().Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (ReferesTo != null ? " referring to -> " + ReferesTo.Text : string.Empty) : string.Empty);
+            return this.GetType().Name + " \"" + Text + "\"" + (VerboseOutput ? " " + PronounKind + (RefersTo != null ? " referring to -> " + RefersTo.Text : string.Empty) : string.Empty);
 
         }
 
@@ -72,8 +72,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IPossessable possession) {
-            if (ReferesTo != null) {
-                ReferesTo.AddPossession(possession);
+            if (RefersTo != null) {
+                RefersTo.AddPossession(possession);
             }
             else {
                 possessed.Add(possession);
@@ -98,7 +98,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
         /// </summary>
-        public virtual IAggregateEntity ReferesTo { get; private set; }
+        public virtual IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.

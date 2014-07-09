@@ -7,7 +7,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.ViewModels
 {
-    public class ClauseViewModel : LexicalElementViewModel
+    public class ClauseViewModel : LexicalViewModel
     {
         public ClauseViewModel(Clause clause) : base(clause) { }
     }

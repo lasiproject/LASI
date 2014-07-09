@@ -101,7 +101,7 @@ namespace LASI.UnitTests
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro) && pro.ReferesTo.Any(e => e == target));
+            Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
         }
 
 
@@ -230,7 +230,7 @@ namespace LASI.UnitTests
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.Contains(pro));
-            Assert.IsTrue(target.Referencers.All(r => r.ReferesTo == target || r.ReferesTo.Contains(target)));
+            Assert.IsTrue(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target)));
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace LASI.UnitTests
             IReferencer pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.Contains(pro));
-            Assert.IsTrue(target.Referencers.All(r => r.ReferesTo == target || r.ReferesTo.Contains(target)));
+            Assert.IsTrue(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target)));
 
         }
 

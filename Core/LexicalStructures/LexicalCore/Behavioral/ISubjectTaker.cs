@@ -22,7 +22,7 @@ namespace LASI.Core
             get;
         }
         /// <summary>
-        /// Gets an IAggregateEntity implementation composed from all of the ISubjectTaker's subjects.
+        /// Gets the Aggregate Entity composed of the ISubjectTaker's subjects.
         /// </summary>
         IAggregateEntity AggregateSubject { get; }
 

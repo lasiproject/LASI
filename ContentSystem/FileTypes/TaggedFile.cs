@@ -19,8 +19,8 @@ namespace LASI.ContentSystem
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .tagged extension.</exception>
         public TaggedFile(string fullPath)
             : base(fullPath) {
-            if (!this.Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
-                throw new LASI.ContentSystem.FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
+            if (!Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
         }
         /// <summary>
         /// Gets a single string containing all of the text in the TaggedFile.
@@ -31,8 +31,8 @@ namespace LASI.ContentSystem
                 new FileStream(FullPath,
                     FileMode.Open,
                     FileAccess.Read, FileShare.Read,
-                    1024, FileOptions.Asynchronous)
-                    , Encoding.UTF8, false, 1024, false)) {
+                    1024, FileOptions.Asynchronous),
+                Encoding.UTF8, false, 1024, false)) {
                 return reader.ReadToEnd();
             }
         }
@@ -45,8 +45,8 @@ namespace LASI.ContentSystem
                   new FileStream(FullPath,
                       FileMode.Open,
                       FileAccess.Read, FileShare.Read,
-                      1024, FileOptions.Asynchronous)
-                      , Encoding.UTF8, false, 1024, false)) { return await reader.ReadToEndAsync(); }
+                      1024, FileOptions.Asynchronous),
+                  Encoding.UTF8, false, 1024, false)) { return await reader.ReadToEndAsync(); }
         }
         /// <summary>
         /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
