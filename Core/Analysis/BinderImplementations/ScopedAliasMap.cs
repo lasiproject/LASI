@@ -41,11 +41,13 @@ namespace LASI.Core.Binding
         /// <returns>The IEntity instances which have been so far identified as aliases of the indexing IEntity instance within the lexical scope of the ScopedAliasMap.</returns>
         public IEnumerable<IEntity> this[IEntity key] {
             get {
-                return domain.OfEntity().ToDictionary(e => e,
-                    e => from aliasString in assumedAliases[e.Text]
-                         from i in domain.OfEntity()
-                         where i.Text == aliasString
-                         select i)[key];
+                return domain.OfEntity()
+                    .ToDictionary(
+                        e => e,
+                        e => from aliasString in assumedAliases[e.Text]
+                             from i in domain.OfEntity()
+                             where i.Text == aliasString
+                             select i)[key];
             }
         }
 

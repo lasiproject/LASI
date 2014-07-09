@@ -82,8 +82,6 @@
     break-after: always;
 }
 
-.lexical-content-block span {
-}
 
 /*#region info and errors */
 .error {
@@ -108,6 +106,10 @@
 /*#endregion */
 .lexical-content-block span.selected {
     background-color: aqua;
+}
+
+.lexical-content-block span.paragraph {
+    text-indent: each-line;
 }
 
 .view-subects-menu-item {

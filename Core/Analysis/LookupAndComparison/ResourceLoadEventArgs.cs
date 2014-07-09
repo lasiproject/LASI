@@ -10,7 +10,6 @@ namespace LASI.Core
     /// Carries event data associated with the loading of a specific resource.
     /// </summary>
     [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceLoadEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
         internal ResourceLoadEventArgs() {

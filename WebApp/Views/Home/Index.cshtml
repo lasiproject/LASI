@@ -28,7 +28,7 @@
     <div>
 
 
-        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
+        @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
             <input type="file" name="fileupload" form="fileuploadform" />
             <input type="submit" name="submit" value="upload" />
         } <iframe class="hidden" id="fileuploadtarget" name="fileuploadtarget" src=""></iframe>

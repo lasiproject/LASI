@@ -82,7 +82,7 @@ namespace LASI.WebApp.Controllers
             ViewData["charts"] = data;
             ViewData["docs"] = data.Keys;
             ViewBag.Title = "Results";
-            return View();
+            return View(new DocumentSetViewModel(documents));
         }
 
         private async Task<IEnumerable<Document>> LoadResults() {
@@ -114,7 +114,8 @@ namespace LASI.WebApp.Controllers
         private static string currentOperation;
 
         private static ConcurrentDictionary<string, dynamic> trackedJobs = new ConcurrentDictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
-        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings {
+        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+        {
             ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
         };
         //static int timesExecuted = 0;
@@ -122,11 +123,12 @@ namespace LASI.WebApp.Controllers
         public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
                 return JsonConvert.SerializeObject(trackedJobs
-                    .Select(j => new {
-                        j.Value.Message,
-                        j.Value.Percent,
-                        Id = j.Key
-                    }).ToArray(),
+                    .Select(j => new
+                {
+                    j.Value.Message,
+                    j.Value.Percent,
+                    Id = j.Key
+                }).ToArray(),
                       serializerSettings);
             }
             percentComplete %= 101;

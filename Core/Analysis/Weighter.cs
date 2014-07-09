@@ -141,14 +141,14 @@ namespace LASI.Core
         private static void WeightSimilarNounPhrases(Document doc) {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
-            var npsToConsider = doc.Phrases
+            var toConsider = doc.Phrases
                 .AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
                 .InSubjectOrObjectRole();
 
-            var nps = from outer in npsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from inner in npsToConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            var nps = from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
@@ -171,9 +171,9 @@ namespace LASI.Core
         private static void WeightSimilarVerbPhrases(Document doc) {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
-            var vpsToConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject().ToList();
-            var vps = from outer in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                      from inner in vpsToConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            var toConsider = doc.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max).OfVerbPhrase().WithSubjectOrObject().ToList();
+            var vps = from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      from inner in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
@@ -245,8 +245,7 @@ namespace LASI.Core
     /// A class containing information regarding a weighting process level status update.
     /// </summary>
     [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public class WeightingUpdateEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
+    public class WeightingUpdateEventArgs : Interop.Reporting.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.

@@ -5,9 +5,10 @@
 @using LASI.WebApp.Models;
 @using LASI.WebApp.ViewModels;
 @Styles.Render("~/Content/App/Home/Results.css")
+
+@model DocumentSetViewModel
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
 <title>@ViewBag.Title</title>
 <div class="results-pane">
     <ul class="nav nav-tabs" id="results">
@@ -22,12 +23,14 @@
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                     @foreach (var doc in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
                         <li class="list-group-item">
+
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + doc.Name)>
                                 @doc.Name
                             </button>
                         </li>
                     }
                 </ul>
+
             </div>
 
             <br />
@@ -44,7 +47,7 @@
                                 <div class="modal-body">
                                     <div class="document">
                                         @foreach (var paragraph in doc.ParagraphViewModels) {
-                                            <p class="lexical-content-block sentence">
+                                            <p class="lexical-content-block @paragraph.Style">
                                                 @foreach (var phrase in paragraph.PhraseViewModels) {
                                                     <span class=@phrase.Style.CssClass
                                                           title=@(phrase.DetailText) id=@phrase.Id>
@@ -128,7 +131,7 @@
                     </div>
 
                     <div>
-                        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
+                        @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
                             <input type="file" name="fileupload" form="fileuploadform" />
                             <input type="submit" name="submit" value="upload" />
                         }

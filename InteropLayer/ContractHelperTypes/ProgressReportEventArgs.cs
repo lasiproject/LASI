@@ -6,7 +6,6 @@ namespace LASI.Interop
     /// A LASI.Core.Interop.Reporting.ReportEventArgs implementation providing updates on an ongoing operation.
     /// </summary>
     [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
     public class AnalysisUpdateEventArgs : Core.Interop.Reporting.ReportEventArgs
     {
         /// <summary>

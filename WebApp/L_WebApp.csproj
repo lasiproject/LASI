@@ -293,6 +293,7 @@
     </Compile>
     <Compile Include="JobStatus.cs" />
     <Compile Include="ViewModels\ClauseViewModel.cs" />
+    <Compile Include="ViewModels\DocumentSetViewModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMap.cs" />
     <Compile Include="Models\Home\ProgressModel.cs" />
@@ -522,7 +523,6 @@
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
     <Folder Include="App_Data\Users\" />
-    <Folder Include="LASI\WebApp\" />
     <Folder Include="Models\Example\" />
   </ItemGroup>
   <ItemGroup>

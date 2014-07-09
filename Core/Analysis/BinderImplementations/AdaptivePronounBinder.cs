@@ -43,18 +43,20 @@ namespace LASI.Core.Binding.Experimental
                 from noun in
                     from noun in wordList.OfNoun()
                     where noun.Phrase is IEntity
-                    select new {
+                    select new
+                    {
                         Noun = noun,
                         Key = noun.Match().Yield<char>()
                               | ((ProperSingularNoun proper) => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
                                    proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
                               | ((CommonSingularNoun s) => 'S')
                               | ((IQuantifiable q) => 'P')
-                              | 'U'
+                              | (() => 'U')
                     }
                 join pronoun in
                     from pronoun in words.OfPronoun()
-                    select new {
+                    select new
+                    {
                         Pronoun = pronoun,
                         Key = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' : pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
                     }

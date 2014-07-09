@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Utilities</RootNamespace>
     <AssemblyName>Utilities</AssemblyName>
-    <LangVersion>experimental</LangVersion>
+    <!--<LangVersion>experimental</LangVersion>-->
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>

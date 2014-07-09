@@ -12,7 +12,9 @@ namespace LASI.WebApp.ViewModels
     public class PhraseViewModel : LexicalViewModel
     {
         public PhraseViewModel(Phrase phrase) : base(phrase) {
+
             ContextMenuJson = phrase.GetJsonMenuData();
+            Phrase.VerboseOutput = true;
             DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
             WordViewModels = phrase.Words.Select(word => new WordViewModel(word));
         }

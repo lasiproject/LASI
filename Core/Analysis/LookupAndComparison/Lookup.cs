@@ -54,11 +54,11 @@ namespace LASI.Core.Heuristics
                     .Then((from referent in referee.RefersTo
                            let gen =
                            referent.Match().Yield<Gender>()
-                               .With<NounPhrase>(n => GetNounPhraseGender(n))
-                               .With<Pronoun>(r => r.Gender)
-                               .With<ProperSingularNoun>(r => r.Gender)
-                               .With<CommonNoun>(n => Gender.Neutral)
-                           .Result()
+                              | ((NounPhrase n) => GetNounPhraseGender(n))
+                              | ((Pronoun r) => r.Gender)
+                              | ((ProperSingularNoun r) => r.Gender)
+                              | ((CommonNoun n) => Gender.Neutral)
+                              | (() => Gender.Unknown)
                            group gen by gen into byGen
                            where byGen.Count() == referee.RefersTo.Count()
                            select byGen.Key).FirstOrDefault()).

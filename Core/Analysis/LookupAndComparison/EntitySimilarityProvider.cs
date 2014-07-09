@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Heuristics
-{
-    using SR = SimilarityResult;
+{ 
     public static partial class Lookup
     {
         /// <summary>
@@ -23,21 +22,21 @@ namespace LASI.Core.Heuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
             return
-                first.Match().Yield<SR>()
+                first.Match().Yield<SimilarityResult>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
-                        .Then(SR.Similar)
+                        .Then(SimilarityResult.Similar)
                     .With<IAggregateEntity>(ae1 =>
-                        second.Match().Yield<SR>()
-                          .With<IAggregateEntity>(ae2 => new SR(ae1.IsSimilarTo(ae2)))
-                          .With<IEntity>(e2 => new SR(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                        second.Match().Yield<SimilarityResult>()
+                          .With<IAggregateEntity>(ae2 => new SimilarityResult(ae1.IsSimilarTo(ae2)))
+                          .With<IEntity>(e2 => new SimilarityResult(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
                     .With<Noun>(n1 =>
-                        second.Match().Yield<SR>()
-                            .With<Noun>(n2 => new SR(n1.IsSynonymFor(n2)))
+                        second.Match().Yield<SimilarityResult>()
+                            .With<Noun>(n2 => new SimilarityResult(n1.IsSynonymFor(n2)))
                             .With<NounPhrase>(np2 => n1.IsSimilarTo(np2))
                           .Result())
                     .With<NounPhrase>(np1 =>
-                        second.Match().Yield<SR>()
+                        second.Match().Yield<SimilarityResult>()
                           .With<NounPhrase>(np2 => np1.IsSimilarTo(np2))
                           .With<Noun>(n2 => np1.IsSimilarTo(n2))
                         .Result())
@@ -62,7 +61,7 @@ namespace LASI.Core.Heuristics
                              let Count = byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
-            return new SR(simResults.Any() && simResults.First().Key,
+            return new SimilarityResult(simResults.Any() && simResults.First().Key,
                 simResults.Any() ? simResults
                 .Aggregate(0f, (ratioSoFar, current) => ratioSoFar / current.Count) : 0);
         }
@@ -81,7 +80,7 @@ namespace LASI.Core.Heuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.OfNoun().ToList();
-            return new SR(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
+            return new SimilarityResult(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
         }
         /// <summary>
         /// Determines if the provided NounPhrase is similar to the provided Noun.
@@ -114,7 +113,7 @@ namespace LASI.Core.Heuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this NounPhrase first, NounPhrase second) {
             var ratio = GetSimilarityRatio(first, second);
-            return new SR(ratio > SIMILARITY_THRESHOLD, ratio);
+            return new SimilarityResult(ratio > SIMILARITY_THRESHOLD, ratio);
         }
         /// <summary>
         /// Determines if the two provided Noun instances are similar.
@@ -130,7 +129,7 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Noun first, Noun second) {
-            return new SR(first.IsSynonymFor(second));
+            return new SimilarityResult(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
