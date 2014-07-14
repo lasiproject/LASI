@@ -1,0 +1,15 @@
+﻿@using LASI.WebApp;
+@using LASI.WebApp.ViewModels;
+@using WebMatrix.Data;
+
+@model PhraseViewModel
+
+<!--the title attribute must be quoted for the DetailText property to display properly.-->
+<span class=@Model.Style.CssClass
+      title='@Model.DetailText'
+      id=@Model.Id>
+    @Model.Text
+    <span id=@("context" + Model.Id) hidden>
+        @Model.ContextMenuJson
+    </span>
+</span>
