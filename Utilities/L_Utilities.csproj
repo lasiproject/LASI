@@ -10,7 +10,7 @@
     <RootNamespace>LASI.Utilities</RootNamespace>
     <AssemblyName>Utilities</AssemblyName>
     <!--<LangVersion>experimental</LangVersion>-->
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>

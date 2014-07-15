@@ -9,32 +9,20 @@
         return cookieToken + ":" + formToken;
     }
 }
-@using System.Net.Http;
 @using System.Web.Http;
-@using System.Web.Caching;
+@using LASI.WebApp.Models;
 <header>
     <h1>@ViewBag.Title</h1>
 </header>
 
 <div id="main-content">
+
     <div>
-        <p id="progress-text"></p>
-    </div>
-    <div class="progress">
-
-        <div id="progress1" class="progress-bar text-aligned-progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%;">
-        </div>
-    </div>
-    <div>
-
-
-        @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data", target = "fileuploadtarget", @class = "form-inline", id = "fileuploadform" })) {
-            <input type="file" name="fileupload" form="fileuploadform" />
-            <input type="submit" name="submit" value="upload" />
-        } <iframe class="hidden" id="fileuploadtarget" name="fileuploadtarget" src=""></iframe>
+        @{var uploadModel = new FileUploadModel { AcceptedExtensions = new[] { "*.txt" }, UploadTarget = "fileuploadtarget", };
+            Html.RenderPartial("_DocumentUpload", uploadModel);
+        }
     </div>
 </div>
-
 @section scripts {
     @Scripts.Render("~/Scripts/App/Home/Initialize.js")
     @Scripts.Render("~/Scripts/App/Home/Progress.js")

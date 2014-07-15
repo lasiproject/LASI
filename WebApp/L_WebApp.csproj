@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.WebApp</RootNamespace>
     <AssemblyName>L_WebApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <!--<LangVersion>experimental</LangVersion>-->
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -337,7 +337,6 @@
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.all.css" />
     <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
     <Content Include="Content\themes\base\jquery.ui.base.css" />
     <Content Include="Content\themes\base\jquery.ui.button.css" />
@@ -461,6 +460,8 @@
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\_Phrase.cshtml" />
+    <Content Include="Views\Home\_Paragraph.cshtml" />
+    <Content Include="Views\Home\_DocumentUpload.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

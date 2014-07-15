@@ -1,0 +1,9 @@
+﻿@using LASI.WebApp;
+@using LASI.WebApp.ViewModels;
+@model ParagraphViewModel
+
+<p class="lexical-content-block @Model.Style.CssClass">
+    @foreach (var phraseModel in Model.PhraseViewModels) {
+        Html.RenderPartial("_Phrase", phraseModel);
+    }
+</p>
