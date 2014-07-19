@@ -278,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
-    <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -322,9 +321,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JobStatus.cs" />
-    <Compile Include="ViewModels\ClauseModel.cs" />
-    <Compile Include="ViewModels\DocumentSetModel.cs" />
-    <Compile Include="ViewModels\DocumentModel.cs" />
+    <Compile Include="Models\Lexical\ClauseModel.cs" />
+    <Compile Include="Models\DocumentSetModel.cs" />
+    <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMap.cs" />
     <Compile Include="Models\Home\ProgressModel.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -333,12 +332,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalElementInfo\ContextMenuBuilder.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="ViewModels\LexicalModel.cs" />
-    <Compile Include="ViewModels\PageModel.cs" />
-    <Compile Include="ViewModels\ParagraphModel.cs" />
-    <Compile Include="ViewModels\PhraseModel.cs" />
-    <Compile Include="ViewModels\SentenceModel.cs" />
-    <Compile Include="ViewModels\WordModel.cs" />
+    <Compile Include="Models\Lexical\LexicalModel.cs" />
+    <Compile Include="Models\PageModel.cs" />
+    <Compile Include="Models\ParagraphModel.cs" />
+    <Compile Include="Models\Lexical\PhraseModel.cs" />
+    <Compile Include="Models\SentenceModel.cs" />
+    <Compile Include="Models\Lexical\WordModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -591,6 +590,8 @@
     <Content Include="Scripts\mvcfileupload\blueimp\tmpl.min.js" />
     <Content Include="Scripts\mvcfileupload\vendor\bootstrap.min.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -667,11 +668,11 @@
     <TypeScriptCompile Include="Scripts\typings\jquery.fileupload\jquery.fileupload.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\require\require.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
     <Folder Include="App_Data\Users\" />
-    <Folder Include="Models\Example\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

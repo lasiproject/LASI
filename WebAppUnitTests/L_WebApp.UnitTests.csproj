@@ -41,9 +41,6 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Brandy.Web.Require">
-      <HintPath>..\packages\Web.Require.1.1.0.0\lib\net40\Brandy.Web.Require.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -184,9 +181,6 @@
   <ItemGroup>
     <Content Include="Content\qunit.css" />
     <Content Include="MvcDiagnostics.aspx" />
-    <Content Include="Scripts\head-1.0.3.js" />
-    <Content Include="Scripts\head-1.0.3.min.js" />
-    <Content Include="Scripts\head-changelog.txt" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

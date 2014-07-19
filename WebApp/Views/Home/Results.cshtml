@@ -8,7 +8,7 @@
 
 @model DocumentSetModel
 <!--Load the AJAX API-->
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 <title>@ViewBag.Title</title>
 <div class="results-pane">
     <ul class="nav nav-tabs" id="results">
@@ -122,17 +122,3 @@
     </div>
 
 </div>
-
-@section scripts{
-
-    <!--I can confirm that these Unix Style file paths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
-    <!--agreed-->
-    @Scripts.Render("~/Scripts/App/Home/Initialize.js")
-    @Scripts.Render("~/Scripts/App/Home/Progress.js")
-    @Scripts.Render("~/Scripts/App/Home/Results.js")
-    @Scripts.Render("~/Scripts/App/Home/Index.js")
-    @Scripts.Render("~/Scripts/App/Home/ReconstructedDocumentInteraction.js")
-
-}
-
-
