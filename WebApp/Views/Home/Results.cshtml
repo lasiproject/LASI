@@ -3,10 +3,10 @@
 @using LASI.Core.DocumentStructures;
 @using LASI.WebApp;
 @using LASI.WebApp.Models;
-@using LASI.WebApp.ViewModels;
+@using LASI.WebApp.Models.Lexical;
 @Styles.Render("~/Content/App/Home/Results.css")
 
-@model DocumentSetViewModel
+@model DocumentSetModel
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <title>@ViewBag.Title</title>
@@ -21,7 +21,7 @@
             <div>
 
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
+                    @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
                         <li class="list-group-item">
 
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + documentModel.Name)>
@@ -33,7 +33,7 @@
             </div>
             <br />
             <div>
-                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
+                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
                     <div id=@documentModel.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -70,7 +70,7 @@
         <div class="tab-pane fade" id="topresults">
 
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
+                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
                     <li class="list-group-item">
                         <button type="button"
                                 class="btn btn-primary btn-lg"
@@ -81,7 +81,7 @@
                     </li>
                 }
             </ul>
-            @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentViewModel>) {
+            @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
                 <div id=@(documentModel.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -109,8 +109,11 @@
                 <div id="main-content">
                     <div>
                         @{
-                            var uploadModel = new FileUploadModel { AcceptedExtensions = new[] { "*.txt" }, UploadTarget = "fileuploadtarget", };
-                            Html.RenderPartial("_DocumentUpload", uploadModel);
+                            Html.RenderPartial("_DocumentUpload", new FileUploadModel
+                            {
+                                AcceptedExtensions = new[] { "*.txt" },
+                                UploadTarget = "fileuploadtarget",
+                            });
                         }
                     </div>
                 </div>

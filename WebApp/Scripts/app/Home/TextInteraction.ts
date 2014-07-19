@@ -1,4 +1,5 @@
 ﻿module LASI.Results.ContextProviders {
+    "use strict";
     export interface VerbalContext {
         subjects: number[];
         directObjects: number[];
@@ -12,7 +13,6 @@
 
 module LASI.Results {
     "use strict";
-
     (function () {
         var highlightRelatedElement = (element, index) => $(element).addClass("selected");
         var verbals = $(".lexical-content-block span.verbal");
@@ -20,19 +20,20 @@ module LASI.Results {
 
 
         var contextMenu = $("div#verbalContextMenu");
-        var displayContextMenuForElement = (menu: JQuery, event: JQueryEventObject) => menu.css({
-            // get the z-index of the parent modal containing the element and offset it by 50.
-            zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
-            position: "absolute",
-            display: "block",
-            // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
-            left: event.pageX,
-            top: event.pageY
-        });
-        var GetInfoForVerbal = (rawData: string): ContextProviders.VerbalContext => {
+        var displayContextMenuForElement =
+            (element: JQuery, event: JQueryEventObject) => element.css({
+                // get the z-index of the parent modal containing the element and offset it by 50.
+                zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
+                position: "absolute",
+                display: "block",
+                // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
+                left: event.pageX,
+                top: event.pageY
+            });
+        var getInfoForVerbal = (rawData: string): ContextProviders.VerbalContext => {
             var dataSource: any = $.parseJSON(rawData);
             return dataSource;
-        }; var GetInfoForReferencer = (rawData: string): ContextProviders.RefencerContext => {
+        }; var getInfoForReferencer = (rawData: string): ContextProviders.RefencerContext => {
             var dataSource: any = $.parseJSON(rawData);
             return dataSource;
         };
@@ -41,7 +42,7 @@ module LASI.Results {
         var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
             controls
                 .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
-                .click(event=> {
+                .click(event => {
                     event.preventDefault();
                     (relatedElementIds || new Array<number>())
                         .map((element, index) => $("#" + element.toString()))
@@ -53,7 +54,7 @@ module LASI.Results {
             var verbalContext: ContextProviders.VerbalContext;
             // Deselect any elements selected by a previous selection.
             $(".lexical-content-block span").removeClass("selected");
-            verbalContext = GetInfoForVerbal($.trim($(event.target).children("span").text()));
+            verbalContext = getInfoForVerbal($.trim($(event.target).children("span").text()));
             displayContextMenuForElement(contextMenu, event);
 
             configureMenu(
@@ -68,15 +69,15 @@ module LASI.Results {
                 contextMenu.find("ul").children(".view-indirectobjects-menu-item"),
                 verbalContext.indirectObjects,
                 highlightRelatedElement);
-            //return false;
         });
 
 
-        referencers.on("contextmenu", event=> {
-            event.preventDefault(); var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
+        referencers.on("contextmenu", event => {
+            event.preventDefault();
+            var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
                 controls
                     .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
-                    .click(event=> {
+                    .click(event => {
                         event.preventDefault();
                         (relatedElementIds || new Array<number>())
                             .map((element, index) => $("#" + element.toString()))
@@ -86,7 +87,7 @@ module LASI.Results {
 
 
 
-            var referencerInfo = GetInfoForReferencer($.trim($(event.target).children("span").text()));
+            var referencerInfo = getInfoForReferencer($.trim($(event.target).children("span").text()));
             // Deselect any elements selected by a previous selection.
             $(".lexical-content-block span").removeClass("selected");
             contextMenu.css({
@@ -105,7 +106,7 @@ module LASI.Results {
                 highlightRelatedElement);
             return false;
         });
-        $(document).click(event=> {
+        $(document).click(event => {
             contextMenu.hide();
             contextMenu.find("li").off().hide();
         });

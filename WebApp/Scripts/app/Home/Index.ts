@@ -5,6 +5,7 @@ which will optimize page load time.
 */
 
 module LASI.Index {
+    "use strict";
 
     (function () {
 

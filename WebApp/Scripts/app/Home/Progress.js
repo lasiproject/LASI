@@ -1,6 +1,7 @@
 ﻿var LASI;
 (function (LASI) {
     (function (Progress) {
+        "use strict";
         var Status = (function () {
             function Status(message, percent) {
                 this.message = message;
@@ -18,6 +19,8 @@
     var Progress = LASI.Progress;
 })(LASI || (LASI = {}));
 $(function () {
+    "use strict";
+
     // Import class Status
     var Status = LASI.Progress.Status;
 

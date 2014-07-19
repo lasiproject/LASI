@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.UI.WebControls;
 using LASI.Core;
 
-namespace LASI.WebApp.ViewModels
+namespace LASI.WebApp.Models.Lexical
 {
-    public class WordViewModel : LexicalViewModel
+    public class WordModel : LexicalModel
     {
-        public WordViewModel(Word word) : base(word) { }
+        public WordModel(Word word) : base(word) { }
     }
 }

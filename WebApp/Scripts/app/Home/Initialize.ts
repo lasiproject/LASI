@@ -131,11 +131,11 @@ interface String {
                 results.set(keySelector(element), valueSelector(element));
             });
             return results;
-        }
+        };
     }
     if (!String.prototype.hasOwnProperty("fmtAsPct")) {
         String.prototype.fmtAsPct = function (num: number) {
             return num.toString() + "%";
-        }
+        };
     }
 } ());

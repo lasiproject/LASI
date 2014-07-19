@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.UI.WebControls;
 using LASI.Core;
 
-namespace LASI.WebApp.ViewModels
+namespace LASI.WebApp.Models.Lexical
 {
-    public class ClauseViewModel : LexicalViewModel
+    public class ClauseModel : LexicalModel
     {
-        public ClauseViewModel(Clause clause) : base(clause) { }
+        public ClauseModel(Clause clause) : base(clause) { }
     }
 }

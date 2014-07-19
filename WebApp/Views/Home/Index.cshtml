@@ -9,6 +9,9 @@
         return cookieToken + ":" + formToken;
     }
 }
+@using MvcFileUploader;
+@using MvcFileUploader.Models;
+@using MvcFileUploader.HtmlHelper;
 @using System.Web.Http;
 @using LASI.WebApp.Models;
 <header>
@@ -18,8 +21,12 @@
 <div id="main-content">
 
     <div>
-        @{var uploadModel = new FileUploadModel { AcceptedExtensions = new[] { "*.txt" }, UploadTarget = "fileuploadtarget", };
-            Html.RenderPartial("_DocumentUpload", uploadModel);
+        @{
+            Html.RenderPartial("_DocumentUpload", new FileUploadModel
+            {
+                AcceptedExtensions = new[] { "*.txt" },
+                UploadTarget = "fileuploadtarget",
+            });
         }
     </div>
 </div>

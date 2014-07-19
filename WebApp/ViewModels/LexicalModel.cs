@@ -1,11 +1,11 @@
 using System.Web.UI.WebControls;
 using LASI.Core;
 
-namespace LASI.WebApp.ViewModels
+namespace LASI.WebApp.Models.Lexical
 {
-    public abstract class LexicalViewModel
+    public abstract class LexicalModel
     {
-        protected LexicalViewModel(ILexical element) {
+        protected LexicalModel(ILexical element) {
             this.element = element;
             Id = element.GetSerializationId();
             Text = element.Text;

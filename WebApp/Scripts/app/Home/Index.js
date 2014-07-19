@@ -6,6 +6,8 @@ which will optimize page load time.
 var LASI;
 (function (LASI) {
     (function (Index) {
+        "use strict";
+
         (function () {
             // All top level functions should start with this directive. nested functions inherit it.
             "use strict";

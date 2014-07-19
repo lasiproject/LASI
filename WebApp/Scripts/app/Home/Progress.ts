@@ -1,6 +1,7 @@
 ﻿
 
 module LASI.Progress {
+    "use strict";
     export class Status {
         percentString: string;
         constructor(public message: string, public percent: number) {
@@ -13,7 +14,7 @@ module LASI.Progress {
     }
 }
 $(function () {
-
+    "use strict";
     // Import class Status
     var Status = LASI.Progress.Status;
 
@@ -36,8 +37,8 @@ $(function () {
                         $("#progress-text").text(st.message);
                         // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
                         if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus"))
-                            .map(e=> e.percent)
-                            .some(x=> x >= 100)) {
+                            .map(e => e.percent)
+                            .some(x => x >= 100)) {
                             $("#resultsnavitem").click();
 
                         }

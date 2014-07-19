@@ -5,19 +5,19 @@ using System.Web;
 using System.Web.UI.WebControls;
 using LASI.Core.DocumentStructures;
 
-namespace LASI.WebApp.ViewModels
+namespace LASI.WebApp.Models
 {
-    public class PageViewModel
+    public class PageModel
     {
-        public PageViewModel(Document.Page page) {
+        public PageModel(Document.Page page) {
             this.page = page;
-            ParagraphViewModels = page.Paragraphs.Select(paragraph => new ParagraphViewModel(paragraph));
+            ParagraphViewModels = page.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             Style = new Style { CssClass = "page" };
         }
         public string Text { get { return "\t" + string.Join("\r\n\r\n", ParagraphViewModels.Select(paragraph => paragraph.Text)); } }
         public Style Style { get; private set; }
-        public IEnumerable<ParagraphViewModel> ParagraphViewModels { get; private set; }
-        public IEnumerable<SentenceViewModel> SentenceViewModels { get { return ParagraphViewModels.SelectMany(paragraph => paragraph.SentenceViewModels); } }
+        public IEnumerable<ParagraphModel> ParagraphViewModels { get; private set; }
+        public IEnumerable<SentenceModel> SentenceViewModels { get { return ParagraphViewModels.SelectMany(paragraph => paragraph.SentenceViewModels); } }
 
         private Document.Page page;
     }

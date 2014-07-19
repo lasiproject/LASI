@@ -1,6 +1,7 @@
 ﻿@using LASI.WebApp;
-@using LASI.WebApp.ViewModels;
-@model ParagraphViewModel
+@using LASI.WebApp.Models;
+@using LASI.WebApp.Models.Lexical;
+@model ParagraphModel
 
 <p class="lexical-content-block @Model.Style.CssClass">
     @foreach (var phraseModel in Model.PhraseViewModels) {

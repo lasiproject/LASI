@@ -59,7 +59,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>
     </DefineConstants>
@@ -121,6 +121,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.OData.5.6.1\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.0\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
@@ -137,9 +146,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="MvcFileUploader">
+      <HintPath>..\packages\MvcFileUploader.1.3.5\lib\40\MvcFileUploader.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="SD.Tools.BCLExtensions">
       <HintPath>..\packages\SD.Tools.BCLExtensions.1.0.0\lib\SD.Tools.BCLExtensions.dll</HintPath>
@@ -165,6 +180,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.6.1\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.0\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -178,9 +196,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.0\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.2.0\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.0\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.SelfHost, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.SelfHost.5.2.0\lib\net45\System.Web.Http.SelfHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Tracing, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -283,18 +311,20 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ContextMenuController.cs" />
     <Compile Include="Controllers\DefaultAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\MvcUploaderTestController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JobStatus.cs" />
-    <Compile Include="ViewModels\ClauseViewModel.cs" />
-    <Compile Include="ViewModels\DocumentSetViewModel.cs" />
-    <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\ClauseModel.cs" />
+    <Compile Include="ViewModels\DocumentSetModel.cs" />
+    <Compile Include="ViewModels\DocumentModel.cs" />
     <Compile Include="LexicalElementStyling\SyntacticStyleMap.cs" />
     <Compile Include="Models\Home\ProgressModel.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -303,24 +333,64 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalElementInfo\ContextMenuBuilder.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="ViewModels\LexicalViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModel.cs" />
-    <Compile Include="ViewModels\ParagraphViewModel.cs" />
-    <Compile Include="ViewModels\PhraseViewModel.cs" />
-    <Compile Include="ViewModels\SentenceViewModel.cs" />
-    <Compile Include="ViewModels\WordViewModel.cs" />
+    <Compile Include="ViewModels\LexicalModel.cs" />
+    <Compile Include="ViewModels\PageModel.cs" />
+    <Compile Include="ViewModels\ParagraphModel.cs" />
+    <Compile Include="ViewModels\PhraseModel.cs" />
+    <Compile Include="ViewModels\SentenceModel.cs" />
+    <Compile Include="ViewModels\WordModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\App\Account\CreateAccount.css" />
+    <Content Include="Content\App\Account\CreateAccount.min.css">
+      <DependentUpon>CreateAccount.css</DependentUpon>
+    </Content>
     <Content Include="Content\App\Account\Login.css" />
+    <Content Include="Content\App\Account\Login.min.css">
+      <DependentUpon>Login.css</DependentUpon>
+    </Content>
     <Content Include="Content\App\Account\Settings.css" />
+    <Content Include="Content\App\Account\Settings.min.css">
+      <DependentUpon>Settings.css</DependentUpon>
+    </Content>
     <Content Include="Content\App\Home\Results.css" />
+    <Content Include="Content\App\Home\Results.min.css">
+      <DependentUpon>Results.css</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-noscript.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-noscript.min.css">
+      <DependentUpon>jquery.fileupload-noscript.css</DependentUpon>
+    </Content>
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui-noscript.min.css">
+      <DependentUpon>jquery.fileupload-ui-noscript.css</DependentUpon>
+    </Content>
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui.min.css">
+      <DependentUpon>jquery.fileupload-ui.css</DependentUpon>
+    </Content>
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload.css" />
+    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload.min.css">
+      <DependentUpon>jquery.fileupload.css</DependentUpon>
+    </Content>
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings.png" />
+    <Content Include="Content\mvcfileupload\images\loading.gif" />
+    <Content Include="Content\mvcfileupload\images\progressbar.gif" />
+    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
     <Content Include="Content\qunit.css" />
+    <Content Include="Content\qunit.min.css">
+      <DependentUpon>qunit.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -336,22 +406,73 @@
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css">
+      <DependentUpon>jquery-ui.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.min.css">
+      <DependentUpon>jquery.ui.accordion.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.min.css">
+      <DependentUpon>jquery.ui.autocomplete.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.min.css">
+      <DependentUpon>jquery.ui.base.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.min.css">
+      <DependentUpon>jquery.ui.button.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.min.css">
+      <DependentUpon>jquery.ui.core.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.min.css">
+      <DependentUpon>jquery.ui.datepicker.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.min.css">
+      <DependentUpon>jquery.ui.dialog.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.min.css">
+      <DependentUpon>jquery.ui.menu.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.min.css">
+      <DependentUpon>jquery.ui.progressbar.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.min.css">
+      <DependentUpon>jquery.ui.resizable.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.min.css">
+      <DependentUpon>jquery.ui.selectable.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.min.css">
+      <DependentUpon>jquery.ui.slider.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.min.css">
+      <DependentUpon>jquery.ui.spinner.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.min.css">
+      <DependentUpon>jquery.ui.tabs.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.min.css">
+      <DependentUpon>jquery.ui.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.min.css">
+      <DependentUpon>jquery.ui.tooltip.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -397,13 +518,17 @@
     <Content Include="Content\themes\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Content\themes\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\themes\ui-lightness\jquery-ui.css" />
+    <Content Include="Content\themes\ui-lightness\jquery-ui.min.css">
+      <DependentUpon>jquery-ui.css</DependentUpon>
+    </Content>
+    <Content Include="Content\uploads\readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\ic_launcher-web.png" />
     <Content Include="Images\ic_launcher-web50x50.png" />
     <TypeScriptCompile Include="Scripts\App\Home\Progress.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\ReconstructedDocumentInteraction.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\TextInteraction.ts" />
     <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -430,7 +555,11 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="MvcDiagnostics.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -448,20 +577,35 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-3.1.0.debug.js" />
-    <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\canvas-to-blob.min.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-image.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-jquery-ui.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-process.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.iframe-transport.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\jquery.ui.widget.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\load-image.min.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\tmpl.min.js" />
+    <Content Include="Scripts\mvcfileupload\vendor\bootstrap.min.js" />
+    <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\CreateAccount.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Home\Progress.cshtml" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\_Phrase.cshtml" />
     <Content Include="Views\Home\_Paragraph.cshtml" />
     <Content Include="Views\Home\_DocumentUpload.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUploaderLayout_jui.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
+    <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
+    <Content Include="Views\Home\_UploadTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -519,6 +663,8 @@
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.bootstrap.wizard\jquery.bootstrap.wizard.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.fileupload\jquery.fileupload.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
@@ -566,7 +712,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

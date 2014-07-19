@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LASI.Utilities;
@@ -13,7 +11,6 @@ using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
 using LASI.WebApp.Models;
-using LASI.WebApp.ViewModels;
 using LASI.Core.DocumentStructures;
 using System.Collections.Concurrent;
 
@@ -74,7 +71,7 @@ namespace LASI.WebApp.Controllers
             var documents = await LoadResults();
             Phrase.VerboseOutput = true;
             var data = (from document in documents
-                        let documentViewModel = new DocumentViewModel(document)
+                        let documentViewModel = new DocumentModel(document)
                         let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                         from result in naiveTopResults
                         orderby result.Value descending
@@ -82,7 +79,7 @@ namespace LASI.WebApp.Controllers
             ViewData["charts"] = data;
             ViewData["docs"] = data.Keys;
             ViewBag.Title = "Results";
-            return View(new DocumentSetViewModel(documents));
+            return View(new DocumentSetModel(documents));
         }
 
         private async Task<IEnumerable<Document>> LoadResults() {
