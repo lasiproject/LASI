@@ -106,11 +106,12 @@ namespace LASI.Core.Heuristics
             if (name.Words.All(w => w is Determiner))
                 return Gender.Unknown;
             var genders = name.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
-            return name.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
+            bool any = genders.Any();
+            return name.Words.OfProperNoun().Any(n => !((n is ISimpleGendered))) ?
                 GetNounPhraseGender(name) :
-                genders.Any() && genders.All(g => g.IsFemale()) ? Gender.Female :
-                genders.Any() && genders.All(g => g.IsMale()) ? Gender.Male :
-                genders.Any() && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                any && genders.All(g => g.IsFemale()) ? Gender.Female :
+                any && genders.All(g => g.IsMale()) ? Gender.Male :
+                any && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
                 Gender.Unknown;
         }
         #endregion

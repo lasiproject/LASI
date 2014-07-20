@@ -27,7 +27,8 @@ namespace LASI.Interop
         /// </summary>
         /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>w
         public static ResourceSample GetCurrentUsage() {
-            return new ResourceSample {
+            return new ResourceSample
+            {
                 MemoryUsage = new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
                 CpuUsage = new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue(),
                 TimeWhenTaken = DateTime.Now
@@ -44,13 +45,19 @@ namespace LASI.Interop
         static ResourceUsageManager() {
             BindDefaultHandlers();
         }
-
+        /// <summary>
+        /// By default, set the memory critical application response to simply jetison all cached synonym data.
+        /// </summary>
         private static void BindDefaultHandlers() {
             MemoryThresholdExceeded += (sender, e) => {
-                LASI.Core.Heuristics.Lookup.ClearNounCache();
-                LASI.Core.Heuristics.Lookup.ClearVerbCache();
-                LASI.Core.Heuristics.Lookup.ClearAdjectiveCache();
-                LASI.Core.Heuristics.Lookup.ClearAdverbCache();
+                Core.Heuristics.Lookup.ClearNounCache();
+                Core.Heuristics.Lookup.ClearVerbCache();
+                Core.Heuristics.Lookup.ClearAdjectiveCache();
+                Core.Heuristics.Lookup.ClearAdverbCache();
+                // Experimental: Invoke an explicit collection to free up memory.
+                // This may be advantageous to performance in this situation, but it remains to be seen.
+                // See the second paragraph of http://msdn.microsoft.com/en-us/library/bb384155
+                GC.Collect();
             };
         }
 

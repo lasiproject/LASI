@@ -2,14 +2,16 @@
     ViewBag.Title = "Settings";
 }
 @Styles.Render("~/Content/App/Account/Settings.css")
-<h2>AccountSettings</h2>
-@model SettingsModel
-<div class="col-md-12 container">
-    <form>
-
-        <fieldset>
-            <legend>Settings</legend>
-            <label></label>
-        </fieldset>
-    </form>
+<div class="col-md-12 container-fluid">
+    <h2>AccountSettings</h2>
+    @model LASI.WebApp.Models.AccountModel
+    <div class="col-md-12 container">
+        <form>
+            @Html.DisplayTextFor(account => account)
+            <fieldset>
+                <legend>Settings</legend>
+                <label></label>
+            </fieldset>
+        </form>
+    </div>
 </div>

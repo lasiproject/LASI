@@ -105,10 +105,7 @@ namespace LASI.WebApp.Controllers
             return processedDocuments;
 
         }
-        private static double percentComplete;
 
-
-        private static string currentOperation;
 
         private static ConcurrentDictionary<string, dynamic> trackedJobs = new ConcurrentDictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
@@ -140,6 +137,10 @@ namespace LASI.WebApp.Controllers
 
             return JsonConvert.SerializeObject(update, serializerSettings);
         }
+        // These fields should be removed and replaced with a better solution to sharing progress
+        // This was a hack to initially test the functionality
+        private static double percentComplete;
+        private static string currentOperation;
 
     }
 }
