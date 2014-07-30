@@ -225,3 +225,6 @@ TestDocs/Draft_Environmental_Assessment.txt
 *.docx
 *.doc
 *.zip
+FileConverter_ConvertFileAsync/Draft_Environmental_Assessment/word/endnotes.xml
+FileConverter_ConvertFileAsync/Draft_Environmental_Assessment/word/settings.xml
+ExperimentalClientProjects/FSharpExperimentation/packages.config

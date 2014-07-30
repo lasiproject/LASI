@@ -85,7 +85,7 @@ namespace LASI.ContentSystem
         /// Adds the document indicated by the specified path string to the project
         /// </summary>
         /// <param name="path">The path string of the document file to add to the project</param>
-        /// <param name="overwrite">True to overwrite existing documents within the project with the same name, False otherwise. Defaults to False</param>
+        /// <param name="overwrite">True to overwrite existing documents within the project with the same name, false otherwise. Default is true.</param>
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
         public static InputFile AddFile(string path, bool overwrite = true) {
             if (!Initialized) {
