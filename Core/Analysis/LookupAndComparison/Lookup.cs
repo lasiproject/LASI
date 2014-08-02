@@ -421,22 +421,22 @@ namespace LASI.Core.Heuristics
             public void Load() {
                 Task.Factory.ContinueWhenAll(
                   new[] {
-                    Task.Run(async () => last = await GetLinesAsync(lastFilePath)),
-                    Task.Run(async () => female = await GetLinesAsync(femaleFilePath)),
-                    Task.Run(async () => male = await GetLinesAsync(maleFilePath))
+                    Task.Run(async () => lastNames = await GetLinesAsync(lastFilePath)),
+                    Task.Run(async () => femaleNames = await GetLinesAsync(femaleFilePath)),
+                    Task.Run(async () => maleNames = await GetLinesAsync(maleFilePath))
                 },
                   results => {
-                      genderAmbiguous =
-                          new HashSet<string>(male.Intersect(female, caseless).Union(female.Intersect(male, caseless)), caseless);
+                      genderAmbiguousNames =
+                          new HashSet<string>(maleNames.Intersect(femaleNames, caseless).Union(femaleNames.Intersect(maleNames, caseless)), caseless);
 
                       var stratified =
-                          from m in male.Select((s, i) => new { Rank = (double)i / male.Count, Name = s })
-                          join f in female.Select((s, i) => new { Rank = (double)i / female.Count, Name = s })
+                          from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
+                          join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
                           on m.Name equals f.Name
                           group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
 
-                      male.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
-                      female.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
+                      maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
+                      femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
                   }
               ).Wait();
             }
@@ -447,9 +447,9 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The text to check.</param>
             /// <returns>True if the provided text is in the set of Female or Male first names; otherwise, false.</returns>
             public bool IsFirstName(string text) {
-                return female.Count > male.Count ?
-                    male.Contains(text) || female.Contains(text) :
-                    female.Contains(text) || male.Contains(text);
+                return femaleNames.Count > maleNames.Count ?
+                    maleNames.Contains(text) || femaleNames.Contains(text) :
+                    femaleNames.Contains(text) || maleNames.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
@@ -458,7 +458,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common lastname in the english language; otherwise, false.</returns>
             public bool IsLastName(string text) {
-                return last.Contains(text);
+                return lastNames.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
@@ -467,7 +467,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common female name in the english language; otherwise, false.</returns>
             public bool IsFemaleFirst(string text) {
-                return female.Contains(text);
+                return femaleNames.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
@@ -476,7 +476,7 @@ namespace LASI.Core.Heuristics
             /// <param name="text">The Name to lookup</param>
             /// <returns>True if the provided string corresponds to a common male name in the english language; otherwise, false.</returns>
             public bool IsMaleFirst(string text) {
-                return male.Contains(text);
+                return maleNames.Contains(text);
             }
 
 
@@ -494,7 +494,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> LastNames {
                 get {
-                    return last.ToList().AsReadOnly();
+                    return lastNames.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -502,7 +502,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> FemaleNames {
                 get {
-                    return female.ToList().AsReadOnly();
+                    return femaleNames.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -510,7 +510,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> MaleNames {
                 get {
-                    return male.ToList().AsReadOnly();
+                    return maleNames.ToList().AsReadOnly();
                 }
             }
             /// <summary>
@@ -518,11 +518,11 @@ namespace LASI.Core.Heuristics
             /// </summary>
             public IReadOnlyCollection<string> GenderAmbiguousNames {
                 get {
-                    return genderAmbiguous.ToList().AsReadOnly();
+                    return genderAmbiguousNames.ToList().AsReadOnly();
                 }
             }
-            public IReadOnlyCollection<string> AllNames {
-                get { return last.Union(male, caseless).Union(female, caseless).Union(genderAmbiguous, caseless).ToList().AsReadOnly(); }
+            public ISet<string> AllNames {
+                get { return lastNames.Concat(maleNames).Concat(femaleNames).Concat(genderAmbiguousNames).ToHashSet(caseless); }
             }
 
             #region Fields
@@ -532,10 +532,10 @@ namespace LASI.Core.Heuristics
             private static readonly string femaleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
             private static readonly string maleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
             // Name Data Sets
-            private static ISet<string> last;
-            private static ISet<string> male;
-            private static ISet<string> female;
-            private static ISet<string> genderAmbiguous;
+            private static ISet<string> lastNames;
+            private static ISet<string> maleNames;
+            private static ISet<string> femaleNames;
+            private static ISet<string> genderAmbiguousNames;
 
             private static StringComparer caseless = StringComparer.OrdinalIgnoreCase;
             #endregion

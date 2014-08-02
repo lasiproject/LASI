@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities;
 using System.Threading.Tasks;
-
+using System.Collections.Immutable;
 
 namespace LASI.Core.Heuristics
 {
@@ -28,8 +28,8 @@ namespace LASI.Core.Heuristics
         }
 
         private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy) {
-            ISet<IEntity> aliasedBy;
-            ISet<string> aliases;
+            IImmutableSet<IEntity> aliasedBy;
+            IImmutableSet<string> aliases;
             return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) &&
                 aliasedBy.Contains(possibleAlias) ||
                 aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases) &&
@@ -67,17 +67,17 @@ namespace LASI.Core.Heuristics
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
         private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
-                   entityText, new HashSet<string>(textualAliases),
-                   (key, current) => current.Concat(textualAliases).ToHashSet()
+                   entityText, textualAliases.ToImmutableHashSet(),
+                   (key, current) => current.Concat(textualAliases).ToImmutableHashSet()
                    );
         }
-        private static void DefineAliasInDictionary(IEntity entity, params IEntity[] aliases) {
+        private static void DefineAliasInDictionary(IEntity entity, IEntity alias, params IEntity[] aliases) {
             aliasDictionary.AddOrUpdate(entity.Text, key => aliases
-                .Select(a => a.Text).ToHashSet(),
-                (key, current) => current.Concat(aliases.Select(a => a.Text)).ToHashSet());
+                .Select(a => a.Text).ToImmutableHashSet(),
+                (key, current) => current.Union(aliases.Select(a => a.Text)));
             aliasedEntityReferenceMap.AddOrUpdate(
-                entity, new HashSet<IEntity>(aliases),
-                (key, current) => current.Union(aliases).ToHashSet()
+                entity, aliases.ToImmutableHashSet(),
+                (key, current) => current.Union(aliases)
                 );
 
         }
@@ -87,13 +87,12 @@ namespace LASI.Core.Heuristics
         /// <param name="aliased">The entity who's aliases will be returned.</param>
         /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
         public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
-            ISet<string> outval1;
-            aliasDictionary.TryGetValue(aliased.Text, out outval1);
-            outval1 = outval1 ?? new HashSet<string>();
-            //
-            ISet<IEntity> outval2;
-            aliasedEntityReferenceMap.TryGetValue(aliased, out outval2);
-            outval2 = outval2 ?? new HashSet<IEntity>();
+            aliasDictionary.TryGetValue(aliased.Text, out var outval1);
+            outval1 = outval1 ?? ImmutableHashSet.Create<string>();
+
+
+            aliasedEntityReferenceMap.TryGetValue(aliased, out var outval2);
+            outval2 = outval2 ?? ImmutableHashSet.Create<IEntity>();
             return outval1.Concat(outval2.Select(e => e.Text));
         }
 
@@ -113,11 +112,13 @@ namespace LASI.Core.Heuristics
         }
 
         private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) {
-            return nounPhrase.Words.OfNoun().Count() == 1 && nounPhrase.Words.None(w => w is ProperNoun) ? Lookup.GetSynonyms(nounPhrase.Words.OfNoun().First()) : Enumerable.Empty<string>();
+            return nounPhrase.Words.OfNoun().Count() == 1 && nounPhrase.Words.None(w => w is ProperNoun) ?
+                Lookup.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
+                Enumerable.Empty<string>();
         }
 
-        private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
-        private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();
+        private static ConcurrentDictionary<IEntity, IImmutableSet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, IImmutableSet<IEntity>>();
+        private static ConcurrentDictionary<string, IImmutableSet<string>> aliasDictionary = new ConcurrentDictionary<string, IImmutableSet<string>>();
 
     }
 }

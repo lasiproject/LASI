@@ -2,103 +2,94 @@
 // See the 'F# Tutorial' project for more help.
 module LASI.FSharpExperimentation.program
 
-open LASI.Core
-open LASI.Core.Heuristics
-open LASI.Core.DocumentStructures
-open LASI.Core.Heuristics.Morphemization
 open LASI.ContentSystem
+open LASI.Core
+open LASI.Core.DocumentStructures
+open LASI.Core.Heuristics
+open LASI.Core.Heuristics.Morphemization
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks
 
-let wrapFile (s:string) = 
-        match s.Split('.').Last() with
-        | "docx" -> DocXFile s :> IRawTextSource
-        | "doc" -> DocFile s :> IRawTextSource
-        | "txt" -> TxtFile s :> IRawTextSource
-        | "pdf" -> PdfFile s :> IRawTextSource
-        | _ -> null
+let wrapFile (s : string) = 
+    match s.Split('.').Last() with
+    | "docx" -> DocXFile s :> IRawTextSource
+    | "doc" -> DocFile s :> IRawTextSource
+    | "txt" -> TxtFile s :> IRawTextSource
+    | "pdf" -> PdfFile s :> IRawTextSource
+    | _ -> null
+
 [<EntryPoint>]
 let main argv = 
-   
     Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
-    Lookup.ResourceLoaded.Add
-        (fun e -> 
-        printfn "Finished loading %s ms elapsed: %d" e.Message 
-            e.ElapsedMiliseconds)
-     
-    
-    
-    
+    Lookup.ResourceLoaded.Add(fun e -> printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedMiliseconds)
     let resourceLoadNotifier = ResourceNotifier()
-  
-    let prog = ref 0.0 
-
+    let prog = ref 0.0
     // Register callbacks to print operation progress to the terminal
-    resourceLoadNotifier.ResourceLoaded.Add(fun e->
+    resourceLoadNotifier.ResourceLoaded.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    resourceLoadNotifier.ResourceLoading.Add(fun e->
+    resourceLoadNotifier.ResourceLoading.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    
-         
     let orchestrator = 
-        AnalysisOrchestrator
-            [
-                wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"; 
-                wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt";
-            ]
-     // Register callbacks to print operation progress to the terminal
-    orchestrator.ProgressChanged.Add(fun e->
+        AnalysisOrchestrator [ wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"
+                               wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt" ]
+    // Register callbacks to print operation progress to the terminal
+    orchestrator.ProgressChanged.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     let docTask = async { return orchestrator.ProcessAsync().Result }
     let docs = Async.RunSynchronously(docTask)
-    for doc in docs do 
+    for doc in docs do
         let toAttack = Verb("attack", VerbForm.Base)
         let bellicoseVerbals = 
-            doc.GetVerbals() 
-            |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
-        let bellicoseIndividuals = 
-            doc.GetEntities() 
-            |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
+            doc.GetVerbals() |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
+        let bellicoseIndividuals = doc.GetEntities() |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
         let attackerAttackeePairs = 
             bellicoseVerbals.WithDirectObject().WithSubject() 
             |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
         do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
-    
         let (|Entity|Referencer|Action|Other|) (lex : ILexical) = 
             match lex with
             | :? IReferencer as r -> Referencer r
             | :? IEntity as e -> Entity e
             | :? IVerbal as a -> Action a
             | _ -> Other lex
-    
-        let rec bind (head:Phrase)=
+        
+        let rec bind (head : Phrase) = 
             match head with // process the first phrase in the list
-                | Entity e -> 
-                    head.Paragraph.Phrases
-                    |> Seq.takeWhile (fun x-> not (x = head))
-                    |> Seq.filter (fun x-> match x with |Referencer r-> r.IsGenderEquivalentTo e |_ -> false)
-                    |> Seq.iter (fun x-> match x with  | Referencer r -> r.BindAsReferringTo e | _ ->()); printfn "Matched %A" head
-                | Action a -> printfn "Matched %A" a
-                | p -> printfn "Unmatched %A" p
+            | Entity e -> 
+                head.Paragraph.Phrases
+                |> Seq.takeWhile (fun x -> not (x = head))
+                |> Seq.filter (fun x -> 
+                       match x with
+                       | Referencer r -> r.IsGenderEquivalentTo e
+                       | _ -> false)
+                |> Seq.iter (fun x -> 
+                       match x with
+                       | Referencer r -> r.BindAsReferringTo e
+                       | _ -> ())
+                printfn "Matched %A" head
+            | Action a -> printfn "Matched %A" a
+            | p -> printfn "Unmatched %A" p
+        
         // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
         let rec processPhrases (phrases : Phrase List) = 
             match phrases with
-            | head :: tail -> bind head; processPhrases tail // recursive tail call to continue processing
+            | head :: tail -> 
+                bind head
+                processPhrases tail // recursive tail call to continue processing
             | [] -> () // list has been exhausted
-
+        
         processPhrases (Seq.toList doc.Phrases) //bind and output the document.
-    
     let rec checkForExit line = 
         printfn "type quit to exit..."
         match line with
         | "quit" -> ()
         | _ -> checkForExit (stdin.ReadLine())
     printfn "type quit to exit..."
-    let input =stdin.ReadLine()
+    let input = stdin.ReadLine()
     checkForExit input
     // the last value computed by the function is the exit code
     0

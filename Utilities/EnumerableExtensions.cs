@@ -443,6 +443,17 @@ namespace LASI
             return first.Except(second).None();
         }
         /// <summary>
+        /// Determines if the source collection contains the exact same elements as the second using the specified IEqualityComparer&lt;TSource&gt;, Ignoring duplicate elements and ordering.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <param name="first">The source sequence</param>
+        /// <param name="second">The sequence to compare against.</param>
+        /// <param name="comparer">An System.Collections.Generic.IEqualityComparer&lt;TSource&gt; to compare values</param>
+        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        public static bool SetEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer) {
+            return first.Except(second).None();
+        }
+        /// <summary>
         /// Determines if the source collection contains the same elements as the second under the projection. Ignores duplicate elements and element ordering.
         /// </summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
@@ -469,10 +480,7 @@ namespace LASI
         /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
         /// of three input sequences.
         /// </returns>
-        public static IEnumerable<TResult> Zip<TFirst,
-            TSecond,
-            TThird,
-            TResult>(this IEnumerable<TFirst> first,
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first,
                 IEnumerable<TSecond> second,
                 IEnumerable<TThird> third,
                 Func<TFirst, TSecond, TThird, TResult> selector) {
@@ -495,11 +503,7 @@ namespace LASI
         /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
         /// of three input sequences.
         /// </returns>
-        public static IEnumerable<TResult> Zip<TFirst,
-            TSecond,
-            TThird,
-            TFourth,
-            TResult>(this IEnumerable<TFirst> first,
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first,
                 IEnumerable<TSecond> second, IEnumerable<TThird> third,
                 IEnumerable<TFourth> fourth,
                 Func<TFirst, TSecond, TThird, TFourth, TResult> selector) {

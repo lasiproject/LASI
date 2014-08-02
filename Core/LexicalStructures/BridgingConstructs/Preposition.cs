@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Collections.Immutable;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -69,7 +71,7 @@ namespace LASI.Core
         /// </summary>
         /// <see cref="Role"/>
         public PrepositionRole Role { get; set; }
- 
+
 
         #endregion
 
@@ -82,12 +84,12 @@ namespace LASI.Core
                         from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                         let len = line.IndexOf('/')
                         select line.Substring(0, len > 0 ? len : line.Length)
-                    ).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                    ).ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
 
         private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
-        private static readonly HashSet<string> knownSubordinators;
+        private static readonly IImmutableSet<string> knownSubordinators;
 
     }
 }

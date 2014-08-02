@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaggerInterop;
+using System.Collections.Immutable;
+
 namespace LASI.ContentSystem
 {
     /// <summary>
@@ -657,7 +659,7 @@ namespace LASI.ContentSystem
         #endregion
 
         #region Fields
-        private static HashSet<string> AllFileNames { get { return docFiles.Union<InputFile>(docXFiles).Union(pdfFiles).Union(txtFiles).Union(taggedFiles).Select(f => f.NameSansExt).ToHashSet(); } }
+        private static ISet<string> AllFileNames { get { return docFiles.Union<InputFile>(docXFiles).Union(pdfFiles).Union(txtFiles).Union(taggedFiles).Select(f => f.NameSansExt).ToImmutableHashSet(); } }
         private static List<DocFile> docFiles = new List<DocFile>();
         private static List<DocXFile> docXFiles = new List<DocXFile>();
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
