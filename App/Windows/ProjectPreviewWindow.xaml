@@ -49,19 +49,19 @@
         <Canvas
             Background="#FFF6F6F6"
             Margin="0,56,0,0">
-            <Grid
+            <!--<Grid
                 Height="443"
                 Canvas.Top="10"
-                Width="159" />
+                Width="159" />-->
         </Canvas>
         <Grid>
             <Canvas
                 Background="#FFE5E5E5"
                 OpacityMask="#FF5A5A62"
                 Canvas.Left="44"
-                Margin="10,86,0,14"
+                Margin="0,56,0,10"
                 HorizontalAlignment="Left"
-                Width="140">
+                Width="155">
                 <Button
                     x:Name="RemoveCurrentDocument"
                     Content="Remove"
@@ -83,20 +83,27 @@
                     Command="{x:Static ApplicationCommands.Open}"
                     Style="{DynamicResource AddDocumentStyle}"
                     OpacityMask="#FFDDDDDD" />
+                <Label
+                    x:Name="label"
+                    Content="Docs:"
+                    Foreground="#FFBC1200"
+                    RenderTransformOrigin="0.631,-0.38"
+                    Height="25"
+                    Canvas.Left="26"
+                    Canvas.Top="15"
+                    Width="42" />
+                <Label
+                    x:Name="numDocsLabel"
+                    Foreground="#FFBC1200"
+                    Content="0"
+                    Height="25"
+                    Canvas.Left="80"
+                    Canvas.Top="15"
+                    Width="32" />
             </Canvas>
-            <Label
-                x:Name="label"
-                Content="Docs:"
-                Foreground="#FFBC1200"
-                Margin="10,86,708,393" />
-            <Label
-                x:Name="numDocsLabel"
-                Foreground="#FFBC1200"
-                Content="0"
-                Margin="52,86,676,393" />
         </Grid>
         <Menu
-            Height="30"
+            Height="35"
             Margin="0,26,0,0"
             Background="#FFDDDADA"
             Opacity="0.85"
@@ -114,7 +121,7 @@
             x:Name="DocumentPreview"
             AllowDrop="True"
             Drop="Grid_Drop"
-            Margin="158,70,45,10" />
+            Margin="158,61,10,10" />
         <Menu
             Height="26"
             VerticalAlignment="Top">

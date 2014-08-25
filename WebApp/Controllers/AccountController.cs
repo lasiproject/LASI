@@ -22,6 +22,7 @@ namespace LASI.WebApp.Controllers
         //MongoDatabase MyDB = server.GetDatabase("test");
 
         public ActionResult Login(AccountModel account) {
+            
             return RedirectToAction("Index", "Home", View(account));
         }
         public ActionResult Authenticate(LoginModel credentials) {
@@ -67,7 +68,7 @@ namespace LASI.WebApp.Controllers
                            let accountData = JsonConvert.DeserializeObject<AccountModel>(rawJson)
                            where accountData.Email == account.Email
                            select account;
-            return View(profiles.Single());
+            return View(profiles.SingleOrDefault());
         }
     }
 }

@@ -285,9 +285,9 @@ namespace LASI.ContentSystem
 
         #region Fields
 
-        private readonly WordTagsetMap wordTagset = new SharpNLPWordTagsetMap();
+        private readonly WordTagsetMap wordTagset = new SharpNlpWordTagsetMap();
 
-        private readonly PhraseTagsetMap phraseTagset = new SharpNLPPhraseTagsetMap();
+        private readonly PhraseTagsetMap phraseTagset = new SharpNlpPhraseTagsetMap();
 
 
 

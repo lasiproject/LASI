@@ -20,14 +20,14 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// </summary>    
     /// <example>
     /// <code>
-    /// var wordMap = new SharpNLPWordTagsetMap();
-    /// var constructorFunction = wordMap["TAG"];
-    /// var runTimeWord = constructorFunction(itemText);
+    /// var wordTagsetMap = new SharpNLPWordTagsetMap();
+    /// var createWord = wordMap["TAG"];
+    /// var word = createWord(wordText);
     /// </code>
     /// </example>    
     /// <see cref="WordTagsetMap"/>
     /// <see cref="WordFactory"/> 
-    sealed class SharpNLPWordTagsetMap : WordTagsetMap
+    sealed class SharpNlpWordTagsetMap : WordTagsetMap
     {
         #region Fields
 

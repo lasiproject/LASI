@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Interop</RootNamespace>
-    <AssemblyName>Interop</AssemblyName>
+    <AssemblyName>LASI.Interop</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
@@ -27,7 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\Interop.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\LASI.Interop.xml</DocumentationFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Release\Interop.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\LASI.Interop.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,13 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractHelperTypes\Base\SystemResourceNotifierDualizer.cs" />
-    <Compile Include="ContractHelperTypes\Base\SystemResourceLoadingNotifier.cs" />
-    <Compile Include="ContractHelperTypes\Base\SystemResourceNotifier.cs" />
-    <Compile Include="ContractHelperTypes\ResourceLoadEventArgs.cs" />
-    <Compile Include="ContractHelperTypes\MB.cs" />
-    <Compile Include="ContractHelperTypes\MemoryThresholdExceededEventArgs.cs" />
-    <Compile Include="ContractHelperTypes\ProgressReportEventArgs.cs" />
+    <Compile Include="ProgressReporting\Basis\SystemResourceNotifierDualizer.cs" />
+    <Compile Include="ProgressReporting\SystemResourceLoadingNotifier.cs" />
+    <Compile Include="ProgressReporting\SystemResourceNotifier.cs" />
+    <Compile Include="ProgressReporting\ResourceLoadEventArgs.cs" />
+    <Compile Include="ProgressReporting\MB.cs" />
+    <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
+    <Compile Include="ProgressReporting\ProgressReportEventArgs.cs" />
     <Compile Include="IStyleProvider.cs" />
     <Compile Include="ResourceUsageManager.cs" />
     <Compile Include="AnalysisOrchestrator.cs" />

@@ -39,32 +39,26 @@ namespace LASI.Core.Binding.Experimental
         }
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words) {
             var wordList = words.ToList();
-            var actions =
-                from noun in
-                    from noun in wordList.OfNoun()
-                    where noun.Phrase is IEntity
-                    select new
-                    {
-                        Noun = noun,
-                        Key = noun.Match().Yield<char>()
-                              | ((ProperSingularNoun proper) => proper.IsGenderEquivalentTo(proper.Phrase as IEntity) ?
-                                   proper.Gender.IsFemale() ? 'F' : proper.Gender.IsMale() ? 'M' : 'S' : 'A')
-                              | ((CommonSingularNoun s) => 'S')
-                              | ((IQuantifiable q) => 'P')
-                              | (() => 'U')
-                    }
-                join pronoun in
-                    from pronoun in words.OfPronoun()
-                    select new
-                    {
-                        Pronoun = pronoun,
-                        Key = pronoun.IsFemale() ? 'F' : pronoun.IsMale() ? 'M' : pronoun.IsPlural() ? 'P' : pronoun.IsGenderAmbiguous() ? 'A' : !pronoun.IsPlural() ? 'S' : 'U'
-                    }
-                on noun.Key equals pronoun.Key
-                where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
-                group noun.Noun by pronoun.Pronoun into byPronoun
-                select new Action(() => byPronoun.Key.BindAsReferringTo(byPronoun.First()));
-            return actions;
+            return
+                 from noun in
+                     from noun in wordList.OfNoun()
+                     where noun.Phrase is IEntity
+                     select new
+                     {
+                         Noun = noun,
+                         Key = noun.GetGender()
+                     }
+                 join pronoun in
+                     from pronoun in words.OfPronoun()
+                     select new
+                     {
+                         Pronoun = pronoun,
+                         Key = pronoun.Gender
+                     }
+                 on noun.Key equals pronoun.Key
+                 where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
+                 group noun.Noun by pronoun.Pronoun into byPronoun
+                 select new Action(()=> { byPronoun.Key.BindAsReferringTo(byPronoun.First()); });
         }
     }
 }

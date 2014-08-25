@@ -55,15 +55,15 @@
 
 .document {
     background-color: ghostwhite;
-    text-wrap: normal;
-    text-align: left;
-    text-space-collapse: preserve-breaks;
-    text-indent: each-line;
+    text-wrap: normal !important;
+    text-align: left !important;
+    text-space-collapse: preserve-breaks !important;
+    text-indent: each-line !important;
 }
 
 
 .paragraph {
-    text-indent: each-line;
+    text-indent: each-line !important;
 }
 
 .page {
@@ -79,6 +79,7 @@
 }
 
 .break-after {
+    -webkit-break-after: always;
     break-after: always;
 }
 
@@ -105,7 +106,9 @@
 
 /*#endregion */
 .lexical-content-block span.selected {
-    background-color: aqua;
+    background-color: black;
+    color: silver;
+    border: none;
 }
 
 .lexical-content-block span.paragraph {

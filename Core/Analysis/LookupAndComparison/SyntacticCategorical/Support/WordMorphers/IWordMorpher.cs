@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace LASI.Core.Analysis.LookupAndComparison.Syntactic.Support
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Provides root extraction and derrived form gerenation of words of th Given type.
     /// </summary>
-    /// <typeparam name="TWord">Any type which implements LASI.Core.Word</typeparam>
+    /// <typeparam name="TWord">Any type which Dervives from LASI.Core.Word</typeparam>
     interface IWordMorpher<TWord> where TWord : Word
     {
         /// <summary>
@@ -29,10 +29,10 @@ namespace LASI.Core.Analysis.LookupAndComparison.Syntactic.Support
         /// <summary>
         /// Computes and returns the list of all conjugated forms of the word specified by the given text.
         /// </summary>
-        /// <param name="search"></param>
+        /// <param name="wordText"></param>
         /// <returns>The collection of all conjugated forms of the word specified by the given text.</returns>
         /// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
-        IEnumerable<string> GetLexicalForms(string search);
+        IEnumerable<string> GetLexicalForms(string wordText);
         ///// <summary>
         ///// Computes and returns the list of all conjugated forms of the specified word.
         ///// </summary>

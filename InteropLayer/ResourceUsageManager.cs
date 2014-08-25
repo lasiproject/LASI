@@ -28,11 +28,11 @@ namespace LASI.Interop
         /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>w
         public static ResourceSample GetCurrentUsage() {
             return new ResourceSample
-            {
-                MemoryUsage = new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
-                CpuUsage = new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue(),
-                TimeWhenTaken = DateTime.Now
-            };
+            (
+                memoryUsage: new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
+                cpuUsage: new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue(),
+                timeSnapshotted: DateTime.Now
+            );
         }
         /// <summary>
         /// Raised when less than the minimum amount of available RAM, in MB, remains.
@@ -61,8 +61,6 @@ namespace LASI.Interop
             };
         }
 
-
-
         /// <summary>
         /// Broadly specifies the various resource usage profiles of the program.
         /// </summary>
@@ -85,20 +83,20 @@ namespace LASI.Interop
     /// <summary>
     /// Represents a resource usage sample.
     /// </summary>
-    public struct ResourceSample
+    public struct ResourceSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
     {
         /// <summary>
         /// Gets the current CPU usage % of the machine hosting the application.        
         /// </summary>
-        public float CpuUsage { get; internal set; }
+        public float CpuUsage { get; } = cpuUsage;
         /// <summary>
         /// Gets the current Memory usage % of the machine hosting the application.        
         /// </summary>
-        public float MemoryUsage { get; internal set; }
+        public float MemoryUsage { get; } = memoryUsage;
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary> 
-        public DateTime TimeWhenTaken { get; internal set; }
+        public DateTime TimeSnapshotted { get; } = timeSnapshotted;
     }
 
 }

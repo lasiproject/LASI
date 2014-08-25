@@ -1,4 +1,4 @@
-﻿declare module LASI.Results.ContextProviders {
+﻿declare module LASI.Results.LexicalContext {
     interface VerbalContext {
         subjects: number[];
         directObjects: number[];

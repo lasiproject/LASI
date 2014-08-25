@@ -447,7 +447,7 @@ namespace LASI.ContentSystem
                                         where dx.NameSansExt == d.NameSansExt
                                         select dx).Any()
                                 select d) {
-                var tagger = new SharpNLPTagger(
+                var tagger = new SharpNlpTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = new TaggedFile(tagger.ProcessFile());
@@ -471,7 +471,7 @@ namespace LASI.ContentSystem
                                  where dx.NameSansExt == d.NameSansExt
                                  select dx).Any()
                          select
-                             new SharpNLPTagger(TaggerMode.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
+                             new SharpNlpTagger(TaggerMode.TagAndAggregate, d.FullPath, TaggedFilesDir + "\\" + d.NameSansExt + ".tagged").ProcessFileAsync()).ToList();
 
 
             while (tasks.Any()) {

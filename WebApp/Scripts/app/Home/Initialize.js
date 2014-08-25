@@ -15,8 +15,8 @@
         Array.prototype.flatMap = function (collectionSelector, resultSelector) {
             var i, results = [];
             for (i = 0; i < this.length; i += 1) {
-                var col = collectionSelector ? collectionSelector(this[i]) : this[i];
-                col.forEach(function (element, index) {
+                var collection = collectionSelector ? collectionSelector(this[i]) : this[i];
+                collection.forEach(function (element, index) {
                     results.push(element);
                 });
             }

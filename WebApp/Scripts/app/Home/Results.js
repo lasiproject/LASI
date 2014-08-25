@@ -35,10 +35,10 @@
     });
 })();
 // Set a callback to run when the Google Visualization API is loaded.
-//google.setOnLoadCallback(drawChart);
-//on('shown', function () {
+// google.setOnLoadCallback(drawChart);
+// on('shown', function () {
 //    google.maps.event.trigger(map, "resize");
-//});
+// });
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.

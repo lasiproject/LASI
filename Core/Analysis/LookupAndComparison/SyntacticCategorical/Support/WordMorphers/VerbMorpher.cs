@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.Heuristics.Morphemization
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Performs both verb root extraction and verb conjugation generation.
@@ -51,7 +51,7 @@ namespace LASI.Core.Heuristics.Morphemization
             var hyphIndex = verbForm.IndexOf('-');
             var afterHyphen = hyphIndex > -1 ? verbForm.Substring(hyphIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = ENDINGS.Count - 1;
+            for (var i = ENDINGS.Length - 1;
             i >= 0;
             --i) {
                 if (verbForm.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
@@ -80,10 +80,7 @@ namespace LASI.Core.Heuristics.Morphemization
         }
 
 
-        #region Exception File Processing
-
-
-
+        #region Exception File Processing 
 
         private static void LoadExceptionFile() {
             using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc")) {
@@ -103,8 +100,8 @@ namespace LASI.Core.Heuristics.Morphemization
 
             }
         }
-        private readonly static IList<string> ENDINGS = new[] { "", "y", "e", "", " e", "", "e", "" }.ToList();
-        private readonly static IList<string> SUFFICIES = new[] { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" }.ToList();
+        private readonly static string[] ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
+        private readonly static string[] SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
         private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>> {
             { "", new []{ "s",  "es",  "ed", "ing" } },
             { "e", new []{ "es", "ed", "ing"} },

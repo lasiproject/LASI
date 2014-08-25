@@ -64,7 +64,9 @@ namespace LASI.UnitTests
         #endregion
 
 
-
+        private LASI.ContentSystem.TaggerEncapsulation.Tagger Tagger {
+            get { return new LASI.ContentSystem.TaggerEncapsulation.Tagger(); }
+        }
 
         /// <summary>
         ///A test for TaggedTextFragment Constructor

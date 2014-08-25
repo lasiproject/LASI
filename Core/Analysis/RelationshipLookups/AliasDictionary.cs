@@ -1,14 +1,13 @@
-﻿using LASI.Core.Heuristics;
-using LASI.Core.Heuristics.Morphemization;
-using LASI.Core.PatternMatching;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using LASI.Utilities;
 using System.Threading.Tasks;
-using System.Collections.Immutable;
+using LASI.Core.Heuristics;
+using LASI.Core.PatternMatching;
+using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {

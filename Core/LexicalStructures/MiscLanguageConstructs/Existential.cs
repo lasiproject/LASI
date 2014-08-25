@@ -7,8 +7,8 @@ using System.Xml.Linq;
 namespace LASI.Core
 {
     /// <summary>
-    /// <para> Represents a word which is used to make existential assertions. </para>
-    /// <para> For example, "there" is an existential word in the statements, "There exists a solution." and "There are five of them." </para>
+    /// Represents a word which is used to make existential assertions.
+    /// For example, "there" is an existential word in the statements, "There exists a solution." and "There are five of them."
     /// </summary>
     public class Existential : Word
     {
@@ -19,6 +19,5 @@ namespace LASI.Core
         public Existential(string text)
             : base(text) {
         }
-
     }
 }

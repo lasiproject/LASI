@@ -20,13 +20,13 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// <example>
     /// <code>
     /// var phraseMap = new SharpNLPPhraseTagsetMap();
-    /// var constructorFunction = phraseMap["TAG"];
-    /// var runTimePhrase = constructorFunction(itemText);
+    /// var createPhrase = phraseMap["TAG"];
+    /// var phrase = createPhrase(phraseWords);
     /// </code>
     /// </example>    
     /// <see cref="WordTagsetMap"/>
     /// <see cref="WordFactory"/> 
-    sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
+    sealed class SharpNlpPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator>

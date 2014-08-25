@@ -8,7 +8,7 @@ namespace LASI
     public static class FunctionExtensions
     {
         /// <summary>
-        /// Composes two functions returning a new function such which represents the application of the first function to the result of the application of the second function.
+        /// Composes two functions returning a new function which represents the application of the first function to the result of the application of the second function.
         /// In other words f.Compose(g)(x) is equivalent to f(g(x)).
         /// </summary>
         /// <typeparam name="T1">The input type of the second function.</typeparam>

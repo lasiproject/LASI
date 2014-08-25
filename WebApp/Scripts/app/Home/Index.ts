@@ -25,7 +25,5 @@ module LASI.Index {
             });
         });
 
-
-
     } ());
 };

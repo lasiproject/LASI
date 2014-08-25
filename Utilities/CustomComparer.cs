@@ -22,12 +22,12 @@ namespace LASI.Utilities
     /// </remarks>
     /// <example>
     /// <code>
-    /// // Equality Comparer which defines equality in terms of the sepcified function.
+    /// An equality comparer which makes determinations based on the specified comparison function.
     /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) => x.IsSimilarTo(y));
     /// </code>
     /// <code>
-    /// // Equality Comparer which determines equality in based on the specified comparison and hashing functions.
-    /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) => x.IsSimilarTo(y), x => x == null? 0: 1);
+    /// // An equality comparer which makes determinations based on the specified comparison and hashing functions.
+    /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) => x.IsSimilarTo(y), x => x == null? 0 : 1);
     /// </code>
     /// </example>
     public class CustomComparer<T> : EqualityComparer<T>

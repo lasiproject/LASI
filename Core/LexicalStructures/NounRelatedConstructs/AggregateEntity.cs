@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Heuristics.Morphemization;
 using LASI.Core.PatternMatching;
 using LASI.Utilities;
 
@@ -75,7 +74,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the EntityGroup.</returns>
         public override string ToString() {
-            return string.Format("{0}{1}", members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty, string.Join(" ", members.AsNestedEnumerable()
+            return string.Format("{0}{1}", members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty, string.Join(" ", members.AsRecursiveEnumerable()
                 .Where(m => !(m is IAggregateEntity))
                 .Select(p => p.GetType().Name + " \"" + p.Text + "\"")));
         }
@@ -121,7 +120,7 @@ namespace LASI.Core
         /// </summary>
         public string Text {
             get {
-                return string.Join(" , ", members.AsNestedEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
+                return string.Join(" , ", members.AsRecursiveEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
             }
         }
         //}

@@ -622,13 +622,13 @@
         "Entry"
         {
         "MsmKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
-        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
+        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
-        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
+        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -790,13 +790,13 @@
         "Entry"
         {
         "MsmKey" = "8:_CCEB4AB65113D34B1EBAE037C34846FD"
-        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
+        "OwnerKey" = "8:_CDB0FDADE894C0EF942A98BCA4629002"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_CCEB4AB65113D34B1EBAE037C34846FD"
-        "OwnerKey" = "8:_CDB0FDADE894C0EF942A98BCA4629002"
+        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -808,19 +808,7 @@
         "Entry"
         {
         "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
-        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
-        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
-        "OwnerKey" = "8:_8B0D223374D22C90FEEFADEFC809AC85"
+        "OwnerKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -832,7 +820,19 @@
         "Entry"
         {
         "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
-        "OwnerKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
+        "OwnerKey" = "8:_8B0D223374D22C90FEEFADEFC809AC85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
+        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CD9017841698C9C535DB843BE719F936"
+        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -892,13 +892,13 @@
         "Entry"
         {
         "MsmKey" = "8:_DCAC77285E4C7CEADDD7B10B5A1E227B"
-        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
+        "OwnerKey" = "8:_AA3E5D0B720266A67961C68713B9C19B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DCAC77285E4C7CEADDD7B10B5A1E227B"
-        "OwnerKey" = "8:_AA3E5D0B720266A67961C68713B9C19B"
+        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1048,49 +1048,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8B0D223374D22C90FEEFADEFC809AC85"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CDB0FDADE894C0EF942A98BCA4629002"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B79D5FF90FB4F4DAF0C643E5F6391B2C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AA3E5D0B720266A67961C68713B9C19B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CCEB4AB65113D34B1EBAE037C34846FD"
+        "OwnerKey" = "8:_DCAC77285E4C7CEADDD7B10B5A1E227B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1102,7 +1060,49 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DCAC77285E4C7CEADDD7B10B5A1E227B"
+        "OwnerKey" = "8:_CCEB4AB65113D34B1EBAE037C34846FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AA3E5D0B720266A67961C68713B9C19B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9BE0BADF761D4D746AC3F85B54827611"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B79D5FF90FB4F4DAF0C643E5F6391B2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CDB0FDADE894C0EF942A98BCA4629002"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8B0D223374D22C90FEEFADEFC809AC85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EC86FBA1AABA7056016D4533858750F1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A9E75A4C05DC44CAA9BC8DFE7A132199"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2972,11 +2972,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.Shell, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_8B0D223374D22C90FEEFADEFC809AC85"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.Shell.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.Shell.DLL"
             "TargetName" = "8:"
@@ -3223,11 +3218,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.StructuredStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_9BE0BADF761D4D746AC3F85B54827611"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.StructuredStorage.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.StructuredStorage.DLL"
             "TargetName" = "8:"
@@ -3445,11 +3435,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.OfficeDrawing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_AA3E5D0B720266A67961C68713B9C19B"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.OfficeDrawing.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.OfficeDrawing.DLL"
             "TargetName" = "8:"
@@ -3556,11 +3541,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.DocFileFormat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_B79D5FF90FB4F4DAF0C643E5F6391B2C"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.DocFileFormat.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.DocFileFormat.DLL"
             "TargetName" = "8:"
@@ -3707,11 +3687,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.ZipUtils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CCEB4AB65113D34B1EBAE037C34846FD"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.ZipUtils.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.ZipUtils.DLL"
             "TargetName" = "8:"
@@ -3738,11 +3713,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CD9017841698C9C535DB843BE719F936"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.Tools.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.Tools.DLL"
             "TargetName" = "8:"
@@ -3769,11 +3739,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.OpenXmlLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CDB0FDADE894C0EF942A98BCA4629002"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.OpenXmlLib.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.OpenXmlLib.DLL"
             "TargetName" = "8:"
@@ -3920,11 +3885,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.CommonTranslatorLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_DCAC77285E4C7CEADDD7B10B5A1E227B"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.CommonTranslatorLib.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.CommonTranslatorLib.DLL"
             "TargetName" = "8:"
@@ -4171,11 +4131,6 @@
             "AssemblyAsmDisplayName" = "8:DIaLOGIKa.b2xtranslator.WordprocessingMLMapping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14be2f57e5013040, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_EC86FBA1AABA7056016D4533858750F1"
-                    {
-                    "Name" = "8:DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.DLL"
             "TargetName" = "8:"

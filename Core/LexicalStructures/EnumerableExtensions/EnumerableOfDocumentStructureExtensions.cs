@@ -1,10 +1,10 @@
-﻿using LASI.Core.DocumentStructures;
-using System;
-using LASI;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI;
+using LASI.Core.DocumentStructures;
 
 namespace LASI.Core
 {
@@ -16,7 +16,6 @@ namespace LASI.Core
     /// <seealso cref="DocumentStructures.Paragraph"/>
     public static partial class LexicalEnumerable
     {
-
         #region Sequential Implementations
 
         /// <summary>
@@ -26,7 +25,7 @@ namespace LASI.Core
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Paragraph> paragraphs) {
             return from p in paragraphs
-                   from s in p.Sentences    
+                   from s in p.Sentences
                    from r in s.Phrases
                    select r;
         }
@@ -61,6 +60,7 @@ namespace LASI.Core
                    from w in s.Words
                    select w;
         }
+
         #endregion
 
         #region Parallel Implementations
@@ -107,6 +107,7 @@ namespace LASI.Core
                    from w in s.Words
                    select w;
         }
+        
         #endregion
     }
 }

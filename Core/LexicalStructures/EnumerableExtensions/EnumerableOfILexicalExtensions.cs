@@ -179,7 +179,7 @@ namespace LASI.Core
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Verbals in the sequence.</returns>
         public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements) {
-            return elements.AsNestedEnumerable().OfType<IVerbal>();
+            return elements.AsRecursiveEnumerable().OfType<IVerbal>();
         }
 
         #endregion
@@ -339,7 +339,7 @@ namespace LASI.Core
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Entities in the sequence.</returns>
         public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
-            return elements.AsNestedEnumerable().OfType<IEntity>();
+            return elements.AsRecursiveEnumerable().OfType<IEntity>();
         }
         /// <summary>
         /// Returns all Verbals in the sequence.
@@ -347,7 +347,7 @@ namespace LASI.Core
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Verbals in the sequence.</returns>
         public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements) {
-            return elements.AsNestedEnumerable().OfType<IVerbal>();
+            return elements.AsRecursiveEnumerable().OfType<IVerbal>();
         }
 
 

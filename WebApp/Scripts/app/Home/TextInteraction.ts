@@ -1,4 +1,4 @@
-﻿module LASI.Results.ContextProviders {
+﻿module LASI.Results.LexicalContext {
     "use strict";
     export interface VerbalContext {
         subjects: number[];
@@ -19,21 +19,20 @@ module LASI.Results {
         var referencers = $(".lexical-content-block span.referencer");
 
 
-        var contextMenu = $("div#verbalContextMenu");
-        var displayContextMenuForElement =
-            (element: JQuery, event: JQueryEventObject) => element.css({
-                // get the z-index of the parent modal containing the element and offset it by 50.
-                zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
-                position: "absolute",
-                display: "block",
-                // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
-                left: event.pageX,
-                top: event.pageY
-            });
-        var getInfoForVerbal = (rawData: string): ContextProviders.VerbalContext => {
+        var contextMenu = $("div#contextMenu");
+        var displayContextMenuForElement = (element: JQuery, event: JQueryEventObject) => element.css({
+            // get the z-index of the parent modal containing the element and offset it by 50.
+            zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
+            position: "absolute",
+            display: "block",
+            // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
+            left: event.pageX,
+            top: event.pageY
+        });
+        var getInfoForVerbal = (rawData: string): LexicalContext.VerbalContext => {
             var dataSource: any = $.parseJSON(rawData);
             return dataSource;
-        }; var getInfoForReferencer = (rawData: string): ContextProviders.RefencerContext => {
+        }; var getInfoForReferencer = (rawData: string): LexicalContext.RefencerContext => {
             var dataSource: any = $.parseJSON(rawData);
             return dataSource;
         };
@@ -49,68 +48,71 @@ module LASI.Results {
                         .forEach(elementAction);
                 });
         };
-        verbals.on("contextmenu", event => {
+        var createVerbalContextMenu = (event: JQueryEventObject) => {
             event.preventDefault();
-            var verbalContext: ContextProviders.VerbalContext;
+            var verbalContext: LexicalContext.VerbalContext;
             // Deselect any elements selected by a previous selection.
             $(".lexical-content-block span").removeClass("selected");
             verbalContext = getInfoForVerbal($.trim($(event.target).children("span").text()));
-            displayContextMenuForElement(contextMenu, event);
-
-            configureMenu(
-                contextMenu.find("ul").children(".view-subects-menu-item"),
-                verbalContext.subjects,
-                highlightRelatedElement);
-            configureMenu(
-                contextMenu.find("ul").children(".view-directobjects-menu-item"),
-                verbalContext.directObjects,
-                highlightRelatedElement);
-            configureMenu(
-                contextMenu.find("ul").children(".view-indirectobjects-menu-item"),
-                verbalContext.indirectObjects,
-                highlightRelatedElement);
-        });
+            if (verbalContext.directObjects && verbalContext.directObjects.length
+                || verbalContext.indirectObjects && verbalContext.indirectObjects.length || verbalContext.subjects && verbalContext.subjects.length) {
+                displayContextMenuForElement(contextMenu, event);
+                configureMenu(
+                    contextMenu.find("ul").children(".view-subects-menu-item"),
+                    verbalContext.subjects,
+                    highlightRelatedElement);
 
 
-        referencers.on("contextmenu", event => {
+                configureMenu(
+                    contextMenu.find("ul").children(".view-directobjects-menu-item"),
+                    verbalContext.directObjects,
+                    highlightRelatedElement);
+
+                configureMenu(
+                    contextMenu.find("ul").children(".view-indirectobjects-menu-item"),
+                    verbalContext.indirectObjects,
+                    highlightRelatedElement);
+            }
+        };
+
+        var createReferencerContextMenu = (event: JQueryEventObject) => {
             event.preventDefault();
-            var configureMenu = (controls: JQuery, relatedElementIds: number[], elementAction) => {
-                controls
-                    .each((index, element) => relatedElementIds ? $(element).show() : $(element).hide())
-                    .click(event => {
-                        event.preventDefault();
-                        (relatedElementIds || new Array<number>())
-                            .map((element, index) => $("#" + element.toString()))
-                            .forEach(elementAction);
-                    });
-            };
-
-
-
             var referencerInfo = getInfoForReferencer($.trim($(event.target).children("span").text()));
             // Deselect any elements selected by a previous selection.
-            $(".lexical-content-block span").removeClass("selected");
-            contextMenu.css({
-                // get the z-index of the parent modal containing the element and offset it by 50.
-                zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
-                position: "absolute",
-                display: "block",
-                // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
-                left: event.pageX,
-                top: event.pageY
-            });
+            if (referencerInfo.referredTo && referencerInfo.referredTo.length) {
+                $(".lexical-content-block span").removeClass("selected");
+                contextMenu.css({
+                    // get the z-index of the parent modal containing the element and offset it by 50.
+                    zIndex: Number($(event.target).parents(".modal").css("z-index")) + 50,
+                    position: "absolute",
+                    display: "block",
+                    // Relocate the context menu div to the position of the click. This needs work to allow keyboard navigation.
+                    left: event.pageX,
+                    top: event.pageY
+                });
 
-            configureMenu(
-                contextMenu.find("ul").children(".view-referredto-menu-item"),
-                referencerInfo.referredTo,
-                highlightRelatedElement);
+                configureMenu(
+                    contextMenu.find("ul").children(".view-referredto-menu-item"),
+                    referencerInfo.referredTo,
+                    highlightRelatedElement);
+            }
             return false;
-        });
+        };
+
+
+
+
+        verbals
+            .on("contextmenu", createVerbalContextMenu);
+
+        referencers
+            .on("contextmenu", createReferencerContextMenu);
+
         $(document).click(event => {
             contextMenu.hide();
             contextMenu.find("li").off().hide();
         });
 
-
+        $('.lexical').tooltip('test');
     })();
 };

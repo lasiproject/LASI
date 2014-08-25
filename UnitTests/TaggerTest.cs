@@ -63,6 +63,10 @@ namespace LASI.UnitTests
         //{
         //}
         //
+
+        private static LASI.ContentSystem.TaggerEncapsulation.Tagger Tagger {
+            get { return new LASI.ContentSystem.TaggerEncapsulation.Tagger(); }
+        }
         #endregion
 
 

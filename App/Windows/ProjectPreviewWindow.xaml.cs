@@ -48,14 +48,16 @@ namespace LASI.App
             var processedText = await await textfile.GetTextAsync().ContinueWith(async t => {
                 var data = await t;
                 return data
-                    .SplitRemoveEmpty(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" })
+                    .SplitRemoveEmpty("\r\n\r\n", "<paragraph>", "</paragraph>")
                     .Select(s => s.Trim())
                     .Aggregate(string.Empty, (folded, e) => folded + "\n\t" + e);
             });
-            var item = new TabItem {
+            var item = new TabItem
+            {
                 Header = textfile.NameSansExt,
                 AllowDrop = true,
-                Content = new TextBox {
+                Content = new TextBox
+                {
                     IsReadOnly = true,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                     TextWrapping = TextWrapping.Wrap,
@@ -73,7 +75,7 @@ namespace LASI.App
         /// </summary>
         /// <param name="docPath">The file path specifying where to find the document.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
-        private async Task DisplayAddNewDocumentDialog(string docPath) {
+        private async Task DisplayAddNewDocumentDialogImplementation(string docPath) {
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
@@ -130,11 +132,12 @@ namespace LASI.App
                 e,
                 async fi => {
                     DocumentManager.AddDocument(fi.Name, fi.FullName);
-                    await DisplayAddNewDocumentDialog(fi.FullName);
+                    await DisplayAddNewDocumentDialogImplementation(fi.FullName);
                 });
         }
         private async void DisplayAddNewDocumentDialog() {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
 
@@ -149,7 +152,7 @@ namespace LASI.App
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
                 } else if (!file.CanOpen()) {
                     DocumentManager.AddDocument(file.Name, file.FullName);
-                    await DisplayAddNewDocumentDialog(file.FullName);
+                    await DisplayAddNewDocumentDialogImplementation(file.FullName);
                 } else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
@@ -160,7 +163,8 @@ namespace LASI.App
 
 
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow {
+            var componentsDisplay = new ComponentInfoDialogWindow
+            {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this

@@ -6,7 +6,6 @@ open LASI.ContentSystem
 open LASI.Core
 open LASI.Core.DocumentStructures
 open LASI.Core.Heuristics
-open LASI.Core.Heuristics.Morphemization
 open LASI.Interop
 open System.Linq
 open System.Threading.Tasks

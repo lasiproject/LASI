@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Core</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <AssemblyName>LASI.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -52,7 +52,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\LASI.Core.xml</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -127,7 +127,7 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Matcher.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveIEnumerableILexicalsExtenstions.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveEnumerableLexicalsExtenstions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />

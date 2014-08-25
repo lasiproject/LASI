@@ -62,12 +62,7 @@ namespace LASI.Interop
             var taggedFiles = await TagFilesAsync(rawTextSources);
             return await BindAndWeightDocumentsAsync(taggedFiles);
         }
-
-
-
-
-
-        private async Task<ConcurrentBag<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments) {
+        private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments) {
             OnReport(new AnalysisUpdateEventArgs("Tagging Documents", 0));
             var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await new Tagger().TaggedFromRawAsync(raw))).ToList();
             var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
@@ -81,7 +76,7 @@ namespace LASI.Interop
             OnReport(new AnalysisUpdateEventArgs("Tagged Documents", 3));
             return taggedFiles;
         }
-        private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(ConcurrentBag<ITaggedTextSource> taggedFiles) {
+        private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(IEnumerable<ITaggedTextSource> taggedFiles) {
             var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
             var documents = new ConcurrentBag<Document>();
             while (tasks.Any()) {

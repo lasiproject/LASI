@@ -149,7 +149,8 @@ namespace LASI.Core
         private Pattern<TResult> Apply(ILexical value) {
             this.value = value;
             for (var i = 0; !accepted && i < patterns.Count; i++) {
-                Result = patterns[i](value);
+                var pattern = patterns[i];
+                Result = pattern(value);
             }
             return this;
 

@@ -52,6 +52,14 @@ namespace LASI.WebApp.Controllers
                     }
                 }
                 var path = Path.Combine(serverPath, file.FileName.SplitRemoveEmpty('\\').Last());
+                var couchUri = "http://127.0.0.1:5984"; var postData = System.IO.File.ReadAllText(path);
+                var client = new System.Net.Http.HttpClient();
+                await client.SendAsync(new System.Net.Http.HttpRequestMessage
+                {
+                    Method = System.Net.Http.HttpMethod.Post,
+                    RequestUri = new Uri(couchUri),
+                    Content = new System.Net.Http.StringContent(postData)
+                });
 
                 file.SaveAs(path);
             }
@@ -77,7 +85,7 @@ namespace LASI.WebApp.Controllers
                         orderby result.Value descending
                         group new object[] { result.Key, result.Value } by documentViewModel).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
             ViewData["charts"] = data;
-            ViewData["docs"] = data.Keys;
+            ViewData["documents"] = data.Keys;
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }

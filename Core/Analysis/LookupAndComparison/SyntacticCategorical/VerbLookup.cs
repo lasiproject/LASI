@@ -9,7 +9,6 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
-    using Morphemization;
     using SetReference = KeyValuePair<VerbSetLink, int>;
     using LinkType = VerbSetLink;
     using LASI.Core.Interop;
@@ -74,7 +73,7 @@ namespace LASI.Core.Heuristics
             result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
                 VerbSynSet containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
-                containingSet = containingSet ?? setsByWord.Where(kv => kv.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
+                containingSet = containingSet ?? setsByWord.Where(set => set.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
                 return containingSet == null ? new[] { search } :
                     containingSet[LinkType.Verb_Group, LinkType.Hypernym]
                          .SelectMany(id => { VerbSynSet set; return setsById.TryGetValue(id, out set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>(); })

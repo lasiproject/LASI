@@ -12,10 +12,11 @@ namespace LASI
     public static class StringExtensions
     {
         /// <summary>
-        /// Determines if the given string is not null, not empty, and contains at least one non white space character.
+        /// Indicates whether the given string is null, empty, or consists only of white-space characters.
         /// </summary>
         /// <param name="value">The string to test.</param>
-        /// <returns>True if the value parameter is not null, not empty, and contains at least one non white space character.</returns>
+        /// <returns>true if the value parameter is null or System.String.Empty, or if value consists exclusively of white-space characters.
+        ///</returns>
         public static bool IsNullOrWhiteSpace(this string value) { return string.IsNullOrWhiteSpace(value); }
 
         /// <summary>

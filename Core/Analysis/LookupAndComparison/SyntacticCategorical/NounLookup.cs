@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics
 {
     using SetReference = KeyValuePair<NounSetLink, int>;
-    using Morphemization;
     using LASI.Core.Interop;
 
     internal sealed class NounLookup : WordNetLookup<Noun>
@@ -138,18 +137,18 @@ namespace LASI.Core.Heuristics
 
         private HashSet<string> allNouns;
 
-        private static bool IncludeReference(NounSetLink referenceRelationship) {
+        private static bool IncludeReference(NounSetLink link) {
             return
-                referenceRelationship == NounSetLink.MemberOfThisDomain_REGION ||
-                referenceRelationship == NounSetLink.MemberOfThisDomain_TOPIC ||
-                referenceRelationship == NounSetLink.MemberOfThisDomain_USAGE ||
-                referenceRelationship == NounSetLink.DomainOfSynset_REGION ||
-                referenceRelationship == NounSetLink.DomainOfSynset_TOPIC ||
-                referenceRelationship == NounSetLink.DomainOfSynset_USAGE ||
-                referenceRelationship == NounSetLink.HypOnym ||
-                referenceRelationship == NounSetLink.InstanceHypOnym ||
-                referenceRelationship == NounSetLink.InstanceHypERnym ||
-                referenceRelationship == NounSetLink.HypERnym;
+                link == NounSetLink.MemberOfThisDomain_REGION ||
+                link == NounSetLink.MemberOfThisDomain_TOPIC ||
+                link == NounSetLink.MemberOfThisDomain_USAGE ||
+                link == NounSetLink.DomainOfSynset_REGION ||
+                link == NounSetLink.DomainOfSynset_TOPIC ||
+                link == NounSetLink.DomainOfSynset_USAGE ||
+                link == NounSetLink.HypOnym ||
+                link == NounSetLink.InstanceHypOnym ||
+                link == NounSetLink.InstanceHypERnym ||
+                link == NounSetLink.HypERnym;
         }
 
 

@@ -59,10 +59,13 @@ namespace LASI.UnitTests
         //public void MyTestCleanup()
         //{
         //}
-        //
+        // 
+
         #endregion
 
-
+        private static LASI.ContentSystem.TaggerEncapsulation.Tagger Tagger {
+            get { return new LASI.ContentSystem.TaggerEncapsulation.Tagger(); }
+        }
         internal virtual ITaggedTextSource CreateITaggedTextSource() {
             // TODO: Instantiate an appropriate concrete class.
             ITaggedTextSource target = new TaggedTextFragment(Tagger.TaggedFromRaw(new[] {

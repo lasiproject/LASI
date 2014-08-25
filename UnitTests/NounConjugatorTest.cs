@@ -1,5 +1,4 @@
 ﻿using LASI.Core.Heuristics;
-using LASI.Core.Heuristics.Morphemization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -2129,7 +2128,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void FindRootTest() {
             string conjugated = "birds";
-            string expected = "bird"; // TODO: Initialize to an appropriate value
+            string expected = "bird";
             string actual;
             actual = new NounMorpher().FindRoot(conjugated);
             Assert.AreEqual(expected, actual);
@@ -2141,7 +2140,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void GetConjugationsTest() {
             string root = "kitten";
-            IEnumerable<string> expected = new[] { "kittens" }; // TODO: Initialize to an appropriate value
+            IEnumerable<string> expected = new[] { "kittens" };
             IEnumerable<string> actual;
             actual = new NounMorpher().GetLexicalForms(root);
             foreach (var a in expected) {

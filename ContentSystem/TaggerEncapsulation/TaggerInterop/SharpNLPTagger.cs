@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaggerInterop
 {
-    class SharpNLPTagger
+    class SharpNlpTagger
     {
         private string mModelPath;
 
@@ -23,7 +23,7 @@ namespace TaggerInterop
         /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provied TaggerMode value.
         /// </summary>
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
-        public SharpNLPTagger(TaggerMode taggingMode) {
+        public SharpNlpTagger(TaggerMode taggingMode) {
             TaggingMode = taggingMode;
             mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             //mModelPath = @"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\OpenNLP\OpenNLP\Models";
@@ -38,7 +38,7 @@ namespace TaggerInterop
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
         /// <param name="sourcePath">The path to a text file whose contents will be read and tagged.</param>
         /// <param name="destinationPath">The optional path specifying the location where the tagged file should be created. If not provided, the tagged file will be placed in the same directory as the source.</param>
-        public SharpNLPTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
+        public SharpNlpTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
             : this(taggingMode) {
 
 
@@ -485,7 +485,7 @@ namespace TaggerInterop
 
 
 
-    sealed class QuickTagger : SharpNLPTagger
+    sealed class QuickTagger : SharpNlpTagger
     {
         public QuickTagger(TaggerMode option)
             : base(option) {

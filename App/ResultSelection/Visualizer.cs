@@ -25,7 +25,7 @@ namespace LASI.App
         /// The given ChartKind will be used for all further chart operations until it is changed via another call to ChangeChartKind.
         /// </summary>
         /// <param name="chartKind">The ChartKind value determining the what data set is to be displayed.</param>
-        public static void ChangeChartKind(ChartKind chartKind) {
+        public static void ChangeChartKind(ChartContentType chartKind) {
             ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
 
@@ -35,16 +35,17 @@ namespace LASI.App
                 IEnumerable<KeyValuePair<string, float>> data = null;
 
                 switch (chartKind) {
-                    case ChartKind.SubjectVerbObject:
+                    case ChartContentType.SubjectVerbObject:
                         data = GetVerbWiseData(doc);
                         break;
-                    case ChartKind.NounPhrasesOnly:
+                    case ChartContentType.NounPhrasesOnly:
                         data = GetNounWiseData(doc);
                         break;
                 }
                 //data = data.Take(CHART_ITEM_LIMIT);
                 chart.Series.Clear();
-                chart.Series.Add(new BarSeries {
+                chart.Series.Add(new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = data,
@@ -64,7 +65,8 @@ namespace LASI.App
         public static async Task ToColumnCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new ColumnSeries {
+                var series = new ColumnSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -84,7 +86,8 @@ namespace LASI.App
         public static async Task ToPieCharts() {
             foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
                 var items = chart.GetItemSource();
-                var series = new PieSeries {
+                var series = new PieSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
                     ItemsSource = items,
@@ -104,17 +107,17 @@ namespace LASI.App
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToBarCharts() {
-
             await Task.Yield();
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
-                var items = chart.GetItemSource();
-                var series = new BarSeries {
+            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content).OfType<Chart>()) {
+                ResetChartContent(
+                    chart,
+                    new BarSeries
+                {
                     DependentValuePath = "Value",
                     IndependentValuePath = "Key",
-                    ItemsSource = items,
+                    ItemsSource = chart.GetItemSource(),
                     IsSelectionEnabled = true,
-                };
-                ResetChartContent(chart, series);
+                });
             }
         }
         /// <summary>
@@ -125,7 +128,8 @@ namespace LASI.App
         public static async Task InitChartDisplayAsync(Document document) {
             var chart = await BuildBarChart(document);
             documentsByChart.Add(chart, document);
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
                 Content = chart,
                 Tag = chart
@@ -139,31 +143,31 @@ namespace LASI.App
         private static async Task<Chart> BuildBarChart(Document document) {
 
             var dataPointSource =
-                ChartKind == ChartKind.NounPhrasesOnly ?
+                ChartKind == ChartContentType.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
-                ChartKind == ChartKind.SubjectVerbObject ?
+                ChartKind == ChartContentType.SubjectVerbObject ?
                 GetVerbWiseData(document) :
                 GetVerbWiseData(document);
             // Materialize item source so that changing chart types is less expensive.s
             var topPoints = dataPointSource.OrderByDescending(point => point.Value).Take(CHART_ITEM_LIMIT).ToList();
-            Series series = new BarSeries {
-                DependentValuePath = "Value",
-                IndependentValuePath = "Key",
+            Series series = new BarSeries
+            {
+                DependentValuePath = "Value", // this string is expected by the charting engine
+                IndependentValuePath = "Key", // this string is expected by the charting engine
                 ItemsSource = topPoints,
                 IsSelectionEnabled = true,
                 Tag = document,
-
             };
 
-            var chart = new Chart {
-                Title = string.Format("Key Subjects in {0}", document.Name),
-                Tag = topPoints
-            };
 
             series.MouseMove += (sender, e) => {
                 series.ToolTip = (e.Source as DataPoint).IndependentValue;
             };
-
+            var chart = new Chart
+            {
+                Title = string.Format("Key Subjects in {0}", document.Name),
+                Tag = topPoints
+            };
             chart.Series.Add(series);
             return chart;
         }
@@ -215,7 +219,8 @@ namespace LASI.App
                                 where subject != null
                                 from direct in vp.DirectObjects.DefaultIfEmpty()
                                 from indirect in vp.IndirectObjects.DefaultIfEmpty()
-                                let relationship = new SvoRelationship {
+                                let relationship = new SvoRelationship
+                                {
                                     Subject = vp.AggregateSubject,
                                     Verbal = vp,
                                     Direct = vp.AggregateDirectObject,
@@ -249,10 +254,12 @@ namespace LASI.App
             var transformedData = await Task.Factory.StartNew(() => {
                 return GetVerbWiseRelationships(document).ToTextItemSource();
             });
-            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid {
+            var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
+            {
                 ItemsSource = transformedData,
             };
-            var tab = new TabItem {
+            var tab = new TabItem
+            {
                 Header = document.Name,
                 Content = wpfToolKitDataGrid
             };
@@ -264,37 +271,63 @@ namespace LASI.App
         /// <summary>
         /// Gets the ChartKind currently used by the ChartManager.
         /// </summary>
-        public static ChartKind ChartKind {
+        public static ChartContentType ChartKind {
             get;
             private set;
         }
         private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
 
 
-        private const int CHART_ITEM_LIMIT = 14;
 
         private static string GetTextIfNotNull<TLexical>(TLexical lexical) where TLexical : ILexical {
             return lexical != null ? lexical.Text : string.Empty;
         }
 
         /// <summary>
-        /// Creates and returns a sequence of textual Display elements from the given sequence of RelationshipTuple elements.
+        /// Transforms the given relatonships into textual objects for display on a 4 column grid.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
         /// </summary>
-        /// <param name="elementsToConvert">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
-        /// <returns>A sequence of textual Display elements from the given sequence of RelationshipTuple elements.</returns>
-        internal static IEnumerable<object> ToTextItemSource(this IEnumerable<SvoRelationship> elementsToConvert) {
-            return
-            from e in elementsToConvert
-            orderby e.CombinedWeight
-            select new {
-                Subject = GetTextIfNotNull(e.Subject),
-                Verbal = e.Verbal == null ? string.Empty : GetTextIfNotNull(e.Verbal.PrepositionOnLeft) + GetTextIfNotNull(e.Verbal.Modality) + e.Verbal.Text + string.Join(" ", e.Verbal.AdverbialModifiers.Select(m => m.Text)),
-                Direct = e.Direct == null ? string.Empty : GetTextIfNotNull(e.Direct.PrepositionOnLeft) + e.Direct.Text,
-                Indirect = e.Indirect == null ? string.Empty : GetTextIfNotNull(e.Indirect.PrepositionOnLeft) + e.Indirect.Text
-            };
+        /// <param name="relationships">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
+        /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
+        internal static IEnumerable<object> ToTextItemSource(this IEnumerable<SvoRelationship> relationships) {
+            return from relationship in relationships
+                   orderby relationship.CombinedWeight
+                   select new
+                   {
+                       Subject = FormatSubjectRenderText(relationship.Subject),
+                       Verbal = FormatVerbalDisplay(relationship.Verbal),
+                       Direct = FormatDirectRenderText(relationship.Direct),
+                       Indirect = FormatIndirectForDisplay(relationship.Indirect)
+                   };
 
         }
+
+        private static string FormatSubjectRenderText(IEntity subject) {
+            return GetTextIfNotNull(subject);
+        }
+
+        private static string FormatDirectRenderText(IEntity directObject) {
+            return directObject == null ? string.Empty : GetTextIfNotNull(directObject.PrepositionOnLeft) + directObject.Text;
+        }
+
+        private static string FormatIndirectForDisplay(IEntity indirectObject) {
+            return indirectObject == null ? string.Empty : GetTextIfNotNull(indirectObject.PrepositionOnLeft) + indirectObject.Text;
+        }
+
+        private static string FormatVerbalDisplay(IVerbal verbal) {
+            if (verbal != null) {
+                var result =
+                    GetTextIfNotNull(verbal.PrepositionOnLeft) + " " +
+                    GetTextIfNotNull(verbal.Modality) + " " + verbal.Text + " " +
+                    string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
+                return result.Trim();
+            } else {
+                return string.Empty;
+            }
+        }
+
+
+        private const int CHART_ITEM_LIMIT = 14;
     }
 
 }

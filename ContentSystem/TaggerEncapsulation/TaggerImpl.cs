@@ -14,7 +14,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.
     /// </summary>
-    public static class Tagger
+    public class Tagger
     {
         /// <summary>   
         /// Parses any number of untagged strings into a new Document instance.
@@ -22,7 +22,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="strs">The untagged, raw strings to parse.</param>
         /// <returns>The contents of the raw strings composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static Document DocumentFromRaw(IEnumerable<string> strs) {
+        public Document DocumentFromRaw(IEnumerable<string> strs) {
             return DocumentFromTagged(TaggedFromRaw(new RawTextFragment(strs, string.Empty)));
         }
         /// <summary>
@@ -30,8 +30,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromRaw(TxtFile txt) {
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+        public Document DocumentFromRaw(TxtFile txt) {
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -40,9 +40,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="docx">The raw, untagged DocXFile to parse.</param>
         /// <returns>The contents of the DocXFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromDocX(DocXFile docx) {
+        public Document DocumentFromDocX(DocXFile docx) {
             var txt = new DocxToTextConverter(docx).ConvertFile();
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -51,9 +51,9 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="pdf">The raw, untagged PdfFile to parse.</param>
         /// <returns>The contents of the PdfFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromPDF(PdfFile pdf) {
+        public Document DocumentFromPDF(PdfFile pdf) {
             var txt = new PdfToTextConverter(pdf).ConvertFile();
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -62,10 +62,10 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="doc">The raw, untagged DocFile to parse.</param>
         /// <returns>The contents of the DocFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromDoc(DocFile doc) {
+        public Document DocumentFromDoc(DocFile doc) {
             var docx = new DocToDocXConverter(doc).ConvertFile() as DocXFile;
             var txt = new DocxToTextConverter(docx).ConvertFile();
-            var result = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var result = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             result.Name = txt.NameSansExt;
             return result;
         }
@@ -74,8 +74,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static async Task<Document> DocumentFromRawAsync(TxtFile txt) {
-            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
+        public async Task<Document> DocumentFromRawAsync(TxtFile txt) {
+            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -84,7 +84,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromRaw(IRawTextSource textSource) {
+        public Document DocumentFromRaw(IRawTextSource textSource) {
             var doc = DocumentFromTagged(new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.GetText()), textSource.SourceName));
             doc.Name = textSource.SourceName;
             return doc;
@@ -94,7 +94,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing raw, untagged text.</param>
         /// <returns>A Task&lt;Document&gt; which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) {
+        public async Task<Document> DocumentFromRawAsync(IRawTextSource textSource) {
             var doc = DocumentFromTagged(new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.SourceName));
             doc.Name = textSource.SourceName;
             return doc;
@@ -105,7 +105,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
         /// <returns>The contents of the ITaggedTextSource composed into a fully LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static Document DocumentFromTagged(ITaggedTextSource tagged) {
+        public Document DocumentFromTagged(ITaggedTextSource tagged) {
             var doc = new TaggedSourceParser(tagged).LoadDocument();
             doc.Name = tagged.SourceName;
             return doc;
@@ -115,7 +115,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="tagged">The ITaggedTextSource containing tagged strings to parse.</param>
         /// <returns>A Task&lt;Document&gt; which will contain the source text composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
-        public static async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) {
+        public async Task<Document> DocumentFromTaggedAsync(ITaggedTextSource tagged) {
             var doc = await new TaggedSourceParser(tagged).LoadDocumentAsync();
             doc.Name = tagged.SourceName;
             return doc;
@@ -127,7 +127,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="strs">The untagged, raw strings to parse.</param>
         /// <returns>A single string containing the tagged result. The form is identical to what it would be appear in a tagged file.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static string TaggedFromRaw(IEnumerable<string> strs) {
+        public string TaggedFromRaw(IEnumerable<string> strs) {
             return new QuickTagger(TaggerMode).TagTextSource(string.Join(" ", strs));
         }
         /// <summary>
@@ -136,7 +136,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="tagged">The pre-tagged, raw strings to parse.</param>
         /// <returns>The contents of the pre-tagged strings composed into a fully LASI.Algorithm.DocumentConstruct.Document instance.</returns>
         /// <remarks>No files are created when calling this function.</remarks>
-        public static Document DocumentFromTagged(IEnumerable<string> tagged) {
+        public Document DocumentFromTagged(IEnumerable<string> tagged) {
             return new TaggedSourceParser(new TaggedTextFragment(tagged, "anonymous")).LoadDocument();
         }
         /// <summary>
@@ -144,7 +144,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="taggedFile">The TaggedFile whose contents to parse</param>
         /// <returns>A Task&lt;Document&gt; which, when awaited, will yield the contents of the TaggedFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns>
-        public static async Task<Document> DocumentFromTaggedAsync(TaggedFile taggedFile) {
+        public async Task<Document> DocumentFromTaggedAsync(TaggedFile taggedFile) {
             var doc = await new TaggedSourceParser(taggedFile).LoadDocumentAsync();
             doc.Name = taggedFile.SourceName;
             return doc;
@@ -156,7 +156,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>An ITaggedTextSource containing the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public static ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
+        public ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) {
             return new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.GetText()), textSource.SourceName);
         }
         /// <summary>
@@ -164,7 +164,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// </summary>
         /// <param name="textSource">The IRawTextSource containing untagged, raw strings to parse.</param>
         /// <returns>A Task&lt;ITaggedTextSource&gt; which will contain the result. The form is identical to what it would be appear in a tagged file.</returns> 
-        public static async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {
+        public async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) {
             return new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.SourceName);
 
         }
@@ -173,12 +173,14 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <summary>
         /// Gets or sets the default mode the tagger will operate under. The default value is set to TagAndAggregate
         /// </summary>
-        public static TaggerMode TaggerMode {
+        public TaggerMode TaggerMode {
             get;
             set;
         }
-
-        static Tagger() {
+        /// <summary>
+        /// Initializes a new instance of the Tagger Class.
+        /// </summary>
+        public Tagger() {
             TaggerMode = TaggerMode.TagAndAggregate;
         }
 

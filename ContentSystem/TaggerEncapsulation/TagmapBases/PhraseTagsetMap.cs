@@ -17,8 +17,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// <example>
     ///<code> 
     /// var phraseMap = new PhraseTagSetMap();
-    /// var constructorFunction = phraseMap["TAG"];
-    /// var runtimePhrase = constructorFunction(itemText);
+    /// var createPhrase = phraseMap["TAG"];
+    /// var phrase = createPhrase(phraseWords);
     /// </code>
     /// </example>
     /// <seealso cref="WordTagsetMap"/> 

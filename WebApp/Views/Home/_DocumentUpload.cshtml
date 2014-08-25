@@ -1,8 +1,5 @@
 ﻿@using LASI.WebApp;
 @using LASI.WebApp.Models;
-@using MvcFileUploader;
-@using MvcFileUploader.HtmlHelper;
-@using MvcFileUploader.Models;
 
 @model FileUploadModel
 <div class="progress-bar-info">
@@ -25,7 +22,7 @@
         <input type="file" style="width:18px !important;height:18px !important;" name="fileupload" form="fileuploadform" accept="@Model.AcceptedExtensions" class="glyphicon glyphicon-file" />
 
 
-        <input type="submit" name="submit" value="Upload" class="glyphicon glyphicon-file" />
+        <input type="submit" name="submit" value="Upload" class="btn btn-default" />
     }
     <iframe class="hidden" id="@Model.UploadTarget" name="@Model.UploadTarget" src=""></iframe>
 </div>

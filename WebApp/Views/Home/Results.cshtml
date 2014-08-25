@@ -21,7 +21,7 @@
             <div>
 
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
+                    @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                         <li class="list-group-item">
 
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + documentModel.Name)>
@@ -33,7 +33,7 @@
             </div>
             <br />
             <div>
-                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
+                @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                     <div id=@documentModel.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -53,14 +53,12 @@
                         </div>
                     </div>
                 }
-                <div id="verbalContextMenu" class="dropdown clearfix" hidden>
+                <div id="contextMenu" class="dropdown clearfix" hidden>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
                         <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
                         <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
                         <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
                         <li class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
-
-
                     </ul>
                 </div>
 
@@ -70,7 +68,7 @@
         <div class="tab-pane fade" id="topresults">
 
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
+                @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                     <li class="list-group-item">
                         <button type="button"
                                 class="btn btn-primary btn-lg"
@@ -81,7 +79,7 @@
                     </li>
                 }
             </ul>
-            @foreach (var documentModel in ViewData["docs"] as IEnumerable<DocumentModel>) {
+            @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                 <div id=@(documentModel.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

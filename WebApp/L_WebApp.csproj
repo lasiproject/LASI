@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.WebApp</RootNamespace>
-    <AssemblyName>L_WebApp</AssemblyName>
+    <AssemblyName>LASI.WebApp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <!--<LangVersion>experimental</LangVersion>-->
     <MvcBuildViews>false</MvcBuildViews>
@@ -142,9 +142,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="MvcFileUploader">
-      <HintPath>..\packages\MvcFileUploader.1.3.5\lib\40\MvcFileUploader.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -162,17 +159,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.27-beta\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.27-beta\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -313,7 +310,6 @@
     <Compile Include="Controllers\DefaultAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\MvcUploaderTestController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -339,6 +335,10 @@
     <Compile Include="Models\Lexical\WordModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\LASI.Users.Accounts.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\LASI.Users.Accounts.sql" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\App\Account\CreateAccount.css" />
     <Content Include="Content\App\Account\CreateAccount.min.css">
@@ -360,28 +360,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-noscript.css" />
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-noscript.min.css">
-      <DependentUpon>jquery.fileupload-noscript.css</DependentUpon>
-    </Content>
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui-noscript.css" />
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui-noscript.min.css">
-      <DependentUpon>jquery.fileupload-ui-noscript.css</DependentUpon>
-    </Content>
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui.css" />
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload-ui.min.css">
-      <DependentUpon>jquery.fileupload-ui.css</DependentUpon>
-    </Content>
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload.css" />
-    <Content Include="Content\mvcfileupload\blueimp\jquery.fileupload.min.css">
-      <DependentUpon>jquery.fileupload.css</DependentUpon>
-    </Content>
-    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\mvcfileupload\images\glyphicons-halflings-white.png" />
-    <Content Include="Content\mvcfileupload\images\glyphicons-halflings.png" />
-    <Content Include="Content\mvcfileupload\images\loading.gif" />
-    <Content Include="Content\mvcfileupload\images\progressbar.gif" />
-    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
     <Content Include="Content\qunit.css" />
     <Content Include="Content\qunit.min.css">
       <DependentUpon>qunit.css</DependentUpon>
@@ -389,137 +367,12 @@
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
-    <Content Include="Content\themes\base\images\animated-overlay.gif" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\base\jquery-ui.min.css">
-      <DependentUpon>jquery-ui.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.accordion.min.css">
-      <DependentUpon>jquery.ui.accordion.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.min.css">
-      <DependentUpon>jquery.ui.autocomplete.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.base.css" />
-    <Content Include="Content\themes\base\jquery.ui.base.min.css">
-      <DependentUpon>jquery.ui.base.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.button.css" />
-    <Content Include="Content\themes\base\jquery.ui.button.min.css">
-      <DependentUpon>jquery.ui.button.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.core.css" />
-    <Content Include="Content\themes\base\jquery.ui.core.min.css">
-      <DependentUpon>jquery.ui.core.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
-    <Content Include="Content\themes\base\jquery.ui.datepicker.min.css">
-      <DependentUpon>jquery.ui.datepicker.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
-    <Content Include="Content\themes\base\jquery.ui.dialog.min.css">
-      <DependentUpon>jquery.ui.dialog.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.menu.css" />
-    <Content Include="Content\themes\base\jquery.ui.menu.min.css">
-      <DependentUpon>jquery.ui.menu.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
-    <Content Include="Content\themes\base\jquery.ui.progressbar.min.css">
-      <DependentUpon>jquery.ui.progressbar.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
-    <Content Include="Content\themes\base\jquery.ui.resizable.min.css">
-      <DependentUpon>jquery.ui.resizable.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
-    <Content Include="Content\themes\base\jquery.ui.selectable.min.css">
-      <DependentUpon>jquery.ui.selectable.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.slider.css" />
-    <Content Include="Content\themes\base\jquery.ui.slider.min.css">
-      <DependentUpon>jquery.ui.slider.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
-    <Content Include="Content\themes\base\jquery.ui.spinner.min.css">
-      <DependentUpon>jquery.ui.spinner.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
-    <Content Include="Content\themes\base\jquery.ui.tabs.min.css">
-      <DependentUpon>jquery.ui.tabs.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\themes\base\jquery.ui.theme.min.css">
-      <DependentUpon>jquery.ui.theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
-    <Content Include="Content\themes\base\jquery.ui.tooltip.min.css">
-      <DependentUpon>jquery.ui.tooltip.css</DependentUpon>
-    </Content>
-    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="Content\themes\ui-lightness\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\themes\ui-lightness\jquery-ui.css" />
-    <Content Include="Content\themes\ui-lightness\jquery-ui.min.css">
-      <DependentUpon>jquery-ui.css</DependentUpon>
-    </Content>
-    <Content Include="Content\uploads\readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -553,9 +406,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="MvcDiagnostics.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -576,19 +426,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\canvas-to-blob.min.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-image.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-jquery-ui.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-process.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-ui.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-validate.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.iframe-transport.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\jquery.ui.widget.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\load-image.min.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\tmpl.min.js" />
-    <Content Include="Scripts\mvcfileupload\vendor\bootstrap.min.js" />
-    <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Web.config">
@@ -597,15 +434,9 @@
     <Content Include="Views\Account\CreateAccount.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Home\Progress.cshtml" />
-    <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Home\_Phrase.cshtml" />
     <Content Include="Views\Home\_Paragraph.cshtml" />
     <Content Include="Views\Home\_DocumentUpload.cshtml" />
-    <Content Include="Views\Shared\_MvcFileUploaderLayout_jui.cshtml" />
-    <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
-    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
-    <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
-    <Content Include="Views\Home\_UploadTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -626,8 +457,6 @@
     <Content Include="Scripts\jquery.ui-contextmenu.min.js.map">
       <DependentUpon>jquery.ui-contextmenu.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-ui-1.10.4.js" />
-    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.ui-contextmenu.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Content\Site.css" />
@@ -672,6 +501,7 @@
   <ItemGroup>
     <Folder Include="App_Data\SourceFiles\" />
     <Folder Include="App_Data\Users\" />
+    <Folder Include="Content\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -701,6 +531,9 @@
     <TypeScriptCompile Include="Scripts\App\Home\Initialize.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -712,7 +545,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptSourceMap>False</TypeScriptSourceMap>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -748,10 +581,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.17-beta\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.17-beta\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.17-beta\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.17-beta\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.                                                                                      
        Other similar extension points exist, see Microsoft.Common.targets.                                                                                                                

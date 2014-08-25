@@ -1,5 +1,4 @@
-﻿using LASI.Core.Analysis.LookupAndComparison.Syntactic.Support;
-using LASI.Core.Interop;
+﻿using LASI.Core.Interop;
 using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Heuristics.Morphemization
+namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Performs both Adverb root extraction and Adverb form generation.
@@ -25,19 +24,11 @@ namespace LASI.Core.Heuristics.Morphemization
         /// <summary>
         /// Gets all forms of the Adverb root.
         /// </summary>
-        /// <param name="search">The root of a Adverb as a string.</param>
+        /// <param name="adverbText">The root of a Adverb as a string.</param>
         /// <returns>All forms of the Adverb root.</returns>
-        public IEnumerable<string> GetLexicalForms(string search) {
-            return TryComputeConjugations(search);
+        public IEnumerable<string> GetLexicalForms(string adverbText) {
+            return TryComputeConjugations(adverbText);
         }
-        ///// <summary>
-        ///// Gets all forms of the adverb.
-        ///// </summary>
-        ///// <param name="adverb">The adverb to morph.</param>
-        ///// <returns>All forms of the adverb.</returns>
-        //public IEnumerable<string> GetLexicalForms(Adverb adverb) {
-        //    return GetLexicalForms(adverb.Text);
-        //}
 
         private IEnumerable<string> TryComputeConjugations(string containingRoot) {
             var hyphenIndex = containingRoot.IndexOf('-');
@@ -61,16 +52,16 @@ namespace LASI.Core.Heuristics.Morphemization
 
 
         /// <summary>
-        /// Returns the root of the given noun string. If no root can be found, the noun string itself is returned.
+        /// Returns the root of the given adverb string. If the adverb cannot be reduced to a root, the string itself is returned.
         /// </summary>
-        /// <param name="adverbText">The noun string to find the root of.</param>
-        /// <returns>The root of the given noun string. If no root can be found, the noun string itself is returned.</returns>
+        /// <param name="adverbText">The adverb string to find the root of.</param>
+        /// <returns>The root of the given adverb string. If the adverb cannot be reduced to a root, the string itself is returned.</returns>
         public string FindRoot(string adverbText) {
             return CheckSpecialForms(adverbText).FirstOrDefault() ?? ComputeBaseForm(adverbText).FirstOrDefault() ?? adverbText;
 
         }
         /// <summary>
-        /// Returns the root of the given Adverb. If no root can be found, the adverb's oirignal text is returned.
+        /// Returns the root of the given Adverb. If the adverb cannot be reduced to a root, the adverb's textual representation is returned.
         /// </summary>
         /// <param name="adverb">The Adverb string to find the root of.</param>
         /// <returns>The root of the given adverb string. If no root can be found, the adverb's oirignal text is returned.</returns>
