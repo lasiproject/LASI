@@ -11,7 +11,7 @@
         SubjectVerb,
         /// <summary>
         /// A chart of a data set's Subject Verb Object relationships.
-        /// </summary>
+        /// </summary> 
         SubjectVerbObject,
         /// <summary>
         /// A chart of a data set's Significant NounPhrases.
