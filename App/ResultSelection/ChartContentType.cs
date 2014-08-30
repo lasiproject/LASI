@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the various kinds of datasets that a Chart can Display.
     /// </summary>
-    public enum ChartContentType
+    public enum ChartContentType 
     {
         /// <summary>
         /// A chart of a data set's Subject Verb relationships.
