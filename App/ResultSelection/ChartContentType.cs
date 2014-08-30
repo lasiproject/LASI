@@ -1,5 +1,4 @@
-﻿
-namespace LASI.App
+﻿namespace LASI.App
 {
     /// <summary>
     /// Represents the various kinds of datasets that a Chart can Display.
