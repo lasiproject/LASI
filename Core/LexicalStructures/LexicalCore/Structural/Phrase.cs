@@ -44,7 +44,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
         public override string ToString() {
-            return this.GetType().Name + " \"" + Text + "\"";
+            return string.Format("{0} \"{1}\"", GetType().Name, Text);
         }
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.

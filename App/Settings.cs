@@ -22,7 +22,6 @@
 
         private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e) {
             if (Default.TrayMinimize) {
-
                 TrayIconManager.Enable(WindowManager.ProjectPreviewScreen);
                 TrayIconManager.Enable(WindowManager.InProgressScreen);
                 TrayIconManager.Enable(WindowManager.ResultsScreen);
