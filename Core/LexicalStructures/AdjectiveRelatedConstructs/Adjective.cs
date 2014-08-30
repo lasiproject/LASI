@@ -34,10 +34,10 @@ namespace LASI.Core
         /// <param name="adv">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
         public virtual void ModifyWith(IAdverbial adv) {
             modifiers.Add(adv);
-        }
+        } 
 
         private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-
+         
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
         /// </summary>
