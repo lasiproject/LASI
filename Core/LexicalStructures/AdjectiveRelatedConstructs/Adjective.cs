@@ -36,7 +36,7 @@ namespace LASI.Core
             modifiers.Add(adv);
         }
 
-        private IList<IAdverbial> modifiers = new List<IAdverbial>();
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
