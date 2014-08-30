@@ -27,7 +27,7 @@ namespace LASI.Core
         public virtual IEntity Describes {
             get;
             set;
-        }
+        }   
         /// <summary>
         /// Binds a modifier to the Adjective, modifying it.
         /// </summary>

@@ -40,6 +40,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.sln.ide
 
 # Build results
 
@@ -112,14 +113,14 @@ _TeamCity*
 [Ee]xpress/
 
 # DocProject is a documentation generator add-in
-DocProject/buildhelp/
-DocProject/Help/*.HxT
-DocProject/Help/*.HxC
-DocProject/Help/*.hhc
-DocProject/Help/*.hhk
-DocProject/Help/*.hhp
-DocProject/Help/Html2
-DocProject/Help/html
+#DocProject/buildhelp/
+#DocProject/Help/*.HxT
+#DocProject/Help/*.HxC
+#DocProject/Help/*.hhc
+#DocProject/Help/*.hhk
+#DocProject/Help/*.hhp
+#DocProject/Help/Html2
+#DocProject/Help/html
 
 # Click-Once directory
 publish/
@@ -130,7 +131,7 @@ publish/
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
 
 # Windows Azure Build Output
 csx
@@ -220,11 +221,3 @@ WebEssentials-Settings.json
 ## Mono Develop/Xamarin Studio
 #############
 .userprefs
-
-TestDocs/Draft_Environmental_Assessment.txt
-*.docx
-*.doc
-*.zip
-FileConverter_ConvertFileAsync/Draft_Environmental_Assessment/word/endnotes.xml
-FileConverter_ConvertFileAsync/Draft_Environmental_Assessment/word/settings.xml
-ExperimentalClientProjects/FSharpExperimentation/packages.config
