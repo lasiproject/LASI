@@ -92,17 +92,13 @@ namespace LASI.Core.Heuristics
         public static SimilarityResult IsSimilarTo(this VerbPhrase first, VerbPhrase second) {
 
             //Look into refining this
-            List<Verb> leftHandVerbs = first.Words.OfVerb().ToList();
-            List<Verb> rightHandVerbs = second.Words.OfVerb().ToList();
-
-            bool result = leftHandVerbs.Count == rightHandVerbs.Count;
-
+            var leftHandVerbs = first.Words.OfVerb().ToList();
+            var rightHandVerbs = second.Words.OfVerb().ToList();
 
             try {
-                return new SimilarityResult(result &&
-                    leftHandVerbs
-                        .Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
-                        .Aggregate(result, (folded, val) => folded && val));
+                return new SimilarityResult(leftHandVerbs.Count == rightHandVerbs.Count &&
+                    leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
+                        .All(synonymous => synonymous));
             }
             catch (NullReferenceException x) {
                 Output.WriteLine(x.Message);

@@ -11,7 +11,7 @@ namespace LASI.Core
     /// Represents a isPossessive Pronoun such as his, hers, its, or theirs. isPossessive Pronouns provide contextual ownership semantics. That is, 
     /// they transfer ownership based on where they appear in relationship to the nouns they refer to.
     /// </summary>
-    public class PossessivePronoun : Word, IWeakPossessor
+    public class PossessivePronoun : Word, IProxyPossessor
     {
 
 
@@ -30,8 +30,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public virtual void AddPossession(IPossessable possession) {
-            if (PossessesFor != null) {
-                PossessesFor.AddPossession(possession);
+            if (ProxyFor != null) {
+                ProxyFor.AddPossession(possession);
             }
             possessed.Add(possession);
         }
@@ -42,7 +42,7 @@ namespace LASI.Core
         public override string ToString() {
             return base.ToString() +
                 (VerboseOutput ?
-                string.Format("\nSignifying {0} as owner of {1}", PossessesFor.Text, Possessed.Format(e => e.Text)) :
+                string.Format("\nSignifying {0} as owner of {1}", ProxyFor.Text, Possessed.Format(e => e.Text)) :
                 string.Empty);
         }
 
@@ -58,7 +58,7 @@ namespace LASI.Core
         /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
-        public virtual IPossesser PossessesFor {
+        public virtual IPossesser ProxyFor {
             get {
                 return possessesFor;
             }

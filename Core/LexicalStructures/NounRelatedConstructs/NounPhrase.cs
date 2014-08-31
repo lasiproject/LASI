@@ -21,9 +21,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composed">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> composed)
-            : base(composed) {
-            DetermineEntityKind();
-        }
+            : base(composed) { DetermineEntityKind(); }
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
@@ -31,7 +29,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the NounPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
-        public NounPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+        public NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
 
@@ -79,33 +77,23 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the NounPhrase.</returns>
         public override string ToString() {
-            var result = base.ToString();
-
-            if (Phrase.VerboseOutput) {
-                var gender = this.GetGender();
-                var aliases = this.GetDefinedAliases();
-                result += string.Format("{0}{2}{3}{4}{5}{6}{7}{8}",
-                        Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : string.Empty,
-                        Possesser != null ? "\nPossessed By: " + Possesser.Text : string.Empty,
-                        OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : string.Empty,
-                        InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty,
-                        aliases.Any() ? "\nClassified as: " + aliases.Format() : string.Empty,
-                        SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty,
-                        DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty,
-                        IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty,
-                        gender.IsDefined() ? "\nPrevailing Gender: " + gender : string.Empty
-                    );
-                //result += string.Empty;
-                //result += InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty;
-                //result += OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : string.Empty;
-                //result += (AliasLookup.GetDefinedAliases(this).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(this).Format() : string.Empty);
-                //result += SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty;
-                //result += DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty;
-                //result += IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty;
-                //var gender = this.GetGender();
-                //result += gender.IsDefined() ? "\nPrevailing Gender: " + this.GetGender() : string.Empty;
+            if (!VerboseOutput) {
+                return base.ToString();
             }
-            return result;
+            var gender = this.GetGender();
+            var aliases = this.GetDefinedAliases();
+            string empty = string.Empty;
+            return base.ToString() + string.Format("{0}{2}{3}{4}{5}{6}{7}{8}",
+                Possessed.Any() ? "\nPossessions: " + Possessed.Format(p => p.Text + '\n') : empty,
+                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
+                OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
+                InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
+                aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
+                SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : empty,
+                DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : empty,
+                IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
+                gender.IsDefined() ? "\nPrevailing Gender: " + gender : empty
+            );
 
         }
 
@@ -124,11 +112,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase OuterAttributive { get { return outerAttributive; } set { outerAttributive = (value != this ? value : null); } }
+        public NounPhrase OuterAttributive {
+            get { return outerAttributive; }
+            set { outerAttributive = value != this ? value : null; }
+        }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase InnerAttributive { get { return innerAttributive; } set { innerAttributive = (value != this ? value : null); } }
+        public NounPhrase InnerAttributive {
+            get { return innerAttributive; }
+            set { innerAttributive = (value != this ? value : null); }
+        }
         /// <summary>
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
@@ -145,15 +139,11 @@ namespace LASI.Core
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
         public IPossesser Possesser {
-            get {
-                return possessor;
-            }
+            get { return possessor; }
             set {
                 possessor = value;
                 if (value != null) {
-                    foreach (var item in this.Words.OfType<IEntity>()) {
-                        value.AddPossession(item);
-                    }
+                    foreach (var e in Words.OfType<IEntity>()) { value.AddPossession(e); }
                 }
             }
         }
@@ -162,26 +152,20 @@ namespace LASI.Core
         /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IVerbal SubjectOf {
-            get {
-                return subjectOf;
-            }
+            get { return subjectOf; }
             set {
                 subjectOf = value;
-                foreach (var N in Words.OfType<IEntity>())
-                    N.SubjectOf = subjectOf;
+                foreach (var e in Words.OfType<IEntity>()) { e.SubjectOf = subjectOf; }
             }
         }
         /// <summary>
         /// Gets the or sets IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf {
-            get {
-                return directObjectOf;
-            }
+            get { return directObjectOf; }
             set {
                 directObjectOf = value;
-                foreach (var N in Words.OfType<IEntity>())
-                    N.DirectObjectOf = directObjectOf;
+                foreach (var e in Words.OfType<IEntity>()) { e.DirectObjectOf = directObjectOf; }
             }
         }
 
@@ -189,13 +173,10 @@ namespace LASI.Core
         /// Gets or sets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf {
-            get {
-                return indirecObjectOf;
-            }
+            get { return indirecObjectOf; }
             set {
                 indirecObjectOf = value;
-                foreach (var N in Words.OfType<IEntity>())
-                    N.IndirectObjectOf = IndirectObjectOf;
+                foreach (var e in Words.OfType<IEntity>()) { e.IndirectObjectOf = IndirectObjectOf; }
             }
         }
         #endregion

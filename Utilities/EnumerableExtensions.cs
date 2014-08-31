@@ -1,9 +1,8 @@
-﻿using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI
 {
@@ -298,10 +297,8 @@ namespace LASI
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (source.None())
-                throw new ArgumentException("Sequence contains no elements", "source");
+            if (source == null) { throw new ArgumentNullException("source"); }
+            if (source.None()) { throw new ArgumentException("Sequence contains no elements", "source"); }
             T first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(first, element);
@@ -509,8 +506,6 @@ namespace LASI
                 Func<TFirst, TSecond, TThird, TFourth, TResult> selector) {
             return first.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
-
-
 
         #endregion
 

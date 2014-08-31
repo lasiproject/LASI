@@ -28,7 +28,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the AdjectivePhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
-        public AdjectivePhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+        public AdjectivePhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
         /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the AdjectivePhrase.
         /// </summary>

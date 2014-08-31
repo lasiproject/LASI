@@ -154,7 +154,7 @@
     <Compile Include="LexicalStructures\LexicalCore\Behavioral\IReferencer.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\AggregateEntity.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\EntityKind.cs" />
-    <Compile Include="LexicalStructures\LexicalCore\Behavioral\IWeakPossessor.cs" />
+    <Compile Include="LexicalStructures\LexicalCore\Behavioral\IProxyPossessor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\ConflictingClauseRoleException.cs" />

@@ -27,7 +27,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the SymbolPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of SymbolPhrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
-        public SymbolPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+        public SymbolPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         /// <summary>
         /// Gets the last punctuation Word in the SymbolPhrase.

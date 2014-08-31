@@ -25,7 +25,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the RoughListPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of RoughListPhrase. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
-        public RoughListPhrase(Word first, params Word[] rest) : this(rest.AsEnumerable().Prepend(first)) { }
+        public RoughListPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
     }
 }

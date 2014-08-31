@@ -35,10 +35,10 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="phrases">The sequence of phrases to bind within.</param>
         private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
-            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor)) {
-                var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
+            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IProxyPossessor)) {
+                var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IProxyPossessor>();
                 foreach (var pro in pronouns) {
-                    pro.PossessesFor = new AggregateEntity(vp.Subjects);
+                    pro.ProxyFor = new AggregateEntity(vp.Subjects);
                 }
             }
         }

@@ -13,14 +13,11 @@ namespace LASI.Core
     /// <para> Similarly, PossessivePronouns fall into this category because they indicate possession between some possessor and some possession but do not in themselves have a first class existence. </para>
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IPossesser interface provides for generalization and abstraction over word and Phrase types. </para>
     /// </summary>
-    public interface IWeakPossessor : IPossesser
+    public interface IProxyPossessor : IPossesser
     {
         /// <summary>
         /// Gets or sets the possessing IEntity construct which possesses through the IWeakPossessor construct.
         /// </summary>
-        IPossesser PossessesFor {
-            get;
-            set;
-        }
+        IPossesser ProxyFor { get; set; }
     }
 }

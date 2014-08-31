@@ -111,13 +111,13 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="sr">The SimResult to convert.</param>
         /// <returns>A boolean with the same value as the conversion target's booleanResult Property.</returns>
-        public static implicit operator bool(SimilarityResult sr) { return sr.boolean; }
+        public static implicit operator bool (SimilarityResult sr) { return sr.boolean; }
         /// <summary>
         /// Converts the SimResult into its double representation. The resulting boolean has the same value as the conversion target's RatioResult Property.
         /// </summary>
         /// <param name="sr">The SimResult to convert.</param>
         /// <returns>A double with the same value as the conversion target's RatioResult Property.</returns>
-        public static implicit operator double(SimilarityResult sr) { return sr.ActualRatio; }
+        public static implicit operator double (SimilarityResult sr) { return sr.ActualRatio; }
 
         #endregion
 
