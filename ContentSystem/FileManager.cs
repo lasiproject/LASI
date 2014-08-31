@@ -30,7 +30,8 @@ namespace LASI.ContentSystem
             ProjectDir = projectDir;
             InitializeDirProperties();
             CheckDirectoryExistence();
-            CheckInputDirectories(); Initialized = true;
+            CheckInputDirectories();
+            Initialized = true;
         }
 
         private static void InitializeDirProperties() {
@@ -75,8 +76,7 @@ namespace LASI.ContentSystem
                 TaggedFilesDir,
                 TxtFilesDir,
             }) {
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
             }
         }
         #endregion
@@ -118,23 +118,18 @@ namespace LASI.ContentSystem
 
         private static void AddToTypedList(DocFile file) {
             docFiles.Add(file);
-
         }
         private static void AddToTypedList(DocXFile file) {
             docXFiles.Add(file);
-
         }
         private static void AddToTypedList(TxtFile file) {
             txtFiles.Add(file);
-
         }
         private static void AddToTypedList(PdfFile file) {
             pdfFiles.Add(file);
-
         }
         private static void AddToTypedList(TaggedFile file) {
             taggedFiles.Add(file);
-
         }
         #endregion
 
@@ -163,7 +158,7 @@ namespace LASI.ContentSystem
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
         /// </summary>
         /// <param name="filesToKeep">collction of file path strings indicating which files are not to be culled. All others will summarilly executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<string> filesToKeep) {
+        public static void RemoveAllFilesNotIn(IEnumerable<string> filesToKeep) {
             if (!Initialized) {
                 throw new FileManagerNotInitializedException();
             }
@@ -535,131 +530,96 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the Absolute Path of Current Project Folder of the current project directory
         /// </summary>
-        public static string ProjectDir {
-            get;
-            private set;
-        }
+        public static string ProjectDir { get; private set; }
         /// <summary>
         /// Gets the name of the current project.
         /// This will be the project name displayed to the user. It corresponds to the project's top level directory
         /// </summary>
-        public static string ProjectName {
-            get;
-            private set;
-        }
+        public static string ProjectName { get; private set; }
         /// <summary>
         /// Gets the realRoot of the input file directory
         /// </summary>
-        public static string InputFilesDir {
-            get;
-            private set;
-        }
+        public static string InputFilesDir { get; private set; }
         /// <summary>
         /// Gets the newPath of the analysis directory which stores temporary files during analysis
         /// </summary>
-        public static string AnalysisDir {
-            get;
-            private set;
-        }
+        public static string AnalysisDir { get; private set; }
         /// <summary>
         /// Gets the result files directory
         /// </summary>
-        public static string ResultsDir {
-            get;
-            private set;
-        }
+        public static string ResultsDir { get; private set; }
         /// <summary>
         /// Gets the .tagged files directory
         /// </summary>
-        public static string TaggedFilesDir {
-            get;
-            private set;
-        }
+        public static string TaggedFilesDir { get; private set; }
         /// <summary>
         /// Gets the .doc files directory
         /// </summary>
-        public static string DocFilesDir {
-            get;
-            private set;
-        }
+        public static string DocFilesDir { get; private set; }
         /// <summary>
         /// Gets the .pdf files directory
         /// </summary>
-        public static string PdfFilesDir {
-            get;
-            private set;
-        }
+        public static string PdfFilesDir { get; private set; }
         /// <summary>
         /// Gets the .docx files directory
         /// </summary>
-        public static string DocxFilesDir {
-            get;
-            private set;
-        }
+        public static string DocxFilesDir { get; private set; }
         /// <summary>
         /// Gets the .txt files directory
         /// </summary>
-        public static string TxtFilesDir {
-            get;
-            private set;
-        }
+        public static string TxtFilesDir { get; private set; }
         /// <summary>
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
         public static IReadOnlyList<TxtFile> TxtFiles {
-            get {
-                return txtFiles;
-            }
+            get { return txtFiles; }
         }
         /// <summary>
         /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project. 
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
         public static IReadOnlyList<DocXFile> DocXFiles {
-            get {
-                return docXFiles;
-            }
+            get { return docXFiles; }
         }
         /// <summary>
         /// Gets the list of DocFile instances which represent all *.doc files which are included in the project. 
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
         public static IReadOnlyList<DocFile> DocFiles {
-            get {
-                return docFiles;
-            }
+            get { return docFiles; }
         }
         /// <summary>
         /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
         /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.pdf file properties.
         /// </summary>
         public static IReadOnlyList<PdfFile> PdfFiles {
-            get {
-                return pdfFiles;
-            }
+            get { return pdfFiles; }
         }
         /// <summary>
         /// Gets the list of TaggedFile instances which represent all *.tagged files which are included in the project. 
         /// TaggedFile instances are wrapper objects which provide discrete accessors to relevant *.tagged file properties.
         /// </summary>
-        public static IReadOnlyList<TaggedFile> TaggedFiles {
-            get {
-                return taggedFiles;
-            }
-        }
+        public static IReadOnlyList<TaggedFile> TaggedFiles { get { return taggedFiles; } }
         /// <summary>
         /// Gets a value indicating if the FileManager has been initializes.
         /// </summary>
-        public static bool Initialized {
-            get;
-            private set;
-        }
+        public static bool Initialized { get; private set; }
+
         internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnsupportedFormatHandling.Throw);
         #endregion
 
         #region Fields
-        private static ISet<string> AllFileNames { get { return docFiles.Union<InputFile>(docXFiles).Union(pdfFiles).Union(txtFiles).Union(taggedFiles).Select(f => f.NameSansExt).ToImmutableHashSet(); } }
+        private static IEnumerable<string> AllFileNames {
+            get {
+                return docFiles.Union<InputFile>(docXFiles)
+                    .Union(pdfFiles)
+                    .Union(txtFiles)
+                    .Union(taggedFiles)
+                    .Select(f => f.NameSansExt)
+                    .ToImmutableHashSet();
+            }
+        }
         private static List<DocFile> docFiles = new List<DocFile>();
         private static List<DocXFile> docXFiles = new List<DocXFile>();
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
@@ -680,9 +640,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Return null when trying to map to an unkown file extension.
         /// </summary>
-        YieldNull,
-
-
+        YieldNull
     }
     #region Helper Types
     /// <summary>
@@ -725,12 +683,9 @@ namespace LASI.ContentSystem
                 }
                 catch (KeyNotFoundException) {
                     switch (unsupportedMappingMode) {
-                        case UnsupportedFormatHandling.YieldNull:
-                            return path => null;
-                        case UnsupportedFormatHandling.Throw:
-                            return path => { throw new ArgumentException("unmapped " + path); };
-                        default:
-                            return path => { throw new ArgumentException(); };
+                        case UnsupportedFormatHandling.YieldNull: return path => null;
+                        case UnsupportedFormatHandling.Throw: return path => { throw new ArgumentException("unmapped " + path); };
+                        default: return path => { throw new ArgumentException(); };
                     }
                 }
 
@@ -738,7 +693,6 @@ namespace LASI.ContentSystem
         }
     }
     #endregion
-
 }
 
 

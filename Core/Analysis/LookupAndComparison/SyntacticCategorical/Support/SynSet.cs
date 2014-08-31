@@ -57,7 +57,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="word">The word to find.</param>
         /// <returns>True if the given word is directly contained within the Synset; otherwise false.</returns>
-        public bool ContainsWord(string word) { return word.Contains(word); }
+        public bool ContainsWord(string word) { return Words.Contains(word); }
         /// <summary>
         /// Returns a value indicating whether the current SynSet directly links to the given SynSet.
         /// </summary>

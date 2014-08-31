@@ -223,7 +223,11 @@ namespace LASI.UnitTests
         ///A test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod]
-        public async Task ConvertDocxToTextAsyncTest() {
+        public void ConvertDocxToTextAsyncTest() {
+            this.ConvertDocxToTextAsyncTestHelper().Wait();
+        }
+
+        private async Task ConvertDocxToTextAsyncTestHelper() {
             DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
                                 select new DocXFile(F)).ToArray();
             files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
@@ -313,7 +317,11 @@ namespace LASI.UnitTests
         ///A test for ConvertAsNeededAsync
         ///</summary>
         [TestMethod]
-        public void ConvertAsNeededAsyncTest() {
+        public void
+        ConvertAsNeededAsyncTest() {
+            ConvertAsNeededAsyncTestHelper().Wait();
+        }
+        private static async Task ConvertAsNeededAsyncTestHelper() {
             var files = from fi in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
                         where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fi.Extension, StringComparer.OrdinalIgnoreCase)
                         select fi;
@@ -323,7 +331,7 @@ namespace LASI.UnitTests
                     TEST_PROJECT_INPUT_RELATIVE_PATH + mapExtToDir(fi.Extension) + fi.FullName.Substring(fi.FullName.LastIndexOf('\\') + 1),
                     overwrite: true);
             }
-            Task.Run(async () => await FileManager.ConvertAsNeededAsync());
+            await FileManager.ConvertAsNeededAsync();
             IEnumerable<InputFile> filesUnconverted =
                 from file in FileManager.DocFiles
                                         .Concat<InputFile>(FileManager.DocXFiles)
@@ -354,7 +362,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ConvertDocToTextAsyncTest() {
             DocFile[] files = GetTestDocFiles();
-            Task.Run(async () => await FileManager.ConvertDocToTextAsync(files)).Wait();
+            FileManager.ConvertDocToTextAsync(files).Wait();
             Assert.IsTrue(files.Any());
             foreach (var file in files)
                 Assert.IsTrue(File.Exists(FileManager.TxtFilesDir + "\\" + file.NameSansExt + ".txt"));

@@ -53,7 +53,7 @@ namespace LASI.Core.Heuristics
                 from Match match in POINTER_REGEX.Matches(line)
                 let split = match.Value.SplitRemoveEmpty(' ')
                 where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
-                select new SetReference(interSetMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
+                select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
 
             IEnumerable<string> words = from Match m in WORD_REGEX.Matches(line)

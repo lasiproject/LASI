@@ -52,7 +52,6 @@ namespace LASI.Core.Heuristics
             int id = Int32.Parse(line.Substring(0, 8));
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
-
         private ISet<string> SearchFor(string search) {
             return (from containingSet in allSets
                     where containingSet.ContainsWord(search)
@@ -97,7 +96,8 @@ namespace LASI.Core.Heuristics
 
         internal override ISet<string> this[string search] {
             get {
-                return SearchFor(search);
+                var lexicalForms = conjugator.GetLexicalForms(search);
+                return lexicalForms.SelectMany(form => SearchFor(form)).ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
 
@@ -108,6 +108,7 @@ namespace LASI.Core.Heuristics
             }
         }
 
+        AdverbMorpher conjugator = new AdverbMorpher();
         private string filePath;
 
 
