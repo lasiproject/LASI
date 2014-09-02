@@ -8,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LASI.Core.Heuristics.WordNet;
 
 namespace LASI.Core.Heuristics
 {

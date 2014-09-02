@@ -39,7 +39,7 @@ namespace LASI.ContentSystem
                 FullPathAndExt = directory + fileNameWithExt;
             }
             catch (ArgumentOutOfRangeException) {
-                Ext = "";
+                Ext = string.Empty;
                 FileNameSansExt = FileName;
 
             }
@@ -64,7 +64,7 @@ namespace LASI.ContentSystem
 
             }
             catch (ArgumentOutOfRangeException) {
-                Ext = "";
+                Ext = string.Empty;
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
             }

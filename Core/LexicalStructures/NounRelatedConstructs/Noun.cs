@@ -29,7 +29,7 @@ namespace LASI.Core
         private void EstablishKind() {
             if (Text.Contains('<')) {
                 System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
-                var found = regex.Match(Text).Value ?? "";
+                var found = regex.Match(Text).Value ?? string.Empty;
                 var txt = Text;
                 Text = found.Length > 0 ? new string(txt.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : txt;
             }

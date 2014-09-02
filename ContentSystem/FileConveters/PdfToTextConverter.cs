@@ -100,7 +100,7 @@ namespace LASI.ContentSystem
             /// <returns></returns>
             private string ExtractTextFromPDFBytes(byte[] input) {
                 if (input == null || input.Length == 0)
-                    return "";
+                    return string.Empty;
                 var resultString = string.Empty;
 
                 // Flag showing if we are we currently inside a text object

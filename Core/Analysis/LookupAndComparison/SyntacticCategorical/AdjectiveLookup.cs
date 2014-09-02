@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
-    using SetReference = System.Collections.Generic.KeyValuePair<AdjectiveSetLink, int>;
+    using SetReference = KeyValuePair<AdjectiveLink, int>;
     internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
 
@@ -47,14 +47,14 @@ namespace LASI.Core.Heuristics
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.SplitRemoveEmpty(' ')
                                  where split.Count() > 1 && interSetMap.ContainsKey(split[0])
-                                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
-            int id = Int32.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
+            int id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
-            AdjectiveCategory lexCategory = (AdjectiveCategory)Int32.Parse(line.Substring(9, 2));
+            AdjectiveCategory lexCategory = (AdjectiveCategory)int.Parse(line.Substring(9, 2));
             return new AdjectiveSynSet(id, words, referencedSets, lexCategory);
 
 
@@ -77,7 +77,7 @@ namespace LASI.Core.Heuristics
                 return SearchFor(search);
             }
         }
-        internal override ISet<string> this[Core.Adjective search] {
+        internal override ISet<string> this[Adjective search] {
             get {
                 return this[search.Text];
             }
@@ -89,16 +89,16 @@ namespace LASI.Core.Heuristics
 
 
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
-        private static readonly IReadOnlyDictionary<string, AdjectiveSetLink> interSetMap = new Dictionary<string, AdjectiveSetLink> {
-            {"!",AdjectiveSetLink.Antonym},
-            {"&",AdjectiveSetLink.SimilarTo},
-            {"<",AdjectiveSetLink.ParticipleOfVerb},
-            {@"\", AdjectiveSetLink.Pertainym_pertains_to_noun},
-            {"=",AdjectiveSetLink.Attribute},
-            {"^",AdjectiveSetLink.AlsoSee},
-            {";c", AdjectiveSetLink.DomainOfSynset_TOPIC},
-            {";r", AdjectiveSetLink.DomainOfSynset_REGION},
-            {";u", AdjectiveSetLink.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, AdjectiveLink> interSetMap = new Dictionary<string, AdjectiveLink> {
+            {"!",AdjectiveLink.Antonym},
+            {"&",AdjectiveLink.SimilarTo},
+            {"<",AdjectiveLink.ParticipleOfVerb},
+            {@"\", AdjectiveLink.Pertainym_pertains_to_noun},
+            {"=",AdjectiveLink.Attribute},
+            {"^",AdjectiveLink.AlsoSee},
+            {";c", AdjectiveLink.DomainOfSynset_TOPIC},
+            {";r", AdjectiveLink.DomainOfSynset_REGION},
+            {";u", AdjectiveLink.DomainOfSynset_USAGE}
         };
 
     }

@@ -198,8 +198,8 @@ namespace LASI.App
             return from svs in data
                    let SV = new KeyValuePair<string, float>(
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
-                       (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
-                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
+                       (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
+                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
                        (float)Math.Round(svs.CombinedWeight, 2))
                    group SV by SV into svg
                    select svg.Key;

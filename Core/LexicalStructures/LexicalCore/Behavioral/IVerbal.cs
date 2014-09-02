@@ -1,4 +1,6 @@
-﻿namespace LASI.Core
+﻿using System;
+
+namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for Transitive elements, generally Verbs or VerbPhrases,
@@ -35,7 +37,7 @@
         /// </summary>
         /// <param name="predicate">A predicate to test each subject.</param>
         /// <returns>True if the IVerbal has at least one direct object matching the provided predicate; otherwise, false.</returns>
-        bool HasDirectObject(System.Func<IEntity, bool> predicate);
+        bool HasDirectObject(Func<IEntity, bool> predicate);
         /// <summary>
         /// Gets a value indicating if the IVerbal has at least one indirect object.
         /// </summary>

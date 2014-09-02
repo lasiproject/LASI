@@ -70,7 +70,7 @@ namespace LASI.Core
         /// <returns>A string representation of the RelativePronoun.</returns>
         public override string ToString() {
             var result = base.Text;
-            result += VerboseOutput ? " " + RelativePronounKind.ToString() : "";
+            result += VerboseOutput ? " " + RelativePronounKind.ToString() : string.Empty;
             return result;
         }
         #endregion
@@ -83,11 +83,15 @@ namespace LASI.Core
         /// <summary>
         /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>
-        public bool IsBound { get; private set; }
+        public bool IsBound {
+            get { return RefersTo != null && RefersTo.Any(); }
+        }
         /// <summary>
         /// Gets the RelativePronounKind of the RelativePronoun.
         /// </summary>
-        public RelativePronounKind RelativePronounKind { get; private set; }
+        public RelativePronounKind RelativePronounKind {
+            get; private set;
+        }
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
@@ -125,18 +129,22 @@ namespace LASI.Core
         /// Gets the collection of IDescriptors, generally Adjectives or AdjectivePhrases which describe the RelativePronoun.
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors {
-            get {
-                return descriptors;
-            }
+            get { return descriptors; }
         }
         /// <summary>
         /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
         public IEnumerable<IPossessable> Possessed {
-            get {
-                return possessed;
-            }
+            get { return possessed; }
         }
+
+
+        /// <summary>
+        /// Gets or sets the Lexical construct which is subordinated by the RelativePronoun.
+        /// </summary>
+        public ILexical Subordinates { get; set; }
+
+
         #endregion
 
 
@@ -156,7 +164,6 @@ namespace LASI.Core
                 RelativePronounKind.UNDEFINED;
         }
 
-
         private static readonly string[] subjectRolePersonal = { "who", "that" };
         private static readonly string[] objectRoleEntity = { "whom", "which", "who", "that" };
         private static readonly string[] objectRoleLocationals = { "where" };
@@ -165,12 +172,5 @@ namespace LASI.Core
 
 
 
-
-
-
-        /// <summary>
-        /// Gets or sets the Lexical construct which is subordinated by the RelativePronoun.
-        /// </summary>
-        public ILexical Subordinates { get; set; }
     }
 }

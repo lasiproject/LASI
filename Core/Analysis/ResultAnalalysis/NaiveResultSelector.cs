@@ -21,8 +21,8 @@ namespace LASI.Core
             return from svs in data
                    let SV = new KeyValuePair<string, float>(
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
-                       (svs.Direct != null ? " -> " + svs.Direct.Text : "") +
-                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : ""),
+                       (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
+                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
                        (float)Math.Round(svs.CombinedWeight, 2))
                    group SV by SV into svg
                    select svg.Key;
@@ -40,7 +40,8 @@ namespace LASI.Core
                       from dobj in vp.DirectObjects.DefaultIfEmpty()
                       from iobj in vp.IndirectObjects.DefaultIfEmpty()
 
-                      select new SvoRelationship {
+                      select new SvoRelationship
+                      {
                           Subject = vp.AggregateSubject,
                           Verbal = vp,
                           Direct = vp.AggregateDirectObject,
@@ -73,7 +74,8 @@ namespace LASI.Core
                        .With<IEntity>(entity)
                    .Result()
                    where e != null
-                   group e by new {
+                   group e by new
+                   {
                        e.Text,
                        e.Weight
                    } into entity

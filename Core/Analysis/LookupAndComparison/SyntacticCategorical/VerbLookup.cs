@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
-    using SetReference = KeyValuePair<VerbSetLink, int>;
-    using LinkType = VerbSetLink;
+    using SetReference = KeyValuePair<VerbLink, int>;
+    using LinkType = VerbLink;
     using LASI.Core.Interop;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>

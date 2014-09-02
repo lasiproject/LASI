@@ -17,10 +17,6 @@ namespace LASI.Core.Heuristics
     /// </summary>
     public class AdverbMorpher : IWordMorpher<Adverb>
     {
-        static AdverbMorpher() {
-            LoadExceptionFile();
-        }
-
         /// <summary>
         /// Gets all forms of the Adverb root.
         /// </summary>
@@ -29,7 +25,14 @@ namespace LASI.Core.Heuristics
         public IEnumerable<string> GetLexicalForms(string adverbText) {
             return TryComputeConjugations(adverbText);
         }
-
+        /// <summary>
+        /// Gets all forms of the Adverb root.
+        /// </summary>
+        /// <param name="adverbText">The root of a Adverb as a string.</param>
+        /// <returns>All forms of the Adverb root.</returns>
+        public IEnumerable<string> GetLexicalForms(Adverb adverb) {
+            return GetLexicalForms(adverb.Text);
+        }
         private IEnumerable<string> TryComputeConjugations(string containingRoot) {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
@@ -101,6 +104,10 @@ namespace LASI.Core.Heuristics
                     exceptionData[keyVal.Key] = keyVal.Value;
                 }
             }
+        }
+
+        static AdverbMorpher() {
+            LoadExceptionFile();
         }
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using LASI.Utilities;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
-    using SetReference = KeyValuePair<AdverbSetLink, int>;
+    using SetReference = KeyValuePair<AdverbLink, int>;
     internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {
         /// <summary>
@@ -44,12 +42,12 @@ namespace LASI.Core.Heuristics
             var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
                                  let split = match.Value.SplitRemoveEmpty(' ')
                                  where split.Count() > 1 && interSetMap.ContainsKey(split[0])
-                                 select new SetReference(interSetMap[split[0]], Int32.Parse(split[1]));
+                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
 
-            int id = Int32.Parse(line.Substring(0, 8));
+            int id = int.Parse(line.Substring(0, 8));
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
         private ISet<string> SearchFor(string search) {
@@ -110,18 +108,15 @@ namespace LASI.Core.Heuristics
 
         AdverbMorpher conjugator = new AdverbMorpher();
         private string filePath;
-
-
-
         private const string pointerRegex = @"\D{1,2}\s*\d{8}";
         private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
-        private static readonly IReadOnlyDictionary<string, AdverbSetLink> interSetMap = new Dictionary<string, AdverbSetLink> {
-            {"!", AdverbSetLink.Antonym },
-            {@"\", AdverbSetLink.DerivedFromAdjective },
-            {";c", AdverbSetLink.DomainOfSynset_TOPIC },
-            {";r", AdverbSetLink.DomainOfSynset_REGION },
-            {";u", AdverbSetLink.DomainOfSynset_USAGE }
+        private static readonly IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
+            {"!", AdverbLink.Antonym },
+            {@"\", AdverbLink.DerivedFromAdjective },
+            {";c", AdverbLink.DomainOfSynset_TOPIC },
+            {";r", AdverbLink.DomainOfSynset_REGION },
+            {";u", AdverbLink.DomainOfSynset_USAGE }
         };
     }
     /// <summary>

@@ -99,7 +99,7 @@ namespace LASI.App
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                np.GetType().Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : "")
+                np.GetType().Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : string.Empty)
             };
             var menuItem1 = new MenuItem { Header = "View definition" };
             menuItem1.Click += (s, e) => Process.Start(string.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));

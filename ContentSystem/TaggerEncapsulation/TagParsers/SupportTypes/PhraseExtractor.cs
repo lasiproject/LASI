@@ -15,7 +15,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             if (tagEnd == -1 || tagEnd < tagStart) {
                 var tt = phraseString.SplitRemoveEmpty(' ');
                 var taggedPair = new TaggedText(text: tt[1], tag: tt[0]);
-                phraseString = "";
+                phraseString = string.Empty;
                 return new TextNode(taggedPair.Tag + ":  " + taggedPair.Text);
             }
             var tagLength = tagEnd;

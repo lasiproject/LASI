@@ -32,14 +32,14 @@ namespace LASI.Core.Heuristics
             return TryComputeConjugations(nounForm);
 
         }
-        ///// <summary>
-        ///// Gets all forms of the noun.
-        ///// </summary>
-        ///// <param name="noun">The of a noun.</param>
-        ///// <returns>All forms of the noun.</returns>
-        //public IEnumerable<string> GetLexicalForms(Noun noun) {
-        //    return GetLexicalForms(noun.Text);
-        //}
+        /// <summary>
+        /// Gets all forms of the noun.
+        /// </summary>
+        /// <param name="noun">The of a noun.</param>
+        /// <returns>All forms of the noun.</returns>
+        public IEnumerable<string> GetLexicalForms(Noun noun) {
+            return GetLexicalForms(noun.Text);
+        }
 
         private IEnumerable<string> TryComputeConjugations(string nounForm) {
             var hyphenIndex = nounForm.LastIndexOf('-');

@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <param name="words">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> words)
             : base(words) {
-            referredTo = new AggregateEntity(from pronoun in words.OfPronoun() where pronoun.RefersTo != null select pronoun);
+            referredTo = new AggregateEntity(words.OfType<IReferencer>());
         }
         /// <summary>
         /// Initializes a new instance of the PronounPhrase class.

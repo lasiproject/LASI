@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
     abstract class SynSet<TSetRelationship> : IEquatable<SynSet<TSetRelationship>>
     {
@@ -103,9 +103,9 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    internal sealed class NounSynSet : SynSet<NounSetLink>
+    internal sealed class NounSynSet : SynSet<NounLink>
     {
-        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounSetLink, int>> pointerRelationships, NounCategory category)
+        public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounLink, int>> pointerRelationships, NounCategory category)
             : base(id, words, pointerRelationships) {
             Category = category;
         }
@@ -115,9 +115,9 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    internal sealed class VerbSynSet : SynSet<VerbSetLink>
+    internal sealed class VerbSynSet : SynSet<VerbLink>
     {
-        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbSetLink, int>> referencedSets, VerbCategory category)
+        public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbLink, int>> referencedSets, VerbCategory category)
             : base(id, words, referencedSets) {
             Category = category;
         }
@@ -126,9 +126,9 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
-    internal sealed class AdjectiveSynSet : SynSet<AdjectiveSetLink>
+    internal sealed class AdjectiveSynSet : SynSet<AdjectiveLink>
     {
-        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveSetLink, int>> pointerRelationships, AdjectiveCategory category)
+        public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveLink, int>> pointerRelationships, AdjectiveCategory category)
             : base(id, words, pointerRelationships) {
             Category = category;
         }
@@ -138,9 +138,9 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
-    internal sealed class AdverbSynSet : SynSet<AdverbSetLink>
+    internal sealed class AdverbSynSet : SynSet<AdverbLink>
     {
-        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbSetLink, int>> pointerRelationships, AdverbCategory category)
+        public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbLink, int>> pointerRelationships, AdverbCategory category)
             : base(id, words, pointerRelationships) {
             Category = category;
         }

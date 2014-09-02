@@ -1,15 +1,13 @@
-﻿using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
-    using SetReference = KeyValuePair<NounSetLink, int>;
+    using SetReference = KeyValuePair<NounLink, int>;
     using LASI.Core.Interop;
 
     internal sealed class NounLookup : WordNetLookup<Noun>
@@ -112,10 +110,10 @@ namespace LASI.Core.Heuristics
 
         private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
             results.AddRange(containingSet.Words);
-            results.AddRange(containingSet[NounSetLink.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
+            results.AddRange(containingSet[NounLink.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
             foreach (var set in containingSet.ReferencedSetIds
-                .Except(containingSet[NounSetLink.HypERnym])
+                .Except(containingSet[NounLink.HypERnym])
                 .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; })) {
                 if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set)) {
                     SearchSubsets(set, results, setsSearched);
@@ -137,18 +135,18 @@ namespace LASI.Core.Heuristics
 
         private HashSet<string> allNouns;
 
-        private static bool IncludeReference(NounSetLink link) {
+        private static bool IncludeReference(NounLink link) {
             return
-                link == NounSetLink.MemberOfThisDomain_REGION ||
-                link == NounSetLink.MemberOfThisDomain_TOPIC ||
-                link == NounSetLink.MemberOfThisDomain_USAGE ||
-                link == NounSetLink.DomainOfSynset_REGION ||
-                link == NounSetLink.DomainOfSynset_TOPIC ||
-                link == NounSetLink.DomainOfSynset_USAGE ||
-                link == NounSetLink.HypOnym ||
-                link == NounSetLink.InstanceHypOnym ||
-                link == NounSetLink.InstanceHypERnym ||
-                link == NounSetLink.HypERnym;
+                link == NounLink.MemberOfThisDomain_REGION ||
+                link == NounLink.MemberOfThisDomain_TOPIC ||
+                link == NounLink.MemberOfThisDomain_USAGE ||
+                link == NounLink.DomainOfSynset_REGION ||
+                link == NounLink.DomainOfSynset_TOPIC ||
+                link == NounLink.DomainOfSynset_USAGE ||
+                link == NounLink.HypOnym ||
+                link == NounLink.InstanceHypOnym ||
+                link == NounLink.InstanceHypERnym ||
+                link == NounLink.HypERnym;
         }
 
 
@@ -156,26 +154,26 @@ namespace LASI.Core.Heuristics
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounSetLink> interSetMap = new Dictionary<string, NounSetLink> {
-            {"!",   NounSetLink.Antonym },
-            {"@", NounSetLink.HypERnym },
-            {"@i", NounSetLink.InstanceHypERnym},
-            {"~", NounSetLink.HypOnym},
-            {"~i", NounSetLink.InstanceHypOnym},
-            {"#m", NounSetLink.MemberHolonym},
-            {"#s", NounSetLink.SubstanceHolonym},
-            {"#p", NounSetLink.PartHolonym},
-            {"%m", NounSetLink.MemberMeronym},
-            {"%s", NounSetLink.SubstanceMeronym},
-            {"%p", NounSetLink.PartMeronym},
-            {"=", NounSetLink.Attribute},
-            {"+", NounSetLink.DerivationallyRelatedForm},
-            {";c", NounSetLink.DomainOfSynset_TOPIC},
-            {"-c", NounSetLink.MemberOfThisDomain_TOPIC},
-            {";r", NounSetLink.DomainOfSynset_REGION},
-            {"-r", NounSetLink.MemberOfThisDomain_REGION},
-            {";u", NounSetLink.DomainOfSynset_USAGE},
-            {"-u", NounSetLink.MemberOfThisDomain_USAGE}
+        private static readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
+            {"!",   NounLink.Antonym },
+            {"@", NounLink.HypERnym },
+            {"@i", NounLink.InstanceHypERnym},
+            {"~", NounLink.HypOnym},
+            {"~i", NounLink.InstanceHypOnym},
+            {"#m", NounLink.MemberHolonym},
+            {"#s", NounLink.SubstanceHolonym},
+            {"#p", NounLink.PartHolonym},
+            {"%m", NounLink.MemberMeronym},
+            {"%s", NounLink.SubstanceMeronym},
+            {"%p", NounLink.PartMeronym},
+            {"=", NounLink.Attribute},
+            {"+", NounLink.DerivationallyRelatedForm},
+            {";c", NounLink.DomainOfSynset_TOPIC},
+            {"-c", NounLink.MemberOfThisDomain_TOPIC},
+            {";r", NounLink.DomainOfSynset_REGION},
+            {"-r", NounLink.MemberOfThisDomain_REGION},
+            {";u", NounLink.DomainOfSynset_USAGE},
+            {"-u", NounLink.MemberOfThisDomain_USAGE}
         };
     }
     /// <summary>

@@ -74,30 +74,30 @@ namespace LASI.UnitTests
         }
 
         private static IEnumerable<Paragraph> BuildParagraphs() {
-            IEnumerable<Paragraph> allParagrpahs = new[] { 
-                new Paragraph(new[] { 
+            IEnumerable<Paragraph> allParagrpahs = new[] {
+                new Paragraph(new[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new Verb("attack", VerbForm.Base)
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new PronounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbForm.Base)
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -105,11 +105,11 @@ namespace LASI.UnitTests
                         })
                     })}, new SentenceEnding('!'))
                 }, ParagraphKind.Default),
-                new Paragraph(new[] { 
+                new Paragraph(new[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
                             new VerbPhrase(new Word[] {
                                 new Verb("are", VerbForm.Base)
@@ -117,10 +117,10 @@ namespace LASI.UnitTests
                             new AdjectivePhrase(new[] {
                                 new Adjective("obligated")
                             })
-                        }), 
+                        }),
                         new SubordinateClause(new Phrase[]{
-                            new SubordinateClauseBeginPhrase(new Word[] { 
-                                new Preposition("because") 
+                            new SubordinateClauseBeginPhrase(new Word[] {
+                                new Preposition("because")
                             }),
                             new PronounPhrase(new[]{
                                 new PersonalPronoun("they")
@@ -131,7 +131,7 @@ namespace LASI.UnitTests
                             new NounPhrase(new []{
                                 new CommonPluralNoun("jerks")
                             })
-                    })}, new SentenceEnding('!'))  
+                    })}, new SentenceEnding('!'))
                 }, ParagraphKind.Default)
             };
             return allParagrpahs;
@@ -163,17 +163,17 @@ namespace LASI.UnitTests
 
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IVerbal> expected = new IVerbal[]{
-                    new VerbPhrase(new Word[] { 
+                    new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
-                            }),new Verb("attack", VerbForm.Base),  
-                            new VerbPhrase(new Word[] { 
+                                new Verb("attack", VerbForm.Base)
+                            }),new Verb("attack", VerbForm.Base),
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbForm.Base)
                             }),new Verb("do", VerbForm.Base),
                     new VerbPhrase(new[] {new Verb("are",VerbForm.Base)
                 }),
-                
+
             };
             IEnumerable<IVerbal> actual;
             actual = target.GetVerbals();
@@ -191,18 +191,18 @@ namespace LASI.UnitTests
 
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
-                new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }), new PersonalPronoun("We"),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 ),
                              new CommonSingularNoun("team") ,
                              new NounPhrase(new Word[]{
-                            new PersonalPronoun("We")}),  
-                            new PersonalPronoun("We"), 
-                            new NounPhrase(new Word[]{  
+                            new PersonalPronoun("We")}),
+                            new PersonalPronoun("We"),
+                            new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),  new PersonalPronoun("this"),
                         new PronounPhrase(new []{new PersonalPronoun("We")}),
@@ -253,29 +253,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void SentencesTest() {
-            Sentence[] firstParagraphSentences = new Sentence[] { 
+            Sentence[] firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new Verb("attack", VerbForm.Base)
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbForm.Base)
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -328,29 +328,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void ClausesTest() {
-            Sentence[] firstParagraphSentences = new Sentence[] { 
+            Sentence[] firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new Verb("attack", VerbForm.Base)
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, new SentenceEnding('!')),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new Verb("do", VerbForm.Base)
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -373,7 +373,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ToStringTest() {
             Document target = CreateUnboundUnweightedTestDocument();
-            string expected = string.Join("", target.GetType(), ":  ", target.Name, "\nParagraphs: \n", target.Paragraphs.Format());
+            string expected = string.Join(string.Empty, target.GetType(), ":  ", target.Name, "\nParagraphs: \n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -392,11 +392,11 @@ namespace LASI.UnitTests
 
             actual = target.Paginate(lineLength, linesPerPage);
             foreach (var page in actual) {
-                Assert.IsTrue(string.Join("", page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+                Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
             AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
             AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
-            Assert.IsTrue(string.Join("", target.Sentences.Select(s => s.Text)) == string.Join("", actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
         }
         /// <summary>
         ///A test for Paginate
@@ -411,11 +411,11 @@ namespace LASI.UnitTests
 
             actual = target.Paginate(lineLength, linesPerPage);
             foreach (var page in actual) {
-                Assert.IsTrue(string.Join("", page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+                Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
             AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
             AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
-            Assert.IsTrue(string.Join("", target.Sentences.Select(s => s.Text)) == string.Join("", actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
 
         }
 

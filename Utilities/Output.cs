@@ -40,7 +40,7 @@ namespace LASI
             OutputMode = OutputMode.File;
             var newFile = !File.Exists(path);
             fileStream = new FileStream(path, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-            using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine((newFile ? "" : "\n\n") + "LASI Message Log: {0}", System.DateTime.Now); }
+            using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine((newFile ? string.Empty : "\n\n") + "LASI Message Log: {0}", System.DateTime.Now); }
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
 
@@ -160,7 +160,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.Write(buffer); } else if (OutputMode == OutputMode.Console)
                     Console.Write(buffer);
                 else
-                    Debug.Write(buffer.Aggregate("", (sum, c) => sum + c));
+                    Debug.Write(buffer.Aggregate(string.Empty, (sum, c) => sum + c));
             }
         }
         /// <summary>
@@ -342,7 +342,7 @@ namespace LASI
                     using (var writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, true)) { writer.WriteLine(); } else if (OutputMode == OutputMode.Console)
                     Console.WriteLine();
                 else
-                    Debug.WriteLine("");
+                    Debug.WriteLine(string.Empty);
             }
 
         }

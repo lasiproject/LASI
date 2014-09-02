@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Heuristics.WordNet
 {
     internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadEventArgs> where TWord : Word
     {

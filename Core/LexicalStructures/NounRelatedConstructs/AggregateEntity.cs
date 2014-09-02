@@ -17,10 +17,12 @@ namespace LASI.Core
     /// <seealso cref="IEntity"/>
     public class AggregateEntity : IAggregateEntity
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of aggregate entity forming, an aggregate entity composed of the given entities
         /// </summary>
-        /// <param name="entities">The Entities aggregated into the group.</param>
+        /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
             members = from entity in entities
                       let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
@@ -29,7 +31,18 @@ namespace LASI.Core
             EntityKind = EntityKind.ThingMultiple;
         }
 
+        /// <summary>
+        /// Initializes a new instance of aggregate entity forming, an aggregate entity composed of the given entities
+        /// </summary>
+        /// <param name="first">The first entity aggregated into the group.</param>
+        /// <param name="rest">The rest of the entity aggregated into the group.</param>
+        /// <param name="entities"></param>
+        public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first)) { }
+
+        #endregion
+
         #region Methods
+
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the aggregate entity "Owns",
         /// and sets its owner to be the aggregate entity.

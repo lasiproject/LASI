@@ -101,7 +101,7 @@ namespace LASI.ContentSystem
                     ext == ".docx" ? DocxFilesDir :
                     ext == ".txt" ? TxtFilesDir :
                     ext == ".pdf" ? PdfFilesDir :
-                    ext == ".tagged" ? TaggedFilesDir : "";
+                    ext == ".tagged" ? TaggedFilesDir : string.Empty;
 
                 newPath += "\\" + originalFile.FileName;
 
@@ -679,7 +679,7 @@ namespace LASI.ContentSystem
         public Func<string, InputFile> this[string fileExtension] {
             get {
                 try {
-                    return mapping[fileExtension.Replace(".", "")];
+                    return mapping[fileExtension.Replace(".", string.Empty)];
                 }
                 catch (KeyNotFoundException) {
                     switch (unsupportedMappingMode) {

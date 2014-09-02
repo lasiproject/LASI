@@ -1,9 +1,9 @@
-﻿namespace LASI.Core.Heuristics
+﻿namespace LASI.Core.Heuristics.WordNet
 {
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Noun Synsets can relate to one another.
     /// </summary>
-    enum NounSetLink : byte
+    enum NounLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -89,7 +89,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
-    enum VerbSetLink : byte
+    enum VerbLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -143,7 +143,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adjective Synsets can relate to one another.
     /// </summary>
-    enum AdjectiveSetLink : byte
+    enum AdjectiveLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
@@ -189,7 +189,7 @@
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adverb Synsets can relate to one another.
     /// </summary>
-    enum AdverbSetLink : byte
+    enum AdverbLink : byte
     {
         /// <summary>
         /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
