@@ -11,10 +11,10 @@ using System.Reflection;
 
 namespace LASI.WebApp.Controllers.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class JobStatusTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void JobTest() {
             var id = new Random().Next();
             var job = new JobStatus(id, "parsing", 10);
@@ -22,19 +22,20 @@ namespace LASI.WebApp.Controllers.Tests
             Assert.AreEqual(job.Message, "parsing");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ToJsonTest() {
             var id = new Random().Next();
 
             var job = new JobStatus(id, "parsing", 10.0);
             var json = job.ToJson();
             Assert.AreEqual(string.Format("{{\"{0}\":{1},\"{2}\":\"{3}\",\"{4}\":{5:0.0}}}", "jobId", job.JobId, "message", job.Message, "percent", job.Percent), json);
-            var deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<JobStatus>(json, new Newtonsoft.Json.JsonSerializerSettings {
+            var deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<JobStatus>(json, new Newtonsoft.Json.JsonSerializerSettings
+            {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
             });
             Assert.AreEqual(job, deserialized);
         }
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest() {
             var id = new Random().Next(0, 4096);
             var job1 = new JobStatus(id, "parsing", 10.0);
@@ -44,7 +45,7 @@ namespace LASI.WebApp.Controllers.Tests
             Assert.AreNotEqual(job1, job3);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetHashCodeTest() {
             var id = new Random().Next(0, 4096);
             var job1 = new JobStatus(id, "parsing", 10.0);
@@ -53,7 +54,7 @@ namespace LASI.WebApp.Controllers.Tests
             var job3 = new JobStatus(4097, "parsing", 10.0);
             Assert.AreNotEqual(job1.GetHashCode(), job3.GetHashCode());
         }
-        [TestMethod()]
+        [TestMethod]
         public void Op_EqualityTest() {
             var id = new Random().Next(0, 4096);
             var job1 = new JobStatus(id, "parsing", 10.0);
@@ -64,7 +65,7 @@ namespace LASI.WebApp.Controllers.Tests
             Assert.IsFalse(job1 == job3);
             Assert.IsTrue(job1 != job3);
         }
-        [TestMethod()]
+        [TestMethod]
         public void Op_InequalityTest() {
             var id = new Random().Next(0, 4096);
             var job1 = new JobStatus(id, "parsing", 10.0);

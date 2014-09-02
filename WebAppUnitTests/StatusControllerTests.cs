@@ -9,10 +9,10 @@ using Newtonsoft.Json;
 
 namespace LASI.WebApp.Controllers.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class StatusControllerTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void GetJobStatusTest1() {
             HomeController target = new HomeController();
             dynamic json = JsonConvert.DeserializeObject(target.GetJobStatus("1").ToString());

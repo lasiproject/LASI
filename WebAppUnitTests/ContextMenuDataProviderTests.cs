@@ -11,13 +11,13 @@ using LASI.WebApp;
 
 namespace WebApp.UnitTests.LexicalElementInfo.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class ContextMenuDataProviderTests
     {
         /// <summary>
         /// Tests that the integral ids assigned are bound by reference identity and remain fixed when retrieved multiple times.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetSerializationIdTest() {
             IEnumerable<ILexical> elements = new List<ILexical> { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
 
@@ -30,7 +30,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests, in a parallel context, that the integral ids assigned are bound by reference identity and remain fixed when retrieved multiple times.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetSerializationIdTest1() {
             ParallelQuery<ILexical> elements = new List<ILexical> { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") }
                 .AsParallel();
@@ -41,7 +41,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
                 .Select(e => e.GetSerializationId())
                 .OrderBy(id => id)));
 
-            ParallelQuery<ILexical> elements1 = new List<ILexical> { 
+            ParallelQuery<ILexical> elements1 = new List<ILexical> {
                 new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through")
             }.AsParallel();
             Assert.IsFalse(elements
@@ -54,7 +54,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 1 direct object, and 1 indirect object.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
@@ -75,7 +75,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 1 direct object, and 0 indirect object.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest1() {
             // Relevant elements from a clause such as "I helped her"
             IEntity subject = new PersonalPronoun("I");
@@ -94,7 +94,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 0 indirect objects.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest2() {
             // Relevant elements from a clause such as "I helped"
             IEntity subject = new PersonalPronoun("I");
@@ -109,7 +109,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 0 subjects, 0 direct objects, and 0 indirect objects.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest3() {
             // Relevant elements from an element such as "helped"
 
@@ -122,7 +122,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 1 indirect object.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest4() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
@@ -140,7 +140,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 0 subjects, 1 direct object, and 1 indirect object.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest5() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity directObject = new PersonalPronoun("her");
@@ -158,7 +158,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 1 direct object, and 0 indirect objects.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest6() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
@@ -176,7 +176,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 1 subject, 0 direct objects, and 1 indirect objects.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest7() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
@@ -194,7 +194,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 0 subjects, 1 direct object, and 0 indirect objects.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest8() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity directObject = new PersonalPronoun("her");
@@ -209,7 +209,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// <summary>
         /// Tests menu data serialized for a verbal with 0 subjects, 0 direct objects, and 1 indirect object.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void VerbalGetJsonMenuDataTest9() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity indirectObject = new PersonalPronoun("her");
