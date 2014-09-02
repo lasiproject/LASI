@@ -130,8 +130,8 @@ namespace LASI.Core
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier; otherwise, false.</returns>
         protected virtual bool DetermineIsPossessive() {
-            possessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
-            return possessive.Value;
+            isPossessive = Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
+            return isPossessive.Value;
         }
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
@@ -263,7 +263,7 @@ namespace LASI.Core
         /// </summary>
         public bool IsPossessive {
             get {
-                return possessive ?? DetermineIsPossessive();
+                return isPossessive ?? DetermineIsPossessive();
             }
         }
 
@@ -272,7 +272,7 @@ namespace LASI.Core
         /// </summary>
         public bool IsClassifier {
             get {
-                return classifier ?? DetermineIsClassifier();
+                return isClassifier ?? DetermineIsClassifier();
             }
         }
 
@@ -306,8 +306,8 @@ namespace LASI.Core
         private HashSet<IEntity> subjects = new HashSet<IEntity>();
         private HashSet<IEntity> directObjects = new HashSet<IEntity>();
         private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
-        private bool? classifier = null;
-        private bool? possessive = null;
+        private bool? isClassifier = null;
+        private bool? isPossessive = null;
         private IDescriptor postpositiveDescriptor;
         #endregion
     }

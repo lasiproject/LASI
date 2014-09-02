@@ -26,7 +26,7 @@ namespace LASI.Core
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Paragraph> paragraphs) {
             ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
-            return paragraphs.SelectMany(paraghraph => paraghraph.Phrases);
+            return paragraphs.SelectMany(p => p.Phrases);
         }
 
 
@@ -37,7 +37,7 @@ namespace LASI.Core
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<Paragraph> paragraphs) {
             ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
-            return paragraphs.SelectMany(paraghraph => paraghraph.Words);
+            return paragraphs.SelectMany(p => p.Words);
 
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace LASI.Core
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Sentence> sentences) {
             ArgumentValidator.ThrowIfNull(sentences, "sentences");
-            return sentences.SelectMany(sentence => sentence.Phrases);
+            return sentences.SelectMany(s => s.Phrases);
         }
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Sentence instances.
@@ -56,7 +56,7 @@ namespace LASI.Core
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<Sentence> sentences) {
             ArgumentValidator.ThrowIfNull(sentences, "sentences");
-            return sentences.SelectMany(sentence => sentence.Words);
+            return sentences.SelectMany(s => s.Words);
         }
 
         #endregion
@@ -70,7 +70,7 @@ namespace LASI.Core
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Paragraph> paragraphs) {
             ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
-            return paragraphs.SelectMany(paraghraph => paraghraph.Phrases);
+            return paragraphs.SelectMany(p => p.Phrases);
 
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace LASI.Core
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<Paragraph> paragraphs) {
             ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
-            return paragraphs.SelectMany(paraghraph => paraghraph.Words);
+            return paragraphs.SelectMany(p => p.Words);
 
         }
         /// <summary>
@@ -90,7 +90,7 @@ namespace LASI.Core
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
         public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Sentence> sentences) {
             ArgumentValidator.ThrowIfNull(sentences, "sentences");
-            return sentences.SelectMany(sentence => sentence.Phrases);
+            return sentences.SelectMany(s => s.Phrases);
 
         }
         /// <summary>
@@ -100,7 +100,7 @@ namespace LASI.Core
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<Sentence> sentences) {
             ArgumentValidator.ThrowIfNull(sentences, "sentences");
-            return sentences.SelectMany(sentence => sentence.Words);
+            return sentences.SelectMany(s => s.Words);
 
         }
 

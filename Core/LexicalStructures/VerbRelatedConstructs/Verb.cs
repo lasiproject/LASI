@@ -14,7 +14,7 @@ namespace LASI.Core
     /// </summary>
     public class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
-        private StringComparer caseIgnoringComp = StringComparer.OrdinalIgnoreCase;
+        private StringComparer caseInsensitive = StringComparer.OrdinalIgnoreCase;
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
@@ -24,8 +24,8 @@ namespace LASI.Core
             : base(text) {
             VerbForm = form;
         }
-        #region Methods
 
+        #region Methods
 
         /// <summary>
         /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
@@ -91,7 +91,7 @@ namespace LASI.Core
         /// <returns>True if the Verb is a possessive relationship specifier; otherwise, false.</returns>
         protected virtual bool DetermineIsPossessive() {
             var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
-            return syns.Contains("have", caseIgnoringComp);
+            return syns.Contains("have", caseInsensitive);
         }
         /// <summary>
         /// Determines if the Verb acts as a classifier. E.g. in the sentence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <returns>True if the Verb is a classifier; otherwise, false.</returns>
         protected virtual bool DetermineIsClassifier() {
             var syns = LASI.Core.Heuristics.Lookup.GetSynonyms(this);
-            return !IsPossessive && Modality == null && AdverbialModifiers.None() && syns.Contains("is", caseIgnoringComp);
+            return !IsPossessive && Modality == null && AdverbialModifiers.None() && syns.Contains("is", caseInsensitive);
         }
 
 
