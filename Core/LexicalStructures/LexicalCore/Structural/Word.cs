@@ -39,7 +39,7 @@ namespace LASI.Core
         /// Establishes the linkage between the word and its parent Phrase.
         /// </summary>
         /// <param name="parent">The Phrase to which the word belongs.</param>
-        public void EstablishParent(Phrase parent) { Phrase = parent; }
+        internal void EstablishParent(Phrase parent) { Phrase = parent; }
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>

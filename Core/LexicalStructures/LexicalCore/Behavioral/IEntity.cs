@@ -14,18 +14,20 @@ namespace LASI.Core
     public interface IEntity : IVerbalSubject, IVerbalObject, IReferenceable, IPossesser, IPossessable, ILexical
     {
         /// <summary>
-        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
-        /// </summary>
-        EntityKind EntityKind { get; }
-        /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the IDescribable.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         void BindDescriptor(IDescriptor descriptor);
         /// <summary>
-        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the IDescibable.
+        /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the IDescribable.
         /// </summary>
         IEnumerable<IDescriptor> Descriptors {
+            get;
+        }
+        /// <summary>
+        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
+        /// </summary>
+        EntityKind EntityKind {
             get;
         }
     }

@@ -19,9 +19,13 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
-        /// <param name="composed">The words which compose to form the NounPhrase.</param>
-        public NounPhrase(IEnumerable<Word> composed)
-            : base(composed) { DetermineEntityKind(); }
+        /// <param name="words">The words which compose to form the NounPhrase.</param>
+        public NounPhrase(IEnumerable<Word> words) : base(words) {
+            EntityKind = words.OfEntity()
+                .Select(e => e.EntityKind).DefaultIfEmpty()
+                .GroupBy(e => e)
+                .MaxBy(v => v.Count()).Key;
+        }
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
@@ -34,17 +38,6 @@ namespace LASI.Core
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Current,  somewhat sloppy determination of the Noun, person, place, thing etc, of NounPhrase by 
-        /// selecting the most common Noun between its nouns and from its bound pronouns 
-        /// </summary>
-        private void DetermineEntityKind() {
-            EntityKind = Words.OfEntity()
-                .Select(e => e.EntityKind).DefaultIfEmpty()
-                .GroupBy(e => e)
-                .MaxBy(v => v.Count()).Key;
-        }
 
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
@@ -96,7 +89,6 @@ namespace LASI.Core
             );
 
         }
-
         #endregion
 
         #region Properties
@@ -132,9 +124,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed {
-            get { return possessed; }
-        }
+        public IEnumerable<IPossessable> Possessed { get { return possessed; } }
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
@@ -143,7 +133,9 @@ namespace LASI.Core
             set {
                 possessor = value;
                 if (value != null) {
-                    foreach (var e in Words.OfType<IEntity>()) { value.AddPossession(e); }
+                    foreach (var entity in Words.OfType<IEntity>()) {
+                        value.AddPossession(entity);
+                    }
                 }
             }
         }
@@ -155,7 +147,9 @@ namespace LASI.Core
             get { return subjectOf; }
             set {
                 subjectOf = value;
-                foreach (var e in Words.OfType<IEntity>()) { e.SubjectOf = subjectOf; }
+                foreach (var entity in Words.OfType<IEntity>()) {
+                    entity.SubjectOf = value;
+                }
             }
         }
         /// <summary>
@@ -165,7 +159,9 @@ namespace LASI.Core
             get { return directObjectOf; }
             set {
                 directObjectOf = value;
-                foreach (var e in Words.OfType<IEntity>()) { e.DirectObjectOf = directObjectOf; }
+                foreach (var entity in Words.OfType<IEntity>()) {
+                    entity.DirectObjectOf = value;
+                }
             }
         }
 
@@ -176,7 +172,9 @@ namespace LASI.Core
             get { return indirecObjectOf; }
             set {
                 indirecObjectOf = value;
-                foreach (var e in Words.OfType<IEntity>()) { e.IndirectObjectOf = IndirectObjectOf; }
+                foreach (var entity in Words.OfType<IEntity>()) {
+                    entity.IndirectObjectOf = value;
+                }
             }
         }
         #endregion

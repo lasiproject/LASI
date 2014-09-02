@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -14,13 +16,15 @@ namespace LASI.Core
         void BindIndirectObject(IEntity indirectObject);
         /// <summary>
         /// Gets the sequence of IEntity constructs which are indirect objects of the IInderectObjectTaker.
-        /// </summary>
-        System.Collections.Generic.IEnumerable<IEntity> IndirectObjects {
+        /// </summary> 
+        IEnumerable<IEntity> IndirectObjects {
             get;
         }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the IInderectObjectTaker's IndirectObjects.
         /// </summary>
-        IAggregateEntity AggregateIndirectObject { get; }
+        IAggregateEntity AggregateIndirectObject {
+            get;
+        }
     }
 }

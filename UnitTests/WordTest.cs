@@ -87,19 +87,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-
-
-        /// <summary>
-        ///A test for EstablishParent
-        ///</summary>
-        [TestMethod]
-        public void EstablishParentTest() {
-            Word target = CreateWord();
-            Phrase phrase = new NounPhrase(new Word[] { new Adjective("Psychotic"), target });
-            target.EstablishParent(phrase);
-            Assert.IsTrue(target.Phrase == phrase);
-        }
-
         /// <summary>
         ///A test for GetHashCode
         ///</summary>

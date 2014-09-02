@@ -11,24 +11,25 @@ using LASI.Core.Interop;
 
 namespace LASI.Core.Binding.Experimental
 {
-    class ObjectBinderV2
+    internal class ObjectBinderV2
     {
-        public void Bind(Sentence sentence) { Bind(sentence.Phrases); }
-        public void Bind(IEnumerable<Phrase> phrases) {
-            if (phrases.OfVerbPhrase().None()) { throw new VerblessPhrasalSequenceException(); }
+        internal void Bind(Sentence sentence) {
+            Bind(sentence.Phrases);
+        }
+        internal void Bind(IEnumerable<Phrase> phrases) {
+            if (!phrases.OfVerbPhrase().Any()) { throw new VerblessPhrasalSequenceException(); }
 
-            var releventElements =
-                from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                let result = phrase.Match().Yield<Phrase>()
-                        | ((IPrepositional p) => phrase)
-                        | ((IConjunctive p) => phrase)
-                        | ((IEntity p) => phrase)
-                        | ((IVerbal p) => phrase)
-                        | ((SubordinateClauseBeginPhrase p) => phrase)
-                        | ((SymbolPhrase p) => phrase)
-                        | null as Phrase
-                where result != null
-                select result;
+            var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                   let result = phrase.Match().Yield<Phrase>()
+                                           .With((IPrepositional p) => phrase)
+                                           .With((IConjunctive p) => phrase)
+                                           .With((IEntity p) => phrase)
+                                           .With((IVerbal p) => phrase)
+                                           .With((SubordinateClauseBeginPhrase p) => phrase)
+                                           .With((SymbolPhrase p) => phrase)
+                                           .Result()
+                                   where result != null
+                                   select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
             Phrase last = null;
             foreach (var f in bindingActions) { last = f(); }
@@ -39,7 +40,7 @@ namespace LASI.Core.Binding.Experimental
 
         private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
             var results = new List<Func<Phrase>>();
-            var targetVPS = elements.Select(e =>
+            var targetVerbPhrases = elements.Select(e =>
                 e.Match().Yield<VerbPhrase>()
                     .With((ConjunctionPhrase c) => c.NextPhrase as VerbPhrase)
                     .With((SymbolPhrase s) =>
@@ -49,20 +50,20 @@ namespace LASI.Core.Binding.Experimental
                     .With((VerbPhrase v) => v).Result()
                 )
                 .Distinct().TakeWhile(v => v != null);
-            var next = targetVPS.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
+            var next = targetVerbPhrases.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null) {
-                results.Add(targetVPS.Last().NextPhrase.Match().Yield<Func<Phrase>>()
+                results.Add(targetVerbPhrases.Last().NextPhrase.Match().Yield<Func<Phrase>>()
                     .With((NounPhrase n) => () => {
-                        targetVPS.ToList().ForEach(v => v.BindDirectObject(n));
+                        targetVerbPhrases.ToList().ForEach(v => v.BindDirectObject(n));
                         return n;
                     })
                     .With((InfinitivePhrase i) => () => {
-                        targetVPS.ToList().ForEach(v => v.BindDirectObject(i));
+                        targetVerbPhrases.ToList().ForEach(v => v.BindDirectObject(i));
                         return i;
                     })
                     .When(i => i.NextPhrase is IEntity)
                     .Then((PrepositionalPhrase p) => () => {
-                        targetVPS.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
+                        targetVerbPhrases.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
                         return p;
                     }).Result());
             }

@@ -1,5 +1,4 @@
-﻿
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for Transitive elements, generally Verbs or VerbPhrases, which can be bound to one or more Direct objects. </para>
@@ -21,7 +20,9 @@ namespace LASI.Core
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the IDirectObjectTaker's direct objects.
         /// </summary>
-        IAggregateEntity AggregateDirectObject { get; }
+        IAggregateEntity AggregateDirectObject {
+            get;
+        }
 
     }
 

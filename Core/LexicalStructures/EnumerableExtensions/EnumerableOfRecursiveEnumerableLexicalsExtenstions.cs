@@ -33,11 +33,5 @@ namespace LASI.Core
                 }
             }
         }
-
-        public static ParallelQuery<T> AsRecursiveEnumerable<T>(this ParallelQuery<T> source) where T : class, ILexical {
-            return source.AsRecursiveEnumerable().AsParallel();
-        }
-
-
     }
 }

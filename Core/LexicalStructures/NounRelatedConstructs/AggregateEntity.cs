@@ -22,12 +22,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The Entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            members = from e in entities
-                      let aggregate = e as
-                      IAggregateEntity
-                      select aggregate == null ? new[] { e } : aggregate.AsEnumerable() into ens
-                      from e in ens
-                      select e;
+            members = from entity in entities
+                      let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
+                      from aggregated in aggregate
+                      select aggregated;
             EntityKind = EntityKind.ThingMultiple;
         }
 
@@ -48,7 +46,6 @@ namespace LASI.Core
         /// <param name="descriptor">The IDescriptor instance which will be added to the to the aggregate entity.</param>
         public void BindDescriptor(IDescriptor descriptor) {
             descriptors.Add(descriptor);
-
             descriptor.Describes = this;
         }
         /// <summary>
@@ -74,9 +71,10 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString() {
-            return string.Format("{0}{1}", members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty, string.Join(" ", members.AsRecursiveEnumerable()
-                .Where(m => !(m is IAggregateEntity))
-                .Select(p => p.GetType().Name + " \"" + p.Text + "\"")));
+            return members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty +
+                string.Join(" ", from member in members.AsRecursiveEnumerable()
+                                 where !(member is IAggregateEntity)
+                                 select member.GetType().Name + " \"" + member.Text + "\"");
         }
 
         #endregion
@@ -120,9 +118,12 @@ namespace LASI.Core
         /// </summary>
         public string Text {
             get {
-                return string.Join(" , ", members.AsRecursiveEnumerable().Select(p => p.Text + (p.PrepositionOnRight != null ? " " + p.PrepositionOnRight.Text : string.Empty)));
+                return string.Join(" , ",
+                from member in members.AsRecursiveEnumerable()
+                let prepositionText = member.PrepositionOnRight != null ? " " + member.PrepositionOnRight.Text : string.Empty
+                select member.Text + prepositionText);
             }
-        } 
+        }
         /// <summary>
         /// Gets the Type of the aggregate entity.
         /// </summary>

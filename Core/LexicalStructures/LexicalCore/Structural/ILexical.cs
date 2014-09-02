@@ -16,25 +16,39 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the Lexical element.
         /// </summary>
-        IPrepositional PrepositionOnLeft { get; set; }
+        IPrepositional PrepositionOnLeft {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Right of the Lexical element.
         /// </summary>
-        IPrepositional PrepositionOnRight { get; set; }
+        IPrepositional PrepositionOnRight {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets the textual content of the Lexical element.
         /// </summary>
-        string Text { get; }
+        string Text {
+            get;
+        }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the Lexical element construct within its document.
         /// </summary>
-        double Weight { get; set; }
+        double Weight {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets or sets the numeric Weight of the Lexical element construct over the context of some subset of project extant documents.
         /// </summary>
-        double MetaWeight { get; set; }
+        double MetaWeight {
+            get;
+            set;
+        }
 
     }
 }

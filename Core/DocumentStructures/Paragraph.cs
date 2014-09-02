@@ -57,9 +57,9 @@ namespace LASI.Core.DocumentStructures
         /// </summary>Q
         public IEnumerable<Word> Words {
             get {
-                return from S in Sentences
-                       from W in S.Words
-                       select W;
+                return from sentence in Sentences
+                       from word in sentence.Words
+                       select word;
             }
         }
         /// <summary>
@@ -67,9 +67,9 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public IEnumerable<Phrase> Phrases {
             get {
-                return from S in Sentences
-                       from R in S.Phrases
-                       select R;
+                return from sentence in Sentences
+                       from phrase in sentence.Phrases
+                       select phrase;
             }
         }
 

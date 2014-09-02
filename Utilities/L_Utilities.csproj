@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExtensions.cs" />
+    <Compile Include="Contracts\Validators\ArgumentValidator.cs" />
     <Compile Include="CustomComparer.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />

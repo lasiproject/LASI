@@ -15,8 +15,6 @@ namespace LASI.Core
         /// Initializes a new instance of the SuperalitiveAdjective class
         /// </summary>
         /// <param name="text">The key text content of the Adjective.</param>
-        public SuperlativeAdjective(string text)
-            : base(text) {
-        }
+        public SuperlativeAdjective(string text) : base(text) { }
     }
 }

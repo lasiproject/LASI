@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI;
 using LASI.Core.DocumentStructures;
+using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Core
 {
@@ -24,21 +25,20 @@ namespace LASI.Core
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   from r in s.Phrases
-                   select r;
+            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+            return paragraphs.SelectMany(paraghraph => paraghraph.Phrases);
         }
+
+
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Paragraph instances.
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   from w in s.Words
-                   select w;
+            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+            return paragraphs.SelectMany(paraghraph => paraghraph.Words);
+
         }
         /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Sentence instances.
@@ -46,9 +46,8 @@ namespace LASI.Core
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Sentence> sentences) {
-            return from s in sentences
-                   from r in s.Phrases
-                   select r;
+            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+            return sentences.SelectMany(sentence => sentence.Phrases);
         }
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Sentence instances.
@@ -56,9 +55,8 @@ namespace LASI.Core
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<Sentence> sentences) {
-            return from s in sentences
-                   from w in s.Words
-                   select w;
+            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+            return sentences.SelectMany(sentence => sentence.Words);
         }
 
         #endregion
@@ -71,10 +69,9 @@ namespace LASI.Core
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
         public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   from r in s.Phrases
-                   select r;
+            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+            return paragraphs.SelectMany(paraghraph => paraghraph.Phrases);
+
         }
         /// <summary>
         /// Gets the parallel aggregation of all Word instances contained within the sequence of Paragraph instances.
@@ -82,10 +79,9 @@ namespace LASI.Core
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<Paragraph> paragraphs) {
-            return from p in paragraphs
-                   from s in p.Sentences
-                   from w in s.Words
-                   select w;
+            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+            return paragraphs.SelectMany(paraghraph => paraghraph.Words);
+
         }
         /// <summary>
         /// Gets the parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.
@@ -93,9 +89,9 @@ namespace LASI.Core
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
         public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Sentence> sentences) {
-            return from s in sentences
-                   from r in s.Phrases
-                   select r;
+            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+            return sentences.SelectMany(sentence => sentence.Phrases);
+
         }
         /// <summary>
         /// Gets the parallel aggregation of all Word instances contained within the sequence of Sentence instances.
@@ -103,11 +99,13 @@ namespace LASI.Core
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<Sentence> sentences) {
-            return from s in sentences
-                   from w in s.Words
-                   select w;
+            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+            return sentences.SelectMany(sentence => sentence.Words);
+
         }
-        
+
         #endregion
+
+
     }
 }

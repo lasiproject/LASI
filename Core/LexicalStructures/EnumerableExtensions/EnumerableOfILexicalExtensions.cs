@@ -129,8 +129,7 @@ namespace LASI.Core
                 var p = e as Phrase;
                 if (p != null) {
                     return p.Words;
-                }
-                else {
+                } else {
                     var c = e as Clause; if (c != null) {
                         return c.Words;
                     }
@@ -150,8 +149,7 @@ namespace LASI.Core
                 var c = e as Clause;
                 if (c != null) {
                     return c.Phrases;
-                }
-                else {
+                } else {
                     var p = e as Phrase;
                     return Enumerable.Repeat(p, p != null ? 1 : 0);
                 }
@@ -296,8 +294,7 @@ namespace LASI.Core
                 var p = e as Phrase;
                 if (p != null) {
                     return p.Words;
-                }
-                else {
+                } else {
                     var c = e as Clause; if (c != null) {
                         return c.Words;
                     }
@@ -317,8 +314,7 @@ namespace LASI.Core
                 var c = e as Clause;
                 if (c != null) {
                     return c.Phrases;
-                }
-                else {
+                } else {
                     var p = e as Phrase;
                     return Enumerable.Repeat(p, p != null ? 1 : 0);
                 }
@@ -332,26 +328,6 @@ namespace LASI.Core
         public static ParallelQuery<Clause> OClause(this ParallelQuery<ILexical> elements) {
             return elements.OfType<Clause>();
         }
-
-        /// <summary>
-        /// Returns all Entities in the sequence.
-        /// </summary>
-        /// <param name="elements">The sequence of Lexicals to filter</param>
-        /// <returns>All Entities in the sequence.</returns>
-        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
-            return elements.AsRecursiveEnumerable().OfType<IEntity>();
-        }
-        /// <summary>
-        /// Returns all Verbals in the sequence.
-        /// </summary>
-        /// <param name="elements">The sequence of Lexicals to filter</param>
-        /// <returns>All Verbals in the sequence.</returns>
-        public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements) {
-            return elements.AsRecursiveEnumerable().OfType<IVerbal>();
-        }
-
-
-
 
         #endregion
 

@@ -17,8 +17,8 @@ namespace LASI.Core
         /// <summary>
         /// Attaches an IAdverbial as a modifier of the IAdverbialModifiable.
         /// </summary>
-        /// <param name="adv">The modifier to attach.</param>
-        void ModifyWith(IAdverbial adv);
+        /// <param name="modifier">The modifier to attach.</param>
+        void ModifyWith(IAdverbial modifier);
         /// <summary>
         /// Gets the sequence of IAdverbial constructs which modify the IAdverbialModifiable.
         /// </summary>

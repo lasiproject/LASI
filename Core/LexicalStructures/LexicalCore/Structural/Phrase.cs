@@ -50,11 +50,13 @@ namespace LASI.Core
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
         /// <param name="parent">The Clause to which the Phrase belongs.</param>
-        public void EstablishParent(Clause parent) {
+        internal void EstablishParent(Clause parent) {
             Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
-            foreach (var w in Words) { w.EstablishParent(this); }
+            foreach (var word in Words) {
+                word.EstablishParent(this);
+            }
         }
         #endregion
 

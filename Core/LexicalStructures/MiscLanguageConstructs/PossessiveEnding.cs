@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a possessive ending such as ('s) which indicates that the Entity preceding it has a possessive relationship with respect to the Entity which follows it. 
     /// </summary>
-    public class PossessiveEnding : Word, IProxyPossessor
+    public class PossessiveEnding : Word, IWeakPossessor
     {
         #region Constructors
         /// <summary>

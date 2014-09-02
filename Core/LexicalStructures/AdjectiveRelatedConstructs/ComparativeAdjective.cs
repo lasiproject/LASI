@@ -14,8 +14,6 @@ namespace LASI.Core
         /// Initializes a new instance of the ComparativeAdjective class
         /// </summary>
         /// <param name="text">The key text content of the Adjective.</param> 
-        public ComparativeAdjective(string text)
-            : base(text) {
-        }
+        public ComparativeAdjective(string text) : base(text) { }
     }
 }
