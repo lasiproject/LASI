@@ -209,7 +209,7 @@ namespace LASI.UnitTests
             NounPhrase target = new NounPhrase(composedWords);
             IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles") });
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
+            Assert.IsTrue(target.Possessions.Contains(possession) && possession.Possesser == target);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace LASI.UnitTests
             NounPhrase target = new NounPhrase(composed);
             IEnumerable<IPossessable> actual;
             IEnumerable<IPossessable> expected = new[] { new CommonSingularNoun("trunks") };
-            actual = target.Possessed;
+            actual = target.Possessions;
             foreach (var ip in expected) { target.AddPossession(ip); }
             Assert.IsTrue(expected.All(e => actual.Contains(e)));
         }

@@ -79,7 +79,7 @@ namespace LASI.UnitTests
             Noun target = CreateNoun();
             IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessed.Contains(possession) && possession.Possesser == target);
+            Assert.IsTrue(target.Possessions.Contains(possession) && possession.Possesser == target);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace LASI.UnitTests
         public void PossessedTest() {
             Noun target = CreateNoun();
             IEnumerable<IPossessable> actual;
-            actual = target.Possessed;
+            actual = target.Possessions;
             Assert.IsTrue(actual != null && actual.Count() == 0);
         }
 

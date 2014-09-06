@@ -11,7 +11,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 
-namespace LASI.ContentSystem.Serialization.XML
+namespace LASI.ContentSystem.Serialization.Xml
 {
     /// <summary>
     /// Provides basic Xml serialization of for various configuration of ILexical elements.

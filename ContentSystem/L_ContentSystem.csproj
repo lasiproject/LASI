@@ -87,11 +87,13 @@
     <Compile Include="FileTypes\ContentInterfaces\IRawTextSource.cs" />
     <Compile Include="FileTypes\ContentInterfaces\RawTextFragment.cs" />
     <Compile Include="FileTypes\ContentInterfaces\TaggedTextFragment.cs" />
-    <Compile Include="Serialization\XML\DocumentElementExtensions\SerializationExtensions.cs" />
-    <Compile Include="Serialization\XML\ILexicalWriter.cs" />
+    <Compile Include="Serialization\Json\SerializationExtensions.cs" />
+    <Compile Include="Serialization\NodeMapper.cs" />
+    <Compile Include="Serialization\Xml\SerializationExtensions.cs" />
+    <Compile Include="Serialization\Xml\ILexicalWriter.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\XmlFile.cs" />
-    <Compile Include="Serialization\XML\SimpleLexicalSerializer.cs" />
+    <Compile Include="Serialization\Xml\SimpleLexicalSerializer.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />

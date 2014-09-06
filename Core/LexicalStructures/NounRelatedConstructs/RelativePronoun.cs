@@ -135,7 +135,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed {
+        public IEnumerable<IPossessable> Possessions {
             get { return possessed; }
         }
 

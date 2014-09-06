@@ -40,7 +40,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string represntation of the PossessiveEnding.</returns>
         public override string ToString() {
-            return base.ToString() + (VerboseOutput ? string.Format("\n\t\t\tSignifying {0} as owner of {1}", ProxyFor, Possessed.Format(e => e.Text)) : string.Empty);
+            return base.ToString() + (VerboseOutput ? string.Format("\n\t\t\tSignifying {0} as owner of {1}", ProxyFor, Possessions.Format(e => e.Text)) : string.Empty);
         }
 
         #region Properties
@@ -64,7 +64,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the possessables which the PossessiveEnding indicates are owned.
         /// </summary>
-        public IEnumerable<IPossessable> Possessed {
+        public IEnumerable<IPossessable> Possessions {
             get {
                 return possessed;
             }

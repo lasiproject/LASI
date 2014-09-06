@@ -88,7 +88,7 @@ namespace LASI.UnitTests
             AggregateEntity target = new AggregateEntity(members);
             IPossessable possession = new NounPhrase(new CommonSingularNoun("fur"));
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessed.Contains(possession));
+            Assert.IsTrue(target.Possessions.Contains(possession));
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace LASI.UnitTests
             };
             AggregateEntity target = new AggregateEntity(members);
             IEnumerable<IPossessable> actual;
-            actual = target.Possessed;
+            actual = target.Possessions;
             foreach (var possession in possessions) { target.AddPossession(possession); }
             foreach (var possession in possessions) { Assert.IsTrue(actual.Contains(possession)); }
 

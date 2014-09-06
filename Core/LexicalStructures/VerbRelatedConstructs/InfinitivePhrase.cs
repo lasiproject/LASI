@@ -94,7 +94,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntity constructs which the InfinitivePhrase "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed {
+        public IEnumerable<IPossessable> Possessions {
             get { return possessions; }
         }
         /// <summary>

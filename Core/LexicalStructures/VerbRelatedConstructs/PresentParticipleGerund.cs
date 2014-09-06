@@ -61,7 +61,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the constructs which the PresentParticipleGerund "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return possessed; } }
+        public IEnumerable<IPossessable> Possessions { get { return possessed; } }
         /// <summary>
         /// Gets the collection of pronouns which are known to refer to the Gerund.
         /// </summary>

@@ -121,7 +121,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the constructs the aggregate entity can be determined to "own" collectively.
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return possessions; } }
+        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
         /// <summary>
         /// Gets or sets the Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>

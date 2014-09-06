@@ -67,7 +67,7 @@ namespace LASI.Core.Binding.Experimental
             get { return descriptors; }
         }
 
-        public IEnumerable<IPossessable> Possessed {
+        public IEnumerable<IPossessable> Possessions {
             get { return possessions; }
         }
 

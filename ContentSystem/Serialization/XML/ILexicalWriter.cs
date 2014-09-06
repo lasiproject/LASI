@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.ContentSystem.Serialization.XML
+namespace LASI.ContentSystem.Serialization.Xml
 {
     /// <summary>
     /// Defines the behavioral requirements for outputting an XML string from sequences of ILexical elements.

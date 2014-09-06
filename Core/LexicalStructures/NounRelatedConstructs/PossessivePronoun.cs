@@ -42,14 +42,14 @@ namespace LASI.Core
         public override string ToString() {
             return base.ToString() +
                 (VerboseOutput ?
-                string.Format("\nSignifying {0} as owner of {1}", ProxyFor.Text, Possessed.Format(e => e.Text)) :
+                string.Format("\nSignifying {0} as owner of {1}", ProxyFor.Text, Possessions.Format(e => e.Text)) :
                 string.Empty);
         }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessed {
+        public virtual IEnumerable<IPossessable> Possessions {
             get {
                 return possessed;
             }

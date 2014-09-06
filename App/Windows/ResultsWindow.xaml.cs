@@ -1,7 +1,7 @@
 using LASI.App.Dialogs;
 using LASI.App.LexicalElementInfo;
 using LASI.ContentSystem;
-using LASI.ContentSystem.Serialization.XML;
+using LASI.ContentSystem.Serialization.Xml;
 using LASI.Core;
 using LASI.Core.Heuristics;
 using LASI.Core.DocumentStructures;

@@ -14,7 +14,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntity constructs which the IPossesser "owns".
         /// </summary>
-        IEnumerable<IPossessable> Possessed {
+        IEnumerable<IPossessable> Possessions {
             get;
         }
         /// <summary>

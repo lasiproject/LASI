@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public IEnumerable<IPossessable> Possessed { get { return possessed; } }
+        public IEnumerable<IPossessable> Possessions { get { return possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.

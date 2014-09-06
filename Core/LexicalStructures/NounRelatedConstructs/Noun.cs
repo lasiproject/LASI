@@ -104,7 +104,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessed { get { return possessed; } }
+        public virtual IEnumerable<IPossessable> Possessions { get { return possessed; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
