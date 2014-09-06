@@ -15,31 +15,31 @@ namespace LASI.Core.PatternMatching.Generalized
         protected internal MatchClause(object value) { _value = value; }
         #endregion
         #region With Expressions
-        public MatchClause<TResult> With<TCase>(Func<TResult> actn) {
+        public MatchClause<TResult> With<TCase>(Func<TResult> action) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
-                _result = actn();
+                _result = action();
             }
             return this;
         }
-        public MatchClause<TResult> With<TCase>(Func<TCase, TResult> actn) {
+        public MatchClause<TResult> With<TCase>(Func<TCase, TResult> action) {
             if (!_matchFound && _value is TCase) {
                 _matchFound = true;
-                _result = actn((TCase)_value);
+                _result = action((TCase)_value);
             }
             return this;
         }
-        public MatchClause<TResult> With<TCase>(Func<TCase, bool> when, Func<TResult> actn) {
+        public MatchClause<TResult> With<TCase>(Func<TCase, bool> when, Func<TResult> action) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
-                _result = actn();
+                _result = action();
             }
             return this;
         }
-        public MatchClause<TResult> With<TCase>(Func<TCase, bool> when, Func<TCase, TResult> actn) {
+        public MatchClause<TResult> With<TCase>(Func<TCase, bool> when, Func<TCase, TResult> action) {
             if (!_matchFound && _value is TCase && when((TCase)_value)) {
                 _matchFound = true;
-                _result = actn((TCase)_value);
+                _result = action((TCase)_value);
             }
             return this;
         }
@@ -64,43 +64,43 @@ namespace LASI.Core.PatternMatching.Generalized
             return new MatchClause<R>(value);
         }
         #region With Expressions
-        public MatchClause Case(Func<object, bool> when, Action actn) {
+        public MatchClause Case(Func<object, bool> when, Action action) {
             if (!_matchFound && when(value)) {
-                actn();
+                action();
             }
             return this;
         }
-        public MatchClause Case(Func<object, bool> when, Action<object> actn) {
+        public MatchClause Case(Func<object, bool> when, Action<object> action) {
             if (!_matchFound && when(value)) {
-                actn(value);
+                action(value);
             }
             return this;
         }
-        public MatchClause Case<TCase>(Action actn) {
+        public MatchClause Case<TCase>(Action action) {
             if (!_matchFound && value is TCase) {
                 _matchFound = true;
-                actn();
+                action();
             }
             return this;
         }
-        public MatchClause Case<TCase>(Action<TCase> actn) {
+        public MatchClause Case<TCase>(Action<TCase> action) {
             if (!_matchFound && value is TCase) {
                 _matchFound = true;
-                actn((TCase)value);
+                action((TCase)value);
             }
             return this;
         }
-        public MatchClause Case<TCase>(Func<TCase, bool> when, Action actn) {
+        public MatchClause Case<TCase>(Func<TCase, bool> when, Action action) {
             if (!_matchFound && value is TCase && when((TCase)value)) {
                 _matchFound = true;
-                actn();
+                action();
             }
             return this;
         }
-        public MatchClause Case<TCase>(Func<TCase, bool> when, Action<TCase> actn) {
+        public MatchClause Case<TCase>(Func<TCase, bool> when, Action<TCase> action) {
             if (!_matchFound && value is TCase && when((TCase)value)) {
                 _matchFound = true;
-                actn((TCase)value);
+                action((TCase)value);
             }
             return this;
         }
@@ -109,9 +109,9 @@ namespace LASI.Core.PatternMatching.Generalized
 
         #region Default Expressions
 
-        public MatchClause Perform(Action actn) {
+        public MatchClause Perform(Action action) {
             if (!_matchFound) {
-                actn();
+                action();
             }
             return this;
         }

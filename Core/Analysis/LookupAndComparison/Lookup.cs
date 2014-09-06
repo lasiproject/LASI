@@ -1,6 +1,4 @@
 ﻿using LASI.Core.Interop;
-using LASI.Core.PatternMatching;
-using LASI.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,6 +10,8 @@ using LASI.Core.Heuristics.WordNet;
 
 namespace LASI.Core.Heuristics
 {
+    using System.Collections.Immutable;
+
 
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
@@ -59,7 +59,7 @@ namespace LASI.Core.Heuristics
                               | ((Pronoun r) => r.Gender)
                               | ((ProperSingularNoun r) => r.Gender)
                               | ((CommonNoun n) => Gender.Neutral)
-                              | (() => Gender.Unknown)
+                              | (() => Gender.Undetermined)
                            group gen by gen into byGen
                            where byGen.Count() == referee.RefersTo.Count()
                            select byGen.Key).FirstOrDefault()).
@@ -101,11 +101,11 @@ namespace LASI.Core.Heuristics
                 first.Gender :
                 name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ?
                 Gender.Neutral :
-                Gender.Unknown;
+                Gender.Undetermined;
         }
         private static Gender GetPronounPhraseGender(PronounPhrase name) {
             if (name.Words.All(w => w is Determiner))
-                return Gender.Unknown;
+                return Gender.Undetermined;
             var genders = name.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
             bool any = genders.Any();
             return name.Words.OfProperNoun().Any(n => !((n is ISimpleGendered))) ?
@@ -113,48 +113,11 @@ namespace LASI.Core.Heuristics
                 any && genders.All(g => g.IsFemale()) ? Gender.Female :
                 any && genders.All(g => g.IsMale()) ? Gender.Male :
                 any && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
-                Gender.Unknown;
+                Gender.Undetermined;
         }
         #endregion
 
         #endregion
-
-        #region First Name Lookup Methods
-        /// <summary>
-        /// Determines wether the provided ProperNoun is a FirstName.
-        /// </summary>
-        /// <param name="proper">The ProperNoun to check.</param>
-        /// <returns>True if the provided ProperNoun is a FirstName; otherwise, false.</returns>
-        public static bool IsFirstName(this ProperNoun proper) {
-            return Names.IsFirstName(proper.Text);
-        }
-        /// <summary>
-        /// Determines wether the ProperNoun's text corresponds to a last name in the english language.
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="proper">The ProperNoun to check.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a last name in the english language; otherwise, false.</returns>
-        public static bool IsLastName(this ProperNoun proper) {
-            return Names.IsLastName(proper.Text);
-        }
-        /// <summary>
-        /// Determines wether the ProperNoun's text corresponds to a female first name in the english language.
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="proper">The ProperNoun to test.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language; otherwise, false.</returns>
-        public static bool IsFemaleFirst(this ProperNoun proper) {
-            return Names.IsFemaleFirst(proper.Text);
-        }
-        /// <summary>
-        /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
-        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-        /// </summary>
-        /// <param name="proper">The ProperNoun to test.</param>
-        /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language; otherwise, false.</returns>
-        public static bool IsMaleFirst(this ProperNoun proper) {
-            return Names.IsMaleFirst(proper.Text);
-        }
 
 
 
@@ -228,25 +191,25 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Determines if two Adjective instances are synonymous.
         /// </summary>
-        /// <param name="word">The first Adjective.</param>
-        /// <param name="other">The second Adjective</param>
+        /// <param name="first">The first Adjective.</param>
+        /// <param name="second">The second Adjective</param>
         /// <returns>True if the Adjective instances are synonymous; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(vp1, vp2) ) { ... }</code>
         /// <code>if ( vp1.IsSimilarTo(vp2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static bool IsSynonymFor(this Adjective word, Adjective other) {
-            return FindSynonyms(word).Contains(other.Text);
+        public static bool IsSynonymFor(this Adjective first, Adjective second) {
+            return FindSynonyms(first).Contains(second.Text);
         }
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
         /// </summary>
         /// <param name="word">The first Adverb.</param>
-        /// <param name="other">The second Adverb</param>
+        /// <param name="second">The second Adverb</param>
         /// <returns>True if the Adverb instances are synonymous; otherwise, false.</returns>
-        public static bool IsSynonymFor(this Adverb word, Adverb other) {
-            return FindSynonyms(word).Contains(other.Text);
+        public static bool IsSynonymFor(this Adverb first, Adverb second) {
+            return FindSynonyms(first).Contains(second.Text);
         }
 
 
@@ -274,7 +237,6 @@ namespace LASI.Core.Heuristics
         public static void ClearAdjectiveCache() {
             cachedAdjectiveData.Clear();
         }
-
         /// <summary>
         /// Clears the cache of Adverb synonym data.
         /// </summary>
@@ -300,7 +262,7 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
+        private static WordNetLookup<TWord, TEnum> LazyLoad<TWord, TEnum>(WordNetLookup<TWord, TEnum> lookup) where TWord : Word {
             var startedHandler = ResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
 
@@ -337,19 +299,19 @@ namespace LASI.Core.Heuristics
         #endregion
 
 
-        private static WordNetLookup<Noun> NounLookup {
+        private static WordNetLookup<Noun, NounLink> NounLookup {
             get { return nounLookup.Value; }
         }
 
-        private static WordNetLookup<Verb> VerbLookup {
+        private static WordNetLookup<Verb, VerbLink> VerbLookup {
             get { return verbLookup.Value; }
         }
 
-        private static WordNetLookup<Adjective> AdjectiveLookup {
+        private static WordNetLookup<Adjective, AdjectiveLink> AdjectiveLookup {
             get { return adjectiveLookup.Value; }
         }
 
-        private static WordNetLookup<Adverb> AdverbLookup {
+        private static WordNetLookup<Adverb, AdverbLink> AdverbLookup {
             get { return adverbLookup.Value; }
         }
         #region Private Fields
@@ -360,10 +322,12 @@ namespace LASI.Core.Heuristics
         static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
         static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
         // Internal Lookups
-        static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
-        static Lazy<WordNetLookup<Verb>> verbLookup = new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
-        static Lazy<WordNetLookup<Adjective>> adjectiveLookup = new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
-        static Lazy<WordNetLookup<Adverb>> adverbLookup = new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
+        static Lazy<WordNetLookup<Noun, NounLink>> nounLookup = new Lazy<WordNetLookup<Noun, NounLink>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
+        static Lazy<WordNetLookup<Verb, VerbLink>> verbLookup = new Lazy<WordNetLookup<Verb, VerbLink>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
+        static Lazy<WordNetLookup<Adjective, AdjectiveLink>> adjectiveLookup = new Lazy<WordNetLookup<Adjective, AdjectiveLink>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)),
+                 true);
+
+        static Lazy<WordNetLookup<Adverb, AdverbLink>> adverbLookup = new Lazy<WordNetLookup<Adverb, AdverbLink>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
 
 
         // Synonym LexicalLookup Caches
@@ -383,7 +347,7 @@ namespace LASI.Core.Heuristics
             return val;
         }, true);
 
-        private static NameProvider Names {
+        private static NameProvider NameData {
             get { return names.Value; }
         }
 
@@ -396,7 +360,7 @@ namespace LASI.Core.Heuristics
             using (var reader = new StreamReader(scrabbleDictsFilePath)) {
                 dict = reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                       .Select(s => s.ToLower())
-                      .Except(Names.AllNames, StringComparer.OrdinalIgnoreCase)
+                      .Except(NameData.AllNames, StringComparer.OrdinalIgnoreCase)
                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
 
@@ -414,11 +378,48 @@ namespace LASI.Core.Heuristics
         /// </summary>
         const double SIMILARITY_THRESHOLD = 0.6;
 
+        #region Name Lookup Methods
+        /// <summary>
+        /// Determines wether the provided ProperNoun is a FirstName.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to check.</param>
+        /// <returns>True if the provided ProperNoun is a FirstName; otherwise, false.</returns>
+        public static bool IsFirstName(this ProperNoun proper) {
+            return NameData.IsFirstName(proper.Text);
+        }
+        /// <summary>
+        /// Determines wether the ProperNoun's text corresponds to a last name in the english language.
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to check.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a last name in the english language; otherwise, false.</returns>
+        public static bool IsLastName(this ProperNoun proper) {
+            return NameData.IsLastName(proper.Text);
+        }
+        /// <summary>
+        /// Determines wether the ProperNoun's text corresponds to a female first name in the english language.
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to test.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a female first name in the english language; otherwise, false.</returns>
+        public static bool IsFemaleFirst(this ProperNoun proper) {
+            return NameData.IsFemaleFirst(proper.Text);
+        }
+        /// <summary>
+        /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
+        /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">The ProperNoun to test.</param>
+        /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language; otherwise, false.</returns>
+        public static bool IsMaleFirst(this ProperNoun proper) {
+            return NameData.IsMaleFirst(proper.Text);
+        }
+
         #endregion
-
-
+        #endregion
         private sealed class NameProvider
         {
+
             public void Load() {
                 Task.Factory.ContinueWhenAll(
                   new[] {
@@ -523,7 +524,7 @@ namespace LASI.Core.Heuristics
                 }
             }
             public ISet<string> AllNames {
-                get { return lastNames.Concat(maleNames).Concat(femaleNames).Concat(genderAmbiguousNames).ToHashSet(caseless); }
+                get { return lastNames.Concat(maleNames).Concat(femaleNames).Concat(genderAmbiguousNames).ToImmutableHashSet(caseless); }
             }
 
             #region Fields
@@ -541,13 +542,7 @@ namespace LASI.Core.Heuristics
             private static StringComparer caseless = StringComparer.OrdinalIgnoreCase;
             #endregion
 
+
         }
-        #endregion
     }
-
-
-
-
-
-
 }

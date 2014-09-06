@@ -11,6 +11,8 @@ namespace LASI.Core
     /// <summary>
     /// Represents a phrase with the syntactic role of a particle.
     /// </summary>
+    /// <see cref="Particle"/>
+    /// <see cref="IPrepositional"/>
     public class ParticlePhrase : Phrase, IPrepositional
     {
         /// <summary>

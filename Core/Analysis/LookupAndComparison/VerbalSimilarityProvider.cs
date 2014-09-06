@@ -74,9 +74,10 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this Verb first, VerbPhrase second) {
-            return new SimilarityResult(second.Words.TakeWhile(w => !((w is ToLinker)))
-                .OfVerb()
-                .Any(v => v.IsSynonymFor(first)));//This is kind of rough.
+            //This is rough and needs to be enhanced.
+            return new SimilarityResult(second.Words
+                .TakeWhile(w => !(w is ToLinker)) // Collect all words in the phrase cutting short when and if an infinitive precedant is found.
+                .OfVerb().Any(v => v.IsSynonymFor(first))); // If an infinitive is found, it will be the local direct object of the verb phrase.
         }
         /// <summary>
         /// Determines if two VerbPhrases are similar.
@@ -96,9 +97,11 @@ namespace LASI.Core.Heuristics
             var rightHandVerbs = second.Words.OfVerb().ToList();
 
             try {
+                // TODO: make this fuzzier.
                 return new SimilarityResult(leftHandVerbs.Count == rightHandVerbs.Count &&
                     leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
-                        .All(synonymous => synonymous));
+                        .All(synonymous => synonymous)
+                    );
             }
             catch (NullReferenceException x) {
                 Output.WriteLine(x.Message);

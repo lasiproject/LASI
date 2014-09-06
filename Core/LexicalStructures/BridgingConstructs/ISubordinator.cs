@@ -17,6 +17,9 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Lexical construct which is subordinated by the Subordinator.
         /// </summary>
-        ILexical Subordinates { get; set; }
+        ILexical Subordinates {
+            get;
+            set;
+        }
     }
 }

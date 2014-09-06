@@ -32,7 +32,9 @@ namespace LASI.Core.Heuristics
         /// <param name="obj">The object to compare for equality.</param>
         /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object, otherwise false.</returns>
         public override bool Equals(object obj) {
-            return obj is ActionReceiverPair<TVerbal, TEntity> && Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) && Receiver.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Receiver);
+            return obj is ActionReceiverPair<TVerbal, TEntity> &&
+                Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) &&
+                Receiver.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Receiver);
         }
 
         /// <summary>

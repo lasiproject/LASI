@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements of Conjunctive constructs which link two Clauses, Phrases, or Words together. </para>

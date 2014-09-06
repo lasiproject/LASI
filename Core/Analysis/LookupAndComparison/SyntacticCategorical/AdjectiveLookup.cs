@@ -9,10 +9,8 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdjectiveLink, int>;
-    internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
+    internal sealed class AdjectiveLookup : WordNetLookup<Adjective, AdjectiveLink>
     {
-
-
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
@@ -22,33 +20,26 @@ namespace LASI.Core.Heuristics.WordNet
             filePath = path;
         }
 
-        HashSet<AdjectiveSynSet> allSets = new HashSet<AdjectiveSynSet>();
+        ISet<AdjectiveSynSet> allSets = new HashSet<AdjectiveSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         internal override void Load() {
-
             using (StreamReader reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(HEADER_LENGTH)) {
                     try { allSets.Add(CreateSet(line)); }
-                    catch (KeyNotFoundException) { }
+                    catch (KeyNotFoundException e) {
+                        Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
+                    }
                 }
             }
 
         }
-
-        static AdjectiveSynSet CreateSet(string fileLine) {
-
-
-
+        private AdjectiveSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
-                                 let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
-                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
-
+            var referencedSets = ParseReferencedSets(line, segments => new SetReference(InterSetMap[segments[0]], int.Parse(segments[1])));
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
@@ -60,17 +51,16 @@ namespace LASI.Core.Heuristics.WordNet
 
 
         }
-        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
-        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
+
+
+
+
         private ISet<string> SearchFor(string search) {
-
-
             //gets words of searched word
             return allSets.AsParallel()
                 .Where(set => set.ContainsWord(search))
                 .SelectMany(set => set.Words)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
         }
         internal override ISet<string> this[string search] {
             get {
@@ -101,6 +91,9 @@ namespace LASI.Core.Heuristics.WordNet
             {";u", AdjectiveLink.DomainOfSynset_USAGE}
         };
 
+        protected override IReadOnlyDictionary<string, AdjectiveLink> InterSetMap {
+            get { return interSetMap; }
+        }
     }
     /// <summary>
     /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.

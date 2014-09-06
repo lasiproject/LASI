@@ -132,10 +132,11 @@ namespace LASI.Core
             get { return possessor; }
             set {
                 possessor = value;
+                // Bind entity words of the phrase as possesions of possesor.
                 if (value != null) {
-                    foreach (var entity in Words.OfType<IEntity>()) {
-                        value.AddPossession(entity);
-                    }
+                    foreach (var entity in Words.OfType<IEntity>()) { value.AddPossession(entity); }
+                } else {
+                    foreach (var entity in Words.OfType<IEntity>()) { entity.Possesser = value; }
                 }
             }
         }

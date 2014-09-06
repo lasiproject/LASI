@@ -24,10 +24,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            members = from entity in entities
-                      let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
-                      from aggregated in aggregate
-                      select aggregated;
+            members = new List<IEntity>(from entity in entities
+                                        let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
+                                        from aggregated in aggregate
+                                        select aggregated);
             EntityKind = EntityKind.ThingMultiple;
         }
 
@@ -36,7 +36,6 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first entity aggregated into the group.</param>
         /// <param name="rest">The rest of the entity aggregated into the group.</param>
-        /// <param name="entities"></param>
         public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
@@ -85,9 +84,10 @@ namespace LASI.Core
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString() {
             return members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty +
-                string.Join(" ", from member in members.AsRecursiveEnumerable()
-                                 where !(member is IAggregateEntity)
-                                 select member.GetType().Name + " \"" + member.Text + "\"");
+                string.Join(" ",
+                    from member in members.AsRecursiveEnumerable()
+                    where !(member is IAggregateEntity)
+                    select member.GetType().Name + " \"" + member.Text + "\"");
         }
 
         #endregion
@@ -132,9 +132,9 @@ namespace LASI.Core
         public string Text {
             get {
                 return string.Join(" , ",
-                from member in members.AsRecursiveEnumerable()
-                let prepositionText = member.PrepositionOnRight != null ? " " + member.PrepositionOnRight.Text : string.Empty
-                select member.Text + prepositionText);
+                    from member in members.AsRecursiveEnumerable()
+                    let prepositionText = member.PrepositionOnRight != null ? " " + member.PrepositionOnRight.Text : string.Empty
+                    select member.Text + prepositionText);
             }
         }
         /// <summary>
@@ -165,7 +165,7 @@ namespace LASI.Core
         /// <summary>
         /// The sequence of entities which compose to form the aggregate entity.
         /// </summary>
-        private IEnumerable<IEntity> members;
+        private IReadOnlyList<IEntity> members;
         ISet<IPossessable> possessions = new HashSet<IPossessable>();
         ISet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         ISet<IReferencer> boundPronouns = new HashSet<IReferencer>();

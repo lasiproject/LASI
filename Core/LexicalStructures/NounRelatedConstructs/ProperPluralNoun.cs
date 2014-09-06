@@ -15,7 +15,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the ProperPluralNoun class.
         /// </summary>
-        /// <param name="text">The key text content of the ProperPluralNoun.</param>
+        /// <param name="text">The text content of the ProperPluralNoun.</param>
         public ProperPluralNoun(string text)
             : base(text) {
             EntityKind = this.IsLastName() ? EntityKind.Person : EntityKind;

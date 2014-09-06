@@ -18,7 +18,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Pronoun class.
         /// </summary>
-        /// <param name="text">The key text content of the pronoun.</param>
+        /// <param name="text">The text content of the pronoun.</param>
         protected Pronoun(string text)
             : base(text) {
             PronounKind = DetermineKind(this);
@@ -145,7 +145,7 @@ namespace LASI.Core
                     this.IsFemale() ? Gender.Female :
                     this.IsMale() ? Gender.Male :
                     this.IsNeutral() ? Gender.Neutral :
-                    Gender.Unknown;
+                    Gender.Undetermined;
             }
         }
 

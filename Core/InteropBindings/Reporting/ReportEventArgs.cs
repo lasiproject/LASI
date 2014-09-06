@@ -13,7 +13,7 @@ namespace LASI.Core.Interop.Reporting
         /// </summary>
         public string Message { get; protected set; }
         /// <summary>
-        /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
+        /// Gets a value indicating the amount of overall progress.
         /// </summary>
         public double PercentWorkRepresented { get; protected set; }
 

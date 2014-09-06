@@ -135,6 +135,7 @@ namespace LASI.Core.PatternMatching
         #endregion
 
         #region Expression Transformations
+
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T, R&gt;
         /// Such that subsequent With expressions appended are now to yield a result value of the supplied Type R.
@@ -158,6 +159,7 @@ namespace LASI.Core.PatternMatching
         public PredicatedMatch<T> When(Func<T, bool> predicate) {
             return new PredicatedMatch<T>(predicate(Value), this);
         }
+
         /// <summary>
         /// Appends a When expression to the current PatternMatching Expression. The When expression applies a predicate to the value being matched over. 
         /// It must be followed by a Then expression which is only considered if the predicate applied here returns true.
@@ -169,6 +171,7 @@ namespace LASI.Core.PatternMatching
             var typed = Value as TPattern;
             return new PredicatedMatch<T>(typed != null && predicate(typed), this);
         }
+
         /// <summary>
         /// Appends a When expression to the current pattern. 
         /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
@@ -178,9 +181,11 @@ namespace LASI.Core.PatternMatching
         public PredicatedMatch<T> When(bool condition) {
             return new PredicatedMatch<T>(condition, this);
         }
+
         #endregion
 
         #region With Expressions
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
@@ -195,6 +200,7 @@ namespace LASI.Core.PatternMatching
             }
             return this.With((TPattern ex) => action());
         }
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
@@ -733,39 +739,6 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private Match<T, TResult> inner;
         #endregion
-        #region Operators
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IAggregateEntity, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IVerbal, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IEntity, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IReferencer, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IDescriptor, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IAdverbial, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IConjunctive, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IPrepositional, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<IQuantifiable, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Adverb, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperSingularNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperPluralNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<NounPhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<AdjectivePhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<PronounPhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<VerbPhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Verb, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<InfinitivePhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Adjective, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Preposition, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Conjunction, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<CommonNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<CommonPluralNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<CommonSingularNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ProperNoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Noun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Pronoun, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<PresentParticipleGerund, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<ILexical, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<Word, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<SubordinateClauseBeginPhrase, TResult> f) { return m.Then(f); }
-        public static Match<T, TResult> operator |(PredicatedMatch<T, TResult> m, Func<SymbolPhrase, TResult> f) { return m.Then(f); }
-        #endregion
+
     }
 }

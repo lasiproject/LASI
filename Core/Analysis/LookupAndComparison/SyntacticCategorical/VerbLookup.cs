@@ -13,7 +13,7 @@ namespace LASI.Core.Heuristics.WordNet
     using LinkType = VerbLink;
     using LASI.Core.Interop;
 
-    internal sealed class VerbLookup : WordNetLookup<Verb>
+    internal sealed class VerbLookup : WordNetLookup<Verb, LinkType>
     {
         /// <summary>
         /// Initializes a new instance of the VerbThesaurus class. 
@@ -39,14 +39,10 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
 
-        private static VerbSynSet CreateSet(string setLine) {
+        private VerbSynSet CreateSet(string setLine) {
             var line = setLine.Substring(0, setLine.IndexOf('|')).Replace('_', '-');
 
-            var referencedSets =
-                from Match m in RELATIONSHIP_REGEX.Matches(line)
-                let segments = m.Value.SplitRemoveEmpty(' ')
-                where segments.Length >= 3
-                select new SetReference(interSetMap[segments[0]], int.Parse(segments[1]));
+            var referencedSets = ParseReferencedSets(line, segments => new SetReference(interSetMap[segments[0]], int.Parse(segments[1])));
 
             var words = from Match m in WORD_REGEX.Matches(line.Substring(17)) select m.Value;
             var id = int.Parse(line.Substring(0, 8));
@@ -141,6 +137,10 @@ namespace LASI.Core.Heuristics.WordNet
             { ";r", LinkType.DomainOfSynset_REGION },
             { ";u", LinkType.DomainOfSynset_USAGE }
         };
+
+        protected override IReadOnlyDictionary<string, LinkType> InterSetMap {
+            get { return interSetMap; }
+        }
     }
     /// <summary>
     /// Defines the broad lexical categories assigned to Verbs in the WordNet system.

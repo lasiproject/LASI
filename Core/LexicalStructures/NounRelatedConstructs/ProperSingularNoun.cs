@@ -14,10 +14,10 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the ProperSingularNoun class.
         /// </summary>
-        /// <param name="text">The key text content of the ProperSingularNoun.</param>
+        /// <param name="text">The text content of the ProperSingularNoun.</param>
         public ProperSingularNoun(string text)
             : base(text) {
-            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Unknown).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
+            EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Undetermined).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
         }
         private Gender? gender = null;
         /// <summary>
@@ -27,10 +27,9 @@ namespace LASI.Core
             get {
                 gender = gender ?? (this.IsFemaleFirst() ? Gender.Female :
                                     this.IsMaleFirst() ? Gender.Male :
-                                    this.IsLastName() ||
-                                    this.EntityKind == EntityKind.Organization ||
-                                    this.EntityKind == EntityKind.Location ||
-                                    this.EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Unknown);
+                                    IsLastName || EntityKind == EntityKind.Organization ||
+                                    EntityKind == EntityKind.Location ||
+                                    EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Undetermined);
                 return gender.Value;
             }
         }

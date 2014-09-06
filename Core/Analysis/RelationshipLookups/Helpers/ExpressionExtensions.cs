@@ -27,10 +27,12 @@ namespace LASI.Core.Heuristics
                 var actions = lookupTable[performer, predicate, receiver, predicate];
                 if (actions.Any()) { return new ActionsRelatedOn(actions); } else { return null; }
             } else {
-                throw new InvalidOperationException(string.Format(@"There is no relationship lookup context associated with {0} or {1}.\n
+                throw new InvalidOperationException(
+                    string.Format(@"There is no relationship lookup context associated with {0} or {1}.\n
                     Please associate a context by calling {2}.SetRelationshipLookup or {3}.SetRelationshipLookup appropriately.",
                     performer, receiver,
-                    performer, receiver));
+                    performer, receiver)
+                );
             }
 
         }

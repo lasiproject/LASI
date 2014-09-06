@@ -20,7 +20,7 @@ namespace LASI.Core
         /// Initializes a new instance of the ResourceLoadEventArgs.
         /// </summary>
         /// <param name="message">A short textual description of the event.</param>
-        /// <param name="increment">The amount of progress, assumed to be on a scale of 1 to 100, the event represents.</param>
+        /// <param name="increment">The percentage of total work completed.</param>
         public ResourceLoadEventArgs(string message, double increment)
             : this() {
             Message = message;

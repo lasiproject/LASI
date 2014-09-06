@@ -15,7 +15,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// The default Gender value. Indicates an Unknown gender. 
         /// </summary>
-        Unknown = 0,
+        Undetermined = 0,
         /// <summary>
         /// Female
         /// </summary>

@@ -19,10 +19,9 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Particle class.
         /// </summary>
-        /// <param name="text">The key text content of the particle.</param>
+        /// <param name="text">The text content of the particle.</param>
         public Particle(string text)
-            : base(text) {
-        }
+            : base(text) { }
 
         #endregion
 

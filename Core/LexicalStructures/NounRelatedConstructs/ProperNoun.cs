@@ -17,7 +17,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instances of the ProperNoun class.
         /// </summary>
-        /// <param name="text">The key text content of the ProperNoun</param>
+        /// <param name="text">The text content of the ProperNoun</param>
         protected ProperNoun(string text)
             : base(text) {
             EntityKind = EntityKind.ProperUnknown;

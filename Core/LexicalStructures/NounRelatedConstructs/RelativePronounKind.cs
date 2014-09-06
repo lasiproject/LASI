@@ -11,9 +11,9 @@ namespace LASI.Core
     public enum RelativePronounKind : byte
     {
         /// <summary>
-        /// UNDEFINED
+        /// Undetermined
         /// </summary>
-        UNDEFINED = 0,
+        Undetermined = 0,
         /// <summary>
         /// SubjectRolePersonal
         /// </summary>
@@ -34,5 +34,11 @@ namespace LASI.Core
         /// ObjectRoleExpository
         /// </summary>
         ObjectRoleExpository,
+    }
+    public enum RelativePronounRole : byte
+    {
+        Undetermined = 0,
+        NonResitrictive,
+        RestrictivePredicate,
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections;
 using LASI.Core.PatternMatching;
-using LASI.Core.Analysis.PatternMatching;
 
 namespace LASI.Core
 {
@@ -11,8 +9,8 @@ namespace LASI.Core
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
     /// <see cref="LASI.Core.PatternMatching.Match{T}"/>
-    /// <seealso cref="LASI.Core.PatternMatching.Match{T, TResult}"/>
-    /// <seealso cref="LASI.Core.PatternMatching"/>
+    /// <see cref="LASI.Core.PatternMatching.Match{T, TResult}"/>
+    /// <see cref="LASI.Core.PatternMatching"/>
     ///<remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of performing subtype dependent operations which could not be described by traditional virtual method approaches in an expressive or practical manner.
@@ -95,10 +93,6 @@ namespace LASI.Core
     /// </remarks>
     public static class Matcher
     {
-        public static Pattern<TResult> Match<TResult>() {
-            return new Pattern<TResult>();
-        }
-
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.
         /// </summary> 
@@ -107,133 +101,5 @@ namespace LASI.Core
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);
         }
-        public static Pattern<TResult> MatchTo<TResult>() {
-            return new Pattern<TResult>();
-        }
-
-
-
-        public class MatchCombinator<TResult>
-        {
-            public MatchCombinator<TResult> Combinator { get; private set; }
-
-
-            //}
-            //public static TResult operator !(Pattern<TResult> combinator) { }
-        }
     }
-    public class Pattern
-    {
-    }
-    public class Pattern<TResult> : Pattern, IEnumerable
-    {
-
-        public static TResult operator |(ILexical r, Pattern<TResult> match) {
-            return match.Apply(r).Result;
-        }
-        public Matcher.MatchCombinator<TResult> Combinator { get; internal set; }
-        public static Pattern<TResult> Match() {
-            return new Pattern<TResult>();
-        }
-        private bool accepted = false;
-        private List<Func<ILexical, TResult>> patterns = new List<Func<ILexical, TResult>>();
-        private ILexical value;
-
-        public TResult Result { get; private set; }
-
-        private Pattern<TResult> Save<TPattern>(Func<TPattern, TResult> f)
-            where TPattern : class, ILexical {
-            patterns.Add(x => { var y = value as TPattern; accepted = y != null; return (y != null) ? f(y) : default(TResult); });
-            return this;
-        }
-        private Pattern<TResult> Apply(ILexical value) {
-            this.value = value;
-            for (var i = 0; !accepted && i < patterns.Count; i++) {
-                var pattern = patterns[i];
-                Result = pattern(value);
-            }
-            return this;
-
-        }
-
-
-
-
-
-
-        public void Add(Func<IVerbal, TResult> f) { Save(f); }
-        public void Add(Func<IAggregateEntity, TResult> f) { Save(f); }
-        public void Add(Func<IEntity, TResult> f) { Save(f); }
-        public void Add(Func<IReferencer, TResult> f) { Save(f); }
-        public void Add(Func<IDescriptor, TResult> f) { Save(f); }
-        public void Add(Func<IAdverbial, TResult> f) { Save(f); }
-        public void Add(Func<IConjunctive, TResult> f) { Save(f); }
-        public void Add(Func<IPrepositional, TResult> f) { Save(f); }
-        public void Add(Func<Adverb, TResult> f) { Save(f); }
-        public void Add(Func<ProperSingularNoun, TResult> f) { Save(f); }
-        public void Add(Func<ProperPluralNoun, TResult> f) { Save(f); }
-        public void Add(Func<NounPhrase, TResult> f) { Save(f); }
-        public void Add(Func<PronounPhrase, TResult> f) { Save(f); }
-        public void Add(Func<VerbPhrase, TResult> f) { Save(f); }
-        public void Add(Func<InfinitivePhrase, TResult> f) { Save(f); }
-        public void Add(Func<Adjective, TResult> f) { Save(f); }
-        public void Add(Func<Preposition, TResult> f) { Save(f); }
-        public void Add(Func<Conjunction, TResult> f) { Save(f); }
-        public void Add(Func<CommonNoun, TResult> f) { Save(f); }
-        public void Add(Func<ProperNoun, TResult> f) { Save(f); }
-        public void Add(Func<Noun, TResult> f) { Save(f); }
-        public void Add(Func<Pronoun, TResult> f) { Save(f); }
-        public void Add(Func<ILexical, TResult> f) { Save(f); }
-        public void Add(Func<Word, TResult> f) { Save(f); }
-        public void Add(Func<Phrase, TResult> f) { Save(f); }
-        public void Add(Func<IQuantifiable, TResult> f) { Save(f); }
-        public void Add(Func<AdjectivePhrase, TResult> f) { Save(f); }
-        public void Add(Func<Verb, TResult> f) { Save(f); }
-        public void Add(Func<CommonPluralNoun, TResult> f) { Save(f); }
-        public void Add(Func<CommonSingularNoun, TResult> f) { Save(f); }
-        public void Add(Func<PresentParticipleGerund, TResult> f) { Save(f); }
-        public void Add(Func<SubordinateClauseBeginPhrase, TResult> f) { Save(f); }
-        public void Add(Func<SymbolPhrase, TResult> f) { Save(f); }
-
-
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IVerbal, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IAggregateEntity, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IEntity, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IReferencer, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IDescriptor, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IAdverbial, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IConjunctive, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IPrepositional, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Adverb, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<ProperSingularNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<ProperPluralNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<NounPhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<PronounPhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<VerbPhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<InfinitivePhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Adjective, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Preposition, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Conjunction, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<CommonNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<ProperNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Noun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Pronoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<ILexical, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Word, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Phrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<IQuantifiable, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<AdjectivePhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<Verb, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<CommonPluralNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<CommonSingularNoun, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<PresentParticipleGerund, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<SubordinateClauseBeginPhrase, TResult> f) { return pattern.Save(f); }
-        public static Pattern<TResult> operator |(Pattern<TResult> pattern, Func<SymbolPhrase, TResult> f) { return pattern.Save(f); }
-
-
-        IEnumerator IEnumerable.GetEnumerator() { throw new NotImplementedException(); }
-
-    }
-
-
 }

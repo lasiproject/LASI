@@ -10,7 +10,7 @@ namespace LASI.Core.Heuristics.WordNet
     using SetReference = KeyValuePair<NounLink, int>;
     using LASI.Core.Interop;
 
-    internal sealed class NounLookup : WordNetLookup<Noun>
+    internal sealed class NounLookup : WordNetLookup<Noun, NounLink>
     {
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
@@ -43,16 +43,11 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        private static NounSynSet CreateSet(string fileLine) {
+        private NounSynSet CreateSet(string fileLine) {
 
             string line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
-            IEnumerable<SetReference> referencedSets =
-                from Match match in POINTER_REGEX.Matches(line)
-                let split = match.Value.SplitRemoveEmpty(' ')
-                where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
-                select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
-
+            IEnumerable<SetReference> referencedSets = ParseReferencedSets(line, segments => new SetReference(interSetMap[segments[0]], int.Parse(segments[1])));
 
             IEnumerable<string> words = from Match m in WORD_REGEX.Matches(line)
                                         select m.Value;
@@ -84,6 +79,7 @@ namespace LASI.Core.Heuristics.WordNet
 
 
         public ISet<string> AllNouns { get { return allNouns = allNouns ?? new HashSet<string>(setsById.SelectMany(nss => nss.Value.Words)); } }
+
 
         internal override ISet<string> this[string search] {
 
@@ -149,12 +145,17 @@ namespace LASI.Core.Heuristics.WordNet
                 link == NounLink.HypERnym;
         }
 
+        protected override IReadOnlyDictionary<string, NounLink> InterSetMap {
+            get {
+                return interSetMap;
+            }
+        }
 
 
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
+        private readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
             {"!",   NounLink.Antonym },
             {"@", NounLink.HypERnym },
             {"@i", NounLink.InstanceHypERnym},

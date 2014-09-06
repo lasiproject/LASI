@@ -14,7 +14,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the PastParticipleVerb class.
         /// </summary>
-        /// <param name="text">The key text content of the PastParticipleVerb.</param>
+        /// <param name="text">The text content of the PastParticipleVerb.</param>
         public PastParticipleVerb(string text)
             : base(text, VerbForm.PastParticiple) {
         }

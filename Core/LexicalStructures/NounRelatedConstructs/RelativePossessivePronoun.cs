@@ -13,10 +13,8 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the RelativePossessivePronoun class.
         /// </summary>
-        /// <param name="text">The key text content of the RelativePossessivePronoun.</param>
-        public RelativePossessivePronoun(string text)
-            : base(text) {
-        }
+        /// <param name="text">The text content of the RelativePossessivePronoun.</param>
+        public RelativePossessivePronoun(string text) : base(text) { }
 
 
     }

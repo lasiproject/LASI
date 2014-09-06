@@ -1,5 +1,4 @@
-﻿
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for Prepositional elements, generally Prepositions or Prepositional Phrases, which serve a wide array of linguistic functions. </para>

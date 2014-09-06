@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdverbLink, int>;
-    internal sealed class AdverbLookup : WordNetLookup<Adverb>
+    internal sealed class AdverbLookup : WordNetLookup<Adverb, AdverbLink>
     {
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
@@ -27,22 +27,21 @@ namespace LASI.Core.Heuristics.WordNet
 
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(HEADER_LENGTH)) {
                     try { allSets.Add(CreateSet(line)); }
-                    catch (KeyNotFoundException) { }
+                    catch (KeyNotFoundException e) {
+                        Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
+                    }
                 }
 
             }
         }
 
 
-        static AdverbSynSet CreateSet(string fileLine) {
+        private AdverbSynSet CreateSet(string fileLine) {
 
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
-                                 let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
-                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
+            var referencedSets = ParseReferencedSets(line, segments => new SetReference(interSetMap[segments[0]], int.Parse(segments[1])));
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
@@ -58,38 +57,6 @@ namespace LASI.Core.Heuristics.WordNet
                     from word in linkedSet.Words
                     select word).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-
-            //gets pointers of searched word
-            //var tempResults = from sn in allSets
-            //                  where sn.Words.Contains(word)
-            //                  select sn.ReferencedIndexes;
-            ////var flatPointers = from R in tempResults
-            ////                   from r in R
-            ////                   select r;
-            //////gets words of searched word
-            ////var tempWords = from sw in allSets
-            ////                where sw.Words.Contains(word)
-            ////                select sw.Words;
-            //HashSet<string> results = new HashSet<string>();
-            ////from Q in tempWords
-            //from q in Q
-            //select q);
-
-
-            ////gets related words from above pointers
-            //foreach (var t in flatPointers) {
-
-            //    foreach (NounSynSet s in allSets) {
-
-            //        if (t == s.ID) {
-            //            results.Union(s.Words);
-            //        }
-
-            //    }
-
-            //}
-
-            //return new HashSet<string>(results);
         }
 
         internal override ISet<string> this[string search] {
@@ -108,10 +75,15 @@ namespace LASI.Core.Heuristics.WordNet
 
         AdverbMorpher conjugator = new AdverbMorpher();
         private string filePath;
-        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
-        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
+
         // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
-        private static readonly IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
+        protected override IReadOnlyDictionary<string, AdverbLink> InterSetMap {
+            get {
+                return interSetMap;
+            }
+
+        }
+        private IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
             {"!", AdverbLink.Antonym },
             {@"\", AdverbLink.DerivedFromAdjective },
             {";c", AdverbLink.DomainOfSynset_TOPIC },

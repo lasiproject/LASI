@@ -95,9 +95,7 @@ namespace LASI.Core
         /// Gets all of the IEntity constructs which the InfinitivePhrase "owns".
         /// </summary>
         public IEnumerable<IPossessable> Possessed {
-            get {
-                return possessions;
-            }
+            get { return possessions; }
         }
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the InfinitivePhrase "Owns",

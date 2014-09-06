@@ -7,14 +7,14 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a Relative Pronoun such as "that", "Which, "What" or "who".
+    /// Represents a Relative Pronoun such as "that", "which, "what" or "who".
     /// </summary>
     public class RelativePronoun : Word, IReferencer, ISubordinator
     {
         /// <summary>
         /// Initializes a new instance of the RelativePronoun class.
         /// </summary>
-        /// <param name="text">The key text content of the RelativePronoun.</param>
+        /// <param name="text">The text content of the RelativePronoun.</param>
         public RelativePronoun(string text)
             : base(text) {
             RelativePronounKind = DetermineKind(this);
@@ -26,10 +26,11 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (RefersTo == null || RefersTo.None())
+            if (RefersTo == null || RefersTo.None()) {
                 RefersTo = new AggregateEntity(new[] { target });
-            else
+            } else {
                 RefersTo = new AggregateEntity(RefersTo.Append(target));
+            }
             EntityKind = RefersTo.EntityKind;
         }
 
@@ -161,7 +162,7 @@ namespace LASI.Core
                 objectRoleLocationals.Contains(text) ? RelativePronounKind.ObjectRoleLocational :
                 objectRoleTemporals.Contains(text) ? RelativePronounKind.ObjectRoleTemporal :
                 objectRoleExpositories.Contains(text) ? RelativePronounKind.ObjectRoleExpository :
-                RelativePronounKind.UNDEFINED;
+                RelativePronounKind.Undetermined;
         }
 
         private static readonly string[] subjectRolePersonal = { "who", "that" };

@@ -13,7 +13,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the GenericSingularNounClass.
         /// </summary>
-        /// <param name="text">the key text content of the noun.</param>
+        /// <param name="text">The text content of the noun.</param>
         public CommonSingularNoun(string text)
             : base(text) {
             EntityKind = EntityKind.ThingMultiple;

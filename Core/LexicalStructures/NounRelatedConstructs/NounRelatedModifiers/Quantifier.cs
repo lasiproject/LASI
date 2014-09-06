@@ -14,7 +14,7 @@ namespace LASI.Core
         /// <summary>
         /// Represents a quantifier which specifies the value, count, or degree, of some IQuantifiabe such as a GenericSingularNoun
         /// </summary>
-        /// <param name="text">the key text content of the quantifer.</param> 
+        /// <param name="text">The text content of the quantifer.</param> 
         public Quantifier(string text) : base(text) { }
         #endregion
 

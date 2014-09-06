@@ -16,10 +16,10 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instances of the GenericNoun class.
         /// </summary>
-        /// <param name="text">The key text content of the GenericNoun</param>
+        /// <param name="text">The text content of the GenericNoun</param>
         protected CommonNoun(string text)
             : base(text) {
-            EntityKind = LASI.Core.EntityKind.Thing;
+            EntityKind = EntityKind.Thing;
         }
     }
 }

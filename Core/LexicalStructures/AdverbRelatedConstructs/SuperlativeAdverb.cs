@@ -18,7 +18,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the SuperlativeAdverb class.
         /// </summary>
-        /// <param name="text">The key text content of the SuperlativeAdverb.</param>
+        /// <param name="text">The text content of the SuperlativeAdverb.</param>
         public SuperlativeAdverb(string text)
             : base(text) {
 

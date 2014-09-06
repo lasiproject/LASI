@@ -15,7 +15,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Noun class.
         /// </summary>
-        /// <param name="text">The key text content of the Noun.</param>
+        /// <param name="text">The text content of the Noun.</param>
         protected Noun(string text)
             : base(text) {
             EntityKind = EntityKind.Undefined;

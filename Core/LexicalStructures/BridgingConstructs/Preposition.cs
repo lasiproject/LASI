@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Preposition class.
         /// </summary>
-        /// <param name="text">The key text content of the Preposition.</param>
+        /// <param name="text">The text content of the Preposition.</param>
         public Preposition(string text)
             : base(text) {
             Role = knownSubordinators.Contains(text) ?

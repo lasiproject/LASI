@@ -31,9 +31,7 @@ namespace LASI.Core
                 },
                 async tasks => {
                     var results = new List<SvoRelationship>();
-                    foreach (var t in tasks) {
-                        results.AddRange(await t);
-                    }
+                    foreach (var task in tasks) { results.AddRange(await task); }
                     return results.Distinct();
                 }
             );
@@ -48,33 +46,34 @@ namespace LASI.Core
         }
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
             await Task.Yield();
-            var topNPsByDoc = from doc in documents
+            var topNPsByDoc = from document in documents
                                .AsParallel()
                                .WithDegreeOfParallelism(Concurrency.Max)
-                              select new { TopNounPhrases = GetTopNounPhrases(doc), Document = doc };
+                              select new { TopNounPhrases = GetTopNounPhrases(document), Document = document };
 
             await Task.Yield();
-            var crossReferenced = from o in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                  from i in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                  where i.Document != o.Document
-                                  from np in o.TopNounPhrases
-                                  where i.TopNounPhrases.Contains(np, CompareNps)
-                                  select np;
+            var crossReferenced =
+                from outer in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from inner in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                where inner.Document != outer.Document
+                from nounPhrase in outer.TopNounPhrases
+                where inner.TopNounPhrases.Contains(nounPhrase, CompareNps)
+                select nounPhrase;
             await Task.Yield();
-            return from n in crossReferenced.Distinct(CompareNps)
-                   orderby n.SubjectOf.Text
-                   select new SvoRelationship {
-                       Verbal = n.SubjectOf,
-                       Subject = new AggregateEntity(new[] { n }),
-                       Direct = new AggregateEntity(n.SubjectOf.DirectObjects),
-                       Indirect = new AggregateEntity(n.SubjectOf.IndirectObjects),
-                       Prepositional = n.SubjectOf.ObjectOfThePreoposition
-                   };
+            return
+                from nounPhrase in crossReferenced.Distinct(CompareNps)
+                orderby nounPhrase.SubjectOf.Text
+                select new SvoRelationship
+                {
+                    Verbal = nounPhrase.SubjectOf,
+                    Subject = new AggregateEntity(nounPhrase),
+                    Direct = new AggregateEntity(nounPhrase.SubjectOf.DirectObjects),
+                    Indirect = new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects),
+                    Prepositional = nounPhrase.SubjectOf.ObjectOfThePreoposition
+                };
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
-            return document.Phrases
-                       .AsParallel()
-                       .WithDegreeOfParallelism(Concurrency.Max)
+            return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                        .OfNounPhrase()
                        .InSubjectRole()
                        .InObjectRole()
@@ -93,7 +92,8 @@ namespace LASI.Core
             var relationships = from verbal in verbalCominalities
                                 let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                                 entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
-                                let relationship = new SvoRelationship {
+                                let relationship = new SvoRelationship
+                                {
                                     Verbal = verbal,
                                     Subject = testPronouns(verbal.Subjects),
                                     Direct = testPronouns(verbal.DirectObjects),
@@ -115,18 +115,18 @@ namespace LASI.Core
                 select vp);
         }
 
-        private static bool CompareNps(NounPhrase x, NounPhrase y) {
+        private static bool CompareNps(NounPhrase first, NounPhrase second) {
             return
-                ReferencerTestCompare(x, y) ||
-                ReferencerTestCompare(y, x) ||
-                x.Text == y.Text ||
-                x.IsAliasFor(y) || x.IsSimilarTo(y);
+                ReferencerTestCompare(first, second) ||
+                ReferencerTestCompare(second, first) ||
+                first.Text == second.Text ||
+                first.IsAliasFor(second) || first.IsSimilarTo(second);
         }
-        private class NPComparer : IEqualityComparer<NounPhrase>
+        private class NounPhraseComparer : IEqualityComparer<NounPhrase>
         {
-            private NPComparer() { }
-            private static readonly NPComparer comparer = new NPComparer();
-            public static NPComparer Instance { get { return comparer; } }
+            private NounPhraseComparer() { }
+            private static readonly NounPhraseComparer comparer = new NounPhraseComparer();
+            public static NounPhraseComparer Instance { get { return comparer; } }
             public bool Equals(NounPhrase x, NounPhrase y) {
                 return CompareNps(x, y);
             }

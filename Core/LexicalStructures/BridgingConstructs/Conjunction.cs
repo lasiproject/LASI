@@ -21,6 +21,7 @@ namespace LASI.Core
         public Conjunction(string text)
             : base(text) {
         }
+
         #endregion
 
         #region Properties
@@ -31,7 +32,9 @@ namespace LASI.Core
         public virtual ILexical JoinedRight {
             get;
             set;
-        } /// <summary>
+        }
+
+        /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Left hand side of Conjunction.
         /// </summary>
         public virtual ILexical JoinedLeft {

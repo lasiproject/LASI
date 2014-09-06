@@ -17,7 +17,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Adjective class.
         /// </summary>
-        /// <param name="text">The key text content of the Adjective.</param>
+        /// <param name="text">The text content of the Adjective.</param>
         public Adjective(string text) : base(text) { }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Adverb class.
         /// </summary>
-        /// <param name="text">The key text content of the adverb.</param>
+        /// <param name="text">The text content of the adverb.</param>
         public Adverb(string text)
             : base(text) {
         }

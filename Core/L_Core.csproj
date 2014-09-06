@@ -89,7 +89,6 @@
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatch.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PatternSyntaxExperimentation.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />

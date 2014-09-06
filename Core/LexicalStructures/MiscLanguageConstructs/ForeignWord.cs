@@ -16,7 +16,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes an instance of the ForeignWord class.
         /// </summary>
-        /// <param name="text">The key text content of the ForeignWord.</param>
+        /// <param name="text">The text content of the ForeignWord.</param>
         public ForeignWord(string text)
             : base(text) {
         }

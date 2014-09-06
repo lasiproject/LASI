@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
-{ 
+{
     public static partial class Lookup
     {
         /// <summary>

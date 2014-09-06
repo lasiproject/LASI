@@ -19,7 +19,5 @@ namespace LASI.Core
         public Interjection(string text)
             : base(text) {
         }
-
-
     }
 }
