@@ -49,7 +49,7 @@
         // v5
         new MvcCoreAssemblyInfo() { Version = "5.0.10530.0", Name = "ASP.NET MVC 5 Preview" },
         new MvcCoreAssemblyInfo() { Version = "5.0.10620.0", Name = "ASP.NET MVC 5 Preview Refresh" },
-        new MvcCoreAssemblyInfo() { Version = "5.2.20627.0", Name = "ASP.NET MVC 5" },
+        new MvcCoreAssemblyInfo() { Version = "5.2.20826.0", Name = "ASP.NET MVC 5" },
     };
 
     private static readonly MvcFuturesAssemblyInfo[] _mvcFuturesAssemblyHistory = new MvcFuturesAssemblyInfo[] {
