@@ -1,12 +1,7 @@
-﻿using LASI.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Collections.Immutable;
 
 namespace LASI.Core
 {
@@ -84,12 +79,12 @@ namespace LASI.Core
                         from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                         let len = line.IndexOf('/')
                         select line.Substring(0, len > 0 ? len : line.Length)
-                    ).ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
+                    ).ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
 
         private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
-        private static readonly IImmutableSet<string> knownSubordinators;
+        private static readonly ISet<string> knownSubordinators;
 
     }
 }

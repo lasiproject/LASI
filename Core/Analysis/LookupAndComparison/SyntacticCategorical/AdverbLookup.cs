@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdverbLink, int>;
-    internal sealed class AdverbLookup : WordNetLookup<Adverb, AdverbLink>
+    internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
@@ -36,12 +36,15 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
 
-        private AdverbSynSet CreateSet(string fileLine) {
+        private static AdverbSynSet CreateSet(string fileLine) {
 
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = ParseReferencedSets(line, segments => new SetReference(interSetMap[segments[0]], int.Parse(segments[1])));
+            var referencedSets = from match in Regex.Matches(line, pointerRegex).Cast<Match>()
+                                 let split = match.Value.SplitRemoveEmpty(' ')
+                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
+                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
             IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
                                         select match.Value.Replace('_', '-');
@@ -49,6 +52,7 @@ namespace LASI.Core.Heuristics.WordNet
             int id = int.Parse(line.Substring(0, 8));
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
+
         private ISet<string> SearchFor(string search) {
             return (from containingSet in allSets
                     where containingSet.ContainsWord(search)
@@ -75,15 +79,13 @@ namespace LASI.Core.Heuristics.WordNet
 
         AdverbMorpher conjugator = new AdverbMorpher();
         private string filePath;
+        private const string pointerRegex = @"\D{1,2}\s*\d{8}";
+        private const string wordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
 
-        // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
-        protected override IReadOnlyDictionary<string, AdverbLink> InterSetMap {
-            get {
-                return interSetMap;
-            }
-
-        }
-        private IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
+        /// <summary>
+        /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
+        /// </summary>
+        private static readonly IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
             {"!", AdverbLink.Antonym },
             {@"\", AdverbLink.DerivedFromAdjective },
             {";c", AdverbLink.DomainOfSynset_TOPIC },

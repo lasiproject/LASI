@@ -13,22 +13,23 @@ namespace LASI.WebApp
         /// <returns>A System.Windows.Media.Brush enumeration value mapped to the syntactic role of the element.</returns>
         public Style this[ILexical element] {
             get {
-                return new Style {
+                return new Style
+                {
                     CssClass = element.Match().Yield<string>()
-                        | ((IReferencer r) => "referencer")
-                        | ((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
-                        | ((InfinitivePhrase i) => "infinitive")
-                        | ((IEntity e) => "entity")
-                        | ((IVerbal v) => "verbal")
-                        | ((IPrepositional p) => "prepositional")
-                        | ((IDescriptor p) => "descriptor")
-                        | ((IAdverbial a) => "adverbial")
-                        | ((IConjunctive c) => "conjunctive")
-                        | ((Adjective w) => "descriptor")
-                        | ((PresentParticipleGerund w) => "present-participle-gerund")
-                        | ((Verb w) => "verbal")
-                        | ((IConjunctive w) => "conjunctive")
-                        | (() => "lexical-default-style")
+                        .With((IReferencer r) => "referencer")
+                        .With((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
+                        .With((InfinitivePhrase i) => "infinitive")
+                        .With((IEntity e) => "entity")
+                        .With((IVerbal v) => "verbal")
+                        .With((IPrepositional p) => "prepositional")
+                        .With((IDescriptor p) => "descriptor")
+                        .With((IAdverbial a) => "adverbial")
+                        .With((IConjunctive c) => "conjunctive")
+                        .With((Adjective w) => "descriptor")
+                        .With((PresentParticipleGerund w) => "present-participle-gerund")
+                        .With((Verb w) => "verbal")
+                        .With((IConjunctive w) => "conjunctive")
+                        .Result(() => "lexical-default-style")
                 };
             }
         }

@@ -9,14 +9,18 @@ namespace LASI.WebApp.Models
 {
     public class FileUploadModel
     {
+        public const string ALLOWED_EXTENSIONS = "(.txt, .doc, .docx, .pdf)";
+
         public string Message { get; set; }
+
         public double Percentage { get; set; }
+        [Required]
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = ALLOWED_EXTENSIONS)]
         public string FileName { get; set; }
-        /// <summary>
-        /// Gets or sets the file extensions which will be allowed by the upload model.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<string> AcceptedExtensions { get; set; }
+
+        [DataType(DataType.Upload)]
         public string UploadTarget { get; set; }
+
     }
 }

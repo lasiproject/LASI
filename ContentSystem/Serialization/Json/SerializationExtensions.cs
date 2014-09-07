@@ -15,41 +15,47 @@ namespace LASI.ContentSystem.Serialization.Json
 {
     static class SerializationExtensions
     {
-        public static JObject ToJObject(this IEntity entity) {
-            return NewMethod(entity);
+        public static JArray ToJArray(this IEnumerable<ILexical> elements) {
+            return new JArray(elements.Select(element => element.ToJObject()));
+        }
+        public static JObject ToJObject(this ILexical element) {
+            return element.Match().Yield<JObject>()
+                .With((IEntity e) => e.ToJObject())
+                .With((IVerbal v) => v.ToJObject())
+                .Result(new JObject(GetCommonProperties(element)));
         }
 
-        private static JObject NewMethod(IEntity entity) {
-            return new JObject(
-                GetCommonProperties(entity),
-                new JProperty("subjectOf", ElementNames[entity.SubjectOf]),
-                new JProperty("directObjectOf", ElementNames[entity.DirectObjectOf]),
-                new JProperty("referees", from r in entity.Referencers select ElementNames[r]),
-                new JProperty("descriptors", from descriptor in entity.Descriptors select ElementNames[descriptor]),
-                new JProperty("possessed", from possession in entity.Possessions select ElementNames[possession])
-            );
+        public static JObject ToJObject(this IEntity entity) {
+            return new JObject(GetCommonProperties(entity)) {
+                new JProperty("subjectOf", elementNames[entity.SubjectOf]),
+                new JProperty("directObjectOf", elementNames[entity.DirectObjectOf]),
+                new JProperty("referees", from referencedBy in entity.Referencers select elementNames[referencedBy]),
+                new JProperty("descriptors", from descriptor in entity.Descriptors select elementNames[descriptor]),
+                new JProperty("possessed", from possession in entity.Possessions select elementNames[possession])
+            };
         }
-        /// <summary>
-        /// Gets common properties serialized for all lexical types.
-        /// </summary>
-        /// <param name="element">The element whose properties are to be serialized.</param>
-        /// <returns></returns>
-        private static IEnumerable<JProperty> GetCommonProperties(ILexical element) {
-            return new[] { new JProperty( "name: ", ElementNames[element]),
-                new JProperty("weight", element.Weight ),
-                new JProperty( "metaWeight", element.MetaWeight )};
-        }
+
         public static JObject ToJObject(this IVerbal verbal) {
-            return new JObject(
-                GetCommonProperties(verbal),
+            return new JObject(GetCommonProperties(verbal)) {
                 new JProperty("subjects", verbal.Subjects),
                 new JProperty("directObjects", verbal.DirectObjects),
                 new JProperty("indirectObjects", verbal.IndirectObjects),
                 new JProperty("modality", verbal.AdverbialModifiers),
                 new JProperty("adverbialModifiers", verbal.AdverbialModifiers)
-            );
+            };
         }
-
-        private static readonly NodeNameMapper ElementNames = new NodeNameMapper();
+        /// <summary>
+        /// Gets common properties serialized for all lexical types.
+        /// </summary>
+        /// <param name="element">The element whose properties are to be serialized.</param>
+        /// <returns>The common properties serialized for all lexical types.</returns>
+        private static IEnumerable<JProperty> GetCommonProperties(ILexical element) {
+            return new[] {
+                new JProperty( "name: ", elementNames[element]),
+                new JProperty("weight", element.Weight ),
+                new JProperty( "metaWeight", element.MetaWeight )
+            };
+        }
+        private static readonly NodeNameMapper elementNames = new NodeNameMapper();
     }
 }

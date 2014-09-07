@@ -55,11 +55,11 @@ namespace LASI.Core.Heuristics
                     .Then((from referent in referee.RefersTo
                            let gen =
                            referent.Match().Yield<Gender>()
-                              | ((NounPhrase n) => GetNounPhraseGender(n))
-                              | ((Pronoun r) => r.Gender)
-                              | ((ProperSingularNoun r) => r.Gender)
-                              | ((CommonNoun n) => Gender.Neutral)
-                              | (() => Gender.Undetermined)
+                              .With((NounPhrase n) => GetNounPhraseGender(n))
+                              .With((Pronoun r) => r.Gender)
+                              .With((ProperSingularNoun r) => r.Gender)
+                              .With((CommonNoun n) => Gender.Neutral)
+                              .Result()
                            group gen by gen into byGen
                            where byGen.Count() == referee.RefersTo.Count()
                            select byGen.Key).FirstOrDefault()).
@@ -205,7 +205,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
         /// </summary>
-        /// <param name="word">The first Adverb.</param>
+        /// <param name="first">The first Adverb.</param>
         /// <param name="second">The second Adverb</param>
         /// <returns>True if the Adverb instances are synonymous; otherwise, false.</returns>
         public static bool IsSynonymFor(this Adverb first, Adverb second) {
@@ -262,7 +262,7 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-        private static WordNetLookup<TWord, TEnum> LazyLoad<TWord, TEnum>(WordNetLookup<TWord, TEnum> lookup) where TWord : Word {
+        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
             var startedHandler = ResourceLoading;
             var resourceName = typeof(TWord).Name + " Thesaurus";
 
@@ -299,19 +299,19 @@ namespace LASI.Core.Heuristics
         #endregion
 
 
-        private static WordNetLookup<Noun, NounLink> NounLookup {
+        private static WordNetLookup<Noun> NounLookup {
             get { return nounLookup.Value; }
         }
 
-        private static WordNetLookup<Verb, VerbLink> VerbLookup {
+        private static WordNetLookup<Verb> VerbLookup {
             get { return verbLookup.Value; }
         }
 
-        private static WordNetLookup<Adjective, AdjectiveLink> AdjectiveLookup {
+        private static WordNetLookup<Adjective> AdjectiveLookup {
             get { return adjectiveLookup.Value; }
         }
 
-        private static WordNetLookup<Adverb, AdverbLink> AdverbLookup {
+        private static WordNetLookup<Adverb> AdverbLookup {
             get { return adverbLookup.Value; }
         }
         #region Private Fields
@@ -320,14 +320,14 @@ namespace LASI.Core.Heuristics
         static readonly string verbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
         static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
         static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
-        static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt"; //scrabble dictionary
+        static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt";
+        //scrabble dictionary
         // Internal Lookups
-        static Lazy<WordNetLookup<Noun, NounLink>> nounLookup = new Lazy<WordNetLookup<Noun, NounLink>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
-        static Lazy<WordNetLookup<Verb, VerbLink>> verbLookup = new Lazy<WordNetLookup<Verb, VerbLink>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
-        static Lazy<WordNetLookup<Adjective, AdjectiveLink>> adjectiveLookup = new Lazy<WordNetLookup<Adjective, AdjectiveLink>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)),
-                 true);
+        static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
+        static Lazy<WordNetLookup<Verb>> verbLookup = new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
+        static Lazy<WordNetLookup<Adjective>> adjectiveLookup = new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
+        static Lazy<WordNetLookup<Adverb>> adverbLookup = new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
 
-        static Lazy<WordNetLookup<Adverb, AdverbLink>> adverbLookup = new Lazy<WordNetLookup<Adverb, AdverbLink>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
 
 
         // Synonym LexicalLookup Caches

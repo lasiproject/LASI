@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdjectiveLink, int>;
-    internal sealed class AdjectiveLookup : WordNetLookup<Adjective, AdjectiveLink>
+    internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
         /// <summary>
         /// Initializes a new instance of the AdjectiveThesaurus class.
@@ -36,12 +36,16 @@ namespace LASI.Core.Heuristics.WordNet
             }
 
         }
-        private AdjectiveSynSet CreateSet(string fileLine) {
+        private static AdjectiveSynSet CreateSet(string fileLine) {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = ParseReferencedSets(line, segments => new SetReference(InterSetMap[segments[0]], int.Parse(segments[1])));
+            var referencedSets = from Match match in Regex.Matches(line, POINTER_REGEX)
+                                 let split = match.Value.SplitRemoveEmpty(' ')
+                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
+                                 select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
-            IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
+
+            IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
                                         select match.Value.Replace('_', '-');
             int id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
@@ -51,9 +55,6 @@ namespace LASI.Core.Heuristics.WordNet
 
 
         }
-
-
-
 
         private ISet<string> SearchFor(string search) {
             //gets words of searched word
@@ -75,10 +76,12 @@ namespace LASI.Core.Heuristics.WordNet
 
 
         private string filePath;
+        private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
+        private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
 
-
-
-        // Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
+        /// <summary>
+        /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
+        /// </summary>
         private static readonly IReadOnlyDictionary<string, AdjectiveLink> interSetMap = new Dictionary<string, AdjectiveLink> {
             {"!",AdjectiveLink.Antonym},
             {"&",AdjectiveLink.SimilarTo},
@@ -91,9 +94,6 @@ namespace LASI.Core.Heuristics.WordNet
             {";u", AdjectiveLink.DomainOfSynset_USAGE}
         };
 
-        protected override IReadOnlyDictionary<string, AdjectiveLink> InterSetMap {
-            get { return interSetMap; }
-        }
     }
     /// <summary>
     /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.

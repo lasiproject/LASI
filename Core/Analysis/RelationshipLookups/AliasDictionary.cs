@@ -27,8 +27,8 @@ namespace LASI.Core.Heuristics
         }
 
         private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy) {
-            IImmutableSet<IEntity> aliasedBy;
-            IImmutableSet<string> aliases;
+            ISet<IEntity> aliasedBy;
+            ISet<string> aliases;
             return aliasedEntityReferenceMap.TryGetValue(possiblyAliasedBy, out aliasedBy) &&
                 aliasedBy.Contains(possibleAlias) ||
                 aliasDictionary.TryGetValue(possiblyAliasedBy.Text, out aliases) &&
@@ -66,17 +66,17 @@ namespace LASI.Core.Heuristics
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
         private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
-                   entityText, textualAliases.ToImmutableHashSet(),
-                   (key, current) => current.Concat(textualAliases).ToImmutableHashSet()
+                   entityText, textualAliases.ToHashSet(),
+                   (key, current) => current.Concat(textualAliases).ToHashSet()
                    );
         }
         private static void DefineAliasInDictionary(IEntity entity, IEntity alias, params IEntity[] aliases) {
             aliasDictionary.AddOrUpdate(entity.Text, key => aliases
-                .Select(a => a.Text).ToImmutableHashSet(),
-                (key, current) => current.Union(aliases.Select(a => a.Text)));
+                .Select(a => a.Text).ToHashSet(),
+                (key, current) => current.Union(aliases.Select(a => a.Text)).ToHashSet());
             aliasedEntityReferenceMap.AddOrUpdate(
-                entity, aliases.ToImmutableHashSet(),
-                (key, current) => current.Union(aliases)
+                entity, aliases.ToHashSet(),
+                (key, current) => current.Union(aliases).ToHashSet()
                 );
 
         }
@@ -87,11 +87,10 @@ namespace LASI.Core.Heuristics
         /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
         public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
             aliasDictionary.TryGetValue(aliased.Text, out var outval1);
-            outval1 = outval1 ?? ImmutableHashSet.Create<string>();
-
+            outval1 = outval1 ?? new HashSet<string>();
 
             aliasedEntityReferenceMap.TryGetValue(aliased, out var outval2);
-            outval2 = outval2 ?? ImmutableHashSet.Create<IEntity>();
+            outval2 = outval2 ?? new HashSet<IEntity>();
             return outval1.Concat(outval2.Select(e => e.Text));
         }
 
@@ -116,8 +115,8 @@ namespace LASI.Core.Heuristics
                 Enumerable.Empty<string>();
         }
 
-        private static ConcurrentDictionary<IEntity, IImmutableSet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, IImmutableSet<IEntity>>();
-        private static ConcurrentDictionary<string, IImmutableSet<string>> aliasDictionary = new ConcurrentDictionary<string, IImmutableSet<string>>();
+        private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
+        private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();
 
     }
 }

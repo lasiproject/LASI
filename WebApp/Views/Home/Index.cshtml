@@ -18,17 +18,10 @@
 <div id="main-content">
 
     <div>
-        @{
-            Html.RenderPartial("_DocumentUpload", new FileUploadModel
-            {
-                AcceptedExtensions = new[] { "*.txt" },
-                UploadTarget = "fileuploadtarget",
-            });
-        }
+        @Html.Partial("_DocumentUpload", new FileUploadModel
+        {
+            UploadTarget = "fileuploadtarget",
+        })
+
     </div>
 </div>
-
-
-
-
-

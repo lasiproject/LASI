@@ -18,7 +18,6 @@ namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         public ActionResult Index(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
@@ -26,8 +25,8 @@ namespace LASI.WebApp.Controllers
             currentOperation = string.Empty;
             percentComplete = 0;
             if (Directory.Exists(USER_UPLOADED_DOCUMENTS_DIR)) {
-                foreach (var fsi in new DirectoryInfo(USER_UPLOADED_DOCUMENTS_DIR).EnumerateFileSystemInfos()) {
-                    fsi.Delete();
+                foreach (var fileSystemInfo in new DirectoryInfo(USER_UPLOADED_DOCUMENTS_DIR).EnumerateFileSystemInfos()) {
+                    fileSystemInfo.Delete();
                 }
             }
             return View(new AccountModel());
@@ -52,15 +51,6 @@ namespace LASI.WebApp.Controllers
                     }
                 }
                 var path = Path.Combine(serverPath, file.FileName.SplitRemoveEmpty('\\').Last());
-                var couchUri = "http://127.0.0.1:5984"; var postData = System.IO.File.ReadAllText(path);
-                var client = new System.Net.Http.HttpClient();
-                await client.SendAsync(new System.Net.Http.HttpRequestMessage
-                {
-                    Method = System.Net.Http.HttpMethod.Post,
-                    RequestUri = new Uri(couchUri),
-                    Content = new System.Net.Http.StringContent(postData)
-                });
-
                 file.SaveAs(path);
             }
             return await Results();
@@ -71,9 +61,7 @@ namespace LASI.WebApp.Controllers
         public ActionResult Progress() {
             return View();
         }
-        private static HashSet<Document> processedDocuments =
-            new HashSet<Document>(new CustomComparer<Document>(
-                (dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+
 
         public async Task<ViewResult> Results() {
             var documents = await LoadResults();
@@ -111,9 +99,9 @@ namespace LASI.WebApp.Controllers
             currentOperation = "Analysis Complete.";
             processedDocuments.UnionWith(documents);
             return processedDocuments;
-
         }
 
+        private static ISet<Document> processedDocuments = new HashSet<Document>(new CustomComparer<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
         private static ConcurrentDictionary<string, dynamic> trackedJobs = new ConcurrentDictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
@@ -124,14 +112,12 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
-                return JsonConvert.SerializeObject(trackedJobs
-                    .Select(j => new
+                return JsonConvert.SerializeObject(trackedJobs.Select(job => new
                 {
-                    j.Value.Message,
-                    j.Value.Percent,
-                    Id = j.Key
-                }).ToArray(),
-                      serializerSettings);
+                    job.Value.Message,
+                    job.Value.Percent,
+                    Id = job.Key
+                }).ToArray(), serializerSettings);
             }
             percentComplete %= 101;
 
@@ -145,6 +131,9 @@ namespace LASI.WebApp.Controllers
 
             return JsonConvert.SerializeObject(update, serializerSettings);
         }
+
+        private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
+
         // These fields should be removed and replaced with a better solution to sharing progress
         // This was a hack to initially test the functionality
         private static double percentComplete;

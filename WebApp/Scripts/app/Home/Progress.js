@@ -39,16 +39,16 @@ $(function () {
             setInterval(function (event) {
                 $.getJSON("\\Home\\GetJobStatus?jobId=" + jobId, function (data, status, jqXhr) {
                     var st = Status.fromJson(jqXhr.responseText);
-                    $(".progress-bar").css("width", st.percentString);
+                    $("#progress-bar").css("width", st.percentString);
                     $("#progress-text").text(st.message);
 
                     // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
                     if (st.percent > 99.0 && $.makeArray($.getJSON("\\Home\\GetJobStatus")).map(function (e) {
                         return e.percent;
                     }).some(function (x) {
-                        return x >= 100;
+                        return x >= 100.0;
                     })) {
-                        $("#resultsnavitem").click();
+                        $("#resultsnavitem")[0].children[0][0].click();
                     }
                 });
             }, 1000);

@@ -45,7 +45,7 @@ namespace LASI.App
                 catch (IOException) {
                     SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
                 }
-            } else { Output.SilenceAll(); }
+            } else { Output.SetToSilent(); }
         }
         #endregion
 
@@ -62,8 +62,7 @@ namespace LASI.App
         }
 
         private async Task SetUpDefaultDirectory() {
-            locationTextBox.Text = await Task.Run(() =>
-            {
+            locationTextBox.Text = await Task.Run(() => {
                 var location =
                     System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData,
                     System.Environment.SpecialFolderOption.Create),

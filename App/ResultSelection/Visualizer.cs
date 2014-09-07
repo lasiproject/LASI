@@ -214,8 +214,8 @@ namespace LASI.App
             var relationships = from vp in consideredVerbals
                                 from s in vp.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                 let subject = s.Match().Yield<IEntity>()
-                                    | ((IReferencer r) => r.RefersTo)
-                                    | (() => s)
+                                    .With((IReferencer r) => r.RefersTo)
+                                    .Result(s)
                                 where subject != null
                                 from direct in vp.DirectObjects.DefaultIfEmpty()
                                 from indirect in vp.IndirectObjects.DefaultIfEmpty()

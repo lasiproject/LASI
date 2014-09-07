@@ -10,7 +10,7 @@ namespace LASI.Core.Heuristics.WordNet
     using SetReference = KeyValuePair<NounLink, int>;
     using LASI.Core.Interop;
 
-    internal sealed class NounLookup : WordNetLookup<Noun, NounLink>
+    internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
@@ -43,11 +43,16 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        private NounSynSet CreateSet(string fileLine) {
+        private static NounSynSet CreateSet(string fileLine) {
 
             string line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
-            IEnumerable<SetReference> referencedSets = ParseReferencedSets(line, segments => new SetReference(interSetMap[segments[0]], int.Parse(segments[1])));
+            IEnumerable<SetReference> referencedSets =
+                from Match match in POINTER_REGEX.Matches(line)
+                let split = match.Value.SplitRemoveEmpty(' ')
+                where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
+                select new SetReference(interSetMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
+
 
             IEnumerable<string> words = from Match m in WORD_REGEX.Matches(line)
                                         select m.Value;
@@ -131,31 +136,26 @@ namespace LASI.Core.Heuristics.WordNet
 
         private HashSet<string> allNouns;
 
-        private static bool IncludeReference(NounLink link) {
+        private static bool IncludeReference(NounLink referenceRelationship) {
             return
-                link == NounLink.MemberOfThisDomain_REGION ||
-                link == NounLink.MemberOfThisDomain_TOPIC ||
-                link == NounLink.MemberOfThisDomain_USAGE ||
-                link == NounLink.DomainOfSynset_REGION ||
-                link == NounLink.DomainOfSynset_TOPIC ||
-                link == NounLink.DomainOfSynset_USAGE ||
-                link == NounLink.HypOnym ||
-                link == NounLink.InstanceHypOnym ||
-                link == NounLink.InstanceHypERnym ||
-                link == NounLink.HypERnym;
+                referenceRelationship == NounLink.MemberOfThisDomain_REGION ||
+                referenceRelationship == NounLink.MemberOfThisDomain_TOPIC ||
+                referenceRelationship == NounLink.MemberOfThisDomain_USAGE ||
+                referenceRelationship == NounLink.DomainOfSynset_REGION ||
+                referenceRelationship == NounLink.DomainOfSynset_TOPIC ||
+                referenceRelationship == NounLink.DomainOfSynset_USAGE ||
+                referenceRelationship == NounLink.HypOnym ||
+                referenceRelationship == NounLink.InstanceHypOnym ||
+                referenceRelationship == NounLink.InstanceHypERnym ||
+                referenceRelationship == NounLink.HypERnym;
         }
 
-        protected override IReadOnlyDictionary<string, NounLink> InterSetMap {
-            get {
-                return interSetMap;
-            }
-        }
 
 
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
+        private static readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
             {"!",   NounLink.Antonym },
             {"@", NounLink.HypERnym },
             {"@i", NounLink.InstanceHypERnym},

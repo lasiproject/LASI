@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 
 namespace LASI.Core
 {
@@ -27,10 +26,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public virtual void ModifyWith(IAdverbial modifier) {
-            modifiers = modifiers.Add(modifier);
+            modifiers.Add(modifier);
             modifier.Modifies = this;
         }
-        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase.

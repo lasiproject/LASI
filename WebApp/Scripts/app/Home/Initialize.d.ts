@@ -35,7 +35,8 @@
     toMap<T, K, V>(keySelector: (value: V) => K, valueSelector?: (value: V) => K): Map<K, V>;
 }
 interface Map<K, V> {
-    /** Returns an array containing all of the key value pairs in the map. The form of the output is { key:myKey;value:myValue}
+    /**
+    * Returns an array containing all of the key value pairs in the map. The form of the output is { key:myKey;value:myValue}
     */
     toArray(): any;
 }

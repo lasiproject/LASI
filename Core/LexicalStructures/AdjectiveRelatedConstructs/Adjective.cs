@@ -1,11 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -29,11 +22,11 @@ namespace LASI.Core
         /// </summary>
         /// <param name="modifier">The IModifier instance (probably an Adverb or AdverbPhrase) to Bind to the Adjective.</param>
         public virtual void ModifyWith(IAdverbial modifier) {
-            modifiers = modifiers.Add(modifier);
+            modifiers.Add(modifier);
             modifier.Modifies = this;
         }
 
-        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase

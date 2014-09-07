@@ -52,9 +52,7 @@ namespace LASI
         public static bool IsLower(this char value) {
             return char.IsLower(value);
         }
-        private const string CONSONANTS = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
         private const string VOWELS = "aeiouyAEIOUY";
-        private const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }
 }
 
