@@ -250,9 +250,9 @@ namespace LASI.Core
         #region Fields
 
         private IList<IAdverbial> modifiers = new List<IAdverbial>();
-        private HashSet<IEntity> subjects = new HashSet<IEntity>();
-        private HashSet<IEntity> directObjects = new HashSet<IEntity>();
-        private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private ISet<IEntity> subjects = new HashSet<IEntity>();
+        private ISet<IEntity> directObjects = new HashSet<IEntity>();
+        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
         bool? possessive = null;
         bool? classifier = null;
 

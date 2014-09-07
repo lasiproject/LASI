@@ -18,7 +18,7 @@ namespace LASI.WebApp
         /// The extra underscores which pad the replacement are costly but allow for the name to remain legible.
         /// Note that a space is replaced by a single underscore.
         /// </remarks>
-        public static string ToSizzleSafeString(this string value) {
+        public static string ToSafeHtmlDomId(this string value) {
 
             return string.Join("", value.Select(c => substitutionProvider[c]));
         }

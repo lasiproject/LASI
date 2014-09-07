@@ -23,9 +23,7 @@
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                     @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                         <li class="list-group-item">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=@('#' + documentModel.Name)>
-                                @documentModel.Name
-                            </button>
+                            <input type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="@('#' + documentModel.Name.ToSafeHtmlDomId())" value="@documentModel.Name" />
                         </li>
                     }
                 </ul>
@@ -33,7 +31,7 @@
             <br />
             <div>
                 @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
-                    <div id=@documentModel.Name class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
+                    <div id=@documentModel.Name.ToSafeHtmlDomId() class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -69,27 +67,26 @@
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                 @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                     <li class="list-group-item">
-                        <button type="button"
-                                class="btn btn-primary btn-lg"
-                                data-toggle="modal"
-                                data-target=@('#' + documentModel.Name.ToSizzleSafeString() + "_topresults")>
-                            @documentModel.Name
-                        </button>
+                        <input type="button"
+                               class="btn btn-primary btn-lg"
+                               data-toggle="modal"
+                               data-target=@('#' + documentModel.Name.ToSafeHtmlDomId() + "_topresults") value="@documentModel.Name" />
+
                     </li>
                 }
             </ul>
             @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
-                <div id=@(documentModel.Name.ToSizzleSafeString() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
+                <div id=@(documentModel.Name.ToSafeHtmlDomId() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="document-title">@documentModel.Name.ToSizzleSafeString()</h4>
+                                <h4 class="modal-title" id="document-title">@documentModel.Name</h4>
 
                             </div>
                             <div class="modal-body">
-                                <div class="container chart-container" id=@(documentModel.Name.ToSizzleSafeString() + "_resultschart")>
-                                    <span id=@(documentModel.Name.ToSizzleSafeString() + "_topresultrows") hidden>
+                                <div class="container chart-container" id=@(documentModel.Name.ToSafeHtmlDomId() + "_resultschart")>
+                                    <span id=@(documentModel.Name.ToSafeHtmlDomId() + "_topresultrows") hidden>
                                         @(ViewBag.charts[documentModel])
                                     </span>
                                 </div>

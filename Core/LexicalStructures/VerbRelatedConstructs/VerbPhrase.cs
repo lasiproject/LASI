@@ -117,7 +117,7 @@ namespace LASI.Core
                 result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
-                result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + '\n') : string.Empty;
+                result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty;
                 result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
             }
             return result;
@@ -302,10 +302,10 @@ namespace LASI.Core
 
         #region Fields
 
-        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-        private HashSet<IEntity> subjects = new HashSet<IEntity>();
-        private HashSet<IEntity> directObjects = new HashSet<IEntity>();
-        private HashSet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private ISet<IEntity> subjects = new HashSet<IEntity>();
+        private ISet<IEntity> directObjects = new HashSet<IEntity>();
+        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
         private bool? isClassifier = null;
         private bool? isPossessive = null;
         private IDescriptor postpositiveDescriptor;
