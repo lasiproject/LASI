@@ -10,5 +10,7 @@ namespace LASI.WebApp.Models.Lexical
     public class WordModel : LexicalModel
     {
         public WordModel(Word word) : base(word) { }
+
+        public PhraseModel PhraseModel { get; set; }
     }
 }

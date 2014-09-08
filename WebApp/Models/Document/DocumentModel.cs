@@ -9,23 +9,24 @@ namespace LASI.WebApp.Models
     public class DocumentModel
     {
         public DocumentModel(Document document) {
-            this.document = document;
+            Document = document;
             Name = document.Name;
             Id = System.Threading.Interlocked.Increment(ref IdGenerator);
-            ParagraphViewModels = document.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
-            PageViewModels = document.Paginate(80, 30).Select(page => new PageModel(page));
+            ParagraphModels = document.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             Style = new Style { CssClass = "document" };
+            PageModels = document.Paginate(80, 30).Select(page => new PageModel(page));
+            foreach (var model in PageModels) { model.DocumentModel = this; }
+
         }
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public IEnumerable<ParagraphModel> ParagraphViewModels { get; private set; }
-        public IEnumerable<PhraseModel> PhraseViewModels { get { return ParagraphViewModels.SelectMany(paragraph => paragraph.PhraseViewModels); } }
-        public IEnumerable<PageModel> PageViewModels { get; private set; }
+        public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
+        public IEnumerable<PhraseModel> PhraseModels { get { return ParagraphModels.SelectMany(paragraph => paragraph.PhraseModels); } }
+        public IEnumerable<PageModel> PageModels { get; private set; }
         public Style Style { get; private set; }
+        public DocumentSetModel DocumentSetModel { get; internal set; }
+        public Document Document { get; private set; }
 
-        private Document document;
-
-        protected static int IdGenerator;
-
+        private static int IdGenerator;
     }
 }

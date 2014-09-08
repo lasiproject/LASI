@@ -2,7 +2,10 @@
 interface Array<T> {
 
     /**
-     * Projects each element of an Array into an array and flattens the result onto a single array.
+     * Takes an array of items, projects each one to an array,using the provided collectionSelector function,
+     * and flattens the resulting array of arrays onto a single flat array. 
+     * A second, optional function performs a projection on each element of the resulting flat array.
+     * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
      * @param collectionSelector A function to transform each element in the array into an array. 
      * @param elementSelector A function to perform an additional transformation on each element in the flattened collection. 
      */
@@ -61,7 +64,7 @@ interface String {
 (function () {
     "use strict";
 
-    /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
+   /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
      * flatMap takes an array of items, projects each one to an array,using the provided collectionSelector function,
      * and flattens the resulting array of arrays onto a single flat array. 
      * A second, optional function performs a projection on each element of the resulting flat array.

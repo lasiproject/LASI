@@ -7,8 +7,12 @@ using LASI.WebApp.Models.Lexical;
 
 namespace LASI.WebApp.Models
 {
-    public class DocumentSetModel(IEnumerable<Document> documents)
+    public class DocumentSetModel
     {
-        IEnumerable<DocumentModel> DocumentViewModels { get; } = documents.Select(document => new DocumentModel(document));
+        public DocumentSetModel(IEnumerable<Document> documents) {
+            DocumentModels = documents.Select(document => new DocumentModel(document));
+            foreach (var model in DocumentModels) { model.DocumentSetModel = this; }
+        }
+        public IEnumerable<DocumentModel> DocumentModels { get; private set; }
     }
 }

@@ -10,5 +10,7 @@ namespace LASI.WebApp.Models.Lexical
     public class ClauseModel : LexicalModel
     {
         public ClauseModel(Clause clause) : base(clause) { }
+
+        public SentenceModel SentenceModel { get; internal set; }
     }
 }

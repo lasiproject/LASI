@@ -136,18 +136,18 @@ namespace LASI.Core.Heuristics.WordNet
 
         private HashSet<string> allNouns;
 
-        private static bool IncludeReference(NounLink referenceRelationship) {
+        private static bool IncludeReference(NounLink link) {
             return
-                referenceRelationship == NounLink.MemberOfThisDomain_REGION ||
-                referenceRelationship == NounLink.MemberOfThisDomain_TOPIC ||
-                referenceRelationship == NounLink.MemberOfThisDomain_USAGE ||
-                referenceRelationship == NounLink.DomainOfSynset_REGION ||
-                referenceRelationship == NounLink.DomainOfSynset_TOPIC ||
-                referenceRelationship == NounLink.DomainOfSynset_USAGE ||
-                referenceRelationship == NounLink.HypOnym ||
-                referenceRelationship == NounLink.InstanceHypOnym ||
-                referenceRelationship == NounLink.InstanceHypERnym ||
-                referenceRelationship == NounLink.HypERnym;
+                link == NounLink.MemberOfThisDomain_REGION ||
+                link == NounLink.MemberOfThisDomain_TOPIC ||
+                link == NounLink.MemberOfThisDomain_USAGE ||
+                link == NounLink.DomainOfSynset_REGION ||
+                link == NounLink.DomainOfSynset_TOPIC ||
+                link == NounLink.DomainOfSynset_USAGE ||
+                link == NounLink.HypOnym ||
+                link == NounLink.InstanceHypOnym ||
+                link == NounLink.InstanceHypERnym ||
+                link == NounLink.HypERnym;
         }
 
 

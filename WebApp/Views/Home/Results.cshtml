@@ -23,7 +23,9 @@
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                     @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                         <li class="list-group-item">
-                            <input type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="@('#' + documentModel.Name.ToSafeHtmlDomId())" value="@documentModel.Name" />
+                            <input type="button" class="btn btn-primary btn-lg"
+                                   data-toggle="modal" data-target="@('#' + documentModel.Name.ToSafeHtmlDomId())"
+                                   value="@documentModel.Name" />
                         </li>
                     }
                 </ul>
@@ -40,7 +42,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="document">
-                                        @foreach (var paragraphModel in documentModel.ParagraphViewModels) {
+                                        @foreach (var paragraphModel in documentModel.ParagraphModels) {
                                             Html.RenderPartial("_Paragraph", paragraphModel);
                                         }
                                     </div>

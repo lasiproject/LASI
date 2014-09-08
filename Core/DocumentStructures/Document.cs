@@ -151,8 +151,7 @@ namespace LASI.Core.DocumentStructures
                 var totalLines = 0;
                 var paras = measuredParagraphs
                     .Skip(skip)
-                    .TakeWhile((p, index) =>
-                    {
+                    .TakeWhile((p, index) => {
                         bool forceOutput = totalLines == 0 && p.LinesUsed > linesPerPage;
                         totalLines += p.LinesUsed;
 

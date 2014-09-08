@@ -11,13 +11,25 @@ namespace LASI.WebApp.Models
     {
         public PageModel(Document.Page page) {
             this.page = page;
-            ParagraphViewModels = page.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             Style = new Style { CssClass = "page" };
+            ParagraphModels = page.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
+            foreach (var model in ParagraphModels) { model.PageModel = this; }
+
         }
-        public string Text { get { return "\t" + string.Join("\r\n\r\n", ParagraphViewModels.Select(paragraph => paragraph.Text)); } }
+        public string Text {
+            get {
+                return "&nbsp;&nbsp;&nbsp;&nbsp;" + string.Join("\r\n\r\n", ParagraphModels.Select(paragraph => paragraph.Text));
+            }
+        }
         public Style Style { get; private set; }
-        public IEnumerable<ParagraphModel> ParagraphViewModels { get; private set; }
-        public IEnumerable<SentenceModel> SentenceViewModels { get { return ParagraphViewModels.SelectMany(paragraph => paragraph.SentenceViewModels); } }
+        public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
+        public IEnumerable<SentenceModel> SentenceModels {
+            get {
+                return ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels);
+            }
+        }
+
+        public DocumentModel DocumentModel { get; internal set; }
 
         private Document.Page page;
     }

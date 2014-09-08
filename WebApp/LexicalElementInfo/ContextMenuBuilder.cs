@@ -15,7 +15,7 @@ namespace LASI.WebApp
     /// Provides static and extension methods for serializing lexical elements and their relationships
     /// into JSON strings.
     /// </summary>
-    public static class DataSerializationProvider
+    public static class ContextMenuBuilder
     {
         private static int idGenerator = 0;
         private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();

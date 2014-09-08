@@ -50,7 +50,8 @@ namespace LASI.WebApp.Controllers
                         remnant.Delete();
                     }
                 }
-                var path = Path.Combine(serverPath, file.FileName.SplitRemoveEmpty('\\').Last());
+                var path = Path.Combine(serverPath,
+                    file.FileName.SplitRemoveEmpty('\\').Last());
                 file.SaveAs(path);
             }
             return await Results();
@@ -71,7 +72,9 @@ namespace LASI.WebApp.Controllers
                         let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                         from result in naiveTopResults
                         orderby result.Value descending
-                        group new object[] { result.Key, result.Value } by documentViewModel).ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray().Take(CHART_ITEM_MAX)));
+                        group new object[] { result.Key, result.Value } by documentViewModel)
+                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
+                            .Take(CHART_ITEM_MAX)));
             ViewData["charts"] = data;
             ViewData["documents"] = data.Keys;
             ViewBag.Title = "Results";
