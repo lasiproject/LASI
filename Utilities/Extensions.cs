@@ -51,7 +51,7 @@ namespace LASI
         /// <param name="key">The key for which to retieve a value.</param>
         /// <param name="defaultValueFactory">The function to create a default value if the specified key is not present in the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;</param>
         /// <returns>
-        /// The value with the specified key from the System.Collections.Generic.IDictionary{{TKey, TValue}} or the result of invoking the specified defaultValueFactory function if the key does not exist.
+        /// The value with the specified key from the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the result of invoking the specified defaultValueFactory function if the key does not exist.
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory) {
             TValue value;
