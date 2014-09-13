@@ -23,6 +23,7 @@ namespace LASI
             OutputMode = Mode.Console;
             writer = Console.Out;
         }
+
         /// <summary>
         /// Sets the current output to the file specified by the given path.
         /// Defaults to the current working directory of the application.
@@ -35,9 +36,9 @@ namespace LASI
             writer.WriteLine((newFile ? string.Empty : "\n\n") + "LASI Message Log: {0}", System.DateTime.Now);
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => writer.Close();
-
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => { if (OutputMode == Mode.File) { writer.Close(); } };
         }
+
         /// <summary>
         /// Sets the current output stream to Debug.Out
         /// </summary>
@@ -45,6 +46,7 @@ namespace LASI
             OutputMode = Mode.Debug;
             writer = DebugOutputProxy.Instance;
         }
+
         /// <summary>
         /// Sets the current output stream to the specified textWriter.
         /// </summary>
@@ -61,7 +63,7 @@ namespace LASI
         /// </summary>
         public static void SetToSilent() {
             OutputMode = Mode.Silent;
-            writer.Close();
+            if (OutputMode == Mode.File) { writer.Close(); }
             writer = TextWriter.Null;
         }
 

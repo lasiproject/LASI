@@ -63,6 +63,7 @@
     <Compile Include="CharExtensions.cs" />
     <Compile Include="Contracts\Validators\ArgumentValidator.cs" />
     <Compile Include="CustomComparer.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Output.cs" />
@@ -74,6 +75,8 @@
     </Compile>
     <Compile Include="Input.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Types\ISafeVariantDictionary.cs" />
+    <Compile Include="TypeHelper.cs" />
     <Compile Include="Weight.cs" />
     <Compile Include="ExceptionExtensions.cs" />
   </ItemGroup>

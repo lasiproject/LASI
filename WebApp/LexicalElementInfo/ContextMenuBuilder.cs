@@ -17,8 +17,6 @@ namespace LASI.WebApp
     /// </summary>
     public static class ContextMenuBuilder
     {
-        private static int idGenerator = 0;
-        private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
         public static int GetSerializationId(this ILexical element) {
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
@@ -39,7 +37,6 @@ namespace LASI.WebApp
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
-
         public static string GetJsonMenuData(this IReferencer referencer) {
             if (referencer == null) { throw new ArgumentNullException("referencer"); }
             var data = new
@@ -50,7 +47,6 @@ namespace LASI.WebApp
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
-
         private static JsonSerializerSettings SerializerSettings {
             get {
                 return new JsonSerializerSettings
@@ -62,6 +58,8 @@ namespace LASI.WebApp
                 };
             }
         }
+        private static int idGenerator = 0;
+        private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
 
     }
 }

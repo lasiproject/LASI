@@ -30,7 +30,7 @@ namespace LASI.App
         public ResultsWindow() {
             InitializeComponent();
             currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-            Visualizer.ChangeChartKind(ChartContentType.NounPhrasesOnly);
+            Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
         }
         #endregion

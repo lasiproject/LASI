@@ -177,7 +177,11 @@ namespace LASI.Core
                       where inner.IsSimilarTo(outer)
                       group inner by outer into grouped
                       select new { WeightIncrease = grouped.Count() * 0.5, Elements = grouped };
-            vps.ForAll(grp => { foreach (var e in grp.Elements) { e.Weight += grp.WeightIncrease; } });
+            vps.ForAll(grp => {
+                foreach (var e in grp.Elements) {
+                    e.Weight += grp.WeightIncrease;
+                }
+            });
 
         }
         private static void WeightSimilarEntities(Document document) {
@@ -204,27 +208,6 @@ namespace LASI.Core
                 .Where(np => np.Words.Any(w => w is ProperNoun))
                 .ForAll(np => np.Weight *= 2);
 
-        }
-        private static void OldNormalizationProcedure(Document document) {
-            double TotPhraseWeight = 0.0;
-            double MaxWeight = 0.0;
-            int nonZeroWeights = 0;
-            foreach (var w in document.Phrases) {
-                TotPhraseWeight += w.Weight;
-
-                if (w.Weight > 0)
-                    nonZeroWeights++;
-
-                if (w.Weight > MaxWeight)
-                    MaxWeight = w.Weight;
-            }
-            if (nonZeroWeights != 0) {//Caused a divide by zero exception if document was empty.
-                var ratio = 100 / MaxWeight;
-
-                foreach (var p in document.Phrases) {
-                    p.Weight = Math.Round(p.Weight * ratio, 3);
-                }
-            }
         }
 
         #region Events

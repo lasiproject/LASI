@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Utilities;
 using LASI.Core.Interop;
+using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
@@ -113,7 +109,7 @@ namespace LASI.Core.Heuristics
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            return Pair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);
 

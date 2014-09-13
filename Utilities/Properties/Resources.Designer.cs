@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LASI.Utility.Properties {
+namespace LASI.Utilities.Properties {
     using System;
     
     

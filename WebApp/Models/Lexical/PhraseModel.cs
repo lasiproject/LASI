@@ -10,10 +10,9 @@ using Newtonsoft.Json;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public class PhraseModel : LexicalModel
+    public class PhraseModel : LexicalModel<Phrase>
     {
         public PhraseModel(Phrase phrase) : base(phrase) {
-
             ContextMenuJson = phrase.GetJsonMenuData();
             Phrase.VerboseOutput = true;
             DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");

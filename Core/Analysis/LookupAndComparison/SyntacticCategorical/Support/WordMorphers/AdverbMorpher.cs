@@ -1,14 +1,10 @@
-﻿using LASI.Core.Interop;
-using LASI.Utilities;
-using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LASI.Core.Interop;
+using LASI.Utilities.TypeHelper;
 
 namespace LASI.Core.Heuristics
 {
@@ -28,7 +24,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Gets all forms of the Adverb root.
         /// </summary>
-        /// <param name="adverbText">The root of a Adverb as a string.</param>
+        /// <param name="adverb">The root of a Adverb as a string.</param>
         /// <returns>All forms of the Adverb root.</returns>
         public IEnumerable<string> GetLexicalForms(Adverb adverb) {
             return GetLexicalForms(adverb.Text);
@@ -112,7 +108,7 @@ namespace LASI.Core.Heuristics
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return new KeyValuePair<string, List<string>>(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            return Pair(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);
 

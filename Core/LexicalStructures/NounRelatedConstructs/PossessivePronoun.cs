@@ -55,7 +55,7 @@ namespace LASI.Core
             }
         }
         /// <summary>
-        /// Gets or sets the IEntity which actually, by proxy, owns the things owned by the PossessivePronoun.
+        /// Gets or sets the possessor which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
         public virtual IPossesser ProxyFor {
@@ -64,9 +64,9 @@ namespace LASI.Core
             }
             set {
                 possessesFor = value;
-                if (value != null)
-                    foreach (var possession in possessed)
-                        possessesFor.AddPossession(possession);
+                if (value != null) {
+                    foreach (var possession in possessed) { possessesFor.AddPossession(possession); }
+                }
             }
         }
 

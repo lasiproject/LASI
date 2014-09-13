@@ -95,7 +95,7 @@ namespace LASI.Core.Heuristics
                 .OfAdjective()
                 .Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
                 .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });
-            return new SimilarityResult(first == second || ((float)(result.T / result.F + result.T) > Lookup.SIMILARITY_THRESHOLD));
+            return new SimilarityResult(first == second || ((float)(result.T / result.F + result.T) > SIMILARITY_THRESHOLD));
         }
     }
 }

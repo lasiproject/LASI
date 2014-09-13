@@ -3,7 +3,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public abstract class LexicalModel
+    public abstract class LexicalModel<TLexical> : ILexicalModel<ILexical>where TLexical :ILexical
     {
         protected LexicalModel(ILexical element) {
             Element = element;

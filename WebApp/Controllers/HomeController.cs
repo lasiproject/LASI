@@ -18,8 +18,7 @@ namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-
-        public ActionResult Index(string returnUrl) {
+        public ActionResult Index(AccountModel account = null, string returnUrl = "") {
             ViewBag.ReturnUrl = returnUrl;
             trackedJobs.Clear();
             currentOperation = string.Empty;

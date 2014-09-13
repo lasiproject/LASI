@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 
 namespace LASI.Core
 {
@@ -70,11 +71,14 @@ namespace LASI.Core
                 sentences.AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence => {
-                        try { new SubjectBinder().Bind(sentence); } catch (Exception x) {
-                            if (x is NullReferenceException ||
-                                x is VerblessPhrasalSequenceException) { x.LogIfDebug(); } else { throw; }
+                        try { new SubjectBinder().Bind(sentence); }
+                        catch (Exception e) {
+                            if (e is NullReferenceException || e is VerblessPhrasalSequenceException) {
+                                e.LogIfDebug();
+                            } else { throw; }
                         }
-                        try { new ObjectBinder().Bind(sentence); } catch (Exception x) {
+                        try { new ObjectBinder().Bind(sentence); }
+                        catch (Exception x) {
                             if (x is InvalidStateTransitionException ||
                                 x is VerblessPhrasalSequenceException ||
                                 x is InvalidOperationException) {
@@ -82,9 +86,15 @@ namespace LASI.Core
                             } else { throw; }
                         }
                     });
-            } catch (Exception x) { x.LogIfDebug(); }
+            }
+            catch (Exception x) { x.LogIfDebug(); }
         }
 
+        private static void MatchSentences(IEnumerable<Sentence> sentences) {
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(sentence => new DeclarativeBinder().Bind(sentence));
+        }
 
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases) {

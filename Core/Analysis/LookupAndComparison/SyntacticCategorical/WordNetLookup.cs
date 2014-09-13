@@ -1,9 +1,4 @@
-﻿using LASI;
-using LASI.Core;
-using LASI.Core.Interop.Reporting;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace LASI.Core.Heuristics.WordNet
 {
@@ -26,7 +21,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The string to lookup.</param>
         /// <returns>The synonyms for the given string treating it in the context of the Syntactic role of T.</returns>
-        internal abstract ISet<string> this[string search] {
+        internal abstract System.Collections.Generic.ISet<string> this[string search] {
             get;
         }
         /// <summary>
@@ -34,7 +29,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The TWord to lookup</param>
         /// <returns>The synonyms for search.</returns>
-        internal abstract ISet<string> this[TWord search] {
+        internal abstract System.Collections.Generic.ISet<string> this[TWord search] {
             get;
         }
         protected const int HEADER_LENGTH = 29;

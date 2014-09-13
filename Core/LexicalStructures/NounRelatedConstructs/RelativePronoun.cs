@@ -19,7 +19,6 @@ namespace LASI.Core
             : base(text) {
             RelativePronounKind = DetermineKind(this);
         }
-
         #region Methods
         /// <summary>
         /// Binds the RelativePronoun to refer to the given Entity.
@@ -33,8 +32,6 @@ namespace LASI.Core
             }
             EntityKind = RefersTo.EntityKind;
         }
-
-
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of IEntity instances the RelativePronoun "Owns",
         /// and sets its owner to be the RelativePronoun.
@@ -54,7 +51,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">The EntityReferency to Bind.</param>
         public void BindReferencer(IReferencer pro) {
-            boundPronouns.Add(pro);
+            referencers.Add(pro);
             pro.BindAsReferringTo(this);
         }
         /// <summary>
@@ -114,18 +111,12 @@ namespace LASI.Core
         ///Gets or sets the IVerbal instance the RelativePronoun is the indirect object of.
         /// </summary>
         public IVerbal IndirectObjectOf { get; set; }
-
-
-
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
         /// </summary>
         public IEnumerable<IReferencer> Referencers {
-            get {
-                return boundPronouns;
-            }
+            get { return referencers; }
         }
-
         /// <summary>
         /// Gets the collection of IDescriptors, generally Adjectives or AdjectivePhrases which describe the RelativePronoun.
         /// </summary>
@@ -148,10 +139,9 @@ namespace LASI.Core
 
         #endregion
 
-
         private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private HashSet<IReferencer> referencers = new HashSet<IReferencer>();
 
 
         private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun) {

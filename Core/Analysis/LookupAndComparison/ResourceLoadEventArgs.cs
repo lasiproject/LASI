@@ -13,7 +13,6 @@ namespace LASI.Core
     public class ResourceLoadEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
         internal ResourceLoadEventArgs() {
-            ElapsedMiliseconds = 0L;
             Message = string.Empty;
         }
         /// <summary>

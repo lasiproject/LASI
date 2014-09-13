@@ -227,17 +227,17 @@ namespace LASI.Core
         /// <summary>
         /// Determines if two Pronoun instances have the same gender.
         /// </summary>
-        /// <param name="first">The first Pronoun.</param>
+        /// <param name="secondKind">The first Pronoun.</param>
         /// <param name="second">The second Pronoun.</param>
         /// <returns>True if both Pronouns have the same gender; otherwise, false.</returns>
-        public static bool IsGenderEquivalentTo(this Pronoun first, Pronoun second) {
-            var kind1 = first.PronounKind;
+        public static bool IsGenderEquivalentTo(this Pronoun secondKind, Pronoun second) {
+            var firstKind = secondKind.PronounKind;
             var kind2 = second.PronounKind;
             return
-                kind1.IsFemale() && kind2.IsFemale() ||
-                kind1.IsMale() && kind2.IsMale() ||
-                kind1.IsNeutral() && kind2.IsNeutral() ||
-                kind1.IsGenderAmbiguous() && kind2.IsGenderAmbiguous();
+                firstKind.IsFemale() && kind2.IsFemale() ||
+                firstKind.IsMale() && kind2.IsMale() ||
+                firstKind.IsNeutral() && kind2.IsNeutral() ||
+                firstKind.IsGenderAmbiguous() && kind2.IsGenderAmbiguous();
         }
 
         /// <summary>

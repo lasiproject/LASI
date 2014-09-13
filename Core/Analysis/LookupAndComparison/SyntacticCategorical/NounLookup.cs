@@ -9,6 +9,8 @@ namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<NounLink, int>;
     using LASI.Core.Interop;
+    using System.Collections.Immutable;
+    using LASI.Utilities;
 
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
@@ -37,7 +39,7 @@ namespace LASI.Core.Heuristics.WordNet
                 setsById = new ConcurrentDictionary<int, NounSynSet>(concurrencyLevel: Concurrency.Max, capacity: 90000);
                 foreach (var item in from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').AsParallel()
                                      let set = CreateSet(line)
-                                     select new KeyValuePair<int, NounSynSet>(set.Id, set)) {
+                                     select Pair.Create(set.Id, set)) {
                     setsById[item.Key] = item.Value;
                 }
             }
@@ -50,8 +52,8 @@ namespace LASI.Core.Heuristics.WordNet
             IEnumerable<SetReference> referencedSets =
                 from Match match in POINTER_REGEX.Matches(line)
                 let split = match.Value.SplitRemoveEmpty(' ')
-                where split.Count() > 1 && IncludeReference(interSetMap[split[0]])
-                select new SetReference(interSetMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
+                where split.Count() > 1 && consideredSetLinks.Contains(linkMap[split[0]])
+                select new SetReference(linkMap[split[0]], int.Parse(split[1], System.Globalization.CultureInfo.InvariantCulture));
 
 
             IEnumerable<string> words = from Match m in WORD_REGEX.Matches(line)
@@ -122,8 +124,6 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-
-
         private void InitCategoryGroupsDictionary() {
             foreach (NounCategory e in Enum.GetValues(typeof(NounCategory))) {
                 lexicalGoups[e] = new List<NounSynSet>();
@@ -136,46 +136,44 @@ namespace LASI.Core.Heuristics.WordNet
 
         private HashSet<string> allNouns;
 
-        private static bool IncludeReference(NounLink link) {
-            return
-                link == NounLink.MemberOfThisDomain_REGION ||
-                link == NounLink.MemberOfThisDomain_TOPIC ||
-                link == NounLink.MemberOfThisDomain_USAGE ||
-                link == NounLink.DomainOfSynset_REGION ||
-                link == NounLink.DomainOfSynset_TOPIC ||
-                link == NounLink.DomainOfSynset_USAGE ||
-                link == NounLink.HypOnym ||
-                link == NounLink.InstanceHypOnym ||
-                link == NounLink.InstanceHypERnym ||
-                link == NounLink.HypERnym;
-        }
-
-
-
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
         // Provides an indexed lookup between the values of the Noun enum and their corresponding string representation in WordNet data.noun files.
-        private static readonly IReadOnlyDictionary<string, NounLink> interSetMap = new Dictionary<string, NounLink> {
-            {"!",   NounLink.Antonym },
-            {"@", NounLink.HypERnym },
-            {"@i", NounLink.InstanceHypERnym},
-            {"~", NounLink.HypOnym},
-            {"~i", NounLink.InstanceHypOnym},
-            {"#m", NounLink.MemberHolonym},
-            {"#s", NounLink.SubstanceHolonym},
-            {"#p", NounLink.PartHolonym},
-            {"%m", NounLink.MemberMeronym},
-            {"%s", NounLink.SubstanceMeronym},
-            {"%p", NounLink.PartMeronym},
-            {"=", NounLink.Attribute},
-            {"+", NounLink.DerivationallyRelatedForm},
-            {";c", NounLink.DomainOfSynset_TOPIC},
-            {"-c", NounLink.MemberOfThisDomain_TOPIC},
-            {";r", NounLink.DomainOfSynset_REGION},
-            {"-r", NounLink.MemberOfThisDomain_REGION},
-            {";u", NounLink.DomainOfSynset_USAGE},
-            {"-u", NounLink.MemberOfThisDomain_USAGE}
+        private static readonly IReadOnlyDictionary<string, NounLink> linkMap = new Dictionary<string, NounLink> {
+            { "!",  NounLink.Antonym },
+            { "@",  NounLink.HypERnym },
+            { "@i", NounLink.InstanceHypERnym },
+            { "~",  NounLink.HypOnym },
+            { "~i", NounLink.InstanceHypOnym },
+            { "#m", NounLink.MemberHolonym },
+            { "#s", NounLink.SubstanceHolonym },
+            { "#p", NounLink.PartHolonym },
+            { "%m", NounLink.MemberMeronym },
+            { "%s", NounLink.SubstanceMeronym },
+            { "%p", NounLink.PartMeronym },
+            { "=",  NounLink.Attribute },
+            { "+",  NounLink.DerivationallyRelatedForm },
+            { ";c", NounLink.DomainOfSynset_TOPIC },
+            { "-c", NounLink.MemberOfThisDomain_TOPIC },
+            { ";r", NounLink.DomainOfSynset_REGION },
+            { "-r", NounLink.MemberOfThisDomain_REGION },
+            { ";u", NounLink.DomainOfSynset_USAGE },
+            { "-u", NounLink.MemberOfThisDomain_USAGE }
         };
+        private static readonly IImmutableSet<NounLink> consideredSetLinks = ImmutableHashSet.Create(
+             NounLink.MemberOfThisDomain_REGION,
+             NounLink.MemberOfThisDomain_TOPIC,
+             NounLink.MemberOfThisDomain_USAGE,
+             NounLink.DomainOfSynset_REGION,
+             NounLink.DomainOfSynset_TOPIC,
+             NounLink.DomainOfSynset_USAGE,
+             NounLink.HypOnym,
+             NounLink.InstanceHypOnym,
+             NounLink.InstanceHypERnym,
+             NounLink.HypERnym
+        );
+
+
     }
     /// <summary>
     /// Defines the broad lexical categories assigned to Nouns in the WordNet system.

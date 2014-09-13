@@ -102,7 +102,7 @@ namespace LASI.Core.Heuristics
                     from exceptionSet in verbExceptionFileLines
                     from exception in exceptionSet
                     group exceptionSet by exception into g
-                    select new KeyValuePair<string, IEnumerable<string>>(g.Key, g.SelectMany(exceptionSet => exceptionSet)));
+                    select Pair.Create(g.Key, g.SelectMany(exceptionSet => exceptionSet)));
             }
         }
 

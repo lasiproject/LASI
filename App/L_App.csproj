@@ -127,7 +127,7 @@
     <Compile Include="Dialogs\ExportResultsDialog.xaml.cs">
       <DependentUpon>ExportResultsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResultSelection\ChartContentType.cs" />
+    <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="Windows\InProgressWindow.xaml.cs">
       <DependentUpon>InProgressWindow.xaml</DependentUpon>

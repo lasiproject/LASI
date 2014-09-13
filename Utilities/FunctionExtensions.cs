@@ -34,19 +34,19 @@ namespace LASI
             return t => first(second(t));
         }
         /// <summary>
-        /// Partially Applies a function taking 1 arguments, of the form (T1) => TResult, by binding the supplied value as the first argument and returning a new function of the form () => TResult.
+        /// Partially applies a function taking 1 arguments, of the form (T1) => TResult, by binding the supplied value as the first argument and returning a new function of the form () => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="TResult">The type of the result of the function.</typeparam>
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the argument.</param>
         /// <returns>A new function, of the form () => TResult, produced by binding the supplied value as the argument.</returns>
-        public static Func<TResult> PartiallyApply<T1, TResult>(this Func<T1, TResult> function, T1 value) {
+        public static Func<TResult> Apply<T1, TResult>(this Func<T1, TResult> function, T1 value) {
             return () => function(value);
         }
 
         /// <summary>
-        /// Partially Applies a function taking 2 arguments, of the form (T1, T2) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2) => TResult.
+        /// Partially applies a function taking 2 arguments, of the form (T1, T2) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
@@ -54,11 +54,11 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2) => TResult, produced by binding the supplied value as the first argument.</returns>
-        public static Func<T2, TResult> PartiallyApply<T1, T2, TResult>(this Func<T1, T2, TResult> function, T1 value) {
+        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> function, T1 value) {
             return y => function(value, y);
         }
         /// <summary>
-        /// Partially Applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3) => TResult.
+        /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
@@ -67,11 +67,11 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2, T3) => TResult, produced by binding the supplied value as the first argument.</returns>
-        public static Func<T2, T3, TResult> PartiallyApply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> function, T1 value) {
+        public static Func<T2, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> function, T1 value) {
             return (x, y) => function(value, x, y);
         }
         /// <summary>
-        /// Partially Applies a function taking 4 arguments, of the form (T1, T2, T3, T4) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4) => TResult.
+        /// Partially applies a function taking 4 arguments, of the form (T1, T2, T3, T4) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
@@ -81,11 +81,11 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2, T3, T4) => TResult, produced by binding the supplied value as the first argument.</returns>
-        public static Func<T2, T3, T4, TResult> PartiallyApply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> function, T1 value) {
+        public static Func<T2, T3, T4, TResult> Apply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> function, T1 value) {
             return (x, y, z) => function(value, x, y, z);
         }
         /// <summary>
-        /// Partially Applies a function taking 5 arguments, of the form (T1, T2, T3, T4, T5) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4, T5) => TResult.
+        /// Partially applies a function taking 5 arguments, of the form (T1, T2, T3, T4, T5) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4, T5) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
@@ -96,11 +96,11 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2, T3, T4, T5) => TResult, produced by binding the supplied value as the first argument.</returns>
-        public static Func<T2, T3, T4, T5, TResult> PartiallyApply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> function, T1 value) {
+        public static Func<T2, T3, T4, T5, TResult> Apply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> function, T1 value) {
             return (b, c, d, e) => function(value, b, c, d, e);
         }
         /// <summary>
-        /// Partially Applies a function taking 6 arguments, of the form (T1, T2, T3, T4, T5, T6) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4, T5, T6) => TResult.
+        /// Partially applies a function taking 6 arguments, of the form (T1, T2, T3, T4, T5, T6) => TResult, by binding the supplied value as the first argument and returning a new function of the form (T2, T3, T4, T5, T6) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
@@ -112,7 +112,7 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2, T3, T4, T5, T6) => TResult, produced by binding the supplied value as the first argument.</returns>
-        public static Func<T2, T3, T4, T5, T6, TResult> PartiallyApply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> function, T1 value) {
+        public static Func<T2, T3, T4, T5, T6, TResult> Apply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> function, T1 value) {
             return (b, c, d, e, f) => function(value, b, c, d, e, f);
         }
         /// <summary>
@@ -124,8 +124,8 @@ namespace LASI
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
         /// <returns>A new function, of the form (T2) => TResult, produced by closing over the first argument</returns>
-        public static Func<T2, TResult> PartiallyApply<T1, T2, TResult>(this Func<T1, Func<T2, TResult>> function, T1 value) {
-            return PartiallyApply((T1 x, T2 y) => function(x)(y), value);
+        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, Func<T2, TResult>> function, T1 value) {
+            return Apply((T1 x, T2 y) => function(x)(y), value);
         }
     }
 

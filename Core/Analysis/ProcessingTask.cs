@@ -27,7 +27,7 @@ namespace LASI.Core
             Task = workToPerform;
             InitializationMessage = initializationMessage;
             CompletionMessage = completionMessage;
-            PercentWorkRepresented = percentWorkRepresented;
+            PercentCompleted = percentWorkRepresented;
         }
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Action, initialization message, completion message, and percentage of total work represented. 
@@ -67,9 +67,9 @@ namespace LASI.Core
             private set;
         }
         /// <summary>
-        /// Gets an arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.
+        /// Gets a double value corresponding to the relative amount of work the ProcessingTask represents.
         /// </summary>
-        public double PercentWorkRepresented {
+        public double PercentCompleted {
             get;
             private set;
         }

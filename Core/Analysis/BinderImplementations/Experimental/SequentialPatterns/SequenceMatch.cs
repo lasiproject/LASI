@@ -9,7 +9,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 {
 
 
-    public static class Matcher
+    public static class MatchExtensions
     {
         internal static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
@@ -22,15 +22,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
     }
 
-    public partial class SequenceMatch
+    public class SequenceMatch
     {
-        private bool predicateSucceded;
-        private bool guarded;
-        List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
-        List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-
-        private IEnumerable<ILexical> value;
-
         public SequenceMatch(IEnumerable<ILexical> sequencialElements) {
             value = sequencialElements;
         }
@@ -38,27 +31,38 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             value = setence.Phrases;
 
         }
-        private IEnumerable<ILexical> Test(IEnumerable<ILexical> val) {
-
-
-            var result = from v in val.OfClause() where checkOncePredicates.All(f => f(v)) && predicates.All(f => f(v)) select v;
+        private IEnumerable<ILexical> Test(IEnumerable<ILexical> values) {
+            var result = from value in values.OfClause()
+                         where checkOncePredicates.All(f => f(value)) && predicates.All(f => f(value))
+                         select value;
             checkOncePredicates.Clear();
             return result;
-
-
         }
 
         private List<ILexical> values {
             get { return Test(value).ToList(); }
             set { values = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether or not the a pattern has been matched.
+        /// </summary>
+        /// <returns></returns>
         protected bool Accepted { get; set; }
         internal ContinuationMode ContinuationMode {
             get;
             private set;
         }
 
-        public SequenceMatch TryPath<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical {
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -66,7 +70,16 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(3);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4>(Action<T1, T2, T3, T4> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4>(Action<T1, T2, T3, T4> pattern)
             where T1 : class, ILexical where T2 : class, ILexical
             where T3 : class, ILexical where T4 : class, ILexical {
             return CheckGuard(() => {
@@ -76,7 +89,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(4);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -89,7 +112,18 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(5);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> pattern)
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical
@@ -104,7 +138,19 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(6);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -120,7 +166,20 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(7);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -137,7 +196,21 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(8);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -156,7 +229,22 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(9);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -175,7 +263,23 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(10);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -196,7 +300,24 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(11);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -218,7 +339,25 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(12);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -241,21 +380,40 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(13);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> pattern)
-        where T1 : class, ILexical
-        where T2 : class, ILexical
-        where T3 : class, ILexical
-        where T4 : class, ILexical
-        where T5 : class, ILexical
-        where T6 : class, ILexical
-        where T7 : class, ILexical
-        where T8 : class, ILexical
-        where T9 : class, ILexical
-        where T10 : class, ILexical
-        where T11 : class, ILexical
-        where T12 : class, ILexical
-        where T13 : class, ILexical
-        where T14 : class, ILexical {
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> pattern)
+where T1 : class, ILexical
+where T2 : class, ILexical
+where T3 : class, ILexical
+where T4 : class, ILexical
+where T5 : class, ILexical
+where T6 : class, ILexical
+where T7 : class, ILexical
+where T8 : class, ILexical
+where T9 : class, ILexical
+where T10 : class, ILexical
+where T11 : class, ILexical
+where T12 : class, ILexical
+where T13 : class, ILexical
+where T14 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(values);
                 if (Accepted)
@@ -265,7 +423,27 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(14);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -290,7 +468,28 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(15);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -316,7 +515,29 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(16);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> pattern)
         where T1 : class, ILexical
         where T2 : class, ILexical
         where T3 : class, ILexical
@@ -344,7 +565,30 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(17);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
+        /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern)
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical
@@ -373,7 +617,31 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(18);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
+        /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
+        /// <typeparam name="T19">The type of the nineteenth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> pattern)
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical
@@ -403,7 +671,32 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 values = values.Skip(19);
             });
         }
-        public SequenceMatch TryPath<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> pattern)
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="T8">The type of the eigth element in the pattern</typeparam>
+        /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
+        /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
+        /// <typeparam name="T19">The type of the nineteenth element in the pattern</typeparam>
+        /// <typeparam name="T20">The type of the twentieth element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> pattern)
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical
@@ -436,9 +729,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             });
         }
 
-
-
-
         public SequenceMatch Guard(bool condition) {
             predicateSucceded = condition;
             guarded = true;
@@ -457,7 +747,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements of the given type out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <returns>The SentenceMatch so far.</returns>
@@ -467,7 +757,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -479,7 +769,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -493,7 +783,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -509,7 +799,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -527,7 +817,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
         /// <summary>
-        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent paths.
+        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent patterns.
         /// </summary>
         /// <param name="predicate">The predicate which selects which elements to filter.</param>
         /// <returns>The SentenceMatch so far.</returns>
@@ -535,17 +825,36 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(predicate);
             return this;
         }
+
+        /// <summary>
+        /// Filters elements of the given type out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1>()
         where T1 : class, ILexical {
             checkOncePredicates.Add(v => !(v is T1));
             return this;
         }
+        /// <summary>
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
+        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1, T2>()
             where T1 : class, ILexical
             where T2 : class, ILexical {
             checkOncePredicates.Add(v => !(v is T1 || v is T2));
             return this;
         }
+        /// <summary>
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
+        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
+        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -553,6 +862,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3));
             return this;
         }
+        /// <summary>
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
+        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
+        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
+        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3, T4>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -561,6 +878,15 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4));
             return this;
         }
+        /// <summary>
+        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <typeparam name="T1">The first type of element to filter out.</typeparam>
+        /// <typeparam name="T2">The second type of element to filter out.</typeparam>
+        /// <typeparam name="T3">The third type of element to filter out.</typeparam>
+        /// <typeparam name="T4">The fourth type of element to filter out.</typeparam>
+        /// <typeparam name="T5">The fifth type of element to filter out.</typeparam>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce<T1, T2, T3, T4, T5>()
             where T1 : class, ILexical
             where T2 : class, ILexical
@@ -570,14 +896,29 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4 || v is T5));
             return this;
         }
+        /// <summary>
+        /// Filters elements matching the specified predicate out of the sequence before attempting to match the next pattern.
+        /// </summary>
+        /// <param name="predicate">The predicate to apply to the sequence.</param>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch IgnoreOnce(Func<ILexical, bool> predicate) {
             checkOncePredicates.Add(predicate);
             return this;
         }
+        /// <summary>
+        /// Set the continuation mode of the SequenceMatch.
+        /// </summary>
+        /// <param name="mode">The continuation mode to set.</param>
+        /// <returns>The SentenceMatch so far.</returns>
         public SequenceMatch WithContinuationMode(ContinuationMode mode) {
-            this.ContinuationMode = mode;
+            ContinuationMode = mode;
             return this;
         }
+        private bool predicateSucceded;
+        private bool guarded;
+        private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
+        private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
+        private IEnumerable<ILexical> value;
     }
     static class ListExtensions
     {
@@ -587,7 +928,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         public static List<T> Skip<T>(this List<T> source, int count) {
             try {
                 return source.GetRange(count, source.Count);
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException) {
                 return new List<T>();
             }
         }

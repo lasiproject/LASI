@@ -53,7 +53,6 @@ namespace LASI.Core
                         string.Empty
                     ) : string.Empty
                 );
-
         }
 
         /// <summary>

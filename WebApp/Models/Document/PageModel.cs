@@ -16,18 +16,10 @@ namespace LASI.WebApp.Models
             foreach (var model in ParagraphModels) { model.PageModel = this; }
 
         }
-        public string Text {
-            get {
-                return "&nbsp;&nbsp;&nbsp;&nbsp;" + string.Join("\r\n\r\n", ParagraphModels.Select(paragraph => paragraph.Text));
-            }
-        }
+        public string Text { get { return "&nbsp;&nbsp;&nbsp;&nbsp;" + string.Join("\r\n\r\n", ParagraphModels.Select(paragraph => paragraph.Text)); } }
         public Style Style { get; private set; }
         public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
-        public IEnumerable<SentenceModel> SentenceModels {
-            get {
-                return ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels);
-            }
-        }
+        public IEnumerable<SentenceModel> SentenceModels { get { return ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels); } }
 
         public DocumentModel DocumentModel { get; internal set; }
 

@@ -7,7 +7,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public class ClauseModel : LexicalModel
+    public class ClauseModel : LexicalModel<Clause>
     {
         public ClauseModel(Clause clause) : base(clause) { }
 

@@ -35,10 +35,4 @@ namespace LASI.Core
         /// </summary>
         ObjectRoleExpository,
     }
-    public enum RelativePronounRole : byte
-    {
-        Undetermined = 0,
-        NonResitrictive,
-        RestrictivePredicate,
-    }
 }

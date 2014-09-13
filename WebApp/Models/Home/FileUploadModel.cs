@@ -9,7 +9,7 @@ namespace LASI.WebApp.Models
 {
     public class FileUploadModel
     {
-        public const string ALLOWED_EXTENSIONS = "(.txt, .doc, .docx, .pdf)";
+        public const string ALLOWED_EXTENSIONS = ".txt, .doc, .docx, .pdf";
 
         public string Message { get; set; }
 

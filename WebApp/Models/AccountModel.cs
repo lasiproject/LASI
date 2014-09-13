@@ -16,6 +16,7 @@ namespace LASI.WebApp.Models
 {
     public class AccountModel
     {
+        public ObjectId _id { get; set; }
         [Required]
         [NameField]
         [StringLength(maximumLength: 200, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
@@ -46,7 +47,6 @@ namespace LASI.WebApp.Models
         private const string LENGTH_INVALID_MESSAGE = "Must be between 1 and 200 characters";
 
         #endregion
-
 
         #region Custom Validation Attributes
 

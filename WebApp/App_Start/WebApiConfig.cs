@@ -15,17 +15,15 @@ namespace LASI.WebApp
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                NullValueHandling = NullValueHandling.Ignore,
+#if DEBUG
                 Formatting = Formatting.Indented
+#endif
             };
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new
-            {
-                controller = "jsonservices",
-                action = "Get",
-                id = RouteParameter.Optional
-            }
+                defaults: new { controller = "jsonservices", action = "Get", id = RouteParameter.Optional }
             );
             //config.Routes.MapHttpRoute(
             //    name: "jsonservices",

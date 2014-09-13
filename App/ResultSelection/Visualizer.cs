@@ -25,7 +25,7 @@ namespace LASI.App
         /// The given ChartKind will be used for all further chart operations until it is changed via another call to ChangeChartKind.
         /// </summary>
         /// <param name="chartKind">The ChartKind value determining the what data set is to be displayed.</param>
-        public static void ChangeChartKind(ChartContentType chartKind) {
+        public static void ChangeChartKind(ChartKind chartKind) {
             ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
 
@@ -33,16 +33,7 @@ namespace LASI.App
                 Chart chart = pair.Key;
 
                 IEnumerable<KeyValuePair<string, float>> data = null;
-
-                switch (chartKind) {
-                    case ChartContentType.SubjectVerbObject:
-                        data = GetVerbWiseData(doc);
-                        break;
-                    case ChartContentType.NounPhrasesOnly:
-                        data = GetNounWiseData(doc);
-                        break;
-                }
-                //data = data.Take(CHART_ITEM_LIMIT);
+                data = CreateChartData(chartKind, doc, data);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries
                 {
@@ -56,6 +47,20 @@ namespace LASI.App
                 break;
             }
         }
+
+        private static IEnumerable<KeyValuePair<string, float>> CreateChartData(ChartKind chartKind, Document doc, IEnumerable<KeyValuePair<string, float>> data) {
+            switch (chartKind) {
+                case ChartKind.SubjectVerbObject:
+                data = GetVerbWiseData(doc);
+                break;
+                case ChartKind.NounPhrasesOnly:
+                data = GetNounWiseData(doc);
+                break;
+            }
+
+            return data;
+        }
+
 
 
         /// <summary>
@@ -143,9 +148,9 @@ namespace LASI.App
         private static async Task<Chart> BuildBarChart(Document document) {
 
             var dataPointSource =
-                ChartKind == ChartContentType.NounPhrasesOnly ?
+                ChartKind == ChartKind.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
-                ChartKind == ChartContentType.SubjectVerbObject ?
+                ChartKind == ChartKind.SubjectVerbObject ?
                 GetVerbWiseData(document) :
                 GetVerbWiseData(document);
             // Materialize item source so that changing chart types is less expensive.s
@@ -193,16 +198,17 @@ namespace LASI.App
         }
 
         #endregion
-        private static IEnumerable<KeyValuePair<string, float>> GetVerbWiseData(Document doc) {
-            var data = GetVerbWiseRelationships(doc);
-            return from svs in data
-                   let SV = new KeyValuePair<string, float>(
-                       string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
-                       (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
-                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
-                       (float)Math.Round(svs.CombinedWeight, 2))
-                   group SV by SV into svg
-                   select svg.Key;
+        private static IEnumerable<KeyValuePair<string, float>> GetVerbWiseData(Document document) {
+            return
+                from relationship in GetVerbWiseRelationships(document)
+                let dataPont = Pair.Create(
+                    string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
+                    (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
+                    (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
+                    (float)Math.Round(relationship.CombinedWeight, 2)
+                )
+                group dataPont by dataPont into svg
+                select svg.Key;
 
         }
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
@@ -237,11 +243,11 @@ namespace LASI.App
             return await Task.Run(() => GetNounWiseData(doc));
         }
 
-        private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document doc) {
-            return from n in doc.Phrases.OfNounPhrase()
+        private static IEnumerable<KeyValuePair<string, float>> GetNounWiseData(Document document) {
+            return from nounPhrase in document.Phrases.OfNounPhrase()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                   group n by new { n.Text, Weight = (float)Math.Round(n.Weight, 2) } into g
-                   select new KeyValuePair<string, float>(g.Key.Text, g.Key.Weight);
+                   group nounPhrase by new { nounPhrase.Text, Weight = (float)Math.Round(nounPhrase.Weight, 2) } into g
+                   select Pair.Create(g.Key.Text, g.Key.Weight);
         }
 
         /// <summary>
@@ -271,7 +277,7 @@ namespace LASI.App
         /// <summary>
         /// Gets the ChartKind currently used by the ChartManager.
         /// </summary>
-        public static ChartContentType ChartKind {
+        public static ChartKind ChartKind {
             get;
             private set;
         }

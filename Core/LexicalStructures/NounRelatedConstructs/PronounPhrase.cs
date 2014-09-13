@@ -32,8 +32,6 @@ namespace LASI.Core
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of PronounPhrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public PronounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
-
-
         /// <summary>
         /// Returns a string representation of the PronounPhrase
         /// </summary>
@@ -49,12 +47,13 @@ namespace LASI.Core
         /// </summary>
         public IAggregateEntity RefersTo {
             get {
-                referredTo = referredTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
+                referredTo = referredTo ?? new AggregateEntity(Words
+                    .OfPronoun()
+                    .Where(p => p.RefersTo != null)
+                    .Select(p => p.RefersTo));
                 return referredTo;
             }
-
         }
-
         /// <summary>
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>
@@ -67,9 +66,5 @@ namespace LASI.Core
             }
             EntityKind = referredTo.EntityKind;
         }
-
-
-
-
     }
 }

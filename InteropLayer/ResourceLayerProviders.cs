@@ -73,7 +73,8 @@ namespace LASI.Interop
             checkIntervalTimer.Elapsed += (sender, e) => {
                 var available = GetAvailableMemory();
                 if (available < MinRamThreshold) {
-                    MemoryUsageCritical(null, new MemoryThresholdExceededEventArgs {
+                    MemoryUsageCritical(null, new MemoryThresholdExceededEventArgs
+                    {
                         RemainingMemory = available,
                         TriggeringThreshold = MinRamThreshold
                     });
@@ -95,12 +96,12 @@ namespace LASI.Interop
                 var available = GetAvailableMemory();
                 if (available < threshold) {
                     availableRamDecreased(null,
-                        new MemoryThresholdExceededEventArgs {
-                            RemainingMemory = available,
-                            TriggeringThreshold = threshold
-                        });
-                }
-                else if (available >= threshold + 128) {
+                        new MemoryThresholdExceededEventArgs
+                    {
+                        RemainingMemory = available,
+                        TriggeringThreshold = threshold
+                    });
+                } else if (available >= threshold + 128) {
                     increased(null, new MemoryThresholdExceededEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
                 }
             };

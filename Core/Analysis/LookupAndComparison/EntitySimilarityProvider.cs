@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Heuristics
-{ 
+{
     public static partial class Lookup
     {
         /// <summary>
@@ -138,29 +138,21 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
         private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
-            NounPhrase outer = null;
-            NounPhrase inner = null;
-            double similarCount = 0.0d;
+            double similarCount = 0;
+            Func<NounPhrase, NounPhrase, double> overlap = (outer, inner) => {
+                if (outer.Words.OfNoun().Any() && inner.Words.OfNoun().Any()) {
+                    foreach (var outerNoun in outer.Words.OfNoun()) {
+                        foreach (var innerNoun in inner.Words.OfNoun()) {
+                            if (innerNoun.IsSynonymFor(outerNoun)) { similarCount += 0.7; }
+                        }
+                        var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();
+                        return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
 
-            if (first.Words.Count() >= second.Words.Count()) {
-                outer = first;
-                inner = second;
-            } else {
-                outer = second;
-                inner = first;
-            }
-            if (outer.Words.OfNoun().Any() && inner.Words.OfNoun().Any()) {
-                foreach (var outerNoun in outer.Words.OfNoun()) {
-                    foreach (var innerNoun in inner.Words.OfNoun()) {
-                        if (innerNoun.IsSynonymFor(outerNoun))
-                            similarCount += 0.7;
                     }
-                    var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();
-                    return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
                 }
-
-            }
-            return 0d;
+                return 0;
+            };
+            return first.Words.Count() >= second.Words.Count() ? overlap(first, second) : overlap(second, first);
         }
 
     }

@@ -7,7 +7,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public class WordModel : LexicalModel
+    public class WordModel : LexicalModel<Word>
     {
         public WordModel(Word word) : base(word) { }
 
