@@ -60,10 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="CharExtensions.cs" />
     <Compile Include="Contracts\Validators\ArgumentValidator.cs" />
     <Compile Include="CustomComparer.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Output.cs" />

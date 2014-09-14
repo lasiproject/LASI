@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace LASI
 {
     /// <summary>
-    /// Provides miscelaneous convenience methods for a variety of types.
+    /// Provides various useful methods for Dictionary types.
     /// </summary>
-    public static class Extensions
+    public static class DictionaryExtensions
     {
         #region IDictionary Extensions
         /// <summary>

@@ -13,16 +13,13 @@ namespace LASI.Core.DocumentStructures
     public sealed class Sentence
     {
         #region Constructors
-        private Sentence() {
-        }
 
         /// <summary>
         /// Initializes a new instance of the Sentence class.
         /// </summary>
         /// <param name="phrases">The sequence of Phrase elements which comprise the Sentence.</param>
         /// <param name="sentencePunctuation">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
-        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding sentencePunctuation)
-            : this() {
+        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding sentencePunctuation) {
             Clauses = new[] { new Clause(from P in phrases select P) };
             EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
         }
@@ -32,8 +29,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
         /// <param name="sentenceEnding">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
-        public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentenceEnding)
-            : this() {
+        public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentenceEnding) {
             Clauses = clauses;
             EndingPunctuation = sentenceEnding ?? new SentenceEnding('.');
         }

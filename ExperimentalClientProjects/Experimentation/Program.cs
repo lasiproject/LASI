@@ -41,15 +41,9 @@ It has a very prominent conservative community.", "Test");
                 .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .With((IEntity e) => e.Text)
                 .Result();
-
-
-
-
-
-
-            Output.WriteLine(document);
+            WriteLine(document);
             Phrase.VerboseOutput = true;
-            foreach (var phrase in document.Phrases) { Output.WriteLine(phrase); }
+            foreach (var phrase in document.Phrases) { WriteLine(phrase); }
 
 
             Input.WaitForKey(ConsoleKey.Escape);
