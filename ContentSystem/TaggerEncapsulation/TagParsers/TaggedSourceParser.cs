@@ -157,8 +157,7 @@ namespace LASI.ContentSystem
          /// <param name="data">The string containing raw SharpNLP tagged-text to process.</param>
          /// <returns>The string containing the processed text.</returns>
         protected virtual async Task<string> PreProcessTextAsync(string data) {
-            return await Task.Run(() =>
-            {
+            return await Task.Run(() => {
                 data = data.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-");
 
                 data = data.Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ");
@@ -209,11 +208,11 @@ namespace LASI.ContentSystem
                 return () => phraseConstructor(wordExprs.Select(we => we.Value));
             }
             catch (UnknownPhraseTagException e) {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new Func<LASI.Algorithm.UnknownPhrase> to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             }
             catch (EmptyPhraseTagException e) {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new Func<LASI.Algorithm.UnknownPhrase> to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
+                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate", e.Message, wordExprs.Format(expr => expr.Value.ToString()));
                 return () => new UnknownPhrase(wordExprs.Select(we => we.Value));
             }
         }
@@ -272,7 +271,7 @@ namespace LASI.ContentSystem
                         wordExpressions.Add(new Lazy<Word>(() => tagParser.Create(textTagPair.Value)));
                     }
                     catch (UnknownWordTagException e) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, textTagPair.GetValueOrDefault().Text, element);
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, textTagPair.GetValueOrDefault().Text, element);
                         wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(textTagPair.Value.Text)));
                     }
                 }

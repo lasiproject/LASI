@@ -315,12 +315,14 @@ namespace LASI.Core.Heuristics
             get { return adverbLookup.Value; }
         }
         #region Private Fields
-        // WordNet Data File Paths
-        static readonly string nounWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.noun";
-        static readonly string verbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.verb";
-        static readonly string adverbWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adv";
-        static readonly string adjectiveWNFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "data.adj";
-        static readonly string scrabbleDictsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "dictionary.txt";
+        // Resource Data File Paths
+        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
+        static readonly string nounWNFilePath = wordnetDataDirectory + "data.noun";
+        static readonly string verbWNFilePath = wordnetDataDirectory + "data.verb";
+        static readonly string adverbWNFilePath = wordnetDataDirectory + "data.adv";
+        static readonly string adjectiveWNFilePath = wordnetDataDirectory + "data.adj";
+        static readonly string scrabbleDictsFilePath = wordnetDataDirectory + "dictionary.txt";
         //scrabble dictionary
         // Internal Lookups
         static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
@@ -530,9 +532,9 @@ namespace LASI.Core.Heuristics
             #region Fields
 
             // Name Data File Paths
-            private static readonly string lastFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-            private static readonly string femaleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-            private static readonly string maleFilePath = ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
+            private static readonly string lastFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
+            private static readonly string femaleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
+            private static readonly string maleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
             // Name Data Sets
             private static ISet<string> lastNames;
             private static ISet<string> maleNames;

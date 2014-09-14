@@ -78,13 +78,15 @@ namespace LASI.Core
                 knownSubordinators = (
                         from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                         let len = line.IndexOf('/')
-                        select line.Substring(0, len > 0 ? len : line.Length)
+                        let value = line.Substring(0, len > 0 ? len : line.Length)
+                        select value.Trim()
                     ).ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
-
-        private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
         private static readonly ISet<string> knownSubordinators;
+
+        private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
+
 
     }
 }

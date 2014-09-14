@@ -94,7 +94,7 @@ namespace LASI.Core.Heuristics
         private static ConcurrentDictionary<string, IEnumerable<string>> exceptionMapping;
 
         private static void LoadExceptionFile() {
-            using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc")) {
+            using (var reader = new StreamReader(exceptionsFilePath)) {
                 var verbExceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                                              select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-'));
 
@@ -109,7 +109,9 @@ namespace LASI.Core.Heuristics
         static VerbMorpher() {
             LoadExceptionFile();
         }
-
+        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
+        private static readonly string exceptionsFilePath = wordnetDataDirectory + "verb.exc";
         #endregion
     }
 

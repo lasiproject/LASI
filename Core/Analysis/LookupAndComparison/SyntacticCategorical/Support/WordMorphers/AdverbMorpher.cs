@@ -94,7 +94,7 @@ namespace LASI.Core.Heuristics
 
         #region Exception File Processing
         private static void LoadExceptionFile() {
-            using (var reader = new StreamReader(ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "adv.exc")) {
+            using (var reader = new StreamReader(exceptionsFilePath)) {
                 while (!reader.EndOfStream) {
                     var keyVal = ProcessLine(reader.ReadLine());
                     exceptionData[keyVal.Key] = keyVal.Value;
@@ -114,6 +114,10 @@ namespace LASI.Core.Heuristics
 
         private static readonly string[] ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+
+        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
+        private static string exceptionsFilePath = wordnetDataDirectory + "adv.exc";
         #endregion
 
 

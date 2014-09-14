@@ -71,8 +71,6 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetConjugationsTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-
             string root = "walk";
             IEnumerable<string> expected = new[] { "walked", "walks", "walking" }.ToList();
             IEnumerable<string> actual;
@@ -89,8 +87,6 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void FindRootTest() {
-            string exceptionsFilePath = ConfigurationManager.AppSettings["ThesaurusFileDirectory"] + "verb.exc";
-
             var conjugated = new[] { "walked", "walking", "walks" };
             List<string> expected = new[] { "walk" }.ToList();
             List<string> actual = new List<string>();
@@ -103,7 +99,6 @@ namespace LASI.UnitTests
 
 
         }
-
 
     }
 }

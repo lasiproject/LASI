@@ -28,7 +28,9 @@ namespace LASI.WebApp
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
             InitializeCoreHooks();
+            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
         }
+
         /// <summary>
         /// Application specific initialization for concurrency management, memory management, and logging.
         /// </summary>
@@ -41,9 +43,6 @@ namespace LASI.WebApp
             });
         }
 
-        private static readonly string mongodExecutableLocation = ConfigurationManager.AppSettings["MongodExecutableLocation"];
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["MongoUsers"].ConnectionString;
-        private static readonly string mongoDbPath = @"~/App_Data\Mongo\data\db";
         private static Lazy<MongoServer> server = new Lazy<MongoServer>(
             () => new MongoClient(connectionString).GetServer(),
             isThreadSafe: true
@@ -58,5 +57,9 @@ namespace LASI.WebApp
         public static MongoCollection<AccountModel> Users { get { return users.Value; } }
 
         public Process MongoServerProcess { get; private set; }
+
+        private static readonly string mongodExecutableLocation = ConfigurationManager.AppSettings["MongodExecutableLocation"];
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["MongoConnection"].ConnectionString;
+        private static readonly string mongoDbPath = ConfigurationManager.AppSettings["MongoDbPath"];
     }
 }

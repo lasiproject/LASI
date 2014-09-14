@@ -118,7 +118,7 @@ namespace LASI.Core
                 result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
                 result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty;
-                result += string.Format("\nCharacteristics: Possessive Indicator? [{0}]\nCategorizatizer? [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
+                result += string.Format("\nPossessive Indicator: [{0}]\nCategorizatizer: [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
             }
             return result;
         }

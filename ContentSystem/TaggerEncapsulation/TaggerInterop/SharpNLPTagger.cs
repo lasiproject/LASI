@@ -11,6 +11,7 @@ namespace TaggerInterop
     class SharpNlpTagger
     {
         private string mModelPath;
+        private string mNameFinderPath;
 
         private OpenNLP.Tools.SentenceDetect.MaximumEntropySentenceDetector mSentenceDetector;
         private OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer mTokenizer;
@@ -24,10 +25,12 @@ namespace TaggerInterop
         /// </summary>
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
         public SharpNlpTagger(TaggerMode taggingMode) {
+            string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
             TaggingMode = taggingMode;
-            mModelPath = ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
+            mModelPath = resourcesDirectory + ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
             //mModelPath = @"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\OpenNLP\OpenNLP\Models";
-            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
+            mNameFinderPath = resourcesDirectory + ConfigurationManager.AppSettings["WordnetSearchDirectory"];
+            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mNameFinderPath);
             //mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(@"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\WordNet\2.1\dict");
 
         }
@@ -93,9 +96,8 @@ namespace TaggerInterop
                 return string.Join(" ",
                     reader.ReadToEnd()
                     .Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
-                    .ToList()
                     .Select(s => s.Trim())
-                    );
+                );
             }
         }
         protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) {
@@ -110,18 +112,18 @@ namespace TaggerInterop
         protected string ParseViaTaggingMode(TaggerMode taggingMode) {
             switch (TaggingMode) {
                 case TaggerMode.TagIndividual:
-                    return POSTag();
+                return POSTag();
                 case TaggerMode.TagAndAggregate:
-                    return Chunk();
+                return Chunk();
                 case TaggerMode.FullyNestingParse:
-                    return Parse();
+                return Parse();
                 case TaggerMode.GenderFind:
 
-                    return Gender();
+                return Gender();
                 case TaggerMode.NameFind:
-                    return NameFind();
+                return NameFind();
                 default:
-                    return POSTag();
+                return POSTag();
             }
         }
         private string SplitIntoSentences() {

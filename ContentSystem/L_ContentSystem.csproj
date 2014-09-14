@@ -103,7 +103,7 @@
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNlpPhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordExtractor.cs" />
-    <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNlpTagger.cs" />
+    <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNlpWordTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
@@ -123,12 +123,6 @@
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />
     <Content Include="LasiLogo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\L_Core.csproj">
