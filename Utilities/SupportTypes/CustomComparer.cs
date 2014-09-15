@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Utilities
 {
@@ -43,8 +44,7 @@ namespace LASI.Utilities
         /// While this provides clean, customizable semantics for set operations, more expensive to use having a complexity of N^2
         /// </remarks>
         public CustomComparer(Func<T, T, bool> equals) {
-            if (equals == null)
-                throw new ArgumentNullException("equals", "A null equals function was provided.");
+            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             this.equals = equals;
             getHashCode = o => o == null ? 0 : 1;
         }
@@ -59,10 +59,8 @@ namespace LASI.Utilities
         /// </remarks>
 
         public CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
-            if (equals == null)
-                throw new ArgumentNullException("equals", "A null equals function was provided.");
-            if (getHashCode == null)
-                throw new ArgumentNullException("getHashCode", "A null getHashCode function was provided.");
+            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
+            ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
             this.equals = equals;
             this.getHashCode = getHashCode;
         }

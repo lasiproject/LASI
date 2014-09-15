@@ -22,20 +22,19 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return
-                first.Match().Yield<SimilarityResult>()
+            return first.Match().Yield<SimilarityResult>()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
-                    .Then(SimilarityResult.Similar).
-                    With<Adjective>(j1 => second.Match().Yield<SimilarityResult>().
-                           With<Adjective>(j2 => new SimilarityResult(j1.IsSynonymFor(j2))).
-                           With<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1)).
-                       Result()).
-                    With<AdjectivePhrase>(jp1 => second.Match()
-                        .Yield<SimilarityResult>().
-                            With<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2)).
-                            With<Adjective>(j2 => jp1.IsSimilarTo(j2)).
-                        Result()).
-                Result();
+                    .Then(SimilarityResult.Similar)
+                    .With<Adjective>(j1 => second.Match().Yield<SimilarityResult>()
+                           .With<Adjective>(j2 => new SimilarityResult(j1.IsSynonymFor(j2)))
+                           .With<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
+                       .Result())
+                    .With<AdjectivePhrase>(jp1 => second.Match()
+                        .Yield<SimilarityResult>()
+                            .With<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
+                            .With<Adjective>(j2 => jp1.IsSimilarTo(j2))
+                        .Result())
+                .Result();
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.

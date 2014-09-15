@@ -254,9 +254,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Analysis\LookupAndComparison\Support\KnownSubordinators.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>L_Utilities</Name>

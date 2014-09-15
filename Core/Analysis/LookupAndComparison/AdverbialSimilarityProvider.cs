@@ -89,8 +89,7 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
-            var synResults =
-                    first.Words
+            var synResults = first.Words
                         .OfAdverb()
                         .Zip(second.Words.OfAdverb(), (a, b) => a.IsSynonymFor(b))
                         .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });

@@ -14,7 +14,7 @@ namespace LASI.Core
     /// <see cref="PronounKind"/>
     public static class EntityClassificationExtensions
     {
-        #region PronounKind Value Extensions
+        #region PronounKind Extensions
 
         /// <summary>
         /// Determines if the PronounKind is among the semantic categories which are thought of as explicitely male.
@@ -112,9 +112,8 @@ namespace LASI.Core
         }
         #endregion
 
-        #region Pronoun extensions
-
-
+        #region Pronoun Extensions
+        
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as explicitely male.
         /// </summary>
@@ -217,11 +216,10 @@ namespace LASI.Core
         /// <returns>True if the Pronoun is among the semantic categories which are third person; otherwise, false.</returns>
         public static bool IsThirdPerson(this Pronoun pronoun) {
             var kind = pronoun.PronounKind;
-            return !(kind.IsFirstPerson() || kind.IsSecondPerson());
+            return !kind.IsFirstPerson() && !kind.IsSecondPerson();
         }
 
         #endregion
-
 
         #region EntityKind <-> PronounKind Comparisons
         /// <summary>
@@ -270,7 +268,9 @@ namespace LASI.Core
         }
 
         #endregion
-        #region Gender Helpers
+
+        #region Gender Extensions
+
         /// <summary>
         /// Gets a value indicating wether or not the Gender value is male.
         /// </summary>

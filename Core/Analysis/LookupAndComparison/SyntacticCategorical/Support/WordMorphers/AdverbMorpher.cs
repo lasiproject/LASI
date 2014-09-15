@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using LASI.Core.Interop;
-using LASI.Utilities.TypeHelper;
+using LASI.Utilities;
 
 namespace LASI.Core.Heuristics
 {
@@ -108,9 +107,9 @@ namespace LASI.Core.Heuristics
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return Pair(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
-        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);
+        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Interop.Concurrency.Max, 2055);
 
         private static readonly string[] ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };

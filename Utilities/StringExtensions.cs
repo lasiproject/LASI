@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities.Contracts.Validators;
 
 namespace LASI
 {
@@ -31,8 +32,7 @@ namespace LASI
         /// </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params char[] seperator) {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            ArgumentValidator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -47,8 +47,7 @@ namespace LASI
         /// </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params string[] seperator) {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            ArgumentValidator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -62,8 +61,7 @@ namespace LASI
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
         public static string RemoveElements(this string value, params string[] remove) {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            ArgumentValidator.ThrowIfNull(value, "value");
             if (remove.Contains(string.Empty))
                 throw new ArgumentException("The string[] remove contained an empty string", "remove");
             foreach (var r in remove) {
@@ -81,8 +79,7 @@ namespace LASI
         /// in the current instance are replaced with another specified Unicode character.</returns>  
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string RemoveElements(this string value, params char[] remove) {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            ArgumentValidator.ThrowIfNull(value, "value");
             return RemoveElements(value, (from c in remove select c.ToString()).ToArray());
         }
 

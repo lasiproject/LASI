@@ -39,7 +39,7 @@ namespace LASI.Core.Heuristics.WordNet
                 setsById = new ConcurrentDictionary<int, NounSynSet>(concurrencyLevel: Concurrency.Max, capacity: 90000);
                 foreach (var item in from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').AsParallel()
                                      let set = CreateSet(line)
-                                     select Pair.Create(set.Id, set)) {
+                                     select KeyValuePair.Create(set.Id, set)) {
                     setsById[item.Key] = item.Value;
                 }
             }

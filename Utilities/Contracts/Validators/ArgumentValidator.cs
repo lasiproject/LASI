@@ -101,6 +101,20 @@ namespace LASI.Utilities.Contracts.Validators
             ThrowIfNull(argument1, name1, argument2, name2, argument3, name3, argument4, name4);
             ThrowIfNull(argument5, name5);
         }
+
+        public static void ThrowIfLessThan<T>(T argument, T min, string name, string message) where T : IComparable<T> {
+            if (argument.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, argument.ToString(), message); }
+        }
+        public static void ThrowIfGreaterThan<T>(T argument, T max, string name, string message) where T : IComparable<T> {
+            if (argument.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, argument.ToString(), message); }
+        }
+        public static void ThrowIfOutOfRange<T>(T argument, T min, T max, string name, string message) where T : IComparable<T> {
+            if (argument.CompareTo(min) < 0 || argument.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, argument.ToString(), message); }
+        }
+
+        public static void ThrowIfEmpty<T>(IEnumerable<T> argument, string name) {
+            if (argument.None()) { throw new ArgumentException("Sequence contains no elements", name); }
+        }
         #endregion
     }
 }

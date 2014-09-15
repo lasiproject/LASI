@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Core
 {
@@ -34,8 +35,7 @@ namespace LASI.Core
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
         public static IEqualityComparer<TLexical> Create<TLexical>(Func<TLexical, TLexical, bool> equals) where TLexical : ILexical {
-            if (equals == null)
-                throw new ArgumentNullException("equals", "A null equals function was provided.");
+            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             return CustomComparer<TLexical>.Create(equals);
         }
         /// <summary>
@@ -71,11 +71,9 @@ namespace LASI.Core
         /// <param name="getHashCode">The function to extract a hash code from each element.</param>
         /// <exception cref="ArgumentNullException">Thrown if either the provided equality or the provided getHashCode functions is null.</exception>
         private CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
-            if (equals == null)
-                throw new ArgumentNullException("equals", "A null equals function was provided.");
+            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
+            ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
             this.equals = equals;
-            if (getHashCode == null)
-                throw new ArgumentNullException("getHashCode", "A null getHashCode function was provided.");
             this.getHashCode = getHashCode;
         }
 

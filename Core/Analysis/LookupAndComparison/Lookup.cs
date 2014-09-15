@@ -35,13 +35,13 @@ namespace LASI.Core.Heuristics
                     .With<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.Referencers.Any())
                     .Then<IEntity>(e => (
-                        from pro in e.Referencers
-                        let gen = pro.Match().Yield<Gender>()
-                            .With<ISimpleGendered>(p => p.Gender)
-                        .Result()
-                        group gen by gen into byGen
-                        orderby byGen.Count() descending
-                        select byGen.Key).FirstOrDefault()).Result();
+                        from referener in e.Referencers
+                        let gender = referener.Match().Yield<Gender>()
+                            .With<ISimpleGendered>(x => x.Gender)
+                            .Result()
+                        group gender by gender)
+                        .MaxBy(genderGroup => genderGroup.Count()).Key
+                    ).Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.

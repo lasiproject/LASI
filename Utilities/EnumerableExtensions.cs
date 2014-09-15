@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LASI.Utilities;
+using LASI.Utilities.Contracts.Validators;
 
 namespace LASI
 {
@@ -32,8 +33,6 @@ namespace LASI
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, long lineLength) {
-            if (lineLength < 1)
-                throw new ArgumentOutOfRangeException("lineLength", lineLength, "Line length must be greater than 0.");
             return source.Format(Tuple.Create('[', ',', ']'), lineLength);
         }
         /// <summary>
@@ -45,10 +44,10 @@ namespace LASI
         /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            ArgumentValidator.ThrowIfNull(source, "source", delimiters, "delimiters");
             return source.Aggregate(new StringBuilder(delimiters.Item1 + " "), (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '))
-                .ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+                .ToString()
+                .TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
@@ -59,10 +58,6 @@ namespace LASI
         /// <param name="selector">The function used to produce a string representation for each element.</param>
         /// <returns>A a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Func<T, string> selector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (selector == null)
-                throw new ArgumentNullException("selector");
             return source.Format(Tuple.Create('[', ',', ']'), selector);
         }
         /// <summary>
@@ -75,10 +70,7 @@ namespace LASI
         /// <param name="selector">The function used to produce a string representation for each element.</param>
         /// <returns>formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (selector == null)
-                throw new ArgumentNullException("selector");
+            ArgumentValidator.ThrowIfNull(source, "source", selector, "selector", delimiters, "delimiters");
             return source.Select(selector).Format(delimiters);
         }
         /// <summary>
@@ -116,14 +108,8 @@ namespace LASI
         /// <param name="selector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (delimiters == null)
-                throw new ArgumentNullException("delimiters");
-            if (lineLength < 1)
-                throw new ArgumentOutOfRangeException("lineLength", lineLength, "Line length must be greater than 0.");
-            if (selector == null)
-                throw new ArgumentNullException("selector");
+            ArgumentValidator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
+            ArgumentValidator.ThrowIfLessThan(lineLength, 1, "lineLength", "Line length must be greater than 0.");
             int len = 2;
             return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
                     (accumulator, e) => {
@@ -192,9 +178,10 @@ namespace LASI
         /// <param name="tail">The element to append to the sequence.</param>
         /// <returns>A new sequence consiting of the original sequence followed by the appended element..</returns>
         public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail) {
-            if (head == null)
-                throw new ArgumentNullException("head");
-            foreach (var i in head) { yield return i; }
+            ArgumentValidator.ThrowIfNull(head, "head");
+            foreach (var i in head) {
+                yield return i;
+            }
             yield return tail;
         }
         /// <summary>
@@ -205,10 +192,11 @@ namespace LASI
         /// <param name="head">The element to prepend to the sequence.</param>
         /// <returns>A new sequence consiting of the prepended element followed by each element in the original sequence.</returns>
         public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> tail, TSource head) {
-            if (tail == null)
-                throw new ArgumentNullException("tail");
+            ArgumentValidator.ThrowIfNull(tail, "tail");
             yield return head;
-            foreach (var i in tail) { yield return i; }
+            foreach (var i in tail) {
+                yield return i;
+            }
         }
         /// <summary>
         /// Returns a HashSet representation of the given sequence using the default IEqualityComparer for the given element type.
@@ -217,8 +205,6 @@ namespace LASI
         /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
         /// <returns>A HashSet representation of the given sequence using the default System.Collections.Generic.IEqualityComparer for the given element type.</returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source) {
-            if (source == null)
-                throw new ArgumentNullException("source");
             return new HashSet<TSource>(source);
         }
         ///<summary> 
@@ -229,8 +215,7 @@ namespace LASI
         /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
         /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer) {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            ArgumentValidator.ThrowIfNull(comparer, "comparer");
             return new HashSet<TSource>(source, comparer);
         }
         /// <summary>
@@ -242,8 +227,7 @@ namespace LASI
         /// <param name="getHashCode">The function to extract a hash code from each element.</param>
         /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> equals, Func<TSource, int> getHashCode) {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            ArgumentValidator.ThrowIfNull(equals, "equals", getHashCode, "getHashCode");
             return new HashSet<TSource>(source, new CustomComparer<TSource>(equals, getHashCode));
         }
 
@@ -256,10 +240,8 @@ namespace LASI
         /// <param name="chunkSize">The number of elements per subsquence</param>
         /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (chunkSize < 1)
-                throw new ArgumentOutOfRangeException("chunkSize", chunkSize, "Value must be greater than 0.");
+            ArgumentValidator.ThrowIfNull(source, "source");
+            ArgumentValidator.ThrowIfLessThan(chunkSize, 1, "chunkSize", "Value must be greater than 0.");
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
@@ -273,12 +255,8 @@ namespace LASI
         /// <param name="discardDelimiter">True if delimiting elements should be discarded. The default is false.</param>
         /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool discardDelimiter = false) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (predicate == null)
-                throw new ArgumentNullException("predicate");
+            ArgumentValidator.ThrowIfNull(source, "source", predicate, "predicate");
             var breakPoint = 0;
-
             var segment = source.TakeWhile((element, index) => {
                 breakPoint = index;
                 return index != 0 && predicate(element);
@@ -286,6 +264,19 @@ namespace LASI
             yield return segment.Skip(discardDelimiter ? 1 : 0);
             yield return source.Skip(breakPoint + (discardDelimiter ? 1 : 0)).Split(predicate, discardDelimiter).SelectMany(s => s);
 
+        }
+        /// <summary>
+        /// Returns a Tuple&lt;IEnumerable&lt;T&gt;IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static Tuple<IEnumerable<T>, IEnumerable<T>> Parition<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
+            var indexed = source.Select((e, i) => new { Element = e, Index = i });
+            var matched = indexed.Where(x => predicate(x.Element));
+            var unmatched = indexed.Except(matched).OrderBy(x => x.Index).Select(x => x.Element);
+            return Tuple.Create(unmatched, unmatched);
         }
 
         /// <summary>
@@ -297,8 +288,8 @@ namespace LASI
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (source.None()) { throw new ArgumentException("Sequence contains no elements", "source"); }
+            ArgumentValidator.ThrowIfNull(source, "source");
+            ArgumentValidator.ThrowIfEmpty(source, "source");
             T first = source.First();
             foreach (var element in source.Skip(1)) {
                 yield return Tuple.Create(first, element);
@@ -317,7 +308,7 @@ namespace LASI
         /// <returns>The maximal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) {
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IComparable<TKey> {
             return source.MaxBy(selector, Comparer<TKey>.Default);
         }
 
@@ -333,14 +324,10 @@ namespace LASI
         /// <returns>The maximal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (source.None())
-                throw new InvalidCastException("Sequence Contains no elements");
-            if (selector == null)
-                throw new ArgumentNullException("selector");
-            return MinMaxImplementation(source, selector, MinMax.Max);
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey> {
+            ArgumentValidator.ThrowIfNull(source, "source", selector, "selector");
+            ArgumentValidator.ThrowIfEmpty(source, "source");
+            return MinMaxImplementation(source, selector, Enumerable.OrderByDescending);
         }
         /// <summary>
         /// Returns the minimal element of the given sequence, based on
@@ -353,7 +340,7 @@ namespace LASI
         /// <returns>The minimal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) {
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IComparable<TKey> {
             return source.MinBy(selector, Comparer<TKey>.Default);
         }
         /// <summary>
@@ -368,20 +355,33 @@ namespace LASI
         /// <returns>The minimal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (source.None()) { throw new InvalidCastException("Sequence Contains no elements"); }
-            if (selector == null) { throw new ArgumentNullException("selector"); }
-            return MinMaxImplementation(source, selector, MinMax.Min);
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey> {
+            ArgumentValidator.ThrowIfNull(source, "source", selector, "selector");
+            ArgumentValidator.ThrowIfEmpty(source, "source");
+            return MinMaxImplementation(source, selector, Enumerable.OrderBy);
         }
-
-        private static TSource MinMaxImplementation<TSource, TMax>(IEnumerable<TSource> source, Func<TSource, TMax> selector, MinMax minmax) {
-
-            return (minmax == MinMax.Max ? source.OrderByDescending(selector) : source.OrderBy(selector)).First();
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector) where TKey : struct, IComparable<TKey> {
+            return source.MaxBy(selector, Comparer<TKey?>.Default);
         }
-        private enum MinMax
-        {
-            Min, Max
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector, IComparer<TKey?> comparer) where TKey : struct, IComparable<TKey> {
+            return MinMaxImplementation(source, selector, Enumerable.OrderByDescending);
+        }
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector) where TKey : struct, IComparable<TKey> {
+            return source.MinBy(selector, Comparer<TKey?>.Default);
+        }
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector, IComparer<TKey?> comparer) where TKey : struct, IComparable<TKey> {
+            return MinMaxImplementation(source, selector, Enumerable.OrderBy);
+        }
+        private static TSource MinMaxImplementation<TSource, TKey>(
+            IEnumerable<TSource> source,
+            Func<TSource, TKey> selector,
+            Func<IEnumerable<TSource>, Func<TSource, TKey>, IOrderedEnumerable<TSource>> thrust)
+            where TKey : IComparable<TKey> {
+            return thrust(source, selector).First();
+        }
+        private static TSource MinMaxImplementation<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey?> selector, Func<IEnumerable<TSource>, Func<TSource, TKey?>, IOrderedEnumerable<TSource>> thrust) where TKey : struct, IComparable<TKey> {
+
+            return thrust(source, selector).First();
         }
 
         /// <summary>
@@ -398,8 +398,7 @@ namespace LASI
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (selector == null) { throw new ArgumentNullException("selector"); }
+            ArgumentValidator.ThrowIfNull(source, "source", selector, "selector");
             return source.Distinct(
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
@@ -508,8 +507,6 @@ namespace LASI
         }
 
         #endregion
-
-
 
     }
 

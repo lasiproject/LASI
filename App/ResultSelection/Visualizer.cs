@@ -201,7 +201,7 @@ namespace LASI.App
         private static IEnumerable<KeyValuePair<string, float>> GetVerbWiseData(Document document) {
             return
                 from relationship in GetVerbWiseRelationships(document)
-                let dataPont = Pair.Create(
+                let dataPont = KeyValuePair.Create(
                     string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
                     (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
                     (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
@@ -247,7 +247,7 @@ namespace LASI.App
             return from nounPhrase in document.Phrases.OfNounPhrase()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    group nounPhrase by new { nounPhrase.Text, Weight = (float)Math.Round(nounPhrase.Weight, 2) } into g
-                   select Pair.Create(g.Key.Text, g.Key.Weight);
+                   select KeyValuePair.Create(g.Key.Text, g.Key.Weight);
         }
 
         /// <summary>

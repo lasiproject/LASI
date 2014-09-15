@@ -109,7 +109,7 @@ namespace LASI.Core.Heuristics
 
         private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return Pair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);
 
