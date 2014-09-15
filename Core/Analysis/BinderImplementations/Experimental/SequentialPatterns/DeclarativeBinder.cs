@@ -17,6 +17,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         }
         static void Test(Sentence sentence) {
             sentence.Phrases.Match()
+                .WithContinuationMode(ContinuationMode.TraverseOnce)
                 .Ignore<IAdverbial, IDescriptor>()
                 .Guard(sentence.Phrases.Count() > 2)
                 .BindWhen((IEntity e1, IVerbal v, IEntity e2) => {
@@ -66,8 +67,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     v.BindDirectObject(o1);
                     v.BindDirectObject(o2);
                     v.BindDirectObject(o3);
-                })
-                .WithContinuationMode(ContinuationMode.TraverseOnce);
+                });
         }
     }
 }

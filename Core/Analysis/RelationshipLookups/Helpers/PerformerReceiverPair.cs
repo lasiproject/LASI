@@ -15,6 +15,11 @@ namespace LASI.Core.Heuristics
         where TPerformer : IEntity
         where TReceiver : IEntity
     {
+        /// <summary>
+        /// Initializes a new instance of the PerformerReceiverPair class.
+        /// </summary>
+        /// <param name="performer">The performer of some action.</param>
+        /// <param name="receiver">The receiver of that action.</param>
         public PerformerReceiverPair(TPerformer performer, TReceiver receiver) : this() { }
         /// <summary>
         /// Gets the Performer.

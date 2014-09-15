@@ -40,7 +40,7 @@ namespace LASI.Interop
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
         /// <para>which, when awaited, loads, analyzes, and aggregates all of the provided TextFile instances as individual documents, collecting them as</para>
-        /// <body>a sequence of Bound and Weighted LASI.Algorithm.Document instances. Progress update logic is specified via an asynchronous function parameter.</body>
+        /// <body>a sequence of Bound and Weighted LASI.Algorithm.Document instances.</body>
         /// </summary>
         /// <returns>
         /// <para>A Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;, when awaited, loads and analyzes, and aggregates all of the provided TextFile instances as individual documents, collecting them as
@@ -49,13 +49,20 @@ namespace LASI.Interop
         /// <example>
         ///Example event registration:
         ///<code>
-        /// myAnalysisOrchestrator.ProgressChanged += (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// var myDocument = new TxtFile(path);
+        /// var myOrchestrator = new AnalysisOrchestrator(myDocument);
+        /// myOrchestrator.ProgressChanged += (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);
+        /// IEnumerable&lt;Document&gt; results = await myOrchestrator.ProcessAsync();
         /// </code>
         /// </example>
         /// <example>
         /// Attaching an Asynchronous Event Handler
         /// <code>
-        /// myAnalysisOrchestrator.ProgressChanged += async (sender, e) => await Task.Run(myAction());
+        /// var myDocument = new TxtFile(path);
+        /// var myOrchestrator = new AnalysisOrchestrator(myDocument);
+        /// var logFile = File.OpenText(@"\log.txt");
+        /// myOrchestrator.ProgressChanged += async (sender, e) => await logFile.WriteLineAsync(e.Message + " " + e.Increment));
+        /// IEnumerable&lt;Document&gt; results = await myOrchestrator.ProcessAsync();
         /// </code>
         /// </example>
         public async Task<IEnumerable<Document>> ProcessAsync() {

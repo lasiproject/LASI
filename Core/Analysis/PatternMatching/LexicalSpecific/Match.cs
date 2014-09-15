@@ -250,9 +250,6 @@ namespace LASI.Core.PatternMatching
 
         #region Operators
 
-        public static implicit operator Match<T>(T element) {
-            return element.Match();
-        }
 
 
         //public static implicit operator bool(Match<T> match) { return match.Accepted; }

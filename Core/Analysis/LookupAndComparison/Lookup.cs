@@ -31,17 +31,17 @@ namespace LASI.Core.Heuristics
             return entity.Match().Yield<Gender>()
                     .With<ISimpleGendered>(p => p.Gender)
                     .With<IReferencer>(p => GetGender(p))
-                    .With<NounPhrase>(n => GetNounPhraseGender(n))
+                    .With<NounPhrase>(n => DetermineNounPhraseGender(n))
                     .With<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.Referencers.Any())
                     .Then<IEntity>(e => (
                         from referener in e.Referencers
-                        let gender = referener.Match().Yield<Gender>()
-                            .With<ISimpleGendered>(x => x.Gender)
-                            .Result()
-                        group gender by gender)
-                        .MaxBy(genderGroup => genderGroup.Count()).Key
-                    ).Result();
+                        let gendered = referener as ISimpleGendered
+                        let gender = gendered != null ? gendered.Gender : default(Gender)
+                        group gender by gender into byGender
+                        orderby byGender.Count() descending
+                        select byGender.Key).FirstOrDefault())
+                    .Result();
         }
         /// <summary>
         /// Returns a NameGender value indiciating the likely gender of the Pronoun based on its referrent if known, or else its PronounKind.
@@ -50,19 +50,19 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .With<PronounPhrase>(p => GetPronounPhraseGender(p))
+                    .With<PronounPhrase>(p => DeterminePronounPhraseGender(p))
                     .When(referee.RefersTo != null)
                     .Then((from referent in referee.RefersTo
-                           let gen =
+                           let gender =
                            referent.Match().Yield<Gender>()
-                              .With((NounPhrase n) => GetNounPhraseGender(n))
+                              .With((NounPhrase n) => DetermineNounPhraseGender(n))
                               .With((Pronoun r) => r.Gender)
                               .With((ProperSingularNoun r) => r.Gender)
                               .With((CommonNoun n) => Gender.Neutral)
                               .Result()
-                           group gen by gen into byGen
-                           where byGen.Count() == referee.RefersTo.Count()
-                           select byGen.Key).FirstOrDefault()).
+                           group gender by gender into byGender
+                           where byGender.Count() == referee.RefersTo.Count()
+                           select byGender.Key).FirstOrDefault()).
                     With<ISimpleGendered>(p => p.Gender)
                 .Result();
         }
@@ -76,7 +76,7 @@ namespace LASI.Core.Heuristics
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name; otherwise, false.</returns>
         public static bool IsFemaleFull(this NounPhrase name) {
-            return GetNounPhraseGender(name).IsFemale();
+            return DetermineNounPhraseGender(name).IsFemale();
         }
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Male Name.
@@ -84,12 +84,12 @@ namespace LASI.Core.Heuristics
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name; otherwise, false.</returns>
         public static bool IsMaleFull(this NounPhrase name) {
-            return GetNounPhraseGender(name).IsMale();
+            return DetermineNounPhraseGender(name).IsMale();
         }
 
         // TODO: refactor these two methods. their interaction is very opaque and error prone. Although they are private, they make maintaining related algorithms difficult.
         #region
-        private static Gender GetNounPhraseGender(NounPhrase name) {
+        private static Gender DetermineNounPhraseGender(NounPhrase name) {
             var propers = name.Words
                 .OfProperNoun();
             var first = propers
@@ -103,13 +103,12 @@ namespace LASI.Core.Heuristics
                 Gender.Neutral :
                 Gender.Undetermined;
         }
-        private static Gender GetPronounPhraseGender(PronounPhrase name) {
-            if (name.Words.All(w => w is Determiner))
-                return Gender.Undetermined;
-            var genders = name.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
+        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase) {
+            if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
+            var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
             bool any = genders.Any();
-            return name.Words.OfProperNoun().Any(n => !((n is ISimpleGendered))) ?
-                GetNounPhraseGender(name) :
+            return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
+                DetermineNounPhraseGender(pronounPhrase) :
                 any && genders.All(g => g.IsFemale()) ? Gender.Female :
                 any && genders.All(g => g.IsMale()) ? Gender.Male :
                 any && genders.All(g => g.IsNeutral()) ? Gender.Neutral :

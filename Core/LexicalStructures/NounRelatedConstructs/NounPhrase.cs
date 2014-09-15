@@ -22,7 +22,8 @@ namespace LASI.Core
         /// <param name="words">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> words) : base(words) {
             EntityKind = words.OfEntity()
-                .Select(e => e.EntityKind).DefaultIfEmpty()
+                .Select(e => e.EntityKind)
+                .DefaultIfEmpty()
                 .GroupBy(e => e)
                 .MaxBy(v => v.Count()).Key;
         }

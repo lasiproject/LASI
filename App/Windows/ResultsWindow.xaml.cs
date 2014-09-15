@@ -86,7 +86,7 @@ namespace LASI.App
             weightedByDocumentTabControl.SelectedItem = tab;
 
             await Visualizer.InitChartDisplayAsync(document);
-            await Visualizer.DisplayKeyRelationships(document);
+            await Visualizer.DisplayKeyRelationshipsAsync(document);
         }
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
@@ -256,13 +256,13 @@ namespace LASI.App
             }
         }
         private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
-            await Visualizer.ToBarCharts();
+            await Visualizer.ToBarChartsAsync();
         }
         private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e) {
-            await Visualizer.ToColumnCharts();
+            await Visualizer.ToColumnChartsAsync();
         }
         private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e) {
-            await Visualizer.ToPieCharts();
+            await Visualizer.ToPieChartsAsync();
         }
         private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e) {  //Hacky solution to make every option function. This makes new project restart LASI.
             App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
@@ -305,7 +305,7 @@ namespace LASI.App
 
             if (dialog.ShowDialog() ?? false) {
                 var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
-                metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToTextItemSource();
+                metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToGridRowData();
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {

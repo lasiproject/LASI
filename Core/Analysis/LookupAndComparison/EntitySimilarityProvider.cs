@@ -21,8 +21,7 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
-            return
-                first.Match().Yield<SimilarityResult>()
+            return first.Match().Yield<SimilarityResult>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(SimilarityResult.Similar)
                     .With<IAggregateEntity>(ae1 =>

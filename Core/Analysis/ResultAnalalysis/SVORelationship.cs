@@ -14,30 +14,38 @@ namespace LASI.Core
     /// </summary>
     public class SvoRelationship : IEquatable<SvoRelationship>
     {
-
-
+        /// <summary>
+        /// Intializes a new instance of the SvoRelationship class.
+        /// </summary>
+        /// <param name="subject">The subject component of the relationship.</param>
+        /// <param name="verbal">The verbal component of the relationship.</param>
+        /// <param name="direct">The direct object component of the relationship.</param>
+        /// <param name="indirect">The indirect object component of the relationship.</param>
+        public SvoRelationship(IEntity subject, IVerbal verbal, IEntity direct, IEntity indirect) {
+            Verbal = verbal; Subject = subject; Direct = direct; Indirect = indirect;
+        }
         /// <summary>
         /// Gets or sets the Subject component of the SvoRelationship.
         /// </summary>
-        public IEntity Subject { get; set; }
+        public IEntity Subject { get; private set; }
 
         /// <summary>
         /// Gets or sets the Verbal component of the SvoRelationship.
         /// </summary>
-        public IVerbal Verbal { get; set; }
+        public IVerbal Verbal { get; private set; }
 
         /// <summary>
         /// Gets or sets the Direct Object component of the SvoRelationship.
         /// </summary>
-        public IEntity Direct { get; set; }
+        public IEntity Direct { get; private set; }
         /// <summary>
         /// Gets or sets the Indirect Object component of the SvoRelationship.
         /// </summary>
-        public IEntity Indirect { get; set; }
+        public IEntity Indirect { get; private set; }
         /// <summary>
         /// Gets or sets the Prepositional component of the SvoRelationship.
         /// </summary>
-        public ILexical Prepositional { get; set; }
+        public ILexical Prepositional { get { return Verbal.ObjectOfThePreoposition; } }
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
@@ -46,8 +54,7 @@ namespace LASI.Core
         /// Gets the weight of the Relationship.
         /// </summary>
         public double CombinedWeight {
-            get;
-            set;
+            get { return Subject.Weight + Verbal.Weight + (Direct != null ? Direct.Weight : 0) + (Indirect != null ? Indirect.Weight : 0); }
         }
         /// <summary>
         /// Returns a string representation of the Relationship.
@@ -68,7 +75,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="other">The SvoRelationship to compare to.</param>
         /// <returns>True if the current Relationship is equal to the supplied SvoRelationship.</returns>
-        public bool Equals(SvoRelationship other) { return this == other; }
+        public bool Equals(SvoRelationship other) { return other != null && this == other; }
         /// <summary>
         /// Determines if the current SvoRelationship instance is equal to the specified System.Object.
         /// </summary>
@@ -87,14 +94,16 @@ namespace LASI.Core
         /// <param name="right">The second SvoRelationship instance.</param>
         /// <returns>True if the SvoRelationship instances are considered equal; otherwise, false.</returns>
         public static bool operator ==(SvoRelationship left, SvoRelationship right) {
-
-            if ((object)left == null || (object)right == null) {
-                return ReferenceEquals(left, right);
+            if (ReferenceEquals(left, null)) {
+                return ReferenceEquals(right, null);
             }
+            if (ReferenceEquals(right, null)) { return ReferenceEquals(left, null); }
+
             return left.Verbal.IsSimilarTo(right.Verbal) &&
-                   (left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
-                   (left.Direct.IsAliasFor(right.Direct) || left.Direct.IsSimilarTo(right.Direct)) &&
-                   (left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
+               (ReferenceEquals(left.Subject, right.Subject) ||
+                   left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
+                   (ReferenceEquals(left.Direct, right.Direct) || left.Direct.IsAliasFor(right.Direct) || left.Direct.IsSimilarTo(right.Direct)) &&
+                   (ReferenceEquals(left.Indirect, right.Indirect) || left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
 
         }
         /// <summary>

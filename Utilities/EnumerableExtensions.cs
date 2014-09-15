@@ -45,9 +45,10 @@ namespace LASI
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
             ArgumentValidator.ThrowIfNull(source, "source", delimiters, "delimiters");
-            return source.Aggregate(new StringBuilder(delimiters.Item1 + " "), (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '))
-                .ToString()
-                .TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+            return source.Aggregate(
+                    new StringBuilder(delimiters.Item1 + " "),
+                    (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '),
+                    result => result.ToString().TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3);
         }
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ]
@@ -109,19 +110,23 @@ namespace LASI
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             ArgumentValidator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
-            ArgumentValidator.ThrowIfLessThan(lineLength, 1, "lineLength", "Line length must be greater than 0.");
-            int len = 2;
-            return source.Aggregate(new StringBuilder(delimiters.Item1.ToString()).Append(' '),
-                    (accumulator, e) => {
-                        var cETS = selector(e) + delimiters.Item2 + " ";
-                        len += cETS.Length;
-                        if (len >= lineLength) {
-                            len = cETS.Length;
-                            accumulator.Append('\n');
-                            len = 0;
+            ArgumentValidator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
+            int length = 2;
+            return source
+                .Select(selector)
+                .Aggregate(
+                    new StringBuilder(delimiters.Item1 + " "),
+                    (builder, s) => {
+                        var append = s + delimiters.Item2 + " ";
+                        length += append.Length;
+                        if (length >= lineLength) {
+                            length = append.Length;
+                            builder.Append('\n');
+                            length = 0;
                         }
-                        return accumulator.Append(cETS);
-                    }).ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3;
+                        return builder.Append(append);
+                    },
+                    result => result.ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3);
         }
 
 
@@ -241,7 +246,7 @@ namespace LASI
         /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             ArgumentValidator.ThrowIfNull(source, "source");
-            ArgumentValidator.ThrowIfLessThan(chunkSize, 1, "chunkSize", "Value must be greater than 0.");
+            ArgumentValidator.ThrowIfLessThan(chunkSize, "chunkSize", 1, "Value must be greater than 0.");
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
@@ -273,10 +278,16 @@ namespace LASI
         /// <param name="predicate"></param>
         /// <returns></returns>
         public static Tuple<IEnumerable<T>, IEnumerable<T>> Parition<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
-            var indexed = source.Select((e, i) => new { Element = e, Index = i });
-            var matched = indexed.Where(x => predicate(x.Element));
-            var unmatched = indexed.Except(matched).OrderBy(x => x.Index).Select(x => x.Element);
-            return Tuple.Create(unmatched, unmatched);
+            var matched = new List<T>();
+            var notMatched = new List<T>();
+            foreach (var element in source) {
+                if (predicate(element)) {
+                    matched.Add(element);
+                } else {
+                    notMatched.Add(element);
+                }
+            }
+            return Tuple.Create(matched.AsEnumerable(), notMatched.AsEnumerable());
         }
 
         /// <summary>
@@ -290,10 +301,10 @@ namespace LASI
         public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source) {
             ArgumentValidator.ThrowIfNull(source, "source");
             ArgumentValidator.ThrowIfEmpty(source, "source");
-            T first = source.First();
-            foreach (var element in source.Skip(1)) {
-                yield return Tuple.Create(first, element);
-                first = element;
+            var first = source.First();
+            foreach (var next in source.Skip(1)) {
+                yield return Tuple.Create(first, next);
+                first = next;
             }
         }
 
@@ -360,27 +371,12 @@ namespace LASI
             ArgumentValidator.ThrowIfEmpty(source, "source");
             return MinMaxImplementation(source, selector, Enumerable.OrderBy);
         }
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector) where TKey : struct, IComparable<TKey> {
-            return source.MaxBy(selector, Comparer<TKey?>.Default);
-        }
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector, IComparer<TKey?> comparer) where TKey : struct, IComparable<TKey> {
-            return MinMaxImplementation(source, selector, Enumerable.OrderByDescending);
-        }
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector) where TKey : struct, IComparable<TKey> {
-            return source.MinBy(selector, Comparer<TKey?>.Default);
-        }
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> selector, IComparer<TKey?> comparer) where TKey : struct, IComparable<TKey> {
-            return MinMaxImplementation(source, selector, Enumerable.OrderBy);
-        }
+
         private static TSource MinMaxImplementation<TSource, TKey>(
             IEnumerable<TSource> source,
             Func<TSource, TKey> selector,
             Func<IEnumerable<TSource>, Func<TSource, TKey>, IOrderedEnumerable<TSource>> thrust)
             where TKey : IComparable<TKey> {
-            return thrust(source, selector).First();
-        }
-        private static TSource MinMaxImplementation<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey?> selector, Func<IEnumerable<TSource>, Func<TSource, TKey?>, IOrderedEnumerable<TSource>> thrust) where TKey : struct, IComparable<TKey> {
-
             return thrust(source, selector).First();
         }
 
@@ -414,8 +410,9 @@ namespace LASI
         static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Intersect(second,
                 new CustomComparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
-                x => selector(x).GetHashCode()));
+                    (x, y) => selector(x).Equals(selector(y)),
+                    x => selector(x).GetHashCode())
+            );
         }
         static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Union(second,

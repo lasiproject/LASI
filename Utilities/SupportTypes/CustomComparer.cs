@@ -46,7 +46,11 @@ namespace LASI.Utilities
         public CustomComparer(Func<T, T, bool> equals) {
             ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             this.equals = equals;
-            getHashCode = o => o == null ? 0 : 1;
+            if (typeof(T).IsValueType) {
+                getHashCode = o => o.GetHashCode();
+            } else {
+                getHashCode = o => o == null ? 0 : 1;
+            }
         }
         /// <summary>
         /// Initializes a new instance of the CustomComparer class which will use the provided equals and get hashcode functions.

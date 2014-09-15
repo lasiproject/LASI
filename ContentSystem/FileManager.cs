@@ -526,12 +526,19 @@ namespace LASI.ContentSystem
 
         internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(UnsupportedFormatHandling.Throw);
         #endregion
-
+        /// <summary>
+        /// Gets the names of all documents in the current project. Ignoring file extensions.
+        /// </summary>
+        /// <returns>The names of all documents in the current project. Ignoring file extensions.</returns>
         public static IEnumerable<string> AllDocumentNames {
             get {
                 return AllDocuments.Select(file => file.NameSansExt).ToImmutableHashSet().WithComparer(StringComparer.OrdinalIgnoreCase);
             }
         }
+        /// <summary>
+        /// Gets all input files in the current project.
+        /// </summary>
+        /// <returns>All input files in the current project.</returns>
         public static IEnumerable<InputFile> AllDocuments {
             get {
                 foreach (var txt in txtFiles) { yield return txt; }

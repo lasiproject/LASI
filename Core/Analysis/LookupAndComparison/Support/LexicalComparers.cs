@@ -72,7 +72,7 @@ namespace LASI.Core
         /// <exception cref="ArgumentNullException">Thrown if either the provided equality or the provided getHashCode functions is null.</exception>
         private CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
             ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
-            ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
+            ArgumentValidator.ThrowIfNull(getHashCode,"getHashCode", "A null getHashCode function was provided.");
             this.equals = equals;
             this.getHashCode = getHashCode;
         }

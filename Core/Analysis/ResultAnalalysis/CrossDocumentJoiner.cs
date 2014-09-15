@@ -63,14 +63,7 @@ namespace LASI.Core
             return
                 from nounPhrase in crossReferenced.Distinct(CompareNps)
                 orderby nounPhrase.SubjectOf.Text
-                select new SvoRelationship
-                {
-                    Verbal = nounPhrase.SubjectOf,
-                    Subject = new AggregateEntity(nounPhrase),
-                    Direct = new AggregateEntity(nounPhrase.SubjectOf.DirectObjects),
-                    Indirect = new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects),
-                    Prepositional = nounPhrase.SubjectOf.ObjectOfThePreoposition
-                };
+                select new SvoRelationship(new AggregateEntity(nounPhrase), nounPhrase.SubjectOf, new AggregateEntity(nounPhrase.SubjectOf.DirectObjects), new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects));
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -92,14 +85,7 @@ namespace LASI.Core
             var relationships = from verbal in verbalCominalities
                                 let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
                                 entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
-                                let relationship = new SvoRelationship
-                                {
-                                    Verbal = verbal,
-                                    Subject = testPronouns(verbal.Subjects),
-                                    Direct = testPronouns(verbal.DirectObjects),
-                                    Indirect = testPronouns(verbal.IndirectObjects),
-                                    Prepositional = verbal.ObjectOfThePreoposition
-                                }
+                                let relationship = new SvoRelationship(testPronouns(verbal.Subjects), verbal, testPronouns(verbal.DirectObjects), testPronouns(verbal.IndirectObjects))
                                 where relationship.Subject != null
                                 orderby relationship.Verbal.Weight
                                 select relationship;
