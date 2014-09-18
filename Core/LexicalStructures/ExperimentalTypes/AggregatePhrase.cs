@@ -11,21 +11,14 @@ namespace LASI.Core.Binding.Experimental
         where TPrimary : TBase, ILexical
         where TBase : ILexical
     {
-
-        IEnumerable<TBase> AllConstituents { get; }
+        IEnumerable<TBase> Constituents { get; }
         IEnumerable<TPrimary> PrimaryConstituents { get; }
-
-
-
     }
     class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>, IEntity
     {
-
         protected AggregateNounPhrase(IEnumerable<IEntity> constituents) {
-
             this.constituents = constituents.ToList();
         }
-
 
         public EntityKind EntityKind {
             get {
@@ -44,15 +37,17 @@ namespace LASI.Core.Binding.Experimental
                     EntityKind.ThingMultiple : kind;
             }
         }
-
+        /// <summary>
+        ///Gets or sets the IVerbal instance the AggregateNounPhrase is the subject of.
+        /// </summary>
         public IVerbal SubjectOf { get; set; }
 
         public IVerbal DirectObjectOf { get; set; }
 
         public IVerbal IndirectObjectOf { get; set; }
 
-        public void BindReferencer(IReferencer pro) {
-            if (!boundPronouns.Contains(pro)) { boundPronouns.Add(pro); }
+        public void BindReferencer(IReferencer referencer) {
+            boundPronouns.Add(referencer);
         }
 
         public IEnumerable<IReferencer> Referencers {
@@ -60,7 +55,7 @@ namespace LASI.Core.Binding.Experimental
         }
 
         public void BindDescriptor(IDescriptor descriptor) {
-            foreach (var c in PrimaryConstituents) { c.BindDescriptor(descriptor); }
+            foreach (var constituent in PrimaryConstituents) { constituent.BindDescriptor(descriptor); }
         }
 
         public IEnumerable<IDescriptor> Descriptors {
@@ -74,16 +69,13 @@ namespace LASI.Core.Binding.Experimental
         public void AddPossession(IPossessable possession) {
             possessions.Add(possession);
         }
+        /// <summary>
+        /// Gets or sets the possessor of the AggregateNounPhrase.
+        /// </summary>
+        public IPossesser Possesser { get; set; }
 
-        public IPossesser Possesser {
-            get;
-            set;
-        }
-
-
-
-        public IEnumerable<IEntity> AllConstituents { get { return this.constituents; } }
-        public IEnumerable<NounPhrase> PrimaryConstituents { get { return this.constituents.OfType<NounPhrase>(); } }
+        public IEnumerable<IEntity> Constituents { get { return constituents; } }
+        public IEnumerable<NounPhrase> PrimaryConstituents { get { return constituents.OfType<NounPhrase>(); } }
         public IPrepositional PrepositionOnLeft { get; set; }
         public IPrepositional PrepositionOnRight { get; set; }
         public string Text {

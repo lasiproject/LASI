@@ -46,13 +46,7 @@ namespace LASI.Core
                     string.Format("{0}: Abstracted References", document.Name), 5);
         }
 
-
-
-
-
-
         #region Private Static Methods
-
 
         private static void BindAdjectivePhrases(IEnumerable<Sentence> sentences) {
             sentences.AsParallel()
@@ -91,8 +85,7 @@ namespace LASI.Core
         }
 
         private static void MatchSentences(IEnumerable<Sentence> sentences) {
-            sentences.AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max)
+            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(sentence => new DeclarativeBinder().Bind(sentence));
         }
 
@@ -109,7 +102,6 @@ namespace LASI.Core
                 .ForAll(sentence => PronounBinder.Bind(sentence));
             sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .ForAll(sentence => AdaptivePronounBinder.Bind(sentence.Words));
-
         }
 
         #endregion

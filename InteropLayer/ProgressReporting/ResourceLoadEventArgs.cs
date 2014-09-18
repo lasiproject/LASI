@@ -11,7 +11,7 @@ namespace LASI.Interop.ContractHelperTypes
     {
 
         /// <summary>
-        /// The number of miliseconds consumed by the loading task associated with the event.
+        /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
         public long ElapsedMiliseconds { get; internal set; }
         /// <summary>

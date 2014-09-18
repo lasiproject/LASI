@@ -117,6 +117,7 @@ namespace LASI.Tests
 
         [TestMethod]
         public void ToHashSetTest() {
+            var target = Enumerable.Range(1, 100).ToHashSet();
             Assert.Fail();
         }
 

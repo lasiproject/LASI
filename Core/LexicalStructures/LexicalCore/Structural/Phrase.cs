@@ -9,7 +9,6 @@ using System.Xml.Linq;
 
 namespace LASI.Core
 {
-
     /// <summary>
     /// Provides the base class, properties, and behaviors for all Phrase level grammatical constructs.
     /// </summary>
@@ -32,7 +31,7 @@ namespace LASI.Core
         /// <param name="first">The first Word of the Phrase.</param>
         /// <param name="rest">The rest of the Words comprise the Phrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// Thus, its purpose is to simplify test code.</remarks>
         protected Phrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion

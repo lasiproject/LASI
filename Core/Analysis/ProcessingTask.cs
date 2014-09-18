@@ -48,31 +48,19 @@ namespace LASI.Core
         /// <summary>
         /// Gets the work the ProcessingTask will perform.
         /// </summary>
-        public Task Task {
-            get;
-            private set;
-        }
+        public Task Task { get; private set; }
         /// <summary>
         /// Gets a message indicating the start of specific the ProcessingTask.
         /// </summary>
-        public string InitializationMessage {
-            get;
-            private set;
-        }
+        public string InitializationMessage { get; private set; }
         /// <summary>
         /// Gets a message indicating the end of specific the ProcessingTask.
         /// </summary>
-        public string CompletionMessage {
-            get;
-            private set;
-        }
+        public string CompletionMessage { get; private set; }
         /// <summary>
         /// Gets a double value corresponding to the relative amount of work the ProcessingTask represents.
         /// </summary>
-        public double PercentCompleted {
-            get;
-            private set;
-        }
+        public double PercentCompleted { get; private set; }
     }
 
 }

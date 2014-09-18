@@ -11,7 +11,7 @@ namespace LASI.Utilities
         /// Logs the Exception to the Output object if the debug flag is set.
         /// </summary>
         /// <typeparam name="TException">The type of the Exception being logged.</typeparam>
-        /// <param name="exception">The excption to log.</param>
+        /// <param name="exception">The exception to log.</param>
         public static void LogIfDebug<TException>(this TException exception) where TException : Exception {
 #if DEBUG
             Output.WriteLine(exception.Message);

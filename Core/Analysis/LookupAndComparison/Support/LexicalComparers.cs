@@ -23,7 +23,7 @@ namespace LASI.Core
         /// Creates a custom IEqualityComparer which always uses the provided comparison function to compare instances. 
         /// This fully bypasses the hash checks for non null references.
         /// </summary>
-        /// <param name="equals">The function to determine equality Equality.</param>
+        /// <param name="equals">The function to determine equality.</param>
         /// <returns>A custom NounPhraes comparer which uses the given function to compare values and a null or not null only sensitive Hash function.
         /// </returns>
         /// <remarks>The intent of the functionality provided is to simplify
@@ -72,7 +72,7 @@ namespace LASI.Core
         /// <exception cref="ArgumentNullException">Thrown if either the provided equality or the provided getHashCode functions is null.</exception>
         private CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
             ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
-            ArgumentValidator.ThrowIfNull(getHashCode,"getHashCode", "A null getHashCode function was provided.");
+            ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
             this.equals = equals;
             this.getHashCode = getHashCode;
         }
@@ -104,7 +104,7 @@ namespace LASI.Core
         /// Creates a custom IEqualityComparer which always uses the provided comparison function to compare instances. 
         /// This fully bypasses the hash checks for non null references.
         /// </summary>
-        /// <param name="equals">The function to determine equality Equality.</param>
+        /// <param name="equals">The function to determine equality.</param>
         /// <returns>A custom comparer which uses the given function to compare values and a null or not null only sensitive Hash function.
         /// </returns>
         /// <remarks>The intent of the functionality provided is to simplify
@@ -113,7 +113,7 @@ namespace LASI.Core
         /// Because the custom comparer created bypasses hash code equality assumptions, it allows for these methods to behave more transparently.
         /// This however means that the overhead of using the returned comparer in a LINQ query is substantial. 
         /// Specifically, the complexity of a calling IEnumerable.Contains(CreateCustom(Func)) or IEnumerable.Distinct(CreateCustom(Func))
-        /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
+        /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach O(N).
         /// </remarks>
         public static CustomComparer<T> Create(Func<T, T, bool> equals) {
             return new CustomComparer<T>(equals);

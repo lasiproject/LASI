@@ -11,10 +11,11 @@ namespace LASI.Core
     public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
     {
         #region Methods
+
         /// <summary>
         /// Binds the IVerbal to the corresponding object of the preposition.
         /// </summary>
-        /// <param name="prepositional">The IPrepositional construct whose object is the the corresponding object of the preposition.</param>
+        /// <param name="prepositional">The IPrepositional construct whose object is the corresponding object of the preposition.</param>
         void AttachObjectViaPreposition(IPrepositional prepositional);
         /// <summary>
         /// Gets a value indicating if the IVerbal has at least one subject.
@@ -71,6 +72,7 @@ namespace LASI.Core
         /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
         /// <returns>True if the IVerbal has at least one subject, direct object, or indirect object  matching the provided predicate; otherwise, false.</returns>
         bool HasSubjectOrObject(System.Func<IEntity, bool> predicate);
+
         #endregion
 
         #region Properties
@@ -87,13 +89,14 @@ namespace LASI.Core
             get;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the IVerbal has classifying semantics. E.g. "A (is) a B"
+        /// Gets a value indicating whether or not the IVerbal has classifying semantics. E.g. "A (is) a B"
         /// </summary>
         bool IsClassifier { get; }
         /// <summary>
-        /// Gets a value indicating wether or not the IVerbal has possessive semantics. E.g. "A (has) a B"
+        /// Gets a value indicating whether or not the IVerbal has possessive semantics. E.g. "A (has) a B"
         /// </summary>
         bool IsPossessive { get; }
+
         #endregion
     }
 }

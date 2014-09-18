@@ -15,6 +15,7 @@ namespace LASI.Core
     public static partial class LexicalEnumerable
     {
         #region Sequential Implementations
+
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound subject.
         /// </summary>
@@ -57,7 +58,6 @@ namespace LASI.Core
                    where verbal.HasObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one bound direct OR indirect object matching the provided object testing function.
         /// </summary>
@@ -81,7 +81,6 @@ namespace LASI.Core
                    where verbal.HasDirectObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one direct object matching the provided object testing function.
         /// </summary>
@@ -94,7 +93,6 @@ namespace LASI.Core
                    where verbal.HasDirectObject(condition)
                    select verbal;
         }
-
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound indirect object.
         /// </summary>
@@ -106,7 +104,6 @@ namespace LASI.Core
                    where verbal.HasIndirectObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one indirect object which matches the provided object testing function
         /// </summary>
@@ -119,7 +116,6 @@ namespace LASI.Core
                    where verbal.HasIndirectObject(condition)
                    select verbal;
         }
-
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one subject, direct object, or indirect object.
         /// </summary>
@@ -143,6 +139,7 @@ namespace LASI.Core
                    where verbal.HasSubject(condition) || verbal.HasObject(condition)
                    select verbal;
         }
+
         #endregion
 
         #region Parallel Implementations
@@ -189,7 +186,6 @@ namespace LASI.Core
                    where verbal.HasObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one bound direct OR indirect object matching the provided object testing function.
         /// </summary>
@@ -213,7 +209,6 @@ namespace LASI.Core
                    where verbal.HasDirectObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one direct object matching the provided object testing function.
         /// </summary>
@@ -226,7 +221,6 @@ namespace LASI.Core
                    where verbal.HasDirectObject(condition)
                    select verbal;
         }
-
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one bound indirect object.
         /// </summary>
@@ -238,7 +232,6 @@ namespace LASI.Core
                    where verbal.HasIndirectObject()
                    select verbal;
         }
-
         /// <summary>
         /// Filters a collection of IVerbal constructs returning those who have at least one indirect object which matches the provided object testing function
         /// </summary>
@@ -251,7 +244,6 @@ namespace LASI.Core
                    where verbal.HasIndirectObject(condition)
                    select verbal;
         }
-
         /// <summary>
         /// Filters the sequence of IVerbal constructs selecting those with at least one subject, direct object, or indirect object.
         /// </summary>

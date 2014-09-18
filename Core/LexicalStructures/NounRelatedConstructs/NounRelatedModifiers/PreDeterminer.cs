@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a Predpeterminer, a relative or abstract quantifier, such as "both" or "all"
+    /// Represents a Predeterminer, a relative or abstract quantifier, such as "both" or "all"
     /// </summary>
     public class PreDeterminer : Quantifier
     {

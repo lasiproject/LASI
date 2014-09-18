@@ -8,7 +8,6 @@ namespace LASI.Core
     /// </summary>
     public interface ISubjectTaker
     {
-
         /// <summary>
         /// Binds the given IEntity as a subject of the ISubjectTaker instance.
         /// </summary>

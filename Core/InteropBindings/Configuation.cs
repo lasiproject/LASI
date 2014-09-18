@@ -28,9 +28,7 @@ namespace LASI.Core.Interop
 
         internal static int MaxConcurrency { get; private set; }
     }
-}
-namespace LASI.Core.Interop
-{
+
     /// <summary>
     /// Provides access to concurrency information.
     /// </summary>
@@ -40,6 +38,6 @@ namespace LASI.Core.Interop
         /// Gets the current maximum degree of concurrency.
         /// </summary>
         /// <returns>The current maximum degree of parallelism.</returns>
-        public static int Max { get { return LASI.Core.Interop.Configuation.MaxConcurrency; } }
+        public static int Max { get { return Configuation.MaxConcurrency; } }
     }
 }

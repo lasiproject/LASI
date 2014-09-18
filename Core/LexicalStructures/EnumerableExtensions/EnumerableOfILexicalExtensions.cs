@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace LASI.Core
 {
@@ -27,7 +23,7 @@ namespace LASI.Core
         /// <returns>True if the sequence contains the given element; otherwise, false.</returns> 
         /// <example>
         /// <code>
-        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// var myNPs = myDoc.Phrases.OfNounPhrase();
         /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
         /// {
         ///     Console.WriteLine("Found!");
@@ -51,7 +47,7 @@ namespace LASI.Core
 
         }
         /// <summary>
-        ///  Returns distinct elements from a sequence of TLexical constructs by using a specified specified equality comparison function.
+        ///  Returns distinct elements from a sequence of TLexical constructs by using a specified equality comparison function.
         /// </summary>
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
         /// <param name="elements">The sequence of TLexical constructs in which to eliminate duplicates.</param>
@@ -60,7 +56,7 @@ namespace LASI.Core
         /// </returns>
         /// <example>
         /// <code>
-        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// var myNPs = myDoc.Phrases.OfNounPhrase();
         /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
         /// {
         ///     Console.WriteLine("Found!");
@@ -116,7 +112,8 @@ namespace LASI.Core
         /// var distinctActionsAcross = doc1.GetActions().Union(doc2.GetActions(), (a1, a2) => a1.IsSimilarTo(A2));
         /// </code>
         /// </example>
-        public static IEnumerable<TLexical> Union<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
+        public static IEnumerable<TLexical> Union<TLexical>(
+            this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return first.Union(second, LexicalComparers.Create(comparison));
         }
         /// <summary>
@@ -125,19 +122,11 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements) {
-            return elements.SelectMany(e => {
-                var p = e as Phrase;
-                if (p != null) {
-                    return p.Words;
-                } else {
-                    var c = e as Clause; if (c != null) {
-                        return c.Words;
-                    }
-                    var w = e as Word;
-                    return Enumerable.Repeat(w, w != null ? 1 : 0);
-
-                }
-            });
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
+                    .With((Clause c) => c.Words)
+                    .With((Phrase p) => p.Words)
+                    .With((Word w) => new[] { w })
+                    .Result(Enumerable.Empty<Word>()));
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
@@ -145,28 +134,15 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements) {
-            return elements.SelectMany(e => {
-                var c = e as Clause;
-                if (c != null) {
-                    return c.Phrases;
-                } else {
-                    var p = e as Phrase;
-                    return Enumerable.Repeat(p, p != null ? 1 : 0);
-                }
-            });
-        }
-        /// <summary>
-        /// Gets all of the Clause instances in the sequence of ILexicals.
-        /// </summary>
-        /// <param name="elements">The source sequence of ILexical instances.</param>
-        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) {
-            return elements.OfType<Clause>();
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
+                    .With((Clause c) => c.Phrases)
+                    .With((Phrase p) => new[] { p })
+                    .Result(Enumerable.Empty<Phrase>()));
         }
         /// <summary>
         /// Returns all Entities in the sequence.
         /// </summary>
-        /// <param name="elements">The sequence of Lexicalsto filter.</param>
+        /// <param name="elements">The sequence of Lexicals to filter.</param>
         /// <returns>All Entities in the sequence.</returns>
         public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) {
             return elements.OfType<IEntity>();
@@ -178,6 +154,14 @@ namespace LASI.Core
         /// <returns>All Verbals in the sequence.</returns>
         public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements) {
             return elements.AsRecursiveEnumerable().OfType<IVerbal>();
+        }
+        /// <summary>
+        /// Gets all of the Clause instances in the sequence of ILexicals.
+        /// </summary>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
+        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
+        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) {
+            return elements.OfType<Clause>();
         }
 
         #endregion
@@ -193,7 +177,7 @@ namespace LASI.Core
         /// <returns>True if the sequence contains the given element; otherwise, false.</returns> 
         /// <example>
         /// <code>
-        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// var myNPs = myDoc.Phrases.OfNounPhrase();
         /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
         /// {
         ///     Console.WriteLine("Found!");
@@ -202,7 +186,6 @@ namespace LASI.Core
         /// </example>
         public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return elements.Contains(element, LexicalComparers.Create(comparison));
-
         }
         /// <summary>
         /// Produces the set difference of two sequences by using the specified comparison function to compare values.
@@ -217,7 +200,7 @@ namespace LASI.Core
 
         }
         /// <summary>
-        ///  Returns distinct elements from a sequence of TLexical constructs by using a specified specified equality comparison function.
+        ///  Returns distinct elements from a sequence of TLexical constructs by using a specified equality comparison function.
         /// </summary>
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
         /// <param name="elements">The sequence of TLexical constructs in which to eliminate duplicates.</param>
@@ -226,7 +209,7 @@ namespace LASI.Core
         /// </returns>
         /// <example>
         /// <code>
-        /// var myNPs = myDoc.Phrases.GetNounPhrases();
+        /// var myNPs = myDoc.Phrases.OfNounPhrase();
         /// if (myNPs.Contains(NpToFind, (np1, np2) => np1.Text == np2.Text || np1.IsAliasFor(np2)))
         /// {
         ///     Console.WriteLine("Found!");
@@ -290,19 +273,11 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) {
-            return elements.SelectMany(e => {
-                var p = e as Phrase;
-                if (p != null) {
-                    return p.Words;
-                } else {
-                    var c = e as Clause; if (c != null) {
-                        return c.Words;
-                    }
-                    var w = e as Word;
-                    return Enumerable.Repeat(w, w != null ? 1 : 0);
-
-                }
-            });
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
+                    .With((Clause c) => c.Words)
+                    .With((Phrase p) => p.Words)
+                    .With((Word w) => new[] { w })
+                    .Result(Enumerable.Empty<Word>()));
         }
         /// <summary>
         /// Gets all of the Phrase instances in the sequence of ILexicals.
@@ -310,22 +285,17 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
         static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) {
-            return elements.SelectMany(e => {
-                var c = e as Clause;
-                if (c != null) {
-                    return c.Phrases;
-                } else {
-                    var p = e as Phrase;
-                    return Enumerable.Repeat(p, p != null ? 1 : 0);
-                }
-            });
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
+                    .With((Clause c) => c.Phrases)
+                    .With((Phrase p) => new[] { p })
+                    .Result(Enumerable.Empty<Phrase>()));
         }
         /// <summary>
         /// Gets all of the Clause instances in the sequence of ILexicals.
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Clause> OClause(this ParallelQuery<ILexical> elements) {
+        public static ParallelQuery<Clause> OfClause(this ParallelQuery<ILexical> elements) {
             return elements.OfType<Clause>();
         }
 

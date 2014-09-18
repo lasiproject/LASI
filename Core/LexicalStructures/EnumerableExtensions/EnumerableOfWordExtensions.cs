@@ -29,6 +29,7 @@ namespace LASI.Core
         }
 
         #region Syntactic Type Filtering
+
         /// <summary>
         /// Returns all Adverbs in the collection
         /// </summary>
@@ -84,7 +85,8 @@ namespace LASI.Core
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
         public static IEnumerable<CommonPluralNoun> Plurals(this IEnumerable<CommonNoun> nouns) {
             return nouns.OfType<CommonPluralNoun>();
-        }/// <summary>
+        }
+        /// <summary>
         /// Returns all ProperSingularNouns in the ProperNoun sequence.
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
@@ -167,14 +169,15 @@ namespace LASI.Core
         public static IEnumerable<Quantifier> OfQuantifier(this IEnumerable<Word> words) {
             return words.OfType<Quantifier>();
         }
+
         #endregion
 
         #endregion
 
         #region Parallel Implementations
-
-
+        
         #region Syntactic Type Filtering
+        
         /// <summary>
         /// Returns all Adverbs in the collection
         /// </summary>
@@ -230,7 +233,8 @@ namespace LASI.Core
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
         public static ParallelQuery<CommonPluralNoun> Plurals(this ParallelQuery<CommonNoun> nouns) {
             return nouns.OfType<CommonPluralNoun>();
-        }/// <summary>
+        }
+        /// <summary>
         /// Returns all ProperSingularNouns in the ProperNoun sequence.
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
@@ -313,6 +317,7 @@ namespace LASI.Core
         public static ParallelQuery<Quantifier> OfQuantifier(this ParallelQuery<Word> words) {
             return words.OfType<Quantifier>();
         }
+        
         #endregion
 
         #endregion

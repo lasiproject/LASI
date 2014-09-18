@@ -64,8 +64,7 @@ namespace LASI.Core
         }
 
         static void ExecuteTask(Task phase, string documentSpecificMessageText, double numericValue) {
-            PhaseStarted(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue)
-            );
+            PhaseStarted(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue));
             phase.Wait();
             PhaseFinished(new object(), new WeightingUpdateEventArgs(documentSpecificMessageText, numericValue));
         }
@@ -113,13 +112,11 @@ namespace LASI.Core
                                .Result(e)
                              where result != null
                              select result;
-
-            var synonymGroups =
-                from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                where outer.IsSimilarTo(inner)
-                group inner by outer into grouped
-                select new { SynGroup = grouped, Count = grouped.Count() };
+            var synonymGroups = from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                where outer.IsSimilarTo(inner)
+                                group inner by outer into grouped
+                                select new { SynGroup = grouped, Count = grouped.Count() };
 
             synonymGroups.ForAll(grp => {
                 var increase = grp.Count;
@@ -203,11 +200,11 @@ namespace LASI.Core
 
         }
         private static void HackSubjectPropernounImportance(Document document) {
-            document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            document.Phrases
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
-                .Where(np => np.Words.Any(w => w is ProperNoun))
-                .ForAll(np => np.Weight *= 2);
-
+                .Where(nounPhrase => nounPhrase.Words.Any(word => word is ProperNoun))
+                .ForAll(nounPhrase => nounPhrase.Weight *= 2);
         }
 
         #region Events
@@ -233,11 +230,6 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.
         /// </summary>
-        internal WeightingUpdateEventArgs(string message, double increment) {
-            Message = message;
-            PercentWorkRepresented = increment;
-        }
-
+        internal WeightingUpdateEventArgs(string message, double increment) : base(message, increment) { }
     }
-
 }

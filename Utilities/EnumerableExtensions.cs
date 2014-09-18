@@ -176,12 +176,12 @@ namespace LASI
         }
 
         /// <summary>
-        /// Appends the given element to the sequence, yielding a new sequence consiting of the original sequence followed by the appended element.
+        /// Appends the given element to the sequence, yielding a new sequence consisting of the original sequence followed by the appended element.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="head">The sequence to which the element will be appended.</param>
         /// <param name="tail">The element to append to the sequence.</param>
-        /// <returns>A new sequence consiting of the original sequence followed by the appended element..</returns>
+        /// <returns>A new sequence consisting of the original sequence followed by the appended element..</returns>
         public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail) {
             ArgumentValidator.ThrowIfNull(head, "head");
             foreach (var i in head) {
@@ -190,12 +190,12 @@ namespace LASI
             yield return tail;
         }
         /// <summary>
-        /// Prepends the given element to the sequence, yielding a new sequence consiting of the prepended element followed by each element in the original sequence.
+        /// Prepends the given element to the sequence, yielding a new sequence consisting of the prepended element followed by each element in the original sequence.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
         /// <param name="tail">The sequence to which the element will be prepended.</param>
         /// <param name="head">The element to prepend to the sequence.</param>
-        /// <returns>A new sequence consiting of the prepended element followed by each element in the original sequence.</returns>
+        /// <returns>A new sequence consisting of the prepended element followed by each element in the original sequence.</returns>
         public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> tail, TSource head) {
             ArgumentValidator.ThrowIfNull(tail, "tail");
             yield return head;
@@ -242,7 +242,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence to split into subsequences</param>
-        /// <param name="chunkSize">The number of elements per subsquence</param>
+        /// <param name="chunkSize">The number of elements per subsequence</param>
         /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             ArgumentValidator.ThrowIfNull(source, "source");
@@ -256,7 +256,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence to split into subsequences</param>
-        ///<param name="predicate">A predicate which returns true when an element will subdevide the source sequence.</param>
+        ///<param name="predicate">A predicate which returns true when an element will subdivide the source sequence.</param>
         /// <param name="discardDelimiter">True if delimiting elements should be discarded. The default is false.</param>
         /// <returns>A sequence of sequences based on the provided chunk size.</returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool discardDelimiter = false) {
@@ -278,16 +278,8 @@ namespace LASI
         /// <param name="predicate"></param>
         /// <returns></returns>
         public static Tuple<IEnumerable<T>, IEnumerable<T>> Parition<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
-            var matched = new List<T>();
-            var notMatched = new List<T>();
-            foreach (var element in source) {
-                if (predicate(element)) {
-                    matched.Add(element);
-                } else {
-                    notMatched.Add(element);
-                }
-            }
-            return Tuple.Create(matched.AsEnumerable(), notMatched.AsEnumerable());
+            var partitioned = source.GroupBy(predicate).OrderByDescending(g => g.Key).DefaultIfEmpty(Enumerable.Empty<T>());
+            return Tuple.Create(partitioned.First(), partitioned.Skip(1).DefaultIfEmpty(Enumerable.Empty<T>()).First());
         }
 
         /// <summary>

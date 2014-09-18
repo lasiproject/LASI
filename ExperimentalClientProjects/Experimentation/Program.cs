@@ -14,13 +14,10 @@ namespace LASI.Experimentation.CommandLine
 {
     class Program
     {
+
         static void Main(string[] args) {
             var fragment = new ContentSystem.RawTextFragment(
-                @"Virginia was the first state in the United states. 
-Virginia is an at-will state. 
-This means that companies can fire employees for no reason as long as doing so does not violate federal labour laws. 
-Virginia takes many of it's political views from the religious right wing. 
-It has a very prominent conservative community.", "Test");
+                rawText, "Test");
             var percent = 0d;
             var notfier = new ResourceNotifier();
             notfier.ResourceLoaded += (s, e) => {
@@ -49,6 +46,13 @@ It has a very prominent conservative community.", "Test");
             Input.WaitForKey(ConsoleKey.Escape);
 
         }
+        private const string rawText =
+            @"Virginia was the first state in the United states. 
+            Virginia is an at-will state. 
+            This means that companies can fire employees for no reason as long as doing so does not violate federal labour laws. 
+            Virginia takes many of it's political views from the religious right wing. 
+            It has a very prominent conservative community.";
+
     }
 }
 

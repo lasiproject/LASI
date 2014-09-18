@@ -33,7 +33,7 @@ namespace LASI.Core
         /// <param name="first">The first Word of the NounPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the NounPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// Thus, its purpose is to simplify test code.</remarks>
         public NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
@@ -77,7 +77,7 @@ namespace LASI.Core
             var gender = this.GetGender();
             var aliases = this.GetDefinedAliases();
             string empty = string.Empty;
-            return base.ToString() + string.Format("{0}{2}{3}{4}{5}{6}{7}{8}",
+            return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
                 Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
@@ -133,7 +133,7 @@ namespace LASI.Core
             get { return possessor; }
             set {
                 possessor = value;
-                // Bind entity words of the phrase as possesions of possesor.
+                // Bind entity words of the phrase as possessions of possessor.
                 if (value != null) {
                     foreach (var entity in Words.OfType<IEntity>()) { value.AddPossession(entity); }
                 } else {

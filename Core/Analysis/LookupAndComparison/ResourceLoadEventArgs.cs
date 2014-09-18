@@ -12,19 +12,13 @@ namespace LASI.Core
     [Serializable]
     public class ResourceLoadEventArgs : LASI.Core.Interop.Reporting.ReportEventArgs
     {
-        internal ResourceLoadEventArgs() {
-            Message = string.Empty;
-        }
         /// <summary>
         /// Initializes a new instance of the ResourceLoadEventArgs.
         /// </summary>
         /// <param name="message">A short textual description of the event.</param>
         /// <param name="increment">The percentage of total work completed.</param>
         public ResourceLoadEventArgs(string message, double increment)
-            : this() {
-            Message = message;
-            PercentWorkRepresented = increment;
-        }
+            : base(message, increment) { }
         /// <summary>
         /// The number of miliseconds consumed by the loading task associated with the event.
         /// </summary>

@@ -8,9 +8,8 @@ namespace LASI.Core
     /// </summary>
     public interface IReferencer : IEntity
     {
-
         /// <summary>
-        /// Gets an an aggregate entity which represents all entities to which the Referencer refers.
+        /// Gets an aggregate entity which represents all entities to which the Referencer refers.
         /// </summary>
         IAggregateEntity RefersTo {
             get;
@@ -20,6 +19,5 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         void BindAsReferringTo(IEntity target);
-
     }
 }

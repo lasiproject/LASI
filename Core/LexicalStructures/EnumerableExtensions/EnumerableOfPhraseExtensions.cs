@@ -21,9 +21,7 @@ namespace LASI.Core
         /// The range of the resulting sequence is neither upper nor lower inclusive. 
         /// If the Phrases are improperly ordered, are in different documents or if the given phrases are adjacent, an empty sequence will be returned.</returns>
         public static IEnumerable<Phrase> Between(this Phrase after, Phrase before) {
-            return after.Document.Phrases.Contains(before) ?
-                after.Document.Phrases.SkipWhile(p => p != after).Skip(1).TakeWhile(p => p != before) :
-                Enumerable.Empty<Phrase>();
+            return after.Between(phrase => phrase == before);
         }
         /// <summary>
         /// Returns all Phrases in the document which are in between the provided starting Phrase and the first phrase which matches the provided selector function.
