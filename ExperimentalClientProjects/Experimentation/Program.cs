@@ -33,15 +33,14 @@ namespace LASI.Experimentation.CommandLine
             var document = orchestrator.ProcessAsync().Result.First();
 
             var dd = document.GetEntities().FirstOrDefault();
-            dd.Match()
-                .Yield<string>()
+            dd.Match().Yield<string>()
                 .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .With((IEntity e) => e.Text)
                 .Result();
             WriteLine(document);
             Phrase.VerboseOutput = true;
-            foreach (var phrase in document.Phrases) { WriteLine(phrase); }
 
+            document.Phrases.ForEach(WriteLine);
 
             Input.WaitForKey(ConsoleKey.Escape);
 

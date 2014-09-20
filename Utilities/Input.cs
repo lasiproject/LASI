@@ -23,7 +23,6 @@ namespace LASI
                 Console.WriteLine(message);
             }
         }
-
         /// <summary>
         /// Waits for the user to enter a specific key before continuing.
         /// </summary>
@@ -35,7 +34,6 @@ namespace LASI
                 Console.WriteLine(message, key.ToString());
             }
         }
-
         /// <summary>
         /// Waits for the user to enter a specific string before continuing.
         /// </summary>

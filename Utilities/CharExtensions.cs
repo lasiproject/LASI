@@ -12,23 +12,6 @@ namespace LASI
     public static class CharExtensions
     {
         /// <summary>
-        /// Returns a value indicating whether the character is a consonant.
-        /// </summary>
-        /// <param name="value">The character to test.</param>
-        /// <returns>True if the character is a consonant; otherwise, false.</returns>
-        public static bool IsConsonant(this char value) {
-            return value == 'y' || value == 'Y' || value.IsEnglishLetter() && !value.IsVowel();
-        }
-        /// <summary>
-        /// Returns a value indicating whether the character is a vowel.
-        /// </summary>
-        /// <param name="value">The character to test.</param>
-        /// <returns>True if the character is a vowel; otherwise, false.</returns>
-        public static bool IsVowel(this char value) {
-            return VOWELS.Contains(value);
-
-        }
-        /// <summary>
         /// Returns a value indicating whether the character is a valid English language letter.
         /// </summary>
         /// <param name="value">The character to test.</param>
@@ -51,6 +34,23 @@ namespace LASI
         /// <returns>True if the character is a lowercase letter; otherwise, false.</returns>
         public static bool IsLower(this char value) {
             return char.IsLower(value);
+        }
+        /// <summary>
+        /// Returns a value indicating whether the character is a consonant.
+        /// </summary>
+        /// <param name="value">The character to test.</param>
+        /// <returns>True if the character is a consonant; otherwise, false.</returns>
+        public static bool IsConsonant(this char value) {
+            return value == 'y' || value == 'Y' || value.IsEnglishLetter() && !value.IsVowel();
+        }
+        /// <summary>
+        /// Returns a value indicating whether the character is a vowel.
+        /// </summary>
+        /// <param name="value">The character to test.</param>
+        /// <returns>True if the character is a vowel; otherwise, false.</returns>
+        public static bool IsVowel(this char value) {
+            return VOWELS.IndexOf(value) >= 0;
+
         }
         private const string VOWELS = "aeiouyAEIOUY";
     }

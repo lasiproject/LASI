@@ -145,7 +145,7 @@ namespace LASI
         /// <param name="value">The string to write to the text output stream.</param>
         public static void Write(string value) { writer.Write(value); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream, using the same semantics
+        /// Writes a formatted string to the text output stream, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -157,7 +157,7 @@ namespace LASI
         /// </exception>
         public static void Write(string format, object arg0) { writer.Write(format, arg0); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream, using the same semantics
+        /// Writes a formatted string to the text output stream, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -170,7 +170,7 @@ namespace LASI
         /// </exception>
         public static void Write(string format, object arg0, object arg1) { writer.Write(format, arg0, arg1); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream, using the same semantics
+        /// Writes a formatted string to the text output stream, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -184,7 +184,7 @@ namespace LASI
         /// </exception>
         public static void Write(string format, object arg0, object arg1, object arg2) { writer.Write(format, arg0, arg1, arg2); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream, using the same semantics
+        /// Writes a formatted string to the text output stream, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -206,7 +206,7 @@ namespace LASI
         #region WriteLine Methods
 
         /// <summary>
-        /// Writes a line terminator to the ouput stream.
+        /// Writes a line terminator to the output stream.
         /// </summary>
         public static void WriteLine() {
             writer.WriteLine();
@@ -279,7 +279,7 @@ namespace LASI
         /// <param name="value">The string to write to the text output stream.</param>
         public static void WriteLine(string value) { writer.WriteLine(value); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream followed by a line terminator, using the same semantics
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -291,7 +291,7 @@ namespace LASI
         /// </exception>
         public static void WriteLine(string format, object arg0) { writer.WriteLine(format, arg0); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream followed by a line terminator, using the same semantics
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -304,7 +304,7 @@ namespace LASI
         /// </exception>
         public static void WriteLine(string format, object arg0, object arg1) { writer.WriteLine(format, arg0, arg1); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream followed by a line terminator, using the same semantics
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -318,7 +318,7 @@ namespace LASI
         /// </exception>
         public static void WriteLine(string format, object arg0, object arg1, object arg2) { writer.WriteLine(format, arg0, arg1, arg2); }
         /// <summary>
-        /// Writes a formatted string to the text ouput stream followed by a line terminator, using the same semantics
+        /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
@@ -405,7 +405,7 @@ namespace LASI
         public enum Mode
         {
             /// <summary>
-            /// The default. All output will be directed to the currrent console window.
+            /// The default. All output will be directed to the current console window.
             /// </summary>
             /// <see cref="Output.SetToConsole"/>
             Console,

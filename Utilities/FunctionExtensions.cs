@@ -116,16 +116,23 @@ namespace LASI
             return (b, c, d, e, f) => function(value, b, c, d, e, f);
         }
         /// <summary>
-        /// Applies a curried function of the form (T1) => (T2) => TResult, binding the supplied value as its first argument and returning a new function of the form (T2) => TResult.
+        /// Partially applies a function taking 7 arguments, of the form (T1, T2, T3, T4, T5, T6, T7) => TResult,
+        /// by binding the supplied value as the first argument and returning a new function of the form (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => TResult.
         /// </summary>
         /// <typeparam name="T1">The type of the first argument of the function.</typeparam>
         /// <typeparam name="T2">The type of the second argument of the function.</typeparam>
+        /// <typeparam name="T3">The type of the third argument of the function.</typeparam>
+        /// <typeparam name="T4">The type of the fourth argument of the function.</typeparam>
+        /// <typeparam name="T5">The type of the fifth argument of the function.</typeparam>
+        /// <typeparam name="T6">The type of the sixth argument of the function.</typeparam>
+        /// <typeparam name="T7">The type of the seventh argument of the function.</typeparam>
         /// <typeparam name="TResult">The type of the result of the function.</typeparam>
         /// <param name="function">The function to partially apply.</param>
         /// <param name="value">The value to bind as the first argument.</param>
-        /// <returns>A new function, of the form (T2) => TResult, produced by closing over the first argument</returns>
-        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, Func<T2, TResult>> function, T1 value) {
-            return Apply((T1 x, T2 y) => function(x)(y), value);
+        /// <returns>A new function, of the form (T2, T3, T4, T5, T6) => TResult, produced by binding the supplied value as the first argument.</returns>
+        public static Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<TResult>>>>>>> Apply<T1, T2, T3, T4, T5, T6, T7, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, TResult> function, T1 value) {
+            //return (b, c, d, e, f, g) => function(value, b, c, d, e, f, g);
+            return b => c => d => e => f => g => function.Apply(value)(b)(c)(d)(e)(f)(g);
         }
     }
 

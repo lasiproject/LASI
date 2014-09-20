@@ -62,7 +62,7 @@ namespace LASI.Core.Heuristics
         /// Returns the root of the given Adverb. If the adverb cannot be reduced to a root, the adverb's textual representation is returned.
         /// </summary>
         /// <param name="adverb">The Adverb string to find the root of.</param>
-        /// <returns>The root of the given adverb string. If no root can be found, the adverb's oirignal text is returned.</returns>
+        /// <returns>The root of the given adverb string. If no root can be found, the adverb's original text is returned.</returns>
         public string FindRoot(Adverb adverb) {
             return FindRoot(adverb.Text);
 
@@ -70,9 +70,7 @@ namespace LASI.Core.Heuristics
 
         private IEnumerable<string> ComputeBaseForm(string adverbText) {
             var result = new List<string>();
-            for (var i = 0;
-            i < SUFFICIES.Length;
-            i++) {
+            for (var i = 0; i < SUFFICIES.Length; i++) {
                 if (adverbText.EndsWith(SUFFICIES[i])) {
                     result.Add(adverbText.Substring(0, adverbText.Length - SUFFICIES[i].Length) + ENDINGS[i]);
                     break;

@@ -239,7 +239,7 @@ namespace LASI.App
         }
 
         /// <summary>
-        /// Asynchronously generates, composeses and displays the key relationships view for the given Document.
+        /// Asynchronously generates, composes and displays the key relationships view for the given Document.
         /// </summary>
         /// <param name="document">The document for which to build relationships.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
@@ -278,10 +278,10 @@ namespace LASI.App
         }
 
         /// <summary>
-        /// Transforms the given relatonships into textual objects for display on a 4 column grid.
+        /// Transforms the given relationships into textual objects for display on a 4 column grid.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
         /// </summary>
-        /// <param name="relationships">The sequence of Relationship Tuple to tranform into textual Display elements.</param>
+        /// <param name="relationships">The sequence of Relationship Tuple to transform into textual Display elements.</param>
         /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
         internal static IEnumerable<object> ToGridRowData(this IEnumerable<SvoRelationship> relationships) {
             return from relationship in relationships
