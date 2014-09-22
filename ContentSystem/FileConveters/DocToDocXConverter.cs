@@ -45,7 +45,7 @@ namespace LASI.ContentSystem
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = System.IO.Path.Combine(doc2xPath, "doc2x.exe"),
+                    FileName = doc2xPath,
                     Arguments = Original.FullPath,
                     WorkingDirectory = Original.Directory,
                     CreateNoWindow = true,
@@ -83,7 +83,7 @@ namespace LASI.ContentSystem
             get;
             protected set;
         }
-        private static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"];
+        private static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] + System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"] + "doc2x.exe";
 
 
 

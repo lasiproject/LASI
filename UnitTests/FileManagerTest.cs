@@ -200,7 +200,7 @@ namespace LASI.UnitTests
             FileManager.ConvertDocToTextAsync(files).Wait();
 
             foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
+                Assert.IsTrue(File.Exists(FileManager.DocFilesDir + "\\" + F.NameSansExt + ".txt"));
         }
         /// <summary>
         ///A test for ConvertDocxToText

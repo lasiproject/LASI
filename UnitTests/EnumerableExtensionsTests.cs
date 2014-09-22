@@ -118,7 +118,8 @@ namespace LASI.Tests
         [TestMethod]
         public void ToHashSetTest() {
             var target = Enumerable.Range(1, 100).ToHashSet();
-            Assert.Fail();
+            Assert.AreEqual(target.Count, 100);
+            Assert.IsTrue(!target.Select(x => x % 2).ToHashSet().Except(new[] { 1, 0 }).Any());
         }
 
         [TestMethod]
@@ -148,7 +149,8 @@ namespace LASI.Tests
 
         [TestMethod]
         public void MaxByTest() {
-            Assert.Fail();
+            var target = new[] { "carrot", "apple", "chicken" };
+            Assert.AreEqual(target.MaxBy(s => s.Length), "chicken");
         }
 
         [TestMethod]
@@ -158,7 +160,8 @@ namespace LASI.Tests
 
         [TestMethod]
         public void MinByTest() {
-            Assert.Fail();
+            var target = new[] { "carrot", "apple", "chicken" };
+            Assert.AreEqual(target.MinBy(s => s.Length), "apple");
         }
 
         [TestMethod]
@@ -168,27 +171,62 @@ namespace LASI.Tests
 
         [TestMethod]
         public void DistinctByTest() {
-            Assert.Fail();
+            var target = new[] { "beach", "parrot", "peach", "seventh" };
+            var result = target.DistinctBy(x => x.Length);
+            Assert.IsTrue(result.Count() == 3);
+            Assert.IsTrue(!result.Select(x => x.Length).Except(new[] { 7, 5, 6 }).Any());
         }
 
         [TestMethod]
         public void SetEqualTest() {
-            Assert.Fail();
+            var first = new[] { 1, 2, 3 };
+            Assert.IsTrue(first.SetEqual(new[] { 3, 1, 2 }));
+            Assert.IsTrue(first.SetEqual(new[] { 3, 1, 2, 1 }));
+            Assert.IsTrue(first.SetEqual(new[] { 3, 2, 1, 2, 1, 3 }));
         }
 
         [TestMethod]
         public void SetEqualByTest() {
-            Assert.Fail();
+            var first = new[] { "carrot", "apple", "chicken" };
+            Assert.IsTrue(first.SetEqualBy(new[] { "beach", "parrot", "peach", "seventh" }, s => s.Length));
         }
 
         [TestMethod]
         public void ZipTest() {
-            Assert.Fail();
+            ZipTestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+            ZipTestHelper(new[] { 2, 4, 6, 5 }, new[] { 1, 3, 5, }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+            ZipTestHelper(new[] { 2, 4, 6, 5 }, new[] { 1, 3, 5, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+            ZipTestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 5 }, new[] { 11, 24, 25, 5 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+            ZipTestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 5 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+        }
+
+        private static void ZipTestHelper<T1, T2, T3, TResult>(T1[] first, T2[] second, T3[] third, Func<T1, T2, T3, TResult> selector, TResult[] expected) {
+            var result = first.Zip(second, third, selector).ToArray();
+            Assert.AreEqual(result.Length, expected.Length);
+            for (var i = 0; i < result.Length; ++i) {
+                Assert.AreEqual(result[i], expected[i]);
+            }
         }
 
         [TestMethod]
         public void ZipTest1() {
-            Assert.Fail();
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 1 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 1 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            ZipTestHelper1(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+        }
+
+        private static void ZipTestHelper1<T1, T2, T3, T4, TResult>(T1[] first, T2[] second, T3[] third, T4[] fourth, Func<T1, T2, T3, T4, TResult> selector, TResult[] expected) {
+            var result = first.Zip(second, third, fourth, selector).ToArray();
+            Assert.AreEqual(result.Length, expected.Length);
+            for (var i = 0; i < result.Length; ++i) {
+                Assert.AreEqual(result[i], expected[i]);
+            }
         }
         #endregion
     }

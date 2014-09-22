@@ -261,7 +261,7 @@ namespace LASI.ContentSystem
                 try {
                     try {
                         var docx = new DocToDocXConverter(doc as DocFile).ConvertFile();
-                        var txt = new DocxToTextConverter(docx as DocXFile).ConvertFile();
+                        var txt = new DocxToTextConverter(docx).ConvertFile();
                         AddFile(txt.FullPath, true);
                         File.Delete(txt.FullPath);
                     }
@@ -544,7 +544,7 @@ namespace LASI.ContentSystem
                 foreach (var txt in txtFiles) { yield return txt; }
                 foreach (var pdf in pdfFiles) { yield return pdf; }
                 foreach (var doc in docFiles) { yield return doc; }
-                foreach (var docx in pdfFiles) { yield return docx; }
+                foreach (var docx in docXFiles) { yield return docx; }
                 foreach (var tagged in taggedFiles) { yield return tagged; }
             }
         }

@@ -30,9 +30,9 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <param name="infile">The file to convert.</param>
         protected FileConverter(TSource infile) {
+            Original = infile;
             sourcePath = infile.FullPath;
             destinationDir = infile.Directory;
-            Original = infile;
         }
         /// <summary>
         /// Initializes a new instance of the FileConverter class.
