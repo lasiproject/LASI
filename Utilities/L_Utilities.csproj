@@ -7,8 +7,8 @@
     <ProjectGuid>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.Utility</RootNamespace>
-    <AssemblyName>LASI.Utility</AssemblyName>
+    <RootNamespace>LASI.Utilities</RootNamespace>
+    <AssemblyName>LASI.Utilities</AssemblyName>
     <!--<LangVersion>experimental</LangVersion>-->
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\LASI.Utility.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\LASI.Utilities.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Release\LASI.Utility.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\LASI.Utilities.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>

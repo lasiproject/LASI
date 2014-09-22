@@ -167,10 +167,6 @@
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
       <Name>L_Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InteropLayer\L_Interop.csproj">
-      <Project>{06B96679-9758-4B15-8E75-0F46416E68B7}</Project>
-      <Name>L_Interop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>L_Utilities</Name>

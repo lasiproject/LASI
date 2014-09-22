@@ -6,13 +6,12 @@
     <ProjectGuid>95bdf76d-5ba6-433a-b62d-e67bd31f8ee5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>IronPythonExperimentation.py</StartupFile>
-    <SearchPath>.\..\..\</SearchPath>
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>.\..\..\</WorkingDirectory>
-    <InterpreterId>
-    </InterpreterId>
-    <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <InterpreterVersion>
-    </InterpreterVersion>
+    <InterpreterId>{fcc291aa-427c-498c-a4d7-4502d6449b8c}</InterpreterId>
+    <LaunchProvider>IronPython (.NET) launcher</LaunchProvider>
+    <InterpreterVersion>2.7</InterpreterVersion>
     <OutputPath>.</OutputPath>
     <Name>IronPythonExperimentation</Name>
     <RootNamespace>IronPythonExperimentation</RootNamespace>
@@ -35,7 +34,12 @@
     <Folder Include="testDocs\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="requirements.txt" />
     <Content Include="testDocs\testDoc1.txt" />
+    <Content Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{fcc291aa-427c-498c-a4d7-4502d6449b8c}\2.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ContentSystem\L_ContentSystem.csproj">

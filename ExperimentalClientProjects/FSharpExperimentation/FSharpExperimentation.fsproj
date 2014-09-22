@@ -120,7 +120,7 @@
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\InteropLayer\L_Interop.csproj">
+    <ProjectReference Include="..\..\Interop\L_Interop.csproj">
       <Name>L_Interop</Name>
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
       <Private>True</Private>

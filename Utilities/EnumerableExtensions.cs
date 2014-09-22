@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LASI.Utilities;
 
 namespace LASI
 {
+    using LASI.Utilities;
     using Validator = Utilities.Contracts.Validators.ArgumentValidator;
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.

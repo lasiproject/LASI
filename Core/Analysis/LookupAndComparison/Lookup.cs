@@ -13,6 +13,7 @@ namespace LASI.Core.Heuristics
     using System.Collections.Immutable;
 
 
+
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>

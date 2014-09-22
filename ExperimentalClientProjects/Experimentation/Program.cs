@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Interop;
 using LASI.Output;
+using LASI.Utilities;
 
 namespace LASI.Experimentation.CommandLine
 {
@@ -39,8 +40,7 @@ namespace LASI.Experimentation.CommandLine
                 .Result();
             WriteLine(document);
             Phrase.VerboseOutput = true;
-
-            document.Phrases.ForEach(WriteLine);
+            foreach (var phrase in document.Phrases) { WriteLine(phrase); }
 
             Input.WaitForKey(ConsoleKey.Escape);
 

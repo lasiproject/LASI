@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities.Contracts.Validators;
 
-namespace LASI
+namespace LASI.Utilities
 {
     /// <summary>
     /// Provides various methods for Dictionary types.

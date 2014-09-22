@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI
+namespace LASI.Utilities
 {
     /// <summary>
     /// Defines static methods which facilitate common Console IO procedures

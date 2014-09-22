@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI
+namespace LASI.Utilities
 {
     /// <summary>
     /// Defines extension methods for the System.Func&lt;T, TResult&gt; family of delegate types.

@@ -4,11 +4,9 @@ module LASI.FSharpExperimentation.program
 
 open LASI.ContentSystem
 open LASI.Core
-open LASI.Core.DocumentStructures
 open LASI.Core.Heuristics
 open LASI.Interop
 open System.Linq
-open System.Threading.Tasks
 
 let wrapFile (s : string) = 
     match s.Split('.').Last() with
@@ -38,7 +36,10 @@ let main argv =
     orchestrator.ProgressChanged.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    let docTask = async { return orchestrator.ProcessAsync().Result }
+    let docTask = async { 
+        let b= Async.AwaitTask (orchestrator.ProcessAsync())
+        return! b;
+    }
     let docs = Async.RunSynchronously(docTask)
     for doc in docs do
         let toAttack = Verb("attack", VerbForm.Base)
