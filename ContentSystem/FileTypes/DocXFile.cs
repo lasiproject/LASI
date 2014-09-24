@@ -13,10 +13,10 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the DocXFile class for the given path.
         /// </summary>
-        /// <param name="fullPath">The path to a .docx file.</param>
+        /// <param name="path">The path to a .docx file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .docx extension.</exception>
-        public DocXFile(string fullPath)
-            : base(fullPath) {
+        public DocXFile(string path)
+            : base(path) {
             if (!Ext.Equals(".docx", StringComparison.OrdinalIgnoreCase)) {
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
             }

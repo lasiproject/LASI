@@ -13,15 +13,14 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the DocFile class for the given path.
         /// </summary>
-        /// <param name="fullPath">The path to a .doc file.</param>
+        /// <param name="path">The path to a .doc file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
-        public DocFile(string fullPath)
-            : base(fullPath) {
+        public DocFile(string path)
+            : base(path) {
             if (!Ext.EqualsIgnoreCase(EXTENSION)) {
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
             }
         }
-
         /// <summary>
         /// Returns a single string containing all of the text in the DocFile.
         /// </summary>

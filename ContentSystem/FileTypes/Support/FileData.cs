@@ -108,45 +108,27 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
-        public string Directory {
-            get;
-            private set;
-        }
+        public string Directory { get; private set; }
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Ext {
-            get;
-            private set;
-        }
+        public string Ext { get; private set; }
         /// <summary>
         /// Gets the name of the file.
         /// </summary>
-        public string FileName {
-            get;
-            private set;
-        }
+        public string FileName { get; private set; }
         /// <summary>
         /// Gets the name of the file, not encluding its extension.
         /// </summary>
-        public string FileNameSansExt {
-            get;
-            private set;
-        }
+        public string FileNameSansExt { get; private set; }
         /// <summary>
         /// Gets the full path of the file.
         /// </summary>
-        public string FullPathAndExt {
-            get;
-            private set;
-        }
+        public string FullPathAndExt { get; private set; }
         /// <summary>
         /// Gets the full path of the file, not encluding its extension..
         /// </summary>
-        public string FullPathSansExt {
-            get;
-            private set;
-        }
+        public string FullPathSansExt { get; private set; }
 
         #endregion
 
@@ -155,11 +137,11 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Determines if two instances of the FileData structure are equal.
         /// </summary>
-        /// <param name="A">The first FileData</param>
-        /// <param name="B">The second FileData</param>
+        /// <param name="first">The first FileData</param>
+        /// <param name="second">The second FileData</param>
         /// <returns>True if two instances of the FileData structure should be considered equal; otherwise, false.</returns>
-        public static bool operator ==(FileData A, FileData B) {
-            return string.Equals(A.FullPathAndExt, B.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
+        public static bool operator ==(FileData first, FileData second) {
+            return string.Equals(first.FullPathAndExt, second.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
 
         }
         /// <summary>

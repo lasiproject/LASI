@@ -16,7 +16,7 @@ namespace LASI.ContentSystem
             : base(message) {
         }
         internal FileTypeWrapperMismatchException(string wrapperName, string actualExtension)
-            : base(String.Format("Type mismatch between\nWrapper Type: {0} and File Extension{1}", wrapperName, actualExtension)) {
+            : base(string.Format("Mismatch between\nWrapper Type: {0} and File Extension{1}", wrapperName, actualExtension)) {
         }
         internal FileTypeWrapperMismatchException(string message, Exception inner)
             : base(message, inner) {

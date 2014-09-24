@@ -96,19 +96,14 @@ namespace LASI.ContentSystem
                         var value = xmlReader.Value;
                         if (!string.IsNullOrWhiteSpace(value)) {
                             writer.Write(value);
-
                         }
-
-                        if (xmlReader.Name.Contains("tbl"))
+                        if (xmlReader.Name.Contains("tbl")) {
                             xmlReader.Skip();
-
-
+                        }
                         if (xmlReader.Name == "w:p") {
                             writer.Write("</paragraph>\n");
                         }
-
                     }
-
                 }
             }
             Converted = new TxtFile(Original.PathSansExt + ".txt");
@@ -144,30 +139,13 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Utility object containing information specifying details about the converted file before it is created.
         /// </summary>
-        private FileData DestinationInfo {
-            get;
-            set;
-        }
+        private FileData DestinationInfo { get; set; }
 
         /// <summary>
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.
         /// </summary>
-        protected virtual InputFile XmlFile {
-            get;
-            set;
-        }
-
-
-        /// <summary>
-        /// Gets the document object which is the fruit of the conversion process
-        /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
-        /// and any access attempts before the conversion is complete will raise a NullReferenceException.
-        /// </summary>
-        public override TxtFile Converted {
-            get;
-            protected set;
-        }
-
+        protected virtual InputFile XmlFile { get; set; }
+       
         #endregion
     }
 }

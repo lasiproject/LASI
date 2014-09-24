@@ -22,8 +22,6 @@ namespace LASI.ContentSystem
             if (!Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
         }
-
-
         /// <summary>
         /// Gets a single string containing all of the text in the TextFile.
         /// </summary>

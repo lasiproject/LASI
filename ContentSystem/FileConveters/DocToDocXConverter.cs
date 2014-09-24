@@ -73,16 +73,6 @@ namespace LASI.ContentSystem
             var result = await Task.Run(() => ConvertFile());
             return result;
         }
-
-        /// <summary>
-        /// Gets the document object which is the fruit of the conversion process
-        /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
-        /// and any access attempts before the conversion is complete will raise a NullReferenceException.
-        /// </summary>
-        public override DocXFile Converted {
-            get;
-            protected set;
-        }
         private static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] + System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"] + "doc2x.exe";
 
 

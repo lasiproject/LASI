@@ -23,11 +23,11 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the GenericXMLFile class for the given path.
         /// </summary>
-        /// <param name="fullPath">The path to a .xml file.</param>
+        /// <param name="path">The path to a .xml file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .xml extension.</exception>
-        public XmlFile(string fullPath)
-            : base(fullPath) {
-            if (!this.Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
+        public XmlFile(string path)
+            : base(path) {
+            if (!Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
 
         }

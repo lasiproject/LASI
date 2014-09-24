@@ -29,7 +29,7 @@ namespace LASI.ContentSystem
         /// <returns>An InputFile object wrapping the newly created .txt file resulting from the operation.</returns>
         public override TxtFile ConvertFile() {
             var newPath = Original.PathSansExt + ".txt";
-            new PDFParser().ExtractText(Original.FullPath, newPath);
+            new PdfParser().ExtractText(Original.FullPath, newPath);
             return new TxtFile(newPath);
         }
         /// <summary>
@@ -39,22 +39,13 @@ namespace LASI.ContentSystem
         public override async Task<TxtFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
-        /// <summary>
-        /// Gets an InputFile which acts as a wrapper around the ultimate fruit of the conversion process
-        /// This additional method of accessing the new file is primarily provided to facilitate asynchronous programming
-        /// and any access attempts before the conversion is complete will raise a NullReferenceException.
-        /// </summary>
-        public override TxtFile Converted {
-            get;
-            protected set;
-        }
 
         // Found this on CodeProject.com, no strings attached, it works pretty well but it is not very well written.
 
         /// <summary>
         /// Parses a PDF file and extracts the text from it.
         /// </summary>
-        private class PDFParser
+        private class PdfParser
         {
             // BT = Beginning of a text object operator 
             // ET = End of a text object operator

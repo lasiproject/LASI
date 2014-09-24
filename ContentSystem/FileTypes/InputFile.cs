@@ -13,12 +13,12 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
         /// </summary>
-        /// <param name="full">The absolute or relative path of the file</param>
-        protected InputFile(string full) {
-            var inf = new System.IO.FileInfo(full);
-            if (!inf.Exists)
-                throw new System.IO.FileNotFoundException("File Not Found.", inf.FullName);
-            fileData = new FileData(inf.FullName);
+        /// <param name="path">The absolute or relative path of the file</param>
+        protected InputFile(string path) {
+            var infile = new System.IO.FileInfo(path);
+            if (!infile.Exists)
+                throw new System.IO.FileNotFoundException("File Not Found.", infile.FullName);
+            fileData = new FileData(infile.FullName);
         }
         /// <summary>
         /// Gets the full file path, including the file name and extension of the file.
@@ -97,13 +97,13 @@ namespace LASI.ContentSystem
         /// <param name="right">The InputFile on the right.</param>
         /// <returns>True if the InputFile on the left is equal to the InputFile on the right.</returns>
         public static bool operator ==(InputFile left, InputFile right) {
-            if (left as object == null && right as object == null)
+            if (left as object == null && right as object == null) {
                 return true;
-            else if (right as object == null || left as object == null)
+            } else if (right as object == null || left as object == null) {
                 return false;
-            else
+            } else {
                 return left.fileData == right.fileData;
-
+            }
         }
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is not equal to the InputFile on the right.

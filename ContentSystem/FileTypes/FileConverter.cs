@@ -64,18 +64,12 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the document which is to be converted to the destination format
         /// </summary>
-        public TSource Original {
-            get;
-            protected set;
-        }
+        public TSource Original { get; protected set; }
         /// <summary>
         /// Gets the document object which is the fruit of the conversion process
         /// This additional method of accessing the new document is primarily provided to facilitate asynchronous programming
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
-        public abstract TDestination Converted {
-            get;
-            protected set;
-        }
+        public TDestination Converted { get; protected set; }
     }
 }
