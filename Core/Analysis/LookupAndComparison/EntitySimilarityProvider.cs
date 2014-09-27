@@ -24,20 +24,20 @@ namespace LASI.Core.Heuristics
             return first.Match().Yield<SimilarityResult>()
                     .When(first.Text.ToUpper() == second.Text.ToUpper())
                         .Then(SimilarityResult.Similar)
-                    .With<IAggregateEntity>(ae1 =>
+                    .Case((IAggregateEntity ae1) =>
                         second.Match().Yield<SimilarityResult>()
-                          .With<IAggregateEntity>(ae2 => new SimilarityResult(ae1.IsSimilarTo(ae2)))
-                          .With<IEntity>(e2 => new SimilarityResult(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                          .Case((IAggregateEntity ae2) => new SimilarityResult(ae1.IsSimilarTo(ae2)))
+                          .Case((IEntity e2) => new SimilarityResult(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
-                    .With<Noun>(n1 =>
+                    .Case((Noun n1) =>
                         second.Match().Yield<SimilarityResult>()
-                            .With<Noun>(n2 => new SimilarityResult(n1.IsSynonymFor(n2)))
-                            .With<NounPhrase>(np2 => n1.IsSimilarTo(np2))
+                            .Case((Noun n2) => new SimilarityResult(n1.IsSynonymFor(n2)))
+                            .Case((NounPhrase np2) => n1.IsSimilarTo(np2))
                           .Result())
-                    .With<NounPhrase>(np1 =>
+                    .Case((NounPhrase np1) =>
                         second.Match().Yield<SimilarityResult>()
-                          .With<NounPhrase>(np2 => np1.IsSimilarTo(np2))
-                          .With<Noun>(n2 => np1.IsSimilarTo(n2))
+                          .Case((NounPhrase np2) => np1.IsSimilarTo(np2))
+                          .Case((Noun n2) => np1.IsSimilarTo(n2))
                         .Result())
                     .Result();
         }
@@ -55,14 +55,13 @@ namespace LASI.Core.Heuristics
         public static SimilarityResult IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
             var simResults = from e1 in first
                              from e2 in second
-                             select e1.IsSimilarTo(e2) into result
+                             let result = e1.IsSimilarTo(e2)
                              group result by (bool)result into byResult
                              let Count = byResult.Count()
                              orderby Count descending
                              select new { byResult.Key, Count };
             return new SimilarityResult(simResults.Any() && simResults.First().Key,
-                simResults.Any() ? simResults
-                .Aggregate(0f, (ratioSoFar, current) => ratioSoFar / current.Count) : 0);
+                simResults.Aggregate(0f, (ratioSoFar, current) => ratioSoFar / current.Count));
         }
         /// <summary>
         /// Determines if the provided Noun is similar to the provided NounPhrase.
@@ -137,21 +136,17 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
         private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
-            double similarCount = 0;
+            int innerNounCount = first.Words.OfNoun().Count(), outerNounCount = second.Words.OfNoun().Count();
+            if (innerNounCount == 0 || outerNounCount == 0) { return 0; }
+            var scaleFactor = first.Words.OfNoun().Count() * second.Words.OfNoun().Count();
             Func<NounPhrase, NounPhrase, double> overlap = (outer, inner) => {
-                if (outer.Words.OfNoun().Any() && inner.Words.OfNoun().Any()) {
-                    foreach (var outerNoun in outer.Words.OfNoun()) {
-                        foreach (var innerNoun in inner.Words.OfNoun()) {
-                            if (innerNoun.IsSynonymFor(outerNoun)) { similarCount += 0.7; }
-                        }
-                        var scaleFactor = inner.Words.OfNoun().Count() * outer.Words.OfNoun().Count();
-                        return (similarCount / scaleFactor == 0 ? 1 : scaleFactor);
-
-                    }
-                }
-                return 0;
+                var ns = new[] { inner.Words.OfNoun().ToList(), outer.Words.OfNoun().ToList() }.OrderByDescending(m => m.Count);
+                return (from outerNoun in ns.First()
+                        from innerNoun in ns.Last()
+                        select innerNoun.IsSynonymFor(outerNoun) ? 0.7 : 0d)
+                  .Sum() / scaleFactor;
             };
-            return first.Words.Count() >= second.Words.Count() ? overlap(first, second) : overlap(second, first);
+            return innerNounCount >= outerNounCount ? overlap(first, second) : overlap(second, first);
         }
 
     }

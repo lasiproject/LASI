@@ -54,7 +54,7 @@ namespace LASI.Core.DocumentStructures
 
         /// <summary>
         /// Gets the collection of Words which comprise the Paragraph.
-        /// </summary>Q
+        /// </summary>
         public IEnumerable<Word> Words {
             get {
                 return from sentence in Sentences

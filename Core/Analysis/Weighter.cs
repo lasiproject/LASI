@@ -106,7 +106,7 @@ namespace LASI.Core
                                  .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                              let result = e.Match().Yield<IEntity>()
-                                   .With((Noun n) => n)
+                                   .Case((Noun n) => n)
                                    .When((IReferencer r) => r.RefersTo != null)
                                    .Then((IReferencer r) => r.RefersTo)
                                .Result(e)

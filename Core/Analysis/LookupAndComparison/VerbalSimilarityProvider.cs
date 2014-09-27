@@ -22,15 +22,15 @@ namespace LASI.Core.Heuristics
                 first.Match().Yield<SimilarityResult>()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
                     .Then(SimilarityResult.Similar)
-                    .With((Verb v1) =>
+                    .Case((Verb v1) =>
                         second.Match().Yield<SimilarityResult>()
-                          .With((Verb v2) => v1.IsSimilarTo(v2))
-                          .With((VerbPhrase vp2) => v1.IsSimilarTo(vp2))
+                          .Case((Verb v2) => v1.IsSimilarTo(v2))
+                          .Case((VerbPhrase vp2) => v1.IsSimilarTo(vp2))
                         .Result())
-                    .With((VerbPhrase vp1) =>
+                    .Case((VerbPhrase vp1) =>
                         second.Match().Yield<SimilarityResult>()
-                          .With((VerbPhrase vp2) => vp1.IsSimilarTo(vp2))
-                          .With((Verb v2) => vp1.IsSimilarTo(v2))
+                          .Case((VerbPhrase vp2) => vp1.IsSimilarTo(vp2))
+                          .Case((Verb v2) => vp1.IsSimilarTo(v2))
                     .Result())
                 .Result();
         }

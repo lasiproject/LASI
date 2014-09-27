@@ -20,8 +20,8 @@ namespace LASI.ContentSystem.Serialization.Json
         }
         public static JObject ToJObject(this ILexical element) {
             return element.Match().Yield<JObject>()
-                .With((IEntity e) => e.ToJObject())
-                .With((IVerbal v) => v.ToJObject())
+                .Case((IEntity e) => e.ToJObject())
+                .Case((IVerbal v) => v.ToJObject())
                 .Result(new JObject(GetCommonProperties(element)));
         }
 

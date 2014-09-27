@@ -57,8 +57,8 @@ namespace LASI.Core
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()
-                       .With<IReferencer>(r => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : null)
-                       .With<IEntity>(entity)
+                       .Case<IReferencer>(r => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : null)
+                       .Case<IEntity>(entity)
                    .Result()
                    where e != null
                    group e by new { e.Text, e.Weight } into entity

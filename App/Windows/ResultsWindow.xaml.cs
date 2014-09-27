@@ -302,10 +302,10 @@ namespace LASI.App
                 Left = this.Left,
                 Top = this.Top,
             };
-
             if (dialog.ShowDialog() ?? false) {
                 var joinedRelationshipResults = await new CrossDocumentJoiner().GetCommonResultsAsnyc(dialog.SelectedDocuments);
                 metaRelationshipsDataGrid.ItemsSource = joinedRelationshipResults.ToGridRowData();
+                metaViewTab.Visibility = Visibility.Visible;
             }
         }
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
@@ -313,7 +313,6 @@ namespace LASI.App
             {
                 Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
                 Multiselect = true,
-
             };
             openDialog.ShowDialog(this);
             if (openDialog.FileNames.Count() <= 0) {

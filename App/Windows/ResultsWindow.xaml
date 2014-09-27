@@ -308,6 +308,7 @@
                 </Grid>
             </TabItem>
             <TabItem
+                Visibility="Hidden"
                 x:Name="metaViewTab"
                 Header="Meta View"
                 HorizontalAlignment="Left"

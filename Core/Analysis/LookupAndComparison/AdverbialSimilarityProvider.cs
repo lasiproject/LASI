@@ -24,14 +24,14 @@ namespace LASI.Core.Heuristics
             return new SimilarityResult(
                 first.Match().Yield<bool>().When(first.Text.ToUpper() == second.Text.ToUpper())
                     .Then(true)
-                    .With<Adverb>(a1 =>
+                    .Case<Adverb>(a1 =>
                         second.Match().Yield<bool>()
-                            .With<Adverb>(a2 => a1.IsSynonymFor(a2))
-                            .With<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1)).Result())
-                    .With<AdverbPhrase>(ap1 =>
+                            .Case<Adverb>(a2 => a1.IsSynonymFor(a2))
+                            .Case<AdverbPhrase>(ap2 => ap2.IsSimilarTo(a1)).Result())
+                    .Case<AdverbPhrase>(ap1 =>
                         second.Match().Yield<bool>()
-                            .With<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
-                            .With<Adverb>(a2 => ap1.IsSimilarTo(a2)).Result())
+                            .Case<AdverbPhrase>(ap2 => ap1.IsSimilarTo(ap2))
+                            .Case<Adverb>(a2 => ap1.IsSimilarTo(a2)).Result())
                     .Result());
         }
         /// <summary>

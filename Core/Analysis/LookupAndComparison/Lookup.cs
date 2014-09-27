@@ -30,10 +30,10 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
-                    .With<ISimpleGendered>(p => p.Gender)
-                    .With<IReferencer>(p => GetGender(p))
-                    .With<NounPhrase>(n => DetermineNounPhraseGender(n))
-                    .With<CommonNoun>(n => Gender.Neutral)
+                    .Case<ISimpleGendered>(p => p.Gender)
+                    .Case<IReferencer>(p => GetGender(p))
+                    .Case<NounPhrase>(n => DetermineNounPhraseGender(n))
+                    .Case<CommonNoun>(n => Gender.Neutral)
                     .When(e => e.Referencers.Any())
                     .Then<IEntity>(e => (
                         from referener in e.Referencers
@@ -51,20 +51,20 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .With<PronounPhrase>(p => DeterminePronounPhraseGender(p))
+                    .Case<PronounPhrase>(p => DeterminePronounPhraseGender(p))
                     .When(referee.RefersTo != null)
                     .Then((from referent in referee.RefersTo
                            let gender =
                            referent.Match().Yield<Gender>()
-                              .With((NounPhrase n) => DetermineNounPhraseGender(n))
-                              .With((Pronoun r) => r.Gender)
-                              .With((ProperSingularNoun r) => r.Gender)
-                              .With((CommonNoun n) => Gender.Neutral)
+                              .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+                              .Case((Pronoun r) => r.Gender)
+                              .Case((ProperSingularNoun r) => r.Gender)
+                              .Case((CommonNoun n) => Gender.Neutral)
                               .Result()
                            group gender by gender into byGender
                            where byGender.Count() == referee.RefersTo.Count()
                            select byGender.Key).FirstOrDefault()).
-                    With<ISimpleGendered>(p => p.Gender)
+                    Case<ISimpleGendered>(p => p.Gender)
                 .Result();
         }
 

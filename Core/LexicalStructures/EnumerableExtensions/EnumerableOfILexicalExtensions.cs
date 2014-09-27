@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.Analysis.PatternMatching.LexicalSpecific;
 
 namespace LASI.Core
 {
@@ -123,9 +124,9 @@ namespace LASI.Core
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
         public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
-                    .With((Clause c) => c.Words)
-                    .With((Phrase p) => p.Words)
-                    .With((Word w) => new[] { w })
+                    .Case((Clause c) => c.Words)
+                    .Case((Phrase p) => p.Words)
+                    .Case((Word w) => new[] { w })
                     .Result(Enumerable.Empty<Word>()));
         }
         /// <summary>
@@ -135,8 +136,8 @@ namespace LASI.Core
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
         public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
-                    .With((Clause c) => c.Phrases)
-                    .With((Phrase p) => new[] { p })
+                    .Case((Clause c) => c.Phrases)
+                    .Case((Phrase p) => new[] { p })
                     .Result(Enumerable.Empty<Phrase>()));
         }
         /// <summary>
@@ -274,9 +275,9 @@ namespace LASI.Core
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
-                    .With((Clause c) => c.Words)
-                    .With((Phrase p) => p.Words)
-                    .With((Word w) => new[] { w })
+                    .Case((Clause c) => c.Words)
+                    .Case((Phrase p) => p.Words)
+                    .Case((Word w) => new[] { w })
                     .Result(Enumerable.Empty<Word>()));
         }
         /// <summary>
@@ -285,10 +286,11 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
         static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) {
-            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
-                    .With((Clause c) => c.Phrases)
-                    .With((Phrase p) => new[] { p })
-                    .Result(Enumerable.Empty<Phrase>()));
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>() | new Pattern<IEnumerable<Phrase>>
+            {
+                Clause = c => c.Phrases,
+                Phrase = p => new[] { p }
+            });
         }
         /// <summary>
         /// Gets all of the Clause instances in the sequence of ILexicals.
