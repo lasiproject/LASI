@@ -245,9 +245,13 @@ namespace LASI.App
         }
 
         private void printButton_Click_1(object sender, RoutedEventArgs e) {
+            PrintSelectedChart();
+        }
+
+        private void PrintSelectedChart() {
             var printDialog = new PrintDialog();
             printDialog.ShowDialog();
-            var focusedChart = (FrequencyCharts.SelectedItem as TabItem).Content as Visual;
+            var focusedChart = (FrequencyCharts.SelectedItem as dynamic).Content;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
             }
@@ -255,6 +259,7 @@ namespace LASI.App
                 Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
             }
         }
+
         private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e) {
             await Visualizer.ToBarChartsAsync();
         }
@@ -362,7 +367,7 @@ namespace LASI.App
         }
 
         private void Print_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            printButton_Click_1(sender, e);
+            PrintSelectedChart();
         }
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {

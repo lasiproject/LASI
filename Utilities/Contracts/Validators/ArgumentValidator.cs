@@ -140,8 +140,8 @@ namespace LASI.Utilities.Contracts.Validators
         /// </summary>
         /// <param name="value">The argument to validate.</param>
         /// <param name="name">The name of the argument to validate.</param>
-        public static void ThrowIfEmpty(System.Collections.IEnumerable value, string name) {
-            if (!value.GetEnumerator().MoveNext()) { throw new ArgumentException("Sequence contains no elements", name); }
+        public static void ThrowIfEmpty<T>(IEnumerable<T> value, string name) {
+            if (!value.Any()) { throw new ArgumentException("Sequence contains no elements", name); }
         }
         #endregion
     }
