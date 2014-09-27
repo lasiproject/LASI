@@ -221,3 +221,10 @@ WebEssentials-Settings.json
 ## Mono Develop/Xamarin Studio
 #############
 .userprefs
+/WebApp/App_Data/Mongo
+/WebApp/App_Data/SourceFiles
+/WebApp/App_Data/Users
+/UnitTests/NewProject/input/doc/Draft_Environmental_Assessment1/word/document.xml
+/UnitTests/MockUserFiles/Draft_Environmental_Assessment1/word
+/UnitTests/MockUserFiles/Draft_Environmental_Assessment/word
+/UnitTests/MockUserFiles/Draft_Environmental_Assessment
