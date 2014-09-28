@@ -33,7 +33,7 @@ namespace LASI.WebApp.Controllers
                 actionName: "Index",
                 routeValues: new
             {
-                account = MvcApplication.Users.AsQueryable().First(a => a.Email == credentials.UserName)
+                account = MvcApplication.Accounts.AsQueryable().First(a => a.Email == credentials.UserName)
             }) : Failure();
         }
 
@@ -42,7 +42,7 @@ namespace LASI.WebApp.Controllers
         }
 
         private bool ValidateCredentials(LoginModel credentials) {
-            var account = MvcApplication.Users.FindAll().First(o => o.Email == credentials.UserName);
+            var account = MvcApplication.Accounts.FindAll().First(o => o.Email == credentials.UserName);
             return account != null && account.Password == credentials.Password;
         }
         public ActionResult CreateAccount() {
@@ -50,12 +50,12 @@ namespace LASI.WebApp.Controllers
         }
 
         public ActionResult Create(AccountModel account) {
-            MvcApplication.Users.Insert(account);
+            MvcApplication.Accounts.Insert(account);
 
             return Login(new LoginModel { Password = account.Password, UserName = account.Email });
         }
         public ActionResult Settings(AccountModel account) {
-            var profiles = from a in MvcApplication.Users.FindAll()
+            var profiles = from a in MvcApplication.Accounts.FindAll()
                            where a.Email == account.Email
                            select account;
             return View(profiles.SingleOrDefault());

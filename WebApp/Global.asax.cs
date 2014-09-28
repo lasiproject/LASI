@@ -13,10 +13,11 @@ using MongoDB.Driver;
 
 namespace LASI.WebApp
 {
+
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : System.Web.HttpApplication
+    using AccountCollection = MongoCollection<AccountModel>;
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
@@ -27,39 +28,44 @@ namespace LASI.WebApp
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-            InitializeCoreHooks();
-            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
+            PerformCustomInitialation();
         }
 
         /// <summary>
-        /// Application specific initialization for concurrency management, memory management, and logging.
+        /// Application specific initialization for concurrency management, memory management, data sources, and logging.
         /// </summary>
-        private void InitializeCoreHooks() {
-            LASI.Interop.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceUsageManager.Mode.High);
+        private void PerformCustomInitialation() {
+            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]); Interop.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceUsageManager.Mode.High);
             MongoServerProcess = Process.Start(new ProcessStartInfo
             {
                 FileName = mongodExecutableLocation,
                 Arguments = string.Join(" ", "--dbpath", Server.MapPath(mongoDbPath))
             });
+            Output.SetToFile();
         }
 
-        private static Lazy<MongoServer> server = new Lazy<MongoServer>(
-            () => new MongoClient(connectionString).GetServer(),
-            isThreadSafe: true
-        );
-        private static Lazy<MongoCollection<AccountModel>> users = new Lazy<MongoCollection<AccountModel>>(
-            () => server.Value.GetDatabase("accounts").GetCollection<AccountModel>("users"),
-            isThreadSafe: true
-        );
+        #region Properties
 
         public static MongoServer MongoServer { get { return server.Value; } }
 
-        public static MongoCollection<AccountModel> Users { get { return users.Value; } }
+        public static MongoCollection<AccountModel> Accounts { get { return accounts.Value; } }
 
         public Process MongoServerProcess { get; private set; }
 
+        #endregion
+
+        #region Fields
+
+        private static Lazy<MongoServer> server = new Lazy<MongoServer>(
+            valueFactory: () => new MongoClient(connectionString).GetServer(),
+            isThreadSafe: true);
+        private static Lazy<AccountCollection> accounts = new Lazy<AccountCollection>(
+            valueFactory: () => server.Value.GetDatabase("accounts").GetCollection<AccountModel>("users"),
+            isThreadSafe: true
+        );
         private static readonly string mongodExecutableLocation = ConfigurationManager.AppSettings["MongodExecutableLocation"];
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["MongoConnection"].ConnectionString;
         private static readonly string mongoDbPath = ConfigurationManager.AppSettings["MongoDbPath"];
+        #endregion
     }
 }

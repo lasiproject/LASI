@@ -95,8 +95,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void BindPronounTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
@@ -108,8 +107,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void EqualsTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords); // TODO: Initialize to an appropriate value
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.AreEqual(target, target as object);
         }
 
@@ -118,10 +116,9 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void DescribedByTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsTrue(target.Descriptors.Count() == 0);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticipleGerund("loving"));
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
             IDescriptor adj2 = new Adjective("proud");
@@ -134,8 +131,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void DirectObjectOfTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new Verb("insult", VerbForm.Base);
             IVerbal actual;
             target.DirectObjectOf = expected;
@@ -148,9 +144,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void IndirectObjectOfTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
-            IVerbal expected = new VerbPhrase(new Word[] { new Verb("gave", VerbForm.Base), new Adverb("willingly") });
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
+            IVerbal expected = new VerbPhrase(new Verb("gave", VerbForm.Base), new Adverb("willingly"));
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -162,8 +157,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void IndirectReferencesTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsFalse(target.Referencers.Any());
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
@@ -175,9 +169,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void PossesserTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
-            IEntity expected = new NounPhrase(new[] { new ProperSingularNoun("North"), new ProperSingularNoun("America") });
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
+            IEntity expected = new NounPhrase(new ProperSingularNoun("North"), new ProperSingularNoun("America"));
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
@@ -190,8 +183,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void SubjectOfTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new Verb("are", VerbForm.Base);
             IVerbal actual;
             target.SubjectOf = expected;
@@ -205,9 +197,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void AddPossessionTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
-            NounPhrase target = new NounPhrase(composedWords);
-            IEntity possession = new NounPhrase(new Word[] { new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles") });
+            NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
+            IEntity possession = new NounPhrase(new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles"));
             target.AddPossession(possession);
             Assert.IsTrue(target.Possessions.Contains(possession) && possession.Possesser == target);
         }
@@ -217,8 +208,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void ToStringTest() {
-            IEnumerable<Word> composedWords = new Word[] { new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy") };
-            NounPhrase target = new NounPhrase(composedWords);
+            NounPhrase target = new NounPhrase(new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy"));
             string expected = "NounPhrase \"LASI and Timmy\"";
             string actual;
             actual = target.ToString();
@@ -231,8 +221,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void RefereesTest() {
-            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
-            NounPhrase target = new NounPhrase(composed);
+            NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
             IEnumerable<IReferencer> expected = new IReferencer[] { new RelativePronoun("that"), new PersonalPronoun("it") };
             IEnumerable<IReferencer> actual;
             foreach (var r in expected) {
@@ -248,8 +237,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void PossessedTest() {
-            IEnumerable<Word> composed = new Word[] { new Adjective("large"), new CommonSingularNoun("elephants") };
-            NounPhrase target = new NounPhrase(composed);
+            NounPhrase target = new NounPhrase(new Adjective("large"), new CommonSingularNoun("elephants"));
             IEnumerable<IPossessable> actual;
             IEnumerable<IPossessable> expected = new[] { new CommonSingularNoun("trunks") };
             actual = target.Possessions;
@@ -262,8 +250,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void OuterAttributiveTest() {
-            NounPhrase target = new NounPhrase(new Word[] { new ProperSingularNoun("Catus") });
-            NounPhrase expected = new NounPhrase(new Word[] { new ProperSingularNoun("Felis") });
+            NounPhrase target = new NounPhrase(new ProperSingularNoun("Catus"));
+            NounPhrase expected = new NounPhrase(new ProperSingularNoun("Felis"));
             NounPhrase actual;
             target.OuterAttributive = expected;
             actual = target.OuterAttributive;
@@ -275,8 +263,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void InnerAttributiveTest() {
-            NounPhrase target = new NounPhrase(new Word[] { new ProperSingularNoun("Felis") });
-            NounPhrase expected = new NounPhrase(new Word[] { new ProperSingularNoun("Catus") });
+            NounPhrase target = new NounPhrase(new ProperSingularNoun("Felis"));
+            NounPhrase expected = new NounPhrase(new ProperSingularNoun("Catus"));
             NounPhrase actual;
             target.InnerAttributive = expected;
             actual = target.InnerAttributive;
@@ -291,8 +279,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void DescriptorsTest() {
-            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new CommonSingularNoun("elephants") };
-            NounPhrase target = new NounPhrase(composed);
+            NounPhrase target = new NounPhrase(new Determiner("the"), new CommonSingularNoun("elephants"));
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
             Assert.IsTrue(target.Descriptors.None());
@@ -308,8 +295,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void BindReferencerTest() {
-            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant") };
-            NounPhrase target = new NounPhrase(composed);
+            NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant"));
             IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.All(r => r.RefersTo.Contains(target)));
@@ -321,8 +307,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void BindDescriptorTest() {
-            IEnumerable<Word> composed = new Word[] { new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants") };
-            NounPhrase target = new NounPhrase(composed);
+            NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
             IDescriptor descriptor = new Adjective("hungry");
             target.BindDescriptor(descriptor);
             Assert.IsTrue(target.Descriptors.Contains(descriptor));

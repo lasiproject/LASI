@@ -12,14 +12,14 @@ namespace LASI.Utilities
     /// </summary>
     public struct Weight : IComparable, IComparable<Weight>, IEquatable<Weight>
     {
-        private long value;
-        private int p;
-
-        public Weight(double value, double p)
-            : this() {
-            // TODO: Complete member initialization
-            RawWeight = value;
-            Multiplier = p;
+        /// <summary>
+        /// Initializes a new instance of the Weight structure with the given raw weight and multiplier.
+        /// </summary>
+        /// <param name="rawWeight">The raw weight.</param>
+        /// <param name="multiplier">The multiplier.</param>
+        public Weight(double rawWeight, double multiplier) : this() {
+            RawWeight = rawWeight;
+            Multiplier = multiplier;
         }
 
         #region Methods
@@ -199,25 +199,25 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>A Double representation of the specified Weight.</returns>
-        public static implicit operator double(Weight weight) { return weight.ScaledWeight; }
+        public static implicit operator double (Weight weight) { return weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to a Decimal value corresponding to its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>A Decimal representation of the specified Weight.</returns>
-        public static implicit operator decimal(Weight weight) { return (decimal)weight.ScaledWeight; }
+        public static implicit operator decimal (Weight weight) { return (decimal)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to an Int64 value corresponding to the integral portion of its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>An Int64 representation of the integral portion of the specified Weight.</returns>
-        public static explicit operator long(Weight weight) { return (long)weight.ScaledWeight; }
+        public static explicit operator long (Weight weight) { return (long)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to a UInt64 value corresponding to the integral portion of its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>An UInt64 representation of the integral portion of the specified Weight.</returns>
-        public static explicit operator ulong(Weight weight) { return (ulong)weight.ScaledWeight; }
+        public static explicit operator ulong (Weight weight) { return (ulong)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to an BigInteger value corresponding to the integral portion of its scaled weight.
         /// </summary>

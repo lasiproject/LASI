@@ -14,7 +14,6 @@ namespace LASI.Experimentation.CommandLine
 {
     class Program
     {
-
         static void Main(string[] args) {
             var fragment = new ContentSystem.RawTextFragment(
                 rawText, "Test");

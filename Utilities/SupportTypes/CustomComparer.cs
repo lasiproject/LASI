@@ -7,6 +7,15 @@ using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Utilities
 {
+    public static class CustomComparer
+    {
+        public static CustomComparer<T> Create<T>(Func<T, T, bool> equals) {
+            return new CustomComparer<T>(equals);
+        }
+        public static CustomComparer<T> Create<T>(Func<T, T, bool> equals, Func<T, int> getHashCode) {
+            return new CustomComparer<T>(equals, getHashCode);
+        }
+    }
     /// <summary>
     /// An EqualityComparer&lt;T&gt; whose Equals and GetHashCode implementations are specified on upon construction.
     /// </summary>

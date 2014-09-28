@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Configuration;
 
 namespace LASI.App
 {
@@ -11,7 +12,7 @@ namespace LASI.App
     {
         internal static void ProcessOpenWebsiteRequest(Window sourceOfRequest) {
             try {
-                System.Diagnostics.Process.Start("http://lasi-project.org");
+                System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["ProjectWebsite"]);
             }
             catch (Exception) {
                 MessageBox.Show(sourceOfRequest, "Sorry, the LASI project website could not be opened");

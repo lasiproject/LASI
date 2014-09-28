@@ -121,9 +121,8 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void JoinedRightTest() {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
-            ILexical expected = new AggregateEntity(new[] { new ProperSingularNoun("Jacob"), new ProperSingularNoun("Jessica") });
+            Conjunction target = new Conjunction("and");
+            ILexical expected = new AggregateEntity(new ProperSingularNoun("Jacob"), new ProperSingularNoun("Jessica"));
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;
@@ -132,8 +131,8 @@ namespace LASI.UnitTests
 
 
 
-      
-      
- 
+
+
+
     }
 }

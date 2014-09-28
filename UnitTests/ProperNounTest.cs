@@ -63,7 +63,7 @@ namespace LASI.UnitTests
         #endregion
 
 
-        internal virtual IEnumerable<ProperNoun> CreateProperNouns() {
+        private IEnumerable<ProperNoun> CreateProperNouns() {
             yield return new ProperSingularNoun("Patrick");
             yield return new ProperPluralNoun("Roberts");
             yield return new ProperPluralNoun("James");

@@ -26,8 +26,8 @@ namespace LASI.Interop
         /// Returns a ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.
         /// </summary>
         /// <returns>A ResourceInfo instance containing the current resource usage percentages for the machine hosting the application.</returns>w
-        public static ResourceSample GetCurrentUsage() {
-            return new ResourceSample
+        public static ResourceUsageSample GetCurrentUsage() {
+            return new ResourceUsageSample
             (
                 memoryUsage: new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
                 cpuUsage: new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue(),
@@ -83,26 +83,32 @@ namespace LASI.Interop
     /// <summary>
     /// Represents a resource usage sample.
     /// </summary>
-    public struct ResourceSample
+    public struct ResourceUsageSample
     {
-        public ResourceSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
+        /// <summary>
+        /// Intiailizes a new instance of the ResourceSample structure with the specified values.
+        /// </summary>
+        /// <param name="cpuUsage">The cpu usage value.</param>
+        /// <param name="memoryUsage">The memory usage value.</param>
+        /// <param name="timeSnapshotted">The time when the sample was taken.</param>
+        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
             : this() {
-            this.CpuUsage = cpuUsage;
-            this.MemoryUsage = memoryUsage;
-            this.TimeSnapshotted = timeSnapshotted;
+            CpuUsage = cpuUsage;
+            MemoryUsage = memoryUsage;
+            TimeSnapshotted = timeSnapshotted;
         }
         /// <summary>
-        /// Gets the current CPU usage % of the machine hosting the application.        
+        /// Gets the CPU usage % of the machine hosting the application when the sample was taken.        
         /// </summary>
-        public float CpuUsage { get; private set; }// = cpuUsage;
+        public float CpuUsage { get; private set; }
         /// <summary>
-        /// Gets the current Memory usage % of the machine hosting the application.        
+        /// Gets the Memory usage % of the machine hosting the application when the sample was taken.
         /// </summary>
-        public float MemoryUsage { get; private set; } //= memoryUsage;
+        public float MemoryUsage { get; private set; }
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary> 
-        public DateTime TimeSnapshotted { get; private set; }// = timeSnapshotted;
+        public DateTime TimeSnapshotted { get; private set; }
     }
 
 }

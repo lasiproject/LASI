@@ -86,7 +86,7 @@ namespace LASI.UnitTests
         public void BindObjectOfPrepositionTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("drawer") });
+            ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("drawer"));
             target.BindObject(prepositionalObject);
             Assert.IsTrue(target.BoundObject == prepositionalObject);
         }
@@ -114,8 +114,7 @@ namespace LASI.UnitTests
         public void OnRightSideTest() {
             string text = "into";
             Preposition target = new Preposition(text);
-            ILexical expected = new NounPhrase(new Word[] {
-                new PossessivePronoun("your"), new CommonSingularNoun("soul") });
+            ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
@@ -145,8 +144,7 @@ namespace LASI.UnitTests
         public void ToTheLeftOfTest() {
             string text = "inside";
             Preposition target = new Preposition(text);
-            ILexical expected = new NounPhrase(new Word[] {
-                new PossessivePronoun("your"), new CommonSingularNoun("soul") });
+            ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;

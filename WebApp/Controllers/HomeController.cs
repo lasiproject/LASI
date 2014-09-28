@@ -10,6 +10,7 @@ using LASI.Interop;
 using System.Threading.Tasks;
 using LASI.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using LASI.WebApp.Models;
 using LASI.Core.DocumentStructures;
 using System.Collections.Concurrent;
@@ -67,11 +68,11 @@ namespace LASI.WebApp.Controllers
             var documents = await LoadResults();
             Phrase.VerboseOutput = true;
             var data = (from document in documents
-                        let documentViewModel = new DocumentModel(document)
+                        let documentModel = new DocumentModel(document)
                         let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                         from result in naiveTopResults
                         orderby result.Value descending
-                        group new object[] { result.Key, result.Value } by documentViewModel)
+                        group new object[] { result.Key, result.Value } by documentModel)
                             .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
                             .Take(CHART_ITEM_MAX)));
             ViewData["charts"] = data;
@@ -103,9 +104,12 @@ namespace LASI.WebApp.Controllers
             return processedDocuments;
         }
 
-        private static ISet<Document> processedDocuments = new HashSet<Document>(new CustomComparer<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+        private static ISet<Document> processedDocuments = new HashSet<Document>(
+            CustomComparer.Create((Document dx, Document dy) => dx.Name == dy.Name,
+                d => d.Name.GetHashCode())
+            );
 
-        private static ConcurrentDictionary<string, dynamic> trackedJobs = new ConcurrentDictionary<string, dynamic>(comparer: StringComparer.OrdinalIgnoreCase);
+        private static ConcurrentDictionary<string, JobStatus> trackedJobs = new ConcurrentDictionary<string, JobStatus>(comparer: StringComparer.OrdinalIgnoreCase);
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
@@ -121,9 +125,9 @@ namespace LASI.WebApp.Controllers
                     Id = job.Key
                 }).ToArray(), serializerSettings);
             }
-            percentComplete %= 101;
+            percentComplete %= 100;
 
-            if (percentComplete > 100) {
+            if (percentComplete >= 100) {
                 percentComplete = 0;
             }
             bool extant = trackedJobs.ContainsKey(jobId);
