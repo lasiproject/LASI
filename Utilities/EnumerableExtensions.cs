@@ -388,8 +388,9 @@ namespace LASI
             Validator.ThrowIfNull(source, "source", selector, "selector");
             return source.Distinct(
                 new CustomComparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
-                x => selector(x).GetHashCode()));
+                    (x, y) => selector(x).Equals(selector(y)),
+                    x => selector(x).GetHashCode())
+            );
         }
         static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Except(second,
@@ -408,13 +409,14 @@ namespace LASI
         static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Union(second,
                 new CustomComparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
-                x => selector(x).GetHashCode()));
+                    (x, y) => selector(x).Equals(selector(y)),
+                    x => selector(x).GetHashCode()));
         }
         static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.SequenceEqual(second,
-                new CustomComparer<TSource>((x, y) => selector(x).Equals(selector(y)),
-                x => selector(x).GetHashCode()));
+                new CustomComparer<TSource>(
+                    (x, y) => selector(x).Equals(selector(y)),
+                    x => selector(x).GetHashCode()));
         }
         /// <summary>
         /// Determines if the source collection contains the exact same elements as the second, Ignoring duplicate elements and ordering.
@@ -468,7 +470,9 @@ namespace LASI
                 IEnumerable<TSecond> second,
                 IEnumerable<TThird> third,
                 Func<TFirst, TSecond, TThird, TResult> selector) {
-            return first.Zip(second, (x, y) => new { x, y }).Zip(third, (a, b) => selector(a.x, a.y, b));
+            return first
+                .Zip(second, (a, b) => new { a, b })
+                .Zip(third, (ab, c) => selector(ab.a, ab.b, c));
         }
         /// <summary>
         /// Merges four sequences by using the specified function to select elements.
@@ -485,13 +489,15 @@ namespace LASI
         /// <param name="selector">A function that specifies how to merge the elements from the four sequences.</param>
         /// <returns>
         /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
-        /// of three input sequences.
+        /// of four input sequences.
         /// </returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first,
                 IEnumerable<TSecond> second, IEnumerable<TThird> third,
                 IEnumerable<TFourth> fourth,
                 Func<TFirst, TSecond, TThird, TFourth, TResult> selector) {
-            return first.Zip(second, third, (a, b, c) => new { a, b, c }).Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
+            return first
+                .Zip(second, third, (a, b, c) => new { a, b, c })
+                .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
 
         #endregion

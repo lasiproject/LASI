@@ -286,11 +286,10 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
         static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) {
-            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>() | new Pattern<IEnumerable<Phrase>>
-            {
-                Clause = c => c.Phrases,
-                Phrase = p => new[] { p }
-            });
+            return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
+                    .Case((Clause c) => c.Phrases)
+                    .Case((Phrase p) => new[] { p })
+                    .Result(Enumerable.Empty<Phrase>()));
         }
         /// <summary>
         /// Gets all of the Clause instances in the sequence of ILexicals.

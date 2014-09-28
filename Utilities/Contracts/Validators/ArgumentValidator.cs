@@ -101,6 +101,8 @@ namespace LASI.Utilities.Contracts.Validators
             ThrowIfNull(value1, name1, value2, name2, value3, name3, value4, name4);
             ThrowIfNull(value5, name5);
         }
+        #endregion
+        #region Value Checking
         /// <summary>
         /// Validates the specified argument, raising a System.ArgumentOutOfRangeException if it is less than the specified minimum.
         /// </summary>
@@ -110,7 +112,7 @@ namespace LASI.Utilities.Contracts.Validators
         /// <param name="min">The minimum value to validate against.</param>
         /// <param name="message">A message that provides additional detail as to why the argument failed validation.</param>
         public static void ThrowIfLessThan<T>(T value, string name, T min, string message) where T : IComparable<T> {
-            if (value.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, value.ToString(), message); }
+            if (value.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, value, message); }
         }
         /// <summary>
         /// Validates the specified argument, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum.
@@ -121,7 +123,7 @@ namespace LASI.Utilities.Contracts.Validators
         /// <param name="max">The maximum value to validate against.</param>
         /// <param name="message">A message that provides additional detail as to why the argument failed validation.</param>
         public static void ThrowIfGreaterThan<T>(T value, string name, T max, string message) where T : IComparable<T> {
-            if (value.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, value.ToString(), message); }
+            if (value.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, value, message); }
         }
         /// <summary>
         /// Validates the specified argument, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum or less than the specified minimum.
@@ -133,7 +135,7 @@ namespace LASI.Utilities.Contracts.Validators
         /// <param name="max">The maximum value to validate against.</param>
         /// <param name="message">A message that provides additional detail as to why the argument failed validation.</param>
         public static void ThrowIfOutOfRange<T>(T value, string name, T min, T max, string message) where T : IComparable<T> {
-            if (value.CompareTo(min) < 0 || value.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, value.ToString(), message); }
+            if (value.CompareTo(min) < 0 || value.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, value, message); }
         }
         /// <summary>
         /// Validates the specified IEnumerable argument, raising a System.ArgumentException if it is contains no elements.
