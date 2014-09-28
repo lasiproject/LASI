@@ -55,7 +55,8 @@ namespace LASI.WebApp.Models
             public override bool IsValid(object value) {
                 var text = value as string ?? string.Empty;
                 if (text == string.Empty) { return true; }
-                if ((var index = text.IndexOfAny(illegalCharacters)) > -1) {
+                var index = text.IndexOfAny(illegalCharacters);
+                if (index > -1) {
                     ErrorMessage = string.Format("Field may not contain the character {0}", text[index]);
                 }
                 return false;

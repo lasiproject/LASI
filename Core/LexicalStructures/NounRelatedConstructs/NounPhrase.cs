@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
-using System.Math;
 
 namespace LASI.Core
 {

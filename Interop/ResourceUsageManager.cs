@@ -83,20 +83,26 @@ namespace LASI.Interop
     /// <summary>
     /// Represents a resource usage sample.
     /// </summary>
-    public struct ResourceSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
+    public struct ResourceSample
     {
+        public ResourceSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
+            : this() {
+            this.CpuUsage = cpuUsage;
+            this.MemoryUsage = memoryUsage;
+            this.TimeSnapshotted = timeSnapshotted;
+        }
         /// <summary>
         /// Gets the current CPU usage % of the machine hosting the application.        
         /// </summary>
-        public float CpuUsage { get; } = cpuUsage;
+        public float CpuUsage { get; private set; }// = cpuUsage;
         /// <summary>
         /// Gets the current Memory usage % of the machine hosting the application.        
         /// </summary>
-        public float MemoryUsage { get; } = memoryUsage;
+        public float MemoryUsage { get; private set; } //= memoryUsage;
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary> 
-        public DateTime TimeSnapshotted { get; } = timeSnapshotted;
+        public DateTime TimeSnapshotted { get; private set; }// = timeSnapshotted;
     }
 
 }

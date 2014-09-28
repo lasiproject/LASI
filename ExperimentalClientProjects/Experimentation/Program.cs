@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Interop;
-using LASI.Output;
 using LASI.Utilities;
 
 namespace LASI.Experimentation.CommandLine
@@ -23,12 +22,12 @@ namespace LASI.Experimentation.CommandLine
             var notfier = new ResourceNotifier();
             notfier.ResourceLoaded += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
+                Output.WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
             };
             var orchestrator = new AnalysisOrchestrator(fragment);
             orchestrator.ProgressChanged += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                WriteLine("Update : {0} Percent : {1}", e.Message, percent);
+                Output.WriteLine("Update : {0} Percent : {1}", e.Message, percent);
             };
 
             var document = orchestrator.ProcessAsync().Result.First();
@@ -38,9 +37,9 @@ namespace LASI.Experimentation.CommandLine
                 .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .Case((IEntity e) => e.Text)
                 .Result();
-            WriteLine(document);
+            Output.WriteLine(document);
             Phrase.VerboseOutput = true;
-            foreach (var phrase in document.Phrases) { WriteLine(phrase); }
+            foreach (var phrase in document.Phrases) { Output.WriteLine(phrase); }
 
             Input.WaitForKey(ConsoleKey.Escape);
 

@@ -86,10 +86,11 @@ namespace LASI.Core.Heuristics
         /// <param name="aliased">The entity who's aliases will be returned.</param>
         /// <returns>The textual representations of all known aliases defined for the given entity.</returns>
         public static IEnumerable<string> GetDefinedAliases(this IEntity aliased) {
-            aliasDictionary.TryGetValue(aliased.Text, out var outval1);
+            ISet<string> outval1;
+            aliasDictionary.TryGetValue(aliased.Text, out outval1);
             outval1 = outval1 ?? new HashSet<string>();
-
-            aliasedEntityReferenceMap.TryGetValue(aliased, out var outval2);
+            ISet<IEntity> outval2;
+            aliasedEntityReferenceMap.TryGetValue(aliased, out outval2);
             outval2 = outval2 ?? new HashSet<IEntity>();
             return outval1.Concat(outval2.Select(e => e.Text));
         }

@@ -10,8 +10,18 @@ namespace LASI.Utilities
     /// <summary>
     /// A numberical data type associating a double value with contextual multiplier.
     /// </summary>
-    public struct Weight(double rawWeight, double multiplier) : IComparable, IComparable<Weight>, IEquatable<Weight>
+    public struct Weight : IComparable, IComparable<Weight>, IEquatable<Weight>
     {
+        private long value;
+        private int p;
+
+        public Weight(double value, double p)
+            : this() {
+            // TODO: Complete member initialization
+            RawWeight = value;
+            Multiplier = p;
+        }
+
         #region Methods
         /// <summary>
         /// Returns a string representation of the Weight.
@@ -69,11 +79,11 @@ namespace LASI.Utilities
         /// <summary>
         /// Gets the Raw Weight.
         /// </summary>
-        public double RawWeight { get; } = rawWeight;
+        public double RawWeight { get; private set; }
         /// <summary>
         /// Gets the Multiplier.
         /// </summary>
-        public double Multiplier { get; } = multiplier;
+        public double Multiplier { get; private set; }
         /// <summary>
         /// Gets the scaled weight computed as the product of the Multiplier and the RawWeight of the Weight.
         /// </summary>
@@ -189,25 +199,25 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>A Double representation of the specified Weight.</returns>
-        public static implicit operator double (Weight weight) { return weight.ScaledWeight; }
+        public static implicit operator double(Weight weight) { return weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to a Decimal value corresponding to its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>A Decimal representation of the specified Weight.</returns>
-        public static implicit operator decimal (Weight weight) { return (decimal)weight.ScaledWeight; }
+        public static implicit operator decimal(Weight weight) { return (decimal)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to an Int64 value corresponding to the integral portion of its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>An Int64 representation of the integral portion of the specified Weight.</returns>
-        public static explicit operator long (Weight weight) { return (long)weight.ScaledWeight; }
+        public static explicit operator long(Weight weight) { return (long)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to a UInt64 value corresponding to the integral portion of its scaled weight.
         /// </summary>
         /// <param name="weight">The Weight to convert.</param>
         /// <returns>An UInt64 representation of the integral portion of the specified Weight.</returns>
-        public static explicit operator ulong (Weight weight) { return (ulong)weight.ScaledWeight; }
+        public static explicit operator ulong(Weight weight) { return (ulong)weight.ScaledWeight; }
         /// <summary>
         /// Converts the specified Weight to an BigInteger value corresponding to the integral portion of its scaled weight.
         /// </summary>
