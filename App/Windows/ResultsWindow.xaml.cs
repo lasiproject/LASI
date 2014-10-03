@@ -117,7 +117,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing asynchronous operation.</returns>
         public async Task BuildTextViewsForAllDocumentsAsync() {  // This is for the lexial relationships tab
-            var tasks = documents.Select(d => BuildTextViewOfDocument(d)).ToList();
+            var tasks = documents.Select(document => BuildTextViewOfDocument(document)).ToList();
             while (tasks.Any()) {
                 var finishedTask = await Task.WhenAny(tasks);
                 tasks.Remove(finishedTask);
@@ -146,25 +146,46 @@ namespace LASI.App
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sen => sen.OfPhrase());
             var colorizer = new SyntacticColorMap();
-            foreach (var phrase in phrases) {
-                var label = new Label
-                {
-                    Content = phrase.Text + (phrase is SymbolPhrase ? " " : string.Empty),
-                    Tag = phrase,
-                    Foreground = colorizer[phrase],
-                    Background = Brushes.White,
-                    OpacityMask = Brushes.White,
-                    Padding = new Thickness(1, 1, 1, 1),
-                    ContextMenu = ContextMenuFactory.ForLexical(phrase, elementLabels) ?? new ContextMenu(),
-                    ToolTip = phrase.ToString()
-                        .SplitRemoveEmpty('\n', '\r')
-                        .Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
-                };
-                elementLabels.Add(label);
+            var flowDocument = new System.Windows.Documents.FlowDocument();
+
+            var documentContents = (from phrase in phrases
+                                        //select new System.Windows.Documents.Span(
+                                    select new System.Windows.Documents.Run
+                                    {
+                                        Text = " " + phrase.Text + (phrase is SymbolPhrase ? "" : string.Empty),
+                                        Tag = phrase,
+                                        Foreground = colorizer[phrase],
+                                        Background = Brushes.White,
+                                        //OpacityMask = Brushes.White,
+                                        //Padding = new Thickness(1, 1, 1, 1),
+                                        //ContextMenu = ContextMenuFactory.ForLexical(phrase, elementLabels) ?? new ContextMenu(),
+                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
+                                    }).ToList();
+            //elementLabels.Add(label);
+
+
+            foreach (var source in documentContents) {
+                source.ContextMenu = ContextMenuFactory.ForLexical(source.Tag as Phrase, documentContents) ?? new ContextMenu();
+               
             }
-            foreach (var l in elementLabels) {
-                panel.Children.Add(l);
-            }
+            var p = new System.Windows.Documents.Paragraph();
+            p.Inlines.AddRange(documentContents);
+
+            //foreach (var label in elementLabels) {
+            //    var span = new System.Windows.Documents.Run(label.Content.ToString());
+            //    /*     panel.Children.Add(span); */
+            //    flowDocument.Blocks.Add(new System.Windows.Documents.Paragraph(span));
+            //}
+         
+            //            p.ContextMenuOpening += (sender, e) => {
+            //                p.ContextMenu.Items.Clear(); if (
+            //(e.OriginalSource as System.Windows.Documents.Run).ContextMenu != null) {
+            //                    (e.OriginalSource as System.Windows.Documents.Run).ContextMenu.Items.OfType<MenuItem>().ToList().ForEach((i) => p.ContextMenu.Items.Add(i));
+            //                    MessageBox.Show("clicked");
+            //                }
+            //            };
+            flowDocument.Blocks.Add(p);
+            panel.Children.Add(new FlowDocumentScrollViewer { Document = flowDocument, });
             recomposedDocumentsTabControl.Items.Add(tab);
             recomposedDocumentsTabControl.SelectedItem = tab;
             await Task.Yield();

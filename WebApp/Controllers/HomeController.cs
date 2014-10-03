@@ -118,7 +118,8 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
-                return JsonConvert.SerializeObject(trackedJobs.Select(job => new
+                return JsonConvert.SerializeObject(
+                    trackedJobs.Select(job => new
                 {
                     job.Value.Message,
                     job.Value.Percent,

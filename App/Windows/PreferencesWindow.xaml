@@ -6,12 +6,15 @@
     Height="410"
     Width="410"
     ResizeMode="NoResize">
-    <Grid>
+    <Grid
+        Margin="0,0,0,1"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
         <Grid
             Name="mainGrid"
             Margin="0,0,0,45">
             <TabControl
-                x:Name="tabControl">
+                x:Name="tabControl"
+                Margin="0,0,0,-45">
                 <TabItem
                     Header="General">
                     <Grid>
@@ -20,7 +23,7 @@
                             Content="Auto-Name New Projects"
                             Height="18"
                             VerticalAlignment="Top"
-                            Margin="0,10,0,0"
+                            Margin="10,10,0,0"
                             Unchecked="autoNameCheckBox_Checked"
                             Checked="autoNameCheckBox_Checked" />
                         <CheckBox
@@ -28,17 +31,9 @@
                             Content="Minimize to the system tray (requires restart)"
                             Height="18"
                             VerticalAlignment="Top"
-                            Margin="0,33,0,0"
+                            Margin="10,33,0,0"
                             Unchecked="minimizeToTrayCheckBox_Checked"
                             Checked="minimizeToTrayCheckBox_Checked" />
-                        <CheckBox
-                            x:Name="logMessagesToFileCheckBox"
-                            Content="Log detailed process info to file"
-                            Height="18"
-                            VerticalAlignment="Top"
-                            Margin="0,56,0,0"
-                            Unchecked="logMessagesToFileCheckBox_Checked"
-                            Checked="logMessagesToFileCheckBox_Checked" />
                     </Grid>
                 </TabItem>
                 <TabItem
@@ -53,7 +48,8 @@
                             HorizontalAlignment="Left"
                             Width="395">
                             <Grid
-                                Height="auto">
+                                Height="157"
+                                Width="393">
                                 <Label
                                     x:Name="label"
                                     Content="Resource Usage"
@@ -67,49 +63,60 @@
                                     GroupName="performanceModes"
                                     Height="24"
                                     VerticalAlignment="Top"
-                                    Checked="anyPerformanceMode_Checked" />
+                                    Checked="anyPerformanceMode_Checked"
+                                    ToolTip="A majority of system resources will be devoted to document analysis" />
                                 <RadioButton
                                     Name="Normal"
                                     Margin="10,57,35,71"
                                     IsThreeState="False"
                                     Content="Normal"
                                     GroupName="performanceModes"
-                                    Checked="anyPerformanceMode_Checked" />
+                                    Checked="anyPerformanceMode_Checked"
+                                    ToolTip="A significant amount of system resources will be devoted to document analysis" />
                                 <RadioButton
                                     Name="Low"
-                                    Margin="10,79,35,47"
+                                    Margin="10,79,0,45"
                                     Content="Low"
                                     GroupName="performanceModes"
-                                    Height="24"
-                                    Checked="anyPerformanceMode_Checked" />
+                                    Checked="anyPerformanceMode_Checked"
+                                    ToolTip="A moderate amount of system resources will be devoted document analysis, at the expense of increased processing time" />
                             </Grid>
                         </Viewbox>
+                        <CheckBox
+                            x:Name="logMessagesToFileCheckBox"
+                            Content="Write detailed process info to file"
+                            Margin="10,105,1,0"
+                            Unchecked="logMessagesToFileCheckBox_Checked"
+                            Checked="logMessagesToFileCheckBox_Checked"
+                            Height="18"
+                            VerticalAlignment="Top" />
                     </Grid>
                 </TabItem>
             </TabControl>
-            <Frame
-                x:Name="mainFrame"
-                HorizontalAlignment="Left"
-                Width="400"
-                Height="332"
-                VerticalAlignment="Top" />
-        </Grid>
-        <Grid
-            Name="buttonGrid"
-            Height="47"
-            VerticalAlignment="Bottom">
-            <Button
-                x:Name="saveButton"
-                Content="Save"
-                Click="saveButton_Click"
-                Margin="50,10,277,0"
-                Height="27"
-                VerticalAlignment="Top" />
-            <Button
-                x:Name="cancelButton"
-                Content="Cancel"
-                Click="cancelButton_Click"
-                Margin="277,10,50,10" />
+            <Grid
+                x:Name="buttonGrid"
+                Margin="0,318,0,-33">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="187*" />
+                    <ColumnDefinition
+                        Width="217*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="saveButton"
+                    Content="Save"
+                    Click="saveButton_Click"
+                    Margin="50,10,60,10"
+                    Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" />
+                <Button
+                    x:Name="cancelButton"
+                    Content="Cancel"
+                    Click="cancelButton_Click"
+                    Margin="90,10,50,10"
+                    Grid.Column="1"
+                    Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                    TextOptions.TextHintingMode="Fixed" />
+            </Grid>
         </Grid>
     </Grid>
 </Window>

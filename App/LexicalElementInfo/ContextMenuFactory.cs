@@ -9,13 +9,14 @@ using System.Windows.Media;
 
 namespace LASI.App.LexicalElementInfo
 {
+    using WpfDocuments = System.Windows.Documents;
+
     static class ContextMenuFactory
     {
-
-        public static ContextMenu ForLexical(ILexical element, IEnumerable<Label> labelsInContext) {
+        public static ContextMenu ForLexical(ILexical element, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
             return element.Match().Yield<ContextMenu>()
-                .Case((IVerbal v) => ForVerbal(v, labelsInContext))
-                .Case((IReferencer r) => ForReferencer(r, labelsInContext))
+                .Case((IVerbal v) => ForVerbal(v, neighboringElements))
+                .Case((IReferencer r) => ForReferencer(r, neighboringElements))
                 .Result();
         }
         #region Lexical Element Context Menu Construction
@@ -23,21 +24,21 @@ namespace LASI.App.LexicalElementInfo
         /// Creates a context menu specific to the given IVerbal elemenet with context determined by the provided labels.
         /// </summary>
         /// <param name="verbal">The element to create a context menu for.</param>
-        /// <param name="labelsInContext">The labels which determine the context in which the menu is to be created.</param>
+        /// <param name="neighboringElements">The labels which determine the context in which the menu is to be created.</param>
         /// <returns>A context menu based on the provided IVerbal in the contexxt of the provided labels.</returns>
-        static ContextMenu ForVerbal(IVerbal verbal, IEnumerable<Label> labelsInContext) {
+        static ContextMenu ForVerbal(IVerbal verbal, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
             var result = new ContextMenu();
             if (verbal.Subjects.Any()) {
-                result.Items.Add(VerbalMenuItemFactory.ForSubject(labelsInContext, verbal));
+                result.Items.Add(VerbalMenuItemFactory.ForSubject(neighboringElements, verbal));
             }
             if (verbal.DirectObjects.Any()) {
-                result.Items.Add(VerbalMenuItemFactory.ForDirectObject(labelsInContext, verbal));
+                result.Items.Add(VerbalMenuItemFactory.ForDirectObject(neighboringElements, verbal));
             }
             if (verbal.IndirectObjects.Any()) {
-                result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(labelsInContext, verbal));
+                result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(neighboringElements, verbal));
             }
             if (verbal != null && verbal.ObjectOfThePreoposition != null) {
-                result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(labelsInContext, verbal));
+                result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(neighboringElements, verbal));
             }
             return result;
         }
@@ -45,22 +46,22 @@ namespace LASI.App.LexicalElementInfo
         /// Creates a context menu specific to the given IReferencer elemenet with context determined by the provided labels. 
         /// </summary>
         /// <param name="referencer">The element to create a context menu for.</param>
-        /// <param name="labelsInContext">The labels which determine the context in which the menu is to be created.</param>
+        /// <param name="neighboringElements">The labels which determine the context in which the menu is to be created.</param>
         /// <returns>A context menu based on the provided IReferencer in the contexxt of the provided labels.</returns>
-        static ContextMenu ForReferencer(IReferencer referencer, IEnumerable<Label> labelsInContext) {
+        static ContextMenu ForReferencer(IReferencer referencer, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
             var result = new ContextMenu();
             if (referencer.RefersTo != null && referencer.RefersTo.Any()) {
-                result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(labelsInContext, referencer));
+                result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(neighboringElements, referencer));
             }
             return result;
         }
         static class VerbalMenuItemFactory
         {
-            public static MenuItem ForPrepositionalObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            public static MenuItem ForPrepositionalObject(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view prepositional object" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
-                    var labels = from label in labelsInContext
+                    ResetUnassociatedLabelBrushes(neighboringElements, verbal);
+                    var labels = from label in neighboringElements
                                  where label.Tag.Equals(verbal.ObjectOfThePreoposition)
                                  select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
@@ -71,12 +72,12 @@ namespace LASI.App.LexicalElementInfo
                 return visitSubjectMI;
             }
 
-            public static MenuItem ForIndirectObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            public static MenuItem ForIndirectObject(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view indirect objects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
+                    ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var labels = from r in verbal.IndirectObjects
-                                 join label in labelsInContext on r equals label.Tag
+                                 join label in neighboringElements on r equals label.Tag
                                  select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
@@ -86,12 +87,12 @@ namespace LASI.App.LexicalElementInfo
                 return visitSubjectMI;
             }
 
-            public static MenuItem ForDirectObject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            public static MenuItem ForDirectObject(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view direct objects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
+                    ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var labels = from r in verbal.DirectObjects
-                                 join label in labelsInContext on r equals label.Tag
+                                 join label in neighboringElements on r equals label.Tag
                                  select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;
@@ -103,12 +104,12 @@ namespace LASI.App.LexicalElementInfo
 
 
 
-            public static MenuItem ForSubject(IEnumerable<Label> labelsInContext, IVerbal verbal) {
+            public static MenuItem ForSubject(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view subjects" };
                 visitSubjectMI.Click += (sender, e) => {
-                    ResetUnassociatedLabelBrushes(labelsInContext, verbal);
+                    ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var labels = from r in verbal.Subjects
-                                 join l in labelsInContext on r equals l.Tag
+                                 join l in neighboringElements on r equals l.Tag
                                  select l;
                     foreach (var l in labels) {
                         l.Foreground = Brushes.Black;
@@ -120,11 +121,11 @@ namespace LASI.App.LexicalElementInfo
         }
         static class ReferencerMenuItemFactory
         {
-            public static MenuItem ForReferredTo(IEnumerable<Label> labelsInContext, IReferencer pro) {
+            public static MenuItem ForReferredTo(IEnumerable<WpfDocuments.TextElement> neighboringElements, IReferencer pro) {
                 var visitBoundEntity = new MenuItem { Header = "view referred to" };
                 visitBoundEntity.Click += (sender, e) => {
-                    ResetLabelBrushes(labelsInContext);
-                    var labels = from l in labelsInContext
+                    ResetLabelBrushes(neighboringElements);
+                    var labels = from l in neighboringElements
                                  where pro.RefersTo == l.Tag || l.Tag is NounPhrase &&
                                  pro.RefersTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
                                  select l;
@@ -138,14 +139,14 @@ namespace LASI.App.LexicalElementInfo
         }
         #endregion
         #region Helper Methods
-        static void ResetLabelBrushes(IEnumerable<Label> labelsInContext) {
-            foreach (var l in labelsInContext) {
+        static void ResetLabelBrushes(IEnumerable<WpfDocuments.TextElement> neighboringElements) {
+            foreach (var l in neighboringElements) {
                 l.Foreground = colorMapping[l.Tag as ILexical];
                 l.Background = Brushes.White;
             }
         }
-        private static void ResetUnassociatedLabelBrushes(IEnumerable<Label> labelsInContext, IVerbal verbal) {
-            foreach (var l in from l in labelsInContext
+        private static void ResetUnassociatedLabelBrushes(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
+            foreach (var l in from l in neighboringElements
                               let e = l.Tag as IEntity
                               where e != null && !verbal.HasSubjectOrObject(i => i == e)
                               select l) {

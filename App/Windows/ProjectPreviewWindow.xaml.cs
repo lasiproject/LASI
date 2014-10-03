@@ -45,26 +45,47 @@ namespace LASI.App
         /// <param name="textfile">The Text File from which to load text.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         private async Task LoadTextandTabAsync(TxtFile textfile) {
-            var processedText = await await textfile.GetTextAsync().ContinueWith(async t => {
-                var data = await t;
-                return data
-                    .SplitRemoveEmpty("\r\n\r\n", "<paragraph>", "</paragraph>")
-                    .Select(s => s.Trim())
-                    .Aggregate(string.Empty, (folded, e) => folded + "\n\t" + e);
+            var processedText = await await textfile.GetTextAsync().ContinueWith(async task => {
+                var text = await task;
+                return string
+                    .Join("\n\t", text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "<paragraph>", "</paragraph>").Select(value => value.Trim()));
             });
+
+            var block = new System.Windows.Documents.Section(
+                 new System.Windows.Documents.Paragraph(
+                     new System.Windows.Documents.Run { Text = processedText })
+            {
+                TextAlignment = TextAlignment.Left
+            })
+            {
+                TextAlignment = TextAlignment.Left,
+                BreakColumnBefore = false
+            };
             var item = new TabItem
             {
                 Header = textfile.NameSansExt,
                 AllowDrop = true,
-                Content = new TextBox
+                Content = new FlowDocumentPageViewer
                 {
-                    IsReadOnly = true,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    TextWrapping = TextWrapping.Wrap,
-                    Text = processedText,
-                    FontSize = 12,
-
-                },
+                    Document = new System.Windows.Documents.FlowDocument(
+                        new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run
+                    {
+                        Text = processedText,
+                    })
+                    {
+                        TextAlignment = TextAlignment.Left,
+                        TextIndent = 4
+                    })
+                    {
+                        TextAlignment = TextAlignment.Left
+                    },
+                    //IsReadOnly = true,
+                    //VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    //HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    //TextWrapping = TextWrapping.Wrap,
+                    FontSize = 10,
+                    FontStyle = FontStyles.Normal,
+                }
             };
             item.Drop += Grid_Drop;
             DocumentPreview.Items.Add(item);
@@ -102,7 +123,7 @@ namespace LASI.App
 
         #endregion
 
-        #region Named Event Handlers
+        #region Event Handlers
 
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
 
@@ -138,7 +159,7 @@ namespace LASI.App
         private async void DisplayAddNewDocumentDialog() {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                Filter = FILE_FILTER,
                 Multiselect = true,
 
             };
@@ -193,16 +214,19 @@ namespace LASI.App
             SharedWindowFunctionality.ProcessOpenManualRequest(this);
         }
 
-
-
-        #endregion
-
         private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e) {
             DisplayAddNewDocumentDialog();
         }
 
         #endregion
 
+        #endregion
+
+        #region Fields
+
+        private const string FILE_FILTER = "Documents File Types|*.doc; *.docx; *.pdf; *.txt";
+
+        #endregion
 
     }
 }
