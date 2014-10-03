@@ -126,6 +126,7 @@ namespace LASI.App
                 return acceptedFormats;
             }
         }
+        public const string FILE_FILTER = "Documents File Types|*.doc; *.docx; *.pdf; *.txt";
         #region Events
 
         public static event System.Windows.RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged;

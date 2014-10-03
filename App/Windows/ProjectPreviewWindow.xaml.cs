@@ -48,7 +48,7 @@ namespace LASI.App
             var processedText = await await textfile.GetTextAsync().ContinueWith(async task => {
                 var text = await task;
                 return string
-                    .Join("\n\t", text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "<paragraph>", "</paragraph>").Select(value => value.Trim()));
+                    .Join("\t", text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "\n\",", "<paragraph>", "</paragraph>").Select(value => value.Trim()));
             });
 
             var block = new System.Windows.Documents.Section(
@@ -67,26 +67,16 @@ namespace LASI.App
                 AllowDrop = true,
                 Content = new FlowDocumentPageViewer
                 {
-                    Document = new System.Windows.Documents.FlowDocument(
-                        new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run
-                    {
-                        Text = processedText,
-                    })
-                    {
-                        TextAlignment = TextAlignment.Left,
-                        TextIndent = 4
-                    })
-                    {
-                        TextAlignment = TextAlignment.Left
-                    },
-                    //IsReadOnly = true,
-                    //VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    //HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    //TextWrapping = TextWrapping.Wrap,
-                    FontSize = 10,
-                    FontStyle = FontStyles.Normal,
-                }
+                    //ViewingMode = FlowDocumentReaderViewingMode.Page,
+                    VerticalContentAlignment = VerticalAlignment.Stretch,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    HorizontalContentAlignment = HorizontalAlignment.Left,
+                    Document = new System.Windows.Documents.FlowDocument(new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run(processedText))),
+
+                },
+
             };
+            VisualTextRenderingMode = System.Windows.Media.TextRenderingMode.ClearType;
             item.Drop += Grid_Drop;
             DocumentPreview.Items.Add(item);
             DocumentPreview.SelectedItem = item;
@@ -159,7 +149,7 @@ namespace LASI.App
         private async void DisplayAddNewDocumentDialog() {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = FILE_FILTER,
+                Filter = DocumentManager.FILE_FILTER,
                 Multiselect = true,
 
             };
@@ -222,9 +212,7 @@ namespace LASI.App
 
         #endregion
 
-        #region Fields
-
-        private const string FILE_FILTER = "Documents File Types|*.doc; *.docx; *.pdf; *.txt";
+        #region Fields 
 
         #endregion
 

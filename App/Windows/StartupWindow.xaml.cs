@@ -157,7 +157,7 @@ namespace LASI.App
             if (DocumentManager.CanAdd) {
                 var openDialog = new Microsoft.Win32.OpenFileDialog
                 {
-                    Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                    Filter = DocumentManager.FILE_FILTER,
                     Multiselect = true
                 };
                 openDialog.ShowDialog(this);

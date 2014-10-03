@@ -129,63 +129,44 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var tab = new TabItem
-            {
-                Header = document.Name,
-                Content = new ScrollViewer
-                {
-                    Content = panel,
-                    Background = Brushes.White,
-                    OpacityMask = Brushes.White,
-                }
-            };
-            var elementLabels = new List<Label>();
+
             var phrases = document.Paginate(80, 20)
                 .Take(1)
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
-                .SelectMany(sen => sen.OfPhrase());
+                .SelectMany(sentence => sentence.OfPhrase());
             var colorizer = new SyntacticColorMap();
             var flowDocument = new System.Windows.Documents.FlowDocument();
 
             var documentContents = (from phrase in phrases
-                                        //select new System.Windows.Documents.Span(
                                     select new System.Windows.Documents.Run
                                     {
-                                        Text = " " + phrase.Text + (phrase is SymbolPhrase ? "" : string.Empty),
+                                        Text = phrase.Text,
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
-                                        //OpacityMask = Brushes.White,
-                                        //Padding = new Thickness(1, 1, 1, 1),
-                                        //ContextMenu = ContextMenuFactory.ForLexical(phrase, elementLabels) ?? new ContextMenu(),
                                         ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
                                     }).ToList();
-            //elementLabels.Add(label);
+
 
 
             foreach (var source in documentContents) {
-                source.ContextMenu = ContextMenuFactory.ForLexical(source.Tag as Phrase, documentContents) ?? new ContextMenu();
-               
+                source.ContextMenu = ContextMenuFactory.ForLexical(source.Tag as Phrase, documentContents);
             }
             var p = new System.Windows.Documents.Paragraph();
-            p.Inlines.AddRange(documentContents);
-
-            //foreach (var label in elementLabels) {
-            //    var span = new System.Windows.Documents.Run(label.Content.ToString());
-            //    /*     panel.Children.Add(span); */
-            //    flowDocument.Blocks.Add(new System.Windows.Documents.Paragraph(span));
-            //}
-         
-            //            p.ContextMenuOpening += (sender, e) => {
-            //                p.ContextMenu.Items.Clear(); if (
-            //(e.OriginalSource as System.Windows.Documents.Run).ContextMenu != null) {
-            //                    (e.OriginalSource as System.Windows.Documents.Run).ContextMenu.Items.OfType<MenuItem>().ToList().ForEach((i) => p.ContextMenu.Items.Add(i));
-            //                    MessageBox.Show("clicked");
-            //                }
-            //            };
+            p.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));
             flowDocument.Blocks.Add(p);
-            panel.Children.Add(new FlowDocumentScrollViewer { Document = flowDocument, });
+            var tab = new TabItem
+            {
+                Header = document.Name,
+                Content = new FlowDocumentPageViewer
+                {
+                    Document = flowDocument,
+                    OpacityMask = Brushes.White,
+                },
+                Background = Brushes.White,
+                OpacityMask = Brushes.White,
+            };
             recomposedDocumentsTabControl.Items.Add(tab);
             recomposedDocumentsTabControl.SelectedItem = tab;
             await Task.Yield();
@@ -337,7 +318,7 @@ namespace LASI.App
         private async void AddMenuItem_Click(object sender, RoutedEventArgs e) {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = "LASI File Types|*.doc; *.docx; *.pdf; *.txt",
+                Filter = DocumentManager.FILE_FILTER,
                 Multiselect = true,
             };
             openDialog.ShowDialog(this);
