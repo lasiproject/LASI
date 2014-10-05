@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Analysis.PatternMatching.LexicalSpecific;
 
 namespace LASI.Core.PatternMatching
 {
@@ -452,8 +451,5 @@ namespace LASI.Core.PatternMatching
         #region Fields
         private TResult result = default(TResult);
         #endregion
-        public static TResult operator |(Match<T, TResult> pattern, Pattern<TResult> caseList) {
-            return caseList.Apply(pattern);
-        }
     }
 }

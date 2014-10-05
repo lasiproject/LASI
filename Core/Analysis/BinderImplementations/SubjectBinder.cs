@@ -36,7 +36,7 @@ namespace LASI.Core.Binding
                     s3.StatePhrase = i;
                     stateList.Add(s3);
                 }
-                if (i is VerbPhrase && i.Words.Any(n => n is PresentParticipleGerund)) {
+                if (i is VerbPhrase && i.Words.Any(n => n is PresentParticipleVerb)) {
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
@@ -49,7 +49,7 @@ namespace LASI.Core.Binding
                 }
 
 
-                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticipleGerund))) {
+                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticipleVerb))) {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;

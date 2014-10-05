@@ -27,7 +27,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// </example>    
     /// <see cref="WordTagsetMap"/>
     /// <see cref="WordFactory"/> 
-    sealed class SharpNlpWordTagsetMap : WordTagsetMap
+    sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
         #region Fields
 
@@ -74,7 +74,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             //Verb mappings
             { "VB", t => new Verb(t, VerbForm.Base) }, //Verb }, base form
             { "VBD", t => new PastTenseVerb(t) }, //Verb }, past tense
-            { "VBG", t => new PresentParticipleGerund(t) }, //Verb }, gerund or present participle
+            { "VBG", t => new PresentParticipleVerb(t) }, //Verb }, gerund or present participle
             { "VBN", t => new PastParticipleVerb(t) }, //Verb }, past participle
             { "VBP", t => new Verb(t, VerbForm.SingularPresent) }, //Verb }, non-3rd person singular present
             { "VBZ", t => new Verb(t, VerbForm.ThirdPersonSingularPresent) }, //Verb }, 3rd person singular present

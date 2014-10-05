@@ -26,7 +26,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
     /// </example>    
     /// <see cref="WordTagsetMap"/>
     /// <see cref="WordFactory"/> 
-    sealed class SharpNlpPhraseTagsetMap : PhraseTagsetMap
+    sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator>

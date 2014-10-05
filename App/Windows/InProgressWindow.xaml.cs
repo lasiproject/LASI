@@ -72,12 +72,12 @@ namespace LASI.App
                     await Task.Delay(1);
                 }
             };
-
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
-
             progressBar.Value = 100;
-            progressLabel.Content = "Complete";
-            progressBar.ToolTip = "Complete";
+            var completetionMessage = string.Format("Complete. Time: {0} miliseconds", timer.ElapsedMilliseconds);
+            progressLabel.Content = completetionMessage;
+            progressBar.ToolTip = completetionMessage;
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
 

@@ -36,16 +36,18 @@ let main argv =
     orchestrator.ProgressChanged.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    let docTask = async { 
-        let b= Async.AwaitTask (orchestrator.ProcessAsync())
-        return! b;
-    }
+    let docTask = 
+        async { 
+            let b = Async.AwaitTask(orchestrator.ProcessAsync())
+            return! b
+        }
+    
     let docs = Async.RunSynchronously(docTask)
     for doc in docs do
         let toAttack = Verb("attack", VerbForm.Base)
         let bellicoseVerbals = 
-            doc.GetVerbals() |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
-        let bellicoseIndividuals = doc.GetEntities() |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
+            doc.Verbals |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
+        let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
         let attackerAttackeePairs = 
             bellicoseVerbals.WithDirectObject().WithSubject() 
             |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))

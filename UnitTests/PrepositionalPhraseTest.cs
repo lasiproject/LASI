@@ -103,7 +103,7 @@ namespace LASI.UnitTests
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
             target.ToTheLeftOf = new NounPhrase(new[] { new PersonalPronoun("it") });
-            target.ToTheRightOf = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
+            target.ToTheRightOf = new VerbPhrase(new[] { new PresentParticipleVerb("slamming") });
             string expected = String.Format("PrepositionalPhrase \"for\"\n\tleft linked: {0}\n\tright linked: {1}", target.ToTheLeftOf, target.ToTheRightOf);
             string actual;
             actual = target.ToString();
@@ -146,7 +146,7 @@ namespace LASI.UnitTests
         public void OnRightSideTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            ILexical expected = new VerbPhrase(new[] { new PresentParticipleGerund("slamming") });
+            ILexical expected = new VerbPhrase(new[] { new PresentParticipleVerb("slamming") });
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;

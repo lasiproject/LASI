@@ -101,10 +101,10 @@
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNlpPhraseTagsetMap.cs" />
+    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
-    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNlpWordTagsetMap.cs" />
+    <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />
@@ -136,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LASI\ContentSystem\TaggerEncapsulation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

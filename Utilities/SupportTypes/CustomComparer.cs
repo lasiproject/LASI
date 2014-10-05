@@ -7,17 +7,38 @@ using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Utilities
 {
+    /// <summary>
+    /// Provides static methods for the creation of CustomComparer&lt;T&gt; instances.
+    /// </summary>
     public static class CustomComparer
     {
+        /// <summary>
+        /// Creates a new instance of the CustomComparer class which will use the provided function to define element equality.
+        /// </summary>
+        /// <param name="equals">A function which determines if two objects of type T are equal.</param>
+        /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function is null.</exception>
+        /// <remarks>
+        /// A custom hashing function is automatically provided, ensuring that equality comparisons take place except when reference is null.
+        /// While this provides clean, customizable semantics for set operations, more expensive to use having a complexity of N^2
+        /// </remarks>
         public static CustomComparer<T> Create<T>(Func<T, T, bool> equals) {
             return new CustomComparer<T>(equals);
         }
+        /// <summary>
+        /// Creates a new instance of the CustomComparer class which will use the provided equality and hashing functions.
+        /// </summary>
+        /// <param name="equals">A function which determines if two objects of type T are equal.</param>
+        /// <param name="getHashCode">A function which generates a hash code from an element of type T.</param>
+        /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> or <paramref name="getHashCode"/> function is null.</exception>
+        /// <remarks>Proper usage requires that elements which will compare equal under the specified equals function will also produce identical hashcodes.
+        /// Elements may yield identical hash codes, without being considered equal.
+        /// </remarks>
         public static CustomComparer<T> Create<T>(Func<T, T, bool> equals, Func<T, int> getHashCode) {
             return new CustomComparer<T>(equals, getHashCode);
         }
     }
     /// <summary>
-    /// An EqualityComparer&lt;T&gt; whose Equals and GetHashCode implementations are specified on upon construction.
+    /// An EqualityComparer&lt;T&gt; whose Equals and GetHashCode implementations are specified upon construction.
     /// </summary>
     /// <typeparam name="T">The type of objects to compare.</typeparam>
     /// <remarks>
@@ -44,7 +65,7 @@ namespace LASI.Utilities
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the CustomComparer class which will use the provided equals function. to define element equality.
+        /// Initializes a new instance of the CustomComparer class which will use the provided function to define element equality.
         /// </summary>
         /// <param name="equals">A function which determines if two objects of type T are equal.</param>
         /// <exception cref="System.ArgumentNullException">The provided <paramref name="equals"/> function is null.</exception>
@@ -62,7 +83,7 @@ namespace LASI.Utilities
             }
         }
         /// <summary>
-        /// Initializes a new instance of the CustomComparer class which will use the provided equals and get hashcode functions.
+        /// Initializes a new instance of the CustomComparer class which will use the provided equality and hashing functions.
         /// </summary>
         /// <param name="equals">A function which determines if two objects of type T are equal.</param>
         /// <param name="getHashCode">A function which generates a hash code from an element of type T.</param>
@@ -70,7 +91,6 @@ namespace LASI.Utilities
         /// <remarks>Proper usage requires that elements which will compare equal under the specified equals function will also produce identical hashcodes.
         /// Elements may yield identical hash codes, without being considered equal.
         /// </remarks>
-
         public CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
             ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");

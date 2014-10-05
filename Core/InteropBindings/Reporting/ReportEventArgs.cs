@@ -8,6 +8,11 @@ namespace LASI.Core.Interop.Reporting
     [Serializable]
     public abstract class ReportEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the ReportEventArgs class.
+        /// </summary>
+        /// <param name="message">The phase of analysis currently underway.</param>
+        /// <param name="percentWorkRepresented">The percent of overall progress completed.</param>
         protected ReportEventArgs(string message, double percentWorkRepresented) {
             Message = message;
             PercentWorkRepresented = percentWorkRepresented;

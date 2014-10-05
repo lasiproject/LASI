@@ -7,7 +7,7 @@ using LASI.Core.DocumentStructures;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
-    public class DeclarativeBinder
+    class DeclarativeBinder
     {
         private Sentence sentence;
 
@@ -17,7 +17,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         }
         static void Test(Sentence sentence) {
             sentence.Phrases.Match()
-                .WithContinuationMode(ContinuationMode.TraverseOnce)
+                .WithContinuationMode(ContinuationMode.None)
                 .Ignore<IAdverbial, IDescriptor>()
                 .Guard(sentence.Phrases.Count() > 2)
                 .BindWhen((IEntity e1, IVerbal v, IEntity e2) => {

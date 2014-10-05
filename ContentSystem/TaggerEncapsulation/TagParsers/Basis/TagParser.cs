@@ -12,7 +12,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
 
 
         public abstract Task<LASI.Core.DocumentStructures.Document> LoadDocumentAsync();
-        public LASI.ContentSystem.TaggedFile TaggededDocumentFile {
+        public LASI.ContentSystem.TaggedFile TaggedDocumentFile {
             get;
             protected set;
         }

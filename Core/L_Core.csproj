@@ -191,7 +191,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\IConjunctive.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticipleVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastTenseVerb.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\PresentParticipleGerund.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PresentParticipleVerb.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\ComparativeAdjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />

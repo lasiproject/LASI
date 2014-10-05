@@ -163,7 +163,7 @@
                     Click="MenuItem_Click" />
                 <MenuItem
                     Header="Component Info"
-                    Click="openLicensesMenuItem_Click_1" />
+                    Click="OpenLicensesMenuItem_Click_1" />
             </MenuItem>
         </Menu>
     </Grid>

@@ -85,7 +85,7 @@ namespace LASI.UnitTests
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleGerund("loving") });
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleVerb("loving") });
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
         }
@@ -118,7 +118,7 @@ namespace LASI.UnitTests
         public void DescribedByTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsTrue(target.Descriptors.Count() == 0);
-            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticipleGerund("loving"));
+            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticipleVerb("loving"));
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
             IDescriptor adj2 = new Adjective("proud");

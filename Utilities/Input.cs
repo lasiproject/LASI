@@ -43,10 +43,9 @@ namespace LASI.Utilities
             Console.WriteLine("Enter {0} to continue", stringToWaitFor);
             var input = Console.ReadLine();
             bool valid = string.Compare(input, stringToWaitFor, ignoreCase) == 0;
-            if (valid)
-                return;
-            else
+            if (!valid) {
                 WaitForString(stringToWaitFor, ignoreCase);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public Document DocumentFromRaw(TxtFile txt) {
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -42,7 +42,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <returns>The contents of the DocXFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public Document DocumentFromDocX(DocXFile docx) {
             var txt = new DocxToTextConverter(docx).ConvertFile();
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -53,7 +53,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <returns>The contents of the PdfFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public Document DocumentFromPDF(PdfFile pdf) {
             var txt = new PdfToTextConverter(pdf).ConvertFile();
-            var doc = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var doc = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             doc.Name = txt.NameSansExt;
             return doc;
         }
@@ -65,7 +65,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         public Document DocumentFromDoc(DocFile doc) {
             var docx = new DocToDocXConverter(doc).ConvertFile() as DocXFile;
             var txt = new DocxToTextConverter(docx).ConvertFile();
-            var result = new TaggedSourceParser(new TaggedFile(new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
+            var result = new TaggedSourceParser(new TaggedFile(new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFile())).LoadDocument();
             result.Name = txt.NameSansExt;
             return result;
         }
@@ -75,7 +75,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public async Task<Document> DocumentFromRawAsync(TxtFile txt) {
-            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNlpTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
+            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
             doc.Name = txt.NameSansExt;
             return doc;
         }

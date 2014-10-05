@@ -31,7 +31,7 @@ namespace LASI.Experimentation.CommandLine
 
             var document = orchestrator.ProcessAsync().Result.First();
 
-            var dd = document.GetEntities().FirstOrDefault();
+            var dd = document.Entities.FirstOrDefault();
             dd.Match().Yield<string>()
                 .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .Case((IEntity e) => e.Text)

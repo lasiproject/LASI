@@ -160,7 +160,6 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetVerbalsTest() {
-
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IVerbal> expected = new IVerbal[]{
                     new VerbPhrase(new Word[] {
@@ -176,7 +175,7 @@ namespace LASI.UnitTests
 
             };
             IEnumerable<IVerbal> actual;
-            actual = target.GetVerbals();
+            actual = target.Verbals;
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
@@ -210,7 +209,7 @@ namespace LASI.UnitTests
                         new NounPhrase(new []{new CommonPluralNoun("jerks")}),
             };
             IEnumerable<IEntity> actual;
-            actual = target.GetEntities();
+            actual = target.Entities;
             foreach (var e in expected) {
                 Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }

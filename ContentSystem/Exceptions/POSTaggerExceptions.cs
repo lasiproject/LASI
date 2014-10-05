@@ -240,7 +240,7 @@ namespace LASI.ContentSystem
     /// <summary>
     /// The Exception that is thrown when attempting to access the indexing tag for a LASI.Algorithm.Word Type (or constructor returning it) which is not known to the Tagset.
     /// <see cref="LASI.ContentSystem.TaggerEncapsulation.WordTagsetMap"/>
-    /// <seealso cref="LASI.ContentSystem.TaggerEncapsulation.SharpNlpWordTagsetMap"/>
+    /// <seealso cref="LASI.ContentSystem.TaggerEncapsulation.SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
     public sealed class UnmappedWordTypeException : POSTagException

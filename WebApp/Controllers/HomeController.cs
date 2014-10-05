@@ -105,7 +105,7 @@ namespace LASI.WebApp.Controllers
         }
 
         private static ISet<Document> processedDocuments = new HashSet<Document>(
-            CustomComparer.Create((Document dx, Document dy) => dx.Name == dy.Name,
+            CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name,
                 d => d.Name.GetHashCode())
             );
 

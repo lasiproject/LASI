@@ -116,7 +116,6 @@ namespace LASI.App
         #region Event Handlers
 
         private async void StartButton_Click(object sender, RoutedEventArgs e) {
-
             WindowManager.InProgressScreen.PositionAt(this);
             this.Hide();
             WindowManager.InProgressScreen.Show();
@@ -173,7 +172,7 @@ namespace LASI.App
 
 
 
-        private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
+        private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
             {
                 Left = this.Left,

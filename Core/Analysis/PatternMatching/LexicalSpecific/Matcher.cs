@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using LASI.Core.PatternMatching;
-using LASI.Core.Analysis.PatternMatching.LexicalSpecific;
 
 namespace LASI.Core
 {
@@ -102,20 +101,6 @@ namespace LASI.Core
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);
-        }
-        public static double FixedMatchTest<T>(this T value) where T : class, ILexical {
-            var fixedMatchExpression = value.Match().Yield<double>();
-
-            var caseList = new Pattern<double>
-            {
-                Adverbial = a => a.Weight,
-                Entity = e => e.Weight,
-                Referencer = r => r.RefersTo.Average(e => e.Weight),
-                Descriptor = d => d.Describes.Weight,
-
-            };
-            var matchResult = fixedMatchExpression | caseList;
-            return matchResult;
         }
     }
 }

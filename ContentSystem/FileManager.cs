@@ -366,7 +366,7 @@ namespace LASI.ContentSystem
         public static void TagTextFiles(params TxtFile[] files) {
             ThrowIfUninitialized();
             foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)) {
-                var tagger = new SharpNlpTagger(
+                var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
                 var tf = new TaggedFile(tagger.ProcessFile());
@@ -384,7 +384,7 @@ namespace LASI.ContentSystem
             var tasks = (
                 from file in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)
 
-                select new SharpNlpTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDir + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
+                select new SharpNLPTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDir + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
                 ).ToList();
             while (tasks.Any()) {
                 var tagged = await Task.WhenAny(tasks);

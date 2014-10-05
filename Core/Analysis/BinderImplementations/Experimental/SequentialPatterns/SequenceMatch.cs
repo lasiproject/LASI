@@ -10,7 +10,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     /// <summary>
     /// Provides extension methods for being a sequential binding operation.
     /// </summary>
-    public static class MatchExtensions
+    static class MatchExtensions
     {
         public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
@@ -963,10 +963,20 @@ where T14 : class, ILexical {
         }
 
     }
+    /// <summary>
+    /// Determines how a match should be applied to a sentence or sentence fragment.
+    /// </summary>
     public enum ContinuationMode
     {
+        /// <summary>
+        /// After a successful match, no continuation will be performed.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// After a successful match, the same patterns will be applied to the remainder of the sentence or sentence fragment.
+        /// </summary>
         Recursive,
-        TraverseOnce,
+
     }
 
 }

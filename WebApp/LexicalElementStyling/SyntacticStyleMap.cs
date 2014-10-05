@@ -26,7 +26,7 @@ namespace LASI.WebApp
                         .Case((IAdverbial a) => "adverbial")
                         .Case((IConjunctive c) => "conjunctive")
                         .Case((Adjective w) => "descriptor")
-                        .Case((PresentParticipleGerund w) => "present-participle-gerund")
+                        .Case((PresentParticipleVerb w) => "present-participle-gerund")
                         .Case((Verb w) => "verbal")
                         .Case((IConjunctive w) => "conjunctive")
                         .Result(() => "lexical-default-style")
