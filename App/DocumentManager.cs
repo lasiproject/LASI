@@ -18,13 +18,14 @@ namespace LASI.App
             return (from alreadyAdded in runningListDisplay.Items.OfType<ListViewItem>()
                     select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
-        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> filePaths) {
-            return (from path in filePaths
-                    let contentsIfDir = Directory.Exists(path) ? Directory.EnumerateFileSystemEntries(path) : Enumerable.Empty<string>()
-                    let dirContentsOrFile = contentsIfDir.Any() ? GetValidFilesInPathList(contentsIfDir) : Enumerable.Repeat(new FileInfo(path), 1)
-                    from fi in dirContentsOrFile
-                    where AcceptedFormats.Contains(fi.Extension)
-                    select fi).Take(MAX_DOCUMENTS - documentCount);
+        public static IEnumerable<FileInfo> GetValidFilesInPathList(IEnumerable<string> paths) {
+            var validFiles = from path in paths
+                             let contentsIfDir = Directory.Exists(path) ? Directory.EnumerateFileSystemEntries(path) : new string[] { }
+                             let dirContentsOrFile = contentsIfDir.Any() ? GetValidFilesInPathList(contentsIfDir) : new[] { new FileInfo(path) }
+                             from file in dirContentsOrFile
+                             where AcceptedFormats.Contains(file.Extension)
+                             select file;
+            return validFiles.Take(MAX_DOCUMENTS - documentCount);
 
         }
         public static void RemoveDocument(string fileName) {
@@ -71,8 +72,8 @@ namespace LASI.App
                 handler(DocumentManager.runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount - 1, documentCount));
             }
         }
-        static ListBox runningListDisplay;
-        static List<ListViewItem> itemsAdded = new List<ListViewItem>();
+        private static ListBox runningListDisplay;
+        private static List<ListViewItem> itemsAdded = new List<ListViewItem>();
 
 
         private static int documentCount;
@@ -94,11 +95,7 @@ namespace LASI.App
         /// <summary>
         /// Gets a value indicating wether or not the DocumentManager has any documents in its working set.
         /// </summary>
-        public static bool IsEmpty {
-            get {
-                return documentCount == 0;
-            }
-        }
+        public static bool IsEmpty { get { return documentCount == 0; } }
         /// <summary>
         /// Returns true if the file represented by the given file info is locked by the operating system or another application.
         /// </summary>

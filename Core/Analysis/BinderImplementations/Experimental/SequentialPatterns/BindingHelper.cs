@@ -662,8 +662,6 @@ where TLexical : class, ILexical {
                 elements[9] is T10;
         }
 
-
-
         internal static void Apply<T1, T2, T3, TLexical>(this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<TLexical> elements)
                                   where T1 : class, ILexical
                                   where T2 : class, ILexical
@@ -781,17 +779,16 @@ where TLexical : class, ILexical {
             where T8 : class, ILexical
             where T9 : class, ILexical
             where T10 : class, ILexical {
-            pattern(
-                   elements[0] as T1)(
-                elements[1] as T2)(
-                elements[2] as T3)(
-                elements[3] as T4)(
-                elements[4] as T5)(
-                elements[5] as T6)(
-                elements[6] as T7)(
-                elements[7] as T8)(
-                elements[8] as T9)(
-                elements[9] as T10);
+            pattern(elements[0] as T1)
+                (elements[1] as T2)
+                (elements[2] as T3)
+                (elements[3] as T4)
+                (elements[4] as T5)
+                (elements[5] as T6)
+                (elements[6] as T7)
+                (elements[7] as T8)
+                (elements[8] as T9)
+                (elements[9] as T10);
         }
 
         internal static bool ApplyIfApplicable<T1, T2, T3>(this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<ILexical> elements)

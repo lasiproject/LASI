@@ -8,9 +8,11 @@ namespace LASI.Interop.ContractHelperTypes.Base
 {
     class SystemResourceLoadingNotifier : SystemResourceNotifierImplementation
     {
+        private const string MESSAGE_ADJUNCT = "Loading";
+
         public SystemResourceLoadingNotifier()
-            : base("Loading") {
-            LASI.Core.Heuristics.Lookup.ResourceLoading += (sender, e) => {
+            : base(MESSAGE_ADJUNCT) {
+            Core.Heuristics.Lookup.ResourceLoading += (sender, e) => {
                 OnReport(TranslateEventArgs(e));
             };
         }

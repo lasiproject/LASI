@@ -97,6 +97,7 @@
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
+    <Compile Include="LASI\Core\IPatternType.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />

@@ -33,8 +33,8 @@ namespace LASI.Experimentation.CommandLine
 
             var dd = document.Entities.FirstOrDefault();
             dd.Match().Yield<string>()
-                .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
-                .Case((IEntity e) => e.Text)
+                .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
+                .With((IEntity e) => e.Text)
                 .Result();
             Output.WriteLine(document);
             Phrase.VerboseOutput = true;

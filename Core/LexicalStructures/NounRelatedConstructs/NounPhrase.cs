@@ -76,7 +76,7 @@ namespace LASI.Core
             var gender = this.GetGender();
             var aliases = this.GetDefinedAliases();
             string empty = string.Empty;
-            return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
+            return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
                 Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,

@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using LASI.Core.PatternMatching;
+using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+using LASI.Core.DocumentStructures;
 
 namespace LASI.Core
 {
@@ -101,6 +103,9 @@ namespace LASI.Core
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);
+        }
+        public static SequenceMatch Match(this Sentence sentence) {
+            return new SequenceMatch(sentence);
         }
     }
 }

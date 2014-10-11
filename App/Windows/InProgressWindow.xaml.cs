@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Reactive.Linq;
+using LASI.Interop.ContractHelperTypes;
 
 namespace LASI.App
 {
@@ -44,7 +46,7 @@ namespace LASI.App
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
             var systemNotifier = new ResourceNotifier();
-            systemNotifier.ResourceLoading += async (sender, e) => {
+            EventHandler<ResourceLoadEventArgs> resourceLoadingProgressUpdated = async (sender, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
                 var animateStep = 0.028 * e.PercentWorkRepresented;
@@ -53,15 +55,9 @@ namespace LASI.App
                     await Task.Delay(1);
                 }
             };
-            systemNotifier.ResourceLoading += async (sender, e) => {
-                progressLabel.Content = e.Message;
-                progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.PercentWorkRepresented;
-                for (int i = 0; i < 33; ++i) {
-                    progressBar.Value += animateStep;
-                    await Task.Delay(1);
-                }
-            };
+            systemNotifier.ResourceLoading += resourceLoadingProgressUpdated;
+
+            systemNotifier.ResourceLoaded += resourceLoadingProgressUpdated;
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
             analysisProvider.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;
@@ -85,14 +81,12 @@ namespace LASI.App
 
             await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
             await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
-
         }
+
 
         private void ProceedToResultsView() {
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
-
             this.SwapWith(WindowManager.ResultsScreen);
-
         }
         #endregion
 

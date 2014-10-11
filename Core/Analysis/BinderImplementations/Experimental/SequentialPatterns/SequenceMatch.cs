@@ -10,14 +10,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     /// <summary>
     /// Provides extension methods for being a sequential binding operation.
     /// </summary>
-    static class MatchExtensions
+    public static class MatchExtensions
     {
         public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
         }
 
         public static SequenceMatch Match(this IEnumerable<ILexical> sequencialElements) {
-
             return new SequenceMatch(sequencialElements);
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core;
 using LASI.Core.DocumentStructures;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns

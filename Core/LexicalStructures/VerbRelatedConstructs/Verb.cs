@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Utilities;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core
 {
@@ -243,6 +244,16 @@ namespace LASI.Core
             get {
                 possessive = possessive ?? DetermineIsPossessive();
                 return possessive.Value;
+            }
+        }
+
+        public Match<IVerbal> Match {
+            get {
+                throw new NotImplementedException();
+            }
+
+            set {
+                throw new NotImplementedException();
             }
         }
         #endregion

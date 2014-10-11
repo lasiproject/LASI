@@ -9,7 +9,6 @@ namespace LASI.Interop.ContractHelperTypes
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceLoadEventArgs
     {
-
         /// <summary>
         /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>

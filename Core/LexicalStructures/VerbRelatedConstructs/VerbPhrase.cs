@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core
 {
@@ -297,7 +298,15 @@ namespace LASI.Core
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
 
+        public Match<IVerbal> Match {
+            get {
+                throw new NotImplementedException();
+            }
 
+            set {
+                throw new NotImplementedException();
+            }
+        }
         #endregion
 
         #region Fields

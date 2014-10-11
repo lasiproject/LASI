@@ -15,7 +15,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// Initializes a new instance of the SystemResourceNotifier class which provides for the subscription of events corresponding to resource loading events.
         /// </summary>
         public SystemResourceNotifier()
-            : base("Loaded") {
+            : base(BASE_MESSAGE_ADJUNCT) {
             Core.Heuristics.Lookup.ResourceLoaded += (sender, e) => OnReport(TranslateEventArgs(e));
         }
         /// <summary>
@@ -26,5 +26,6 @@ namespace LASI.Interop.ContractHelperTypes.Base
             remove { loadingProvider.ProgressChanged -= value; }
         }
         private SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
+        private const string BASE_MESSAGE_ADJUNCT = "Loaded";
     }
 }

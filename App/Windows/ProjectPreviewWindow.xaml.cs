@@ -153,7 +153,7 @@ namespace LASI.App
 
             };
             openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Count() <= 0) {
+            if (!openDialog.FileNames.Any()) {
                 return;
             }
             for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
@@ -208,10 +208,6 @@ namespace LASI.App
         }
 
         #endregion
-
-        #endregion
-
-        #region Fields 
 
         #endregion
 

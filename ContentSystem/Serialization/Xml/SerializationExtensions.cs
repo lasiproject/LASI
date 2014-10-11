@@ -13,7 +13,7 @@ using Newtonsoft.Json.Utilities;
 
 namespace LASI.ContentSystem.Serialization.Xml
 {
-    static class SerializationExtensions
+    public static class SerializationExtensions
     {
         public static XElement ToXElement(this IEntity entity) {
 
@@ -41,6 +41,6 @@ namespace LASI.ContentSystem.Serialization.Xml
 
         private static readonly NodeNameMapper ElementNames = new NodeNameMapper();
 
-        
+
     }
 }

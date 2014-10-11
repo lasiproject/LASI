@@ -19,7 +19,7 @@
     "ShowPreviewPane": true,
     "WrapClosure": true,
     "MinifyInPlace": false,
-    "LintOnBuild": true,
+    "LintOnBuild": false,
     "LintOnSave": true,
     "LintResultLocation": "Message",
     "ProcessSourceMapsForEditorEnhancements": true
@@ -27,7 +27,7 @@
   "Css": {
     "AdjustRelativePaths": true,
     "AutoMinify": true,
-    "GzipMinifiedFiles": false,
+    "GzipMinifiedFiles": true,
     "ShowBrowserTooltip": true,
     "ShowInitialInherit": false,
     "ShowUnsupported": true,
@@ -46,7 +46,7 @@
     "SyncBase64ImageValues": true
   },
   "General": {
-    "AllMessagesToOutputWindow": false,
+    "AllMessagesToOutputWindow": true,
     "KeepImportantComments": true,
     "SvgPreviewPane": true
   },
@@ -85,18 +85,18 @@
     "BlockCommentCompletion": true,
     "GenerateSourceMaps": false,
     "GzipMinifiedFiles": false,
-    "LintOnBuild": false,
-    "LintOnSave": true,
-    "LintResultLocation": "Message",
-    "MakeMinified": false,
+    "LintOnBuild": true,
+    "LintOnSave": false,
+    "LintResultLocation": "Error",
+    "MakeMinified": true,
     "OutputDirectory": null,
-    "RunOnBuild": true,
+    "RunOnBuild": false,
     "EvalTreatment": "MakeImmediateSafe",
     "RootDirectory": "/Scripts/",
     "TermSemicolons": true
   },
   "Less": {
-    "CompileOnBuild": true,
+    "CompileOnBuild": false,
     "CompileOnSave": true,
     "GenerateSourceMaps": true,
     "OutputDirectory": "",
@@ -109,7 +109,7 @@
   "Markdown": {
     "AutoHyperlink": false,
     "AutoNewLines": false,
-    "CompileOnBuild": true,
+    "CompileOnBuild": false,
     "CompileOnSave": true,
     "EncodeProblemUrlCharacters": false,
     "GenerateXHTML": true,
@@ -129,7 +129,7 @@
   },
   "TypeScript": {
     "BraceCompletion": false,
-    "LintOnBuild": true,
+    "LintOnBuild": false,
     "LintOnSave": true,
     "LintResultLocation": "Warning",
     "ShowPreviewPane": true

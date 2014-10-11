@@ -193,9 +193,10 @@ namespace LASI.App
             currentOperationLabel.Content = string.Format("Tagging {0}...", docName);
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == docName).First();
             var analizer = new AnalysisOrchestrator(textfile);
-            analizer.ProgressChanged += (sender, e) => {
+            analizer.ProgressChanged += async (sender, e) => {
                 currentOperationLabel.Content = e.Message; currentOperationProgressBar.ToolTip = e.Message;
                 currentOperationProgressBar.Value += e.PercentWorkRepresented;
+                await StepProgress();
             };
 
             var doc = (await analizer.ProcessAsync()).First();
@@ -219,10 +220,8 @@ namespace LASI.App
             }
         }
 
-        private async Task StepProgress(double steps) {
-            for (int i = 0;
-            i < 9;
-            i++) {
+        private async Task StepProgress() {
+            for (int i = 0; i < 9; i++) {
                 currentOperationProgressBar.Value += 1;
                 await Task.Delay(1);
             }
@@ -354,9 +353,6 @@ namespace LASI.App
             await ProcessNewDocument(file.FullName);
         }
 
-
-
-
         #endregion
 
         private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
@@ -379,8 +375,6 @@ namespace LASI.App
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
             OpenManualMenuItem_Click_1(sender, e);
         }
-
-
 
         #region Properties and Fields
 

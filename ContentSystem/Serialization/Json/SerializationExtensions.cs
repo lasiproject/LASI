@@ -13,15 +13,15 @@ using Newtonsoft.Json.Utilities;
 
 namespace LASI.ContentSystem.Serialization.Json
 {
-    static class SerializationExtensions
+    public static class SerializationExtensions
     {
         public static JArray ToJArray(this IEnumerable<ILexical> elements) {
             return new JArray(elements.Select(element => element.ToJObject()));
         }
         public static JObject ToJObject(this ILexical element) {
             return element.Match().Yield<JObject>()
-                .Case((IEntity e) => e.ToJObject())
-                .Case((IVerbal v) => v.ToJObject())
+                    .With((IEntity e) => e.ToJObject())
+                    .With((IVerbal v) => v.ToJObject())
                 .Result(new JObject(GetCommonProperties(element)));
         }
 
