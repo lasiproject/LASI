@@ -10,22 +10,24 @@ using LASI.Core.Interop;
 
 namespace LASI.Core
 {
-    using DataPoint = KeyValuePair<string, float>;
     /// <summary>
     /// Contains methods which compute and yield the top results from a document based on simple, naive heuristics.
     /// </summary>
     public static class NaiveResultSelector
     {
-        private static IEnumerable<DataPoint> GetTopResultsByVerbal(Document doc) {
+        private static IEnumerable<dynamic> GetTopResultsByVerbal(Document doc) {
             var data = GetVerbWiseRelationships(doc);
             return from svs in data
-                   let SV = new DataPoint(
+                   let dataPoint = new
+                   {
+                       Key =
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
-                       (float)Math.Round(svs.CombinedWeight, 2))
-                   group SV by SV into svg
-                   select svg.Key;
+                       Value = (float)Math.Round(svs.CombinedWeight, 2)
+                   }
+                   group dataPoint by dataPoint into pointGroup
+                   select pointGroup.Key;
 
         }
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
@@ -48,23 +50,20 @@ namespace LASI.Core
             return data.Distinct();
         }
         /// <summary>
-        /// Returns top results for the given document using a heuristic which emphasises the occurence of Entities above other metrics.
+        /// Returns the top results for the given document using a heuristic which emphasises the occurence of Entities above
+        /// other metrics.
         /// </summary>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static IEnumerable<DataPoint> GetTopResultsByEntity(Document document) {
+        /// <param name="document">The Document from which to retrieve results.</param>
+        /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
+        /// other metrics.</returns>
+        public static IEnumerable<dynamic> GetTopResultsByEntity(Document document) {
             return from entity in document.Phrases.OfEntity()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()
-                       .With<IReferencer>(r => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : null)
-                       .With<IEntity>(entity)
+                       .With((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
                    .Result()
-                   where e != null
-                   group e by new { e.Text, e.Weight } into entity
-                   select entity.Key into master
-                   select new DataPoint(master.Text, (float)Math.Round(master.Weight, 2)) into item
-                   group item by item.Key into g
+                   group new { Key = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
                    select g.DefaultIfEmpty().MaxBy(x => x.Value);
         }
     }

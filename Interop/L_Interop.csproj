@@ -42,10 +42,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable">
-      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.22-beta\lib\portable-net45+win8+wpa81\System.Collections.Immutable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LASI\Core\Interop\ResourceLoadEventArgs.cs" />
     <Compile Include="ProgressReporting\Basis\SystemResourceNotifierDualizer.cs" />
     <Compile Include="ProgressReporting\SystemResourceLoadingNotifier.cs" />
     <Compile Include="ProgressReporting\SystemResourceNotifier.cs" />
@@ -80,15 +94,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">
-      <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>
+      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>L_ContentSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\L_Core.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>L_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\L_Utilities.csproj">
-      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>L_Utilities</Name>
     </ProjectReference>
   </ItemGroup>

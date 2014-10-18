@@ -8,6 +8,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LASI.Core.Interop;
+using System.Reactive.Linq;
 
 namespace LASI.Interop
 {
@@ -33,9 +35,8 @@ namespace LASI.Interop
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
+            observable = Enumerable.Empty<AnalysisUpdateEventArgs>().ToObservable();
         }
-
-
 
         /// <summary>
         /// <para>Gets a Task&lt;IEnumerable&lt;LASI.Algorithm.Document&gt;&gt;</para>
@@ -116,6 +117,8 @@ namespace LASI.Interop
             return document;
         }
 
+        IObservable<AnalysisUpdateEventArgs> observable;// new AnalysisUpdateEventArgs("Initializing...", 0.0)));
+        //IImmutableList<IObserver<AnalysisUpdateEventArgs>> observers = ImmutableList.Create<IObserver<AnalysisUpdateEventArgs>>();
         #region Fields
 
         private double sourceCount;

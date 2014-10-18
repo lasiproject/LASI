@@ -37,6 +37,32 @@
                     </Grid>
                 </TabItem>
                 <TabItem
+                    Header="Output">
+                    <Grid>
+
+                        <Label
+                            x:Name="label1"
+                            Content="Output Format"
+                            Margin="0,10,10,0"
+                            VerticalAlignment="Top"
+                            Height="26" />
+                        <RadioButton
+                            Checked="outputFormat_Checked"
+                            x:Name="outputJson"
+                            Margin="10,41,147,0"
+                            VerticalAlignment="Top"
+                            GroupName="OutputFormats"
+                            Content="JSON" />
+                        <RadioButton
+                            Checked="outputFormat_Checked"
+                            x:Name="outputXml"
+                            Margin="10,61,147,0"
+                            VerticalAlignment="Top"
+                            GroupName="OutputFormats"
+                            Content="XML" />
+                    </Grid>
+                </TabItem>
+                <TabItem
                     Header="Advanced"
                     Background="LightGray">
                     <Grid
@@ -54,20 +80,20 @@
                                     x:Name="label"
                                     Content="Resource Usage"
                                     ToolTip="Controls the amount of system resources LASI can consume.&#x0a;High: LASI will utilize a large percentage of available resources -> fastest processing time&#x0a;Normal: LASI will utilize a fair amount of available resources -> average processing time&#x0a;Low: LASI will utilize as few system resources as possible -> longest processing time&#x0a;"
-                                    Margin="0,0,10,122" />
+                                    Margin="0,0,10,129" />
                                 <RadioButton
                                     Name="High"
                                     Margin="10,33,35,0"
                                     IsThreeState="False"
                                     Content="High"
                                     GroupName="performanceModes"
-                                    Height="24"
+                                    Height="19"
                                     VerticalAlignment="Top"
                                     Checked="anyPerformanceMode_Checked"
                                     ToolTip="A majority of system resources will be devoted to document analysis" />
                                 <RadioButton
                                     Name="Normal"
-                                    Margin="10,57,35,71"
+                                    Margin="10,57,35,83"
                                     IsThreeState="False"
                                     Content="Normal"
                                     GroupName="performanceModes"
@@ -75,7 +101,7 @@
                                     ToolTip="A significant amount of system resources will be devoted to document analysis" />
                                 <RadioButton
                                     Name="Low"
-                                    Margin="10,79,0,45"
+                                    Margin="10,79,0,60"
                                     Content="Low"
                                     GroupName="performanceModes"
                                     Checked="anyPerformanceMode_Checked"
@@ -85,7 +111,7 @@
                         <CheckBox
                             x:Name="logMessagesToFileCheckBox"
                             Content="Write detailed process info to file"
-                            Margin="10,105,1,0"
+                            Margin="10,107,1,0"
                             Unchecked="logMessagesToFileCheckBox_Checked"
                             Checked="logMessagesToFileCheckBox_Checked"
                             Height="18"

@@ -75,21 +75,10 @@
             })) / this.length;
         };
     }
-    if (!Array.prototype.hasOwnProperty("toMap")) {
-        Array.prototype.toMap = function (keySelector, valueSelector) {
-            var results = new Map(), valueProjection = valueSelector || (function (v) {
-                return v;
-            });
-            this.forEach(function (element, index) {
-                results.set(keySelector(element), valueSelector(element));
-            });
-            return results;
-        };
-    }
     if (!String.prototype.hasOwnProperty("fmtAsPct")) {
         String.prototype.fmtAsPct = function (num) {
             return num.toString() + "%";
         };
     }
-}());
+})();
 //# sourceMappingURL=Initialize.js.map

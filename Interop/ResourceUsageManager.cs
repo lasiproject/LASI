@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Interop
+namespace LASI.Interop.ResourceMonitoring
 {
     /// <summary>
     /// Controls global performance and resource usage settings.
     /// </summary>
-    public static class ResourceUsageManager
+    public static class UsageManager
     {
         /// <summary>
         /// Sets the overall performance level based on the provided enumeration value, providing for coarse grained adjustments to the CPU and RAM consumption.
@@ -42,7 +42,7 @@ namespace LASI.Interop
             remove { Memory.MemoryUsageCritical -= value; }
         }
 
-        static ResourceUsageManager() {
+        static UsageManager() {
             BindDefaultHandlers();
         }
         /// <summary>

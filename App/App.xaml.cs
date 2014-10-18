@@ -15,9 +15,9 @@ namespace LASI.App
             BindEventHandlers();
         }
         private static void LoadPreferences() {
-            ResourceUsageManager.Mode performanceLevel;
+            Interop.ResourceMonitoring.UsageManager.Mode performanceLevel;
             if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceLevel)) {
-                ResourceUsageManager.SetPerformanceLevel(performanceLevel);
+                Interop.ResourceMonitoring.UsageManager.SetPerformanceLevel(performanceLevel);
             }
         }
         private void Application_Exit(object sender, ExitEventArgs e) {

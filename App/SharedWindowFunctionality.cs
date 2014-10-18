@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Configuration;
+using LASI.ContentSystem.Serialization;
 
 namespace LASI.App
 {
@@ -81,8 +82,11 @@ namespace LASI.App
             }
         }
 
+        internal static ILexicalSerializer<LASI.Core.ILexical, object> CreateSerializer() {
+            var format = Properties.Settings.Default.OutputFormat;
+            return ContentSystem.Serialization.SerializerFactory.Create(format);
+        }
     }
-
 }
 namespace LASI.App.Commands
 {

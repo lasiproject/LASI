@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -17,9 +19,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of IEntity constructs which are bound as subjects of the ISubjetTaker.
         /// </summary>
-        System.Collections.Generic.IEnumerable<IEntity> Subjects {
-            get;
-        }
+        IEnumerable<IEntity> Subjects { get; }
+
         /// <summary>
         /// Gets the Aggregate Entity composed of the ISubjectTaker's subjects.
         /// </summary>

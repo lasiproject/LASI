@@ -25,19 +25,13 @@ namespace LASI.Core.PatternMatching
         /// </summary>
         /// <param name="value">The value to match against.</param>
         protected MatchBase(T value) { Value = value; }
-        #region Fields
+        #region Properties
 
         /// <summary>
-        /// The value indicating if a match was found or if the default value will be yielded by the Result method.
+        /// Gets or sets the value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
-        private bool accepted;
-        /// <summary>
-        /// Gets or sets the value indicating if a match has succeeded.
-        /// </summary>
-        protected bool Accepted {
-            get { return accepted; }
-            set { accepted = value; }
-        }
+        protected bool Accepted { get; set; }
+
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>

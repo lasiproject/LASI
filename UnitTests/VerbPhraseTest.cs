@@ -413,7 +413,7 @@ namespace LASI.UnitTests
             ILexical prepositionalObject = new NounPhrase(new Adjective("great"), new CommonSingularNoun("haste"));
             prepositional.BindObject(prepositionalObject);
             target.AttachObjectViaPreposition(prepositional);
-            Assert.AreEqual(target.ObjectOfThePreoposition, prepositionalObject);
+            Assert.AreEqual(target.ObjectOfThePreposition, prepositionalObject);
         }
 
 

@@ -8,16 +8,18 @@ using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using LASI.Interop;
+using LASI.ContentSystem.Serialization;
 
 namespace LASI.App
 {
+    using LASI.Interop.ResourceMonitoring;
+    using FileInfo = System.IO.FileInfo;
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
     /// </summary>
@@ -194,7 +196,8 @@ namespace LASI.App
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == docName).First();
             var analizer = new AnalysisOrchestrator(textfile);
             analizer.ProgressChanged += async (sender, e) => {
-                currentOperationLabel.Content = e.Message; currentOperationProgressBar.ToolTip = e.Message;
+                currentOperationLabel.Content = e.Message;
+                currentOperationProgressBar.ToolTip = e.Message;
                 currentOperationProgressBar.Value += e.PercentWorkRepresented;
                 await StepProgress();
             };
@@ -221,7 +224,7 @@ namespace LASI.App
         }
 
         private async Task StepProgress() {
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 9; ++i) {
                 currentOperationProgressBar.Value += 1;
                 await Task.Delay(1);
             }
@@ -291,14 +294,14 @@ namespace LASI.App
             Process.Start("http://lasi-project.org");
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
-            foreach (var doc in documents) {
-                await Task.Run(() => SimpleLexicalSerializer.Serialize(from S in doc.Sentences
-                                                                       from R in S.Phrases
-                                                                       select R, doc.Name, DegreeOfOutput.Comprehensive).Save(
-                FileManager.ResultsDir + System.IO.Path.DirectorySeparatorChar + new string(
-                doc.Name.TakeWhile(c => c != '.').ToArray()) + ".xml"));
-
-            }
+            await Task.WhenAll(from document in documents
+                               let outfilePath = System.IO.Path.Combine(
+                                   FileManager.ResultsDir,
+                                   document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? document.Name + '.' + Properties.Settings.Default.OutputFormat)
+                               let serializer = new SimpleXmlSerializer()
+                               select Task.Run(() => serializer
+                                    .Serialize(document.Phrases, document.Name, DegreeOfOutput.Comprehensive)
+                                    .Save(outfilePath)));
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
         }
@@ -321,7 +324,7 @@ namespace LASI.App
                 Multiselect = true,
             };
             openDialog.ShowDialog(this);
-            if (openDialog.FileNames.Count() <= 0) {
+            if (openDialog.FileNames.Length < 1) {
                 return;
             }
             for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {

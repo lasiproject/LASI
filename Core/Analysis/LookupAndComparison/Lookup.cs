@@ -268,9 +268,9 @@ namespace LASI.Core.Heuristics
 
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
+            lookup.ProgressChanged += ResourceLoading;
             lookup.Load();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
-
             return lookup;
         }
 

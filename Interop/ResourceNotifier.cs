@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
 
-namespace LASI.Interop
+namespace LASI.Interop.ResourceMonitoring
 {
 
 
@@ -20,17 +21,13 @@ namespace LASI.Interop
         /// <summary>
         /// Raised when a System Core resource is finished loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoaded {
-            add { notificationProvider.ProgressChanged += value; }
-            remove { notificationProvider.ProgressChanged -= value; }
-        }
+        public event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
 
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoading {
-            add { notificationProvider.ProgressChanging += value; }
-            remove { notificationProvider.ProgressChanging -= value; }
-        }
+        public event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
+
+
     }
 }

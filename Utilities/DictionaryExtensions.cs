@@ -45,6 +45,7 @@ namespace LASI.Utilities
             TValue value;
             return dictionary.TryGetValue(key, out value) ? value : defaultValue;
         }
+
         /// <summary>
         /// Gets the value with the specified key from the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the result of invoking the specified defaultValueFactory function if the key does not exist.
         /// </summary>

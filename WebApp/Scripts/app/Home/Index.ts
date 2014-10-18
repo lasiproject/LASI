@@ -6,24 +6,16 @@ which will optimize page load time.
 
 module LASI.Index {
     "use strict";
-
-    (function () {
-
-        // All top level functions should start with this directive. nested functions inherit it.
-        "use strict";
-
-
-        //This function disables submit button 
-        $(function () {
-            $("input:submit").attr("disabled", "true");
-            $("input:file").change(function () {
-                if ($(this).val()) {
-                    $("input:submit").removeAttr("disabled");
-                } else {
-                    $("input:submit").attr("disabled", "true");
-                }
-            });
+    var $ = require("~/Scripts\jquery-2.1.1.min.js");
+    //This function disables submit button 
+    $(function () {
+        $("input:submit").attr("disabled", "true");
+        $("input:file").change(function () {
+            if ($(this).val()) {
+                $("input:submit").removeAttr("disabled");
+            } else {
+                $("input:submit").attr("disabled", "true");
+            }
         });
-
-    } ());
+    });
 };

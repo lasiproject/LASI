@@ -35,7 +35,7 @@ namespace LASI.WebApp
         /// Application specific initialization for concurrency management, memory management, data sources, and logging.
         /// </summary>
         private void PerformCustomInitialation() {
-            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]); Interop.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceUsageManager.Mode.High);
+            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]); Interop.ResourceMonitoring.UsageManager.SetPerformanceLevel(Interop.ResourceMonitoring.UsageManager.Mode.High);
             MongoServerProcess = Process.Start(new ProcessStartInfo
             {
                 FileName = mongodExecutableLocation,

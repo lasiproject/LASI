@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Reactive.Linq;
 using LASI.Interop.ContractHelperTypes;
+using LASI.Interop.ResourceMonitoring;
 
 namespace LASI.App
 {
@@ -45,8 +46,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
-            var systemNotifier = new ResourceNotifier();
-            EventHandler<ResourceLoadEventArgs> resourceLoadingProgressUpdated = async (sender, e) => {
+            EventHandler<ResourceLoadEventArgs> resourceLoadingProgressUpdated = async (s, e) => {
                 progressLabel.Content = e.Message;
                 progressBar.ToolTip = e.Message;
                 var animateStep = 0.028 * e.PercentWorkRepresented;
@@ -55,9 +55,11 @@ namespace LASI.App
                     await Task.Delay(1);
                 }
             };
-            systemNotifier.ResourceLoading += resourceLoadingProgressUpdated;
+            var resourceLoadingNotifier = new ResourceNotifier();
 
-            systemNotifier.ResourceLoaded += resourceLoadingProgressUpdated;
+            resourceLoadingNotifier.ResourceLoading += resourceLoadingProgressUpdated;
+
+            resourceLoadingNotifier.ResourceLoaded += resourceLoadingProgressUpdated;
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
             analysisProvider.ProgressChanged += async (sender, e) => {
                 progressLabel.Content = e.Message;

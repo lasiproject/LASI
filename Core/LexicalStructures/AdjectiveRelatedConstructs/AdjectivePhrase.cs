@@ -29,7 +29,7 @@ namespace LASI.Core
             modifiers.Add(modifier);
             modifier.Modifies = this;
         }
-        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+
 
         /// <summary>
         /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase.
@@ -39,5 +39,6 @@ namespace LASI.Core
         /// Gets the Entity which the AdjectivePhrase describes.
         /// </summary>
         public virtual IEntity Describes { get; set; }
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
     }
 }

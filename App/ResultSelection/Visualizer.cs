@@ -13,7 +13,7 @@ using LASI.Core.PatternMatching;
 
 namespace LASI.App
 {
-    using DataPoint = KeyValuePair<string, float>;
+    using Interop.ResourceMonitoring;
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -30,8 +30,8 @@ namespace LASI.App
             ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
 
-                Document document = pair.Value;
-                Chart chart = pair.Key;
+                var document = pair.Value;
+                var chart = pair.Key;
 
                 var data = CreateChartData(chartKind, document);
                 chart.Series.Clear();
@@ -47,7 +47,7 @@ namespace LASI.App
             }
         }
 
-        private static IEnumerable<DataPoint> CreateChartData(ChartKind chartKind, Document document) {
+        private static IEnumerable<dynamic> CreateChartData(ChartKind chartKind, Document document) {
             switch (chartKind) {
                 case ChartKind.SubjectVerbObject: return GetVerbWiseData(document);
                 case ChartKind.NounPhrasesOnly: return GetNounWiseData(document);
@@ -62,7 +62,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToColumnChartsAsync() {
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
+            foreach (var chart in RetrieveCharts()) {
                 var items = chart.GetItemSource();
                 var series = new ColumnSeries
                 {
@@ -83,7 +83,7 @@ namespace LASI.App
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToPieChartsAsync() {
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content as Chart).Where(c => c != null)) {
+            foreach (var chart in RetrieveCharts()) {
                 var items = chart.GetItemSource();
                 var series = new PieSeries
                 {
@@ -93,7 +93,7 @@ namespace LASI.App
                     IsSelectionEnabled = true,
                 };
                 series.IsMouseCaptureWithinChanged += (sender, e) => {
-                    series.ToolTip = ((series.SelectedItem as System.Windows.Controls.DataVisualization.Charting.DataPoint)).DependentValue;
+                    series.ToolTip = (((series.SelectedItem as DataPoint))).DependentValue;
                 };
 
                 ResetChartContent(chart, series);
@@ -101,13 +101,17 @@ namespace LASI.App
             }
         }
 
+        private static IEnumerable<Chart> RetrieveCharts() {
+            return WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(tab => tab.Content).OfType<Chart>();
+        }
+
+
         /// <summary>
         /// Reconfigures all charts to Subjects Bar perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
         public static async Task ToBarChartsAsync() {
-
-            foreach (var chart in WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(item => item.Content).OfType<Chart>()) {
+            foreach (var chart in RetrieveCharts()) {
                 ResetChartContent(
                     chart,
                     new BarSeries
@@ -161,7 +165,7 @@ namespace LASI.App
 
 
             series.MouseMove += (sender, e) => {
-                series.ToolTip = ((e.Source as System.Windows.Controls.DataVisualization.Charting.DataPoint)).IndependentValue;
+                series.ToolTip = (((e.Source as DataPoint))).IndependentValue;
             };
             var chart = new Chart
             {
@@ -187,20 +191,21 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<DataPoint> GetItemSource(this Chart chart) {
-            return (chart.Tag as IEnumerable<DataPoint>).Reverse();//.Take(CHART_ITEM_LIMIT);
+        private static IEnumerable<dynamic> GetItemSource(this Chart chart) {
+            return (chart.Tag as IEnumerable<dynamic>).Reverse();//.Take(CHART_ITEM_LIMIT);
 
         }
 
         #endregion
-        private static IEnumerable<DataPoint> GetVerbWiseData(Document document) {
+        private static IEnumerable<dynamic> GetVerbWiseData(Document document) {
             var dataPoints = from relationship in GetVerbWiseRelationships(document)
-                             select new DataPoint(
-                                 string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
-                                 (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
-                                 (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
-                                 (float)Math.Round(relationship.CombinedWeight, 2)
-                             );
+                             select new
+                             {
+                                 Key = string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
+                                     (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
+                                     (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
+                                 Value = (float)Math.Round(relationship.CombinedWeight, 2)
+                             };
             return dataPoints.Distinct();
 
         }
@@ -227,14 +232,14 @@ namespace LASI.App
             return relationships.Distinct();
 
         }
-        private static async Task<IEnumerable<DataPoint>> GetNounWiseDataAsync(Document doc) {
+        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document doc) {
             return await Task.Run(() => GetNounWiseData(doc));
         }
 
-        private static IEnumerable<DataPoint> GetNounWiseData(Document document) {
-            return document.Phrases.OfNounPhrase()
-                 .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                 .Select(nounPhrase => new DataPoint(nounPhrase.Text, (float)Math.Round(nounPhrase.Weight, 2)))
+        private static IEnumerable<dynamic> GetNounWiseData(Document document) {
+            return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                 .OfNounPhrase()
+                 .Select(nounPhrase => new { Key = nounPhrase.Text, Value = (float)Math.Round(nounPhrase.Weight, 2) })
                  .Distinct();
         }
 

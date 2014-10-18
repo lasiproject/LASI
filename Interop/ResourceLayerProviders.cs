@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Interop
+namespace LASI.Interop.ResourceMonitoring
 {
-    using Mode = ResourceUsageManager.Mode;
+    using Mode = ResourceMonitoring.UsageManager.Mode;
     using MemoryHandler = EventHandler<MemoryThresholdExceededEventArgs>;
+    using LASI.Interop.ResourceMonitoring;
+
     /// <summary>
     /// Centralizes management and control of the concurrency level of concurrent operations.
     /// </summary>
@@ -67,7 +69,7 @@ namespace LASI.Interop
 
         static Memory() {
             // Default to a medium or "normal" memory usage profile if none is specified.
-            SetFromPerformanceMode(ResourceUsageManager.Mode.Normal);
+            SetFromPerformanceMode(UsageManager.Mode.Normal);
             var checkIntervalTimer = new System.Timers.Timer(10000);
             checkIntervalTimer.Start();
             checkIntervalTimer.Elapsed += (sender, e) => {

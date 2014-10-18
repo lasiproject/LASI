@@ -140,7 +140,7 @@ namespace LASI.Core.PatternMatching
         /// This applies a predicate to the value being matched such that the subsequent Then expression will only be chosen if the predicate returns true.
         /// </summary>
         /// <param name="condition">The predicate to test the value being matched.</param>
-        /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression</returns>     
+        /// <returns>The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be followed by a single Then expression</returns>
         public PredicatedMatch<T> When(bool condition) {
             return new PredicatedMatch<T>(condition, this);
         }
@@ -192,7 +192,6 @@ namespace LASI.Core.PatternMatching
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
-
         public void Default(Action action) {
             if (!Accepted)
                 action();
@@ -201,7 +200,6 @@ namespace LASI.Core.PatternMatching
         /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
-
         public void Default(Action<T> action) {
             if (!Accepted && Value != null) {
                 action(Value);
@@ -211,10 +209,7 @@ namespace LASI.Core.PatternMatching
         #endregion
 
 
-        #region Operators
-
-
-
+        #region Operators 
         //public static implicit operator bool(Match<T> match) { return match.Accepted; }
         #endregion
 

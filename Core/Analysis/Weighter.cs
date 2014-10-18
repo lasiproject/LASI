@@ -162,7 +162,7 @@ namespace LASI.Core
     /// A class containing information regarding a weighting process level status update.
     /// </summary>
     [Serializable]
-    public class WeightingUpdateEventArgs : Interop.Reporting.ReportEventArgs
+    public class WeightingUpdateEventArgs : Interop.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.

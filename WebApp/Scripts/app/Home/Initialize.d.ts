@@ -30,12 +30,6 @@
     * @param valueSelector A function to produce a numeric value from each element.
     */
     average(valueSelector?: (element: T) => number): number;
-    /**
-    * Transforms the Array into a Map of by using the provided key selector and value selector functions.
-    * @param keySelector A function to extract a key from each element.
-    * @param valueSelector A function to transform each element into. If not specified the identity projection is used.
-    */
-    toMap<T, K, V>(keySelector: (value: V) => K, valueSelector?: (value: V) => K): Map<K, V>;
 }
 interface Map<K, V> {
     /**

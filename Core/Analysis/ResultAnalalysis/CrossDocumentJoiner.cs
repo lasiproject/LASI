@@ -57,34 +57,34 @@ namespace LASI.Core
                 from inner in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 where inner.Document != outer.Document
                 from nounPhrase in outer.TopNounPhrases
-                where inner.TopNounPhrases.Contains(nounPhrase, CompareNps)
+                where inner.TopNounPhrases.Contains(nounPhrase, CompareNounPhrases)
                 select nounPhrase;
             await Task.Yield();
-            return
-                from nounPhrase in crossReferenced.Distinct(CompareNps)
-                orderby nounPhrase.SubjectOf.Text
-                select new SvoRelationship(new AggregateEntity(nounPhrase), nounPhrase.SubjectOf, new AggregateEntity(nounPhrase.SubjectOf.DirectObjects), new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects));
+            return from nounPhrase in crossReferenced.Distinct(CompareNounPhrases)
+                   orderby nounPhrase.SubjectOf.Text
+                   select new SvoRelationship(new AggregateEntity(nounPhrase), nounPhrase.SubjectOf, new AggregateEntity(nounPhrase.SubjectOf.DirectObjects), new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects));
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                        .OfNounPhrase()
                        .InSubjectRole()
                        .InObjectRole()
-                       .Distinct(CompareNps)
-                       .OrderBy(np => np.Weight);
+                       .Distinct(CompareNounPhrases)
+                       .OrderBy(nounPhrase => nounPhrase.Weight);
         }
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
-            var topVerbalsByDoc = await Task.WhenAll(from doc in documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                                     select GetTopVerbPhrasesAsync(doc));
+            var topVerbalsByDoc = await Task.WhenAll(documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Select(GetTopVerbPhrasesAsync));
             var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from verbal in verbals
                                      where (from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                            select verbs.Contains(verbal, (x, y) => x.Text == y.Text || y.IsSimilarTo(y)))
+                                            select verbs.Contains(verbal, (x, y) => x.Text == y.Text || x.IsSimilarTo(y)))
                                             .All(x => x)
                                      select verbal;
             var relationships = from verbal in verbalCominalities
-                                let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(
-                                entities => new AggregateEntity(from s in entities let asPro = s as IReferencer select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
+                                let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(entities => new AggregateEntity(
+                                    from s in entities
+                                    let asPro = s as IReferencer
+                                    select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
                                 let relationship = new SvoRelationship(testPronouns(verbal.Subjects), verbal, testPronouns(verbal.DirectObjects), testPronouns(verbal.IndirectObjects))
                                 where relationship.Subject != null
                                 orderby relationship.Verbal.Weight
@@ -93,15 +93,15 @@ namespace LASI.Core
         }
         private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
             return await Task.Run(() =>
-                from vp in document.Phrases
+                from verbPhrase in document.Phrases
                     .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .OfVerbPhrase()
                     .WithSubject().WithObject().Distinct((x, y) => x.IsSimilarTo(y))
-                orderby vp.Weight + vp.Subjects.Sum(e => e.Weight) + vp.DirectObjects.Sum(e => e.Weight) + vp.IndirectObjects.Sum(e => e.Weight)
-                select vp);
+                orderby verbPhrase.Weight + verbPhrase.Subjects.Sum(e => e.Weight) + verbPhrase.DirectObjects.Sum(e => e.Weight) + verbPhrase.IndirectObjects.Sum(e => e.Weight)
+                select verbPhrase);
         }
 
-        private static bool CompareNps(NounPhrase first, NounPhrase second) {
+        private static bool CompareNounPhrases(NounPhrase first, NounPhrase second) {
             return
                 ReferencerTestCompare(first, second) ||
                 ReferencerTestCompare(second, first) ||
@@ -114,7 +114,7 @@ namespace LASI.Core
             private static readonly NounPhraseComparer comparer = new NounPhraseComparer();
             public static NounPhraseComparer Instance { get { return comparer; } }
             public bool Equals(NounPhrase x, NounPhrase y) {
-                return CompareNps(x, y);
+                return CompareNounPhrases(x, y);
             }
             public int GetHashCode(NounPhrase obj) {
                 return obj.Text.GetHashCode();

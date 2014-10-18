@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Interop.ContractHelperTypes.Base
 {
-    abstract class SystemResourceNotifierImplementation : Progress<ResourceLoadEventArgs>
+    abstract class SystemResourceNotifierImplementation : Progress<Interop.ContractHelperTypes.ResourceLoadEventArgs>
     {
         private string messageAdjunct;
         /// <summary>
@@ -20,7 +16,8 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// <param name="e">The event to translate from.</param>
         /// <returns>A new EventArgs with belonging to the interop assembly.</returns>
         protected ResourceLoadEventArgs TranslateEventArgs(Core.ResourceLoadEventArgs e) {
-            return new ResourceLoadEventArgs {
+            return new ResourceLoadEventArgs
+            {
                 Message = e.Message + " " + messageAdjunct,
                 PercentWorkRepresented = 1.5,
                 ElapsedMiliseconds = e.ElapsedMiliseconds

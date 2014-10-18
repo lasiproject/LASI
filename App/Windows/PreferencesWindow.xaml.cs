@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 namespace LASI.App
 {
+    using UsageManager = LASI.Interop.ResourceMonitoring.UsageManager;
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
@@ -22,7 +23,7 @@ namespace LASI.App
         }
         private void saveButton_Click(object sender, RoutedEventArgs e) {
             Properties.Settings.Default.Save();
-            ResourceUsageManager.SetPerformanceLevel(PerformanceLevel);
+            UsageManager.SetPerformanceLevel(PerformanceLevel);
             this.DialogResult = true;
         }
         private void cancelButton_Click(object sender, RoutedEventArgs e) {
@@ -36,7 +37,12 @@ namespace LASI.App
 
         private void LoadCurrentPreferences() {
             LoadGeneralPreferences();
+            LoadOutputPreferences();
             LoadAdvancedPreferences();
+        }
+        private void LoadOutputPreferences() {
+            outputJson.IsChecked = Settings.Default.OutputFormat == "XML";
+            outputXml.IsChecked = Settings.Default.OutputFormat == "JSON";
         }
 
         private void LoadGeneralPreferences() {
@@ -48,22 +54,22 @@ namespace LASI.App
 
         private void LoadAdvancedPreferences() {
             try {
-                PerformanceLevel = (ResourceUsageManager.Mode)Enum.Parse(typeof(ResourceUsageManager.Mode), Settings.Default.PerformanceLevel);
+                PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), Settings.Default.PerformanceLevel);
                 switch (PerformanceLevel) {
-                    case ResourceUsageManager.Mode.High:
-                        High.IsChecked = true;
-                        break;
-                    case ResourceUsageManager.Mode.Normal:
-                        Normal.IsChecked = true;
-                        break;
-                    case ResourceUsageManager.Mode.Low:
-                        Low.IsChecked = true;
-                        break;
+                    case UsageManager.Mode.High:
+                    High.IsChecked = true;
+                    break;
+                    case UsageManager.Mode.Normal:
+                    Normal.IsChecked = true;
+                    break;
+                    case UsageManager.Mode.Low:
+                    Low.IsChecked = true;
+                    break;
                 }
             }
             catch (ArgumentException) {
                 Normal.IsChecked = true;
-                PerformanceLevel = ResourceUsageManager.Mode.Normal;
+                PerformanceLevel = UsageManager.Mode.Normal;
             }
         }
 
@@ -73,12 +79,16 @@ namespace LASI.App
             var checkBox = sender as RadioButton;
             if (checkBox.IsChecked ?? false) {
                 Settings.Default.PerformanceLevel = checkBox.Name;
-                PerformanceLevel = (ResourceUsageManager.Mode)Enum.Parse(typeof(ResourceUsageManager.Mode), checkBox.Name);
+                PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), checkBox.Name);
             }
         }
 
 
 
+        private void outputFormat_Checked(object sender, RoutedEventArgs e) {
+            var option = sender as RadioButton;
+            if (option.IsChecked ?? false) { Settings.Default.OutputFormat = option.Name; }
+        }
 
         private void autoNameCheckBox_Checked(object sender, RoutedEventArgs e) {
             Settings.Default.AutoNameProjects = autoNameCheckBox.IsChecked ?? false;
@@ -93,7 +103,8 @@ namespace LASI.App
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public ResourceUsageManager.Mode PerformanceLevel { get; private set; }
+        public Interop.ResourceMonitoring.UsageManager.Mode PerformanceLevel { get; private set; }
+
 
 
         #region Fields

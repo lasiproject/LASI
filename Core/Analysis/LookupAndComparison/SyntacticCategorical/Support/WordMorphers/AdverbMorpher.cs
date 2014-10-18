@@ -34,11 +34,9 @@ namespace LASI.Core.Heuristics
             List<string> results;
             if (!exceptionData.TryGetValue(root, out results)) {
                 results = new List<string>();
-                for (var i = 0;
-                i < SUFFICIES.Length;
-                i++) {
-                    if (root.EndsWith(ENDINGS[i]) || string.IsNullOrEmpty(ENDINGS[i])) {
-                        results.Add(root.Substring(0, root.Length - ENDINGS[i].Length) + SUFFICIES[i]);
+                for (var i = 0; i < sufficies.Length; ++i) {
+                    if (root.EndsWith(endings[i]) || string.IsNullOrEmpty(endings[i])) {
+                        results.Add(root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
                         break;
                     }
                 }
@@ -70,9 +68,11 @@ namespace LASI.Core.Heuristics
 
         private IEnumerable<string> ComputeBaseForm(string adverbText) {
             var result = new List<string>();
-            for (var i = 0; i < SUFFICIES.Length; i++) {
-                if (adverbText.EndsWith(SUFFICIES[i])) {
-                    result.Add(adverbText.Substring(0, adverbText.Length - SUFFICIES[i].Length) + ENDINGS[i]);
+            for (var i = 0;
+            i < sufficies.Length;
+            i++) {
+                if (adverbText.EndsWith(sufficies[i])) {
+                    result.Add(adverbText.Substring(0, adverbText.Length - sufficies[i].Length) + endings[i]);
                     break;
                 }
             }
@@ -109,8 +109,8 @@ namespace LASI.Core.Heuristics
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Interop.Concurrency.Max, 2055);
 
-        private static readonly string[] ENDINGS = new[] { "", "s", "x", "z", "ch", "sh", "man", "y", };
-        private static readonly string[] SUFFICIES = new[] { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+        private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
+        private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
 
         static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
         static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];

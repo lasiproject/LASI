@@ -82,5 +82,17 @@ namespace LASI.App.Properties {
                 this["LogProcessMessagesToFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("JSON")]
+        public string OutputFormat {
+            get {
+                return ((string)(this["OutputFormat"]));
+            }
+            set {
+                this["OutputFormat"] = value;
+            }
+        }
     }
 }

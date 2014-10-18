@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Interop;
 using LASI.Utilities;
+using LASI.Interop.ResourceMonitoring;
 
 namespace LASI.Experimentation.CommandLine
 {

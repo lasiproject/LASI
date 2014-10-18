@@ -58,7 +58,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
-            ObjectOfThePreoposition = prepositional.BoundObject;
+            ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace LASI.Core
                 result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty;
                 result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty;
                 result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
-                result += ObjectOfThePreoposition != null ? "\nVia Preposition Object: " + ObjectOfThePreoposition.Text : string.Empty;
+                result += ObjectOfThePreposition != null ? "\nVia Preposition Object: " + ObjectOfThePreposition.Text : string.Empty;
                 result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
                 result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty;
                 result += string.Format("\nPossessive Indicator: [{0}]\nCategorizatizer: [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
@@ -292,21 +292,12 @@ namespace LASI.Core
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
-        public ILexical ObjectOfThePreoposition { get; protected set; }
+        public ILexical ObjectOfThePreposition { get; protected set; }
         /// <summary>
         /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
 
-        public Match<IVerbal> Match {
-            get {
-                throw new NotImplementedException();
-            }
-
-            set {
-                throw new NotImplementedException();
-            }
-        }
         #endregion
 
         #region Fields

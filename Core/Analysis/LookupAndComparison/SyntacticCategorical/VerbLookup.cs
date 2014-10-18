@@ -12,6 +12,7 @@ namespace LASI.Core.Heuristics.WordNet
     using SetReference = KeyValuePair<VerbLink, int>;
     using LinkType = VerbLink;
     using Interop;
+    using System.Reactive.Linq;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -32,6 +33,10 @@ namespace LASI.Core.Heuristics.WordNet
                     .Skip(HEADER_LENGTH)
                     .AsParallel()
                     .Select(line => CreateSet(line));
+                sets.ToObservable()
+                    .Sample(TimeSpan.FromMilliseconds(1))
+                    .Subscribe(set => OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0)));
+
                 OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
                 foreach (var set in sets) { LinkSynset(set); }
                 OnReport(new ResourceLoadEventArgs("Loaded", 0));
@@ -107,8 +112,15 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
         private string filePath;
-        private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(concurrencyLevel: Concurrency.Max, capacity: 30000);
-        private ConcurrentDictionary<string, VerbSynSet> setsByWord = new ConcurrentDictionary<string, VerbSynSet>(concurrencyLevel: Concurrency.Max, capacity: 30000);
+        private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 30000
+        );
+        private ConcurrentDictionary<string, VerbSynSet> setsByWord = new ConcurrentDictionary<string, VerbSynSet>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 30000,
+            comparer: StringComparer.OrdinalIgnoreCase
+        );
         /// <summary>
         /// The regular expression describes a string which
         /// starts at a word(in the regex sense of word) boundary: \b
@@ -127,6 +139,10 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         private static readonly Regex RELATIONSHIP_REGEX = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
 
+        /// <summary>
+        /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
+        /// </summary>
+        private const uint SET_COUNT = 13797;
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType> {
             { "!", LinkType.Antonym },
@@ -142,67 +158,5 @@ namespace LASI.Core.Heuristics.WordNet
             { ";u", LinkType.DomainOfSynset_USAGE }
         };
     }
-    /// <summary>
-    /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
-    /// </summary>
-    public enum VerbCategory : byte
-    {
-        /// <summary>
-        /// Body
-        /// </summary>
-        Body = 29,
-        /// <summary>
-        /// Cognition
-        /// </summary>
-        Cognition,
-        /// <summary>
-        /// Communication
-        /// </summary>
-        Communication,
-        /// <summary>
-        /// Competition
-        /// </summary>
-        Competition,
-        /// <summary>
-        /// Consumption
-        /// </summary>
-        Consumption,
-        /// <summary>
-        /// Contact
-        /// </summary>
-        Contact,
-        /// <summary>
-        /// Creation
-        /// </summary>
-        Creation,
-        /// <summary>
-        /// Emotion
-        /// </summary>
-        Emotion,
-        /// <summary>
-        /// Motion
-        /// </summary>
-        Motion,
-        /// <summary>
-        /// Perception
-        /// </summary>
-        Perception,
-        /// <summary>
-        /// Possession
-        /// </summary>
-        Possession,
-        /// <summary>
-        /// Social
-        /// </summary>
-        Social,
-        /// <summary>
-        /// Stative
-        /// </summary>
-        Stative,
-        /// <summary>
-        /// Weather
-        /// </summary>
-        Weather,
-    }
-
+    
 }

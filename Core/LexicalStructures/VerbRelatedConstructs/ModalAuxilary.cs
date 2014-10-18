@@ -1,10 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Represents a Modality modifier which modifies a modality-modifiable construct such as a Verb or VerbPhrase.
@@ -28,10 +22,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the modality-modifiable construct such as a Verb or VerbPhrase, which this ModalAuxilary Modifies
         /// </summary>
-        public virtual IModalityModifiable Modifies {
-            get;
-            set;
-        }
+        public virtual IModalityModifiable Modifies { get; set; }
 
         #endregion
 

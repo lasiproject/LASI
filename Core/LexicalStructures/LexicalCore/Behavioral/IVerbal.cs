@@ -8,7 +8,7 @@ namespace LASI.Core
     /// Along with the other interfaces in the Syntactic Interfaces Library,
     /// the IVerbal interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
-    public interface IVerbal : ILexical,ITypePattern<IVerbal>, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
+    public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
     {
         #region Methods
 
@@ -79,7 +79,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the object of the preposition, if present, which is associated with the statement the Verbal is the basis for.
         /// </summary>
-        ILexical ObjectOfThePreoposition {
+        ILexical ObjectOfThePreposition {
             get;
         }
         /// <summary>

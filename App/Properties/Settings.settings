@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LASI.UserInterface.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LASI.App.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="AutoNameProjects" Type="System.Boolean" Scope="User">
@@ -16,6 +16,9 @@
     </Setting>
     <Setting Name="LogProcessMessagesToFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OutputFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JSON</Value>
     </Setting>
   </Settings>
 </SettingsFile>

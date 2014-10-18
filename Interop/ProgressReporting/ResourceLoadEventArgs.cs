@@ -7,20 +7,11 @@ namespace LASI.Interop.ContractHelperTypes
     /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class ResourceLoadEventArgs
+    public class ResourceLoadEventArgs : LASI.Core.Interop.ReportEventArgs
     {
         /// <summary>
         /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
         public long ElapsedMiliseconds { get; internal set; }
-        /// <summary>
-        /// Gets a message indicating the phase of analysis underway when they Report was created.
-        /// </summary>
-        public string Message { get; internal set; }
-        /// <summary>
-        /// Gets a value indicating the amount by which overall progress of analysis has increased since the last Report was created.
-        /// </summary>
-        public double PercentWorkRepresented { get; internal set; }
-
     }
 }

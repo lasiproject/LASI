@@ -28,7 +28,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\LASI.ContentSystem.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -88,12 +89,14 @@
     <Compile Include="FileTypes\ContentInterfaces\RawTextFragment.cs" />
     <Compile Include="FileTypes\ContentInterfaces\TaggedTextFragment.cs" />
     <Compile Include="Serialization\Json\SerializationExtensions.cs" />
-    <Compile Include="Serialization\NodeMapper.cs" />
+    <Compile Include="Serialization\Json\SimpleJsonSerializer.cs" />
+    <Compile Include="Serialization\SerializerFactory.cs" />
+    <Compile Include="Serialization\Xml\NodeNameMapper.cs" />
     <Compile Include="Serialization\Xml\SerializationExtensions.cs" />
-    <Compile Include="Serialization\Xml\ILexicalWriter.cs" />
+    <Compile Include="Serialization\ILexicalSerializer.cs" />
     <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\XmlFile.cs" />
-    <Compile Include="Serialization\Xml\SimpleLexicalSerializer.cs" />
+    <Compile Include="Serialization\Xml\SimpleXmlSerializer.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />

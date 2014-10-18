@@ -51,19 +51,19 @@ namespace LASI.Core.Heuristics
             var hyphenIndex = verbForm.IndexOf('-');
             var afterHyphen = hyphenIndex > -1 ? verbForm.Substring(hyphenIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = ENDINGS.Length - 1; i >= 0; --i) {
-                if (verbForm.EndsWith(SUFFICIES[i], StringComparison.OrdinalIgnoreCase)) {
+            for (var i = endings.Length - 1; i >= 0; --i) {
+                if (verbForm.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase)) {
                     checked
                     {
                         try {
-                            var possibleRoot = verbForm.Substring(0, verbForm.Length - (SUFFICIES[i].Length));
+                            var possibleRoot = verbForm.Substring(0, verbForm.Length - (sufficies[i].Length));
 
-                            if (string.IsNullOrEmpty(ENDINGS[i]) || (possibleRoot).EndsWith(ENDINGS[i])) {
+                            if (string.IsNullOrEmpty(endings[i]) || (possibleRoot).EndsWith(endings[i])) {
                                 results.Add(possibleRoot);
                                 return results.Select(result => result + afterHyphen);
                             }
                         }
-                        catch (StackOverflowException) { }
+                        catch (StackOverflowException e) { Output.WriteLine(e); }
                     }
                 }
             }
@@ -77,13 +77,12 @@ namespace LASI.Core.Heuristics
                    select exception;
         }
 
-
         #region Exception File Processing 
 
 
-        private static readonly string[] ENDINGS = { "", "y", "e", "", " e", "", "e", "" };
+        private static readonly string[] endings = { "", "y", "e", "", " e", "", "e", "" };
 
-        private static readonly string[] SUFFICIES = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
+        private static readonly string[] sufficies = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
 
         private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>> {
             { "", new[] { "s",  "es",  "ed", "ing" } },

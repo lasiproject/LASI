@@ -177,7 +177,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(target.BoundObject, prepositionalObject);
             IVerbal linkedVerbal = new VerbPhrase(new PastTenseVerb("jumped"));
             linkedVerbal.AttachObjectViaPreposition(target);
-            Assert.AreEqual(linkedVerbal.ObjectOfThePreoposition, prepositionalObject);
+            Assert.AreEqual(linkedVerbal.ObjectOfThePreposition, prepositionalObject);
         }
 
 

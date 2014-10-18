@@ -209,7 +209,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(prepositionalObject, target.BoundObject);
             IVerbal verbal = new Verb("is", VerbForm.ThirdPersonSingularPresent);
             verbal.AttachObjectViaPreposition(target);
-            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreoposition);
+            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreposition);
         }
 
 

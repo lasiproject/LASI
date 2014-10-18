@@ -1,5 +1,4 @@
-﻿using LASI.Core.Heuristics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +43,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="prepositional"></param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
-            ObjectOfThePreoposition = prepositional.BoundObject;
+            ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
 
@@ -177,7 +176,7 @@ namespace LASI.Core
             return HasObject(predicate) || HasSubject(predicate);
         }
         private static bool HasBoundEntitiyImpl(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) {
-            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(p => p.RefersTo != null && predicate(p.RefersTo));
+            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(r => r.RefersTo != null && predicate(r.RefersTo));
         }
         #endregion
 
@@ -222,7 +221,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
-        public ILexical ObjectOfThePreoposition { get; protected set; }
+        public ILexical ObjectOfThePreposition { get; protected set; }
         /// <summary>
         /// Gets the IPrepositional object which links the Verb to the ObjectOfThePreoposition.
         /// </summary>
@@ -244,16 +243,6 @@ namespace LASI.Core
             get {
                 possessive = possessive ?? DetermineIsPossessive();
                 return possessive.Value;
-            }
-        }
-
-        public Match<IVerbal> Match {
-            get {
-                throw new NotImplementedException();
-            }
-
-            set {
-                throw new NotImplementedException();
             }
         }
         #endregion

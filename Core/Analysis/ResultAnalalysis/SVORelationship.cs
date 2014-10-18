@@ -12,7 +12,7 @@ namespace LASI.Core
     /// Sometimes an anonymous type simple will not do. So this little class is defined to 
     /// store temporary query data from transposed tables. god it is late. I can't document properly.
     /// </summary>
-    public class SvoRelationship : IEquatable<SvoRelationship>
+    public sealed class SvoRelationship : IEquatable<SvoRelationship>
     {
         /// <summary>
         /// Intializes a new instance of the SvoRelationship class.
@@ -45,7 +45,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Prepositional component of the SvoRelationship.
         /// </summary>
-        public ILexical Prepositional { get { return Verbal.ObjectOfThePreoposition; } }
+        public ILexical Prepositional { get { return Verbal.ObjectOfThePreposition; } }
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
@@ -53,21 +53,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>
-        public double CombinedWeight {
-            get { return Subject.Weight + Verbal.Weight + (Direct != null ? Direct.Weight : 0) + (Indirect != null ? Indirect.Weight : 0); }
-        }
+        public double CombinedWeight { get { return Elements.Where(e => e != null).Sum(e => e.Weight); } }
         /// <summary>
         /// Returns a string representation of the Relationship.
         /// </summary>
         /// <returns>A string representation of the Relationship.</returns>
         public override string ToString() {
             var result = Subject.Text + Verbal.Text;
-            if (Direct != null) {
-                result += Direct.Text;
-            }
-            if (Indirect != null) {
-                result += Indirect.Text;
-            }
+            if (Direct != null) { result += Direct.Text; }
+            if (Indirect != null) { result += Indirect.Text; }
             return result;
         }
         /// <summary>   

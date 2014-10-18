@@ -29,14 +29,15 @@ namespace LASI
         /// Defaults to the current working directory of the application.
         /// </summary>
         public static void SetToFile(string path = @".\LasiLog.txt") {
+            var logPath = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), path);
             OutputMode = Mode.File;
-            var newFile = !File.Exists(path);
-            var fileStream = new FileStream(path, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+            var newFile = !File.Exists(logPath);
+            var fileStream = new FileStream(logPath, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, false);
-            writer.WriteLine((newFile ? string.Empty : "\n\n") + "LASI Message Log: {0}", DateTime.Now);
+            writer.WriteLine(newFile ? string.Empty : "\n\n" + "LASI Message Log: {0}", DateTime.Now);
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => { if (OutputMode == Mode.File) { writer.Close(); } };
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => { if (OutputMode == Mode.File) writer.Close(); };
         }
 
         /// <summary>

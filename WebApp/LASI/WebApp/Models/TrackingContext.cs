@@ -29,7 +29,7 @@ namespace LASI.WebApp.Support.Serialization
                 });
             }
         }
-        private ConcurrentDictionary<long, TLexical> elementsById = new ConcurrentDictionary<long, TLexical>(Interop.Concurrency.Max, 1024 * 1024);
-        private ConcurrentDictionary<TLexical, long> idsByElement = new ConcurrentDictionary<TLexical, long>(Interop.Concurrency.Max, 1024 * 1024);
+        private ConcurrentDictionary<long, TLexical> elementsById = new ConcurrentDictionary<long, TLexical>(Interop.ResourceMonitoring.Concurrency.Max, 1024 * 1024);
+        private ConcurrentDictionary<TLexical, long> idsByElement = new ConcurrentDictionary<TLexical, long>(Interop.ResourceMonitoring.Concurrency.Max, 1024 * 1024);
     }
 }

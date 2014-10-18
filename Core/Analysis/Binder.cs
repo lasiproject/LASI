@@ -31,19 +31,18 @@ namespace LASI.Core
         /// in which they are hereby returned.
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetBindingTasks(this Document document) {
-
             yield return new ProcessingTask(() => BindAttributives(document.Sentences),
-                    string.Format("{0}: Binding Attributives", document.Name),
-                    string.Format("{0}: Bound Attributives", document.Name), 5);
+                string.Format("{0}: Binding Attributives", document.Name),
+                string.Format("{0}: Bound Attributives", document.Name), 5);
             yield return new ProcessingTask(() => BindIntraPhrase(document.Phrases),
-                    string.Format("{0}: Decomposing Phrasals", document.Name),
-                    string.Format("{0}: Decomposed Phrasals", document.Name), 5);
+                string.Format("{0}: Decomposing Phrasals", document.Name),
+                string.Format("{0}: Decomposed Phrasals", document.Name), 5);
             yield return new ProcessingTask(() => BindSubjectsAndObjects(document.Sentences),
-                    string.Format("{0}: Analyzing Verbal Relationships", document.Name),
-                    string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5);
+                string.Format("{0}: Analyzing Verbal Relationships", document.Name),
+                string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5);
             yield return new ProcessingTask(() => BindPronouns(document.Sentences),
-                    string.Format("{0}: Abstracting References", document.Name),
-                    string.Format("{0}: Abstracted References", document.Name), 5);
+                string.Format("{0}: Abstracting References", document.Name),
+                string.Format("{0}: Abstracted References", document.Name), 5);
         }
 
         #region Private Static Methods

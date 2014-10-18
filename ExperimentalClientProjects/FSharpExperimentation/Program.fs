@@ -7,6 +7,7 @@ open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop
 open System.Linq
+open LASI.Interop.ResourceMonitoring
 
 let wrapFile (s : string) = 
     match s.Split('.').Last() with

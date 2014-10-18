@@ -39,7 +39,7 @@ namespace LASI.App
             }
             var handler = NumberOfDocumentsChanged;
             if (handler != null) {
-                handler(DocumentManager.runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
+                handler(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount + 1, documentCount));
             }
         }
         public static void AddDocument(string fileName, string filePath) {
@@ -69,7 +69,7 @@ namespace LASI.App
             }
             var handler = NumberOfDocumentsChanged;
             if (handler != null) {
-                handler(DocumentManager.runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount - 1, documentCount));
+                handler(runningListDisplay, new RoutedPropertyChangedEventArgs<double>(documentCount - 1, documentCount));
             }
         }
         private static ListBox runningListDisplay;
@@ -126,7 +126,7 @@ namespace LASI.App
         public const string FILE_FILTER = "Documents File Types|*.doc; *.docx; *.pdf; *.txt";
         #region Events
 
-        public static event System.Windows.RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged;
+        public static event RoutedPropertyChangedEventHandler<double> NumberOfDocumentsChanged;
 
         #endregion
     }

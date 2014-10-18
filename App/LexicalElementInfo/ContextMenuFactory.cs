@@ -37,7 +37,7 @@ namespace LASI.App.LexicalElementInfo
             if (verbal.IndirectObjects.Any()) {
                 result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(neighboringElements, verbal));
             }
-            if (verbal != null && verbal.ObjectOfThePreoposition != null) {
+            if (verbal != null && verbal.ObjectOfThePreposition != null) {
                 result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(neighboringElements, verbal));
             }
             return result;
@@ -62,7 +62,7 @@ namespace LASI.App.LexicalElementInfo
                 visitSubjectMI.Click += (sender, e) => {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var labels = from label in neighboringElements
-                                 where label.Tag.Equals(verbal.ObjectOfThePreoposition)
+                                 where label.Tag.Equals(verbal.ObjectOfThePreposition)
                                  select new { label, brush = colorMapping[label.Tag as ILexical] };
                     foreach (var l in labels) {
                         l.label.Foreground = l.brush;

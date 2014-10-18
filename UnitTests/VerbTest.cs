@@ -95,7 +95,7 @@ namespace LASI.UnitTests
             IPrepositional prep = new Preposition("for");
             prep.BindObject(prepositionObject);
             target.AttachObjectViaPreposition(prep);
-            Assert.IsTrue(target.ObjectOfThePreoposition == prepositionObject);
+            Assert.IsTrue(target.ObjectOfThePreposition == prepositionObject);
         }
 
         /// <summary>

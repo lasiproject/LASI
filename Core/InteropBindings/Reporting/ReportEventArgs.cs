@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Interop.Reporting
+namespace LASI.Core.Interop
 {
     /// <summary>
     /// Contains numeric and textual data related to an event.
@@ -8,6 +8,7 @@ namespace LASI.Core.Interop.Reporting
     [Serializable]
     public abstract class ReportEventArgs : EventArgs
     {
+        public ReportEventArgs() { }
         /// <summary>
         /// Initializes a new instance of the ReportEventArgs class.
         /// </summary>
@@ -20,11 +21,11 @@ namespace LASI.Core.Interop.Reporting
         /// <summary>
         /// Gets a message indicating the phase of analysis underway when they Report was created.
         /// </summary>
-        public string Message { get; private set; }
+        public string Message { get; set; }
         /// <summary>
         /// Gets a value indicating the amount of overall progress.
         /// </summary>
-        public double PercentWorkRepresented { get; private set; }
+        public double PercentWorkRepresented { get; set; }
 
     }
 }

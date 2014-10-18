@@ -181,7 +181,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(prepositionalObject, target.BoundObject);
             IVerbal verbal = new PastTenseVerb("walked");
             verbal.AttachObjectViaPreposition(target);
-            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreoposition);
+            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreposition);
         }
 
 
