@@ -26,7 +26,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="domain">The sequence of Sentence instances which contain the relevant lexical data set.</param>
         public SampleRelationshipLookup(IEnumerable<DocumentStructures.Sentence> domain)
-            : this(from verbphrase in domain.OfPhrase().OfVerbPhrase()
+            : this(from verbphrase in domain.AllPhrases().OfVerbPhrase()
                    select verbphrase) {
         }
         /// <summary>

@@ -98,9 +98,8 @@ namespace LASI.Core.Heuristics
             try {
                 // TODO: make this fuzzier.
                 return new SimilarityResult(leftHandVerbs.Count == rightHandVerbs.Count &&
-                    leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y))
-                        .All(synonymous => synonymous)
-                    );
+                    leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y)).All(synonymous => synonymous)
+                );
             }
             catch (NullReferenceException x) {
                 Output.WriteLine(x.Message);

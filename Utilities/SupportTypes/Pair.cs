@@ -23,6 +23,18 @@ namespace LASI.Utilities
         public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) { return new KeyValuePair<TKey, TValue>(key, value); }
 
     }
+    public class Pair<T1, T2>
+    {
+        internal Pair(T1 first, T2 second) { First = first; Second = second; }
+        public T1 First { get; private set; }
+        public T2 Second { get; private set; }
+    }
+    public class Pair
+    {
+        public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) {
+            return new Pair<T1, T2>(first, second);
+        }
+    }
 
 
 }

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdverbLink, int>;
+    using Link = AdverbLink;
     internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {
         /// <summary>
@@ -85,12 +86,12 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
         /// </summary>
-        private static readonly IReadOnlyDictionary<string, AdverbLink> interSetMap = new Dictionary<string, AdverbLink> {
-            {"!", AdverbLink.Antonym },
-            {@"\", AdverbLink.DerivedFromAdjective },
-            {";c", AdverbLink.DomainOfSynset_TOPIC },
-            {";r", AdverbLink.DomainOfSynset_REGION },
-            {";u", AdverbLink.DomainOfSynset_USAGE }
+        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link> {
+            {"!", Link.Antonym },
+            {@"\", Link.DerivedFromAdjective },
+            {";c", Link.DomainOfSynset_TOPIC },
+            {";r", Link.DomainOfSynset_REGION },
+            {";u", Link.DomainOfSynset_USAGE }
         };
     }
 

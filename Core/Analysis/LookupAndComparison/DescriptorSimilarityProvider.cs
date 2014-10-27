@@ -25,16 +25,16 @@ namespace LASI.Core.Heuristics
             return first.Match().Yield<SimilarityResult>()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
                     .Then(SimilarityResult.Similar)
-                    .With<Adjective>(j1 => second.Match().Yield<SimilarityResult>()
-                           .With<Adjective>(j2 => new SimilarityResult(j1.IsSynonymFor(j2)))
-                           .With<AdjectivePhrase>(jp2 => jp2.IsSimilarTo(j1))
+                    .With((Adjective a1) => second.Match().Yield<SimilarityResult>()
+                           .With((Adjective a2) => new SimilarityResult(a1.IsSynonymFor(a2)))
+                           .With((AdjectivePhrase ap2) => ap2.IsSimilarTo(a1))
                        .Result())
-                    .With<AdjectivePhrase>(jp1 => second.Match()
+                    .With((AdjectivePhrase ap1) => second.Match()
                         .Yield<SimilarityResult>()
-                            .With<AdjectivePhrase>(jp2 => jp1.IsSimilarTo(jp2))
-                            .With<Adjective>(j2 => jp1.IsSimilarTo(j2))
+                            .With((AdjectivePhrase ap2) => ap1.IsSimilarTo(ap2))
+                            .With((Adjective a2) => ap1.IsSimilarTo(a2))
                         .Result())
-                .Result();
+                    .Result();
         }
         /// <summary>
         /// Determines if the two provided Adjective instances are similar.

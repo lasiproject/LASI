@@ -137,14 +137,15 @@ namespace LASI.Core.Heuristics
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
         private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
             int innerNounCount = first.Words.OfNoun().Count(), outerNounCount = second.Words.OfNoun().Count();
-            if (innerNounCount == 0 || outerNounCount == 0) { return 0; }
+            if (innerNounCount == 0 || outerNounCount == 0) {
+                return 0;
+            }
             var scaleFactor = first.Words.OfNoun().Count() * second.Words.OfNoun().Count();
             Func<NounPhrase, NounPhrase, double> overlap = (outer, inner) => {
                 var ns = new[] { inner.Words.OfNoun().ToList(), outer.Words.OfNoun().ToList() }.OrderByDescending(m => m.Count);
                 return (from outerNoun in ns.First()
                         from innerNoun in ns.Last()
-                        select innerNoun.IsSynonymFor(outerNoun) ? 0.7 : 0d)
-                  .Sum() / scaleFactor;
+                        select innerNoun.IsSynonymFor(outerNoun) ? 0.7 : 0d).Sum() / scaleFactor;
             };
             return innerNounCount >= outerNounCount ? overlap(first, second) : overlap(second, first);
         }

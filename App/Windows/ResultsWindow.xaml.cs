@@ -32,7 +32,6 @@ namespace LASI.App
         public ResultsWindow() {
             InitializeComponent();
             currentOperationFeedbackCanvas.Visibility = Visibility.Hidden;
-            Visualizer.ChangeChartKind(ChartKind.NounPhrasesOnly);
             this.Closed += (s, e) => Application.Current.Shutdown();
         }
         #endregion
@@ -65,14 +64,11 @@ namespace LASI.App
         private async Task CreateWeightViewAsync(Document document) {
             var page1 = document.Paginate(100, 100).FirstOrDefault();
 
-            var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.SelectMany(p => p.Sentences)
-                                        .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.AsParallel().WithDegreeOfParallelism(Concurrency.Max).AllSentences()
                                    select s.Phrases.OfNounPhrase() into nounPhrases
-                                   from np in nounPhrases
-                                        .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   group np by new { np.Text, Type = np.GetType() }
-                                       into npg
-                                   let first = npg.First()
+                                   from np in nounPhrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                   group np by new { np.Text, Type = np.GetType() } into byTypeAndText
+                                   let first = byTypeAndText.First()
                                    orderby first.Weight descending
                                    select CreateLabelForWeightedView(first);
 
@@ -89,6 +85,8 @@ namespace LASI.App
 
             await Visualizer.InitChartDisplayAsync(document);
             await Visualizer.DisplayKeyRelationshipsAsync(document);
+            Visualizer.ChangeChartKindAsync(ChartKind.NounPhrasesOnly);
+
         }
 
         private static Label CreateLabelForWeightedView(NounPhrase np) {
@@ -96,7 +94,7 @@ namespace LASI.App
             var label = new Label
             {
                 Tag = np,
-                Content = String.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
+                Content = string.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
                 Foreground = Brushes.Black,
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
@@ -105,11 +103,9 @@ namespace LASI.App
             };
             var menuItem1 = new MenuItem { Header = "View definition" };
             menuItem1.Click += (s, e) => Process.Start(string.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
-
             label.ContextMenu.Items.Add(menuItem1);
             var menuItem2 = new MenuItem { Header = "Copy" };
             menuItem2.Click += (s, e) => Clipboard.SetText((label.Tag as ILexical).Text);
-
             label.ContextMenu.Items.Add(menuItem2);
             return label;
         }
@@ -136,7 +132,7 @@ namespace LASI.App
                 .Take(1)
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
-                .SelectMany(sentence => sentence.OfPhrase());
+                .SelectMany(sentence => sentence.AllPhrases());
             var colorizer = new SyntacticColorMap();
             var flowDocument = new System.Windows.Documents.FlowDocument();
 

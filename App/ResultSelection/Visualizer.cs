@@ -14,6 +14,9 @@ using LASI.Core.PatternMatching;
 namespace LASI.App
 {
     using Interop.ResourceMonitoring;
+    using LASI.Core.Analysis;
+
+
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -26,14 +29,14 @@ namespace LASI.App
         /// The given ChartKind will be used for all further chart operations until it is changed via another call to ChangeChartKind.
         /// </summary>
         /// <param name="chartKind">The ChartKind value determining the what data set is to be displayed.</param>
-        public static void ChangeChartKind(ChartKind chartKind) {
+        public static async void ChangeChartKindAsync(ChartKind chartKind) {
             ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
 
                 var document = pair.Value;
                 var chart = pair.Key;
 
-                var data = CreateChartData(chartKind, document);
+                var data = await CreateChartDataAsync(chartKind, document);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries
                 {
@@ -47,11 +50,12 @@ namespace LASI.App
             }
         }
 
-        private static IEnumerable<dynamic> CreateChartData(ChartKind chartKind, Document document) {
+
+        private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document) {
             switch (chartKind) {
-                case ChartKind.SubjectVerbObject: return GetVerbWiseData(document);
-                case ChartKind.NounPhrasesOnly: return GetNounWiseData(document);
-                default: return GetNounWiseData(document);
+                case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
+                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+                default: return await GetNounWiseDataAsync(document);
             }
         }
 
@@ -150,8 +154,8 @@ namespace LASI.App
                 ChartKind == ChartKind.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
                 ChartKind == ChartKind.SubjectVerbObject ?
-                GetVerbWiseData(document) :
-                GetVerbWiseData(document);
+                await GetVerbWiseDataAsync(document) :
+                await GetVerbWiseDataAsync(document);
             // Materialize item source so that changing chart types is less expensive.s
             var topPoints = dataPointSource.OrderByDescending(point => point.Value).Take(CHART_ITEM_LIMIT).ToList();
             Series series = new BarSeries
@@ -162,8 +166,6 @@ namespace LASI.App
                 IsSelectionEnabled = true,
                 Tag = document,
             };
-
-
             series.MouseMove += (sender, e) => {
                 series.ToolTip = (((e.Source as DataPoint))).IndependentValue;
             };
@@ -197,8 +199,8 @@ namespace LASI.App
         }
 
         #endregion
-        private static IEnumerable<dynamic> GetVerbWiseData(Document document) {
-            var dataPoints = from relationship in GetVerbWiseRelationships(document)
+        private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document) {
+            var dataPoints = from relationship in await GetVerbWiseRelationshipsAsync(document)
                              select new
                              {
                                  Key = string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
@@ -209,36 +211,40 @@ namespace LASI.App
             return dataPoints.Distinct();
 
         }
-        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
-            var consideredVerbals = doc.Phrases.OfVerbPhrase()
+        private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) {
+            var consideredVerbals = await Task.Run(() => document.Phrases.OfVerbPhrase()
                            .WithSubject(s => !(s is IReferencer) || (s as IReferencer).RefersTo != null)
                            .Distinct((x, y) => x.IsSimilarTo(y))
                            .AsParallel()
-                           .WithDegreeOfParallelism(Concurrency.Max);
-            var relationships = from verbal in consideredVerbals
-                                from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                let subject = entity.Match().Yield<IEntity>()
-                                    .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
-                                    .Then((IReferencer r) => r.RefersTo)
-                                    .Result(entity)
-                                where subject != null
-                                from direct in verbal.DirectObjects.DefaultIfEmpty()
-                                from indirect in verbal.IndirectObjects.DefaultIfEmpty()
-                                where direct != null || indirect != null
-                                where subject.Text != (direct ?? indirect).Text
-                                let relationship = new SvoRelationship(verbal.AggregateSubject, verbal, verbal.AggregateDirectObject, verbal.AggregateIndirectObject)
-                                orderby relationship.CombinedWeight descending
-                                select relationship;
-            return relationships.Distinct();
+                           .WithDegreeOfParallelism(Concurrency.Max));
+            var relationships = await Task.Run(
+                () => from verbal in consideredVerbals
+                      from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                      let subject = entity.Match().Yield<IEntity>()
+                          .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
+                          .Then((IReferencer r) => r.RefersTo)
+                          .Result(entity)
+                      where subject != null
+                      from direct in verbal.DirectObjects.DefaultIfEmpty()
+                      from indirect in verbal.IndirectObjects.DefaultIfEmpty()
+                      where direct != null || indirect != null
+                      where subject.Text != (direct ?? indirect).Text
+                      let relationship = new SvoRelationship(verbal.AggregateSubject, verbal, verbal.AggregateDirectObject, verbal.AggregateIndirectObject)
+                      orderby relationship.CombinedWeight descending
+                      select relationship);
+            return await Task.Run(() => relationships.Distinct());
 
         }
-        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document doc) {
-            return await Task.Run(() => GetNounWiseData(doc));
+        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) {
+            return await Task.Run(() => GetNounWiseData(document));
         }
-
+        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) {
+            return await Task.Run(() => GetVerbWiseData(document));
+        }
         private static IEnumerable<dynamic> GetNounWiseData(Document document) {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  .OfNounPhrase()
+                 .Meld()
                  .Select(nounPhrase => new { Key = nounPhrase.Text, Value = (float)Math.Round(nounPhrase.Weight, 2) })
                  .Distinct();
         }
@@ -250,12 +256,12 @@ namespace LASI.App
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task DisplayKeyRelationshipsAsync(Document document) {
 
-            var transformedData = await Task.Factory.StartNew(() => {
-                return GetVerbWiseRelationships(document).ToGridRowData();
+            var transformedData = await Task.Factory.StartNew(async () => {
+                return (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData();
             });
             var wpfToolKitDataGrid = new Microsoft.Windows.Controls.DataGrid
             {
-                ItemsSource = transformedData,
+                ItemsSource = await transformedData,
             };
             var tab = new TabItem
             {

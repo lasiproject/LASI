@@ -24,18 +24,18 @@ namespace LASI.Core.Analysis
         }
         public static IEnumerable<IEntity> Meld(this IEnumerable<IEntity> entities) {
             var comparer = CustomComparer.Create<IEntity>((x, y) => x.IsSimilarTo(y));
-            Func<IEnumerable<IEntity>, Func<IEntity, IVerbal>, IEnumerable<IVerbal>> verbalsSelector = (seq, sel) => seq.Select(sel).ToImmutableList();
-            var entityGroups = entities.GroupJoin(inner: entities,
-                            outerKeySelector: outer => outer,
-                            innerKeySelector: inner => inner,
-                            comparer: comparer,
-                            resultSelector: (outer, correlates) => correlates
-                        );
+            var entityGroups = entities.GroupJoin(
+                    inner: entities,
+                    outerKeySelector: outer => outer,
+                    innerKeySelector: inner => inner,
+                    comparer: comparer,
+                    resultSelector: (outer, correlates) => correlates
+            );
             var result = from entityGroup in entityGroups
                          from entity in entityGroup
                          group entity by entity.Text into byText
                          orderby byText.Count() descending
-                         select new LiftedEntity(byText.First(), byText.ToImmutableList());
+                         select new LiftedEntity(byText.First(), byText);
             return result;
         }
     }

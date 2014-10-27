@@ -30,12 +30,12 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
-                    .With<ISimpleGendered>(p => p.Gender)
-                    .With<IReferencer>(p => GetGender(p))
-                    .With<NounPhrase>(n => DetermineNounPhraseGender(n))
-                    .With<CommonNoun>(n => Gender.Neutral)
+                    .With((ISimpleGendered p) => p.Gender)
+                    .With((IReferencer p) => GetGender(p))
+                    .With((NounPhrase n) => DetermineNounPhraseGender(n))
+                    .With((CommonNoun n) => Gender.Neutral)
                     .When(e => e.Referencers.Any())
-                    .Then<IEntity>(e => (
+                    .Then(e => (
                         from referener in e.Referencers
                         let gendered = referener as ISimpleGendered
                         let gender = gendered != null ? gendered.Gender : default(Gender)
@@ -51,7 +51,7 @@ namespace LASI.Core.Heuristics
         /// <returns>A NameGender value indiciating the likely gender of the Pronoun.</returns>
         private static Gender GetGender(IReferencer referee) {
             return referee.Match().Yield<Gender>()
-                    .With<PronounPhrase>(p => DeterminePronounPhraseGender(p))
+                    .With((PronounPhrase p) => DeterminePronounPhraseGender(p))
                     .When(referee.RefersTo != null)
                     .Then((from referent in referee.RefersTo
                            let gender =
@@ -64,13 +64,9 @@ namespace LASI.Core.Heuristics
                            group gender by gender into byGender
                            where byGender.Count() == referee.RefersTo.Count()
                            select byGender.Key).FirstOrDefault()).
-                    With<ISimpleGendered>(p => p.Gender)
+                    With((ISimpleGendered p) => p.Gender)
                 .Result();
         }
-
-
-
-
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Female Name.
         /// </summary>
@@ -119,9 +115,6 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-
-
-
         #region Synonym Lookup Methods
 
         /// <summary>
@@ -156,7 +149,6 @@ namespace LASI.Core.Heuristics
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
             return FindSynonyms(adverb);
         }
-
 
         /// <summary>
         /// Determines if two Noun instances are synonymous.
@@ -264,7 +256,7 @@ namespace LASI.Core.Heuristics
 
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
             var startedHandler = ResourceLoading;
-            var resourceName = typeof(TWord).Name + " Thesaurus";
+            var resourceName = typeof(TWord).Name + " Association Map";
 
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -275,8 +267,6 @@ namespace LASI.Core.Heuristics
         }
 
         #region Properties
-
-
 
         /// <summary>
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
@@ -323,7 +313,7 @@ namespace LASI.Core.Heuristics
         static readonly string adverbWNFilePath = wordnetDataDirectory + "data.adv";
         static readonly string adjectiveWNFilePath = wordnetDataDirectory + "data.adj";
         static readonly string scrabbleDictsFilePath = wordnetDataDirectory + "dictionary.txt";
-        //scrabble dictionary
+        // scrabble dictionary
         // Internal Lookups
         static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
         static Lazy<WordNetLookup<Verb>> verbLookup = new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);

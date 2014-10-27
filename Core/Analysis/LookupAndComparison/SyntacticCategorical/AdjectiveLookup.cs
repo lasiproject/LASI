@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdjectiveLink, int>;
+    using Link = AdjectiveLink;
     internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
         /// <summary>
@@ -82,20 +83,20 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         /// </summary>
-        private static readonly IReadOnlyDictionary<string, AdjectiveLink> interSetMap = new Dictionary<string, AdjectiveLink> {
-            {"!",AdjectiveLink.Antonym},
-            {"&",AdjectiveLink.SimilarTo},
-            {"<",AdjectiveLink.ParticipleOfVerb},
-            {@"\", AdjectiveLink.Pertainym_pertains_to_noun},
-            {"=",AdjectiveLink.Attribute},
-            {"^",AdjectiveLink.AlsoSee},
-            {";c", AdjectiveLink.DomainOfSynset_TOPIC},
-            {";r", AdjectiveLink.DomainOfSynset_REGION},
-            {";u", AdjectiveLink.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link> {
+            {"!",Link.Antonym},
+            {"&",Link.SimilarTo},
+            {"<",Link.ParticipleOfVerb},
+            {@"\", Link.Pertainym_pertains_to_noun},
+            {"=",Link.Attribute},
+            {"^",Link.AlsoSee},
+            {";c", Link.DomainOfSynset_TOPIC},
+            {";r", Link.DomainOfSynset_REGION},
+            {";u", Link.DomainOfSynset_USAGE}
         };
 
     }
-    
+
 }
 
 

@@ -9,6 +9,8 @@ using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Core
 {
+    using Validator = ArgumentValidator;
+
     /// <summary>
     /// Defines extension methods for sequences of various document level constructs.
     /// </summary>
@@ -20,23 +22,67 @@ namespace LASI.Core
         #region Sequential Implementations
 
         /// <summary>
+        /// Gets the linear aggregation of all Paragraph instances contained within the sequence of Document instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Document instances.</param>
+        /// <returns>The linear aggregation of all Paragraph instances contained within the sequence of Document instances.</returns>
+        public static IEnumerable<Paragraph> AllParagraphs(this IEnumerable<Document> documents) {
+            return documents.SelectMany(d => d.Paragraphs);
+        }
+
+        /// <summary>
+        /// Gets the linear aggregation of all Paragraph instances contained within the sequence of Document.Page instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Document.Page instances.</param>
+        /// <returns>The linear aggregation of all Paragraph instances contained within the sequence of Document.Page instances.</returns>
+        public static IEnumerable<Paragraph> AllParagraphs(this IEnumerable<Document.Page> documents) {
+            return documents.SelectMany(p => p.Paragraphs);
+        }
+
+        /// <summary>
+        /// Gets the linear aggregation of all Sentence instances contained within the sequence of Document instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Sentence instances.</param>
+        /// <returns>The linear aggregation of all Sentence instances contained within the sequence of Document instances.</returns>
+        public static IEnumerable<Sentence> AllSentences(this IEnumerable<Document> documents) {
+            return documents.SelectMany(d => d.Paragraphs.AllSentences());
+        }
+
+        /// <summary>
+        /// Gets the linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Sentence instances.</param>
+        /// <returns>The linear aggregation of all Sentence instances contained within the sequence of Paragraph instances.</returns>
+        public static IEnumerable<Sentence> AllSentences(this IEnumerable<Paragraph> paragraphs) {
+            return paragraphs.SelectMany(p => p.Sentences);
+        }
+
+        /// <summary>
+        /// Gets the linear aggregation of all Sentence instances contained within the sequence of Document.Page instances.
+        /// </summary>
+        /// <param name="documentPages">A sequence of Document.Page instances.</param>
+        /// <returns>The linear aggregation of all Sentence instances contained within the sequence of Document.Page instances.</returns>
+        public static IEnumerable<Sentence> AllSentences(this IEnumerable<Document.Page> documentPages) {
+            return documentPages.SelectMany(p => p.Sentences);
+        }
+
+        /// <summary>
         /// Gets the linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Paragraph> paragraphs) {
-            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Paragraph> paragraphs) {
+            Validator.ThrowIfNull(paragraphs, "paragraphs");
             return paragraphs.SelectMany(p => p.Phrases);
         }
-
 
         /// <summary>
         /// Gets the linear aggregation of all Word instances contained within the sequence of Paragraph instances.
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<Paragraph> paragraphs) {
-            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+        public static IEnumerable<Word> AllWords(this IEnumerable<Paragraph> paragraphs) {
+            Validator.ThrowIfNull(paragraphs, "paragraphs");
             return paragraphs.SelectMany(p => p.Words);
 
         }
@@ -45,8 +91,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<Sentence> sentences) {
-            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<Sentence> sentences) {
+            Validator.ThrowIfNull(sentences, "sentences");
             return sentences.SelectMany(s => s.Phrases);
         }
         /// <summary>
@@ -54,8 +100,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The linear aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<Sentence> sentences) {
-            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+        public static IEnumerable<Word> AllWords(this IEnumerable<Sentence> sentences) {
+            Validator.ThrowIfNull(sentences, "sentences");
             return sentences.SelectMany(s => s.Words);
         }
 
@@ -64,12 +110,37 @@ namespace LASI.Core
         #region Parallel Implementations
 
         /// <summary>
+        /// Gets the linear aggregation of all Paragraph instances contained within the sequence of Document instances.
+        /// </summary>
+        /// <param name="paragraphs">A sequence of Document instances.</param>
+        /// <returns>The linear aggregation of all Paragraph instances contained within the sequence of Document instances.</returns>
+        public static ParallelQuery<Paragraph> AllParagraphs(this ParallelQuery<Document> documents) {
+            return documents.SelectMany(d => d.Paragraphs);
+        }
+
+        public static ParallelQuery<Paragraph> AllParagraphs(this ParallelQuery<Document.Page> documents) {
+            return documents.SelectMany(p => p.Paragraphs);
+        }
+
+        public static ParallelQuery<Sentence> AllSentences(this ParallelQuery<Document> documents) {
+            return documents.SelectMany(d => d.Paragraphs.AllSentences());
+        }
+
+        public static ParallelQuery<Sentence> AllSentences(this ParallelQuery<Paragraph> paragraphs) {
+            return paragraphs.SelectMany(p => p.Sentences);
+        }
+
+        public static ParallelQuery<Sentence> AllSentences(this ParallelQuery<Document.Page> documentPages) {
+            return documentPages.SelectMany(p => p.Sentences);
+        }
+
+        /// <summary>
         /// Gets the parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Paragraph instances.</returns>
-        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Paragraph> paragraphs) {
-            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+        public static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Paragraph> paragraphs) {
+            Validator.ThrowIfNull(paragraphs, "paragraphs");
             return paragraphs.SelectMany(p => p.Phrases);
 
         }
@@ -78,8 +149,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="paragraphs">A sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Paragraph instances.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<Paragraph> paragraphs) {
-            ArgumentValidator.ThrowIfNull(paragraphs, "paragraphs");
+        public static ParallelQuery<Word> AllWords(this ParallelQuery<Paragraph> paragraphs) {
+            Validator.ThrowIfNull(paragraphs, "paragraphs");
             return paragraphs.SelectMany(p => p.Words);
 
         }
@@ -88,8 +159,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Phrase instances contained within the sequence of Sentence instances.</returns>
-        public static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<Sentence> sentences) {
-            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+        public static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<Sentence> sentences) {
+            Validator.ThrowIfNull(sentences, "sentences");
             return sentences.SelectMany(s => s.Phrases);
 
         }
@@ -98,10 +169,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">A sequence of Sentence instances.</param>
         /// <returns>The parallel aggregation of all Word instances contained within the sequence of Sentence instances.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<Sentence> sentences) {
-            ArgumentValidator.ThrowIfNull(sentences, "sentences");
+        public static ParallelQuery<Word> AllWords(this ParallelQuery<Sentence> sentences) {
+            Validator.ThrowIfNull(sentences, "sentences");
             return sentences.SelectMany(s => s.Words);
-
         }
 
         #endregion

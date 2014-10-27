@@ -36,7 +36,6 @@ namespace LASI.Core.Heuristics.WordNet
                 sets.ToObservable()
                     .Sample(TimeSpan.FromMilliseconds(1))
                     .Subscribe(set => OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0)));
-
                 OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
                 foreach (var set in sets) { LinkSynset(set); }
                 OnReport(new ResourceLoadEventArgs("Loaded", 0));
