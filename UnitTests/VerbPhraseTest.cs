@@ -150,10 +150,13 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void IsClassifierTest() {
-            VerbPhrase target = new VerbPhrase(new Word[] {
+            VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
-                new PastTenseVerb("was")});
+                new PastTenseVerb("was")
+            );
             bool actual;
+            // TODO: Rework this test. figure out why it passes when the second word is "is", but fails when it is "was"
+            // Fix underlying issue.
             actual = target.IsClassifier;
             Assert.IsTrue(actual);
         }

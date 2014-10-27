@@ -7,6 +7,7 @@ using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Utilities
 {
+    using Validator = ArgumentValidator;
     /// <summary>
     /// Provides static methods for the creation of CustomComparer&lt;T&gt; instances.
     /// </summary>
@@ -74,7 +75,7 @@ namespace LASI.Utilities
         /// While this provides clean, customizable semantics for set operations, more expensive to use having a complexity of N^2
         /// </remarks>
         public CustomComparer(Func<T, T, bool> equals) {
-            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
+            Validator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             this.equals = equals;
             if (typeof(T).IsValueType) {
                 getHashCode = o => o.GetHashCode();
@@ -92,8 +93,8 @@ namespace LASI.Utilities
         /// Elements may yield identical hash codes, without being considered equal.
         /// </remarks>
         public CustomComparer(Func<T, T, bool> equals, Func<T, int> getHashCode) {
-            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
-            ArgumentValidator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
+            Validator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
+            Validator.ThrowIfNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
             this.equals = equals;
             this.getHashCode = getHashCode;
         }

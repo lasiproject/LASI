@@ -17,6 +17,10 @@ namespace LASI.Core
     /// <seealso cref="System.Linq.Enumerable"/>
     public static partial class LexicalEnumerable
     {
+        public static IAggregateEntity ToAggregate(this IEnumerable<IEntity> entities) {
+            return new AggregateEntity(entities);
+        }
+
         #region Sequential Implementations
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.

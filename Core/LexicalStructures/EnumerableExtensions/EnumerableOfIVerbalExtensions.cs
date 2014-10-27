@@ -14,6 +14,10 @@ namespace LASI.Core
     /// <see cref="IVerbal"/>
     public static partial class LexicalEnumerable
     {
+        public static IAggregateVerbal ToAggregate(this IEnumerable<IVerbal> verbals) {
+            return new AggregateVerbal(verbals);
+        }
+
         #region Sequential Implementations
 
         /// <summary>
@@ -269,6 +273,5 @@ namespace LASI.Core
         }
 
         #endregion
-
     }
 }

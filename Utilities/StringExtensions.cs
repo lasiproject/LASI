@@ -7,6 +7,7 @@ using LASI.Utilities.Contracts.Validators;
 
 namespace LASI
 {
+    using Validator = ArgumentValidator;
     /// <summary>
     /// Defines various useful methods for working with System.String instances.
     /// </summary>
@@ -32,7 +33,7 @@ namespace LASI
         /// </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params char[] seperator) {
-            ArgumentValidator.ThrowIfNull(value, "value");
+            Validator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -47,7 +48,7 @@ namespace LASI
         /// </returns>
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params string[] seperator) {
-            ArgumentValidator.ThrowIfNull(value, "value");
+            Validator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -61,7 +62,7 @@ namespace LASI
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
         public static string RemoveElements(this string value, params string[] remove) {
-            ArgumentValidator.ThrowIfNull(value, "value");
+            Validator.ThrowIfNull(value, "value");
             if (remove.Contains(string.Empty))
                 throw new ArgumentException("The string[] remove contained an empty string", "remove");
             foreach (var r in remove) {
@@ -79,7 +80,7 @@ namespace LASI
         /// in the current instance are replaced with another specified Unicode character.</returns>  
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string RemoveElements(this string value, params char[] remove) {
-            ArgumentValidator.ThrowIfNull(value, "value");
+            Validator.ThrowIfNull(value, "value");
             return RemoveElements(value, (from c in remove select c.ToString()).ToArray());
         }
 

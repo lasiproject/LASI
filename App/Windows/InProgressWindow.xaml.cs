@@ -8,6 +8,7 @@ using System.Windows;
 using System.Reactive.Linq;
 using LASI.Interop.ContractHelperTypes;
 using LASI.Interop.ResourceMonitoring;
+using LASI.Core.Interop;
 
 namespace LASI.App
 {
@@ -46,30 +47,14 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
-            EventHandler<ResourceLoadEventArgs> resourceLoadingProgressUpdated = async (s, e) => {
-                progressLabel.Content = e.Message;
-                progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.PercentWorkRepresented;
-                for (int i = 0; i < 33; ++i) {
-                    progressBar.Value += animateStep;
-                    await Task.Delay(1);
-                }
-            };
+
             var resourceLoadingNotifier = new ResourceNotifier();
 
-            resourceLoadingNotifier.ResourceLoading += resourceLoadingProgressUpdated;
+            resourceLoadingNotifier.ResourceLoading += ProgressUpdated;
+            resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
 
-            resourceLoadingNotifier.ResourceLoaded += resourceLoadingProgressUpdated;
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-            analysisProvider.ProgressChanged += async (sender, e) => {
-                progressLabel.Content = e.Message;
-                progressBar.ToolTip = e.Message;
-                var animateStep = 0.028 * e.PercentWorkRepresented;
-                for (int i = 0; i < 33; ++i) {
-                    progressBar.Value += animateStep;
-                    await Task.Delay(1);
-                }
-            };
+            analysisProvider.ProgressChanged += ProgressUpdated;
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
             progressBar.Value = 100;
@@ -93,6 +78,16 @@ namespace LASI.App
         #endregion
 
         #region Named Event Handlers
+
+        public async void ProgressUpdated(object sender, ReportEventArgs e) {
+            progressLabel.Content = e.Message;
+            progressBar.ToolTip = e.Message;
+            var animateStep = 0.028 * e.PercentWorkRepresented;
+            for (int i = 0; i < 33; ++i) {
+                progressBar.Value += animateStep;
+                await Task.Delay(1);
+            }
+        }
 
         private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;

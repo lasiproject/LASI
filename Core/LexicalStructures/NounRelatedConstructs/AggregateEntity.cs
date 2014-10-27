@@ -83,7 +83,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString() {
-            return members.Count() > 1 ? "[ " + members.Count() + " ] " : string.Empty +
+            return "[ " + members.Count() + " ] " +
                 string.Join(" ",
                     from member in members.AsRecursiveEnumerable()
                     where !(member is IAggregateEntity)
@@ -137,13 +137,11 @@ namespace LASI.Core
                     select member.Text + prepositionText);
             }
         }
-        /// <summary>
-        /// Gets the Type of the aggregate entity.
-        /// </summary>
-        public Type Type { get { return GetType(); } }
+
         /// <summary>
         /// Gets or sets the numeric Weight of the aggregate entity within the context of its document.
         /// </summary>
+        // TODO: Revise this to compute some smart average.
         public double Weight { get; set; }
         /// <summary>
         /// Gets or sets the numeric weight of the aggregate entity over the context of all extant documents.
@@ -165,7 +163,7 @@ namespace LASI.Core
         /// <summary>
         /// The sequence of entities which compose to form the aggregate entity.
         /// </summary>
-        private IReadOnlyList<IEntity> members;
+        private readonly IReadOnlyList<IEntity> members;
         ISet<IPossessable> possessions = new HashSet<IPossessable>();
         ISet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         ISet<IReferencer> boundPronouns = new HashSet<IReferencer>();

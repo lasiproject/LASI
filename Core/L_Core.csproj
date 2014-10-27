@@ -104,6 +104,7 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
+    <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
@@ -112,6 +113,8 @@
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
+    <Compile Include="LASI\Core\Analysis\Melding\Lifted.cs" />
+    <Compile Include="LASI\Core\Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
@@ -151,6 +154,9 @@
     <Compile Include="Analysis\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
     <Compile Include="Analysis\RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\SampleRelationshipLookup.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\AggregateVerbal.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbalExtensions.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\IAggregateVerbal.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\InfinitivePhrase.cs" />
     <Compile Include="Analysis\BinderImplementations\IntraPhraseWordBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\InvalidStateTransitionException.cs" />
@@ -270,6 +276,7 @@
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <None Include="ClassDiagram5.cd" />
+    <None Include="ClassDiagram7.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

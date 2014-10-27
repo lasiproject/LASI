@@ -29,11 +29,11 @@ namespace LASI.Core
 
         /// <summary>
         /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb
-        /// <param name="adv">The IAdverbial construct by which to modify the AdjectivePhrase.</param>
+        /// <param name="adverbial">The IAdverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
-        public virtual void ModifyWith(IAdverbial adv) {
-            modifiers.Add(adv);
-            adv.Modifies = this;
+        public virtual void ModifyWith(IAdverbial adverbial) {
+            modifiers.Add(adverbial);
+            adverbial.Modifies = this;
         }
 
 
@@ -41,7 +41,7 @@ namespace LASI.Core
         /// Binds the Verb to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"
         /// </summary>
-        /// <param name="prepositional"></param>
+        /// <param name="prepositional">The prepositional which links the verb and its prepositional object.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
@@ -102,82 +102,6 @@ namespace LASI.Core
             return !IsPossessive && Modality == null && AdverbialModifiers.None() && syns.Contains("is", caseInsensitive);
         }
 
-
-        /// <summary>
-        /// Return a value indicating if the Verb has any subjects bound to it.
-        /// </summary>
-        /// <returns>True if the Verb has any Subjects bound to it; otherwise, false.</returns>
-        public bool HasSubject() {
-            return subjects.Any();
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any subjects bound to it which match the given predicate function.
-        /// </summary>
-        /// <returns>True if the Verb has any subjects bound to it which match the given predicate function; otherwise, false.</returns>
-        public bool HasSubject(Func<IEntity, bool> predicate) {
-            return HasBoundEntitiyImpl(Subjects, predicate);
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any direct objects bound to it.
-        /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it; otherwise, false.</returns>
-        public bool HasDirectObject() {
-            return DirectObjects.Any();
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any direct objects bound to it which match the given predicate function.
-        /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it which match the given predicate function; otherwise, false.</returns>
-        public bool HasDirectObject(Func<IEntity, bool> predicate) {
-            return HasBoundEntitiyImpl(DirectObjects, predicate);
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any indirect objects bound to it.
-        /// </summary>
-        /// <returns>True if the Verb has any direct objects bound to it; otherwise, false.</returns>
-        public bool HasIndirectObject() {
-            return IndirectObjects.Any();
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any indirect objects bound to it which match the given predicate function.
-        /// </summary>
-        /// <returns>True if the Verb has any indirect objects bound to it which match the given predicate function; otherwise, false.</returns>
-        public bool HasIndirectObject(Func<IEntity, bool> predicate) {
-            return HasBoundEntitiyImpl(IndirectObjects, predicate);
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any direct OR indirect objects bound to it.
-        /// </summary>
-        /// <returns>True if the Verb has any direct OR indirect objects bound to it; otherwise, false.</returns>
-        public bool HasObject() {
-            return HasDirectObject() || HasIndirectObject();
-        }
-        /// <summary>
-        /// Return a value indicating if the Verb has any direct OR indirect objects bound to it which match the given predicate function.
-        /// </summary>
-        /// <returns>True if the Verb has any direct OR indirect objects bound to it which match the given predicate function; otherwise, false.</returns>
-        public bool HasObject(Func<IEntity, bool> predicate) {
-            return HasDirectObject(predicate) || HasIndirectObject(predicate);
-        }
-
-        /// <summary>
-        /// Gets a value indicating if the Verb has at least one subject, direct object, or indirect object.
-        /// </summary>
-        /// <returns>True if the Verb has at least one subject, direct object, or indirect object; otherwise, false.</returns>
-        public bool HasSubjectOrObject() {
-            return HasObject() || HasSubject();
-        }
-        /// <summary>
-        /// Gets a value indicating if the Verb has at least one subject, direct object, or indirect object matching the provided predicate.
-        /// </summary>
-        /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
-        /// <returns>True if the Verb has at least one subject, direct object, or indirect object  matching the provided predicate; otherwise, false.</returns>
-        public bool HasSubjectOrObject(Func<IEntity, bool> predicate) {
-            return HasObject(predicate) || HasSubject(predicate);
-        }
-        private static bool HasBoundEntitiyImpl(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) {
-            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(r => r.RefersTo != null && predicate(r.RefersTo));
-        }
         #endregion
 
         #region Properties
@@ -233,7 +157,7 @@ namespace LASI.Core
         public bool IsClassifier {
             get {
                 classifier = classifier ?? DetermineIsClassifier();
-                return classifier.Value;
+                return classifier ?? false;
             }
         }
         /// <summary>
@@ -242,7 +166,7 @@ namespace LASI.Core
         public bool IsPossessive {
             get {
                 possessive = possessive ?? DetermineIsPossessive();
-                return possessive.Value;
+                return possessive ?? false;
             }
         }
         #endregion
@@ -253,8 +177,8 @@ namespace LASI.Core
         private ISet<IEntity> subjects = new HashSet<IEntity>();
         private ISet<IEntity> directObjects = new HashSet<IEntity>();
         private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
-        bool? possessive = null;
-        bool? classifier = null;
+        bool? possessive;
+        bool? classifier;
 
         #endregion
     }

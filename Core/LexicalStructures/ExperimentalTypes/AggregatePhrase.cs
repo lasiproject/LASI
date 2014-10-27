@@ -22,19 +22,19 @@ namespace LASI.Core.Binding.Experimental
 
         public EntityKind EntityKind {
             get {
-                var kinds = from EntityKind knd in Enum.GetValues(EntityKind.GetType())
-                            where PrimaryConstituents.All(c => {
-                                return c.EntityKind == knd ||
-                                    c.EntityKind == EntityKind.Person && knd == EntityKind.PersonMultiple ||
-                                    c.EntityKind == EntityKind.ThingUnknown && knd == EntityKind.ThingMultiple ||
-                                    c.EntityKind == EntityKind.PersonMultiple && knd == EntityKind.Person ||
-                                    c.EntityKind == EntityKind.ThingMultiple && knd == EntityKind.ThingUnknown;
-                            })
-                            select knd;
-                var kind = kinds.FirstOrDefault();
-                return kind == EntityKind.Person || kind == EntityKind.PersonMultiple ? EntityKind.PersonMultiple :
-                    kind == EntityKind.ThingUnknown || kind == EntityKind.ThingMultiple ?
-                    EntityKind.ThingMultiple : kind;
+                var kinds = from EntityKind kind in Enum.GetValues(EntityKind.GetType())
+                            where PrimaryConstituents.All(np => np.EntityKind == kind ||
+                                    np.EntityKind == EntityKind.Person && kind == EntityKind.PersonMultiple ||
+                                    np.EntityKind == EntityKind.ThingUnknown && kind == EntityKind.ThingMultiple ||
+                                    np.EntityKind == EntityKind.PersonMultiple && kind == EntityKind.Person ||
+                                    np.EntityKind == EntityKind.ThingMultiple && kind == EntityKind.ThingUnknown)
+                            select kind;
+                var matchedKind = kinds.FirstOrDefault();
+                return matchedKind == EntityKind.Person || matchedKind == EntityKind.PersonMultiple ?
+                    EntityKind.PersonMultiple :
+                    matchedKind == EntityKind.ThingUnknown || matchedKind == EntityKind.ThingMultiple ?
+                    EntityKind.ThingMultiple :
+                    matchedKind;
             }
         }
         /// <summary>

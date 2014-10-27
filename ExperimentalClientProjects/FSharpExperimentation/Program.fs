@@ -6,8 +6,8 @@ open LASI.ContentSystem
 open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop
-open System.Linq
 open LASI.Interop.ResourceMonitoring
+open System.Linq
 
 let wrapFile (s : string) = 
     match s.Split('.').Last() with
@@ -30,9 +30,8 @@ let main argv =
     resourceLoadNotifier.ResourceLoading.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    let orchestrator = 
-        AnalysisOrchestrator [ wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"
-                               wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt" ]
+    let orchestrator = AnalysisOrchestrator [ //         wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"
+                                              wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt" ]
     // Register callbacks to print operation progress to the terminal
     orchestrator.ProgressChanged.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
@@ -86,13 +85,11 @@ let main argv =
             | [] -> () // list has been exhausted
         
         processPhrases (Seq.toList doc.Phrases) //bind and output the document.
-    let rec checkForExit line = 
-        printfn "type quit to exit..."
-        match line with
-        | "quit" -> ()
-        | _ -> checkForExit (stdin.ReadLine())
-    printfn "type quit to exit..."
-    let input = stdin.ReadLine()
-    checkForExit input
-    // the last value computed by the function is the exit code
-    0
+    let rec checkForExit (unit) = 
+        printfn "type exit to quit..."
+        match stdin.ReadLine() with
+        | "exit" -> 0
+        | _ -> checkForExit()
+    //    printfn "type exit to exit..."
+    checkForExit()
+// the last value computed by the function is the exit code
