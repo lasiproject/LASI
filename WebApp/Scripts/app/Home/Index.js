@@ -6,17 +6,17 @@ which will optimize page load time.
 var LASI;
 (function (LASI) {
     (function (Index) {
-        "use strict";
-        var $ = require("~/Scripts\jquery-2.1.1.min.js");
+        'use strict';
+        var $ = require('~/Scripts\jquery-2.1.1.min.js');
 
-        //This function disables submit button
+        // This function disables submit button
         $(function () {
-            $("input:submit").attr("disabled", "true");
-            $("input:file").change(function () {
+            $('input:submit').attr('disabled', 'true');
+            $('input:file').change(function () {
                 if ($(this).val()) {
-                    $("input:submit").removeAttr("disabled");
+                    $('input:submit').removeAttr('disabled');
                 } else {
-                    $("input:submit").attr("disabled", "true");
+                    $('input:submit').attr('disabled', 'true');
                 }
             });
         });

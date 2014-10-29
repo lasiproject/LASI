@@ -168,6 +168,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\ContextMenuControllerTests.cs" />
     <Compile Include="JobStatusTests.cs" />
     <Compile Include="StatusControllerTests.cs" />
     <Compile Include="ContextMenuDataProviderTests.cs" />
@@ -207,14 +208,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\qunit.css" />
-    <Content Include="MvcDiagnostics.aspx" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
-    <Content Include="Scripts\tests.js" />
+    <Content Include="Tests.js" />
     <Content Include="Tests.html" />
   </ItemGroup>
   <ItemGroup>

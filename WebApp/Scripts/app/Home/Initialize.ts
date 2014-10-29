@@ -32,7 +32,6 @@ interface Array<T> {
      */
     sum(valueSelector?: (element: T) => number): number;
 
-
     /**
      * Computes the average of all elements of the Array. 
      * If the array is empty, the result will be Nan.
@@ -47,23 +46,23 @@ interface Map<K, V> {
     toArray();
 }
 interface String {
-    fmtAsPct(num: number);
+    formatAsPercent(num: number);
 }
-
 
 /**
  * Augments Array with the additonal methods, if and only if a member with the same name as the method has not already been defined.
  */
 (function () {
-    "use strict";
+    'use strict';
 
     /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
-      * flatMap takes an array of items, projects each one to an array,using the provided collectionSelector function,
-      * and flattens the resulting array of arrays onto a single flat array. 
-      * A second, optional function performs a projection on each element of the resulting flat array.
-      * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
-      */
-    if (!Array.prototype.hasOwnProperty("flatMap")) {
+     * flatMap takes an array of items, projects each one to an array,using the provided
+     * collectionSelector function,
+     * and flattens the resulting array of arrays onto a single flat array. 
+     * A second, optional function performs a projection on each element of the resulting flat array.
+     * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
+     */
+    if (!Array.prototype.hasOwnProperty('flatMap')) {
         Array.prototype.flatMap = function <T, TIntermediate, TResult>(collectionSelector: (element: T) => Array<TIntermediate>,
             resultSelector: (element: TIntermediate) => TResult) {
             var i, results = [];
@@ -83,7 +82,7 @@ interface String {
      * An optional function performs a projection on each element of the resulting flat array.
      * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
      */
-    if (!Array.prototype.hasOwnProperty("correlate")) {
+    if (!Array.prototype.hasOwnProperty('correlate')) {
         Array.prototype.correlate = function <T, TInner, TOuterKey, TInnerKey, TResult>(
             inner: TInner[],
             outerKeySelector: (o: T) => TOuterKey,
@@ -107,7 +106,7 @@ interface String {
 
         };
     }
-    if (!Array.prototype.hasOwnProperty("sum")) {
+    if (!Array.prototype.hasOwnProperty('sum')) {
         Array.prototype.sum = function <T>(valueSelector?: (element: T) => number): number {
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
@@ -116,14 +115,14 @@ interface String {
                 this.reduce((total, element, index) => total + projection(element), 0);
         };
     }
-    if (!Array.prototype.hasOwnProperty("average")) {
+    if (!Array.prototype.hasOwnProperty('average')) {
         Array.prototype.average = function <T>(valueSelector?: (element: T) => number): number {
             return this.sum(valueSelector || (x => Number(x))) / this.length;
         };
     }
-    if (!String.prototype.hasOwnProperty("fmtAsPct")) {
-        String.prototype.fmtAsPct = function (num: number) {
-            return num.toString() + "%";
+    if (!String.prototype.hasOwnProperty('formatAsPercent')) {
+        String.prototype.formatAsPercent = function (num: number) {
+            return num.toString() + '%';
         };
     }
 })();

@@ -3,15 +3,16 @@
 * Augments Array with the additonal methods, if and only if a member with the same name as the method has not already been defined.
 */
 (function () {
-    "use strict";
+    'use strict';
 
     /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
-    * flatMap takes an array of items, projects each one to an array,using the provided collectionSelector function,
+    * flatMap takes an array of items, projects each one to an array,using the provided
+    * collectionSelector function,
     * and flattens the resulting array of arrays onto a single flat array.
     * A second, optional function performs a projection on each element of the resulting flat array.
     * This function is analagous to SelectMany in Linq, and flatMap in Scala.
     */
-    if (!Array.prototype.hasOwnProperty("flatMap")) {
+    if (!Array.prototype.hasOwnProperty('flatMap')) {
         Array.prototype.flatMap = function (collectionSelector, resultSelector) {
             var i, results = [];
             for (i = 0; i < this.length; i += 1) {
@@ -31,7 +32,7 @@
     * An optional function performs a projection on each element of the resulting flat array.
     * This function is analagous to SelectMany in Linq, and flatMap in Scala.
     */
-    if (!Array.prototype.hasOwnProperty("correlate")) {
+    if (!Array.prototype.hasOwnProperty('correlate')) {
         Array.prototype.correlate = function (inner, outerKeySelector, innerKeySelector, resultSelector) {
             var outerKeyed, innerKeyed, i, j, results = [];
             outerKeyed = this.map(function (e) {
@@ -56,7 +57,7 @@
             }) : results;
         };
     }
-    if (!Array.prototype.hasOwnProperty("sum")) {
+    if (!Array.prototype.hasOwnProperty('sum')) {
         Array.prototype.sum = function (valueSelector) {
             // If the a valueSelector was not provided, define a function which will attempt
             // to convert its argument to a number.
@@ -68,16 +69,16 @@
             }, 0);
         };
     }
-    if (!Array.prototype.hasOwnProperty("average")) {
+    if (!Array.prototype.hasOwnProperty('average')) {
         Array.prototype.average = function (valueSelector) {
             return this.sum(valueSelector || (function (x) {
                 return Number(x);
             })) / this.length;
         };
     }
-    if (!String.prototype.hasOwnProperty("fmtAsPct")) {
-        String.prototype.fmtAsPct = function (num) {
-            return num.toString() + "%";
+    if (!String.prototype.hasOwnProperty('formatAsPercent')) {
+        String.prototype.formatAsPercent = function (num) {
+            return num.toString() + '%';
         };
     }
 })();

@@ -128,9 +128,7 @@ namespace LASI.WebApp.Controllers
             }
             percentComplete %= 100;
 
-            if (percentComplete >= 100) {
-                percentComplete = 0;
-            }
+            if (percentComplete > 99) { percentComplete = 0; }
             bool extant = trackedJobs.ContainsKey(jobId);
             int id;
             var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);

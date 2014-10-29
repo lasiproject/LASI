@@ -1,14 +1,11 @@
 ﻿using LASI.Core;
-using LASI.Core.Binding;
 using LASI.Core.DocumentStructures;
-using LASI.Core.Heuristics;
 using LASI.ContentSystem;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LASI.Core.Interop;
 using System.Reactive.Linq;
 
 namespace LASI.Interop

@@ -12,30 +12,21 @@ namespace LASI.Core.Analysis
 {
     public static class MeldingExtensions
     {
-        public static IEnumerable<TResultantLexical> LiftReduce<TLexical, TResultantLexical>(this IEnumerable<TLexical> source)
-            where TLexical : ILexical where TResultantLexical : Lifted<TLexical> {
-            var lift = new Func<TLexical, TLexical, TResultantLexical>((x, y) => default(TResultantLexical));
-            return source
-                .PairWise()
-                .Aggregate(
-                    seed: Enumerable.Empty<TResultantLexical>(),
-                    func: (x, y) => x.Append(lift(y.Item1, y.Item2))
-                );
-        }
         public static IEnumerable<IEntity> Meld(this IEnumerable<IEntity> entities) {
-            var comparer = CustomComparer.Create<IEntity>((x, y) => x.IsSimilarTo(y));
-            var entityGroups = entities.GroupJoin(
-                    inner: entities,
-                    outerKeySelector: outer => outer,
-                    innerKeySelector: inner => inner,
-                    comparer: comparer,
-                    resultSelector: (outer, correlates) => correlates
+            var entityComparer = CustomComparer.Create<IEntity>((x, y) => x.IsSimilarTo(y));
+            var groupsToMeld = entities.GroupJoin(
+                inner: entities,
+                outerKeySelector: outer => outer,
+                innerKeySelector: inner => inner,
+                comparer: entityComparer,
+                resultSelector: (outer, correlates) => correlates
             );
-            var result = from entityGroup in entityGroups
-                         from entity in entityGroup
-                         group entity by entity.Text into byText
-                         orderby byText.Count() descending
-                         select new LiftedEntity(byText.First(), byText);
+            var result = from toMeld in groupsToMeld
+                         let avatar = toMeld
+                                .GroupBy(entity => entity.Text)
+                                .MaxBy(g => g.Count())
+                                .First()
+                         select new LiftedEntity(representative: avatar, represented: toMeld);
             return result;
         }
     }
