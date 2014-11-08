@@ -71,7 +71,13 @@ namespace LASI.App
                     VerticalContentAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     HorizontalContentAlignment = HorizontalAlignment.Left,
-                    Document = new System.Windows.Documents.FlowDocument(new System.Windows.Documents.Paragraph(new System.Windows.Documents.Run(processedText))),
+                    Document = new System.Windows.Documents.FlowDocument(
+                        new System.Windows.Documents.Paragraph(
+                            new System.Windows.Documents.Run(
+                                processedText
+                            )
+                        )
+                    ),
 
                 },
 

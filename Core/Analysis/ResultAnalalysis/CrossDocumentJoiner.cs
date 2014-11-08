@@ -20,13 +20,13 @@ namespace LASI.Core
         /// <summary>
         /// Asynchronously builds and computes the intersection of the given Documents contained and returns the results as a sequence of Relationship instances.
         /// </summary>
-        /// <param name="documents">The Documents to Join.</param>
+        /// <param name="sources">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsnyc(IEnumerable<Document> documents) {
+        public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsnyc(IEnumerable<IReifiedTextual> sources) {
             return await await Task.Factory.ContinueWhenAll(
                 new[] {
-                    Task.Run(()=> GetCommonalitiesByVerbals(documents)),
-                    Task.Run(()=> GetCommonalitiesByEntities(documents))
+                    Task.Run(()=> GetCommonalitiesByVerbals(sources)),
+                    Task.Run(()=> GetCommonalitiesByEntities(sources))
                 },
                 async tasks => {
                     var results = new List<SvoRelationship>();
@@ -38,14 +38,14 @@ namespace LASI.Core
         /// <summary>
         /// Builds and computes the intersection of the given Documents contained and returns the results as a sequence of Relationship instances.
         /// </summary>
-        /// <param name="documents">The Documents to Join.</param>
+        /// <param name="sources">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
-        public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<Document> documents) {
-            return GetCommonResultsAsnyc(documents).Result;
+        public IEnumerable<SvoRelationship> GetCommonResults(IEnumerable<IReifiedTextual> sources) {
+            return GetCommonResultsAsnyc(sources).Result;
         }
-        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<Document> documents) {
+        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<IReifiedTextual> sources) {
             await Task.Yield();
-            var topNPsByDoc = from document in documents
+            var topNPsByDoc = from document in sources
                                .AsParallel()
                                .WithDegreeOfParallelism(Concurrency.Max)
                               select new { TopNounPhrases = GetTopNounPhrases(document), Document = document };
@@ -63,16 +63,16 @@ namespace LASI.Core
                    orderby nounPhrase.SubjectOf.Text
                    select new SvoRelationship(new AggregateEntity(nounPhrase), nounPhrase.SubjectOf, new AggregateEntity(nounPhrase.SubjectOf.DirectObjects), new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects));
         }
-        private IEnumerable<NounPhrase> GetTopNounPhrases(Document document) {
-            return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+        private IEnumerable<NounPhrase> GetTopNounPhrases(IReifiedTextual source) {
+            return source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                        .OfNounPhrase()
                        .InSubjectRole()
                        .InObjectRole()
                        .Distinct(CompareNounPhrases)
                        .OrderBy(nounPhrase => nounPhrase.Weight);
         }
-        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByVerbals(IEnumerable<Document> documents) {
-            var topVerbalsByDoc = await Task.WhenAll(documents.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Select(GetTopVerbPhrasesAsync));
+        private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByVerbals(IEnumerable<IReifiedTextual> sources) {
+            var topVerbalsByDoc = await Task.WhenAll(sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Select(GetTopVerbPhrasesAsync));
             var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from verbal in verbals
                                      where (from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -90,9 +90,9 @@ namespace LASI.Core
                                 select relationship;
             return relationships.DistinctBy(r => r.Verbal.Text.ToLower());
         }
-        private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(Document document) {
+        private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(IReifiedTextual source) {
             return await Task.Run(() =>
-                from verbPhrase in document.Phrases
+                from verbPhrase in source.Phrases
                     .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .OfVerbPhrase()
                     .WithSubject().WithObject().Distinct((x, y) => x.IsSimilarTo(y))

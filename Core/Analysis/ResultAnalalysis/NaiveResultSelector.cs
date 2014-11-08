@@ -14,8 +14,8 @@ namespace LASI.Core
     /// </summary>
     public static class NaiveResultSelector
     {
-        private static IEnumerable<dynamic> GetTopResultsByVerbal(Document doc) {
-            var data = GetVerbWiseRelationships(doc);
+        private static IEnumerable<dynamic> GetTopResultsByVerbal(IReifiedTextual source) {
+            var data = GetVerbWiseRelationships(source);
             return from svs in data
                    let dataPoint = new
                    {
@@ -29,8 +29,8 @@ namespace LASI.Core
                    select pointGroup.Key;
 
         }
-        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(Document doc) {
-            var data = from verbal in doc.Phrases.OfVerbPhrase().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source) {
+            var data = from verbal in source.Phrases.OfVerbPhrase().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).RefersTo != null).Distinct((x, y) => x.IsSimilarTo(y))
                        from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                        let subject = entity.Match().Yield<IEntity>()
@@ -55,8 +55,8 @@ namespace LASI.Core
         /// <param name="document">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
         /// other metrics.</returns>
-        public static IEnumerable<dynamic> GetTopResultsByEntity(Document document) {
-            return from entity in document.Phrases.OfEntity()
+        public static IEnumerable<dynamic> GetTopResultsByEntity(IReifiedTextual source) {
+            return from entity in source.Phrases.OfEntity()
                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()

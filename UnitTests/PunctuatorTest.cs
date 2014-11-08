@@ -14,8 +14,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class PunctuatorTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>

@@ -1,15 +1,14 @@
-﻿using LASI.Core;
-using LASI.Core.Heuristics;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
-using LASI.Utilities;
-using LASI.Interop;
+using LASI.Core;
+using LASI.Core.Heuristics;
 using LASI.Core.PatternMatching;
+using LASI.Interop;
+using LASI.Utilities;
 
 namespace LASI.App
 {

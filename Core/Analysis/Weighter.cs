@@ -63,11 +63,11 @@ namespace LASI.Core
         public static async Task WeightAsync(Document document) {
             await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
-        private static void NormalizeWeights(Document document) {
-            if (document.Phrases.Any()) {
-                var maxWeight = document.Phrases.Max(p => p.Weight);
+        private static void NormalizeWeights(IReifiedTextual source) {
+            if (source.Phrases.Any()) {
+                var maxWeight = source.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
-                    foreach (var p in document.Phrases) {
+                    foreach (var p in source.Phrases) {
                         var proportion = p.Weight / maxWeight;
                         proportion *= 100;
                         p.Weight = proportion;
@@ -78,9 +78,9 @@ namespace LASI.Core
         /// <summary>
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
-        /// <param name="document">the Document whose noun weights may be modified</param>
-        private static void WeightSimilarNouns(Document document) {
-            var toConsider = from e in document.Words
+        /// <param name="source">the Document whose noun weights may be modified</param>
+        private static void WeightSimilarNouns(IReifiedTextual source) {
+            var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
                              select e.Match().Yield<IEntity>()
@@ -96,29 +96,36 @@ namespace LASI.Core
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="document">Document containing the componentPhrases to weight</param>
-        private static void WeightSimilarNounPhrases(Document document) {
+        private static void WeightSimilarNounPhrases(IReifiedTextual source) {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
-            var toConsider = document.Phrases
+            var toConsider = source.Phrases
                 .OfNounPhrase()
                 .InSubjectOrObjectRole();
             GroupAndWeight(toConsider, Lookup.IsSimilarTo, 0.5);
         }
-        private static void WeightSimilarVerbs(Document document) {
-            var toConsider = document.Words.OfVerb().WithSubjectOrObject();
+        private static void WeightSimilarVerbs(IReifiedTextual source) {
+            var toConsider = source.Words.OfVerb().WithSubjectOrObject();
             GroupAndWeight(toConsider, Lookup.IsSimilarTo, 1);
         }
 
 
-        private static void WeightSimilarVerbPhrases(Document document) {
+        private static void WeightSimilarVerbPhrases(IReifiedTextual source) {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
-            var toConsider = document.Phrases.OfVerbPhrase().WithSubjectOrObject();
+            var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
             GroupAndWeight(toConsider, Lookup.IsSimilarTo, 0.5);
         }
 
-        private static void WeightSimilarEntities(Document document) {
-            GroupAndWeight(document.Entities, Lookup.IsSimilarTo, 0.5);
+        private static void WeightSimilarEntities(IReifiedTextual source) {
+            GroupAndWeight(source.Entities, Lookup.IsSimilarTo, 0.5);
+        }
+
+        private static void HackSubjectPropernounImportance(IReifiedTextual source) {
+            source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                .OfNounPhrase()
+                .Where(nounPhrase => nounPhrase.Words.OfProperNoun().Any())
+                .ForAll(nounPhrase => nounPhrase.Weight *= 2);
         }
 
         private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
@@ -136,12 +143,6 @@ namespace LASI.Core
             elmentLists.ForAll(elements => elements.ForEach(verb => verb.Weight += increaseScaler * elements.Count));
         }
 
-        private static void HackSubjectPropernounImportance(Document document) {
-            document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNounPhrase()
-                .Where(nounPhrase => nounPhrase.Words.OfProperNoun().Any())
-                .ForAll(nounPhrase => nounPhrase.Weight *= 2);
-        }
 
         #region Events
         /// <summary>
