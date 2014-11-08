@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
-using LASI.Core;
-using LASI.WebApp;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public class PhraseModel : LexicalModel<Phrase>
+    public class PhraseModel : LexicalModel<Core.Phrase>
     {
-        public PhraseModel(Phrase phrase) : base(phrase) {
+        public PhraseModel(Core.Phrase phrase) : base(phrase) {
             ContextMenuJson = phrase.GetJsonMenuData();
-            Phrase.VerboseOutput = true;
+            //Core.Phrase.VerboseOutput = true;
             DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
             WordViewModels = phrase.Words.Select(word => new WordModel(word));
             foreach (var wvm in WordViewModels) { wvm.PhraseModel = this; }

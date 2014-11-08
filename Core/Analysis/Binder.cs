@@ -1,6 +1,5 @@
 ﻿using LASI.Core.Binding;
 using LASI.Core.Binding.Experimental;
-using LASI.Core.DocumentStructures;
 using LASI.Core.Interop;
 using LASI.Core.PatternMatching;
 using LASI.Utilities;

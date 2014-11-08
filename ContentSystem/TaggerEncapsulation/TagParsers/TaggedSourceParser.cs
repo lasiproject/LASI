@@ -1,6 +1,6 @@
 ﻿using LASI;
 using LASI.Core;
-using LASI.Core.DocumentStructures;
+
 using LASI.ContentSystem.TaggerEncapsulation;
 using LASI.Utilities;
 using System;

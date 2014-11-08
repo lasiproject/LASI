@@ -13,6 +13,7 @@ using MongoDB.Driver;
 
 namespace LASI.WebApp
 {
+    using System.IO;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -21,36 +22,34 @@ namespace LASI.WebApp
     {
         protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
-
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-            PerformCustomInitialation();
+            PerformCustomInitialization();
         }
 
         /// <summary>
         /// Application specific initialization for concurrency management, memory management, data sources, and logging.
         /// </summary>
-        private void PerformCustomInitialation() {
-            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]); Interop.ResourceMonitoring.UsageManager.SetPerformanceLevel(Interop.ResourceMonitoring.UsageManager.Mode.High);
-            MongoServerProcess = Process.Start(new ProcessStartInfo
+        private void PerformCustomInitialization() {
+            ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
+            Interop.ResourceMonitoring.UsageManager.SetPerformanceLevel(Interop.ResourceMonitoring.UsageManager.Mode.High);
+            var mongoServerProcess = Process.Start(new ProcessStartInfo
             {
                 FileName = mongodExecutableLocation,
                 Arguments = string.Join(" ", "--dbpath", Server.MapPath(mongoDbPath))
             });
-            Output.SetToFile();
+            Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "LASI_log"));
+            Disposed += (s, e) => mongoServerProcess.Dispose();
         }
-
         #region Properties
 
-        public static MongoServer MongoServer { get { return server.Value; } }
+        //public MongoServer MongoServer { get { return server.Value; } }
 
         public static MongoCollection<AccountModel> Accounts { get { return accounts.Value; } }
 
-        public Process MongoServerProcess { get; private set; }
 
         #endregion
 
@@ -58,7 +57,8 @@ namespace LASI.WebApp
 
         private static Lazy<MongoServer> server = new Lazy<MongoServer>(
             valueFactory: () => new MongoClient(connectionString).GetServer(),
-            isThreadSafe: true);
+            isThreadSafe: true
+        );
         private static Lazy<AccountCollection> accounts = new Lazy<AccountCollection>(
             valueFactory: () => server.Value.GetDatabase("accounts").GetCollection<AccountModel>("users"),
             isThreadSafe: true

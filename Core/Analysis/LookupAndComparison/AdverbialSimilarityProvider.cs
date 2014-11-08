@@ -22,16 +22,18 @@ namespace LASI.Core.Heuristics
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
             return new SimilarityResult(
-                first.Match().Yield<bool>().When(first.Text.ToUpper() == second.Text.ToUpper())
-                    .Then(true)
+                first.Text.EqualsIgnoreCase(second.Text) ||
+                first.Match().Yield<bool>()
                     .With((Adverb a1) =>
                         second.Match().Yield<bool>()
                             .With((Adverb a2) => a1.IsSynonymFor(a2))
-                            .With((AdverbPhrase ap2) => ap2.IsSimilarTo(a1)).Result())
+                            .With((AdverbPhrase ap2) => ap2.IsSimilarTo(a1))
+                            .Result())
                     .With((AdverbPhrase ap1) =>
                         second.Match().Yield<bool>()
                             .With((AdverbPhrase ap2) => ap1.IsSimilarTo(ap2))
-                            .With((Adverb a2) => ap1.IsSimilarTo(a2)).Result())
+                            .With((Adverb a2) => ap1.IsSimilarTo(a2))
+                            .Result())
                     .Result());
         }
         /// <summary>
@@ -89,12 +91,10 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
-            var synResults = first.Words
-                        .OfAdverb()
-                        .Zip(second.Words.OfAdverb(), (a, b) => a.IsSynonymFor(b))
-                        .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });
-
-            return new SimilarityResult(first == second || synResults.T / (synResults.F + synResults.T) > Lookup.SIMILARITY_THRESHOLD);
+            var synonymResults = first.Words.OfAdverb()
+                .Zip(second.Words.OfAdverb(), (a, b) => a.IsSynonymFor(b))
+                .ToList();
+            return new SimilarityResult(first == second || (double)synonymResults.Count(result => result) / synonymResults.Count > SIMILARITY_THRESHOLD);
         }
     }
 }

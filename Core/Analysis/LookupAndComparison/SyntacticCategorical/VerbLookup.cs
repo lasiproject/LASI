@@ -32,12 +32,18 @@ namespace LASI.Core.Heuristics.WordNet
                 var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
                     .Skip(HEADER_LENGTH)
                     .AsParallel()
-                    .Select(line => CreateSet(line));
-                sets.ToObservable()
-                    .Sample(TimeSpan.FromMilliseconds(1))
-                    .Subscribe(set => OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0)));
+                    .Select(CreateSet);
+
+
                 OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
-                foreach (var set in sets) { LinkSynset(set); }
+                sets.ToObservable().ForEachAsync(set => {
+                    LinkSynset(set);
+                    OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0));
+
+                });
+                //.Subscribe();
+
+                //foreach (var set in sets) { LinkSynset(set); }
                 OnReport(new ResourceLoadEventArgs("Loaded", 0));
             }
         }
@@ -157,5 +163,5 @@ namespace LASI.Core.Heuristics.WordNet
             { ";u", LinkType.DomainOfSynset_USAGE }
         };
     }
-    
+
 }

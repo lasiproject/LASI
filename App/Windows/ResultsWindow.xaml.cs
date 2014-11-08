@@ -4,7 +4,6 @@ using LASI.ContentSystem;
 using LASI.ContentSystem.Serialization.Xml;
 using LASI.Core;
 using LASI.Core.Heuristics;
-using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,8 +63,8 @@ namespace LASI.App
         private async Task CreateWeightViewAsync(Document document) {
             var page1 = document.Paginate(100, 100).FirstOrDefault();
 
-            var nounPhraseLabels = from s in page1 != null ? page1.Sentences : document.Paragraphs.AsParallel().WithDegreeOfParallelism(Concurrency.Max).AllSentences()
-                                   select s.Phrases.OfNounPhrase() into nounPhrases
+            var nounPhraseLabels = from sentence in page1 != null ? page1.Sentences : document.Paragraphs.AllSentences()
+                                   select sentence.Phrases.OfNounPhrase() into nounPhrases
                                    from np in nounPhrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    group np by new { np.Text, Type = np.GetType() } into byTypeAndText
                                    let first = byTypeAndText.First()
@@ -76,7 +75,6 @@ namespace LASI.App
             var grid = new Grid();
             grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
             foreach (var l in nounPhraseLabels) { weightedListPanel.Children.Add(l); }
-
 
             var tab = new TabItem { Header = document.Name, Content = grid };
 
@@ -275,7 +273,7 @@ namespace LASI.App
         }
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            SharedWindowFunctionality.ProcessOpenManualRequest(this);
+            SharedFunctionality.ProcessOpenManualRequest(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
@@ -327,7 +325,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!file.CanOpen()) {
+                } else if (!file.UnableToOpen()) {
                     await AddNewDocument(file);
                 } else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
@@ -335,10 +333,10 @@ namespace LASI.App
             }
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedWindowFunctionality.HandleDropAddAttemptAsync(this, e, AddNewDocument);
+            await SharedFunctionality.HandleDropAddAsync(this, e, AddNewDocument);
         }
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedWindowFunctionality.OpenPreferencesWindow(this);
+            SharedFunctionality.OpenPreferencesWindow(this);
         }
 
         #endregion

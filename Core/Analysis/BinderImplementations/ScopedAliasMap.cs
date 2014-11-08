@@ -1,5 +1,4 @@
-﻿using LASI.Core.DocumentStructures;
-using LASI.Core.Heuristics;
+﻿using LASI.Core.Heuristics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

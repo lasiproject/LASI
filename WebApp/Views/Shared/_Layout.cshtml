@@ -9,6 +9,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/")
 
 
     <meta name="description" content="Welcome to the LASI Project homepage" />
@@ -97,6 +98,7 @@
     @Scripts.Render("~/Scripts/App/Home/Results.js")
     @Scripts.Render("~/Scripts/App/Home/Index.js")
     @Scripts.Render("~/Scripts/App/Home/TextInteraction.js")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/Scripts/context.js")
+    @Scripts.Render("~/Scripts/context'").
 </body>
 </html>

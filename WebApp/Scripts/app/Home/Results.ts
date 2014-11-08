@@ -25,7 +25,6 @@
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.BarChart(targetElement);
             chart.draw(data, options);
-
         };
     };
     var charts = $('.chart-container');

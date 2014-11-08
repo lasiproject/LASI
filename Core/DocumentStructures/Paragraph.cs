@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.DocumentStructures
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a paragraph.
     /// </summary>
-    public sealed class Paragraph
+    public sealed class Paragraph : IReifiedTextual
     {
         /// <summary>
         /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
@@ -24,11 +24,12 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
         /// </summary>
-        /// <param name="parentDoc">The document instance to identified as the Paragraph's parent.</param>
-        public void EstablishParent(Document parentDoc) {
-            Document = parentDoc;
-            foreach (var S in Sentences)
-                S.EstablishParenthood(this);
+        /// <param name="parentDocument">The document instance to identified as the Paragraph's parent.</param>
+        public void EstablishParent(Document parentDocument) {
+            Document = parentDocument;
+            foreach (var sentence in Sentences) {
+                sentence.EstablishParenthood(this);
+            }
         }
         /// <summary>
         /// Gets the sequence of Phrases which come after the given phrase through to the end of the Paragraph.
@@ -85,11 +86,31 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Gets the textual content of the Paragraph.
         /// </summary>
-        public string Text {
+        public string Text { get { return text = text ?? string.Join(" ", Sentences.Select(sentence => sentence.Text)); } }
+
+        public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
+
+
+        /// <summary>
+        /// Returns an enumeration of all constituent Lexical structures of the Paragraph.
+        /// Lexical structures with Lexical that contain others, such as Clauses, will be followed by their constituents.
+        /// </summary>
+        public IEnumerable<ILexical> Lexicals {
             get {
-                return text = text ?? string.Join(" ", Sentences.Select(s => s.Text));
+                foreach (var clause in Clauses) {
+                    yield return clause;
+                    foreach (var phrase in clause.Phrases) {
+                        yield return phrase;
+                        foreach (var word in phrase.Words) {
+                            yield return word;
+                        }
+                    }
+                }
             }
         }
+        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
+
         private string text;
     }
     /// <summary>

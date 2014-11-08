@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.DocumentStructures
+namespace LASI.Core
 {
     /// <summary>
     /// Represents a single sentence.
     /// </summary>
-    public sealed class Sentence
+    public sealed class Sentence : IReifiedTextual
     {
         #region Constructors
 
@@ -129,6 +129,22 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public bool IsInverted { get; set; }
 
+        public IEnumerable<ILexical> Lexicals {
+            get {
+                foreach (var clause in Clauses) {
+                    yield return clause;
+                    foreach (var phrase in clause.Phrases) {
+                        yield return phrase; foreach (var word in phrase.Words) {
+                            yield return word;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+
+        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
 
         #endregion
 
@@ -140,6 +156,8 @@ namespace LASI.Core.DocumentStructures
         /// Gets a value indicating whether the Sentence is the Last Sentence in its Paragraph.
         /// </summary>
         public bool EndsParagraph { get; private set; }
+
+
     }
 
 }

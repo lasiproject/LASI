@@ -1,17 +1,19 @@
-﻿using LASI.Core.DocumentStructures;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LASI.Core;
+
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     abstract class TagParser
     {
-        public abstract LASI.Core.DocumentStructures.Document LoadDocument();
+        public abstract LASI.Core.Document LoadDocument();
         public abstract System.Collections.Generic.IEnumerable<Paragraph> LoadParagraphs();
 
 
-        public abstract Task<LASI.Core.DocumentStructures.Document> LoadDocumentAsync();
+        public abstract Task<LASI.Core.Document> LoadDocumentAsync();
         public LASI.ContentSystem.TaggedFile TaggedDocumentFile {
             get;
             protected set;

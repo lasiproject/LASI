@@ -138,7 +138,7 @@ namespace LASI.App
 
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedWindowFunctionality.HandleDropAddAttemptAsync(this,
+            await SharedFunctionality.HandleDropAddAsync(this,
                 e,
                 async fi => {
                     DocumentManager.AddDocument(fi.Name, fi.FullName);
@@ -160,7 +160,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.FileNamePresent(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!file.CanOpen()) {
+                } else if (!file.UnableToOpen()) {
                     DocumentManager.AddDocument(file.Name, file.FullName);
                     await DisplayAddNewDocumentDialogImplementation(file.FullName);
                 } else {
@@ -183,7 +183,7 @@ namespace LASI.App
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedWindowFunctionality.ProcessOpenWebsiteRequest(this);
+            SharedFunctionality.ProcessOpenWebsiteRequest(this);
         }
 
         private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
@@ -196,11 +196,11 @@ namespace LASI.App
         }
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedWindowFunctionality.OpenPreferencesWindow(this);
+            SharedFunctionality.OpenPreferencesWindow(this);
         }
 
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedWindowFunctionality.ProcessOpenManualRequest(this);
+            SharedFunctionality.ProcessOpenManualRequest(this);
         }
 
         private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e) {

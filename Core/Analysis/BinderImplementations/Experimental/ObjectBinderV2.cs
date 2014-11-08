@@ -1,6 +1,5 @@
 ﻿using LASI.Core;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
-using LASI.Core.DocumentStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;

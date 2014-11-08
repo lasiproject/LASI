@@ -14,18 +14,18 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the SentenceEnding class.
         /// </summary>
-        /// <param name="sentenceEnding">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
+        /// <param name="ending">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
-        public SentenceEnding(char sentenceEnding)
-            : base(sentenceEnding) {
-            if (sentenceEnding != '.' && sentenceEnding != '!' &&
-                sentenceEnding != '?')
-                throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", sentenceEnding));
+        public SentenceEnding(char ending)
+            : base(ending) {
+            if (ending != '.' && ending != '!' && ending != '?') {
+                throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", ending));
+            }
         }
         /// <summary>
         /// Gets a hash code for the SentenceEnding.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hashcode for the SetenceEnding</returns>
         public override int GetHashCode() {
             return LiteralCharacter;
         }

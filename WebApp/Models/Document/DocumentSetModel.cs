@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
-using LASI.Core.DocumentStructures;
-using LASI.WebApp.Models.Lexical;
+using LASI.Core;
 
 namespace LASI.WebApp.Models
 {
-    public class DocumentSetModel
+    public class DocumentSetModel : TextualModel<IEnumerable<Core.Document>>
     {
-        private static readonly Style style = new Style { CssClass = "documentlist" };
-
-        public DocumentSetModel(IEnumerable<Document> documents) {
+        public DocumentSetModel(IEnumerable<Core.Document> documents) : base(documents) {
             DocumentModels = documents.Select(document => new DocumentModel(document));
             foreach (var model in DocumentModels) { model.DocumentSetModel = this; }
         }
         public IEnumerable<DocumentModel> DocumentModels { get; private set; }
 
-        //public int Id { get { return CreateNewUniqueId(); } }
+        public override Style Style { get { return new Style { CssClass = "documentlist" }; } }
 
-        public Style Style { get { return style; } }
+        public override string Text { get { return ModelFor.Format(documentModel => documentModel.Text); } }
+
     }
 }

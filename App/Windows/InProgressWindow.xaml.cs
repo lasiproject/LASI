@@ -54,7 +54,11 @@ namespace LASI.App
             resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-            analysisProvider.ProgressChanged += ProgressUpdated;
+            //analysisProvider.ProgressChanged += ProgressUpdated;
+            Observable
+                .FromEvent<AnalysisUpdateEventArgs>(h => analysisProvider.ProgressChanged += (s, e) => h(e), h => analysisProvider.ProgressChanged += (s, e) => h(e))
+                .Subscribe(e => ProgressUpdated(analysisProvider, e));
+
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
             progressBar.Value = 100;
@@ -79,7 +83,7 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        public async void ProgressUpdated(object sender, ReportEventArgs e) {
+        private async void ProgressUpdated(object sender, ReportEventArgs e) {
             progressLabel.Content = e.Message;
             progressBar.ToolTip = e.Message;
             var animateStep = 0.028 * e.PercentWorkRepresented;
@@ -125,20 +129,15 @@ namespace LASI.App
             [return: MarshalAs(UnmanagedType.Bool)]
             private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
 
-
             private const UInt32 FLASHW_ALL = 3;
+
             [StructLayout(LayoutKind.Sequential)]
             private struct FLASHWINFO
             {
-
                 public System.UInt32 cbSize;
-
                 public System.IntPtr hwnd;
-
                 public System.UInt32 dwFlags;
-
                 public System.UInt32 uCount;
-
                 public System.UInt32 dwTimeout;
 
             }
@@ -149,15 +148,10 @@ namespace LASI.App
                 {
                     FLASHWINFO fInfo = new FLASHWINFO();
                     fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
-
                     fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle;
-
                     fInfo.dwFlags = FLASHW_ALL;
-
                     fInfo.uCount = System.UInt32.MaxValue;
-
                     fInfo.dwTimeout = 0;
-
                     FlashWindowEx(ref fInfo);
                 }
                 windowToFlash.StateChanged += (s, e) => StopFlashing(windowToFlash);
@@ -168,18 +162,11 @@ namespace LASI.App
             /// </summary>
             internal static void StopFlashing(Window windowToFlash) {
                 FLASHWINFO fInfo = new FLASHWINFO();
-
-
                 fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
-
                 fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle;
-
                 fInfo.dwFlags = 0;
-
                 fInfo.uCount = System.UInt32.MaxValue;
-
                 fInfo.dwTimeout = 0;
-
                 FlashWindowEx(ref fInfo);
             }
         }

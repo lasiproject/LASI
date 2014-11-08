@@ -1,6 +1,4 @@
-﻿
-using LASI.Core.DocumentStructures;
-using LASI.Utilities;
+﻿using LASI.Utilities;
 using LASI.Core.PatternMatching;
 using System;
 using System.Collections.Generic;
@@ -9,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Core.Binding
+namespace LASI.Core
 {
     /// <summary>
     /// Attempts to collect semantically grouped entities within a source into aggregate objects.
     /// </summary>
     public class PhraseWiseEntityGroupBinder
     {
-        private List<IAggregateEntity> entityGroups = new List<IAggregateEntity>();
+        private IList<IAggregateEntity> entityGroups = new List<IAggregateEntity>();
 
         /// <summary>
         /// Gets the collection of IEntityGroup constructs which were formed from all of the all binding Binder's activities over the course of its lifetime.
@@ -72,15 +70,9 @@ namespace LASI.Core.Binding
                 TillNextNP = tillNextNounPhrase;
             }
 
-            public IEnumerable<Phrase> TillNextNP {
-                get;
-                private set;
-            }
+            public IEnumerable<Phrase> TillNextNP { get; private set; }
 
-            public NounPhrase Np {
-                get;
-                private set;
-            }
+            public NounPhrase Np { get; private set; }
         }
     }
 }

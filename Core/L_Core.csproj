@@ -112,9 +112,9 @@
     <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
+    <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
-    <Compile Include="LASI\Core\Analysis\Melding\Lifted.cs" />
-    <Compile Include="LASI\Core\Analysis\Melding\LiftedEntity.cs" />
+    <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
@@ -133,7 +133,6 @@
     <Compile Include="InteropBindings\Reporting\ReportEventArgs.cs" />
     <Compile Include="Analysis\LookupAndComparison\AdverbialSimilarityProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\ResourceLoadEventArgs.cs" />
-    <Compile Include="Analysis\LookupAndComparison\RepresentationalDeterminer.cs" />
     <Compile Include="Analysis\LookupAndComparison\VerbalSimilarityProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntitySimilarityProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\DescriptorSimilarityProvider.cs" />
@@ -142,7 +141,6 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
-    <Compile Include="Analysis\PatternMatching\Generalized\Basis\MatchClause.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Matcher.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
@@ -307,7 +305,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="LASI\Core\Analysis\Melding\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

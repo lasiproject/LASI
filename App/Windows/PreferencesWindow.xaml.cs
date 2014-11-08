@@ -29,8 +29,6 @@ namespace LASI.App
         private void cancelButton_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = false;
         }
-
-
         #region fields
         //private PreferencesMenu menu;
         #endregion
@@ -67,13 +65,13 @@ namespace LASI.App
                     break;
                 }
             }
-            catch (ArgumentException) {
+            catch (ArgumentException e) {
+                Output.WriteLine(e.Message);
+                Output.WriteLine(e.StackTrace);
                 Normal.IsChecked = true;
                 PerformanceLevel = UsageManager.Mode.Normal;
             }
         }
-
-
 
         private void anyPerformanceMode_Checked(object sender, RoutedEventArgs e) {
             var checkBox = sender as RadioButton;
@@ -82,8 +80,6 @@ namespace LASI.App
                 PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), checkBox.Name);
             }
         }
-
-
 
         private void outputFormat_Checked(object sender, RoutedEventArgs e) {
             var option = sender as RadioButton;
@@ -105,12 +101,8 @@ namespace LASI.App
         /// </summary>
         public Interop.ResourceMonitoring.UsageManager.Mode PerformanceLevel { get; private set; }
 
-
-
         #region Fields
 
         #endregion
-
-
     }
 }

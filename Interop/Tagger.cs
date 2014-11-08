@@ -1,10 +1,10 @@
-﻿using LASI.Core.DocumentStructures;
-using LASI.ContentSystem;
+﻿using LASI.ContentSystem;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LASI.Interop
 {
+    using LASI.Core;
     using TaggerImpl = LASI.ContentSystem.TaggerEncapsulation.Tagger;
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.

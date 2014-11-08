@@ -1,9 +1,6 @@
-﻿using LASI.Core.Heuristics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core
 {
@@ -75,7 +72,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
-        public static IEnumerable<CommonSingularNoun> Singulars(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonSingularNoun> OfSingular(this IEnumerable<CommonNoun> nouns) {
             return nouns.OfType<CommonSingularNoun>();
         }
         /// <summary>
@@ -83,7 +80,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
-        public static IEnumerable<CommonPluralNoun> Plurals(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonPluralNoun> OfPlural(this IEnumerable<CommonNoun> nouns) {
             return nouns.OfType<CommonPluralNoun>();
         }
         /// <summary>
@@ -91,7 +88,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
-        public static IEnumerable<ProperSingularNoun> Singulars(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperSingularNoun> OfSingular(this IEnumerable<ProperNoun> nouns) {
             return nouns.OfType<ProperSingularNoun>();
         }
         /// <summary>
@@ -99,7 +96,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
-        public static IEnumerable<ProperPluralNoun> Plurals(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperPluralNoun> OfPlural(this IEnumerable<ProperNoun> nouns) {
             return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
@@ -175,9 +172,9 @@ namespace LASI.Core
         #endregion
 
         #region Parallel Implementations
-        
+
         #region Syntactic Type Filtering
-        
+
         /// <summary>
         /// Returns all Adverbs in the collection
         /// </summary>
@@ -223,7 +220,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericSingularNouns in the GenericNoun sequence.</returns>
-        public static ParallelQuery<CommonSingularNoun> Singulars(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonSingularNoun> OfSingular(this ParallelQuery<CommonNoun> nouns) {
             return nouns.OfType<CommonSingularNoun>();
         }
         /// <summary>
@@ -231,7 +228,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of GenericNouns to filter.</param>
         /// <returns>All GenericNouns in the GenericNoun sequence.</returns>
-        public static ParallelQuery<CommonPluralNoun> Plurals(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonPluralNoun> OfPlural(this ParallelQuery<CommonNoun> nouns) {
             return nouns.OfType<CommonPluralNoun>();
         }
         /// <summary>
@@ -239,7 +236,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperSingularNouns in the ProperNoun sequence.</returns>
-        public static ParallelQuery<ProperSingularNoun> Singulars(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperSingularNoun> OfSingular(this ParallelQuery<ProperNoun> nouns) {
             return nouns.OfType<ProperSingularNoun>();
         }
         /// <summary>
@@ -247,7 +244,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="nouns">The sequence of ProperNouns to filter.</param>
         /// <returns>All ProperPluralNouns in the ProperNoun sequence.</returns>
-        public static ParallelQuery<ProperPluralNoun> Plurals(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperPluralNoun> OfPlural(this ParallelQuery<ProperNoun> nouns) {
             return nouns.OfType<ProperPluralNoun>();
         }
         /// <summary>
@@ -317,7 +314,7 @@ namespace LASI.Core
         public static ParallelQuery<Quantifier> OfQuantifier(this ParallelQuery<Word> words) {
             return words.OfType<Quantifier>();
         }
-        
+
         #endregion
 
         #endregion

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI;
-using LASI.Core.DocumentStructures;
+
 using LASI.Utilities.Contracts.Validators;
 
 namespace LASI.Core

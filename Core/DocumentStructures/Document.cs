@@ -1,4 +1,4 @@
-﻿using LASI.Utilities;
+﻿using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LASI.Core.DocumentStructures
+namespace LASI.Core
 {
     /// <summary>
     /// <para> A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.</para>
@@ -14,7 +14,7 @@ namespace LASI.Core.DocumentStructures
     /// <para> e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order 
     /// comparatively: myDoc.Words; yields the same collection. </para>
     /// </summary>
-    public sealed class Document
+    public sealed class Document : IReifiedTextual
     {
         #region Constructors
         /// <summary>
@@ -28,21 +28,21 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> content) {
-            this.paragraphs = content.ToList();
+            paragraphs = content.ToList();
             paragraphsWithBulletsOrHeadings =
-                (from p in this.paragraphs
+                (from p in paragraphs
                  where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent || p.ParagraphKind == ParagraphKind.Heading
                  select p).ToList();
 
             AssignMembers();
-            foreach (var p in this.paragraphs) {
+            foreach (var p in paragraphs) {
                 p.EstablishParent(this);
             }
             LinksAdjacentElements();
         }
 
         private void AssignMembers() {
-            sentences = (from p in this.paragraphs
+            sentences = (from p in paragraphs
                          from s in p.Sentences
                          where s.Words.OfVerb().Any()
                          select s).ToList();
@@ -123,7 +123,7 @@ namespace LASI.Core.DocumentStructures
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
         /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
-        public IEnumerable<ILexical> AllLexicals {
+        public IEnumerable<ILexical> Lexicals {
             get {
                 foreach (var lexical in words)
                     yield return lexical;
@@ -185,7 +185,7 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
         public override string ToString() {
-            return this.GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
+            return GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
         }
 
         #endregion
@@ -201,11 +201,7 @@ namespace LASI.Core.DocumentStructures
         /// Gets the Paragraphs the document contains in linear, left to right order.
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
-            get {
-                return from p in paragraphs
-                       where p.ParagraphKind == ParagraphKind.Default
-                       select p;
-            }
+            get { return paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default); }
         }
 
 
@@ -231,6 +227,8 @@ namespace LASI.Core.DocumentStructures
         /// </summary>
         public string Name { get; set; }
 
+        public string Text { get { return paragraphs.Format(120, p => p.Text + Environment.NewLine); } }
+
         #endregion
 
         #region Fields
@@ -249,7 +247,7 @@ namespace LASI.Core.DocumentStructures
         /// <summary>
         /// Represents a page of a document. Pages are somewhat arbitrary segments of a Document, that contain some subset of its content.
         /// </summary>
-        public sealed class Page
+        public sealed class Page : IReifiedTextual
         {
             /// <summary>
             /// Initializes a new instance of the Page class.
@@ -282,8 +280,20 @@ namespace LASI.Core.DocumentStructures
             /// Gets the Document to which the page belongs.
             /// </summary>
             public Document Document { get; private set; }
+
+            public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
+
+            public IEnumerable<Phrase> Phrases { get { return Sentences.SelectMany(sentence => sentence.Phrases); } }
+
+            public IEnumerable<Word> Words { get { return Sentences.SelectMany(sentence => sentence.Words); } }
+
+            public IEnumerable<ILexical> Lexicals { get { return Sentences.SelectMany(sentence => sentence.Lexicals); } }
+
+            public IEnumerable<IEntity> Entities { get { return Sentences.SelectMany(sentence => sentence.Entities); } }
+
+            public IEnumerable<IVerbal> Verbals { get { return Sentences.SelectMany(sentence => sentence.Verbals); } }
+
+            public string Text { get { return ToString(); } }
         }
     }
-
-
 }

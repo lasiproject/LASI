@@ -1,4 +1,3 @@
-using LASI.Core.DocumentStructures;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
@@ -7,27 +6,23 @@ using System;
 
 namespace LASI.WebApp.Models
 {
-    public class DocumentModel
+    public class DocumentModel : TextualModel<Core.Document>
     {
-        public DocumentModel(Document document) {
+        public DocumentModel(Core.Document document) : base(document) {
             Document = document;
             Name = document.Name;
-            Id = System.Threading.Interlocked.Increment(ref IdGenerator);
             ParagraphModels = document.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
-            Style = new Style { CssClass = "document" };
             PageModels = document.Paginate(80, 30).Select(page => new PageModel(page));
             foreach (var model in PageModels) { model.DocumentModel = this; }
 
         }
-        public int Id { get; private set; }
+        public override string Text { get { return ModelFor.Text; } }
         public string Name { get; private set; }
         public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
         public IEnumerable<PhraseModel> PhraseModels { get { return ParagraphModels.SelectMany(paragraph => paragraph.PhraseModels); } }
         public IEnumerable<PageModel> PageModels { get; private set; }
-        public Style Style { get; private set; }
+        public override Style Style { get { return new Style { CssClass = "document" }; } }
         public DocumentSetModel DocumentSetModel { get; internal set; }
-        public Document Document { get; private set; }
-
-        private static int IdGenerator;
+        public Core.Document Document { get; private set; }
     }
 }

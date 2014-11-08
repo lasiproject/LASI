@@ -1,5 +1,4 @@
-﻿using LASI.Core.DocumentStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +25,7 @@ namespace LASI.Core
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        public void EstablishParent(LASI.Core.DocumentStructures.Sentence sentence) {
+        public void EstablishParent(LASI.Core.Sentence sentence) {
             Sentence = sentence;
             foreach (var r in Phrases)
                 r.EstablishParent(this);
@@ -81,7 +80,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Core.DocumentStructures.Sentence Sentence { get; private set; }
+        public LASI.Core.Sentence Sentence { get; private set; }
         /// <summary>
         /// Gets the unique ID number of the Clause
         /// </summary>

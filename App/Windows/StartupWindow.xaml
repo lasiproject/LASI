@@ -304,6 +304,7 @@
                 Style="{DynamicResource upperCreateButton }" />
             <Button
                 x:Name="loadProjectButton"
+                Click="loadProjectButton_Click"
                 Margin="487,179,0,40"
                 FontSize="20"
                 HorizontalAlignment="Left"

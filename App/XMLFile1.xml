@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<l xmlns="http://tempuri.org/XMLSchema.xsd">
+  <lasifile xmlns=""
+            projectname="test"
+            analysiscompleted="false"
+            documentcount="3"
+            projectdirectory="..\..\..\..\testproject"></lasifile>
+  <sourcedocument filetype="txt"
+                  relativePath="test.txt"></sourcedocument>
+  <sourcedocument filetype="docx"
+                  relativePath="test1.docx"></sourcedocument>
+
+</projectfile>

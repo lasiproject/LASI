@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections;
 using LASI.Core.PatternMatching;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
-using LASI.Core.DocumentStructures;
 
 namespace LASI.Core
 {

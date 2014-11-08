@@ -1,11 +1,12 @@
 ﻿using LASI.ContentSystem;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using LASI.Core.DocumentStructures;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaggerInterop;
 using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Core;
 
 namespace LASI.UnitTests
 {

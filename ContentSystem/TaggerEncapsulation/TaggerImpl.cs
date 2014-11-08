@@ -1,7 +1,5 @@
 ﻿using LASI;
 using LASI.Core;
-using LASI.Core.DocumentStructures;
-using LASI.ContentSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +73,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="txt">The raw, untagged TextFile to parse.</param>
         /// <returns>The contents of the TextFile composed into a fully reified LASI.Algorithm.DocumentConstruct.Document instance.</returns> 
         public async Task<Document> DocumentFromRawAsync(TxtFile txt) {
-            var doc = await new TaggedSourceParser(new TaggedFile(await new SharpNLPTagger(TaggerMode, txt.FullPath).ProcessFileAsync())).LoadDocumentAsync();
+            var doc = await new TaggedSourceParser(new TaggedFile(await new QuickTagger(TaggerMode).TagTextSourceAsync(await txt.GetTextAsync()))).LoadDocumentAsync();
             doc.Name = txt.NameSansExt;
             return doc;
         }

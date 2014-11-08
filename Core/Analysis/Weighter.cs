@@ -1,5 +1,4 @@
-﻿using LASI.Core.DocumentStructures;
-using LASI.Core.Heuristics;
+﻿using LASI.Core.Heuristics;
 using LASI.Utilities;
 using LASI.Core.PatternMatching;
 using System;

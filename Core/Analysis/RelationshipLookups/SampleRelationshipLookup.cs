@@ -25,7 +25,7 @@ namespace LASI.Core.Heuristics
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of Sentence instances which contain the relevant lexical data set.</param>
-        public SampleRelationshipLookup(IEnumerable<DocumentStructures.Sentence> domain)
+        public SampleRelationshipLookup(IEnumerable<Sentence> domain)
             : this(from verbphrase in domain.AllPhrases().OfVerbPhrase()
                    select verbphrase) {
         }
@@ -33,14 +33,14 @@ namespace LASI.Core.Heuristics
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of Paragraph instances which contain the relevant lexical data set.</param>
-        public SampleRelationshipLookup(IEnumerable<DocumentStructures.Paragraph> domain)
+        public SampleRelationshipLookup(IEnumerable<Paragraph> domain)
             : this(domain.SelectMany(paragraph => paragraph.Sentences)) {
         }
         /// <summary>
         /// Initializes a new instance of the SampleRelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The Document instance which contains the relevant lexical data set.</param>
-        public SampleRelationshipLookup(DocumentStructures.Document domain)
+        public SampleRelationshipLookup(Document domain)
             : this(domain.Paragraphs) {
         }
 

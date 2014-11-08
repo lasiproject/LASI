@@ -16,6 +16,6 @@
         /// <summary>
         /// A chart of a data set's Significant NounPhrases.
         /// </summary>
-        NounPhrasesOnly,
+        NounPhrasesOnly
     }
 }

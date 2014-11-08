@@ -11,9 +11,6 @@ using LASI.Core.Heuristics.WordNet;
 namespace LASI.Core.Heuristics
 {
     using System.Collections.Immutable;
-
-
-
     /// <summary>
     /// Provides Comprehensive static facilities for Synoynm Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
     /// </summary>
@@ -87,14 +84,11 @@ namespace LASI.Core.Heuristics
         // TODO: refactor these two methods. their interaction is very opaque and error prone. Although they are private, they make maintaining related algorithms difficult.
         #region
         private static Gender DetermineNounPhraseGender(NounPhrase name) {
-            var propers = name.Words
-                .OfProperNoun();
-            var first = propers
-                .Singulars()
+            var properNouns = name.Words.OfProperNoun();
+            var first = properNouns.OfSingular()
                 .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
-            var last = propers
-                .LastOrDefault(n => n != first && n.IsLastName());
-            return first != null && (last != null || propers.All(n => n.GetGender() == first.Gender)) ?
+            var last = properNouns.LastOrDefault(n => n != first && n.IsLastName());
+            return first != null && (last != null || properNouns.All(n => n.GetGender() == first.Gender)) ?
                 first.Gender :
                 name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ?
                 Gender.Neutral :
@@ -149,7 +143,6 @@ namespace LASI.Core.Heuristics
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) {
             return FindSynonyms(adverb);
         }
-
         /// <summary>
         /// Determines if two Noun instances are synonymous.
         /// </summary>
@@ -204,38 +197,36 @@ namespace LASI.Core.Heuristics
             return FindSynonyms(first).Contains(second.Text);
         }
 
-
-
         #endregion
-
 
         #endregion
 
         /// <summary>
         /// Clears the cache of Noun synonym data.
         /// </summary>
-        public static void ClearNounCache() {
-            cachedNounData.Clear();
-        }
+        public static void ClearNounCache() { cachedNounData.Clear(); }
         /// <summary>
         /// Clears the cache of Verb synonym data.
         /// </summary>
-        public static void ClearVerbCache() {
-            cachedVerbData.Clear();
-        }
+        public static void ClearVerbCache() { cachedVerbData.Clear(); }
         /// <summary>
         /// Clears the cache of Adjective synonym data.
         /// </summary>
-        public static void ClearAdjectiveCache() {
-            cachedAdjectiveData.Clear();
-        }
+        public static void ClearAdjectiveCache() { cachedAdjectiveData.Clear(); }
         /// <summary>
         /// Clears the cache of Adverb synonym data.
         /// </summary>
-        public static void ClearAdverbCache() {
-            cachedAdverbData.Clear();
-        }
+        public static void ClearAdverbCache() { cachedAdverbData.Clear(); }
 
+        /// <summary>
+        /// Clears all cached adjective 
+        /// </summary>
+        public static void ClearAllCachedSynonymData() {
+            ClearNounCache();
+            ClearVerbCache();
+            ClearAdverbCache();
+            ClearAdjectiveCache();
+        }
 
         #region Internal Syonym Lookup Methods
 
@@ -254,16 +245,14 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> lookup) where TWord : Word {
-            var startedHandler = ResourceLoading;
+        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word {
             var resourceName = typeof(TWord).Name + " Association Map";
-
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            lookup.ProgressChanged += ResourceLoading;
-            lookup.Load();
+            wordNetLookup.ProgressChanged += ResourceLoading;
+            wordNetLookup.Load();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
-            return lookup;
+            return wordNetLookup;
         }
 
         #region Properties
@@ -272,7 +261,6 @@ namespace LASI.Core.Heuristics
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
         /// </summary>
         public static IEnumerable<string> ScrabbleDictionary { get { return scrabbleDictionary.Value; } }
-
 
         #endregion
 
@@ -288,48 +276,53 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
+        private static WordNetLookup<Noun> NounLookup { get { return nounLookup.Value; } }
 
-        private static WordNetLookup<Noun> NounLookup {
-            get { return nounLookup.Value; }
-        }
+        private static WordNetLookup<Verb> VerbLookup { get { return verbLookup.Value; } }
 
-        private static WordNetLookup<Verb> VerbLookup {
-            get { return verbLookup.Value; }
-        }
+        private static WordNetLookup<Adjective> AdjectiveLookup { get { return adjectiveLookup.Value; } }
 
-        private static WordNetLookup<Adjective> AdjectiveLookup {
-            get { return adjectiveLookup.Value; }
-        }
+        private static WordNetLookup<Adverb> AdverbLookup { get { return adverbLookup.Value; } }
 
-        private static WordNetLookup<Adverb> AdverbLookup {
-            get { return adverbLookup.Value; }
-        }
         #region Private Fields
         // Resource Data File Paths
-        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-        static readonly string nounWNFilePath = wordnetDataDirectory + "data.noun";
-        static readonly string verbWNFilePath = wordnetDataDirectory + "data.verb";
-        static readonly string adverbWNFilePath = wordnetDataDirectory + "data.adv";
-        static readonly string adjectiveWNFilePath = wordnetDataDirectory + "data.adj";
-        static readonly string scrabbleDictsFilePath = wordnetDataDirectory + "dictionary.txt";
+        private static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+        private static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
+        private static readonly string nounWNFilePath = wordnetDataDirectory + "data.noun";
+        private static readonly string verbWNFilePath = wordnetDataDirectory + "data.verb";
+        private static readonly string adverbWNFilePath = wordnetDataDirectory + "data.adv";
+        private static readonly string adjectiveWNFilePath = wordnetDataDirectory + "data.adj";
+        private static readonly string scrabbleDictsFilePath = wordnetDataDirectory + "dictionary.txt";
         // scrabble dictionary
         // Internal Lookups
-        static Lazy<WordNetLookup<Noun>> nounLookup = new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
-        static Lazy<WordNetLookup<Verb>> verbLookup = new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
-        static Lazy<WordNetLookup<Adjective>> adjectiveLookup = new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
-        static Lazy<WordNetLookup<Adverb>> adverbLookup = new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
-
-
+        private static Lazy<WordNetLookup<Noun>> nounLookup =
+            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
+        private static Lazy<WordNetLookup<Verb>> verbLookup =
+            new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
+        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
+            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
+        private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
+            new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
 
         // Synonym LexicalLookup Caches
-        static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max * 2, 40960);
-        static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max * 2, 40960);
-        static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max * 2, 40960);
-        static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(Concurrency.Max * 2, 40960);
+        private static ConcurrentDictionary<string, ISet<string>> cachedNounData = new ConcurrentDictionary<string, ISet<string>>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 40960
+        );
+        private static ConcurrentDictionary<string, ISet<string>> cachedVerbData = new ConcurrentDictionary<string, ISet<string>>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 40960
+        );
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, ISet<string>>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 40960
+        );
+        private static ConcurrentDictionary<string, ISet<string>> cachedAdverbData = new ConcurrentDictionary<string, ISet<string>>(
+            concurrencyLevel: Concurrency.Max,
+            capacity: 40960
+        );
 
-
-        static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
+        private static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
             var resourceName = "Name Data";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -339,13 +332,10 @@ namespace LASI.Core.Heuristics
             return val;
         }, true);
 
-        private static NameProvider NameData {
-            get { return names.Value; }
-        }
+        private static NameProvider NameData { get { return names.Value; } }
 
         private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
-
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             ISet<string> dict;
@@ -355,10 +345,7 @@ namespace LASI.Core.Heuristics
                       .Except(NameData.AllNames, StringComparer.OrdinalIgnoreCase)
                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
             }
-
-
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
-
             timer.Stop();
             return dict;
         }, true);
@@ -408,30 +395,27 @@ namespace LASI.Core.Heuristics
         }
 
         #endregion
+
         #endregion
+
         private sealed class NameProvider
         {
-
             public void Load() {
-                Task.Factory.ContinueWhenAll(
-                  new[] {
-                    Task.Run(async () => lastNames = await GetLinesAsync(lastFilePath)),
-                    Task.Run(async () => femaleNames = await GetLinesAsync(femaleFilePath)),
-                    Task.Run(async () => maleNames = await GetLinesAsync(maleFilePath))
-                },
-                  results => {
-                      genderAmbiguousNames =
-                          new HashSet<string>(maleNames.Intersect(femaleNames, caseless).Union(femaleNames.Intersect(maleNames, caseless)), caseless);
-
-                      var stratified =
-                          from m in maleNames.Select((s, i) => new { Rank = (double)i / maleNames.Count, Name = s })
-                          join f in femaleNames.Select((s, i) => new { Rank = (double)i / femaleNames.Count, Name = s })
-                          on m.Name equals f.Name
-                          group f.Name by f.Rank / m.Rank > 1 ? 'M' : m.Rank / f.Rank > 1 ? 'F' : 'U';
-
-                      maleNames.ExceptWith(from s in stratified where s.Key == 'F' from n in s select n);
-                      femaleNames.ExceptWith(from s in stratified where s.Key == 'M' from n in s select n);
-                  }
+                Task.Factory.ContinueWhenAll(new[] {
+                    Task.Run(async () => lastNames = await ReadLinesAsync(lastFilePath)),
+                    Task.Run(async () => femaleNames = await ReadLinesAsync(femaleFilePath)),
+                    Task.Run(async () => maleNames = await ReadLinesAsync(maleFilePath))
+                }, results => {
+                    genderAmbiguousNames = maleNames.Intersect(femaleNames);
+                    var stratified =
+                        from m in maleNames.Select((name, index) => new { Rank = (double)index / maleNames.Count, Name = name })
+                        join f in femaleNames.Select((name, i) => new { Rank = (double)i / femaleNames.Count, Name = name })
+                        on m.Name equals f.Name
+                        group f.Name by f.Rank / m.Rank > 1 ? 'F' : m.Rank / f.Rank > 1 ? 'M' : 'U';
+                    var byLikelyGender = stratified.ToDictionary(strata => strata.Key);
+                    maleNames = maleNames.Except(byLikelyGender['F']);
+                    femaleNames = femaleNames.Except(byLikelyGender['M']);
+                }
               ).Wait();
             }
 
@@ -459,7 +443,9 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common female name in the english language; otherwise, false.</returns>
+            /// <returns>
+            /// True if the provided string corresponds to a common female name in the english language; otherwise, false.
+            /// </returns>
             public bool IsFemaleFirst(string text) {
                 return femaleNames.Contains(text);
             }
@@ -468,28 +454,27 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common male name in the english language; otherwise, false.</returns>
+            /// <returns>
+            /// True if the provided string corresponds to a common male name in the english language; otherwise, false.
+            /// </returns>
             public bool IsMaleFirst(string text) {
                 return maleNames.Contains(text);
             }
 
-
-            private static async Task<ISet<string>> GetLinesAsync(string fileName) {
+            private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName) {
                 using (var reader = new StreamReader(fileName)) {
                     string data = await reader.ReadToEndAsync();
-                    return data.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim()).ToHashSet(caseless);
+                    return data.SplitRemoveEmpty('\r', '\n')
+                        .Select(s => s.Trim())
+                        .ToImmutableSortedSet(ignoreCase);
                 }
             }
-
-
 
             /// <summary>
             /// Gets a sequence of all known Last Names.
             /// </summary>
             public IReadOnlyCollection<string> LastNames {
-                get {
-                    return lastNames.ToList().AsReadOnly();
-                }
+                get { return lastNames.ToList().ToImmutableList(); }
             }
             /// <summary>
             /// Gets a sequence of all known Female Names.
@@ -515,26 +500,32 @@ namespace LASI.Core.Heuristics
                     return genderAmbiguousNames.ToList().AsReadOnly();
                 }
             }
-            public ISet<string> AllNames {
-                get { return lastNames.Concat(maleNames).Concat(femaleNames).Concat(genderAmbiguousNames).ToImmutableHashSet(caseless); }
+
+            public IImmutableSet<string> AllNames {
+                get {
+                    return lastNames
+                      .Concat(maleNames)
+                      .Concat(femaleNames)
+                      .Concat(genderAmbiguousNames)
+                      .ToImmutableHashSet(ignoreCase);
+                }
             }
 
             #region Fields
+
+            // Name Data Sets
+            private ImmutableSortedSet<string> lastNames;
+            private ImmutableSortedSet<string> maleNames;
+            private ImmutableSortedSet<string> femaleNames;
+            private ImmutableSortedSet<string> genderAmbiguousNames;
 
             // Name Data File Paths
             private static readonly string lastFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
             private static readonly string femaleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
             private static readonly string maleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
-            // Name Data Sets
-            private static ISet<string> lastNames;
-            private static ISet<string> maleNames;
-            private static ISet<string> femaleNames;
-            private static ISet<string> genderAmbiguousNames;
+            private static readonly StringComparer ignoreCase = StringComparer.OrdinalIgnoreCase;
 
-            private static StringComparer caseless = StringComparer.OrdinalIgnoreCase;
-            #endregion
-
-
+            #endregion 
         }
     }
 }

@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI;
 using LASI.Core;
-using LASI.Core.DocumentStructures;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.UnitTests.TestHelpers
 {

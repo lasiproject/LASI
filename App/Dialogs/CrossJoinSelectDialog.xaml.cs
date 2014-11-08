@@ -1,8 +1,9 @@
-﻿using LASI.Core.DocumentStructures;
+﻿
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LASI.Core;
 
 namespace LASI.App.Dialogs
 {

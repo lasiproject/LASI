@@ -1,6 +1,6 @@
 ﻿using LASI.Core;
 using LASI.Core.Binding;
-using LASI.Core.DocumentStructures;
+
 using LASI.Core.Heuristics;
 using System;
 using System.Collections.Generic;
@@ -10,21 +10,26 @@ using System.Threading.Tasks;
 using LASI.Interop;
 using LASI.Utilities;
 using LASI.Interop.ResourceMonitoring;
+using LASI.ContentSystem;
 
 namespace LASI.Experimentation.CommandLine
 {
     class Program
     {
         static void Main(string[] args) {
-            var fragment = new ContentSystem.RawTextFragment(
+            var fragment = new RawTextFragment(
                 rawText, "Test");
             var percent = 0d;
             var notfier = new ResourceNotifier();
+            var setsProcessed = 0;
+            notfier.ResourceLoading += (s, e) => {
+                Output.WriteLine("Sets Processed {0}", setsProcessed++);
+            };
             notfier.ResourceLoaded += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
                 Output.WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
             };
-            var orchestrator = new AnalysisOrchestrator(fragment);
+            var orchestrator = new AnalysisOrchestrator(new RawTextFragment(System.IO.File.ReadAllLines(@"C:\Users\Aluan\Desktop\documents\cats - Copy - Copy.txt"), "cats"));
             orchestrator.ProgressChanged += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
                 Output.WriteLine("Update : {0} Percent : {1}", e.Message, percent);
@@ -32,17 +37,17 @@ namespace LASI.Experimentation.CommandLine
 
             var document = orchestrator.ProcessAsync().Result.First();
 
-            var dd = document.Entities.FirstOrDefault();
-            dd.Match().Yield<string>()
+            var x = document.Entities.FirstOrDefault();
+            x.Match().Yield<string>()
                 .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .With((IEntity e) => e.Text)
                 .Result();
             Output.WriteLine(document);
             Phrase.VerboseOutput = true;
-            foreach (var phrase in document.Phrases) { Output.WriteLine(phrase); }
-
+            foreach (var phrase in document.Phrases) {
+                Output.WriteLine(phrase);
+            }
             Input.WaitForKey(ConsoleKey.Escape);
-
         }
         private const string rawText =
             @"Virginia was the first state in the United states. 
@@ -50,7 +55,6 @@ namespace LASI.Experimentation.CommandLine
             This means that companies can fire employees for no reason as long as doing so does not violate federal labour laws. 
             Virginia takes many of it's political views from the religious right wing. 
             It has a very prominent conservative community.";
-
     }
 }
 

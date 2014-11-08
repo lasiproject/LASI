@@ -3,8 +3,7 @@
            elementFormDefault="qualified"
            xmlns="http://tempuri.org/XMLSchema.xsd"
            xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:group name="sourcesdocument">
     <xs:choice>
       <xs:element name="sourcesdocument">
@@ -25,7 +24,7 @@
       </xs:element>
     </xs:choice>
   </xs:group>
-  <xs:group  name="elements">
+  <xs:group name="elements">
     <xs:choice>
       <xs:element name="projectfile"
                   maxOccurs="1"
@@ -76,7 +75,8 @@
                           minOccurs="0"
                           ref="sourcesdocument"
                           maxOccurs="unbounded" >
-               </xs:choice>
+                </xs:group>
+              </xs:choice>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

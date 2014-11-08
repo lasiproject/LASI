@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
+           elementFormDefault="unqualified"
+           xmlns="http://tempuri.org/XMLSchema.xsd"
+           xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="filetypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="txt"
+                      id="txt"></xs:enumeration>
+      <xs:enumeration value="doc"
+                      id="doc"></xs:enumeration>
+      <xs:enumeration value="docx"
+                      id="docx"></xs:enumeration>
+      <xs:enumeration value="pdf"
+                      id="pdf"></xs:enumeration>
+
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:group name="sourcesdocument"
+            id="sourcedocument">
+    <xs:choice>
+      <xs:element name="sourcedocument"
+                  >
+        <xs:complexType
+          >
+
+          <xs:attribute  name="relativePath"
+                         use="required"
+                         type="xs:string"></xs:attribute>
+          <xs:attribute name="filetype"
+                        type="mstns:filetypes"
+                        use="required"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
+  <xs:group name="lasifile">
+
+    <xs:choice>
+      <xs:element name="lasifile">
+        <xs:complexType>
+
+          <xs:attribute use="required"
+                        name="projectdirectory"
+                        type="xs:string"/>
+
+          <xs:attribute name="projectname"
+                        type="xs:string"
+                        use="required" />
+          <xs:attribute  name="documentcount"
+                         use="required" >
+            <xs:simpleType>
+              <xs:restriction base="xs:nonNegativeInteger">
+                <xs:minExclusive value="0"></xs:minExclusive>
+                <xs:maxExclusive value="10"></xs:maxExclusive>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="analysiscompleted"
+                        type="xs:boolean"
+                        use="optional"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
+
+  <xs:element name="lasifile">
+    <xs:complexType>
+      <xs:all>
+        <xs:element  name="files">
+          <xs:complexType mixed="1">
+            <xs:sequence  id="file"
+                          maxOccurs="unbounded"
+                          minOccurs="1">
+              <xs:element name="sourcedocument"
+                          default=""></xs:element>
+            </xs:sequence>
+          </xs:complexType>
+
+
+        </xs:element>
+
+      </xs:all>
+
+    </xs:complexType>
+
+
+
+  </xs:element>
+</xs:schema>

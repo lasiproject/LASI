@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 using System.Linq;
-using LASI.Core.DocumentStructures;
+
 using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

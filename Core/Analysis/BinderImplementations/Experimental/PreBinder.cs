@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.PatternMatching;
-using LASI.Core.DocumentStructures;
 
 namespace LASI.Core.Binding.Experimental
 {
     static class PreBinder
     {
-        internal static void BindPairedDelimiters(DocumentStructures.Paragraph paragraph) {
+        internal static void BindPairedDelimiters(Paragraph paragraph) {
             ProcessQuotePairs<QuotationMark<SingleQuote>, SingleQuote>(paragraph);
             ProcessQuotePairs<QuotationMark<DoubleQuote>, DoubleQuote>(paragraph);
         }

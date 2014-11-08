@@ -245,7 +245,7 @@
                             <Button
                                 BorderBrush="Transparent"
                                 Content="Load"
-                                IsEnabled="False" />
+                                IsEnabled="True" />
                             <Border
                                 x:Name="Borderborder"
                                 BorderBrush="{TemplateBinding BorderBrush}"

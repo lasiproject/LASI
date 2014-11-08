@@ -19,7 +19,6 @@ namespace LASI.WebApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-
         private const string USER_DIR = "~/App_Data/Users/";
 
         public ActionResult Login(LoginModel loginModel) {
