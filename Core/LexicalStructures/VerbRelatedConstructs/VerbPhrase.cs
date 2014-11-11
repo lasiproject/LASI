@@ -49,7 +49,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            modifiers.Add(adv);
+            modifiers= modifiers.Add(adv);
             adv.Modifies = this;
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace LASI.Core
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
             if (subject != null) {
-                subjects.Add(subject);
+                subjects= subjects.Add(subject);
                 subject.SubjectOf = this;
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
                 foreach (var v in this.Words.OfVerb()) { v.BindSubject(subject); }
@@ -80,7 +80,7 @@ namespace LASI.Core
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (directObject != null) {
-                directObjects.Add(directObject);
+                directObjects=directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 foreach (var v in this.Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive) {
