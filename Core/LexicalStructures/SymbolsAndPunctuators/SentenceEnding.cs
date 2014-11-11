@@ -16,7 +16,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="ending">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
-        public SentenceEnding(char ending)
+        private SentenceEnding(char ending)
             : base(ending) {
             if (ending != '.' && ending != '!' && ending != '?') {
                 throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", ending));
@@ -54,6 +54,15 @@ namespace LASI.Core
         /// <returns>True if the Sentence Endings are not equal; false otherwise.</returns>
         public static bool operator !=(SentenceEnding left, SentenceEnding right) {
             return !(left == right);
+        }
+        public static SentenceEnding ExclamationPoint {
+            get { return new SentenceEnding('!'); }
+        }
+        public static SentenceEnding QuestionMark {
+            get { return new SentenceEnding('?'); }
+        }
+        public static SentenceEnding Period {
+            get { return new SentenceEnding('.'); }
         }
     }
 }

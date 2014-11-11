@@ -64,7 +64,7 @@ namespace LASI.UnitTests
 
 
         internal virtual IDirectObjectTaker CreateIDirectObjectTaker() {
-            IDirectObjectTaker target = new Verb("slay", VerbForm.Base);
+            IDirectObjectTaker target = new SimpleVerb("slay");
             return target;
         }
 

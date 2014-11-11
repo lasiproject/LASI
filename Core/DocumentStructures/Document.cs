@@ -1,10 +1,7 @@
-﻿using LASI.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace LASI.Core
 {
@@ -22,38 +19,33 @@ namespace LASI.Core
         /// </summary>
         /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
         /// <param name="name">The name for the document.</param>
-        public Document(IEnumerable<Paragraph> content, string name) : this(content) { Name = name; }
+        public Document(IEnumerable<Paragraph> content, string name) : this(content) {
+            Name = name;
+        }
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
         /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
         public Document(IEnumerable<Paragraph> content) {
-            paragraphs = content.ToList();
-            paragraphsWithBulletsOrHeadings =
-                (from p in paragraphs
-                 where p.ParagraphKind == ParagraphKind.NumberedOrBullettedContent || p.ParagraphKind == ParagraphKind.Heading
-                 select p).ToList();
-
+            paragraphs = ImmutableList.CreateRange(content);
+            enumerationOrHeadingsParagraphs = paragraphs
+                .Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Enumeration || paragraph.ParagraphKind == ParagraphKind.Heading)
+                .ToImmutableList();
             AssignMembers();
-            foreach (var p in paragraphs) {
-                p.EstablishParent(this);
-            }
+            paragraphs.ForEach(paragraph => paragraph.EstablishParent(this));
             LinksAdjacentElements();
         }
 
         private void AssignMembers() {
-            sentences = (from p in paragraphs
-                         from s in p.Sentences
-                         where s.Words.OfVerb().Any()
-                         select s).ToList();
-            phrases = (from s in sentences
-                       from r in s.Phrases
-                       select r).ToList();
-            words = (from s in sentences
-                     from w in s.Words.Append(s.EndingPunctuation)
-                     select w).ToList();
+            sentences = paragraphs
+                .AllSentences()
+                .Where(sentence => sentence.Words.OfVerb().Any())
+                .ToImmutableList();
+            phrases = sentences.Phrases().ToImmutableList();
+            words = sentences
+                .SelectMany(sentence => sentence.Words.Append(sentence.EndingPunctuator))
+                .ToImmutableList();
         }
-
         #endregion
 
         #region Methods
@@ -68,7 +60,7 @@ namespace LASI.Core
         private void LinksAdjacentWords() {
             if (words.Count > 1) {
                 var indexOfLast = 0;
-                for (int i = 1; i < words.Count; ++i) {
+                for (var i = 1; i < words.Count; ++i) {
                     words[i].PreviousWord = words[i - 1];
                     words[i - 1].NextWord = words[i];
                     indexOfLast = i;
@@ -93,32 +85,13 @@ namespace LASI.Core
         /// Returns all of the verbals identified within the document.
         /// </summary>
         /// <returns>all of the verbals identified within the document.</returns>
-        public IEnumerable<IVerbal> Verbals {
-            get {
-                foreach (var action in words.OfType<IVerbal>())
-                    yield return action;
-                foreach (var action in phrases.OfType<IVerbal>())
-                    yield return action;
-                foreach (var action in Clauses.OfType<IVerbal>())
-                    yield return action;
-            }
-        }
+        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
 
         /// <summary>
         /// Returns all of the entities identified in the document.
         /// </summary>
         /// <returns> All of the entities identified in the document.</returns>
-        public IEnumerable<IEntity> Entities {
-            get {
-                foreach (var entity in words.OfType<IEntity>())
-                    yield return entity;
-                foreach (var entity in phrases.OfType<IEntity>())
-                    yield return entity;
-                foreach (var entity in Clauses.OfType<IEntity>())
-                    yield return entity;
-
-            }
-        }
+        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
         /// <summary>
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
@@ -135,26 +108,26 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// Returns the contents of the Document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
         /// The supplied text measurement function is applied to determine the amount of space any piece text takes up relative to a line.
         /// </summary>
         /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
         /// <param name="measureText">A function used to measure the length of text.</param>
-        /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
+        /// <returns>The contents of the Document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
         public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText) {
             if (lineLength < 1) { throw new ArgumentOutOfRangeException("lineLength", "The supplied line length cannot be less than 0"); }
             if (linesPerPage < 1) { throw new ArgumentOutOfRangeException("linesPerPage", "The supplied number of lines per page cannot be less than 0"); }
             var measuredParagraphs =
-                from p in Paragraphs
-                let lines = (int)Math.Floor(measureText(p.Text) / lineLength)
-                let actualLines = lines + Math.Round(measureText(p.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
-                select new { Paragraph = p, LinesUsed = actualLines };
-            // note that start is modified within and only within the predicate given to TakeWhile
+                from paragraph in Paragraphs
+                let lines = (int)Math.Floor(measureText(paragraph.Text) / lineLength)
+                let actualLines = lines + Math.Round(measureText(paragraph.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
+                select new { Paragraph = paragraph, LinesUsed = actualLines };
+            // note that this variable is modified within and only within the function passed to TakeWhile
             var skip = 0;
             while (skip < measuredParagraphs.Count()) {
                 var totalLines = 0;
-                var paras = measuredParagraphs
+                var pragraphs = measuredParagraphs
                     .Skip(skip)
                     .TakeWhile((p, index) => {
                         bool forceOutput = totalLines == 0 && p.LinesUsed > linesPerPage;
@@ -162,18 +135,18 @@ namespace LASI.Core
 
                         return (totalLines <= linesPerPage || forceOutput);
                     })
-                    .Select(p => p.Paragraph);
-                var page = new Page(paras, this);
+                    .Select(measured => measured.Paragraph);
+                var page = new Page(pragraphs, this);
                 yield return page;
-                skip += paras.Count() + 1;
+                skip += pragraphs.Count() + 1;
             }
         }
         /// <summary>
-        /// Returns the contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.
+        /// Returns the contents of the Document aggregated into a sequences of Page objects based on the specified line length and lines per page.
         /// </summary>
         /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
-        /// <returns>The contents of the document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
+        /// <returns>The contents of the Document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
         public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
             return Paginate(lineLength, linesPerPage, t => t.Length);
         }
@@ -193,54 +166,50 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets the Sentences the document contains in linear, left to right order.
+        /// Gets the Sentences of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Sentence> Sentences { get { return sentences; } }
 
         /// <summary>
-        /// Gets the Paragraphs the document contains in linear, left to right order.
+        /// Gets the Paragraphs of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Paragraph> Paragraphs {
-            get { return paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default); }
-        }
-
-
-        /// <summary>
-        /// Gets the Clauses the document contains in linear, left to right order.
-        /// </summary>
-        public IEnumerable<Clause> Clauses {
             get {
-                return from s in Sentences from c in s.Clauses select c;
+                return paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default);
             }
         }
+
+
         /// <summary>
-        /// Gets the Phrases the document contains in linear, left to right order.
+        /// Gets the Clauses of the Document ub linear, left to right order.
+        /// </summary>
+        public IEnumerable<Clause> Clauses { get { return sentences.AllClauses(); } }
+        /// <summary>
+        /// Gets the Phrases of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Phrase> Phrases { get { return phrases; } }
         /// <summary>
-        /// Gets the Words the document contains in linear, left to right order.
+        /// Gets the Words of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Word> Words { get { return words; } }
 
         /// <summary>
-        /// The name of the file the Document instance was parsed from.
+        /// The name of the file the Document was parsed from.
         /// </summary>
         public string Name { get; set; }
-
+        /// <summary>
+        /// Gets the text content of the Document.
+        /// </summary>
         public string Text { get { return paragraphs.Format(120, p => p.Text + Environment.NewLine); } }
 
         #endregion
 
         #region Fields
-
-        private IReadOnlyList<Word> words;
-        private IReadOnlyList<Phrase> phrases;
-        private IReadOnlyList<Sentence> sentences;
-        private IReadOnlyList<Paragraph> paragraphs;
-        private IReadOnlyList<Paragraph> paragraphsWithBulletsOrHeadings;
-
-
-
+        private ImmutableList<Word> words;
+        private ImmutableList<Phrase> phrases;
+        private ImmutableList<Sentence> sentences;
+        private ImmutableList<Paragraph> paragraphs;
+        private ImmutableList<Paragraph> enumerationOrHeadingsParagraphs;
         #endregion
 
 
@@ -253,39 +222,39 @@ namespace LASI.Core
             /// Initializes a new instance of the Page class.
             /// </summary>
             /// <param name="sentences">The Sentences which comprise the Page.</param>
-            /// <param name="document">The Document to which the page belongs.</param>
+            /// <param name="document">The Document to which the Page belongs.</param>
             internal Page(IEnumerable<Sentence> sentences, Document document) {
                 Document = document;
                 Sentences = sentences;
             }
             internal Page(IEnumerable<Paragraph> paragraphs, Document document)
-                : this(paragraphs.SelectMany(p => p.Sentences), document) {
+                : this(paragraphs.SelectMany(paragraph => paragraph.Sentences), document) {
             }
             /// <summary>
             /// Gets the Paragraphs which comprise the Page.
             /// </summary>
             public IEnumerable<Paragraph> Paragraphs {
                 get {
-                    return from sentence in Sentences
-                           let paragraph = sentence.Paragraph
-                           orderby Document.paragraphs.ToList().IndexOf(paragraph)
-                           select paragraph;
+                    return Sentences
+                        .Select(sentence => sentence.Paragraph)
+                        .Distinct()
+                        .OrderBy(Document.paragraphs.IndexOf);
                 }
             }
             /// <summary>
-            /// Gets the Sentences which comprise the Page.
+            /// Gets the Sentences which belong to the Page.
             /// </summary>
             public IEnumerable<Sentence> Sentences { get; private set; }
             /// <summary>
-            /// Gets the Document to which the page belongs.
+            /// Gets the Document to which the Page belongs.
             /// </summary>
             public Document Document { get; private set; }
 
-            public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
+            public IEnumerable<Clause> Clauses { get { return Sentences.AllClauses(); } }
 
-            public IEnumerable<Phrase> Phrases { get { return Sentences.SelectMany(sentence => sentence.Phrases); } }
+            public IEnumerable<Phrase> Phrases { get { return Sentences.Phrases(); } }
 
-            public IEnumerable<Word> Words { get { return Sentences.SelectMany(sentence => sentence.Words); } }
+            public IEnumerable<Word> Words { get { return Sentences.Words(); } }
 
             public IEnumerable<ILexical> Lexicals { get { return Sentences.SelectMany(sentence => sentence.Lexicals); } }
 
@@ -293,6 +262,9 @@ namespace LASI.Core
 
             public IEnumerable<IVerbal> Verbals { get { return Sentences.SelectMany(sentence => sentence.Verbals); } }
 
+            /// <summary>
+            /// Gets the text content of the Page.
+            /// </summary>
             public string Text { get { return ToString(); } }
         }
     }

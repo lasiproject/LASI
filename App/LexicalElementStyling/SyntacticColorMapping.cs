@@ -31,7 +31,7 @@ namespace LASI.App
                           .Result(Brushes.Black))
                     .With((Word w) => w.Match().Yield<Brush>()
                           .With((Adjective e) => Brushes.Indigo)
-                          .With((PresentParticipleVerb e) => Brushes.DarkGreen)
+                          .With((PresentParticiple e) => Brushes.DarkGreen)
                           .With((Verb e) => Brushes.Green)
                           .Result(Brushes.Black))
                     .Result();

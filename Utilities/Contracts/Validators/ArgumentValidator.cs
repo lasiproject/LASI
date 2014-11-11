@@ -8,6 +8,7 @@ namespace LASI.Utilities.Contracts.Validators
     /// <summary>
     /// Provides helper methods for argument validatation.
     /// </summary>
+    [System.Diagnostics.DebuggerStepThrough]
     public static class ArgumentValidator
     {
         // TODO: Add overloads which do not require an argument name to be specified and take advantage of the increased maintainability offered by the forthcoming nameof operator.

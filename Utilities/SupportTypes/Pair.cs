@@ -20,8 +20,9 @@ namespace LASI.Utilities
         /// <param name="key">The value of the pairs's first component.</param>
         /// <param name="value">The value of the pairs's second component.</param>
         /// <returns>A pair whose value is (item1, item2).</returns>
-        public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) { return new KeyValuePair<TKey, TValue>(key, value); }
-
+        public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) {
+            return new KeyValuePair<TKey, TValue>(key, value);
+        }
     }
     public class Pair<T1, T2>
     {

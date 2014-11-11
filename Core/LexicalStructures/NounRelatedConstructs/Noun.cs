@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -47,10 +48,10 @@ namespace LASI.Core
         /// <summary>
         /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
-        /// <param name="pro">The EntityReferency to Bind.</param>
-        public virtual void BindReferencer(IReferencer pro) {
-            boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+        /// <param name="referencer">The EntityReferency to Bind.</param>
+        public virtual void BindReferencer(IReferencer referencer) {
+            boundPronouns = boundPronouns.Add(referencer);
+            referencer.BindAsReferringTo(this);
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
         public virtual void BindDescriptor(IDescriptor descriptor) {
-            descriptors.Add(descriptor);
+            descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
 
@@ -69,7 +70,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            possessed.Add(possession);
+            possessions = possessions.Add(possession);
             possession.Possesser = this;
         }
 
@@ -104,7 +105,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessions { get { return possessed; } }
+        public virtual IEnumerable<IPossessable> Possessions { get { return possessions; } }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
@@ -161,9 +162,9 @@ namespace LASI.Core
 
         #region Fields
 
-        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        private IImmutableSet<IReferencer> boundPronouns = ImmutableHashSet<IReferencer>.Empty;
         private IQuantifier quantity;
         private IPossesser possessor;
 

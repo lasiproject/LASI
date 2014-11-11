@@ -72,7 +72,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ToStringTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             string expected = "LASI.Core.Sentence \"LASI found TIMIS.\"";
             string actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -84,7 +84,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void TextTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             string expected = "LASI found TIMIS.";
             string actual = target.Text;
             Assert.AreEqual(expected, actual);
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void WordsTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Word> actual;
             actual = target.Words;
             AssertHelper.AreSequenceEqual(phrases.SelectMany(p => p.Words), actual);
@@ -109,7 +109,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void PhrasesTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             AssertHelper.AreSequenceEqual(phrases, actual);
@@ -121,7 +121,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void IsInvertedTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             bool expected = false;
             bool actual;
             target.IsInverted = expected;
@@ -135,7 +135,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void DocumentTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Document actual = new Document(new[] { new Paragraph(new[] { target }, ParagraphKind.Default) });
 
             Assert.AreEqual(actual, target.Document);
@@ -152,7 +152,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void GetPhrasesAfterTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Phrase phrase = phrases[1];
             IEnumerable<Phrase> expected = new[] { phrases[2] };
             IEnumerable<Phrase> actual;
@@ -166,7 +166,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void EstablishParenthoodTest() {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, new SentenceEnding('.'));
+            Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Paragraph parent = new Paragraph(new[] { target }, ParagraphKind.Default);
             target.EstablishParenthood(parent);
             Assert.AreEqual(parent, target.Paragraph);
@@ -188,17 +188,17 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base)
+                                new SimpleVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )};
-            SentenceEnding sentenceEnding = new SentenceEnding('!');
+            SentenceEnding sentenceEnding = SentenceEnding.ExclamationPoint;
             Sentence target = new Sentence(clauses, sentenceEnding);
             AssertHelper.AreSequenceEqual(clauses, target.Clauses);
-            Assert.AreEqual(target.EndingPunctuation, sentenceEnding);
+            Assert.AreEqual(target.EndingPunctuator, sentenceEnding);
             Assert.AreEqual(target.Text, string.Join(" ", clauses.Select(c => c.Text).ToArray()) + sentenceEnding.Text);
         }
 

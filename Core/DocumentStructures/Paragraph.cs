@@ -12,12 +12,12 @@ namespace LASI.Core
     public sealed class Paragraph : IReifiedTextual
     {
         /// <summary>
-        /// Initializes a new instance of the Paragraph class containing the given sentences and belonging to the given Document.
+        /// Initializes a new instance of the Paragraph class.
         /// </summary>
-        /// <param name="sentences">The collection of sentences which comprise the Paragraph.</param>
-        ///<param name="paragraphKind">Argument indicating the kind of parent.</param>
-        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind paragraphKind) {
-            ParagraphKind = paragraphKind;
+        /// <param name="sentences">The sentences which comprise the Paragraph.</param>
+        ///<param name="kind">Indicates the kind of paragraph.</param>
+        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind kind) {
+            ParagraphKind = kind;
             Sentences = sentences;
         }
 
@@ -57,22 +57,18 @@ namespace LASI.Core
         /// Gets the collection of Words which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Word> Words {
-            get {
-                return from sentence in Sentences
-                       from word in sentence.Words
-                       select word;
-            }
+            get { return Sentences.SelectMany(sentence => sentence.Words); }
         }
         /// <summary>
         /// Gets the collection of Phrases which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Phrase> Phrases {
-            get {
-                return from sentence in Sentences
-                       from phrase in sentence.Phrases
-                       select phrase;
-            }
+            get { return Sentences.SelectMany(sentence => sentence.Phrases); }
         }
+        /// <summary>
+        /// Gets the collection of Clauses which comprise the Paragraph.
+        /// </summary>
+        public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
 
         /// <summary>
         /// Gets the Document the Paragraph belongs to.
@@ -88,12 +84,9 @@ namespace LASI.Core
         /// </summary>
         public string Text { get { return text = text ?? string.Join(" ", Sentences.Select(sentence => sentence.Text)); } }
 
-        public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
-
-
         /// <summary>
         /// Returns an enumeration of all constituent Lexical structures of the Paragraph.
-        /// Lexical structures with Lexical that contain others, such as Clauses, will be followed by their constituents.
+        /// Lexical structures that contain other Lexical structures, such as Clauses, will be followed by their constituents.
         /// </summary>
         public IEnumerable<ILexical> Lexicals {
             get {
@@ -109,6 +102,7 @@ namespace LASI.Core
             }
         }
         public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+
         public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
 
         private string text;
@@ -125,7 +119,7 @@ namespace LASI.Core
         /// <summary>
         /// A paragraph containing numbered or bulleted content.
         /// </summary>
-        NumberedOrBullettedContent,
+        Enumeration,
         /// <summary>
         /// A paragraph containing a heading.
         /// </summary>

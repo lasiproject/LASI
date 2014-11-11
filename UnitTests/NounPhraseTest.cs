@@ -85,7 +85,7 @@ namespace LASI.UnitTests
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
-            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticipleVerb("loving") });
+            IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticiple("loving") });
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
         }
@@ -118,7 +118,7 @@ namespace LASI.UnitTests
         public void DescribedByTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsTrue(target.Descriptors.Count() == 0);
-            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticipleVerb("loving"));
+            IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticiple("loving"));
             target.BindDescriptor(adj);
             Assert.IsTrue(target.Descriptors.Contains(adj));
             IDescriptor adj2 = new Adjective("proud");
@@ -132,7 +132,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void DirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new Verb("insult", VerbForm.Base);
+            IVerbal expected = new SimpleVerb("insult");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -145,7 +145,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void IndirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new VerbPhrase(new Verb("gave", VerbForm.Base), new Adverb("willingly"));
+            IVerbal expected = new VerbPhrase(new SimpleVerb("gave"), new Adverb("willingly"));
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -184,7 +184,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void SubjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new Verb("are", VerbForm.Base);
+            IVerbal expected = new SimpleVerb("are");
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

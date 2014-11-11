@@ -19,7 +19,6 @@ namespace LASI.Core.Binding.Experimental
         protected AggregateNounPhrase(IEnumerable<IEntity> constituents) {
             this.constituents = constituents.ToList();
         }
-
         public EntityKind EntityKind {
             get {
                 var kinds = from EntityKind kind in Enum.GetValues(EntityKind.GetType())

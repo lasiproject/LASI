@@ -17,8 +17,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class AdjectiveTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>

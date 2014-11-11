@@ -272,7 +272,7 @@ namespace LASI.Core
         #region Gender Extensions
 
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is male.
+        /// Gets a value indicating whether or not the Gender value is male.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is male; otherwise, false.</returns>
@@ -280,7 +280,7 @@ namespace LASI.Core
             return gender == Gender.Male;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is female.
+        /// Gets a value indicating whether or not the Gender value is female.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is female; otherwise, false.</returns>
@@ -288,7 +288,7 @@ namespace LASI.Core
             return gender == Gender.Female;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is male or female.
+        /// Gets a value indicating whether or not the Gender value is male or female.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is either male or female; otherwise, false.</returns>
@@ -296,7 +296,7 @@ namespace LASI.Core
             return gender == Gender.Male || gender == Gender.Female;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is neutral.
+        /// Gets a value indicating whether or not the Gender value is neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is neutral; otherwise, false.</returns>
@@ -304,7 +304,7 @@ namespace LASI.Core
             return gender == Gender.Neutral;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is either male or neutral.
+        /// Gets a value indicating whether or not the Gender value is either male or neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is either male neutral; otherwise, false.</returns>
@@ -312,7 +312,7 @@ namespace LASI.Core
             return gender == Gender.Neutral || gender == Gender.Male;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is either female or neutral.
+        /// Gets a value indicating whether or not the Gender value is either female or neutral.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is either female or neutral; otherwise, false.</returns>
@@ -320,7 +320,7 @@ namespace LASI.Core
             return gender == Gender.Neutral || gender == Gender.Female;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is either male, female, or neutral or not undefined.
+        /// Gets a value indicating whether or not the Gender value is either male, female, or neutral or not undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either male, female, or neutral or not undefined.; otherwise, false.</returns>
@@ -328,7 +328,7 @@ namespace LASI.Core
             return gender != Gender.Undetermined;
         }
         /// <summary>
-        /// Gets a value indicating wether or not the Gender value is either neutral or undefined.
+        /// Gets a value indicating whether or not the Gender value is either neutral or undefined.
         /// </summary>
         /// <param name="gender">The Gender value to test.</param>
         /// <returns>True if the Gender is is either  neutral or undefined.; otherwise, false.</returns>

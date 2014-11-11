@@ -84,7 +84,6 @@ namespace LASI.Core.Analysis.Melding
         public double MetaWeight { get { return represented.Average(w => w.MetaWeight); } set { represented.ToList().ForEach(entity => entity.MetaWeight = value); } }
 
 
-
         #region Private Helper Methods
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) {
@@ -104,7 +103,6 @@ namespace LASI.Core.Analysis.Melding
         private IAggregateVerbal directObjectsOfVerbals;
         private IAggregateVerbal indirectObjectsOfVerbals;
         private IAggregateVerbal subjectsOfVerbals;
-
         private readonly IEntity representative;
         private readonly IEnumerable<IEntity> represented;
         private readonly ISet<IPossessable> possessions;

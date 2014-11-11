@@ -218,16 +218,14 @@ namespace LASI.UnitTests
 
         }
 
-
         /// <summary>
         ///A test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod]
         public void ConvertDocxToTextAsyncTest() {
-            this.ConvertDocxToTextAsyncTestHelper().Wait();
+            ConvertDocxToTextAsyncTestHelper().Wait();
         }
-
-        private async Task ConvertDocxToTextAsyncTestHelper() {
+        private static async Task ConvertDocxToTextAsyncTestHelper() {
             DocXFile[] files = (from F in Directory.EnumerateFiles(FileManager.DocxFilesDir)
                                 select new DocXFile(F)).ToArray();
             files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
@@ -237,10 +235,7 @@ namespace LASI.UnitTests
 
             foreach (var F in files)
                 Assert.IsTrue(File.Exists(FileManager.TxtFilesDir + "\\" + F.NameSansExt + ".txt"));
-
         }
-
-
         /// <summary>
         ///A test for TagTextFile
         ///</summary>
@@ -322,9 +317,9 @@ namespace LASI.UnitTests
             ConvertAsNeededAsyncTestHelper().Wait();
         }
         private static async Task ConvertAsNeededAsyncTestHelper() {
-            var files = from fi in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
-                        where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fi.Extension, StringComparer.OrdinalIgnoreCase)
-                        select fi;
+            var files = from fileInfo in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
+                        where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase)
+                        select fileInfo;
             Assert.IsTrue(files.Any());
             foreach (var fi in files) {
                 File.Copy(fi.FullName,
@@ -418,11 +413,8 @@ namespace LASI.UnitTests
             foreach (var file in GetAllTestFiles()) {
                 Assert.IsTrue(FileManager.HasSimilarFile(file.NameSansExt));
                 Assert.IsTrue(FileManager.HasSimilarFile(file));
-
             }
         }
-
-
 
         /// <summary>
         ///A test for RemoveAllNotIn
@@ -442,7 +434,6 @@ namespace LASI.UnitTests
             }
         }
 
-
         /// <summary>
         ///A test for RemoveFile
         ///</summary>
@@ -454,10 +445,5 @@ namespace LASI.UnitTests
             FileManager.RemoveFile(file);
             Assert.IsFalse(FileManager.HasSimilarFile(file));
         }
-
-
-
-
-
     }
 }

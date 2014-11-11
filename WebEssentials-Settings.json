@@ -43,12 +43,15 @@
     "MakeMinified": true,
     "OutputDirectory": null,
     "RunOnBuild": false,
-    "SyncBase64ImageValues": true
+    "SyncBase64ImageValues": true,
+    "GenerateRtlSourceMaps": true,
+    "RtlCss": false
   },
   "General": {
     "AllMessagesToOutputWindow": true,
     "KeepImportantComments": true,
-    "SvgPreviewPane": true
+    "SvgPreviewPane": true,
+    "ShowWEIgnoreLogs": true
   },
   "Html": {
     "AutoMinify": false,
@@ -78,7 +81,12 @@
     "MakeMinified": true,
     "OutputDirectory": null,
     "RunOnBuild": false,
-    "MinificationMode": "KeepQuotes"
+    "MinificationMode": "KeepQuotes",
+    "AttributeQuotesRemovalMode": "KeepQuotes",
+    "CustomAngularDirectiveList": null,
+    "MinifyAngularBindingExpressions": false,
+    "MinifyKnockoutBindingExpressions": false,
+    "ProcessableScriptTypeList": null
   },
   "JavaScript": {
     "AutoMinify": false,
@@ -174,6 +182,13 @@
     "ScssOutputDirectory": null,
     "UseAbsoluteUrl": false,
     "UseFullPathForIdentifierName": true,
+    "OutputDirectory": null,
+    "Margin": 1
+  },
+  "Handlebars": {
+    "CompileOnBuild": false,
+    "CompileOnSave": true,
+    "MinifyInPlace": false,
     "OutputDirectory": null
   }
 }

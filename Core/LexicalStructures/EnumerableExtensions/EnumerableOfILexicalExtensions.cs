@@ -121,7 +121,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> AllWords(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<Word> Words(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
                     .With((Clause c) => c.Words)
                     .With((Phrase p) => p.Words)
@@ -133,7 +133,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> AllPhrases(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<Phrase> Phrases(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
                     .With((Clause c) => c.Phrases)
                     .With((Phrase p) => new[] { p })
@@ -272,7 +272,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> AllWords(this ParallelQuery<ILexical> elements) {
+        public static ParallelQuery<Word> Words(this ParallelQuery<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
                     .With((Clause c) => c.Words)
                     .With((Phrase p) => p.Words)
@@ -284,7 +284,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        static ParallelQuery<Phrase> AllPhrases(this ParallelQuery<ILexical> elements) {
+        static ParallelQuery<Phrase> Phrases(this ParallelQuery<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
                     .With((Clause c) => c.Phrases)
                     .With((Phrase p) => new[] { p })

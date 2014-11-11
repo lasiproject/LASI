@@ -72,7 +72,7 @@ namespace LASI.UnitTests
         public void ModiffiedTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            IAdverbialModifiable expected = new Verb("run", VerbForm.Base);
+            IAdverbialModifiable expected = new SimpleVerb("run");
             IAdverbialModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
@@ -96,7 +96,7 @@ namespace LASI.UnitTests
         public void ModifiesTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            IAdverbialModifiable expected = new Verb("ran", VerbForm.Base);
+            IAdverbialModifiable expected = new SimpleVerb("ran");
             IAdverbialModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

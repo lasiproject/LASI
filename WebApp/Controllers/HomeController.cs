@@ -64,19 +64,20 @@ namespace LASI.WebApp.Controllers
         }
 
 
-        public async Task<ViewResult> Results() {
+        internal async Task<ViewResult> Results() {
             var documents = await LoadResults();
             Phrase.VerboseOutput = true;
-            var data = (from document in documents
-                        let documentModel = new DocumentModel(document)
-                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                        from result in naiveTopResults
-                        orderby result.Value descending
-                        group new object[] { result.Key, result.Value } by documentModel)
-                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
-                            .Take(CHART_ITEM_MAX)));
-            ViewData["charts"] = data;
-            ViewData["documents"] = data.Keys;
+            var chartData = JArray.FromObject(from document in documents
+                                              let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                                              from result in topResults
+                                              let row = new[] { (string)result.Key, (string)result.Value }
+                                              let rank = row[0]
+                                              orderby rank descending
+                                              group row by document);
+            //.ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray())
+            //.Take(CHART_ITEM_MAX)).ToArray();
+            ViewData["charts"] = chartData.ToArray();
+            ViewData["documents"] = documents.Select(document => new DocumentModel(document));
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }

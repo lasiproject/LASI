@@ -130,7 +130,7 @@ namespace LASI.App
                 .Take(1)
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
-                .SelectMany(sentence => sentence.AllPhrases());
+                .SelectMany(sentence => sentence.Phrases());
             var colorizer = new SyntacticColorMap();
             var flowDocument = new System.Windows.Documents.FlowDocument();
 

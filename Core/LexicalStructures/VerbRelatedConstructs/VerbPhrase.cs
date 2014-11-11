@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
 using LASI.Core.PatternMatching;
+using System.Collections.Immutable;
 
 namespace LASI.Core
 {
@@ -38,7 +39,6 @@ namespace LASI.Core
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public VerbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
-
 
         #endregion
 
@@ -100,7 +100,7 @@ namespace LASI.Core
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
             if (indirectObject != null) {
-                indirectObjects.Add(indirectObject);
+                indirectObjects = indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
                 foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
             }
@@ -111,17 +111,17 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
-            var result = base.ToString();
+            var result = new StringBuilder(base.ToString());
             if (Phrase.VerboseOutput) {
-                result += Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty;
-                result += DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty;
-                result += IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty;
-                result += ObjectOfThePreposition != null ? "\nVia Preposition Object: " + ObjectOfThePreposition.Text : string.Empty;
-                result += Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty;
-                result += AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty;
-                result += string.Format("\nPossessive Indicator: [{0}]\nCategorizatizer: [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
+                result.Append(Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty)
+                    .Append(DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty)
+                    .Append(IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty)
+                    .Append(ObjectOfThePreposition != null ? "\nVia Preposition Object: " + ObjectOfThePreposition.Text : string.Empty)
+                    .Append(Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty)
+                    .Append(AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty)
+                    .AppendFormat("\nPossessive Indicator: [{0}]\nCategorizatizer: [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
             }
-            return result;
+            return result.ToString();
         }
         /// <summary>
         /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence 
@@ -222,10 +222,10 @@ namespace LASI.Core
 
         #region Fields
 
-        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-        private ISet<IEntity> subjects = new HashSet<IEntity>();
-        private ISet<IEntity> directObjects = new HashSet<IEntity>();
-        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
+        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
         private bool? isClassifier;
         private bool? isPossessive;
         private IDescriptor postpositiveDescriptor;

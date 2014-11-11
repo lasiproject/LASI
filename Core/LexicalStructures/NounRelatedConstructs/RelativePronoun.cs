@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Immutable;
 
 namespace LASI.Core
 {
@@ -42,24 +43,24 @@ namespace LASI.Core
             if (IsBound) {
                 RefersTo.AddPossession(possession);
             } else {
-                possessed.Add(possession);
+                possessions = possessions.Add(possession);
                 possession.Possesser = this;
             }
         }
         /// <summary>
         /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the RelativePronoun.
         /// </summary>
-        /// <param name="pro">The EntityReferency to Bind.</param>
-        public void BindReferencer(IReferencer pro) {
-            referencers.Add(pro);
-            pro.BindAsReferringTo(this);
+        /// <param name="referencer">The EntityReferency to Bind.</param>
+        public void BindReferencer(IReferencer referencer) {
+            referencers = referencers.Add(referencer);
+            referencer.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the RelativePronoun.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the RelativePronoun's descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            descriptors.Add(descriptor);
+            descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -127,7 +128,7 @@ namespace LASI.Core
         /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
         public IEnumerable<IPossessable> Possessions {
-            get { return possessed; }
+            get { return possessions; }
         }
 
 
@@ -139,9 +140,9 @@ namespace LASI.Core
 
         #endregion
 
-        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> referencers = new HashSet<IReferencer>();
+        private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
 
         private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun) {

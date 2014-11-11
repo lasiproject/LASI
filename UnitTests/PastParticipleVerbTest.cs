@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void PastParticipleVerbConstructorTest() {
             string text = "abided";
-            PastParticipleVerb target = new PastParticipleVerb(text);
+            PastParticiple target = new PastParticiple(text);
             Assert.AreEqual(text, target.Text);
             Assert.AreEqual(VerbForm.PastParticiple, target.VerbForm);
         }

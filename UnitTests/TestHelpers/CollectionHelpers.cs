@@ -23,13 +23,5 @@ namespace LASI.UnitTests.TestHelpers
         public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) {
             Assert.IsTrue(expected.Except(actual, comparer).None());
         }
-        //public static void AreSequenceEqual<T>(IEnumerable<T> first, IEnumerable<T> second, string message) {
-        //    try {
-        //        Assert.IsTrue(first.SequenceEqual(second));
-        //    }
-        //    catch (AssertFailedException x) {
-        //        throw new AssertFailedException(message, x);
-        //    }
-        //}
     }
 }

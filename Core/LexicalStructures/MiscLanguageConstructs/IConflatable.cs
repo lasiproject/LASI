@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.Core
 {
-    interface IConflatable
+    interface IConflatable<TLexical> where TLexical : ILexical
     {
-        IConflatable ConflatedWith {
+        IConflatable<TLexical> ConflatedWith {
             get;
             set;
         }

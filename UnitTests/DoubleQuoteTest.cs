@@ -13,8 +13,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class DoubleQuoteTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>

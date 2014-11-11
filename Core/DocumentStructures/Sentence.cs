@@ -18,20 +18,20 @@ namespace LASI.Core
         /// Initializes a new instance of the Sentence class.
         /// </summary>
         /// <param name="phrases">The sequence of Phrase elements which comprise the Sentence.</param>
-        /// <param name="sentencePunctuation">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
-        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding sentencePunctuation) {
+        /// <param name="ending">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
+        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) {
             Clauses = new[] { new Clause(from P in phrases select P) };
-            EndingPunctuation = sentencePunctuation ?? new SentenceEnding('.');
+            EndingPunctuator = ending ?? SentenceEnding.Period;
         }
 
         /// <summary>
         /// Initializes a new instance of the Sentence class.
         /// </summary>
         /// <param name="clauses">The sequence of Clause elements which comprise the Sentence.</param>
-        /// <param name="sentenceEnding">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
-        public Sentence(IEnumerable<Clause> clauses, SentenceEnding sentenceEnding) {
+        /// <param name="ending">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
+        public Sentence(IEnumerable<Clause> clauses, SentenceEnding ending) {
             Clauses = clauses;
-            EndingPunctuation = sentenceEnding ?? new SentenceEnding('.');
+            EndingPunctuator = ending ?? SentenceEnding.Period;
         }
         /// <summary>
         /// Returns the Phrase elements in the Sentence, following and not including the given Phrase. 
@@ -57,7 +57,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentenceEnding EndingPunctuation { get; private set; }
+        public SentenceEnding EndingPunctuator { get; private set; }
 
         /// <summary>
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
@@ -103,7 +103,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
-        public string Text { get { return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuation.Text; } }
+        public string Text { get { return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuator.Text; } }
 
 
 

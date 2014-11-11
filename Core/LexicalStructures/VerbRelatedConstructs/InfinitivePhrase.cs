@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace LASI.Core
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public InfinitivePhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
-        
+
         #endregion
 
         #region Properties
@@ -48,21 +49,21 @@ namespace LASI.Core
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the InfinitivePhrase.
         /// </summary>
-        /// <param name="pro">The referencer which refers to the InfinitivePhrase Instance.</param>
-        public void BindReferencer(IReferencer pro) {
-            boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+        /// <param name="referencer">The referencer which refers to the InfinitivePhrase Instance.</param>
+        public void BindReferencer(IReferencer referencer) {
+            referencers = referencers.Add(referencer);
+            referencer.BindAsReferringTo(this);
         }
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the InfinitivePhrase.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the InfinitivePhrase' descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            descriptors.Add(descriptor);
+            descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -81,7 +82,10 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) { possessions.Add(possession); }
+        public void AddPossession(IPossessable possession) {
+            possessions = possessions.Add(possession);
+            possession.Possesser = this;
+        }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the InfinitivePhrase.
@@ -92,9 +96,9 @@ namespace LASI.Core
 
         #region Fields
 
-        ISet<IReferencer> boundPronouns = new HashSet<IReferencer>();
-        ISet<IPossessable> possessions = new HashSet<IPossessable>();
-        ISet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
+        IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
 
         #endregion
     }

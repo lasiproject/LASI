@@ -32,9 +32,9 @@ namespace LASI.UnitTests
         public void IsEnglishLetterTest() {
             for (var c = char.MinValue; c < char.MaxValue; ++c) {
                 if (ALPHABET.Contains(c)) {
-                    Assert.IsTrue(c.IsEnglishLetter());
+                    Assert.IsTrue(c.IsAlphabetic());
                 } else {
-                    Assert.IsFalse(c.IsEnglishLetter());
+                    Assert.IsFalse(c.IsAlphabetic());
                 }
             }
         }

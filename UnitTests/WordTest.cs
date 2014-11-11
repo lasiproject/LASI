@@ -134,7 +134,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void TextTest() {
-            Word target = new Verb("run", VerbForm.Base);
+            Word target = new SimpleVerb("run");
             string expected = "run";
             string actual;
             actual = target.Text;

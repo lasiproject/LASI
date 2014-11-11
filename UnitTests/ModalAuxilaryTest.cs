@@ -68,7 +68,7 @@ namespace LASI.UnitTests
         public void ModifiesTest() {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
-            IModalityModifiable expected = new Verb("do", VerbForm.Base);
+            IModalityModifiable expected = new SimpleVerb("do");
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

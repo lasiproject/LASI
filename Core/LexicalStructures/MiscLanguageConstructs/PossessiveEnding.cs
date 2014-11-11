@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using LASI.Utilities;
@@ -33,7 +34,7 @@ namespace LASI.Core
             if (ProxyFor != null) {
                 ProxyFor.AddPossession(possession);
             }
-            possessed.Add(possession);
+            possessions = possessions.Add(possession);
         }
         /// <summary>
         /// Returns a string represntation of the PossessiveEnding.
@@ -56,7 +57,7 @@ namespace LASI.Core
             set {
                 possessesFor = value;
                 if (value != null)
-                    foreach (var possession in possessed)
+                    foreach (var possession in possessions)
                         possessesFor.AddPossession(possession);
             }
         }
@@ -64,11 +65,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the possessables which the PossessiveEnding indicates are owned.
         /// </summary>
-        public IEnumerable<IPossessable> Possessions {
-            get {
-                return possessed;
-            }
-        }
+        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
 
         #endregion
 
@@ -78,7 +75,7 @@ namespace LASI.Core
 
         #region Fields
 
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IPossesser possessesFor;
 
         #endregion

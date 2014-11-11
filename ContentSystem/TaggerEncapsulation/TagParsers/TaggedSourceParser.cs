@@ -111,7 +111,7 @@ namespace LASI.ContentSystem
                 }
                 parsedSentences.Add(new Sentence(parsedClauses, sentenceTerminator));
             }
-            return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.NumberedOrBullettedContent : ParagraphKind.Default);
+            return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default);
         }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading) {

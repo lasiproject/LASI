@@ -16,7 +16,7 @@ namespace LASI
         /// </summary>
         /// <param name="value">The character to test.</param>
         /// <returns>True if the character is a letter; otherwise, false.</returns>
-        public static bool IsEnglishLetter(this char value) {
+        public static bool IsAlphabetic(this char value) {
             return value > 96 && value < 123 || value > 64 && value < 91;
         }
         /// <summary>
@@ -41,7 +41,7 @@ namespace LASI
         /// <param name="value">The character to test.</param>
         /// <returns>True if the character is a consonant; otherwise, false.</returns>
         public static bool IsConsonant(this char value) {
-            return value == 'y' || value == 'Y' || value.IsEnglishLetter() && !value.IsVowel();
+            return value == 'y' || value == 'Y' || value.IsAlphabetic() && !value.IsVowel();
         }
         /// <summary>
         /// Returns a value indicating whether the character is a vowel.

@@ -210,7 +210,7 @@ namespace LASI.UnitTests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IVerbal expected = new VerbPhrase(new Verb("eat", VerbForm.Base));
+            IVerbal expected = new VerbPhrase(new SimpleVerb("eat"));
             IVerbal actual = target.DirectObjectOf; target.DirectObjectOf = expected;
             Assert.AreEqual(expected, actual);
         }
@@ -224,7 +224,7 @@ namespace LASI.UnitTests
                 new CommonSingularNoun("spoon"),
                 new CommonSingularNoun("fork")
             );
-            IVerbal expected = new VerbPhrase(new PastTenseVerb("were"), new PastParticipleVerb("eaten"));
+            IVerbal expected = new VerbPhrase(new PastTenseVerb("were"), new PastParticiple("eaten"));
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -290,7 +290,7 @@ namespace LASI.UnitTests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IVerbal expected = new Verb("eat", VerbForm.Base);
+            IVerbal expected = new SimpleVerb("eat");
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

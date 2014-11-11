@@ -37,7 +37,8 @@ namespace LASI.Core.PatternMatching
     /// </para>
     /// <para>
     /// 3. Describe traversal algorithms using complex, nested tiers of conditional blocks determined by the results of type casts. This is error prone, unwieldy, ugly, and obscures the logic with noise. Additionally this approach may be inconsistently applied in different section of code, causing the implementations of algorithms so written to be prone to subtle errors**.  
-    /// </para><para>
+    /// </para>
+    /// <para>
     /// The pattern matching implemented here abstracts over the type checking logic, allowing it to be tested and optimized for the large variety of algorithms in need of such functionality, 
     /// allows for subtype constraints to be specified, allows for algorithms to handle as many or as few types as needed, and emphasizes the intent of the code which leverage it. 
     /// It also eliminates the difficulty of defining state-full visitors by defining a match with a particular subtype as a function on that type. Such a function is intuitively specified as an anonymous closure which
@@ -47,16 +48,16 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// var weight = myLexical.Match()
-    ///         .With&lt;IReferencer&gt;(r => Console.WriteLine(r.ReferredTo.Weight))
-    ///     	.With&lt;IEntity&gt;(e => Console.WriteLine(e.Weight))
-    ///     	.With&lt;IVerbal&gt;(v =>  Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
+    ///         .With((IReferencer r) => Console.WriteLine(r.ReferredTo.Weight))
+    ///     	.With((IEntity e) => Console.WriteLine(e.Weight))
+    ///     	.With((IVerbal v) =>  Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
     /// </code>
     /// </example>
     /// <example>
     /// <code>
     /// var weight = myLexical.Match()
-    ///			.With&lt;Phrase&gt;(p => Console.WriteLine(p.Words.Average(w => w.Weight)))
-    ///			.With&lt;Word&gt;(w => Console.WriteLine(w.Weight))
+    ///			.With((Phrase p) => Console.WriteLine(p.Words.Average(w => w.Weight)))
+    ///			.With((Word w) => Console.WriteLine(w.Weight))
     ///     .Default(()=> Console.WriteLine("not a word or phrase"))
     /// </code>
     /// </example>
@@ -68,8 +69,8 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// myLexical.Match()
-    ///         .With&lt;Phrase&gt;(p => Console.WriteLine(&quot;Phrase: &quot;, p.Text))
-    ///		    .With&lt;Word&gt;(w => Console.WriteLine(&quot;Word: &quot;, w.Text))
+    ///         .With((Phrase p) => Console.WriteLine(&quot;Phrase: &quot;, p.Text))
+    ///		    .With((Word w) => Console.WriteLine(&quot;Word: &quot;, w.Text))
     ///	    .Default(() => Console.WriteLine(&quot;Not a Word or Phrase&quot;));
     /// </code>
     /// </example>
@@ -163,7 +164,6 @@ namespace LASI.Core.PatternMatching
             }
             return this.With((TPattern t) => action());
         }
-
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
@@ -182,7 +182,6 @@ namespace LASI.Core.PatternMatching
             }
             return this;
         }
-
 
         #endregion
 
@@ -207,7 +206,6 @@ namespace LASI.Core.PatternMatching
         }
 
         #endregion
-
 
         #region Operators 
         //public static implicit operator bool(Match<T> match) { return match.Accepted; }
@@ -240,7 +238,8 @@ namespace LASI.Core.PatternMatching
     /// </para>
     /// <para>
     /// 3. Describe traversal algorithms using complex, nested tiers of conditional blocks determined by the results of type casts. This is error prone, unwieldy, ugly, and obscures the logic with noise. Additionally this approach may be inconsistently applied in different section of code, causing the implementations of algorithms so written to be prone to subtle errors**.  
-    /// </para><para>
+    /// </para>
+    /// <para>
     /// The pattern matching implemented here abstracts over the type checking logic, allowing it to be tested and optimized for the large variety of algorithms in need of such functionality, 
     /// allows for subtype constraints to be specified, allows for algorithms to handle as many or as few types as needed, and emphasizes the intent of the code which leverage it. 
     /// It also eliminates the difficulty of defining state-full visitors by defining a match with a particular subtype as a function on that type. Such a function is intuitively specified as an anonymous closure which
@@ -294,7 +293,8 @@ namespace LASI.Core.PatternMatching
     /// b: As LASI is implemented using C# 5.0, it has access to the language's built in support for truly dynamic multi-methods with arbitrary numbers of arguments.
     /// However while experimenting with this approach, in a constrained scope and environment involving a fixed set of method overloads, this approach still had the drawbacks
     ///	 of reducing type safety, making extensions to type hierarchies potentially volatile, and drastically harming readability and maintainability.
-    ///	 </para><para>
+    ///	 </para>
+    /// <para>
     ///	 ** C# offers several  methods of type checking, type casting, and type conversions, each with distinct semantics and sometimes drastically different performance characteristics.
     ///	This is justification enough to form a centralized API and design pattern within the context of the project.(for example: if one algorithm is implemented using 
     ///	as/is operator semantics, which do not consider user defined conversions, it will not naturally adjust if the such conversions are defined)
@@ -352,7 +352,7 @@ namespace LASI.Core.PatternMatching
         /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match With TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
-            if (Value != null && !Accepted && Value is TPattern) {
+            if (!Accepted && Value is TPattern) {
                 result = func();
                 Accepted = true;
             }
@@ -369,7 +369,7 @@ namespace LASI.Core.PatternMatching
         /// </param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
         public Match<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
-            if (!Accepted && Value != null) {
+            if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {
                     result = func(matched);
@@ -385,7 +385,7 @@ namespace LASI.Core.PatternMatching
         /// <param name="result">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> With<TPattern>(TResult result) where TPattern : class, ILexical {
-            if (!Accepted && Value != null) {
+            if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {
                     this.result = result;
@@ -439,7 +439,6 @@ namespace LASI.Core.PatternMatching
             }
             return result;
         }
-
 
         #endregion
 

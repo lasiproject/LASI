@@ -34,18 +34,18 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         private static readonly IReadOnlyDictionary<string, WordCreator> map = new Dictionary<string, WordCreator>
         {
             //Punctation Mappings
+            { ".", t => SentenceEnding.Period }, //. sentence ending
+            { "!", t => SentenceEnding.ExclamationPoint }, //! sentence ending
+            { "?", t => SentenceEnding.QuestionMark }, //? sentence ending
             { ",", t => new Punctuator(t) },//Comma punctuation
             { ";", t => new Punctuator(t) }, //Semicolon punctuation
             { ":", t => new Punctuator(t) }, //Colon punctuation 
-            { ".", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //. sentence ending
-            { "!", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //! sentence ending
-            { "?", t => t == "." || t == "!" || t == "?" ? new SentenceEnding(t[0]) : new UnknownWord(t) as Word }, //? sentence ending
             { "``", t => new DoubleQuote() }, //Single quote * should be remapped
             { "''", t => new DoubleQuote() }, //Double Quotation Mark punctuation
             { "LS", t => new Punctuator(t) }, //List item marker
             { "-LRB-", t => new Punctuator(t) }, //Left Brackets
             { "-RRB-", t => new Punctuator(t) },  //Right Bracket
-            //Determinism mappings
+            //Determiner mappings
             { "CD", t => new Quantifier(t) },//Cardinal number
             { "DT", t => new Determiner(t) },//Determiner
             { "EX", t => new Existential(t) }, //Existential 'there'
@@ -60,8 +60,8 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             //Noun mappings
             { "NN", t => new CommonSingularNoun(t) }, //Noun }, singular or mass
             { "NNS", t => new CommonPluralNoun(t) }, //Noun }, plural
-            { "NNP", t => Lookup.ScrabbleDictionary.Contains(t.ToLower()) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun }, //Proper noun, singular
-            { "NNPS", t => Lookup.ScrabbleDictionary.Contains(t.ToLower()) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun }, //Proper noun, plural
+            { "NNP", t => Lookup.IsCommon(t) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun }, //Proper noun, singular
+            { "NNPS", t => Lookup.IsCommon(t) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun }, //Proper noun, plural
             //Pronoun mappings
             { "PDT", t => new PreDeterminer(t) }, //Predeterminer
             { "POS", t => new PossessiveEnding(t) }, //Possessive ending
@@ -72,12 +72,12 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "RBR", t => new ComparativeAdverb(t) }, //Adverb }, comparative
             { "RBS", t => new SuperlativeAdverb(t) }, //Adverb }, superlative
             //Verb mappings
-            { "VB", t => new Verb(t, VerbForm.Base) }, //Verb }, base form
+            { "VB", t => new SimpleVerb(t) }, //Verb }, base form
             { "VBD", t => new PastTenseVerb(t) }, //Verb }, past tense
-            { "VBG", t => new PresentParticipleVerb(t) }, //Verb }, gerund or present participle
-            { "VBN", t => new PastParticipleVerb(t) }, //Verb }, past participle
-            { "VBP", t => new Verb(t, VerbForm.SingularPresent) }, //Verb }, non-3rd person singular present
-            { "VBZ", t => new Verb(t, VerbForm.ThirdPersonSingularPresent) }, //Verb }, 3rd person singular present
+            { "VBG", t => new PresentParticiple(t) }, //Verb }, gerund or present participle
+            { "VBN", t => new PastParticiple(t) }, //Verb }, past participle
+            { "VBP", t => new SingularPresentVerb(t) }, //Verb }, non-3rd person singular present
+            { "VBZ", t => new ThirdPersonSingularPresentVerb(t) }, //Verb }, 3rd person singular present
             //WH-word mappings
             { "WDT", t => new Determiner(t) }, //Wh-Determiner
             { "WP", t => new RelativePronoun(t) }, //Wh-Pronoun
@@ -88,7 +88,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             { "SYM", t => new Symbol(t) }, //Symbol
             { "TO", t => new ToLinker() }, //'To'
             { "UH", t => new Interjection(t) }, //Interjection
-            //Empty POS Tag }, resulting function will throw EmptyTagException on invocation.
+            //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
             { "", t => { throw new EmptyWordTagException(t); } },
 
         };
@@ -112,9 +112,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
         public override WordCreator this[string posTag] {
             get {
-                try {
-                    return map[posTag];
-                }
+                try { return map[posTag]; }
                 catch (KeyNotFoundException) {
                     throw new UnknownWordTagException(posTag);
                 }

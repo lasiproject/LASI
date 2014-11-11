@@ -87,7 +87,8 @@ namespace LASI.Core
     /// b: As LASI is implemented using C# 5.0, it has access to the language's built in support for truly dynamic multi-methods Case arbitrary numbers of arguments.
     /// However while experimenting Case this approach, in a constrained scope and environment involving a fixed set of method overloads, this approach still had the drawbacks
     ///	 of reducing type safety, making extensions to type hierarchies potentially volatile, and drastically harming readability and maintainability.
-    ///	 </para><para>
+    ///	 </para>
+    /// <para>
     ///	 ** C# offers several  methods of type checking, type casting, and type conversions, each Case distinct semantics and sometimes drastically different performance characteristics.
     ///	This is justification enough to form a centralized API and design pattern Casein the context of the project.(for example: if one algorithm is implemented using 
     ///	as/is operator semantics, which do not consider user defined conversions, it will not naturally adjust if the such conversions are defined)

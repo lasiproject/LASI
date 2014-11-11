@@ -94,6 +94,5 @@ namespace LASI
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
-
     }
 }

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core
 {
     class AggregateVerbal : IAggregateVerbal
     {
-        public AggregateVerbal(IEnumerable<IVerbal> aggregate) {
-            members = aggregate;
-            Weight = members.Select(member => member.Weight).DefaultIfEmpty(0).Average();
+        public AggregateVerbal(IEnumerable<IVerbal> constituents) {
+            this.constituents = constituents;
+            Weight = this.constituents.Select(member => member.Weight).DefaultIfEmpty(0).Average();
         }
 
         public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
@@ -78,7 +77,7 @@ namespace LASI.Core
 
         public IEnumerable<IEntity> Subjects { get { return subjects; } }
 
-        public string Text { get { return string.Join(", ", members.Select(member => member.Text)); } }
+        public string Text { get { return string.Join(", ", constituents.Select(member => member.Text)); } }
 
         public double Weight { get; set; }
 
@@ -87,32 +86,32 @@ namespace LASI.Core
         }
 
         public void BindDirectObject(IEntity directObject) {
-            directObjects.Add(directObject);
+            directObjects = directObjects.Add(directObject);
         }
 
         public void BindIndirectObject(IEntity indirectObject) {
-            indirectObjects.Add(indirectObject);
+            indirectObjects = indirectObjects.Add(indirectObject);
         }
 
         public void BindSubject(IEntity subject) {
-            subjects.Add(subject);
+            subjects = subjects.Add(subject);
         }
 
         public void ModifyWith(IAdverbial modifier) {
-            adverbialModifiers.Add(modifier);
+            adverbialModifiers = adverbialModifiers.Add(modifier);
         }
 
-        public IEnumerator<IVerbal> GetEnumerator() { return members.GetEnumerator(); }
+        public IEnumerator<IVerbal> GetEnumerator() { return constituents.GetEnumerator(); }
 
-        IEnumerator IEnumerable.GetEnumerator() { return this.GetEnumerator(); }
+        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
         #region Fields
 
-        private readonly IEnumerable<IVerbal> members;
-        private ISet<IEntity> subjects = new HashSet<IEntity>();
-        private ISet<IEntity> directObjects = new HashSet<IEntity>();
-        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
-        private ISet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
+        private readonly IEnumerable<IVerbal> constituents;
+        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IAdverbial> adverbialModifiers = ImmutableHashSet<IAdverbial>.Empty;
 
         #endregion
     }

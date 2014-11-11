@@ -127,7 +127,7 @@ namespace LASI.UnitTests
         public void DirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbForm.Past);
+            IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -142,7 +142,7 @@ namespace LASI.UnitTests
         public void IndirectObjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbForm.Past);
+            IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -168,7 +168,7 @@ namespace LASI.UnitTests
         public void SubjectOfTest() {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new Verb("frightened", VerbForm.Past);
+            IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;

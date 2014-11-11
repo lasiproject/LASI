@@ -63,7 +63,7 @@ namespace LASI.UnitTests
 
         internal virtual IModalityModifiable CreateIModalityModifiable() {
 
-            IModalityModifiable target = new Verb("laugh",VerbForm.Base);
+            IModalityModifiable target = new SimpleVerb("laugh");
             return target;
         }
 

@@ -64,7 +64,7 @@ namespace LASI.UnitTests
 
 
         internal virtual IInderectObjectTaker CreateIInderectObjectTaker() {
-            IInderectObjectTaker target = new Verb("walk", VerbForm.Base);
+            IInderectObjectTaker target = new SimpleVerb("walk");
             return target;
         }
 

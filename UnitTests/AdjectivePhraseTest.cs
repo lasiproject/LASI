@@ -65,7 +65,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void AdjectivePhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Adjective("smooth"), new Adjective("silky") }; // TODO: Initialize to an appropriate value
+            IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Adjective("smooth"), new Adjective("silky") };
             AdjectivePhrase target = new AdjectivePhrase(composedWords);
             Assert.AreEqual(target.Words, composedWords);
         }
@@ -111,7 +111,5 @@ namespace LASI.UnitTests
             target.ModifyWith(adv);
             Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
         }
-
-
     }
 }

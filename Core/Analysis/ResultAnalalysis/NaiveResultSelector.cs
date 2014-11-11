@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Returns the top results for the given document using a heuristic which emphasises the occurence of Entities above
         /// other metrics.
         /// </summary>
-        /// <param name="document">The Document from which to retrieve results.</param>
+        /// <param name="source">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
         /// other metrics.</returns>
         public static IEnumerable<dynamic> GetTopResultsByEntity(IReifiedTextual source) {
@@ -61,9 +61,11 @@ namespace LASI.Core
                    orderby entity.Weight descending
                    let e = entity.Match().Yield<IEntity>()
                        .With((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
-                   .Result()
+                   .Result(entity)
+                   where e != null
                    group new { Key = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
-                   select g.DefaultIfEmpty().MaxBy(x => x.Value);
+                   where g.Any()
+                   select g.MaxBy(x => x.Value);
         }
     }
 }

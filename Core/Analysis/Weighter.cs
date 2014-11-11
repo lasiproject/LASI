@@ -95,7 +95,7 @@ namespace LASI.Core
         /// <summary>
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
-        /// <param name="document">Document containing the componentPhrases to weight</param>
+        /// <param name="source">Document containing the componentPhrases to weight</param>
         private static void WeightSimilarNounPhrases(IReifiedTextual source) {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.

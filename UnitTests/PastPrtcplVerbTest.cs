@@ -69,7 +69,7 @@ namespace LASI.UnitTests
         public void PastPrtcplVerbConstructorTest() {
             string text = "gone";
             VerbForm pastprt = VerbForm.PastParticiple;
-            PastParticipleVerb target = new PastParticipleVerb(text);
+            PastParticiple target = new PastParticiple(text);
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.VerbForm == pastprt);
         }

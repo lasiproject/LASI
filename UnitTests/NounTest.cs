@@ -184,7 +184,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void SubjectOfTest() {
             Noun target = CreateNoun();
-            IVerbal expected = new Verb("runs", VerbForm.SingularPresent);
+            IVerbal expected = new SingularPresentVerb("runs");
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

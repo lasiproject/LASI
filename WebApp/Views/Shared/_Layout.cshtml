@@ -71,8 +71,8 @@
                                 </ul>
                             </li>
                         </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
+                    </div>
+                </div>
             </div>
         </nav>
         @RenderBody()
@@ -89,16 +89,16 @@
     <!--I can confirm that these Unix Style file paths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
     <!--agreed-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    @Scripts.RenderFormat("~/Scripts/require.js")
+    @Scripts.Render("~/Scripts/require.js")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/ajaxlogin")
+    @Scripts.Render("~/Scripts/require.js")
+    @Scripts.Render("~/Scripts/context.js")
     @Scripts.Render("~/Scripts/App/Home/Initialize.js")
     @Scripts.Render("~/Scripts/App/Home/Progress.js")
     @Scripts.Render("~/Scripts/App/Home/Results.js")
     @Scripts.Render("~/Scripts/App/Home/Index.js")
     @Scripts.Render("~/Scripts/App/Home/TextInteraction.js")
-    @Scripts.Render("~/Scripts/context.js")
-    @Scripts.Render("~/Scripts/context'").
 </body>
 </html>

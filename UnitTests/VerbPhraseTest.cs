@@ -18,7 +18,7 @@ namespace LASI.UnitTests
     {
 
         private static VerbPhrase CreateVerbPhrase1() {
-            return new VerbPhrase(new[] { new Verb("help", VerbForm.Base) });
+            return new VerbPhrase(new SimpleVerb("help"));
         }
         private TestContext testContextInstance;
 
@@ -71,7 +71,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void VerbPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
         }
@@ -113,7 +113,7 @@ namespace LASI.UnitTests
         }
 
         private static VerbPhrase CreateVerbPhrase() {
-            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             return target;
         }
@@ -255,7 +255,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void AdjectivalModifierTest() {
-            VerbPhrase target = new VerbPhrase(new Verb("grew", VerbForm.Past));
+            VerbPhrase target = new VerbPhrase(new PastTenseVerb("grew"));
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
             IDescriptor expected = new Adjective("tall");
@@ -272,7 +272,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ToStringTest() {
             VerbPhrase.VerboseOutput = false;
-            IEnumerable<Word> composedWords = new Word[] { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             string expected = "VerbPhrase \"run swiftly through\"";
             string actual;
@@ -411,7 +411,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void AttachObjectViaPrepositionTest() {
-            VerbPhrase target = new VerbPhrase(new Verb("consume", VerbForm.Base));
+            VerbPhrase target = new VerbPhrase(new SimpleVerb("consume"));
             IPrepositional prepositional = new Preposition("with");
             ILexical prepositionalObject = new NounPhrase(new Adjective("great"), new CommonSingularNoun("haste"));
             prepositional.BindObject(prepositionalObject);

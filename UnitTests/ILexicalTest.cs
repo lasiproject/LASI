@@ -14,8 +14,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class ILexicalTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>

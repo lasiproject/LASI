@@ -359,7 +359,7 @@ namespace LASI.Core.Heuristics
 
         #region Name Lookup Methods
         /// <summary>
-        /// Determines wether the provided ProperNoun is a FirstName.
+        /// Determines whether the provided ProperNoun is a FirstName.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the provided ProperNoun is a FirstName; otherwise, false.</returns>
@@ -367,7 +367,7 @@ namespace LASI.Core.Heuristics
             return NameData.IsFirstName(proper.Text);
         }
         /// <summary>
-        /// Determines wether the ProperNoun's text corresponds to a last name in the english language.
+        /// Determines whether the ProperNoun's text corresponds to a last name in the english language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
@@ -376,7 +376,7 @@ namespace LASI.Core.Heuristics
             return NameData.IsLastName(proper.Text);
         }
         /// <summary>
-        /// Determines wether the ProperNoun's text corresponds to a female first name in the english language.
+        /// Determines whether the ProperNoun's text corresponds to a female first name in the english language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
@@ -385,13 +385,21 @@ namespace LASI.Core.Heuristics
             return NameData.IsFemaleFirst(proper.Text);
         }
         /// <summary>
-        /// Returns a value indicating wether the ProperNoun's text corresponds to a male first name in the english language. 
+        /// Returns a value indicating whether the ProperNoun's text corresponds to a male first name in the english language. 
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the english language; otherwise, false.</returns>
         public static bool IsMaleFirst(this ProperNoun proper) {
             return NameData.IsMaleFirst(proper.Text);
+        }
+        /// <summary>
+        /// Determines if the text is equal to that of a known Common Noun.
+        /// </summary>
+        /// <param name="nounText">The text to test.</param>
+        /// <returns>True if the text is equal to that of a known Common Noun; otherwise, false.</returns>
+        public static bool IsCommon(string nounText) {
+            return ScrabbleDictionary.Contains(nounText);
         }
 
         #endregion
@@ -430,7 +438,7 @@ namespace LASI.Core.Heuristics
                     femaleNames.Contains(text) || maleNames.Contains(text);
             }
             /// <summary>
-            /// Returns a value indicating wether the provided string corresponds to a common lastname in the english language. 
+            /// Returns a value indicating whether the provided string corresponds to a common lastname in the english language. 
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
@@ -439,7 +447,7 @@ namespace LASI.Core.Heuristics
                 return lastNames.Contains(text);
             }
             /// <summary>
-            /// Returns a value indicating wether the provided string corresponds to a common female name in the english language. 
+            /// Returns a value indicating whether the provided string corresponds to a common female name in the english language. 
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
@@ -450,7 +458,7 @@ namespace LASI.Core.Heuristics
                 return femaleNames.Contains(text);
             }
             /// <summary>
-            /// Returns a value indicating wether the provided string corresponds to a common male name in the english language. 
+            /// Returns a value indicating whether the provided string corresponds to a common male name in the english language. 
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>

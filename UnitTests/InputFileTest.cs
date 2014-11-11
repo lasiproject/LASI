@@ -13,8 +13,7 @@ namespace LASI.UnitTests
     ///</summary>
     [TestClass]
     public class InputFileTest
-    {
-
+    { 
         const string TEXT_TEST_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
         private TestContext testContextInstance;
 

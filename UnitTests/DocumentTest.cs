@@ -83,19 +83,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base)
+                                new SimpleVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new PronounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -103,7 +103,7 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 }, ParagraphKind.Default),
                 new Paragraph(new[] {
                     new Sentence(new Clause[] {
@@ -112,7 +112,7 @@ namespace LASI.UnitTests
                                 new PersonalPronoun("We")
                             }),
                             new VerbPhrase(new Word[] {
-                                new Verb("are", VerbForm.Base)
+                                new SimpleVerb("are")
                             }),
                             new AdjectivePhrase(new[] {
                                 new Adjective("obligated")
@@ -126,12 +126,12 @@ namespace LASI.UnitTests
                                 new PersonalPronoun("they")
                             }),
                             new VerbPhrase(new []{
-                                new Verb("are",VerbForm.Base)
+                                new SimpleVerb("are")
                             }),
                             new NounPhrase(new []{
                                 new CommonPluralNoun("jerks")
                             })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 }, ParagraphKind.Default)
             };
             return allParagrpahs;
@@ -164,13 +164,13 @@ namespace LASI.UnitTests
             IEnumerable<IVerbal> expected = new IVerbal[]{
                     new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base)
-                            }),new Verb("attack", VerbForm.Base),
+                                new SimpleVerb("attack")
+                            }),new SimpleVerb("attack"),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
-                            }),new Verb("do", VerbForm.Base),
-                    new VerbPhrase(new[] {new Verb("are",VerbForm.Base)
+                                new SimpleVerb("do")
+                            }),new SimpleVerb("do"),
+                    new VerbPhrase(new[] {new SimpleVerb("are")
                 }),
 
             };
@@ -260,19 +260,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base)
+                                new SimpleVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -280,7 +280,7 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
 
             Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
@@ -335,19 +335,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base)
+                                new SimpleVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -355,7 +355,7 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
 
             Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });

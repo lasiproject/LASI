@@ -79,6 +79,7 @@ namespace LASI.Core
         /// Gets a value indicating if the Verbal has at least one subject, direct object, or indirect object matching the provided predicate.
         /// </summary>
         /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object..</param>
+        /// <param name="verbal">The Verbal to test.</param>
         /// <returns>True if the Verbal has at least one subject, direct object, or indirect object  matching the provided predicate; otherwise, false.</returns>
         public static bool HasSubjectOrObject(this IVerbal verbal, Func<IEntity, bool> predicate) {
             return verbal.HasObject(predicate) || verbal.HasSubject(predicate);

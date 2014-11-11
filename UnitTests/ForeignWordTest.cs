@@ -14,8 +14,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class ForeignWordTest
     {
-
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -87,6 +85,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-       
-     }
+
+    }
 }

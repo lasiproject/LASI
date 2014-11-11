@@ -27,12 +27,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
         public override string GetText() {
-            using (var reader = new StreamReader(
-                new FileStream(FullPath,
-                    FileMode.Open,
-                    FileAccess.Read, FileShare.Read,
-                    1024, FileOptions.Asynchronous)
-                    , Encoding.UTF8, false, 1024, false)) {
+            using (var reader = File.OpenText(FullPath)) {
                 return reader.ReadToEnd();
             }
         }
@@ -41,12 +36,7 @@ namespace LASI.ContentSystem
         /// </summary>
         /// <returns>A single string containing all of the text in the TextFile.</returns>
         public override async Task<string> GetTextAsync() {
-            using (var reader = new StreamReader(
-                new FileStream(FullPath,
-                    FileMode.Open,
-                    FileAccess.Read, FileShare.Read,
-                    1024, FileOptions.Asynchronous)
-                    , Encoding.UTF8, false, 1024, false)) {
+            using (var reader = File.OpenText(FullPath)) {
                 return await reader.ReadToEndAsync();
             }
         }

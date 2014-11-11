@@ -129,9 +129,7 @@ namespace LASI
                     result => result.ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3);
         }
 
-
         #endregion
-
 
         #region Additional Query Operators
 
@@ -236,7 +234,6 @@ namespace LASI
             return new HashSet<TSource>(source, new CustomComparer<TSource>(equals, getHashCode));
         }
 
-
         /// <summary>
         /// Splits the sequence into a sequence of sequences based on the provided chunk size.
         /// </summary>
@@ -271,15 +268,29 @@ namespace LASI
 
         }
         /// <summary>
-        /// Returns a Tuple&lt;IEnumerable&lt;T&gt;IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.
+        /// Returns a Tuple&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source"></param>
         /// <param name="predicate"></param>
-        /// <returns></returns>
+        /// <returns>A Tuple&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.</returns>
         public static Tuple<IEnumerable<T>, IEnumerable<T>> Bisect<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
             var partitions = source.ToLookup(predicate);
             return Tuple.Create(partitions[true], partitions[false]);
+        }
+        /// <summary>
+        /// Returns a Tuple&lt;TResult, TResult&gt; representing the sequence bifurcated by the provided predicate.
+        /// A result selector function is used to project the two resulting sequences into a new form.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the items in the tupled result.</typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <param name="resultSelector"></param>
+        /// <returns></returns>
+        public static Tuple<TResult, TResult> Bisect<T, TResult>(this IEnumerable<T> source, Func<T, bool> predicate, Func<IEnumerable<T>, TResult> resultSelector) {
+            var partitions = source.Bisect(predicate);
+            return Tuple.Create(resultSelector(partitions.Item1), resultSelector(partitions.Item2));
         }
         /// <summary>
         /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
@@ -313,7 +324,6 @@ namespace LASI
         public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IComparable<TKey> {
             return source.MaxBy(selector, Comparer<TKey>.Default);
         }
-
         /// <summary>
         /// Returns the maximal element of the given sequence, based on
         /// the given projection.
@@ -392,27 +402,27 @@ namespace LASI
                     x => selector(x).GetHashCode())
             );
         }
-        static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Except(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
 
-        static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+        public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Intersect(second,
                 new CustomComparer<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
         }
-        static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+        public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Union(second,
                 new CustomComparer<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode()));
         }
-        static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
+        public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.SequenceEqual(second,
                 new CustomComparer<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
@@ -463,8 +473,7 @@ namespace LASI
         /// <param name="third">The third sequence to merge.</param>
         /// <param name="selector">A function that specifies how to merge the elements from the three sequences.</param>
         /// <returns>
-        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
-        /// of three input sequences.
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements from the three input sequences.
         /// </returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first,
                 IEnumerable<TSecond> second,
@@ -488,8 +497,7 @@ namespace LASI
         /// <param name="fourth">The fourth sequence to merge.</param>
         /// <param name="selector">A function that specifies how to merge the elements from the four sequences.</param>
         /// <returns>
-        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements
-        /// of four input sequences.
+        /// An System.Collections.Generic.IEnumerable&lt;TResult&gt; that contains merged elements from the four input sequences.
         /// </returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first,
                 IEnumerable<TSecond> second, IEnumerable<TThird> third,

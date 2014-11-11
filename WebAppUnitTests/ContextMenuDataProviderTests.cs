@@ -19,11 +19,11 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// </summary>
         [TestMethod]
         public void GetSerializationIdTest() {
-            IEnumerable<ILexical> elements = new List<ILexical> { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<ILexical> elements = new List<ILexical> { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
 
             Assert.IsTrue(elements.Select(e => e.GetSerializationId()).SequenceEqual(elements.Select(e => e.GetSerializationId())));
 
-            IEnumerable<ILexical> elements1 = new List<ILexical> { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<ILexical> elements1 = new List<ILexical> { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
 
             Assert.IsFalse(elements.Select(e => e.GetSerializationId()).SequenceEqual(elements1.Select(e => e.GetSerializationId())));
         }
@@ -32,7 +32,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         /// </summary>
         [TestMethod]
         public void GetSerializationIdTest1() {
-            ParallelQuery<ILexical> elements = new List<ILexical> { new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through") }
+            ParallelQuery<ILexical> elements = new List<ILexical> { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") }
                 .AsParallel();
             Assert.IsTrue(elements
                 .Select(e => e.GetSerializationId())
@@ -42,7 +42,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
                 .OrderBy(id => id)));
 
             ParallelQuery<ILexical> elements1 = new List<ILexical> {
-                new Verb("run", VerbForm.Base), new Adverb("swiftly"), new Preposition("through")
+                new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through")
             }.AsParallel();
             Assert.IsFalse(elements
                 .Select(e => e.GetSerializationId())
@@ -60,7 +60,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             IEntity subject = new PersonalPronoun("I");
             IEntity directObject = new PersonalPronoun("her");
             IEntity indirectObject = new PersonalPronoun("him");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             int directObjectId = directObject.GetSerializationId();
@@ -80,7 +80,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             // Relevant elements from a clause such as "I helped her"
             IEntity subject = new PersonalPronoun("I");
             IEntity directObject = new PersonalPronoun("her");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             int directObjectId = directObject.GetSerializationId();
@@ -98,7 +98,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         public void VerbalGetJsonMenuDataTest2() {
             // Relevant elements from a clause such as "I helped"
             IEntity subject = new PersonalPronoun("I");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             verbal.BindSubject(subject);
@@ -113,7 +113,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         public void VerbalGetJsonMenuDataTest3() {
             // Relevant elements from an element such as "helped"
 
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context 
             dynamic result = verbal.GetJsonMenuData();
             // note double {{ escapes to { and does not indicate a nested object literal
@@ -127,7 +127,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
             IEntity indirectObject = new PersonalPronoun("him");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             int indirectObjectId = indirectObject.GetSerializationId();
@@ -145,7 +145,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             // Relevant elements from a clause such as "I helped her with him"
             IEntity directObject = new PersonalPronoun("her");
             IEntity indirectObject = new PersonalPronoun("him");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int directObjectId = directObject.GetSerializationId();
             int indirectObjectId = indirectObject.GetSerializationId();
@@ -163,7 +163,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
             IEntity directObject = new PersonalPronoun("her");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             int directObjectId = directObject.GetSerializationId();
@@ -181,7 +181,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
             // Relevant elements from a clause such as "I helped her with him"
             IEntity subject = new PersonalPronoun("I");
             IEntity indirectObject = new PersonalPronoun("her");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context
             int subjectId = subject.GetSerializationId();
             int indirectObjectId = indirectObject.GetSerializationId();
@@ -198,7 +198,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         public void VerbalGetJsonMenuDataTest8() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity directObject = new PersonalPronoun("her");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context 
             int directObjectId = directObject.GetSerializationId();
             verbal.BindDirectObject(directObject);
@@ -213,7 +213,7 @@ namespace WebApp.UnitTests.LexicalElementInfo.Tests
         public void VerbalGetJsonMenuDataTest9() {
             // Relevant elements from a clause such as "I helped her with him"
             IEntity indirectObject = new PersonalPronoun("her");
-            IVerbal verbal = new Verb("helped", VerbForm.Past);
+            IVerbal verbal = new PastTenseVerb("helped");
             // Ids for serialization context 
             int indirectObjectId = indirectObject.GetSerializationId();
             verbal.BindIndirectObject(indirectObject);

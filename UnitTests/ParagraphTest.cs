@@ -76,19 +76,19 @@ namespace LASI.UnitTests
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") })
             };
             Sentence[] sentences = new Sentence[3];
-            sentences[0] = new Sentence(phrases1, new SentenceEnding('.'));
+            sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             Phrase[] phrases2 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
-            sentences[1] = new Sentence(phrases2, new SentenceEnding('.'));
+            sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }), 
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
             };
-            sentences[2] = new Sentence(phrases3, new SentenceEnding('.'));
+            sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
             Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
 
@@ -109,19 +109,19 @@ namespace LASI.UnitTests
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
             };
             Sentence[] sentences = new Sentence[3];
-            sentences[0] = new Sentence(phrases1, new SentenceEnding('.'));
+            sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             Phrase[] phrases2 = new Phrase[] { 
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
-            sentences[1] = new Sentence(phrases2, new SentenceEnding('.'));
+            sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
             };
-            sentences[2] = new Sentence(phrases3, new SentenceEnding('.'));
+            sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
             Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
 
@@ -142,19 +142,19 @@ namespace LASI.UnitTests
                    new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
                };
             Sentence[] sentences = new Sentence[3];
-            sentences[0] = new Sentence(phrases1, new SentenceEnding('.'));
+            sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
             Phrase[] phrases2 = new Phrase[] { 
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
                    new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
                    new NounPhrase(new Word[] { new ProperPluralNoun("them") })
                };
-            sentences[1] = new Sentence(phrases2, new SentenceEnding('.'));
+            sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
                };
-            sentences[2] = new Sentence(phrases3, new SentenceEnding('.'));
+            sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
             Paragraph[] target = { new Paragraph(sentences, ParagraphKind.Default) };
             Document parentDoc = new Document(target);
@@ -175,19 +175,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new SimpleVerb("attack") 
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
@@ -195,13 +195,13 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Word> actual;
             actual = target.Words;
-            AssertHelper.AreSequenceEqual(sentences.AllWords(), actual);
+            AssertHelper.AreSequenceEqual(sentences.Words(), actual);
         }
 
 
@@ -218,19 +218,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new SimpleVerb("attack") 
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
@@ -238,13 +238,13 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            AssertHelper.AreSequenceEqual(sentences.AllPhrases(), actual);
+            AssertHelper.AreSequenceEqual(sentences.Phrases(), actual);
         }
 
 
@@ -265,16 +265,16 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new SimpleVerb("attack") 
                             }),
                             startAfter}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
@@ -282,11 +282,11 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);
-            IEnumerable<Phrase> expected = sentences.AllPhrases().SkipWhile(p => p != startAfter).Skip(1);
+            IEnumerable<Phrase> expected = sentences.Phrases().SkipWhile(p => p != startAfter).Skip(1);
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
             AssertHelper.AreSequenceEqual(expected, actual);
@@ -305,19 +305,19 @@ namespace LASI.UnitTests
                             }),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("attack", VerbForm.Base) 
+                                new SimpleVerb("attack") 
                             }),
                             new NounPhrase(new Word[] { 
                                 new Adjective("blue"), 
                                 new CommonSingularNoun("team") }
                                 )}
-                            )}, new SentenceEnding('!')),
+                            )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] { 
                                 new ModalAuxilary("must"),
-                                new Verb("do", VerbForm.Base)
+                                new SimpleVerb("do")
                             }),
                         new NounPhrase(new Word[]{  
                             new PersonalPronoun("this")
@@ -325,7 +325,7 @@ namespace LASI.UnitTests
                         new AdverbPhrase(new Word [] {
                             new Adverb("quickly")
                         })
-                    })}, new SentenceEnding('!'))
+                    })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);

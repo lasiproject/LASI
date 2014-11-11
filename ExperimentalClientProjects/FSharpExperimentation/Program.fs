@@ -44,13 +44,11 @@ let main argv =
     
     let docs = Async.RunSynchronously(docTask)
     for doc in docs do
-        let toAttack = Verb("attack", VerbForm.Base)
-        let bellicoseVerbals = 
-            doc.Verbals |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
+        let toAttack = SimpleVerb("attack")
+        let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
         let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
         let attackerAttackeePairs = 
-            bellicoseVerbals.WithDirectObject().WithSubject() 
-            |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
+            bellicoseVerbals.WithDirectObject().WithSubject() |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
         do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
         let (|Entity|Referencer|Action|Other|) (lex : ILexical) = 
             match lex with

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Defines the Six Tenses of Verbs
+    /// Defines common conjugations of Verbs
     /// </summary>
     public enum VerbForm : byte
     {
@@ -31,7 +31,7 @@ namespace LASI.Core
         /// </summary>
         SingularPresent,
         /// <summary>
-        /// the third person singular present tense
+        /// The third person singular present tense
         /// </summary>
         ThirdPersonSingularPresent
 

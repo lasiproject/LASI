@@ -9,13 +9,13 @@ namespace LASI.Core
     /// <summary>
     /// Represents a verb in its past-participle-tense.
     /// </summary>
-    public class PastParticipleVerb : Verb
+    public class PastParticiple : Verb
     {
         /// <summary>
         /// Initializes a new instance of the PastParticipleVerb class.
         /// </summary>
         /// <param name="text">The text content of the PastParticipleVerb.</param>
-        public PastParticipleVerb(string text)
+        public PastParticiple(string text)
             : base(text, VerbForm.PastParticiple) {
         }
     }

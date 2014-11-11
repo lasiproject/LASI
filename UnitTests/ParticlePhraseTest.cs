@@ -100,7 +100,7 @@ namespace LASI.UnitTests
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
             ParticlePhrase target = new ParticlePhrase(composedWords);
-            ILexical expected = new Verb("gave", VerbForm.Past);
+            ILexical expected = new PastTenseVerb("gave");
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;

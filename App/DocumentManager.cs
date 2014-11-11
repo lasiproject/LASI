@@ -85,7 +85,7 @@ namespace LASI.App
         private static UIElement browseForDocButton;
         private static TextBox lastDocumentPathTextBox;
         /// <summary>
-        /// Gets a value indicating wether or not there is space for at least one additional document in the DocumentManager's working set.
+        /// Gets a value indicating whether or not there is space for at least one additional document in the DocumentManager's working set.
         /// </summary>
         public static bool CanAdd {
             get {
@@ -93,7 +93,7 @@ namespace LASI.App
             }
         }
         /// <summary>
-        /// Gets a value indicating wether or not the DocumentManager has any documents in its working set.
+        /// Gets a value indicating whether or not the DocumentManager has any documents in its working set.
         /// </summary>
         public static bool IsEmpty { get { return documentCount == 0; } }
         /// <summary>

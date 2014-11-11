@@ -19,6 +19,7 @@ namespace LASI.Core.PatternMatching
         /// </summary>
         /// <param name="predicateSucceeded">A value indicating whether or not the proceding When clause succeeded.</param>
         protected PredicatedMatchBase(bool predicateSucceeded) { ConditionMet = predicateSucceeded; }
+        
         #region Fields
         /// <summary>
         /// Gets a value indicating if condition upon which the match is predicated has was satisfied.

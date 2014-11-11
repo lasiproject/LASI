@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using LASI.Core.PatternMatching;
 using LASI.Utilities;
@@ -24,10 +24,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            members = new List<IEntity>(from entity in entities
-                                        let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
-                                        from aggregated in aggregate
-                                        select aggregated);
+            constituents = new List<IEntity>(from entity in entities
+                                             let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
+                                             from aggregated in aggregate
+                                             select aggregated);
             EntityKind = EntityKind.ThingMultiple;
         }
 
@@ -49,7 +49,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            possessions.Add(possession);
+            possessions = possessions.Add(possession);
             possession.Possesser = this;
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the to the aggregate entity.</param>
         public void BindDescriptor(IDescriptor descriptor) {
-            descriptors.Add(descriptor);
+            descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pro">The referencer which refers to the aggregate entity Instance.</param>
         public void BindReferencer(IReferencer pro) {
-            boundPronouns.Add(pro);
+            referencers = referencers.Add(pro);
             pro.BindAsReferringTo(this);
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the aggregate entity.</returns>
         public IEnumerator<IEntity> GetEnumerator() {
-            return members.GetEnumerator();
+            return constituents.GetEnumerator();
         }
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             return GetEnumerator();
@@ -83,9 +83,9 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString() {
-            return "[ " + members.Count() + " ] " +
+            return "[ " + constituents.Count() + " ] " +
                 string.Join(" ",
-                    from member in members.AsRecursiveEnumerable()
+                    from member in constituents.AsRecursiveEnumerable()
                     where !(member is IAggregateEntity)
                     select member.GetType().Name + " \"" + member.Text + "\"");
         }
@@ -113,7 +113,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the aggregate entity.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the aggregate entity.
         /// </summary>
@@ -132,7 +132,7 @@ namespace LASI.Core
         public string Text {
             get {
                 return string.Join(" , ",
-                    from member in members.AsRecursiveEnumerable()
+                    from member in constituents.AsRecursiveEnumerable()
                     let prepositionText = member.PrepositionOnRight != null ? " " + member.PrepositionOnRight.Text : string.Empty
                     select member.Text + prepositionText);
             }
@@ -163,10 +163,10 @@ namespace LASI.Core
         /// <summary>
         /// The sequence of entities which compose to form the aggregate entity.
         /// </summary>
-        private readonly IReadOnlyList<IEntity> members;
-        ISet<IPossessable> possessions = new HashSet<IPossessable>();
-        ISet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        ISet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private readonly IReadOnlyList<IEntity> constituents;
+        IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
+        IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
         #endregion
     }
