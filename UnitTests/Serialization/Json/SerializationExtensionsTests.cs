@@ -43,7 +43,10 @@ namespace LASI.ContentSystem.Serialization.Json.Tests
                 }
             }
             public static IEnumerable<ILexical> GetLexicalSequence() {
-                foreach (var lexical in new[] { NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) }) { yield return lexical; }
+                foreach (var lexical in new[] {
+                    new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) }) {
+                    yield return lexical;
+                }
             }
 
         }

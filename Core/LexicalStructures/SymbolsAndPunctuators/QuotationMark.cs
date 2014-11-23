@@ -33,9 +33,8 @@ namespace LASI.Core
         /// <summary>
         /// Returns a string representation of the QuotationMark&lt;TQuote&gt;.
         /// </summary>
-        /// <returns>A string representation of the QuotationMark&lt;TQuote&gt;.</returns>
-        public override string ToString() {
-            return base.ToString() + " Paired With " + (PairedWith != null ? (PairedWith.GetType() + ": " + PairedWith.Text) : string.Empty);
-        }
+        /// <returns>A string representation of the QuotationMark&lt;TQuote&gt;.
+        /// </returns>
+        public override string ToString() => "\{base.ToString()} Paired With \{PairedWith?.GetType() + " : " + PairedWith?.Text}";
     }
 }

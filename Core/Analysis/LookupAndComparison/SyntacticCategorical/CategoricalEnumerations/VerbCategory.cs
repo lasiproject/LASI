@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Defines the broad lexical categories assigned to Verbs in the WordNet system.
+    /// http://wordnet.princeton.edu/
     /// </summary>
     public enum VerbCategory : byte
     {

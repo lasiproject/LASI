@@ -12,7 +12,6 @@ namespace LASI.Core
     /// </summary>
     public class Clause : ILexical
     {
-
         /// <summary>
         /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
         /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
@@ -34,41 +33,34 @@ namespace LASI.Core
         /// Returns a string representation of the Clause.
         /// </summary>
         /// <returns>A string representation of the Clause.</returns>
-        public override string ToString() {
-            return base.ToString() + " \"" + Text + "\"";
-        }
+        public override string ToString() => "\{base.ToString()} \"\{Text}\"";
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>
-        public Document Document { get { return Sentence != null ? Sentence.Document : null; } }
+        public Document Document => Sentence?.Document;
         /// <summary>
         /// Gets or set the Paragraph instance to which the Clause belongs.
         /// </summary>
-        public Paragraph ParentParagraph { get { return Sentence != null ? Sentence.Paragraph : null; } }
+        public Paragraph ParentParagraph => Sentence?.Paragraph;
         /// <summary>
         /// Gets the punctuation, if any, which ends the clause.
         /// </summary>
-        public Punctuator EndingPunctuation { get; protected set; }
+        public Punctuator EndingPunctuation { get; }
         /// <summary>
         /// Gets the collection of Phrases which the Clause contains.
         /// </summary>
-        public IEnumerable<Phrase> Phrases { get; protected set; }
+        public IEnumerable<Phrase> Phrases { get; }
         /// <summary>
         /// Gets the concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
         /// <summary>
         /// Gets the collection of Words which the Clause contains.
         /// </summary>
-        public IEnumerable<Word> Words { get { return Phrases.SelectMany(r => r.Words); } }
+        public IEnumerable<Word> Words => Phrases.SelectMany(r => r.Words);
         /// <summary>
         /// Gets the concatenated text content of all of the Phrases which compose the Clause.
         /// </summary>
-        public string Text {
-            get {
-                return string.Join(" ", Phrases.Select(p => p.Text));
-            }
-        }
-
+        public string Text => string.Join(" ", Phrases.Select(p => p.Text));
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
@@ -81,10 +73,6 @@ namespace LASI.Core
         /// Gets the Sentence which contains The Clause.
         /// </summary>
         public LASI.Core.Sentence Sentence { get; private set; }
-        /// <summary>
-        /// Gets the unique ID number of the Clause
-        /// </summary>
-        public int ID { get; private set; }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the Clause.
         /// </summary>

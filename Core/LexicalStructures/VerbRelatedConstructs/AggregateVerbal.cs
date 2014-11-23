@@ -15,37 +15,16 @@ namespace LASI.Core
 
         public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) {
-            return this.SelectMany(flattenAbout).Where(result => result != null);
-        }
+        public IEnumerable<IAdverbial> AdverbialModifiers => FlattenAbout(v => v.AdverbialModifiers);
+        public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects).ToAggregate();
+        public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects).ToAggregate();
+        public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects).ToAggregate();
+        public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects).Union(directObjects);
+        public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
 
 
-        public IEnumerable<IAdverbial> AdverbialModifiers {
-            get { return FlattenAbout(v => v.AdverbialModifiers); }
-        }
-
-        public IAggregateEntity AggregateDirectObject {
-            get { return new AggregateEntity(FlattenAbout(v => v.DirectObjects)); }
-        }
-
-        public IAggregateEntity AggregateIndirectObject {
-            get { return new AggregateEntity(FlattenAbout(v => v.IndirectObjects)); }
-        }
-        public IAggregateEntity AggregateSubject {
-            get { return new AggregateEntity(FlattenAbout(v => v.Subjects)); }
-        }
-
-        public IEnumerable<IEntity> DirectObjects {
-            get { return FlattenAbout(v => v.DirectObjects).Union(directObjects); }
-        }
-
-        public IEnumerable<IEntity> IndirectObjects {
-            get { return FlattenAbout(v => v.IndirectObjects).Union(indirectObjects); }
-        }
-
-        public bool IsClassifier { get { return this.All(member => member.IsClassifier); } }
-
-        public bool IsPossessive { get { return this.All(member => member.IsPossessive); } }
+        public bool IsClassifier => this.All(member => member.IsClassifier);
+        public bool IsPossessive => this.All(member => member.IsPossessive);
 
         public double MetaWeight { get; set; }
 
@@ -75,9 +54,9 @@ namespace LASI.Core
 
         public IPrepositional PrepositionOnRight { get; set; }
 
-        public IEnumerable<IEntity> Subjects { get { return subjects; } }
+        public IEnumerable<IEntity> Subjects => subjects;
 
-        public string Text { get { return string.Join(", ", constituents.Select(member => member.Text)); } }
+        public string Text => string.Join(", ", constituents.Select(member => member.Text));
 
         public double Weight { get; set; }
 
@@ -85,25 +64,23 @@ namespace LASI.Core
             throw new NotImplementedException();
         }
 
-        public void BindDirectObject(IEntity directObject) {
-            directObjects = directObjects.Add(directObject);
+        public void BindDirectObject(IEntity directObject) => directObjects = directObjects.Add(directObject);
+
+
+        public void BindIndirectObject(IEntity indirectObject) => indirectObjects = indirectObjects.Add(indirectObject);
+
+        public void BindSubject(IEntity subject) => subjects = subjects.Add(subject);
+
+
+        public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
+
+
+        public IEnumerator<IVerbal> GetEnumerator() => constituents.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => constituents.GetEnumerator();
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) {
+            return this.SelectMany(flattenAbout).Where(result => result != null);
         }
-
-        public void BindIndirectObject(IEntity indirectObject) {
-            indirectObjects = indirectObjects.Add(indirectObject);
-        }
-
-        public void BindSubject(IEntity subject) {
-            subjects = subjects.Add(subject);
-        }
-
-        public void ModifyWith(IAdverbial modifier) {
-            adverbialModifiers = adverbialModifiers.Add(modifier);
-        }
-
-        public IEnumerator<IVerbal> GetEnumerator() { return constituents.GetEnumerator(); }
-
-        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
         #region Fields
 

@@ -46,7 +46,7 @@ namespace LASI.Interop.ResourceMonitoring
             BindDefaultHandlers();
         }
         /// <summary>
-        /// By default, set the memory critical application response to simply jetison all cached synonym data.
+        /// By default, set the memory critical application response to simply jettison all cached synonym data.
         /// </summary>
         private static void BindDefaultHandlers() {
             MemoryThresholdExceeded += (sender, e) => {
@@ -86,9 +86,9 @@ namespace LASI.Interop.ResourceMonitoring
     public struct ResourceUsageSample
     {
         /// <summary>
-        /// Intiailizes a new instance of the ResourceSample structure with the specified values.
+        /// Initializes a new instance of the ResourceSample structure with the specified values.
         /// </summary>
-        /// <param name="cpuUsage">The cpu usage value.</param>
+        /// <param name="cpuUsage">The CPU usage value.</param>
         /// <param name="memoryUsage">The memory usage value.</param>
         /// <param name="timeSnapshotted">The time when the sample was taken.</param>
         public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTime timeSnapshotted)
@@ -100,15 +100,15 @@ namespace LASI.Interop.ResourceMonitoring
         /// <summary>
         /// Gets the CPU usage % of the machine hosting the application when the sample was taken.        
         /// </summary>
-        public float CpuUsage { get; private set; }
+        public float CpuUsage { get; }
         /// <summary>
         /// Gets the Memory usage % of the machine hosting the application when the sample was taken.
         /// </summary>
-        public float MemoryUsage { get; private set; }
+        public float MemoryUsage { get; }
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary> 
-        public DateTime TimeSnapshotted { get; private set; }
+        public DateTime TimeSnapshotted { get; }
     }
 
 }

@@ -23,17 +23,12 @@ namespace LASI.Core
         /// <param name="sources">The Documents to Join.</param>
         /// <returns>A Task&lt;IEnumerable&lt;RelationshipTuple&gt;&gt; corresponding to the intersection of the Documents to be joined .</returns>
         public async Task<IEnumerable<SvoRelationship>> GetCommonResultsAsnyc(IEnumerable<IReifiedTextual> sources) {
-            return await await Task.Factory.ContinueWhenAll(
+            var resultSets = await Task.WhenAll(
                 new[] {
                     Task.Run(()=> GetCommonalitiesByVerbals(sources)),
                     Task.Run(()=> GetCommonalitiesByEntities(sources))
-                },
-                async tasks => {
-                    var results = new List<SvoRelationship>();
-                    foreach (var task in tasks) { results.AddRange(await task); }
-                    return results.Distinct();
-                }
-            );
+                });
+            return resultSets.SelectMany(resultSet => resultSet).Distinct();
         }
         /// <summary>
         /// Builds and computes the intersection of the given Documents contained and returns the results as a sequence of Relationship instances.

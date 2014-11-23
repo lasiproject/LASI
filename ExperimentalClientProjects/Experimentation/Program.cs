@@ -23,7 +23,7 @@ namespace LASI.Experimentation.CommandLine
             var notfier = new ResourceNotifier();
             var setsProcessed = 0;
             notfier.ResourceLoading += (s, e) => {
-                Output.WriteLine("Sets Processed {0}", setsProcessed++);
+                Output.WriteLine("Sets Processed {0}", ++setsProcessed);
             };
             notfier.ResourceLoaded += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);

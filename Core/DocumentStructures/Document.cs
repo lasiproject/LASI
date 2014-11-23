@@ -38,7 +38,7 @@ namespace LASI.Core
 
         private void AssignMembers() {
             sentences = paragraphs
-                .AllSentences()
+                .Sentences()
                 .Where(sentence => sentence.Words.OfVerb().Any())
                 .ToImmutableList();
             phrases = sentences.Phrases().ToImmutableList();
@@ -85,13 +85,13 @@ namespace LASI.Core
         /// Returns all of the verbals identified within the document.
         /// </summary>
         /// <returns>all of the verbals identified within the document.</returns>
-        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
+        public IEnumerable<IVerbal> Verbals => Lexicals.OfVerbal();
 
         /// <summary>
         /// Returns all of the entities identified in the document.
         /// </summary>
         /// <returns> All of the entities identified in the document.</returns>
-        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+        public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
         /// <summary>
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
@@ -147,19 +147,12 @@ namespace LASI.Core
         /// <param name="lineLength">The number of characters defining the length of a line of text.</param>
         /// <param name="linesPerPage">The number of lines of text a page can contain.</param>
         /// <returns>The contents of the Document aggregated into a sequences of Page objects based on the line length and lines per page supplied.</returns>
-        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) {
-            return Paginate(lineLength, linesPerPage, t => t.Length);
-        }
-
-
-
+        public IEnumerable<Page> Paginate(int lineLength, int linesPerPage) => Paginate(lineLength, linesPerPage, t => t.Length);
         /// <summary>
         /// Returns a string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.
         /// </summary>
         /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
-        public override string ToString() {
-            return GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
-        }
+        public override string ToString() => GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
 
         #endregion
 
@@ -168,30 +161,27 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentences of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Sentence> Sentences { get { return sentences; } }
+        public IEnumerable<Sentence> Sentences => sentences;
+
 
         /// <summary>
         /// Gets the Paragraphs of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs {
-            get {
-                return paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default);
-            }
-        }
+        public IEnumerable<Paragraph> Paragraphs => paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default);
 
 
         /// <summary>
         /// Gets the Clauses of the Document ub linear, left to right order.
         /// </summary>
-        public IEnumerable<Clause> Clauses { get { return sentences.AllClauses(); } }
+        public IEnumerable<Clause> Clauses => sentences.Clauses();
         /// <summary>
         /// Gets the Phrases of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Phrase> Phrases { get { return phrases; } }
+        public IEnumerable<Phrase> Phrases => phrases;
         /// <summary>
         /// Gets the Words of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Word> Words { get { return words; } }
+        public IEnumerable<Word> Words => words;
 
         /// <summary>
         /// The name of the file the Document was parsed from.
@@ -200,7 +190,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the text content of the Document.
         /// </summary>
-        public string Text { get { return paragraphs.Format(120, p => p.Text + Environment.NewLine); } }
+        public string Text => paragraphs.Format(120, p => p.Text + Environment.NewLine);
 
         #endregion
 
@@ -244,28 +234,28 @@ namespace LASI.Core
             /// <summary>
             /// Gets the Sentences which belong to the Page.
             /// </summary>
-            public IEnumerable<Sentence> Sentences { get; private set; }
+            public IEnumerable<Sentence> Sentences { get; }
             /// <summary>
             /// Gets the Document to which the Page belongs.
             /// </summary>
-            public Document Document { get; private set; }
+            public Document Document { get; }
 
-            public IEnumerable<Clause> Clauses { get { return Sentences.AllClauses(); } }
+            public IEnumerable<Clause> Clauses => Sentences.Clauses();
 
-            public IEnumerable<Phrase> Phrases { get { return Sentences.Phrases(); } }
+            public IEnumerable<Phrase> Phrases => Sentences.Phrases();
 
-            public IEnumerable<Word> Words { get { return Sentences.Words(); } }
+            public IEnumerable<Word> Words => Sentences.Words();
 
-            public IEnumerable<ILexical> Lexicals { get { return Sentences.SelectMany(sentence => sentence.Lexicals); } }
+            public IEnumerable<ILexical> Lexicals => Sentences.SelectMany(sentence => sentence.Lexicals);
 
-            public IEnumerable<IEntity> Entities { get { return Sentences.SelectMany(sentence => sentence.Entities); } }
+            public IEnumerable<IEntity> Entities => Sentences.SelectMany(sentence => sentence.Entities);
 
-            public IEnumerable<IVerbal> Verbals { get { return Sentences.SelectMany(sentence => sentence.Verbals); } }
+            public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(sentence => sentence.Verbals);
 
             /// <summary>
             /// Gets the text content of the Page.
             /// </summary>
-            public string Text { get { return ToString(); } }
+            public string Text => ToString();
         }
     }
 }

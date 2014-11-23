@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI;
 
 namespace LASI.UnitTests
 {
@@ -55,7 +56,6 @@ namespace LASI.UnitTests
         //public void MyTestCleanup()
         //{
         //}
-        //
         #endregion
 
 

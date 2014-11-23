@@ -31,21 +31,21 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         #region Fields
         private static readonly IReadOnlyDictionary<string, PhraseCreator> map = new Dictionary<string, PhraseCreator>
         {
-            { "VP", ws => ws.Any(w=> w is Punctuator) ? new SymbolPhrase(ws): ws.TakeWhile(w => !(w is IVerbal)).FirstOrDefault(w => w is ToLinker)!=null ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase  },
-            { "NP", ws => ws.OfType<IEntity>().Any() && ws.All(w => w is Pronoun) ? new PronounPhrase(ws) : ws.All(w => w is Adverb)? new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase },
-            { "PP", ws => new PrepositionalPhrase(ws) },
-            { "ADVP", ws => new AdverbPhrase(ws) },
-            { "ADJP", ws => new AdjectivePhrase(ws) },
-            { "PRT", ws => new ParticlePhrase(ws) },
-            { "CONJP", ws => new ConjunctionPhrase(ws) },
-            { "S", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
-            { "SINV", ws => new SimpleDeclarativeClauseBeginPhrase(ws) },
-            { "SQ", ws => new InterrogativePhrase(ws) },
-            { "SBARQ", ws => new InterrogativePhrase(ws) },
-            { "SBAR", ws => new SubordinateClauseBeginPhrase(ws) },
-            { "LST", ws => new RoughListPhrase(ws) },
-            { "INTJ", ws => new InterjectionPhrase(ws) },
-            { "", ws => { throw new EmptyPhraseTagException(string.Join(" ",ws.Select(w=>w.Text))); } },
+            ["VP"] = ws => ws.OfPunctuator().Any() ? new SymbolPhrase(ws) : ws.TakeWhile(w => !(w is IVerbal)).OfToLinker().Any() ? new InfinitivePhrase(ws) : new VerbPhrase(ws) as Phrase,
+            ["NP"] = ws => ws.OfEntity().Any() && ws.All(w => w is Pronoun) ? new PronounPhrase(ws) : ws.All(w => w is Adverb) ? new AdverbPhrase(ws) : new NounPhrase(ws) as Phrase,
+            ["PP"] = ws => new PrepositionalPhrase(ws),
+            ["ADVP"] = ws => new AdverbPhrase(ws),
+            ["ADJP"] = ws => new AdjectivePhrase(ws),
+            ["PRT"] = ws => new ParticlePhrase(ws),
+            ["CONJP"] = ws => new ConjunctionPhrase(ws),
+            ["S"] = ws => new SimpleDeclarativeClauseBeginPhrase(ws),
+            ["SINV"] = ws => new SimpleDeclarativeClauseBeginPhrase(ws),
+            ["SQ"] = ws => new InterrogativePhrase(ws),
+            ["SBARQ"] = ws => new InterrogativePhrase(ws),
+            ["SBAR"] = ws => new SubordinateClauseBeginPhrase(ws),
+            ["LST"] = ws => new RoughListPhrase(ws),
+            ["INTJ"] = ws => new InterjectionPhrase(ws),
+            [""] = ws => { throw new EmptyPhraseTagException(ws.Format(w => w.Text)); },
         };
 
         #endregion
@@ -61,8 +61,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return map[posTag];
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     throw new UnknownPhraseTagException(posTag);
                 }
             }
@@ -76,8 +75,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return map.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
                         phraseCreatingFunc,
                         string.Join(", ", from param in phraseCreatingFunc.Method.GetParameters()
@@ -98,8 +96,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
             get {
                 try {
                     return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
                 }
             }

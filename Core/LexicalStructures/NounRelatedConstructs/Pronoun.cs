@@ -33,9 +33,9 @@ namespace LASI.Core
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
             if (RefersTo == null) {
-                RefersTo = new AggregateEntity(new[] { target });
+                RefersTo = new AggregateEntity(target);
             } else {
-                RefersTo = new AggregateEntity(RefersTo.Append(target));
+                RefersTo = new AggregateEntity(RefersTo, target);
             }
             EntityKind = RefersTo.EntityKind;
         }

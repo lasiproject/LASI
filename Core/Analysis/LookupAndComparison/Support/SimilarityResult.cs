@@ -14,13 +14,13 @@ namespace LASI.Core.Heuristics
     /// So all code with forms such as:     
     /// </summary>
     /// <remarks>
-    /// <code>if ( a.IsSimilarTo(b) ) { ... }</code>
+    /// <code>if (a.IsSimilarTo(b)) { ... }</code>
     /// need not and should not be changed. 
     /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implicitly convert
     /// to a double. This removes the need for public code such as: 
-    /// <code>if ( Lookup.GetSimiliarityRatio(a, b) > 0.7 ) { ... }</code>
+    /// <code>if (Lookup.GetSimiliarityRatio(a, b) > 0.7) { ... }</code>
     /// Instead one may simple write the same logic as: 
-    /// <code>if ( a.IsSimilarTo(b) > 0.7 ) { ... }</code>
+    /// <code>if (a.IsSimilarTo(b) > 0.7) { ... }</code>
     ///</remarks>
     public struct SimilarityResult : IEquatable<SimilarityResult>, IComparable<SimilarityResult>
     {
@@ -105,9 +105,9 @@ namespace LASI.Core.Heuristics
         // These allow the type to implicitly convert to the desired result type for the condition. 
         // Thus, refactoring the IsSimilarTo implementations preserves and enhances existing code
         // without the need to rewrite any conditionals or call expensive methods multiple times to get numeric vs boolean results
-
         /// <summary>
-        /// Converts the SimResult into its boolean representation. The resulting boolean has the same value as the conversion target's booleanResult Property.
+        /// Converts the SimResult into its boolean representation. 
+        /// The resulting boolean has the same value as the conversion target's booleanResult Property.
         /// </summary>
         /// <param name="sr">The SimResult to convert.</param>
         /// <returns>A boolean with the same value as the conversion target's booleanResult Property.</returns>
@@ -126,9 +126,10 @@ namespace LASI.Core.Heuristics
         /// Returns a value that indicates whether the SimResult on the left is equal to the SimResult on the right.
         /// Although it seems unlikely that two instances of SimResult will be compared directly for equality. 
         /// The == and != operators or defined to ensure type coersion does not result from the implicit conversions which make the class convenient.
-        /// Equality is defined strictly such that both RatioResult properties must match exactly to 5 digits, in addition to both booleanResult properties being equivalent.
+        /// Equality is defined strictly such that both RatioResult properties must match exactly to 5 digits,
+        /// in addition to both booleanResult properties being equivalent.
         /// Keep this in mind if, for some reason, it is ever necessary to write code such as: 
-        /// <code>if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... } </code>
+        /// <code>if (a.IsSimilarTo(b) == b.IsSimilarTo(a)) { ... } </code>
         /// as the lexical lookup class itself currently makes no guarantees about reflexive equality over phrase-wise comparisons.
         /// </summary>
         /// <param name="left">The SimRult on the left hand side.</param>

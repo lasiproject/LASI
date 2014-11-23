@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Core</RootNamespace>
     <AssemblyName>LASI.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -105,6 +105,9 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Class1.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\IDictionary.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\InitializationExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
@@ -308,9 +311,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LASI\Core\Analysis\Melding\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

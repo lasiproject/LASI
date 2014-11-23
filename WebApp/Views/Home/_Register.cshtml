@@ -8,20 +8,20 @@
         <ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
-            @Html.TextBoxFor(m => m.UserName, new { id = "registerName" })
-        </li>
-        <li>
-            @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password)
-    </li>
-    <li>
-        @Html.LabelFor(m => m.ConfirmPassword)
-    @Html.PasswordFor(m => m.ConfirmPassword)
-</li>
-<li>
-    <input type="submit" value="Sign up" />
-</li>
-</ol>
-@Html.ValidationSummary()
-</fieldset>
+                @Html.TextBoxFor(m => m.UserName, new { id = "registerName" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+            <li>
+                <input type="submit" value="Sign up" />
+            </li>
+        </ol>
+        @Html.ValidationSummary()
+    </fieldset>
 }

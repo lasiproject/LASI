@@ -60,5 +60,9 @@ namespace LASI.Core
         /// E.g. in the sentence "He really enjoys attacking.", "attacking" refers to a behavior, the act of attacking, and is thus an activity.
         /// </summary>
         Activity,
+        /// <summary>
+        /// Multiple activities. E.g. "Walking, running, swimming, and boxing are all forms of exercise."
+        /// </summary>
+        ActivityMultiple
     }
 }

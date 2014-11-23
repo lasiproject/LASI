@@ -10,7 +10,7 @@ namespace LASI.Core
     /// Represents a lexical construct, usually a Noun or NounPhrase which can be qualified by a determiner. Along with the other interfaces in the Syntactic Interfaces Library, the Quantifiable interface provides for generalization and abstraction over many otherwise disparate element types and Type heirarchies.
     /// </summary>
     /// <see cref="LASI.Core.Determiner"/>
-    public interface IDeterminable
+    public interface IDeterminable : ILexical
     {
         /// <summary>
         /// Gets the Determiner which is bound to the IDterminable.

@@ -37,10 +37,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the alias string corresponding to the Punctuator.
         /// </summary>
-        public string AliasString {
-            get;
-            private set;
-        }
+        public string AliasString { get; }
 
         /// <summary>
         /// Maps between certain punctuation characters and alias text.
@@ -52,20 +49,12 @@ namespace LASI.Core
                 {  "LEFT_SQUARE_BRACKET", '[' },
                 { "RIGHT_SQUARE_BRACKET", ']' },
                 { "PERIOD_CHARACTER_SYMBOL", '.' },
-                { "END_OF_PARAGRAPH", '\n' }  
+                { "END_OF_PARAGRAPH", '\n' }
             };
 
-            public static char GetCharForAliasString(string alias) {
-                return aliasMap[alias];
-            }
-            public static string GetAliasStringForChar(char actual) {
+            public static char GetCharForAliasString(string alias) => aliasMap[alias];
 
-                var alias = from KV in aliasMap
-                            where KV.Value == actual
-                            select KV.Key;
-                return alias.Any() ? alias.First() : actual.ToString();
-
-            }
+            public static string GetAliasStringForChar(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
 
         }
 

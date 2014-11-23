@@ -20,7 +20,7 @@ namespace LASI.Core
         /// <param name="phrases">The sequence of Phrase elements which comprise the Sentence.</param>
         /// <param name="ending">The SentenceEnding which terminates the Sentence. If not provided, a period will be assumed, and an instance of SentenceEnding created to represent it.</param>
         public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) {
-            Clauses = new[] { new Clause(from P in phrases select P) };
+            Clauses = new[] { new Clause(phrases) };
             EndingPunctuator = ending ?? SentenceEnding.Period;
         }
 
@@ -38,9 +38,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="phrase">The Phrase from which to start.</param>
         /// <returns>The Phrase elements in the Sentence, following and not including the given Phrase. </returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) {
-            return Phrases.SkipWhile(r => r != phrase).Skip(1);
-        }
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase phrase) => Phrases.SkipWhile(r => r != phrase).Skip(1);
         #endregion
 
         #region Methods
@@ -48,16 +46,15 @@ namespace LASI.Core
         /// Returns a string representation of the Sentence.
         /// </summary>
         /// <returns>A string representation of the Sentence.</returns>
-        public override string ToString() {
-            return base.ToString() + " \"" + Text + "\"";
-        }
+        public override string ToString() => "\{base.ToString()} \"\{Text}\"";
+
         #endregion
 
         #region Properties
         /// <summary>
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
-        public SentenceEnding EndingPunctuator { get; private set; }
+        public SentenceEnding EndingPunctuator { get; }
 
         /// <summary>
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
@@ -66,10 +63,7 @@ namespace LASI.Core
         public void EstablishParenthood(Paragraph parent) {
             EndsParagraph = this == parent.Sentences.Last();
             BeginsParagraph = this == parent.Sentences.First();
-
-            Paragraph = parent;
-            foreach (var C in Clauses)
-                C.EstablishParent(this);
+            Paragraph = parent; Clauses.ToList().ForEach(c => c.EstablishParent(this));
         }
 
 
@@ -77,7 +71,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
         /// </summary>
-        public IEnumerable<Clause> Clauses { get; private set; }
+        public IEnumerable<Clause> Clauses { get; }
         /// <summary>
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
@@ -92,18 +86,12 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of Words which comprise the sentence.
         /// </summary>
-        public IEnumerable<Word> Words {
-            get {
-                return from clause in Clauses
-                       from phrase in clause.Phrases
-                       from word in phrase.Words
-                       select word;
-            }
-        }
+        public IEnumerable<Word> Words => Clauses.SelectMany(clause => clause.Phrases.SelectMany(phrase => phrase.Words));
+
         /// <summary>
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
-        public string Text { get { return string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuator.Text; } }
+        public string Text => string.Join(" ", Phrases.Select(e => e.Text)).Trim() + EndingPunctuator.Text;
 
 
 
@@ -114,11 +102,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Document to which the Sentence Belongs.
         /// </summary>
-        public Document Document {
-            get {
-                return Paragraph != null ? Paragraph.Document : null;
-            }
-        }
+        public Document Document => Paragraph?.Document;
 
         /// <summary>
         /// Gets or sets a value indicating whether the Sentence is an inverted sentence.
@@ -142,9 +126,9 @@ namespace LASI.Core
             }
         }
 
-        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+        public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
 
-        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
+        public IEnumerable<IVerbal> Verbals => Lexicals.OfVerbal();
 
         #endregion
 

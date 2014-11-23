@@ -76,7 +76,7 @@ namespace LASI.Core.Heuristics
         public static SimilarityResult IsSimilarTo(this Verb first, VerbPhrase second) {
             //This is rough and needs to be enhanced.
             return new SimilarityResult(second.Words
-                .TakeWhile(w => !(w is ToLinker)) // Collect all words in the phrase cutting short when and if an infinitive precedant is found.
+                .TakeWhile(w => !(w is ToLinker)) // Collect all words in the phrase cutting short when and if an infinitive precedent is found.
                 .OfVerb().Any(v => v.IsSynonymFor(first))); // If an infinitive is found, it will be the local direct object of the verb phrase.
         }
         /// <summary>

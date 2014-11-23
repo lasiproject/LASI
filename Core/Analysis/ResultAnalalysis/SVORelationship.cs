@@ -53,7 +53,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>
-        public double CombinedWeight { get { return Elements.Where(e => e != null).Sum(e => e.Weight); } }
+        public double Weight { get { return Elements.Where(e => e != null).Sum(e => e.Weight); } }
         /// <summary>
         /// Returns a string representation of the Relationship.
         /// </summary>

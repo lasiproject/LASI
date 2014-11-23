@@ -1,6 +1,5 @@
 ﻿@using LASI;
 @using LASI.Core;
-@*@using LASI.Core.DocumentStructures;*@
 @using LASI.WebApp;
 @using LASI.WebApp.Models;
 @using LASI.WebApp.Models.Lexical;
@@ -93,6 +92,8 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,9 +106,9 @@
                 <div id="main-content">
                     <div>
                         @Html.Partial("_DocumentUpload", new FileUploadModel
-                        {
-                            UploadTarget = "fileuploadtarget",
-                        })
+                   {
+                       UploadTarget = "fileuploadtarget",
+                   })
 
                     </div>
                 </div>

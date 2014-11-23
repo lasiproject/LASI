@@ -6,7 +6,7 @@ using System.Text;
 namespace LASI.Interop
 {
     /// <summary>
-    /// The event data which is accessable to a function which handles a memory threshold exceeded event.
+    /// The event data which is accessible to a function which handles a memory threshold exceeded event.
     /// </summary>
     /// <see cref="ResourceMonitoring.UsageManager">Provides access to memory usage events</see> 
     [Serializable]

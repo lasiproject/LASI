@@ -87,18 +87,13 @@ namespace LASI.Core
         /// "They have a lot of ideas." the Verb "have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns>True if the Verb is a possessive relationship specifier; otherwise, false.</returns>
-        protected virtual bool DetermineIsPossessive() {
-            var synonyms = this.GetSynonyms();
-            return synonyms.Contains("have", ignoreCase);
-        }
+        protected virtual bool DetermineIsPossessive() => this.GetSynonyms().Contains("have", ignoreCase);
+
         /// <summary>
         /// Determines if the Verb acts as a classifier. E.g. in the sentence "Rodents are prey animals." the Verb "are" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the Verb is a classifier; otherwise, false.</returns>
-        protected virtual bool DetermineIsClassifier() {
-            var synonyms = this.GetSynonyms();
-            return !IsPossessive && Modality == null && AdverbialModifiers.None() && synonyms.Contains("is", ignoreCase);
-        }
+        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && this.GetSynonyms().Contains("is", ignoreCase);
 
         #endregion
 
@@ -106,31 +101,31 @@ namespace LASI.Core
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the Verb's subjects.
         /// </summary>
-        public IAggregateEntity AggregateSubject { get { return subjects.ToAggregate(); } }
+        public IAggregateEntity AggregateSubject => subjects.ToAggregate();
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the Verb's direct objects.
         /// </summary>
-        public IAggregateEntity AggregateDirectObject { get { return directObjects.ToAggregate(); } }
+        public IAggregateEntity AggregateDirectObject => directObjects.ToAggregate();
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the Verb's indirect objects.
         /// </summary>
-        public IAggregateEntity AggregateIndirectObject { get { return indirectObjects.ToAggregate(); } }
+        public IAggregateEntity AggregateIndirectObject => indirectObjects.ToAggregate();
         /// <summary>
         /// Gets the subjects of the Verb.
         /// </summary> 
-        public IEnumerable<IEntity> Subjects { get { return subjects; } }
+        public IEnumerable<IEntity> Subjects => subjects;
         /// <summary>
         /// Gets the indirect objects of the Verb.
         /// </summary>
-        public virtual IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
+        public virtual IEnumerable<IEntity> IndirectObjects => indirectObjects;
         /// <summary>
         /// Gets the direct objects of the Verb.
         /// </summary>
-        public virtual IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
+        public virtual IEnumerable<IEntity> DirectObjects => directObjects;
         /// <summary>
         /// Gets or the collection of IAdverbial modifiers which modify the Verb.
         /// </summary>
-        public virtual IEnumerable<IAdverbial> AdverbialModifiers { get { return modifiers; } }
+        public virtual IEnumerable<IAdverbial> AdverbialModifiers => modifiers;
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the Verb.
         /// </summary>
@@ -138,7 +133,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbForm VerbForm { get; protected set; }
+        public VerbForm VerbForm { get; }
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
@@ -150,21 +145,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier {
-            get {
-                classifier = classifier ?? DetermineIsClassifier();
-                return classifier ?? false;
-            }
-        }
+        public bool IsClassifier => (classifier = classifier ?? DetermineIsClassifier()) ?? false;
         /// <summary>
         /// Gets a value indicating whether or not the Verb has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive {
-            get {
-                possessive = possessive ?? DetermineIsPossessive();
-                return possessive ?? false;
-            }
-        }
+        public bool IsPossessive => (possessive = possessive ?? DetermineIsPossessive()) ?? false;
         #endregion
 
         #region Fields

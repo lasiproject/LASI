@@ -64,10 +64,10 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="~/Account/Login/">Login</a></li>
-                                    <li><a href="~/Account/CreateAccount/">Create Account</a></li>
+                                    <li><a href="~/Account/Login">Login</a></li>
+                                    <li><a href="~/Account/Create">Create Account</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="~/Account/Settings/">Account Settings</a></li>
+                                    <li><a href="~/Account/Settings">Account Settings</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -89,7 +89,7 @@
     <!--I can confirm that these Unix Style file paths work, and are less confusing to deal with. For consistency, I vote we use them to specify these kind of paths.-->
     <!--agreed-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    @Scripts.Render("~/Scripts/require.js")
+    @*@Scripts.Render("~/Scripts/require.js")*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/ajaxlogin")

@@ -173,12 +173,10 @@ namespace LASI.ContentSystem
             try {
                 var phraseConstructor = phraseTagset[phraseTag];
                 return phraseConstructor(words);
-            }
-            catch (UnknownPhraseTagException e) {
+            } catch (UnknownPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
-            }
-            catch (EmptyPhraseTagException e) {
+            } catch (EmptyPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
@@ -189,14 +187,12 @@ namespace LASI.ContentSystem
             try {
                 var phraseConstructor = phraseTagset[phraseTag];
                 return () => phraseConstructor(lazyWords.Select(lazy => lazy.Value));
-            }
-            catch (UnknownPhraseTagException e) {
+            } catch (UnknownPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
                     e.Message,
                     lazyWords.Format(lazy => lazy.Value.ToString()));
                 return () => new UnknownPhrase(lazyWords.Select(lazy => lazy.Value));
-            }
-            catch (EmptyPhraseTagException e) {
+            } catch (EmptyPhraseTagException e) {
                 Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
                     e.Message, lazyWords.Format(lazy => lazy.Value.ToString()));
                 return () => new UnknownPhrase(lazyWords.Select(we => we.Value));
@@ -221,12 +217,12 @@ namespace LASI.ContentSystem
             foreach (var element in GetTaggedWordStrings(text)) {
                 TaggedText? textTagPair = wordExtractor.Extract(element);
                 if (textTagPair.HasValue) {
+                    var pair = textTagPair.Value;
                     try {
-                        parsedWords.Add(wordMapper.Create(textTagPair.Value));
-                    }
-                    catch (UnknownWordTagException x) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {2}", x.Message, textTagPair.GetValueOrDefault().Text, element);
-                        parsedWords.Add(new UnknownWord(textTagPair.Value.Text));
+                        parsedWords.Add(wordMapper.Create(pair));
+                    } catch (UnknownWordTagException x) {
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {2}", x.Message, pair.Text, element);
+                        parsedWords.Add(new UnknownWord(pair.Text));
                     }
                 }
             }
@@ -252,12 +248,12 @@ namespace LASI.ContentSystem
             foreach (var element in elements) {
                 TaggedText? textTagPair = posExtractor.Extract(element);
                 if (textTagPair.HasValue) {
+                    var pair = textTagPair.Value;
                     try {
-                        wordExpressions.Add(new Lazy<Word>(() => tagParser.Create(textTagPair.Value)));
-                    }
-                    catch (UnknownWordTagException e) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, textTagPair.GetValueOrDefault().Text, element);
-                        wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(textTagPair.Value.Text)));
+                        wordExpressions.Add(new Lazy<Word>(() => tagParser.Create(pair)));
+                    } catch (UnknownWordTagException e) {
+                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, pair.Text, element);
+                        wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(pair.Text)));
                     }
                 }
             }

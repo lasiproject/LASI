@@ -134,6 +134,16 @@ namespace LASI.Utilities
             //return (b, c, d, e, f, g) => function(value, b, c, d, e, f, g);
             return b => c => d => e => f => g => function.Apply(value)(b)(c)(d)(e)(f)(g);
         }
+
+        public static System.Diagnostics.Stopwatch InvokeTimed(this Action action) {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            action(); return stopwatch;
+        }
+        public static Tuple<System.Diagnostics.Stopwatch, T> InvokeTimed<T>(this Func<T> function) {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            var value = function();
+            return Tuple.Create(stopwatch, value);
+        }
     }
 
 }

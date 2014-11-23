@@ -53,8 +53,7 @@ namespace LASI.Core.Heuristics
             var results = new List<string>();
             for (var i = endings.Length - 1; i >= 0; --i) {
                 if (verbForm.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase)) {
-                    checked
-                    {
+                    checked {
                         try {
                             var possibleRoot = verbForm.Substring(0, verbForm.Length - (sufficies[i].Length));
 
@@ -62,8 +61,7 @@ namespace LASI.Core.Heuristics
                                 results.Add(possibleRoot);
                                 return results.Select(result => result + afterHyphen);
                             }
-                        }
-                        catch (StackOverflowException e) { Output.WriteLine(e); }
+                        } catch (StackOverflowException e) { Output.WriteLine(e); }
                     }
                 }
             }
@@ -96,7 +94,6 @@ namespace LASI.Core.Heuristics
             using (var reader = new StreamReader(exceptionsFilePath)) {
                 var verbExceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                                              select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-'));
-
                 exceptionMapping = new ConcurrentDictionary<string, IEnumerable<string>>(
                     from exceptionSet in verbExceptionFileLines
                     from exception in exceptionSet

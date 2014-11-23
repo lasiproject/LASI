@@ -44,7 +44,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="referee">The referencer which refers to the NounPhrase Instance.</param>
         public virtual void BindReferencer(IReferencer referee) {
-            boundReferences.Add(referee);
+            references.Add(referee);
             referee.BindAsReferringTo(this);
         }
         /// <summary>
@@ -62,7 +62,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            possessed.Add(possession);
+            possessions.Add(possession);
             possession.Possesser = this;
         }
         /// <summary>
@@ -96,11 +96,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return boundReferences; } }
+        public IEnumerable<IReferencer> Referencers => references;
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
@@ -124,7 +124,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessions { get { return possessed; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
@@ -183,8 +183,8 @@ namespace LASI.Core
         #region Fields
 
         private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
-        private HashSet<IReferencer> boundReferences = new HashSet<IReferencer>();
+        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
+        private HashSet<IReferencer> references = new HashSet<IReferencer>();
         private IPossesser possessor;
         private IVerbal directObjectOf;
         private IVerbal indirecObjectOf;

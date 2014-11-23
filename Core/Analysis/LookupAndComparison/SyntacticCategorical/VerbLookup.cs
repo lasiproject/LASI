@@ -13,6 +13,7 @@ namespace LASI.Core.Heuristics.WordNet
     using LinkType = VerbLink;
     using Interop;
     using System.Reactive.Linq;
+    using System.Collections.Immutable;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -30,20 +31,15 @@ namespace LASI.Core.Heuristics.WordNet
             using (var reader = new StreamReader(filePath)) {
                 OnReport(new ResourceLoadEventArgs("Parsing File", 0));
                 var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
-                    .Skip(HEADER_LENGTH)
+                    .Skip(FILE_HEADER_LINE_COUNT)
                     .AsParallel()
                     .Select(CreateSet);
-
-
                 OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
                 sets.ToObservable().ForEachAsync(set => {
                     LinkSynset(set);
                     OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0));
 
                 });
-                //.Subscribe();
-
-                //foreach (var set in sets) { LinkSynset(set); }
                 OnReport(new ResourceLoadEventArgs("Loaded", 0));
             }
         }
@@ -77,10 +73,10 @@ namespace LASI.Core.Heuristics.WordNet
                 }
             }
         }
-        private ISet<string> SearchFor(string search) {
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private IImmutableSet<string> SearchFor(string search) {
+            var setBuilder = ImmutableHashSet.CreateBuilder(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            result.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
+            setBuilder.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
                 VerbSynSet containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(set => set.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
@@ -92,26 +88,26 @@ namespace LASI.Core.Heuristics.WordNet
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Append(root);
             })));
-            return result;
+            return setBuilder.ToImmutable();
         }
 
         /// <summary>
-        /// Retrives the synonyms of the given verb as an ISet of strings.
+        /// Retrieves the synonyms of the given verb as an ISet of strings.
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        internal override ISet<string> this[string search] {
+        internal override IImmutableSet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
 
         /// <summary>
-        /// Retrives the synonyms of the given Verb as an ISet of strings.
+        /// Retrieves the synonyms of the given Verb as an ISet of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        internal override ISet<string> this[Verb search] {
+        internal override IImmutableSet<string> this[Verb search] {
             get {
                 return this[search.Text];
             }

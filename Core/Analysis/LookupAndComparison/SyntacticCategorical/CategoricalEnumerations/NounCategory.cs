@@ -1,7 +1,9 @@
 ﻿namespace LASI.Core.Heuristics.WordNet
-{ /// <summary>
-  /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
-  /// </summary>
+{
+    /// <summary>
+    /// Defines the broad lexical categories assigned to Nouns in the WordNet system.
+    /// http://wordnet.princeton.edu/
+    /// </summary>
     public enum NounCategory : byte
     {
         /// <summary>

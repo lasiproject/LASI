@@ -1,5 +1,4 @@
 ﻿using LASI.Core;
-
 using LASI.ContentSystem;
 using System;
 using System.Collections.Concurrent;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using LASI.ContentSystem.TaggerEncapsulation;
 
 namespace LASI.Interop
 {
@@ -32,7 +32,6 @@ namespace LASI.Interop
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
-            observable = Enumerable.Empty<AnalysisUpdateEventArgs>().ToObservable();
         }
 
         /// <summary>
@@ -65,63 +64,62 @@ namespace LASI.Interop
         /// </example>
         public async Task<IEnumerable<Document>> ProcessAsync() {
             var taggedFiles = await TagFilesAsync(rawTextSources);
-            return await BindAndWeightDocumentsAsync(taggedFiles);
+            return await BindAndWeightAsync(taggedFiles);
         }
         private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments) {
-            OnReport(new AnalysisUpdateEventArgs("Tagging Documents", 0));
-            var tasks = rawTextDocuments.Select(raw => Task.Run(async () => await new Tagger().TaggedFromRawAsync(raw))).ToList();
+            Progress("Tagging Documents", 0);
+            var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
             var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
             while (tasks.Any()) {
                 var task = await Task.WhenAny(tasks);
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Tagged", tagged.SourceName), stepMagnitude + 1.5));
+                Progress("\{tagged.SourceName}: Tagged", stepMagnitude + 1.5);
             }
-            OnReport(new AnalysisUpdateEventArgs("Tagged Documents", 3));
+            Progress("Tagged Documents", 3);
             return taggedFiles;
         }
-        private async Task<IEnumerable<Document>> BindAndWeightDocumentsAsync(IEnumerable<ITaggedTextSource> taggedFiles) {
-            var tasks = taggedFiles.Select(tagged => ProcessTaggedFileAsync(tagged)).ToList();
+        private async Task<IEnumerable<Document>> BindAndWeightAsync(IEnumerable<ITaggedTextSource> taggedFiles) {
+            var tasks = taggedFiles.Select(ProcessTaggedAsync).ToList();
             var documents = new ConcurrentBag<Document>();
             while (tasks.Any()) {
                 var currentTask = await Task.WhenAny(tasks);
-                var processedDocument = await currentTask;
                 tasks.Remove(currentTask);
-                documents.Add(processedDocument);
+                documents.Add(await currentTask);
             }
             return documents;
         }
-        private async Task<Document> ProcessTaggedFileAsync(ITaggedTextSource tagged) {
-            var fileName = tagged.SourceName;
-            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loading...", fileName), 0));
-            var document = await new Tagger().DocumentFromTaggedAsync(tagged);
-            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Loaded", fileName), 4 / sourceCount));
-            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Analyzing Syntax...", fileName), 0));
+        private async Task<Document> ProcessTaggedAsync(ITaggedTextSource tagged) {
+            var name = tagged.SourceName;
+            Progress("\{name}: Loading...", 0);
+            var document = await tagger.DocumentFromTaggedAsync(tagged);
+            Progress("\{name}: Loaded", 4 / sourceCount);
+            Progress("\{name}: Analyzing Syntax...", 0);
             foreach (var bindingTask in document.GetBindingTasks()) {
-                OnReport(new AnalysisUpdateEventArgs(bindingTask.InitializationMessage, 0));
+                Progress(bindingTask.InitializationMessage, 0);
                 await bindingTask.Task;
-                OnReport(new AnalysisUpdateEventArgs(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.58 / sourceCount));
+                Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.58 / sourceCount);
             }
-            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Correlating Relationships...", fileName), 0));
+            Progress("\{name}: Correlating Relationships...", 0);
             foreach (var task in document.GetWeightingTasks()) {
-                OnReport(new AnalysisUpdateEventArgs(task.InitializationMessage, 1 / sourceCount));
+                Progress(task.InitializationMessage, 1 / sourceCount);
                 await task.Task;
-                OnReport(new AnalysisUpdateEventArgs(task.CompletionMessage, task.PercentCompleted * 0.59 / sourceCount));
+                Progress(task.CompletionMessage, task.PercentCompleted * 0.59 / sourceCount);
             }
-
-            OnReport(new AnalysisUpdateEventArgs(string.Format("{0}: Coalescing Results...", fileName), stepMagnitude));
+            Progress("\{name}: Coalescing Results...", stepMagnitude);
             return document;
         }
-
-        IObservable<AnalysisUpdateEventArgs> observable;// new AnalysisUpdateEventArgs("Initializing...", 0.0)));
-        //IImmutableList<IObserver<AnalysisUpdateEventArgs>> observers = ImmutableList.Create<IObserver<AnalysisUpdateEventArgs>>();
+        private async Task<ITaggedTextSource> TagRawAsync(IRawTextSource raw) => await tagger.TaggedFromRawAsync(raw);
+        private void Progress(string message, double percentCompleted) {
+            OnReport(new AnalysisUpdateEventArgs(message, percentCompleted));
+        }
         #region Fields
 
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IRawTextSource> rawTextSources;
-
+        private Tagger tagger = new Tagger();
         #endregion
 
 

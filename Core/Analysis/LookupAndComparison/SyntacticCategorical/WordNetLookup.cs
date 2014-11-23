@@ -21,7 +21,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The string to lookup.</param>
         /// <returns>The synonyms for the given string treating it in the context of the Syntactic role of T.</returns>
-        internal abstract System.Collections.Generic.ISet<string> this[string search] {
+        internal abstract System.Collections.Immutable.IImmutableSet<string> this[string search] {
             get;
         }
         /// <summary>
@@ -29,10 +29,13 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The TWord to lookup</param>
         /// <returns>The synonyms for search.</returns>
-        internal abstract System.Collections.Generic.ISet<string> this[TWord search] {
+        internal abstract System.Collections.Immutable.IImmutableSet<string> this[TWord search] {
             get;
         }
-        protected const int HEADER_LENGTH = 29;
-
+        protected System.Collections.Generic.IEqualityComparer<string> IgnoreCase => StringComparer.OrdinalIgnoreCase;
+        /// <summary>
+        /// Constant value which specifies how the number of lines the header of a WordNet file.
+        /// </summary>
+        protected const int FILE_HEADER_LINE_COUNT = 29;
     }
 }

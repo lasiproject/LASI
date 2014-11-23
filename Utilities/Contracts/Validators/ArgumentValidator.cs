@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LASI.Utilities.Contracts.Validators
 {
     /// <summary>
-    /// Provides helper methods for argument validatation.
+    /// Provides helper methods for argument validation.
     /// </summary>
     [System.Diagnostics.DebuggerStepThrough]
     public static class ArgumentValidator

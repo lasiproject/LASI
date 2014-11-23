@@ -59,15 +59,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IDescriptor constructs, generally Adjectives or AdjectivePhrases, which describe the PresentParticiple.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
         /// Gets all of the constructs which the PresentParticiple "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
         /// Gets the collection of referencers which are bound as referring to the PresentParticiple.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
+        public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>
         /// The Verb construct which the PresentParticiple is the subject of.
         /// </summary>
@@ -87,7 +87,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>
-        public EntityKind EntityKind { get; private set; }
+        public EntityKind EntityKind { get; }
         /// <summary>
         /// Gets or sets the Entity which the PresentParticiple describes.
         /// </summary>

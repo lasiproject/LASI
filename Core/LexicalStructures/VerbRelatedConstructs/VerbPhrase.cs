@@ -24,12 +24,11 @@ namespace LASI.Core
         /// <param name="words">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> words)
             : base(words) {
-
-            Tense = (from v in words.OfVerb()
-                     group v.VerbForm by v.VerbForm into byTense
-                     select new { Count = byTense.Count(), byTense.Key } into tenseCount
-                     orderby tenseCount.Count
-                     select tenseCount.Key).FirstOrDefault();
+            PrevailingTense = (from v in words.OfVerb()
+                               group v.VerbForm by v.VerbForm into byTense
+                               select new { Count = byTense.Count(), byTense.Key } into tenseCount
+                               orderby tenseCount.Count
+                               select tenseCount.Key).FirstOrDefault();
         }
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
@@ -49,7 +48,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial adv) {
-            modifiers= modifiers.Add(adv);
+            modifiers = modifiers.Add(adv);
             adv.Modifies = this;
         }
         /// <summary>
@@ -67,7 +66,7 @@ namespace LASI.Core
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
             if (subject != null) {
-                subjects= subjects.Add(subject);
+                subjects = subjects.Add(subject);
                 subject.SubjectOf = this;
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
                 foreach (var v in this.Words.OfVerb()) { v.BindSubject(subject); }
@@ -80,7 +79,7 @@ namespace LASI.Core
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             if (directObject != null) {
-                directObjects=directObjects.Add(directObject);
+                directObjects = directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 foreach (var v in this.Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive) {
@@ -111,34 +110,34 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
-            var result = new StringBuilder(base.ToString());
-            if (Phrase.VerboseOutput) {
-                result.Append(Subjects.Any() ? "\nSubjects: " + Subjects.Format(s => s.Text + ", ") : string.Empty)
-                    .Append(DirectObjects.Any() ? "\nDirect Objects: " + DirectObjects.Format(s => s.Text + ", ") : string.Empty)
-                    .Append(IndirectObjects.Any() ? "\nIndirect Objects: " + IndirectObjects.Format(s => s.Text + ", ") : string.Empty)
-                    .Append(ObjectOfThePreposition != null ? "\nVia Preposition Object: " + ObjectOfThePreposition.Text : string.Empty)
-                    .Append(Modality != null ? "\nModal Aux: " + Modality.Text : string.Empty)
-                    .Append(AdverbialModifiers.Any() ? "\nModifiers: " + AdverbialModifiers.Format(s => s.Text + ", ") : string.Empty)
-                    .AppendFormat("\nPossessive Indicator: [{0}]\nCategorizatizer: [{1}]\nPrevailing Tense: [{2}]", IsPossessive, IsClassifier, Tense);
-            }
-            return result.ToString();
+            return !Phrase.VerboseOutput ? base.ToString() :
+            string.Join("\n", base.ToString(),
+                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
+                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(s => s.Text) : string.Empty,
+                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(s => s.Text) : string.Empty,
+                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
+                Modality != null ? "Modality: " + Modality.Text : string.Empty,
+                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(s => s.Text) : string.Empty,
+                "\nPossessive: [\{IsPossessive}]",
+                "\nClassifier: [\{IsClassifier}]",
+                "\nPrevailing Tense: [\{PrevailingTense}]"
+            );
         }
+
         /// <summary>
         /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence 
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns>True if the VerbPhrase is a possessive relationship specifier; otherwise, false.</returns>
-        protected virtual bool DetermineIsPossessive() {
-            return Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
-        }
+        protected virtual bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
+
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
         /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
-        protected virtual bool DetermineIsClassifier() {
-            return !IsPossessive && Modality == null && AdverbialModifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
-        }
+        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
+
 
         #endregion
 
@@ -146,23 +145,19 @@ namespace LASI.Core
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's subjects.
         /// </summary>
-        public IAggregateEntity AggregateSubject { get { return new AggregateEntity(subjects); } }
+        public IAggregateEntity AggregateSubject => subjects.ToAggregate();
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's direct objects.
         /// </summary>
-        public IAggregateEntity AggregateDirectObject { get { return new AggregateEntity(directObjects); } }
+        public IAggregateEntity AggregateDirectObject => directObjects.ToAggregate();
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirect objects.
         /// </summary>
-        public IAggregateEntity AggregateIndirectObject { get { return new AggregateEntity(indirectObjects); } }
+        public IAggregateEntity AggregateIndirectObject => indirectObjects.ToAggregate();
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
-        public IEnumerable<IAdverbial> AdverbialModifiers {
-            get {
-                return modifiers;
-            }
-        }
+        public IEnumerable<IAdverbial> AdverbialModifiers => modifiers;
         /// <summary>
         /// Gets or sets the IDescriptor which modifies, by way of the Verbal, its Subject.
         /// </summary>
@@ -174,7 +169,7 @@ namespace LASI.Core
         /// Gets the prevailing Tense of the VerbPhrase.
         /// <see cref="VerbForm"/>
         /// </summary>
-        public VerbForm Tense { get; protected set; }
+        public VerbForm PrevailingTense { get; }
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>

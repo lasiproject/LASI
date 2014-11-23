@@ -24,18 +24,21 @@ namespace LASI.Utilities
             return new KeyValuePair<TKey, TValue>(key, value);
         }
     }
-    public class Pair<T1, T2>
+    public struct Pair<T1, T2>
     {
-        internal Pair(T1 first, T2 second) { First = first; Second = second; }
-        public T1 First { get; private set; }
-        public T2 Second { get; private set; }
-    }
-    public class Pair
-    {
-        public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) {
-            return new Pair<T1, T2>(first, second);
+        private Pair(T1 first, T2 second) { Key = first; Value = second; }
+        public T1 Key { get; }
+        public T2 Value { get; }
+        public static implicit operator KeyValuePair<T1, T2>(Pair<T1, T2> pair) {
+            return new KeyValuePair<T1, T2>(pair.Key, pair.Value);
         }
+        public static implicit operator Pair<T1, T2>(KeyValuePair<T1, T2> keyValuePair) {
+            return new Pair<T1, T2>(keyValuePair.Key, keyValuePair.Value);
+        }
+        internal static Pair<T1, T2> Create(T1 first, T2 second) => new Pair<T1, T2>(first, second);
     }
-
-
+    public static class Pair
+    {
+        public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) => Pair<T1, T2>.Create(first, second);
+    }
 }

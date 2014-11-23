@@ -40,9 +40,7 @@ namespace LASI.Core
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
-        public override string ToString() {
-            return string.Format("{0} \"{1}\"", GetType().Name, Text);
-        }
+        public override string ToString() => string.Format("{0} \"{1}\"", GetType().Name, Text);
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
@@ -87,7 +85,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or the Paragraph to which the Phrase belongs.
         /// </summary>
-        public Paragraph Paragraph { get { return Sentence != null ? Sentence.Paragraph : null; } }
+        public Paragraph Paragraph => Sentence?.Paragraph;
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
@@ -95,20 +93,12 @@ namespace LASI.Core
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
-        public string Text {
-            get {
-                text = text ?? string.Join(" ", Words.Select(w => w.Text));
-                return text;
-            }
-        }
+        public string Text => text = text ?? string.Join(" ", Words.Select(w => w.Text));
 
         /// <summary>
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
-        public IEnumerable<Word> Words { get; private set; }
-
-
-
+        public IEnumerable<Word> Words { get; }
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>

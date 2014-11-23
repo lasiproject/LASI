@@ -63,7 +63,7 @@ namespace LASI.App
         private async Task CreateWeightViewAsync(Document document) {
             var page1 = document.Paginate(100, 100).FirstOrDefault();
 
-            var nounPhraseLabels = from sentence in page1 != null ? page1.Sentences : document.Paragraphs.AllSentences()
+            var nounPhraseLabels = from sentence in page1 != null ? page1.Sentences : document.Paragraphs.Sentences()
                                    select sentence.Phrases.OfNounPhrase() into nounPhrases
                                    from np in nounPhrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    group np by new { np.Text, Type = np.GetType() } into byTypeAndText
@@ -83,24 +83,22 @@ namespace LASI.App
 
             await Visualizer.InitChartDisplayAsync(document);
             await Visualizer.DisplayKeyRelationshipsAsync(document);
-            Visualizer.ChangeChartKindAsync(ChartKind.NounPhrasesOnly);
-
         }
 
-        private static Label CreateLabelForWeightedView(NounPhrase np) {
-            var gender = np.GetGender();
+        private static Label CreateLabelForWeightedView(NounPhrase nounPhrase) {
+            var gender = nounPhrase.GetGender();
             var label = new Label
             {
-                Tag = np,
-                Content = string.Format("Weight : {0}  \"{1}\"", np.Weight, np.Text),
+                Tag = nounPhrase,
+                Content = string.Format("Weight : {0}  \"{1}\"", nounPhrase.Weight, nounPhrase.Text),
                 Foreground = Brushes.Black,
                 Padding = new Thickness(1, 1, 1, 1),
                 ContextMenu = new ContextMenu(),
                 ToolTip = string.Format("{0}{1}",
-                np.GetType().Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : string.Empty)
+                nounPhrase.GetType().Name, gender.IsMaleOrFemale() ? "\nprevialing gender: " + gender : string.Empty)
             };
             var menuItem1 = new MenuItem { Header = "View definition" };
-            menuItem1.Click += (s, e) => Process.Start(string.Format("http://www.dictionary.reference.com/browse/{0}?s=t", np.Text));
+            menuItem1.Click += (s, e) => Process.Start(string.Format("http://www.dictionary.reference.com/browse/{0}?s=t", nounPhrase.Text));
             label.ContextMenu.Items.Add(menuItem1);
             var menuItem2 = new MenuItem { Header = "Copy" };
             menuItem2.Click += (s, e) => Clipboard.SetText((label.Tag as ILexical).Text);
@@ -177,17 +175,16 @@ namespace LASI.App
                 var docName = chosenFile.NameSansExt;
                 var doc = await ProcessNewDocDocument(docName);
                 documents.Add(doc);
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 var failureMessage = string.Format(".doc file conversion failed\n{0}", e.Message);
                 Output.WriteLine(failureMessage);
                 MessageBox.Show(this, failureMessage);
             }
         }
 
-        private async Task<Document> ProcessNewDocDocument(string docName) {
-            currentOperationLabel.Content = string.Format("Tagging {0}...", docName);
-            var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == docName).First();
+        private async Task<Document> ProcessNewDocDocument(string documentName) {
+            currentOperationLabel.Content = string.Format("Tagging {0}...", documentName);
+            var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == documentName).First();
             var analizer = new AnalysisOrchestrator(textfile);
             analizer.ProgressChanged += async (sender, e) => {
                 currentOperationLabel.Content = e.Message;
@@ -200,18 +197,17 @@ namespace LASI.App
 
             await CreateWeightViewAsync(doc);
             await BuildTextViewOfDocument(doc);
-            currentOperationLabel.Content = string.Format("{0}: Added...", docName);
+            currentOperationLabel.Content = string.Format("{0}: Added...", documentName);
             currentOperationProgressBar.Value = 100;
             return doc;
         }
 
-        private async Task<InputFile> AttemptToAddNewDocument(string docPath) {
-            var chosenFile = FileManager.AddFile(docPath, true);
+        private async Task<InputFile> AttemptToAddNewDocument(string documentPath) {
+            var chosenFile = FileManager.AddFile(documentPath, true);
             try {// Attempt to convert the newly added file
                 await FileManager.ConvertAsNeededAsync();
                 return chosenFile;
-            }
-            catch (FileConversionFailureException) {
+            } catch (FileConversionFailureException) {
                 FileManager.RemoveFile(chosenFile);// Remove the original file from the project
                 throw;
             }
@@ -227,10 +223,10 @@ namespace LASI.App
         /// <summary>
         /// Tags, loads, parses, binds weights, and visualizes the document indicated by the provided path.
         /// </summary>
-        /// <param name="docPath">The file system path to a document file.</param>
+        /// <param name="documentPath">The file system path to a document file.</param>
         /// <returns>A System.Threading.Tasks.Task object representing the ongoing work while the document is being processed.</returns>
-        private async Task ProcessNewDocument(string docPath) {
-            await ProcessNewDocument(docPath, currentOperationProgressBar, currentOperationLabel);
+        private async Task ProcessNewDocument(string documentPath) {
+            await ProcessNewDocument(documentPath, currentOperationProgressBar, currentOperationLabel);
         }
 
 
@@ -252,8 +248,7 @@ namespace LASI.App
             var focusedChart = (FrequencyCharts.SelectedItem as dynamic).Content;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            }
-            catch (NullReferenceException) {
+            } catch (NullReferenceException) {
                 Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
             }
         }

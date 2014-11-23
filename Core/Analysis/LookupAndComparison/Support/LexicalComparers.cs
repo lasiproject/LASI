@@ -18,14 +18,13 @@ namespace LASI.Core
     /// <see cref="ILexical"/>
     public static class LexicalComparers
     {
-
-
         /// <summary>
         /// Creates a custom IEqualityComparer which always uses the provided comparison function to compare instances. 
         /// This fully bypasses the hash checks for non null references.
         /// </summary>
         /// <param name="equals">The function to determine equality.</param>
-        /// <returns>A custom NounPhraes comparer which uses the given function to compare values and a null or not null only sensitive Hash function.
+        /// <returns>
+        /// A custom NounPhraes comparer which uses the given function to compare values and a null or not null only sensitive Hash function.
         /// </returns>
         /// <remarks>The intent of the functionality provided is to simplify
         /// the use of LINQ methods, such as IEnumerable.Contains(item) and IEnumerable.Distinct() 

@@ -43,7 +43,7 @@ namespace LASI.Core
         /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying Noun and its text content.</returns>
-        public override string ToString() { return this.GetType().Name + " \"" + Text + "\""; }
+        public override string ToString() => "\{this.GetType().Name } \"\{Text}\"";
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the document instance to which the word belongs.
         /// </summary>
-        public Document Document { get { return Phrase != null ? Phrase.Document : null; } }
+        public Document Document => Phrase?.Document;
         /// <summary>
         /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
         /// </summary>
@@ -73,7 +73,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentence the word belongs to.
         /// </summary>
-        public Sentence Sentence { get { return Phrase.Sentence; } }
+        public Sentence Sentence { get { return Phrase?.Sentence; } }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
@@ -101,8 +101,5 @@ namespace LASI.Core
         public static bool VerboseOutput { get; set; }
 
         #endregion
-
-
-
     }
 }

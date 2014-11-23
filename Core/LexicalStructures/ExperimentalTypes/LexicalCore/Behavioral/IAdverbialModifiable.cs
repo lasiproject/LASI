@@ -13,7 +13,7 @@ namespace LASI.Core
     /// <para>Along with the other interfaces in the Syntactic Interfaces Library, the IAdverbialModifiable interface provides
     /// for generalization and abstraction over word and Phrase types</para>
     /// </summary>
-    public interface IAdverbialModifiable
+    public interface IAdverbialModifiable : ILexical
     {
         /// <summary>
         /// Attaches an IAdverbial as a modifier of the IAdverbialModifiable.

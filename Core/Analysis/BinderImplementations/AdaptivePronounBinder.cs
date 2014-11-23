@@ -58,7 +58,7 @@ namespace LASI.Core.Binding.Experimental
                  on noun.Key equals pronoun.Key
                  where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
                  group noun.Noun by pronoun.Pronoun into byPronoun
-                 select new Action(()=> { byPronoun.Key.BindAsReferringTo(byPronoun.First()); });
+                 select new Action(() => { byPronoun.Key.BindAsReferringTo(byPronoun.First()); });
         }
     }
 }

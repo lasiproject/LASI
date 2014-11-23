@@ -32,7 +32,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an InfinitivePhrase.
         /// </summary>
-        public EntityKind EntityKind { get { return EntityKind.Activity; } }
+        public EntityKind EntityKind => EntityKind.Activity;
         /// <summary>
         ///Gets or sets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
         /// </summary>
@@ -54,10 +54,7 @@ namespace LASI.Core
             referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
-        /// <summary>
-        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
-        /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
+
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the InfinitivePhrase.
         /// </summary>
@@ -67,14 +64,19 @@ namespace LASI.Core
             descriptor.Describes = this;
         }
         /// <summary>
+        /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
+        /// </summary>
+        public IEnumerable<IReferencer> Referencers => referencers;
+
+        /// <summary>
         /// Gets all of the IDescriptor constructs, generally Adjectives or AdjectivePhrases, which describe the InfinitivePhrase Instance.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
 
         /// <summary>
         /// Gets all of the IEntity constructs which the InfinitivePhrase "owns".
         /// </summary>
-        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
 
         /// <summary>
         /// Adds an IPossessible construct, such as a person place or thing, to the collection of the InfinitivePhrase "Owns",

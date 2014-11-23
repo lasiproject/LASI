@@ -15,7 +15,7 @@ namespace LASI.Core
         /// <param name="increment">The percentage of total work completed.</param>
         public ResourceLoadEventArgs(string message, double increment) : base(message, increment) { }
         /// <summary>
-        /// The number of miliseconds consumed by the loading task associated with the event.
+        /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
         public long ElapsedMiliseconds { get; internal set; }
     }

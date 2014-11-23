@@ -10,7 +10,7 @@
     ViewBag.Title = "Login";
 }
 
-@model LASI.WebApp.Models.AccountModel
+@model LASI.WebApp.Models.LoginModel
 
 @{
     Response.OutputCache(60);
@@ -31,7 +31,7 @@
             Sign in
         </button>
         @Html.ActionLink(linkText: "Sign up",
-    actionName: "CreateAccount",
+    actionName: "Create",
     controllerName: "Account",
     routeValues: new { },
     htmlAttributes: new { @class = "btn btn-lg btn-primary btn-block" })

@@ -25,12 +25,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating if the ProperNoun is Lexically equal to a personal name. Known First and Last names are considered.
         /// </summary>
-        public bool IsPersonalName {
-            get {
-                return IsFirstName || IsLastName;
-            }
-        }
-        internal bool IsLastName { get { return LASI.Core.Heuristics.Lookup.IsLastName(this); } }
-        internal bool IsFirstName { get { return LASI.Core.Heuristics.Lookup.IsFirstName(this); } }
+        public bool IsPersonalName => IsFirstName || IsLastName;
+        internal bool IsLastName => Heuristics.Lookup.IsLastName(this);
+        internal bool IsFirstName => Heuristics.Lookup.IsFirstName(this);
     }
 }

@@ -50,7 +50,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="referencer">The EntityReferency to Bind.</param>
         public virtual void BindReferencer(IReferencer referencer) {
-            boundPronouns = boundPronouns.Add(referencer);
+            referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
 
@@ -95,17 +95,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
+        public virtual IEnumerable<IReferencer> Referencers => referencers;
 
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Noun Instance.
         /// </summary>
-        public virtual IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public virtual IEnumerable<IDescriptor> Descriptors => descriptors;
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Noun "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessions { get { return possessions; } }
+        public virtual IEnumerable<IPossessable> Possessions => possessions;
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
@@ -164,7 +164,7 @@ namespace LASI.Core
 
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IImmutableSet<IReferencer> boundPronouns = ImmutableHashSet<IReferencer>.Empty;
+        private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
         private IQuantifier quantity;
         private IPossesser possessor;
 

@@ -10,6 +10,12 @@ namespace LASI.Interop.ContractHelperTypes
     public class ResourceLoadEventArgs : LASI.Core.Interop.ReportEventArgs
     {
         /// <summary>
+        /// Initializes a new instance of the ResourceLoadEventArgs class.
+        /// </summary>
+        /// <param name="message">The phase of analysis currently underway.</param>
+        /// <param name="percentComplete">The percent of overall progress completed.</param>
+        public ResourceLoadEventArgs(string message, double percentComplete) : base(message, percentComplete) { }
+        /// <summary>
         /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
         public long ElapsedMiliseconds { get; internal set; }

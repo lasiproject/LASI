@@ -11,7 +11,7 @@ namespace LASI.Core
 {
     /// <summary>
     /// <para> This class is Experimental! It represents a PronounPhrase. A PronounPhrase is a custom Phrase type introduced by LASI. </para>
-    /// <para> It it corresponds to NounPhrases which either contain almost exclusively Pronoun Words or which can be contextually  </para>
+    /// <para> It corresponds to NounPhrases which either contain almost exclusively Pronoun Words or which can be contextually  </para>
     /// determined to refer to some previously mentioned entity within a constrained scope.
     /// </summary>
     public class PronounPhrase : NounPhrase, IReferencer
@@ -30,7 +30,7 @@ namespace LASI.Core
         /// <param name="first">The first Word of the PronounPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the PronounPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of PronounPhrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// Thus, its purpose is to simplify test code.</remarks>
         public PronounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
         /// <summary>
         /// Returns a string representation of the PronounPhrase
@@ -38,22 +38,16 @@ namespace LASI.Core
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
             var result = base.ToString() + (RefersTo != null && RefersTo.Any() ? " referring to -> " + RefersTo.Text : string.Empty);
-            result += (AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Format() : string.Empty);
+            result += AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Format() : string.Empty;
             return result;
         }
         private IAggregateEntity referredTo;
         /// <summary>
         /// Gets the Entity which the IPronoun references.
         /// </summary>
-        public IAggregateEntity RefersTo {
-            get {
-                referredTo = referredTo ?? new AggregateEntity(Words
-                    .OfPronoun()
-                    .Where(p => p.RefersTo != null)
-                    .Select(p => p.RefersTo));
-                return referredTo;
-            }
-        }
+        public IAggregateEntity RefersTo => referredTo ?? new AggregateEntity(Words.OfPronoun().Where(p => p.RefersTo != null).Select(p => p.RefersTo));
+
+
         /// <summary>
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>

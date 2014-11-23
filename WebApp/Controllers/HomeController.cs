@@ -14,6 +14,8 @@ using Newtonsoft.Json.Linq;
 using LASI.WebApp.Models;
 
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
+
 
 namespace LASI.WebApp.Controllers
 {
@@ -62,22 +64,21 @@ namespace LASI.WebApp.Controllers
         public ActionResult Progress() {
             return View();
         }
-
-
-        internal async Task<ViewResult> Results() {
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ViewResult> Results() {
             var documents = await LoadResults();
             Phrase.VerboseOutput = true;
-            var chartData = JArray.FromObject(from document in documents
-                                              let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                                              from result in topResults
-                                              let row = new[] { (string)result.Key, (string)result.Value }
-                                              let rank = row[0]
-                                              orderby rank descending
-                                              group row by document);
-            //.ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray())
-            //.Take(CHART_ITEM_MAX)).ToArray();
-            ViewData["charts"] = chartData.ToArray();
-            ViewData["documents"] = documents.Select(document => new DocumentModel(document));
+            var data = (from document in documents
+                        let documentModel = new DocumentModel(document)
+                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                        from result in naiveTopResults
+                        orderby result.Value descending
+                        group new object[] { result.Key, result.Value } by documentModel)
+                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
+                            .Take(CHART_ITEM_MAX)));
+            ViewData["charts"] = data;
+            ViewData["documents"] = data.Keys;
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }
@@ -89,8 +90,7 @@ namespace LASI.WebApp.Controllers
                 .Select(file => {
                     try {
                         return extensionMap[file.SplitRemoveEmpty('.').Last()](file);
-                    }
-                    catch (ArgumentException) { return null; }
+                    } catch (ArgumentException) { return null; }
                 })
                 .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
@@ -98,17 +98,15 @@ namespace LASI.WebApp.Controllers
                 percentComplete += e.PercentWorkRepresented;
                 currentOperation = e.Message;
             };
-            var documents = await Task.Run(async () => await analyzer.ProcessAsync());
+            var documents = await analyzer.ProcessAsync();
             percentComplete = 100;
             currentOperation = "Analysis Complete.";
-            processedDocuments.UnionWith(documents);
+            processedDocuments = processedDocuments.Union(documents);
             return processedDocuments;
         }
 
-        private static ISet<Document> processedDocuments = new HashSet<Document>(
-            CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name,
-                d => d.Name.GetHashCode())
-            );
+        private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create<Document>(
+            CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
         private static ConcurrentDictionary<string, JobStatus> trackedJobs = new ConcurrentDictionary<string, JobStatus>(comparer: StringComparer.OrdinalIgnoreCase);
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
@@ -120,12 +118,11 @@ namespace LASI.WebApp.Controllers
         public string GetJobStatus(string jobId = "") {
             if (jobId == "") {
                 return JsonConvert.SerializeObject(
-                    trackedJobs.Select(job => new
-                {
-                    job.Value.Message,
-                    job.Value.Percent,
-                    Id = job.Key
-                }).ToArray(), serializerSettings);
+                    trackedJobs.Select(job => new {
+                        job.Value.Message,
+                        job.Value.Percent,
+                        Id = job.Key
+                    }).ToArray(), serializerSettings);
             }
             percentComplete %= 100;
 
@@ -144,6 +141,7 @@ namespace LASI.WebApp.Controllers
         // This was a hack to initially test the functionality
         private static double percentComplete;
         private static string currentOperation;
+
 
     }
 }

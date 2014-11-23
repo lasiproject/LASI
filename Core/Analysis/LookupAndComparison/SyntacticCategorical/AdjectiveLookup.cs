@@ -10,6 +10,8 @@ namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<AdjectiveLink, int>;
     using Link = AdjectiveLink;
+    using System.Collections.Immutable;
+
     internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
         /// <summary>
@@ -28,7 +30,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         internal override void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
-                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(HEADER_LENGTH)) {
+                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
                     try { allSets.Add(CreateSet(line)); }
                     catch (KeyNotFoundException e) {
                         Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
@@ -57,19 +59,19 @@ namespace LASI.Core.Heuristics.WordNet
 
         }
 
-        private ISet<string> SearchFor(string search) {
+        private IImmutableSet<string> SearchFor(string search) {
             //gets words of searched word
             return allSets.AsParallel()
                 .Where(set => set.ContainsWord(search))
                 .SelectMany(set => set.Words)
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+                .ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
         }
-        internal override ISet<string> this[string search] {
+        internal override IImmutableSet<string> this[string search] {
             get {
                 return SearchFor(search);
             }
         }
-        internal override ISet<string> this[Adjective search] {
+        internal override IImmutableSet<string> this[Adjective search] {
             get {
                 return this[search.Text];
             }

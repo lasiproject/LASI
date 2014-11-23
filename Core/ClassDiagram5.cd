@@ -1,4 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="LASI.Core.ILexical">
+    <Position X="21.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAABCAAAAAAACAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Structural\ILexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IConjunctive" Collapsed="true">
+    <Position X="10" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\BridgingConstructs\IConjunctive.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPrepositional" Collapsed="true">
+    <Position X="12.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAEAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\BridgingConstructs\IPrepositional.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.ISubordinator" Collapsed="true">
+    <Position X="14.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\BridgingConstructs\ISubordinator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAdverbial" Collapsed="true">
+    <Position X="16.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IAdverbial.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IEntity" Collapsed="true">
+    <Position X="21" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAgAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPossessable" Collapsed="true">
+    <Position X="18.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IPossessable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IPossesser" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IPossesser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IQuantifiable" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IQuantifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IVerbal" Collapsed="true">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgABAQAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IVerbal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDescriptor" Collapsed="true">
+    <Position X="28" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDescriptor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IDeterminable" Collapsed="true">
+    <Position X="30.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAIAAA=</HashCode>
+      <FileName>LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.IAggregateLexical&lt;TLexical&gt;" Collapsed="true">
+    <Position X="32.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\UnderpinningTypes\IAggregateLexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Binding.Experimental.IAggregateLexical&lt;TPrimary, TBase&gt;" Collapsed="true">
+    <Position X="34.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\AggregatePhrase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Core.Binding.Experimental.INestableLexical&lt;TLexical&gt;" Collapsed="true">
+    <Position X="37" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LexicalStructures\ExperimentalTypes\INestableLexical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

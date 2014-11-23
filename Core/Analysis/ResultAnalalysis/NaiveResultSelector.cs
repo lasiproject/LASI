@@ -14,19 +14,19 @@ namespace LASI.Core
     /// </summary>
     public static class NaiveResultSelector
     {
-        private static IEnumerable<dynamic> GetTopResultsByVerbal(IReifiedTextual source) {
+        private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source) {
             var data = GetVerbWiseRelationships(source);
             return from svs in data
-                   let dataPoint = new
-                   {
+                   let dataPoint = new {
                        Key =
                        string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
-                       Value = (float)Math.Round(svs.CombinedWeight, 2)
+                       Value = (float)Math.Round(svs.Weight, 2)
                    }
                    group dataPoint by dataPoint into pointGroup
-                   select pointGroup.Key;
+                   let key = pointGroup.Key
+                   select Pair.Create(key.Key, key.Value);
 
         }
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source) {
@@ -44,7 +44,7 @@ namespace LASI.Core
                          relationship.Direct != null ||
                          relationship.Indirect != null &&
                          relationship.Subject.Text != (relationship.Direct ?? relationship.Indirect).Text
-                       orderby relationship.CombinedWeight descending
+                       orderby relationship.Weight descending
                        select relationship;
             return data.Distinct();
         }
@@ -55,17 +55,19 @@ namespace LASI.Core
         /// <param name="source">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
         /// other metrics.</returns>
-        public static IEnumerable<dynamic> GetTopResultsByEntity(IReifiedTextual source) {
-            return from entity in source.Phrases.OfEntity()
-                        .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                   orderby entity.Weight descending
-                   let e = entity.Match().Yield<IEntity>()
-                       .With((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
-                   .Result(entity)
-                   where e != null
-                   group new { Key = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
-                   where g.Any()
-                   select g.MaxBy(x => x.Value);
+        public static IEnumerable<Pair<string, float>> GetTopResultsByEntity(IReifiedTextual source) {
+            var results = from entity in source.Phrases.OfEntity()
+                         .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                          orderby entity.Weight descending
+                          let e = entity.Match().Yield<IEntity>()
+                              .With((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
+                          .Result(entity)
+                          where e != null
+                          group new { Key = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
+                          where g.Any()
+                          select g.MaxBy(x => x.Value) into result
+                          select Pair.Create(result.Key, result.Value);
+            return results;
         }
     }
 }

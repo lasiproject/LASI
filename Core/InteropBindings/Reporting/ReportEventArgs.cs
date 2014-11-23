@@ -8,7 +8,6 @@ namespace LASI.Core.Interop
     [Serializable]
     public abstract class ReportEventArgs : EventArgs
     {
-        public ReportEventArgs() { }
         /// <summary>
         /// Initializes a new instance of the ReportEventArgs class.
         /// </summary>

@@ -67,11 +67,8 @@ namespace LASI.Core
         /// Returns a string representation of the RelativePronoun.
         /// </summary>
         /// <returns>A string representation of the RelativePronoun.</returns>
-        public override string ToString() {
-            var result = base.Text;
-            result += VerboseOutput ? " " + RelativePronounKind.ToString() : string.Empty;
-            return result;
-        }
+        public override string ToString() => Text + (VerboseOutput ? " " + RelativePronounKind : string.Empty);
+
         #endregion
 
         #region Properties
@@ -82,15 +79,11 @@ namespace LASI.Core
         /// <summary>
         /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>
-        public bool IsBound {
-            get { return RefersTo != null && RefersTo.Any(); }
-        }
+        public bool IsBound => RefersTo != null && RefersTo.Any();
         /// <summary>
         /// Gets the RelativePronounKind of the RelativePronoun.
         /// </summary>
-        public RelativePronounKind RelativePronounKind {
-            get; private set;
-        }
+        public RelativePronounKind RelativePronounKind { get; }
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
@@ -115,21 +108,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers {
-            get { return referencers; }
-        }
+        public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>
         /// Gets the collection of IDescriptors, generally Adjectives or AdjectivePhrases which describe the RelativePronoun.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors {
-            get { return descriptors; }
-        }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
         /// Gets the collection of IEntity instances which the RelativePronoun can be said to "own".
         /// </summary>
-        public IEnumerable<IPossessable> Possessions {
-            get { return possessions; }
-        }
+        public IEnumerable<IPossessable> Possessions => possessions;
 
 
         /// <summary>
@@ -161,8 +148,5 @@ namespace LASI.Core
         private static readonly string[] objectRoleLocationals = { "where" };
         private static readonly string[] objectRoleTemporals = { "when" };
         private static readonly string[] objectRoleExpositories = { "what", "why" };
-
-
-
     }
 }

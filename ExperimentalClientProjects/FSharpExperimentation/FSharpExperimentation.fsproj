@@ -9,9 +9,9 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>FSharpExperimentation</RootNamespace>
     <AssemblyName>FSharpExperimentation</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>FSharpExperimentation</Name>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="Program.fs" />
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
@@ -100,10 +99,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable">
-      <HintPath>..\..\packages\Microsoft.Bcl.Immutable.1.1.22-beta\lib\portable-net45+win8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reflection.Metadata">

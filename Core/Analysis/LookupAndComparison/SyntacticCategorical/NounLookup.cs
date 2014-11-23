@@ -12,6 +12,8 @@ namespace LASI.Core.Heuristics.WordNet
     using Utilities;
     using Link = NounLink;
     using SetReference = KeyValuePair<NounLink, int>;
+    using System.Threading.Tasks;
+    using System.Reactive.Linq;
 
     internal sealed class NounLookup : WordNetLookup<Noun>
     {
@@ -24,22 +26,33 @@ namespace LASI.Core.Heuristics.WordNet
             //InitCategoryGroupsDictionary();
         }
 
-        ConcurrentDictionary<int, NounSynSet> setsById;
+        ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, 90000);
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        internal override void Load() {
-            using (StreamReader reader = new StreamReader(filePath)) {
-                for (int i = 0; i < HEADER_LENGTH; ++i) {
+        internal override async Task LoadAsync() {
+            try {
+                await LoadData().ToObservable()
+                            .Select(CreateSet)
+                            .ForEachAsync(
+                              onNext: set => {
+                                  setsById[set.Id] = set;
+                                  OnReport(new ResourceLoadEventArgs("Processed Noun Synset " + set.Id, 0));
+                                  //onCompleted: () => OnReport(new ResourceLoadEventArgs("Noun Data Loaded", 0)),
+                                  //onError: e => { System.Environment.Exit(1); }
+                              });
+            } catch (Exception e) { throw e; }
+        }
+
+        internal override void Load() => LoadAsync().Wait();
+        private IEnumerable<string> LoadData() {
+            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read))) {
+                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i) {
                     reader.ReadLine();
                 }
-
-                setsById = new ConcurrentDictionary<int, NounSynSet>(concurrencyLevel: Concurrency.Max, capacity: 90000);
-                foreach (var item in from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n').AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                     let set = CreateSet(line)
-                                     select Pair.Create(set.Id, set)) {
-                    setsById[item.First] = item.Second;
+                for (var line = reader.ReadLine(); line != null; line = reader.ReadLine()) {
+                    yield return line;
                 }
             }
         }
@@ -67,43 +80,35 @@ namespace LASI.Core.Heuristics.WordNet
 
 
 
-        private ISet<string> SearchFor(string word) {
-            var containingSet = setsById.Values.FirstOrDefault(set => set.Words.Contains(word));
+        private IImmutableSet<string> SearchFor(string word) {
+            var containingSet = setsById.Values.FirstOrDefault(set => set.ContainsWord(word));
             if (containingSet != null) {
                 try {
                     List<string> results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
-                    return new HashSet<string>(results);
-                }
-                catch (InvalidOperationException e) {
+                    return results.ToImmutableHashSet(IgnoreCase);
+                } catch (InvalidOperationException e) {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
 
                 }
             }
-            return new HashSet<string>();
+            return ImmutableHashSet<string>.Empty;
         }
-
-
-        public ISet<string> AllNouns { get { return allNouns = allNouns ?? new HashSet<string>(setsById.SelectMany(nss => nss.Value.Words)); } }
-
-
-        internal override ISet<string> this[string search] {
-
+        internal override IImmutableSet<string> this[string search] {
             get {
                 var morpher = new NounMorpher();
                 try {
-                    return new HashSet<string>(SearchFor(morpher.FindRoot(search))
-                        .SelectMany(syn => morpher.GetLexicalForms(syn))
-                        .DefaultIfEmpty(search));
-                }
-                catch (AggregateException) { }
-                catch (InvalidOperationException) { }
+                    return SearchFor(morpher.FindRoot(search))
+                        .SelectMany(morpher.GetLexicalForms)
+                        .DefaultIfEmpty(search)
+                        .ToImmutableHashSet();
+                } catch (AggregateException e) { e.LogIfDebug(); } catch (InvalidOperationException e) { e.LogIfDebug(); }
                 return this[search];
             }
         }
 
 
-        internal override ISet<string> this[Noun search] {
+        internal override IImmutableSet<string> this[Noun search] {
             get { return this[search.Text]; }
         }
 
@@ -121,17 +126,10 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        private void InitCategoryGroupsDictionary() {
-            foreach (NounCategory e in Enum.GetValues(typeof(NounCategory))) {
-                lexicalGoups[e] = new List<NounSynSet>();
-            }
-        }
 
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
 
         private string filePath;
-
-        private HashSet<string> allNouns;
 
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
@@ -169,8 +167,6 @@ namespace LASI.Core.Heuristics.WordNet
              Link.InstanceHypERnym,
              Link.HypERnym
         );
-
-
     }
 
 }

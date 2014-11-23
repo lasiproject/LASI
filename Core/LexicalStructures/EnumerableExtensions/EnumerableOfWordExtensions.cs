@@ -166,6 +166,14 @@ namespace LASI.Core
         public static IEnumerable<Quantifier> OfQuantifier(this IEnumerable<Word> words) {
             return words.OfType<Quantifier>();
         }
+        /// <summary>
+        /// Returns all Punctuators in the collection.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <returns>All Punctuators in the collection.</returns>
+        public static IEnumerable<Punctuator> OfPunctuator(this IEnumerable<Word> words) {
+            return words.OfType<Punctuator>();
+        }
 
         #endregion
 
@@ -313,6 +321,14 @@ namespace LASI.Core
         /// <returns>All Quantifiers in the collection.</returns>
         public static ParallelQuery<Quantifier> OfQuantifier(this ParallelQuery<Word> words) {
             return words.OfType<Quantifier>();
+        }
+        /// <summary>
+        /// Returns all Punctuators in the collection.
+        /// </summary>
+        /// <param name="words">The sequence of Words to filter.</param>
+        /// <returns>All Punctuators in the collection.</returns>
+        public static ParallelQuery<Punctuator> OfPunctuator(this ParallelQuery<Word> words) {
+            return words.OfType<Punctuator>();
         }
 
         #endregion

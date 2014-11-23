@@ -29,19 +29,19 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
         /// </summary>
-        /// <param name="ttp">A Word or Punctuation string and its associated Part Of Speech tag.</param>
+        /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
-        public Word Create(TaggedText ttp) {
-            if (string.IsNullOrWhiteSpace(ttp.Text)) { return null; }
+        public Word Create(TaggedText taggedText) {
+            if (string.IsNullOrWhiteSpace(taggedText.Text)) { return null; }
             try {
-                var wordCreator = context[ttp.Tag];
-                return wordCreator(ttp.Text);
+                var wordCreator = context[taggedText.Tag];
+                return wordCreator(taggedText.Text);
             }
             catch (EmptyWordTagException) {
-                return new UnknownWord(ttp.Text);
+                return new UnknownWord(taggedText.Text);
             }
             catch (UnknownWordTagException) {
-                return ttp.Tag.Length == 1 ? new Punctuator(ttp.Text[0]) : new UnknownWord(ttp.Text) as Word;
+                return taggedText.Tag.Length == 1 ? new Punctuator(taggedText.Text[0]) : new UnknownWord(taggedText.Text) as Word;
             }
         }
 

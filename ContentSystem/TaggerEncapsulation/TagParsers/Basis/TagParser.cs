@@ -1,16 +1,13 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LASI.Core;
 
 namespace LASI.ContentSystem.TaggerEncapsulation
 {
     abstract class TagParser
     {
-        public abstract LASI.Core.Document LoadDocument();
-        public abstract System.Collections.Generic.IEnumerable<Paragraph> LoadParagraphs();
+        public abstract Core.Document LoadDocument();
+        public abstract IEnumerable<Core.Paragraph> LoadParagraphs();
 
 
         public abstract Task<LASI.Core.Document> LoadDocumentAsync();
@@ -25,8 +22,7 @@ namespace LASI.ContentSystem.TaggerEncapsulation
         /// <param name="data">A string containing the text to be broken down.</param>
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single Paragraph.</returns>
         protected virtual IEnumerable<string> ParseParagraphs(string data) {
-            return from d in data.SplitRemoveEmpty("\r\n\r\n", "\n\n", "<paragraph>", "</paragraph>")
-                   select d.Trim();
+            return data.SplitRemoveEmpty("\r\n\r\n", "\n\n", "<paragraph>", "</paragraph>").Select(datum => datum.Trim());
         }
 
 

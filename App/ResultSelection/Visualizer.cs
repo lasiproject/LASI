@@ -31,10 +31,8 @@ namespace LASI.App
         public static async void ChangeChartKindAsync(ChartKind chartKind) {
             ChartKind = chartKind;
             foreach (var pair in documentsByChart) {
-
                 var document = pair.Value;
                 var chart = pair.Key;
-
                 var data = await CreateChartDataAsync(chartKind, document);
                 chart.Series.Clear();
                 chart.Series.Add(new BarSeries
@@ -52,9 +50,9 @@ namespace LASI.App
 
         private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document) {
             switch (chartKind) {
-                case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
-                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
-                default: return await GetNounWiseDataAsync(document);
+            case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
+            case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+            default: return await GetNounWiseDataAsync(document);
             }
         }
 
@@ -98,7 +96,6 @@ namespace LASI.App
                 series.IsMouseCaptureWithinChanged += (sender, e) => {
                     series.ToolTip = (((series.SelectedItem as DataPoint))).DependentValue;
                 };
-
                 ResetChartContent(chart, series);
                 await Task.Yield();
             }
@@ -118,12 +115,12 @@ namespace LASI.App
                 ResetChartContent(
                     chart,
                     new BarSeries
-                {
-                    DependentValuePath = "Value",
-                    IndependentValuePath = "Key",
-                    ItemsSource = chart.GetItemSource(),
-                    IsSelectionEnabled = true,
-                });
+                    {
+                        DependentValuePath = "Value",
+                        IndependentValuePath = "Key",
+                        ItemsSource = chart.GetItemSource(),
+                        IsSelectionEnabled = true,
+                    });
                 await Task.Yield();
             }
         }
@@ -195,20 +192,18 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<dynamic> GetItemSource(this Chart chart) {
-            return ((IEnumerable<dynamic>)chart.Tag).Reverse();//.Take(CHART_ITEM_LIMIT);
+        private static IEnumerable<dynamic> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<dynamic>).Reverse();//.Take(CHART_ITEM_LIMIT);
 
-        }
+
 
         #endregion
         private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document) {
             var dataPoints = from relationship in await GetVerbWiseRelationshipsAsync(document)
-                             select new
-                             {
+                             select new {
                                  Key = string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
                                      (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
                                      (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
-                                 Value = (float)Math.Round(relationship.CombinedWeight, 2)
+                                 Value = (float)Math.Round(relationship.Weight, 2)
                              };
             return dataPoints.Distinct();
 
@@ -237,17 +232,15 @@ namespace LASI.App
                                         verbal.AggregateDirectObject,
                                         verbal.AggregateIndirectObject
                                     )
-                                    orderby relationship.CombinedWeight descending
+                                    orderby relationship.Weight descending
                                     select relationship;
                 return relationships.Distinct();
             });
         }
-        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) {
-            return await Task.Run(() => GetNounWiseData(document));
-        }
-        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) {
-            return await Task.Run(() => GetVerbWiseData(document));
-        }
+        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) => await Task.Run(() => GetNounWiseData(document));
+
+        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) => await Task.Run(() => GetVerbWiseData(document));
+
         private static IEnumerable<dynamic> GetNounWiseData(Document document) {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  .OfNounPhrase()
@@ -262,22 +255,16 @@ namespace LASI.App
         /// <param name="document">The document for which to build relationships.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task DisplayKeyRelationshipsAsync(Document document) {
-
-            var transformedData = await Task.Factory.StartNew(async () => {
-                return (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData();
-            });
-            var dataGrid = new Microsoft.Windows.Controls.DataGrid
-            {
-                ItemsSource = await transformedData,
-            };
             var tab = new TabItem
             {
                 Header = document.Name,
-                Content = dataGrid
+                Content = new Microsoft.Windows.Controls.DataGrid
+                {
+                    ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
+                }
             };
             WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
             WindowManager.ResultsScreen.SVODResultsTabControl.SelectedItem = tab;
-
         }
 
         /// <summary>
@@ -291,9 +278,7 @@ namespace LASI.App
 
 
 
-        private static string GetTextIfNotNull<TLexical>(TLexical lexical) where TLexical : ILexical {
-            return lexical != null ? lexical.Text : string.Empty;
-        }
+        private static string GetTextIfNotNull(ILexical lexical) => lexical?.Text ?? string.Empty;
 
         /// <summary>
         /// Transforms the given relationships into textual objects for display on a 4 column grid.
@@ -303,26 +288,21 @@ namespace LASI.App
         /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
         internal static IEnumerable<dynamic> ToGridRowData(this IEnumerable<SvoRelationship> relationships) {
             return from relationship in relationships
-                   orderby relationship.CombinedWeight
-                   select new
-                   {
+                   orderby relationship.Weight descending
+                   select new {
                        Subject = FormatSubjectRenderText(relationship.Subject),
                        Verbal = FormatVerbalDisplay(relationship.Verbal),
-                       Direct = FormatDirectRenderText(relationship.Direct),
-                       Indirect = FormatIndirectForDisplay(relationship.Indirect)
+                       Direct = FormatObjectText(relationship.Direct),
+                       Indirect = FormatObjectText(relationship.Indirect),
+                       Weight = relationship.Weight
                    };
         }
 
-        private static string FormatSubjectRenderText(IEntity entity) {
-            return GetTextIfNotNull(entity);
-        }
+        private static string FormatSubjectRenderText(IEntity entity) => entity?.Text ?? string.Empty;
 
-        private static string FormatDirectRenderText(IEntity directObject) {
-            return directObject == null ? string.Empty : GetTextIfNotNull(directObject.PrepositionOnLeft) + directObject.Text;
-        }
 
-        private static string FormatIndirectForDisplay(IEntity indirectObject) {
-            return indirectObject == null ? string.Empty : GetTextIfNotNull(indirectObject.PrepositionOnLeft) + indirectObject.Text;
+        private static string FormatObjectText(IEntity directObject) {
+            return (directObject?.PrepositionOnLeft?.Text ?? string.Empty) + directObject?.Text ?? string.Empty;
         }
 
         private static string FormatVerbalDisplay(IVerbal verbal) {

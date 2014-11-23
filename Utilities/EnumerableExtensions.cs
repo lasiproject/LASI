@@ -41,7 +41,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimiters">The triple of delimiters specifying the beginning, separating, and ending characters.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters) {
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters");
@@ -67,7 +67,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimiters">The triple of delimiters specifying the beginning, separating, and ending characters.</param>
         /// <param name="selector">The function used to produce a string representation for each element.</param>
         /// <returns>formated string representation of the IEnumerable sequence with the pattern: [ selector(element0), selector(element1), ..., selector(elementN) ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector) {
@@ -80,7 +80,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
         /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="delimiters">The triple of delimiters specifying the beginning, separating, and ending characters.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength) {
@@ -103,30 +103,24 @@ namespace LASI
         /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
-        /// <param name="source">An IEnumerable sequence containing 0 or more Elements of type T.</param>
-        /// <param name="delimiters">A value indicating the pair of delimiters to surround the elements.</param>
+        /// <param name="source">The sequence containing 0 or more elements of type <typeparamref name="T"/> to format.</param>
+        /// <param name="delimiters">The triple of delimiters specifying the beginning, separating, and ending characters.</param>
         /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
         /// <param name="selector">The function used to produce a string representation for each element.</param>
         /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
             Validator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
-            int length = 2;
-            return source
-                .Select(selector)
-                .Aggregate(
-                    new StringBuilder(delimiters.Item1 + " "),
-                    (builder, s) => {
-                        var append = s + delimiters.Item2 + " ";
-                        length += append.Length;
-                        if (length >= lineLength) {
-                            length = append.Length;
-                            builder.Append('\n');
-                            length = 0;
-                        }
-                        return builder.Append(append);
-                    },
-                    result => result.ToString().TrimEnd(' ', delimiters.Item2) + " " + delimiters.Item3);
+            return source.Select(selector)
+                .Aggregate(new {
+                    Text = string.Empty,
+                    Length = 0L
+                }, (carry, e) => new {
+                    Text = carry.Text + "\{e}\{delimiters.Item2}\{(carry.Length + e.Length) / lineLength > 0 ? '\n' : ' '}",
+                    Length = carry.Length % lineLength
+                },
+                result => "\{delimiters.Item1} \{result.Text.TrimEnd(' ', '\n', delimiters.Item2)} \{delimiters.Item3}"
+            );
         }
 
         #endregion
@@ -336,10 +330,10 @@ namespace LASI
         /// <returns>The maximal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey> {
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
             Validator.ThrowIfNull(source, "source", selector, "selector");
             Validator.ThrowIfEmpty(source, "source");
-            return MinMaxImplementation(source, selector, Enumerable.OrderByDescending);
+            return source.OrderByDescending(selector, comparer).First();
         }
         /// <summary>
         /// Returns the minimal element of the given sequence, based on
@@ -367,20 +361,11 @@ namespace LASI
         /// <returns>The minimal element, according to the projection.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> is empty</exception>
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey> {
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) {
             Validator.ThrowIfNull(source, "source", selector, "selector");
             Validator.ThrowIfEmpty(source, "source");
-            return MinMaxImplementation(source, selector, Enumerable.OrderBy);
+            return source.OrderBy(selector, comparer).First();
         }
-
-        private static TSource MinMaxImplementation<TSource, TKey>(
-            IEnumerable<TSource> source,
-            Func<TSource, TKey> selector,
-            Func<IEnumerable<TSource>, Func<TSource, TKey>, IOrderedEnumerable<TSource>> thrust)
-            where TKey : IComparable<TKey> {
-            return thrust(source, selector).First();
-        }
-
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given key selector
         /// the given projection.

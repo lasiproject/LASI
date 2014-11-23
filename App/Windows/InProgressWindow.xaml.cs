@@ -49,9 +49,15 @@ namespace LASI.App
         public async Task ParseDocuments() {
 
             var resourceLoadingNotifier = new ResourceNotifier();
+            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoading += d, d => resourceLoadingNotifier.ResourceLoading -= d)
+                  .Throttle(TimeSpan.FromMilliseconds(1))
+                  .Subscribe(e => { });
+            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
+                            .Throttle(TimeSpan.FromMilliseconds(1))
+                            .Subscribe(e => { }); //ProgressUpdated(this, e));
 
-            resourceLoadingNotifier.ResourceLoading += ProgressUpdated;
-            resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
+            //resourceLoadingNotifier.ResourceLoading += ProgressUpdated;
+            //resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
             //analysisProvider.ProgressChanged += ProgressUpdated;
@@ -68,10 +74,8 @@ namespace LASI.App
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
 
+            await Task.WhenAll(WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync());
             ProcessingCompleted(this, new EventArgs());
-
-            await WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync();
-            await WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync();
         }
 
 
@@ -108,8 +112,7 @@ namespace LASI.App
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             try {
                 DragMove();
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
             }
         }
 

@@ -1,4 +1,4 @@
-﻿declare module LASI.Results {
+declare module LASI.Results {
     interface VerbalContext {
         subjects: number[];
         directObjects: number[];

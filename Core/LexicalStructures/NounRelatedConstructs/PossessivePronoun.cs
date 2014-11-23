@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using LASI.Utilities;
@@ -13,37 +14,30 @@ namespace LASI.Core
     /// </summary>
     public class PossessivePronoun : Word, IWeakPossessor
     {
-
-
         /// <summary>
         /// Initialiazes entity new instance of the PossessivePronoun class.
         /// </summary>
         /// <param name="text">The text content of the PossessivePronoun.</param>
-        public PossessivePronoun(string text)
-            : base(text) {
-        }
+        public PossessivePronoun(string text) : base(text) { }
 
         /// <summary>
-        /// Adds an IPossessable construct, such as a person place or thing, to the collection of IEntity instances the PossessivePronoun "Owns",
+        /// Adds an IPossessable construct, such as a person place or thing, to the collection of Entity instances the PossessivePronoun "Owns",
         /// and sets its owner to be the PossessivePronoun.
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IPossessable possession) {
+        public void AddPossession(IPossessable possession) {
             if (ProxyFor != null) {
                 ProxyFor.AddPossession(possession);
             }
-            possessed.Add(possession);
+            possessed = possessed.Add(possession);
         }
         /// <summary>
         /// Returns a string representation of the PossessivePronoun.
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
         public override string ToString() {
-            return base.ToString() +
-                (VerboseOutput ?
-                string.Format("\nSignifying {0} as owner of {1}", ProxyFor.Text, Possessions.Format(e => e.Text)) :
-                string.Empty);
+            return base.ToString() + "\nSignifying \{ProxyFor.Text} as owner of \{Possessions.Format(e => e.Text)}";
         }
 
         /// <summary>
@@ -71,7 +65,7 @@ namespace LASI.Core
         }
 
         #region Fields
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private IImmutableSet<IPossessable> possessed = ImmutableHashSet.Create<IPossessable>();
         private IPossesser possessesFor;
         #endregion Fields
     }

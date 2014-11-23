@@ -24,11 +24,12 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            constituents = new List<IEntity>(from entity in entities
-                                             let aggregate = entity as IAggregateEntity ?? new[] { entity }.AsEnumerable()
-                                             from aggregated in aggregate
-                                             select aggregated);
-            EntityKind = EntityKind.ThingMultiple;
+            constituents = entities.AsRecursiveEnumerable().ToImmutableList();
+            var kinds = from constituent in constituents
+                        group constituent by constituent.EntityKind into g
+                        orderby g.Count() descending
+                        select g.Key;
+            EntityKind = kinds.DefaultIfEmpty(EntityKind.ThingMultiple).First();
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first entity aggregated into the group.</param>
         /// <param name="rest">The rest of the entity aggregated into the group.</param>
-        public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first)) { }
+        public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first).AsRecursiveEnumerable()) { }
 
         #endregion
 
@@ -97,7 +98,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the aggregate entity instance.
         /// </summary>
-        public EntityKind EntityKind { get; private set; }
+        public EntityKind EntityKind { get; }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the DIRECT object of.
         /// </summary>
@@ -113,15 +114,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the aggregate entity.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
+        public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the aggregate entity.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
         /// Gets all of the constructs the aggregate entity can be determined to "own" collectively.
         /// </summary>
-        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
         /// Gets or sets the Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>

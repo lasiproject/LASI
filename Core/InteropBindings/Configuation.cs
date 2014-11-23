@@ -38,6 +38,6 @@ namespace LASI.Core.Interop
         /// Gets the current maximum degree of concurrency.
         /// </summary>
         /// <returns>The current maximum degree of parallelism.</returns>
-        public static int Max { get { return Configuation.MaxConcurrency; } }
+        public static int Max => Configuation.MaxConcurrency;
     }
 }

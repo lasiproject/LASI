@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Defines the broad lexical categories assigned to Adjectives in the WordNet system.
+    /// http://wordnet.princeton.edu/
     /// </summary>
     public enum AdjectiveCategory : byte
     {

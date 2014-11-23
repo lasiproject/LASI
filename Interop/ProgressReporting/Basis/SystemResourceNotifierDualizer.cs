@@ -16,12 +16,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// <param name="e">The event to translate from.</param>
         /// <returns>A new EventArgs with belonging to the interop assembly.</returns>
         protected ResourceLoadEventArgs TranslateEventArgs(Core.ResourceLoadEventArgs e) {
-            return new ResourceLoadEventArgs
-            {
-                Message = e.Message + " " + messageAdjunct,
-                PercentWorkRepresented = 1.5,
-                ElapsedMiliseconds = e.ElapsedMiliseconds
-            };
+            return new ResourceLoadEventArgs(e.Message + " " + messageAdjunct, 1.5) { ElapsedMiliseconds = e.ElapsedMiliseconds };
         }
 
     }
