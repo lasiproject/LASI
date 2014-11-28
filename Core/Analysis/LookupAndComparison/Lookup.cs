@@ -30,16 +30,15 @@ namespace LASI.Core.Heuristics
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indicating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
-            return entity | new Match<Gender>
-            {
-                SimpleGendered = e => e.Gender,
-                Referencer = r => GetGender(r),
-                NounPhrase = n => DetermineNounPhraseGender(n),
-                CommonNoun = n => Gender.Neutral,
-                Entity = e => (from referener in e.Referencers
-                               let gender = ((referener as ISimpleGendered)?.Gender).GetValueOrDefault()
-                               group gender by gender).MaxBy(g => g.Count()).Key
-            };
+            return entity.Match().Yield<Gender>()
+                .With((ISimpleGendered e) => e.Gender)
+                .With((IReferencer r) => GetGender(r))
+                .With((NounPhrase n) => DetermineNounPhraseGender(n))
+                .With((CommonNoun n) => Gender.Neutral)
+                .With((IEntity e) => (from referener in e.Referencers
+                                      let gender = ((referener as ISimpleGendered)?.Gender).GetValueOrDefault()
+                                      group gender by gender).MaxBy(g => g.Count()).Key)
+                .Result();
         }
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the Pronoun based on its referent if known, or else its PronounKind.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
-using LASI.Core.PatternMatching;
+using LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -24,7 +24,12 @@ namespace LASI.Core
         /// </summary>
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
-            constituents = entities.AsRecursiveEnumerable().ToImmutableList();
+            constituents = ImmutableList.CreateRange((from entity in entities
+                                                      select entity.Match().Yield<IEnumerable<IEntity>>()
+                                                      .With((IAggregateEntity a) => a.AsEnumerable())
+                                                      .Result(new[] { entity }) into entitySet
+                                                      from entity in entitySet
+                                                      select entity).Distinct()); // entities.AsRecursiveEnumerable().Distinct().ToImmutableList();
             var kinds = from constituent in constituents
                         group constituent by constituent.EntityKind into g
                         orderby g.Count() descending
@@ -37,7 +42,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="first">The first entity aggregated into the group.</param>
         /// <param name="rest">The rest of the entity aggregated into the group.</param>
-        public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first).AsRecursiveEnumerable()) { }
+        public AggregateEntity(IEntity first, params IEntity[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
 

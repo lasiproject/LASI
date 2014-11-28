@@ -21,7 +21,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental
     }
 
 
-    internal class Match<TResult>
+    class Match<TResult>
     {
 
         public delegate TResult TypePattern<in TPattern>(TPattern l) where TPattern : ILexical;
