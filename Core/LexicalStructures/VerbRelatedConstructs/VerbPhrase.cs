@@ -46,10 +46,10 @@ namespace LASI.Core
         /// <summary>
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
-        /// <param name="adv">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public void ModifyWith(IAdverbial adv) {
-            modifiers = modifiers.Add(adv);
-            adv.Modifies = this;
+        /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
+        public void ModifyWith(IAdverbial modifier) {
+            modifiers = modifiers.Add(modifier);
+            modifier.Modifies = this;
         }
         /// <summary>
         /// <para> Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or PrepositionalPhrase. </para>
@@ -113,11 +113,11 @@ namespace LASI.Core
             return !Phrase.VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
                 Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
-                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(s => s.Text) : string.Empty,
-                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(s => s.Text) : string.Empty,
+                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : string.Empty,
+                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : string.Empty,
                 ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
                 Modality != null ? "Modality: " + Modality.Text : string.Empty,
-                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(s => s.Text) : string.Empty,
+                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : string.Empty,
                 "\nPossessive: [\{IsPossessive}]",
                 "\nClassifier: [\{IsClassifier}]",
                 "\nPrevailing Tense: [\{PrevailingTense}]"
@@ -163,7 +163,10 @@ namespace LASI.Core
         /// </summary>
         public IDescriptor PostpositiveDescriptor {
             get { return postpositiveDescriptor; }
-            set { postpositiveDescriptor = value; foreach (var described in Subjects) described.BindDescriptor(value); }
+            set {
+                postpositiveDescriptor = value;
+                foreach (var described in Subjects) { described.BindDescriptor(value); }
+            }
         }
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.

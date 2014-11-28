@@ -32,11 +32,11 @@ namespace LASI.Core
 
         /// <summary>
         /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the current Adverb
-        /// <param name="adv">The IAdverbial construct by which to modify the current Adverb.</param>
+        /// <param name="modifier">The IAdverbial construct by which to modify the current Adverb.</param>
         /// </summary>
-        public void ModifyWith(IAdverbial adv) {
-            modifiers.Add(adv);
-            adv.Modifies = this;
+        public void ModifyWith(IAdverbial modifier) {
+            modifiers.Add(modifier);
+            modifier.Modifies = this;
         }
         /// <summary>
         /// Gets the List of IAdverbial modifiers which modify the Adverb.

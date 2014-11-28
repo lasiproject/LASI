@@ -12,10 +12,10 @@ namespace LASI.WebApp
     {
         public ILexicalModel<ILexical> BuildFor(ILexical lexical) {
             return lexical.Match().Yield<ILexicalModel<ILexical>>()
+                .With((Clause c) => new ClauseModel(c))
                 .With((Phrase p) => new PhraseModel(p))
                 .With((Word w) => new WordModel(w))
-                .Result();
+            .Result();
         }
-
     }
 }

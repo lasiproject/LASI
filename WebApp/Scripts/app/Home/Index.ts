@@ -6,7 +6,6 @@ which will optimize page load time.
 
 module LASI.Index {
     'use strict';
-
     // This function disables submit button 
     $(function () {
         $('input:submit').attr('disabled', 'true');

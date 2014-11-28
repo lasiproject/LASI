@@ -51,7 +51,8 @@
     "AllMessagesToOutputWindow": true,
     "KeepImportantComments": true,
     "SvgPreviewPane": true,
-    "ShowWEIgnoreLogs": true
+    "ShowWEIgnoreLogs": true,
+    "ShowLogoWatermark": true
   },
   "Html": {
     "AutoMinify": false,

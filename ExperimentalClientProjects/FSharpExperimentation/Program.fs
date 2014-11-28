@@ -6,16 +6,16 @@ open LASI.ContentSystem
 open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop
-open LASI.Interop.ResourceMonitoring
-open System.Linq
+open LASI.Interop.ResourceManagement
+open LASI.Core.PatternMatching
 
 let wrapFile (s : string) = 
-    match s.Split('.').Last() with
+    match s.Split('.') |>Seq.last with
     | "docx" -> DocXFile s :> IRawTextSource
     | "doc" -> DocFile s :> IRawTextSource
     | "txt" -> TxtFile s :> IRawTextSource
     | "pdf" -> PdfFile s :> IRawTextSource
-    | _ -> null
+    | _ ->null
 
 [<EntryPoint>]
 let main argv = 
@@ -41,12 +41,11 @@ let main argv =
             let b = Async.AwaitTask(orchestrator.ProcessAsync())
             return! b
         }
-    
     let docs = Async.RunSynchronously(docTask)
     for doc in docs do
         let toAttack = SimpleVerb("attack")
         let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
-        let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals.Contains e.SubjectOf)
+        let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals|>Seq.contains e.SubjectOf)
         let attackerAttackeePairs = 
             bellicoseVerbals.WithDirectObject().WithSubject() |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
         do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
@@ -56,7 +55,6 @@ let main argv =
             | :? IEntity as e -> Entity e
             | :? IVerbal as a -> Action a
             | _ -> Other lex
-        
         let rec bind (head : Phrase) = 
             match head with // process the first phrase in the list
             | Entity e -> 

@@ -9,30 +9,20 @@
         /// <summary>
         /// Gets or sets the ILexical construct on the Right side of the IPrepositional.
         /// </summary>
-        ILexical ToTheRightOf {
-            get;
-            set;
-        }
+        ILexical ToTheRightOf { get; set; }
         /// <summary>
         /// Gets or sets the ILexical construct on the Left side of the IPrepositional.
         /// </summary>
-        ILexical ToTheLeftOf {
-            get;
-            set;
-        }
+        ILexical ToTheLeftOf { get; set; }
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        ILexical BoundObject {
-            get;
-        }
+        ILexical BoundObject { get; }
         /// <summary>
         /// Gets the contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
         /// <see cref="PrepositionRole"/>
-        PrepositionRole Role {
-            get;
-        }
+        PrepositionRole Role { get; }
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 
         /// Lexical constructs include word, Phrase, and Clause Types.

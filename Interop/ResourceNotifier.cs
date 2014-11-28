@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace LASI.Interop.ResourceMonitoring
+namespace LASI.Interop.ResourceManagement
 {
 
 

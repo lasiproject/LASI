@@ -21,7 +21,6 @@ namespace LASI.Core.Binding.Experimental
                       v.BindDirectObject(d);
                   });
             Bind(sentence.Phrases);
-
         }
         internal void Bind(IEnumerable<Phrase> phrases) {
             if (!phrases.OfVerbPhrase().Any()) { throw new VerblessPhrasalSequenceException(); }

@@ -10,14 +10,14 @@ namespace LASI.WebApp
     /// <summary>
     /// Represents a unit of processing delegated to an asynchronous agent.
     /// </summary>
-    public struct JobStatus
+    public class JobStatus
     {
-        public JobStatus(int jobId, string message, double percent) {
-            JobId = jobId;
+        public JobStatus(string message, double percent, int id = 0) {
+            Id = id;
             Message = message;
             Percent = percent;
         }
-        public int JobId { get; }
+        public int Id { get; internal set; }
         /// <summary>
         /// Gets a textual description of the ongoing work. 
         /// </summary>
@@ -37,10 +37,10 @@ namespace LASI.WebApp
 
         public override bool Equals(object obj) => obj is JobStatus && this == (JobStatus)obj;
 
-        public override int GetHashCode() => JobId.GetHashCode() ^ Message.GetHashCode() ^ Percent.GetHashCode();
+        public override int GetHashCode() => Id.GetHashCode() ^ Message.GetHashCode() ^ Percent.GetHashCode();
 
         public static bool operator ==(JobStatus left, JobStatus right) {
-            return left.JobId == right.JobId && left.Message == right.Message && left.Percent == right.Percent;
+            return left.Id == right.Id && left.Message == right.Message && left.Percent == right.Percent;
         }
         public static bool operator !=(JobStatus left, JobStatus right) {
             return !(left == right);

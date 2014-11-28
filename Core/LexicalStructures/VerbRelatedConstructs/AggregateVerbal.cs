@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace LASI.Core
 {
-    class AggregateVerbal : IAggregateVerbal
+    public class AggregateVerbal : IAggregateVerbal
     {
         public AggregateVerbal(IEnumerable<IVerbal> constituents) {
-            this.constituents = constituents;
+            this.constituents = constituents.ToImmutableList();
             Weight = this.constituents.Select(member => member.Weight).DefaultIfEmpty(0).Average();
         }
 
@@ -21,7 +21,7 @@ namespace LASI.Core
         public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects).ToAggregate();
         public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects).Union(directObjects);
         public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
-
+        public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects).Union(subjects);
 
         public bool IsClassifier => this.All(member => member.IsClassifier);
         public bool IsPossessive => this.All(member => member.IsPossessive);
@@ -30,14 +30,14 @@ namespace LASI.Core
 
         public ModalAuxilary Modality {
             get {
-                throw new NotImplementedException();
+                return this.Select(member => member.Modality).DefaultIfEmpty()
+                .GroupBy(modality => modality?.Text).MaxBy(group => group.Count())
+                .First();
             }
-
             set {
-                throw new NotImplementedException();
+                throw new NotSupportedException("Cannot Modify The Modality of an Aggregate Verbal.\{this.ToString()}");
             }
         }
-
         public ILexical ObjectOfThePreposition {
             get {
                 throw new NotImplementedException();
@@ -53,8 +53,6 @@ namespace LASI.Core
         public IPrepositional PrepositionOnLeft { get; set; }
 
         public IPrepositional PrepositionOnRight { get; set; }
-
-        public IEnumerable<IEntity> Subjects => subjects;
 
         public string Text => string.Join(", ", constituents.Select(member => member.Text));
 
@@ -77,14 +75,14 @@ namespace LASI.Core
 
         public IEnumerator<IVerbal> GetEnumerator() => constituents.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => constituents.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) {
             return this.SelectMany(flattenAbout).Where(result => result != null);
         }
 
         #region Fields
 
-        private readonly IEnumerable<IVerbal> constituents;
+        private readonly IImmutableList<IVerbal> constituents;
         private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Reactive.Linq;
 using LASI.Interop.ContractHelperTypes;
-using LASI.Interop.ResourceMonitoring;
+using LASI.Interop.ResourceManagement;
 using LASI.Core.Interop;
 
 namespace LASI.App

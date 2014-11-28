@@ -309,7 +309,6 @@
     <Compile Include="LexicalModelBuilder.cs" />
     <Compile Include="JobStatus.cs" />
     <Compile Include="Models\Document\TextualModel.cs" />
-    <Compile Include="Models\Home\MuliFileUploadModel.cs" />
     <Compile Include="Models\IViewModel.cs" />
     <Compile Include="Models\Lexical\ClauseModel.cs" />
     <Compile Include="Models\Document\DocumentSetModel.cs" />
@@ -318,7 +317,7 @@
     <Compile Include="Models\Home\ProgressModel.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\DefaultMvcAccountModels.cs" />
-    <Compile Include="Models\Home\FileUploadModel.cs" />
+    <Compile Include="Models\Home\DocumentUploadModel.cs" />
     <Compile Include="Models\Lexical\ILexicalModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalElementInfo\ContextMenuBuilder.cs" />
@@ -328,6 +327,7 @@
     <Compile Include="Models\Lexical\PhraseModel.cs" />
     <Compile Include="Models\Document\SentenceModel.cs" />
     <Compile Include="Models\Lexical\WordModel.cs" />
+    <Compile Include="StatusController.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -392,6 +392,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\App\Widgets\document-upload.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -424,12 +425,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\require.js" />
+    <Content Include="Views\Home\Progress.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
-    <Content Include="Views\Home\Progress.cshtml" />
     <Content Include="Views\Home\_Phrase.cshtml" />
     <Content Include="Views\Home\_Paragraph.cshtml" />
     <Content Include="Views\Home\_DocumentUpload.cshtml" />
@@ -485,6 +486,7 @@
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <TypeScriptCompile Include="Scripts\App\Widgets\document-upload.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.bootstrap.wizard\jquery.bootstrap.wizard.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.fileupload\jquery.fileupload.d.ts" />

@@ -121,6 +121,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
+    <Compile Include="LexicalStructures\ExperimentalTypes\LexicalCore\Structural\IPrepositonLinkable.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\NestingClause.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\ObjectBinderV2.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="LexicalStructures\ExperimentalTypes\LexicalCore\Behavioral\IWeakPossessor.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PronounPhrase.cs" />
-    <Compile Include="LexicalStructures\UnderpinningTypes\ConflictingClauseRoleException.cs" />
+    <Compile Include="LexicalStructures\Exceptions\ConflictingClauseRoleException.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClause.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InterjectionPhrase.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />

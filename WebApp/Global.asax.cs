@@ -40,7 +40,7 @@ namespace LASI.WebApp
         /// </summary>
         private void PerformCustomInitialization() {
             ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
-            Interop.ResourceMonitoring.UsageManager.SetPerformanceLevel(Interop.ResourceMonitoring.UsageManager.Mode.High);
+            Interop.ResourceManagement.UsageManager.SetPerformanceLevel(Interop.ResourceManagement.UsageManager.Mode.High);
             Accounts = SetupUserAccounts(this);
             Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "LASI_log"));
 
@@ -53,7 +53,7 @@ namespace LASI.WebApp
             case "MongoDb":
                 return new MongoDbAccountProvider(app);
             default:
-                return null;
+                return new MongoDbAccountProvider(app);
             }
         }
 

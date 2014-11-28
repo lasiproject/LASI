@@ -13,8 +13,8 @@ namespace LASI.WebApp.Controllers.Tests
     {
         [TestMethod]
         public void GetJobStatusTest1() {
-            var target = new HomeController();
-            dynamic json = target.GetJobStatus(1.ToString());
+            var target = new JobController();
+            dynamic json = target.Get(1);
             Assert.IsTrue(json.percent == 0);
             Assert.IsTrue(json.message == null);
         }

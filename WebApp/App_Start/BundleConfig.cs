@@ -12,7 +12,6 @@ namespace LASI.WebApp
                 ignoreList.Ignore("*.intellisense.js");
                 ignoreList.Ignore("*-vsdoc.js");
                 ignoreList.Ignore("*.debug.js", OptimizationMode.WhenEnabled);
-                //ignoreList.Ignore("*.min.js", OptimizationMode.WhenDisabled);
                 ignoreList.Ignore("*.min.css", OptimizationMode.WhenDisabled);
             }
         }
@@ -54,6 +53,8 @@ namespace LASI.WebApp
             BundleTable.Bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
             BundleTable.Bundles.Add(new StyleBundle("~/Content/bootstrap").Include("~/Content/bootstrap.css"));
             BundleTable.Bundles.Add(new StyleBundle("~/Content/bootstrap-theme").Include("~/Content/bootstrap-theme.css"));
+            //BundleTable.Bundles.Add(new StyleBundle("~/Content/themes-base").Include("~/Content/themes/base/css"));
+
         }
     }
 }

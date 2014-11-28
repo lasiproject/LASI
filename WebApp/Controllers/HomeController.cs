@@ -1,37 +1,59 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using LASI.Utilities;
 using LASI.ContentSystem;
-using LASI.Interop;
-using System.Threading.Tasks;
 using LASI.Core;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using LASI.Interop;
+using LASI.Utilities;
 using LASI.WebApp.Models;
-
-using System.Collections.Concurrent;
-using System.Collections.Immutable;
-
+using Newtonsoft.Json;
 
 namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        //static int timesExecuted = 0;
+        [HttpGet]
         public ActionResult Index(AccountModel account = null, string returnUrl = "") {
             ViewBag.ReturnUrl = returnUrl;
-            trackedJobs.Clear();
-            currentOperation = string.Empty;
-            percentComplete = 0;
+            TrackedJobs.Clear();
+            CurrentOperation = string.Empty;
+            PercentComplete = 0;
             if (Directory.Exists(USER_UPLOADED_DOCUMENTS_DIR)) {
                 foreach (var fileSystemInfo in new DirectoryInfo(USER_UPLOADED_DOCUMENTS_DIR).EnumerateFileSystemInfos()) {
                     fileSystemInfo.Delete();
                 }
             }
             return View(new AccountModel());
+        }
+
+        public ActionResult Progress() {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ViewResult> Results() {
+            var documents = await LoadResults();
+            Phrase.VerboseOutput = true;
+            var data = (from document in documents
+                        let documentModel = new DocumentModel(document)
+                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                        from result in naiveTopResults
+                        orderby result.Value descending
+                        group new object[] { result.Key, result.Value } by documentModel)
+                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
+                            .Take(CHART_ITEM_MAX)));
+            ViewData["charts"] = data;
+            ViewData["documents"] = data.Keys;
+            ViewBag.Title = "Results";
+            return View(new DocumentSetModel(documents));
         }
 
         [HttpPost]
@@ -59,30 +81,6 @@ namespace LASI.WebApp.Controllers
             return await Results();
         }
 
-        private const short CHART_ITEM_MAX = 5;
-
-        public ActionResult Progress() {
-            return View();
-        }
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<ViewResult> Results() {
-            var documents = await LoadResults();
-            Phrase.VerboseOutput = true;
-            var data = (from document in documents
-                        let documentModel = new DocumentModel(document)
-                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                        from result in naiveTopResults
-                        orderby result.Value descending
-                        group new object[] { result.Key, result.Value } by documentModel)
-                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
-                            .Take(CHART_ITEM_MAX)));
-            ViewData["charts"] = data;
-            ViewData["documents"] = data.Keys;
-            ViewBag.Title = "Results";
-            return View(new DocumentSetModel(documents));
-        }
-
         private async Task<IEnumerable<Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
             var extensionMap = new ExtensionWrapperMap(UnsupportedFormatHandling.YieldNull);
@@ -95,53 +93,33 @@ namespace LASI.WebApp.Controllers
                 .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
             analyzer.ProgressChanged += (s, e) => {
-                percentComplete += e.PercentWorkRepresented;
-                currentOperation = e.Message;
+                PercentComplete += e.PercentWorkRepresented;
+                CurrentOperation = e.Message;
             };
             var documents = await analyzer.ProcessAsync();
-            percentComplete = 100;
-            currentOperation = "Analysis Complete.";
+            PercentComplete = 100;
+            CurrentOperation = "Analysis Complete.";
             processedDocuments = processedDocuments.Union(documents);
             return processedDocuments;
         }
 
-        private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create<Document>(
-            CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+        // These properties should be removed and replaced with a better solution to sharing
+        // progress This was a hack to initially test the functionality
+        public static string CurrentOperation { get; private set; }
 
-        private static ConcurrentDictionary<string, JobStatus> trackedJobs = new ConcurrentDictionary<string, JobStatus>(comparer: StringComparer.OrdinalIgnoreCase);
+        public static double PercentComplete { get; internal set; }
+
+        public static ConcurrentDictionary<int, JobStatus> TrackedJobs { get; } = new ConcurrentDictionary<int, JobStatus>();
+
+        private const short CHART_ITEM_MAX = 5;
+        private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
+
+        private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create<Document>(
+                    CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
         };
-        //static int timesExecuted = 0;
-        [HttpGet]
-        public string GetJobStatus(string jobId = "") {
-            if (jobId == "") {
-                return JsonConvert.SerializeObject(
-                    trackedJobs.Select(job => new {
-                        job.Value.Message,
-                        job.Value.Percent,
-                        Id = job.Key
-                    }).ToArray(), serializerSettings);
-            }
-            percentComplete %= 100;
-
-            if (percentComplete > 99) { percentComplete = 0; }
-            bool extant = trackedJobs.ContainsKey(jobId);
-            int id;
-            var update = new JobStatus(int.TryParse(jobId, out id) ? id : -1, currentOperation, percentComplete);
-            trackedJobs[jobId] = update;
-
-            return JsonConvert.SerializeObject(update, serializerSettings);
-        }
-
-        private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
-
-        // These fields should be removed and replaced with a better solution to sharing progress
-        // This was a hack to initially test the functionality
-        private static double percentComplete;
-        private static string currentOperation;
-
-
     }
 }

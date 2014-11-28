@@ -18,11 +18,10 @@
     <div class="tab-content" id="resultstabs">
         <div class="tab-pane fade in active" id="reconstructeddocuments">
             <div>
-
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
                     @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                         <li class="list-group-item">
-                            <input type="button" class="btn btn-primary btn-lg"
+                            <input type="button" class="list-group-item-text btn btn-block btn-primary"
                                    data-toggle="modal" data-target="@('#' + documentModel.Name.ToSafeHtmlDomId())"
                                    value="@documentModel.Name" />
                         </li>
@@ -69,7 +68,7 @@
                 @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
                     <li class="list-group-item">
                         <input type="button"
-                               class="btn btn-primary btn-lg"
+                               class="list-group-item-text btn btn-block btn-primary"
                                data-toggle="modal"
                                data-target=@('#' + documentModel.Name.ToSafeHtmlDomId() + "_topresults") value="@documentModel.Name" />
 
@@ -100,12 +99,12 @@
             }
 
         </div>
-        <div class="tab-pane fade" id="adddocuments">
+        <div class="tab-pane fade list-group documentselectiontab col-md-3" id="adddocuments">
             <div class="container add-document-container">
                 <h1>Add documents</h1>
                 <div id="main-content">
                     <div>
-                        @Html.Partial("_DocumentUpload", new FileUploadModel
+                        @Html.Partial("_DocumentUpload", new DocumentUploadModel
                    {
                        UploadTarget = "fileuploadtarget",
                    })
@@ -115,5 +114,8 @@
             </div>
         </div>
     </div>
+    @Scripts.Render("~/Scripts/App/Home/Initialize.js")
+
 
 </div>
+

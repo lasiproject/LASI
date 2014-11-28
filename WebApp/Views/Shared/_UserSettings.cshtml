@@ -2,7 +2,7 @@
 @model AccountModel
 @if (Request.IsAuthenticated) {
     <text>
-        @Html.DisplayTextFor(account=>account)
+        @Html.DisplayTextFor(account => account)
         Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: new { area = "" },
               htmlAttributes: new { @class = "username", title = "Manage" })
         @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm" })) {

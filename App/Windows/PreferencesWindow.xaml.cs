@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace LASI.App
 {
-    using UsageManager = LASI.Interop.ResourceMonitoring.UsageManager;
+    using UsageManager = LASI.Interop.ResourceManagement.UsageManager;
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
@@ -99,7 +99,7 @@ namespace LASI.App
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public Interop.ResourceMonitoring.UsageManager.Mode PerformanceLevel { get; private set; }
+        public Interop.ResourceManagement.UsageManager.Mode PerformanceLevel { get; private set; }
 
         #region Fields
 

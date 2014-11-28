@@ -12,7 +12,7 @@ using LASI.Utilities;
 
 namespace LASI.App
 {
-    using Interop.ResourceMonitoring;
+    using Interop.ResourceManagement;
     using LASI.Core.Analysis;
 
 
