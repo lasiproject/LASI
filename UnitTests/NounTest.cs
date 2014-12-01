@@ -263,7 +263,7 @@ namespace LASI.UnitTests
             foreach (var d in descriptors) { target.BindDescriptor(d); }
             actual = target.Descriptors;
 
-            AssertHelper.AreSetEqual(actual, descriptors);
+            EnumerableAssert.AreSetEqual(actual, descriptors);
         }
 
         /// <summary>

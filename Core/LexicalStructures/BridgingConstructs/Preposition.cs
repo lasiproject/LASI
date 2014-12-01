@@ -75,12 +75,12 @@ namespace LASI.Core
         /// </summary>
         static Preposition() {
             using (var reader = new System.IO.StreamReader(PrepositionaInfoFilePath)) {
-                knownSubordinators = (
+                knownSubordinators = new HashSet<string>(
                         from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                         let len = line.IndexOf('/')
                         let value = line.Substring(0, len > 0 ? len : line.Length)
                         select value.Trim()
-                    ).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                    , StringComparer.OrdinalIgnoreCase);
             }
         }
         private static readonly ISet<string> knownSubordinators;

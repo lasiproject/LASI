@@ -363,7 +363,7 @@ namespace LASI.UnitTests
             IEnumerable<Clause> expected = firstParagraphSentences.SelectMany(s => s.Clauses);
             IEnumerable<Clause> actual;
             actual = target.Clauses;
-            AssertHelper.AreSetEqual(expected, actual);
+            EnumerableAssert.AreSetEqual(expected, actual);
         }
 
         /// <summary>
@@ -393,8 +393,8 @@ namespace LASI.UnitTests
             foreach (var page in actual) {
                 Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
-            AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
-            AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
+            EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
+            EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
             Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
         }
         /// <summary>
@@ -412,8 +412,8 @@ namespace LASI.UnitTests
             foreach (var page in actual) {
                 Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
-            AssertHelper.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
-            AssertHelper.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
+            EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
+            EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
             Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
 
         }

@@ -184,7 +184,7 @@ namespace LASI.UnitTests
 
             FileManager.ConvertDocToText(files);
             foreach (var F in files)
-                Assert.IsTrue(File.Exists(FileManager.DocxFilesDir + "\\" + F.NameSansExt + ".docx"));
+                Assert.IsTrue(File.Exists(FileManager.TxtFilesDir + "\\" + F.NameSansExt + ".txt"));
         }
 
         /// <summary>
@@ -328,10 +328,8 @@ namespace LASI.UnitTests
             }
             await FileManager.ConvertAsNeededAsync();
             IEnumerable<InputFile> filesUnconverted =
-                from file in FileManager.DocFiles
-                                        .Concat<InputFile>(FileManager.DocXFiles)
-                                        .Concat<InputFile>(FileManager.PdfFiles)
-                where FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
+                from file in FileManager.AllFiles.Except(FileManager.TxtFiles)
+                where !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
                 select file;
             Assert.IsFalse(filesUnconverted.Any());
         }

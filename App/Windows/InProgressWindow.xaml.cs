@@ -1,4 +1,5 @@
 ﻿using LASI.ContentSystem;
+using LASI.Core;
 using LASI.Interop;
 using System;
 using System.Linq;
@@ -6,9 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Reactive.Linq;
-using LASI.Interop.ContractHelperTypes;
 using LASI.Interop.ResourceManagement;
-using LASI.Core.Interop;
 
 namespace LASI.App
 {
@@ -49,12 +48,12 @@ namespace LASI.App
         public async Task ParseDocuments() {
 
             var resourceLoadingNotifier = new ResourceNotifier();
-            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoading += d, d => resourceLoadingNotifier.ResourceLoading -= d)
-                  .Throttle(TimeSpan.FromMilliseconds(1))
-                  .Subscribe(e => { });
-            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
-                            .Throttle(TimeSpan.FromMilliseconds(1))
-                            .Subscribe(e => { }); //ProgressUpdated(this, e));
+            Observable.FromEventPattern<Core.ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoading += d, d => resourceLoadingNotifier.ResourceLoading -= d)
+                  //.Throttle(TimeSpan.FromMilliseconds(1))
+                  .Subscribe(e => ProgressUpdated(this, e.EventArgs));
+            Observable.FromEventPattern<Core.ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
+                            //.Throttle(TimeSpan.FromMilliseconds(1))
+                            .Subscribe(e => ProgressUpdated(this, e.EventArgs));
 
             //resourceLoadingNotifier.ResourceLoading += ProgressUpdated;
             //resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
@@ -87,7 +86,16 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        private async void ProgressUpdated(object sender, ReportEventArgs e) {
+        private async void ProgressUpdated(object sender, Core.Interop.ReportEventArgs e) {
+            progressLabel.Content = e.Message;
+            progressBar.ToolTip = e.Message;
+            var animateStep = 0.028 * e.PercentWorkRepresented;
+            for (int i = 0; i < 33; ++i) {
+                progressBar.Value += animateStep;
+                await Task.Delay(1);
+            }
+        }
+        private async void ProgressUpdated(object sender, Core.ResourceLoadEventArgs e) {
             progressLabel.Content = e.Message;
             progressBar.ToolTip = e.Message;
             var animateStep = 0.028 * e.PercentWorkRepresented;

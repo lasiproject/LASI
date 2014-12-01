@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
-    <Compile Include="CharExtensions.cs" />
+    <Compile Include="CharacterExtensions.cs" />
     <Compile Include="Contracts\Validators\ArgumentValidator.cs" />
     <Compile Include="SupportTypes\CustomComparer.cs" />
     <Compile Include="DictionaryExtensions.cs" />

@@ -16,8 +16,8 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second IEntity</param>
         /// <returns>True if the given IEntity instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
-        /// <code>if ( Lookup.IsSimilarTo(e1, e2) ) { ... }</code>
-        /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
+        /// <code>if (Lookup.IsSimilarTo(e1, e2)) { ... }</code>
+        /// <code>if (e1.IsSimilarTo(e2)) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IEntity first, IEntity second) {
@@ -48,8 +48,8 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second IAggregateEntity</param>
         /// <returns>True if the given IAggregateEntity instances are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
-        /// <code>if ( Lookup.IsSimilarTo(e1, e2) ) { ... }</code>
-        /// <code>if ( e1.IsSimilarTo(e2) ) { ... }</code>
+        /// <code>if (Lookup.IsSimilarTo(e1, e2)) { ... }</code>
+        /// <code>if (e1.IsSimilarTo(e2)) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
         public static SimilarityResult IsSimilarTo(this IAggregateEntity first, IAggregateEntity second) {
@@ -57,9 +57,9 @@ namespace LASI.Core.Heuristics
                              from e2 in second
                              let result = e1.IsSimilarTo(e2)
                              group result by (bool)result into byResult
-                             let Count = byResult.Count()
-                             orderby Count descending
-                             select new { byResult.Key, Count };
+                             let count = byResult.Count()
+                             orderby count descending
+                             select new { byResult.Key, Count = count };
             return new SimilarityResult(simResults.Any() && simResults.First().Key,
                 simResults.Aggregate(0f, (ratioSoFar, current) => ratioSoFar / current.Count));
         }
@@ -71,8 +71,8 @@ namespace LASI.Core.Heuristics
         /// <returns>True if the provided Noun is similar to the provided NounPhrase; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <example>
-        /// <code>if ( Lookup.IsSimilarTo(n1, np2) ) { ... }</code>
-        /// <code>if ( n1.IsSimilarTo(np2) ) { ... }</code>
+        /// <code>if (Lookup.IsSimilarTo(n1, np2)) { ... }</code>
+        /// <code>if (n1.IsSimilarTo(np2)) { ... }</code>
         /// </example>
         /// Please prefer the second convention.
         /// </remarks>
@@ -104,8 +104,8 @@ namespace LASI.Core.Heuristics
         /// <returns>True if the given NounPhrases are similar; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <example>
-        /// <code>if ( Lookup.IsSimilarTo(np1, np2) ) { ... }</code>
-        /// <code>if ( np1.IsSimilarTo(np2) ) { ... }</code>
+        /// <code>if (Lookup.IsSimilarTo(np1, np2)) { ... }</code>
+        /// <code>if (np1.IsSimilarTo(np2)) { ... }</code>
         /// Please prefer the second convention.
         /// </example>
         /// </remarks>
@@ -121,8 +121,8 @@ namespace LASI.Core.Heuristics
         /// <returns>True if the first Noun is similar to the second; otherwise, false.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <example>
-        /// <code>if ( Lookup.IsSimilarTo(n1, n2) ) { ... }</code>
-        /// <code>if ( n1.IsSimilarTo(n2) ) { ... }</code>
+        /// <code>if (Lookup.IsSimilarTo(n1, n2)) { ... }</code>
+        /// <code>if (n1.IsSimilarTo(n2)) { ... }</code>
         /// </example>
         /// Please prefer the second convention.
         /// </remarks>
@@ -136,19 +136,19 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second NounPhrase</param>
         /// <returns>A double value indicating the degree of similarity between two NounPhrases.</returns>
         private static double GetSimilarityRatio(NounPhrase first, NounPhrase second) {
-            int innerNounCount = first.Words.OfNoun().Count(), outerNounCount = second.Words.OfNoun().Count();
-            if (innerNounCount == 0 || outerNounCount == 0) {
+            var left = first.Words.OfNoun().ToList();
+            var right = second.Words.OfNoun().ToList();
+            if (left.Count == 0 || right.Count == 0) {
                 return 0;
             }
-            var scaleFactor = first.Words.OfNoun().Count() * second.Words.OfNoun().Count();
-            Func<NounPhrase, NounPhrase, double> overlap = (outer, inner) => {
-                var ns = new[] { inner.Words.OfNoun().ToList(), outer.Words.OfNoun().ToList() }.OrderByDescending(m => m.Count);
-                return (from outerNoun in ns.First()
-                        from innerNoun in ns.Last()
-                        select innerNoun.IsSynonymFor(outerNoun) ? 0.7 : 0d).Sum() / scaleFactor;
-            };
-            return innerNounCount >= outerNounCount ? overlap(first, second) : overlap(second, first);
+            var ns = new[] { left, right }.OrderByDescending(n => n.Count);
+            return ScoreSimilarities(ns.First(), ns.Last()).Average();
         }
 
+        private static IEnumerable<double> ScoreSimilarities(List<Noun> ns1, List<Noun> ns2) {
+            return from outerNoun in ns1
+                   from innerNoun in ns2
+                   select innerNoun.IsSynonymFor(outerNoun) ? 0.7 : 0;
+        }
     }
 }

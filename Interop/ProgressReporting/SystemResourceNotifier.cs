@@ -16,12 +16,12 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// </summary>
         public SystemResourceNotifier()
             : base(BASE_MESSAGE_ADJUNCT) {
-            Core.Heuristics.Lookup.ResourceLoaded += (sender, e) => OnReport(TranslateEventArgs(e));
+            Core.Heuristics.Lookup.ResourceLoaded += (sender, e) => OnReport(e);
         }
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ProgressChanging {
+        public event EventHandler<LASI.Core.ResourceLoadEventArgs> ProgressChanging {
             add { loadingProvider.ProgressChanged += value; }
             remove { loadingProvider.ProgressChanged -= value; }
         }

@@ -12,29 +12,27 @@ namespace LASI.Core.Heuristics.WordNet
         protected SynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<TSetRelationship, int>> pointerRelationships) {
             Id = id;
             Words = new HashSet<string>(words, StringComparer.OrdinalIgnoreCase);
-
             relatedSetsByRelationKindSource = pointerRelationships;
-            ReferencedSetIds = new HashSet<int>(pointerRelationships.Select(p => p.Value));
+            ReferencedSet = new HashSet<int>(pointerRelationships.Select(p => p.Value));
         }
         /// <summary>
         /// Gets the ID of the SynSet.
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
         /// <summary>
         /// Gets all of the words belonging to the SynSet.
         /// </summary>
-        public HashSet<string> Words { get; private set; }
+        public HashSet<string> Words { get; }
         /// <summary>
         /// Gets the IDs of all sets referenced by the SynSet.
         /// </summary>
-        public HashSet<int> ReferencedSetIds { get; private set; }
+        public HashSet<int> ReferencedSet { get; }
         /// <summary>
         /// Returns the IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion. 
         /// </summary>
         /// <param name="relationships">The kinds of external set relationships to consider return.</param>
         /// <returns>The IDs of all other SynSets which are referenced from the current SynSet in the indicated fashion.</returns>
         public IEnumerable<int> this[params TSetRelationship[] relationships] {
-
             get {
                 if (referencedSetsByLinkType == null)
                     referencedSetsByLinkType = relatedSetsByRelationKindSource.ToLookup(p => p.Key, p => p.Value);
@@ -57,24 +55,20 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="word">The word to find.</param>
         /// <returns>True if the given word is directly contained within the Synset; otherwise false.</returns>
-        public bool ContainsWord(string word) { return Words.Contains(word); }
+        public bool ContainsWord(string word) => Words.Contains(word);
         /// <summary>
         /// Returns a value indicating whether the current SynSet directly links to the given SynSet.
         /// </summary>
         /// <param name="other">The SynSet to find.</param>
         /// <returns>True if the current SynSet directly links to given SynSet; otherwise false.</returns>
-        public bool DirectlyReferences(SynSet<TSetRelationship> other) { return ReferencedSetIds.Contains(other.Id); }
+        public bool DirectlyReferences(SynSet<TSetRelationship> other) => ReferencedSet.Contains(other.Id);
 
-        public override int GetHashCode() {
-            return Id;
-        }
-        public bool Equals(SynSet<TSetRelationship> other) {
-            return this == other;
-        }
+        public override int GetHashCode() => Id;
 
-        public override bool Equals(object obj) {
-            return obj as SynSet<TSetRelationship> == this;
-        }
+        public bool Equals(SynSet<TSetRelationship> other) => this == other;
+
+        public override bool Equals(object obj) => obj as SynSet<TSetRelationship> == this;
+
         /// <summary>
         /// Returns a single string representing the SynSet.
         /// </summary>
@@ -110,7 +104,7 @@ namespace LASI.Core.Heuristics.WordNet
             Category = category;
         }
 
-        public NounCategory Category { get; private set; }
+        public NounCategory Category { get; }
     }
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
@@ -121,7 +115,7 @@ namespace LASI.Core.Heuristics.WordNet
             : base(id, words, referencedSets) {
             Category = category;
         }
-        public VerbCategory Category { get; private set; }
+        public VerbCategory Category { get; }
     }
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
@@ -133,7 +127,7 @@ namespace LASI.Core.Heuristics.WordNet
             Category = category;
         }
 
-        public AdjectiveCategory Category { get; private set; }
+        public AdjectiveCategory Category { get; }
     }
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
@@ -144,7 +138,7 @@ namespace LASI.Core.Heuristics.WordNet
             : base(id, words, pointerRelationships) {
             Category = category;
         }
-        public AdverbCategory Category { get; private set; }
+        public AdverbCategory Category { get; }
     }
 
 }

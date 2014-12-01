@@ -201,7 +201,7 @@ namespace LASI.UnitTests
             Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Word> actual;
             actual = target.Words;
-            AssertHelper.AreSequenceEqual(sentences.Words(), actual);
+            EnumerableAssert.AreSequenceEqual(sentences.Words(), actual);
         }
 
 
@@ -244,7 +244,7 @@ namespace LASI.UnitTests
             Paragraph target = new Paragraph(sentences, paragraphKind);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            AssertHelper.AreSequenceEqual(sentences.Phrases(), actual);
+            EnumerableAssert.AreSequenceEqual(sentences.Phrases(), actual);
         }
 
 
@@ -289,7 +289,7 @@ namespace LASI.UnitTests
             IEnumerable<Phrase> expected = sentences.Phrases().SkipWhile(p => p != startAfter).Skip(1);
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
-            AssertHelper.AreSequenceEqual(expected, actual);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace LASI.UnitTests
             ParagraphKind paragraphKind = ParagraphKind.Default;
             Paragraph target = new Paragraph(sentences, paragraphKind);
             Assert.AreEqual(paragraphKind, target.ParagraphKind);
-            AssertHelper.AreSequenceEqual(sentences, target.Sentences);
+            EnumerableAssert.AreSequenceEqual(sentences, target.Sentences);
         }
     }
 

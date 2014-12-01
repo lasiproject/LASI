@@ -71,7 +71,7 @@ namespace LASI.UnitTests
             IEnumerable<Word> composed = new Word[] { new Preposition("by"), new Interjection("jove") };
             InterjectionPhrase target = new InterjectionPhrase(composed);
             Assert.AreEqual("by jove", target.Text);
-            AssertHelper.AreSequenceEqual(composed, target.Words);
+            EnumerableAssert.AreSequenceEqual(composed, target.Words);
         }
     }
 }

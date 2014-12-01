@@ -2,7 +2,7 @@
 
 namespace LASI.Interop.ContractHelperTypes.Base
 {
-    abstract class SystemResourceNotifierImplementation : Progress<Interop.ContractHelperTypes.ResourceLoadEventArgs>
+    abstract class SystemResourceNotifierImplementation : Progress<Core.ResourceLoadEventArgs>
     {
         private string messageAdjunct;
         /// <summary>

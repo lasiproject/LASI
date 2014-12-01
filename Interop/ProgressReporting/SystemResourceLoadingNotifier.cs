@@ -13,7 +13,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         public SystemResourceLoadingNotifier()
             : base(MESSAGE_ADJUNCT) {
             Core.Heuristics.Lookup.ResourceLoading += (sender, e) => {
-                OnReport(TranslateEventArgs(e));
+                OnReport(e);
             };
         }
     }

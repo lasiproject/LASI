@@ -16,10 +16,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class VerbPhraseTest
     {
-
-        private static VerbPhrase CreateVerbPhrase1() {
-            return new VerbPhrase(new SimpleVerb("help"));
-        }
         private TestContext testContextInstance;
 
         /// <summary>
@@ -65,6 +61,10 @@ namespace LASI.UnitTests
         //
         #endregion
 
+
+        private static VerbPhrase CreateVerbPhrase1() {
+            return new VerbPhrase(new SimpleVerb("help"));
+        }
 
         /// <summary>
         ///A test for VerbPhrase Constructor
@@ -138,9 +138,10 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void IsPossessiveTest1() {
-            VerbPhrase target = new VerbPhrase(new Word[] {
+            VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
-                new PastTenseVerb("was")});
+                new PastTenseVerb("was")
+            );
             bool actual;
             actual = target.IsPossessive;
             Assert.IsFalse(actual);
@@ -165,10 +166,11 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void IsClassifierTest1() {
-            VerbPhrase target = new VerbPhrase(new Word[] {
+            VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
                 new PastTenseVerb("had"),
-                new Quantifier("many")});
+                new Quantifier("many")
+            );
             bool actual;
             actual = target.IsClassifier;
             Assert.IsFalse(actual);
@@ -197,7 +199,10 @@ namespace LASI.UnitTests
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
             Assert.IsTrue(target.DirectObjects.None());
-            IEntity directObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("book"));
+            IEntity directObject = new NounPhrase(
+                new Determiner("the"),
+                new CommonSingularNoun("book")
+            );
             target.BindDirectObject(directObject);
             Assert.IsTrue(target.DirectObjects.Contains(directObject));
         }
@@ -208,10 +213,15 @@ namespace LASI.UnitTests
         [TestMethod]
         public void AggregateSubjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            var subject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
-                new NounPhrase(new PossessivePronoun("his"), new CommonPluralNoun("cats"))
-            });
+            var subject = new AggregateEntity(
+                new NounPhrase(
+                    new ProperSingularNoun("John"),
+                    new ProperSingularNoun("Smith")
+                ), new NounPhrase(
+                    new PossessivePronoun("his"),
+                    new CommonPluralNoun("cats")
+                )
+            );
             target.BindSubject(subject);
             IAggregateEntity actual;
             actual = target.AggregateSubject;
@@ -224,10 +234,15 @@ namespace LASI.UnitTests
         [TestMethod]
         public void AggregateIndirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            var indirectObject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
-                new NounPhrase(new PossessivePronoun("his"),new CommonPluralNoun("cats"))
-            });
+            var indirectObject = new AggregateEntity(
+                new NounPhrase(
+                    new ProperSingularNoun("John"),
+                    new ProperSingularNoun("Smith")
+                ), new NounPhrase(
+                    new PossessivePronoun("his"),
+                    new CommonPluralNoun("cats")
+                )
+            );
             target.BindIndirectObject(indirectObject);
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
@@ -240,10 +255,10 @@ namespace LASI.UnitTests
         [TestMethod]
         public void AggregateDirectObjectTest() {
             VerbPhrase target = CreateVerbPhrase();
-            IAggregateEntity directObject = new AggregateEntity(new IEntity[]{
-                new NounPhrase(new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")),
-                new NounPhrase(new PossessivePronoun("his"),new CommonPluralNoun("cats"))
-            });
+            IAggregateEntity directObject = new AggregateEntity(
+                new NounPhrase(new ProperSingularNoun("John"), new ProperSingularNoun("Smith")),
+                new NounPhrase(new PossessivePronoun("his"), new CommonPluralNoun("cats"))
+            );
             target.BindDirectObject(directObject);
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
@@ -271,9 +286,12 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void ToStringTest() {
-            VerbPhrase.VerboseOutput = false;
-            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
-            VerbPhrase target = new VerbPhrase(composedWords);
+            Phrase.VerboseOutput = false;
+            VerbPhrase target = new VerbPhrase(
+                new SimpleVerb("run"),
+                new Adverb("swiftly"),
+                new Preposition("through")
+            );
             string expected = "VerbPhrase \"run swiftly through\"";
             string actual;
             actual = target.ToString();

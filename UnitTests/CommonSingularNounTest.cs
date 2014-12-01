@@ -67,7 +67,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void CommonSingularNounConstructorTest() {
-            string text = "LASI"; // TODO: Initialize to an appropriate value
+            string text = "cat";
             CommonSingularNoun target = new CommonSingularNoun(text);
             Assert.AreEqual(target.Text, text);
         }

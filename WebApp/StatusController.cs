@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using LASI.WebApp.Controllers;
 using Newtonsoft.Json;
@@ -39,6 +40,7 @@ namespace LASI.WebApp
                 });
             }
         }
+
         [HttpPost]
         [Route("api/jobs")]
         public HttpResponseMessage Post([FromBody] JobStatus data) {
@@ -47,7 +49,9 @@ namespace LASI.WebApp
                 data.Id = ++idProvider;
                 trackedJobs[data.Id] = data;
             }
-            return Request.CreateResponse(System.Net.HttpStatusCode.Created, data, Configuration.Formatters.OfType<System.Net.Http.Formatting.JsonMediaTypeFormatter>().First(), "application/json");
+
+
+            return Request.CreateResponse(System.Net.HttpStatusCode.Created, data, mediaTypeFormatter, "application/json");
         }
         [Route("api/jobs/{id:int}")]
         public void Delete(int id) {
@@ -58,7 +62,7 @@ namespace LASI.WebApp
         private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         private static JsonSerializer serializer = new JsonSerializer { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-
+        System.Net.Http.Formatting.JsonMediaTypeFormatter mediaTypeFormatter = new System.Net.Http.Formatting.JsonMediaTypeFormatter { SerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() } };
         private static ConcurrentDictionary<int, JobStatus> trackedJobs = HomeController.TrackedJobs;
         private static object lockon = new object();
         private static int idProvider = 0;

@@ -277,7 +277,7 @@ namespace LASI.UnitTests
             IEntity subject = new CommonPluralNoun("monkeys");
             target.BindSubject(subject);
             actual = target.AggregateSubject;
-            AssertHelper.AreSetEqual(new[] { subject }, actual);
+            EnumerableAssert.AreSetEqual(new[] { subject }, actual);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace LASI.UnitTests
             IEntity indirectObject = new CommonPluralNoun("monkeys");
             target.BindIndirectObject(indirectObject);
             actual = target.AggregateIndirectObject;
-            AssertHelper.AreSetEqual(new[] { indirectObject }, actual);
+            EnumerableAssert.AreSetEqual(new[] { indirectObject }, actual);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace LASI.UnitTests
             IEntity directObject = new CommonPluralNoun("monkeys");
             target.BindDirectObject(directObject);
             actual = target.AggregateDirectObject;
-            AssertHelper.AreSetEqual(new[] { directObject }, actual);
+            EnumerableAssert.AreSetEqual(new[] { directObject }, actual);
         }
 
 

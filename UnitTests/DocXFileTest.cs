@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace LASI.UnitTests
 {
@@ -49,13 +50,12 @@ namespace LASI.UnitTests
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
+        //public void MyTestInitialize() {
         //}
-        //
-        //Use TestCleanup to run code after each test has run
+        ////
+        ////Use TestCleanup to run code after each test has run
         //[TestCleanup()]
-        //public void MyTestCleanup()
+        //public void MyTestCleanup() 
         //{
         //}
         //
@@ -67,37 +67,37 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void DocXFileConstructorTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocXFile target = new DocXFile(absolutePath);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            DocXFile target = new DocXFile(path);
+            Assert.IsTrue(System.IO.File.Exists(path));
+            Assert.AreEqual(System.IO.Path.GetFullPath(path), target.FullPath);
         }
-
         /// <summary>
-        ///A test for GetText
+        ///A test for DocXFile Constructor
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocXFile target = new DocXFile(absolutePath); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.GetText();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        public void DocXFileConstructorTest1() {
+            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+            try {
+                DocXFile target = new DocXFile(path);
+                Assert.Fail("Instantiation with mismatched extension succeeded.");
+            } catch (FileTypeWrapperMismatchException e) {
+                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
+            }
         }
-
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for DocXFile Constructor
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
-            string absolutePath = string.Empty; // TODO: Initialize to an appropriate value
-            DocXFile target = new DocXFile(absolutePath); // TODO: Initialize to an appropriate value
-            Task<string> expected = null; // TODO: Initialize to an appropriate value
-            Task<string> actual;
-            actual = target.GetTextAsync();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        public void DocXFileConstructorTest2() {
+            string invalidPath = System.IO.Directory.GetCurrentDirectory();//This is should never be valid.
+            Assert.IsFalse(System.IO.File.Exists(invalidPath));
+            try {
+                DocXFile target = new DocXFile(invalidPath);
+                Assert.Fail("Instantiation with invalid path succeeded.");
+            } catch (System.IO.FileNotFoundException e) {
+                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
+            }
         }
     }
 }

@@ -2,18 +2,14 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using LASI.Core.Heuristics.WordNet;
 
 namespace LASI.Core.Heuristics
 {
     using System.Collections.Immutable;
-    using Analysis.PatternMatching.LexicalSpecific.Experimental;
-    using LASI.Utilities;
-
+    using Utilities;
 
     /// <summary>
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase Comparison, Gender Stratification, and Named Entity Recognition.
@@ -30,15 +26,30 @@ namespace LASI.Core.Heuristics
         /// <param name="entity">The entity whose gender to lookup.</param>
         /// <returns>A NameGender value indicating the likely gender of the entity.</returns>
         public static Gender GetGender(this IEntity entity) {
+            //return entity.Match().Yield<Gender>()
+            //    .With((ISimpleGendered e) => e.Gender)
+            //    .With((IReferencer r) => GetGender(r))
+            //    .With((NounPhrase n) => DetermineNounPhraseGender(n))
+            //    .With((CommonNoun n) => Gender.Neutral)
+            //    .With((IEntity e) => (from referener in e.Referencers
+            //                          let gender = ((referener as ISimpleGendered)?.Gender).GetValueOrDefault()
+            //                          group gender by gender).DefaultIfEmpty().MaxBy(g => g?.Count() ?? 0).Key)
+            //    .Result();
+
             return entity.Match().Yield<Gender>()
-                .With((ISimpleGendered e) => e.Gender)
-                .With((IReferencer r) => GetGender(r))
-                .With((NounPhrase n) => DetermineNounPhraseGender(n))
-                .With((CommonNoun n) => Gender.Neutral)
-                .With((IEntity e) => (from referener in e.Referencers
-                                      let gender = ((referener as ISimpleGendered)?.Gender).GetValueOrDefault()
-                                      group gender by gender).MaxBy(g => g.Count()).Key)
-                .Result();
+                    .With<ISimpleGendered>(p => p.Gender)
+                    .With<IReferencer>(p => GetGender(p))
+                    .With<NounPhrase>(n => DetermineNounPhraseGender(n))
+                    .With<CommonNoun>(n => Gender.Neutral)
+                    .When(e => e.Referencers.Any())
+                    .Then<IEntity>(e => (
+                        from referener in e.Referencers
+                        let gendered = referener as ISimpleGendered
+                        let gender = gendered != null ? gendered.Gender : default(Gender)
+                        group gender by gender into byGender
+                        orderby byGender.Count() descending
+                        select byGender.Key).FirstOrDefault())
+                    .Result();
         }
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the Pronoun based on its referent if known, or else its PronounKind.
@@ -68,17 +79,14 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Female Name; otherwise, false.</returns>
-        public static bool IsFemaleFull(this NounPhrase name) {
-            return DetermineNounPhraseGender(name).IsFemale();
-        }
+        public static bool IsFemaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsFemale();
+
         /// <summary>
         /// Determines if the provided NounPhrase is a known Full Male Name.
         /// </summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>True if the provided NounPhrase is a known Full Male Name; otherwise, false.</returns>
-        public static bool IsMaleFull(this NounPhrase name) {
-            return DetermineNounPhraseGender(name).IsMale();
-        }
+        public static bool IsMaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
 
         // TODO: refactor these two methods. their interaction is very opaque and error prone. Although they are private, they make maintaining related algorithms difficult.
         #region
@@ -96,12 +104,13 @@ namespace LASI.Core.Heuristics
         private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase) {
             if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
             var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
-            bool any = genders.Any();
             return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
                 DetermineNounPhraseGender(pronounPhrase) :
-                any && genders.All(g => g.IsFemale()) ? Gender.Female :
-                any && genders.All(g => g.IsMale()) ? Gender.Male :
-                any && genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                genders.Any() ?
+                    genders.All(g => g.IsFemale()) ? Gender.Female :
+                    genders.All(g => g.IsMale()) ? Gender.Male :
+                    genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                    Gender.Undetermined :
                 Gender.Undetermined;
         }
         #endregion
@@ -263,23 +272,17 @@ namespace LASI.Core.Heuristics
 
         #region Private Fields
         // Resource Data File Paths
-        private static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-        private static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-        private static readonly string nounWNFilePath = wordnetDataDirectory + "data.noun";
-        private static readonly string verbWNFilePath = wordnetDataDirectory + "data.verb";
-        private static readonly string adverbWNFilePath = wordnetDataDirectory + "data.adv";
-        private static readonly string adjectiveWNFilePath = wordnetDataDirectory + "data.adj";
-        private static readonly string scrabbleDictsFilePath = wordnetDataDirectory + "dictionary.txt";
+
         // scrabble dictionary
         // Internal Lookups
         private static Lazy<WordNetLookup<Noun>> nounLookup =
-            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(nounWNFilePath)), true);
+            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), true);
         private static Lazy<WordNetLookup<Verb>> verbLookup =
-            new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(verbWNFilePath)), true);
-        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
-            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(adverbWNFilePath)), true);
+            new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), true);
         private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
-            new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(adjectiveWNFilePath)), true);
+            new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), true);
+        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
+            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), true);
 
         // Synonym LexicalLookup Caches
         private static ConcurrentDictionary<string, IImmutableSet<string>> cachedNounData = new ConcurrentDictionary<string, IImmutableSet<string>>(
@@ -305,7 +308,10 @@ namespace LASI.Core.Heuristics
             var timer = System.Diagnostics.Stopwatch.StartNew();
             var val = new NameProvider();
             val.Load();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0)
+            {
+                ElapsedMiliseconds = timer.ElapsedMilliseconds
+            });
             return val;
         }, true);
 
@@ -314,22 +320,22 @@ namespace LASI.Core.Heuristics
         private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
-            var stopwatch = FunctionExtensions.InvokeTimed(() => {
-                using (var reader = new StreamReader(scrabbleDictsFilePath)) {
+            var timedResult = FunctionExtensions.InvokeTimed(() => {
+                using (var reader = new StreamReader(Paths.ScrabbleDict)) {
                     return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                              .Select(s => s.ToLower())
                              .Except(NameData.AllNames, IgnoreCase)
-                             .ToHashSet(IgnoreCase);
+                             .ToImmutableHashSet(IgnoreCase);
                 }
             });
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = stopwatch.Item1.ElapsedMilliseconds });
-            return stopwatch.Item2;
+            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timedResult.Item1.ElapsedMilliseconds });
+            return timedResult.Item2;
         }, true);
 
 
         /// <summary>
         /// Similarity threshold for lexical element comparisons. If the computed ration of a similarity comparison is >= the threshold, 
-        /// then the similarity comparison will return true.
+        /// then the similarity comparison result will be considered as True in a boolean expression context.
         /// </summary>
         const double SIMILARITY_THRESHOLD = 0.6;
 
@@ -339,175 +345,43 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the provided ProperNoun is a FirstName; otherwise, false.</returns>
-        public static bool IsFirstName(this ProperNoun proper) {
-            return NameData.IsFirstName(proper.Text);
-        }
+        public static bool IsFirstName(this ProperNoun proper) => NameData.IsFirstName(proper.Text);
+
         /// <summary>
         /// Determines whether the ProperNoun's text corresponds to a last name in the English language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to check.</param>
         /// <returns>True if the ProperNoun's text corresponds to a last name in the English language; otherwise, false.</returns>
-        public static bool IsLastName(this ProperNoun proper) {
-            return NameData.IsLastName(proper.Text);
-        }
+        public static bool IsLastName(this ProperNoun proper) => NameData.IsLastName(proper.Text);
+
         /// <summary>
         /// Determines whether the ProperNoun's text corresponds to a female first name in the English language.
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a female first name in the English language; otherwise, false.</returns>
-        public static bool IsFemaleFirst(this ProperNoun proper) {
-            return NameData.IsFemaleFirst(proper.Text);
-        }
+        public static bool IsFemaleFirst(this ProperNoun proper) => NameData.IsFemaleFirst(proper.Text);
+
         /// <summary>
         /// Returns a value indicating whether the ProperNoun's text corresponds to a male first name in the English language. 
         /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
         /// </summary>
         /// <param name="proper">The ProperNoun to test.</param>
         /// <returns>True if the ProperNoun's text corresponds to a male first name in the English language; otherwise, false.</returns>
-        public static bool IsMaleFirst(this ProperNoun proper) {
-            return NameData.IsMaleFirst(proper.Text);
-        }
+        public static bool IsMaleFirst(this ProperNoun proper) => NameData.IsMaleFirst(proper.Text);
+
         /// <summary>
         /// Determines if the text is equal to that of a known Common Noun.
         /// </summary>
         /// <param name="nounText">The text to test.</param>
         /// <returns>True if the text is equal to that of a known Common Noun; otherwise, false.</returns>
-        public static bool IsCommon(string nounText) {
-            return ScrabbleDictionary.Contains(nounText);
-        }
+        public static bool IsCommon(string nounText) => ScrabbleDictionary.Contains(nounText);
 
         #endregion
 
         #endregion
 
-        private sealed class NameProvider
-        {
-            public void Load() {
-                Task.Factory.ContinueWhenAll(new[] {
-                    Task.Run(async () => lastNames = await ReadLinesAsync(lastFilePath)),
-                    Task.Run(async () => femaleNames = await ReadLinesAsync(femaleFilePath)),
-                    Task.Run(async () => maleNames = await ReadLinesAsync(maleFilePath))
-                }, results => {
-                    genderAmbiguousNames = maleNames.Intersect(femaleNames);
-                    var stratified =
-                        from m in maleNames.Select((name, index) => new { Rank = (double)index / maleNames.Count, Name = name })
-                        join f in femaleNames.Select((name, i) => new { Rank = (double)i / femaleNames.Count, Name = name })
-                        on m.Name equals f.Name
-                        group f.Name by f.Rank / m.Rank > 1 ? 'F' : m.Rank / f.Rank > 1 ? 'M' : 'U';
-                    var byLikelyGender = stratified.ToDictionary(strata => strata.Key);
-                    maleNames = maleNames.Except(byLikelyGender['F']);
-                    femaleNames = femaleNames.Except(byLikelyGender['M']);
-                }
-              ).Wait();
-            }
 
-            /// <summary>
-            /// Determines if provided text is in the set of Female or Male first names.
-            /// </summary>
-            /// <param name="text">The text to check.</param>
-            /// <returns>True if the provided text is in the set of Female or Male first names; otherwise, false.</returns>
-            public bool IsFirstName(string text) {
-                return femaleNames.Count > maleNames.Count ?
-                    maleNames.Contains(text) || femaleNames.Contains(text) :
-                    femaleNames.Contains(text) || maleNames.Contains(text);
-            }
-            /// <summary>
-            /// Returns a value indicating whether the provided string corresponds to a common last name in the English language. 
-            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-            /// </summary>
-            /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common last name in the English language; otherwise, false.</returns>
-            public bool IsLastName(string text) {
-                return lastNames.Contains(text);
-            }
-            /// <summary>
-            /// Returns a value indicating whether the provided string corresponds to a common female name in the English language. 
-            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-            /// </summary>
-            /// <param name="text">The Name to lookup</param>
-            /// <returns>
-            /// True if the provided string corresponds to a common female name in the english language; otherwise, false.
-            /// </returns>
-            public bool IsFemaleFirst(string text) {
-                return femaleNames.Contains(text);
-            }
-            /// <summary>
-            /// Returns a value indicating whether the provided string corresponds to a common male name in the english language. 
-            /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
-            /// </summary>
-            /// <param name="text">The Name to lookup</param>
-            /// <returns>
-            /// True if the provided string corresponds to a common male name in the English language; otherwise, false.
-            /// </returns>
-            public bool IsMaleFirst(string text) {
-                return maleNames.Contains(text);
-            }
-
-            private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName) {
-                using (var reader = new StreamReader(fileName)) {
-                    string data = await reader.ReadToEndAsync();
-                    return data.SplitRemoveEmpty('\r', '\n')
-                        .Select(s => s.Trim())
-                        .ToImmutableSortedSet(IgnoreCase);
-                }
-            }
-
-            /// <summary>
-            /// Gets a sequence of all known Last Names.
-            /// </summary>
-            public IReadOnlyCollection<string> LastNames {
-                get { return lastNames.ToList().ToImmutableList(); }
-            }
-            /// <summary>
-            /// Gets a sequence of all known Female Names.
-            /// </summary>
-            public IReadOnlyCollection<string> FemaleNames {
-                get {
-                    return femaleNames.ToList().AsReadOnly();
-                }
-            }
-            /// <summary>
-            /// Gets a sequence of all known Male Names.
-            /// </summary>
-            public IReadOnlyCollection<string> MaleNames {
-                get {
-                    return maleNames.ToList().AsReadOnly();
-                }
-            }
-            /// <summary>
-            /// Gets a sequence of all known Names which are just as likely to be Female or Male.
-            /// </summary>
-            public IReadOnlyCollection<string> GenderAmbiguousNames {
-                get {
-                    return genderAmbiguousNames.ToList().AsReadOnly();
-                }
-            }
-
-            public IImmutableSet<string> AllNames => new[] { lastNames, maleNames, femaleNames, genderAmbiguousNames }
-                .Aggregate((fold, current) => fold.Union(current))
-                .WithComparer(IgnoreCase);
-
-            #region Fields
-            #region Fields
-
-            // Name Data Sets
-            private ImmutableSortedSet<string> lastNames;
-            private ImmutableSortedSet<string> maleNames;
-            private ImmutableSortedSet<string> femaleNames;
-            private ImmutableSortedSet<string> genderAmbiguousNames;
-
-            // Name Data File Paths
-            private static readonly string lastFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "last.txt";
-            private static readonly string femaleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "femalefirst.txt";
-            private static readonly string maleFilePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"] + "malefirst.txt";
-
-
-            #endregion
-            #endregion
-
-        }
-        static StringComparer IgnoreCase => StringComparer.OrdinalIgnoreCase;
     }
 }

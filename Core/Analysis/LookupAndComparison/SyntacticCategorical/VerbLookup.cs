@@ -14,6 +14,7 @@ namespace LASI.Core.Heuristics.WordNet
     using Interop;
     using System.Reactive.Linq;
     using System.Collections.Immutable;
+    using EventArgs = ResourceLoadEventArgs;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -29,18 +30,21 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary> 
         internal override void Load() {
             using (var reader = new StreamReader(filePath)) {
-                OnReport(new ResourceLoadEventArgs("Parsing File", 0));
+                OnReport(new EventArgs("Parsing File", 0));
                 var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
                     .Skip(FILE_HEADER_LINE_COUNT)
                     .AsParallel()
                     .Select(CreateSet);
-                OnReport(new ResourceLoadEventArgs("Mapping Sets", 0));
-                sets.ToObservable().ForEachAsync(set => {
-                    LinkSynset(set);
-                    OnReport(new ResourceLoadEventArgs("Processed Verb Synset " + set.Id, 0));
-
-                });
-                OnReport(new ResourceLoadEventArgs("Loaded", 0));
+                OnReport(new EventArgs("Mapping Verb Sets", 0));
+                sets.ToObservable().Throttle(TimeSpan.FromMilliseconds(40))
+                    .Subscribe(
+                        onNext: e => OnReport(new EventArgs("Loaded Verb Data - Set: \{e.Id}", 2)),
+                        onCompleted: () => OnReport(new EventArgs("Verb Data Loaded", 0)),
+                        onError: e => {
+                            e.LogIfDebug();
+                        });
+                foreach (var set in sets) { LinkSynset(set); }
+                OnReport(new EventArgs("Verb Loaded", 0));
             }
         }
 
@@ -67,7 +71,7 @@ namespace LASI.Core.Heuristics.WordNet
                 VerbSynSet extantSet;
                 if (setsByWord.TryGetValue(word, out extantSet)) {
                     extantSet.Words.UnionWith(set.Words);
-                    extantSet.ReferencedSetIds.UnionWith(set.ReferencedSetIds);
+                    extantSet.ReferencedSet.UnionWith(set.ReferencedSet);
                 } else {
                     setsByWord[word] = set;
                 }
@@ -145,18 +149,19 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         private const uint SET_COUNT = 13797;
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
-        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType> {
-            { "!", LinkType.Antonym },
-            { "@", LinkType.Hypernym },
-            { "~", LinkType.Hyponym },
-            { "*", LinkType.Entailment },
-            { ">", LinkType.Cause },
-            { "^", LinkType.AlsoSee },
-            { "$", LinkType.Verb_Group },
-            { "+", LinkType.DerivationallyRelatedForm },
-            { ";c", LinkType.DomainOfSynset_TOPIC },
-            { ";r", LinkType.DomainOfSynset_REGION },
-            { ";u", LinkType.DomainOfSynset_USAGE }
+        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
+        {
+            ["!"] = LinkType.Antonym,
+            ["@"] = LinkType.Hypernym,
+            ["~"] = LinkType.Hyponym,
+            ["*"] = LinkType.Entailment,
+            [">"] = LinkType.Cause,
+            ["^"] = LinkType.AlsoSee,
+            ["$"] = LinkType.Verb_Group,
+            ["+"] = LinkType.DerivationallyRelatedForm,
+            [";c"] = LinkType.DomainOfSynset_TOPIC,
+            [";r"] = LinkType.DomainOfSynset_REGION,
+            [";u"] = LinkType.DomainOfSynset_USAGE
         };
     }
 

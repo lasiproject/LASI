@@ -177,8 +177,9 @@ namespace LASI.UnitTests
             );
             IEnumerable<IReferencer> actual;
             IEnumerable<IReferencer> expected = new[] { new PersonalPronoun("them") };
-            actual = target.Referencers;
+
             foreach (var r in expected) { target.BindReferencer(r); }
+            actual = target.Referencers;
             foreach (var r in expected) { Assert.IsTrue(actual.Contains(r)); }
         }
 

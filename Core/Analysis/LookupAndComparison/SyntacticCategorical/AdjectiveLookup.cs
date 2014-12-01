@@ -31,8 +31,7 @@ namespace LASI.Core.Heuristics.WordNet
         internal override void Load() {
             using (StreamReader reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
-                    try { allSets.Add(CreateSet(line)); }
-                    catch (KeyNotFoundException e) {
+                    try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
                         Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
                     }
                 }
@@ -85,16 +84,17 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.
         /// </summary>
-        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link> {
-            {"!",Link.Antonym},
-            {"&",Link.SimilarTo},
-            {"<",Link.ParticipleOfVerb},
-            {@"\", Link.Pertainym_pertains_to_noun},
-            {"=",Link.Attribute},
-            {"^",Link.AlsoSee},
-            {";c", Link.DomainOfSynset_TOPIC},
-            {";r", Link.DomainOfSynset_REGION},
-            {";u", Link.DomainOfSynset_USAGE}
+        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link>
+        {
+            ["!"] = Link.Antonym,
+            ["&"] = Link.SimilarTo,
+            ["<"] = Link.ParticipleOfVerb,
+            [@"\"] = Link.Pertainym_pertains_to_noun,
+            ["="] = Link.Attribute,
+            ["^"] = Link.AlsoSee,
+            [";c"] = Link.DomainOfSynset_TOPIC,
+            [";r"] = Link.DomainOfSynset_REGION,
+            [";u"] = Link.DomainOfSynset_USAGE
         };
 
     }

@@ -94,17 +94,10 @@ namespace LASI.Core.Heuristics
             //Look into refining this
             var leftHandVerbs = first.Words.OfVerb().ToList();
             var rightHandVerbs = second.Words.OfVerb().ToList();
-
-            try {
-                // TODO: make this fuzzier.
-                return new SimilarityResult(leftHandVerbs.Count == rightHandVerbs.Count &&
-                    leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y)).All(synonymous => synonymous)
-                );
-            }
-            catch (NullReferenceException x) {
-                Output.WriteLine(x.Message);
-                return SimilarityResult.Dissimilar;
-            }
+            // TODO: make this fuzzier.
+            return new SimilarityResult(leftHandVerbs.Count == rightHandVerbs.Count &&
+                leftHandVerbs.Zip(rightHandVerbs, (x, y) => x.IsSynonymFor(y)).All(areSyonyms => areSyonyms)
+            );
         }
     }
 }

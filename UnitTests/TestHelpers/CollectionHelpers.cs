@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI;
 using LASI.Core;
- using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.UnitTests.TestHelpers
 {
-    static class AssertHelper
+    static class EnumerableAssert
     {
         public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) {
             Assert.IsTrue(expected.SequenceEqual(actual));

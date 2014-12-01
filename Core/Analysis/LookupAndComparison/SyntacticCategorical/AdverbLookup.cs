@@ -26,20 +26,17 @@ namespace LASI.Core.Heuristics.WordNet
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         internal override void Load() {
-            using (StreamReader reader = new StreamReader(filePath)) {
-
+            using (var reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
                     try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
-                        Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
+                        Output.WriteLine("An error occured when Loading the \{GetType().Name}: \{e.Message}\r\n\{e.StackTrace}");
                     }
                 }
-
             }
         }
 
 
         private static AdverbSynSet CreateSet(string fileLine) {
-
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
@@ -48,31 +45,26 @@ namespace LASI.Core.Heuristics.WordNet
                                  where split.Count() > 1 && interSetMap.ContainsKey(split[0])
                                  select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
-            IEnumerable<string> words = from match in Regex.Matches(line, wordRegex).Cast<Match>()
-                                        select match.Value.Replace('_', '-');
+            var words = from Match match in Regex.Matches(line, wordRegex)
+                        select match.Value.Replace('_', '-');
 
-            int id = int.Parse(line.Substring(0, 8));
+            var id = int.Parse(line.Substring(0, 8));
+
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
 
         private IImmutableSet<string> SearchFor(string search) {
-            return ImmutableHashSet
-                .CreateRange(from containingSet in allSets
-                             where containingSet.ContainsWord(search)
-                             from linkedSet in allSets
-                             where containingSet.DirectlyReferences(linkedSet)
-                             from word in linkedSet.Words
-                             select word)
-                .WithComparer(IgnoreCase);
-
+            return ImmutableHashSet.CreateRange(IgnoreCase,
+                from wordForm in conjugator.GetLexicalForms(search)
+                from set in allSets
+                where set.ContainsWord(wordForm)
+                from linkedSet in allSets
+                where set.DirectlyReferences(linkedSet)
+                from word in linkedSet.Words
+                select word);
         }
 
-        internal override IImmutableSet<string> this[string adverbText] =>
-            conjugator.GetLexicalForms(adverbText)
-            .SelectMany(SearchFor).ToImmutableHashSet(IgnoreCase);
-
-
-
+        internal override IImmutableSet<string> this[string search] => SearchFor(search);
 
         internal override IImmutableSet<string> this[Adverb search] => this[search.Text];
 
@@ -84,12 +76,13 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adv files.
         /// </summary>
-        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link> {
-            {"!", Link.Antonym },
-            {@"\", Link.DerivedFromAdjective },
-            {";c", Link.DomainOfSynset_TOPIC },
-            {";r", Link.DomainOfSynset_REGION },
-            {";u", Link.DomainOfSynset_USAGE }
+        private static readonly IReadOnlyDictionary<string, Link> interSetMap = new Dictionary<string, Link>
+        {
+            ["!"] = Link.Antonym,
+            [@"\"] = Link.DerivedFromAdjective,
+            [";c"] = Link.DomainOfSynset_TOPIC,
+            [";r"] = Link.DomainOfSynset_REGION,
+            [";u"] = Link.DomainOfSynset_USAGE
         };
     }
 

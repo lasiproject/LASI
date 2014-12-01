@@ -43,7 +43,7 @@ namespace LASI.Core
                 .ToImmutableList();
             phrases = sentences.Phrases().ToImmutableList();
             words = sentences
-                .SelectMany(sentence => sentence.Words.Append(sentence.EndingPunctuator))
+                .SelectMany(sentence => sentence.Words.Append(sentence.Ending))
                 .ToImmutableList();
         }
         #endregion

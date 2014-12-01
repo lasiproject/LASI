@@ -99,7 +99,7 @@ namespace LASI.UnitTests
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Word> actual;
             actual = target.Words;
-            AssertHelper.AreSequenceEqual(phrases.SelectMany(p => p.Words), actual);
+            EnumerableAssert.AreSequenceEqual(phrases.SelectMany(p => p.Words), actual);
         }
 
 
@@ -112,7 +112,7 @@ namespace LASI.UnitTests
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
-            AssertHelper.AreSequenceEqual(phrases, actual);
+            EnumerableAssert.AreSequenceEqual(phrases, actual);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace LASI.UnitTests
             IEnumerable<Phrase> expected = new[] { phrases[2] };
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(phrase);
-            AssertHelper.AreSequenceEqual(expected, actual);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
         }
 
         /// <summary>
@@ -197,8 +197,8 @@ namespace LASI.UnitTests
                             )};
             SentenceEnding sentenceEnding = SentenceEnding.ExclamationPoint;
             Sentence target = new Sentence(clauses, sentenceEnding);
-            AssertHelper.AreSequenceEqual(clauses, target.Clauses);
-            Assert.AreEqual(target.EndingPunctuator, sentenceEnding);
+            EnumerableAssert.AreSequenceEqual(clauses, target.Clauses);
+            Assert.AreEqual(target.Ending, sentenceEnding);
             Assert.AreEqual(target.Text, string.Join(" ", clauses.Select(c => c.Text).ToArray()) + sentenceEnding.Text);
         }
 

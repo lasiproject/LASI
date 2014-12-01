@@ -40,7 +40,6 @@ namespace LASI.Core.Heuristics
                         break;
                     }
                 }
-
             }
             results.Add(root);
             return results;

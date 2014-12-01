@@ -69,10 +69,10 @@ namespace LASI.Core
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the aggregate entity.
         /// </summary>
-        /// <param name="pro">The referencer which refers to the aggregate entity Instance.</param>
-        public void BindReferencer(IReferencer pro) {
-            referencers = referencers.Add(pro);
-            pro.BindAsReferringTo(this);
+        /// <param name="referencer">The referencer which refers to the aggregate entity Instance.</param>
+        public void BindReferencer(IReferencer referencer) {
+            referencers = referencers.Add(referencer);
+            referencer.BindAsReferringTo(this);
         }
         /// <summary>
         /// Returns an enumerator that iterates through the members of the aggregate entity.
@@ -169,7 +169,7 @@ namespace LASI.Core
         /// <summary>
         /// The sequence of entities which compose to form the aggregate entity.
         /// </summary>
-        private readonly IReadOnlyList<IEntity> constituents;
+        private readonly IImmutableList<IEntity> constituents;
         IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;

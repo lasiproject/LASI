@@ -82,10 +82,11 @@ namespace LASI.Core.Heuristics
 
         private static readonly string[] sufficies = { "s", "ies", "es", "es", "ed", "ed", "ing", "ing" };
 
-        private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>> {
-            { "", new[] { "s",  "es",  "ed", "ing" } },
-            { "e", new[] { "es", "ed", "ing"} },
-            { "y", new[] { "ies" } },
+        private static readonly IDictionary<string, IEnumerable<string>> sufficesByEnding = new Dictionary<string, IEnumerable<string>>
+        {
+            [""] = new[] { "s", "es", "ed", "ing" },
+            ["e"] = new[] { "es", "ed", "ing" },
+            ["y"] = new[] { "ies" },
         };
 
         private static ConcurrentDictionary<string, IEnumerable<string>> exceptionMapping;

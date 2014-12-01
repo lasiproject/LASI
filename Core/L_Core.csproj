@@ -99,6 +99,8 @@
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\BindingHelper.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatch.cs" />
+    <Compile Include="Analysis\LookupAndComparison\LookupDataProvider.cs" />
+    <Compile Include="Analysis\LookupAndComparison\LookupNameProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
+    <Compile Include="Lexical.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />

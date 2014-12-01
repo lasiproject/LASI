@@ -1,5 +1,4 @@
 ﻿using LASI.Core.Heuristics;
-using LASI.Interop.ContractHelperTypes;
 using LASI.Interop.ContractHelperTypes.Base;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using LASI.Core;
 
 namespace LASI.Interop.ResourceManagement
 {
@@ -21,14 +21,14 @@ namespace LASI.Interop.ResourceManagement
         /// <summary>
         /// Raised when a System Core resource is finished loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoaded {
+        public event EventHandler<Core.ResourceLoadEventArgs> ResourceLoaded {
             add { notificationProvider.ProgressChanged += value; }
             remove { notificationProvider.ProgressChanged -= value; }
         }
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<ResourceLoadEventArgs> ResourceLoading {
+        public event EventHandler<Core.ResourceLoadEventArgs> ResourceLoading {
             add { notificationProvider.ProgressChanging += value; }
             remove { notificationProvider.ProgressChanging -= value; }
         }

@@ -108,8 +108,7 @@ namespace LASI.ContentSystem
 
                 AddToTypedList(newFile as dynamic);
                 return newFile;
-            }
-            catch (KeyNotFoundException ex) {
+            } catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -224,12 +223,10 @@ namespace LASI.ContentSystem
                         Task.Run(async () => {
                             try {
                                 await ConvertDocToTextAsync(docFiles.ToArray());
-                            }
-                            catch (FileConversionFailureException) { throw; }
+                            } catch (FileConversionFailureException) { throw; }
                         }),
                         Task.Run(async () => await ConvertDocxToTextAsync(docXFiles.ToArray())));
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 e.LogIfDebug();
                 throw;
             }
@@ -251,10 +248,8 @@ namespace LASI.ContentSystem
                         var txt = new DocxToTextConverter(docx).ConvertFile();
                         AddFile(txt.FullPath, true);
                         File.Delete(txt.FullPath);
-                    }
-                    catch (IOException e) { Output.WriteLine(e.Message); throw new FileConversionFailureException(doc.NameSansExt, ".doc", ".txt"); }
-                }
-                catch (UnauthorizedAccessException) {
+                    } catch (IOException e) { Output.WriteLine(e.Message); throw new FileConversionFailureException(doc.NameSansExt, ".doc", ".txt"); }
+                } catch (UnauthorizedAccessException) {
                     Output.WriteLine("An exception was thrown when attempting to convert {0} to {1}", doc.FileName);
                     throw;
                 }
@@ -276,10 +271,8 @@ namespace LASI.ContentSystem
                         AddFile(txt.FullPath, true);
                         File.Delete(txt.FullPath);
                         File.Delete(docx.FullPath);
-                    }
-                    catch (Exception e) { Output.WriteLine(e.Message); throw new FileConversionFailureException(doc.NameSansExt, ".doc", ".txt"); }
-                }
-                catch (UnauthorizedAccessException) {
+                    } catch (Exception e) { Output.WriteLine(e.Message); throw new FileConversionFailureException(doc.NameSansExt, ".doc", ".txt"); }
+                } catch (UnauthorizedAccessException) {
                     Output.WriteLine("An exception was thrown when attempting to convert {0} to {1}", doc.FileName);
                     throw;
                 }
@@ -415,8 +408,7 @@ namespace LASI.ContentSystem
                 taggedFiles.Clear();
                 ProjectName = null;
                 Initialized = false;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Output.WriteLine(e.Message);
                 Output.WriteLine("Directory could not be found for forced cleanup");
             }
@@ -519,14 +511,14 @@ namespace LASI.ContentSystem
         /// <returns>The names of all documents in the current project. Ignoring file extensions.</returns>
         public static IEnumerable<string> AllDocumentNames {
             get {
-                return AllDocuments.Select(file => file.NameSansExt).ToImmutableHashSet().WithComparer(StringComparer.OrdinalIgnoreCase);
+                return AllFiles.Select(file => file.NameSansExt).ToImmutableHashSet().WithComparer(StringComparer.OrdinalIgnoreCase);
             }
         }
         /// <summary>
         /// Gets all input files in the current project.
         /// </summary>
         /// <returns>All input files in the current project.</returns>
-        public static IEnumerable<InputFile> AllDocuments {
+        public static IEnumerable<InputFile> AllFiles {
             get {
                 foreach (var txt in txtFiles) { yield return txt; }
                 foreach (var pdf in pdfFiles) { yield return pdf; }
@@ -599,13 +591,12 @@ namespace LASI.ContentSystem
             get {
                 try {
                     return mapping[fileExtension.Replace(".", string.Empty)];
-                }
-                catch (KeyNotFoundException) {
+                } catch (KeyNotFoundException) {
                     switch (unsupportedMappingMode) {
-                        case UnsupportedFormatHandling.YieldNull:
-                            return path => null;
-                        default:
-                            return path => { throw new ArgumentException("unmapped " + path); };
+                    case UnsupportedFormatHandling.YieldNull:
+                        return path => null;
+                    default:
+                        return path => { throw new ArgumentException("unmapped " + path); };
                     }
                 }
 

@@ -1,22 +1,23 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.UnitTests.TestHelpers;
 
 namespace LASI.Tests
 {
+    using Enumerable;
     [TestClass]
     public class EnumerableExtensionsTests
     {
+        private static System.Tuple<T1, T2> Tuple<T1, T2>(T1 x, T2 y) => System.Tuple.Create(x, y);
+        private static System.Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
+
         #region Sequence String Formatting Methods
 
         [TestMethod]
         public void FormatTest() {
-            var target = Enumerable.Range(0, 4);
+            var target = Range(0, 4);
             var expected = "[ 0, 1, 2, 3 ]";
             var actual = target.Format();
             Assert.AreEqual(expected, actual);
@@ -24,20 +25,23 @@ namespace LASI.Tests
 
         [TestMethod]
         public void FormatTest1() {
-            Assert.Fail();
+            var target = Range(0, 4);
+            var expected = "[ System.Int32,\nSystem.Int32,\nSystem.Int32,\nSystem.Int32 ]";
+            var actual = target.Format(20, x => x.GetType().FullName);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void FormatTest2() {
-            var target = Enumerable.Range(0, 4);
+            var target = Range(0, 4);
             var expected = "< 0; 1; 2; 3 >";
-            var actual = target.Format(Tuple.Create('<', ';', '>'));
+            var actual = target.Format(Tuple('<', ';', '>'));
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void FormatTest3() {
-            var target = Enumerable.Range(0, 4);
+            var target = Range(0, 4);
             var expected = "[ System.Int32, System.Int32, System.Int32, System.Int32 ]";
             var actual = target.Format(e => e.GetType().FullName);
             Assert.AreEqual(expected, actual);
@@ -45,25 +49,38 @@ namespace LASI.Tests
 
         [TestMethod]
         public void FormatTest4() {
-            var target = Enumerable.Range(0, 4);
+            var target = Range(0, 4);
             var expected = "{ System.Int32; System.Int32; System.Int32; System.Int32 }";
-            var actual = target.Format(Tuple.Create('{', ';', '}'), e => e.GetType().FullName);
+            var actual = target.Format(Tuple('{', ';', '}'), e => e.GetType().FullName);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void FormatTest5() {
-            Assert.Fail();
+            var target = Range(0, 4).Select(x => x.GetType().FullName);
+            var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
+            var actual = target.Format(Tuple('{', ';', '}'), 20);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void FormatTest6() {
-            Assert.Fail();
+            var target = Range(0, 4);
+            var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
+            var actual = target.Format(Tuple('{', ';', '}'), 20, x => x.GetType().FullName);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void FormatTest7() {
-            Assert.Fail();
+            var target = Range(0, 4);
+            var expected1 = "[ 0, 1, 2,\n3 ]";
+            var result1 = target.Format(9);
+            Assert.AreEqual(expected1, result1);
+            var expected2 = "[ 0, 1, 2,\n3 ]";
+            var result2 = target.Format(10);
+            Assert.AreEqual(expected2, result2);
+
         }
         #endregion
 
@@ -104,7 +121,7 @@ namespace LASI.Tests
             var target = new[] { 1, 2, 3 };
             var expected = new[] { 1, 2, 3, 0 };
             var actual = target.Append(0);
-            AssertHelper.AreSequenceEqual(expected, actual);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
         }
 
         [TestMethod]
@@ -112,24 +129,48 @@ namespace LASI.Tests
             var target = new[] { 1, 2, 3 };
             var expected = new[] { 0, 1, 2, 3 };
             var actual = target.Prepend(0);
-            AssertHelper.AreSequenceEqual(expected, actual);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
         }
 
         [TestMethod]
         public void ToHashSetTest() {
-            var target = Enumerable.Range(1, 100).ToHashSet();
+            var target = Range(1, 100).ToHashSet();
             Assert.AreEqual(target.Count, 100);
             Assert.IsTrue(!target.Select(x => x % 2).ToHashSet().Except(new[] { 1, 0 }).Any());
         }
 
         [TestMethod]
         public void ToHashSetTest1() {
-            Assert.Fail();
+            var target = new[] { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var expected = new HashSet<char> { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var actual = target.ToHashSet();
+            EnumerableAssert.AreSetEqual(expected, actual);
         }
 
         [TestMethod]
         public void ToHashSetTest2() {
-            Assert.Fail();
+            var caseInsensitiveComparer = Utilities.CustomComparer.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var actual = target.ToHashSet(caseInsensitiveComparer);
+            Assert.IsTrue(3 == expected.Count && 3 == actual.Count);
+            EnumerableAssert.AreSetEqual(expected, actual);
+            foreach (var c in target) {
+                Assert.IsTrue(expected.Contains(c));
+            }
+        }
+
+        [TestMethod]
+        public void ToHashSetTest3() {
+            var caseInsensitiveComparer = Utilities.CustomComparer.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
+            var actual = target.ToHashSet((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            Assert.IsTrue(3 == expected.Count && 3 == actual.Count);
+            EnumerableAssert.AreSetEqual(expected, actual);
+            foreach (var c in target) {
+                Assert.IsTrue(expected.Contains(c));
+            }
         }
 
         [TestMethod]
@@ -144,7 +185,10 @@ namespace LASI.Tests
 
         [TestMethod]
         public void PairWiseTest() {
-            Assert.Fail();
+            var target = Range(0, 5);
+            var expected = new[] { Tuple(0, 1), Tuple(1, 2), Tuple(2, 3), Tuple(3, 4) };
+            var actual = target.PairWise();
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
 
         [TestMethod]

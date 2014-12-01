@@ -88,7 +88,7 @@ namespace LASI
         }
 
         /// <summary>
-        /// Determines whether two strings should be considered equal when viewed in a case agnostic manner.
+        /// Determines whether two strings are considered equal when viewed in a case Insensitive manner.
         /// </summary>
         /// <param name="value">The first string to compare.</param>
         /// <param name="other">The second string to compare</param>

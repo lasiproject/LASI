@@ -10,9 +10,9 @@ namespace LASI.Core
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
-    /// <see cref="LASI.Core.PatternMatching.Match{T}"/>
-    /// <see cref="LASI.Core.PatternMatching.Match{T, TResult}"/>
-    /// <see cref="LASI.Core.PatternMatching"/>
+    /// <see cref="PatternMatching.Match{T}"/>
+    /// <see cref="PatternMatching.Match{T, TResult}"/>
+    /// <see cref="PatternMatching"/>
     ///<remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of performing subtype dependent operations which could not be described by traditional virtual method approaches in an expressive or practical manner.
@@ -106,6 +106,12 @@ namespace LASI.Core
         }
         public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
+        }
+        public static SequenceMatch Match(this IEnumerable<Word> words) {
+            return new SequenceMatch(words);
+        }
+        public static SequenceMatch Match(this IEnumerable<Phrase> phrases) {
+            return new SequenceMatch(phrases);
         }
     }
 }

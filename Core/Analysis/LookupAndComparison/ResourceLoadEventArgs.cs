@@ -17,6 +17,6 @@ namespace LASI.Core
         /// <summary>
         /// The number of milliseconds consumed by the loading task associated with the event.
         /// </summary>
-        public long ElapsedMiliseconds { get; internal set; }
+        public long ElapsedMiliseconds { get; set; }
     }
 }

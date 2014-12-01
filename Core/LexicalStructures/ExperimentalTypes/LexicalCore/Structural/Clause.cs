@@ -26,8 +26,7 @@ namespace LASI.Core
         /// <param name="sentence">The Sentence containing the Clause.</param>
         public void EstablishParent(LASI.Core.Sentence sentence) {
             Sentence = sentence;
-            foreach (var r in Phrases)
-                r.EstablishParent(this);
+            foreach (var phrase in Phrases) { phrase.EstablishParent(this); }
         }
         /// <summary>
         /// Returns a string representation of the Clause.
