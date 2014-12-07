@@ -63,6 +63,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.0.0-alpha-3\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\packages\NUnit.Mocks.2.6.3\lib\nunit.mocks.dll</HintPath>
+    </Reference>
     <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\OpenNLP.dll</HintPath>
@@ -140,6 +146,9 @@
     <Compile Include="FunctionExtensionsTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
+    <Compile Include="PatternMatching\Pattern.cs" />
+    <Compile Include="PatternMatching\Term.cs" />
+    <Compile Include="PatternMatching\TypeTestPatternTest.cs" />
     <Compile Include="Serialization\Json\SerializationExtensionsTests.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />

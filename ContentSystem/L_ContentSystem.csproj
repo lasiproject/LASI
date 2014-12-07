@@ -7,8 +7,8 @@
     <ProjectGuid>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.ContentSystem</RootNamespace>
-    <AssemblyName>LASI.ContentSystem</AssemblyName>
+    <RootNamespace>LASI.Content</RootNamespace>
+    <AssemblyName>LASI.Content</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Release\LASI.ContentSystem.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\LASI.Content.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>

@@ -40,7 +40,7 @@ namespace LASI.Core.Heuristics.WordNet
                 indexedSynsets.ToObservable()
                     .Throttle(TimeSpan.FromMilliseconds(40))
                     .Subscribe(
-                        onNext: e => OnReport(new EventArgs("Loaded Noun Data - Set: \{e.LineNumber} / \{TOTAL_LINES}", 10 * (e.LineNumber / TOTAL_LINES))),
+                        onNext: e => OnReport(new EventArgs("Loaded Noun Data - Set: \{e.LineNumber} / \{TOTAL_LINES}", 2)),
                         onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 0)),
                         onError: e => {
                             e.LogIfDebug();
@@ -55,7 +55,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
         private static NounSynSet CreateSet(string fileLine) {
-            string line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
+            var line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
             var referencedSets = from Match match in POINTER_REGEX.Matches(line)
                                  let split = match.Value.SplitRemoveEmpty(' ')
@@ -88,7 +88,7 @@ namespace LASI.Core.Heuristics.WordNet
             var containingSet = setsById.Values.FirstOrDefault(set => set.ContainsWord(word));
             if (containingSet != null) {
                 try {
-                    List<string> results = new List<string>();
+                    var results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return results.ToImmutableHashSet(IgnoreCase);
                 } catch (InvalidOperationException e) {

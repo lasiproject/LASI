@@ -28,7 +28,7 @@
     "AdjustRelativePaths": true,
     "AutoMinify": true,
     "GzipMinifiedFiles": true,
-    "ShowBrowserTooltip": true,
+    "ShowBrowserTooltip": false,
     "ShowInitialInherit": false,
     "ShowUnsupported": true,
     "SyncVendorValues": true,
@@ -42,13 +42,14 @@
     "AutoprefixerBrowsers": null,
     "MakeMinified": true,
     "OutputDirectory": null,
-    "RunOnBuild": false,
+    "RunOnBuild": true,
     "SyncBase64ImageValues": true,
     "GenerateRtlSourceMaps": true,
-    "RtlCss": false
+    "RtlCss": false,
+    "ValidateDuplicateSelectors": true
   },
   "General": {
-    "AllMessagesToOutputWindow": true,
+    "AllMessagesToOutputWindow": false,
     "KeepImportantComments": true,
     "SvgPreviewPane": true,
     "ShowWEIgnoreLogs": true,
@@ -78,7 +79,7 @@
       }
     ],
     "EnableBootstrapValidation": true,
-    "EnableFoundationValidation": true,
+    "EnableFoundationValidation": false,
     "MakeMinified": true,
     "OutputDirectory": null,
     "RunOnBuild": false,
@@ -92,14 +93,14 @@
   "JavaScript": {
     "AutoMinify": false,
     "BlockCommentCompletion": true,
-    "GenerateSourceMaps": false,
+    "GenerateSourceMaps": true,
     "GzipMinifiedFiles": false,
     "LintOnBuild": false,
     "LintOnSave": true,
     "LintResultLocation": "Error",
     "MakeMinified": true,
     "OutputDirectory": null,
-    "RunOnBuild": false,
+    "RunOnBuild": true,
     "EvalTreatment": "MakeImmediateSafe",
     "RootDirectory": "/Scripts/",
     "TermSemicolons": true

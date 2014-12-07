@@ -73,7 +73,7 @@ namespace LASI.Core.Heuristics
 
             private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName) {
                 using (var reader = new System.IO.StreamReader(fileName)) {
-                    string data = await reader.ReadToEndAsync();
+                    var data = await reader.ReadToEndAsync();
                     return data.SplitRemoveEmpty('\r', '\n')
                         .Select(s => s.Trim())
                         .ToImmutableSortedSet(IgnoreCase);

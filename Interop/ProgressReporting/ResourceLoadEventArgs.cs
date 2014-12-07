@@ -15,7 +15,5 @@ namespace LASI.Interop.ContractHelperTypes
         /// <param name="message">The phase of analysis currently underway.</param>
         /// <param name="percentComplete">The percent of overall progress completed.</param>
         public ResourceLoadEventArgs(string message, double percentComplete) : base(message, percentComplete) { }
-
-        public long ElapsedMiliseconds { get; internal set; }
     }
 }

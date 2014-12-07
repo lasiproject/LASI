@@ -25,11 +25,8 @@
 
         private static readonly IDictionary<Mode, Func<int, int>> concurrencyCalculationMap = new Dictionary<Mode, Func<int, int>>
         {
-            // Use all cores if less than 3; otherwise all -1.
             [Mode.High] = cores => cores < 3 ? cores : cores - 1,
-            // Use all cores if less than 3; otherwise all -1.
             [Mode.Normal] = cores => cores < 3 ? cores : cores - 2,
-            // Use all cores if less than 3; otherwise all -1.
             [Mode.Low] = cores => cores < 4 ? 1 : cores - 3,
             [0] = cores => ComputeDefaultMax()
         };

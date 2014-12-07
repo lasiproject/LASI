@@ -10,14 +10,5 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// </summary>
         /// <param name="messageAdjunct">An additional piece of text which will be appended to the Message property of the ResourceLoadEventArgs instance.</param>
         protected SystemResourceNotifierImplementation(string messageAdjunct) { this.messageAdjunct = messageAdjunct; }
-        /// <summary>
-        /// Translates between two incompatible implementations of EventArgs.
-        /// </summary>
-        /// <param name="e">The event to translate from.</param>
-        /// <returns>A new EventArgs with belonging to the interop assembly.</returns>
-        protected ResourceLoadEventArgs TranslateEventArgs(Core.ResourceLoadEventArgs e) {
-            return new ResourceLoadEventArgs(e.Message + " " + messageAdjunct, 1.5) { ElapsedMiliseconds = e.ElapsedMiliseconds };
-        }
-
     }
 }

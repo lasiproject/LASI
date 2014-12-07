@@ -31,19 +31,19 @@ namespace LASI.Core.Heuristics.WordNet
         internal override void Load() {
             using (var reader = new StreamReader(filePath)) {
                 OnReport(new EventArgs("Parsing File", 0));
-                var sets = reader.ReadToEnd().SplitRemoveEmpty('\n')
+                var indexedSets = reader.ReadToEnd().SplitRemoveEmpty('\n')
                     .Skip(FILE_HEADER_LINE_COUNT)
                     .AsParallel()
-                    .Select(CreateSet);
+                    .Select(CreateSet).Select((set, i) => new { Set = set, Index = i });
                 OnReport(new EventArgs("Mapping Verb Sets", 0));
-                sets.ToObservable().Throttle(TimeSpan.FromMilliseconds(40))
+                indexedSets.ToObservable().Throttle(TimeSpan.FromMilliseconds(40))
                     .Subscribe(
-                        onNext: e => OnReport(new EventArgs("Loaded Verb Data - Set: \{e.Id}", 2)),
-                        onCompleted: () => OnReport(new EventArgs("Verb Data Loaded", 0)),
+                        onNext: e => OnReport(new EventArgs("Loaded Verb Data - Set: \{e.Index} / \{TOTAL_LINES}", 2)),
+                        onCompleted: () => OnReport(new EventArgs("Verb Data Loaded", 1)),
                         onError: e => {
                             e.LogIfDebug();
                         });
-                foreach (var set in sets) { LinkSynset(set); }
+                foreach (var set in from item in indexedSets select item.Set) { LinkSynset(set); }
                 OnReport(new EventArgs("Verb Loaded", 0));
             }
         }
@@ -116,6 +116,8 @@ namespace LASI.Core.Heuristics.WordNet
                 return this[search.Text];
             }
         }
+        private const int TOTAL_LINES = 13766;
+
         private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(
             concurrencyLevel: Concurrency.Max,

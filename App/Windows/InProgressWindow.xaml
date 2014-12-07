@@ -16,10 +16,13 @@
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
     <Grid Height="350" VerticalAlignment="Top">
-        <Canvas Height="354"
-                Margin="0,0,0,-4"
-                VerticalAlignment="Top"
+        <Canvas
                 Background="#FFE6E6E6">
+            <Label x:Name="label"
+                   Canvas.Top="328"
+                   Width="auto"
+                   Height="27"
+                   Content="Overall Progress" />
             <ProgressBar x:Name="progressBar"
                          Canvas.Top="328"
                          Width="654"
@@ -50,16 +53,16 @@
                     </TransformGroup>
                 </ProgressBar.RenderTransform>
             </ProgressBar>
-            <Image Canvas.Left="34"
+            <Image Canvas.Left="10"
                    Canvas.Top="10"
-                   Width="295"
-                   Height="240"
+                   Width="323"
+                   Height="260"
                    Source="..\MiscImages\inprogress.png"
                    Stretch="UniformToFill" />
             <Label Name="progressLabel"
-                   Canvas.Left="168"
-                   Canvas.Top="304"
-                   Width="372"
+                   Canvas.Left="132"
+                   Canvas.Top="328"
+                   Width="522"
                    Content="Initializing" />
             <Image x:Name="pawPrintImg1"
                    Canvas.Left="306"

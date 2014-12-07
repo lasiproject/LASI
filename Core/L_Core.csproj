@@ -110,6 +110,7 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Class1.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\IDictionary.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\InitializationExtensions.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TermBased\Term.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
-    <Compile Include="Lexical.cs" />
+    <Compile Include="LexicalStructures\Lexical.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />

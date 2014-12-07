@@ -120,7 +120,8 @@ namespace LASI.App
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             try {
                 DragMove();
-            } catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException x) {
+                System.Diagnostics.Debug.Write(x.Message);
             }
         }
 
@@ -157,12 +158,14 @@ namespace LASI.App
             /// </summary>
             internal static void StartFlashing(Window windowToFlash) {
                 {
-                    FLASHWINFO fInfo = new FLASHWINFO();
+                    var fInfo = new FLASHWINFO
+                    {
+                        hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
+                        dwFlags = FLASHW_ALL,
+                        uCount = System.UInt32.MaxValue,
+                        dwTimeout = 0
+                    };
                     fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
-                    fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle;
-                    fInfo.dwFlags = FLASHW_ALL;
-                    fInfo.uCount = System.UInt32.MaxValue;
-                    fInfo.dwTimeout = 0;
                     FlashWindowEx(ref fInfo);
                 }
                 windowToFlash.StateChanged += (s, e) => StopFlashing(windowToFlash);
@@ -172,12 +175,14 @@ namespace LASI.App
             /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
             /// </summary>
             internal static void StopFlashing(Window windowToFlash) {
-                FLASHWINFO fInfo = new FLASHWINFO();
-                fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
-                fInfo.hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle;
-                fInfo.dwFlags = 0;
-                fInfo.uCount = System.UInt32.MaxValue;
-                fInfo.dwTimeout = 0;
+                var fInfo = new FLASHWINFO
+                {
+
+                    hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
+                    dwFlags = 0,
+                    uCount = System.UInt32.MaxValue,
+                    dwTimeout = 0
+                }; fInfo.cbSize = System.Convert.ToUInt32(Marshal.SizeOf(fInfo));
                 FlashWindowEx(ref fInfo);
             }
         }

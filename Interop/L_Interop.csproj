@@ -89,7 +89,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLayerProviders.cs" />
     <Compile Include="ResourceNotifier.cs" />
-    <Compile Include="Tagger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">

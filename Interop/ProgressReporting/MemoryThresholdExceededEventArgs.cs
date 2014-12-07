@@ -11,7 +11,7 @@ namespace LASI.Interop
     /// <see cref="ResourceManagement.UsageManager">Provides access to memory usage events</see> 
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class MemoryThresholdExceededEventArgs
+    public class MemoryThresholdExceededEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the amount of total machine memory available when the event was raised.

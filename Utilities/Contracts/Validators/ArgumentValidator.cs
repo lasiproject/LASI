@@ -11,7 +11,6 @@ namespace LASI.Utilities.Contracts.Validators
     [System.Diagnostics.DebuggerStepThrough]
     public static class ArgumentValidator
     {
-        // TODO: Add overloads which do not require an argument name to be specified and take advantage of the increased maintainability offered by the forthcoming nameof operator.
         #region Null Checking
         /// <summary>
         /// Validates the specified argument, raising a System.ArgumentNullException if it is null.
@@ -145,6 +144,11 @@ namespace LASI.Utilities.Contracts.Validators
         /// <param name="name">The name of the argument to validate.</param>
         public static void ThrowIfEmpty<T>(IEnumerable<T> value, string name) {
             if (!value.Any()) { throw new ArgumentException("Sequence contains no elements", name); }
+        }
+
+        public static void ThrowIfNullOrEmpty<T>(IEnumerable<T> value, string name) {
+            ThrowIfNull(value, name);
+            ThrowIfEmpty(value, name);
         }
         #endregion
     }

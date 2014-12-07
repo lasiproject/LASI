@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
@@ -16,7 +17,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         public static SequenceMatch Match(this IEnumerable<ILexical> sequencialElements) {
             return new SequenceMatch(sequencialElements);
         }
-
     }
     /// <summary>
     /// Represents a binding expression applied to a sequence if lexical constructs.
@@ -45,9 +45,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         public SequenceMatch BindWhen<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3);
-                Values = Values.Skip(3);
+                    Values = Values.Skip(3);
+                }
             });
         }
         /// <summary>
@@ -64,9 +65,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T3 : class, ILexical where T4 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4);
-                Values = Values.Skip(4);
+                    Values = Values.Skip(4);
+                }
             });
         }
         /// <summary>
@@ -87,9 +89,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T5 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5);
-                Values = Values.Skip(5);
+                    Values = Values.Skip(5);
+                }
             });
         }
         /// <summary>
@@ -112,10 +115,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T6 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6);
-                Values = Values.Skip(6);
+                    Values = Values.Skip(6);
+                }
             });
         }
         /// <summary>
@@ -140,10 +144,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T7 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7);
-                Values = Values.Skip(7);
+                    Values = Values.Skip(7);
+                }
             });
         }
         /// <summary>
@@ -170,10 +175,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T8 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8);
-                Values = Values.Skip(8);
+                    Values = Values.Skip(8);
+                }
             });
         }
         /// <summary>
@@ -203,10 +209,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9);
-                Values = Values.Skip(9);
+                    Values = Values.Skip(9);
+                }
             });
         }
         /// <summary>
@@ -237,10 +244,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T10 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10);
-                Values = Values.Skip(10);
+                    Values = Values.Skip(10);
+                }
             });
         }
         /// <summary>
@@ -273,11 +281,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T11 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11);
-                Values = Values.Skip(11);
+                    Values = Values.Skip(11);
+                }
             });
         }
         /// <summary>
@@ -312,11 +321,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T12 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12);
-                Values = Values.Skip(12);
+                    Values = Values.Skip(12);
+                }
             });
         }
         /// <summary>
@@ -353,11 +363,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T13 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13);
-                Values = Values.Skip(13);
+                    Values = Values.Skip(13);
+                }
             });
         }
         /// <summary>
@@ -380,27 +391,28 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch BindWhen<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> pattern)
-where T1 : class, ILexical
-where T2 : class, ILexical
-where T3 : class, ILexical
-where T4 : class, ILexical
-where T5 : class, ILexical
-where T6 : class, ILexical
-where T7 : class, ILexical
-where T8 : class, ILexical
-where T9 : class, ILexical
-where T10 : class, ILexical
-where T11 : class, ILexical
-where T12 : class, ILexical
-where T13 : class, ILexical
-where T14 : class, ILexical {
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical
+            where T8 : class, ILexical
+            where T9 : class, ILexical
+            where T10 : class, ILexical
+            where T11 : class, ILexical
+            where T12 : class, ILexical
+            where T13 : class, ILexical
+            where T14 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14);
-                Values = Values.Skip(14);
+                    Values = Values.Skip(14);
+                }
             });
         }
         /// <summary>
@@ -441,11 +453,24 @@ where T14 : class, ILexical {
         where T15 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15);
-                Values = Values.Skip(15);
+                if (Accepted) {
+                    pattern(Values[0] as T1,
+                    Values[1] as T2,
+                    Values[2] as T3,
+                    Values[3] as T4,
+                    Values[4] as T5,
+                    Values[5] as T6,
+                    Values[6] as T7,
+                    Values[7] as T8,
+                    Values[8] as T9,
+                    Values[9] as T10,
+                    Values[10] as T11,
+                    Values[11] as T12,
+                    Values[12] as T13,
+                    Values[13] as T14,
+                    Values[14] as T15);
+                    Values = Values.Skip(15);
+                }
             });
         }
         /// <summary>
@@ -488,11 +513,12 @@ where T14 : class, ILexical {
         where T16 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15, Values[15] as T16);
-                Values = Values.Skip(16);
+                    Values = Values.Skip(16);
+                }
             });
         }
         /// <summary>
@@ -537,12 +563,13 @@ where T14 : class, ILexical {
         where T17 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
                             Values[15] as T16, Values[16] as T17);
-                Values = Values.Skip(17);
+                    Values = Values.Skip(17);
+                }
             });
         }
         /// <summary>
@@ -589,12 +616,13 @@ where T14 : class, ILexical {
             where T18 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
                             Values[15] as T16, Values[16] as T17, Values[17] as T18);
-                Values = Values.Skip(18);
+                    Values = Values.Skip(18);
+                }
             });
         }
         /// <summary>
@@ -643,12 +671,13 @@ where T14 : class, ILexical {
             where T19 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
-                if (Accepted)
+                if (Accepted) {
                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
                             Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
                             Values[15] as T16, Values[16] as T17, Values[17] as T18, Values[18] as T19);
-                Values = Values.Skip(19);
+                    Values = Values.Skip(19);
+                }
             });
         }
         /// <summary>
@@ -700,11 +729,13 @@ where T14 : class, ILexical {
             return CheckGuard(() => {
                 Accepted = pattern.Applicable(Values);
                 if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                            Values[15] as T16, Values[16] as T17, Values[17] as T18, Values[18] as T19, Values[19] as T20);
-                    Values = Values.Skip(20);
+                    {
+                        pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
+                                Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
+                                Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
+                                Values[15] as T16, Values[16] as T17, Values[17] as T18, Values[18] as T19, Values[19] as T20);
+                        Values = Values.Skip(20);
+                    }
                 }
             });
         }
@@ -952,8 +983,7 @@ where T14 : class, ILexical {
         public static List<T> Skip<T>(this List<T> source, int count) {
             try {
                 return source.GetRange(count, source.Count);
-            }
-            catch (ArgumentException) {
+            } catch (ArgumentException) {
                 return new List<T>();
             }
         }

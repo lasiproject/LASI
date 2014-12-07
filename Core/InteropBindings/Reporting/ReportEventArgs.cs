@@ -6,6 +6,7 @@ namespace LASI.Core.Interop
     /// Contains numeric and textual data related to an event.
     /// </summary>
     [Serializable]
+    [System.Runtime.InteropServices.ComVisible(true)]
     public abstract class ReportEventArgs : EventArgs
     {
         /// <summary>

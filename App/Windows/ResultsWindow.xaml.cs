@@ -238,7 +238,7 @@ namespace LASI.App
             Application.Current.Shutdown();
         }
 
-        private void printButton_Click_1(object sender, RoutedEventArgs e) {
+        private void PrintButton_Click_1(object sender, RoutedEventArgs e) {
             PrintSelectedChart();
         }
 
@@ -279,14 +279,14 @@ namespace LASI.App
             };
             componentsDisplay.ShowDialog();
         }
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
+        private void HrlpAbout_MenuItem_Click(object sender, RoutedEventArgs e) {
             Process.Start("http://lasi-project.org");
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
                                    FileManager.ResultsDir,
-                                   document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? document.Name + '.' + Properties.Settings.Default.OutputFormat)
+                                   document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Name + '.' + Properties.Settings.Default.OutputFormat))
                                let serializer = new SimpleXmlSerializer()
                                select Task.Run(() => serializer
                                     .Serialize(document.Phrases, document.Name, DegreeOfOutput.Comprehensive)

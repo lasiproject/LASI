@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
+namespace LASI.Core.PatternMatching
 {
+    using LASI.Utilities.FunctionExtensions;
 
     static class BindingHelper
     {
@@ -395,7 +396,8 @@ where TLexical : class, ILexical {
 
 
 
-        internal static bool Applicable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TLexical>(this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern,
+        internal static bool Applicable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TLexical>(
+            this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern,
             IReadOnlyList<TLexical> elements)
 where T1 : class, ILexical
 where T2 : class, ILexical
@@ -662,26 +664,29 @@ where TLexical : class, ILexical {
                 elements[9] is T10;
         }
 
-        internal static void Apply<T1, T2, T3, TLexical>(this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<TLexical> elements)
+        internal static void Apply<T1, T2, T3, TLexical>(
+            this Func<T1, Func<T2, Action<T3>>> pattern, IReadOnlyList<TLexical> elements)
                                   where T1 : class, ILexical
                                   where T2 : class, ILexical
                                   where T3 : class, ILexical
                                   where TLexical : class, ILexical {
             pattern(elements[0] as T1)(elements[1] as T2)(elements[2] as T3);
         }
-        internal static void Apply<T1, T2, T3, T4, TLexical>(this Func<T1, Func<T2, Func<T3, Action<T4>>>> pattern, IReadOnlyList<TLexical> elements)
+        internal static void Apply<T1, T2, T3, T4, TLexical>(this Func<T1, Func<T2, Func<T3, Action<T4>>>> pattern,
+            IReadOnlyList<TLexical> elements)
                          where T1 : class, ILexical
                          where T2 : class, ILexical
                          where T3 : class, ILexical
                          where T4 : class, ILexical
                          where TLexical : class, ILexical {
-            pattern(
-                    elements[0] as T1)(
-                elements[1] as T2)(
-                elements[2] as T3)(
-                elements[3] as T4);
+            pattern(elements[0] as T1)(
+                    elements[1] as T2)(
+                    elements[2] as T3)(
+                    elements[3] as T4);
         }
-        internal static void Apply<T1, T2, T3, T4, T5, TLexical>(this Func<T1, Func<T2, Func<T3, Func<T4, Action<T5>>>>> pattern, IReadOnlyList<TLexical> elements)
+        internal static void Apply<T1, T2, T3, T4, T5, TLexical>(
+            this Func<T1, Func<T2, Func<T3, Func<T4, Action<T5>>>>> pattern,
+            IReadOnlyList<TLexical> elements)
                       where T1 : class, ILexical
                       where T2 : class, ILexical
                       where T3 : class, ILexical
@@ -689,10 +694,10 @@ where TLexical : class, ILexical {
                       where T5 : class, ILexical
                       where TLexical : class, ILexical {
             pattern(elements[0] as T1)(
-                elements[1] as T2)(
-                elements[2] as T3)(
-                elements[3] as T4)(
-                elements[4] as T5);
+                    elements[1] as T2)(
+                    elements[2] as T3)(
+                    elements[3] as T4)(
+                    elements[4] as T5);
         }
         internal static void Apply<T1, T2, T3, T4, T5, T6, TLexical>(this Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Action<T6>>>>>> pattern, IReadOnlyList<TLexical> elements)
                    where T1 : class, ILexical
@@ -702,13 +707,12 @@ where TLexical : class, ILexical {
                    where T5 : class, ILexical
                    where T6 : class, ILexical
                    where TLexical : class, ILexical {
-            pattern(
-               elements[0] as T1)(
-                elements[1] as T2)(
-                elements[2] as T3)(
-                elements[3] as T4)(
-                elements[4] as T5)(
-                elements[5] as T6);
+            pattern(elements[0] as T1)(
+                    elements[1] as T2)(
+                    elements[2] as T3)(
+                    elements[3] as T4)(
+                    elements[4] as T5)(
+                    elements[5] as T6);
         }
         internal static void Apply<T1, T2, T3, T4, T5, T6, T7, TLexical>(this Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Action<T7>>>>>>> pattern, IReadOnlyList<TLexical> elements)
                   where T1 : class, ILexical
