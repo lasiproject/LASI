@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
 using LASI.Utilities.Contracts.Validators;
 
 namespace LASI
@@ -14,6 +15,14 @@ namespace LASI
     /// </summary>
     public static class Output
     {
+        #region Static Constructor
+        /// <summary>
+        /// Initializes the Output class, setting its destination to the System.Console.Out TextWriter.
+        /// </summary>
+        static Output() { SetToConsole(); }
+
+        #endregion Static Constructor
+
         #region Methods
 
         /// <summary>
@@ -35,9 +44,14 @@ namespace LASI
             var fileStream = new FileStream(logPath, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, false);
             writer.WriteLine(newFile ? string.Empty : "\n\n" + "LASI Message Log: {0}", DateTime.Now);
+            var domain = AppDomain.CurrentDomain;
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => { if (OutputMode == Mode.File) writer.Close(); };
+            using (var events = new[] {
+                Observable.FromEvent(handler => domain.ProcessExit +=(s,e) => handler(),handler => domain.ProcessExit -= (s,e) => handler()),
+                Observable.FromEvent(handler => domain.DomainUnload+= (s,e) => handler(),  handler => domain.DomainUnload -= (s,e) => handler()),
+                Observable.FromEvent(handler => domain.UnhandledException+= (s,e) => handler(),handler => domain.UnhandledException-= (s,e) => handler())
+            }.ToObservable().Subscribe(_ => writer.Close())) { }
         }
 
         /// <summary>
@@ -408,37 +422,29 @@ namespace LASI
             /// <summary>
             /// The default. All output will be directed to the current console window.
             /// </summary>
-            /// <see cref="Output.SetToConsole"/>
+            /// <see cref="SetToConsole"/>
             Console,
             /// <summary>
             /// All output will be directed to the IDE's debug window.
             /// </summary>
-            /// <see cref="Output.SetToDebug"/>
+            /// <see cref="SetToDebug"/>
             Debug,
             /// <summary>
             /// All output will be directed to a file.
             /// </summary>
-            /// <see cref="Output.SetToFile"></see>
-            /// <see cref="Output.SetToFile(string)"></see>
+            /// <see cref="SetToFile"></see>
+            /// <see cref="SetToFile(string)"></see>
             File,
             /// <summary>
             /// All output will be directed to an externally supplied destination.
             /// </summary>
-            /// <see cref="Output.SetTo(TextWriter)"/>
+            /// <see cref="SetTo(TextWriter)"/>
             Custom,
             /// <summary>
             /// No output will occur.
             /// </summary>
-            /// <see cref="Output.SetToSilent"/>
+            /// <see cref="SetToSilent"/>
             Silent
         }
-
-        /// <summary>
-        /// Initializes the Output class, setting its destination to the System.Console.Out TextWriter.
-        /// </summary>
-        static Output() {
-            SetToConsole();
-        }
-
     }
 }

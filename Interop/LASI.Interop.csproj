@@ -91,17 +91,17 @@
     <Compile Include="ResourceNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">
+    <ProjectReference Include="..\ContentSystem\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_ContentSystem</Name>
+      <Name>LASI.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\L_Core.csproj">
+    <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Core</Name>
+      <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>L_Utilities</Name>
+      <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

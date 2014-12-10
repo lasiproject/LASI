@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
-using LASI.ContentSystem;
+using LASI.Content;
 
 namespace LASI.WebApp
 {

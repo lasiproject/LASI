@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaggerInterop;
 
-namespace LASI.ContentSystem.TaggerEncapsulation
+namespace LASI.Content.TaggerEncapsulation
 {
     /// <summary>
     /// Provides dynamic, non file driven, access to the functionality of the POS Tagger and TaggedFileParser.

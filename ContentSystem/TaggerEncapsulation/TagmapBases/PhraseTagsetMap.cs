@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.ContentSystem.TaggerEncapsulation
+namespace LASI.Content.TaggerEncapsulation
 {
     using PhraseCreator = System.Func<IEnumerable<LASI.Core.Word>, LASI.Core.Phrase>;
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using LASI.ContentSystem;
+﻿using LASI.Content;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace LASI.UnitTests
 {
+    using Test = TestMethodAttribute;
 
 
     /// <summary>

@@ -49,9 +49,7 @@ namespace LASI.Core.Binding.Experimental
             boundPronouns.Add(referencer);
         }
 
-        public IEnumerable<IReferencer> Referencers {
-            get { return boundPronouns; }
-        }
+        public IEnumerable<IReferencer> Referencers => boundPronouns;
 
         public void BindDescriptor(IDescriptor descriptor) {
             foreach (var constituent in PrimaryConstituents) { constituent.BindDescriptor(descriptor); }

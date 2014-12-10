@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates a modern Word document (.docx).

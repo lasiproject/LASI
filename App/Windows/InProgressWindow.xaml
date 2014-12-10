@@ -16,8 +16,7 @@
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
     <Grid Height="350" VerticalAlignment="Top">
-        <Canvas
-                Background="#FFE6E6E6">
+        <Canvas Background="#FFE6E6E6">
             <Label x:Name="label"
                    Canvas.Top="328"
                    Width="auto"

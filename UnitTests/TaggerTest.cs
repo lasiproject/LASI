@@ -1,11 +1,11 @@
-﻿using LASI.ContentSystem;
+﻿using LASI.Content;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaggerInterop;
-using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Content.TaggerEncapsulation;
 using LASI.Core;
 
 namespace LASI.UnitTests
@@ -65,8 +65,8 @@ namespace LASI.UnitTests
         //}
         //
 
-        private static LASI.ContentSystem.TaggerEncapsulation.Tagger Tagger {
-            get { return new LASI.ContentSystem.TaggerEncapsulation.Tagger(); }
+        private static LASI.Content.TaggerEncapsulation.Tagger Tagger {
+            get { return new LASI.Content.TaggerEncapsulation.Tagger(); }
         }
         #endregion
 

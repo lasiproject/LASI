@@ -1,5 +1,5 @@
-﻿using LASI.ContentSystem;
-using LASI.ContentSystem.TaggerEncapsulation;
+﻿using LASI.Content;
+using LASI.Content.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -63,8 +63,8 @@ namespace LASI.UnitTests
 
         #endregion
 
-        private static LASI.ContentSystem.TaggerEncapsulation.Tagger Tagger {
-            get { return new LASI.ContentSystem.TaggerEncapsulation.Tagger(); }
+        private static LASI.Content.TaggerEncapsulation.Tagger Tagger {
+            get { return new LASI.Content.TaggerEncapsulation.Tagger(); }
         }
         internal virtual ITaggedTextSource CreateITaggedTextSource() {
             // TODO: Instantiate an appropriate concrete class.

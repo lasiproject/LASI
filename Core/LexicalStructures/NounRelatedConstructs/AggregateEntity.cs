@@ -26,7 +26,7 @@ namespace LASI.Core
         public AggregateEntity(IEnumerable<IEntity> entities) {
             constituents = ImmutableList.CreateRange((from entity in entities
                                                       select entity.Match().Yield<IEnumerable<IEntity>>()
-                                                      .With((IAggregateEntity a) => a.AsEnumerable())
+                                                      .Case((IAggregateEntity a) => a.AsEnumerable())
                                                       .Result(new[] { entity }) into entitySet
                                                       from entity in entitySet
                                                       select entity).Distinct()); // entities.AsRecursiveEnumerable().Distinct().ToImmutableList();

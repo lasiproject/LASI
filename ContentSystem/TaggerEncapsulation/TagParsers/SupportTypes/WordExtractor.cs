@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// Extracts tagged words from a string.

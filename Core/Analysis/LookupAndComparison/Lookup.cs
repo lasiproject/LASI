@@ -59,10 +59,10 @@ namespace LASI.Core.Heuristics
         /// </returns>
         public static Gender GetGender(this IEntity entity) {
             return entity.Match().Yield<Gender>()
-                    .With((ISimpleGendered p) => p.Gender)
-                    .With((IReferencer p) => GetGender(p))
-                    .With((NounPhrase n) => DetermineNounPhraseGender(n))
-                    .With((CommonNoun n) => Gender.Neutral)
+                    .Case((ISimpleGendered p) => p.Gender)
+                    .Case((IReferencer p) => GetGender(p))
+                    .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+                    .Case((CommonNoun n) => Gender.Neutral)
                     .When(e => e.Referencers.Any())
                     .Then<IEntity>(e => (
                         from referener in e.Referencers
@@ -332,20 +332,20 @@ namespace LASI.Core.Heuristics
         /// </returns>
         private static Gender GetGender(IReferencer referencer) {
             return referencer.Match().Yield<Gender>()
-                    .With((PronounPhrase p) => DeterminePronounPhraseGender(p))
+                    .Case((PronounPhrase p) => DeterminePronounPhraseGender(p))
                     .When(referencer.RefersTo != null)
                     .Then((from referent in referencer.RefersTo
                            let gender =
                            referent.Match().Yield<Gender>()
-                              .With((NounPhrase n) => DetermineNounPhraseGender(n))
-                              .With((Pronoun r) => r.Gender)
-                              .With((ProperSingularNoun r) => r.Gender)
-                              .With((CommonNoun n) => Gender.Neutral)
+                              .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+                              .Case((Pronoun r) => r.Gender)
+                              .Case((ProperSingularNoun r) => r.Gender)
+                              .Case((CommonNoun n) => Gender.Neutral)
                               .Result()
                            group gender by gender into byGender
                            where byGender.Count() == referencer.RefersTo.Count()
                            select byGender.Key).FirstOrDefault())
-                    .With((ISimpleGendered p) => p.Gender)
+                    .Case((ISimpleGendered p) => p.Gender)
                     .Result();
         }
 
@@ -465,7 +465,7 @@ namespace LASI.Core.Heuristics
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;
-            var words = FunctionExtensions.InvokeTimed(() => {
+            var words = FunctionExtensions.InvokeAndTime(() => {
                 using (var reader = new StreamReader(Paths.ScrabbleDict)) {
                     return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                              .Select(s => s.ToLower())

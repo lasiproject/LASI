@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document

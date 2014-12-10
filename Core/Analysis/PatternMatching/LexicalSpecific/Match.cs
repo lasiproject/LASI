@@ -48,16 +48,16 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// var weight = myLexical.Match()
-    ///         .With((IReferencer r) => Console.WriteLine(r.ReferredTo.Weight))
-    ///     	.With((IEntity e) => Console.WriteLine(e.Weight))
-    ///     	.With((IVerbal v) =>  Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
+    ///         .Case((IReferencer r) => Console.WriteLine(r.ReferredTo.Weight))
+    ///     	.Case((IEntity e) => Console.WriteLine(e.Weight))
+    ///     	.Case((IVerbal v) =>  Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
     /// </code>
     /// </example>
     /// <example>
     /// <code>
     /// var weight = myLexical.Match()
-    ///			.With((Phrase p) => Console.WriteLine(p.Words.Average(w => w.Weight)))
-    ///			.With((Word w) => Console.WriteLine(w.Weight))
+    ///			.Case((Phrase p) => Console.WriteLine(p.Words.Average(w => w.Weight)))
+    ///			.Case((Word w) => Console.WriteLine(w.Weight))
     ///     .Default(()=> Console.WriteLine("not a word or phrase"))
     /// </code>
     /// </example>
@@ -69,8 +69,8 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// myLexical.Match()
-    ///         .With((Phrase p) => Console.WriteLine(&quot;Phrase: &quot;, p.Text))
-    ///		    .With((Word w) => Console.WriteLine(&quot;Word: &quot;, w.Text))
+    ///         .Case((Phrase p) => Console.WriteLine(&quot;Phrase: &quot;, p.Text))
+    ///		    .Case((Word w) => Console.WriteLine(&quot;Word: &quot;, w.Text))
     ///	    .Default(() => Console.WriteLine(&quot;Not a Word or Phrase&quot;));
     /// </code>
     /// </example>
@@ -101,8 +101,8 @@ namespace LASI.Core.PatternMatching
         #region Expression Transformations
 
         /// <summary>
-        /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of With&lt;T, R&gt;
-        /// Such that subsequent With expressions appended are now to yield a result value of the supplied Type R.
+        /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T, R&gt;
+        /// Such that subsequent Case expressions appended are now to yield a result value of the supplied Type R.
         /// </summary>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
         /// <returns>A Match&lt;T, R&gt; representing the now result yielding Match expression.</returns> 
@@ -153,16 +153,16 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and the provided action invoked.</typeparam>
-        /// <param name="action">The Action which, if this With expression is Matched, will be invoked.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
+        /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> With<TPattern>(Action action) where TPattern : class, ILexical {
+        public Match<T> Case<TPattern>(Action action) where TPattern : class, ILexical {
 
             if (!Accepted && Value is TPattern) {
                 Accepted = true;
                 action();
             }
-            return this.With((TPattern t) => action());
+            return this.Case((TPattern t) => action());
         }
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
@@ -170,7 +170,7 @@ namespace LASI.Core.PatternMatching
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and the provided action invoked.</typeparam>
         /// <param name="action">The Action&lt;TPattern&gt; which, if this Case expression is Matched, will be invoked on the value being matched over by the PatternMatching expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> With<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
+        public Match<T> Case<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
             if (Value != null) {
                 if (!Accepted) {
                     var matched = Value as TPattern;
@@ -249,17 +249,17 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .With((IReferencer r) => r.ReferredTo.Weight)
-    ///     	.With((IEntity e) => e.Weight)
-    ///     	.With((IVerbal v) => v.HasSubject()? v.Subject.Weight : 0)
+    ///         .Case((IReferencer r) => r.ReferredTo.Weight)
+    ///     	.Case((IEntity e) => e.Weight)
+    ///     	.Case((IVerbal v) => v.HasSubject()? v.Subject.Weight : 0)
     ///		.Result(1);	
     /// </code>
     /// </example>
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///			.With((Phrase p) => p.Words.Average(w => w.Weight))
-    ///			.With((Word w) => w.Weight)
+    ///			.Case((Phrase p) => p.Words.Average(w => w.Weight))
+    ///			.Case((Word w) => w.Weight)
     ///		.Result();
     /// </code>
     /// </example>
@@ -269,11 +269,11 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
-    ///         .With((IReferencer r) => r.ReferredTo
+    ///         .Case((IReferencer r) => r.ReferredTo
     ///             .Match().Yield&lt;double&gt;()
-    ///                 .With((Phrase p) => p.Words.OfNoun().Average(w => w.Weight))
+    ///                 .Case((Phrase p) => p.Words.OfNoun().Average(w => w.Weight))
     ///             .Result())
-    ///         .With((Noun n) => n.Weight)
+    ///         .Case((Noun n) => n.Weight)
     ///     .Result();
     /// </code>
     /// </example>
@@ -282,8 +282,8 @@ namespace LASI.Core.PatternMatching
     /// <example>
     /// <code>
     /// myLexical.Match()
-    ///         .With((Phrase p) => Console.Write(&quot;Phrase: &quot;, p.Text))
-    ///		    .With((Word w) => Console.Write(&quot;Word: &quot;, w.Text))
+    ///         .Case((Phrase p) => Console.Write(&quot;Phrase: &quot;, p.Text))
+    ///		    .Case((Word w) => Console.Write(&quot;Word: &quot;, w.Text))
     ///	    .Default(() => Console.Write(&quot;Not a Word or Phrase&quot;));
     /// </code>
     /// </example>
@@ -306,7 +306,7 @@ namespace LASI.Core.PatternMatching
         #region Constructors
 
         /// <summary>
-        /// Initailizes a new instance of the With&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
+        /// Initailizes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
         /// </summary>
         /// <param name="value">The value to match with.</param>
         internal Match(T value) : base(value) { }
@@ -348,10 +348,10 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
-        /// <param name="func">The function which, if this With expression is Matched, will be invoked to produce the corresponding desired result for a Match With TPattern.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked to produce the corresponding desired result for a Match Case TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> With<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
             if (!Accepted && Value is TPattern) {
                 result = func();
                 Accepted = true;
@@ -362,13 +362,13 @@ namespace LASI.Core.PatternMatching
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TPattern">
-        /// The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.
+        /// The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.
         /// </typeparam>
-        /// <param name="func">The function which, if this With expression is Matched, will be invoked on the value being matched
+        /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched
         /// with to produce the desired result for a Match with TPattern.
         /// </param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public Match<T, TResult> With<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
             if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {
@@ -381,10 +381,10 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this With expression will be selected and executed.</typeparam>
-        /// <param name="result">The value which, if this With expression is Matched, will be the result of the Pattern Match.</param>
+        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> With<TPattern>(TResult result) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical {
             if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {

@@ -23,6 +23,7 @@ namespace LASI.Core
             Weight = 1;
             MetaWeight = 1;
         }
+
         /// <summary>
         /// Initializes a new instance of the Phrase class.
         /// </summary>
@@ -40,7 +41,9 @@ namespace LASI.Core
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
-        public override string ToString() => string.Format("{0} \"{1}\"", GetType().Name, Text);
+        public override string ToString() => string.Format("{0} \"{1}\"", GetType()
+                                                                                          .Name, Text);
+
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
@@ -53,6 +56,7 @@ namespace LASI.Core
                 word.EstablishParent(this);
             }
         }
+
         #endregion
 
         #region Properties
@@ -61,6 +65,7 @@ namespace LASI.Core
         /// Gets or sets the Prepositional construct which is lexically to the right of the word.
         /// </summary>
         public IPrepositional PrepositionOnRight { get; set; }
+
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
         /// </summary>
@@ -70,26 +75,32 @@ namespace LASI.Core
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase NextPhrase { get; internal set; }
+
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase PreviousPhrase { get; internal set; }
+
         /// <summary>
         /// Gets or sets the Clause to which the Phrase belongs.
         /// </summary>
         public Clause Clause { get; private set; }
+
         /// <summary>
         /// Gets or sets the Sentence to which the Phrase belongs.
         /// </summary>
         public Sentence Sentence { get; private set; }
+
         /// <summary>
         /// Gets or the Paragraph to which the Phrase belongs.
         /// </summary>
         public Paragraph Paragraph => Sentence?.Paragraph;
+
         /// <summary>
         /// Gets or set the Document instance to which the Phrase belongs.
         /// </summary>
         public Document Document { get; private set; }
+
         /// <summary>
         /// Gets the concatenated text content of all of the words which comprise the Phrase.
         /// </summary>
@@ -99,6 +110,7 @@ namespace LASI.Core
         /// Gets the collection of words which comprise the Phrase.
         /// </summary>
         public IEnumerable<Word> Words { get; }
+
         /// <summary>
         /// Gets or sets the numeric Weight of the Phrase within the context of its document.
         /// </summary>
@@ -120,10 +132,12 @@ namespace LASI.Core
         #region Static Members
 
         #region Static Properties
+
         /// <summary>
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
         public static bool VerboseOutput { get; set; }
+
         #endregion
 
         #endregion

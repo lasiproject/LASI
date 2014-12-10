@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using LASI.ContentSystem;
+using LASI.Content;
 using LASI.Core;
 using LASI.Interop;
 using LASI.Utilities;
@@ -41,17 +41,18 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public async Task<ViewResult> Results() {
             var documents = await LoadResults();
-            Phrase.VerboseOutput = true;
-            var data = (from document in documents
-                        let documentModel = new DocumentModel(document)
-                        let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                        from result in naiveTopResults
-                        orderby result.Value descending
-                        group new object[] { result.Key, result.Value } by documentModel)
-                            .ToDictionary(g => g.Key, g => JsonConvert.SerializeObject(g.ToArray()
-                            .Take(CHART_ITEM_MAX)));
-            ViewData["charts"] = data;
-            ViewData["documents"] = data.Keys;
+            var docs = documents.Select(document => document.Name);
+            var documentRepresention = (
+                   from document in documents
+                   let documentModel = new DocumentModel(document)
+                   let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                   from result in naiveTopResults
+                   orderby result.Value descending
+                   group new object[] { result.Key, result.Value } by documentModel)
+                   .ToDictionary(g => g.Key, g => new { Document = g.Key, Value = JsonConvert.SerializeObject(g.ToArray()) })
+                   .Take(CHART_ITEM_MAX).ToImmutableList();
+            ViewData["charts"] = documentRepresention;
+            ViewData["documents"] = docs;
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }

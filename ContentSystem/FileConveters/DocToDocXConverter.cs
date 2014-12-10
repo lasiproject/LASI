@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// Converts Microsoft word .doc binary files to modern Microsoft wd .docx open XML files.

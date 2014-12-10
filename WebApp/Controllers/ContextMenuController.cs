@@ -13,13 +13,9 @@ namespace LASI.WebApp.Controllers
     [Route("api/contextmenu")]
     public class ContextMenuController : ApiController
     {
-        public string Get(PhraseModel model) {
-            return model.ContextMenuJson;
-        }
+        public string Get(PhraseModel model) => model.ContextMenuJson;
 
         // GET api/<controller>/5
-        public string Get(int id) {
-            return "value";
-        }
+        public string Get(int id) => "value";
     }
 }

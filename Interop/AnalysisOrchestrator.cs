@@ -1,12 +1,12 @@
 ﻿using LASI.Core;
-using LASI.ContentSystem;
+using LASI.Content;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
-using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Content.TaggerEncapsulation;
 
 namespace LASI.Interop
 {

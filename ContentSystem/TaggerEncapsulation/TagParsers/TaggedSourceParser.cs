@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 
-using LASI.ContentSystem.TaggerEncapsulation;
+using LASI.Content.TaggerEncapsulation;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
-    internal class TaggedSourceParser : LASI.ContentSystem.TaggerEncapsulation.TagParser
+    internal class TaggedSourceParser : LASI.Content.TaggerEncapsulation.TagParser
     {
         #region Construtors
         /// <summary>

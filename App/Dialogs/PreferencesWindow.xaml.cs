@@ -3,9 +3,11 @@ using LASI.Interop;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using LASI.App;
 
-namespace LASI.App
+namespace LASI.App.Dialogs
 {
+    using System.Windows.Input;
     using UsageManager = LASI.Interop.ResourceManagement.UsageManager;
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
@@ -54,18 +56,17 @@ namespace LASI.App
             try {
                 PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), Settings.Default.PerformanceLevel);
                 switch (PerformanceLevel) {
-                    case UsageManager.Mode.High:
+                case UsageManager.Mode.High:
                     High.IsChecked = true;
                     break;
-                    case UsageManager.Mode.Normal:
+                case UsageManager.Mode.Normal:
                     Normal.IsChecked = true;
                     break;
-                    case UsageManager.Mode.Low:
+                case UsageManager.Mode.Low:
                     Low.IsChecked = true;
                     break;
                 }
-            }
-            catch (ArgumentException e) {
+            } catch (ArgumentException e) {
                 Output.WriteLine(e.Message);
                 Output.WriteLine(e.StackTrace);
                 Normal.IsChecked = true;
@@ -96,6 +97,12 @@ namespace LASI.App
         private void logMessagesToFileCheckBox_Checked(object sender, RoutedEventArgs e) {
             Settings.Default.LogProcessMessagesToFile = logMessagesToFileCheckBox.IsChecked ?? false;
         }
+        private void Window_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Escape) {
+                this.DialogResult = false;
+                this.Close();
+            }
+        }
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
@@ -104,5 +111,6 @@ namespace LASI.App
         #region Fields
 
         #endregion
+
     }
 }

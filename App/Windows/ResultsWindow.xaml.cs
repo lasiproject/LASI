@@ -1,7 +1,7 @@
 using LASI.App.Dialogs;
 using LASI.App.LexicalElementInfo;
-using LASI.ContentSystem;
-using LASI.ContentSystem.Serialization.Xml;
+using LASI.Content;
+using LASI.Content.Serialization.Xml;
 using LASI.Core;
 using LASI.Core.Heuristics;
 using System;
@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using LASI.Interop;
-using LASI.ContentSystem.Serialization;
+using LASI.Content.Serialization;
 
 namespace LASI.App
 {
@@ -285,7 +285,7 @@ namespace LASI.App
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
-                                   FileManager.ResultsDir,
+                                   FileManager.ResultsDirectory,
                                    document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Name + '.' + Properties.Settings.Default.OutputFormat))
                                let serializer = new SimpleXmlSerializer()
                                select Task.Run(() => serializer

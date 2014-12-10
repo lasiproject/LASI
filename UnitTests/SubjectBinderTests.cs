@@ -7,6 +7,8 @@ using LASI.Core.Binding;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.Core.Binding.Tests
 {
+    using Test = TestMethodAttribute;
+
     [TestClass]
     public class SubjectBinderTests
     {

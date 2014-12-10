@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// Encapsulates a string containing Raw, untagged text and an associated name. Provides synchronous and asynchronous acess to it contents.

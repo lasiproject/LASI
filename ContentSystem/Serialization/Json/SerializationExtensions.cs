@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 
-namespace LASI.ContentSystem.Serialization.Json
+namespace LASI.Content.Serialization.Json
 {
     /// <summary>
     /// Provides extension methods for converting Lexical constructs into Json structures.
@@ -33,8 +33,8 @@ namespace LASI.ContentSystem.Serialization.Json
         /// <returns>A Newtonsoft.Linq.JObject representation of the lexical.</returns>
         public static JObject ToJObject(this ILexical lexical) {
             return lexical.Match().Yield<JObject>()
-                    .With((IEntity e) => e.ToJObject())
-                    .With((IVerbal v) => v.ToJObject())
+                    .Case((IEntity e) => e.ToJObject())
+                    .Case((IVerbal v) => v.ToJObject())
                 .Result(new JObject(GetCommonProperties(lexical)));
         }
         /// <summary>

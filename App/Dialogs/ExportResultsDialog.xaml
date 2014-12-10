@@ -1,25 +1,22 @@
-﻿<Window
-    x:Name="ExportNotificationDialog"
-    x:Class="LASI.App.Dialogs.ExportResultsDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Analysis Complete"
-    Height="193"
-    Width="284"
-    WindowStyle="ToolWindow"
-    KeyDown="ExportNotificationDialog_KeyDown">
+﻿<Window x:Class="LASI.App.Dialogs.ExportResultsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="ExportNotificationDialog"
+        Title="Analysis Complete"
+        Width="284"
+        Height="193"
+        KeyDown="ExportNotificationDialog_KeyDown"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow">
     <Grid>
-        <Label
-            Content="&#x9;Results Have Been Exported&#xA;&#xA;           "
-            Margin="10,24,10,91" />
-        <Button
-            Name="OkButton"
-            Content="Ok"
-            HorizontalAlignment="Left"
-            Margin="104,93,0,0"
-            Width="75"
-            Click="OkButton_Click"
-            Height="22"
-            VerticalAlignment="Top" />
+        <Label Margin="10,24,10,91" Content="	Results Have Been Exported&#10;&#10;           " />
+        <Button Name="OkButton"
+                Width="75"
+                Height="22"
+                Margin="104,93,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="OkButton_Click"
+                Content="Ok" />
     </Grid>
 </Window>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
 
     /// <summary>
@@ -162,7 +162,7 @@ namespace LASI.ContentSystem
         /// </summary>
         protected void CollectDirInfo() {
             if (FileManager.Initialized && FileManager.TxtFiles.Any())
-                filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDir).EnumerateFiles("*", SearchOption.AllDirectories)
+                filesInProjectDirectories = new DirectoryInfo(FileManager.ProjectDirectory).EnumerateFiles("*", SearchOption.AllDirectories)
                                             .Select(di => FileManager.WrapperMap[di.Extension](di.FullName)).DefaultIfEmpty();
         }
 

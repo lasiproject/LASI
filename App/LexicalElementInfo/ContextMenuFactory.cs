@@ -10,13 +10,12 @@ using System.Windows.Media;
 namespace LASI.App.LexicalElementInfo
 {
     using WpfDocuments = System.Windows.Documents;
-
     static class ContextMenuFactory
     {
         public static ContextMenu ForLexical(ILexical element, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
             return element.Match().Yield<ContextMenu>()
-                .With((IVerbal v) => ForVerbal(v, neighboringElements))
-                .With((IReferencer r) => ForReferencer(r, neighboringElements))
+                .Case((IVerbal v) => ForVerbal(v, neighboringElements))
+                .Case((IReferencer r) => ForReferencer(r, neighboringElements))
                 .Result();
         }
         #region Lexical Element Context Menu Construction

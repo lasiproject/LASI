@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 
-namespace LASI.ContentSystem.Serialization.Xml
+namespace LASI.Content.Serialization.Xml
 {
     public static class SerializationExtensions
     {

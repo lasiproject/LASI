@@ -20,7 +20,8 @@ namespace LASI.App.Dialogs
             InitializeComponent();
             SelectedDocuments = new List<Document>();
             foreach (var doc in owner.Documents) {
-                var docCheckBox = new CheckBox {
+                var docCheckBox = new CheckBox
+                {
                     Content = doc.Name,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
@@ -48,9 +49,10 @@ namespace LASI.App.Dialogs
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             if (e.Key == Key.Escape) {
-                DialogResult = false;
-                Close();
+                this.DialogResult = false;
+                this.Close();
             }
+
         }
 
 

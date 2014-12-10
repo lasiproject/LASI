@@ -2,7 +2,7 @@
 // See the 'F# Tutorial' project for more help.
 module LASI.FSharpExperimentation.program
 
-open LASI.ContentSystem
+open LASI.Content
 open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop

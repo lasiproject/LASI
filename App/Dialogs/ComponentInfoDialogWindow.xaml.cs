@@ -62,11 +62,7 @@ namespace LASI.App.Dialogs
             this.DialogResult = true;
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
-            switch (e.Key) {
-                case Key.Escape:
-                    this.Close();
-                    break;
-            }
+            if (e.Key == Key.Escape) { this.Close(); }
         }
 
         #endregion

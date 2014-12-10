@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using WebApp.UnitTests.LexicalElementInfo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LASI.Core;
-using System.Dynamic;
 using LASI.WebApp;
 
 namespace WebApp.UnitTests.LexicalElementInfo.Tests
 {
+    using Test = TestMethodAttribute;
+
     [TestClass]
     public class ContextMenuDataProviderTests
     {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using LASI.Interop;
 using LASI.Utilities;
 using LASI.Interop.ResourceManagement;
-using LASI.ContentSystem;
+using LASI.Content;
 
 namespace LASI.Experimentation.CommandLine
 {
@@ -39,8 +39,8 @@ namespace LASI.Experimentation.CommandLine
 
             var x = document.Entities.FirstOrDefault();
             x.Match().Yield<string>()
-                .With((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
-                .With((IEntity e) => e.Text)
+                .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
+                .Case((IEntity e) => e.Text)
                 .Result();
             Output.WriteLine(document);
             Phrase.VerboseOutput = true;

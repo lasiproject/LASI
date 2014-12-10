@@ -128,13 +128,13 @@
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\L_Core.csproj">
+    <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>L_Core</Name>
+      <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
-      <Name>L_Utilities</Name>
+      <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

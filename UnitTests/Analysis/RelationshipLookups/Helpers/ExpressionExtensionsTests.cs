@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics.Tests
 {
+    using Test = TestMethodAttribute;
+
     [TestClass]
     public class ExpressionExtensionsTests
     {

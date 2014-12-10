@@ -49,8 +49,8 @@ namespace LASI.Utilities
 
         #region Currying
 
-        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> function) {
-            return a => b => function(a, b);
+        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) {
+            return a => b => fn(a, b);
         }
 
         public static Func<T1, Func<T2, Func<T3, TResult>>> Curry<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn) => a => b => c => fn(a, b, c);
@@ -276,7 +276,7 @@ namespace LASI.Utilities
             action(); return stopwatch;
         }
 
-        public static T InvokeTimed<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {
+        public static T InvokeAndTime<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {
             stopwatch = System.Diagnostics.Stopwatch.StartNew();
             var value = function();
             stopwatch.Stop();

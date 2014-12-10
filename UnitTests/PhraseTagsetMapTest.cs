@@ -1,11 +1,11 @@
-﻿using LASI.ContentSystem.TaggerEncapsulation;
+﻿using LASI.Content.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using LASI.Core;
 using System.Collections.Generic;
 using System.Reflection;
-using LASI.ContentSystem;
+using LASI.Content;
 
 namespace LASI.UnitTests
 {

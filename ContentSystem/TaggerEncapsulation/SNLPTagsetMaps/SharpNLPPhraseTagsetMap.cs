@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace LASI.ContentSystem.TaggerEncapsulation
+namespace LASI.Content.TaggerEncapsulation
 {
     using PhraseCreator = System.Func<IEnumerable<LASI.Core.Word>, LASI.Core.Phrase>;
     /// <summary>

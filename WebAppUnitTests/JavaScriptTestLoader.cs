@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace WebApp.UnitTests
-{
+{ using Test=TestMethodAttribute;
     [TestClass]
     public class JavaScriptTestLoader
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// The Exception that is thrown when attempting to parse an unknown Word Tag
@@ -239,8 +239,8 @@ namespace LASI.ContentSystem
     }
     /// <summary>
     /// The Exception that is thrown when attempting to access the indexing tag for a LASI.Algorithm.Word Type (or constructor returning it) which is not known to the Tagset.
-    /// <see cref="LASI.ContentSystem.TaggerEncapsulation.WordTagsetMap"/>
-    /// <seealso cref="LASI.ContentSystem.TaggerEncapsulation.SharpNLPWordTagsetMap"/>
+    /// <see cref="LASI.Content.TaggerEncapsulation.WordTagsetMap"/>
+    /// <seealso cref="LASI.Content.TaggerEncapsulation.SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
     public sealed class UnmappedWordTypeException : POSTagException

@@ -31,9 +31,9 @@ namespace LASI.App.Dialogs
         /// </summary>
         /// <param name="searchText">The text which seeds the search.</param>
         private void PerformFind(string searchText) {
-            var toHighLight = from uiElement in GetElementsToSearch()
-                              where uiElement.Content.ToString().Contains(searchText)
-                              select uiElement;
+            //var toHighLight = from ContentControl element in GetElementsToSearch()
+            //                  where element.Content.ToString().IndexOf(searchText, StringComparer.OrdinalIgnoreCase) >= 0
+            //                  select element;
         }
 
         /// <summary>
@@ -44,11 +44,9 @@ namespace LASI.App.Dialogs
             throw new NotImplementedException();
         }
         private void Window_KeyDown(object sender, KeyEventArgs e) {
-            switch (e.Key) {
-                case Key.Escape:
-                    DialogResult = false;
-                    this.Close();
-                    break;
+            if (e.Key == Key.Escape) {
+                this.DialogResult = false;
+                this.Close();
             }
         }
 

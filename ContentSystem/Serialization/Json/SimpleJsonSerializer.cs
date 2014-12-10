@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using LASI.ContentSystem.Serialization.Json;
+using LASI.Content.Serialization.Json;
 
-namespace LASI.ContentSystem.Serialization
+namespace LASI.Content.Serialization
 {
     /// <summary>
     /// Provides basic Xml serialization of for various configuration of ILexical elements.

@@ -7,6 +7,8 @@ using LASI.Core.Heuristics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.Core.Heuristics.Tests
 {
+    using Test = TestMethodAttribute;
+
     [TestClass]
     public class LookupTests
     {

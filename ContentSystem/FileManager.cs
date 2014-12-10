@@ -1,4 +1,4 @@
-﻿using LASI.ContentSystem.TaggerEncapsulation;
+﻿using LASI.Content.TaggerEncapsulation;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TaggerInterop;
 using System.Collections.Immutable;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// A static class which encapsulates the operations necessary to manage the working directory of the current user progress.
@@ -24,10 +24,10 @@ namespace LASI.ContentSystem
         /// Initializes the FileManager, setting its project directory to the given value.
         /// Automatically loads existing files and sets up input paths
         /// </summary>
-        /// <param name="projectDir">The realRoot directory of the current project</param>
-        public static void Initialize(string projectDir) {
-            ProjectName = projectDir.Substring(projectDir.LastIndexOf('\\') + 1);
-            ProjectDir = projectDir;
+        /// <param name="projectDirectoryPath">The realRoot directory of the current project</param>
+        public static void Initialize(string projectDirectoryPath) {
+            ProjectName = projectDirectoryPath.Substring(projectDirectoryPath.LastIndexOf('\\') + 1);
+            ProjectDirectory = projectDirectoryPath;
             InitializeDirProperties();
             CheckDirectoryExistence();
             CheckInputDirectories();
@@ -35,14 +35,14 @@ namespace LASI.ContentSystem
         }
 
         private static void InitializeDirProperties() {
-            InputFilesDir = ProjectDir + @"\input";
-            DocFilesDir = InputFilesDir + @"\doc";
-            DocxFilesDir = InputFilesDir + @"\docx";
-            PdfFilesDir = InputFilesDir + @"\pdf";
-            TxtFilesDir = InputFilesDir + @"\txt";
-            TaggedFilesDir = InputFilesDir + @"\tagged";
-            AnalysisDir = ProjectDir + @"\analysis";
-            ResultsDir = ProjectDir + @"\results";
+            InputFilesDirectory = ProjectDirectory + @"\input";
+            DocFilesDirectory = InputFilesDirectory + @"\doc";
+            DocxFilesDirectory = InputFilesDirectory + @"\docx";
+            PdfFilesDirectory = InputFilesDirectory + @"\pdf";
+            TxtFilesDirectory = InputFilesDirectory + @"\txt";
+            TaggedFilesDirectory = InputFilesDirectory + @"\tagged";
+            AnalysisDirectory = ProjectDirectory + @"\analysis";
+            ResultsDirectory = ProjectDirectory + @"\results";
         }
 
 
@@ -50,15 +50,15 @@ namespace LASI.ContentSystem
         /// Checks for the existence of the extension stratified input file project subject-directories and creates them if they do not exist.
         /// </summary>
         private static void CheckInputDirectories() {
-            foreach (var docPath in Directory.EnumerateFiles(DocFilesDir, "*.doc"))
+            foreach (var docPath in Directory.EnumerateFiles(DocFilesDirectory, "*.doc"))
                 docFiles.Add(new DocFile(docPath));
-            foreach (var docPath in Directory.EnumerateFiles(DocxFilesDir, "*.docx"))
+            foreach (var docPath in Directory.EnumerateFiles(DocxFilesDirectory, "*.docx"))
                 docXFiles.Add(new DocXFile(docPath));
-            foreach (var docPath in Directory.EnumerateFiles(TxtFilesDir, "*.txt"))
+            foreach (var docPath in Directory.EnumerateFiles(TxtFilesDirectory, "*.txt"))
                 txtFiles.Add(new TxtFile(docPath));
-            foreach (var docPath in Directory.EnumerateFiles(PdfFilesDir, "*.pdf"))
+            foreach (var docPath in Directory.EnumerateFiles(PdfFilesDirectory, "*.pdf"))
                 pdfFiles.Add(new PdfFile(docPath));
-            foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDir, "*.tagged"))
+            foreach (var docPath in Directory.EnumerateFiles(TaggedFilesDirectory, "*.tagged"))
                 taggedFiles.Add(new TaggedFile(docPath));
         }
         /// <summary>
@@ -66,15 +66,15 @@ namespace LASI.ContentSystem
         /// </summary>
         private static void CheckDirectoryExistence() {
             foreach (var path in new[] {
-                ProjectDir,
-                InputFilesDir,
-                AnalysisDir,
-                ResultsDir,
-                DocFilesDir,
-                DocxFilesDir,
-                PdfFilesDir,
-                TaggedFilesDir,
-                TxtFilesDir,
+                ProjectDirectory,
+                InputFilesDirectory,
+                AnalysisDirectory,
+                ResultsDirectory,
+                DocFilesDirectory,
+                DocxFilesDirectory,
+                PdfFilesDirectory,
+                TaggedFilesDirectory,
+                TxtFilesDirectory,
             }) {
                 if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
             }
@@ -95,11 +95,11 @@ namespace LASI.ContentSystem
             try {
                 var originalFile = FileManager.WrapperMap[ext](path);
                 var newPath =
-                    ext == ".doc" ? DocFilesDir :
-                    ext == ".docx" ? DocxFilesDir :
-                    ext == ".txt" ? TxtFilesDir :
-                    ext == ".pdf" ? PdfFilesDir :
-                    ext == ".tagged" ? TaggedFilesDir : string.Empty;
+                    ext == ".doc" ? DocFilesDirectory :
+                    ext == ".docx" ? DocxFilesDirectory :
+                    ext == ".txt" ? TxtFilesDirectory :
+                    ext == ".pdf" ? PdfFilesDirectory :
+                    ext == ".tagged" ? TaggedFilesDirectory : string.Empty;
 
                 newPath += "\\" + originalFile.FileName;
 
@@ -348,7 +348,7 @@ namespace LASI.ContentSystem
             foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)) {
                 var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
-                    TaggedFilesDir + "\\" + doc.NameSansExt + ".tagged");
+                    TaggedFilesDirectory + "\\" + doc.NameSansExt + ".tagged");
                 var tf = new TaggedFile(tagger.ProcessFile());
                 AddFile(tf.FullPath, true);
             }
@@ -364,7 +364,7 @@ namespace LASI.ContentSystem
             var tasks = (
                 from file in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)
 
-                select new SharpNLPTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDir + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
+                select new SharpNLPTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
                 ).ToList();
             while (tasks.Any()) {
                 var tagged = await Task.WhenAny(tasks);
@@ -385,10 +385,10 @@ namespace LASI.ContentSystem
         /// </summary>
         public static void BackupProject() {
             ThrowIfUninitialized();
-            var projd = new DirectoryInfo(ProjectDir);
+            var projd = new DirectoryInfo(ProjectDirectory);
             var pard = new DirectoryInfo(projd.Parent.FullName);
             var desitination = Directory.CreateDirectory(pard.FullName + "\\backup\\" + ProjectName);
-            foreach (var file in new DirectoryInfo(ProjectDir).GetFiles("*", SearchOption.AllDirectories)) {
+            foreach (var file in new DirectoryInfo(ProjectDirectory).GetFiles("*", SearchOption.AllDirectories)) {
                 if (!Directory.Exists(file.Directory.Name))
                     desitination.CreateSubdirectory(file.Directory.Parent.Name + "\\" + file.Directory.Name);
                 file.CopyTo(desitination.FullName + "\\" + file.Directory.Parent.Name + "\\" + file.Directory.Name + "\\" + file.Name, true);
@@ -400,7 +400,7 @@ namespace LASI.ContentSystem
         public static void DecimateProject() {
             ThrowIfUninitialized();
             try {
-                Directory.Delete(ProjectDir, true);
+                Directory.Delete(ProjectDirectory, true);
                 docFiles.Clear();
                 docXFiles.Clear();
                 pdfFiles.Clear();
@@ -427,7 +427,7 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the Absolute Path of Current Project Folder of the current project directory
         /// </summary>
-        public static string ProjectDir { get; private set; }
+        public static string ProjectDirectory { get; private set; }
         /// <summary>
         /// Gets the name of the current project.
         /// This will be the project name displayed to the user. It corresponds to the project's top level directory
@@ -436,35 +436,35 @@ namespace LASI.ContentSystem
         /// <summary>
         /// Gets the realRoot of the input file directory
         /// </summary>
-        public static string InputFilesDir { get; private set; }
+        public static string InputFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the newPath of the analysis directory which stores temporary files during analysis
         /// </summary>
-        public static string AnalysisDir { get; private set; }
+        public static string AnalysisDirectory { get; private set; }
         /// <summary>
         /// Gets the result files directory
         /// </summary>
-        public static string ResultsDir { get; private set; }
+        public static string ResultsDirectory { get; private set; }
         /// <summary>
         /// Gets the .tagged files directory
         /// </summary>
-        public static string TaggedFilesDir { get; private set; }
+        public static string TaggedFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the .doc files directory
         /// </summary>
-        public static string DocFilesDir { get; private set; }
+        public static string DocFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the .pdf files directory
         /// </summary>
-        public static string PdfFilesDir { get; private set; }
+        public static string PdfFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the .docx files directory
         /// </summary>
-        public static string DocxFilesDir { get; private set; }
+        public static string DocxFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the .txt files directory
         /// </summary>
-        public static string TxtFilesDir { get; private set; }
+        public static string TxtFilesDirectory { get; private set; }
         /// <summary>
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
@@ -558,7 +558,7 @@ namespace LASI.ContentSystem
     /// Defines mappings between file extensions and functions which construct their respective wrappers.
     /// </summary>
     /// <remarks>Wrapper types are format enforcing classes derived from InputFile</remarks>
-    /// <see cref="LASI.ContentSystem.InputFile"/>
+    /// <see cref="LASI.Content.InputFile"/>
     public class ExtensionWrapperMap
     {
         UnsupportedFormatHandling unsupportedMappingMode;

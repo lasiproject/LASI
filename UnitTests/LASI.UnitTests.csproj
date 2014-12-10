@@ -53,6 +53,15 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fs4net.Builder">
+      <HintPath>..\packages\fs4net.0.7.0\lib\3.5\fs4net.Builder.dll</HintPath>
+    </Reference>
+    <Reference Include="fs4net.Framework">
+      <HintPath>..\packages\fs4net.0.7.0\lib\3.5\fs4net.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="fs4net.Memory">
+      <HintPath>..\packages\fs4net.0.7.0\lib\3.5\fs4net.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
@@ -210,21 +219,21 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">
+    <ProjectReference Include="..\ContentSystem\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_ContentSystem</Name>
+      <Name>LASI.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\L_Core.csproj">
+    <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>L_Core</Name>
+      <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interop\L_Interop.csproj">
+    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>L_Interop</Name>
+      <Name>LASI.Interop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>L_Utilities</Name>
+      <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

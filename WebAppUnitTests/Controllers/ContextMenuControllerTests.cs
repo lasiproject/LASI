@@ -11,12 +11,12 @@ namespace LASI.WebApp.Controllers.Tests
     [TestClass()]
     public class ContextMenuControllerTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void GetTest() {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetTest1() {
             Assert.Fail();
         }

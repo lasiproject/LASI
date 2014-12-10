@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates an Acrobat document (.pdf).

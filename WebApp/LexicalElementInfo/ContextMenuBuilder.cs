@@ -1,7 +1,7 @@
 ﻿using LASI.Core;
 using LASI.Core.PatternMatching;
 using LASI.Utilities;
-using LASI.ContentSystem;
+using LASI.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +22,8 @@ namespace LASI.WebApp
         }
         public static string GetJsonMenuData(this ILexical lexical) {
             return lexical.Match().Yield<string>()
-                .With((IReferencer r) => r.GetJsonMenuData())
-                .With((IVerbal v) => v.GetJsonMenuData())
+                .Case((IReferencer r) => r.GetJsonMenuData())
+                .Case((IVerbal v) => v.GetJsonMenuData())
                 .Result();
         }
         public static string GetJsonMenuData(this IVerbal verbal) {

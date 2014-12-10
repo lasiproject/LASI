@@ -6,8 +6,8 @@
     <ProjectGuid>{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebApp.UnitTests</RootNamespace>
-    <AssemblyName>WebApp.UnitTests</AssemblyName>
+    <RootNamespace>LASI.WebApp.Tests</RootNamespace>
+    <AssemblyName>LASI.WebApp.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <!--<LangVersion>experimental</LangVersion>-->
     <FileAlignment>512</FileAlignment>
@@ -115,6 +115,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -179,25 +180,25 @@
     <Compile Include="JavaScriptTestLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentSystem\L_ContentSystem.csproj">
+    <ProjectReference Include="..\ContentSystem\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>L_ContentSystem</Name>
+      <Name>LASI.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\L_Core.csproj">
+    <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>L_Core</Name>
+      <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interop\L_Interop.csproj">
+    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>L_Interop</Name>
+      <Name>LASI.Interop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\L_Utilities.csproj">
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
-      <Name>L_Utilities</Name>
+      <Name>LASI.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebApp\L_WebApp.csproj">
+    <ProjectReference Include="..\WebApp\LASI.WebApp.csproj">
       <Project>{d9e607c7-e135-487c-b1b5-a6d087275b09}</Project>
-      <Name>L_WebApp</Name>
+      <Name>LASI.WebApp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

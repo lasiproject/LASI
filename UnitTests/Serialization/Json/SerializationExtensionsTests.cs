@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.ContentSystem.Serialization.Json;
+using LASI.Content.Serialization.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,9 @@ using LASI.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LASI.ContentSystem.Serialization.Json.Tests
+namespace LASI.Content.Serialization.Json.Tests
 {
+    using Test = TestMethodAttribute;
     [TestClass]
     public class SerializationExtensionsTests
     {

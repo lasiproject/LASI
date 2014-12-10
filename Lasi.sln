@@ -25,17 +25,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B0
 		Licences\WPFToolkitLicense.txt = Licences\WPFToolkitLicense.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_App", "App\L_App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.App", "App\LASI.App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_UnitTests", "UnitTests\L_UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.UnitTests", "UnitTests\LASI.UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Utilities", "Utilities\L_Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities", "Utilities\LASI.Utilities.csproj", "{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_ContentSystem", "ContentSystem\L_ContentSystem.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Content", "ContentSystem\LASI.Content.csproj", "{F13D6C6D-A004-45BD-8FB8-E044E20F1204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Core", "Core\L_Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core", "Core\LASI.Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExperimentalClientProjects", "ExperimentalClientProjects", "{2F5E64C4-89A9-4B41-942F-97BB85044FE5}"
 EndProject
@@ -45,11 +45,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExperimentation", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experimentation", "ExperimentalClientProjects\Experimentation\Experimentation.csproj", "{C5304A4C-A870-4ACF-B3EE-30A789159774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp", "WebApp\L_WebApp.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.WebApp", "WebApp\LASI.WebApp.csproj", "{D9E607C7-E135-487C-B1B5-A6D087275B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_WebApp.UnitTests", "WebAppUnitTests\L_WebApp.UnitTests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.WebApp.Tests", "WebAppUnitTests\LASI.WebApp.Tests.csproj", "{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L_Interop", "Interop\L_Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop", "Interop\LASI.Interop.csproj", "{06B96679-9758-4B15-8E75-0F46416E68B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

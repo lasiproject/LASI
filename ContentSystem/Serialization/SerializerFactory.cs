@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core;
 
-namespace LASI.ContentSystem.Serialization
+namespace LASI.Content.Serialization
 {
     public static class SerializerFactory
     {

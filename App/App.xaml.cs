@@ -23,9 +23,9 @@ namespace LASI.App
         private void Application_Exit(object sender, ExitEventArgs e) {
             if (Settings.Default.AutoCleanProjectFiles) {
                 try {
-                    ContentSystem.FileManager.DecimateProject();
+                    Content.FileManager.DecimateProject();
                 }
-                catch (ContentSystem.FileManagerNotInitializedException) {
+                catch (Content.FileManagerNotInitializedException) {
                 }
             }
         }

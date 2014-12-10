@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 
-namespace LASI.ContentSystem
+namespace LASI.Content
 {
     /// <summary>
     /// A strongly typed wrapper that encapsulates an XML document (.xml).
