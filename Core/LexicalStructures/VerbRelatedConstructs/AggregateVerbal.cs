@@ -37,8 +37,8 @@ namespace LASI.Core
         public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects)
                         .Union(subjects);
 
-        public bool IsClassifier => this.All(member => member.IsClassifier);
-        public bool IsPossessive => this.All(member => member.IsPossessive);
+        public bool IsClassifier => this.All(e => e.IsClassifier);
+        public bool IsPossessive => this.All(e => e.IsPossessive);
 
         public double MetaWeight { get; set; }
 
@@ -59,7 +59,7 @@ namespace LASI.Core
 
         public IPrepositional PrepositionOnRight { get; set; }
 
-        public string Text => string.Join(", ", constituents.Select(member => member.Text));
+        public string Text => string.Join(", ", this.Select(c => c.Text));
 
         public double Weight { get; set; }
 

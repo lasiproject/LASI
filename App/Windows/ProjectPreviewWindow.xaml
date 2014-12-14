@@ -110,7 +110,7 @@
                           InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Build">
-                <MenuItem Name="_StartProcessMenuItem"
+                <MenuItem Name="StartProcessMenuItem"
                           Click="StartButton_Click"
                           InputGestureText="Ctrl + O"
                           Header="_Start" />
