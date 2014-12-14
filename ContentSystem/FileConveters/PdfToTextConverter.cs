@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using LASI.Utilities;
 
 namespace LASI.Content
 {
@@ -198,8 +199,7 @@ namespace LASI.Content
                             ) {
                             return true;
                         }
-                    }
-                    catch (IndexOutOfRangeException) { return false; }
+                    } catch (IndexOutOfRangeException) { return false; }
                 }
                 return false;
             }

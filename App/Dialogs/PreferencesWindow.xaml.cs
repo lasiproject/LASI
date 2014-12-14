@@ -8,6 +8,7 @@ using LASI.App;
 namespace LASI.App.Dialogs
 {
     using System.Windows.Input;
+    using LASI.Utilities;
     using UsageManager = LASI.Interop.ResourceManagement.UsageManager;
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml

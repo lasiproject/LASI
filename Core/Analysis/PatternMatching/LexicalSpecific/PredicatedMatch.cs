@@ -74,8 +74,9 @@ namespace LASI.Core.PatternMatching
         /// </summary>
         /// <param name="predicateSucceeded">A value indicating if the predicate is true for the value being matched over.</param>
         /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
+        [DebuggerStepThrough]
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
-          : base(predicateSucceeded) {
+           : base(predicateSucceeded) {
             this.inner = inner;
         }
         #endregion

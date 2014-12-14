@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Reactive.Linq;
 using LASI.Utilities.Contracts.Validators;
 
-namespace LASI
+namespace LASI.Utilities
 {
     /// <summary>
     /// Maps standard output operations, providing a common interface for writing to the Console, Debug, and File output streams.
@@ -37,8 +37,8 @@ namespace LASI
         /// Sets the current output to the file specified by the given path.
         /// Defaults to the current working directory of the application.
         /// </summary>
-        public static void SetToFile(string path = @".\LasiLog.txt") {
-            var logPath = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), path);
+        public static void SetToFile(string path) {
+            var logPath = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), path ?? "./LasiLog\{DateTime.Now}.txt");
             OutputMode = Mode.File;
             var newFile = !File.Exists(logPath);
             var fileStream = new FileStream(logPath, newFile ? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
@@ -47,11 +47,11 @@ namespace LASI
             var domain = AppDomain.CurrentDomain;
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-            using (var events = new[] {
-                Observable.FromEvent(handler => domain.ProcessExit +=(s,e) => handler(),handler => domain.ProcessExit -= (s,e) => handler()),
-                Observable.FromEvent(handler => domain.DomainUnload+= (s,e) => handler(),  handler => domain.DomainUnload -= (s,e) => handler()),
-                Observable.FromEvent(handler => domain.UnhandledException+= (s,e) => handler(),handler => domain.UnhandledException-= (s,e) => handler())
-            }.ToObservable().Subscribe(_ => writer.Close())) { }
+
+            Observable.FromEvent(handler => domain.ProcessExit += (s, e) => handler(), handler => domain.ProcessExit -= (s, e) => handler());
+            Observable.FromEvent(handler => domain.DomainUnload += (s, e) => handler(), handler => domain.DomainUnload -= (s, e) => handler());
+            Observable.FromEvent(handler => domain.UnhandledException += (s, e) => handler(), handler => domain.UnhandledException -= (s, e) => handler());
+
         }
 
         /// <summary>
@@ -93,37 +93,27 @@ namespace LASI
         /// Writes an int to the text output stream.
         /// </summary>
         /// <param name="value">The int to write to the text output stream.</param>
-        public static void Write(int value) {
-            writer.Write(value);
-        }
+        public static void Write(int value) { writer.Write(value); }
         /// <summary>
         /// Writes a double to the text output stream.
         /// </summary>
         /// <param name="value">The double to write to the text output stream.</param>
-        public static void Write(double value) {
-            writer.Write(value);
-        }
+        public static void Write(double value) { writer.Write(value); }
         /// <summary>
         /// Writes a decimal to the text output stream.
         /// </summary>
         /// <param name="value">The decimal to write to the text output stream.</param>
-        public static void Write(decimal value) {
-            writer.Write(value);
-        }
+        public static void Write(decimal value) { writer.Write(value); }
         /// <summary>
         /// Writes a float to the text output stream.
         /// </summary>
         /// <param name="value">The float to write to the text output stream.</param>
-        public static void Write(float value) {
-            writer.Write(value);
-        }
+        public static void Write(float value) { writer.Write(value); }
         /// <summary>
         /// Writes a character to the text output stream.
         /// </summary>
         /// <param name="value">The character to write to the text output stream.</param>
-        public static void Write(char value) {
-            writer.Write(value);
-        }
+        public static void Write(char value) { writer.Write(value); }
         /// <summary>
         /// Writes a character array to the text output stream.
         /// </summary>

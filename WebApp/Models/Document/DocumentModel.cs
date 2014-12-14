@@ -16,6 +16,7 @@ namespace LASI.WebApp.Models
             foreach (var model in PageModels) { model.DocumentModel = this; }
 
         }
+        
         public override string Text { get { return ModelFor.Text; } }
         public string Name { get; private set; }
         public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }

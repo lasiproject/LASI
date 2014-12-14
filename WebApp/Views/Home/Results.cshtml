@@ -19,7 +19,7 @@
         <div class="tab-pane fade in active" id="reconstructeddocuments">
             <div>
                 <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
+                    @foreach (var documentModel in Model.DocumentModels) {
                         <li class="list-group-item">
                             <input type="button" class="list-group-item-text btn btn-block btn-primary"
                                    data-toggle="modal" data-target="@('#' + documentModel.Name.ToSafeHtmlDomId())"
@@ -30,7 +30,7 @@
             </div>
             <br />
             <div>
-                @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
+                @foreach (var documentModel in Model.DocumentModels) {
                     <div id=@documentModel.Name.ToSafeHtmlDomId() class="modal fade document-modal-lg" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -65,7 +65,7 @@
         <div class="tab-pane fade" id="topresults">
 
             <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
+                @foreach (var documentModel in Model.DocumentModels) {
                     <li class="list-group-item">
                         <input type="button"
                                class="list-group-item-text btn btn-block btn-primary"
@@ -75,7 +75,7 @@
                     </li>
                 }
             </ul>
-            @foreach (var documentModel in ViewData["documents"] as IEnumerable<DocumentModel>) {
+            @foreach (var documentModel in Model.DocumentModels) {
                 <div id=@(documentModel.Name.ToSafeHtmlDomId() + "_topresults") class="modal fade top-results-modal" tabindex="-1" role="dialog" aria-labelledby="#topResultsModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -87,7 +87,7 @@
                             <div class="modal-body">
                                 <div class="container chart-container" id=@(documentModel.Name.ToSafeHtmlDomId() + "_resultschart")>
                                     <span id=@(documentModel.Name.ToSafeHtmlDomId() + "_topresultrows") hidden>
-                                        @(ViewBag.charts[documentModel])
+                                        @((ViewData["charts"] as System.Collections.IDictionary)[documentModel])
                                     </span>
                                 </div>
                             </div>

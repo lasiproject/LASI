@@ -11,6 +11,7 @@ namespace LASI.Core.Heuristics.WordNet
     using SetReference = KeyValuePair<AdjectiveLink, int>;
     using Link = AdjectiveLink;
     using System.Collections.Immutable;
+    using Utilities;
 
     internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
@@ -23,7 +24,6 @@ namespace LASI.Core.Heuristics.WordNet
             filePath = path;
         }
 
-        ISet<AdjectiveSynSet> allSets = new HashSet<AdjectiveSynSet>();
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
@@ -80,6 +80,7 @@ namespace LASI.Core.Heuristics.WordNet
         private string filePath;
         private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
         private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
+        ISet<AdjectiveSynSet> allSets = new HashSet<AdjectiveSynSet>();
 
         /// <summary>
         /// Provides an indexed lookup between the values of the AdjectivePointerSymbol enum and their corresponding string representation in WordNet data.adj files.

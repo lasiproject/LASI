@@ -100,27 +100,28 @@
                     AllowDrop="True"
                     Drop="Grid_Drop" />
         <Menu Height="26" VerticalAlignment="Top">
-            <MenuItem Header="File">
+            <MenuItem Header="_File">
                 <MenuItem x:Name="FileMenuAdd"
                           Command="{x:Static ApplicationCommands.Open}"
-                          Header="Add"
+                          Header="_Open Document"
                           InputGestureText="Ctrl+O" />
                 <MenuItem Command="{x:Static ApplicationCommands.Close}"
-                          Header="Exit"
+                          Header="E_xit"
                           InputGestureText="Alt+F4" />
             </MenuItem>
-            <MenuItem Header="Build">
-                <MenuItem Name="StartProcessMenuItem"
+            <MenuItem Header="_Build">
+                <MenuItem Name="_StartProcessMenuItem"
                           Click="StartButton_Click"
-                          Header="Start" />
+                          InputGestureText="Ctrl + O"
+                          Header="_Start" />
             </MenuItem>
-            <MenuItem Header="Tools">
+            <MenuItem Header="_Tools">
                 <MenuItem Name="openPreferencesMenuItem"
                           Command="{x:Static ApplicationCommands.Properties}"
-                          Header="Preferences"
+                          Header="P_references"
                           InputGestureText="Ctrl+I" />
             </MenuItem>
-            <MenuItem Header="Help">
+            <MenuItem Header="_Help">
                 <MenuItem Command="{x:Static ApplicationCommands.Help}"
                           Header="View Manual"
                           InputGestureText="Ctrl+M" />

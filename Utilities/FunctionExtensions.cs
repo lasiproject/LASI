@@ -48,7 +48,7 @@ namespace LASI.Utilities
         }
 
         #region Currying
-
+ 
         public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) {
             return a => b => fn(a, b);
         }

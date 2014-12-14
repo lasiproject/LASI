@@ -17,6 +17,7 @@ namespace LASI.WebApp
     using System.Collections;
     using System.Collections.Immutable;
     using System.IO;
+    using LASI.Utilities;
     using Newtonsoft.Json;
 
 
@@ -131,9 +132,9 @@ namespace LASI.WebApp
             private readonly HttpApplication applicationContext;
 
             private static Lazy<MongoServer> mongoServer = new Lazy<MongoServer>(
-               valueFactory: () => new MongoClient(connectionString).GetServer(),
-               isThreadSafe: true
-           );
+                valueFactory: () => new MongoClient(connectionString).GetServer(),
+                isThreadSafe: true
+            );
             private static readonly string connectionString = ConfigurationManager.ConnectionStrings["MongoConnection"].ConnectionString;
             private static readonly string mongoDbPath = ConfigurationManager.AppSettings["MongoDbPath"];
 

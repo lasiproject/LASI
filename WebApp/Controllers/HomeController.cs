@@ -18,6 +18,9 @@ namespace LASI.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController() {
+            Phrase.VerboseOutput = true;
+        }
         //static int timesExecuted = 0;
         [HttpGet]
         public ActionResult Index(AccountModel account = null, string returnUrl = "") {
@@ -42,17 +45,15 @@ namespace LASI.WebApp.Controllers
         public async Task<ViewResult> Results() {
             var documents = await LoadResults();
             var docs = documents.Select(document => document.Name);
-            var documentRepresention = (
+            var documentCharts = (
                    from document in documents
                    let documentModel = new DocumentModel(document)
                    let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                    from result in naiveTopResults
                    orderby result.Value descending
                    group new object[] { result.Key, result.Value } by documentModel)
-                   .ToDictionary(g => g.Key, g => new { Document = g.Key, Value = JsonConvert.SerializeObject(g.ToArray()) })
-                   .Take(CHART_ITEM_MAX).ToImmutableList();
-            ViewData["charts"] = documentRepresention;
-            ViewData["documents"] = docs;
+                   .ToDictionary(g => g.Key, g => g.ToArray());
+            ViewData["charts"] = documentCharts;
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }

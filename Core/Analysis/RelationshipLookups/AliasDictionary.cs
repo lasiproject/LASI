@@ -47,7 +47,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="entity">The first Entity</param>
         /// <param name="other">The second Entity</param>
-        public static void DefineAlias<TE>(TE entity, TE other) where TE : IEntity {
+        public static void DefineAlias<TEntity>(TEntity entity, TEntity other) where TEntity : IEntity {
             DefineAliasInDictionary(entity.Text, other.Text);
         }
         /// <summary>
@@ -67,16 +67,18 @@ namespace LASI.Core.Heuristics
         private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
                    entityText, textualAliases.ToHashSet(),
-                   (key, current) => current.Concat(textualAliases).ToHashSet()
+                   (key, value) => value.Concat(textualAliases).ToHashSet()
                    );
         }
         private static void DefineAliasInDictionary(IEntity entity, IEntity alias, params IEntity[] aliases) {
-            aliasDictionary.AddOrUpdate(entity.Text, key => aliases
-                .Select(a => a.Text).ToHashSet(),
-                (key, current) => current.Union(aliases.Select(a => a.Text)).ToHashSet());
+            aliasDictionary.AddOrUpdate(
+                entity.Text,
+                key => aliases.Select(a => a.Text).ToHashSet(),
+                (key, value) => value.Union(aliases.Select(a => a.Text)).ToHashSet());
             aliasedEntityReferenceMap.AddOrUpdate(
-                entity, aliases.ToHashSet(),
-                (key, current) => current.Union(aliases).ToHashSet()
+                entity,
+                aliases.ToHashSet(),
+                (key, value) => value.Union(aliases).ToHashSet()
                 );
 
         }
@@ -98,20 +100,19 @@ namespace LASI.Core.Heuristics
 
         internal static IEnumerable<string> GetLikelyAliases(IEntity entity) {
             return entity.Match().Yield<IEnumerable<string>>()
-                .Case<NounPhrase>(n => DefineAliases(n))
+                .Case((NounPhrase n) => DefineAliases(n))
                 .When(e => e.SubjectOf.IsClassifier)
-                .Then<IEntity>(e => e.SubjectOf
-                    .DirectObjects
-                    .SelectMany(direct => direct.Match().Yield<IEnumerable<string>>()
-                        .When<IReferencer>(p => p.RefersTo.Any())
-                        .Then<IReferencer>(p => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
-                        .Case<Noun>(n => n.GetSynonyms())
+                .Then(e => e.SubjectOf.DirectObjects
+                    .SelectMany(o => o.Match().Yield<IEnumerable<string>>()
+                        .When((IReferencer p) => p.RefersTo.Any())
+                        .Then((IReferencer p) => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
+                        .Case((Noun n) => n.GetSynonyms())
                     .Result()))
-                .Result(defaultValue: Enumerable.Empty<string>());
+                .Result(Enumerable.Empty<string>());
         }
 
         private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) {
-            return nounPhrase.Words.OfNoun().Count() == 1 && nounPhrase.Words.None(w => w is ProperNoun) ?
+            return nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
                 Lookup.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
                 Enumerable.Empty<string>();
         }

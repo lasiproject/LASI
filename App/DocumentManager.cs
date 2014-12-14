@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using LASI.Utilities;
 
 namespace LASI.App
 {
@@ -106,8 +107,7 @@ namespace LASI.App
                 using (Stream stream = new FileStream(file.FullName, FileMode.Open)) {
                     return !stream.CanRead;
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Output.WriteLine(e.Message);
                 Output.WriteLine(e.StackTrace);
                 return true;

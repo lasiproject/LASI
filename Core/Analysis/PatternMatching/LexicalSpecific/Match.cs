@@ -95,6 +95,7 @@ namespace LASI.Core.PatternMatching
         /// Initializes a new instance of the Match&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
+        [DebuggerStepThrough]
         internal Match(T value) : base(value) { }
         #endregion
 
@@ -304,11 +305,11 @@ namespace LASI.Core.PatternMatching
     public class Match<T, TResult> : MatchBase<T> where T : class, ILexical
     {
         #region Constructors
-
         /// <summary>
         /// Initailizes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching with the provided value.
         /// </summary>
         /// <param name="value">The value to match with.</param>
+        [DebuggerStepThrough]
         internal Match(T value) : base(value) { }
         #endregion
 
@@ -394,6 +395,10 @@ namespace LASI.Core.PatternMatching
             }
             return this;
         }
+        public Match<T, TResult> Case(Func<T, TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(Func<TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(TResult result) { return this.Case<T>(result); }
+
         #endregion
 
         #region Result Expressions

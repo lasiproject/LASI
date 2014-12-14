@@ -18,6 +18,7 @@ using LASI.Content.Serialization;
 namespace LASI.App
 {
     using LASI.Interop.ResourceManagement;
+    using LASI.Utilities;
     using FileInfo = System.IO.FileInfo;
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml

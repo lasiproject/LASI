@@ -9,6 +9,7 @@ namespace LASI.Core.Heuristics.WordNet
     using SetReference = KeyValuePair<AdverbLink, int>;
     using Link = AdverbLink;
     using System.Collections.Immutable;
+    using LASI.Utilities;
 
     internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {

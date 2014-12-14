@@ -22,7 +22,7 @@ namespace LASI.App
         /// </summary>
         public StartupWindow() {
             InitializeComponent();
-            SetupLogging(Environment.GetCommandLineArgs()[0], "lasi_log");
+            SetupLogging(Environment.GetCommandLineArgs()[0], "lasilog");
             ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
             WindowManager.Intialize();
             Resources["createButtonContent"] = "Create";
@@ -39,8 +39,7 @@ namespace LASI.App
                     if (!Directory.Exists(logDir)) { Directory.CreateDirectory(logDir); }
                     Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                        "LASI", logFileName + ".txt"));
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     Output.WriteLine(e.Message);
                     SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
                 }
@@ -85,15 +84,13 @@ namespace LASI.App
             foreach (var file in documentsAddedListBox.Items) {
                 try {
                     FileManager.AddFile((file as ListViewItem).Tag.ToString(), true);
-                }
-                catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     MessageBox.Show(this, e.Message);
                 }
             }
             try {
                 await FileManager.ConvertAsNeededAsync();
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
         }
@@ -163,8 +160,7 @@ namespace LASI.App
             if (!Directory.Exists(locationTextBox.Text)) {
                 try {
                     Directory.CreateDirectory(locationTextBox.Text);
-                }
-                catch (Exception) {
+                } catch (Exception) {
                     MessageBox.Show(this, ErrorMessages.UnusableProjectDirectory);
                 }
             }
