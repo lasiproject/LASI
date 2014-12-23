@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LASI.Interop
+﻿namespace LASI.Interop
 {
     /// <summary>
     /// Represents a positive quantity in MegaBytes.
@@ -31,7 +29,7 @@ namespace LASI.Interop
         /// Returns a string representation of the MB.
         /// </summary>
         /// <returns>A string representation of the MB.</returns>
-        public override string ToString() => "\{quantity}MB";
+        public override string ToString() => quantity + "MB";
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current MB.
         /// </summary>

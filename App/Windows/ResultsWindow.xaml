@@ -41,60 +41,62 @@
                     Command="{x:Static ApplicationCommands.Help}"
                     Modifiers="Control" />
     </Window.InputBindings>
-    <Grid AllowDrop="True" Background="White">
-        <Menu Margin="0,2,0,0"
+    <Grid Margin="0,0,0,0">
+
+        <Grid AllowDrop="True" Background="White">
+            <Menu Margin="0,2,0,0"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Top">
-            <MenuItem x:Name="FileMenu"
+                <MenuItem x:Name="FileMenu"
                       HorizontalAlignment="Left"
                       Header="_File">
-                <MenuItem Width="200"
+                    <MenuItem Width="200"
                           HorizontalAlignment="Left"
                           Click="NewProjectMenuItem_Click_1"
                           Header="_New Project"
                           InputGestureText="Ctrl+N" />
-                <MenuItem Name="addDocumentMenuItem"
+                    <MenuItem Name="addDocumentMenuItem"
                           Width="200"
                           HorizontalAlignment="Left"
                           Command="{x:Static ApplicationCommands.Open}"
                           Header="_Open Document"
                           InputGestureText="Ctrl+O" />
-                <MenuItem Width="200"
+                    <MenuItem Width="200"
                           HorizontalAlignment="Left"
                           Click="ExitMenuItem_Click"
                           Command="{x:Static ApplicationCommands.Print}"
                           Header="_Print"
                           InputGestureText="Ctrl+P" />
-                <MenuItem Width="200"
+                    <MenuItem Width="200"
                           HorizontalAlignment="Left"
                           Command="{x:Static ApplicationCommands.Close}"
                           Header="E_xit"
                           InputGestureText="Alt+F4" />
-            </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem Name="openPreferencesMenuItem"
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem Name="openPreferencesMenuItem"
                           Command="{x:Static ApplicationCommands.Properties}"
                           Header="P_references"
                           InputGestureText="Ctrl+R" />
-            </MenuItem>
-            <MenuItem HorizontalAlignment="Left" Header="_Help">
-                <MenuItem Command="{x:Static ApplicationCommands.Help}"
+                </MenuItem>
+                <MenuItem HorizontalAlignment="Left" Header="_Help">
+                    <MenuItem Command="{x:Static ApplicationCommands.Help}"
                           Header="View _Manual"
                           InputGestureText="Ctrl+M" />
-                <MenuItem Click="HrlpAbout_MenuItem_Click" Header="About LASI" />
-                <MenuItem Click="openLicensesMenuItem_Click_1" Header="Component Info" />
-            </MenuItem>
-            <Separator HorizontalAlignment="Stretch" />
-        </Menu>
-        <!--<Grid Margin="0,0,0,0">-->
-        <Canvas Name="currentOperationFeedbackCanvas"
+                    <MenuItem Click="HrlpAbout_MenuItem_Click" Header="About LASI" />
+                    <MenuItem Click="openLicensesMenuItem_Click_1" Header="Component Info" />
+                </MenuItem>
+                <Separator HorizontalAlignment="Stretch" />
+            </Menu>
+
+            <Canvas Name="currentOperationFeedbackCanvas"
                     Canvas.Left="10"
                     Height="26"
                     Margin="10,0,10,4"
                     VerticalAlignment="Bottom"
                     Background="White"
                     Visibility="Visible">
-            <Label x:Name="currentOperationLabel"
+                <Label x:Name="currentOperationLabel"
                        Width="auto"
                        Height="26"
                        VerticalAlignment="Center"
@@ -102,7 +104,7 @@
                        FontSize="13.333"
                        OpacityMask="Black"
                        RenderTransformOrigin="0.5,0.5" />
-            <ProgressBar x:Name="currentOperationProgressBar"
+                <ProgressBar x:Name="currentOperationProgressBar"
                              Canvas.Left="0"
                              Canvas.Right="0"
                              Width="772"
@@ -111,13 +113,13 @@
                              HorizontalAlignment="Right"
                              Background="#FFE6E6E6"
                              Foreground="#FFBD2200" />
-        </Canvas>
-        <Canvas Width="152"
+            </Canvas>
+            <Canvas Width="152"
                     Margin="0,20,0,34"
                     HorizontalAlignment="Left"
                     Background="#FFE5E5E5"
                     OpacityMask="#FF5A5A62">
-            <Button x:Name="changeToColumnChartButton"
+                <Button x:Name="changeToColumnChartButton"
                         Canvas.Left="10"
                         Canvas.Top="10"
                         Width="35"
@@ -131,18 +133,18 @@
                         ClipToBounds="True"
                         Padding="10,1,1,1"
                         Style="{DynamicResource ChangeChartTypeColumn}">
-                <Button.BorderBrush>
-                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                </Button.BorderBrush>
-            </Button>
-            <Button x:Name="printButton"
+                    <Button.BorderBrush>
+                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                    </Button.BorderBrush>
+                </Button>
+                <Button x:Name="printButton"
                         Canvas.Left="10"
                         Canvas.Top="61"
                         Width="35"
                         Height="35"
                         Click="PrintButton_Click_1"
                         Style="{DynamicResource ControlStyle1}" />
-            <Button x:Name="changeToBarChartButton"
+                <Button x:Name="changeToBarChartButton"
                         Canvas.Left="53"
                         Canvas.Top="10"
                         Width="35"
@@ -152,11 +154,11 @@
                         Content="Button"
                         Padding="10,1,1,1"
                         Style="{DynamicResource ChangeChartTypeBar}">
-                <Button.BorderBrush>
-                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                </Button.BorderBrush>
-            </Button>
-            <Button x:Name="documentJoinButton"
+                    <Button.BorderBrush>
+                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                    </Button.BorderBrush>
+                </Button>
+                <Button x:Name="documentJoinButton"
                         Canvas.Left="53"
                         Canvas.Top="61"
                         Width="35"
@@ -171,7 +173,7 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ToolTip="Join two or more documents to see their thematic intersection displayed in the Meta View tab." />
-            <Button x:Name="exportButton"
+                <Button x:Name="exportButton"
                         Canvas.Left="53"
                         Canvas.Top="122"
                         Width="35"
@@ -183,70 +185,70 @@
                         Content="Export"
                         FontSize="9"
                         Visibility="Hidden" />
-            <Button x:Name="changeToAreaChartButton"
+                <Button x:Name="changeToAreaChartButton"
                         Canvas.Left="58"
                         Canvas.Top="94"
                         Width="53"
                         Height="45"
                         Content="Button"
                         Visibility="Hidden" />
-            <Button x:Name="changeToPieChartButton"
+                <Button x:Name="changeToPieChartButton"
                         Canvas.Left="95"
                         Canvas.Top="10"
                         Width="35"
                         Height="35"
                         Style="{DynamicResource ChangeChartTypePie}">
-                <Button.BorderBrush>
-                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                </Button.BorderBrush>
-            </Button>
-            <Button x:Name="changeToLineChartButton"
+                    <Button.BorderBrush>
+                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                    </Button.BorderBrush>
+                </Button>
+                <Button x:Name="changeToLineChartButton"
                         Canvas.Left="98"
                         Canvas.Top="189"
                         Width="35"
                         Height="35"
                         Content="Button"
                         Visibility="Hidden" />
-        </Canvas>
-        <!--</Grid>-->
-        <TabControl x:Name="ResultsTabControl"
+            </Canvas>
+
+            <TabControl x:Name="ResultsTabControl"
                     Margin="152,20,0,34"
                     ClipToBounds="True"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <TabItem x:Name="topResultsTab" Header="Top Results">
-                <Grid Margin="0,0,1,0"
+                <TabItem x:Name="topResultsTab" Header="Top Results">
+                    <Grid Margin="0,0,1,0"
                       Background="#FFE5E5E5"
                       SnapsToDevicePixels="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="206*" />
-                    </Grid.ColumnDefinitions>
-                    <TabControl x:Name="FrequencyCharts" Grid.ColumnSpan="3" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Word Count and Weighting">
-                <Grid Background="#FFE5E5E5">
-                    <TabControl x:Name="weightedByDocumentTabControl"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="206*" />
+                        </Grid.ColumnDefinitions>
+                        <TabControl x:Name="FrequencyCharts" Grid.ColumnSpan="3" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Word Count and Weighting">
+                    <Grid Background="#FFE5E5E5">
+                        <TabControl x:Name="weightedByDocumentTabControl"
                                 Grid.ColumnSpan="2"
                                 Margin="0,-1,0,0" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Recomposed Documents">
-                <Grid Margin="0,0,1,0" Background="#FFE5E5E5">
-                    <TabControl x:Name="recomposedDocumentsTabControl" />
-                </Grid>
-            </TabItem>
-            <TabItem Width="107"
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Recomposed Documents">
+                    <Grid Margin="0,0,1,0" Background="#FFE5E5E5">
+                        <TabControl x:Name="recomposedDocumentsTabControl" />
+                    </Grid>
+                </TabItem>
+                <TabItem Width="107"
                      Height="20"
                      Margin="0"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Header="Key Relationships">
-                <Grid Background="#FFE5E5E5">
-                    <TabControl x:Name="SVODResultsTabControl" />
-                </Grid>
-            </TabItem>
-            <TabItem x:Name="metaViewTab"
+                    <Grid Background="#FFE5E5E5">
+                        <TabControl x:Name="SVODResultsTabControl" />
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="metaViewTab"
                      Width="73"
                      Height="20"
                      Margin="-2,-2,-14,0"
@@ -254,10 +256,11 @@
                      VerticalAlignment="Top"
                      Header="Meta View"
                      Visibility="Hidden">
-                <Grid Background="#FFE5E5E5">
-                    <Custom:DataGrid x:Name="metaRelationshipsDataGrid" />
-                </Grid>
-            </TabItem>
-        </TabControl>
+                    <Grid Background="#FFE5E5E5">
+                        <Custom:DataGrid x:Name="metaRelationshipsDataGrid" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@ namespace LASI.Content
     /// <summary>
     /// Stores and differentiates distinct, as well as overlapping, aspects of a file path.
     /// </summary>
-    internal struct FileData
+    internal struct FileData : IEquatable<FileData>
     {
         #region Constructors
 
@@ -37,8 +37,7 @@ namespace LASI.Content
                 Ext = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Ext = string.Empty;
                 FileNameSansExt = FileName;
 
@@ -62,8 +61,7 @@ namespace LASI.Content
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Ext = string.Empty;
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
@@ -82,18 +80,18 @@ namespace LASI.Content
             return string.Format("  -  File:  {0}, Location:  {1}", FileName, Directory);
         }
         /// <summary>
+        /// Determines if the current instance is equal to the given FileData.
+        /// </summary> 
+        /// <param name="obj">The FileData to equate to the current instance.</param>
+        /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
+        public bool Equals(FileData other) => this == other;
+
+        /// <summary>
         /// Determines if the current instance is equal to the given object.
         /// </summary> 
         /// <param name="obj">The object to equate to the current instance.</param>
         /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj) {
-            try {
-                return this == (FileData)obj;
-            }
-            catch (InvalidCastException) {
-                return false;
-            }
-        }
+        public override bool Equals(object obj) => obj is FileData && this.Equals((FileData)obj);
         /// <summary>
         /// Gets a hash code for the FileData instance.
         /// </summary>
@@ -101,6 +99,7 @@ namespace LASI.Content
         public override int GetHashCode() {
             return FullPathAndExt.GetHashCode();
         }
+
         #endregion
 
         #region Properties
