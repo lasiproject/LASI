@@ -173,7 +173,6 @@ namespace LASI.Content.TaggerEncapsulation
         /// </summary>
         public TaggerMode TaggerMode {
             get;
-            set;
         }
         /// <summary>
         /// Initializes a new instance of the Tagger Class.

@@ -28,7 +28,7 @@ namespace LASI.Core
         /// "who was a huge dick," is the subordinate clause. 
         /// </summary>
         /// <param name="word">Word</param>
-        /// <returns> true or false</returns>
+        /// <returns> <c>true</c> or false</returns>
         private static bool isRelativePronounorSubordinatingConjunction(Word word) {
             var prep = word as Preposition;
             if (prep != null)

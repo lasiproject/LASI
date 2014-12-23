@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
-using LASI.Core.Interop;
+using LASI.Core.Reporting;
 
 namespace LASI.Core
 {

@@ -94,7 +94,7 @@ namespace LASI.Core
     ///	as/is operator semantics, which do not consider user defined conversions, it will not naturally adjust if the such conversions are defined)
     /// </para>
     /// </remarks>
-    public static class Matcher
+    public static class MatchExtensions
     {
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.
@@ -103,6 +103,10 @@ namespace LASI.Core
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);
+        }
+        public static Analysis.PatternMatching.LexicalSpecific.Match<T1, T2> TogetherWith<T1, T2>(this Match<T1> partial, T2 other)
+            where T1 : class, ILexical where T2 : class, ILexical {
+            return new Analysis.PatternMatching.LexicalSpecific.Match<T1, T2>(partial.Yield<T1>().Result(value => value), other);
         }
         public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);

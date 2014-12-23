@@ -19,7 +19,7 @@ namespace LASI.Core.Heuristics
     /// Instead one may simple write the same logic as:
     /// <code>if (a.IsSimilarTo(b) > 0.7) { ... }</code>
     ///</remarks>
-    public struct SimilarityResult : IEquatable<SimilarityResult>, IComparable<SimilarityResult>
+    public struct Similarity : IEquatable<Similarity>, IComparable<Similarity>
     {
         #region Constructors
 
@@ -32,7 +32,7 @@ namespace LASI.Core.Heuristics
         /// <param name="similarityRatio">
         /// Represents the similarity ratio between the tested elements, if applicable.
         /// </param>
-        internal SimilarityResult(bool similar, double similarityRatio)
+        internal Similarity(bool similar, double similarityRatio)
             : this() {
             Boolean = similar;
             Rational = similarityRatio;
@@ -49,7 +49,7 @@ namespace LASI.Core.Heuristics
         /// cases, the RatioResult property will be automatically set to 1 or 0 based on the
         /// truthfulness of the provided similar argument.
         /// </remarks>
-        internal SimilarityResult(bool similar) : this(similar, similar ? 1 : 0) { }
+        internal Similarity(bool similar) : this(similar, similar ? 1 : 0) { }
 
         #endregion Constructors
 
@@ -62,9 +62,9 @@ namespace LASI.Core.Heuristics
         /// An object to compare with this object.
         /// </param>
         /// <returns>
-        /// true if the current object is equal to the other parameter; otherwise, false.
+        /// <c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(SimilarityResult other) => this == other;
+        public bool Equals(Similarity other) => this == other;
 
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current SimResult.
@@ -73,10 +73,10 @@ namespace LASI.Core.Heuristics
         /// The object to compare with.
         /// </param>
         /// <returns>
-        /// True if the specified object is equal to the current SimResult; otherwise, false.
+        /// <c>true</c> if the specified object is equal to the current SimResult; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj) {
-            return obj != null && obj is SimilarityResult && this == (SimilarityResult)obj;
+            return obj != null && obj is Similarity && this == (Similarity)obj;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace LASI.Core.Heuristics
         /// the other parameter.Zero This object is equal to other. Greater than zero This object is
         /// greater than other.
         /// </returns>
-        public int CompareTo(SimilarityResult other) => Rational.CompareTo(other.Rational);
+        public int CompareTo(Similarity other) => Rational.CompareTo(other.Rational);
 
         /// <summary>
         /// Returns the hash code for this instance.
@@ -131,7 +131,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// A boolean with the same value as the conversion target's booleanResult Property.
         /// </returns>
-        public static implicit operator bool (SimilarityResult sr) => sr.Boolean;
+        public static implicit operator bool (Similarity sr) => sr.Boolean;
 
         /// <summary>
         /// Converts the SimResult into its double representation. The resulting boolean has the
@@ -143,7 +143,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// A double with the same value as the conversion target's RatioResult Property.
         /// </returns>
-        public static implicit operator double (SimilarityResult sr) => sr.Rational;
+        public static implicit operator double (Similarity sr) => sr.Rational;
 
         #endregion Implcit Conversion Operators
 
@@ -170,9 +170,9 @@ namespace LASI.Core.Heuristics
         /// The SimRult on the right hand side.
         /// </param>
         /// <returns>
-        /// True if the SimResult on the left is equal to the SimResult on the right.
+        /// <c>true</c> if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
-        public static bool operator ==(SimilarityResult left, SimilarityResult right) {
+        public static bool operator ==(Similarity left, Similarity right) {
             return left.Boolean == right.Boolean && Math.Round(left.Rational, 5) == Math.Round(right.Rational, 5);
         }
 
@@ -199,21 +199,24 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// False if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
-        public static bool operator !=(SimilarityResult left, SimilarityResult right) => !(left == right);
+        public static bool operator !=(Similarity left, Similarity right) => !(left == right);
+        
         #endregion Comparison Operators
 
         #endregion Operators
 
         #region Static Properties
 
-        internal static SimilarityResult Similar => similar;
-        internal static SimilarityResult Dissimilar => dissimilar;
+        internal static Similarity Similar => similar;
+        internal static Similarity Dissimilar => dissimilar;
 
         #endregion Static Properties
+
         #region Static Fields
 
-        private static readonly SimilarityResult dissimilar = new SimilarityResult(false, 0);
-        private static readonly SimilarityResult similar = new SimilarityResult(true, 1);
+        private static readonly Similarity dissimilar = new Similarity(false, 0);
+        private static readonly Similarity similar = new Similarity(true, 1);
+
         #endregion Static Fields
     }
 }

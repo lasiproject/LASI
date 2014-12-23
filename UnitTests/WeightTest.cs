@@ -2,6 +2,8 @@
 using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace LASI.UnitTests
 {
@@ -70,7 +72,7 @@ namespace LASI.UnitTests
             double rawWeight = 65;
             double multiplier = 1.5;
             Weight target = new Weight(rawWeight, multiplier);
-            Assert.AreEqual(target.RawWeight, rawWeight);
+            Assert.AreEqual(target.Raw, rawWeight);
             Assert.AreEqual(target.Multiplier, multiplier);
         }
 

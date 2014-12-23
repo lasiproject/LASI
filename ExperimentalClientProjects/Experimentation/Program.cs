@@ -40,8 +40,7 @@ namespace LASI.Experimentation.CommandLine
             var x = document.Entities.FirstOrDefault();
             x.Match().Yield<string>()
                 .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
-                .Case((IEntity e) => e.Text)
-                .Result();
+                .Result(e => e.Text);
             Output.WriteLine(document);
             Phrase.VerboseOutput = true;
             foreach (var phrase in document.Phrases) {

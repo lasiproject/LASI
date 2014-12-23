@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Core.Interop;
+using LASI.Core.Reporting;
 
 namespace LASI.Core
 {
@@ -134,7 +134,7 @@ namespace LASI.Core
                 .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
         }
 
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, SimilarityResult> correlateWhen, double increaseScaler) where TLexical : class, ILexical {
+        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double increaseScaler) where TLexical : class, ILexical {
             var elmentLists = from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                               from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                               where !ReferenceEquals(inner, outer) && correlateWhen(inner, outer)
@@ -162,7 +162,7 @@ namespace LASI.Core
     /// A class containing information regarding a weighting process level status update.
     /// </summary>
     [Serializable]
-    public class WeightingUpdateEventArgs : Interop.ReportEventArgs
+    public class WeightingUpdateEventArgs : Reporting.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.

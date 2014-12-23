@@ -48,7 +48,7 @@
             Max = ComputeDefaultMax();
             // This is critical for LASI.Core to obey the same concurrency constraints as its client
             // assemblies without a circular dependency
-            Core.Interop.Configuation.ConfigureConcurrency(() => Max);
+            Core.Reporting.Configuation.ConfigureConcurrency(() => Max);
         }
         /// <summary>
         /// Gets the maximum allowed Concurrency level for Parallel operations.

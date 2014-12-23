@@ -1,4 +1,4 @@
-﻿using LASI.Core.Interop;
+﻿using LASI.Core.Reporting;
 using System;
 using System.Collections.Generic;
 using System.Linq;

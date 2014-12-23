@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using LASI.Utilities;
 using System.Threading.Tasks;
-using LASI.Core.Interop;
+using LASI.Core.Reporting;
 
 namespace LASI.Core.Binding.Experimental
 {

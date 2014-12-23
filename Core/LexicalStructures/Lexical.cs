@@ -12,7 +12,7 @@ namespace LASI.Core
     public static partial class Lexical
     {
         public static Match<T> Match<T>(T lexical) where T : class, ILexical {
-            return Matcher.Match(lexical);
+            return MatchExtensions.Match(lexical);
         }
     }
 

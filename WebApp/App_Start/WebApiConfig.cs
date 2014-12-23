@@ -21,15 +21,8 @@ namespace LASI.WebApp
 #endif
             };
 
-
             config.MapHttpAttributeRoutes();
-            //config.Formatters.OfType<JsonMediaTypeFormatter>().First().SerializerSettings = new JsonSerializerSettings
-            //{
-            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            //    NullValueHandling = NullValueHandling.Ignore,
-            //};
-            //config.EnsureInitialized();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",

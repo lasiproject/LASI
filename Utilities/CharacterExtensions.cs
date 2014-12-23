@@ -15,7 +15,7 @@ namespace LASI
         /// The character to test.
         /// </param>
         /// <returns>
-        /// True if the character is a letter; otherwise, false.
+        /// <c>true</c> if the character is a letter; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsAlphabetic(this char c) => c > 96 && c < 123 || c > 64 && c < 91;
 
@@ -26,9 +26,9 @@ namespace LASI
         /// The character to test.
         /// </param>
         /// <returns>
-        /// True if the character is a consonant; otherwise, false.
+        /// <c>true</c> if the character is a consonant; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsConsonant(this char c) => c == 'y' || c == 'Y' || c.IsAlphabetic() && !c.IsVowel();
+        public static bool IsConsonant(this char c) => c.EqualsIgnoreCase('Y') || c.IsAlphabetic() && !c.IsVowel();
 
         /// <summary>
         /// Returns a value indicating whether the character is a lowercase letter.
@@ -37,7 +37,7 @@ namespace LASI
         /// The character to test.
         /// </param>
         /// <returns>
-        /// True if the character is a lowercase letter; otherwise, false.
+        /// <c>true</c> if the character is a lowercase letter; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsLower(this char c) => char.IsLower(c);
 
@@ -48,7 +48,7 @@ namespace LASI
         /// The character to test.
         /// </param>
         /// <returns>
-        /// True if the character is an uppercase letter; otherwise, false.
+        /// <c>true</c> if the character is an uppercase letter; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsUpper(this char c) => char.IsUpper(c);
 
@@ -59,9 +59,9 @@ namespace LASI
         /// The character to test.
         /// </param>
         /// <returns>
-        /// True if the character is a vowel; otherwise, false.
+        /// <c>true</c> if the character is a vowel; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsVowel(this char c) => VOWELS.IndexOf(c) >= 0;
+        public static bool IsVowel(this char c) => VOWELS.IndexOf(c.ToUpper()) >= 0;
 
         /// <summary>
         /// Converts the value of the Unicode character to its lowercase equivalent.
@@ -92,10 +92,10 @@ namespace LASI
         /// </summary>
         /// <param name="value">The first character to compare.</param>
         /// <param name="other">The second character to compare</param>
-        /// <returns>True if the given characters considered are equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given characters considered are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>This comparison uses the default culture.</remarks>
         public static bool EqualsIgnoreCase(this char a, char b) => a.ToUpper() == b.ToUpper();
 
-        private const string VOWELS = "aeiouyAEIOUY";
+        private const string VOWELS = "AEIOUY";
     }
 }

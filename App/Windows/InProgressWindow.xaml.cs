@@ -48,10 +48,10 @@ namespace LASI.App
         public async Task ParseDocuments() {
 
             var resourceLoadingNotifier = new ResourceNotifier();
-            Observable.FromEventPattern<Core.ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoading += d, d => resourceLoadingNotifier.ResourceLoading -= d)
+            Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoading += handler, handler => resourceLoadingNotifier.ResourceLoading -= handler)
                   //.Throttle(TimeSpan.FromMilliseconds(1))
                   .Subscribe(e => ProgressUpdated(this, e.EventArgs));
-            Observable.FromEventPattern<Core.ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
+            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
                             //.Throttle(TimeSpan.FromMilliseconds(1))
                             .Subscribe(e => ProgressUpdated(this, e.EventArgs));
 
@@ -60,9 +60,8 @@ namespace LASI.App
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
             //analysisProvider.ProgressChanged += ProgressUpdated;
-            Observable
-                .FromEvent<AnalysisUpdateEventArgs>(h => analysisProvider.ProgressChanged += (s, e) => h(e), h => analysisProvider.ProgressChanged += (s, e) => h(e))
-                .Subscribe(e => ProgressUpdated(analysisProvider, e));
+            Observable.FromEventPattern<Core.Reporting.ReportEventArgs>(h => analysisProvider.ProgressChanged += h, h => analysisProvider.ProgressChanged -= h)
+                .Subscribe(e => ProgressUpdated(e.Sender, e.EventArgs));
 
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
@@ -72,7 +71,7 @@ namespace LASI.App
             progressBar.ToolTip = completetionMessage;
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
-
+            ProcessingCompleted += delegate { NativeMethods.StopFlashing(this); };
             await Task.WhenAll(WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync());
             ProcessingCompleted(this, new EventArgs());
         }
@@ -86,16 +85,7 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        private async void ProgressUpdated(object sender, Core.Interop.ReportEventArgs e) {
-            progressLabel.Content = e.Message;
-            progressBar.ToolTip = e.Message;
-            var animateStep = 0.028 * e.PercentWorkRepresented;
-            for (int i = 0; i < 33; ++i) {
-                progressBar.Value += animateStep;
-                await Task.Delay(1);
-            }
-        }
-        private async void ProgressUpdated(object sender, Core.ResourceLoadEventArgs e) {
+        private async void ProgressUpdated(object sender, Core.Reporting.ReportEventArgs e) {
             progressLabel.Content = e.Message;
             progressBar.ToolTip = e.Message;
             var animateStep = 0.028 * e.PercentWorkRepresented;
@@ -158,8 +148,7 @@ namespace LASI.App
             /// </summary>
             internal static void StartFlashing(Window windowToFlash) {
                 {
-                    var fInfo = new FLASHWINFO
-                    {
+                    var fInfo = new FLASHWINFO {
                         hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
                         dwFlags = FLASHW_ALL,
                         uCount = System.UInt32.MaxValue,
@@ -175,8 +164,7 @@ namespace LASI.App
             /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
             /// </summary>
             internal static void StopFlashing(Window windowToFlash) {
-                var fInfo = new FLASHWINFO
-                {
+                var fInfo = new FLASHWINFO {
 
                     hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
                     dwFlags = 0,

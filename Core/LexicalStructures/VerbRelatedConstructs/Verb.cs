@@ -43,8 +43,7 @@ namespace LASI.Core
 
         /// <summary>
         /// Binds the Verb to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase.
-        /// Example: He "ran" to work. where "work" is the object of ran via the prepositional
-        ///          construct "to"
+        /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to".
         /// </summary>
         /// <param name="prepositional">
         /// The prepositional which links the verb and its prepositional object.
@@ -102,7 +101,7 @@ namespace LASI.Core
         /// "They" and "a lot of ideas".
         /// </summary>
         /// <returns>
-        /// True if the Verb is a possessive relationship specifier; otherwise, false.
+        /// <c>true</c> if the Verb is a possessive relationship specifier; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool DetermineIsPossessive() => this.GetSynonyms().Contains("have", ignoreCase);
 
@@ -112,7 +111,7 @@ namespace LASI.Core
         /// are a subset of prey animals.
         /// </summary>
         /// <returns>
-        /// True if the Verb is a classifier; otherwise, false.
+        /// <c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.
         /// </returns>
         protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && this.GetSynonyms().Contains("is", ignoreCase);
 
@@ -177,14 +176,12 @@ namespace LASI.Core
         public IPrepositional PrepositionalToObject { get; protected set; }
 
         /// <summary>
-        /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is)
-        /// a B"
+        /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is) a B"
         /// </summary>
         public bool IsClassifier => (classifier = classifier ?? DetermineIsClassifier()) ?? false;
 
         /// <summary>
-        /// Gets a value indicating whether or not the Verb has possessive semantics. E.g. "A (has)
-        /// a B"
+        /// Gets a value indicating whether or not the Verb has possessive semantics. E.g. "A (has) a B"
         /// </summary>
         public bool IsPossessive => (possessive = possessive ?? DetermineIsPossessive()) ?? false;
 

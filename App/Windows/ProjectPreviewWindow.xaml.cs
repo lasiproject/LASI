@@ -53,21 +53,16 @@ namespace LASI.App
 
             var block = new System.Windows.Documents.Section(
                  new System.Windows.Documents.Paragraph(
-                     new System.Windows.Documents.Run { Text = processedText })
-            {
-                TextAlignment = TextAlignment.Left
-            })
-            {
+                     new System.Windows.Documents.Run { Text = processedText }) {
+                     TextAlignment = TextAlignment.Left
+                 }) {
                 TextAlignment = TextAlignment.Left,
                 BreakColumnBefore = false
             };
-            var item = new TabItem
-            {
+            var item = new TabItem {
                 Header = textfile.NameSansExt,
                 AllowDrop = true,
-                Content = new FlowDocumentPageViewer
-                {
-                    //ViewingMode = FlowDocumentReaderViewingMode.Page,
+                Content = new FlowDocumentPageViewer {
                     VerticalContentAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     HorizontalContentAlignment = HorizontalAlignment.Left,
@@ -77,10 +72,8 @@ namespace LASI.App
                                 processedText
                             )
                         )
-                    ),
-
-                },
-
+                    )
+                }
             };
             VisualTextRenderingMode = System.Windows.Media.TextRenderingMode.ClearType;
             item.Drop += Grid_Drop;
@@ -96,8 +89,7 @@ namespace LASI.App
             var chosenFile = FileManager.AddFile(docPath, true);
             try {
                 await FileManager.ConvertAsNeededAsync();
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 MessageBox.Show(this, MakeConversionFailureMessage(e.Message));
             }
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
@@ -144,16 +136,16 @@ namespace LASI.App
 
         }
         private async void Grid_Drop(object sender, DragEventArgs e) {
-            await SharedFunctionality.HandleDropAddAsync(this,
+            await SharedFunctionality.HandleDropAddAsync(
+                this,
                 e,
-                async fi => {
-                    DocumentManager.AddDocument(fi.Name, fi.FullName);
-                    await DisplayAddNewDocumentDialogImplementation(fi.FullName);
+                async fileInfo => {
+                    DocumentManager.AddDocument(fileInfo.Name, fileInfo.FullName);
+                    await DisplayAddNewDocumentDialogImplementation(fileInfo.FullName);
                 });
         }
         private async void DisplayAddNewDocumentDialog() {
-            var openDialog = new Microsoft.Win32.OpenFileDialog
-            {
+            var openDialog = new Microsoft.Win32.OpenFileDialog {
                 Filter = DocumentManager.FILE_FILTER,
                 Multiselect = true,
 
@@ -179,8 +171,7 @@ namespace LASI.App
 
 
         private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow
-            {
+            var componentsDisplay = new ComponentInfoDialogWindow {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this

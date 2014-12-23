@@ -41,7 +41,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="relatorSet">The object whose contents are to be searched. This parameter can be null. If it is null, false is returned.</param>
         /// <param name="relator">The IVerbal for which to search.</param>
-        /// <returns>True if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
+        /// <returns> <c>true</c> if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
         public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) {
 
             return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
@@ -73,7 +73,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the current ActionsRelatedOn instance is equal to another ActionsRelatedOn instance.
         /// </summary>
         /// <param name="other">The ActionsRelatedOn to compare to.</param>
-        /// <returns>True if the current ActionsRelatedOn is equal to the supplied ActionsRelatedOn.</returns>
+        /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the supplied ActionsRelatedOn.</returns>
         public bool Equals(ActionsRelatedOn other) {
             return RelatedOn.SequenceEqual(other.RelatedOn);
         }
@@ -81,7 +81,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the current ActionsRelatedOn instance is equal to the specified System.Object.
         /// </summary>
         /// <param name="obj">The System.Object to compare to.</param>
-        /// <returns>True if the current ActionsRelatedOn is equal to the specified System.Object.</returns>
+        /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) {
             return obj is ActionsRelatedOn && RelatedOn.SequenceEqual(((ActionsRelatedOn)obj).RelatedOn);
         }
@@ -90,37 +90,36 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <returns>The hash code for the ActionsRelatedOn instance.</returns>
         public override int GetHashCode() {
-            return RelatedOn
-                .Select(e => e.GetHashCode()).Aggregate(0, (hashSoFar, hash) => hashSoFar ^ hash);
+            return RelatedOn.Aggregate(0, (hash, e) => hash ^ e.GetHashCode());
         }
-        internal IEnumerable<IVerbal> RelatedOn { get; private set; }
+        internal IEnumerable<IVerbal> RelatedOn { get; }
         /// <summary>
-        /// Returns true if the given the ActionsRelatedOn? is not null, false otherwise.
+        /// Returns true if the given the ActionsRelatedOn? is not null, otherwise; false.
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
-        /// <returns>True if the given the ActionsRelatedOn? is not null, false otherwise.</returns>
-        public static bool operator true(ActionsRelatedOn? actions) { return actions != null; }
+        /// <returns> <c>true</c> if the given the ActionsRelatedOn? is not null; otherwise, <c>false</c>.</returns>
+        public static bool operator true(ActionsRelatedOn? actions) => actions != null;
 
         /// <summary>
         /// Returms true only if given the ActionsRelatedOn? is null;
         /// </summary>
         /// <param name="actions">The ActionsRelatedOn? structure to test.</param>
-        /// <returns>True if the given ActionsRelatedOn? is null; otherwise, false.</returns>
-        public static bool operator false(ActionsRelatedOn? actions) { return actions == null; }
+        /// <returns> <c>true</c> if the given ActionsRelatedOn? is null; otherwise, <c>false</c>.</returns>
+        public static bool operator false(ActionsRelatedOn? actions) => actions == null;
         /// <summary>
-        /// Determines if two ActionsRelatedOn instances are equa;.
+        /// Determines if two ActionsRelatedOn instances are equal.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
-        /// <returns>True if the ActionsRelatedOn instances are equal; otherwise, false.</returns>
-        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) { return left.Equals(right); }
+        /// <returns> <c>true</c> if the ActionsRelatedOn instances are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(ActionsRelatedOn left, ActionsRelatedOn right) => left.Equals(right);
         /// <summary>
         /// Determines if two ActionsRelatedOn instances are unequal.
         /// </summary>
         /// <param name="left">The first ActionsRelatedOn instance.</param>
         /// <param name="right">The second ActionsRelatedOn instance.</param>
-        /// <returns>True if the ActionsRelatedOn instances are unequal; otherwise, false.</returns>
-        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) { return !(left == right); }
+        /// <returns> <c>true</c> if the ActionsRelatedOn instances are unequal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(ActionsRelatedOn left, ActionsRelatedOn right) => !(left == right);
 
 
     }

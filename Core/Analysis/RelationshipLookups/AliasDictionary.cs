@@ -21,7 +21,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="possibleAlias">The first Entity</param>
         /// <param name="other">The second Entity</param>
-        /// <returns>true if the Entities are aliases for one another, false otherwise</returns>
+        /// <returns> <c>true</c> if the Entities are aliases for one another, false otherwise</returns>
         public static bool IsAliasFor(this IEntity possibleAlias, IEntity other) {
             return possibleAlias != null && other != null && LookupAlias(other, possibleAlias);
         }

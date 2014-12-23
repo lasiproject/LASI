@@ -128,14 +128,14 @@ namespace LASI.Core
         /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence 
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
-        /// <returns>True if the VerbPhrase is a possessive relationship specifier; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the VerbPhrase is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
         protected virtual bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
 
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
         /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
-        /// <returns>True if the VerbPhrase is a classifier; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
         protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
 
 

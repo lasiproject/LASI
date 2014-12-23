@@ -79,13 +79,13 @@ namespace LASI.App
                     }
                 }
             } else {
-                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MAX_DOCUMENTS));
+                MessageBox.Show(targetWindow, string.Format("A single project may have a maximum of {0} documents.", DocumentManager.MAX_DOCUMENTS));
             }
         }
 
         internal static ILexicalSerializer<LASI.Core.ILexical, object> CreateSerializer() {
             var format = Properties.Settings.Default.OutputFormat;
-            return Content.Serialization.SerializerFactory.Create(format);
+            return SerializerFactory.Create(format);
         }
 
     }

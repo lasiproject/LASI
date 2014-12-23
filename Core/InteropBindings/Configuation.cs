@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Interop
+namespace LASI.Core.Reporting
 {
     /// <summary>
     /// Provides access to resource and performance configuration options.

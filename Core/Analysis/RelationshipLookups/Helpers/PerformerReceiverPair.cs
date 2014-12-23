@@ -34,7 +34,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the current Relationship instance is equal to the specified System.Object.
         /// </summary>
         /// <param name="obj">The Object to compare to.</param>
-        /// <returns>True if the current Relationship is equal to the specified System.Object.</returns>
+        /// <returns> <c>true</c> if the current Relationship is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) {
             return obj is PerformerReceiverPair<TPerformer, TReceiver> &&
                 Performer.Equals((PerformerReceiverPair<TPerformer, TReceiver>)obj) &&
@@ -53,14 +53,14 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first PerformerReceiverPair&lt;TPerformer, TReceiver&gt;.</param>
         /// <param name="right">The second PerformerReceiverPair&lt;TPerformer, TReceiver&gt;.</param>
-        /// <returns>True if the structures are considered equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the structures are considered equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(PerformerReceiverPair<TPerformer, TReceiver> left, PerformerReceiverPair<TPerformer, TReceiver> right) { return left.Equals(right); }
         /// <summary>
         /// Determines if two PerformerReceiverPair&lt;TPerformer, TReceiver&gt; instances are considered unequal.
         /// </summary>
         /// <param name="left">The first PerformerReceiverPair&lt;TPerformer, TReceiver&gt;.</param>
         /// <param name="right">The second PerformerReceiverPair&lt;TPerformer, TReceiver&gt;.</param>
-        /// <returns>True if the structures are considered unequal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the structures are considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(PerformerReceiverPair<TPerformer, TReceiver> left, PerformerReceiverPair<TPerformer, TReceiver> right) { return !(left == right); }
     }
 }

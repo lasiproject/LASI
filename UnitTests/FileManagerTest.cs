@@ -125,13 +125,12 @@ namespace LASI.UnitTests
                     overwrite: true);
             }
             FileManager.ConvertAsNeeded();
-            IEnumerable<InputFile> filesUnconverted =
-                from file in FileManager.DocFiles
-                                        .Concat<InputFile>(FileManager.DocXFiles)
-                                        .Concat<InputFile>(FileManager.PdfFiles)
-                where FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
-                select file;
-            Assert.IsFalse(filesUnconverted.Any());
+            var numberOfUnconvertedFiles =
+                 new IEnumerable<InputFile>[] { FileManager.DocFiles, FileManager.DocXFiles, FileManager.PdfFiles }
+                 .Aggregate(Enumerable.Concat)
+                 .ExceptBy(FileManager.TxtFiles, file => file.NameSansExt)
+                 .Count();
+            Assert.AreEqual(0, numberOfUnconvertedFiles);
         }
 
         /// <summary>
@@ -349,7 +348,7 @@ namespace LASI.UnitTests
             }
             await FileManager.ConvertAsNeededAsync();
             IEnumerable<InputFile> filesUnconverted =
-                from file in FileManager.AllFiles.Except(FileManager.TxtFiles)
+                from file in FileManager.AllFiles.Except(FileManager.TxtFiles).Except(FileManager.TaggedFiles)
                 where !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
                 select file;
             Assert.IsFalse(filesUnconverted.Any());
@@ -367,31 +366,37 @@ namespace LASI.UnitTests
                 Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + F.NameSansExt + ".txt"));
         }
 
-        private static IEnumerable<InputFile> GetAllTestFiles() {
-            foreach (var file in GetTestDocFiles())
-                yield return file;
-            foreach (var file in GetTestDocXFiles())
-                yield return file;
-            foreach (var file in GetTestPdfFiles())
-                yield return file;
-            foreach (var file in GetTestTxtFiles())
-                yield return file;
-        }
 
         private static DocFile[] GetTestDocFiles() {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles().Where(i => i.Extension == ".doc").Select(fi => new DocFile(fi.FullName)).ToArray();
+            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+                .EnumerateFiles()
+                .Where(i => i.Extension == ".doc")
+                .Select(fi => new DocFile(fi.FullName))
+                .ToArray();
         }
 
         private static DocXFile[] GetTestDocXFiles() {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles().Where(i => i.Extension == ".docx").Select(fi => new DocXFile(fi.FullName)).ToArray();
+            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+                .EnumerateFiles()
+                .Where(i => i.Extension == ".docx")
+                .Select(fi => new DocXFile(fi.FullName))
+                .ToArray();
         }
 
         private static PdfFile[] GetTestPdfFiles() {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles().Where(i => i.Extension == ".pdf").Select(fi => new PdfFile(fi.FullName)).ToArray();
+            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+                .EnumerateFiles()
+                .Where(i => i.Extension == ".pdf")
+                .Select(fi => new PdfFile(fi.FullName))
+                .ToArray();
         }
 
         private static TxtFile[] GetTestTxtFiles() {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles().Where(i => i.Extension == ".txt").Select(fi => new TxtFile(fi.FullName)).ToArray();
+            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+                .EnumerateFiles()
+                .Where(i => i.Extension == ".txt")
+                .Select(fi => new TxtFile(fi.FullName))
+                .ToArray();
         }
 
         /// <summary>
@@ -407,6 +412,16 @@ namespace LASI.UnitTests
             }
         }
 
+        private static IEnumerable<InputFile> GetAllTestFiles() {
+            foreach (var file in GetTestDocFiles())
+                yield return file;
+            foreach (var file in GetTestDocXFiles())
+                yield return file;
+            foreach (var file in GetTestPdfFiles())
+                yield return file;
+            foreach (var file in GetTestTxtFiles())
+                yield return file;
+        }
         static Func<string, string> mapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
         private TestContext testContextInstance;
         #region Additional test attributes
@@ -430,14 +445,9 @@ namespace LASI.UnitTests
         [TestInitialize()]
         public void MyTestInitialize() {
             FileManager.Initialize(TEST_PROJECT_RELATIVE_PATH);
-            //GetAllTestFiles().ToList().ForEach(file => FileManager.AddFile(file.FullPath));
         }
 
-        ////Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup() {
-        //    FileManager.DecimateProject();
-        //}
+
 
         #endregion
     }

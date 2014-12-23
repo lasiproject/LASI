@@ -33,7 +33,7 @@ namespace LASI.Core.Heuristics
             /// Determines if provided text is in the set of Female or Male first names.
             /// </summary>
             /// <param name="text">The text to check.</param>
-            /// <returns>True if the provided text is in the set of Female or Male first names; otherwise, false.</returns>
+            /// <returns> <c>true</c> if the provided text is in the set of Female or Male first names; otherwise, <c>false</c>.</returns>
             public bool IsFirstName(string text) {
                 return femaleNames.Count > maleNames.Count ?
                     maleNames.Contains(text) || femaleNames.Contains(text) :
@@ -44,7 +44,7 @@ namespace LASI.Core.Heuristics
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
-            /// <returns>True if the provided string corresponds to a common last name in the English language; otherwise, false.</returns>
+            /// <returns> <c>true</c> if the provided string corresponds to a common last name in the English language; otherwise, <c>false</c>.</returns>
             public bool IsLastName(string text) {
                 return lastNames.Contains(text);
             }
@@ -54,7 +54,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             /// <param name="text">The Name to lookup</param>
             /// <returns>
-            /// True if the provided string corresponds to a common female name in the english language; otherwise, false.
+            /// <c>true</c> if the provided string corresponds to a common female name in the english language; otherwise, <c>false</c>.
             /// </returns>
             public bool IsFemaleFirst(string text) {
                 return femaleNames.Contains(text);
@@ -65,7 +65,7 @@ namespace LASI.Core.Heuristics
             /// </summary>
             /// <param name="text">The Name to lookup</param>
             /// <returns>
-            /// True if the provided string corresponds to a common male name in the English language; otherwise, false.
+            /// <c>true</c> if the provided string corresponds to a common male name in the English language; otherwise, <c>false</c>.
             /// </returns>
             public bool IsMaleFirst(string text) {
                 return maleNames.Contains(text);

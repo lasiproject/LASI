@@ -106,7 +106,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
         public override bool Equals(T x, T y) {
             if (ReferenceEquals(x, null))
                 return ReferenceEquals(y, null);

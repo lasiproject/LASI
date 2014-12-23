@@ -31,7 +31,7 @@ namespace LASI.Core
         /// Determines if the given SentenceEnding is equal to the current instance.
         /// </summary>
         /// <param name="obj">A SentenceEnding to compare with the current instance.</param>
-        /// <returns>True if the given SentenceEnding is equal to the current instance; false otherwise.</returns>
+        /// <returns> <c>true</c> if the given SentenceEnding is equal to the current instance; false otherwise.</returns>
         public override bool Equals(object obj) => obj is SentenceEnding && (SentenceEnding)(obj) == this;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first SentenceEnding to compare.</param>
         /// <param name="right">The second SentenceEnding to compare.</param>
-        /// <returns>True if the Sentence Endings are equal; false otherwise.</returns>
+        /// <returns> <c>true</c> if the Sentence Endings are equal; false otherwise.</returns>
         public static bool operator ==(SentenceEnding left, SentenceEnding right) => left.LiteralCharacter == right.LiteralCharacter;
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first SentenceEnding to compare.</param>
         /// <param name="right">The second SentenceEnding to compare.</param>
-        /// <returns>True if the Sentence Endings are not equal; false otherwise.</returns>
+        /// <returns> <c>true</c> if the Sentence Endings are not equal; false otherwise.</returns>
         public static bool operator !=(SentenceEnding left, SentenceEnding right) => !(left == right);
 
         public static SentenceEnding ExclamationPoint => new SentenceEnding('!');

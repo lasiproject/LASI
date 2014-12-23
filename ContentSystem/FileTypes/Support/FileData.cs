@@ -85,7 +85,7 @@ namespace LASI.Content
         /// Determines if the current instance is equal to the given object.
         /// </summary> 
         /// <param name="obj">The object to equate to the current instance.</param>
-        /// <returns>True if the two instances should be considered equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj) {
             try {
                 return this == (FileData)obj;
@@ -139,7 +139,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="first">The first FileData</param>
         /// <param name="second">The second FileData</param>
-        /// <returns>True if two instances of the FileData structure should be considered equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if two instances of the FileData structure should be considered equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(FileData first, FileData second) {
             return string.Equals(first.FullPathAndExt, second.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
 
@@ -149,7 +149,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
-        /// <returns>True if two instances of the FileData structure should be considered unequal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if two instances of the FileData structure should be considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(FileData A, FileData B) {
             return !(A == B);
         }

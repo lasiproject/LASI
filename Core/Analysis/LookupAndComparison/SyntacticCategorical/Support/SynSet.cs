@@ -54,13 +54,13 @@ namespace LASI.Core.Heuristics.WordNet
         /// Returns a value indicating whether the given word is directly contained within the SynSet.
         /// </summary>
         /// <param name="word">The word to find.</param>
-        /// <returns>True if the given word is directly contained within the Synset; otherwise false.</returns>
+        /// <returns> <c>true</c> if the given word is directly contained within the Synset; otherwise false.</returns>
         public bool ContainsWord(string word) => Words.Contains(word);
         /// <summary>
         /// Returns a value indicating whether the current SynSet directly links to the given SynSet.
         /// </summary>
         /// <param name="other">The SynSet to find.</param>
-        /// <returns>True if the current SynSet directly links to given SynSet; otherwise false.</returns>
+        /// <returns> <c>true</c> if the current SynSet directly links to given SynSet; otherwise false.</returns>
         public bool DirectlyReferences(SynSet<TSetRelationship> other) => ReferencedSet.Contains(other.Id);
 
         public override int GetHashCode() => Id;

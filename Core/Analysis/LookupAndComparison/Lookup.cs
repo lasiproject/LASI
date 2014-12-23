@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics.WordNet;
-using LASI.Core.Interop;
+using LASI.Core.Reporting;
 
 namespace LASI.Core.Heuristics
 {
@@ -133,7 +133,7 @@ namespace LASI.Core.Heuristics
         /// The text to test.
         /// </param>
         /// <returns>
-        /// True if the text is equal to that of a known Common Noun; otherwise, false.
+        /// <c>true</c> if the text is equal to that of a known Common Noun; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsCommon(string nounText) => ScrabbleDictionary.Contains(nounText);
 
@@ -146,8 +146,8 @@ namespace LASI.Core.Heuristics
         /// The ProperNoun to test.
         /// </param>
         /// <returns>
-        /// True if the ProperNoun's text corresponds to a female first name in the English
-        /// language; otherwise, false.
+        /// <c>true</c> if the ProperNoun's text corresponds to a female first name in the English
+        /// language; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsFemaleFirst(this ProperNoun proper) => NameData.IsFemaleFirst(proper.Text);
 
@@ -158,7 +158,7 @@ namespace LASI.Core.Heuristics
         /// The NounPhrase to check.
         /// </param>
         /// <returns>
-        /// True if the provided NounPhrase is a known Full Female Name; otherwise, false.
+        /// <c>true</c> if the provided NounPhrase is a known Full Female Name; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsFemaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsFemale();
 
@@ -169,7 +169,7 @@ namespace LASI.Core.Heuristics
         /// The ProperNoun to check.
         /// </param>
         /// <returns>
-        /// True if the provided ProperNoun is a FirstName; otherwise, false.
+        /// <c>true</c> if the provided ProperNoun is a FirstName; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsFirstName(this ProperNoun proper) => NameData.IsFirstName(proper.Text);
 
@@ -182,8 +182,8 @@ namespace LASI.Core.Heuristics
         /// The ProperNoun to check.
         /// </param>
         /// <returns>
-        /// True if the ProperNoun's text corresponds to a last name in the English language;
-        /// otherwise, false.
+        /// <c>true</c> if the ProperNoun's text corresponds to a last name in the English language;
+        /// otherwise, <c>false</c>.
         /// </returns>
         public static bool IsLastName(this ProperNoun proper) => NameData.IsLastName(proper.Text);
 
@@ -196,8 +196,8 @@ namespace LASI.Core.Heuristics
         /// The ProperNoun to test.
         /// </param>
         /// <returns>
-        /// True if the ProperNoun's text corresponds to a male first name in the English language;
-        /// otherwise, false.
+        /// <c>true</c> if the ProperNoun's text corresponds to a male first name in the English language;
+        /// otherwise, <c>false</c>.
         /// </returns>
         public static bool IsMaleFirst(this ProperNoun proper) => NameData.IsMaleFirst(proper.Text);
 
@@ -208,7 +208,7 @@ namespace LASI.Core.Heuristics
         /// The NounPhrase to check.
         /// </param>
         /// <returns>
-        /// True if the provided NounPhrase is a known Full Male Name; otherwise, false.
+        /// <c>true</c> if the provided NounPhrase is a known Full Male Name; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsMaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
 
@@ -222,7 +222,7 @@ namespace LASI.Core.Heuristics
         /// The second Noun
         /// </param>
         /// <returns>
-        /// True if the Noun instances are synonymous; otherwise, false.
+        /// <c>true</c> if the Noun instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
         /// There are two calling conventions for this method. See the following examples:
@@ -245,7 +245,7 @@ namespace LASI.Core.Heuristics
         /// The second Verb
         /// </param>
         /// <returns>
-        /// True if the Verb instances are synonymous; otherwise, false.
+        /// <c>true</c> if the Verb instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
         /// There are two calling conventions for this method. See the following examples:
@@ -268,7 +268,7 @@ namespace LASI.Core.Heuristics
         /// The second Adjective
         /// </param>
         /// <returns>
-        /// True if the Adjective instances are synonymous; otherwise, false.
+        /// <c>true</c> if the Adjective instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
         /// There are two calling conventions for this method. See the following examples:
@@ -291,7 +291,7 @@ namespace LASI.Core.Heuristics
         /// The second Adverb
         /// </param>
         /// <returns>
-        /// True if the Adverb instances are synonymous; otherwise, false.
+        /// <c>true</c> if the Adverb instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsSynonymFor(this Adverb first, Adverb second) => first?.GetSynonyms().Contains(second?.Text) ?? false;
 

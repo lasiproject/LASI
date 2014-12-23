@@ -20,7 +20,7 @@ namespace LASI.Core
         /// <param name="element">The element to search for.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
-        /// <returns>True if the sequence contains the given element; otherwise, false.</returns> 
+        /// <returns> <c>true</c> if the sequence contains the given element; otherwise, <c>false</c>.</returns> 
         /// <example>
         /// <code>
         /// var myNPs = myDoc.Phrases.OfNounPhrase();
@@ -92,7 +92,7 @@ namespace LASI.Core
         /// <param name="first">The left hand sequence of TLexicals to compare.</param>
         /// <param name="second">The right hand sequence of TLexicals to compare.</param>
         /// <param name="comparison">A function to compare two TLexicals for equality. This will be applied a single time to each pair of inputs.</param>
-        /// <returns>True if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function; otherwise, false.
+        /// <returns> <c>true</c> if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function; otherwise, <c>false</c>.
         /// </returns>
         public static bool SequenceEqual<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return first.SequenceEqual(second, LexicalComparers.Create(comparison));
@@ -174,7 +174,7 @@ namespace LASI.Core
         /// <param name="element">The element to search for.</param>
         /// <param name="comparison">A function to compare two ILexicals for equality.</param>
         /// <typeparam name="TLexical">Any type which implements the ILexical interface.</typeparam>
-        /// <returns>True if the sequence contains the given element; otherwise, false.</returns> 
+        /// <returns> <c>true</c> if the sequence contains the given element; otherwise, <c>false</c>.</returns> 
         /// <example>
         /// <code>
         /// var myNPs = myDoc.Phrases.OfNounPhrase();
@@ -244,7 +244,7 @@ namespace LASI.Core
         /// <param name="first">The left hand sequence of TLexicals to compare.</param>
         /// <param name="second">The right hand sequence of TLexicals to compare.</param>
         /// <param name="comparison">A function to compare two TLexicals for equality. This will be applied a single time to each pair of inputs.</param>
-        /// <returns>True if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function; otherwise, false.
+        /// <returns> <c>true</c> if the two source sequences are of equal length and their corresponding elements compare equal according to provided Lexical comparison function; otherwise, <c>false</c>.
         /// </returns>
         public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical {
             return first.SequenceEqual(second, LexicalComparers.Create(comparison));

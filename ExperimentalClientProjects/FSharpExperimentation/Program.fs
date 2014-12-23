@@ -10,12 +10,12 @@ open LASI.Interop.ResourceManagement
 open LASI.Core.PatternMatching
 
 let wrapFile (s : string) = 
-    match s.Split('.') |>Seq.last with
+    match s.Split('.') |> Seq.last with
     | "docx" -> DocXFile s :> IRawTextSource
     | "doc" -> DocFile s :> IRawTextSource
     | "txt" -> TxtFile s :> IRawTextSource
     | "pdf" -> PdfFile s :> IRawTextSource
-    | _ ->null
+    | _ -> null
 
 [<EntryPoint>]
 let main argv = 
@@ -41,13 +41,15 @@ let main argv =
             let b = Async.AwaitTask(orchestrator.ProcessAsync())
             return! b
         }
+    
     let docs = Async.RunSynchronously(docTask)
     for doc in docs do
         let toAttack = SimpleVerb("attack")
-        let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> SimilarityResult.op_Implicit (v.IsSimilarTo toAttack))
-        let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals|>Seq.contains e.SubjectOf)
+        let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> Similarity.op_Implicit (v.IsSimilarTo toAttack))
+        let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals |> Seq.contains e.SubjectOf)
         let attackerAttackeePairs = 
-            bellicoseVerbals.WithDirectObject().WithSubject() |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
+            bellicoseVerbals.WithDirectObject().WithSubject() 
+            |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
         do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
         let (|Entity|Referencer|Action|Other|) (lex : ILexical) = 
             match lex with
@@ -55,17 +57,17 @@ let main argv =
             | :? IEntity as e -> Entity e
             | :? IVerbal as a -> Action a
             | _ -> Other lex
+
+        
         let rec bind (head : Phrase) = 
             match head with // process the first phrase in the list
             | Entity e -> 
                 head.Paragraph.Phrases
-                |> Seq.takeWhile (fun x -> not (x = head))
-                |> Seq.filter (fun x -> 
-                       match x with
+                |> Seq.takeWhile ((<>) head)
+                |> Seq.filter (function 
                        | Referencer r -> r.IsGenderEquivalentTo e
                        | _ -> false)
-                |> Seq.iter (fun x -> 
-                       match x with
+                |> Seq.iter (function 
                        | Referencer r -> r.BindAsReferringTo e
                        | _ -> ())
                 printfn "Matched %A" head

@@ -15,7 +15,7 @@ namespace LASI.Interop
     /// Governs the complete analysis and processing of one or more text sources.
     /// Provides synchronous and asynchronous callback based progress reports.
     /// </summary>
-    public sealed class AnalysisOrchestrator : Progress<AnalysisUpdateEventArgs>
+    public sealed class AnalysisOrchestrator : Progress<Core.Reporting.ReportEventArgs>
     {        /// <summary>
              /// Initializes a new instance of the AnalysisController class.
              /// </summary>

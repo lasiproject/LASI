@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using LASI.Core.Interop;
+using LASI.Core.Reporting;
 using LASI.Utilities;
 
 namespace LASI.Core.Heuristics

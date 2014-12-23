@@ -24,7 +24,7 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Gets a value indicating if condition upon which the match is predicated has was satisfied.
         /// </summary>
-        /// <returns>True if condition upon which the match is predicated has was satisfied; false otherwise.</returns>
+        /// <returns> <c>true</c> if condition upon which the match is predicated has was satisfied; false otherwise.</returns>
         protected bool ConditionMet { get; private set; }
         #endregion
     }

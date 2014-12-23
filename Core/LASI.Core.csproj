@@ -108,7 +108,10 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Term.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match2.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
@@ -148,7 +151,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Matcher.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchExtensions.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfRecursiveEnumerableLexicalsExtenstions.cs" />
@@ -192,7 +195,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
     <Compile Include="LexicalStructures\Structural\ILexical.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfDocumentStructureExtensions.cs" />
+    <Compile Include="DocumentStructures\EnumerableOfDocumentStructureExtensions.cs" />
     <Compile Include="DocumentStructures\Paragraph.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfPhraseExtensions.cs" />
     <Compile Include="DocumentStructures\Sentence.cs" />
@@ -207,7 +210,6 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\AdverbLookup.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\NounMorpher.cs" />
-    <Compile Include="Analysis\LookupAndComparison\Support\Exceptions\LookupExceptions.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\CommonNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />

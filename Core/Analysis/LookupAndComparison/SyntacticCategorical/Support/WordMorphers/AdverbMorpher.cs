@@ -106,7 +106,7 @@ namespace LASI.Core.Heuristics
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
             return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
-        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Interop.Concurrency.Max, 2055);
+        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Reporting.Concurrency.Max, 2055);
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };

@@ -138,16 +138,19 @@ namespace LASI
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
             Validator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
             return source.Select(selector)
-                .Aggregate(new {
+                .Aggregate(new
+                {
                     Text = string.Empty,
                     Length = 0L
-                }, (carry, e) => new {
+                }, (carry, e) => new
+                {
                     Text = carry.Text + "\{e}\{delimiters.Item2}\{(carry.Length + e.Length) / lineLength > 0 ? '\n' : ' '}",
                     Length = carry.Length % lineLength
                 },
                 result => "\{delimiters.Item1} \{result.Text.TrimEnd(' ', '\n', delimiters.Item2)} \{delimiters.Item3}"
             );
         }
+        
         #endregion
 
         #region Additional Query Operators
@@ -222,7 +225,7 @@ namespace LASI
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-
+         
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Intersect(second,
                 new CustomComparer<TSource>(
@@ -376,7 +379,7 @@ namespace LASI
         /// <typeparam name="T">Type of the source sequence</typeparam>
         /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
-        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, <c>false</c>.</returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second) {
             return first.Except(second).None();
         }
@@ -388,7 +391,7 @@ namespace LASI
         /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
         /// <param name="comparer">An System.Collections.Generic.IEqualityComparer&lt;TSource&gt; to compare values</param>
-        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, <c>false</c>.</returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer) {
             return first.Except(second).None();
         }
@@ -401,7 +404,7 @@ namespace LASI
         /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>        
         /// <param name="selector">A function which extracts a key from each element by which equality is determined.</param>        
-        /// <returns>True if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, <c>false</c>.</returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
             return first.Select(selector).SetEqual(second.Select(selector));
         }
@@ -531,7 +534,5 @@ namespace LASI
         #endregion
 
     }
-
-
 
 }

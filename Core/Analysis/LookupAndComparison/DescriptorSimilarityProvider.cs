@@ -14,23 +14,23 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IDescriptor</param>
         /// <param name="second">The second IDescriptor</param>
-        /// <returns>True if the given IDescriptor instances are similar; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given IDescriptor instances are similar; otherwise, <c>false</c>.</returns>
         /// <remarks>
         /// are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
         /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return first.Match().Yield<SimilarityResult>()
+        public static Similarity IsSimilarTo(this IDescriptor first, IDescriptor second) {
+            return first.Match().Yield<Similarity>()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
-                    .Then(SimilarityResult.Similar)
-                    .Case((Adjective a1) => second.Match().Yield<SimilarityResult>()
-                           .Case((Adjective a2) => new SimilarityResult(a1.IsSynonymFor(a2)))
+                    .Then(Similarity.Similar)
+                    .Case((Adjective a1) => second.Match().Yield<Similarity>()
+                           .Case((Adjective a2) => new Similarity(a1.IsSynonymFor(a2)))
                            .Case((AdjectivePhrase ap2) => ap2.IsSimilarTo(a1))
                        .Result())
                     .Case((AdjectivePhrase ap1) => second.Match()
-                        .Yield<SimilarityResult>()
+                        .Yield<Similarity>()
                             .Case((AdjectivePhrase ap2) => ap1.IsSimilarTo(ap2))
                             .Case((Adjective a2) => ap1.IsSimilarTo(a2))
                         .Result())
@@ -41,27 +41,27 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Adjective.</param>
         /// <param name="second">The second Adjective.</param>
-        /// <returns>True if the first Adjective is similar to the second; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the first Adjective is similar to the second; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, a2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this Adjective first, Adjective second) {
-            return new SimilarityResult(first.IsSynonymFor(second));
+        public static Similarity IsSimilarTo(this Adjective first, Adjective second) {
+            return new Similarity(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
         /// </summary>
         /// <param name="first">The AdjectivePhrase.</param>
         /// <param name="second">The Adjective.</param>
-        /// <returns>True if the provided AdjectivePhrase is similar to the provided Adjective; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the provided AdjectivePhrase is similar to the provided Adjective; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, a2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this AdjectivePhrase first, Adjective second) {
+        public static Similarity IsSimilarTo(this AdjectivePhrase first, Adjective second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -69,32 +69,32 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Adjective.</param>
         /// <param name="second">The AdjectivePhrase.</param>
-        /// <returns>True if the provided Adjective is similar to the provided AdjectivePhrase; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the provided Adjective is similar to the provided AdjectivePhrase; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, ap2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this Adjective first, AdjectivePhrase second) {
-            return new SimilarityResult(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
+        public static Similarity IsSimilarTo(this Adjective first, AdjectivePhrase second) {
+            return new Similarity(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
         /// <summary>
         /// Determines if two AdjectivePhrase are similar.
         /// </summary>
         /// <param name="first">The first AdjectivePhrase</param>
         /// <param name="second">The second AdjectivePhrase</param>
-        /// <returns>True if the given AdjectivePhrase are similar; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given AdjectivePhrase are similar; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
+        public static Similarity IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
             var result = first.Words
                 .OfAdjective()
                 .Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
                 .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });
-            return new SimilarityResult(first == second || ((float)(result.T / result.F + result.T) > SIMILARITY_THRESHOLD));
+            return new Similarity(first == second || ((float)(result.T / result.F + result.T) > SIMILARITY_THRESHOLD));
         }
     }
 }

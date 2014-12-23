@@ -3,10 +3,10 @@
 namespace LASI.Interop
 {
     /// <summary>
-    /// A LASI.Core.Interop.Reporting.ReportEventArgs implementation providing updates on an ongoing operation.
+    /// A LASI.Core.Reporting.Reporting.ReportEventArgs implementation providing updates on an ongoing operation.
     /// </summary>
     [Serializable]
-    public class AnalysisUpdateEventArgs : Core.Interop.ReportEventArgs
+    public class AnalysisUpdateEventArgs : Core.Reporting.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the ProgressReportEventArgs class.

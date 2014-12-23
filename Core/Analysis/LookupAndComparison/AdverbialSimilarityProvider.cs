@@ -14,14 +14,14 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first IAdverbial</param>
         /// <param name="second">The second IAdverbial</param>
-        /// <returns>True if the given IAdverbial instances are similar; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given IAdverbial instances are similar; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples
         /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code> 
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this IAdverbial first, IAdverbial second) {
-            return new SimilarityResult(
+        public static Similarity IsSimilarTo(this IAdverbial first, IAdverbial second) {
+            return new Similarity(
                 first.Text.EqualsIgnoreCase(second.Text) ||
                 first.Match().Yield<bool>()
                     .Case((Adverb a1) =>
@@ -41,27 +41,27 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first Adverb.</param>
         /// <param name="second">The second Adverb.</param>
-        /// <returns>True if the first Adverb is similar to the second; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the first Adverb is similar to the second; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, a2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this Adverb first, Adverb second) {
-            return new SimilarityResult(first.IsSynonymFor(second));
+        public static Similarity IsSimilarTo(this Adverb first, Adverb second) {
+            return new Similarity(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdverbPhrase is similar to the provided Adverb.
         /// </summary>
         /// <param name="first">The AdverbPhrase.</param>
         /// <param name="second">The Adjective.</param>
-        /// <returns>True if the provided AdverbPhrase is similar to the provided Adverb; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the provided AdverbPhrase is similar to the provided Adverb; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, a2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this AdverbPhrase first, Adverb second) {
+        public static Similarity IsSimilarTo(this AdverbPhrase first, Adverb second) {
             return second.IsSimilarTo(first);
         }
         /// <summary>
@@ -69,14 +69,14 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The Adverb.</param>
         /// <param name="second">The AdverbPhrase.</param>
-        /// <returns>True if the provided Adverb is similar to the provided AdverbPhrase; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the provided Adverb is similar to the provided AdverbPhrase; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(a1, ap2) ) { ... }</code>
         /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this Adverb first, AdverbPhrase second) {
-            return new SimilarityResult(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
+        public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) {
+            return new Similarity(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
         /// <summary>
@@ -84,17 +84,17 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="first">The first AdverbPhrase</param>
         /// <param name="second">The second AdverbPhrase</param>
-        /// <returns>True if the given AdverbPhrases are similar; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given AdverbPhrases are similar; otherwise, <c>false</c>.</returns>
         /// <remarks>There are two calling conventions for this method. See the following examples:
         /// <code>if ( Lookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
         /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
         /// Please prefer the second convention.
         /// </remarks>
-        public static SimilarityResult IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
+        public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
             var synonymResults = first.Words.OfAdverb()
                 .Zip(second.Words.OfAdverb(), (a, b) => a.IsSynonymFor(b))
                 .ToList();
-            return new SimilarityResult(first == second || (double)synonymResults.Count(result => result) / synonymResults.Count > SIMILARITY_THRESHOLD);
+            return new Similarity(first == second || (double)synonymResults.Count(result => result) / synonymResults.Count > SIMILARITY_THRESHOLD);
         }
     }
 }

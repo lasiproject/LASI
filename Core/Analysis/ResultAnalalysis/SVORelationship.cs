@@ -68,13 +68,13 @@ namespace LASI.Core
         /// Determines if the current SvoRelationship instance is equal to another SvoRelationship instance.
         /// </summary>
         /// <param name="other">The SvoRelationship to compare to.</param>
-        /// <returns>True if the current Relationship is equal to the supplied SvoRelationship.</returns>
+        /// <returns> <c>true</c> if the current Relationship is equal to the supplied SvoRelationship.</returns>
         public bool Equals(SvoRelationship other) { return other != null && this == other; }
         /// <summary>
         /// Determines if the current SvoRelationship instance is equal to the specified System.Object.
         /// </summary>
         /// <param name="obj">The System.Object to compare to.</param>
-        /// <returns>True if the current SvoRelationship is equal to the specified System.Object.</returns>
+        /// <returns> <c>true</c> if the current SvoRelationship is equal to the specified System.Object.</returns>
         public override bool Equals(object obj) { return this == obj as SvoRelationship; }
         /// <summary>
         /// Gets a hash code for the current Relationship instance.
@@ -86,7 +86,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns>True if the SvoRelationship instances are considered equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(SvoRelationship left, SvoRelationship right) {
             if (ReferenceEquals(left, null)) {
                 return ReferenceEquals(right, null);
@@ -105,7 +105,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="left">The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns>True if the SvoRelationship instances are considered unequal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(SvoRelationship left, SvoRelationship right) {
             return !(left == right);
         }

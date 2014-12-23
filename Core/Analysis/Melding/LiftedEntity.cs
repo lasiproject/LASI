@@ -29,9 +29,9 @@ namespace LASI.Core.Analysis.Melding
             directObjectsOfVerbals = FlattenAbout(entity => entity.DirectObjectOf).ToAggregate();
             indirectObjectsOfVerbals = FlattenAbout(entity => entity.IndirectObjectOf).ToAggregate();
             subjectsOfVerbals = FlattenAbout(entity => entity.SubjectOf).ToAggregate();
-            possessions = FlattenAbout(entity => entity.Possessions).ToHashSet();
-            descriptors = FlattenAbout(entity => entity.Descriptors).ToHashSet();
-            referencers = FlattenAbout(entity => entity.Referencers).ToHashSet();
+            possessions = FlattenAbout(entity => entity.Possessions).ToImmutableHashSet();
+            descriptors = FlattenAbout(entity => entity.Descriptors).ToImmutableHashSet();
+            referencers = FlattenAbout(entity => entity.Referencers).ToImmutableHashSet();
         }
         public void BindDescriptor(IDescriptor descriptor) {
             descriptors.Add(descriptor);
@@ -67,9 +67,9 @@ namespace LASI.Core.Analysis.Melding
             set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
 
-        public IEnumerable<IReferencer> Referencers { get { return referencers; } }
+        public IEnumerable<IReferencer> Referencers => referencers;
 
-        public IEnumerable<IPossessable> Possessions { get { return possessions; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
 
         public IPossesser Possesser { get; set; }
 
@@ -79,12 +79,18 @@ namespace LASI.Core.Analysis.Melding
 
         public string Text { get { return representative.Text; } }
 
-        public double Weight { get { return represented.Average(w => w.Weight); } set { represented.ToList().ForEach(entity => entity.Weight = value); } }
+        public double Weight {
+            get { return represented.Average(w => w.Weight); }
+            set { represented.ToList().ForEach(entity => entity.Weight = value); }
+        }
 
-        public double MetaWeight { get { return represented.Average(w => w.MetaWeight); } set { represented.ToList().ForEach(entity => entity.MetaWeight = value); } }
+        public double MetaWeight {
+            get { return represented.Average(w => w.MetaWeight); }
+            set { represented.ToList().ForEach(entity => entity.MetaWeight = value); }
+        }
 
 
-        #region Private Helper Methods
+        #region Helper Methods
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) {
             return represented
@@ -97,18 +103,19 @@ namespace LASI.Core.Analysis.Melding
                 .Where(result => result != null);
         }
 
-        #endregion
+        #endregion Private Helper Methods
 
         #region Fields
+
         private IAggregateVerbal directObjectsOfVerbals;
         private IAggregateVerbal indirectObjectsOfVerbals;
         private IAggregateVerbal subjectsOfVerbals;
         private readonly IEntity representative;
         private readonly IEnumerable<IEntity> represented;
-        private readonly ISet<IPossessable> possessions;
-        private readonly ISet<IReferencer> referencers;
-        private readonly ISet<IDescriptor> descriptors;
+        private readonly IImmutableSet<IPossessable> possessions;
+        private readonly IImmutableSet<IReferencer> referencers;
+        private readonly IImmutableSet<IDescriptor> descriptors;
 
-        #endregion
+        #endregion Fields
     }
 }

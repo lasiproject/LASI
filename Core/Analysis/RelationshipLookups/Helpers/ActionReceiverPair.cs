@@ -30,7 +30,7 @@ namespace LASI.Core.Heuristics
         /// Determines if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object.
         /// </summary>
         /// <param name="obj">The object to compare for equality.</param>
-        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object, otherwise false.</returns>
+        /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object, otherwise false.</returns>
         public override bool Equals(object obj) {
             return obj is ActionReceiverPair<TVerbal, TEntity> &&
                 Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) &&
@@ -63,7 +63,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
-        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
             return left.Equals(right);
         }
@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
-        /// <returns>True if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
             return !(left == right);
         }

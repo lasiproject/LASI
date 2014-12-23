@@ -265,17 +265,5 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }
-
-        /// <summary>
-        ///A test for TaggerMode
-        ///</summary>
-        [TestMethod]
-        public void TaggerModeTest() {
-            TaggerMode expected = TaggerMode.FullyNestingParse;
-            TaggerMode actual;
-            Tagger.TaggerMode = expected;
-            actual = Tagger.TaggerMode;
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

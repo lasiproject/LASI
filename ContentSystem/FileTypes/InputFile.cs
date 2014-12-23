@@ -72,7 +72,7 @@ namespace LASI.Content
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
-        /// <returns>True if the specified object is equal to the current InputFile; otherwise, false.</returns> 
+        /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
         public override bool Equals(object obj) {
             return this == obj as InputFile;
         }
@@ -95,7 +95,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="left">The InputFile on the left.</param>
         /// <param name="right">The InputFile on the right.</param>
-        /// <returns>True if the InputFile on the left is equal to the InputFile on the right.</returns>
+        /// <returns> <c>true</c> if the InputFile on the left is equal to the InputFile on the right.</returns>
         public static bool operator ==(InputFile left, InputFile right) {
             if (left as object == null && right as object == null) {
                 return true;
@@ -110,7 +110,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="left">The InputFile on the left.</param>
         /// <param name="right">The InputFile on the right.</param>
-        /// <returns>True if the InputFile on the left is not equal to the InputFile on the right.</returns>
+        /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) {
             return !(left == right);
         }

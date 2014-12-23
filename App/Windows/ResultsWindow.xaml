@@ -86,15 +86,15 @@
             </MenuItem>
             <Separator HorizontalAlignment="Stretch" />
         </Menu>
-        <Grid Margin="0,0,0,0">
-            <Canvas Name="currentOperationFeedbackCanvas"
+        <!--<Grid Margin="0,0,0,0">-->
+        <Canvas Name="currentOperationFeedbackCanvas"
                     Canvas.Left="10"
                     Height="26"
                     Margin="10,0,10,4"
                     VerticalAlignment="Bottom"
                     Background="White"
                     Visibility="Visible">
-                <Label x:Name="currentOperationLabel"
+            <Label x:Name="currentOperationLabel"
                        Width="auto"
                        Height="26"
                        VerticalAlignment="Center"
@@ -102,7 +102,7 @@
                        FontSize="13.333"
                        OpacityMask="Black"
                        RenderTransformOrigin="0.5,0.5" />
-                <ProgressBar x:Name="currentOperationProgressBar"
+            <ProgressBar x:Name="currentOperationProgressBar"
                              Canvas.Left="0"
                              Canvas.Right="0"
                              Width="772"
@@ -111,13 +111,13 @@
                              HorizontalAlignment="Right"
                              Background="#FFE6E6E6"
                              Foreground="#FFBD2200" />
-            </Canvas>
-            <Canvas Width="152"
+        </Canvas>
+        <Canvas Width="152"
                     Margin="0,20,0,34"
                     HorizontalAlignment="Left"
                     Background="#FFE5E5E5"
                     OpacityMask="#FF5A5A62">
-                <Button x:Name="changeToColumnChartButton"
+            <Button x:Name="changeToColumnChartButton"
                         Canvas.Left="10"
                         Canvas.Top="10"
                         Width="35"
@@ -131,18 +131,18 @@
                         ClipToBounds="True"
                         Padding="10,1,1,1"
                         Style="{DynamicResource ChangeChartTypeColumn}">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                    </Button.BorderBrush>
-                </Button>
-                <Button x:Name="printButton"
+                <Button.BorderBrush>
+                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="printButton"
                         Canvas.Left="10"
                         Canvas.Top="61"
                         Width="35"
                         Height="35"
                         Click="PrintButton_Click_1"
                         Style="{DynamicResource ControlStyle1}" />
-                <Button x:Name="changeToBarChartButton"
+            <Button x:Name="changeToBarChartButton"
                         Canvas.Left="53"
                         Canvas.Top="10"
                         Width="35"
@@ -152,11 +152,11 @@
                         Content="Button"
                         Padding="10,1,1,1"
                         Style="{DynamicResource ChangeChartTypeBar}">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                    </Button.BorderBrush>
-                </Button>
-                <Button x:Name="documentJoinButton"
+                <Button.BorderBrush>
+                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="documentJoinButton"
                         Canvas.Left="53"
                         Canvas.Top="61"
                         Width="35"
@@ -171,7 +171,7 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ToolTip="Join two or more documents to see their thematic intersection displayed in the Meta View tab." />
-                <Button x:Name="exportButton"
+            <Button x:Name="exportButton"
                         Canvas.Left="53"
                         Canvas.Top="122"
                         Width="35"
@@ -183,32 +183,32 @@
                         Content="Export"
                         FontSize="9"
                         Visibility="Hidden" />
-                <Button x:Name="changeToAreaChartButton"
+            <Button x:Name="changeToAreaChartButton"
                         Canvas.Left="58"
                         Canvas.Top="94"
                         Width="53"
                         Height="45"
                         Content="Button"
                         Visibility="Hidden" />
-                <Button x:Name="changeToPieChartButton"
+            <Button x:Name="changeToPieChartButton"
                         Canvas.Left="95"
                         Canvas.Top="10"
                         Width="35"
                         Height="35"
                         Style="{DynamicResource ChangeChartTypePie}">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Opacity="0.3" Color="#FF707070" />
-                    </Button.BorderBrush>
-                </Button>
-                <Button x:Name="changeToLineChartButton"
+                <Button.BorderBrush>
+                    <SolidColorBrush Opacity="0.3" Color="#FF707070" />
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="changeToLineChartButton"
                         Canvas.Left="98"
                         Canvas.Top="189"
                         Width="35"
                         Height="35"
                         Content="Button"
                         Visibility="Hidden" />
-            </Canvas>
-        </Grid>
+        </Canvas>
+        <!--</Grid>-->
         <TabControl x:Name="ResultsTabControl"
                     Margin="152,20,0,34"
                     ClipToBounds="True"

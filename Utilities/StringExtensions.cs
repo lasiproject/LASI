@@ -19,7 +19,7 @@ namespace LASI
         /// Indicates whether the given string is null, empty, or consists only of white-space characters.
         /// </summary>
         /// <param name="value">The string to test.</param>
-        /// <returns>true if the value parameter is null or System.String.Empty, or if value consists exclusively of white-space characters.
+        /// <returns> <c>true</c> if the value parameter is null or System.String.Empty, or if value consists exclusively of white-space characters.
         ///</returns>
         public static bool IsNullOrWhiteSpace(this string value) => string.IsNullOrWhiteSpace(value);
 
@@ -92,7 +92,7 @@ namespace LASI
         /// </summary>
         /// <param name="value">The first string to compare.</param>
         /// <param name="other">The second string to compare</param>
-        /// <returns>True if the given strings are equal; otherwise, false.</returns>
+        /// <returns> <c>true</c> if the given strings are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
         public static bool EqualsIgnoreCase(this string value, string other) {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);

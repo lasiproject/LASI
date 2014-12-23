@@ -45,17 +45,15 @@ namespace LASI.Core.PatternMatching
         /// </summary> 
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then(Action action) {
-            return ConditionMet ? inner.Case<T>(action) : inner;
-        }
+        public Match<T> Then(Action action) => ConditionMet ? inner.Case<T>(action) : inner;
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked on the value being matched over.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then(Action<T> action) {
-            return ConditionMet ? inner.Case(action) : inner;
-        }
+        public Match<T> Then(Action<T> action) => ConditionMet ? inner.Case(action) : inner;
+
         #region Fields
         private Match<T> inner;
         #endregion
@@ -88,8 +86,7 @@ namespace LASI.Core.PatternMatching
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TPattern>(TResult result)
-             where TPattern : class, ILexical {
+        public Match<T, TResult> Then<TPattern>(TResult result) where TPattern : class, ILexical {
             return ConditionMet ? inner.Case<TPattern>(result) : inner;
         }
         /// <summary>
@@ -98,8 +95,7 @@ namespace LASI.Core.PatternMatching
         /// <typeparam name="TPattern">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TPattern>(Func<TResult> func)
-            where TPattern : class, ILexical {
+        public Match<T, TResult> Then<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
             return ConditionMet ? inner.Case<TPattern>(func) : inner;
         }
         /// <summary>
@@ -108,8 +104,7 @@ namespace LASI.Core.PatternMatching
         /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public Match<T, TResult> Then<TPattern>(Func<TPattern, TResult> func)
-            where TPattern : class, ILexical {
+        public Match<T, TResult> Then<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
             return ConditionMet ? inner.Case(func) : inner;
         }
         /// <summary>
@@ -117,25 +112,21 @@ namespace LASI.Core.PatternMatching
         /// </summary>
         /// <param name="func">The function whose which will be called on the value being matched over to produce the result of the Then expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(Func<T, TResult> func) {
-            return ConditionMet ? inner.Case(func) : inner;
-        }
+        public Match<T, TResult> Then(Func<T, TResult> func) => ConditionMet ? inner.Case(func) : inner;
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="result">The value which, if this Then expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(TResult result) {
-            return ConditionMet ? inner.Case<T>(result) : inner;
-        }
+        public Match<T, TResult> Then(TResult result) => ConditionMet ? inner.Case<T>(result) : inner;
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then(Func<TResult> func) {
-            return ConditionMet ? inner.Case<T>(func) : inner;
-        }
+        public Match<T, TResult> Then(Func<TResult> func) => ConditionMet ? inner.Case<T>(func) : inner;
 
         #endregion
 
