@@ -28,7 +28,7 @@ namespace LASI.WebApp.Controllers.Tests
 
             var job = new JobStatus("parsing", 10, id);
             var json = job.ToJson();
-            Assert.AreEqual(string.Format("{{\"{0}\":{1},\"{2}\":\"{3}\",\"{4}\":{5:0.0}}}", "jobId", job.Id, "message", job.Message, "percent", job.Percent), json);
+            Assert.AreEqual(string.Format("{{\"{0}\":{1},\"{2}\":\"{3}\",\"{4}\":{5:0.0}}}", "id", job.Id, "message", job.Message, "percent", job.Percent), json);
             var deserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<JobStatus>(json, new Newtonsoft.Json.JsonSerializerSettings
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()

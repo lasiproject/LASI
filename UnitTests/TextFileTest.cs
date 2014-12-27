@@ -93,12 +93,16 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetTextAsyncTest() {
+            GetTextAsyncTestHelper().Wait();
+        }
+
+        private async Task GetTextAsyncTestHelper() {
             string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(target.FullPath).ReadToEndAsync().Result;
             string actual = null;
 
-            Task.Run(async () => actual = await target.GetTextAsync()).Wait();
+            actual = await target.GetTextAsync();
             Assert.AreEqual(expected, actual);
         }
     }

@@ -20,13 +20,13 @@ interface Array<T> {
     correlate<TInner, TOuterKey, TInnerKey, TResult>(inner: TInner[], outerKeySelector: (o: T) => TOuterKey, innerKeySelector: (i: TInner) => TInnerKey, resultSelector?: (o: T, i: TInner) => TResult): TResult[];
     /**
      * Computes the sum of all elements of the Array.
-     * If the array is empty, the result will be Nan.
+     * If the array is empty, the result will be 0.
      * @param valueSelector A function to produce a numeric value from each element.
      */
     sum(valueSelector?: (element: T) => number): number;
     /**
      * Computes the average of all elements of the Array.
-     * If the array is empty, the result will be Nan.
+     * If the array is empty, the result will be 0.
      * @param valueSelector A function to produce a numeric value from each element.
      */
     average(valueSelector?: (element: T) => number): number;

@@ -32,7 +32,7 @@ namespace LASI.WebApp
         /// Returns the Job serialized as a JSON string.
         /// </summary>
         /// <returns>The Job serialized as a JSON string.</returns>
-        public string ToJson() => JsonConvert.SerializeObject(this);
+        public string ToJson() => JsonConvert.SerializeObject(this, serializerSettings);
 
 
         public override bool Equals(object obj) => obj is JobStatus && this == (JobStatus)obj;
@@ -45,5 +45,9 @@ namespace LASI.WebApp
         public static bool operator !=(JobStatus left, JobStatus right) {
             return !(left == right);
         }
+        private static readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            MissingMemberHandling = MissingMemberHandling.Error
+        };
     }
 }

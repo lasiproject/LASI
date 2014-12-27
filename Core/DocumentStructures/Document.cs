@@ -11,6 +11,10 @@ namespace LASI.Core
     /// <para> e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order 
     /// comparatively: myDoc.Words; yields the same collection. </para>
     /// </summary>
+    /// <see cref="Page"/>
+    /// <see cref="Paragraph"/>
+    /// <see cref="Sentence"/>
+    /// <see cref="IReifiedTextual"/>
     public sealed class Document : IReifiedTextual
     {
         #region Constructors
@@ -18,9 +22,9 @@ namespace LASI.Core
         /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided name.
         /// </summary>
         /// <param name="content">The collection of paragraphs which contain all text in the document.</param>
-        /// <param name="name">The name for the document.</param>
-        public Document(IEnumerable<Paragraph> content, string name) : this(content) {
-            Name = name;
+        /// <param name="title">The name for the document.</param>
+        public Document(IEnumerable<Paragraph> content, string title) : this(content) {
+            Title = title;
         }
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
@@ -29,57 +33,69 @@ namespace LASI.Core
         public Document(IEnumerable<Paragraph> content) {
             paragraphs = ImmutableList.CreateRange(content);
             enumerationOrHeadingsParagraphs = paragraphs
-                .Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Enumeration || paragraph.ParagraphKind == ParagraphKind.Heading)
+                .Where(p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading)
                 .ToImmutableList();
-            AssignMembers();
-            paragraphs.ForEach(paragraph => paragraph.EstablishParent(this));
-            LinksAdjacentElements();
+            new DocumentReifier(this).Reifiy();
         }
 
-        private void AssignMembers() {
-            sentences = paragraphs
-                .Sentences()
-                .Where(sentence => sentence.Words.OfVerb().Any())
-                .ToImmutableList();
-            phrases = sentences.Phrases().ToImmutableList();
-            words = sentences
-                .SelectMany(sentence => sentence.Words.Append(sentence.Ending))
-                .ToImmutableList();
-        }
+
         #endregion
+        /// <summary>
+        /// Handles the setup and management of the interdependent links between elements within the Document.
+        /// </summary>
+        private class DocumentReifier
+        {
+            public void Reifiy() {
+                AssignMembers();
+                document.paragraphs.ForEach(p => p.EstablishParent(document));
+                LinksAdjacentElements();
+            }
+            private readonly Document document;
+            public DocumentReifier(Document source) { this.document = source; }
+            private void AssignMembers() {
+                document.sentences = document.paragraphs
+                     .Sentences()
+                     .Where(sentence => sentence.Words.OfVerb().Any())
+                     .ToImmutableList();
+                document.phrases = document.sentences.Phrases()
+                    .ToImmutableList();
+                document.words = document.sentences
+                    .SelectMany(s => s.Words.Append(s.Ending))
+                    .ToImmutableList();
+            }
+
+            /// <summary>
+            /// Establishes the linear linkages between all adjacent words and phrases in the Document.
+            /// </summary>
+            private void LinksAdjacentElements() {
+                LinksAdjacentWords();
+                LinksAdjacentPhrases();
+            }
+            private void LinksAdjacentWords() {
+                if (document.words.Count > 1) {
+                    var indexOfLast = 0;
+                    for (var i = 1; i < document.words.Count; ++i) {
+                        document.words[i].PreviousWord = document.words[i - 1];
+                        document.words[i - 1].NextWord = document.words[i];
+                        indexOfLast = i;
+                    }
+                    if (indexOfLast > 0) {
+                        var lastWord = document.words[indexOfLast];
+                        lastWord.PreviousWord = document.words[indexOfLast - 1];
+                    }
+                }
+            }
+            private void LinksAdjacentPhrases() {
+                if (document.phrases.Count > 1) {
+                    for (var i = 1; i < document.phrases.Count; ++i) {
+                        document.phrases[i].PreviousPhrase = document.phrases[i - 1];
+                        document.phrases[i - 1].NextPhrase = document.phrases[i];
+                    }
+                }
+            }
+        }
 
         #region Methods
-
-        /// <summary>
-        /// Establishes the linear linkages between all adjacent words and phrases in the Document.
-        /// </summary>
-        private void LinksAdjacentElements() {
-            LinksAdjacentWords();
-            LinksAdjacentPhrases();
-        }
-        private void LinksAdjacentWords() {
-            if (words.Count > 1) {
-                var indexOfLast = 0;
-                for (var i = 1; i < words.Count; ++i) {
-                    words[i].PreviousWord = words[i - 1];
-                    words[i - 1].NextWord = words[i];
-                    indexOfLast = i;
-                }
-                if (indexOfLast > 0) {
-                    var lastWord = words[indexOfLast];
-                    lastWord.PreviousWord = words[indexOfLast - 1];
-                }
-            }
-        }
-        private void LinksAdjacentPhrases() {
-            if (phrases.Count > 1) {
-                for (var i = 1; i < phrases.Count; ++i) {
-                    phrases[i].PreviousPhrase = phrases[i - 1];
-                    phrases[i - 1].NextPhrase = phrases[i];
-                }
-            }
-        }
-
 
         /// <summary>
         /// Returns all of the verbals identified within the document.
@@ -96,15 +112,12 @@ namespace LASI.Core
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
         /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
-        public IEnumerable<ILexical> Lexicals {
-            get {
-                foreach (var lexical in words)
-                    yield return lexical;
-                foreach (var lexical in phrases)
-                    yield return lexical;
-                foreach (var lexical in Clauses)
-                    yield return lexical;
-            }
+        public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = EnumerateAllLexicals().ToImmutableList());
+
+        private IEnumerable<ILexical> EnumerateAllLexicals() {
+            foreach (var lexical in words) { yield return lexical; }
+            foreach (var lexical in phrases) { yield return lexical; }
+            foreach (var lexical in Clauses) { yield return lexical; }
         }
 
         /// <summary>
@@ -152,7 +165,7 @@ namespace LASI.Core
         /// Returns a string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.
         /// </summary>
         /// <returns>A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting in the instance's full materialization and reification.</returns>
-        public override string ToString() => GetType() + ":  " + Name + "\nParagraphs: \n" + Paragraphs.Format();
+        public override string ToString() => GetType() + ":  " + Title + "\nParagraphs: \n" + Paragraphs.Format();
 
         #endregion
 
@@ -163,11 +176,10 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<Sentence> Sentences => sentences;
 
-
         /// <summary>
         /// Gets the Paragraphs of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs => paragraphs.Where(paragraph => paragraph.ParagraphKind == ParagraphKind.Default);
+        public IEnumerable<Paragraph> Paragraphs => paragraphs.Where(p => p.ParagraphKind == ParagraphKind.Default);
 
 
         /// <summary>
@@ -186,7 +198,7 @@ namespace LASI.Core
         /// <summary>
         /// The name of the file the Document was parsed from.
         /// </summary>
-        public string Name { get; set; }
+        public string Title { get; }
         /// <summary>
         /// Gets the text content of the Document.
         /// </summary>
@@ -195,11 +207,17 @@ namespace LASI.Core
         #endregion
 
         #region Fields
+
         private ImmutableList<Word> words;
         private ImmutableList<Phrase> phrases;
+
+        private IImmutableList<ILexical> lexicals;
+
         private ImmutableList<Sentence> sentences;
+
         private ImmutableList<Paragraph> paragraphs;
         private ImmutableList<Paragraph> enumerationOrHeadingsParagraphs;
+
         #endregion
 
 
@@ -218,7 +236,7 @@ namespace LASI.Core
                 Sentences = sentences;
             }
             internal Page(IEnumerable<Paragraph> paragraphs, Document document)
-                : this(paragraphs.SelectMany(paragraph => paragraph.Sentences), document) {
+                : this(paragraphs.SelectMany(p => p.Sentences), document) {
             }
             /// <summary>
             /// Gets the Paragraphs which comprise the Page.
@@ -226,7 +244,7 @@ namespace LASI.Core
             public IEnumerable<Paragraph> Paragraphs {
                 get {
                     return Sentences
-                        .Select(sentence => sentence.Paragraph)
+                        .Select(s => s.Paragraph)
                         .Distinct()
                         .OrderBy(Document.paragraphs.IndexOf);
                 }
@@ -246,11 +264,11 @@ namespace LASI.Core
 
             public IEnumerable<Word> Words => Sentences.Words();
 
-            public IEnumerable<ILexical> Lexicals => Sentences.SelectMany(sentence => sentence.Lexicals);
+            public IEnumerable<ILexical> Lexicals => Sentences.SelectMany(s => s.Lexicals);
 
-            public IEnumerable<IEntity> Entities => Sentences.SelectMany(sentence => sentence.Entities);
+            public IEnumerable<IEntity> Entities => Sentences.SelectMany(s => s.Entities);
 
-            public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(sentence => sentence.Verbals);
+            public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(s => s.Verbals);
 
             /// <summary>
             /// Gets the text content of the Page.

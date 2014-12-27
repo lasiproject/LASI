@@ -113,7 +113,7 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.
         /// </returns>
-        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && this.GetSynonyms().Contains("is", ignoreCase);
+        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && this.GetSynonyms().Contains("be", ignoreCase);
 
         #endregion Methods
 

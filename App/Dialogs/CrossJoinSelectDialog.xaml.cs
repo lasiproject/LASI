@@ -22,7 +22,7 @@ namespace LASI.App.Dialogs
             foreach (var doc in owner.Documents) {
                 var docCheckBox = new CheckBox
                 {
-                    Content = doc.Name,
+                    Content = doc.Title,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
                 docCheckBox.Checked += (sender, e) => {

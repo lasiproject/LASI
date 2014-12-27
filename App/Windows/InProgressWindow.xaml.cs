@@ -24,8 +24,6 @@ namespace LASI.App
             ConfigureOptions();
         }
 
-
-
         private void ConfigureOptions() {
             SetPlatformSpecificStyling();
         }
@@ -46,23 +44,16 @@ namespace LASI.App
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
         public async Task ParseDocuments() {
-
             var resourceLoadingNotifier = new ResourceNotifier();
-            Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoading += handler, handler => resourceLoadingNotifier.ResourceLoading -= handler)
-                  //.Throttle(TimeSpan.FromMilliseconds(1))
-                  .Subscribe(e => ProgressUpdated(this, e.EventArgs));
-            Observable.FromEventPattern<ResourceLoadEventArgs>(d => resourceLoadingNotifier.ResourceLoaded += d, d => resourceLoadingNotifier.ResourceLoaded -= d)
-                            //.Throttle(TimeSpan.FromMilliseconds(1))
-                            .Subscribe(e => ProgressUpdated(this, e.EventArgs));
+            var resourceLoadingEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoading += handler, handler => resourceLoadingNotifier.ResourceLoading -= handler);
 
-            //resourceLoadingNotifier.ResourceLoading += ProgressUpdated;
-            //resourceLoadingNotifier.ResourceLoaded += ProgressUpdated;
+            var resourceLoadedEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoaded += handler, handler => resourceLoadingNotifier.ResourceLoaded -= handler);
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-            //analysisProvider.ProgressChanged += ProgressUpdated;
-            Observable.FromEventPattern<Core.Reporting.ReportEventArgs>(h => analysisProvider.ProgressChanged += h, h => analysisProvider.ProgressChanged -= h)
-                .Subscribe(e => ProgressUpdated(e.Sender, e.EventArgs));
-
+            var analysisUpdates = Observable.FromEventPattern<Core.Reporting.ReportEventArgs>(handler => analysisProvider.ProgressChanged += handler, handler => analysisProvider.ProgressChanged -= handler);
+            resourceLoadedEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
+            resourceLoadingEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
+            analysisUpdates.Subscribe(e => ProgressUpdated(this, e.EventArgs));
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
             progressBar.Value = 100;
@@ -71,7 +62,6 @@ namespace LASI.App
             progressBar.ToolTip = completetionMessage;
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
-            ProcessingCompleted += delegate { NativeMethods.StopFlashing(this); };
             await Task.WhenAll(WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync());
             ProcessingCompleted(this, new EventArgs());
         }

@@ -37,14 +37,18 @@ namespace LASI.Content
         /// <returns>A traversable, queriable LASI.Algorithm.DocumentConstructs.Document instance defining representing the textual constructs of the tagged file which the TaggedSourceParser governs. 
         /// </returns>
         public override Document LoadDocument() {
-            return new Document(LoadParagraphs())
-            {
-                Name = TaggedDocumentFile != null ? TaggedDocumentFile.NameSansExt : "Untitled"
-            };
+            return LoadDocument();
         }
 
+        public virtual Document LoadDocument(string title) {
+            return new Document(
+                content: LoadParagraphs(),
+                title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled");
+        }
 
-
+        public virtual async Task<Document> LoadDocumentAsync(string title) {
+            return await Task.Run(() => LoadDocument(title));
+        }
         public override async Task<Document> LoadDocumentAsync() {
             return await Task.Run(() => LoadDocument());
         }
@@ -113,6 +117,7 @@ namespace LASI.Content
             }
             return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default);
         }
+
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading) {
             hasBulletOrHeading = paragraph.Contains("<enumeration>");

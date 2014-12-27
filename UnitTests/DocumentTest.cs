@@ -313,12 +313,12 @@ namespace LASI.UnitTests
         ///A test for Name
         ///</summary>
         [TestMethod]
-        public void NameTest() {
-            Document target = CreateUnboundUnweightedTestDocument();
+        public void TitleTest() {
+            IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
+            Document target = new Document(allParagrpahs, "testname");
             string expected = "testname";
             string actual;
-            target.Name = expected;
-            actual = target.Name;
+            actual = target.Title;
             Assert.AreEqual(expected, actual);
         }
 
@@ -372,7 +372,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void ToStringTest() {
             Document target = CreateUnboundUnweightedTestDocument();
-            string expected = string.Join(string.Empty, target.GetType(), ":  ", target.Name, "\nParagraphs: \n", target.Paragraphs.Format());
+            string expected = string.Join(string.Empty, target.GetType(), ":  ", target.Title, "\nParagraphs: \n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

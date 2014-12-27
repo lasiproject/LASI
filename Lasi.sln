@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Icons\favicon.ico = Icons\favicon.ico
 		XMLSchemas\ProjectFileEx.xml = XMLSchemas\ProjectFileEx.xml
 		RuleSet1.ruleset = RuleSet1.ruleset
+		Script1.fsx = Script1.fsx
 		TestSettings.runsettings = TestSettings.runsettings
 		tslint.json = tslint.json
 		WebEssentials-Settings.json = WebEssentials-Settings.json

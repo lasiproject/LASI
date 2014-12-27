@@ -27,14 +27,14 @@ interface Array<T> {
 
     /**
      * Computes the sum of all elements of the Array.
-     * If the array is empty, the result will be Nan.
+     * If the array is empty, the result will be 0.
      * @param valueSelector A function to produce a numeric value from each element.
      */
     sum(valueSelector?: (element: T) => number): number;
 
     /**
      * Computes the average of all elements of the Array. 
-     * If the array is empty, the result will be Nan.
+     * If the array is empty, the result will be 0.
      * @param valueSelector A function to produce a numeric value from each element.
      */
     average(valueSelector?: (element: T) => number): number;
@@ -79,8 +79,8 @@ interface String {
      * Arrays instances with it.
      * correlate takes pairs the two arrays of elements based on 
      * the key selector functions, and returns the associated elements as a new array. 
-     * An optional function performs a projection on each element of the resulting flat array.
-     * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
+     * An optional function performs a projection on each pair.
+     * This function is analagous to Join in Linq, and inner join in SQL. 
      */
     if (!Array.prototype.hasOwnProperty('correlate')) {
         Array.prototype.correlate = function <T, TInner, TOuterKey, TInnerKey, TResult>(
@@ -111,7 +111,7 @@ interface String {
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
             var projection = valueSelector || (x => Number(x));
-            return this.length === 0 ? NaN :
+            return this.length === 0 ? 0 :
                 this.reduce((total, element, index) => total + projection(element), 0);
         };
     }

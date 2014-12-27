@@ -11,7 +11,6 @@ using Newtonsoft.Json.Linq;
 
 namespace LASI.Content.Serialization.Json.Tests
 {
-    using Test = TestMethodAttribute;
     [TestClass]
     public class SerializationExtensionsTests
     {

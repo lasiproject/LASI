@@ -99,7 +99,7 @@ namespace LASI.Interop
             foreach (var bindingTask in document.GetBindingTasks()) {
                 Progress(bindingTask.InitializationMessage, 0);
                 await bindingTask.Task;
-                Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.58 / sourceCount);
+                Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.71 / sourceCount);
             }
             Progress("\{name}: Correlating Relationships...", 0);
             foreach (var task in document.GetWeightingTasks()) {

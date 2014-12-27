@@ -16,7 +16,7 @@ namespace LASI.Core
         /// <param name="text">The text content of the noun.</param>
         public CommonSingularNoun(string text)
             : base(text) {
-            EntityKind = EntityKind.ThingMultiple;
+            EntityKind = EntityKind.Thing;
         }
     }
 }

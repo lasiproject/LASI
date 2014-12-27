@@ -212,7 +212,8 @@ namespace LASI.UnitTests
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
             IVerbal expected = new VerbPhrase(new SimpleVerb("eat"));
-            IVerbal actual = target.DirectObjectOf; target.DirectObjectOf = expected;
+            IVerbal actual = target.DirectObjectOf;
+            target.DirectObjectOf = expected;
             Assert.AreEqual(expected, actual);
         }
 

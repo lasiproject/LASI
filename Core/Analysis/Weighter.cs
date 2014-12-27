@@ -28,7 +28,7 @@ namespace LASI.Core
         /// in which they are hereby returned.
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document) {
-            var name = document.Name;
+            var name = document.Title;
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Words),
                 name + ": Aggregating Literals", name + ": Aggregated Literals", 23);
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Phrases),
@@ -136,11 +136,11 @@ namespace LASI.Core
 
         private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double increaseScaler) where TLexical : class, ILexical {
             var elmentLists = from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                              from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                              from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/
                               where !ReferenceEquals(inner, outer) && correlateWhen(inner, outer)
                               group inner by outer into grouped
                               select grouped.ToList();
-            elmentLists.ForAll(elements => elements.ForEach(verb => verb.Weight += increaseScaler * elements.Count));
+            elmentLists.ForAll(elements => elements.ForEach(e => e.Weight += increaseScaler * elements.Count));
         }
 
 

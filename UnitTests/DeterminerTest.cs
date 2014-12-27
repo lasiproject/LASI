@@ -70,8 +70,7 @@ namespace LASI.UnitTests
         public void DeterminerConstructorTest() {
             string text = "the";
             Determiner target = new Determiner(text);
-            Assert.IsTrue(target.Text == text &&
-                target.Determines == null);
+            Assert.IsTrue(target.Text == text && target.Determines == null);
         }
 
         /// <summary>
@@ -88,6 +87,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        
+
     }
 }

@@ -199,7 +199,8 @@ namespace LASI.Tests
 
         [TestMethod]
         public void MaxByTest1() {
-            Assert.Fail();
+            var target = new[] { "alpha", "omega", "gamma" };
+            Assert.AreEqual(target.MaxBy(s => s[0], Comparer<int>.Default), "omega");
         }
 
         [TestMethod]
@@ -210,7 +211,8 @@ namespace LASI.Tests
 
         [TestMethod]
         public void MinByTest1() {
-            Assert.Fail();
+            var target = new[] { "alpha", "omega", "gamma" };
+            Assert.AreEqual(target.MinBy(s => s[0], Comparer<int>.Default), "alpha");
         }
 
         [TestMethod]

@@ -35,7 +35,10 @@ namespace LASI.Core.Heuristics
         /// Clears all cached adjective
         /// </summary>
         public static void ClearAllCachedSynonymData() {
-            ClearAdjectiveCache(); ClearVerbCache(); ClearAdverbCache(); ClearAdjectiveCache();
+            ClearAdjectiveCache();
+            ClearVerbCache();
+            ClearAdverbCache();
+            ClearAdjectiveCache();
         }
 
         /// <summary>

@@ -77,7 +77,7 @@ namespace LASI.App
             grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
             foreach (var l in nounPhraseLabels) { weightedListPanel.Children.Add(l); }
 
-            var tab = new TabItem { Header = document.Name, Content = grid };
+            var tab = new TabItem { Header = document.Title, Content = grid };
 
             weightedByDocumentTabControl.Items.Add(tab);
             weightedByDocumentTabControl.SelectedItem = tab;
@@ -153,7 +153,7 @@ namespace LASI.App
             flowDocument.Blocks.Add(p);
             var tab = new TabItem
             {
-                Header = document.Name,
+                Header = document.Title,
                 Content = new FlowDocumentPageViewer
                 {
                     Document = flowDocument,
@@ -287,10 +287,10 @@ namespace LASI.App
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
                                    FileManager.ResultsDirectory,
-                                   document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Name + '.' + Properties.Settings.Default.OutputFormat))
+                                   document.Title.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Title + '.' + Properties.Settings.Default.OutputFormat))
                                let serializer = new SimpleXmlSerializer()
                                select Task.Run(() => serializer
-                                    .Serialize(document.Phrases, document.Name, DegreeOfOutput.Comprehensive)
+                                    .Serialize(document.Phrases, document.Title, DegreeOfOutput.Comprehensive)
                                     .Save(outfilePath)));
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();

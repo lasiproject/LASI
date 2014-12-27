@@ -12,8 +12,11 @@ var LASI;
                     var $input = $(this);
                     var fileCount = $uploadList.find('span.file-index').length;
                     var files = $input[0].files;
+                    var generateUploadListItemMarkup = function (file, index) {
+                        return '<div class="list-group-item text-left">' + '<span class="glyphicon glyphicon-remove remove-file"/>&nbsp;&nbsp;&nbsp;<span class="file-index">' + [fileCount, index, 1].sum() + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' + file.name + '</span></div>';
+                    };
                     $(files).toArray().filter(function (file) { return !$uploadList.children('span').filter(function (index, span) { return $(span).text() === file.name; }).length; }).forEach(function (file, index) {
-                        $uploadList.append('<div class="list-group-item text-left">' + '<span class="glyphicon glyphicon-remove remove-file"/>&nbsp;&nbsp;&nbsp;<span class="file-index">' + (fileCount + index + 1) + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' + file.name + '</span></div>');
+                        $uploadList.append(generateUploadListItemMarkup(file, index));
                         $('span.glyphicon.glyphicon-remove.remove-file').click(function (e) {
                             $(this).removeData(file.name);
                             $(this).parent().parent().find('span.file-name').filter(function (index, span) { return $(span).text() === file.name; }).each(function (index, f) { return $(f).parent('div').remove(); });

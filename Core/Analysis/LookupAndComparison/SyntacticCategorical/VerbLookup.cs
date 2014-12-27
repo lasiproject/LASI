@@ -25,30 +25,40 @@ namespace LASI.Core.Heuristics.WordNet
         public VerbLookup(string path) {
             filePath = path;
         }
+
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary> 
         internal override void Load() {
-            using (var reader = new StreamReader(filePath)) {
-                OnReport(new EventArgs("Parsing File", 0));
-                var indexedSets = reader.ReadToEnd().SplitRemoveEmpty('\n')
-                    .Skip(FILE_HEADER_LINE_COUNT)
-                    .AsParallel()
-                    .Select(CreateSet).Select((set, i) => new { Set = set, Index = i });
-                OnReport(new EventArgs("Mapping Verb Sets", 0));
-                indexedSets.ToObservable().Throttle(TimeSpan.FromMilliseconds(40))
-                    .Subscribe(
-                        onNext: e => OnReport(new EventArgs("Loaded Verb Data - Set: \{e.Index} / \{TOTAL_LINES}", 2)),
-                        onCompleted: () => OnReport(new EventArgs("Verb Data Loaded", 1)),
-                        onError: e => {
-                            e.LogIfDebug();
-                        });
-                foreach (var set in from item in indexedSets select item.Set) { LinkSynset(set); }
-                OnReport(new EventArgs("Verb Loaded", 0));
+            //using (var reader = new StreamReader(filePath)) {
+            OnReport(new EventArgs("Parsing File", 0));
+            OnReport(new EventArgs("Mapping Verb Sets", 0));
+            foreach (var indexed in LoadData()
+                    //.AsParallel()
+                    //.Select((line, i) => new { Line = line, Index = i })
+
+                    ) {
+                var set = CreateSet(indexed.Item1);
+                LinkSynset(set);
+                if (indexed.Item2 % PROGRESS_MODULUS == 0) {
+                    OnReport(new EventArgs(string.Format(PROGRESS_FORMAT, indexed.Item2), PROGRESS_AMOUNT));
+                }
             }
+            OnReport(new EventArgs("Mapped Verb Sets", 1));
+            //}
         }
 
-
+        private IEnumerable<Tuple<string, int>> LoadData() {
+            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read))) {
+                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i) {
+                    reader.ReadLine();
+                }
+                int lineNumber = 0;
+                for (var line = reader.ReadLine(); line != null; ++lineNumber, line = reader.ReadLine()) {
+                    yield return Tuple.Create(line, lineNumber);
+                }
+            }
+        }
         private static VerbSynSet CreateSet(string setLine) {
             var line = setLine.Substring(0, setLine.IndexOf('|')).Replace('_', '-');
 
@@ -90,7 +100,7 @@ namespace LASI.Core.Heuristics.WordNet
                          .Select(id => { VerbSynSet referenced; return setsById.TryGetValue(id, out referenced) ? referenced : null; })
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
-                         .Append(root);
+                         .Concat(VerbMorpher.GetConjugations(root));
             })));
             return setBuilder.ToImmutable();
         }
@@ -117,6 +127,12 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
         private const int TOTAL_LINES = 13766;
+        /// <summary>
+        /// A report will be propagated for every 1 in 138 sets rougly 100 updates will take place.
+        /// </summary>
+        private const int PROGRESS_MODULUS = 138;
+        private const double PROGRESS_AMOUNT = 100 / (100d * PROGRESS_MODULUS);
+        private const string PROGRESS_FORMAT = "Mapping Verb Set {0} / 13766";
 
         private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(
@@ -150,6 +166,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
         /// </summary>
         private const uint SET_COUNT = 13797;
+
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
         {

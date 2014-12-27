@@ -46,11 +46,9 @@ namespace LASI.WebApp
         public HttpResponseMessage Post([FromBody] JobStatus data) {
             // Ensure a unique id is used
             lock (lockon) {
-                data.Id = ++idProvider;
+                data.Id = idProvider++;
                 trackedJobs[data.Id] = data;
             }
-
-
             return Request.CreateResponse(System.Net.HttpStatusCode.Created, data, mediaTypeFormatter, "application/json");
         }
         [Route("api/jobs/{id:int}")]

@@ -61,21 +61,16 @@ namespace LASI.UnitTests
         #endregion
 
 
-        internal virtual IEntity CreateIEntity() {
-
-            IEntity target = new CommonSingularNoun("cat");
-            return target;
-        }
-
+     
         /// <summary>
         ///A test for EntityKind
         ///</summary>
         [TestMethod]
         public void EntityKindTest() {
-            IEntity target = CreateIEntity();
+            IEntity target = new CommonSingularNoun("cat");
             EntityKind actual;
             actual = target.EntityKind;
-            Assert.AreEqual(actual, target.EntityKind);
+            Assert.AreEqual(actual, EntityKind.Thing);
         }
 
  

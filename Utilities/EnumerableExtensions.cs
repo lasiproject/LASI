@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LASI
 {
+    using System.Numerics;
     using LASI.Utilities;
     using Validator = Utilities.Contracts.Validators.ArgumentValidator;
     /// <summary>
@@ -137,23 +138,31 @@ namespace LASI
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
             Validator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
-            return source.Select(selector)
-                .Aggregate(new
-                {
-                    Text = string.Empty,
-                    Length = 0L
-                }, (carry, e) => new
-                {
-                    Text = carry.Text + "\{e}\{delimiters.Item2}\{(carry.Length + e.Length) / lineLength > 0 ? '\n' : ' '}",
-                    Length = carry.Length % lineLength
-                },
-                result => "\{delimiters.Item1} \{result.Text.TrimEnd(' ', '\n', delimiters.Item2)} \{delimiters.Item3}"
-            );
+            return source.Select(e => selector(e) + delimiters.Item2)
+                .Aggregate(new { ModLength = 1L, Text = delimiters.Item1.ToString() },
+                (z, element) => {
+                    var rem = 1L;
+                    var quotient = Math.DivRem(z.ModLength + element.Length + 1, lineLength, out rem);
+                    var sep = z.ModLength + element.Length + 1 > lineLength ? '\n' : ' ';
+                    return new { ModLength = z.ModLength + element.Length + 1, Text = z.Text + sep + element };
+                }).Text.TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+            //return source.Select(selector)
+            //    .Aggregate(new
+            //    {
+            //        Text = string.Empty,
+            //        Length = 0L
+            //    }, (carry, e) => new
+            //    {
+            //        Text = carry.Text + "\{e}\{delimiters.Item2}\{(carry.Length + e.Length) / lineLength > 0 ? '\n' : ' '}",
+            //        Length = carry.Length % lineLength
+            //    },
+            //    result => "\{delimiters.Item1} \{result.Text.TrimEnd(' ', '\n', delimiters.Item2)} \{delimiters.Item3}"
+            //);
         }
-        
+
         #endregion
 
-        #region Additional Query Operators
+        #region Query Operators
 
         /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consisting of the original sequence followed by the appended element.
@@ -171,11 +180,11 @@ namespace LASI
         }
 
         /// <summary>
-        /// Returns a Tuple&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.
+        /// Returns a Tuple&lt;<see cref="IEnumerable{T}"/>, <see cref="IEnumerable{T}"/>&gt; representing the sequence bifurcated by the provided predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
+        /// <param name="source">The sequence of values to bisect.</param>
+        /// <param name="predicate">The predicate used to determine in which sequence to place each element.</param>
         /// <returns>A Tuple&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; representing the sequence bifurcated by the provided predicate.</returns>
         public static Tuple<IEnumerable<T>, IEnumerable<T>> Bisect<T>(this IEnumerable<T> source, Func<T, bool> predicate) {
             var partitions = source.ToLookup(predicate);
@@ -183,15 +192,15 @@ namespace LASI
         }
 
         /// <summary>
-        /// Returns a Tuple&lt;TResult, TResult&gt; representing the sequence bifurcated by the provided predicate.
+        /// Returns a Tuple&lt;<typeparamref name="TResult"/>,<typeparamref name="TResult"/>&gt; representing the sequence bifurcated by the provided predicate.
         /// A result selector function is used to project the two resulting sequences into a new form.
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <typeparam name="TResult">The type of the items in the tupled result.</typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <param name="resultSelector"></param>
-        /// <returns></returns>
+        /// <param name="source">The sequence of values to bisect.</param>
+        /// <param name="predicate">The predicate by which to bisect.</param>
+        /// <param name="resultSelector">A function to project both of the resulting sequences.</param>
+        /// <returns>A Tuple&lt;<typeparamref name="TResult"/>,<typeparamref name="TResult"/>&gt; representing the sequence bifurcated by the provided predicate.</returns>
         public static Tuple<TResult, TResult> Bisect<T, TResult>(this IEnumerable<T> source, Func<T, bool> predicate, Func<IEnumerable<T>, TResult> resultSelector) {
             var partitions = source.Bisect(predicate);
             return Tuple.Create(resultSelector(partitions.Item1), resultSelector(partitions.Item2));
@@ -218,14 +227,22 @@ namespace LASI
                     x => selector(x).GetHashCode())
             );
         }
-
+        /// <summary>
+        /// Produces the set difference of two sequences under the given projection.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
+        /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>
+        /// <param name="first">The first sequence.</param>
+        /// <param name="second">The second sequence.</param>
+        /// <param name="selector">The projection by which to compare elements.</param>
+        /// <returns></returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Except(second,
                 new CustomComparer<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode()));
         }
-         
+
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Intersect(second,
                 new CustomComparer<TSource>(
@@ -322,7 +339,7 @@ namespace LASI
         /// </summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
         /// <param name="source">The sequence to check for emptiness.</param>
-        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
+        /// <returns> <c>false</c> if the source sequence contains any elements; otherwise, <c>true</c>. </returns>
         public static bool None<T>(this ParallelQuery<T> source) => !source.Any();
 
         /// <summary>
@@ -358,7 +375,7 @@ namespace LASI
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="tail">The sequence to which the element will be prepended.</param>
         /// <param name="head">The element to prepend to the sequence.</param>
-        /// <returns>A new sequence consisting of the prepended element followed by each element in the original sequence.</returns>
+        /// <returns> A new sequence consisting of the prepended element followed by each element in the original sequence.</returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head) {
             Validator.ThrowIfNull(tail, "tail");
             yield return head;
@@ -373,10 +390,106 @@ namespace LASI
                     x => selector(x).GetHashCode()));
         }
 
+        #region Product
+
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="Complex"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static Complex Product(this IEnumerable<Complex> source) => source.Aggregate(Complex.One, (z, y) => z * y);
+
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="BigInteger"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static BigInteger Product(this IEnumerable<BigInteger> source) => source.Aggregate(BigInteger.One, (z, y) => z * y);
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="long"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static long Product(this IEnumerable<long> source) => source.Aggregate(1L, (z, y) => z * y);
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="int"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static int Product(this IEnumerable<int> source) => source.Aggregate(1, (z, y) => z * y);
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="decimal"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static decimal Product(this IEnumerable<decimal> source) => source.Aggregate(1M, (z, y) => z * y);
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="double"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static double Product(this IEnumerable<double> source) => source.Aggregate(1D, (z, y) => z * y);
+
+        /// <summary>
+        /// Calculates the Product of a sequence of <see cref="float"/> values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c> The product of all values in the source sequence.
+        /// </returns>
+        public static float Product(this IEnumerable<float> source) => source.Aggregate(1F, (z, y) => z * y);
+
+        /// <summary>
+        /// Calculates the Product of a sequence of Boolean values.
+        /// </summary>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c>true</c> if all values in the source sequence are equal to <c>true</c>; otherwise <c>false</c>.
+        /// </returns>
+        public static bool Product(this IEnumerable<bool> source) => source.Product(b => b);
+        /// <summary>
+        /// Calculates the Product of a sequence of Boolean values.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence. </typeparam>
+        /// <param name="booleanSelector"> A function to transform each element into a Boolean value. </param>
+        /// <param name="source"> The sequence of elements to test. </param>
+        /// <returns>
+        /// <c>true</c> if all values in the source sequence evaluate to <c>true</c> under the given project; otherwise <c>false</c>.
+        /// </returns>
+        public static bool Product<T>(this IEnumerable<T> source, Func<T, bool> booleanSelector) => source.All(booleanSelector);
+
+        #endregion Product
+        public static IEnumerable<T> Scan<T>(IEnumerable<T> source, Func<T, T, T> func) {
+            if (!source.Any()) { yield break; }
+            var intermediate = source.First();
+            foreach (var e in source.Skip(1)) {
+                yield return intermediate = func(intermediate, e);
+            }
+        }
+
+        public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func) {
+            var intermediate = seed;
+            foreach (var e in source) {
+                yield return intermediate = func(intermediate, e);
+            }
+        }
+
         /// <summary>
         /// Determines if the source collection contains the exact same elements as the second, Ignoring duplicate elements and ordering.
         /// </summary>
-        /// <typeparam name="T">Type of the source sequence</typeparam>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
         /// <returns> <c>true</c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second sequence; otherwise, <c>false</c>.</returns>
@@ -387,7 +500,7 @@ namespace LASI
         /// <summary>
         /// Determines if the source collection contains the exact same elements as the second using the specified IEqualityComparer&lt;TSource&gt;, Ignoring duplicate elements and ordering.
         /// </summary>
-        /// <typeparam name="T">Type of the source sequence</typeparam>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="first">The source sequence</param>
         /// <param name="second">The sequence to compare against.</param>
         /// <param name="comparer">An System.Collections.Generic.IEqualityComparer&lt;TSource&gt; to compare values</param>
@@ -530,6 +643,8 @@ namespace LASI
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
+
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
 
         #endregion
 

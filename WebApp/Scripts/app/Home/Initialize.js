@@ -26,8 +26,8 @@
      * Arrays instances with it.
      * correlate takes pairs the two arrays of elements based on
      * the key selector functions, and returns the associated elements as a new array.
-     * An optional function performs a projection on each element of the resulting flat array.
-     * This function is analagous to SelectMany in Linq, and flatMap in Scala.
+     * An optional function performs a projection on each pair.
+     * This function is analagous to Join in Linq, and inner join in SQL.
      */
     if (!Array.prototype.hasOwnProperty('correlate')) {
         Array.prototype.correlate = function (inner, outerKeySelector, innerKeySelector, resultSelector) {
@@ -57,7 +57,7 @@
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
             var projection = valueSelector || (function (x) { return Number(x); });
-            return this.length === 0 ? NaN : this.reduce(function (total, element, index) { return total + projection(element); }, 0);
+            return this.length === 0 ? 0 : this.reduce(function (total, element, index) { return total + projection(element); }, 0);
         };
     }
     if (!Array.prototype.hasOwnProperty('average')) {

@@ -7,15 +7,21 @@ open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop
 open LASI.Interop.ResourceManagement
-open LASI.Core.PatternMatching
 
-let wrapFile (s : string) = 
-    match s.Split('.') |> Seq.last with
-    | "docx" -> DocXFile s :> IRawTextSource
-    | "doc" -> DocFile s :> IRawTextSource
-    | "txt" -> TxtFile s :> IRawTextSource
-    | "pdf" -> PdfFile s :> IRawTextSource
-    | _ -> null
+let wrapFile (path : string) = 
+    match path.Split('.') |> Array.last with
+    | "docx" -> Some(DocXFile path :> IRawTextSource)
+    | "doc" -> Some(DocFile path :> IRawTextSource)
+    | "txt" -> Some(TxtFile path :> IRawTextSource)
+    | "pdf" -> Some(PdfFile path :> IRawTextSource)
+    | _ -> None
+
+let (|Entity|Referencer|Verbal|Other|) (lex : ILexical) = 
+    match lex with
+    | :? IReferencer as a -> Referencer a
+    | :? IEntity as a -> Entity a
+    | :? IVerbal as a -> Verbal a
+    | _ -> Other lex
 
 [<EntryPoint>]
 let main argv = 
@@ -30,19 +36,21 @@ let main argv =
     resourceLoadNotifier.ResourceLoading.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
-    let orchestrator = AnalysisOrchestrator [ //         wrapFile @"C:\Users\Aluan\Desktop\Documents\sec22.txt"
-                                              wrapFile @"C:\Users\Aluan\Desktop\Documents\cats.txt" ]
+    let orchestrator = 
+        AnalysisOrchestrator [ @"C:\Users\Aluan\Desktop\Documents\cats.txt"
+                               |> wrapFile
+                               |> Option.get ]
     // Register callbacks to print operation progress to the terminal
     orchestrator.ProgressChanged.Add(fun e -> 
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     let docTask = 
         async { 
-            let b = Async.AwaitTask(orchestrator.ProcessAsync())
-            return! b
+            let x = Async.AwaitTask <| orchestrator.ProcessAsync()
+            return! x
         }
     
-    let docs = Async.RunSynchronously(docTask)
+    let docs = Async.RunSynchronously docTask
     for doc in docs do
         let toAttack = SimpleVerb("attack")
         let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> Similarity.op_Implicit (v.IsSimilarTo toAttack))
@@ -50,15 +58,7 @@ let main argv =
         let attackerAttackeePairs = 
             bellicoseVerbals.WithDirectObject().WithSubject() 
             |> Seq.map (fun v -> (v.AggregateSubject, v.AggregateDirectObject))
-        do Seq.iter (fun e -> printfn "%A" e) attackerAttackeePairs
-        let (|Entity|Referencer|Action|Other|) (lex : ILexical) = 
-            match lex with
-            | :? IReferencer as r -> Referencer r
-            | :? IEntity as e -> Entity e
-            | :? IVerbal as a -> Action a
-            | _ -> Other lex
-
-        
+        attackerAttackeePairs |> Seq.iter (fun e -> printfn "%A" e)
         let rec bind (head : Phrase) = 
             match head with // process the first phrase in the list
             | Entity e -> 
@@ -71,23 +71,23 @@ let main argv =
                        | Referencer r -> r.BindAsReferringTo e
                        | _ -> ())
                 printfn "Matched %A" head
-            | Action a -> printfn "Matched %A" a
+            | Verbal a -> printfn "Matched %A" a
             | p -> printfn "Unmatched %A" p
         
         // print the document while pattern matching on various Phrase Types and naively binding Pronouns at the phrasal level
-        let rec processPhrases (phrases : Phrase List) = 
+        let rec processPhrases phrases = 
             match phrases with
-            | head :: tail -> 
-                bind head
-                processPhrases tail // recursive tail call to continue processing
+            | x :: xs -> 
+                bind x
+                processPhrases xs // recursive tail call to continue processing
             | [] -> () // list has been exhausted
         
-        processPhrases (Seq.toList doc.Phrases) //bind and output the document.
-    let rec checkForExit (unit) = 
+        processPhrases << Seq.toList <| doc.Phrases //bind and output the document.
+    let rec waitForInput unit = 
         printfn "type exit to quit..."
         match stdin.ReadLine() with
         | "exit" -> 0
-        | _ -> checkForExit()
+        | _ -> waitForInput()
     //    printfn "type exit to exit..."
-    checkForExit()
+    waitForInput()
 // the last value computed by the function is the exit code

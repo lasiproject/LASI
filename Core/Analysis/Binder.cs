@@ -31,17 +31,17 @@ namespace LASI.Core
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetBindingTasks(this Document document) {
             yield return new ProcessingTask(() => BindAttributives(document.Sentences),
-                string.Format("{0}: Binding Attributives", document.Name),
-                string.Format("{0}: Bound Attributives", document.Name), 5);
+                string.Format("{0}: Binding Attributives", document.Title),
+                string.Format("{0}: Bound Attributives", document.Title), 5);
             yield return new ProcessingTask(() => BindIntraPhrase(document.Phrases),
-                string.Format("{0}: Decomposing Phrasals", document.Name),
-                string.Format("{0}: Decomposed Phrasals", document.Name), 5);
+                string.Format("{0}: Decomposing Phrasals", document.Title),
+                string.Format("{0}: Decomposed Phrasals", document.Title), 5);
             yield return new ProcessingTask(() => BindSubjectsAndObjects(document.Sentences),
-                string.Format("{0}: Analyzing Verbal Relationships", document.Name),
-                string.Format("{0}: Analyzed Verbal Relationships", document.Name), 5);
+                string.Format("{0}: Analyzing Verbal Relationships", document.Title),
+                string.Format("{0}: Analyzed Verbal Relationships", document.Title), 5);
             yield return new ProcessingTask(() => BindPronouns(document.Sentences),
-                string.Format("{0}: Abstracting References", document.Name),
-                string.Format("{0}: Abstracted References", document.Name), 5);
+                string.Format("{0}: Abstracting References", document.Title),
+                string.Format("{0}: Abstracted References", document.Title), 5);
         }
 
         #region Private Static Methods
@@ -63,23 +63,21 @@ namespace LASI.Core
                 sentences.AsParallel()
                     .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence => {
-                        try { new SubjectBinder().Bind(sentence); }
-                        catch (Exception e) {
+                        try { new SubjectBinder().Bind(sentence); } catch (Exception e) {
                             if (e is NullReferenceException || e is VerblessPhrasalSequenceException) {
                                 e.LogIfDebug();
                             } else { throw; }
                         }
-                        try { new ObjectBinder().Bind(sentence); }
-                        catch (Exception x) {
-                            if (x is InvalidStateTransitionException ||
-                                x is VerblessPhrasalSequenceException ||
-                                x is InvalidOperationException) {
-                                x.LogIfDebug();
-                            } else { throw; }
+                        try {
+                            new ObjectBinder().Bind(sentence);
+                        } catch (Exception x) if (x is InvalidStateTransitionException ||
+                                                  x is VerblessPhrasalSequenceException ||
+                                                  x is InvalidOperationException) {
+                            x.LogIfDebug();
                         }
+
                     });
-            }
-            catch (Exception x) { x.LogIfDebug(); }
+            } catch (Exception x) { x.LogIfDebug(); }
         }
 
         private static void MatchSentences(IEnumerable<Sentence> sentences) {

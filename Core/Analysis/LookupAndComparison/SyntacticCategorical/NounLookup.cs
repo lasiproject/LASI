@@ -24,30 +24,33 @@ namespace LASI.Core.Heuristics.WordNet
         /// <param name="path">
         /// The path of the WordNet database file containing the synonym data for nouns.
         /// </param>
-        public NounLookup(string path) {
-            filePath = path;
-
-            //InitCategoryGroupsDictionary();
-        }
+        public NounLookup(string path) { filePath = path; }
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
         internal override void Load() {
+            var setsEnumerated = 0;
+            var setsSampled = 0;
             var indexedSynsets = LoadData()
                 .Zip(Range(1, TOTAL_LINES), (line, i) => new { Set = CreateSet(line), LineNumber = i });
             try {
                 indexedSynsets.ToObservable()
-                    .Throttle(TimeSpan.FromMilliseconds(40))
+                    .Do(set => {
+                        ++setsEnumerated;
+                        setsById[set.Set.Id] = set.Set;
+                    })
+                    .Sample(TimeSpan.FromMilliseconds(20))
+                    //.Where(e => e.LineNumber % 821 == 0)
                     .Subscribe(
-                        onNext: e => OnReport(new EventArgs("Loaded Noun Data - Set: \{e.LineNumber} / \{TOTAL_LINES}", 2)),
-                        onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 0)),
+                        onNext: e => {
+                            ++setsSampled;
+                            OnReport(new EventArgs("Loaded Noun Data - Set: \{e.LineNumber} / \{TOTAL_LINES}", PROGRESS_AMOUNT));
+                        },
+                        onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
                         onError: e => {
                             e.LogIfDebug();
                         });
-                foreach (var set in from e in indexedSynsets select e.Set) {
-                    setsById[set.Id] = set;
-                }
             } catch (Exception e) {
                 e.LogIfDebug();
                 throw;
@@ -64,7 +67,6 @@ namespace LASI.Core.Heuristics.WordNet
                                     key: linkMap[split[0]],
                                     value: int.Parse(split[1])
                                  );
-
             return new NounSynSet(
                 id: int.Parse(line.Substring(0, 8)),
                 words: from Match m in WORD_REGEX.Matches(line) select m.Value,
@@ -92,7 +94,7 @@ namespace LASI.Core.Heuristics.WordNet
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return results.ToImmutableHashSet(IgnoreCase);
                 } catch (InvalidOperationException e) {
-                    Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e, word, containingSet));
+                    Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e.Message, word, containingSet));
                 }
             }
             return ImmutableHashSet<string>.Empty;
@@ -119,7 +121,9 @@ namespace LASI.Core.Heuristics.WordNet
                         .SelectMany(morpher.GetLexicalForms)
                         .DefaultIfEmpty(search)
                         .ToImmutableHashSet();
-                } catch (AggregateException e) { e.LogIfDebug(); } catch (InvalidOperationException e) { e.LogIfDebug(); }
+                } catch (AggregateException e) {
+                    e.LogIfDebug();
+                } catch (InvalidOperationException e) { e.LogIfDebug(); }
                 return this[search];
             }
         }
@@ -129,7 +133,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
         private const int TOTAL_LINES = 82114;
-
+        private const double PROGRESS_AMOUNT = 100 / (821 * 100d);
         private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
              Link.MemberOfThisDomain_REGION,
              Link.MemberOfThisDomain_TOPIC,
@@ -173,5 +177,6 @@ namespace LASI.Core.Heuristics.WordNet
         private string filePath;
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
         private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TOTAL_LINES);
+
     }
 }

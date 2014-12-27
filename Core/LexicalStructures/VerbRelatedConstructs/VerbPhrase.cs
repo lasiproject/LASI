@@ -129,14 +129,19 @@ namespace LASI.Core
         /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns> <c>true</c> if the VerbPhrase is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
-        protected virtual bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
+        private bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
 
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
         /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns> <c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
-        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && Words.OfVerb().Any() && Words.OfVerb().All(v => v.IsClassifier);
+        private bool DetermineIsClassifier() =>
+            !IsPossessive &&
+            Modality == null &&
+            AdverbialModifiers.None() &&
+            Words.OfVerb().Any() &&
+            Words.OfVerb().All(v => v.IsClassifier);
 
 
         #endregion
@@ -180,33 +185,26 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating whether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive {
-            get {
-                isPossessive = isPossessive ?? DetermineIsPossessive();
-                return isPossessive ?? false;
-            }
-        }
+        public bool IsPossessive => (isPossessive = isPossessive ?? DetermineIsPossessive()) ?? false;
+
+
         /// <summary>
         /// Gets a value indicating whether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier {
-            get {
-                isClassifier = isClassifier ?? DetermineIsClassifier();
-                return isClassifier ?? false;
-            }
-        }
+        public bool IsClassifier => (isClassifier = isClassifier ?? DetermineIsClassifier()) ?? false;
+
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> Subjects { get { return subjects; } }
+        public IEnumerable<IEntity> Subjects => subjects;
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> DirectObjects { get { return directObjects; } }
+        public IEnumerable<IEntity> DirectObjects => directObjects;
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
-        public IEnumerable<IEntity> IndirectObjects { get { return indirectObjects; } }
+        public IEnumerable<IEntity> IndirectObjects => indirectObjects;
         /// <summary>
         /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>

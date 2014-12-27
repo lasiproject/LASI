@@ -75,20 +75,18 @@ namespace LASI.UnitTests
                 "test fragment");
             return target;
         }
-        private static string GetExpectedText() {
-            string expected = Tagger.TaggedFromRaw(new[] {
+        private static readonly string expectedText = Tagger.TaggedFromRaw(new[] {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." });
-            return expected;
-        }
+
         /// <summary>
         ///A test for GetText
         ///</summary>
         [TestMethod]
         public void GetTextTest() {
             ITaggedTextSource target = CreateITaggedTextSource();
-            string expected = GetExpectedText();
+            string expected = expectedText;
             string actual;
             actual = target.GetText();
             Assert.AreEqual(expected, actual);
@@ -102,7 +100,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void GetTextAsyncTest() {
             ITaggedTextSource target = CreateITaggedTextSource();
-            string expected = GetExpectedText();
+            string expected = expectedText;
             string actual;
             actual = target.GetTextAsync().Result;
             Assert.AreEqual(expected, actual);

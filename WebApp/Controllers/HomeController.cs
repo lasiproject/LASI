@@ -44,7 +44,7 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public async Task<ViewResult> Results() {
             var documents = await LoadResults();
-            var docs = documents.Select(document => document.Name);
+            var docs = documents.Select(document => document.Title);
             var documentCharts = (
                    from document in documents
                    let documentModel = new DocumentModel(document)
@@ -92,7 +92,7 @@ namespace LASI.WebApp.Controllers
                         return extensionMap[file.SplitRemoveEmpty('.').Last()](file);
                     } catch (ArgumentException) { return null; }
                 })
-                .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
+                .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
             analyzer.ProgressChanged += (s, e) => {
                 PercentComplete += e.PercentWorkRepresented;
@@ -117,7 +117,7 @@ namespace LASI.WebApp.Controllers
         private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create<Document>(
-                    CustomComparer.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+                    CustomComparer.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {

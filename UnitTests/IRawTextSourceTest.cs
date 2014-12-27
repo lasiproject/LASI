@@ -61,18 +61,19 @@ namespace LASI.UnitTests
         //
         #endregion
 
-
         internal virtual IRawTextSource CreateIRawTextSource() {
-            IRawTextSource target = new RawTextFragment(new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." }, "test fragment");
+            IRawTextSource target = new RawTextFragment(lines, "test fragment");
             return target;
         }
+
+
 
         /// <summary>
         ///A test for GetText
         ///</summary>
         [TestMethod]
         public void GetTextTest() {
-            string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
+            string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
             string actual;
@@ -85,7 +86,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetTextAsyncTest() {
-            string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
+            string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
             string actual;
@@ -98,7 +99,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void NameTest() {
-            string text = string.Join("\n", "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he.");
+            string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
 
             string actual;
@@ -107,5 +108,7 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
 
         }
+        private static readonly string[] lines = { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
+
     }
 }

@@ -10,7 +10,7 @@ namespace LASI.WebApp.Models
     {
         public DocumentModel(Core.Document document) : base(document) {
             Document = document;
-            Name = document.Name;
+            Name = document.Title;
             ParagraphModels = document.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             PageModels = document.Paginate(80, 30).Select(page => new PageModel(page));
             foreach (var model in PageModels) { model.DocumentModel = this; }

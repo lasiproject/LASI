@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace LASI.WebApp
 {
+    using Validator = LASI.Utilities.Contracts.Validators.ArgumentValidator;
     /// <summary>
     /// Provides static and extension methods for serializing lexical elements and their relationships
     /// into JSON strings.
@@ -27,7 +28,7 @@ namespace LASI.WebApp
                 .Result();
         }
         public static string GetJsonMenuData(this IVerbal verbal) {
-            if (verbal == null) { throw new ArgumentNullException("verbal"); }
+            Validator.ThrowIfNull(verbal, nameof(verbal));
             var data = new
             {
                 Verbal = verbal.GetSerializationId(),
@@ -38,7 +39,7 @@ namespace LASI.WebApp
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
         public static string GetJsonMenuData(this IReferencer referencer) {
-            if (referencer == null) { throw new ArgumentNullException("referencer"); }
+            Validator.ThrowIfNull(referencer, nameof(referencer));
             var data = new
             {
                 Referencer = referencer.GetSerializationId(),

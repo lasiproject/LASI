@@ -15,8 +15,10 @@ namespace LASI.Core.Heuristics
     {
 
         static NounMorpher() {
-            LoadExceptionFile();
-
+            exceptionData = File.ReadAllLines(exceptionsFilePath)
+                .Select(ProcessLine)
+                .GroupBy(entry => entry.Key, entry => entry.Value)
+                .ToDictionary(entry => entry.Key, entry => entry.SelectMany(e => e).ToList());
         }
 
         /// <summary>
@@ -26,7 +28,6 @@ namespace LASI.Core.Heuristics
         /// <returns>All forms of the noun root.</returns>
         public IEnumerable<string> GetLexicalForms(string nounForm) {
             return TryComputeConjugations(nounForm);
-
         }
         /// <summary>
         /// Gets all forms of the noun.
@@ -94,20 +95,12 @@ namespace LASI.Core.Heuristics
 
 
         #region Exception File Processing
-        private static void LoadExceptionFile() {
-            using (var reader = new StreamReader(exceptionsFilePath)) {
-                while (!reader.EndOfStream) {
-                    var keyVal = ProcessLine(reader.ReadLine());
-                    exceptionData[keyVal.Key] = keyVal.Value;
-                }
-            }
-        }
 
-        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+        private static KeyValuePair<string, IEnumerable<string>> ProcessLine(string exceptionLine) {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1));
         }
-        private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Concurrency.Max, 2055);
+        private static readonly IReadOnlyDictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };

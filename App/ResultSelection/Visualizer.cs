@@ -42,7 +42,7 @@ namespace LASI.App
                     ItemsSource = data,
                     IsSelectionEnabled = true,
                 });
-                chart.Title = string.Format("Key Relationships in {0}", document.Name);
+                chart.Title = string.Format("Key Relationships in {0}", document.Title);
                 break;
             }
         }
@@ -134,7 +134,7 @@ namespace LASI.App
             documentsByChart.Add(chart, document);
             var tab = new TabItem
             {
-                Header = document.Name,
+                Header = document.Title,
                 Content = chart,
                 Tag = chart
             };
@@ -169,7 +169,7 @@ namespace LASI.App
             };
             var chart = new Chart
             {
-                Title = string.Format("Key Subjects in {0}", document.Name),
+                Title = string.Format("Key Subjects in {0}", document.Title),
                 Tag = topPoints
             };
             //chart.MouseEnter += (sender, e) => chart.ToolTip = (e.Source as DataPoint).DependentValue + " " + (e.Source as DataPoint).IndependentValue;
@@ -257,7 +257,7 @@ namespace LASI.App
         public static async Task DisplayKeyRelationshipsAsync(Document document) {
             var tab = new TabItem
             {
-                Header = document.Name,
+                Header = document.Title,
                 Content = new Microsoft.Windows.Controls.DataGrid
                 {
                     ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
