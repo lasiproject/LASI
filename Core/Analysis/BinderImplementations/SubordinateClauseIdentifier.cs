@@ -16,7 +16,7 @@ namespace LASI.Core
         }
         private static IEnumerable<Word> RemainderofSentenceIncludingSubordinator(IEnumerable<Word> words) {
             var remainder = words.SkipWhile(w => {
-                return isRelativePronounorSubordinatingConjunction(w);
+                return isRelativePronounOrSubordinatingConjunction(w);
 
             });
             return remainder;
@@ -29,7 +29,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="word">Word</param>
         /// <returns> <c>true</c> or false</returns>
-        private static bool isRelativePronounorSubordinatingConjunction(Word word) {
+        private static bool isRelativePronounOrSubordinatingConjunction(Word word) {
             var prep = word as Preposition;
             if (prep != null)
                 return !(word is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);

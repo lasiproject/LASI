@@ -53,6 +53,11 @@ namespace LASI.Core.Heuristics
 
         #endregion Constructors
 
+        #region Factory Methods
+        internal static Similarity FromRational(double rational) => new Similarity(rational > Lookup.SIMILARITY_THRESHOLD, rational);
+        internal static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
+        #endregion Factory Methods
+
         #region Methods
 
         /// <summary>
@@ -103,13 +108,16 @@ namespace LASI.Core.Heuristics
         #endregion Methods
 
         #region Properties
-
+        /// <summary>
+        /// <c>true</c> if the Similarity instance represents a significant similarity; otherwise, <c>false</c>.
+        /// </summary>
         public bool Boolean { get; }
-        public double Rational { get; }
-
         /// <summary>
         /// Returns the rational value representing the degree of the determined for the SimilarityRatio.
         /// </summary>
+        public double Rational { get; }
+
+
 
         #endregion Properties
 
@@ -147,7 +155,7 @@ namespace LASI.Core.Heuristics
 
         #endregion Implcit Conversion Operators
 
-        #region Comparison Operators
+        #region Comparison Operators    
 
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is equal to the
@@ -200,7 +208,7 @@ namespace LASI.Core.Heuristics
         /// False if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
         public static bool operator !=(Similarity left, Similarity right) => !(left == right);
-        
+
         #endregion Comparison Operators
 
         #endregion Operators

@@ -130,6 +130,11 @@
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\ILexicalEnumerable.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\ILexicalEnumerableIterator.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerableExtensions.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerableIterator.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerator.cs" />
     <Compile Include="LexicalStructures\Lexical.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />

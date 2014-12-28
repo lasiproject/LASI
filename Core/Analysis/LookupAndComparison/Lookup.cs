@@ -418,7 +418,7 @@ namespace LASI.Core.Heuristics
         /// similarity comparison is &gt;= the threshold, then the similarity comparison result will
         /// be considered as True in a boolean expression context.
         /// </summary>
-        private const double SIMILARITY_THRESHOLD = 0.6;
+        internal const double SIMILARITY_THRESHOLD = 0.6;
 
         private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
                     new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), true);

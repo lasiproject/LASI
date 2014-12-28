@@ -21,7 +21,7 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static Similarity IsSimilarTo(this IAdverbial first, IAdverbial second) {
-            return new Similarity(
+            return Similarity.FromBoolean(
                 first.Text.EqualsIgnoreCase(second.Text) ||
                 first.Match().Yield<bool>()
                     .Case((Adverb a1) =>
@@ -76,7 +76,7 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) {
-            return new Similarity(second.Words.OfAdverb().Any(adj => adj.IsSynonymFor(first)));
+            return new Similarity(second.Words.OfAdverb().Any(a => a.IsSynonymFor(first)));
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
         /// <summary>
@@ -91,10 +91,12 @@ namespace LASI.Core.Heuristics
         /// Please prefer the second convention.
         /// </remarks>
         public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
-            var synonymResults = first.Words.OfAdverb()
-                .Zip(second.Words.OfAdverb(), (a, b) => a.IsSynonymFor(b))
-                .ToList();
-            return new Similarity(first == second || (double)synonymResults.Count(result => result) / synonymResults.Count > SIMILARITY_THRESHOLD);
+            var percentMatched =
+                first.Words.OfAdverb()
+                .Zip(second.Words.OfAdverb(),
+                    (a, b) => a.IsSynonymFor(b))
+                .PercentOf();
+            return new Similarity(first == second || percentMatched > SIMILARITY_THRESHOLD);
         }
     }
 }

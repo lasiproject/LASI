@@ -1,14 +1,13 @@
-﻿using System;
+﻿using LASI.Core.Heuristics;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using LASI.Core.Heuristics;
 
 namespace LASI.Core
 {
     /// <summary>
-    /// Provides the base class for all word level verbal constructs. An instance of this class
-    /// represents a verb in its base tense.
+    /// Provides the base class for all word level verbal constructs. An instance of this class represents a verb in its base tense.
     /// </summary>
     public abstract class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
@@ -17,12 +16,8 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
-        /// <param name="text">
-        /// The text content of the verb.
-        /// </param>
-        /// <param name="form">
-        /// The tense of the verb
-        /// </param>
+        /// <param name="text">The text content of the verb.</param>
+        /// <param name="form">The tense of the verb</param>
         protected Verb(string text, VerbForm form)
             : base(text) {
             VerbForm = form;
@@ -33,8 +28,8 @@ namespace LASI.Core
         #region Methods
 
         /// <summary>
-        /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of
-        /// the Verb <param name="modifier">The IAdverbial construct by which to modify the AdjectivePhrase.</param>
+        /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb <param name="modifier">The
+        /// IAdverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
         public virtual void ModifyWith(IAdverbial modifier) {
             modifiers = modifiers.Add(modifier);
@@ -45,9 +40,7 @@ namespace LASI.Core
         /// Binds the Verb to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to".
         /// </summary>
-        /// <param name="prepositional">
-        /// The prepositional which links the verb and its prepositional object.
-        /// </param>
+        /// <param name="prepositional">The prepositional which links the verb and its prepositional object.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
@@ -56,9 +49,7 @@ namespace LASI.Core
         /// <summary>
         /// Binds the given Entity as a subject of the Verb instance.
         /// </summary>
-        /// <param name="subject">
-        /// The Entity to attach to the Verb as a subject.
-        /// </param>
+        /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
         public virtual void BindSubject(IEntity subject) {
             subjects = subjects.Add(subject);
             subject.SubjectOf = this;
@@ -67,9 +58,7 @@ namespace LASI.Core
         /// <summary>
         /// Binds the given Entity as a direct object of the Verb instance.
         /// </summary>
-        /// <param name="directObject">
-        /// The Entity to attach to the Verb as a direct object.
-        /// </param>
+        /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject) {
             directObjects = directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
@@ -87,33 +76,30 @@ namespace LASI.Core
         /// <summary>
         /// Binds the given Entity as an indirect object of the Verb instance.
         /// </summary>
-        /// <param name="indirectObject">
-        /// The Entity to attach to the Verb as an indirect object.
-        /// </param>
+        /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject) {
             indirectObjects = indirectObjects.Add(indirectObject);
             indirectObject.IndirectObjectOf = this;
         }
 
         /// <summary>
-        /// Determines if the Verb implies a possession relationship. E.g. in the sentence "They
-        /// have a lot of ideas." the Verb "have" asserts a possessor possessee relationship between
-        /// "They" and "a lot of ideas".
+        /// Determines if the Verb implies a possession relationship. E.g. in the sentence "They have a lot of ideas." the Verb "have"
+        /// asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
-        /// <returns>
-        /// <c>true</c> if the Verb is a possessive relationship specifier; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if the Verb is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
         protected virtual bool DetermineIsPossessive() => this.GetSynonyms().Contains("have", ignoreCase);
 
         /// <summary>
-        /// Determines if the Verb acts as a classifier. E.g. in the sentence "Rodents are prey
-        /// animals." the Verb "are" acts as a classification tool because it states that rodents
-        /// are a subset of prey animals.
+        /// Determines if the Verb acts as a classifier. E.g. in the sentence "Rodents are prey animals." the Verb "are" acts as a
+        /// classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
-        /// <returns>
-        /// <c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.
-        /// </returns>
-        protected virtual bool DetermineIsClassifier() => !IsPossessive && Modality == null && AdverbialModifiers.None() && this.GetSynonyms().Contains("be", ignoreCase);
+        /// <returns><c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.</returns>
+        protected virtual bool DetermineIsClassifier() {
+            return !IsPossessive &&
+                Modality == null &&
+                AdverbialModifiers.None() &&
+                this.GetSynonyms().Contains("be", ignoreCase);
+        }
 
         #endregion Methods
 
@@ -165,8 +151,7 @@ namespace LASI.Core
         public VerbForm VerbForm { get; }
 
         /// <summary>
-        /// Gets the object of the Verb's preposition. This can be any ILexical construct including
-        /// a word, phrase, or clause.
+        /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.
         /// </summary>
         public ILexical ObjectOfThePreposition { get; protected set; }
 

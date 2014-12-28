@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental;
 
 namespace LASI.Core
 {
     /// <summary>
-    /// <para> Defines the broad role requirements for the weightable, countable textual elements, of a written work. </para>
-    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many otherwise disparate element types and type hierarchies. 
-    /// </para>
+    /// Defines the broad role requirements for the weightable, countable textual elements, of a written work. Along with the other
+    /// interfaces in the Syntactic Interfaces Library, the ILexical interface provides for generalization and abstraction over many
+    /// otherwise disparate element types and type hierarchies.
     /// </summary>
     public interface ILexical
     {
@@ -21,6 +17,7 @@ namespace LASI.Core
             get;
             set;
         }
+
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Right of the Lexical element.
         /// </summary>
@@ -43,6 +40,7 @@ namespace LASI.Core
             get;
             set;
         }
+
         /// <summary>
         /// Gets or sets the numeric Weight of the Lexical element construct over the context of some subset of project extant documents.
         /// </summary>

@@ -13,6 +13,7 @@ namespace LASI.Core
     public static partial class LexicalEnumerable
     {
         #region Sequential Implementations
+
         /// <summary>
         /// Determines whether a sequence of ILexical constructs contains a specified element by using a specified equality comparison function.
         /// </summary>

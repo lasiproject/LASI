@@ -1,13 +1,7 @@
-﻿using System;
+﻿using LASI.Core.Heuristics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using LASI.Utilities;
-using LASI.Core.Heuristics;
-using LASI.Core.PatternMatching;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace LASI.Core
 {
@@ -24,22 +18,25 @@ namespace LASI.Core
         /// <param name="words">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> words)
             : base(words) {
-            PrevailingTense = (from v in words.OfVerb()
-                               group v.VerbForm by v.VerbForm into byTense
-                               select new { Count = byTense.Count(), byTense.Key } into tenseCount
-                               orderby tenseCount.Count
-                               select tenseCount.Key).FirstOrDefault();
+            PrevailingForm = (from verb in Words.OfVerb()
+                              group verb.VerbForm by verb.VerbForm into byForm
+                              orderby byForm.Count()
+                              select byForm.Key)
+                .FirstOrDefault();
         }
+
         /// <summary>
         /// Initializes a new instance of the VerbPhrase class.
         /// </summary>
         /// <param name="first">The first Word of the VerbPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the VerbPhrase.</param>
-        /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// <remarks>
+        /// This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. Thus, its purpose
+        /// is to simplifiy test code.
+        /// </remarks>
         public VerbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -51,15 +48,17 @@ namespace LASI.Core
             modifiers = modifiers.Add(modifier);
             modifier.Modifies = this;
         }
+
         /// <summary>
-        /// <para> Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or PrepositionalPhrase. </para>
-        /// <para> Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to" </para>
+        /// <para>Binds the VerbPhrase to an object via a prepositional construct such as a Preposition or PrepositionalPhrase.</para>
+        /// <para>Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"</para>
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
         public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
             ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
+
         /// <summary>
         /// Binds the given Entity as a subject of the VerbPhrase instance.
         /// </summary>
@@ -69,7 +68,7 @@ namespace LASI.Core
                 subjects = subjects.Add(subject);
                 subject.SubjectOf = this;
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
-                foreach (var v in this.Words.OfVerb()) { v.BindSubject(subject); }
+                foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
             }
         }
 
@@ -81,18 +80,19 @@ namespace LASI.Core
             if (directObject != null) {
                 directObjects = directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                foreach (var v in this.Words.OfVerb()) { v.BindDirectObject(directObject); }
+                foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive) {
-                    foreach (var subject in this.Subjects) {
+                    foreach (var subject in Subjects) {
                         subject.AddPossession(directObject);
                     }
                 } else if (IsClassifier) {
-                    foreach (var subject in this.Subjects) {
+                    foreach (var subject in Subjects) {
                         AliasLookup.DefineAlias(subject, directObject);
                     }
                 }
             }
         }
+
         /// <summary>
         /// Binds the given Entity as an indirect object of the VerbPhrase instance.
         /// </summary>
@@ -110,111 +110,126 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
+            var empty = string.Empty;
             return !Phrase.VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
-                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
-                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : string.Empty,
-                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : string.Empty,
-                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
-                Modality != null ? "Modality: " + Modality.Text : string.Empty,
-                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : string.Empty,
+                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : empty,
+                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : empty,
+                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : empty,
+                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : empty,
+                Modality != null ? "Modality: " + Modality.Text : empty,
+                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : empty,
                 "\nPossessive: [\{IsPossessive}]",
                 "\nClassifier: [\{IsClassifier}]",
-                "\nPrevailing Tense: [\{PrevailingTense}]"
+                "\nPrevailing Tense: [\{PrevailingForm}]"
             );
         }
 
         /// <summary>
-        /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence 
-        /// "They certainly have a lot of ideas." the VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
+        /// Determines if the VerbPhrase implies a possession relationship. E.g. in the sentence "They certainly have a lot of ideas." the
+        /// VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
-        /// <returns> <c>true</c> if the VerbPhrase is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the VerbPhrase is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
         private bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
 
         /// <summary>
-        /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." 
-        /// the VerbPhrase "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." the VerbPhrase
+        /// "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
-        /// <returns> <c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
-        private bool DetermineIsClassifier() =>
-            !IsPossessive &&
-            Modality == null &&
-            AdverbialModifiers.None() &&
-            Words.OfVerb().Any() &&
-            Words.OfVerb().All(v => v.IsClassifier);
+        /// <returns><c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
+        private bool DetermineIsClassifier() {
+            return !IsPossessive &&
+                Modality == null &&
+                AdverbialModifiers.None() &&
+                Words.OfVerb().Any() &&
+                Words.OfVerb().All(v => v.IsClassifier);
+        }
 
-
-        #endregion
+        #endregion Methods
 
         #region Properties
+
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's subjects.
         /// </summary>
         public IAggregateEntity AggregateSubject => subjects.ToAggregate();
+
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's direct objects.
         /// </summary>
         public IAggregateEntity AggregateDirectObject => directObjects.ToAggregate();
+
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the VerbPhrase's indirect objects.
         /// </summary>
         public IAggregateEntity AggregateIndirectObject => indirectObjects.ToAggregate();
+
         /// <summary>
         /// Gets the collection of IAdverbial modifiers which modify the VerbPhrase.
         /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers => modifiers;
+
         /// <summary>
         /// Gets or sets the IDescriptor which modifies, by way of the Verbal, its Subject.
         /// </summary>
         public IDescriptor PostpositiveDescriptor {
-            get { return postpositiveDescriptor; }
+            get {
+                return postpositiveDescriptor;
+            }
             set {
                 postpositiveDescriptor = value;
                 foreach (var described in Subjects) { described.BindDescriptor(value); }
             }
         }
+
         /// <summary>
         /// Gets the prevailing Tense of the VerbPhrase.
-        /// <see cref="VerbForm"/>
         /// </summary>
-        public VerbForm PrevailingTense { get; }
+        /// <see cref="VerbForm" />
+        public VerbForm PrevailingForm { get; }
+
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>
         public ModalAuxilary Modality { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether or not the VerbPhrase has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive => (isPossessive = isPossessive ?? DetermineIsPossessive()) ?? false;
-
+        public bool IsPossessive => isPossessive ?? (isPossessive = DetermineIsPossessive()) ?? false;
 
         /// <summary>
         /// Gets a value indicating whether or not the VerbPhrase has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier => (isClassifier = isClassifier ?? DetermineIsClassifier()) ?? false;
+        public bool IsClassifier => isClassifier ?? (isClassifier = DetermineIsClassifier()) ?? false;
 
         /// <summary>
         /// Gets the subjects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> Subjects => subjects;
+
         /// <summary>
         /// Gets the direct objects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> DirectObjects => directObjects;
+
         /// <summary>
         /// Gets the indirect objects of the VerbPhrase.
         /// </summary>
         public IEnumerable<IEntity> IndirectObjects => indirectObjects;
+
         /// <summary>
-        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct including a word, phrase, or clause.
+        /// Gets the VerbPhrases's object, If the VerbPhrase has an object bound via a Prepositional. This can be any ILexical construct
+        /// including a word, phrase, or clause.
         /// </summary>
         public ILexical ObjectOfThePreposition { get; protected set; }
+
         /// <summary>
         /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
 
@@ -222,10 +237,11 @@ namespace LASI.Core
         private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
+        private IDescriptor postpositiveDescriptor;
+
         private bool? isClassifier;
         private bool? isPossessive;
-        private IDescriptor postpositiveDescriptor;
-        #endregion
+
+        #endregion Fields
     }
 }
-

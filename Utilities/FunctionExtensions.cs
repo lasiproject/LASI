@@ -7,6 +7,7 @@ namespace LASI.Utilities
     /// </summary>
     public static class FunctionExtensions
     {
+
         /// <summary>
         /// Composes two functions returning a new function which represents the application of the
         /// first function to the result of the application of the second function. In other words
@@ -43,12 +44,36 @@ namespace LASI.Utilities
         /// </example>
         /// <remarks>
         /// </remarks>
-        public static Func<T1, T3> Compose<T1, T2, T3>(this Func<T2, T3> first, Func<T1, T2> second) {
-            return t => first(second(t));
+        public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> first, Func<T2, T1> second) {
+            return x => first(second(x));
+        }
+        public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> first, Func<T1, T1> second) {
+            return x => first(second(x));
+        }
+        public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> first, Func<T1, T2> second) {
+            return x => first(second(x));
+        }
+
+        public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> first, Func<T2, T1> second) {
+            return x => first(second(x));
+        }
+
+
+        public static Func<T3, T1> AndThen<T1, T2, T3>(this Func<T3, T2> first, Func<T2, T1> second) {
+            return x => {
+                var y = first(x);
+                return second(y);
+            };
+        }
+        public static Func<T1, T3> AndThen<T1, T2, T3>(this Func<T1, T2> first, Func<T2, T3> second) {
+            return x => {
+                var y = first(x);
+                return second(y);
+            };
         }
 
         #region Currying
- 
+
         public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) {
             return a => b => fn(a, b);
         }
@@ -270,6 +295,8 @@ namespace LASI.Utilities
         }
 
         #endregion Partial Application
+
+        public static T Identity<T>(T t) => t;
 
         public static System.Diagnostics.Stopwatch InvokeTimed(this Action action) {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();

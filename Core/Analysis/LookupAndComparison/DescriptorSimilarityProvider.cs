@@ -15,12 +15,6 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The first IDescriptor</param>
         /// <param name="second">The second IDescriptor</param>
         /// <returns> <c>true</c> if the given IDescriptor instances are similar; otherwise, <c>false</c>.</returns>
-        /// <remarks>
-        /// are two calling conventions for this method. See the following examples
-        /// <code>if ( Lookup.IsSimilarTo(d1, d2) ) { ... }</code>
-        /// <code>if ( d1.IsSimilarTo(d2) ) { ... }</code> 
-        /// Please prefer the second convention.
-        /// </remarks>
         public static Similarity IsSimilarTo(this IDescriptor first, IDescriptor second) {
             return first.Match().Yield<Similarity>()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
@@ -42,11 +36,6 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The first Adjective.</param>
         /// <param name="second">The second Adjective.</param>
         /// <returns> <c>true</c> if the first Adjective is similar to the second; otherwise, <c>false</c>.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( Lookup.IsSimilarTo(a1, a2) ) { ... }</code>
-        /// <code>if ( a1.IsSimilarTo(a2) ) { ... }</code>
-        /// Please prefer the second convention.
-        /// </remarks>
         public static Similarity IsSimilarTo(this Adjective first, Adjective second) {
             return new Similarity(first.IsSynonymFor(second));
         }
@@ -56,11 +45,6 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The AdjectivePhrase.</param>
         /// <param name="second">The Adjective.</param>
         /// <returns> <c>true</c> if the provided AdjectivePhrase is similar to the provided Adjective; otherwise, <c>false</c>.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( Lookup.IsSimilarTo(ap1, a2) ) { ... }</code>
-        /// <code>if ( ap1.IsSimilarTo(a2) ) { ... }</code>
-        /// Please prefer the second convention.
-        /// </remarks>
         public static Similarity IsSimilarTo(this AdjectivePhrase first, Adjective second) {
             return second.IsSimilarTo(first);
         }
@@ -70,11 +54,6 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The Adjective.</param>
         /// <param name="second">The AdjectivePhrase.</param>
         /// <returns> <c>true</c> if the provided Adjective is similar to the provided AdjectivePhrase; otherwise, <c>false</c>.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( Lookup.IsSimilarTo(a1, ap2) ) { ... }</code>
-        /// <code>if ( a1.IsSimilarTo(ap2) ) { ... }</code>
-        /// Please prefer the second convention.
-        /// </remarks>
         public static Similarity IsSimilarTo(this Adjective first, AdjectivePhrase second) {
             return new Similarity(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
@@ -84,11 +63,6 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The first AdjectivePhrase</param>
         /// <param name="second">The second AdjectivePhrase</param>
         /// <returns> <c>true</c> if the given AdjectivePhrase are similar; otherwise, <c>false</c>.</returns>
-        /// <remarks>There are two calling conventions for this method. See the following examples:
-        /// <code>if ( Lookup.IsSimilarTo(ap1, ap2) ) { ... }</code>
-        /// <code>if ( ap1.IsSimilarTo(ap2) ) { ... }</code>
-        /// Please prefer the second convention.
-        /// </remarks>
         public static Similarity IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) {
             var result = first.Words
                 .OfAdjective()

@@ -2,15 +2,11 @@
 using LASI.Core;
 using LASI.UnitTests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace LASI.UnitTests
 {
-
-
     /// <summary>
     ///This is A test class for NounTest and is intended
     ///to contain all NounTest Unit Tests
@@ -18,59 +14,6 @@ namespace LASI.UnitTests
     [TestClass]
     public class NounTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        internal virtual Noun CreateNoun() {
-            Noun target = new CommonSingularNoun("dog");
-            return target;
-        }
-
         /// <summary>
         ///A test for AddPossession
         ///</summary>
@@ -104,7 +47,6 @@ namespace LASI.UnitTests
             Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
         }
 
-
         /// <summary>
         ///A test for Descriptors
         ///</summary>
@@ -127,8 +69,6 @@ namespace LASI.UnitTests
             actual = target.DirectObjectOf;
             Assert.AreEqual(expected, actual);
         }
-
-
 
         /// <summary>
         ///A test for IndirectObjectOf
@@ -204,7 +144,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-
         /// <summary>
         ///A test for SubTaxonomicNoun
         ///</summary>
@@ -247,10 +186,7 @@ namespace LASI.UnitTests
             Assert.IsTrue(target.QuantifiedBy.Quantifies == target);
         }
 
-
-        /// <summary>
-        ///A test for Descriptors
-        ///</summary>
+        /// <summary>A test for Descriptors</summary>
         [TestMethod]
         public void DescriptorsTest() {
             Noun target = CreateNoun();
@@ -276,7 +212,6 @@ namespace LASI.UnitTests
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.Contains(pro));
             Assert.IsTrue(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target)));
-
         }
 
         /// <summary>
@@ -303,6 +238,24 @@ namespace LASI.UnitTests
             Assert.AreEqual(descriptor.Describes, target);
         }
 
+        /// <summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext {
+            get {
+                return testContextInstance;
+            }
+            set {
+                testContextInstance = value;
+            }
+        }
 
+        private Noun CreateNoun() {
+            Noun target = new CommonSingularNoun("dog");
+            return target;
+        }
+
+        private TestContext testContextInstance;
     }
 }

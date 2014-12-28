@@ -101,6 +101,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-     
+
     }
 }
