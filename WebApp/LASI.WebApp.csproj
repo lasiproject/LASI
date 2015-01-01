@@ -411,8 +411,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <None Include="bower.json" />
-    <None Include="gruntfile.js" />
     <Content Include="Images\ic_launcher-web.png" />
     <Content Include="Images\ic_launcher-web50x50.png" />
     <TypeScriptCompile Include="Scripts\App\Home\ContextMenuProvider.ts" />
@@ -424,7 +422,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="package.json" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
