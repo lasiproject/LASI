@@ -144,7 +144,7 @@ namespace LASI.App
                 openDialog.ShowDialog(this);
                 if (openDialog.FileNames.Any()) {
                     for (int i = 0; i < openDialog.FileNames.Length; ++i) {
-                        if (!DocumentManager.FileNamePresent(openDialog.SafeFileNames[i])) {
+                        if (!DocumentManager.HasFileWithName(openDialog.SafeFileNames[i])) {
                             var fileName = openDialog.SafeFileNames[i];
                             var filePath = openDialog.FileNames[i];
                             DocumentManager.AddDocument(fileName, filePath);

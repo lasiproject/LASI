@@ -68,8 +68,6 @@ namespace LASI.Core.Binding
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
-
-
                     //if the last word, you can't find any more subjects
                     if (s.GetPhrasesAfter(i).OfVerbPhrase().None())
                         break;

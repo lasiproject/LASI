@@ -269,7 +269,7 @@ namespace LASI.App
         }
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenManualRequest(this);
+            SharedFunctionality.OpenManualWithInstalledViewer(this);
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
             var componentsDisplay = new ComponentInfoDialogWindow
@@ -319,7 +319,7 @@ namespace LASI.App
             }
             for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
                 var file = new FileInfo(openDialog.FileNames[i]);
-                if (DocumentManager.FileNamePresent(file.Name)) {
+                if (DocumentManager.HasFileWithName(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
                 } else if (!file.UnableToOpen()) {
                     await AddNewDocument(file);
@@ -332,7 +332,7 @@ namespace LASI.App
             await SharedFunctionality.HandleDropAddAsync(this, e, AddNewDocument);
         }
         private void openPreferencesMenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedFunctionality.OpenPreferencesWindow(this);
+            SharedFunctionality.DisplayPreferencesWindow(this);
         }
 
         #endregion

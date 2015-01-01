@@ -156,7 +156,7 @@ namespace LASI.App
             }
             for (int i = 0; i < openDialog.SafeFileNames.Length; i++) {
                 var file = new FileInfo(openDialog.FileNames[i]);
-                if (DocumentManager.FileNamePresent(file.Name)) {
+                if (DocumentManager.HasFileWithName(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
                 } else if (!file.UnableToOpen()) {
                     DocumentManager.AddDocument(file.Name, file.FullName);
@@ -180,7 +180,7 @@ namespace LASI.App
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenWebsiteRequest(this);
+            SharedFunctionality.LaunchLASIWebsite(this);
         }
 
         private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
@@ -193,11 +193,11 @@ namespace LASI.App
         }
 
         private void OpenPreferences_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedFunctionality.OpenPreferencesWindow(this);
+            SharedFunctionality.DisplayPreferencesWindow(this);
         }
 
         private void OpenManual_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e) {
-            SharedFunctionality.ProcessOpenManualRequest(this);
+            SharedFunctionality.OpenManualWithInstalledViewer(this);
         }
 
         private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e) {

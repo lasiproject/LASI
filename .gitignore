@@ -235,3 +235,7 @@ WebEssentials-Settings.json
 /UnitTests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
 /UnitTests/MockUserFiles/Draft_Environmental_Assessment3.txt
 /UnitTests/MockUserFiles/Draft_Environmental_Assessment1
+/UnitTests/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word
+/TestDocs
+/WebApp/node_modules/grunt-bower-task
+/WebApp/node_modules/grunt

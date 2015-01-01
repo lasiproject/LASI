@@ -7,87 +7,106 @@ using System.Windows.Input;
 using System.Configuration;
 using LASI.Content.Serialization;
 using LASI.App.Dialogs;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LASI.App
 {
     static class SharedFunctionality
     {
-        internal static void ProcessOpenWebsiteRequest(Window sourceOfRequest) {
+        static class UiMessages
+        {
+            public static readonly string UnableToReachLASIWebSite = "Sorry, the LASI project website could not be opened";
+            public static readonly string UnableToLocateManual = "Unable to locate the User Manual, please write to us at thelasiproject@gmail.com for further support.";
+            public static readonly string UnableToOpenManual = "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.";
+            public static readonly string ValidDocumentFormats = "The following file formats are accepted:\n\{DocumentManager.AcceptedFormats}";
+            public static readonly string DocumentLimitExceeded = "A single project may have a maximum of \{DocumentManager.MAX_DOCUMENTS} documents.";
+
+        }
+
+        internal static void LaunchLASIWebsite(Window source) {
             try {
                 System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["ProjectWebsite"]);
-            }
-            catch (Exception) {
-                MessageBox.Show(sourceOfRequest, "Sorry, the LASI project website could not be opened");
+            } catch (Exception x) {
+                MessageBox.Show(source, UiMessages.UnableToReachLASIWebSite);
+                Output.WriteLine(x.Message); Output.WriteLine(x);
             }
         }
-        internal static void ProcessOpenManualRequest(Window sourceOfRequest) {
+        internal static void OpenManualWithInstalledViewer(Window source) {
             try {
                 System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            }
-            catch (FileNotFoundException) {
-                MessageBox.Show(sourceOfRequest, "Unable to locate the User Manual, please contact the LASI team (thelasiproject@gmail.com) for further support.");
-            }
-            catch (Exception) {
-                MessageBox.Show(sourceOfRequest, "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.");
+            } catch (FileNotFoundException) {
+                MessageBox.Show(source, UiMessages.UnableToLocateManual);
+            } catch (Exception x) {
+                MessageBox.Show(source, UiMessages.UnableToOpenManual);
+                Output.WriteLine(x.Message); Output.WriteLine(x);
             }
         }
-        internal static void OpenPreferencesWindow(Window sourceOfRequest) {
-            var preferences = new PreferencesWindow();
-            preferences.Left = (sourceOfRequest.Left - preferences.Left) / 2;
-            preferences.Top = (sourceOfRequest.Top - preferences.Top) / 2;
-            var saved = preferences.ShowDialog();
+        public static void DisplayMessage(this Window window, string message) {
+            MessageBox.Show(window, message);
         }
+        public static void DisplayMessageWhen(this Window window, bool condition, string message) {
+            if (condition) { window.DisplayMessage(message); }
+        }
+        internal static async Task HandleDropAddAsync(Window source, DragEventArgs e, Func<FileInfo, Task> processValid) {
+            if (!DocumentManager.CanAdd) {
+                MessageBox.Show(source, UiMessages.DocumentLimitExceeded);
+            } else {
+                var data = e.Data.GetData(DataFormats.FileDrop, true);
+                var validFiles = DocumentManager.GetValidFilesInPathList(data as string[]);
 
-        internal static async Task HandleDropAddAsync(Window targetWindow, DragEventArgs e, Func<FileInfo, Task> validDocumentProcess) {
-            if (DocumentManager.CanAdd) {
-                var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-                if (filesInValidFormats.None()) {
-                    MessageBox.Show(targetWindow, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
-                } else {
-                    foreach (var droppedFile in filesInValidFormats) {
-                        if (DocumentManager.FileNamePresent(droppedFile.Name)) {
-                            MessageBox.Show(targetWindow, string.Format("A document named {0} is already part of the projects.", droppedFile));
-                        } else {
-                            if (droppedFile.UnableToOpen()) {
-                                MessageBox.Show(targetWindow, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
-                            } else {
-                                await validDocumentProcess(droppedFile);
+                if (validFiles.Any()) {
+                    foreach (var file in validFiles) {
+                        var fileNamePresent = DocumentManager.HasFileWithName(file.Name);
+                        source.DisplayMessageWhen(fileNamePresent, "A document named \{file} is already part of the current project.");
+                        if (!fileNamePresent) {
+                            source.DisplayMessageWhen(file.UnableToOpen(), "The document \{file} is in use by another process, please close any applications which may be using the file and try again.");
+                            if (!file.UnableToOpen()) {
+                                await processValid(file);
                             }
                         }
                     }
                 }
-            } else {
-                MessageBox.Show(targetWindow, string.Format("A single project may only contain {0} documents.", DocumentManager.MAX_DOCUMENTS));
+                source.DisplayMessageWhen(!validFiles.Any(), "Cannot add a file of type \{data}; " + UiMessages.ValidDocumentFormats);
+
             }
         }
-        internal static void HandleDropAdd(Window targetWindow, DragEventArgs e, Action<FileInfo> validDocumentProcess) {
-            if (DocumentManager.CanAdd) {
-                var filesInValidFormats = DocumentManager.GetValidFilesInPathList(e.Data.GetData(System.Windows.DataFormats.FileDrop, true) as string[]);
-                if (filesInValidFormats.None()) {
-                    MessageBox.Show(targetWindow, string.Format("Only the following file formats are accepted:\n{0}", string.Join(",", DocumentManager.AcceptedFormats)));
+
+
+        internal static void HandleDropAdd(Window source, DragEventArgs e, Action<FileInfo> whereValid) {
+            if (!DocumentManager.CanAdd) {
+                MessageBox.Show(source, UiMessages.DocumentLimitExceeded);
+            } else {
+                var data = e.Data.GetData(DataFormats.FileDrop, true);
+                var validFiles = DocumentManager.GetValidFilesInPathList(data as string[]);
+                if (!validFiles.Any()) {
+                    MessageBox.Show(source, "Cannot add a file of type \{data}; " + UiMessages.ValidDocumentFormats);
                 } else {
-                    foreach (var droppedFile in filesInValidFormats) {
-                        if (DocumentManager.FileNamePresent(droppedFile.Name)) {
-                            MessageBox.Show(targetWindow, string.Format("A document named {0} is already part of the projects.", droppedFile));
+                    foreach (var file in validFiles) {
+                        if (DocumentManager.HasFileWithName(file.Name)) {
+                            source.DisplayMessage("A document named \{file} is already part of the current project.");
                         } else {
-                            if (droppedFile.UnableToOpen()) {
-                                MessageBox.Show(targetWindow, string.Format("The document {0} is in use by another process, please close any applications which may be using the file and try again.", droppedFile));
+                            if (file.UnableToOpen()) {
+                                source.DisplayMessage("The document \{file} is in use by another process, please close any applications which may be using the file and try again.");
                             } else {
-                                validDocumentProcess(droppedFile);
+                                whereValid(file);
                             }
                         }
                     }
                 }
-            } else {
-                MessageBox.Show(targetWindow, string.Format("A single project may have a maximum of {0} documents.", DocumentManager.MAX_DOCUMENTS));
             }
         }
 
-        internal static ILexicalSerializer<LASI.Core.ILexical, object> CreateSerializer() {
+        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() {
             var format = Properties.Settings.Default.OutputFormat;
             return SerializerFactory.Create(format);
         }
-
+        internal static void DisplayPreferencesWindow(Window source) {
+            var preferences = new PreferencesWindow();
+            preferences.Left = (source.Left - preferences.Left) / 2;
+            preferences.Top = (source.Top - preferences.Top) / 2;
+            var saved = preferences.ShowDialog();
+        }
     }
 }
 namespace LASI.App.Commands

@@ -15,7 +15,7 @@ namespace LASI.App
             browseForDocButton = browseButton;
             lastDocumentPathTextBox = lastPathTextBox;
         }
-        public static bool FileNamePresent(string documentName) {
+        public static bool HasFileWithName(string documentName) {
             return (from alreadyAdded in runningListDisplay.Items.OfType<ListViewItem>()
                     select alreadyAdded.Content.ToString()).Any(doc => doc.Trim().ToUpper() == documentName.Trim().ToUpper());
         }
