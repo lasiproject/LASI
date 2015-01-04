@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System;
 
 namespace LASI.Core
 {
@@ -10,6 +11,7 @@ namespace LASI.Core
     /// </summary>
     public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
+        public IEnumerable<IAdverbial> AttributedBy { get; }
         #region Constructors
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial modifier) {
             modifiers = modifiers.Add(modifier);
-            modifier.Modifies = this;
+            modifier.ModifiedBy = this;
         }
 
         /// <summary>

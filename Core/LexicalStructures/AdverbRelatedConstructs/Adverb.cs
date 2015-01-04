@@ -15,6 +15,9 @@ namespace LASI.Core
     public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
 
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        public IVerbal AttributedTo => ModifiedBy as IVerbal;
+        IDescriptor IAttributive<IDescriptor>.AttributedTo => ModifiedBy as IDescriptor;
         /// <summary>
         /// Initializes a new instance of the Adverb class.
         /// </summary>
@@ -25,7 +28,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the Adverb Modifies. 
         /// </summary>
-        public virtual IAdverbialModifiable Modifies {
+        public virtual IAdverbialModifiable ModifiedBy {
             get;
             set;
         }
@@ -35,17 +38,17 @@ namespace LASI.Core
         /// <param name="modifier">The IAdverbial construct by which to modify the current Adverb.</param>
         /// </summary>
         public void ModifyWith(IAdverbial modifier) {
-            modifiers.Add(modifier);
-            modifier.Modifies = this;
+            adverbialModifiers.Add(modifier);
+            modifier.ModifiedBy = this;
         }
         /// <summary>
         /// Gets the List of IAdverbial modifiers which modify the Adverb.
         /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers {
             get {
-                return modifiers;
+                return adverbialModifiers;
             }
         }
-        private HashSet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
     }
 }

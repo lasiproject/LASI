@@ -122,7 +122,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> Words(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
@@ -134,11 +134,19 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> Phrases(this IEnumerable<ILexical> elements) {
+        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
                     .Case((Clause c) => c.Phrases)
                     .Case((Phrase p) => new[] { p })
                     .Result(Enumerable.Empty<Phrase>()));
+        }
+        /// <summary>
+        /// Gets all of the Clause instances in the sequence of ILexicals.
+        /// </summary>
+        /// <param name="elements">The source sequence of ILexical instances.</param>
+        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
+        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) {
+            return elements.OfType<Clause>();
         }
         /// <summary>
         /// Returns all Entities in the sequence.
@@ -156,14 +164,17 @@ namespace LASI.Core
         public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements) {
             return elements.AsRecursiveEnumerable().OfType<IVerbal>();
         }
+
         /// <summary>
-        /// Gets all of the Clause instances in the sequence of ILexicals.
+        /// Returns all Descriptors in the sequence.
         /// </summary>
-        /// <param name="elements">The source sequence of ILexical instances.</param>
-        /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) {
-            return elements.OfType<Clause>();
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Descriptors in the sequence.</returns>
+        public static IEnumerable<IDescriptor> OfDescriptor(this IEnumerable<ILexical> elements) {
+            return elements.AsRecursiveEnumerable().OfType<IDescriptor>();
         }
+
+
 
         #endregion
 
@@ -273,7 +284,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> Words(this ParallelQuery<ILexical> elements) {
+        public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Word>>()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
@@ -285,7 +296,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        static ParallelQuery<Phrase> Phrases(this ParallelQuery<ILexical> elements) {
+        static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) {
             return elements.SelectMany(e => e.Match().Yield<IEnumerable<Phrase>>()
                     .Case((Clause c) => c.Phrases)
                     .Case((Phrase p) => new[] { p })
@@ -299,7 +310,31 @@ namespace LASI.Core
         public static ParallelQuery<Clause> OfClause(this ParallelQuery<ILexical> elements) {
             return elements.OfType<Clause>();
         }
+        /// <summary>
+        /// Returns all Entities in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of Lexicals to filter.</param>
+        /// <returns>All Entities in the sequence.</returns>
+        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) {
+            return elements.OfType<IEntity>();
+        }
+        /// <summary>
+        /// Returns all Verbals in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Verbals in the sequence.</returns>
+        public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements) {
+            return elements.AsRecursiveEnumerable().OfType<IVerbal>().AsParallel();
+        }
 
+        /// <summary>
+        /// Returns all Descriptors in the sequence.
+        /// </summary>
+        /// <param name="elements">The sequence of Lexicals to filter</param>
+        /// <returns>All Descriptors in the sequence.</returns>
+        public static ParallelQuery<IDescriptor> OfDescriptor(this ParallelQuery<ILexical> elements) {
+            return elements.AsRecursiveEnumerable().OfType<IDescriptor>().AsParallel();
+        }
         #endregion
 
     }

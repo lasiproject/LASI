@@ -11,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		XMLSchemas\ProjectFileEx.xml = XMLSchemas\ProjectFileEx.xml
 		RuleSet1.ruleset = RuleSet1.ruleset
 		Script1.fsx = Script1.fsx
-		TestSettings.runsettings = TestSettings.runsettings
 		tslint.json = tslint.json
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
@@ -27,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B0
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.App", "App\LASI.App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{B3482180-A78D-4A20-B744-81620578B79B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.UnitTests", "UnitTests\LASI.UnitTests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
 EndProject
@@ -56,6 +53,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{85C155
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Projects", "Test Projects", "{4C3A3981-72CA-44F5-982B-F2FBF3700AFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,17 +111,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
-		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {B3482180-A78D-4A20-B744-81620578B79B}
-		{2F5E64C4-89A9-4B41-942F-97BB85044FE5} = {B3482180-A78D-4A20-B744-81620578B79B}
+		{F4ABC10C-0BE9-4195-99E7-DB027757EC6B} = {4C3A3981-72CA-44F5-982B-F2FBF3700AFB}
 		{F57E105E-00CD-429A-8819-FAC415678F84} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 		{970D43A8-BC52-4953-AF25-C93DB2F5134A} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 		{C5304A4C-A870-4ACF-B3EE-30A789159774} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
-		{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A} = {B3482180-A78D-4A20-B744-81620578B79B}
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = LasiClassFramework.vsmdi
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ExperimentalClientProjects\Experimentation\Experimentation.csproj
+		{8A2A9BA6-8207-48ED-AB6E-F75CCC9DC63A} = {4C3A3981-72CA-44F5-982B-F2FBF3700AFB}
 	EndGlobalSection
 EndGlobal

@@ -16,8 +16,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         public CaseTypePredicate(Func<T, bool> inner) { this.additionalRequirement = x => inner(x); }
 
         /// <summary>
-        /// Returns a value indicating if the given <see cref="ILexical"> element conforms to the Type <typeparamref name="T"/>
-        /// represented by the <see cref="CaseTypePredicate{T}">.
+        /// Returns a value indicating if the given <see cref="ILexical"/> element conforms to the Type <typeparamref name="T"/>
+        /// represented by the <see cref="CaseTypePredicate{TX,T}"/>.
         /// </summary>
         /// <param name="element"> The <typeparam name="TLexical"/> instance to test against the Type pattern.</param>
         /// <returns>

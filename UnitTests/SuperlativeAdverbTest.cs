@@ -69,7 +69,7 @@ namespace LASI.UnitTests
             string text = "worthiest";
             SuperlativeAdverb target = new SuperlativeAdverb(text);
             Assert.AreEqual(text, target.Text);
-            Assert.IsTrue(target.Modifies == null);
+            Assert.IsTrue(target.ModifiedBy == null);
         }
     }
 }

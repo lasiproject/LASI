@@ -121,7 +121,7 @@ namespace LASI.WebApp
                 return accounts.AsQueryable().GetEnumerator();
             }
             private void CreateMongoServer() {
-                var mongoServerProcess = Process.Start(new ProcessStartInfo
+                var mongoServerProcess = Process.Start(new ProcessStartInfo 
                 {
                     FileName = mongodExecutableLocation,
                     Arguments = string.Join(" ", "--dbpath", applicationContext.Server.MapPath(mongoDbPath))

@@ -9,7 +9,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
     abstract class Predicate<T> where T : class, ILexical
     {
         /// <summary>
-        /// Returns a value indicating if the given <see cref="ILexical"> instance satisfies the <see cref="Predicate{T}">.
+        /// Returns a value indicating if the given <see cref="ILexical"/> instance satisfies the <see cref="Predicate{T}"/>.
         /// </summary>
         /// <param name="element"> The <see cref="ILexical"/> instance to test.</param>
         /// <returns>

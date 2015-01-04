@@ -1,186 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
-  <Nodes>
-    <Node Id="(@1 Namespace=::)" Category="CodeSchema_Namespace" Bounds="-956.840269206667,207.5475555,62.2045897600001,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="::" />
-    <Node Id="@10" Category="CodeSchema_Namespace" Bounds="247.601338086667,-17.4987399999999,150.471567413333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Binding" />
-    <Node Id="@11" Category="CodeSchema_Namespace" Bounds="332.060256606666,-74.1821584999999,221.536450373334,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Binding‎.Experimental" />
-    <Node Id="@12" Category="CodeSchema_Namespace" Bounds="236.1204981,39.1846785000001,161.434111386667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Heuristics" />
-    <Node Id="@13" Category="CodeSchema_Namespace" Bounds="132.4279645,95.8680970000001,212.830410586667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Heuristics‎.WordNet" />
-    <Node Id="@14" Category="CodeSchema_Namespace" Bounds="406.669884326667,95.8680970000001,198.308122933333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.PatternMatching" />
-    <Node Id="@15" Category="CodeSchema_Namespace" Bounds="891.48830822,152.5515155,162.604027146667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Reporting" />
-    <Node Id="@2" Category="CodeSchema_Assembly" Bounds="-976.838829206667,-227.5461155,2079.62432508,480.092231" CodeSchemaProperty_StrongName="LASI.Core, Version=1.0.5472.37510, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="14" FilePath="$(8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPath)" Group="Expanded" Label="LASI.Core.dll" UseManualLocation="True" />
-    <Node Id="@3" Category="CodeSchema_Namespace" Bounds="467.08886718,-130.865577,107.467997226667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core" />
-    <Node Id="@4" Category="CodeSchema_Namespace" Bounds="491.34212082,-17.49874,450.933265946667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.BinderImplementations‎.Experimental‎.SequentialPatterns" />
-    <Node Id="@5" Category="CodeSchema_Namespace" Bounds="499.369876113333,-187.5489955,198.89474736,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.Melding" />
-    <Node Id="@6" Category="CodeSchema_Namespace" Bounds="584.207100726666,-74.1821585,321.199274133333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.PatternMatching‎.LexicalSpecific" />
-    <Node Id="@7" Category="CodeSchema_Namespace" Bounds="-956.840269206667,-187.5489955,447.506846,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.PatternMatching‎.LexicalSpecific‎.Experimental‎.FromSpec" />
-    <Node Id="@8" Category="CodeSchema_Namespace" Bounds="-478.799690606667,-187.5489955,453.3564248,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.PatternMatching‎.LexicalSpecific‎.Experimental‎.TermBased" />
-    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="4.87048263333327,-187.5489955,463.94566232,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="LASI‎.Core‎.Analysis‎.PatternMatching‎.LexicalSpecific‎.Experimental‎.Termification" />
-  </Nodes>
-  <Links>
-    <Link Source="@10" Target="@12" Category="CodeSchema_Calls" Bounds="319.108856201172,7.50034141540527,2.40643310546875,22.7359409332275" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@10" Target="@14" Category="CodeSchema_Calls" Bounds="355.471099853516,7.50034141540527,127.236663818359,82.8336048126221" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="32" />
-    <Link Source="@10" Target="@3" Category="References" Bounds="258.842590332031,-111.585548400879,199.305389404297,94.0875949859619" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="617">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@11" Target="@10" Category="CodeSchema_Calls" Bounds="357.434478759766,-49.1832885742188,58.9365844726563,27.8413867950439" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@11" Target="@12" Category="References" Bounds="374.949768066406,-49.1832885742188,65.8224487304688,86.1472206115723" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="76">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@11" Target="@14" Category="CodeSchema_Calls" Bounds="450.767852783203,-49.1832885742188,48.3656005859375,136.475234985352" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="22" />
-    <Link Source="@11" Target="@15" Category="CodeSchema_Calls" Bounds="541.07958984375,-49.1832885742188,431.714721679688,192.736846923828" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@11" Target="@3" Category="References" Bounds="442.830139160156,-102.761329650879,35.1513671875,28.5797424316406" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="522">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="Implements" />
-      <Category Ref="InheritsFrom" />
-    </Link>
-    <Link Source="@11" Target="@4" Category="CodeSchema_Calls" Bounds="503.245025634766,-49.1832885742188,144.338958740234,29.8620758056641" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3" />
-    <Link Source="@12" Target="@13" Category="References" Bounds="281.687286376953,64.1839752197266,35.1513671875,28.5797424316406" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="35">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@12" Target="@14" Category="CodeSchema_Calls" Bounds="352.117431640625,64.1839752197266,96.9317932128906,29.4189529418945" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="89" />
-    <Link Source="@12" Target="@15" Category="CodeSchema_Calls" Bounds="338.005920410156,64.1839752197266,544.501281738281,96.5815582275391" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5" />
-    <Link Source="@12" Target="@3" Category="References" Bounds="184.847595214844,-113.077156066895,273.280029296875,152.262836456299" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1303">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@13" Target="@12" Category="References" Bounds="238.843933105469,67.2895584106445,35.1513671875,28.5797500610352" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_FunctionPointer" />
-    </Link>
-    <Link Source="@13" Target="@15" Category="CodeSchema_Calls" Bounds="285.147308349609,120.867599487305,597.358856201172,40.115966796875" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3" />
-    <Link Source="@13" Target="@3" Category="References" Bounds="149.849960327148,-113.575675964355,308.271957397461,209.444984436035" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="34">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@14" Target="@3" Category="References" Bounds="561.16943359375,-114.760475158691,449.658386230469,210.629783630371" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="48" />
-    <Link Source="@2" Target="(@1 Namespace=::)" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@10" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@11" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@12" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@13" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@14" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@15" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@3" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@4" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@5" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@6" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@7" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@8" Category="Contains" FetchingParent="@2" />
-    <Link Source="@2" Target="@9" Category="Contains" FetchingParent="@2" />
-    <Link Source="@3" Target="@10" Category="CodeSchema_Calls" Bounds="297.839935302734,-111.536918640137,169.255218505859,86.9169063568115" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="9" />
-    <Link Source="@3" Target="@11" Category="CodeSchema_Calls" Bounds="485.673492431641,-105.866920471191,35.1513977050781,28.5797500610352" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@3" Target="@12" Category="References" Bounds="220.116226196289,-113.238456726074,246.978927612305,147.98609161377" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="77">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_FunctionPointer" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@3" Target="@14" Category="References" Bounds="574.554565429688,-115.470817565918,472.234741210938,210.277313232422" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="50">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@3" Target="@15" Category="InheritsFrom" Bounds="574.554565429688,-115.65145111084,507.232299804688,265.892616271973" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="28">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@3" Target="@4" Category="CodeSchema_Calls" Bounds="574.554565429688,-115.040954589844,404.239318847656,96.5750751495361" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="8">
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@3" Target="@5" Category="References" Bounds="520.824890136719,-159.444961547852,35.1513671875,28.5797424316406" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@3" Target="@6" Category="CodeSchema_Calls" Bounds="570.09814453125,-105.896522521973,116.596923828125,29.5070724487305" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2">
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@4" Target="@14" Category="CodeSchema_Calls" Bounds="505.825866699219,7.50034141540527,117.93798828125,79.3695850372314" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="18" />
-    <Link Source="@4" Target="@3" Category="References" Bounds="583.533447265625,-114.124076843262,356.263061523438,96.6261234283447" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="311">
-      <Category Ref="CodeSchema_Calls" />
-    </Link>
-    <Link Source="@5" Target="@3" Category="References" Bounds="563.668212890625,-162.550552368164,35.1513671875,28.5797424316406" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="134">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-      <Category Ref="Implements" />
-    </Link>
-    <Link Source="@7" Target="@3" Category="References" Bounds="-518.229125976563,-162.550552368164,976.33251953125,41.6028060913086" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="106">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-    <Link Source="@8" Target="@3" Category="References" Bounds="-81.6823425292969,-162.550552368164,539.802215576172,39.586051940918" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="14" />
-    <Link Source="@9" Target="@3" Category="References" Bounds="299.4638671875,-162.550552368164,159.822814941406,31.9012298583984" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="20">
-      <Category Ref="CodeSchema_Calls" />
-      <Category Ref="CodeSchema_ReturnTypeLink" />
-    </Link>
-  </Links>
-  <Categories>
-    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
-    <Category Id="CodeSchema_Calls" Label="Calls" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Called By" OutgoingActionLabel="Calls" />
-    <Category Id="CodeSchema_FunctionPointer" Label="Function Pointer" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Function Pointers" OutgoingActionLabel="Function Pointers" />
-    <Category Id="CodeSchema_Namespace" Label="Namespace" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Type" Icon="CodeSchema_Namespace" NavigationActionLabel="Namespaces" />
-    <Category Id="CodeSchema_ReturnTypeLink" Label="Return" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Return types" OutgoingActionLabel="Return types" />
-    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
-    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" NavigationActionLabel="Files" />
-    <Category Id="Implements" Label="Implements" />
-    <Category Id="InheritsFrom" Label="Inherits From" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Inherited By" OutgoingActionLabel="Inherits From" />
-    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
-  </Categories>
+  <Nodes />
+  <Links />
   <Properties>
-    <Property Id="Bounds" DataType="System.Windows.Rect" />
-    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
-    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
-    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
     <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
-    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
-    <Property Id="DelayedChildNodesState" Label="Delayed Child Nodes State" Description="Unspecified if the delayed child nodes state is not specified. NotFetched if the group contains child nodes that are not fetched into the graph yet. Fetched if the group has all its delayed child nodes already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
-    <Property Id="DelayedCrossGroupLinksState" Label="Delayed Cross-Group Links State" Description="Unspecified if the delayed cross-group links state is not specified. NotFetched if delayed cross-group links on this node are not fetched into the graph yet. Fetched if all delayed cross-group links have already fetched." DataType="Microsoft.VisualStudio.GraphModel.DelayedDataState" />
     <Property Id="Expression" DataType="System.String" />
-    <Property Id="FetchedChildrenCount" DataType="System.Int32" />
-    <Property Id="FetchingParent" DataType="Microsoft.VisualStudio.GraphModel.GraphNodeId" />
-    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
-    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
     <Property Id="GroupLabel" DataType="System.String" />
-    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
-    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
-    <Property Id="IsContainment" DataType="System.Boolean" />
     <Property Id="IsEnabled" DataType="System.Boolean" />
-    <Property Id="IsSourceVirtualized" Label="Link Source Virtualized" Description="If true, the link source end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
-    <Property Id="IsTargetVirtualized" Label="Link Target Virtualized" Description="If true, the link target end contains data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
-    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
     <Property Id="Layout" DataType="System.String" />
-    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
-    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
     <Property Id="TargetType" DataType="System.Type" />
-    <Property Id="UseManualLocation" DataType="System.Boolean" />
     <Property Id="Value" DataType="System.String" />
     <Property Id="ValueLabel" DataType="System.String" />
     <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
-    <Property Id="Weight" Label="Weight" Description="Weight" DataType="System.Double" />
     <Property Id="ZoomLevel" DataType="System.String" />
   </Properties>
-  <QualifiedNames>
-    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
-    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
-  </QualifiedNames>
-  <IdentifierAliases>
-    <Alias n="1" Uri="Assembly=$(8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPathUri)" />
-    <Alias n="2" Id="(@1)" />
-    <Alias n="3" Id="(@1 Namespace=LASI.Core)" />
-    <Alias n="4" Id="(@1 Namespace=LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns)" />
-    <Alias n="5" Id="(@1 Namespace=LASI.Core.Analysis.Melding)" />
-    <Alias n="6" Id="(@1 Namespace=LASI.Core.Analysis.PatternMatching.LexicalSpecific)" />
-    <Alias n="7" Id="(@1 Namespace=LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec)" />
-    <Alias n="8" Id="(@1 Namespace=LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBased)" />
-    <Alias n="9" Id="(@1 Namespace=LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termification)" />
-    <Alias n="10" Id="(@1 Namespace=LASI.Core.Binding)" />
-    <Alias n="11" Id="(@1 Namespace=LASI.Core.Binding.Experimental)" />
-    <Alias n="12" Id="(@1 Namespace=LASI.Core.Heuristics)" />
-    <Alias n="13" Id="(@1 Namespace=LASI.Core.Heuristics.WordNet)" />
-    <Alias n="14" Id="(@1 Namespace=LASI.Core.PatternMatching)" />
-    <Alias n="15" Id="(@1 Namespace=LASI.Core.Reporting)" />
-  </IdentifierAliases>
   <Styles>
+    <Style TargetType="Node" GroupLabel="Category 1" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category1')" />
+      <Setter Property="Background" Value="#FFE51400" />
+    </Style>
     <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
       <Condition Expression="HasCategory('QueryResult')" />
       <Setter Property="Background" Value="#FFBCFFBE" />
@@ -364,9 +202,4 @@
       <Setter Property="HideLinkForNoCategory" Value="true" />
     </Style>
   </Styles>
-  <Paths>
-    <Path Id="8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPath" Value="C:\Users\Aluan\Documents\GitHub\LASI\Core\bin\Debug\LASI.Core.dll" />
-    <Path Id="8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPathUri" Value="file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/bin/Debug/LASI.Core.dll" />
-    <Path Id="FxReferenceAssemblies" Value="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework" />
-  </Paths>
 </DirectedGraph>

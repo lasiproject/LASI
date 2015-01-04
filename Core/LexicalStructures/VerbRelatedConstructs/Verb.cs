@@ -11,6 +11,7 @@ namespace LASI.Core
     /// </summary>
     public abstract class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
+        public IEnumerable<IAdverbial> AttributedBy { get; }
         #region Constructors
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace LASI.Core
         /// </summary>
         public virtual void ModifyWith(IAdverbial modifier) {
             modifiers = modifiers.Add(modifier);
-            modifier.Modifies = this;
+            modifier.ModifiedBy = this;
         }
 
         /// <summary>

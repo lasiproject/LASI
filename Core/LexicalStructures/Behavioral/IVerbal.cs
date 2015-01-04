@@ -5,7 +5,7 @@
     /// objects and to one or more Indirect objects . Along with the other interfaces in the Syntactic Interfaces Library, the IVerbal
     /// interface provides for generalization and abstraction over word and Phrase types.
     /// </summary>
-    public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable
+    public interface IVerbal : ILexical, ISubjectTaker, IDirectObjectTaker, IInderectObjectTaker, IAdverbialModifiable, IModalityModifiable, IAttributable<IVerbal, IAdverbial>
     {
         #region Methods
 

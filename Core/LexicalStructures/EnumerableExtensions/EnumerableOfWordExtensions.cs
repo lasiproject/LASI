@@ -206,8 +206,8 @@ namespace LASI.Core
         /// <returns>
         /// All Verbs in the collection matching the given verb form.
         /// </returns>
-        public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words, VerbForm tense) {
-            return words.OfType<Verb>().Where(v => v.VerbForm == tense);
+        public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words, VerbForm form) {
+            return words.OfType<Verb>().Where(v => v.VerbForm == form);
         }
 
         /// <summary>

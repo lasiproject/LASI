@@ -128,7 +128,7 @@ namespace LASI.UnitTests
         [TestMethod]
         public void BindSubjectTest() {
             string text = "gave";
-             Verb target = new SimpleVerb(text);
+            Verb target = new SimpleVerb(text);
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
             Assert.IsTrue(target.Subjects.Count() == 1);
@@ -200,7 +200,7 @@ namespace LASI.UnitTests
             target.ModifyWith(modifier);
             actual = target.AdverbialModifiers;
             Assert.IsTrue(actual.Contains(modifier));
-            Assert.IsTrue(modifier.Modifies == target);
+            Assert.IsTrue(modifier.ModifiedBy == target);
         }
 
 
@@ -326,17 +326,17 @@ namespace LASI.UnitTests
             int rand = new Random().Next(-1, 2);
             switch (rand) {
                 case -1:
-                target.BindSubject(entity);
-                break;
+                    target.BindSubject(entity);
+                    break;
                 case 0:
-                target.BindDirectObject(entity);
-                break;
+                    target.BindDirectObject(entity);
+                    break;
                 case 1:
-                target.BindDirectObject(entity);
-                break;
+                    target.BindDirectObject(entity);
+                    break;
                 default:
-                Assert.Fail();
-                break;
+                    Assert.Fail();
+                    break;
             }
             Func<IEntity, bool> predicate = e => e.Text == "monkeys";
             bool expected = true;

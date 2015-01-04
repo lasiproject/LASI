@@ -123,7 +123,7 @@ namespace LASI.Core
         /// Gets or sets the Lexical construct which is subordinated by the RelativePronoun.
         /// </summary>
         public ILexical Subordinates { get; set; }
-
+ 
 
         #endregion
 

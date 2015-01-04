@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents the present participle form of a verb. As such it may act as verbal, when paired with an auxilary, an entity, or a descriptor.
     /// </summary>
-    public class PresentParticiple : Verb, IEntity, IDescriptor
+    public class PresentParticiple : Verb, IEntity, IDescriptor 
     {
         #region Constuctors
         /// <summary>
@@ -92,6 +92,7 @@ namespace LASI.Core
         /// Gets or sets the Entity which the PresentParticiple describes.
         /// </summary>
         public IEntity Describes { get; set; }
+        public IEntity AttributedTo => Describes;
 
         #endregion
 

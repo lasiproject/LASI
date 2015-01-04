@@ -416,6 +416,7 @@ namespace LASI.Core.PatternMatching
         /// with the provided value.
         /// </summary>
         /// <param name="value">
+        /// <param name="accepted">Indicates if the match is to be initialized as already matched. </param>
         /// The value to match with. 
         /// </param>
         [DebuggerStepThrough]

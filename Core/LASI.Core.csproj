@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -67,12 +67,7 @@
       <HintPath>..\packages\System.Collections.Immutable.1.1.33-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -85,14 +80,7 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Binder.cs" />
@@ -130,11 +118,7 @@
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\ILexicalEnumerable.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\ILexicalEnumerableIterator.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerableExtensions.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerableIterator.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\LexicalEnumerables\LexicalEnumerator.cs" />
+    <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
     <Compile Include="LexicalStructures\Lexical.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
@@ -162,6 +146,7 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\AdverbMorpher.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
+    <Compile Include="LexicalStructures\AttributiveConstructs\IAttributable.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchExtensions.cs" />

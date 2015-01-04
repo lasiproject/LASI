@@ -11,6 +11,14 @@ namespace LASI.Core
     /// </summary>
     public class SubordinateClause : Clause, IDescriptor, IAdverbial
     {
+        public IEnumerable<IAdverbial> AttributedBy { get { throw new NotImplementedException(); } }
+
+
+        IVerbal IAttributive<IVerbal>.AttributedTo { get { throw new NotImplementedException(); } }
+
+        IDescriptor IAttributive<IDescriptor>.AttributedTo { get { throw new NotImplementedException(); } }
+        public IEntity AttributedTo { get { throw new NotImplementedException(); } }
+
         #region Constructors
 
         /// <summary>
@@ -43,7 +51,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IAdverbialModifiable Modifies {
+        public IAdverbialModifiable ModifiedBy {
 
             //get;
             //set;
@@ -51,14 +59,14 @@ namespace LASI.Core
                 return modifies;
             }
             set {
-                if (described == null) {
+                if (describes == null) {
                     modifies = value;
                 } else {
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
                                         as a descriptive modifier of {1}\n
                                         because it is already indicated as a Verbal
-                                        descriptive modifier of\n{2}", this, value, described));
+                                        descriptive modifier of\n{2}", this, value, describes));
                 }
             }
         }
@@ -67,10 +75,10 @@ namespace LASI.Core
         /// Gets or sets the IDescribable construct which the subordinate clause describes.
         /// </summary>
         public IEntity Describes {
-            get { return described; }
+            get { return describes; }
             set {
                 if (modifies == null) {
-                    described = value;
+                    describes = value;
                 } else {
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
@@ -90,11 +98,12 @@ namespace LASI.Core
             }
         }
 
+
         #endregion Properties
 
         #region Fields
 
-        private IEntity described;
+        private IEntity describes;
         private IAdverbialModifiable modifies;
         private HashSet<IAdverbial> adverbialModifiers = new HashSet<IAdverbial>();
 

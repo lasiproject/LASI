@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -8,6 +9,8 @@ namespace LASI.Core
     /// </summary>
     public class AdjectivePhrase : Phrase, IDescriptor, IAdverbialModifiable
     {
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        public IEntity AttributedTo => Describes;
         /// <summary>
         /// Initializes a new instance of the AdjectivePhrase class.
         /// </summary>
@@ -27,7 +30,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public virtual void ModifyWith(IAdverbial modifier) {
             modifiers.Add(modifier);
-            modifier.Modifies = this;
+            modifier.ModifiedBy = this;
         }
 
 
@@ -39,6 +42,7 @@ namespace LASI.Core
         /// Gets the Entity which the AdjectivePhrase describes.
         /// </summary>
         public virtual IEntity Describes { get; set; }
+
         private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
     }
 }

@@ -21,6 +21,7 @@ namespace LASI.Core
         /// Return a value indicating if the Verbal has any subjects bound to it which match the given predicate function.
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
+        /// <param name="predicate">The predicate to match subjects. </param>
         /// <returns> <c>true</c> if the Verbal has any subjects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
         public static bool HasSubject(this IVerbal verbal, Func<IEntity, bool> predicate) => HasBoundEntity(verbal.Subjects, predicate);
         /// <summary>

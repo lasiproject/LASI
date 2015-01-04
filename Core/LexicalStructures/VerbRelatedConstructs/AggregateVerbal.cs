@@ -14,28 +14,24 @@ namespace LASI.Core
                          .DefaultIfEmpty(0)
                          .Average();
         }
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        public IVerbal AttributedTo => AdverbialModifiers as IVerbal;
 
         public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
 
         public IEnumerable<IAdverbial> AdverbialModifiers => FlattenAbout(v => v.AdverbialModifiers);
 
-        public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects)
-                        .ToAggregate();
+        public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects).ToAggregate();
 
-        public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects)
-                        .ToAggregate();
+        public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects).ToAggregate();
 
-        public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects)
-                        .ToAggregate();
+        public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects).ToAggregate();
 
-        public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects)
-                        .Union(directObjects);
+        public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects).Union(directObjects);
 
-        public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects)
-                        .Union(indirectObjects);
+        public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
 
-        public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects)
-                        .Union(subjects);
+        public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects).Union(subjects);
 
         public bool IsClassifier => this.All(e => e.IsClassifier);
         public bool IsPossessive => this.All(e => e.IsPossessive);
@@ -78,11 +74,10 @@ namespace LASI.Core
 
         public IEnumerator<IVerbal> GetEnumerator() => constituents.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) {
-            return this.SelectMany(flattenAbout)
-                       .Where(result => result != null);
+            return this.SelectMany(flattenAbout).Where(result => result != null);
         }
 
         #region Fields

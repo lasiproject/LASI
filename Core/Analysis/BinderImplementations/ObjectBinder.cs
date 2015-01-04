@@ -73,8 +73,7 @@ namespace LASI.Core.Binding
                     new State[] { s0, s1, s2, s3, s4, s5 }.ToList().ForEach(state => state.Stream = inputstream);
                     try {
                         s0.Transition(inputstream.Get());
-                    }
-                    catch (InvalidOperationException) {
+                    } catch (InvalidOperationException) {
                     }
                 }
             }
@@ -111,8 +110,7 @@ namespace LASI.Core.Binding
             public S0(ObjectBinder machine) : base(machine, "s0") { }
 
             public override void Transition(Phrase phrase) {
-                try { InternalBind(phrase); }
-                catch (InvalidOperationException) { PerformExceptionFallback(); }
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
             private void InternalBind(Phrase phrase) {
@@ -177,8 +175,7 @@ namespace LASI.Core.Binding
         {
             public S1(ObjectBinder machine) : base(machine, "s1") { }
             public override void Transition(Phrase phrase) {
-                try { InternalBind(phrase); }
-                catch (InvalidOperationException) { PerformExceptionFallback(); }
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
             private void InternalBind(Phrase phrase) {
@@ -210,8 +207,7 @@ namespace LASI.Core.Binding
         {
             public S2(ObjectBinder machine) : base(machine, "s2") { }
             public override void Transition(Phrase phrase) {
-                try { InternalBind(phrase); }
-                catch (InvalidOperationException) { PerformExceptionFallback(); }
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
             private void InternalBind(Phrase phrase) {
@@ -235,8 +231,7 @@ namespace LASI.Core.Binding
                         foreach (var e in M.entities) {
                             if (!M.directFound) {
                                 M.bindingTarget.BindDirectObject(e);
-                            }
-                            else {
+                            } else {
                                 M.bindingTarget.BindIndirectObject(e);
                             }
                         }
@@ -245,7 +240,7 @@ namespace LASI.Core.Binding
                     .Case((VerbPhrase v) => {
                         InfinitivePhrase infinitive = new InfinitivePhrase(
                             phrase.Words.Concat(
-                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).Words()));
+                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).OfWord()));
                         M.directObject = infinitive;
                     })
                     .Case((IPrepositional p) => {
@@ -290,8 +285,7 @@ namespace LASI.Core.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -328,8 +322,7 @@ namespace LASI.Core.Binding
             public override void Transition(Phrase phrase) {
                 try {
                     InternalBind(phrase);
-                }
-                catch (InvalidOperationException) {
+                } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }
@@ -364,8 +357,7 @@ namespace LASI.Core.Binding
         {
 
             public override void Transition(Phrase phrase) {
-                try { InternalBind(phrase); }
-                catch (InvalidOperationException) {
+                try { InternalBind(phrase); } catch (InvalidOperationException) {
                     PerformExceptionFallback();
                 }
             }

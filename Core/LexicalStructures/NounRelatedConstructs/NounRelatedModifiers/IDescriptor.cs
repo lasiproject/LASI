@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Defines the role requirements for Descriptive constructs which descriptively modify Entity constructs.
@@ -12,7 +6,7 @@ namespace LASI.Core
     /// for generalization and abstraction over word and Phrase types.
     /// </summary>
     /// <see cref="IEntity"/>
-    public interface IDescriptor : ILexical, IAdverbialModifiable
+    public interface IDescriptor : ILexical, IAdverbialModifiable, IAttributive<IEntity>
     {
         /// <summary>
         /// Gets or sets the Entity which the Descriptor instance describes.

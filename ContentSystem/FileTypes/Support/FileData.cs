@@ -82,7 +82,7 @@ namespace LASI.Content
         /// <summary>
         /// Determines if the current instance is equal to the given FileData.
         /// </summary> 
-        /// <param name="obj">The FileData to equate to the current instance.</param>
+        /// <param name="other">The FileData to equate to the current instance.</param>
         /// <returns> <c>true</c> if the two instances should be considered equal; otherwise, <c>false</c>.</returns>
         public bool Equals(FileData other) => this == other;
 
