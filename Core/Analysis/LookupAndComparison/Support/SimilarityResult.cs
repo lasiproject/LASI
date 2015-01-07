@@ -6,7 +6,7 @@ namespace LASI.Core.Heuristics
 {
     /// <summary>
     /// Encapsulates multiple pieces of information gathered during a similarity comparison into a light weight type.
-    /// The structure cannot be created from outside of the Lookup class and is used to convey internal results.
+    /// The structure cannot be created from outside of the Lexicon class and is used to convey internal results.
     /// No special syntax is or code changes are required to manipulate this type. It will implicitly convert to bool
     /// So all code with forms such as:
     /// </summary>
@@ -15,7 +15,7 @@ namespace LASI.Core.Heuristics
     /// need not and should not be changed.
     /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implicitly convert
     /// to a double. This removes the need for public code such as:
-    /// <code>if (Lookup.GetSimiliarityRatio(a, b) > 0.7) { ... }</code>
+    /// <code>if (Lexicon.GetSimiliarityRatio(a, b) > 0.7) { ... }</code>
     /// Instead one may simple write the same logic as:
     /// <code>if (a.IsSimilarTo(b) > 0.7) { ... }</code>
     ///</remarks>
@@ -54,7 +54,7 @@ namespace LASI.Core.Heuristics
         #endregion Constructors
 
         #region Factory Methods
-        internal static Similarity FromRational(double rational) => new Similarity(rational > Lookup.SIMILARITY_THRESHOLD, rational);
+        internal static Similarity FromRational(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
         internal static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
         #endregion Factory Methods
 

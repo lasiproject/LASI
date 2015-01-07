@@ -19,6 +19,7 @@ namespace LASI.Core
         /// <param name="text">The text content of the Determiner.</param>
         public Determiner(string text)
             : base(text) {
+            // TODO: Improve this to handle contextual cases. Need to analyse tagger output first.
             if (string.Compare(text, "the", true, System.Globalization.CultureInfo.InvariantCulture) == 0)
                 DeterminerKind = DeterminerKind.Definite;
             else

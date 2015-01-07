@@ -32,7 +32,7 @@ namespace LASI.Content.Serialization.Json
         /// <param name="lexical">The source entity.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the lexical.</returns>
         public static JObject ToJObject(this ILexical lexical) {
-            return lexical.Match().Yield<JObject>()
+            return lexical.Match()
                     .Case((IEntity e) => e.ToJObject())
                     .Case((IVerbal v) => v.ToJObject())
                 .Result(new JObject(GetCommonProperties(lexical)));
@@ -80,3 +80,4 @@ namespace LASI.Content.Serialization.Json
         private static readonly NodeNameMapper elementNames = new NodeNameMapper();
     }
 }
+    

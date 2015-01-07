@@ -187,6 +187,7 @@
     <Compile Include="TestHelpers\CollectionHelpers.cs" />
     <Compile Include="TextFileTest.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
+    <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
     <Compile Include="VerbConjugatorTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />

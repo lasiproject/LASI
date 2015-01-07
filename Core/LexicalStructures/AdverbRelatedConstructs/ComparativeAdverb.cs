@@ -20,8 +20,6 @@ namespace LASI.Core
         /// Initializes a new instance of the ComparativeAdverb class.
         /// </summary>
         /// <param name="text">The text content of the ComparativeAdverb.</param>
-        public ComparativeAdverb(string text)
-            : base(text) {
-        }
+        public ComparativeAdverb(string text) : base(text) { }
     }
 }

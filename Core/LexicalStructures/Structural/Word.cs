@@ -11,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level grammatical constructs.
     /// </summary>
-    public abstract class Word : ILexical
+    public abstract class Word : ILexical, IPrepositionLinkable
     {
         #region Constructors
         /// <summary>

@@ -17,13 +17,10 @@ namespace LASI.Core
         /// The sequence of Phrase elements which comprise the Sentence.
         /// </param>
         /// <param name="ending">
-        /// The SentenceEnding which terminates the Sentence. If not provided, a period will be
+        /// The SentenceEnding which demarcates the Sentence. If not provided, a period will be
         /// assumed, and an instance of SentenceEnding created to represent it.
         /// </param>
-        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) {
-            Clauses = new[] { new Clause(phrases) };
-            Ending = ending ?? SentenceEnding.Period;
-        }
+        public Sentence(IEnumerable<Phrase> phrases, SentenceEnding ending) : this(new[] { new Clause(phrases) }, ending) { }
 
         /// <summary>
         /// Initializes a new instance of the Sentence class.

@@ -113,7 +113,7 @@ namespace LASI.Core.Heuristics
 
         private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) {
             return nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
-                Lookup.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
+                Lexicon.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
                 Enumerable.Empty<string>();
         }
 

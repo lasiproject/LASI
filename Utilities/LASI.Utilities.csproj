@@ -68,8 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="AdvancedEnumerableExtensions.cs" />
     <Compile Include="CharacterExtensions.cs" />
-    <Compile Include="Contracts\Validators\ArgumentValidator.cs" />
+    <Compile Include="Validation\Validator.cs" />
     <Compile Include="SupportTypes\CustomComparer.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="FunctionExtensions.cs" />

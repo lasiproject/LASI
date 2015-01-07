@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class Lookup
+    public static partial class Lexicon
     {
         private sealed class NameProvider
         {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities.Contracts.Validators;
+using LASI.Utilities.Validation;
 
 namespace LASI.Core
 {
@@ -26,7 +26,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of Noun instances to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
         public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.SubjectOf != null
                    select e;
@@ -39,7 +39,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the SubjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InSubjectRole()
                    where predicate(e.SubjectOf)
                    select e;
@@ -51,7 +51,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.</returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.DirectObjectOf != null
                    select e;
@@ -64,7 +64,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the DirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InDirectObjectRole()
                    where predicate(e.DirectObjectOf)
                    select e;
@@ -76,7 +76,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.</returns>
         public static IEnumerable<TEntity> InIndirectObjectRole<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.IndirectObjectOf != null
                    select e;
@@ -89,7 +89,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<TEntity> InIndirectObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InIndirectObjectRole()
                    where predicate(e.IndirectObjectOf)
                    select e;
@@ -101,7 +101,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of an IVerbal construct.</returns>
         public static IEnumerable<TEntity> InObjectRole<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return entities.InDirectObjectRole().Union(entities.InIndirectObjectRole());
         }
         /// <summary>
@@ -112,7 +112,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<TEntity> InObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return entities.InDirectObjectRole(predicate).Union(entities.InIndirectObjectRole(predicate));
         }
         /// <summary>
@@ -122,7 +122,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of an IVerbal construct.</returns>
         public static IEnumerable<TEntity> InSubjectOrObjectRole<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return entities.InSubjectRole().Union(entities.InObjectRole());
         }
         /// <summary>
@@ -133,7 +133,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IVerbal bound to each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static IEnumerable<TEntity> InSubjectOrObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return entities.InSubjectRole(predicate).Union(entities.InObjectRole(predicate));
         }
         /// <summary>
@@ -143,7 +143,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IDescribables to filter.</param> 
         /// <returns>All Entities in the given sequence which are bound to an IDescriptor.</returns>
         public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.Descriptors.Any()
                    select e;
@@ -156,7 +156,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
         public static IEnumerable<TEntity> HavingDescriptor<TEntity>(this IEnumerable<TEntity> entities, Func<IDescriptor, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities
                    where e.Descriptors.Any(predicate)
                    select e;
@@ -168,7 +168,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of entities to lift.</param>
         /// <returns>All entities in the sequence such that, if they are referencers, their references will be returned in their place.</returns>
         public static IEnumerable<IEntity> ResovlingReferences<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return entities.SelectMany(entity =>
                 entity.Match().Yield<IEnumerable<IEntity>>()
                     .When((IReferencer r) => r.RefersTo.Any())
@@ -186,7 +186,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of Noun instances to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of an IVerbal construct.</returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.SubjectOf != null
                    select e;
@@ -199,7 +199,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the SubjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InSubjectRole()
                    where predicate(e.SubjectOf)
                    select e;
@@ -211,7 +211,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of an IVerbal construct.</returns>
         public static ParallelQuery<TEntity> InDirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.DirectObjectOf != null
                    select e;
@@ -224,7 +224,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the DirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static ParallelQuery<TEntity> InDirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InDirectObjectRole()
                    where predicate(e.DirectObjectOf)
                    select e;
@@ -236,7 +236,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of an IVerbal construct.</returns>
         public static ParallelQuery<TEntity> InIndirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.IndirectObjectOf != null
                    select e;
@@ -249,7 +249,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static ParallelQuery<TEntity> InIndirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities.InIndirectObjectRole()
                    where predicate(e.IndirectObjectOf)
                    select e;
@@ -261,7 +261,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IEntity constructs to filter.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of an IVerbal construct.</returns>
         public static ParallelQuery<TEntity> InObjectRole<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             var direct = entities.InDirectObjectRole().AsSequential();
             var indirect = entities.InIndirectObjectRole().AsSequential();
             return direct.Union(indirect)
@@ -276,7 +276,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IndirectObjectOf property of each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Direct OR Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static ParallelQuery<TEntity> InObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             var direct = entities.InDirectObjectRole(predicate).AsSequential();
             var indirect = entities.InIndirectObjectRole(predicate).AsSequential();
             return direct.Union(indirect)
@@ -303,7 +303,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the IVerbal bound to each entity to determine if it should be included in the resulting sequence.</param>
         /// <returns>All IEntity constructs in the source sequence which have been bound as the Subject, Direct Object, or Indirect Object of any IVerbal construct which conforms the logic of the IVerbal selector function.</returns>
         public static ParallelQuery<TEntity> InSubjectOrObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities
                    where e.SubjectOf != null && predicate(e.SubjectOf)
                    || e.DirectObjectOf != null && predicate(e.DirectObjectOf)
@@ -317,7 +317,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of IDescribables to filter.</param> 
         /// <returns>All Entities in the given sequence which are bound to an IDescriptor.</returns>
         public static ParallelQuery<TEntity> HavingDescriptor<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return from e in entities
                    where e.Descriptors.Any()
                    select e;
@@ -331,7 +331,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which examines the descriptors bound to each element in the sequence.</param>
         /// <returns>All IDescribable Constructs in the given sequence which are bound to an IDescriptor that matches the given descriptorMatcher predicate function.</returns>
         public static ParallelQuery<TEntity> HavingDescriptor<TEntity>(this ParallelQuery<TEntity> entities, Func<IDescriptor, bool> predicate) where TEntity : IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities", predicate, "predicate");
+            Validator.ThrowIfNull(entities, "entities", predicate, "predicate");
             return from e in entities
                    where e.Descriptors.Any(predicate)
                    select e;
@@ -343,7 +343,7 @@ namespace LASI.Core
         /// <param name="entities">The sequence of entities to lift.</param>
         /// <returns>All entities in the sequence such that, if they are referencers, their references will be returned in their place.</returns>
         public static ParallelQuery<IEntity> ResovlingReferences<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : class, IEntity {
-            ArgumentValidator.ThrowIfNull(entities, "entities");
+            Validator.ThrowIfNull(entities, "entities");
             return entities.SelectMany(e => e.Match().Yield<IEnumerable<IEntity>>()
                     .When((IReferencer r) => r.RefersTo.Any())
                     .Then((IReferencer r) => r.RefersTo)

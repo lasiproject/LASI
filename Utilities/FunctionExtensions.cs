@@ -59,19 +59,9 @@ namespace LASI.Utilities
         }
 
 
-        public static Func<T3, T1> AndThen<T1, T2, T3>(this Func<T3, T2> first, Func<T2, T1> second) {
-            return x => {
-                var y = first(x);
-                return second(y);
-            };
-        }
         public static Func<T1, T3> AndThen<T1, T2, T3>(this Func<T1, T2> first, Func<T2, T3> second) {
-            return x => {
-                var y = first(x);
-                return second(y);
-            };
+            return second.Compose(first);
         }
-
         #region Currying
 
         public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) {
@@ -98,31 +88,6 @@ namespace LASI.Utilities
         #endregion Currying
 
         #region Partial Application
-
-        ///// <summary>
-        ///// Partially applies a function taking 1 arguments, of the form (T1) =&gt; TResult, by
-        ///// binding the supplied value as the first argument and returning a new function of the
-        ///// form () =&gt; TResult.
-        ///// </summary>
-        ///// <typeparam name="T1">
-        ///// The type of the first argument of the function.
-        ///// </typeparam>
-        ///// <typeparam name="TResult">
-        ///// The type of the result of the function.
-        ///// </typeparam>
-        ///// <param name="function">
-        ///// The function to partially apply.
-        ///// </param>
-        ///// <param name="value">
-        ///// The value to bind as the argument.
-        ///// </param>
-        ///// <returns>
-        ///// A new function, of the form () =&gt; TResult, produced by binding the supplied value as
-        ///// the argument.
-        ///// </returns>
-        //public static Func<TResult> Apply<T1, TResult>(this Func<T1, TResult> function, T1 value) {
-        //    return function(value);
-        //}
 
         /// <summary>
         /// Partially applies a function taking 2 arguments, of the form (T1, T2) =&gt; TResult, by
@@ -298,6 +263,9 @@ namespace LASI.Utilities
 
         public static T Identity<T>(T t) => t;
 
+        public static bool IsNull<T>(this T value) where T : class => value == null;
+        public static bool IsNotNull<T>(this T value) where T : class => !IsNull(value);
+        public static Func<T, bool> Negate<T>(this Func<T, bool> predicate) => x => !predicate(x);
         public static System.Diagnostics.Stopwatch InvokeTimed(this Action action) {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             action(); return stopwatch;

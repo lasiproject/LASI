@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class Lookup
+    public static partial class Lexicon
     {
         /// <summary>e
         /// Determines if two IVerbal instances are similar.
@@ -14,16 +14,16 @@ namespace LASI.Core.Heuristics
         /// <returns> <c>true</c> if the given IVerbal instances are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this IVerbal first, IVerbal second) {
             return
-                first.Match().Yield<Similarity>()
+                first.Match()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
                     .Then(Similarity.Similar)
                     .Case((Verb v1) =>
-                        second.Match().Yield<Similarity>()
+                        second.Match()
                           .Case((Verb v2) => v1.IsSimilarTo(v2))
                           .Case((VerbPhrase vp2) => v1.IsSimilarTo(vp2))
                         .Result())
                     .Case((VerbPhrase vp1) =>
-                        second.Match().Yield<Similarity>()
+                        second.Match()
                           .Case((VerbPhrase vp2) => vp1.IsSimilarTo(vp2))
                           .Case((Verb v2) => vp1.IsSimilarTo(v2))
                     .Result())

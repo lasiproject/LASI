@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class Lookup
+    public static partial class Lexicon
     {
         /// <summary>
         /// Determines if two IDescriptor instances are similar.
@@ -16,15 +16,14 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second IDescriptor</param>
         /// <returns> <c>true</c> if the given IDescriptor instances are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this IDescriptor first, IDescriptor second) {
-            return first.Match().Yield<Similarity>()
+            return first.Match()
                     .When(first.Text.EqualsIgnoreCase(second.Text))
-                    .Then(Similarity.Similar)
-                    .Case((Adjective a1) => second.Match().Yield<Similarity>()
+                    .Then(() => Similarity.Similar)
+                    .Case((Adjective a1) => second.Match()
                            .Case((Adjective a2) => new Similarity(a1.IsSynonymFor(a2)))
                            .Case((AdjectivePhrase ap2) => ap2.IsSimilarTo(a1))
                        .Result())
                     .Case((AdjectivePhrase ap1) => second.Match()
-                        .Yield<Similarity>()
                             .Case((AdjectivePhrase ap2) => ap1.IsSimilarTo(ap2))
                             .Case((Adjective a2) => ap1.IsSimilarTo(a2))
                         .Result())

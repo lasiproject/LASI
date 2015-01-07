@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities.Contracts.Validators;
+using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
-    using Validator = ArgumentValidator;
+    using Validator = Validator;
     /// <summary>
     /// Provides static methods for the creation of CustomComparer&lt;T&gt; instances.
     /// </summary>

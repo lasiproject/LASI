@@ -15,8 +15,8 @@ namespace LASI.App
         /// <returns>A System.Windows.Media.Brush enumeration value mapped to the syntactic role of the element.</returns>
         public Brush this[ILexical syntactic] {
             get {
-                return syntactic.Match().Yield<Brush>()
-                    .Case((Phrase p) => p.Match().Yield<Brush>()
+                return syntactic.Match()
+                    .Case((Phrase p) => p.Match()
                           .Case((PronounPhrase e) => Brushes.HotPink)
                           .When((NounPhrase n) => n.Words.OfProperNoun().Any())
                           .Then(Brushes.DarkBlue)
@@ -29,7 +29,7 @@ namespace LASI.App
                           .Case((IDescriptor e) => Brushes.Indigo)
                           .Case((IAdverbial e) => Brushes.Orange)
                           .Result(Brushes.Black))
-                    .Case((Word w) => w.Match().Yield<Brush>()
+                    .Case((Word w) => w.Match()
                           .Case((Adjective e) => Brushes.Indigo)
                           .Case((PresentParticiple e) => Brushes.DarkGreen)
                           .Case((Verb e) => Brushes.Green)

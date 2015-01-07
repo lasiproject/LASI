@@ -26,7 +26,7 @@ namespace LASI.Core.Binding.Experimental
             if (!phrases.OfVerbPhrase().Any()) { throw new VerblessPhrasalSequenceException(); }
 
             var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                   let result = phrase.Match().Yield<Phrase>()
+                                   let result = phrase.Match()
                                            .Case((IPrepositional p) => phrase)
                                            .Case((IConjunctive p) => phrase)
                                            .Case((IEntity p) => phrase)
@@ -47,10 +47,10 @@ namespace LASI.Core.Binding.Experimental
         private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements) {
             var results = new List<Func<Phrase>>();
             var targetVerbPhrases = elements.Select(e =>
-                e.Match().Yield<VerbPhrase>()
+                e.Match()
                     .Case((ConjunctionPhrase c) => c.NextPhrase as VerbPhrase)
                     .Case((SymbolPhrase s) =>
-                        s.NextPhrase.Match().Yield<VerbPhrase>()
+                        s.NextPhrase.Match()
                             .Case((VerbPhrase v) => v)
                         .Result(s.NextPhrase.NextPhrase as VerbPhrase))
                     .Case((VerbPhrase v) => v)

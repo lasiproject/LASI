@@ -50,9 +50,9 @@ namespace LASI.App
 
         private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document) {
             switch (chartKind) {
-            case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
-            case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
-            default: return await GetNounWiseDataAsync(document);
+                case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
+                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+                default: return await GetNounWiseDataAsync(document);
             }
         }
 
@@ -199,7 +199,8 @@ namespace LASI.App
         #endregion
         private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document) {
             var dataPoints = from relationship in await GetVerbWiseRelationshipsAsync(document)
-                             select new {
+                             select new
+                             {
                                  Key = string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
                                      (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
                                      (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
@@ -289,7 +290,8 @@ namespace LASI.App
         internal static IEnumerable<dynamic> ToGridRowData(this IEnumerable<SvoRelationship> relationships) {
             return from relationship in relationships
                    orderby relationship.Weight descending
-                   select new {
+                   select new
+                   {
                        Subject = FormatSubjectRenderText(relationship.Subject),
                        Verbal = FormatVerbalDisplay(relationship.Verbal),
                        Direct = FormatObjectText(relationship.Direct),
@@ -302,13 +304,15 @@ namespace LASI.App
 
 
         private static string FormatObjectText(IEntity directObject) {
-            return (directObject?.PrepositionOnLeft?.Text ?? string.Empty) + directObject?.Text ?? string.Empty;
+            var prepositionalText = directObject.Match().Case((IPrepositionLinkable i) => i.PrepositionOnLeft?.Text ?? string.Empty);
+            return prepositionalText + directObject?.Text ?? string.Empty;
         }
 
         private static string FormatVerbalDisplay(IVerbal verbal) {
             if (verbal != null) {
+                var prepositionalText = verbal.Match().Case((IPrepositionLinkable i) => i.PrepositionOnLeft?.Text ?? string.Empty);
                 var result =
-                    GetTextIfNotNull(verbal.PrepositionOnLeft) + " " +
+                    prepositionalText + " " +
                     GetTextIfNotNull(verbal.Modality) + " " + verbal.Text + " " +
                     string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
                 return result.Trim();

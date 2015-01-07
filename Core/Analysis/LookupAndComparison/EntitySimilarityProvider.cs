@@ -3,8 +3,94 @@ using System.Linq;
 
 namespace LASI.Core.Heuristics
 {
-    public static partial class Lookup
+    public static partial class Lexicon
     {
+        /// <summary>
+        /// Determines if the text is equal to that of a known Common Noun.
+        /// </summary>
+        /// <param name="nounText">
+        /// The text to test.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the text is equal to that of a known Common Noun; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsCommon(string nounText) => ScrabbleDictionary.Contains(nounText);
+
+        /// <summary>
+        /// Determines whether the ProperNoun's text corresponds to a female first name in the
+        /// English language. Lookups are performed in a case insensitive manner and currently do
+        /// not respect plurality.
+        /// </summary>
+        /// <param name="proper">
+        /// The ProperNoun to test.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the ProperNoun's text corresponds to a female first name in the English
+        /// language; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsFemaleFirst(this ProperNoun proper) => NameData.IsFemaleFirst(proper.Text);
+
+        /// <summary>
+        /// Determines if the provided NounPhrase is a known Full Female Name.
+        /// </summary>
+        /// <param name="name">
+        /// The NounPhrase to check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the provided NounPhrase is a known Full Female Name; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsFemaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsFemale();
+
+        /// <summary>
+        /// Determines whether the provided ProperNoun is a FirstName.
+        /// </summary>
+        /// <param name="proper">
+        /// The ProperNoun to check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the provided ProperNoun is a FirstName; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsFirstName(this ProperNoun proper) => NameData.IsFirstName(proper.Text);
+
+        /// <summary>
+        /// Determines whether the ProperNoun's text corresponds to a last name in the English
+        /// language. Lookups are performed in a case insensitive manner and currently do not
+        /// respect plurality.
+        /// </summary>
+        /// <param name="proper">
+        /// The ProperNoun to check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the ProperNoun's text corresponds to a last name in the English language;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsLastName(this ProperNoun proper) => NameData.IsLastName(proper.Text);
+
+        /// <summary>
+        /// Returns a value indicating whether the ProperNoun's text corresponds to a male first
+        /// name in the English language. Lookups are performed in a case insensitive manner and
+        /// currently do not respect plurality.
+        /// </summary>
+        /// <param name="proper">
+        /// The ProperNoun to test.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the ProperNoun's text corresponds to a male first name in the English language;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsMaleFirst(this ProperNoun proper) => NameData.IsMaleFirst(proper.Text);
+
+        /// <summary>
+        /// Determines if the provided NounPhrase is a known Full Male Name.
+        /// </summary>
+        /// <param name="name">
+        /// The NounPhrase to check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the provided NounPhrase is a known Full Male Name; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsMaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
+
         /// <summary>
         /// Determines if two IEntity instances are similar.
         /// </summary>
@@ -12,17 +98,18 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second IEntity</param>
         /// <returns><c>true</c> if the given IEntity instances are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this IEntity first, IEntity second) {
-            return first.Match().Yield<Similarity>()
-                    .When(first.Text.EqualsIgnoreCase(second.Text)).Then(Similarity.Similar)
-                    .Case((IAggregateEntity ae1) => second.Match().Yield<Similarity>()
+            return first.Match()
+                    .When(first.Text.EqualsIgnoreCase(second.Text))
+                    .Then(Similarity.Similar)
+                    .Case((IAggregateEntity ae1) => second.Match()
                             .Case((IAggregateEntity ae2) => ae1.IsSimilarTo(ae2))
                             .Case((IEntity e2) => new Similarity(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
-                    .Case((Noun n1) => second.Match().Yield<Similarity>()
+                    .Case((Noun n1) => second.Match()
                             .Case((Noun n2) => n1.IsSimilarTo(n2))
                             .Case((NounPhrase np2) => n1.IsSimilarTo(np2))
                           .Result())
-                    .Case((NounPhrase np1) => second.Match().Yield<Similarity>()
+                    .Case((NounPhrase np1) => second.Match()
                           .Case((NounPhrase np2) => np1.IsSimilarTo(np2))
                           .Case((Noun n2) => np1.IsSimilarTo(n2))
                         .Result())
@@ -103,6 +190,60 @@ namespace LASI.Core.Heuristics
                                     from inner in (left.Count < right.Count ? right : left)
                                     select outer.IsSynonymFor(inner) ? 0.7 : 0;
             return comparisonResults.Average();
-        }   
+        }
+        // TODO: refactor these two methods. their interaction is very opaque and error prone.
+        //       Although they are private, they make maintaining related algorithms difficult.
+        private static Gender DetermineNounPhraseGender(NounPhrase name) {
+            var properNouns = name.Words.OfProperNoun();
+            var first = properNouns.OfSingular()
+                .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
+            var last = properNouns.LastOrDefault(n => n != first && n.IsLastName());
+            return first != null && (last != null || properNouns.All(n => n.GetGender() == first.Gender)) ?
+                first.Gender :
+                name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ?
+                Gender.Neutral :
+                Gender.Undetermined;
+        }
+
+        private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase) {
+            if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
+            var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
+            return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
+                DetermineNounPhraseGender(pronounPhrase) :
+                genders.Any() ?
+                    genders.All(g => g.IsFemale()) ? Gender.Female :
+                    genders.All(g => g.IsMale()) ? Gender.Male :
+                    genders.All(g => g.IsNeutral()) ? Gender.Neutral :
+                    Gender.Undetermined :
+                Gender.Undetermined;
+        }
+
+        /// <summary>
+        /// Returns a NameGender value indicating the likely gender of the Pronoun based on its
+        /// referent if known, or else its PronounKind.
+        /// </summary>
+        /// <param name="referencer">
+        /// The Pronoun whose gender to lookup.
+        /// </param>
+        /// <returns>
+        /// A NameGender value indicating the likely gender of the Pronoun.
+        /// </returns>
+        private static Gender GetGender(IReferencer referencer) {
+            return referencer.Match()
+                    .Case((PronounPhrase p) => DeterminePronounPhraseGender(p))
+                    .When(referencer.RefersTo != null)
+                    .Then((from referent in referencer.RefersTo
+                           let gender = referent.Match()
+                               .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+                               .Case((Pronoun r) => r.Gender)
+                               .Case((ProperSingularNoun r) => r.Gender)
+                               .Case((CommonNoun n) => Gender.Neutral)
+                           .Result()
+                           group gender by gender into byGender
+                           where byGender.Count() == referencer.RefersTo.Count()
+                           select byGender.Key).FirstOrDefault())
+                    .Case((ISimpleGendered p) => p.Gender)
+                .Result();
+        }
     }
 }

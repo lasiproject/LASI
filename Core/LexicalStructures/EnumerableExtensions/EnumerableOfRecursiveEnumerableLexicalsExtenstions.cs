@@ -20,7 +20,7 @@ namespace LASI.Core
         /// </param>
         /// <returns>A recursively defined enumerable collection which, when enumerated, will yield the members of each subsequence, along with the element providing it, in turn.
         /// </returns>
-        public static IEnumerable<T> AsRecursiveEnumerable<T>(this IEnumerable<T> source) where T : ILexical {
+        public static IEnumerable<T> AsRecursivelyEnumerable<T>(this IEnumerable<T> source) where T : ILexical {
             if (source == null) { yield break; }
             var stack = new Stack<IEnumerable<T>>();
             stack.Push(source.OfType<T>());
@@ -29,7 +29,7 @@ namespace LASI.Core
                     yield return item;
                     var children = item as IEnumerable<T>;
                     if (children != null) {
-                        stack.Push(children.OfType<T>());
+                        stack.Push(children.OfType<T>().AsRecursivelyEnumerable());
                     }
                 }
             }

@@ -30,7 +30,7 @@ namespace LASI.UnitTests
         }
 
         #region Additional test attributes
-      
+
         #endregion
 
 
@@ -56,31 +56,6 @@ namespace LASI.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for PrepositionOnLeft
-        ///</summary>
-        [TestMethod]
-        public void PrepositionOnLeftTest() {
-            ILexical target = CreateILexical();
-            IPrepositional expected = new Preposition("with");
-            IPrepositional actual;
-            target.PrepositionOnLeft = expected;
-            actual = target.PrepositionOnLeft;
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for PrepositionOnRight
-        ///</summary>
-        [TestMethod]
-        public void PrepositionOnRightTest() {
-            ILexical target = CreateILexical();
-            IPrepositional expected = new Preposition("with");
-            IPrepositional actual;
-            target.PrepositionOnRight = expected;
-            actual = target.PrepositionOnRight;
-            Assert.AreEqual(expected, actual);
-        }
 
         /// <summary>
         ///A test for Text

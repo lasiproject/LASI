@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-
 
 namespace LASI.Core
 {
     /// <summary>
     /// Represents a Clause Level construct.
     /// </summary>
-    public class Clause : ILexical
+    public class Clause : ILexical, IPrepositionLinkable
     {
         /// <summary>
         /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
@@ -20,6 +16,8 @@ namespace LASI.Core
         public Clause(IEnumerable<Phrase> phrases) {
             Phrases = phrases;
         }
+
+        public Clause(Phrase first, params Phrase[] rest) : this(rest.Prepend(first)) { }
         /// <summary>
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>

@@ -154,8 +154,8 @@ namespace LASI.Core.Binding
                         if (M.inputstream.Any)
                             M.s1.Transition(Stream.Get());
                     })
-                    .Case<SubordinateClauseBeginPhrase>(WhenSbar)
-                    .Case<SymbolPhrase>(WhenSbar)
+                    .Case<SubordinateClauseBeginPhrase>(a => WhenSbar(a))
+                    .Case<SymbolPhrase>(a => WhenSbar(a))
                     .Default(() => base.Transition(phrase));
             }
 
@@ -198,7 +198,7 @@ namespace LASI.Core.Binding
                         M.lastPrepositional = p;
                         M.s0.Transition(Stream.Get());
                     })
-                    .Case((ConjunctionPhrase c) => M.lastConjunctive = c)
+                    .Case((Action<ConjunctionPhrase>)(c => M.lastConjunctive = c))
                 .Default(() => base.Transition(phrase));
             }
 

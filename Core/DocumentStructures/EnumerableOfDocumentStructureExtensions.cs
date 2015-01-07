@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using LASI.Utilities.Contracts.Validators;
-
 namespace LASI.Core
 {
-    using Validator = ArgumentValidator;
+    using Validator = Utilities.Validation.Validator;
 
     /// <summary>
     /// Defines extension methods for sequences of various document level constructs.

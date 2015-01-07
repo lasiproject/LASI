@@ -25,11 +25,11 @@ namespace LASI.Core
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities) {
             constituents = ImmutableList.CreateRange((from entity in entities
-                                                      select entity.Match().Yield<IEnumerable<IEntity>>()
+                                                      select entity.Match()
                                                       .Case((IAggregateEntity a) => a.AsEnumerable())
                                                       .Result(new[] { entity }) into entitySet
                                                       from entity in entitySet
-                                                      select entity).Distinct()); // entities.AsRecursiveEnumerable().Distinct().ToImmutableList();
+                                                      select entity).Distinct()); // entities.AsRecursivelyEnumerable().Distinct().ToImmutableList();
             var kinds = from constituent in constituents
                         group constituent by constituent.EntityKind into g
                         orderby g.Count() descending
@@ -91,7 +91,7 @@ namespace LASI.Core
         public override string ToString() {
             return "[ " + constituents.Count() + " ] " +
                 string.Join(" ",
-                    from member in constituents.AsRecursiveEnumerable()
+                    from member in constituents.AsRecursivelyEnumerable()
                     where !(member is IAggregateEntity)
                     select member.GetType().Name + " \"" + member.Text + "\"");
         }
@@ -138,8 +138,8 @@ namespace LASI.Core
         public string Text {
             get {
                 return string.Join(" , ",
-                    from member in constituents.AsRecursiveEnumerable()
-                    let prepositionText = member.PrepositionOnRight != null ? " " + member.PrepositionOnRight.Text : string.Empty
+                    from member in constituents.AsRecursivelyEnumerable()
+                    let prepositionText = member.Match().Case((IPrepositionLinkable i) => i.PrepositionOnRight?.Text ?? string.Empty).Result()
                     select member.Text + prepositionText);
             }
         }

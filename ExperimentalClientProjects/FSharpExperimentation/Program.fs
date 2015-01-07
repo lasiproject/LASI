@@ -25,8 +25,8 @@ let (|Entity|Referencer|Verbal|Other|) (lex : ILexical) =
 
 [<EntryPoint>]
 let main argv = 
-    Lookup.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
-    Lookup.ResourceLoaded.Add(fun e -> printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedMiliseconds)
+    Lexicon.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
+    Lexicon.ResourceLoaded.Add(fun e -> printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedMiliseconds)
     let resourceLoadNotifier = ResourceNotifier()
     let prog = ref 0.0
     // Register callbacks to print operation progress to the terminal

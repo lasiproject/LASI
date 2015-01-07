@@ -38,9 +38,8 @@ namespace LASI.Experimentation.CommandLine
             var document = orchestrator.ProcessAsync().Result.First();
 
             var x = document.Entities.FirstOrDefault();
-            x.Match().Yield<string>()
-                .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
-                .Result(e => e.Text);
+            x.Match().Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
+                .Result(x.Text);
             Output.WriteLine(document);
             Phrase.VerboseOutput = true;
             foreach (var phrase in document.Phrases) {

@@ -1,10 +1,5 @@
-﻿using LASI;
-using LASI.Core;
+﻿using LASI.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Content.TaggerEncapsulation
 {
@@ -26,7 +21,6 @@ namespace LASI.Content.TaggerEncapsulation
     /// <seealso cref="WordFactory"/>
     public abstract class WordTagsetMap
     {
-        #region Properties and Indexers
         /// <summary>
         /// When overriden in a derrived class, Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
@@ -34,24 +28,11 @@ namespace LASI.Content.TaggerEncapsulation
         /// <returns>A function which creates an isntance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Implementors should Throw this exception if and only if when the index string is not a tag defined by the tagset being provided.</exception>
         public abstract WordCreator this[string tag] { get; }
-
         /// <summary>
-        /// When overriden in a derrived class, Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.
-        /// </summary>
-        /// <param name="mappedConstructor">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.</returns>
-        public abstract string this[WordCreator mappedConstructor] { get; }
-        /// <summary>
-        /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.
+        /// Gets the PosTag string corresponding to the System.Type of the given <see cref="Word"/>.
         /// </summary>
         /// <param name="word">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
         public abstract string this[Word word] { get; }
-        /// <summary>
-        /// When overriden in a derrived class, Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
-        /// </summary>
-        protected abstract IReadOnlyDictionary<string, WordCreator> TypeDictionary { get; }
-        #endregion
-
     }
 }

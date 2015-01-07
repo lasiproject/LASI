@@ -42,7 +42,7 @@ namespace LASI.Content
 
         public virtual Document LoadDocument(string title) {
             return new Document(
-                content: LoadParagraphs(),
+                paragraphs: LoadParagraphs(),
                 title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled");
         }
 

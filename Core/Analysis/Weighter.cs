@@ -88,7 +88,7 @@ namespace LASI.Core
                                    .When((IReferencer r) => r.RefersTo != null)
                                    .Then((IReferencer r) => r.RefersTo)
                                .Result(e);
-            GroupAndWeight(toConsider, Lookup.IsSimilarTo, 1);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
 
         }
 
@@ -102,11 +102,11 @@ namespace LASI.Core
             var toConsider = source.Phrases
                 .OfNounPhrase()
                 .InSubjectOrObjectRole();
-            GroupAndWeight(toConsider, Lookup.IsSimilarTo, 0.5);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
         private static void WeightSimilarVerbs(IReifiedTextual source) {
             var toConsider = source.Words.OfVerb().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lookup.IsSimilarTo, 1);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
         }
 
 
@@ -114,11 +114,11 @@ namespace LASI.Core
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lookup.IsSimilarTo, 0.5);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
 
         private static void WeightSimilarEntities(IReifiedTextual source) {
-            GroupAndWeight(source.Entities, Lookup.IsSimilarTo, 0.5);
+            GroupAndWeight(source.Entities, Lexicon.IsSimilarTo, 0.5);
         }
 
         private static void HackSubjectPropernounImportance(IReifiedTextual source) {

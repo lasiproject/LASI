@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LASI.Core
 {
-    using Validator = LASI.Utilities.Contracts.Validators.ArgumentValidator;
+    using Validator = LASI.Utilities.Validation.Validator;
 
     /// <summary>
     /// Defines extension methods for sequences of Word instances.

@@ -31,6 +31,7 @@ namespace LASI.Core.PatternMatching
         public Match<T> Then<TPattern>(Action action) where TPattern : class, ILexical {
             return ConditionMet ? inner.Case<TPattern>(action) : inner;
         }
+
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
@@ -53,6 +54,9 @@ namespace LASI.Core.PatternMatching
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked on the value being matched over.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Then(Action<T> action) => ConditionMet ? inner.Case(action) : inner;
+        public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => ConditionMet ? inner.Yield<TResult>().Case(f) : inner.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(Func<TResult> f) => ConditionMet ? inner.Yield<TResult>().Case(f) : inner.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(TResult value) => ConditionMet ? inner.Yield<TResult>().Case(value) : inner.Yield<TResult>();
 
         #region Fields
         private Match<T> inner;

@@ -13,7 +13,7 @@ namespace LASI.App.LexicalElementInfo
     static class ContextMenuFactory
     {
         public static ContextMenu ForLexical(ILexical element, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
-            return element.Match().Yield<ContextMenu>()
+            return element.Match()
                 .Case((IVerbal v) => ForVerbal(v, neighboringElements))
                 .Case((IReferencer r) => ForReferencer(r, neighboringElements))
                 .Result();

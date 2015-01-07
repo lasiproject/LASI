@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace LASI.Utilities.Contracts.Validators
+namespace LASI.Utilities.Validation
 {
     /// <summary>
     /// Provides helper methods for argument validation.
     /// </summary>
     [System.Diagnostics.DebuggerStepThrough]
-    public static class ArgumentValidator
+    public static class Validator
     {
         #region Null Checking
         /// <summary>
@@ -107,12 +107,12 @@ namespace LASI.Utilities.Contracts.Validators
         /// Validates the specified argument, raising a System.ArgumentOutOfRangeException if it is less than the specified minimum.
         /// </summary>
         /// <typeparam name="T">The type of the argument to validate.</typeparam>
+        /// <param name="min">The minimum value to validate against.</param>
         /// <param name="value">The argument to validate.</param>
         /// <param name="name">The name of the argument to validate.</param>
-        /// <param name="min">The minimum value to validate against.</param>
-        /// <param name="message">A message that provides additional detail as to why the argument failed validation.</param>
-        public static void ThrowIfLessThan<T>(T value, string name, T min, string message) where T : IComparable<T> {
-            if (value.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, value, message); }
+        /// <param name="failureMessage">A message that provides additional detail as to why failed validation.</param>
+        public static void ThrowIfLessThan<T>(T min, T value, string name, string failureMessage) where T : IComparable<T> {
+            if (value.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, value, failureMessage); }
         }
         /// <summary>
         /// Validates the specified argument, raising a System.ArgumentOutOfRangeException if it is greater than the specified maximum.
@@ -143,7 +143,7 @@ namespace LASI.Utilities.Contracts.Validators
         /// <param name="value">The argument to validate.</param>
         /// <param name="name">The name of the argument to validate.</param>
         public static void ThrowIfEmpty<T>(IEnumerable<T> value, string name) {
-            if (!value.Any()) { throw new InvalidOperationException("Sequence contains no elements" + name); }
+            if (!value.Any()) { throw new InvalidOperationException("Sequence contains no elements; " + name); }
         }
 
         public static void ThrowIfNullOrEmpty<T>(IEnumerable<T> value, string name) {

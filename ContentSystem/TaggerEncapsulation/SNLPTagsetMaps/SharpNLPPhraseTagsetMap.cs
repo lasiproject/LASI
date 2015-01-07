@@ -1,4 +1,5 @@
-﻿using LASI;
+﻿
+using LASI;
 using LASI.Core;
 using System;
 using System.Collections.Generic;
@@ -66,50 +67,24 @@ namespace LASI.Content.TaggerEncapsulation
                 }
             }
         }
-        /// <summary>
-        /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.
-        /// </summary>
-        /// <param name="phraseCreatingFunc">The function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase } for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of the given function of type { IEnumerable of LASI.Algorithm.Word => LASI.Algorithm.Phrase }.</returns>
-        public override string this[PhraseCreator phraseCreatingFunc] {
-            get {
-                try {
-                    return map.First(pair => pair.Value.Method.ReturnType == phraseCreatingFunc.Method.ReturnType).Key;
-                } catch (InvalidOperationException) {
-                    throw new UnmappedPhraseTypeException(string.Format("Phrase constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1} => {2}",
-                        phraseCreatingFunc,
-                        string.Join(", ", from param in phraseCreatingFunc.Method.GetParameters()
-                                          select param.ParameterType.FullName),
-                        phraseCreatingFunc.Method.ReturnType.FullName
-                        )
-                    );
-                }
-            }
-        }
 
         /// <summary>
-        /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Phrase.
+        /// Gets the PosTag string corresponding to the System.Type of the given <see cref="Phrase"/>.
         /// </summary>
-        /// <param name="phrase">The LASI.Algorithm.Phrase for which to get the corresponding tag.</param>
+        /// <param name="phrase">The <see cref="Phrase"/> for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Phrase.</returns>
         public override string this[Phrase phrase] {
             get {
                 try {
                     return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == phrase.GetType()).Key;
                 } catch (InvalidOperationException) {
-                    throw new UnmappedPhraseTypeException(string.Format("The indexing LASI.Algorithm.Phrase has type {0}, a type which is not mapped by {1}.", phrase.GetType(), this.GetType()));
+                    throw new UnmappedPhraseTypeException(string.Format("The indexing {0} has type {1}, a type which is not mapped by {2}.",
+                        typeof(Phrase),
+                        phrase.GetType(),
+                        this.GetType()));
                 }
             }
         }
-        /// <summary>
-        /// Gets the IDictionary which contains the mappings between literal tags and Phrase Instantiating functions.
-        /// </summary>
-        protected override IReadOnlyDictionary<string, PhraseCreator> TypeDictionary {
-            get {
-                return map;
-            }
-        }
-
         #endregion
     }
 }

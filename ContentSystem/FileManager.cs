@@ -593,10 +593,10 @@ namespace LASI.Content
                     return mapping[fileExtension.Replace(".", string.Empty)];
                 } catch (KeyNotFoundException) {
                     switch (unsupportedMappingMode) {
-                    case UnsupportedFormatHandling.YieldNull:
-                        return path => null;
-                    default:
-                        return path => { throw new ArgumentException("unmapped " + path); };
+                        case UnsupportedFormatHandling.YieldNull:
+                            return path => null;
+                        default:
+                            return path => { throw new ArgumentException("unmapped " + path); };
                     }
                 }
 

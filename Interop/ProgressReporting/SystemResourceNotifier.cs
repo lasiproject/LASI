@@ -16,7 +16,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// </summary>
         public SystemResourceNotifier()
             : base(BASE_MESSAGE_ADJUNCT) {
-            Core.Heuristics.Lookup.ResourceLoaded += (sender, e) => OnReport(e);
+            Core.Heuristics.Lexicon.ResourceLoaded += (sender, e) => OnReport(e);
         }
         /// <summary>
         /// Raised when a System Core resource begins loading.

@@ -146,6 +146,8 @@ namespace LASI.Core.PatternMatching
         /// </returns>
         public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Accepted);
 
+        public Match<T, TResult> Case<TPattern, TResult>(Func<TPattern, TResult> f) where TPattern : class, ILexical => this.Yield<TResult>().Case(f);
+
         #endregion Expression Transformations
 
         #region When Expressions

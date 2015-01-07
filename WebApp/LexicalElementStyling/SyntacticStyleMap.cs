@@ -15,7 +15,7 @@ namespace LASI.WebApp
             get {
                 return new Style
                 {
-                    CssClass = element.Match().Yield<string>()
+                    CssClass = element.Match()
                         .Case((IReferencer r) => "referencer")
                         .Case((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
                         .Case((InfinitivePhrase i) => "infinitive")
@@ -29,7 +29,7 @@ namespace LASI.WebApp
                         .Case((PresentParticiple w) => "present-participle-gerund")
                         .Case((Verb w) => "verbal")
                         .Case((IConjunctive w) => "conjunctive")
-                        .Result(() => "lexical-default-style")
+                    .Result(() => "lexical-default-style")
                 };
             }
         }

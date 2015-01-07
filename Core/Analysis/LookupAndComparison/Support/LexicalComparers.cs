@@ -1,17 +1,10 @@
-﻿using LASI;
-using LASI.Core.Heuristics;
-using LASI.Core.PatternMatching;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Utilities.Contracts.Validators;
 using LASI.Utilities;
 
 namespace LASI.Core
 {
+    using Validator = Utilities.Validation.Validator;
     /// <summary>
     /// Provides access to predefined and customizable IEqualityComparer implementations which operate on instances of applicable ILexical types.
     /// </summary>
@@ -35,7 +28,7 @@ namespace LASI.Core
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
         public static IEqualityComparer<TLexical> Create<TLexical>(Func<TLexical, TLexical, bool> equals) where TLexical : ILexical {
-            ArgumentValidator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
+            Validator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
             return new CustomComparer<TLexical>(equals);
         }
         /// <summary>

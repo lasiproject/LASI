@@ -16,9 +16,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the ToLinker class.
         /// </summary> 
-        public ToLinker()
-            : base("to") {
-        }
+        public ToLinker(string text) : base(text) { }
 
         #endregion
 
@@ -60,9 +58,8 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets or sets the contextually extrapolated role of the ToLinker.
-        /// </summary>
-        /// <see cref="PrepositionRole"/>
+        /// Gets or sets the contextually extrapolated <see cref="PrepositionRole"/> of the ToLinker.
+        /// </summary> 
         public PrepositionRole Role {
             get;
             set;

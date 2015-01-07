@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LASI.Utilities.Contracts.Validators;
+using LASI.Utilities.Validation;
 
 namespace LASI
 {
-    using Validator = ArgumentValidator;
+    using Validator = Validator;
     /// <summary>
     /// Defines various useful methods for working with System.String instances.
     /// </summary>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -97,6 +97,7 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\EnumerableMatching\EnumerableMatch.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypePredicate.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypeWhenPredicate.cs" />
@@ -123,7 +124,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
-    <Compile Include="LexicalStructures\Structural\IPrepositonLinkable.cs" />
+    <Compile Include="LexicalStructures\Structural\IPrepositionLinkable.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\NestingClause.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\ObjectBinderV2.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
@@ -177,8 +178,8 @@
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIEntityExtensions.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfILexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\DeterminerKind.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDeterminable.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\DeterminerKind.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IDeterminable.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\SymbolPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownPhrase.cs" />
     <Compile Include="LexicalStructures\Behavioral\IReferencer.cs" />
@@ -199,7 +200,7 @@
     <Compile Include="DocumentStructures\Sentence.cs" />
     <Compile Include="LexicalStructures\Behavioral\IAdverbial.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\IConflatable.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\IDescriptor.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\IDescriptor.cs" />
     <Compile Include="LexicalStructures\Behavioral\IPossessable.cs" />
     <Compile Include="LexicalStructures\Behavioral\IPossesser.cs" />
     <Compile Include="LexicalStructures\Behavioral\IQuantifer.cs" />
@@ -214,7 +215,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\ConjunctionPhrase.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\RoughListPhrase.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ParticlePhrase.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\PreDeterminer.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\PreDeterminer.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\IConjunctive.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticiple.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PastTenseVerb.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\NounLookup.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\SynSet.cs" />
-    <Compile Include="Analysis\LookupAndComparison\Lookup.cs" />
+    <Compile Include="Analysis\LookupAndComparison\Lexicon.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
     <Compile Include="LexicalStructures\AdverbRelatedConstructs\Adverb.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="LexicalStructures\MiscLanguageConstructs\Existential.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\ForeignWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\CommonPluralNoun.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Determiner.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\Determiner.cs" />
     <Compile Include="DocumentStructures\Document.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IAggregateEntity.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Interjection.cs" />
@@ -264,7 +265,7 @@
     <Compile Include="LexicalStructures\Behavioral\IVerbal.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\Noun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhrase.cs" />
-    <Compile Include="LexicalStructures\NounRelatedConstructs\NounRelatedModifiers\Quantifier.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\Quantifier.cs" />
     <Compile Include="LexicalStructures\Structural\Phrase.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\Preposition.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionalPhrase.cs" />

@@ -7,7 +7,7 @@ namespace LASI
 {
     using LASI.Utilities;
     using System.Numerics;
-    using Validator = Utilities.Contracts.Validators.ArgumentValidator;
+    using Validator = Utilities.Validation.Validator;
 
     /// <summary> Defines various useful methods for working with IEnummerable sequences of any type. </summary>
     public static class EnumerableExtensions
@@ -164,7 +164,7 @@ namespace LASI
         //}
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
-            Validator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
+            Validator.ThrowIfLessThan(1, lineLength, "lineLength", "Line length must be greater than 0.");
             return source.Select(e => selector(e) + delimiters.Item2)
                 .Aggregate(new { ModLength = 1L, Text = delimiters.Item1.ToString() },
                 (z, element) => {
@@ -231,12 +231,13 @@ namespace LASI
         /// <typeparam name="TSource"> The type of the elements of source. </typeparam>
         /// <typeparam name="TAccumulate"> The type of the accumulator value. </typeparam>
         /// <typeparam name="TResult"> The type of the resulting value. </typeparam>
-        /// <param name="source"> An <see cref="System.Collections.Generic.IEnumerable{TSource}" /> to aggregate over. </param>
+        /// <param name="source"> An <see cref="IEnumerable{T}" /> to aggregate over. </param>
         /// <param name="seed"> The initial accumulator value. </param>
         /// <param name="func">
         /// An accumulator function to be invoked on each element; the element's index, determined by enumeration order, is available as the
         /// third argument.
         /// </param>
+        /// <param name="resultSelector"> A function to transform the final accumulator value into the result value.</param>
         /// <returns> The transformed final accumulator value. </returns>
         /// <exception cref="ArgumentNullException"> Source or func is <c> null </c>. </exception>
         public static TResult Aggregate<TSource, TAccumulate, TResult>(
@@ -478,31 +479,32 @@ namespace LASI
         #region Product
 
         /// <summary> Calculates the Product of a sequence of <see cref="Complex"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static Complex Product(this IEnumerable<Complex> source) => source.Aggregate(Complex.One, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="BigInteger"/> values. </summary> <param name="source"> The sequence
-        /// of elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// of elements to test. </param> 
+        /// <returns> The product of all values in the source sequence. </returns>
         public static BigInteger Product(this IEnumerable<BigInteger> source) => source.Aggregate(BigInteger.One, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="long"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static long Product(this IEnumerable<long> source) => source.Aggregate(1L, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="int"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static int Product(this IEnumerable<int> source) => source.Aggregate(1, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="decimal"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static decimal Product(this IEnumerable<decimal> source) => source.Aggregate(1M, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="double"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static double Product(this IEnumerable<double> source) => source.Aggregate(1D, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of <see cref="float"/> values. </summary> <param name="source"> The sequence of
-        /// elements to test. </param> <returns> <c> The product of all values in the source sequence. </returns>
+        /// elements to test. </param> <returns> The product of all values in the source sequence. </returns>
         public static float Product(this IEnumerable<float> source) => source.Aggregate(1F, (z, y) => z * y);
 
         /// <summary> Calculates the Product of a sequence of Boolean values. </summary>
@@ -546,7 +548,7 @@ namespace LASI
         /// <param name="second"> The sequence to compare against. </param>
         /// <returns>
         /// <c> true </c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second
-        /// sequence; otherwise, <c> false </c>.
+        /// sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second) {
             return first.Except(second).None();
@@ -562,7 +564,7 @@ namespace LASI
         /// <param name="comparer"> An System.Collections.Generic.IEqualityComparer&lt;TSource&gt; to compare values </param>
         /// <returns>
         /// <c> true </c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second
-        /// sequence; otherwise, <c> false </c>.
+        /// sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer) {
             return first.Except(second).None();
@@ -579,7 +581,7 @@ namespace LASI
         /// <param name="selector"> A function which extracts a key from each element by which equality is determined. </param>
         /// <returns>
         /// <c> true </c> if the given source sequence contain the same elements, irrespective or order and duplicate items, as the second
-        /// sequence; otherwise, <c> false </c>.
+        /// sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
             return first.Select(selector).SetEqual(second.Select(selector));
@@ -592,7 +594,7 @@ namespace LASI
         /// <returns> A sequence of sequences based on the provided chunk size. </returns>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
             Validator.ThrowIfNull(source, "source");
-            Validator.ThrowIfLessThan(chunkSize, "chunkSize", 1, "Value must be greater than 0.");
+            Validator.ThrowIfLessThan(1, chunkSize, "chunkSize", "Value must be greater than 0.");
             var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
             return from partIndex in Enumerable.Range(0, partsToCreate)
                    select source.Skip(partIndex * chunkSize).Take(chunkSize);
@@ -703,9 +705,18 @@ namespace LASI
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
         }
-
+        /// <summary>
+        /// Transforms a possibly <c>null</c> <see cref="IEnumerable{T}"/> into an empty enumerable. 
+        /// Return an empty <see cref="IEnumerable{T}"/> if <paramref name="source"/> is <c>null</c>; otherwise <see cref="source"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the <see cref="IEnumerable{T}"/>.
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to transform.</param>
+        /// <returns> 
+        /// An empty <see cref="IEnumerable{T}"/> if <paramref name="source"/> is <c>null</c>; otherwise <paramref name="source"/>.
+        /// </returns>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
 
         #endregion Query Operators
     }
+
 }

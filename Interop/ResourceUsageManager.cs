@@ -58,10 +58,10 @@ namespace LASI.Interop.ResourceManagement
         /// </summary>
         private static void BindDefaultHandlers() {
             MemoryThresholdExceeded += (s, e) => {
-                Core.Heuristics.Lookup.ClearNounCache();
-                Core.Heuristics.Lookup.ClearVerbCache();
-                Core.Heuristics.Lookup.ClearAdjectiveCache();
-                Core.Heuristics.Lookup.ClearAdverbCache();
+                Core.Heuristics.Lexicon.ClearNounCache();
+                Core.Heuristics.Lexicon.ClearVerbCache();
+                Core.Heuristics.Lexicon.ClearAdjectiveCache();
+                Core.Heuristics.Lexicon.ClearAdverbCache();
 
                 // Experimental: Invoke an explicit garbage collection to free up memory. This may
                 // be advantageous to performance in this situation, but it remains to be seen. See

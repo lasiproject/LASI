@@ -65,7 +65,7 @@ namespace LASI.Core.Binding
             var temp = phrases;
             while (temp.Any()) {
 
-                result.Add(temp.TakeWhile(n => n is NounPhrase || 
+                result.Add(temp.TakeWhile(n => n is NounPhrase ||
                     ((n is PrepositionalPhrase ||
                         n.Words.Count(w => w is Punctuator) == n.Words.Count()) &&
                         n.NextPhrase is NounPhrase &&

@@ -11,7 +11,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
         private const string MESSAGE_ADJUNCT = "Loading";
         public SystemResourceLoadingNotifier()
             : base(MESSAGE_ADJUNCT) {
-            Core.Heuristics.Lookup.ResourceLoading += (s, e) => {
+            Core.Heuristics.Lexicon.ResourceLoading += (s, e) => {
                 OnReport(e);
             };
         }

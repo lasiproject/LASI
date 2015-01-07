@@ -69,16 +69,7 @@ namespace LASI.UnitTests
 
             public override Func<IEnumerable<Word>, Phrase> this[string tag] {
                 get {
-                    try { return mapping[tag]; }
-                    catch (KeyNotFoundException) { throw new UnknownPhraseTagException(tag); }
-                }
-            }
-
-            public override string this[Func<IEnumerable<Word>, Phrase> mappedConstructor] {
-                get {
-                    return (from tm in mapping
-                            where tm.Value.Invoke(new Word[] { }).GetType() == mappedConstructor.Invoke(new Word[] { }).GetType()
-                            select tm.Key).Single();
+                    try { return mapping[tag]; } catch (KeyNotFoundException) { throw new UnknownPhraseTagException(tag); }
                 }
             }
 
@@ -88,9 +79,6 @@ namespace LASI.UnitTests
                             where tm.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
                             select tm.Key).Single();
                 }
-            }
-            protected override IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> TypeDictionary {
-                get { return mapping; }
             }
             private readonly IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> mapping = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
                 { "NP", ws => new NounPhrase(ws) },
@@ -116,18 +104,6 @@ namespace LASI.UnitTests
             actual = target[tag];
             var phrase = actual(new Word[] { new PersonalPronoun("he") });
             Assert.AreEqual(tag, target[phrase]);
-        }
-
-        /// <summary>
-        ///A test for Item
-        ///</summary>
-        [TestMethod]
-        public void ItemTest1() {
-            PhraseTagsetMap target = CreatePhraseTagsetMap();
-            Func<IEnumerable<Word>, Phrase> mappedConstructor = ws => new NounPhrase(ws);
-            string actual;
-            actual = target[mappedConstructor];
-            Assert.AreEqual("NP", actual);
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace LASI.Core
             get;
         }
         /// <summary>
-        /// Gets the EntityKind; Person, Place, Thing, Organization, or Activity, associated with the Entity.
+        /// Gets the Kind of Entity; Person, Place, Thing, Organization, or Activity; that the Entity represents.
         /// </summary>
         EntityKind EntityKind {
             get;

@@ -1,12 +1,9 @@
-﻿using LASI;
-using LASI.Core;
+﻿using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Core.Heuristics;
+
 namespace LASI.Content.TaggerEncapsulation
 {
     using WordCreator = Func<string, Word>;
@@ -29,8 +26,6 @@ namespace LASI.Content.TaggerEncapsulation
     /// <see cref="WordFactory"/> 
     sealed class SharpNLPWordTagsetMap : WordTagsetMap
     {
-        #region Fields
-
         private static readonly IReadOnlyDictionary<string, WordCreator> map = new Dictionary<string, WordCreator>
         {
             //Punctation Mappings
@@ -54,14 +49,14 @@ namespace LASI.Content.TaggerEncapsulation
             ["CC"] = t => new Conjunction(t), //Coordinating conjunction
             //Adjective mappings
             ["JJ"] = t => new Adjective(t), //Adjective
-            ["JJR"] = t => new ComparativeAdjective(t), //Adjective }, comparative
-            ["JJS"] = t => new SuperlativeAdjective(t), //Adjective }, superlative
+            ["JJR"] = t => new ComparativeAdjective(t), //Adjective, comparative
+            ["JJS"] = t => new SuperlativeAdjective(t), //Adjective, superlative
             ["MD"] = t => new ModalAuxilary(t), //ModalAuxilary
             //Noun mappings
-            ["NN"] = t => new CommonSingularNoun(t), //Noun }, singular or mass
-            ["NNS"] = t => new CommonPluralNoun(t), //Noun }, plural
-            ["NNP"] = t => Lookup.IsCommon(t) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun, //Proper noun, singular
-            ["NNPS"] = t => Lookup.IsCommon(t) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun, //Proper noun, plural
+            ["NN"] = t => new CommonSingularNoun(t), //Noun, singular or mass
+            ["NNS"] = t => new CommonPluralNoun(t), //Noun, plural
+            ["NNP"] = t => Lexicon.IsCommon(t) ? new CommonSingularNoun(t) : new ProperSingularNoun(t) as Noun, //Proper noun, singular
+            ["NNPS"] = t => Lexicon.IsCommon(t) ? new CommonPluralNoun(t) : new ProperPluralNoun(t) as Noun, //Proper noun, plural
             //Pronoun mappings
             ["PDT"] = t => new PreDeterminer(t), //Predeterminer
             ["POS"] = t => new PossessiveEnding(t), //Possessive ending
@@ -77,7 +72,7 @@ namespace LASI.Content.TaggerEncapsulation
             ["VBG"] = t => new PresentParticiple(t), //Verb }, gerund or present participle
             ["VBN"] = t => new PastParticiple(t), //Verb }, past participle
             ["VBP"] = t => new SingularPresentVerb(t), //Verb }, non-3rd person singular present
-            ["VBZ"] = t => new ThirdPersonSingularPresentVerb(t), //Verb }, 3rd person singular present
+            ["VBZ"] = t => new ThirdPersonSingularPresentVerb(t), //Verb, 3rd person singular present
             //WH-word mappings
             ["WDT"] = t => new Determiner(t), //Wh-Determiner
             ["WP"] = t => new RelativePronoun(t), //Wh-Pronoun
@@ -86,23 +81,12 @@ namespace LASI.Content.TaggerEncapsulation
             //Additional mappings
             ["RP"] = t => new Particle(t), //Particle
             ["SYM"] = t => new Symbol(t), //Symbol
-            ["TO"] = t => new ToLinker(), //'To'
+            ["TO"] = t => new ToLinker(t), //'To'
             ["UH"] = t => new Interjection(t), //Interjection
             //Empty POS Tag, resulting function will throw EmptyTagException on invocation.
             [""] = t => { throw new EmptyWordTagException(t); }
         };
 
-        #endregion
-
-        #region Properties and Indexers
-        /// <summary>
-        /// Gets the Read Only Dictionary which represents the mapping between Part Of Speech tags and the cunstructors which instantiate their run-time representations.
-        /// </summary>
-        protected override IReadOnlyDictionary<string, WordCreator> TypeDictionary {
-            get {
-                return map;
-            }
-        }
         /// <summary>
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
@@ -116,33 +100,19 @@ namespace LASI.Content.TaggerEncapsulation
                 }
             }
         }
+
         /// <summary>
-        /// Gets the PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.
+        /// Gets the PosTag string corresponding to the System.Type of the given <see cref="Word"/>.
         /// </summary>
-        /// <param name="wordCreator">The function of type { System.string => LASI.Algorithm.Word } for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the runtime System.Type of the Return Type of given function of type { System.string => LASI.Algorithm.Word }.</returns>
-        public override string this[WordCreator wordCreator] {
-            get {
-                try {
-                    return map.First(pair => pair.Value.Method.ReturnType == wordCreator.Method.ReturnType).Key;
-                } catch (InvalidOperationException) {
-                    throw new UnmappedWordTypeException(string.Format("Word constructor\n{0}\nis not mapped by this Tagset.\nFunction Type: {1}",
-                        wordCreator, string.Join(", ", from param in wordCreator.Method.GetParameters() select param.ParameterType.FullName,
-                        wordCreator.Method.ReturnType.FullName)));
-                }
-            }
-        }
-        /// <summary>
-        /// Gets the PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.
-        /// </summary>
-        /// <param name="word">The LASI.Algorithm.Word for which to get the corresponding tag.</param>
-        /// <returns>The PosTag string corresponding to the System.Type of the given LASI.Algorithm.Word.</returns>
+        /// <param name="word">The <see cref="Word"/> for which to get the corresponding tag.</param>
+        /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="Word"/>.</returns>
         public override string this[Word word] {
             get {
                 try {
                     return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
                 } catch (InvalidOperationException) {
-                    throw new UnmappedWordTypeException(string.Format("The indexing LASI.Algorithm.Word has type {0}, a type which is not mapped by {1}.",
+                    throw new UnmappedWordTypeException(string.Format("The indexing {0} has type {1}, a type which is not mapped by {2}.",
+                        typeof(Word),
                         word.GetType(),
                         this.GetType()
                         )
@@ -150,6 +120,5 @@ namespace LASI.Content.TaggerEncapsulation
                 }
             }
         }
-        #endregion
     }
 }

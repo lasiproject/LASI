@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
-using LASI.Utilities.Contracts.Validators;
+using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
@@ -67,7 +67,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="outputWriter">The text writer to which subsequent messages will be written.</param>
         public static void SetTo(TextWriter outputWriter) {
-            ArgumentValidator.ThrowIfNull(outputWriter, "outputWriter", "The output writer cannot be null. To disable output, call Output.SetToSilent");
+            Validator.ThrowIfNull(outputWriter, "outputWriter", "The output writer cannot be null. To disable output, call Output.SetToSilent");
             writer = outputWriter;
             OutputMode = Mode.Custom;
         }
