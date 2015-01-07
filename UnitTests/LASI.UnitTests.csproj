@@ -185,7 +185,7 @@
     <Compile Include="TaggedTextFragmentTest.cs" />
     <Compile Include="TaggerTest.cs" />
     <Compile Include="TestHelpers\CollectionHelpers.cs" />
-    <Compile Include="TextFileTest.cs" />
+    <Compile Include="TxtFileTest.cs" />
     <Compile Include="TransitiveVerbTest.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />

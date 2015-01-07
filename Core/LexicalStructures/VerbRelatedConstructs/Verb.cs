@@ -11,7 +11,6 @@ namespace LASI.Core
     /// </summary>
     public abstract class Verb : Word, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
-        public IEnumerable<IAdverbial> AttributedBy { get; }
         #region Constructors
 
         /// <summary>
@@ -97,14 +96,15 @@ namespace LASI.Core
         /// <returns><c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.</returns>
         protected virtual bool DetermineIsClassifier() {
             return !IsPossessive &&
-                Modality == null &&
-                AdverbialModifiers.None() &&
+                //Modality == null &&
+                //AdverbialModifiers.None() &&
                 this.GetSynonyms().Contains("be", ignoreCase);
         }
 
         #endregion Methods
 
         #region Properties
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the Verb's subjects.

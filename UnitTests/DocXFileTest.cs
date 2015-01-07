@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace LASI.UnitTests
 {
-    using Test = TestMethodAttribute;
 
 
     /// <summary>
@@ -77,28 +76,20 @@ namespace LASI.UnitTests
         ///A test for DocXFile Constructor
         ///</summary>
         [TestMethod]
+        [ExpectedException(typeof(FileTypeWrapperMismatchException))]
         public void DocXFileConstructorTest1() {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
-            try {
-                DocXFile target = new DocXFile(path);
-                Assert.Fail("Instantiation with mismatched extension succeeded.");
-            } catch (FileTypeWrapperMismatchException e) {
-                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
-            }
+            DocXFile target = new DocXFile(path);
         }
         /// <summary>
         ///A test for DocXFile Constructor
         ///</summary>
         [TestMethod]
+        [ExpectedException(typeof(System.IO.FileNotFoundException))]
         public void DocXFileConstructorTest2() {
             string invalidPath = System.IO.Directory.GetCurrentDirectory();//This is should never be valid.
             Assert.IsFalse(System.IO.File.Exists(invalidPath));
-            try {
-                DocXFile target = new DocXFile(invalidPath);
-                Assert.Fail("Instantiation with invalid path succeeded.");
-            } catch (System.IO.FileNotFoundException e) {
-                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
-            }
+            DocXFile target = new DocXFile(invalidPath);
         }
     }
 }

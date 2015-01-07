@@ -98,6 +98,7 @@
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\Support\WordMorphers\IWordMorpher.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\EnumerableMatching\EnumerableMatch.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\EnumerableMatching\EnumerableMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypePredicate.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\CaseTypeWhenPredicate.cs" />

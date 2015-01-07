@@ -35,33 +35,7 @@ namespace LASI.UnitTests
         }
 
         #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+
         #endregion
 
 
@@ -70,14 +44,14 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void ToStringTest() {
-            Phrase[] phrases1 = new Phrase[] { 
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
+            Phrase[] phrases1 = new Phrase[] {
+                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") })
             };
             Sentence[] sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] { 
+            Phrase[] phrases2 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
@@ -85,8 +59,8 @@ namespace LASI.UnitTests
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
-                new VerbPhrase(new Word[] { new PastTenseVerb("did") }), 
-                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
+                new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
+                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -103,23 +77,23 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void TextTest() {
-            Phrase[] phrases1 = new Phrase[] { 
+            Phrase[] phrases1 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
             };
             Sentence[] sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] { 
-                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
-                new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
+            Phrase[] phrases2 = new Phrase[] {
+                new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
+                new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
-                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
+                new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -136,23 +110,23 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void EstablishParentTest() {
-            Phrase[] phrases1 = new Phrase[] { 
+            Phrase[] phrases1 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
                    new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
                };
             Sentence[] sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] { 
-                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), 
-                   new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }), 
+            Phrase[] phrases2 = new Phrase[] {
+                   new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
+                   new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("them") })
                };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
             Phrase[] phrases3 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
-                   new NounPhrase(new Word[] { new ProperPluralNoun("awesome") }) 
+                   new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
                };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
@@ -167,29 +141,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void WordsTest() {
-            IEnumerable<Sentence> sentences = new Sentence[] { 
+            IEnumerable<Sentence> sentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack") 
+                                new SimpleVerb("attack")
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new SimpleVerb("do")
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -210,29 +184,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void PhrasesTest() {
-            IEnumerable<Sentence> sentences = new Sentence[] { 
+            IEnumerable<Sentence> sentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack") 
+                                new SimpleVerb("attack")
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new SimpleVerb("do")
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -254,29 +228,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetPhrasesAfterTest() {
-            var startAfter = new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+            var startAfter = new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") });
-            IEnumerable<Sentence> sentences = new Sentence[] { 
+            IEnumerable<Sentence> sentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack") 
+                                new SimpleVerb("attack")
                             }),
                             startAfter}
                             )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new SimpleVerb("do")
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {
@@ -297,29 +271,29 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void ParagraphConstructorTest() {
-            IEnumerable<Sentence> sentences = new Sentence[] { 
+            IEnumerable<Sentence> sentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] { 
-                            new NounPhrase(new Word[] {    
-                                new PersonalPronoun("We") 
+                        new Clause(new Phrase[] {
+                            new NounPhrase(new Word[] {
+                                new PersonalPronoun("We")
                             }),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack") 
+                                new SimpleVerb("attack")
                             }),
-                            new NounPhrase(new Word[] { 
-                                new Adjective("blue"), 
+                            new NounPhrase(new Word[] {
+                                new Adjective("blue"),
                                 new CommonSingularNoun("team") }
                                 )}
                             )}, SentenceEnding.ExclamationPoint),
                         new Sentence(new Clause[]{new Clause( new Phrase[]{
                             new NounPhrase(new Word[]{
                                 new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] { 
+                            new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
                                 new SimpleVerb("do")
                             }),
-                        new NounPhrase(new Word[]{  
+                        new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
                         }),
                         new AdverbPhrase(new Word [] {

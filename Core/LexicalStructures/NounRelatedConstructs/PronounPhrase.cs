@@ -38,7 +38,7 @@ namespace LASI.Core
         /// <returns>A string representation of the PronounPhrase</returns>
         public override string ToString() {
             var result = base.ToString() + (RefersTo != null && RefersTo.Any() ? "\nreferring to -> " + RefersTo.Text : string.Empty);
-            result += AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Format() : string.Empty;
+            result += AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo as IEntity ?? this).Format() : string.Empty;
             return result;
         }
         private IAggregateEntity referredTo;

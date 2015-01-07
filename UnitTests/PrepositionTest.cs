@@ -191,7 +191,5 @@ namespace LASI.UnitTests
             target.BindObject(prepositionalObject);
             Assert.AreEqual(prepositionalObject, target.BoundObject);
         }
-
-
     }
 }

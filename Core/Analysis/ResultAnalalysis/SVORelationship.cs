@@ -49,7 +49,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
-        public IEnumerable<ILexical> Elements { get { return new[] { Subject, Verbal, Direct, Indirect, Prepositional }; } }
+        public IEnumerable<ILexical> Elements {
+            get {
+                yield return Subject;
+                yield return Verbal;
+                yield return Direct;
+                yield return Indirect;
+                yield return Prepositional;
+            }
+        }
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>

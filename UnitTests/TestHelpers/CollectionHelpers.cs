@@ -18,10 +18,10 @@ namespace LASI.UnitTests.TestHelpers
             Assert.IsTrue(expected.SequenceEqual(actual, comparer));
         }
         public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) {
-            Assert.IsTrue(expected.Except(actual).None());
+            Assert.IsFalse(expected.Except(actual).Any());
         }
         public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) {
-            Assert.IsTrue(expected.Except(actual, comparer).None());
+            Assert.IsFalse(expected.Except(actual, comparer).Any());
         }
     }
 }

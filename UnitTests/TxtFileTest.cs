@@ -1,6 +1,7 @@
 ﻿using LASI.Content;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LASI.UnitTests
@@ -12,10 +13,9 @@ namespace LASI.UnitTests
     ///to contain all TextFileTest Unit Tests
     ///</summary>
     [TestClass]
-    public class TextFileTest
+    public class TxtFileTest
     {
-
-
+        private const string VALID_TXT_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
         private TestContext testContextInstance;
 
         /// <summary>
@@ -31,48 +31,29 @@ namespace LASI.UnitTests
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for TextFile Constructor
         ///</summary>
         [TestMethod]
         public void TextFileConstructorTest() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             var sfi = new System.IO.FileInfo(path);
             Assert.AreEqual(sfi.FullName, target.FullPath);
             Assert.AreEqual(sfi.Name, target.FileName);
             Assert.AreEqual(sfi.Extension, target.Ext);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void TextFileConstructorTest1() {
+            string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
+            TxtFile target = new TxtFile(invalidPath);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(FileTypeWrapperMismatchException))]
+        public void TxtFileConstructorTest2() {
+            string wrongTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
+            TxtFile target = new TxtFile(wrongTypePath);
         }
 
         /// <summary>
@@ -80,7 +61,7 @@ namespace LASI.UnitTests
         ///</summary>
         [TestMethod]
         public void GetTextTest() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(path).ReadToEnd();
             string actual;
@@ -97,7 +78,7 @@ namespace LASI.UnitTests
         }
 
         private async Task GetTextAsyncTestHelper() {
-            string path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(target.FullPath).ReadToEndAsync().Result;
             string actual = null;

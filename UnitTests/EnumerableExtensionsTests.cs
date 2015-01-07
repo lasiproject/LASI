@@ -87,36 +87,6 @@ namespace LASI.Tests
         #region Additional Query Operators
 
         [TestMethod]
-        public void NoneTest() {
-            var target1 = new[] { 1, 2, 3 };
-            Assert.IsFalse(target1.None());
-            var target2 = new int[] { };
-            Assert.IsTrue(target2.None());
-        }
-
-        [TestMethod]
-        public void NoneTest1() {
-            var target = new[] { 1, 2, 3 };
-            Assert.IsFalse(target.None(x => x < 2));
-            Assert.IsTrue(target.None(x => x > 3));
-        }
-
-        [TestMethod]
-        public void NoneTest2() {
-            var target1 = new[] { 1, 2, 3 }.AsParallel();
-            Assert.IsFalse(target1.None());
-            var target2 = new int[] { }.AsParallel();
-            Assert.IsTrue(target2.None());
-        }
-
-        [TestMethod]
-        public void NoneTest3() {
-            var target = new[] { 1, 2, 3 }.AsParallel();
-            Assert.IsFalse(target.None(x => x < 2));
-            Assert.IsTrue(target.None(x => x > 3));
-        }
-
-        [TestMethod]
         public void AppendTest() {
             var target = new[] { 1, 2, 3 };
             var expected = new[] { 1, 2, 3, 0 };

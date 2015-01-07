@@ -360,25 +360,11 @@ namespace LASI
         /// <returns> False if the source sequence contains any elements; otherwise, true. </returns>
         public static bool None<TSource>(this IEnumerable<TSource> source) => !source.Any();
 
-        /// <summary> Determines whether no elements of a sequence satisfy a condition. </summary>
-        /// <typeparam name="TSource"> The type of the elements of source. </typeparam>
-        /// <param name="source"> An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to. </param>
-        /// <param name="predicate"> A function to test each element for a condition. </param>
-        /// <returns> False if any elements in the source sequence pass the test in the specified predicate; otherwise, true. </returns>
-        public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate) => !source.Any(predicate);
-
         /// <summary> Determines whether a parallel sequence is empty. </summary>
         /// <typeparam name="T"> The type of the elements of source. </typeparam>
         /// <param name="source"> The sequence to check for emptiness. </param>
         /// <returns> <c> false </c> if the source sequence contains any elements; otherwise, <c> true </c>. </returns>
         public static bool None<T>(this ParallelQuery<T> source) => !source.Any();
-
-        /// <summary> Determines in parallel whether no element of a sequence satisfies a condition. </summary>
-        /// <typeparam name="T"> The type of the elements of source. </typeparam>
-        /// <param name="source"> An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to. </param>
-        /// <param name="predicate"> A function to test each element for a condition. </param>
-        /// <returns> False if any elements in the source sequence pass the test in the specified predicate; otherwise, true. </returns>
-        public static bool None<T>(this ParallelQuery<T> source, Func<T, bool> predicate) => !source.Any(predicate);
 
         /// <summary> A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements. </summary>
         /// <typeparam name="T"> The type of elements in the sequence. </typeparam>
@@ -413,10 +399,12 @@ namespace LASI
         }
 
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
-            return first.SequenceEqual(second,
+            return first.SequenceEqual(
+                second,
                 new CustomComparer<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
-                    x => selector(x).GetHashCode()));
+                    x => selector(x).GetHashCode())
+                );
         }
 
         #region Statistical
@@ -516,7 +504,7 @@ namespace LASI
         /// sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second) {
-            return first.Except(second).None();
+            return !first.Except(second).Any();
         }
 
         /// <summary>
@@ -532,7 +520,7 @@ namespace LASI
         /// sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer) {
-            return first.Except(second).None();
+            return !first.Except(second, comparer).Any();
         }
 
         /// <summary>
@@ -642,7 +630,7 @@ namespace LASI
         /// Transforms a possibly <c>null</c> <see cref="IEnumerable{T}"/> into an empty enumerable. 
         /// Return an empty <see cref="IEnumerable{T}"/> if <paramref name="source"/> is <c>null</c>; otherwise <see cref="source"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of the <see cref="IEnumerable{T}"/>.
+        /// <typeparam name="T">The type of the elements of the <see cref="IEnumerable{T}"/>.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to transform.</param>
         /// <returns> 
         /// An empty <see cref="IEnumerable{T}"/> if <paramref name="source"/> is <c>null</c>; otherwise <paramref name="source"/>.

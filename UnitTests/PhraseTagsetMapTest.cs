@@ -117,5 +117,11 @@ namespace LASI.UnitTests
             actual = target[phrase];
             Assert.AreEqual("NP", actual);
         }
+        [TestMethod]
+        [ExpectedException(typeof(UnknownPhraseTagException))]
+        public void ItemTest3() {
+            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            var createPhrase = target["NOTMAPPED"];
+        }
     }
 }

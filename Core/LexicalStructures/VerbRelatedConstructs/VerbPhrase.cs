@@ -11,7 +11,7 @@ namespace LASI.Core
     /// </summary>
     public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
-        public IEnumerable<IAdverbial> AttributedBy { get; }
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         #region Constructors
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace LASI.Core
             : base(words) {
             PrevailingForm = (from verb in Words.OfVerb()
                               group verb.VerbForm by verb.VerbForm into byForm
-                              orderby byForm.Count()
+                              orderby byForm.Count() descending
                               select byForm.Key)
                 .FirstOrDefault();
         }
@@ -112,18 +112,17 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString() {
-            var empty = string.Empty;
             return !Phrase.VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
-                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : empty,
-                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : empty,
-                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : empty,
-                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : empty,
-                Modality != null ? "Modality: " + Modality.Text : empty,
-                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : empty,
+                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
+                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : string.Empty,
+                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : string.Empty,
+                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
+                Modality != null ? "Modality: " + Modality.Text : string.Empty,
+                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : string.Empty,
                 "\nPossessive: [\{IsPossessive}]",
                 "\nClassifier: [\{IsClassifier}]",
-                "\nPrevailing Tense: [\{PrevailingForm}]"
+                "\nPrevailing Form: [\{PrevailingForm}]"
             );
         }
 
@@ -136,13 +135,12 @@ namespace LASI.Core
 
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." the VerbPhrase
-        /// "are definitely" acts as a classification tool because it states that rodents are a subset of prey animals.
+        /// "are definitely" acts as a classifier because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns><c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
         private bool DetermineIsClassifier() {
             return !IsPossessive &&
-                Modality == null &&
-                AdverbialModifiers.None() &&
+                //AdverbialModifiers.None() &&
                 Words.OfVerb().Any() &&
                 Words.OfVerb().All(v => v.IsClassifier);
         }

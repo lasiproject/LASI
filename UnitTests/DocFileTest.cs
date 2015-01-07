@@ -77,56 +77,20 @@ namespace LASI.UnitTests
         ///A test for DocFile Constructor
         ///</summary>
         [TestMethod]
+        [ExpectedException(typeof(FileTypeWrapperMismatchException))]
         public void DocFileConstructorTest1() {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
-            try {
-                DocFile target = new DocFile(path);
-                Assert.Fail("Instantiation with mismatched extension succeeded.");
-            } catch (FileTypeWrapperMismatchException e) {
-                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
-            }
+            DocFile target = new DocFile(path);
         }
         /// <summary>
         ///A test for DocFile Constructor
         ///</summary>
         [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
         public void DocFileConstructorTest2() {
             string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             Assert.IsFalse(File.Exists(invalidPath));
-            try {
-                DocFile target = new DocFile(invalidPath);
-                Assert.Fail("Instantiation with invalid path succeeded.");
-            } catch (FileNotFoundException e) {
-                TestContext.WriteLine("Expected exception thrown: {0}", e.GetType().FullName);
-            }
-        }
-        ///// <summary>
-        /////A test for GetText
-        /////</summary>
-        //[TestMethod]
-        //public void GetTextTest() {
-        //    System.IO.Directory.CreateDirectory(@"..\..\DocFileTest\GetTestText");
-        //    DocFile target = new DocFile(DOC_TEST_FILE_PATH);
-        //    string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";
-        //    string expected = new DocxToTextConverter(new DocToDocXConverter(target, conversionLocation).ConvertFile()).ConvertFile().GetText();
-        //    string actual;
-        //    actual = target.GetText();
-        //    Assert.AreEqual(expected, actual);
-        //}
-
-        ///// <summary>
-        /////A test for GetTextAsync
-        /////</summary>
-        //[TestMethod]
-        //public void GetTextAsyncTest() {
-        //    System.IO.Directory.CreateDirectory(@"..\..\DocFileTest_GetTextAsyncTest");
-        //    DocFile target = new DocFile(DOC_TEST_FILE_PATH);
-        //    string path = new System.IO.FileInfo(DOC_TEST_FILE_PATH).CopyTo(@".\DocFileTest_GetTextAsyncTest\Draft_Environmental_Assessment.doc", overwrite: true).FullName;
-        //    string conversionLocation = Path.GetDirectoryName(DOC_TEST_FILE_PATH) + @"\DocFileTest\GetTestText\";
-        //    string expected = new DocxToTextConverter(new DocToDocXConverter(target, conversionLocation).ConvertFile()).ConvertFile().GetText();
-        //    string actual;
-        //    actual = target.GetTextAsync().Result;
-        //    Assert.AreEqual(expected, actual);
-        //}
+            DocFile target = new DocFile(invalidPath);
+        } 
     }
 }

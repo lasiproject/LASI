@@ -79,7 +79,7 @@ namespace LASI.UnitTests
             AdjectivePhrase target = new AdjectivePhrase(composedWords);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
-            Assert.IsTrue(actual.None());
+            Assert.IsFalse(actual.Any());
             IAdverbial modifier = new Adverb("very");
             target.ModifyWith(modifier);
             Assert.IsTrue(target.AdverbialModifiers.Contains(modifier));

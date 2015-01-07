@@ -26,7 +26,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
         public void BindAsReferringTo(IEntity target) {
-            if (RefersTo == null || RefersTo.None()) {
+            if (RefersTo == null || !RefersTo.Any()) {
                 RefersTo = new AggregateEntity(new[] { target });
             } else {
                 RefersTo = new AggregateEntity(RefersTo.Append(target));
@@ -123,7 +123,7 @@ namespace LASI.Core
         /// Gets or sets the Lexical construct which is subordinated by the RelativePronoun.
         /// </summary>
         public ILexical Subordinates { get; set; }
- 
+
 
         #endregion
 

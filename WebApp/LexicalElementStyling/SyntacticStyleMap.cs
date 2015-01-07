@@ -17,7 +17,7 @@ namespace LASI.WebApp
                 {
                     CssClass = element.Match()
                         .Case((IReferencer r) => "referencer")
-                        .Case((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : ""))
+                        .Case((NounPhrase n) => "entity" + (n.Words.OfProperNoun().Any() ? " proper" : string.Empty))
                         .Case((InfinitivePhrase i) => "infinitive")
                         .Case((IEntity e) => "entity")
                         .Case((IVerbal v) => "verbal")
