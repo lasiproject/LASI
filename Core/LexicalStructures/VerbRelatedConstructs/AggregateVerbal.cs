@@ -51,10 +51,6 @@ namespace LASI.Core
 
         public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
 
-        public IPrepositional PrepositionOnLeft { get; set; }
-
-        public IPrepositional PrepositionOnRight { get; set; }
-
         public string Text => string.Join(", ", this.Select(c => c.Text));
 
         public double Weight { get; set; }

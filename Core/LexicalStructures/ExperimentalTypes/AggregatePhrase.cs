@@ -73,8 +73,7 @@ namespace LASI.Core.Binding.Experimental
 
         public IEnumerable<IEntity> Constituents { get { return constituents; } }
         public IEnumerable<NounPhrase> PrimaryConstituents { get { return constituents.OfType<NounPhrase>(); } }
-        public IPrepositional PrepositionOnLeft { get; set; }
-        public IPrepositional PrepositionOnRight { get; set; }
+
         public string Text {
             get {
                 return string.Format("{0} with constituents\n{1}", this.GetType(), PrimaryConstituents.Format(p => p.GetType() + ": " + p.Text));

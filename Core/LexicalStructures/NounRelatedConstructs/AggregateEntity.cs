@@ -153,15 +153,7 @@ namespace LASI.Core
         /// Gets or sets the numeric weight of the aggregate entity over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
-        /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Left of the aggregate entity.
-        /// </summary>
-        public IPrepositional PrepositionOnLeft { get; set; }
-        /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Left of the aggregate entity.
-        /// </summary>
-        public IPrepositional PrepositionOnRight { get; set; }
-
+       
         #endregion
 
         #region Fields

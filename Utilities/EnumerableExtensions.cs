@@ -126,42 +126,7 @@ namespace LASI
             return source.Format(Tuple.Create('[', ',', ']'), lineLength, selector);
         }
 
-        /// <summary>
-        /// Returns a formated string representation of the IEnumerable sequence with the pattern: [ elementToString(element0), elementToString(element1), ..., elementToString(elementN) ]
-        /// such that the string representation of each element is produced by calling the provided elementToString function. The resultant string is line broken based on the provided line length.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
-        /// <param name="source">The sequence containing 0 or more elements of type <typeparamref name="T"/> to format.</param>
-        /// <param name="delimiters">The triple of delimiters specifying the beginning, separating, and ending characters.</param>
-        /// <param name="lineLength">Indicates the number of characters after which a line break is to be inserted.</param>
-        /// <param name="selector">The function used to produce a string representation for each element.</param>
-        /// <returns>A formated string representation of the IEnumerable sequence with the pattern: [ element0, element1, ..., elementN ].</returns>
-        //public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
-        //    Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
-        //    Validator.ThrowIfLessThan(lineLength, "lineLength", 1, "Line length must be greater than 0.");
-        //    int length = 2;
-        //    return source
-        //        .Select(e => selector(e) + delimiters.Item2)
-        //        .Aggregate(
-        //            new StringBuilder(delimiters.Item1),
-        //            (builder, s) => {
-        //                if (length + s.Length > lineLength) {
-        //                    length = s.Length;
-        //                    builder.Remove(builder.Length - 1, 1);
-        //                    return builder.Append(' ').Append(s).Append('\n');
-        //                } else {
-        //                    length += s.Length + 1;
-        //                    return builder.Append(' ').Append(s);
-        //                }
-        //                //length += s.Length + 2;
-        //                //var breakBefore = length - 2 >= lineLength;
-        //                //if (breakBefore) {
-        //                //    length = s.Length + 2;
-        //                //}
-        //                //return (breakBefore ? builder.Append(s).Append(delimiters.Item2).Append('\n') : builder.Append(s).Append(delimiters.Item2).Append(' '));
 
-        //            }, result => result.ToString().TrimEnd(' ', '\r', '\n', delimiters.Item2) + " " + delimiters.Item3);
-        //}
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector) {
             Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
             Validator.ThrowIfLessThan(1, lineLength, "lineLength", "Line length must be greater than 0.");
@@ -526,17 +491,17 @@ namespace LASI
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func) {
             Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
             Validator.ThrowIfEmpty(source, nameof(source));
-            var intermediate = source.First();
+            var accumulated = source.First();
             foreach (var e in source.Skip(1)) {
-                yield return intermediate = func(intermediate, e);
+                yield return accumulated = func(accumulated, e);
             }
         }
 
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func) {
             Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
-            var intermediate = seed;
+            var accumulated = seed;
             foreach (var e in source) {
-                yield return intermediate = func(intermediate, e);
+                yield return accumulated = func(accumulated, e);
             }
         }
 
@@ -585,38 +550,6 @@ namespace LASI
         /// </returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) {
             return first.Select(selector).SetEqual(second.Select(selector));
-        }
-
-        /// <summary> Splits the sequence into a sequence of sequences based on the provided chunk size. </summary>
-        /// <typeparam name="T"> The type of elements in the sequence. </typeparam>
-        /// <param name="source"> The sequence to split into subsequences </param>
-        /// <param name="chunkSize"> The number of elements per subsequence </param>
-        /// <returns> A sequence of sequences based on the provided chunk size. </returns>
-        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize) {
-            Validator.ThrowIfNull(source, "source");
-            Validator.ThrowIfLessThan(1, chunkSize, "chunkSize", "Value must be greater than 0.");
-            var partsToCreate = source.Count() / chunkSize + source.Count() % chunkSize == 0 ? 0 : 1;
-            return from partIndex in Enumerable.Range(0, partsToCreate)
-                   select source.Skip(partIndex * chunkSize).Take(chunkSize);
-        }
-
-        /// <summary>
-        /// Splits the sequence into a sequence of sequences delimited by the provided predicate.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence to split into subsequences</param>
-        ///<param name="predicate">A predicate which returns true when an element will subdivide the source sequence.</param>
-        /// <param name="discardDelimiter">True if delimiting elements should be discarded. The default is false.</param>
-        /// <returns>A sequence of sequences based on the provided chunk size.</returns>
-        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool discardDelimiter = false) {
-            Validator.ThrowIfNull(source, "source", predicate, "predicate");
-            var breakPoint = 0;
-            var segment = source.TakeWhile((element, index) => {
-                breakPoint = index;
-                return index != 0 && predicate(element);
-            });
-            yield return segment.Skip(discardDelimiter ? 1 : 0);
-            yield return source.Skip(breakPoint + (discardDelimiter ? 1 : 0)).Split(predicate, discardDelimiter).SelectMany(s => s);
         }
 
         /// <summary>

@@ -73,10 +73,6 @@ namespace LASI.Core.Analysis.Melding
 
         public IPossesser Possesser { get; set; }
 
-        public IPrepositional PrepositionOnLeft { get; set; }
-
-        public IPrepositional PrepositionOnRight { get; set; }
-
         public string Text { get { return representative.Text; } }
 
         public double Weight {
