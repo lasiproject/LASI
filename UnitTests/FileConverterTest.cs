@@ -4,7 +4,7 @@
 //using System.Threading.Tasks;
 //using System.IO;
 
-//namespace LASI.UnitTests
+//namespace LASI.Core.Tests
 //{
 
 

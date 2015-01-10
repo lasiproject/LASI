@@ -2,7 +2,7 @@
 using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
     /// <summary>
     ///This is A test class for GenericSingularNounTest and is intended

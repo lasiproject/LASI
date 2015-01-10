@@ -1,12 +1,12 @@
 ﻿using LASI;
 using LASI.Core;
-using LASI.UnitTests.TestHelpers;
+using LASI.Core.Tests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

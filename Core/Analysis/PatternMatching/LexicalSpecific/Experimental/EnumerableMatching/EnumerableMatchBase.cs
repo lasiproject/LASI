@@ -47,7 +47,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Enumer
         public IEnumerable<TResult> Results() => CaseResults;
         public IEnumerable<TResult> Results(IEnumerable<TResult> defaultValues) => CaseResults.Any() ? CaseResults : defaultValues;
         public IEnumerable<TResult> Results(Func<IEnumerable<TResult>> defaultValuesFactory) => CaseResults.Any() ? CaseResults : defaultValuesFactory();
-        public IEnumerable<TResult> Results(TResult defaultValue) => CaseResults.Any() ? CaseResults : defaultValue.Lift();
-        public IEnumerable<TResult> Results(Func<TResult> defaultValueFactory) => CaseResults.Any() ? CaseResults : defaultValueFactory().Lift();
+        public IEnumerable<TResult> Results(TResult defaultValue) => CaseResults.Any() ? CaseResults : defaultValue.ToOption();
+        public IEnumerable<TResult> Results(Func<TResult> defaultValueFactory) => CaseResults.Any() ? CaseResults : defaultValueFactory().ToOption();
     }
 }

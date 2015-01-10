@@ -43,6 +43,7 @@ namespace LASI.WebApp
             ['{'] = "_leftc_",
             ['}'] = "_rightc_",
             ['+'] = "_plus_",
+            ['-'] = "-minus",
             ['*'] = "_asterisk_",
             ['/'] = "_fslash_",
             ['\\'] = "_bslash_"

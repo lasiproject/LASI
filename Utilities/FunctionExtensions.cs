@@ -44,46 +44,39 @@ namespace LASI.Utilities
         /// </example>
         /// <remarks>
         /// </remarks>
-        public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> first, Func<T2, T1> second) {
-            return x => first(second(x));
-        }
-        public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> first, Func<T1, T1> second) {
-            return x => first(second(x));
-        }
-        public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> first, Func<T1, T2> second) {
-            return x => first(second(x));
-        }
+        public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> first, Func<T2, T1> second) => x => first(second(x));
 
-        public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> first, Func<T2, T1> second) {
-            return x => first(second(x));
-        }
+        public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> first, Func<T1, T1> second) => x => first(second(x));
+        public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> first, Func<T1, T2> second) => x => first(second(x));
+
+        public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> first, Func<T2, T1> second) => x => first(second(x));
+
+        public static Func<T1, T3> AndThen<T1, T2, T3>(this Func<T1, T2> first, Func<T2, T3> second) => second.Compose(first);
 
 
-        public static Func<T1, T3> AndThen<T1, T2, T3>(this Func<T1, T2> first, Func<T2, T3> second) {
-            return second.Compose(first);
-        }
+
         #region Currying
 
-        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) {
-            return a => b => fn(a, b);
-        }
+        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>
+            (this Func<T1, T2, TResult> fn) => a => b => fn(a, b);
 
-        public static Func<T1, Func<T2, Func<T3, TResult>>> Curry<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn) => a => b => c => fn(a, b, c);
+        public static Func<T1, Func<T2, Func<T3, TResult>>> Curry<T1, T2, T3, TResult>
+            (this Func<T1, T2, T3, TResult> fn) => a => b => c => fn(a, b, c);
 
-        public static Func<T1, Func<T2, Func<T3, Func<T4, TResult>>>> Curry<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> fn) => a => b => c => d => fn(a, b, c, d);
+        public static Func<T1, Func<T2, Func<T3, Func<T4, TResult>>>> Curry<T1, T2, T3, T4, TResult>
+            (this Func<T1, T2, T3, T4, TResult> fn) => a => b => c => d => fn(a, b, c, d);
 
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, TResult>>>>> Curry<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> fn) => a => b => c => d => e => fn(a, b, c, d, e);
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, TResult>>>>> Curry<T1, T2, T3, T4, T5, TResult>
+            (this Func<T1, T2, T3, T4, T5, TResult> fn) => a => b => c => d => e => fn(a, b, c, d, e);
 
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, TResult>>>>>> Curry<T1, T2, T3, T4, T5, T6, TResult>(
-            this Func<T1, T2, T3, T4, T5, T6, TResult> fn) => a => b => c => d => e => g => fn(a, b, c, d, e, g);
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, TResult>>>>>> Curry<T1, T2, T3, T4, T5, T6, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, TResult> fn) => a => b => c => d => e => g => fn(a, b, c, d, e, g);
 
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, TResult>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, TResult>(
-            this Func<T1, T2, T3, T4, T5, T6, T7, TResult> fn) => a => b => c => d => e => f => g => fn(a, b, c, d, e, f, g);
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, TResult>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, T7, TResult> fn) => a => b => c => d => e => f => g => fn(a, b, c, d, e, f, g);
 
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, TResult>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
-            this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> fn) {
-            return a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
-        }
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, TResult>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
 
         #endregion Currying
 
@@ -113,9 +106,7 @@ namespace LASI.Utilities
         /// A new function, of the form (T2) =&gt; TResult, produced by binding the supplied value
         /// as the first argument.
         /// </returns>
-        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> function, T1 value) {
-            return y => function(value, y);
-        }
+        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> function, T1 value) => y => function(value, y);
 
         /// <summary>
         /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) =&gt; TResult,
@@ -266,12 +257,8 @@ namespace LASI.Utilities
         public static bool IsNull<T>(this T value) where T : class => value == null;
         public static bool IsNotNull<T>(this T value) where T : class => !IsNull(value);
         public static Func<T, bool> Negate<T>(this Func<T, bool> predicate) => x => !predicate(x);
-        public static System.Diagnostics.Stopwatch InvokeTimed(this Action action) {
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            action(); return stopwatch;
-        }
 
-        public static T InvokeAndTime<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {
+        public static T InvokeWithTimer<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {
             stopwatch = System.Diagnostics.Stopwatch.StartNew();
             var value = function();
             stopwatch.Stop();

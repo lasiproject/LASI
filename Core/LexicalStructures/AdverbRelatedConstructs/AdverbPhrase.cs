@@ -33,7 +33,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the AdverPhrase Modifies. 
         /// </summary>
-        public virtual IAdverbialModifiable ModifiedBy {
+        public virtual IAdverbialModifiable Modifies {
             get;
             set;
         }

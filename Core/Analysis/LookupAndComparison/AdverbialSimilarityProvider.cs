@@ -35,7 +35,7 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second Adverb.</param>
         /// <returns><c>true</c> if the first Adverb is similar to the second; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Adverb first, Adverb second) {
-            return new Similarity(first.IsSynonymFor(second));
+            return Similarity.FromBoolean(first.IsSynonymFor(second));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The AdverbPhrase.</param>
         /// <returns><c>true</c> if the provided Adverb is similar to the provided AdverbPhrase; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) {
-            return new Similarity(second.Words.OfAdverb().Any(a => a.IsSynonymFor(first)));
+            return Similarity.FromBoolean(second.Words.OfAdverb().Any(a => a.IsSynonymFor(first)));
 
             // Must refine this to check for negators and modals which will potentially invert the meaning.
         }
@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
                 .Zip(second.Words.OfAdverb(),
                     (a, b) => a.IsSynonymFor(b))
                 .PercentOf();
-            return new Similarity(first == second || percentMatched > SIMILARITY_THRESHOLD);
+            return Similarity.FromBoolean(first == second || percentMatched > SIMILARITY_THRESHOLD);
         }
     }
 }

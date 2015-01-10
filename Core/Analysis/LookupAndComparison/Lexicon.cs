@@ -223,7 +223,7 @@ namespace LASI.Core.Heuristics
         #region Events
         #endregion
 
-        private static NameProvider NameData { get { return names.Value; } }
+        private static NameProvider NameData => names.Value;
 
         private static WordNetLookup<Adjective> AdjectiveLookup => adjectiveLookup.Value;
 
@@ -292,7 +292,7 @@ namespace LASI.Core.Heuristics
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;
-            var words = FunctionExtensions.InvokeAndTime(() => {
+            var words = FunctionExtensions.InvokeWithTimer(() => {
                 using (var reader = new StreamReader(Paths.ScrabbleDict)) {
                     return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                              .Select(s => s.ToLower())

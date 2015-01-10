@@ -37,6 +37,13 @@ namespace LASI.Utilities
         public static CustomComparer<T> Create<T>(Func<T, T, bool> equals, Func<T, int> getHashCode) {
             return new CustomComparer<T>(equals, getHashCode);
         }
+        public static CustomComparer<T> Create<T>(Func<T, T, bool> equals, params Func<T, object>[] hashPropertyAccessors) {
+            Validator.ThrowIfNullOrEmpty(hashPropertyAccessors, nameof(hashPropertyAccessors));
+            return new CustomComparer<T>(
+                equals: equals,
+                getHashCode: value => hashPropertyAccessors.Select(f => f(value).GetHashCode()).Aggregate((x, y) => x ^ y)
+            );
+        }
     }
     /// <summary>
     /// An EqualityComparer&lt;T&gt; whose Equals and GetHashCode implementations are specified upon construction.

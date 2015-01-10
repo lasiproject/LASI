@@ -14,11 +14,6 @@ namespace LASI.WebApp
 {
     public class JobController : ApiController
     {
-        /// <summary>
-        /// Gets the currently active jobs
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         [Route("api/jobs/{id:int?}")]
         public JToken Get(int? id = null) {
@@ -51,6 +46,7 @@ namespace LASI.WebApp
             }
             return Request.CreateResponse(System.Net.HttpStatusCode.Created, data, mediaTypeFormatter, "application/json");
         }
+        [HttpDelete]
         [Route("api/jobs/{id:int}")]
         public void Delete(int id) {
             JobStatus job;

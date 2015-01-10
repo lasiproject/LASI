@@ -1,4 +1,4 @@
-﻿namespace LASI.UnitTests.Properties
+﻿namespace LASI.Core.Tests.Properties
 {
 
 

@@ -18,7 +18,7 @@ namespace LASI.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private static MvcApplication.IAccountProvider Accounts => MvcApplication.Accounts;
+        private static IAccountProvider Accounts => MvcApplication.AccountProvider;
 
         public ActionResult Login(LoginModel loginModel) {
             return View(new LoginModel());
@@ -47,7 +47,7 @@ namespace LASI.WebApp.Controllers
 
 
         public ActionResult Settings(AccountModel account) {
-            var profiles = from a in Accounts ?? Enumerable.Empty<AccountModel>()
+            var profiles = from a in Accounts ?? Enumerable.Empty<IAccountModel>()
                            where a.Email == account.Email
                            select account;
             return View(new AccountModel { });

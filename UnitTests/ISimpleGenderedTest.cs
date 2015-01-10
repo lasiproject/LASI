@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using LASI.Core.Heuristics;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

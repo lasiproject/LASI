@@ -25,6 +25,7 @@ namespace LASI.Core
                               orderby byForm.Count() descending
                               select byForm.Key)
                 .FirstOrDefault();
+            modifiers = modifiers.Union(words.OfAdverb());
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial modifier) {
             modifiers = modifiers.Add(modifier);
-            modifier.ModifiedBy = this;
+            modifier.Modifies = this;
         }
 
         /// <summary>

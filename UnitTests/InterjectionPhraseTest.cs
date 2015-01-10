@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using LASI.UnitTests.TestHelpers;
+using LASI.Core.Tests.TestHelpers;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

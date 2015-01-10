@@ -13,7 +13,7 @@ namespace LASI.Core.Heuristics
     /// <remarks>
     /// <code>if (a.IsSimilarTo(b)) { ... }</code>
     /// need not and should not be changed.
-    /// However, If the numeric ratio used to determine similarity is needed and applicable, the type will implicitly convert
+    /// However, if the numeric ratio used to determine similarity is needed and applicable, the type will implicitly convert
     /// to a double. This removes the need for public code such as:
     /// <code>if (Lexicon.GetSimiliarityRatio(a, b) > 0.7) { ... }</code>
     /// Instead one may simple write the same logic as:
@@ -32,10 +32,10 @@ namespace LASI.Core.Heuristics
         /// <param name="similarityRatio">
         /// Represents the similarity ratio between the tested elements, if applicable.
         /// </param>
-        internal Similarity(bool similar, double similarityRatio)
+        private Similarity(bool similar, double similarityRatio)
             : this() {
             Boolean = similar;
-            Rational = similarityRatio;
+            Rational = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -49,13 +49,14 @@ namespace LASI.Core.Heuristics
         /// cases, the RatioResult property will be automatically set to 1 or 0 based on the
         /// truthfulness of the provided similar argument.
         /// </remarks>
-        internal Similarity(bool similar) : this(similar, similar ? 1 : 0) { }
+        private Similarity(bool similar) : this(similar, similar ? 1 : 0) { }
 
         #endregion Constructors
 
         #region Factory Methods
-        internal static Similarity FromRational(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
-        internal static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
+        public static Similarity FromRational(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
+        public static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
+
         #endregion Factory Methods
 
         #region Methods
@@ -80,9 +81,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// <c>true</c> if the specified object is equal to the current SimResult; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj) {
-            return obj != null && obj is Similarity && this == (Similarity)obj;
-        }
+        public override bool Equals(object obj) => obj != null && obj is Similarity && this == (Similarity)obj;
 
         /// <summary>
         /// Compares the current object with another object of the same type.
@@ -116,8 +115,6 @@ namespace LASI.Core.Heuristics
         /// Returns the rational value representing the degree of the determined for the SimilarityRatio.
         /// </summary>
         public double Rational { get; }
-
-
 
         #endregion Properties
 
@@ -180,9 +177,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// <c>true</c> if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
-        public static bool operator ==(Similarity left, Similarity right) {
-            return left.Boolean == right.Boolean && Math.Round(left.Rational, 5) == Math.Round(right.Rational, 5);
-        }
+        public static bool operator ==(Similarity left, Similarity right) => left.Boolean == right.Boolean && left.Rational == right.Rational;
 
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is not equal to the
@@ -193,9 +188,9 @@ namespace LASI.Core.Heuristics
         /// 5 digits, in addition to both booleanResult properties being equivalent. Keep this in
         /// mind if, for some reason, it is ever necessary to write code such as:
         /// <code>
-        /// if ( a.IsSimilarTo(b) == b.IsSimilarTo(a) ) { ... }
+        /// if (a.IsSimilarTo(b) == b.IsSimilarTo(a)) { ... }
         /// </code>
-        /// as the lexical lookup class itself currently makes no guarantees about reflexive
+        /// as the Lexicon class itself currently makes no guarantees about reflexive
         /// equality over phrase-wise comparisons.
         /// </summary>
         /// <param name="left">
@@ -213,17 +208,10 @@ namespace LASI.Core.Heuristics
 
         #endregion Operators
 
-        #region Static Properties
-
-        internal static Similarity Similar => similar;
-        internal static Similarity Dissimilar => dissimilar;
-
-        #endregion Static Properties
-
         #region Static Fields
 
-        private static readonly Similarity dissimilar = new Similarity(false, 0);
-        private static readonly Similarity similar = new Similarity(true, 1);
+        public static readonly Similarity Similar = new Similarity(true, 1);
+        public static readonly Similarity Dissimilar = new Similarity(false, 0);
 
         #endregion Static Fields
     }

@@ -30,7 +30,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public virtual void ModifyWith(IAdverbial modifier) {
             modifiers.Add(modifier);
-            modifier.ModifiedBy = this;
+            modifier.Modifies = this;
         }
 
 

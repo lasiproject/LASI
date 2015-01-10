@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 
@@ -74,8 +74,8 @@ namespace LASI.UnitTests
             Adverb target = new Adverb(text);
             IAdverbialModifiable expected = new SimpleVerb("run");
             IAdverbialModifiable actual;
-            target.ModifiedBy = expected;
-            actual = target.ModifiedBy;
+            target.Modifies = expected;
+            actual = target.Modifies;
             Assert.AreEqual(expected, actual);
         }
 
@@ -86,7 +86,7 @@ namespace LASI.UnitTests
         public void AdverbConstructorTest() {
             string text = "quickly";
             Adverb target = new Adverb(text);
-            Assert.IsTrue(target.Text == "quickly" && target.ModifiedBy == null);
+            Assert.IsTrue(target.Text == "quickly" && target.Modifies == null);
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace LASI.UnitTests
             Adverb target = new Adverb(text);
             IAdverbialModifiable expected = new SimpleVerb("ran");
             IAdverbialModifiable actual;
-            target.ModifiedBy = expected;
-            actual = target.ModifiedBy;
+            target.Modifies = expected;
+            actual = target.Modifies;
             Assert.AreEqual(expected, actual);
         }
 
@@ -112,7 +112,7 @@ namespace LASI.UnitTests
             Adverb target = new Adverb(text);
             IEnumerable<IAdverbial> actual = new[] { new Adverb("uncertainly"), new Adverb("possibly") };
             foreach (var m in actual) { target.ModifyWith(m); }
-            foreach (var m in actual) { Assert.IsTrue(target.AdverbialModifiers.Contains(m) && m.ModifiedBy == target); }
+            foreach (var m in actual) { Assert.IsTrue(target.AdverbialModifiers.Contains(m) && m.Modifies == target); }
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace LASI.UnitTests
             target.ModifyWith(adv);
             Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
             target.ModifyWith(adv);
-            Assert.AreEqual(adv.    ModifiedBy, target);
+            Assert.AreEqual(adv.    Modifies, target);
         }
 
     }

@@ -3,7 +3,8 @@
 @model DocumentUploadModel
 <link rel="stylesheet" href="~/Content/App/Widgets/document-upload.css" />
 <div>
-    @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new {
+    @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new
+    {
         enctype = "multipart/form-data",
         target = Model.UploadTarget,
         @class = "form-inline",
@@ -17,7 +18,7 @@
             </div>
 
             <div class="progress">
-                <div id="progress-bar" class="progress-bar text-aligned-progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="max-width: 100%; width:@Model.Percentage">
+                <div id="progress-bar" class="progress-bar text-aligned-progress-bar" style="max-width: 100%; width:@Model.Percentage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -36,7 +37,7 @@
 
 
 
-            <iframe class="hidden" id="@Model.UploadTarget" name="@Model.UploadTarget" src=""></iframe>
+            <iframe class="hidden" id='@Model.UploadTarget' name='@Model.UploadTarget' src=""></iframe>
         </div>
     }
 </div>

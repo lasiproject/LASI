@@ -2,7 +2,7 @@
 using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.UnitTests.PatternMatching
+namespace LASI.Core.Tests.PatternMatching
 {
     //[TestClass]
     //public class TypeTestPatternTest

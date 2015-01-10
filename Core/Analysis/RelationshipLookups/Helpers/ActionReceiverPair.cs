@@ -12,7 +12,7 @@ namespace LASI.Core.Heuristics
     /// <typeparam name="TVerbal">The Type of the Verbal construct in the relationship. The stated or inferred Type must implement the IVerbal interface.</typeparam>
     /// <typeparam name="TEntity">The Type of the Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
     /// <remarks>Any instance of the ActionReceiverPair struct is immutable unless passed as a 'ref' or 'out' argument to a function.</remarks>
-    public struct ActionReceiverPair<TVerbal, TEntity>
+    public struct ActionReceiverPair<TVerbal, TEntity> : IEquatable<ActionReceiverPair<TVerbal, TEntity>>
         where TVerbal : IVerbal
         where TEntity : IEntity
     {
@@ -31,11 +31,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="obj">The object to compare for equality.</param>
         /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; is equal to the given object, otherwise false.</returns>
-        public override bool Equals(object obj) {
-            return obj is ActionReceiverPair<TVerbal, TEntity> &&
-                Action.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Action) &&
-                Receiver.Equals(((ActionReceiverPair<TVerbal, TEntity>)obj).Receiver);
-        }
+        public override bool Equals(object obj) => obj is ActionReceiverPair<TVerbal, TEntity> && this.Equals((ActionReceiverPair<TVerbal, TEntity>)obj);
 
         /// <summary>
         /// Gets a hash code for the current ActionReceiverPair instance.
@@ -44,6 +40,9 @@ namespace LASI.Core.Heuristics
         public override int GetHashCode() {
             return Action.GetHashCode() ^ Receiver.GetHashCode();
         }
+
+        public bool Equals(ActionReceiverPair<TVerbal, TEntity> other) => Action.Equals(other.Action) && Receiver.Equals(other.Receiver);
+
         /// <summary>
         /// Gets the Action.
         /// </summary>

@@ -46,6 +46,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concurrency.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ProgressReporting\Basis\SystemResourceNotifierDualizer.cs" />
     <Compile Include="ProgressReporting\SystemResourceLoadingNotifier.cs" />

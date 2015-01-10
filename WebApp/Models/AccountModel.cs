@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace LASI.WebApp.Models
 {
-    public class AccountModel
+    public class AccountModel : IAccountModel
     {
         public ObjectId _id { get; set; }
         [Required]

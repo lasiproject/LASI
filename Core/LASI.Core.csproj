@@ -121,7 +121,6 @@
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
-    <Compile Include="LexicalStructures\Lexical.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />

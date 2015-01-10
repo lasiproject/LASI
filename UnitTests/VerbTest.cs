@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.UnitTests.TestHelpers;
+using LASI.Core.Tests.TestHelpers;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 
@@ -200,7 +200,7 @@ namespace LASI.UnitTests
             target.ModifyWith(modifier);
             actual = target.AdverbialModifiers;
             Assert.IsTrue(actual.Contains(modifier));
-            Assert.IsTrue(modifier.ModifiedBy == target);
+            Assert.IsTrue(modifier.Modifies == target);
         }
 
 

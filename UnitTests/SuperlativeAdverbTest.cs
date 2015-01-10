@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 
@@ -69,7 +69,7 @@ namespace LASI.UnitTests
             string text = "worthiest";
             SuperlativeAdverb target = new SuperlativeAdverb(text);
             Assert.AreEqual(text, target.Text);
-            Assert.IsTrue(target.ModifiedBy == null);
+            Assert.IsTrue(target.Modifies == null);
         }
     }
 }

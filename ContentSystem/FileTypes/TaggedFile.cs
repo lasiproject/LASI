@@ -32,7 +32,7 @@ namespace LASI.Content
                     FileMode.Open,
                     FileAccess.Read, FileShare.Read,
                     1024, FileOptions.Asynchronous),
-                Encoding.UTF8, false, 1024, false)) {
+                Encoding.Default, true, 1024, false)) {
                 return reader.ReadToEnd();
             }
         }
@@ -46,14 +46,8 @@ namespace LASI.Content
                       FileMode.Open,
                       FileAccess.Read, FileShare.Read,
                       1024, FileOptions.Asynchronous),
-                  Encoding.UTF8, false, 1024, false)) {
-                var result = string.Empty;
-                var line = await reader.ReadLineAsync();
-                while (line != null) {
-                    line = await reader.ReadLineAsync();
-                    result += line;
-                }
-                return result;
+                  Encoding.Default, true, 1024, false)) {
+                return await reader.ReadToEndAsync();
             }
         }
         /// <summary>

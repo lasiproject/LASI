@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LASI.Core;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
     [TestClass]
     public class IPrepositionLinkableTest

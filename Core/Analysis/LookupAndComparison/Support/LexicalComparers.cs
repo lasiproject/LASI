@@ -35,7 +35,7 @@ namespace LASI.Core
         /// Gets a IEqualityComparer&lt;ILexical&gt; which uses a default, case-sensitive textual matching function.
         /// </summary>
         public static IEqualityComparer<ILexical> Textual {
-            get { return new CustomComparer<ILexical>((l1, l2) => l1.Text == l2.Text, l => l.Text.GetHashCode()); }
+            get { return new CustomComparer<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode()); }
         }
     }
 }

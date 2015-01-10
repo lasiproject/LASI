@@ -6,7 +6,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

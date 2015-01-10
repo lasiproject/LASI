@@ -1,11 +1,11 @@
 ﻿using LASI;
 using LASI.Core;
-using LASI.UnitTests.TestHelpers;
+using LASI.Core.Tests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
     /// <summary>
     ///This is A test class for NounTest and is intended

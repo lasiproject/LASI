@@ -74,24 +74,21 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="other">The ActionsRelatedOn to compare to.</param>
         /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the supplied ActionsRelatedOn.</returns>
-        public bool Equals(ActionsRelatedOn other) {
-            return RelatedOn.SequenceEqual(other.RelatedOn);
-        }
+        public bool Equals(ActionsRelatedOn other) => RelatedOn.SequenceEqual(other.RelatedOn);
+
         /// <summary>
         /// Determines if the current ActionsRelatedOn instance is equal to the specified System.Object.
         /// </summary>
         /// <param name="obj">The System.Object to compare to.</param>
         /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the specified System.Object.</returns>
-        public override bool Equals(object obj) {
-            return obj is ActionsRelatedOn && RelatedOn.SequenceEqual(((ActionsRelatedOn)obj).RelatedOn);
-        }
+        public override bool Equals(object obj) => obj is ActionsRelatedOn && this.Equals((ActionsRelatedOn)obj);
+
         /// <summary>
         /// Computes the hash code for the ActionsRelatedOn instance.
         /// </summary>
         /// <returns>The hash code for the ActionsRelatedOn instance.</returns>
-        public override int GetHashCode() {
-            return RelatedOn.Aggregate(0, (hash, e) => hash ^ e.GetHashCode());
-        }
+        public override int GetHashCode() => RelatedOn.Aggregate(0, (hash, e) => hash ^ e.GetHashCode());
+
         internal IEnumerable<IVerbal> RelatedOn { get; }
         /// <summary>
         /// Returns true if the given the ActionsRelatedOn? is not null, otherwise; false.

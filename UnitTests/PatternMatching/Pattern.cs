@@ -6,7 +6,7 @@
 //using System.Threading.Tasks;
 //using LASI.Core;
 
-//namespace LASI.UnitTests.PatternMatching
+//namespace LASI.Core.Tests.PatternMatching
 //{
 
 //    public abstract class Pattern

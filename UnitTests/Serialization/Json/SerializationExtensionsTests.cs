@@ -16,35 +16,41 @@ namespace LASI.Content.Serialization.Json.Tests
     {
         [TestMethod]
         public void ToJArrayTest() {
-            var target = InternalHelpers.GetLexicalSequence();
-            var result = target.ToJArray();
-            Assert.Fail();
+            var target = TestHelper.GetLexicalSequence();
+            var result = target.Zip(target.ToJArray(), (source, serialized) => new { Source = source, Serialized = serialized as dynamic });
+            foreach (var serialized in result) {
+                Assert.AreEqual(serialized.Source.Text, (string)serialized.Serialized.text);
+            }
         }
 
         [TestMethod]
-        public void ToJObjectTest() {
-            Assert.Fail();
+        public void ToJObject_NounPhraseTest() {
+            var target = TestHelper.TestNounPhrase;
+            JObject serialized = target.ToJObject();
+            Assert.IsNotNull(serialized);
+            Assert.AreEqual(target.Text, serialized["text"]);
+            Assert.AreEqual(target.Words.Count(), serialized["words"].Count());
         }
 
         [TestMethod]
-        public void ToJObjectTest1() {
-            Assert.Fail();
+        public void ToJObject_VerbalTest() {
+            var target = TestHelper.TestVerbal;
+            JObject serialized = target.ToJObject();
+            Assert.IsNotNull(serialized);
+            Assert.AreEqual(target.Text, serialized["text"]);
+            Assert.AreEqual(target.AdverbialModifiers.Select(e => e.ToJObject()).ToArray(), serialized["adverbialModifiers"]);
         }
 
         [TestMethod]
         public void ToJObjectTest2() {
             Assert.Fail();
         }
-        private static class InternalHelpers
+        private static class TestHelper
         {
-            public static JsonSerializerSettings SerializerSettings {
-                get {
-                    return new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                }
-            }
+            public static IVerbal TestVerbal => new VerbPhrase(new SimpleVerb("walk"), new Adverb("swiftly"));
+            public static NounPhrase TestNounPhrase => new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             public static IEnumerable<ILexical> GetLexicalSequence() {
-                foreach (var lexical in new[] {
-                    new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) }) {
+                foreach (var lexical in new[] { new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) }) {
                     yield return lexical;
                 }
             }

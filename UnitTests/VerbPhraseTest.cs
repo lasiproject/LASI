@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

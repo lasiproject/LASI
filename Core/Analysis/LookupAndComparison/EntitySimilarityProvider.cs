@@ -103,7 +103,7 @@ namespace LASI.Core.Heuristics
                     .Then(Similarity.Similar)
                     .Case((IAggregateEntity ae1) => second.Match()
                             .Case((IAggregateEntity ae2) => ae1.IsSimilarTo(ae2))
-                            .Case((IEntity e2) => new Similarity(ae1.Any(entity => entity.IsSimilarTo(e2))))
+                            .Case((IEntity e2) => Similarity.FromBoolean(ae1.Any(entity => entity.IsSimilarTo(e2))))
                         .Result())
                     .Case((Noun n1) => second.Match()
                             .Case((Noun n2) => n1.IsSimilarTo(n2))
@@ -126,11 +126,7 @@ namespace LASI.Core.Heuristics
             var simResults = from e1 in first
                              from e2 in second
                              select e1.IsSimilarTo(e2);
-
-            return Similarity.FromRational(
-                Similarity.FromRational(simResults.PercentOf(x => x)
-                )
-            );
+            return Similarity.FromRational(simResults.PercentOf(x => x));
         }
 
         /// <summary>
@@ -141,7 +137,7 @@ namespace LASI.Core.Heuristics
         /// <returns><c>true</c> if the provided Noun is similar to the provided NounPhrase; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Noun first, NounPhrase second) {
             var phraseNouns = second.Words.OfNoun().ToList();
-            return new Similarity(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
+            return Similarity.FromBoolean(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
         }
 
         /// <summary>
@@ -150,9 +146,7 @@ namespace LASI.Core.Heuristics
         /// <param name="first">The NounPhrase.</param>
         /// <param name="second">The Noun.</param>
         /// <returns><c>true</c> if the provided NounPhrase is similar to the provided Noun; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this NounPhrase first, Noun second) {
-            return second.IsSimilarTo(first);
-        }
+        public static Similarity IsSimilarTo(this NounPhrase first, Noun second) => second.IsSimilarTo(first);
 
         /// <summary>
         /// Determines if two NounPhrases are similar.
@@ -162,7 +156,7 @@ namespace LASI.Core.Heuristics
         /// <returns><c>true</c> if the given NounPhrases are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this NounPhrase first, NounPhrase second) {
             var ratio = GetSimilarityRatio(first, second);
-            return new Similarity(ratio > SIMILARITY_THRESHOLD, ratio);
+            return Similarity.FromRational(ratio);
         }
 
         /// <summary>
@@ -172,7 +166,7 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second Noun.</param>
         /// <returns><c>true</c> if the first Noun is similar to the second; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Noun first, Noun second) {
-            return new Similarity(first.IsSynonymFor(second));
+            return Similarity.FromBoolean(first.IsSynonymFor(second));
         }
 
         /// <summary>

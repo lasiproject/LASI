@@ -51,7 +51,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IAdverbialModifiable ModifiedBy {
+        public IAdverbialModifiable Modifies {
 
             //get;
             //set;

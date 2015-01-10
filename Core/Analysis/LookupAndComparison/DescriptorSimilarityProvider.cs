@@ -20,7 +20,7 @@ namespace LASI.Core.Heuristics
                     .When(first.Text.EqualsIgnoreCase(second.Text))
                     .Then(() => Similarity.Similar)
                     .Case((Adjective a1) => second.Match()
-                           .Case((Adjective a2) => new Similarity(a1.IsSynonymFor(a2)))
+                           .Case((Adjective a2) => Similarity.FromBoolean(a1.IsSynonymFor(a2)))
                            .Case((AdjectivePhrase ap2) => ap2.IsSimilarTo(a1))
                        .Result())
                     .Case((AdjectivePhrase ap1) => second.Match()
@@ -36,7 +36,7 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The second Adjective.</param>
         /// <returns> <c>true</c> if the first Adjective is similar to the second; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Adjective first, Adjective second) {
-            return new Similarity(first.IsSynonymFor(second));
+            return Similarity.FromBoolean(first.IsSynonymFor(second));
         }
         /// <summary>
         /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
@@ -54,7 +54,7 @@ namespace LASI.Core.Heuristics
         /// <param name="second">The AdjectivePhrase.</param>
         /// <returns> <c>true</c> if the provided Adjective is similar to the provided AdjectivePhrase; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this Adjective first, AdjectivePhrase second) {
-            return new Similarity(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
+            return Similarity.FromBoolean(second.Words.OfAdjective().Any(adj => adj.IsSynonymFor(first)));
         }
         /// <summary>
         /// Determines if two AdjectivePhrase are similar.
@@ -67,7 +67,7 @@ namespace LASI.Core.Heuristics
                 .OfAdjective()
                 .Zip(second.Words.OfAdjective(), (a, b) => a.IsSynonymFor(b))
                 .Aggregate(new { T = 0, F = 0 }, (a, c) => new { T = a.T + (c ? 1 : 0), F = a.F + (c ? 0 : 1) });
-            return new Similarity(first == second || ((float)(result.T / result.F + result.T) > SIMILARITY_THRESHOLD));
+            return Similarity.FromBoolean(first == second || ((float)(result.T / result.F + result.T) > SIMILARITY_THRESHOLD));
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using LASI.Content;
 
-namespace LASI.UnitTests
+namespace LASI.Core.Tests
 {
 
 

@@ -40,7 +40,7 @@ namespace LASI.Core.Heuristics
         /// <param name="entity">The Entity to register an alias for</param>
         /// <param name="textualAlias">The textual alias which will be registered</param>
         public static void DefineAlias(IEntity entity, string textualAlias) {
-            DefineAliasInDictionary(entity.Text, textualAlias);
+            DefineAliasesImpl(entity.Text, textualAlias);
         }
         /// <summary>
         /// Establishes that one Entity is an alias for the end. 
@@ -48,7 +48,7 @@ namespace LASI.Core.Heuristics
         /// <param name="entity">The first Entity</param>
         /// <param name="other">The second Entity</param>
         public static void DefineAlias<TEntity>(TEntity entity, TEntity other) where TEntity : IEntity {
-            DefineAliasInDictionary(entity.Text, other.Text);
+            DefineAliasesImpl(entity.Text, other.Text);
         }
         /// <summary>
         /// Establishes that one Entity is an alias for the end. 
@@ -56,7 +56,7 @@ namespace LASI.Core.Heuristics
         /// <param name="entityText">The first Entity</param>
         /// <param name="aliasText">The second Entity</param>
         public static void DefineAlias(string entityText, string aliasText) {
-            DefineAliasInDictionary(entityText, aliasText);
+            DefineAliasesImpl(entityText, aliasText);
         }
 
         /// <summary>
@@ -64,13 +64,13 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="entityText">The text of the entity to define an the alias for.</param>
         /// <param name="textualAliases">One or more textual alias to define for the given entity text.</param>
-        private static void DefineAliasInDictionary(string entityText, params string[] textualAliases) {
+        private static void DefineAliasesImpl(string entityText, params string[] textualAliases) {
             aliasDictionary.AddOrUpdate(
                    entityText, textualAliases.ToHashSet(),
                    (key, value) => value.Concat(textualAliases).ToHashSet()
                    );
         }
-        private static void DefineAliasInDictionary(IEntity entity, IEntity alias, params IEntity[] aliases) {
+        private static void DefineAliasesImpl(IEntity entity, IEntity alias, params IEntity[] aliases) {
             aliasDictionary.AddOrUpdate(
                 entity.Text,
                 key => aliases.Select(a => a.Text).ToHashSet(),

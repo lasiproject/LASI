@@ -15,7 +15,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct the IAdverbial modifies.
         /// </summary>
-        IAdverbialModifiable ModifiedBy {
+        IAdverbialModifiable Modifies {
             get;
             set;
         }

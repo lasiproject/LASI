@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Defines static methods which facilitate common Console IO procedures
+    /// Defines static methods which facilitate common Console IO tasks. 
     /// </summary>
     public static class Input
     {

@@ -33,7 +33,7 @@ namespace LASI.Core
         /// </summary>
         public virtual void ModifyWith(IAdverbial modifier) {
             modifiers = modifiers.Add(modifier);
-            modifier.ModifiedBy = this;
+            modifier.Modifies = this;
         }
 
         /// <summary>

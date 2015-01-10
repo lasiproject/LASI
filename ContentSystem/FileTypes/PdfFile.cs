@@ -36,7 +36,7 @@ namespace LASI.Content
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
         public override async Task<string> GetTextAsync() {
             var converter = new PdfToTextConverter(this);
-            return await (await converter.ConvertFileAsync() as TxtFile).GetTextAsync();
+            return await (await converter.ConvertFileAsync()).GetTextAsync();
         }
         /// <summary>
         /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
