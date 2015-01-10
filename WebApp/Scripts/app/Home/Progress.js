@@ -22,31 +22,6 @@ var LASI;
             // Sets listening for progress automatically.
             // This needs to be refactored into more re-usable code.
             var jobId = (function () {
-                // Gets all ongoing jobs from the server and generates a new
-                // Id number by using a bitwise xor
-                //var id = 0;
-                //(function (statusUrl) {
-                //    $.getJSON(statusUrl).then(data => {
-                //        id = (<{ id: number }[]> data)
-                //            .map(x => x.id)
-                //            .reduce((hash, x) => hash ^ x, 0);
-                //        setInterval(event => {
-                //            $.getJSON(statusUrl + '?id=' + jobId,
-                //                function (data, s, jqXhr) {
-                //                    if (data) {
-                //                        var status = new Status(data.message, data.percent, data.id);
-                //                        $('#progress-bar').css('width', status.percentString);
-                //                        $('#progress-text').text(status.message);
-                //                        // If one job is complete, check on all of others and if they are complete, prompt the user to proceed.
-                //                        if (status.percent > 99.0 && $.makeArray($.getJSON(statusUrl))
-                //                            .map(e => e.percent)
-                //                            .some(x => x >= 100.0)) {
-                //                            <HTMLElement>$('#resultsnavitem')[0].children[0][0].click();
-                //                        }
-                //                    }
-                //                });
-                //        }, 1000);
-                //    });
                 return (function (statusUrl) {
                     var id;
                     // Create a new job on the server to track progress.

@@ -206,6 +206,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Scripts\jquery-2.1.1.min.js.map">
+      <DependentUpon>jquery-2.1.1.min.js</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
