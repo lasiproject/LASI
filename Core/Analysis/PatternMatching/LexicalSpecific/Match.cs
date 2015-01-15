@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace LASI.Core.PatternMatching
 {
+    using LASI.Utilities.SupportTypes;
+    using L = LASI.Core.ILexical;
     /// <summary>
     /// Provides for the representation and free form structuring of Type based Pattern Matching
     /// expressions which match with a value of Type T and does not yield a result.
@@ -115,7 +117,7 @@ namespace LASI.Core.PatternMatching
     /// Provides extension methods which allow for the creation of Match expressions. 
     /// </see>
     [DebuggerStepThrough]
-    public class Match<T> : MatchBase<T> where T : class, ILexical
+    public class Match<T> : MatchBase<T> where T : class, L
     {
         #region Constructors
 
@@ -146,7 +148,7 @@ namespace LASI.Core.PatternMatching
         /// </returns>
         public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Accepted);
 
-        public Match<T, TResult> Case<TPattern, TResult>(Func<TPattern, TResult> f) where TPattern : class, ILexical => this.Yield<TResult>().Case(f);
+        public Match<T, TResult> Case<TPattern, TResult>(Func<TPattern, TResult> f) where TPattern : class, L => Yield<TResult>().Case(f);
 
         #endregion Expression Transformations
 
@@ -184,7 +186,7 @@ namespace LASI.Core.PatternMatching
         /// The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, ILexical {
+        public PredicatedMatch<T> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, L {
             var typed = Value as TPattern;
             return new PredicatedMatch<T>(typed != null && predicate(typed), this);
         }
@@ -222,12 +224,12 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The Match&lt;T&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T> Case<TPattern>(Action action) where TPattern : class, ILexical {
+        public Match<T> Case<TPattern>(Action action) where TPattern : class, L {
             if (!Accepted && Value is TPattern) {
                 Accepted = true;
                 action();
             }
-            return this.Case((TPattern t) => action());
+            return Case((TPattern t) => action());
         }
 
         /// <summary>
@@ -244,7 +246,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The Match&lt;T&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T> Case<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
+        public Match<T> Case<TPattern>(Action<TPattern> action) where TPattern : class, L {
             if (Value != null) {
                 if (!Accepted) {
                     var matched = Value as TPattern;
@@ -279,7 +281,7 @@ namespace LASI.Core.PatternMatching
         /// The function to invoke on the match Case value if no matches in the expression succeeded. 
         /// </param>
         public void Default(Action<T> action) {
-            if (!Accepted && Value != null) {
+            if (!Accepted) {
                 action(Value);
             }
         }
@@ -409,7 +411,7 @@ namespace LASI.Core.PatternMatching
     /// </para>
     /// </remarks>
     [DebuggerStepThrough]
-    public class Match<T, TResult> : MatchBase<T> where T : class, ILexical
+    public class Match<T, TResult> : MatchBase<T> where T : class, L
     {
         #region Constructors
 
@@ -442,9 +444,7 @@ namespace LASI.Core.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) {
-            return new PredicatedMatch<T, TResult>(predicate(Value), this);
-        }
+        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value
@@ -462,7 +462,7 @@ namespace LASI.Core.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, ILexical {
+        public PredicatedMatch<T, TResult> When<TPattern>(Func<TPattern, bool> predicate) where TPattern : class, L {
             var typed = Value as TPattern;
             return new PredicatedMatch<T, TResult>(typed != null && predicate(typed), this);
         }
@@ -479,9 +479,7 @@ namespace LASI.Core.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When(bool condition) {
-            return new PredicatedMatch<T, TResult>(condition, this);
-        }
+        public PredicatedMatch<T, TResult> When(bool condition) => new PredicatedMatch<T, TResult>(condition, this);
 
         #endregion When Expressions
 
@@ -501,7 +499,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(Func<TResult> func) where TPattern : class, L {
             if (!Accepted && Value is TPattern) {
                 result = func();
                 Accepted = true;
@@ -523,7 +521,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func) where TPattern : class, L {
             if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {
@@ -547,7 +545,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical {
+        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, L {
             if (!Accepted) {
                 var matched = Value as TPattern;
                 if (matched != null) {
@@ -558,11 +556,11 @@ namespace LASI.Core.PatternMatching
             return this;
         }
 
-        public Match<T, TResult> Case(Func<T, TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(Func<T, TResult> func) => Case<T>(func);
 
-        public Match<T, TResult> Case(Func<TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(Func<TResult> func) => Case<T>(func);
 
-        public Match<T, TResult> Case(TResult result) { return this.Case<T>(result); }
+        public Match<T, TResult> Case(TResult result) => Case<T>(result);
 
         #endregion Case Expressions
 
@@ -575,7 +573,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// The result of the Pattern Matching expression. 
         /// </returns>
-        public TResult Result() { return result; }
+        public TResult Result() => result;
 
         /// <summary>
         /// Appends a Result Expression to the current pattern, thus specifying the default result
@@ -638,7 +636,7 @@ namespace LASI.Core.PatternMatching
         #region Fields
 
         private TResult result = default(TResult);
-
+        private Option<TResult> resultOption = default(TResult).ToOption();
         #endregion Fields
     }
 }

@@ -51,7 +51,7 @@ namespace LASI.WebApp.Controllers
                    let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                    from result in naiveTopResults
                    orderby result.Value descending
-                   group new object[] { result.Key, result.Value } by documentModel)
+                   group new object[] { result.Key, result.Value } by documentModel.Name)
                    .ToDictionary(g => g.Key, g => g.ToArray());
             ViewData["charts"] = documentCharts;
             ViewBag.Title = "Results";

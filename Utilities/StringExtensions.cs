@@ -63,7 +63,7 @@ namespace LASI
         /// in the current instance have been removed.</returns>         
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
-        public static string RemoveElements(this string value, params string[] remove) {
+        public static string RemoveSubstrings(this string value, params string[] remove) {
             Validator.ThrowIfNull(value, "value");
             if (remove.Contains(string.Empty)) {
                 throw new ArgumentException("The string[] \{nameof(remove)} contained an empty string", "remove");
@@ -84,7 +84,7 @@ namespace LASI
         /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
         public static string RemoveElements(this string value, params char[] remove) {
             Validator.ThrowIfNull(value, "value");
-            return RemoveElements(value, remove.Select(c => c.ToString()).ToArray());
+            return RemoveSubstrings(value, remove.Select(c => c.ToString()).ToArray());
         }
 
         /// <summary>

@@ -5,7 +5,13 @@ var LASI;
         var DocumentUpload;
         (function (DocumentUpload) {
             'use strict';
-            //var $ = require('/Scripts\jquery-2.1.1.min.js');
+            var validateFileExtension = (function () {
+                var acceptedFormats = Object.freeze(['.txt', '.docx', '.pdf', 'doc']);
+                return function (fileName) {
+                    var extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+                    return acceptedFormats.some(function (extension) { return extension === extension; });
+                };
+            }());
             $(function () {
                 var $uploadElement = $('#document-upload-input'), $uploadList = $('#document-upload-list'), $uploadButton = $('#document-upload-button');
                 $(document).on('change', '.btn-file :file', function () {

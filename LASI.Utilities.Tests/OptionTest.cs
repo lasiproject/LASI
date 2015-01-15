@@ -17,14 +17,14 @@ namespace LASI.Utilities.Tests
         }
         [TestMethod]
         public void ValueTest1() {
-            Option<string> target = "str".Lift();
+            Option<string> target = "str".ToOption();
             Assert.IsInstanceOfType(target, typeof(Option<string>));
         }
         [TestMethod]
         public void CoalescenseTest1() {
-            Option<string> target = "str".Lift().Lift().Lift();
-            Assert.AreEqual(target, "str".Lift());
-            Assert.AreEqual("str".Lift(), target);
+            Option<string> target = "str".ToOption().ToOption().ToOption();
+            Assert.AreEqual(target, "str".ToOption());
+            Assert.AreEqual("str".ToOption(), target);
         }
         [TestMethod]
         public void OptionFromNullTest1() {
@@ -41,20 +41,20 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         public void OptionFromValueTest1() {
             const string source = "str";
-            Option<string> target = source.Lift();
+            Option<string> target = source.ToOption();
             string value = target.Value;
             Assert.AreEqual(value, source);
         }
         [TestMethod]
         public void OptionFromValueTest2() {
             const string source = "str";
-            Option<string> target = source.Lift();
+            Option<string> target = source.ToOption();
             Assert.IsTrue(target.HasValue);
         }
         [TestMethod]
         public void OptionFromValueSelectTest1() {
             const string source = "str";
-            Option<string> target = source.Lift();
+            Option<string> target = source.ToOption();
             Option<string> projected = target.Select(x => x.ToUpper());
             Assert.IsTrue(projected.HasValue);
             string value = projected.Value;
@@ -63,7 +63,7 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         public void OptionFromValueSelectTest2() {
             const string source = "str";
-            Option<string> target = source.Lift();
+            Option<string> target = source.ToOption();
             Option<string> projected = from vx in target
                                        select vx.ToUpper();
             Assert.IsTrue(projected.HasValue);
@@ -123,7 +123,7 @@ namespace LASI.Utilities.Tests
 
         [TestMethod]
         public void OptionFromNullSelectManyTest1() {
-            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.Lift());
+            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
             Assert.IsFalse(projected.HasValue);
         }
 
@@ -147,7 +147,7 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         [ExpectedInvalidOperationException]
         public void OptionFromNullSelectManyTest4() {
-            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.Lift());
+            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
             int result = projected.Value;// must fail
         }
 
@@ -165,7 +165,7 @@ namespace LASI.Utilities.Tests
 
         static Option<T> FromNullFactory<T>() where T : class {
             T target = null;
-            return target.Lift();
+            return target.ToOption();
         }
     }
 }

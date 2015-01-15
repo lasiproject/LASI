@@ -1,12 +1,8 @@
-﻿@using LASI;
-@using LASI.Core;
-@using LASI.WebApp;
+﻿@using LASI.WebApp;
 @using LASI.WebApp.Models;
-@using LASI.WebApp.Models.Lexical;
 @Styles.Render("~/Content/App/Home/Results.css")
 
 @model DocumentSetModel
-<!--Load the AJAX API-->
 
 <title>@ViewBag.Title</title>
 <div class="results-pane">
@@ -82,9 +78,9 @@
                                 <h4 class="modal-title">@documentModel.Name</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="container chart-container" id="@(documentModel.Name.ToSafeHtmlDomId() + "_resultschart")">
+                                <div class="container chart-container" id="@(documentModel.Name.ToSafeHtmlDomId() + "_topresults")">
                                     <span id="@(documentModel.Name.ToSafeHtmlDomId() + "_topresultrows")" hidden>
-                                        @(ViewData["charts"] as System.Collections.IDictionary)[documentModel]
+                                        @((ViewData["charts"] as IDictionary<string, object[][]>)[documentModel.Name])
                                     </span>
                                 </div>
                             </div>

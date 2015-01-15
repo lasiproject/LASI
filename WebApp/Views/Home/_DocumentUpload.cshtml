@@ -30,14 +30,14 @@
                 </div>
             </div>
             <span class="btn btn-default btn-file" id="document-upload-button">
-                Browse for Docs <input type="file" name="fileuploadform" form="fileuploadform" multiple id="document-upload-input" />
+                Browse for Docs <input type="file" name="fileuploadform" form="fileuploadform" multiple id="document-upload-input" accept=".txt,.pdf,.docx,.doc" />
             </span>
 
             <input type="submit" name="Submit" value="Upload" class="btn btn-default" form="fileuploadform" />
 
 
 
-            <iframe class="hidden" id='@Model.UploadTarget' name='@Model.UploadTarget' src=""></iframe>
+            <iframe class="hidden" id=@Model.UploadTarget name=@Model.UploadTarget src=""></iframe>
         </div>
     }
 </div>

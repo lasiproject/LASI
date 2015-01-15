@@ -62,7 +62,6 @@ namespace LASI.Core
 
         #endregion Methods
 
-        #region Properties
 
         /// <summary>
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
@@ -73,8 +72,12 @@ namespace LASI.Core
         public void EstablishParenthood(Paragraph parent) {
             EndsParagraph = this == parent.Sentences.Last();
             BeginsParagraph = this == parent.Sentences.First();
-            Paragraph = parent; Clauses.ToList().ForEach(c => c.EstablishParent(this));
+            Paragraph = parent;
+            foreach (var clause in Clauses) {
+                clause.EstablishParent(this);
+            }
         }
+        #region Properties
 
         /// <summary>
         /// Gets the sequence of Clauses which comprise the sentence.
@@ -93,6 +96,20 @@ namespace LASI.Core
 
         public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
 
+
+        public IEnumerable<ILexical> Lexicals {
+            get {
+                foreach (var clause in Clauses) {
+                    yield return clause;
+                    foreach (var phrase in clause.Phrases) {
+                        yield return phrase;
+                        foreach (var word in phrase.Words) {
+                            yield return word;
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating whether the Sentence is an inverted sentence. That is a
         /// sentence in which the Verbal precedes its subject. ex:
@@ -102,19 +119,6 @@ namespace LASI.Core
         /// </para>
         /// </summary>
         public bool IsInverted { get; set; }
-
-        public IEnumerable<ILexical> Lexicals {
-            get {
-                foreach (var clause in Clauses) {
-                    yield return clause;
-                    foreach (var phrase in clause.Phrases) {
-                        yield return phrase; foreach (var word in phrase.Words) {
-                            yield return word;
-                        }
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Gets the Paragraph to which the Sentence belongs.

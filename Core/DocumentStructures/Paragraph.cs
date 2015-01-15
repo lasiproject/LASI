@@ -36,39 +36,33 @@ namespace LASI.Core
         /// </summary>
         /// <param name="startAfter">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase startAfter) {
-            return Phrases.SkipWhile(r => r != startAfter).Skip(1);
-        }
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase startAfter) => Phrases.SkipWhile(r => r != startAfter).Skip(1);
+
 
         /// <summary>
         /// Returns a string representation of the Paragraph.
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
-        public override string ToString() {
-            return base.ToString() + ": " + Sentences.Count() + " sentences\n\"" + Text + "\"";
-        }
+        public override string ToString() => base.ToString() + ": " + Sentences.Count() + " sentences\n\"" + Text + "\"";
+
 
         /// <summary>
         /// Gets the collection of Sentences which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Sentence> Sentences { get; private set; }
+        public IEnumerable<Sentence> Sentences { get; }
 
         /// <summary>
         /// Gets the collection of Words which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Word> Words {
-            get { return Sentences.SelectMany(sentence => sentence.Words); }
-        }
+        public IEnumerable<Word> Words => Sentences.SelectMany(sentence => sentence.Words);
         /// <summary>
         /// Gets the collection of Phrases which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Phrase> Phrases {
-            get { return Sentences.SelectMany(sentence => sentence.Phrases); }
-        }
+        public IEnumerable<Phrase> Phrases => Sentences.SelectMany(sentence => sentence.Phrases);
         /// <summary>
         /// Gets the collection of Clauses which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Clause> Clauses { get { return Sentences.SelectMany(sentence => sentence.Clauses); } }
+        public IEnumerable<Clause> Clauses => Sentences.SelectMany(sentence => sentence.Clauses);
 
         /// <summary>
         /// Gets the Document the Paragraph belongs to.
@@ -77,33 +71,22 @@ namespace LASI.Core
         /// <summary>
         /// Gets the ParagraphKind of the Paragraph.
         /// </summary>
-        public ParagraphKind ParagraphKind { get; private set; }
+        public ParagraphKind ParagraphKind { get; }
 
         /// <summary>
         /// Gets the textual content of the Paragraph.
         /// </summary>
-        public string Text { get { return text = text ?? string.Join(" ", Sentences.Select(sentence => sentence.Text)); } }
+        public string Text => text = text ?? string.Join(" ", Sentences.Select(sentence => sentence.Text));
 
         /// <summary>
         /// Returns an enumeration of all constituent Lexical structures of the Paragraph.
         /// Lexical structures that contain other Lexical structures, such as Clauses, will be followed by their constituents.
         /// </summary>
-        public IEnumerable<ILexical> Lexicals {
-            get {
-                foreach (var clause in Clauses) {
-                    yield return clause;
-                    foreach (var phrase in clause.Phrases) {
-                        yield return phrase;
-                        foreach (var word in phrase.Words) {
-                            yield return word;
-                        }
-                    }
-                }
-            }
-        }
-        public IEnumerable<IEntity> Entities { get { return Lexicals.OfEntity(); } }
+        public IEnumerable<ILexical> Lexicals => Clauses.SelectMany(c => c.Phrases.SelectMany(p => p.Words));
 
-        public IEnumerable<IVerbal> Verbals { get { return Lexicals.OfVerbal(); } }
+        public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
+
+        public IEnumerable<IVerbal> Verbals => Lexicals.OfVerbal();
 
         private string text;
     }
@@ -123,7 +106,7 @@ namespace LASI.Core
         /// <summary>
         /// A paragraph containing a heading.
         /// </summary>
-        Heading
+        Heading,
     }
 }
 

@@ -1,19 +1,18 @@
 ﻿namespace LASI.Utilities.Advaned
 {
     using FunctionExtensions;
-    using LASI.Utilities.SupportTypes;
     using System.Collections.Generic;
     using System.Linq;
 
     public static class AdvancedExtensions
     {
         /// <summary>
-        /// Lifts the given <paramref name="value" /> into an Option&lt;<typeparamref name="T"/>&gt;.
+        /// Lifts the given <paramref name="value" /> into an <see cref="SupportTypes.Option{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the value to lift.</typeparam>
-        /// <param name="value">The value to lift into an Enumerable.</param>
-        /// <returns>A singleton sequence containing the specified element or en empty sequence if the element is <c>null</c>.</returns>
-        public static Option<T> ToOption<T>(this T value) => value.Lift();
+        /// <param name="value">The value to lift into an <see cref="SupportTypes.Option{T}"/>.</param>
+        /// <returns>An <see cref="SupportTypes.Option{T}"/> containing the specified value or an empty <see cref="SupportTypes.Option{T}"/> if the element is <c>null</c>.</returns>
+        public static SupportTypes.Option<T> ToOption<T>(this T value) => SupportTypes.Option.ToOption(value);
 
 
         /// <summary>

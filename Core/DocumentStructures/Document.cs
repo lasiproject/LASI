@@ -1,7 +1,6 @@
 ﻿using LASI.Utilities.Validation;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace LASI.Core
@@ -29,10 +28,10 @@ namespace LASI.Core
         /// <param name="title">The name for the document.</param>
         public Document(IEnumerable<Paragraph> paragraphs, string title) {
             Title = title;
-            this.paragraphs = ImmutableList.CreateRange(paragraphs);
+            this.paragraphs = paragraphs.ToList();
             enumerationOrHeadingsParagraphs = this.paragraphs
                 .Where(p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading)
-                .ToImmutableList();
+                .ToList();
             new DocumentReifier(this).Reifiy();
         }
 
@@ -120,7 +119,7 @@ namespace LASI.Core
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
         /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
-        public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = EnumerateAllLexicals().ToImmutableList());
+        public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = EnumerateAllLexicals().ToList());
 
         private IEnumerable<ILexical> EnumerateAllLexicals() {
             foreach (var lexical in words) { yield return lexical; }
@@ -172,15 +171,15 @@ namespace LASI.Core
 
         #region Fields
 
-        private ImmutableList<Word> words;
-        private ImmutableList<Phrase> phrases;
+        private IReadOnlyList<Word> words;
+        private IReadOnlyList<Phrase> phrases;
 
-        private ImmutableList<ILexical> lexicals;
+        private IReadOnlyList<ILexical> lexicals;
 
-        private ImmutableList<Sentence> sentences;
+        private IReadOnlyList<Sentence> sentences;
 
-        private ImmutableList<Paragraph> paragraphs;
-        private ImmutableList<Paragraph> enumerationOrHeadingsParagraphs;
+        private IReadOnlyList<Paragraph> paragraphs;
+        private IReadOnlyList<Paragraph> enumerationOrHeadingsParagraphs;
 
         #endregion Fields
 
@@ -196,10 +195,11 @@ namespace LASI.Core
             /// </summary>
             public IEnumerable<Paragraph> Paragraphs {
                 get {
+                    Func<Paragraph, int> findIndexInDocument = Document.paragraphs.ToList().IndexOf;
                     return Sentences
-                        .Select(s => s.Paragraph)
-                        .Distinct()
-                        .OrderBy(Document.paragraphs.IndexOf);
+                    .Select(s => s.Paragraph)
+                    .Distinct()
+                    .OrderBy(findIndexInDocument);
                 }
             }
 
@@ -254,7 +254,9 @@ namespace LASI.Core
 
             public void Reifiy() {
                 AssignMembers();
-                document.paragraphs.ForEach(p => p.EstablishParent(document));
+                foreach (var paragraph in document.paragraphs) {
+                    paragraph.EstablishParent(document);
+                }
                 LinksAdjacentElements();
             }
 
@@ -262,12 +264,12 @@ namespace LASI.Core
                 document.sentences = document.paragraphs
                      .Sentences()
                      .Where(sentence => sentence.Words.OfVerb().Any())
-                     .ToImmutableList();
+                     .ToList();
                 document.phrases = document.sentences.Phrases()
-                    .ToImmutableList();
+                    .ToList();
                 document.words = document.sentences
                     .SelectMany(s => s.Words.Append(s.Ending))
-                    .ToImmutableList();
+                    .ToList();
             }
 
             /// <summary>

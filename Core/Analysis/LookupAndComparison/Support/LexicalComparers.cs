@@ -29,13 +29,13 @@ namespace LASI.Core
         /// </remarks>
         public static IEqualityComparer<TLexical> Create<TLexical>(Func<TLexical, TLexical, bool> equals) where TLexical : ILexical {
             Validator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
-            return new CustomComparer<TLexical>(equals);
+            return CustomComparer.Create(equals);
         }
         /// <summary>
         /// Gets a IEqualityComparer&lt;ILexical&gt; which uses a default, case-sensitive textual matching function.
         /// </summary>
         public static IEqualityComparer<ILexical> Textual {
-            get { return new CustomComparer<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode()); }
+            get { return CustomComparer.Create<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode()); }
         }
     }
 }

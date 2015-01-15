@@ -1,30 +1,38 @@
 ﻿#r @"C:\Users\Aluan\Documents\GitHub\LASI\Utilities\bin\Debug\LASI.Utilities.dll"
 
-open LASI
-open LASI.Utilities
+type Tree<'a> = 
+    | Tree of Tree<'a> * Tree<'a>
+    | Leaf of 'a
 
-let xs = [ 1..10 ]
+let t = Tree(Leaf(1), Tree(Leaf(2), Tree(Leaf(7), Tree(Leaf(4), Leaf(5)))))
 
-xs.Aggregate(fun x y index -> x + y + index)
-(xs |> List.fold (fun x y -> x + y) 0) + (xs
-                                          |> List.map (fun x -> x - 1)
-                                          |> List.sum)
+let rec bottomToTop t = 
+    match t with
+    | Tree(a, Leaf(b)) -> b :: bottomToTop a
+    | Tree(a, b) -> 
+        List.concat ([ bottomToTop b
+                       bottomToTop a ])
+    | Leaf a -> a :: []
 
-let lxs = xs.Length
+bottomToTop t
 
-let folder = 
-    fun x y -> 
-        printfn "%A %A" x y
-        x + y
+let rec topToBottom t = 
+    match t with
+    | Tree(Leaf(b), a) -> List.Cons(b, topToBottom a)
+    | Leaf a -> a :: []
+    | Tree(a, b) -> 
+        List.concat ([ topToBottom a
+                       topToBottom b ])
 
-let q = 
-    match xs with
-    | x :: xs -> List.fold (folder) x xs
-    | [] -> 0
+topToBottom t
 
-q
-//let lys = ys.Length
-printfn "\r\n\n%s"
-//
-//let laxg = xs.Aggregate(folder)
-//laxg
+let v1 = bottomToTop t
+let v2 = topToBottom t
+let res = v1.Equals(List.rev v2)
+
+let xs  =
+    v1
+    |> List.zip
+    >> List.map (fun u -> float (fst u) + float (snd u))
+    >> List.fold (/) 1.0
+    <| v2

@@ -37,13 +37,10 @@ namespace LASI.WebApp
             accounts = accounts.Add(account);
         }
 
-        public IEnumerator<IAccountModel> GetEnumerator() {
-            throw new NotImplementedException();
-        }
-        IEnumerator IEnumerable.GetEnumerator() {
-            return accounts.GetEnumerator();
-        }
- 
+        public IEnumerator<IAccountModel> GetEnumerator() => accounts.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         private IImmutableSet<AccountModel> accounts;
 
         private const string USER_DIR = "~/App_Data/Users/";

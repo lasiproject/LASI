@@ -20,7 +20,9 @@ namespace LASI.Core
             var betwixt = FindAllBetwixt(sentence);
             var aggregatedNounPhrases = new List<NounPhrase>();
             foreach (var b in betwixt) {
-                if (b.TillNextNounPhrase.OfConjunctionPhrase().Count() + b.TillNextNounPhrase.OfType<SymbolPhrase>().Count() != b.TillNextNounPhrase.Count && b.TillNextNounPhrase.Count < 3) {
+                var conjunctionPhraseCount = b.TillNextNounPhrase.OfConjunctionPhrase().Count();
+                var symbolPhraseCount = b.TillNextNounPhrase.OfType<SymbolPhrase>().Count();
+                if (conjunctionPhraseCount + symbolPhraseCount != b.TillNextNounPhrase.Count && b.TillNextNounPhrase.Count < 3) {
                     aggregatedNounPhrases.Add(b.NounPhrase);
                     if (aggregatedNounPhrases.Count > 2) {
                         entityGroups.Add(new AggregateEntity(aggregatedNounPhrases));
@@ -35,13 +37,13 @@ namespace LASI.Core
             var betwixtAll = new List<NpWithBetween>();
             var nPS = sentence.Phrases.OfNounPhrase();
             while (nPS.Any()) {
-                var n1 = nPS.First();
-                var nss = sentence.GetPhrasesAfter(n1).OfNounPhrase();
+                var first = nPS.First();
+                var nss = sentence.GetPhrasesAfter(first).OfNounPhrase();
                 if (nss.Any()) {
                     var betwixt = nPS.First().Between(nss.First()).ToList();
-                    betwixtAll.Add(new NpWithBetween(n1, betwixt));
+                    betwixtAll.Add(new NpWithBetween(first, betwixt));
                 }
-                nPS = sentence.GetPhrasesAfter(n1).OfNounPhrase();
+                nPS = sentence.GetPhrasesAfter(first).OfNounPhrase();
             }
             return betwixtAll;
         }

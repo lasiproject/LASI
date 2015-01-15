@@ -137,7 +137,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\Gender.cs" />
     <Compile Include="Analysis\ResultAnalalysis\CrossDocumentJoiner.cs" />
     <Compile Include="Analysis\ResultAnalalysis\SVORelationship.cs" />
-    <Compile Include="InteropBindings\Reporting\ReportEventArgs.cs" />
+    <Compile Include="InteropBindings\ReportEventArgs.cs" />
     <Compile Include="Analysis\LookupAndComparison\AdverbialSimilarityProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\ResourceLoadEventArgs.cs" />
     <Compile Include="Analysis\LookupAndComparison\VerbalSimilarityProvider.cs" />

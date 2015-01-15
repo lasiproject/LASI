@@ -20,27 +20,38 @@ namespace LASI.WebApp.Models
         [Required]
         [NameField]
         [StringLength(maximumLength: 200, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "First Name", ShortName = "First")]
         public string FirstName { get; set; }
 
         [Required]
         [NameField]
         [StringLength(maximumLength: 200, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "Last Name", ShortName = "Last")]
         public string LastName { get; set; }
 
         [NameField]
         [MinLength(2, ErrorMessage = "Organization moniker must contain at least two characters")]
+        [Display(Name = "Organization", ShortName = "Org")]
         public string Organization { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+        [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email Address", ShortName = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 4)]
         [DataType(DataType.Password)]
+        [StringLength(20, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 4)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(20, ErrorMessage = LENGTH_INVALID_MESSAGE, MinimumLength = 4)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
 
         #region Validation Messages
 

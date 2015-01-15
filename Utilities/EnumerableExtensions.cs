@@ -181,12 +181,11 @@ namespace LASI
         /// <returns> The final accumulator value. </returns>
         /// <exception cref="ArgumentNullException"> Source or func is <c> null </c>. </exception>
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) {
-            return
-                source.Select((e, i) => new
-                {
-                    Element = e,
-                    Index = i
-                }).Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
+            return source.Select((e, i) => new
+            {
+                Element = e,
+                Index = i
+            }).Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
         }
 
         /// <summary>
@@ -272,7 +271,7 @@ namespace LASI
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             Validator.ThrowIfNull(source, "source", selector, "selector");
             return source.Distinct(
-                new CustomComparer<TSource>(
+                CustomComparer.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -287,14 +286,15 @@ namespace LASI
         /// <returns></returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Except(second,
-                new CustomComparer<TSource>(
-                (x, y) => selector(x).Equals(selector(y)),
-                x => selector(x).GetHashCode()));
+                CustomComparer.Create<TSource>(
+                    (x, y) => selector(x).Equals(selector(y)),
+                    x => selector(x).GetHashCode())
+            );
         }
 
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Intersect(second,
-                new CustomComparer<TSource>(
+                CustomComparer.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -401,7 +401,7 @@ namespace LASI
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.SequenceEqual(
                 second,
-                new CustomComparer<TSource>(
+                CustomComparer.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
                 );
@@ -575,14 +575,15 @@ namespace LASI
         /// <returns> A HashSet representation of the given sequence using the default IEqualityComparer for the given element type. </returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> equals, Func<TSource, int> getHashCode) {
             Validator.ThrowIfNull(equals, "equals", getHashCode, "getHashCode");
-            return new HashSet<TSource>(source, new CustomComparer<TSource>(equals, getHashCode));
+            return new HashSet<TSource>(source, CustomComparer.Create<TSource>(equals, getHashCode));
         }
 
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {
             return first.Union(second,
-                new CustomComparer<TSource>(
+                CustomComparer.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
-                    x => selector(x).GetHashCode()));
+                    x => selector(x).GetHashCode())
+            );
         }
 
         /// <summary> Merges three sequences by using the specified function to select elements. </summary>

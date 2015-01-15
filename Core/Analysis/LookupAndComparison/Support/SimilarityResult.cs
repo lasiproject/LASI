@@ -32,8 +32,7 @@ namespace LASI.Core.Heuristics
         /// <param name="similarityRatio">
         /// Represents the similarity ratio between the tested elements, if applicable.
         /// </param>
-        private Similarity(bool similar, double similarityRatio)
-            : this() {
+        private Similarity(bool similar, double similarityRatio) : this() {
             Boolean = similar;
             Rational = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
         }

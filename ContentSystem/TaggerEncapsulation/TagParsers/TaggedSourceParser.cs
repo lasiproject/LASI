@@ -123,7 +123,7 @@ namespace LASI.Content
             hasBulletOrHeading = paragraph.Contains("<enumeration>");
             return paragraph
                 .SplitRemoveEmpty("<sentence>", "</sentence>")
-                .Select(s => s.RemoveElements("<enumeration>", "</enumeration>"));
+                .Select(s => s.RemoveSubstrings("<enumeration>", "</enumeration>"));
         }
 
         private static char SkipToNextElement(string chunk) {
@@ -141,7 +141,7 @@ namespace LASI.Content
         protected virtual string PreProcessText(string text) {
             return text.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-")
                 .Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ")
-                .RemoveElements("<enumeration>", "</enumeration>");
+                .RemoveSubstrings("<enumeration>", "</enumeration>");
         }
         /// <summary>
         /// Asynchronously Pre-processes the line read from the file by replacing some instances of problematic text such as square brackets, 
