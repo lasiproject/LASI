@@ -69,7 +69,7 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void DocToDocXConverterConstructorTest() {
-            var infile = InitInputFileWrapper();
+            var infile = CreateTarget();
             DocToDocXConverter target = new DocToDocXConverter(infile);
             Assert.IsTrue(target.Original == infile);
         }
@@ -79,13 +79,13 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void DocToDocXConverterConstructorTest1() {
-            var infile = InitInputFileWrapper();
+            var infile = CreateTarget();
             string DocxFilesDir = @"..\..\..\NewProject\input\docx";
             DocToDocXConverter target = new DocToDocXConverter(infile, DocxFilesDir);
             Assert.IsTrue(target.Original == infile);
         }
 
-        private static DocFile InitInputFileWrapper() {
+        private static DocFile CreateTarget() {
             var infile = new DocFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.doc");
 
             return infile;
@@ -96,7 +96,7 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void ConvertFileTest() {
-            var infile = InitInputFileWrapper();
+            var infile = CreateTarget();
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
@@ -108,7 +108,7 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public async Task ConvertFileAsyncTest() {
-            var infile = InitInputFileWrapper();
+            var infile = CreateTarget();
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();

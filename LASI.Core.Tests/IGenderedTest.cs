@@ -62,8 +62,7 @@ namespace LASI.Core.Tests
         #endregion
 
 
-        internal virtual ISimpleGendered CreateIGendered() {
-
+        internal virtual ISimpleGendered CreateGendered() {
             ISimpleGendered target = new PersonalPronoun("he");
             return target;
         }
@@ -73,10 +72,10 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod]
         public void GenderTest() {
-            ISimpleGendered target = CreateIGendered();  
+            ISimpleGendered target = CreateGendered();
             Gender actual;
             actual = target.Gender;
-            Assert.AreEqual(actual,target.Gender);
+            Assert.AreEqual(actual, target.Gender);
         }
     }
 }

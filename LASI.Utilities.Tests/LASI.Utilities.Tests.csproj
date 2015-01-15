@@ -59,10 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>LASI.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LASI.Core.Tests\LASI.Core.Tests.csproj">
       <Project>{f4abc10c-0be9-4195-99e7-db027757ec6b}</Project>
       <Name>LASI.Core.Tests</Name>

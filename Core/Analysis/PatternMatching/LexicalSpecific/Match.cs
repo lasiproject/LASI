@@ -146,7 +146,7 @@ namespace LASI.Core.PatternMatching
         /// </returns>
         public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Accepted);
 
-        public Match<T, TResult> Case<TPattern, TResult>(Func<TPattern, TResult> f) where TPattern : class, ILexical => this.Yield<TResult>().Case(f);
+        public Match<T, TResult> Case<TPattern, TResult>(Func<TPattern, TResult> f) where TPattern : class, ILexical => Yield<TResult>().Case(f);
 
         #endregion Expression Transformations
 
@@ -227,7 +227,7 @@ namespace LASI.Core.PatternMatching
                 Accepted = true;
                 action();
             }
-            return this.Case((TPattern t) => action());
+            return Case((TPattern t) => action());
         }
 
         /// <summary>
@@ -442,9 +442,9 @@ namespace LASI.Core.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) {
-            return new PredicatedMatch<T, TResult>(predicate(Value), this);
-        }
+        public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
+
+        public PredicatedMatch<T, TResult> When(Func<bool> when) => new PredicatedMatch<T, TResult>(when(), this);
 
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value
@@ -472,16 +472,14 @@ namespace LASI.Core.PatternMatching
         /// being matched such that the subsequent Then expression will only be chosen if the
         /// predicate returns true.
         /// </summary>
-        /// <param name="condition">
+        /// <param name="when">
         /// The predicate to test the value being matched. 
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When(bool condition) {
-            return new PredicatedMatch<T, TResult>(condition, this);
-        }
+        public PredicatedMatch<T, TResult> When(bool when) => new PredicatedMatch<T, TResult>(when, this);
 
         #endregion When Expressions
 
@@ -533,6 +531,21 @@ namespace LASI.Core.PatternMatching
             }
             return this;
         }
+        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, bool when) where TPattern : class, ILexical => When(when).Then(func);
+        /// <summary>
+        /// Appends a Case of Type expression to the current PatternMatching Expression.
+        /// </summary>
+        /// <typeparam name="TPattern">The type to match.</typeparam>
+        /// <param name="func">The function to apply if the case matched.</param>
+        /// <param name="when">The predicate to match.</param>
+        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
+        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, Func<bool> when) where TPattern : class, ILexical => When(when).Then(func);
+
+        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, Func<TPattern, bool> when) where TPattern : class, ILexical => When(when).Then(func);
+
+        public Match<T, TResult> Case(Func<T, TResult> func, Func<T, bool> when) => When(when).Then(func);
+
+        public Match<T, TResult> Case(Func<TResult> func, Func<T, bool> when) => When(when).Then(func);
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression. 
@@ -548,21 +561,18 @@ namespace LASI.Core.PatternMatching
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical {
-            if (!Accepted) {
-                var matched = Value as TPattern;
-                if (matched != null) {
-                    this.result = result;
-                    Accepted = true;
-                }
+            if (!Accepted && Value is TPattern) {
+                this.result = result;
+                Accepted = true;
             }
             return this;
         }
 
-        public Match<T, TResult> Case(Func<T, TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(Func<T, TResult> func) => Case<T>(func);
 
-        public Match<T, TResult> Case(Func<TResult> func) { return this.Case<T>(func); }
+        public Match<T, TResult> Case(Func<TResult> func) => Case<T>(func);
 
-        public Match<T, TResult> Case(TResult result) { return this.Case<T>(result); }
+        public Match<T, TResult> Case(TResult result) => Case<T>(result);
 
         #endregion Case Expressions
 

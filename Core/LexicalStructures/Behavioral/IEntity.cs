@@ -20,14 +20,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the IDescribable.
         /// </summary>
-        IEnumerable<IDescriptor> Descriptors {
-            get;
-        }
+        IEnumerable<IDescriptor> Descriptors { get; }
         /// <summary>
         /// Gets the Kind of Entity; Person, Place, Thing, Organization, or Activity; that the Entity represents.
         /// </summary>
-        EntityKind EntityKind {
-            get;
-        }
+        EntityKind EntityKind { get; }
     }
 }

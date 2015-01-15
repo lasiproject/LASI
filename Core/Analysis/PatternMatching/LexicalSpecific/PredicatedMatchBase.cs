@@ -18,14 +18,14 @@ namespace LASI.Core.PatternMatching
         /// Initializes a new instance of the PredicatedMatchBase&lt;T;&gt; class.
         /// </summary>
         /// <param name="predicateSucceeded">A value indicating whether or not the proceding When clause succeeded.</param>
-        protected PredicatedMatchBase(bool predicateSucceeded) { ConditionMet = predicateSucceeded; }
+        protected PredicatedMatchBase(bool predicateSucceeded) { Accepted = predicateSucceeded; }
         
         #region Fields
         /// <summary>
         /// Gets a value indicating if condition upon which the match is predicated has was satisfied.
         /// </summary>
         /// <returns> <c>true</c> if condition upon which the match is predicated has was satisfied; false otherwise.</returns>
-        protected bool ConditionMet { get; private set; }
+        protected bool Accepted { get; private set; }
         #endregion
     }
 }
