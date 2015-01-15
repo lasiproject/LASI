@@ -21,11 +21,13 @@ namespace LASI.Core.PatternMatching
     public abstract class MatchBase<T> where T : class, ILexical
     {
         /// <summary>
-        /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the supplied value.
+        /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the given value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        protected MatchBase(T value) { Value = value; }
-        
+        protected MatchBase(T value) {
+            Value = value;
+        }
+
         #region Properties
         /// <summary>
         /// Gets or sets the value indicating if a match was found or if the default value will be yielded by the Result method.
@@ -34,7 +36,7 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>
-        protected T Value { get; private set; }
+        protected T Value { get; }
         #endregion
     }
 }

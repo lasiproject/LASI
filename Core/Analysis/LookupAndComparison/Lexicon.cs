@@ -63,14 +63,13 @@ namespace LASI.Core.Heuristics
                     .Case((IReferencer p) => GetGender(p))
                     .Case((NounPhrase n) => DetermineNounPhraseGender(n))
                     .Case((CommonNoun n) => Gender.Neutral)
-                    .When(e => e.Referencers.Any())
-                    .Then((IEntity e) => (
+                    .Case((IEntity e) => (
                         from referener in e.Referencers
                         let gendered = referener as ISimpleGendered
                         let gender = gendered != null ? gendered.Gender : default(Gender)
                         group gender by gender into byGender
                         orderby byGender.Count() descending
-                        select byGender.Key).FirstOrDefault())
+                        select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
                     .Result();
         }
 
@@ -206,12 +205,14 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate
+        { };
 
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate
+        { };
 
         /// <summary>
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
