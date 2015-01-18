@@ -9,8 +9,8 @@ namespace LASI.Core
     /// <para>A data structure containing all of the paragraph, sentence, clause, phrase, and word objects which comprise a single document.</para>
     /// <para>Provides overlapping direct and indirect access to all of its children,</para>
     /// <para>
-    /// e.g. such as myDoc.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
-    /// comparatively: myDoc.Words; yields the same collection.
+    /// For example, given some Document myDocument, myDocument.Paragraphs.Sentences.Phrases.Words will get all the words in the document in linear order
+    /// comparatively: myDocument.Words; yields the same collection.
     /// </para>
     /// </summary>
     /// <see cref="Page" />

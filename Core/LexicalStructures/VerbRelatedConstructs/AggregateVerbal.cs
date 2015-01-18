@@ -43,7 +43,7 @@ namespace LASI.Core
                 return this.Select(member => member.Modality).DefaultIfEmpty().GroupBy(modality => modality?.Text).MaxBy(group => group.Count()).First();
             }
             set {
-                throw new NotSupportedException("Cannot Modify The Modality of an Aggregate Verbal.\{this.ToString()}");
+                throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{this.ToString()}");
             }
         }
 

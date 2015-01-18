@@ -7,7 +7,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models
 {
-    public class DocumentSetModel : TextualModel<IEnumerable<Core.Document>>
+      class DocumentSetModel : TextualModel<IEnumerable<Core.Document>>
     {
         public DocumentSetModel(IEnumerable<Core.Document> documents) : base(documents) {
             DocumentModels = documents.Select(document => new DocumentModel(document));
@@ -16,7 +16,7 @@ namespace LASI.WebApp.Models
         public IEnumerable<DocumentModel> DocumentModels { get; private set; }
 
         public override Style Style { get { return new Style { CssClass = "documentlist" }; } }
-
+        // TODO: Fix name of lambda arg
         public override string Text { get { return ModelFor.Format(documentModel => documentModel.Text); } }
 
     }

@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using MongoDB.Driver.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using LASI.WebApp.Models;
-using MongoDB.Driver;
+using System.IO;
 
 namespace LASI.WebApp
 {
-    using System.Collections;
-    using System.Collections.Immutable;
-    using System.IO;
-    using LASI.Utilities;
-    using Newtonsoft.Json;
-
-
+    using Utilities;
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
@@ -43,7 +32,7 @@ namespace LASI.WebApp
             ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
             Interop.ResourceManagement.UsageManager.SetPerformanceLevel(Interop.ResourceManagement.UsageManager.Mode.High);
             AccountProvider = SetupUserAccounts(this);
-            Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "LASI_log"));
+            Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
         }
 
         private static IAccountProvider SetupUserAccounts(HttpApplication app) {

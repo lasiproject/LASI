@@ -23,7 +23,7 @@ namespace LASI.Utilities
 
         /// <summary> Returns a string representation of the Weight. </summary>
         /// <returns> A string representation of the Weight. </returns>
-        public override string ToString() => "\{base.ToString()} = raw: \{Raw} multiplier: \{Multiplier} scaled: \{Scaled}";
+        public override string ToString() => $"{base.ToString()} = raw: {Raw} multiplier: {Multiplier} scaled: {Scaled}";
 
         /// <summary> Returns the hash code for this instance. </summary>
         /// <returns> A 32-bit signed integer that is the hash code for this instance. </returns>

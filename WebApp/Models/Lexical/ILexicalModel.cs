@@ -3,9 +3,12 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    interface ILexicalModel<out TLexical> where TLexical : class, ILexical
-    {
-        TLexical Element { get; }
-        string Text { get; }
-    }
+	public interface ILexicalModel<out TLexical> where TLexical : class, ILexical
+	{
+		TLexical Element { get; }
+		string Text { get; }
+		Style Style { get; }
+		int Id { get; }
+		string ContextMenuJson { get; }
+	}
 }

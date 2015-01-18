@@ -121,9 +121,9 @@ namespace LASI.Core
                 ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
                 Modality != null ? "Modality: " + Modality.Text : string.Empty,
                 AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : string.Empty,
-                "\nPossessive: [\{IsPossessive}]",
-                "\nClassifier: [\{IsClassifier}]",
-                "\nPrevailing Form: [\{PrevailingForm}]"
+                $"\nPossessive: [{IsPossessive}]",
+                $"\nClassifier: [{IsClassifier}]",
+                $"\nPrevailing Form: [{PrevailingForm}]"
             );
         }
 

@@ -254,8 +254,6 @@ namespace LASI.Utilities
 
         public static T Identity<T>(T t) => t;
 
-        public static bool IsNull<T>(this T value) where T : class => value == null;
-        public static bool IsNotNull<T>(this T value) where T : class => !IsNull(value);
         public static Func<T, bool> Negate<T>(this Func<T, bool> predicate) => x => !predicate(x);
 
         public static T InvokeWithTimer<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {

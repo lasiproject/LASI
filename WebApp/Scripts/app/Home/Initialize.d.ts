@@ -7,7 +7,7 @@ interface Array<T> {
      * @param collectionSelector A function to transform each element in the array into an array.
      * @param elementSelector A function to perform an additional transformation on each element in the flattened collection.
      */
-    flatMap<TIntermediate, TResult>(collectionSelector: (element: T) => TIntermediate[], elementSelector?: (element: TIntermediate) => TResult): TResult[];
+    flatMap<TIntermediate, TResult>(collectionSelector: (element: T) => Array<TIntermediate>, elementSelector?: (element: TIntermediate) => TResult): Array<TResult>;
     /**
      * Correlates the elements from two sequences based on the strict ( === ) equality of the keys selected from each element
      * by the provided selector functions. Models the semantics of a relational inner join.
@@ -17,7 +17,7 @@ interface Array<T> {
      * @param innerKeySelector A function to produce a key value from each element in the inner array.
      * @param resultSelector An optional function to transform each pair.
      */
-    correlate<TInner, TOuterKey, TInnerKey, TResult>(inner: TInner[], outerKeySelector: (o: T) => TOuterKey, innerKeySelector: (i: TInner) => TInnerKey, resultSelector?: (o: T, i: TInner) => TResult): TResult[];
+    correlate<TInner, TOuterKey, TInnerKey, TResult>(inner: TInner[], outerKeySelector: (o: T) => TOuterKey, innerKeySelector: (i: TInner) => TInnerKey, resultSelector?: (o: T, i: TInner) => TResult): Array<TResult>;
     /**
      * Computes the sum of all elements of the Array.
      * If the array is empty, the result will be 0.

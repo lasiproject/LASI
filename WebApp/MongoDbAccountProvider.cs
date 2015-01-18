@@ -25,7 +25,7 @@ namespace LASI.WebApp
         public MongoDbAccountProvider() {
             CreateMongoServer();
         }
-        public void Insert(AccountModel account) {
+        public void Insert(IAccountModel account) {
             accounts.Insert(account);
         }
 

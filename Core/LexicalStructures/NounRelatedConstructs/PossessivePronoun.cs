@@ -37,7 +37,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
         public override string ToString() {
-            return base.ToString() + "\nSignifying \{ProxyFor.Text} as owner of \{Possessions.Format(e => e.Text)}";
+            return base.ToString() + $"\nSignifying {ProxyFor.Text} as owner of {Possessions.Format(e => e.Text)}";
         }
 
         /// <summary>

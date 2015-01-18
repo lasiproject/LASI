@@ -65,12 +65,13 @@ namespace LASI.WebApp.Models
         {
             public override bool IsValid(object value) {
                 var text = value as string ?? string.Empty;
-                if (text == string.Empty) { return true; }
+                if (text.Length < 1) { return false; }
                 var index = text.IndexOfAny(illegalCharacters);
                 if (index > -1) {
-                    ErrorMessage = string.Format("Field may not contain the character {0}", text[index]);
+                    ErrorMessage = $"Field may not contain the character {text[index]}";
+                    return false;
                 }
-                return false;
+                return true;
             }
             private static readonly char[] illegalCharacters = { ' ', '\t', '\n', '\r', '!', '?', '.', ';', ':' };
         }

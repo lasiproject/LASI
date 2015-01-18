@@ -11,12 +11,12 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-    using Enumerable;
-    using EventArgs = ResourceLoadEventArgs;
-    using Link = NounLink;
-    using SetReference = KeyValuePair<NounLink, int>;
+	using static Enumerable;
+	using EventArgs = ResourceLoadEventArgs;
+	using Link = NounLink;
+	using SetReference = KeyValuePair<NounLink, int>;
 
-    internal sealed class NounLookup : WordNetLookup<Noun>
+	internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
@@ -45,7 +45,7 @@ namespace LASI.Core.Heuristics.WordNet
                     .Subscribe(
                         onNext: e => {
                             ++setsSampled;
-                            OnReport(new EventArgs("Loaded Noun Data - Set: \{e.LineNumber} / \{TOTAL_LINES}", PROGRESS_AMOUNT));
+                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TOTAL_LINES}", PROGRESS_AMOUNT));
                         },
                         onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
                         onError: e => {

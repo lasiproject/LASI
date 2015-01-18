@@ -74,7 +74,7 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                Progress("\{tagged.SourceName}: Tagged", stepMagnitude + 1.5);
+                Progress($"{tagged.SourceName}: Tagged", stepMagnitude + 1.5);
             }
             Progress("Tagged Documents", 3);
             return taggedFiles;
@@ -91,22 +91,22 @@ namespace LASI.Interop
         }
         private async Task<Document> ProcessTaggedAsync(ITaggedTextSource tagged) {
             var name = tagged.SourceName;
-            Progress("\{name}: Loading...", 0);
+            Progress($"{name}: Loading...", 0);
             var document = await tagger.DocumentFromTaggedAsync(tagged);
-            Progress("\{name}: Loaded", 4 / sourceCount);
-            Progress("\{name}: Analyzing Syntax...", 0);
+            Progress($"{name}: Loaded", 4 / sourceCount);
+            Progress($"{name}: Analyzing Syntax...", 0);
             foreach (var bindingTask in document.GetBindingTasks()) {
                 Progress(bindingTask.InitializationMessage, 0);
                 await bindingTask.Task;
                 Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.71 / sourceCount);
             }
-            Progress("\{name}: Correlating Relationships...", 0);
+            Progress($"{name}: Correlating Relationships...", 0);
             foreach (var task in document.GetWeightingTasks()) {
                 Progress(task.InitializationMessage, 1 / sourceCount);
                 await task.Task;
                 Progress(task.CompletionMessage, task.PercentCompleted * 0.59 / sourceCount);
             }
-            Progress("\{name}: Coalescing Results...", stepMagnitude);
+            Progress($"{name}: Coalescing Results...", stepMagnitude);
             return document;
         }
         private async Task<ITaggedTextSource> TagRawAsync(IRawTextSource raw) => await tagger.TaggedFromRawAsync(raw);

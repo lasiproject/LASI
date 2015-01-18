@@ -31,7 +31,7 @@ namespace LASI.WebApp
                 return JsonConvert.SerializeObject(new HttpResponseMessage
                 {
                     StatusCode = System.Net.HttpStatusCode.NotFound,
-                    ReasonPhrase = "No active job with Id: \{idValue}"
+                    ReasonPhrase = $"No active job with Id: {idValue}"
                 });
             }
         }

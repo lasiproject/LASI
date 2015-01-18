@@ -41,7 +41,7 @@ namespace LASI.Core
         /// Overrides the ToString method to augment the string representation of Phrase to include the text of the words it is composed of.
         /// </summary>
         /// <returns>A string containing the Type information of the instance as well as the textual representations of the words it is composed of.</returns>
-        public override string ToString() => "\{GetType().Name} \"\{Text}\"";
+        public override string ToString() => $"{GetType().Name} \"{Text}\"";
 
         /// <summary>
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.

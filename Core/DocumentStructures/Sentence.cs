@@ -58,7 +58,7 @@ namespace LASI.Core
         /// <returns>
         /// A string representation of the Sentence.
         /// </returns>
-        public override string ToString() => "\{base.ToString()} \"\{Text}\"";
+        public override string ToString() => $"{base.ToString()} \"{Text}\"";
 
         #endregion Methods
 

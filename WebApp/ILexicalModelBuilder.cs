@@ -7,10 +7,10 @@ using LASI.WebApp.Models.Lexical;
 
 namespace LASI.WebApp
 {
-    interface ILexicalModelBuilder<in TLexical, out TModel>
-        where TLexical : class, ILexical
-        where TModel : class, ILexicalModel<TLexical>
-    {
-        TModel BuildFor(TLexical lexical);
-    }
+	interface ILexicalModelBuilder<in TLexical, out TModel>
+		where TLexical : class, ILexical
+		where TModel : class, ILexicalModel<TLexical>
+	{
+		TModel BuildFor<TFor>(TLexical lexical) where TFor : class, ILexical;
+	}
 }

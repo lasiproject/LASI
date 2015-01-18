@@ -5,6 +5,6 @@ namespace LASI.WebApp
 {
     internal interface IAccountProvider : IEnumerable<IAccountModel>
     {
-        void Insert(AccountModel account);
+        void Insert(IAccountModel account);
     }
 }

@@ -44,16 +44,13 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public async Task<ViewResult> Results() {
             var documents = await LoadResults();
-            var docs = documents.Select(document => document.Title);
-            var documentCharts = (
-                   from document in documents
-                   let documentModel = new DocumentModel(document)
-                   let naiveTopResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
-                   from result in naiveTopResults
-                   orderby result.Value descending
-                   group new object[] { result.Key, result.Value } by documentModel.Name)
-                   .ToDictionary(g => g.Key, g => g.ToArray());
-            ViewData["charts"] = documentCharts;
+            var charts = from document in documents
+                         let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                         let rowData = from result in topResults
+                                       select new object[] { result.Key, result.Value }
+                         select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Title };
+
+            ViewBag.Charts = charts.ToDictionary(chart => chart.Title, chart => chart.Rows);
             ViewBag.Title = "Results";
             return View(new DocumentSetModel(documents));
         }

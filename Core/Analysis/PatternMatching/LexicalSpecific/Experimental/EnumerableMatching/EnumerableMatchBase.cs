@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities.Advaned;
+using LASI.Utilities.Extra;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.EnumerableMatching
 {
-    using Enumerable;
+    using static Enumerable;
     using IL = ILexical;
     public class EnumerableMatchBase<T, TResult>
         where T : class, IL

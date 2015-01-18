@@ -24,7 +24,9 @@ namespace LASI.WebApp
         /// <code>
         /// var arbitrary = "A Treatise on [Name Mangling Schemes] (ex C++) from http://isocpp.org";
         /// var safeIdString = arbitrary.ToSafeHtmlDomId();
-        /// Assert.AreEqual(safeIdString, "A_Treatise_on__leftb_Name_Mangling_Schemes_rightb___leftp_ex_C_plus__plus__rightp__from_http_colon__fslash__fslash_isocpp_period_org")
+        /// Assert.AreEqual(
+        /// safeIdString, 
+        /// "A_Treatise_on__leftb_Name_Mangling_Schemes_rightb___leftp_ex_C_plus__plus__rightp__from_http_colon__fslash__fslash_isocpp_period_org");
         /// </code>
         /// </example>
         public static string ToSafeHtmlDomId(this string value) {
@@ -43,7 +45,7 @@ namespace LASI.WebApp
             ['{'] = "_leftc_",
             ['}'] = "_rightc_",
             ['+'] = "_plus_",
-            ['-'] = "-minus",
+            ['-'] = "_minus_",
             ['*'] = "_asterisk_",
             ['/'] = "_fslash_",
             ['\\'] = "_bslash_"

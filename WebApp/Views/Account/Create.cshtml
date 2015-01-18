@@ -7,21 +7,17 @@
     Response.OutputCache(60);
 }
 <div class="col-md-12 container-fluid">
-    @using LASI.WebApp.Models;
-
     @using (Html.BeginForm("Create", "Account", FormMethod.Post, new
     {
         @class = "form-horizontal",
         autocomplete = "off",
     })) {
-        @model AccountModel
+        @model LASI.WebApp.Models.AccountModel
         <fieldset class=" col-md-4 create-account-form">
             <h2 class="form-horizontal-heading">Create account</h2>
             @InputField(m => m.FirstName)
-            <!-- Text input-->
             @InputField(m => m.LastName)
             @InputField(m => m.Organization)
-            <!-- Email input-->
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-5 control-label" })
                 <div class="col-md-7 col-md-offset-0">
@@ -48,7 +44,6 @@
                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-md", type = "password", required = true, autocomplete = "off" })
                 </div>
             </div>
-            <!-- Button (Double) -->
             <div class="form-group">
                 <label class="col-md-5 control-label" for="Submit"></label>
                 <div class="col-md-5">
@@ -60,7 +55,7 @@
         </fieldset>
     }
 </div>
-@helper InputField(System.Linq.Expressions.Expression<Func<AccountModel, dynamic>> propertySelector) {
+@helper InputField(System.Linq.Expressions.Expression<Func<LASI.WebApp.Models.AccountModel, dynamic>> propertySelector) {
     <div class="form-group">
         @Html.LabelFor(propertySelector, new { @class = "col-md-5 control-label" })
         <div class="col-md-7 col-md-offset-0">

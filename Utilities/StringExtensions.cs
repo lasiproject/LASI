@@ -66,7 +66,7 @@ namespace LASI
         public static string RemoveSubstrings(this string value, params string[] remove) {
             Validator.ThrowIfNull(value, "value");
             if (remove.Contains(string.Empty)) {
-                throw new ArgumentException("The string[] \{nameof(remove)} contained an empty string", "remove");
+                throw new ArgumentException($"The string[] {nameof(remove)} contained an empty string", "remove");
             }
             foreach (var r in remove) {
                 value = value.Replace(r, string.Empty);

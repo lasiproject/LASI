@@ -30,7 +30,7 @@ namespace LASI.Core
         /// Returns a string representation of the Clause.
         /// </summary>
         /// <returns>A string representation of the Clause.</returns>
-        public override string ToString() => "\{base.ToString()} \"\{Text}\"";
+        public override string ToString() => $"{base.ToString()} \"{Text}\"";
         /// <summary>
         /// Gets or set the Document instance to which the Clause belongs.
         /// </summary>

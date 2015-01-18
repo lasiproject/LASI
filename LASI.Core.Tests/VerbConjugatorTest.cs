@@ -1,8 +1,6 @@
 ﻿using LASI.Core.Heuristics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 
@@ -10,11 +8,11 @@ namespace LASI.Core.Tests
 {
 
 
-    /// <summary>
-    ///This is A test class for VerbConjugatorTest and is intended
-    ///to contain all VerbConjugatorTest Unit Tests
-    ///</summary>
-    [TestClass]
+	/// <summary>
+	///This is A test class for VerbConjugatorTest and is intended
+	///to contain all VerbConjugatorTest Unit Tests
+	///</summary>
+	[TestClass]
     public class VerbConjugatorTest
     {
 

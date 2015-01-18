@@ -6,7 +6,7 @@ using LASI.Core.Tests.TestHelpers;
 
 namespace LASI.Tests
 {
-    using Enumerable;
+    using static Enumerable;
     [TestClass]
     public class EnumerableExtensionsTests
     {
