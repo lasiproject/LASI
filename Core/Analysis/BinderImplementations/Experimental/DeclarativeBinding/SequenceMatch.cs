@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.PatternMatching;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
@@ -19,7 +20,22 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         }
 
         #region Bind When Clauses
-
+        /// <summary>
+        /// Applies the specified binding function to the sequence when its pattern is matched.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
+        /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <param name="pattern">The binding pattern to apply.</param>
+        /// <returns>The SequenceMatch instance representing the binding so far.</returns>
+        public SequenceMatch BindWhen<T1, T2>(Action<T1, T2> pattern) where T1 : class, ILexical where T2 : class, ILexical {
+            return CheckGuard(() => {
+                Accepted = pattern.Applicable(Values);
+                if (Accepted) {
+                    pattern(Values[0] as T1, Values[1] as T2);
+                    Values = Values.Skip(3);
+                }
+            });
+        }
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -29,13 +45,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch BindWhen<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical {
-            return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3);
-                    Values = Values.Skip(3);
-                }
-            });
+            return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(Values));
         }
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -49,13 +59,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         public SequenceMatch BindWhen<T1, T2, T3, T4>(Action<T1, T2, T3, T4> pattern)
             where T1 : class, ILexical where T2 : class, ILexical
             where T3 : class, ILexical where T4 : class, ILexical {
-            return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4);
-                    Values = Values.Skip(4);
-                }
-            });
+            return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(Values));
         }
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -74,11 +78,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T4 : class, ILexical
         where T5 : class, ILexical {
             return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5);
-                    Values = Values.Skip(5);
-                }
+                Accepted = pattern.Curry().ApplyIfApplicable(Values);
+                //if (Accepted) {
+                //    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5);
+                //    Values = Values.Skip(5);
+                //}
             });
         }
         /// <summary>
@@ -100,12 +104,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T5 : class, ILexical
             where T6 : class, ILexical {
             return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6);
-                    Values = Values.Skip(6);
-                }
+                Accepted = pattern.Curry().ApplyIfApplicable(Values);
+                //if (Accepted) {
+                //    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
+                //            Values[5] as T6);
+                //    Values = Values.Skip(6);
+                //}
             });
         }
         /// <summary>
@@ -129,12 +133,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T6 : class, ILexical
         where T7 : class, ILexical {
             return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7);
-                    Values = Values.Skip(7);
-                }
+                Accepted = pattern.Curry().ApplyIfApplicable(Values);
+                //if (Accepted) {
+                //    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
+                //            Values[5] as T6, Values[6] as T7);
+                //    Values = Values.Skip(7);
+                //}
             });
         }
         /// <summary>
@@ -159,14 +163,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T6 : class, ILexical
         where T7 : class, ILexical
         where T8 : class, ILexical {
-            return CheckGuard(() => {
-                Accepted = pattern.Applicable(Values);
-                if (Accepted) {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8);
-                    Values = Values.Skip(8);
-                }
-            });
+            return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(Values));
         }
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.

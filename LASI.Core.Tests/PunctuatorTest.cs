@@ -82,7 +82,7 @@ namespace LASI.Core.Tests
             string actual;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
-       } 
+        }
 
         /// <summary>
         ///A test for Punctuator Constructor

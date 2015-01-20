@@ -31,7 +31,7 @@ namespace LASI.Core.Tests.Analysis.Binding.Experimental
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesTest() {
+        public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesTest1() {
             bool actual = false;
             TestTarget.Match()
                 .BindWhen((IEntity n1, IConjunctive c, CommonNoun n2, IPrepositional p, IAdverbial a, IReferencer pp) => {
@@ -41,9 +41,53 @@ namespace LASI.Core.Tests.Analysis.Binding.Experimental
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesTest1() {
+        public void EnumerableOfLexicalWithoutFiltersOrGuardsAbstractedTypesTest2() {
             bool actual = false;
             TestTarget.Match()
+                .BindWhen((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => {
+                    actual = true;
+                });
+            bool expected = true;
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void EnumerableOfLexicalWithGuardFalse1() {
+            bool actual = false;
+            TestTarget.Match()
+                .Guard(false) // this guard is impossible to satisfy
+                .BindWhen((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => {
+                    actual = true;
+                });
+            bool expected = false;
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void EnumerableOfLexicalWithGuardFalse2() {
+            bool actual = false;
+            TestTarget.Match()
+                .Guard(() => false) // this guard is impossible to satisfy
+                .BindWhen((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => {
+                    actual = true;
+                });
+            bool expected = false;
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void EnumerableOfLexicalWithGuardTrue1() {
+            bool actual = false;
+            TestTarget.Match()
+                .Guard(true) // this guard is always satisfied
+                .BindWhen((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => {
+                    actual = true;
+                });
+            bool expected = true;
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void EnumerableOfLexicalWithGuardTrue2() {
+            bool actual = false;
+            TestTarget.Match()
+                .Guard(() => true) // this guard is always satisfied
                 .BindWhen((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => {
                     actual = true;
                 });
