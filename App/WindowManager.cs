@@ -67,9 +67,9 @@ namespace LASI.App
             // No need to track this instance; its event handlers will keep it alive
             new TrayIconProvider(window);
         }/// <summary>
-        /// Enables "minimize to tray" behavior for the specified Window.
-        /// </summary>
-        /// <param name="window">Window to enable the behavior for.</param>
+         /// Enables "minimize to tray" behavior for the specified Window.
+         /// </summary>
+         /// <param name="window">Window to enable the behavior for.</param>
         public static void Enable(InProgressWindow window) {
             // No need to track this instance; its event handlers will keep it alive
             new TrayIconProvider(window);

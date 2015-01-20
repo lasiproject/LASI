@@ -467,10 +467,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentSystem\LASI.Content.csproj">
+    <ProjectReference Include="..\Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
-      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>

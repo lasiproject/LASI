@@ -19,30 +19,26 @@ namespace LASI.Content
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
         public TxtFile(string path)
             : base(path) {
-            if (!Ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!Extension.Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
         }
         /// <summary>
-        /// Gets a single string containing all of the text in the TextFile.
+        /// Gets a single string containing all of the text in the TxtFile.
         /// </summary>
-        /// <returns>A single string containing all of the text in the TextFile.</returns>
+        /// <returns>A single string containing all of the text in the TxtFile.</returns>
         public override string GetText() {
             using (var reader = File.OpenText(FullPath)) {
                 return reader.ReadToEnd();
             }
         }
         /// <summary>
-        /// Asynchronously gets a single string containing all of the text in the TextFile.
+        /// Asynchronously gets a single string containing all of the text in the TxtFile.
         /// </summary>
-        /// <returns>A single string containing all of the text in the TextFile.</returns>
+        /// <returns>A single string containing all of the text in the TxtFile.</returns>
         public override async Task<string> GetTextAsync() {
             using (var reader = File.OpenText(FullPath)) {
                 return await reader.ReadToEndAsync();
             }
         }
-        /// <summary>
-        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
-        /// </summary>
-        public const string EXTENSION = "txt";
     }
 }

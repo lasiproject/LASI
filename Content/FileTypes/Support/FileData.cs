@@ -19,7 +19,7 @@ namespace LASI.Content
             : this() {
             Directory = directory;
             FileNameSansExt = fileName;
-            Ext = fileExt;
+            Extension = fileExt;
             FileName = fileName + fileExt;
             FullPathAndExt = directory + fileName + fileExt;
             FullPathSansExt = directory + fileName;
@@ -34,16 +34,17 @@ namespace LASI.Content
             Directory = directory;
             FileName = fileNameWithExt;
             try {
-                Ext = FileName.Substring(FileName.LastIndexOf('.'));
+                Extension = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            } catch (ArgumentOutOfRangeException) {
-                Ext = string.Empty;
+            }
+            catch (ArgumentOutOfRangeException) {
+                Extension = string.Empty;
                 FileNameSansExt = FileName;
 
             }
 
-            FullPathAndExt = Directory + FileNameSansExt + Ext;
+            FullPathAndExt = Directory + FileNameSansExt + Extension;
             FullPathSansExt = Directory + FileNameSansExt;
         }
         /// <summary>
@@ -57,16 +58,17 @@ namespace LASI.Content
 
 
             try {
-                Ext = FileName.Substring(FileName.LastIndexOf('.'));
+                Extension = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            } catch (ArgumentOutOfRangeException) {
-                Ext = string.Empty;
+            }
+            catch (ArgumentOutOfRangeException) {
+                Extension = string.Empty;
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
             }
-            FullPathAndExt = Directory + FileNameSansExt + Ext;
+            FullPathAndExt = Directory + FileNameSansExt + Extension;
         }
 
         #endregion
@@ -111,7 +113,7 @@ namespace LASI.Content
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Ext { get; private set; }
+        public string Extension { get; private set; }
         /// <summary>
         /// Gets the name of the file.
         /// </summary>

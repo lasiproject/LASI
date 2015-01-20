@@ -70,7 +70,7 @@
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ContentSystem\LASI.Content.csproj">
+    <ProjectReference Include="..\..\Content\LASI.Content.csproj">
       <Name>LASI.Content</Name>
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Private>True</Private>

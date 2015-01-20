@@ -19,8 +19,8 @@ namespace LASI.Content
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .tagged extension.</exception>
         public TaggedFile(string path)
             : base(path) {
-            if (!Ext.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!Extension.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
         }
         /// <summary>
         /// Gets a single string containing all of the text in the TaggedFile.
@@ -50,9 +50,5 @@ namespace LASI.Content
                 return await reader.ReadToEndAsync();
             }
         }
-        /// <summary>
-        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
-        /// </summary>
-        public const string EXTENSION = "tagged";
     }
 }

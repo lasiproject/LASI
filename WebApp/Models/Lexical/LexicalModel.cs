@@ -12,10 +12,10 @@ namespace LASI.WebApp.Models.Lexical
 			Text = element.Text;
 			Style = SyntacticStyleMap[element];
 		}
-		public int Id { get; private set; }
-		public string Text { get; private set; }
-		public Style Style { get; private set; }
-		public TLexical Element { get; private set; }
+		public int Id { get; }
+		public string Text { get; }
+		public Style Style { get; }
+		public TLexical Element { get; }
 
 		public TLexical ModelFor { get { return Element; } }
 

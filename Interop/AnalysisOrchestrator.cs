@@ -80,14 +80,8 @@ namespace LASI.Interop
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightAsync(IEnumerable<ITaggedTextSource> taggedFiles) {
-            var tasks = taggedFiles.Select(ProcessTaggedAsync).ToList();
-            var documents = new ConcurrentBag<Document>();
-            while (tasks.Any()) {
-                var currentTask = await Task.WhenAny(tasks);
-                tasks.Remove(currentTask);
-                documents.Add(await currentTask);
-            }
-            return documents;
+            var tasks = taggedFiles.Select(ProcessTaggedAsync).ToArray();
+            return await Task.WhenAll(tasks);
         }
         private async Task<Document> ProcessTaggedAsync(ITaggedTextSource tagged) {
             var name = tagged.SourceName;

@@ -83,7 +83,7 @@
                     <MenuItem Command="{x:Static ApplicationCommands.Help}"
                           Header="View _Manual"
                           InputGestureText="Ctrl+M" />
-                    <MenuItem Click="HrlpAbout_MenuItem_Click" Header="About LASI" />
+                    <MenuItem Click="HelpAbout_MenuItem_Click" Header="About LASI" />
                     <MenuItem Click="openLicensesMenuItem_Click_1" Header="Component Info" />
                 </MenuItem>
                 <Separator HorizontalAlignment="Stretch" />

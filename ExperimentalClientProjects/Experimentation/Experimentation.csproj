@@ -87,8 +87,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ContentSystem\LASI.Content.csproj">
-      <Project>{F13D6C6D-A004-45BD-8FB8-E044E20F1204}</Project>
+    <ProjectReference Include="..\..\Content\LASI.Content.csproj">
+      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\LASI.Core.csproj">

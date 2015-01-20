@@ -36,25 +36,24 @@ namespace LASI.Content
         /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
         protected virtual void DocxToZip() {
-            string zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt + ".zip";
-            File.Copy(Original.FullPath, zipName, true);
+            var zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt;
+            File.Copy(Original.FullPath, zipName + ".zip", true);
 
-            if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt)) {
+            if (Directory.Exists(zipName)) {
                 try {
-                    Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, recursive: true);
+                    Directory.Delete(zipName, recursive: true);
                 }
-                catch (IOException ex) { Output.WriteLine(ex.Message); }
+                catch (IOException e) { Output.WriteLine(e.Message); throw; }
             }
-            using (var ZipArch = new ZipArchive(new FileStream(zipName, FileMode.Open), ZipArchiveMode.Read, leaveOpen:
-            false)) {
+            using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false)) {
 
-                if (Directory.Exists(DestinationInfo.Directory + DestinationInfo.FileNameSansExt)) {
+                if (Directory.Exists(zipName)) {
                     try {
-                        Directory.Delete(DestinationInfo.Directory + DestinationInfo.FileNameSansExt, recursive: true);
+                        Directory.Delete(zipName, recursive: true);
                     }
-                    catch (IOException ex) { Output.WriteLine(ex.Message); }
+                    catch (IOException e) { Output.WriteLine(e.Message); throw; }
                 }
-                ZipArch.ExtractToDirectory(DestinationInfo.Directory + DestinationInfo.FileNameSansExt);
+                ZipArch.ExtractToDirectory(zipName);
                 XmlFile = GetRelevantXMLFile(ZipArch);
 
             }
@@ -77,10 +76,10 @@ namespace LASI.Content
                     1024,
                     FileOptions.Asynchronous
                 ), new XmlReaderSettings
-            {
-                Async = true,
-                IgnoreWhitespace = true
-            })) {
+                {
+                    Async = true,
+                    IgnoreWhitespace = true
+                })) {
                 using (var writer = new StreamWriter(
                     new FileStream(
                         DestinationInfo.FullPathSansExt + ".txt",
@@ -145,7 +144,7 @@ namespace LASI.Content
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.
         /// </summary>
         protected virtual InputFile XmlFile { get; set; }
-       
+
         #endregion
     }
 }

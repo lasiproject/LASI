@@ -206,7 +206,7 @@ namespace LASI.Core.Tests
         }
 
         /// <summary>
-        ///A test for Ext
+        ///A test for Extension
         ///</summary>
         [TestMethod]
         public void ExtTest() {
@@ -214,7 +214,7 @@ namespace LASI.Core.Tests
             InputFile target = new DocXFile(fullPath);
             string expected = ".docx";
             string actual;
-            actual = target.Ext;
+            actual = target.Extension;
             Assert.AreEqual(expected, actual);
         }
 

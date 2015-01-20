@@ -16,8 +16,8 @@ namespace LASI.Content
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .xml extension.</exception>
         public XmlFile(string path)
             : base(path) {
-            if (!Ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Ext);
+            if (!Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), this.Extension);
 
         }
 
@@ -47,9 +47,5 @@ namespace LASI.Content
                 return await reader.ReadContentAsStringAsync();
             }
         }
-        /// <summary>
-        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
-        /// </summary>
-        public const string EXTENSION = "xml";
     }
 }

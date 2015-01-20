@@ -139,9 +139,9 @@ namespace LASI.App.LexicalElementInfo
         #endregion
         #region Helper Methods
         static void ResetLabelBrushes(IEnumerable<WpfDocuments.TextElement> neighboringElements) {
-            foreach (var l in neighboringElements) {
-                l.Foreground = colorMapping[l.Tag as ILexical];
-                l.Background = Brushes.White;
+            foreach (var element in neighboringElements) {
+                element.Foreground = colorMapping[element.Tag as ILexical];
+                element.Background = Brushes.White;
             }
         }
         private static void ResetUnassociatedLabelBrushes(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {

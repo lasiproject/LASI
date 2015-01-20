@@ -53,16 +53,20 @@ namespace LASI.App
 
             var block = new System.Windows.Documents.Section(
                  new System.Windows.Documents.Paragraph(
-                     new System.Windows.Documents.Run { Text = processedText }) {
+                     new System.Windows.Documents.Run { Text = processedText })
+                 {
                      TextAlignment = TextAlignment.Left
-                 }) {
+                 })
+            {
                 TextAlignment = TextAlignment.Left,
                 BreakColumnBefore = false
             };
-            var item = new TabItem {
+            var item = new TabItem
+            {
                 Header = textfile.NameSansExt,
                 AllowDrop = true,
-                Content = new FlowDocumentPageViewer {
+                Content = new FlowDocumentPageViewer
+                {
                     VerticalContentAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     HorizontalContentAlignment = HorizontalAlignment.Left,
@@ -86,21 +90,17 @@ namespace LASI.App
         /// <param name="docPath">The file path specifying where to find the document.</param>
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         private async Task DisplayAddNewDocumentDialogImplementation(string docPath) {
-            var chosenFile = FileManager.AddFile(docPath, true);
+            var chosenFile = FileManager.AddFile(docPath);
             try {
                 await FileManager.ConvertAsNeededAsync();
             } catch (FileConversionFailureException e) {
-                MessageBox.Show(this, MakeConversionFailureMessage(e.Message));
+                MessageBox.Show(this, $".doc file conversion failed\n{e.Message}");
             }
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
             CheckIfAddingAllowed();
             startProcessingButton.IsEnabled = true;
             StartProcessMenuItem.IsEnabled = true;
-        }
-
-        private static string MakeConversionFailureMessage(string message) {
-            return string.Format(".doc file conversion failed\n{0}", message);
         }
 
         private void CheckIfAddingAllowed() {
@@ -145,7 +145,8 @@ namespace LASI.App
                 });
         }
         private async void DisplayAddNewDocumentDialog() {
-            var openDialog = new Microsoft.Win32.OpenFileDialog {
+            var openDialog = new Microsoft.Win32.OpenFileDialog
+            {
                 Filter = DocumentManager.FILE_FILTER,
                 Multiselect = true,
 
@@ -171,7 +172,8 @@ namespace LASI.App
 
 
         private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var componentsDisplay = new ComponentInfoDialogWindow {
+            var componentsDisplay = new ComponentInfoDialogWindow
+            {
                 Left = this.Left,
                 Top = this.Top,
                 Owner = this

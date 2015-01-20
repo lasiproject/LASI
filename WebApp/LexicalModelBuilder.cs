@@ -8,27 +8,22 @@ using LASI.Core.Heuristics;
 
 namespace LASI.WebApp
 {
-	class LexicalModelBuilder : ILexicalModelBuilder<ILexical, ILexicalModel<ILexical>>
-	{
-		public ILexicalModel<ILexical> BuildFor<TFor>(ILexical lexical) where TFor : class, ILexical {
-			return lexical.Match()
-				.Yield<ILexicalModel<ILexical>>()
-					.Case((Clause c) => CreateModel(c))
-					.Case((Phrase p) => CreateModel(p))
-					.Case((Word w) => CreateModel(w))
-			.Result();
-		}
+    public class LexicalModelBuilder : ILexicalModelBuilder<ILexical, ILexicalModel<ILexical>>
+    {
+        public ILexicalModel<ILexical> BuildFor<TFor>(ILexical lexical) where TFor : class, ILexical {
+            return lexical.Match()
+                .Yield<ILexicalModel<ILexical>>()
+                    .Case((Clause c) => CreateModel(c))
+                    .Case((Phrase p) => CreateModel(p))
+                    .Case((Word w) => CreateModel(w))
+            .Result();
+        }
+        public static Func<Clause, ILexicalModel<Clause>> ClauseFactory => c => CreateModel(c);
 
-		private ILexicalModel<Clause> CreateModel(Clause c) {
-			throw new NotImplementedException();
-		}
+        private static ILexicalModel<Clause> CreateModel(Clause c) => new ClauseModel(c);
 
-		private ILexicalModel<Phrase> CreateModel(Phrase p) {
-			throw new NotImplementedException();
-		}
+        private static ILexicalModel<Phrase> CreateModel(Phrase p) => new PhraseModel(p);
 
-		private ILexicalModel<Word> CreateModel(Word w) {
-			throw new NotImplementedException();
-		}
-	}
+        private static ILexicalModel<Word> CreateModel(Word w) => new WordModel(w);
+    }
 }

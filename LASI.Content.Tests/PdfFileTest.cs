@@ -46,7 +46,7 @@ namespace LASI.Content.Tests
             FileInfo pdfInfo = new FileInfo(TEST_PDF_FILE_PATH);
             Assert.AreEqual(pdfInfo.FullName, target.FullPath);
             Assert.AreEqual(pdfInfo.Name, target.FileName);
-            Assert.AreEqual(pdfInfo.Extension, target.Ext);
+            Assert.AreEqual(pdfInfo.Extension, target.Extension);
         }
         [TestMethod]
         [ExpectedFileNotFoundException]

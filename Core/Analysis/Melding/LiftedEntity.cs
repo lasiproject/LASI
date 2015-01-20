@@ -25,13 +25,15 @@ namespace LASI.Core.Analysis.Melding
         /// <param name="represented">The set of entities which have been merged into this single LiftedEntity.</param>
         public LiftedEntity(IEntity representative, IEnumerable<IEntity> represented) {
             this.representative = representative;
-            this.represented = represented;
-            directObjectsOfVerbals = FlattenAbout(entity => entity.DirectObjectOf).ToAggregate();
-            indirectObjectsOfVerbals = FlattenAbout(entity => entity.IndirectObjectOf).ToAggregate();
-            subjectsOfVerbals = FlattenAbout(entity => entity.SubjectOf).ToAggregate();
-            possessions = FlattenAbout(entity => entity.Possessions).ToImmutableHashSet();
-            descriptors = FlattenAbout(entity => entity.Descriptors).ToImmutableHashSet();
-            referencers = FlattenAbout(entity => entity.Referencers).ToImmutableHashSet();
+            this.represented = represented.ToImmutableList();
+
+            directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf).ToAggregate();
+            indirectObjectsOfVerbals = FlattenAbout(e => e.IndirectObjectOf).ToAggregate();
+            subjectsOfVerbals = FlattenAbout(e => e.SubjectOf).ToAggregate();
+
+            possessions = FlattenAbout(e => e.Possessions).ToImmutableHashSet();
+            descriptors = FlattenAbout(e => e.Descriptors).ToImmutableHashSet();
+            referencers = FlattenAbout(e => e.Referencers).ToImmutableHashSet();
         }
         public void BindDescriptor(IDescriptor descriptor) {
             descriptors.Add(descriptor);
@@ -48,28 +50,31 @@ namespace LASI.Core.Analysis.Melding
             possession.Possesser = this;
         }
 
-        public IEnumerable<IDescriptor> Descriptors { get { return represented.SelectMany(entity => entity.Descriptors); } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
+        public IEnumerable<IReferencer> Referencers => referencers;
+        public IEnumerable<IPossessable> Possessions => possessions;
 
-        public EntityKind EntityKind { get { return representative.EntityKind; } }
+        public EntityKind EntityKind => representative.EntityKind;
 
         public IVerbal SubjectOf {
             get { return subjectsOfVerbals; }
             set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
-
+        /// <summary>
+        /// Gets the verbal of which the entity is the direct object of.
+        /// </summary>
         public IVerbal DirectObjectOf {
             get { return directObjectsOfVerbals; }
             set { directObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
-
+        /// <summary>
+        /// Gets the verbal of which the entity is the indirect object of.
+        /// </summary>
         public IVerbal IndirectObjectOf {
             get { return indirectObjectsOfVerbals; }
             set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
 
-        public IEnumerable<IReferencer> Referencers => referencers;
-
-        public IEnumerable<IPossessable> Possessions => possessions;
 
         public IPossesser Possesser { get; set; }
 
@@ -77,40 +82,41 @@ namespace LASI.Core.Analysis.Melding
 
         public double Weight {
             get { return represented.Average(w => w.Weight); }
-            set { represented.ToList().ForEach(entity => entity.Weight = value); }
+            set { represented.ForEach(entity => entity.Weight = value); }
         }
 
         public double MetaWeight {
             get { return represented.Average(w => w.MetaWeight); }
-            set { represented.ToList().ForEach(entity => entity.MetaWeight = value); }
+            set { represented.ForEach(entity => entity.MetaWeight = value); }
         }
 
 
         #region Helper Methods
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) {
-            return represented
-                .Select(selector)
-                .Where(result => result != null);
+            return from r in represented
+                   let result = selector(r)
+                   where result != null
+                   select result;
         }
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) {
-            return represented
-                .SelectMany(collectionSelector)
-                .Where(result => result != null);
-        }
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) => represented.SelectMany(collectionSelector).Where(r => r != null);
+
 
         #endregion Private Helper Methods
 
         #region Fields
 
-        private IAggregateVerbal directObjectsOfVerbals;
-        private IAggregateVerbal indirectObjectsOfVerbals;
-        private IAggregateVerbal subjectsOfVerbals;
+
         private readonly IEntity representative;
-        private readonly IEnumerable<IEntity> represented;
+        private readonly ImmutableList<IEntity> represented;
+
         private readonly IImmutableSet<IPossessable> possessions;
         private readonly IImmutableSet<IReferencer> referencers;
         private readonly IImmutableSet<IDescriptor> descriptors;
+
+        private IAggregateVerbal directObjectsOfVerbals;
+        private IAggregateVerbal indirectObjectsOfVerbals;
+        private IAggregateVerbal subjectsOfVerbals;
 
         #endregion Fields
     }

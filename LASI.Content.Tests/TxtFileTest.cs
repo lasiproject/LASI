@@ -42,7 +42,7 @@ namespace LASI.Content.Tests
             var sfi = new System.IO.FileInfo(path);
             Assert.AreEqual(sfi.FullName, target.FullPath);
             Assert.AreEqual(sfi.Name, target.FileName);
-            Assert.AreEqual(sfi.Extension, target.Ext);
+            Assert.AreEqual(sfi.Extension, target.Extension);
         }
         [TestMethod]
         [ExpectedFileNotFoundException]

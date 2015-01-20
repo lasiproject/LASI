@@ -55,9 +55,9 @@ namespace LASI.Content
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Ext {
+        public string Extension {
             get {
-                return fileData.Ext;
+                return fileData.Extension;
             }
         }
         /// <summary>
@@ -88,7 +88,7 @@ namespace LASI.Content
         /// </summary>
         /// <returns>A string prepsentation of the InputFile, including its full path.</returns>
         public override string ToString() {
-            return string.Format("{0}: {1} in: {2}", this.GetType(), FileName, Directory);
+            return $"{GetType()}: {FileName} in: {Directory}";
         }
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
@@ -99,9 +99,11 @@ namespace LASI.Content
         public static bool operator ==(InputFile left, InputFile right) {
             if (left as object == null && right as object == null) {
                 return true;
-            } else if (right as object == null || left as object == null) {
+            }
+            else if (right as object == null || left as object == null) {
                 return false;
-            } else {
+            }
+            else {
                 return left.fileData == right.fileData;
             }
         }

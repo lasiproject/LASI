@@ -45,7 +45,7 @@ namespace LASI.Content.Tests
         public void DocFileConstructorTest() {
             DocFile target = new DocFile(DOC_TEST_FILE_PATH);
             Assert.IsTrue(File.Exists(DOC_TEST_FILE_PATH));
-            Assert.AreEqual(target.Ext, DocFile.EXTENSION);
+            Assert.AreEqual(target.Extension, ".doc");
             Assert.AreEqual(target.FullPath, Path.GetFullPath(DOC_TEST_FILE_PATH));
         }
         /// <summary>

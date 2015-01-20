@@ -67,11 +67,8 @@ namespace LASI.Core
             if (source.Phrases.Any()) {
                 var maxWeight = source.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
-                    foreach (var p in source.Phrases) {
-                        var proportion = p.Weight / maxWeight;
-                        proportion *= 100;
-                        p.Weight = proportion;
-                    }
+                    foreach (var p in source.Phrases) p.Weight = p.Weight / maxWeight * 100;
+
             }
         }
 
@@ -134,13 +131,14 @@ namespace LASI.Core
                 .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
         }
 
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double increaseScaler) where TLexical : class, ILexical {
-            var elmentLists = from outer in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                              from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/
-                              where !ReferenceEquals(inner, outer) && correlateWhen(inner, outer)
-                              group inner by outer into grouped
-                              select grouped.ToList();
-            elmentLists.ForAll(elements => elements.ForEach(e => e.Weight += increaseScaler * elements.Count));
+        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double scaleBy) where TLexical : class, ILexical {
+            var groups =
+                from outer in toConsider/*.ToList()*/.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/
+                where !ReferenceEquals(inner, outer) || correlateWhen(inner, outer)
+                group inner by outer;
+            groups.Select(Enumerable.ToList)
+                .ForAll(elements => elements.ForEach(e => e.Weight += scaleBy * elements.Count));
         }
 
 

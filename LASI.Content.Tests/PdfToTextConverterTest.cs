@@ -15,6 +15,7 @@ namespace LASI.Content.Tests
     public class PdfToTextConverterTest
     {
 
+        private const string TEST_PDF_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
 
         private TestContext testContextInstance;
 
@@ -67,9 +68,9 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void PdfToTextConverterConstructorTest() {
-            PdfFile infile = null; // TODO: Initialize to an appropriate value
+            PdfFile infile = new PdfFile(TEST_PDF_FILE_PATH);
             PdfToTextConverter target = new PdfToTextConverter(infile);
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Assert.AreEqual(infile, target.Original);
         }
 
         /// <summary>
@@ -77,13 +78,12 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void ConvertFileTest() {
-            PdfFile infile = null; // TODO: Initialize to an appropriate value
-            PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value
-            TxtFile expected = null; // TODO: Initialize to an appropriate value
-            TxtFile actual;
-            actual = target.ConvertFile();
+            PdfFile infile = new PdfFile(TEST_PDF_FILE_PATH);
+            PdfToTextConverter target = new PdfToTextConverter(infile);
+            string expected = infile.GetText();
+            string actual;
+            actual = target.ConvertFile().GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -91,13 +91,12 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public void ConvertFileAsyncTest() {
-            PdfFile infile = null; // TODO: Initialize to an appropriate value
-            PdfToTextConverter target = new PdfToTextConverter(infile); // TODO: Initialize to an appropriate value
-            Task<TxtFile> expected = null; // TODO: Initialize to an appropriate value
-            Task<TxtFile> actual;
-            actual = target.ConvertFileAsync();
+            PdfFile infile = new PdfFile(TEST_PDF_FILE_PATH);
+            PdfToTextConverter target = new PdfToTextConverter(infile);
+            string expected = infile.GetText();
+            string actual;
+            actual = target.ConvertFileAsync().Result.GetText();
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

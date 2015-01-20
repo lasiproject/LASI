@@ -69,7 +69,8 @@ namespace LASI.WebApp.Controllers
                     var dir = remnant as DirectoryInfo;
                     if (dir != null) {
                         dir.Delete(true);
-                    } else {
+                    }
+                    else {
                         remnant.Delete();
                     }
                 }
@@ -82,12 +83,13 @@ namespace LASI.WebApp.Controllers
 
         private async Task<IEnumerable<Document>> LoadResults() {
             var serverPath = Server.MapPath(USER_UPLOADED_DOCUMENTS_DIR);
-            var extensionMap = new ExtensionWrapperMap(UnsupportedFormatHandling.YieldNull);
+            var extensionMap = new ExtensionWrapperMap(path => null);
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
                     try {
                         return extensionMap[file.SplitRemoveEmpty('.').Last()](file);
-                    } catch (ArgumentException) { return null; }
+                    }
+                    catch (ArgumentException) { return null; }
                 })
                 .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
@@ -113,7 +115,7 @@ namespace LASI.WebApp.Controllers
         private const short CHART_ITEM_MAX = 5;
         private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
-        private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create<Document>(
+        private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create(
                     CustomComparer.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings

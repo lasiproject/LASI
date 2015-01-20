@@ -120,15 +120,12 @@
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
     <Compile Include="ExpressionExtensionsTests.cs" />
-    <Compile Include="FileConverterTest.cs" />
-    <Compile Include="FileManagerTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
     <Compile Include="PatternMatching\Pattern.cs" />
     <Compile Include="PatternMatching\Term.cs" />
     <Compile Include="PatternMatching\TypeTestPatternTest.cs" />
-    <Compile Include="Serialization\Json\SerializationExtensionsTests.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />
@@ -136,7 +133,6 @@
     <Compile Include="IInderectObjectTakerTest.cs" />
     <Compile Include="ILexicalTest.cs" />
     <Compile Include="IModalityModifiableTest.cs" />
-    <Compile Include="InputFileTest.cs" />
     <Compile Include="InterjectionPhraseTest.cs" />
     <Compile Include="InterjectionTest.cs" />
     <Compile Include="InvertedClauseBeginPhraseTest.cs" />
@@ -155,7 +151,6 @@
     <Compile Include="PastPrtcplVerbTest.cs" />
     <Compile Include="PastTenseVerbTest.cs" />
     <Compile Include="PersonalPronounTest.cs" />
-    <Compile Include="PhraseTagsetMapTest.cs" />
     <Compile Include="PreDeterminerTest.cs" />
     <Compile Include="PrepositionalPhraseTest.cs" />
     <Compile Include="PrepositionTest.cs" />
@@ -182,7 +177,7 @@
     <Compile Include="WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContentSystem\LASI.Content.csproj">
+    <ProjectReference Include="..\Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
     </ProjectReference>

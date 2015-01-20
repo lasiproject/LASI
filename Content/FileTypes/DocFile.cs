@@ -17,8 +17,8 @@ namespace LASI.Content
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
         public DocFile(string path)
             : base(path) {
-            if (!Ext.EqualsIgnoreCase(EXTENSION)) {
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!Extension.EqualsIgnoreCase(".doc")) {
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
             }
         }
         /// <summary>
@@ -47,10 +47,6 @@ namespace LASI.Content
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
             return await docx.GetTextAsync();
         }
-        /// <summary>
-        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
-        /// </summary>
-        public const string EXTENSION = ".doc";
     }
 
 }

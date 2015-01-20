@@ -19,8 +19,8 @@ namespace LASI.Content
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .pdf extension.</exception>
         public PdfFile(string fullPath)
             : base(fullPath) {
-            if (!Ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Ext);
+            if (!Extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
         }
         /// <summary>
         /// Returns a single string containing all of the text in the PdfFile.
@@ -37,10 +37,6 @@ namespace LASI.Content
         public override async Task<string> GetTextAsync() {
             var converter = new PdfToTextConverter(this);
             return await (await converter.ConvertFileAsync()).GetTextAsync();
-        }
-        /// <summary>
-        /// The file extension, in lower case excluding a '.', of the file type an instance of the class wraps.
-        /// </summary>
-        public const string EXTENSION = "pdf";
+        } 
     }
 }

@@ -6,18 +6,24 @@ using System.Linq;
 
 namespace LASI.Core
 {
+
     public class AggregateVerbal : IAggregateVerbal
     {
+        /// <summary>
+        /// Intializes a new instance of the AggregateVerbal class.
+        /// </summary>
+        /// <param name="constituents">The collection of verbals which form the aggregate.</param>
         public AggregateVerbal(IEnumerable<IVerbal> constituents) {
             this.constituents = constituents.ToImmutableList();
             Weight = this.constituents.Select(member => member.Weight)
                          .DefaultIfEmpty(0)
                          .Average();
         }
+        public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
+
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         public IVerbal AttributedTo => AdverbialModifiers as IVerbal;
 
-        public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
 
         public IEnumerable<IAdverbial> AdverbialModifiers => FlattenAbout(v => v.AdverbialModifiers);
 

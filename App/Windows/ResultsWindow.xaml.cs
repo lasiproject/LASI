@@ -176,7 +176,8 @@ namespace LASI.App
                 var docName = chosenFile.NameSansExt;
                 var doc = await ProcessNewDocDocument(docName);
                 documents.Add(doc);
-            } catch (FileConversionFailureException e) {
+            }
+            catch (FileConversionFailureException e) {
                 var failureMessage = string.Format(".doc file conversion failed\n{0}", e.Message);
                 Output.WriteLine(failureMessage);
                 MessageBox.Show(this, failureMessage);
@@ -204,11 +205,12 @@ namespace LASI.App
         }
 
         private async Task<InputFile> AttemptToAddNewDocument(string documentPath) {
-            var chosenFile = FileManager.AddFile(documentPath, true);
+            var chosenFile = FileManager.AddFile(documentPath);
             try {// Attempt to convert the newly added file
                 await FileManager.ConvertAsNeededAsync();
                 return chosenFile;
-            } catch (FileConversionFailureException) {
+            }
+            catch (FileConversionFailureException) {
                 FileManager.RemoveFile(chosenFile);// Remove the original file from the project
                 throw;
             }
@@ -249,7 +251,8 @@ namespace LASI.App
             var focusedChart = (FrequencyCharts.SelectedItem as dynamic).Content;
             try {
                 printDialog.PrintVisual(focusedChart, "Current View");
-            } catch (NullReferenceException) {
+            }
+            catch (NullReferenceException) {
                 Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
             }
         }
@@ -280,7 +283,7 @@ namespace LASI.App
             };
             componentsDisplay.ShowDialog();
         }
-        private void HrlpAbout_MenuItem_Click(object sender, RoutedEventArgs e) {
+        private void HelpAbout_MenuItem_Click(object sender, RoutedEventArgs e) {
             Process.Start("http://lasi-project.org");
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e) {
@@ -321,9 +324,11 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.HasFileWithName(file.Name)) {
                     MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", file));
-                } else if (!file.UnableToOpen()) {
+                }
+                else if (!file.UnableToOpen()) {
                     await AddNewDocument(file);
-                } else {
+                }
+                else {
                     MessageBox.Show(this, string.Format("The document {0} is in use by another process, please close any applications which may be using the document and try again.", file));
                 }
             }
