@@ -24,7 +24,7 @@ namespace LASI.App
             InitializeComponent();
             SetupLogging(Environment.GetCommandLineArgs()[0], "lasilog");
             ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
-            //WindowManager.Intialize();
+            WindowManager.Intialize();
             Resources["createButtonContent"] = "Create";
             Left = (SystemParameters.WorkArea.Width - Width) / 2;
             Top = (SystemParameters.WorkArea.Height - MaxHeight) / 2;
@@ -39,13 +39,11 @@ namespace LASI.App
                     if (!Directory.Exists(logDir)) { Directory.CreateDirectory(logDir); }
                     Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                        "LASI", logFileName + ".txt"));
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     Output.WriteLine(e.Message);
                     SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
                 }
-            }
-            else {
+            } else {
                 Output.SetToSilent();
             }
         }
@@ -80,22 +78,19 @@ namespace LASI.App
             for (var i = 0; i < int.MaxValue; ++i) {
                 if (Directory.Exists(initPath)) {
                     initPath = initPath + i;
-                }
-                else { break; }
+                } else { break; }
             }
             FileManager.Initialize(initPath);
             foreach (var file in documentsAddedListBox.Items) {
                 try {
                     FileManager.AddFile((file as ListViewItem).Tag.ToString());
-                }
-                catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     MessageBox.Show(this, e.Message);
                 }
             }
             try {
                 await FileManager.ConvertAsNeededAsync();
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 MessageBox.Show(this, string.Format(".doc file conversion failed\n{0}", e.Message));
             }
         }
@@ -153,8 +148,7 @@ namespace LASI.App
                             var fileName = openDialog.SafeFileNames[i];
                             var filePath = openDialog.FileNames[i];
                             DocumentManager.AddDocument(fileName, filePath);
-                        }
-                        else {
+                        } else {
                             MessageBox.Show(this, string.Format("A document named {0} is already part of the project.", openDialog.SafeFileName));
                         }
                     }
@@ -166,8 +160,7 @@ namespace LASI.App
             if (!Directory.Exists(locationTextBox.Text)) {
                 try {
                     Directory.CreateDirectory(locationTextBox.Text);
-                }
-                catch (Exception) {
+                } catch (Exception) {
                     MessageBox.Show(this, ErrorMessages.UnusableProjectDirectory);
                 }
             }
@@ -179,8 +172,7 @@ namespace LASI.App
                 await InitializeFileManager();
                 this.SwapWith(WindowManager.ProjectPreviewScreen);
                 WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
-            }
-            else {
+            } else {
                 DisplayValidationMessage();
             }
         }
@@ -215,20 +207,17 @@ namespace LASI.App
             threepaws.Visibility = Visibility.Hidden;
             if (!ValidateProjectName() && !ValidateProjectDocument()) {
                 ShowElements(NothingFilledImage);
-            }
-            else {
+            } else {
                 HideElements(NothingFilledImage);
             }
             if (!ValidateProjectName() && ValidateProjectDocument()) {
                 ShowElements(ProjNameErrorLabel, ProjNameErrorImage, ProjLocationErrorLabel);
-            }
-            else {
+            } else {
                 HideElements(ProjLocationErrorLabel, ProjNameErrorLabel, ProjNameErrorImage);
             }
             if (ValidateProjectName() && !ValidateProjectDocument()) {
                 ShowElements(ProjDocumentErrorLabel, NoDocumentsImage);
-            }
-            else {
+            } else {
                 HideElements(ProjDocumentErrorLabel, NoDocumentsImage);
             }
         }
@@ -243,8 +232,7 @@ namespace LASI.App
             }
             if (errorMessage.Length == 0) {
                 return true;
-            }
-            else {
+            } else {
                 ProjectNameTextBox.ToolTip = new ToolTip { Content = errorMessage };
                 return false;
             }

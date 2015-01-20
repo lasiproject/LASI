@@ -9,6 +9,7 @@ using System.Windows.Media;
 
 namespace LASI.App.LexicalElementInfo
 {
+    using System;
     using WpfDocuments = System.Windows.Documents;
     static class ContextMenuFactory
     {
@@ -75,13 +76,7 @@ namespace LASI.App.LexicalElementInfo
                 var visitSubjectMI = new MenuItem { Header = "view indirect objects" };
                 visitSubjectMI.Click += (sender, e) => {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
-                    var labels = from r in verbal.IndirectObjects
-                                 join label in neighboringElements on r equals label.Tag
-                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
-                    foreach (var l in labels) {
-                        l.label.Foreground = l.brush;
-                        l.label.Background = Brushes.Red;
-                    }
+                    BuildAndExecuteLabelTransformations(verbal.IndirectObjects, neighboringElements);
                 };
                 return visitSubjectMI;
             }
@@ -90,30 +85,27 @@ namespace LASI.App.LexicalElementInfo
                 var visitSubjectMI = new MenuItem { Header = "view direct objects" };
                 visitSubjectMI.Click += (sender, e) => {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
-                    var labels = from r in verbal.DirectObjects
-                                 join label in neighboringElements on r equals label.Tag
-                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
-                    foreach (var l in labels) {
-                        l.label.Foreground = l.brush;
-                        l.label.Background = Brushes.Red;
-                    }
+                    BuildAndExecuteLabelTransformations(verbal.DirectObjects, neighboringElements);
+
                 };
                 return visitSubjectMI;
             }
 
-
+            private static void BuildAndExecuteLabelTransformations(IEnumerable<ILexical> associatedElements, IEnumerable<WpfDocuments.TextElement> neighboringElements) {
+                var transformations = from r in associatedElements
+                                      join label in neighboringElements on r equals label.Tag
+                                      select new { Label = label, NewForegroundColor = colorMapping[label.Tag as ILexical] };
+                foreach (var l in transformations) {
+                    l.Label.Foreground = l.NewForegroundColor;
+                    l.Label.Background = Brushes.Red;
+                }
+            }
 
             public static MenuItem ForSubject(IEnumerable<WpfDocuments.TextElement> neighboringElements, IVerbal verbal) {
                 var visitSubjectMI = new MenuItem { Header = "view subjects" };
                 visitSubjectMI.Click += (sender, e) => {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
-                    var labels = from r in verbal.Subjects
-                                 join l in neighboringElements on r equals l.Tag
-                                 select l;
-                    foreach (var l in labels) {
-                        l.Foreground = Brushes.Black;
-                        l.Background = Brushes.Red;
-                    }
+                    BuildAndExecuteLabelTransformations(verbal.Subjects, neighboringElements);
                 };
                 return visitSubjectMI;
             }
@@ -128,9 +120,9 @@ namespace LASI.App.LexicalElementInfo
                                  where pro.RefersTo == l.Tag || l.Tag is NounPhrase &&
                                  pro.RefersTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
                                  select l;
-                    foreach (var l in labels) {
-                        l.Foreground = Brushes.White;
-                        l.Background = Brushes.Black;
+                    foreach (var label in labels) {
+                        label.Foreground = Brushes.White;
+                        label.Background = Brushes.Black;
                     }
                 };
                 return visitBoundEntity;
