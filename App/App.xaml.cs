@@ -10,14 +10,14 @@ namespace LASI.App
     /// </summary>
     public partial class App : Application
     {
-        App() {
+        public App() {
             LoadPerformancePreference();
             BindEventHandlers();
         }
         private static void LoadPerformancePreference() {
-            Interop.ResourceManagement.UsageManager.Mode performanceLevel;
-            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceLevel)) {
-                Interop.ResourceManagement.UsageManager.SetPerformanceLevel(performanceLevel);
+            Interop.ResourceManagement.PerformanceMode performanceMode;
+            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode)) {
+                Interop.ResourceManagement.UsageManager.SetPerformanceMode(performanceMode);
             }
         }
         private void Application_Exit(object sender, ExitEventArgs e) {

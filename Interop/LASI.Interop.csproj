@@ -27,7 +27,8 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\LASI.Interop.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

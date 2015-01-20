@@ -118,7 +118,6 @@
     </Compile>
     <Compile Include="LexicalElementInfo\ContextMenuFactory.cs" />
     <Compile Include="LexicalElementStyling\SyntacticColorMapping.cs" />
-    <Compile Include="ProjectFile.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
@@ -128,6 +127,7 @@
     </Compile>
     <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
+    <Compile Include="UiElementHelpers\UiElementExtensions.cs" />
     <Compile Include="Windows\InProgressWindow.xaml.cs">
       <DependentUpon>InProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -502,9 +502,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

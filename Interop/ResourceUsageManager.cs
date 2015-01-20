@@ -18,7 +18,7 @@ namespace LASI.Interop.ResourceManagement
         /// <param name="mode">
         /// The PerformanceLevel value indicating the new performance and resource usage settings to adopt.
         /// </param>
-        public static void SetPerformanceLevel(Mode mode) {
+        public static void SetPerformanceMode(PerformanceMode mode) {
             Concurrency.SetByPerformanceMode(mode);
             Memory.SetByPerformanceMode(mode);
         }
@@ -70,31 +70,31 @@ namespace LASI.Interop.ResourceManagement
             };
         }
 
-        /// <summary>
-        /// Broadly specifies the various resource usage profiles of the program.
-        /// </summary>
-        public enum Mode
-        {
-            /// <summary>
-            /// High resource usage indicates a liberal allocation and consumption of available
-            /// system resources.
-            /// </summary>
-            High = 0,
-
-            /// <summary>
-            /// Normal resource usage indicates a modest allocation and consumption of available
-            /// system resources.
-            /// </summary>
-            Normal,
-
-            /// <summary>
-            /// High resource usage indicates a conservative allocation and consumption of available
-            /// system resources.
-            /// </summary>
-            Low,
-        }
     }
 
+    /// <summary>
+    /// Broadly specifies the various resource usage profiles of the program.
+    /// </summary>
+    public enum PerformanceMode
+    {
+        /// <summary>
+        /// High resource usage indicates a liberal allocation and consumption of available
+        /// system resources.
+        /// </summary>
+        High = 0,
+
+        /// <summary>
+        /// Normal resource usage indicates a modest allocation and consumption of available
+        /// system resources.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// High resource usage indicates a conservative allocation and consumption of available
+        /// system resources.
+        /// </summary>
+        Low,
+    }
     /// <summary>
     /// Represents a resource usage sample.
     /// </summary>

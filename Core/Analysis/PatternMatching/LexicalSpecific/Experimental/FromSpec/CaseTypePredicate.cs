@@ -31,6 +31,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         public static Predicate<TX> operator &(CaseTypePredicate<TX, T> left, WhenPredicate right) => new WhenPredicate<TX>(x => left.Satifies(x) && right.Satifies(x));
         public static Predicate<TX> operator &(WhenPredicate left, CaseTypePredicate<TX, T> right) => new WhenPredicate<TX>(x => left.Satifies(x) && right.Satifies(x));
         public static Predicate<TX> operator &(CaseTypePredicate<TX, T> left, ExactTextPredicate<T> right) => new WhenPredicate<TX>(x => left.Combine(right).Satifies(x));
+
         public static Predicate<TX> operator &(CaseTypePredicate<TX, T> left, Predicate<T> right) => new WhenPredicate<TX>(x => left.Combine(right).Satifies(x));
 
         public static Predicate<TX> operator &(ExactTextPredicate<TX> left, CaseTypePredicate<TX, T> right) => new WhenPredicate<TX>(x => left.Combine(right).Satifies(x));

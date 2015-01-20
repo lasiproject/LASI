@@ -3,7 +3,7 @@
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Defines extension methods for the System.Func&lt;T, TResult&gt; family of delegate types.
+    /// Defines extension methods for the System.Func&lt;T, TResult&gt; and System.Action&lt;T&gt; family of delegate types.
     /// </summary>
     public static class FunctionExtensions
     {
@@ -34,8 +34,8 @@ namespace LASI.Utilities
         /// </returns>
         /// <example>
         /// <code>
-        /// Func&lt;double, double&gt;&gt; cube = x =&gt; Math.Pow(x, 3);
-        /// Func&lt;double, double&gt;&gt; sqrt = x =&gt; Math.Sqrt(x);
+        /// Func&lt;double, double&gt;&gt; cube = x => Math.Pow(x, 3);
+        /// Func&lt;double, double&gt;&gt; sqrt = x => Math.Sqrt(x);
         /// var sqrtOfCube = sqrt.Compose(cube);
         /// var cubeOfSqrt = cube.Compose(sqrt);
         /// var v1 = sqrtOfCube(5); // about 11.18
@@ -51,41 +51,11 @@ namespace LASI.Utilities
 
         public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> first, Func<T2, T1> second) => x => first(second(x));
 
-        public static Func<T1, T3> AndThen<T1, T2, T3>(this Func<T1, T2> first, Func<T2, T3> second) => second.Compose(first);
-
 
 
         #region Currying
-
-        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>
-            (this Func<T1, T2, TResult> fn) => a => b => fn(a, b);
-
-        public static Func<T1, Func<T2, Func<T3, TResult>>> Curry<T1, T2, T3, TResult>
-            (this Func<T1, T2, T3, TResult> fn) => a => b => c => fn(a, b, c);
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, TResult>>>> Curry<T1, T2, T3, T4, TResult>
-            (this Func<T1, T2, T3, T4, TResult> fn) => a => b => c => d => fn(a, b, c, d);
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, TResult>>>>> Curry<T1, T2, T3, T4, T5, TResult>
-            (this Func<T1, T2, T3, T4, T5, TResult> fn) => a => b => c => d => e => fn(a, b, c, d, e);
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, TResult>>>>>> Curry<T1, T2, T3, T4, T5, T6, TResult>
-            (this Func<T1, T2, T3, T4, T5, T6, TResult> fn) => a => b => c => d => e => g => fn(a, b, c, d, e, g);
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, TResult>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, TResult>
-            (this Func<T1, T2, T3, T4, T5, T6, T7, TResult> fn) => a => b => c => d => e => f => g => fn(a, b, c, d, e, f, g);
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, TResult>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
-            (this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
-
-        #endregion Currying
-
-        #region Partial Application
-
         /// <summary>
-        /// Partially applies a function taking 2 arguments, of the form (T1, T2) =&gt; TResult, by
-        /// binding the supplied value as the first argument and returning a new function of the
-        /// form (T2) =&gt; TResult.
+        /// Curries a function of the form (T1, T2) => TResult, yielding a function of the form (T1) => (T2) => TResult.
         /// </summary>
         /// <typeparam name="T1">
         /// The type of the first argument of the function.
@@ -96,22 +66,13 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="function">
-        /// The function to partially apply.
-        /// </param>
-        /// <param name="value">
-        /// The value to bind as the first argument.
-        /// </param>
+        /// <param name="fn">The function to curry.</param>
         /// <returns>
-        /// A new function, of the form (T2) =&gt; TResult, produced by binding the supplied value
-        /// as the first argument.
+        /// A new function, of the form (T1) => (T2) => TResult.
         /// </returns>
-        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> function, T1 value) => y => function(value, y);
-
+        public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(this Func<T1, T2, TResult> fn) => a => b => fn(a, b);
         /// <summary>
-        /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) =&gt; TResult,
-        /// by binding the supplied value as the first argument and returning a new function of the
-        /// form (T2, T3) =&gt; TResult.
+        /// Curries a function of the form (T1, T2, T3) => TResult, yielding a function of the form (T1) => (T2) => (T3) => TResult.
         /// </summary>
         /// <typeparam name="T1">
         /// The type of the first argument of the function.
@@ -125,24 +86,14 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="function">
-        /// The function to partially apply.
-        /// </param>
-        /// <param name="value">
-        /// The value to bind as the first argument.
-        /// </param>
+        /// <param name="fn">The function to curry.</param>
         /// <returns>
-        /// A new function, of the form (T2, T3) =&gt; TResult, produced by binding the supplied
-        /// value as the first argument.
+        /// A new function, of the form (T1) => (T2) => (T3) => TResult.
         /// </returns>
-        public static Func<T2, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> function, T1 value) {
-            return (x, y) => function(value, x, y);
-        }
-
+        public static Func<T1, Func<T2, Func<T3, TResult>>> Curry<T1, T2, T3, TResult>
+            (this Func<T1, T2, T3, TResult> fn) => a => b => c => fn(a, b, c);
         /// <summary>
-        /// Partially applies a function taking 4 arguments, of the form (T1, T2, T3, T4) =&gt;
-        /// TResult, by binding the supplied value as the first argument and returning a new
-        /// function of the form (T2, T3, T4) =&gt; TResult.
+        /// Curries a function of the form (T1, T2, T3, T4) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => TResult.
         /// </summary>
         /// <typeparam name="T1">
         /// The type of the first argument of the function.
@@ -159,24 +110,14 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="function">
-        /// The function to partially apply.
-        /// </param>
-        /// <param name="value">
-        /// The value to bind as the first argument.
-        /// </param>
+        /// <param name="fn">The function to curry.</param>
         /// <returns>
-        /// A new function, of the form (T2, T3, T4) =&gt; TResult, produced by binding the supplied
-        /// value as the first argument.
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => TResult.
         /// </returns>
-        public static Func<T2, T3, T4, TResult> Apply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> function, T1 value) {
-            return (x, y, z) => function(value, x, y, z);
-        }
-
+        public static Func<T1, Func<T2, Func<T3, Func<T4, TResult>>>> Curry<T1, T2, T3, T4, TResult>
+            (this Func<T1, T2, T3, T4, TResult> fn) => a => b => c => d => fn(a, b, c, d);
         /// <summary>
-        /// Partially applies a function taking 5 arguments, of the form (T1, T2, T3, T4, T5) =&gt;
-        /// TResult, by binding the supplied value as the first argument and returning a new
-        /// function of the form (T2, T3, T4, T5) =&gt; TResult.
+        /// Curries a function of the form (T1, T2, T3, T4, T5) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => (T5) => TResult.
         /// </summary>
         /// <typeparam name="T1">
         /// The type of the first argument of the function.
@@ -196,24 +137,14 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="function">
-        /// The function to partially apply.
-        /// </param>
-        /// <param name="value">
-        /// The value to bind as the first argument.
-        /// </param>
+        /// <param name="fn">The function to curry.</param>
         /// <returns>
-        /// A new function, of the form (T2, T3, T4, T5) =&gt; TResult, produced by binding the
-        /// supplied value as the first argument.
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => (T5) => TResult.
         /// </returns>
-        public static Func<T2, T3, T4, T5, TResult> Apply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> function, T1 value) {
-            return (b, c, d, e) => function(value, b, c, d, e);
-        }
-
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, TResult>>>>> Curry<T1, T2, T3, T4, T5, TResult>
+            (this Func<T1, T2, T3, T4, T5, TResult> fn) => a => b => c => d => e => fn(a, b, c, d, e);
         /// <summary>
-        /// Partially applies a function taking 6 arguments, of the form (T1, T2, T3, T4, T5, T6)
-        /// = &gt; TResult, by binding the supplied value as the first argument and returning a new
-        /// function of the form (T2, T3, T4, T5, T6) =&gt; TResult.
+        /// Curries a function of the form (T1, T2, T3, T4, T5, T6) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => TResult.
         /// </summary>
         /// <typeparam name="T1">
         /// The type of the first argument of the function.
@@ -236,25 +167,348 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="function">
+        /// <param name="fn">The function to curry.</param>
+        /// <returns>
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => TResult.
+        /// </returns>
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, TResult>>>>>> Curry<T1, T2, T3, T4, T5, T6, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, TResult> fn) => a => b => c => d => e => g => fn(a, b, c, d, e, g);
+        /// <summary>
+        /// Curries a function of the form (T1, T2, T3, T4, T5, T6, T7) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T5">
+        /// The type of the fifth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T6">
+        /// The type of the sixth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T7">
+        /// The type of the seventh argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">The function to curry.</param>
+        /// <returns>
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => TResult.
+        /// </returns>
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, TResult>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, T7, TResult> fn) => a => b => c => d => e => f => g => fn(a, b, c, d, e, f, g);
+        /// <summary>
+        /// Curries a function of the form (T1, T2, T3, T4, T5, T6, T7, T8) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => (T8) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T5">
+        /// The type of the fifth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T6">
+        /// The type of the sixth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T7">
+        /// The type of the seventh argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T8">
+        /// The type of the eight argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">The function to curry.</param>
+        /// <returns>
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => (T8) => TResult.
+        /// </returns>
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, TResult>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
+
+        #endregion Currying
+
+        #region Partial Application
+
+        /// <summary>
+        /// Partially applies a function taking 2 arguments, of the form (T1, T2) => TResult, by
+        /// binding the supplied value as the first argument and returning a new function of the
+        /// form (T2) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
         /// The function to partially apply.
         /// </param>
         /// <param name="value">
         /// The value to bind as the first argument.
         /// </param>
         /// <returns>
-        /// A new function, of the form (T2, T3, T4, T5, T6) =&gt; TResult, produced by binding the
+        /// A new function, of the form (T2) => TResult, produced by binding the supplied value
+        /// as the first argument.
+        /// </returns>
+        public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> fn, T1 value) => y => fn(value, y);
+
+        /// <summary>
+        /// Partially applies a function taking 2 arguments, of the form (T1, T2) => TResult, by
+        /// binding the supplied value as the second argument and returning a new function of the
+        /// form (T1) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the second argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T1) => TResult, produced by binding the supplied value
+        /// as the first argument.
+        /// </returns>
+        public static Func<T1, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> fn, T2 value) => x => fn(x, value);
+
+        /// <summary>
+        /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult,
+        /// by binding the supplied value as the first argument and returning a new function of the
+        /// form (T2, T3) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the first argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T2, T3) => TResult, produced by binding the supplied
+        /// value as the first argument.
+        /// </returns>
+        public static Func<T2, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T1 value) {
+            return (x, y) => fn(value, x, y);
+        }
+
+        /// <summary>
+        /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult,
+        /// by binding the supplied value as the second argument and returning a new function of the
+        /// form (T1, T3) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the second argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T1, T3) => TResult, produced by binding the supplied
+        /// value as the second argument.
+        /// </returns>
+        public static Func<T1, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T2 value) => (x, z) => fn(x, value, z);
+
+        /// <summary>
+        /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult,
+        /// by binding the supplied value as the third argument and returning a new function of the
+        /// form (T1, T2) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the third argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T1, T2) => TResult, produced by binding the supplied
+        /// value as the third argument.
+        /// </returns>
+        public static Func<T1, T2, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T3 value) => (x, y) => fn(x, y, value);
+
+        /// <summary>
+        /// Partially applies a function taking 4 arguments, of the form (T1, T2, T3, T4) =>
+        /// TResult, by binding the supplied value as the first argument and returning a new
+        /// function of the form (T2, T3, T4) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the first argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T2, T3, T4) => TResult, produced by binding the supplied
+        /// value as the first argument.
+        /// </returns>
+        public static Func<T2, T3, T4, TResult> Apply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> fn, T1 value) {
+            return (x, y, z) => fn(value, x, y, z);
+        }
+
+        /// <summary>
+        /// Partially applies a function taking 5 arguments, of the form (T1, T2, T3, T4, T5) =>
+        /// TResult, by binding the supplied value as the first argument and returning a new
+        /// function of the form (T2, T3, T4, T5) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T5">
+        /// The type of the fifth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the first argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T2, T3, T4, T5) => TResult, produced by binding the
         /// supplied value as the first argument.
         /// </returns>
-        public static Func<T2, T3, T4, T5, T6, TResult> Apply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> function, T1 value) {
-            return (b, c, d, e, f) => function(value, b, c, d, e, f);
+        public static Func<T2, T3, T4, T5, TResult> Apply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> fn, T1 value) {
+            return (b, c, d, e) => fn(value, b, c, d, e);
         }
+
+        /// <summary>
+        /// Partially applies a function taking 6 arguments, of the form (T1, T2, T3, T4, T5, T6)
+        /// = &gt; TResult, by binding the supplied value as the first argument and returning a new
+        /// function of the form (T2, T3, T4, T5, T6) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T5">
+        /// The type of the fifth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T6">
+        /// The type of the sixth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="value">
+        /// The value to bind as the first argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form (T2, T3, T4, T5, T6) => TResult, produced by binding the
+        /// supplied value as the first argument.
+        /// </returns>
+        public static Func<T2, T3, T4, T5, T6, TResult> Apply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> fn, T1 value) {
+            return (b, c, d, e, f) => fn(value, b, c, d, e, f);
+        }
+
+        public static Action<T2> Apply<T1, T2>(this Action<T1, T2> a, T1 value) => y => a(value, y);
+        public static Action<T1> Apply<T1, T2>(this Action<T1, T2> a, T2 value) => y => a(y, value);
+
+        public static Action<T2, T3> Apply<T1, T2, T3>(this Action<T1, T2, T3> a, T1 value) => (y, z) => a(value, y, z);
+        public static Action<T1, T3> Apply<T1, T2, T3>(this Action<T1, T2, T3> a, T2 value) => (x, z) => a(x, value, z);
+        public static Action<T1, T2> Apply<T1, T2, T3>(this Action<T1, T2, T3> a, T3 value) => (x, y) => a(x, y, value);
 
         #endregion Partial Application
 
         public static T Identity<T>(T t) => t;
-
-        public static Func<T, bool> Negate<T>(this Func<T, bool> predicate) => x => !predicate(x);
 
         public static T InvokeWithTimer<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch) {
             stopwatch = System.Diagnostics.Stopwatch.StartNew();

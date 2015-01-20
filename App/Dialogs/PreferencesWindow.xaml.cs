@@ -10,6 +10,8 @@ namespace LASI.App.Dialogs
     using System.Windows.Input;
     using LASI.Utilities;
     using UsageManager = LASI.Interop.ResourceManagement.UsageManager;
+    using LASI.Interop.ResourceManagement;
+
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
@@ -26,7 +28,7 @@ namespace LASI.App.Dialogs
         }
         private void saveButton_Click(object sender, RoutedEventArgs e) {
             Properties.Settings.Default.Save();
-            UsageManager.SetPerformanceLevel(PerformanceLevel);
+            UsageManager.SetPerformanceMode(PerformanceMode);
             this.DialogResult = true;
         }
         private void cancelButton_Click(object sender, RoutedEventArgs e) {
@@ -55,15 +57,15 @@ namespace LASI.App.Dialogs
 
         private void LoadAdvancedPreferences() {
             try {
-                PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), Settings.Default.PerformanceLevel);
-                switch (PerformanceLevel) {
-                case UsageManager.Mode.High:
+                PerformanceMode = (PerformanceMode)Enum.Parse(typeof(PerformanceMode), Settings.Default.PerformanceLevel);
+                switch (PerformanceMode) {
+                case PerformanceMode.High:
                     High.IsChecked = true;
                     break;
-                case UsageManager.Mode.Normal:
+                case PerformanceMode.Normal:
                     Normal.IsChecked = true;
                     break;
-                case UsageManager.Mode.Low:
+                case PerformanceMode.Low:
                     Low.IsChecked = true;
                     break;
                 }
@@ -71,7 +73,7 @@ namespace LASI.App.Dialogs
                 Output.WriteLine(e.Message);
                 Output.WriteLine(e.StackTrace);
                 Normal.IsChecked = true;
-                PerformanceLevel = UsageManager.Mode.Normal;
+                PerformanceMode = PerformanceMode.Normal;
             }
         }
 
@@ -79,7 +81,7 @@ namespace LASI.App.Dialogs
             var checkBox = sender as RadioButton;
             if (checkBox.IsChecked ?? false) {
                 Settings.Default.PerformanceLevel = checkBox.Name;
-                PerformanceLevel = (UsageManager.Mode)Enum.Parse(typeof(UsageManager.Mode), checkBox.Name);
+                PerformanceMode = (PerformanceMode)Enum.Parse(typeof(PerformanceMode), checkBox.Name);
             }
         }
 
@@ -107,7 +109,7 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public Interop.ResourceManagement.UsageManager.Mode PerformanceLevel { get; private set; }
+        public Interop.ResourceManagement.PerformanceMode PerformanceMode { get; private set; }
 
         #region Fields
 

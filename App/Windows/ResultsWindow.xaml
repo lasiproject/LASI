@@ -245,7 +245,7 @@
                      VerticalAlignment="Top"
                      Header="Key Relationships">
                     <Grid Background="#FFE5E5E5">
-                        <TabControl x:Name="SVODResultsTabControl" />
+                        <TabControl x:Name="KeyRelationshipsResultsControl" />
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="metaViewTab"

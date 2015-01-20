@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific
+namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental
 {
     public class Match<T1, T2> where T1 : class, ILexical where T2 : class, ILexical
     {

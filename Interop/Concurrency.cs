@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Mode = UsageManager.Mode;
+    using Mode = PerformanceMode;
     /// <summary>
     /// Centralizes management and control of the concurrency level of concurrent operations.
     /// </summary>

@@ -6,19 +6,6 @@ using LASI.Core.PatternMatching;
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
     /// <summary>
-    /// Provides extension methods for being a sequential binding operation.
-    /// </summary>
-    public static class MatchExtensions
-    {
-        public static SequenceMatch Match(this Sentence sentence) {
-            return new SequenceMatch(sentence);
-        }
-
-        public static SequenceMatch Match(this IEnumerable<ILexical> sequencialElements) {
-            return new SequenceMatch(sequencialElements);
-        }
-    }
-    /// <summary>
     /// Represents a binding expression applied to a sequence if lexical constructs.
     /// </summary>
     public class SequenceMatch
@@ -30,7 +17,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             value = setence.Phrases;
 
         }
-
 
         #region Bind When Clauses
 
@@ -975,7 +961,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         #endregion
     }
-    static class ListExtensions
+    internal static class ListExtensions
     {
         public static List<T> Take<T>(this List<T> source, int count) {
             return source.GetRange(0, count);
@@ -1002,7 +988,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// After a successful match, the same patterns will be applied to the remainder of the sentence or sentence fragment.
         /// </summary>
         Recursive,
-
     }
 
 }

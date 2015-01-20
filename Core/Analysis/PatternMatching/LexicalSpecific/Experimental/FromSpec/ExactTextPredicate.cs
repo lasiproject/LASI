@@ -18,7 +18,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         public ExactTextPredicate(string text) { this.text = text; }
         /// <summary>
         /// Returns a value indicating if the given <see cref="ILexical"/> instance's textual content
-        /// exactly matches the value from which the predicate was constructed<see cref="Predicate{T}" />.
+        /// exactly matches the value from which the predicate was constructed <see cref="Predicate{T}" />.
         /// </summary>
         /// <param name="element"> The <see cref="ILexical"/> instance to test.</param>
         /// <returns>

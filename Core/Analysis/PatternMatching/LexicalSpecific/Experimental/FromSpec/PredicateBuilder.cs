@@ -31,7 +31,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
             //var red = prec | applicator2 | (v => v.AggregateDirectObject);
 
             var ree = applicator2.SetTarget(value)
-                | Verbal & When(value.Text == "true") | (v => v.AggregateDirectObject)
+                | Verbal & When(value.Text == "true") & Text("") | (v => v.AggregateDirectObject)
                 | Verbal & Text("dogged") | (x => x.AggregateDirectObject);
         }
     }

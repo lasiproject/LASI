@@ -1,4 +1,7 @@
-﻿namespace LASI.App.Properties
+﻿using System.Collections.Generic;
+using System.Windows;
+
+namespace LASI.App.Properties
 {
 
 
@@ -22,6 +25,8 @@
 
         private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e) {
             if (Default.TrayMinimize) {
+                new List<Window> { WindowManager.ProjectPreviewScreen, WindowManager.InProgressScreen, WindowManager.ResultsScreen }
+                .ForEach(TrayIconManager.Enable);
                 TrayIconManager.Enable(WindowManager.ProjectPreviewScreen);
                 TrayIconManager.Enable(WindowManager.InProgressScreen);
                 TrayIconManager.Enable(WindowManager.ResultsScreen);

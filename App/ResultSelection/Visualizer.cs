@@ -155,7 +155,7 @@ namespace LASI.App
             // Materialize item source so that changing chart types is less expensive.s
             var topPoints = dataPointSource
                 .OrderByDescending(point => point.Value)
-                .Take(CHART_ITEM_LIMIT).ToList();
+                .Take(ChartItemLimit).ToList();
             Series series = new BarSeries
             {
                 DependentValuePath = "Value", // this string is expected by the charting engine
@@ -219,28 +219,32 @@ namespace LASI.App
                 var relationships = from verbal in consideredVerbals
                                     from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                     let subject = entity.Match().Yield<IEntity>()
-                                        .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
-                                        .Then((IReferencer r) => r.RefersTo)
-                                        .Result(entity)
+                                            .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
+                                            .Then((IReferencer r) => r.RefersTo)
+                                            .Case((IEntity e) => e)
+                                        .Result()
                                     where subject != null
                                     from direct in verbal.DirectObjects.DefaultIfEmpty()
                                     from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                                     where direct != null || indirect != null
                                     where subject.Text != (direct ?? indirect).Text
-                                    let relationship = new SvoRelationship(
-                                        verbal.AggregateSubject,
-                                        verbal,
-                                        verbal.AggregateDirectObject,
-                                        verbal.AggregateIndirectObject
+                                    let relationship = new SvoRelationship
+                                    (
+                                        subject: verbal.AggregateSubject,
+                                        verbal: verbal,
+                                        direct: verbal.AggregateDirectObject,
+                                        indirect: verbal.AggregateIndirectObject
                                     )
                                     orderby relationship.Weight descending
                                     select relationship;
                 return relationships.Distinct();
             });
         }
-        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) => await Task.Run(() => GetNounWiseData(document));
+        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) =>
+            await Task.Run(() => GetNounWiseData(document));
 
-        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) => await Task.Run(() => GetVerbWiseData(document));
+        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) =>
+            await Task.Run(() => GetVerbWiseData(document));
 
         private static IEnumerable<dynamic> GetNounWiseData(Document document) {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -264,8 +268,8 @@ namespace LASI.App
                     ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
                 }
             };
-            WindowManager.ResultsScreen.SVODResultsTabControl.Items.Add(tab);
-            WindowManager.ResultsScreen.SVODResultsTabControl.SelectedItem = tab;
+            WindowManager.ResultsScreen.KeyRelationshipsResultsControl.Items.Add(tab);
+            WindowManager.ResultsScreen.KeyRelationshipsResultsControl.SelectedItem = tab;
         }
 
         /// <summary>
@@ -278,9 +282,6 @@ namespace LASI.App
         private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
 
 
-
-        private static string GetTextIfNotNull(ILexical lexical) => lexical?.Text ?? string.Empty;
-
         /// <summary>
         /// Transforms the given relationships into textual objects for display on a 4 column grid.
         /// The resulting sequence is suitable for direct insertion into a DataGrid.
@@ -292,35 +293,23 @@ namespace LASI.App
                    orderby relationship.Weight descending
                    select new
                    {
-                       Subject = FormatSubjectRenderText(relationship.Subject),
-                       Verbal = FormatVerbalDisplay(relationship.Verbal),
+                       Subject = relationship.Subject?.Text,
+                       Verbal = FormatVerbalText(relationship.Verbal),
                        Direct = FormatObjectText(relationship.Direct),
                        Indirect = FormatObjectText(relationship.Indirect),
-                       Weight = relationship.Weight
+                       Weight = Math.Round(relationship.Weight, 2)
                    };
         }
 
-        private static string FormatSubjectRenderText(IEntity entity) => entity?.Text ?? string.Empty;
+        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.PrepositionOnLeft?.Text + o?.Text;
 
 
-        private static string FormatObjectText(IEntity directObject) {
-            var prepositionalText = directObject.Match().Case((IPrepositionLinkable i) => i.PrepositionOnLeft?.Text ?? string.Empty);
-            return prepositionalText + directObject?.Text ?? string.Empty;
+        private static string FormatVerbalText(IVerbal verbal) {
+            var prepositionalText = (verbal as IPrepositionLinkable)?.PrepositionOnLeft?.Text;
+            var adverbialText = string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
+            return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
         }
-
-        private static string FormatVerbalDisplay(IVerbal verbal) {
-            if (verbal != null) {
-                var prepositionalText = verbal.Match().Case((IPrepositionLinkable i) => i.PrepositionOnLeft?.Text ?? string.Empty);
-                var result =
-                    prepositionalText + " " +
-                    GetTextIfNotNull(verbal.Modality) + " " + verbal.Text + " " +
-                    string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
-                return result.Trim();
-            } else {
-                return string.Empty;
-            }
-        }
-        private const int CHART_ITEM_LIMIT = 14;
+        private const int ChartItemLimit = 14;
     }
 
 }

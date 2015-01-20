@@ -155,10 +155,12 @@ namespace LASI
         /// <exception cref="ArgumentNullException"> Source or func is <c> null </c>. </exception>
         /// <exception cref="InvalidOperationException"> Source contains no elements. </exception>
         public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) {
-            return source.Select((e, i) => new {
+            return source.Select((e, i) => new
+            {
                 Element = e,
                 Index = i
-            }).Aggregate((z, e) => new {
+            }).Aggregate((z, e) => new
+            {
                 Element = func(z.Element, e.Element, e.Index),
                 e.Index // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
             }).Element;
@@ -179,7 +181,8 @@ namespace LASI
         /// <returns> The final accumulator value. </returns>
         /// <exception cref="ArgumentNullException"> Source or func is <c> null </c>. </exception>
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) {
-            return source.Select((e, i) => new {
+            return source.Select((e, i) => new
+            {
                 Element = e,
                 Index = i
             }).Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
@@ -287,10 +290,6 @@ namespace LASI
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
-        }
-
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
-            foreach (var e in source) { action(e); }
         }
 
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> {

@@ -1,4 +1,5 @@
-﻿using LASI.Content;
+﻿using LASI.App.UIElementHelpers;
+using LASI.Content;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;
@@ -164,7 +165,7 @@ namespace LASI.App
                     MessageBox.Show(this, ErrorMessages.UnusableProjectDirectory);
                 }
             }
-            if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectDocument()) {
+            if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectHasADocument()) {
                 createButton.Click -= completeSetupAndContinueButton_Click;
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
                 var previewWindow = WindowManager.ProjectPreviewScreen;
@@ -205,17 +206,18 @@ namespace LASI.App
 
         private void DisplayValidationMessage() {
             threepaws.Visibility = Visibility.Hidden;
-            if (!ValidateProjectName() && !ValidateProjectDocument()) {
+            if (!ValidateProjectName() && !ValidateProjectHasADocument()) {
                 ShowElements(NothingFilledImage);
             } else {
                 HideElements(NothingFilledImage);
             }
-            if (!ValidateProjectName() && ValidateProjectDocument()) {
+            if (!ValidateProjectName() && ValidateProjectHasADocument()) {
+
                 ShowElements(ProjNameErrorLabel, ProjNameErrorImage, ProjLocationErrorLabel);
             } else {
-                HideElements(ProjLocationErrorLabel, ProjNameErrorLabel, ProjNameErrorImage);
+                ProjectErrorControls.Hide();
             }
-            if (ValidateProjectName() && !ValidateProjectDocument()) {
+            if (ValidateProjectName() && !ValidateProjectHasADocument()) {
                 ShowElements(ProjDocumentErrorLabel, NoDocumentsImage);
             } else {
                 HideElements(ProjDocumentErrorLabel, NoDocumentsImage);
@@ -248,8 +250,8 @@ namespace LASI.App
             }
             return true;
         }
-
-        private bool ValidateProjectDocument() {
+        private IEnumerable<UIElement> ProjectErrorControls => new UIElement[] { ProjLocationErrorLabel, ProjNameErrorLabel, ProjNameErrorImage };
+        private bool ValidateProjectHasADocument() {
             if (DocumentManager.IsEmpty) {
                 lastDocPathTextBox.ToolTip = new ToolTip { Content = ErrorMessages.NoDocumentsInProject };
                 return false;

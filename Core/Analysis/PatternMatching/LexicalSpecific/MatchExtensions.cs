@@ -104,10 +104,7 @@ namespace LASI.Core
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);
         }
-        public static Analysis.PatternMatching.LexicalSpecific.Match<T1, T2> TogetherWith<T1, T2>(this Match<T1> partial, T2 other)
-            where T1 : class, ILexical where T2 : class, ILexical {
-            return new Analysis.PatternMatching.LexicalSpecific.Match<T1, T2>(partial.Yield<T1>().Result(value => value), other);
-        }
+
         public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
         }

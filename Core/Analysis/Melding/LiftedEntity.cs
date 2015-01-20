@@ -21,19 +21,19 @@ namespace LASI.Core.Analysis.Melding
         /// <summary>
         /// Initializes a new instance of the LiftedEntity class.
         /// </summary>
-        /// <param name="representative">The Entity which represents the determined lexical form for the set of entities being lifted.</param>
+        /// <param name="avatar">The Entity which represents the determined lexical form for the set of entities being lifted.</param>
         /// <param name="represented">The set of entities which have been merged into this single LiftedEntity.</param>
-        public LiftedEntity(IEntity representative, IEnumerable<IEntity> represented) {
-            this.representative = representative;
+        public LiftedEntity(IEntity avatar, IEnumerable<IEntity> represented) {
+            this.avatar = avatar;
             this.represented = represented.ToImmutableList();
 
             directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf).ToAggregate();
             indirectObjectsOfVerbals = FlattenAbout(e => e.IndirectObjectOf).ToAggregate();
             subjectsOfVerbals = FlattenAbout(e => e.SubjectOf).ToAggregate();
 
-            possessions = FlattenAbout(e => e.Possessions).ToImmutableHashSet();
-            descriptors = FlattenAbout(e => e.Descriptors).ToImmutableHashSet();
-            referencers = FlattenAbout(e => e.Referencers).ToImmutableHashSet();
+            possessions = FlattenAbout(e => e.Possessions);
+            descriptors = FlattenAbout(e => e.Descriptors);
+            referencers = FlattenAbout(e => e.Referencers);
         }
         public void BindDescriptor(IDescriptor descriptor) {
             descriptors.Add(descriptor);
@@ -54,7 +54,7 @@ namespace LASI.Core.Analysis.Melding
         public IEnumerable<IReferencer> Referencers => referencers;
         public IEnumerable<IPossessable> Possessions => possessions;
 
-        public EntityKind EntityKind => representative.EntityKind;
+        public EntityKind EntityKind => avatar.EntityKind;
 
         public IVerbal SubjectOf {
             get { return subjectsOfVerbals; }
@@ -78,7 +78,7 @@ namespace LASI.Core.Analysis.Melding
 
         public IPossesser Possesser { get; set; }
 
-        public string Text { get { return representative.Text; } }
+        public string Text => avatar.Text;
 
         public double Weight {
             get { return represented.Average(w => w.Weight); }
@@ -99,15 +99,16 @@ namespace LASI.Core.Analysis.Melding
                    where result != null
                    select result;
         }
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) => represented.SelectMany(collectionSelector).Where(r => r != null);
-
+        private IImmutableSet<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) {
+            return represented.SelectMany(collectionSelector).Where(r => r != null).ToImmutableHashSet();
+        }
 
         #endregion Private Helper Methods
 
         #region Fields
 
 
-        private readonly IEntity representative;
+        private readonly IEntity avatar;
         private readonly ImmutableList<IEntity> represented;
 
         private readonly IImmutableSet<IPossessable> possessions;

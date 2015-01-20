@@ -1,5 +1,4 @@
-﻿#define FILESYSTEMSANTIYCHECK
-using LASI.Utilities;
+﻿using LASI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -98,8 +97,7 @@ namespace LASI.Content
 
                 AddToTypedList(newFile as dynamic);
                 return newFile;
-            }
-            catch (KeyNotFoundException ex) {
+            } catch (KeyNotFoundException ex) {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -208,14 +206,14 @@ namespace LASI.Content
         public static async Task ConvertAsNeededAsync() {
             ThrowIfUninitialized();
             try {
-                var tasks = new {
+                var tasks = new
+                {
                     ConvertPdf = ConvertPdfToTextAsync(pdfFiles.ToArray()),
                     ConvertDocs = ConvertDocToTextAsync(docFiles.ToArray()),
                     ConvertDocx = ConvertDocxToTextAsync(docXFiles.ToArray())
                 };
                 await Task.WhenAll(tasks.ConvertPdf, tasks.ConvertDocs, tasks.ConvertDocx);
-            }
-            catch (FileConversionFailureException e) {
+            } catch (FileConversionFailureException e) {
                 e.LogIfDebug();
                 throw;
             }
@@ -239,13 +237,11 @@ namespace LASI.Content
                         AddFile(txt.FullPath);
                         File.Delete(txt.FullPath);
                         convertedFiles.Add(txt);
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         Output.WriteLine(e.Message);
                         throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
                     }
-                }
-                catch (UnauthorizedAccessException e) {
+                } catch (UnauthorizedAccessException e) {
                     RecordConversionFailure(document, e);
                     throw;
                 }
@@ -275,8 +271,7 @@ namespace LASI.Content
                         Output.WriteLine(e.Message);
                         throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
                     }
-                }
-                catch (UnauthorizedAccessException e) {
+                } catch (UnauthorizedAccessException e) {
                     RecordConversionFailure(document, e);
                     throw;
                 }
@@ -438,12 +433,8 @@ namespace LASI.Content
                 taggedFiles.Clear();
                 ProjectName = null;
                 Initialized = false;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Output.WriteLine(e.Message);
-#if FILESYSTEMSANTIYCHECK
-                throw;
-#endif
             }
         }
         private static void ThrowIfUninitialized() { if (!Initialized) throw new FileManagerNotInitializedException(); }

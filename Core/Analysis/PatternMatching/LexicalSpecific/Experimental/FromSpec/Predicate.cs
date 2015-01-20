@@ -44,7 +44,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         public static Predicate<T> operator &(ExactTextPredicate<ILexical> left, Predicate<T> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
         public static Predicate<T> operator &(Predicate<T> left, ExactTextPredicate<ILexical> right) => new WhenPredicate<T>(x => left.Combine(right).Satifies(x));
 
-        //public static Predicate<T> operator &(Predicate<T> left, Predicate<T> right) => left.Combine(right);
+        public static Predicate<T> operator &(Predicate<T> left, Predicate<T> right) => left.Combine(right);
 
         private class LiftedPredicate<TOther> : Predicate<TOther> where TOther : class, ILexical
         {
