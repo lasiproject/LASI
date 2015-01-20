@@ -28,11 +28,8 @@ namespace LASI.Core.Heuristics
                 if (actions.Any()) { return new ActionsRelatedOn(actions); } else { return null; }
             } else {
                 throw new InvalidOperationException(
-                    string.Format(@"There is no relationship lookup context associated with {0} or {1}.\n
-                    Please associate a context by calling {2}.SetRelationshipLookup or {3}.SetRelationshipLookup appropriately.",
-                    performer, receiver,
-                    performer, receiver)
-                );
+                    $@"There is no relationship lookup context associated with {performer} or {receiver}.\n
+                    Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.");
             }
 
         }

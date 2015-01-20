@@ -6,7 +6,8 @@ using System.Text;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a Personal Pronoun such as he, she, it, or they. 
+    /// Represents a Personal Pronoun such as he, she, it, them, or both. 
+    /// This is a broad and highly contextual category.
     /// </summary>
     public class PersonalPronoun : Pronoun
     {

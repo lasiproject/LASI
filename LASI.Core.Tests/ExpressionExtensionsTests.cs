@@ -20,7 +20,6 @@ namespace LASI.Core.Heuristics.Tests
             e1.SetRelationshipLookup(new SampleRelationshipLookup(new[] { v }));
             v.BindSubject(e1);
             v.BindDirectObject(e2);
-
             Assert.IsTrue(e1.IsRelatedTo(e2).On(v));
         }
     }

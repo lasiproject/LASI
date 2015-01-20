@@ -88,10 +88,10 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\BindingHelper.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchExtensions.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatch.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\BindingHelper.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\DeclarativeBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\MatchExtensions.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\SequenceMatch.cs" />
     <Compile Include="Analysis\LookupAndComparison\LookupDataProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\LookupNameProvider.cs" />
     <Compile Include="Analysis\LookupAndComparison\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />

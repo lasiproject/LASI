@@ -113,6 +113,7 @@
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
+    <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
     <Compile Include="DeterminerTest.cs" />
@@ -123,9 +124,6 @@
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
-    <Compile Include="PatternMatching\Pattern.cs" />
-    <Compile Include="PatternMatching\Term.cs" />
-    <Compile Include="PatternMatching\TypeTestPatternTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />
@@ -201,6 +199,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Analysis\Binding\Experimental\" />
     <Folder Include="Analysis\RelationshipLookups\Helpers\" />
   </ItemGroup>
   <Choose>

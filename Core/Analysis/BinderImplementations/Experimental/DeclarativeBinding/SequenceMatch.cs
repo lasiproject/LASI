@@ -11,10 +11,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     public class SequenceMatch
     {
         internal SequenceMatch(IEnumerable<ILexical> sequencialElements) {
-            value = sequencialElements;
+            value = sequencialElements.ToList();
         }
         internal SequenceMatch(Sentence setence) {
-            value = setence.Phrases;
+            value = setence.Phrases.Select(p => p as ILexical).ToList();
 
         }
 
@@ -910,7 +910,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="condition">The condition which must be met for the next binding function to be attempted.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Guard(bool condition) {
-            predicateSucceded = condition;
+            guardSatisfied = condition;
             guarded = true;
             return this;
         }
@@ -920,12 +920,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="condition">The condition which must be met for the next binding function to be attempted.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Guard(Func<bool> condition) {
-            predicateSucceded = condition();
+            guardSatisfied = condition();
             guarded = true;
             return this;
         }
         private SequenceMatch CheckGuard(Action onSuccess) {
-            if (!Accepted && guarded && predicateSucceded) {
+            if (!Accepted && ApplicableGuardsSatisfied) {
                 onSuccess();
                 guarded = false;
             }
@@ -944,20 +944,24 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return result;
         }
         private List<ILexical> Values {
-            get { return Test(value).ToList(); }
-            set { Values = value; }
+            get { return value; }
+            set { this.value = value; }
         }
         /// <summary>
         /// Gets or sets the value indicating whether or not the a pattern has been matched.
         /// </summary>
         /// <returns></returns>
         protected bool Accepted { get; set; }
+        /// <summary>
+        /// <c>true</c> if all guards have been satisfied or there are no applicable guards; otherwise, <c>false</c>.
+        /// </summary>
+        private bool ApplicableGuardsSatisfied => guarded && guardSatisfied || !guarded;
         private ContinuationMode continuationMode;
-        private bool predicateSucceded;
+        private bool guardSatisfied;
         private bool guarded;
         private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private IEnumerable<ILexical> value;
+        private List<ILexical> value;
 
         #endregion
     }
