@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
+    <Compile Include="TrayIconManager.cs" />
     <Compile Include="UiElementHelpers\UiElementExtensions.cs" />
     <Compile Include="Windows\InProgressWindow.xaml.cs">
       <DependentUpon>InProgressWindow.xaml</DependentUpon>

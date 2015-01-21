@@ -26,7 +26,7 @@ namespace LASI.Core
         /// <param name="first">The first Word of the PrepositionalPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the PrepositionalPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// Thus, its purpose is to simplify test code.</remarks>
         public PrepositionalPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
         #endregion
 
@@ -37,17 +37,14 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the PrepositionalPhrase.</returns>
         public override string ToString() {
-            if (Phrase.VerboseOutput) {
-                var result = base.ToString();
-                if (ToTheLeftOf != null)
-                    result += "\n\tleft linked: " + ToTheLeftOf.ToString();
-                if (ToTheRightOf != null)
-                    result += "\n\tright linked: " + ToTheRightOf.ToString();
-                if (BoundObject != null)
-                    result += "\n\tObject: " + BoundObject.ToString();
-                return result;
-            }
-            return base.ToString();
+            var result = base.ToString();
+            if (ToTheLeftOf != null)
+                result += "\n\tleft linked: " + ToTheLeftOf.ToString();
+            if (ToTheRightOf != null)
+                result += "\n\tright linked: " + ToTheRightOf.ToString();
+            if (BoundObject != null)
+                result += "\n\tObject: " + BoundObject.ToString();
+            return result;
         }
 
 

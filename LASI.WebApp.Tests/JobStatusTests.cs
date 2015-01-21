@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.WebApp.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.WebApp;
-using System.Reflection;
-
 
 namespace LASI.WebApp.Controllers.Tests
 {

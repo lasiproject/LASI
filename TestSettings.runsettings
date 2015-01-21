@@ -10,7 +10,7 @@
     <TargetPlatform>x64</TargetPlatform>
 
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+    <TargetFrameworkVersion>Framework46</TargetFrameworkVersion>
   </RunConfiguration>
 
   <!-- Configurations for data collectors -->

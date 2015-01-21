@@ -15,18 +15,11 @@ namespace LASI.Core
         /// Initializes a new instance of the PersonalPronoun class.
         /// </summary>
         /// <param name="text">The text content of the PersonalPronoun.</param>
-        public PersonalPronoun(string text)
-            : base(text) {
-
-        }
+        public PersonalPronoun(string text) : base(text) { }
         /// <summary>
         /// Gets the EntityKind of the PersonalPronoun
         /// </summary>
-        public override EntityKind EntityKind {
-            get {
-                return Gender.IsFemale() ? EntityKind.PersonFemale :
-               Gender.IsMale() ? EntityKind.PersonMale : base.EntityKind;
-            }
-        }
+        public override EntityKind EntityKind =>
+            Gender.IsFemale() ? EntityKind.PersonFemale : Gender.IsMale() ? EntityKind.PersonMale : base.EntityKind;
     }
 }

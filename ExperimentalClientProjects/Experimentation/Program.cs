@@ -11,37 +11,40 @@ using LASI.Interop;
 using LASI.Utilities;
 using LASI.Interop.ResourceManagement;
 using LASI.Content;
+using System.IO;
 
 namespace LASI.Experimentation.CommandLine
 {
     class Program
     {
         static void Main(string[] args) {
-            var fragment = new RawTextFragment(
-                rawText, "Test");
+            var fragment = new RawTextFragment(rawText, "Test");
             var percent = 0d;
             var notfier = new ResourceNotifier();
             var setsProcessed = 0;
             notfier.ResourceLoading += (s, e) => {
-                Output.WriteLine("Sets Processed {0}", ++setsProcessed);
+                Output.WriteLine($"Sets Processed {++setsProcessed}");
             };
             notfier.ResourceLoaded += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine("Update : {0} Percent : {1} MS : {2}", e.Message, percent += e.PercentWorkRepresented, e.ElapsedMiliseconds);
+                Output.WriteLine($"Update : {e.Message} Percent : {percent += e.PercentWorkRepresented} MS : {e.ElapsedMiliseconds}");
             };
-            var orchestrator = new AnalysisOrchestrator(new RawTextFragment(System.IO.File.ReadAllLines(@"C:\Users\Aluan\Desktop\documents\cats - Copy - Copy.txt"), "cats"));
+            var orchestrator =
+                new AnalysisOrchestrator(new RawTextFragment(
+                    File.ReadAllLines(@"C:\Users\Aluan\Desktop\documents\cats - Copy - Copy.txt"), "cats")
+                );
             orchestrator.ProgressChanged += (s, e) => {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine("Update : {0} Percent : {1}", e.Message, percent);
+                Output.WriteLine($"Update : {e.Message} Percent : {percent}");
             };
 
             var document = orchestrator.ProcessAsync().Result.First();
 
             var x = document.Entities.FirstOrDefault();
-            x.Match().Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
+            x.Match()
+                .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .Result(x.Text);
             Output.WriteLine(document);
-            Phrase.VerboseOutput = true;
             foreach (var phrase in document.Phrases) {
                 Output.WriteLine(phrase);
             }

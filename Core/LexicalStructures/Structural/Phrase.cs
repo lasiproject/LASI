@@ -135,7 +135,7 @@ namespace LASI.Core
         /// <summary>
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
-        public static bool VerboseOutput { get; set; }
+        public static bool VerboseOutput { get; set; } = true;
 
         #endregion
 

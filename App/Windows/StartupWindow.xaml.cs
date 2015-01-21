@@ -52,7 +52,7 @@ namespace LASI.App
 
         #region Methods
 
-        #region Intialization Methods
+        #region Initialization Methods
 
         private void ProcessCommandLineArgs(IEnumerable<string> filePaths) {
             foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths)) {
@@ -207,13 +207,12 @@ namespace LASI.App
         private void DisplayValidationMessage() {
             threepaws.Visibility = Visibility.Hidden;
             if (!ValidateProjectName() && !ValidateProjectHasADocument()) {
-                ShowElements(NothingFilledImage);
+                NothingFilledImage.Show();
             } else {
-                HideElements(NothingFilledImage);
+                NothingFilledImage.Hide();
             }
             if (!ValidateProjectName() && ValidateProjectHasADocument()) {
-
-                ShowElements(ProjNameErrorLabel, ProjNameErrorImage, ProjLocationErrorLabel);
+                ProjectErrorControls.Show();
             } else {
                 ProjectErrorControls.Hide();
             }
