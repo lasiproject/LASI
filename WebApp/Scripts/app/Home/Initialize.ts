@@ -5,7 +5,7 @@ interface Array<T> {
      * Takes an array of items, projects each one to an array,using the provided collectionSelector function,
      * and flattens the resulting array of arrays onto a single flat array. 
      * A second, optional function performs a projection on each element of the resulting flat array.
-     * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
+     * This function is analogous to SelectMany in C#, and flatMap in Scala. 
      * @param collectionSelector A function to transform each element in the array into an array. 
      * @param elementSelector A function to perform an additional transformation on each element in the flattened collection. 
      */
@@ -50,7 +50,7 @@ interface String {
 }
 
 /**
- * Augments Array with the additonal methods, if and only if a member with the same name as the method has not already been defined.
+ * Augments Array with the additional methods, if and only if a member with the same name as the method has not already been defined.
  */
 (function () {
     'use strict';
@@ -60,7 +60,7 @@ interface String {
      * collectionSelector function,
      * and flattens the resulting array of arrays onto a single flat array. 
      * A second, optional function performs a projection on each element of the resulting flat array.
-     * This function is analagous to SelectMany in Linq, and flatMap in Scala. 
+     * This function is analogous to SelectMany in C#, and flatMap in Scala. 
      */
     if (!Array.prototype.hasOwnProperty('flatMap')) {
         Array.prototype.flatMap = function <T, TIntermediate, TResult>(collectionSelector: (element: T) => Array<TIntermediate>,
@@ -80,7 +80,7 @@ interface String {
      * correlate takes pairs the two arrays of elements based on 
      * the key selector functions, and returns the associated elements as a new array. 
      * An optional function performs a projection on each pair.
-     * This function is analagous to Join in Linq, and inner join in SQL. 
+     * This function is analogous to Join in C#, and inner join in SQL. 
      */
     if (!Array.prototype.hasOwnProperty('correlate')) {
         Array.prototype.correlate = function <T, TInner, TOuterKey, TInnerKey, TResult>(
