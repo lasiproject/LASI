@@ -6,7 +6,7 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:group name="sourcesdocument">
     <xs:choice>
-      <xs:element name="sourcesdocument">
+      <xs:element name="document">
         <xs:complexType>
           <xs:attribute  name="id"
                          use="required"
@@ -24,11 +24,10 @@
       </xs:element>
     </xs:choice>
   </xs:group>
-  <xs:group name="elements">
-    <xs:choice>
-      <xs:element name="projectfile"
-                  maxOccurs="1"
-                  minOccurs="1">
+  <xs:element name="project">
+    <xs:unique>
+      <xs:element name="header"
+                  nillable="false">
         <xs:complexType id="fileinfo"
                         mixed="true">
 
@@ -52,10 +51,8 @@
                         use="required"></xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:choice>
-  </xs:group>
-  <xs:element name ="top">
-    <xs:complexType>
+    </xs:unique>
+    <xs:complexType name="project">
       <xs:all maxOccurs="1">
         <xs:element name ="content" >
           <xs:complexType  mixed="true">

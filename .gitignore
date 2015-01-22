@@ -350,4 +350,5 @@ WebEssentials-Settings.json
 .userprefs
 /LASI.WebApp.Transitional.Tests/packages.config
 /LASI.WebApp.Transitional.Tests/App.config
-/LASI.WebApp.Transitional.Tests
+/LASI.WebApp.Transitional.Tests/
+/LASI.MVC6.App/node_modules/
