@@ -216,11 +216,7 @@ pip-log.txt
 .mr.developer.cfg
 /Aluan_AOS 2013-10-25 21_07_07.coveragexml
 WebEssentials-Settings.json
-
-#############
-## Mono Develop/Xamarin Studio
-#############
-.userprefs
+/LASI.WebApp.Transitional/
 /WebApp/App_Data/Mongo
 /WebApp/App_Data/SourceFiles
 /WebApp/App_Data/Users
@@ -347,3 +343,11 @@ WebEssentials-Settings.json
 /LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
 /LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
 /LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
+
+#############
+## Mono Develop/Xamarin Studio
+#############
+.userprefs
+/LASI.WebApp.Transitional.Tests/packages.config
+/LASI.WebApp.Transitional.Tests/App.config
+/LASI.WebApp.Transitional.Tests

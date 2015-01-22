@@ -3,6 +3,8 @@
     "name": "LASI.MVC6.App",
     "devDependencies": {
         "grunt": "^0.4.5",
-        "grunt-bower-task": "^0.4.0"
+        "grunt-bower-task": "^0.4.0",
+        "grunt-jslint": "^1.1.12",
+        "grunt-jsmin-sourcemap": "^1.10.0"
     }
 }

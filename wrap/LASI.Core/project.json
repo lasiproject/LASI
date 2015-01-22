@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net46": {
+      "wrappedProject": "../../Core/LASI.Core.csproj",
+      "bin": {
+        "assembly": "../../Core/obj/{configuration}/LASI.Core.dll",
+        "pdb": "../../Core/obj/{configuration}/LASI.Core.pdb"
+      },
+      "dependencies": {
+        "Rx-Core": "2.2.5",
+        "Rx-Interfaces": "2.2.5",
+        "Rx-Linq": "2.2.5",
+        "Rx-Main": "2.2.5",
+        "Rx-PlatformServices": "2.2.5",
+        "System.Collections.Immutable": "1.1.33-beta",
+        "LASI.Utilities": "1.0.0-*"
+      }
+    }
+  }
+}

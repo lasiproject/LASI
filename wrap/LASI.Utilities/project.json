@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net46": {
+      "wrappedProject": "../../Utilities/LASI.Utilities.csproj",
+      "bin": {
+        "assembly": "../../Utilities/obj/{configuration}/LASI.Utilities.dll",
+        "pdb": "../../Utilities/obj/{configuration}/LASI.Utilities.pdb"
+      },
+      "dependencies": {
+        "Newtonsoft.Json": "6.0.8",
+        "Rx-Core": "2.2.5",
+        "Rx-Interfaces": "2.2.5",
+        "Rx-Linq": "2.2.5",
+        "Rx-Main": "2.2.5",
+        "Rx-PlatformServices": "2.2.5",
+        "System.Collections.Immutable": "1.1.33-beta"
+      }
+    }
+  }
+}
