@@ -41,10 +41,6 @@ namespace LASI.Content.Serialization.Json.Tests
             Assert.AreEqual(target.AdverbialModifiers.Select(e => e.ToJObject()).ToArray(), serialized["adverbialModifiers"]);
         }
 
-        [TestMethod]
-        public void ToJObjectTest2() {
-            Assert.Fail();
-        }
         private static class TestHelper
         {
             public static IVerbal TestVerbal => new VerbPhrase(new SimpleVerb("walk"), new Adverb("swiftly"));

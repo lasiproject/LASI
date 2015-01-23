@@ -22,7 +22,16 @@ namespace LASI.Utilities.Tests
         }
         [TestMethod]
         public void CoalescenseTest1() {
-            Option<string> target = "str".ToOption().ToOption().ToOption();
+            Option<string> target = "str".ToOption().ToOption();
+            Assert.AreEqual(target, "str".ToOption());
+            Assert.AreEqual("str".ToOption(), target);
+        }
+        [TestMethod]
+        public void CoalescenseTest2() {
+            Option<string> target = "str".ToOption();
+            for (var i = 0; i < new Random().Next(0, 100); ++i) {
+                target = target.ToOption();
+            }
             Assert.AreEqual(target, "str".ToOption());
             Assert.AreEqual("str".ToOption(), target);
         }

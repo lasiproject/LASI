@@ -99,7 +99,7 @@ namespace LASI.Core
         /// <summary>
         /// Begins a non result returning Type based Pattern Matching expression over the specified ILexical value.
         /// </summary> 
-        /// <param name="value">The Lexical value to match Case.</param>
+        /// <param name="value">The Lexical value to match against.</param>
         /// <returns>The head of a non result yielding Type based Pattern Matching expression over the specified ILexical value.</returns>
         public static Match<T> Match<T>(this T value) where T : class, ILexical {
             return new Match<T>(value);

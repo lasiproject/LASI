@@ -25,20 +25,20 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
+        /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then<TPattern>(Action action) where TPattern : class, ILexical {
-            return Accepted ? expression.Case<TPattern>(action) : expression;
+        public Match<T> Then<TCase>(Action action) where TCase : class, ILexical {
+            return Accepted ? expression.Case<TCase>(action) : expression;
         }
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
+        /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then<TPattern>(Action<TPattern> action) where TPattern : class, ILexical {
+        public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical {
             return Accepted ? expression.Case(action) : expression;
         }
         /// <summary>
@@ -87,28 +87,28 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TPattern>(TResult result) where TPattern : class, ILexical {
-            return Accepted ? expression.Case<TPattern>(result) : expression;
+        public Match<T, TResult> Then<TCase>(TResult result) where TCase : class, ILexical {
+            return Accepted ? expression.Case<TCase>(result) : expression;
         }
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
+        /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TPattern>(Func<TResult> func) where TPattern : class, ILexical {
-            return Accepted ? expression.Case<TPattern>(func) : expression;
+        public Match<T, TResult> Then<TCase>(Func<TResult> func) where TCase : class, ILexical {
+            return Accepted ? expression.Case<TCase>(func) : expression;
         }
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
-        /// <typeparam name="TPattern">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
+        /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
-        public Match<T, TResult> Then<TPattern>(Func<TPattern, TResult> func) where TPattern : class, ILexical => Accepted ? expression.Case(func) : expression;
+        public Match<T, TResult> Then<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical => Accepted ? expression.Case(func) : expression;
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression.

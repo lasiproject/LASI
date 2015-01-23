@@ -35,8 +35,9 @@ namespace LASI.Content.Tests
 
         #endregion
 
-        private static DocXFile InitInputFileWrapper() {
-            var infile = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
+        private static DocXFile InitDocFile() {
+            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            DocXFile infile = new DocXFile(path);
             return infile;
         }
 
@@ -47,49 +48,33 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         public async Task ConvertFileAsyncTest() {
-            var infile = InitInputFileWrapper();
+            DocXFile infile = InitDocFile();
             DocxToTextConverter target = new DocxToTextConverter(infile);
-            InputFile actual;
+            TxtFile actual;
             actual = await target.ConvertFileAsync();
             Assert.IsTrue(File.Exists(actual.FullPath));
         }
-
-        /// <summary>
-        ///A test for DocxToTextConverter Constructor
-        ///</summary>
-        [TestMethod]
-        public void DocxToTextConverterConstructorTest() {
-            DocXFile infile = InitInputFileWrapper(); // TODO: Initialize to an appropriate value
-            DocxToTextConverter target = new DocxToTextConverter(infile);
-            Assert.AreEqual(target.Original.FullPath, infile.FullPath);
-        }
-
         /// <summary>
         ///A test for ConvertFile
         ///</summary>
         [TestMethod]
         public void ConvertFileTest() {
-            DocXFile infile = null; // TODO: Initialize to an appropriate value
+            DocXFile infile = InitDocFile();
             DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value
-            TxtFile expected = null; // TODO: Initialize to an appropriate value
             TxtFile actual;
             actual = target.ConvertFile();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(File.Exists(actual.FullPath));
         }
-
         /// <summary>
-        ///A test for ConvertFileAsync
+        ///A test for DocxToTextConverter Constructor
         ///</summary>
         [TestMethod]
-        public void ConvertFileAsyncTest1() {
-            DocXFile infile = null; // TODO: Initialize to an appropriate value
-            DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value
-            Task<TxtFile> expected = null; // TODO: Initialize to an appropriate value
-            Task<TxtFile> actual;
-            actual = target.ConvertFileAsync();
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        public void DocxToTextConverterConstructorTest() {
+            DocXFile infile = InitDocFile(); // TODO: Initialize to an appropriate value
+            DocxToTextConverter target = new DocxToTextConverter(infile);
+            Assert.AreEqual(target.Original.FullPath, infile.FullPath);
         }
+
+
     }
 }

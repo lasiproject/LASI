@@ -126,7 +126,7 @@ namespace LASI.Core.Tests
             target.ModifyWith(adv);
             Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
             target.ModifyWith(adv);
-            Assert.AreEqual(adv.    Modifies, target);
+            Assert.AreEqual(adv.Modifies, target);
         }
 
     }

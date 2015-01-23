@@ -21,6 +21,7 @@ namespace LASI.Utilities.SupportTypes
         /// <param name="value">The <see cref="Option{T}" />.</param>
         /// <returns>A singleton sequence containing the specified element or en empty sequence if the element is <c>null</c>.</returns>
         public static Option<T> ToOption<T>(this Option<T> option) => option;
+        public static Option<T> None<T>() => Option<T>.NoneOfT;
     }
 
     public abstract class Option<T> : IEnumerable<T>, IEquatable<Option<T>>
@@ -60,12 +61,11 @@ namespace LASI.Utilities.SupportTypes
         /// Gets a value indicating if the Option has a value.
         /// </summary>
         public abstract bool HasValue { get; }
-
         internal static Option<T> FromValue(T value) => value == null ? NoneOfT : new Some(value);
         /// <summary>
         /// The None case for Options representing a possible value of type <typeparamref name="T"/>
         /// </summary>
-        private static readonly Option<T> NoneOfT = new None();
+        internal static readonly Option<T> NoneOfT = new None();
         protected abstract IEnumerator<T> GetEnumerator();
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 

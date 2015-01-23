@@ -111,8 +111,10 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\IMatchQueryExpressionEnabled.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchToEnumerableProvider.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />

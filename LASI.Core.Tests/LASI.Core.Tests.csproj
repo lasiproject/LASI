@@ -113,6 +113,8 @@
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
+    <Compile Include="LASI\UnitTests\TestAttributes.cs" />
+    <Compile Include="PatternMatching\LexicalSpecific\MatchToEnumerableProviderTest.cs" />
     <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
