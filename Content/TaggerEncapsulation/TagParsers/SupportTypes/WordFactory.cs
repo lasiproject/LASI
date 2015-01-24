@@ -32,6 +32,7 @@ namespace LASI.Content
         /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
         public Word Create(TaggedText taggedText) {
+            // TODO: Change this to not return null under any circumstances.
             if (string.IsNullOrWhiteSpace(taggedText.Text)) { return null; }
             try {
                 var wordCreator = context[taggedText.Tag];

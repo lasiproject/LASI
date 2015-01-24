@@ -85,7 +85,7 @@ namespace LASI.Content
                          select chunk.Trim();
             SentenceEnding sentenceEnding = null;
             foreach (var chunk in chunks.Where(chunk => !chunk.IsNullOrWhiteSpace() && chunk.Contains('/'))) {
-                char token = SkipToNextElement(chunk);
+                char? token = SkipToNextElement(chunk);
                 if (token == ' ') {
                     var currentPhrase = ParsePhrase(new TaggedText(text: chunk.Substring(chunk.IndexOf(' ')), tag: chunk.Substring(0, chunk.IndexOf(' '))));
                     if (currentPhrase.Words.Any(word => !word.Text.IsNullOrWhiteSpace()))
@@ -98,7 +98,7 @@ namespace LASI.Content
 
                 } else if (token == '/') {
                     var words = CreateWords(chunk);
-                    if (words.Any()) {
+                    if (words.First() != null) {
                         if (words.Any(word => word is DoubleQuote || word is SingleQuote)) {
                             accumulatedPhrases.Add(new SymbolPhrase(words));
                             var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count));
@@ -132,8 +132,8 @@ namespace LASI.Content
                 .Select(sentence => sentence.Replace("<enumeration>", "").Replace("</enumeration>", ""));
         }
 
-        private static char SkipToNextElement(string chunk) {
-            return chunk.Cast<char?>().SkipWhile(c => c != ' ' && c != '/').FirstOrDefault() ?? '~';
+        private static char? SkipToNextElement(string chunk) {
+            return chunk.Cast<char?>().SkipWhile(c => c != ' ' && c != '/').FirstOrDefault();
         }
 
 
