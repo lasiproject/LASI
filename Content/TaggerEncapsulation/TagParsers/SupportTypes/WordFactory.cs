@@ -19,7 +19,6 @@ namespace LASI.Content
     /// </summary>
     internal class WordFactory
     {
-
         /// <summary>
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
@@ -31,18 +30,21 @@ namespace LASI.Content
         /// </summary>
         /// <param name="taggedText">A Word or Punctuation string and its associated Part Of Speech tag.</param>
         /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
+        /// <exception cref="UnknownWordTagException"/>
+        /// <exception cref="EmptyWordTagException"/>
+        /// <exception cref="EmptyOrWhiteSpaceStringTaggedAsWordException"/>
         public Word Create(TaggedText taggedText) {
-            // TODO: Change this to not return null under any circumstances.
-            if (string.IsNullOrWhiteSpace(taggedText.Text)) {
+            if (string.IsNullOrWhiteSpace(taggedText.Text))
                 throw new EmptyOrWhiteSpaceStringTaggedAsWordException(taggedText.Tag);
-            }
             try {
                 var createWord = context[taggedText.Tag];
                 return createWord(taggedText.Text);
             } catch (EmptyWordTagException) {
-                return new UnknownWord(taggedText.Text);
+                throw;
             } catch (UnknownWordTagException) {
-                return taggedText.Tag.Length == 1 ? new Punctuator(taggedText.Text[0]) : new UnknownWord(taggedText.Text) as Word;
+                if (taggedText.Tag.Length == 1) // this is dubious
+                    return new Punctuator(taggedText.Text[0]);
+                throw;
             }
         }
 

@@ -221,15 +221,18 @@ namespace LASI.Content
             var parsedWords = new List<Word>();
             var wordExtractor = new TaggedWordExtractor();
 
-            var wordMapper = new WordFactory(wordTagset);
-            foreach (var element in GetTaggedWordStrings(text)) {
-                TaggedText? textTagPair = wordExtractor.Extract(element);
+            var factory = new WordFactory(wordTagset);
+            foreach (var taggedToken in GetTaggedWordStrings(text)) {
+                TaggedText? textTagPair = wordExtractor.Extract(taggedToken);
                 if (textTagPair.HasValue) {
                     var pair = textTagPair.Value;
                     try {
-                        parsedWords.Add(wordMapper.Create(pair));
+                        parsedWords.Add(factory.Create(pair));
+                    } catch (EmptyWordTagException x) {
+                        Output.WriteLine($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
+                        parsedWords.Add(new UnknownWord(pair.Text));
                     } catch (UnknownWordTagException x) {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {2}", x.Message, pair.Text, element);
+                        Output.WriteLine($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
                         parsedWords.Add(new UnknownWord(pair.Text));
                     } catch (EmptyOrWhiteSpaceStringTaggedAsWordException x) {
                         Output.WriteLine("\n" + x.Message + "\nDiscarding");
