@@ -2,19 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using LASI.UnitTests;
 
 namespace LASI.Utilities.Tests
 {
     [TestClass]
     public class OptionTest
     {
-        private sealed class ExpectedInvalidOperationExceptionAttribute : ExpectedExceptionBaseAttribute
-        {
-            protected override void Verify(Exception exception) {
-                RethrowIfAssertException(exception);
-                Assert.IsInstanceOfType(exception, typeof(InvalidOperationException));
-            }
-        }
         [TestMethod]
         public void ValueTest1() {
             Option<string> target = "str".ToOption();

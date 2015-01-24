@@ -36,7 +36,7 @@ namespace LASI.WebApp.Controllers
         private class DocumentUploadFormDataStreamProvider : MultipartFormDataStreamProvider
         {
             public DocumentUploadFormDataStreamProvider(string directory) : base(directory) { }
-            public override string GetLocalFileName(HttpContentHeaders headers) => headers.ContentDisposition.FileName.RemoveSubstrings("\"");
+            public override string GetLocalFileName(HttpContentHeaders headers) => headers.ContentDisposition.FileName.Replace("\"", "");
         }
 
         private HttpResponseMessage Failure => Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, "The request was not in the correct format.");

@@ -68,9 +68,11 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="ConfigBase.cs" />
     <Compile Include="OptionExtensions.cs" />
     <Compile Include="CharacterExtensions.cs" />
     <Compile Include="Config.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="SupportTypes\Pair.cs" />
     <Compile Include="Weight.cs" />
     <Compile Include="ExceptionExtensions.cs" />
+    <Compile Include="XmlConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

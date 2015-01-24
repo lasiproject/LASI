@@ -71,59 +71,65 @@ namespace LASI.Content
             bool hasBulletOrHeading;
             var sentences = SplitIntoSentences(paragraph, out hasBulletOrHeading).Select(sentence => sentence.Trim());
             foreach (var sentence in sentences.Where(sentence => !sentence.IsNullOrWhiteSpace())) {
-                var parsedClauses = new List<Clause>();
-                var parsedPhrases = new List<Phrase>();
-                var chunks = from chunk in sentence.SplitRemoveEmpty('[', ']')
-                             where !chunk.IsNullOrWhiteSpace()
-                             select chunk.Trim();
-                SentenceEnding sentenceTerminator = null;
-                foreach (var chunk in chunks.Where(chunk => !chunk.IsNullOrWhiteSpace() && chunk.Contains('/'))) {
-                    char token = SkipToNextElement(chunk);
-                    if (token == ' ') {
-                        var currentPhrase = ParsePhrase(new TaggedText(text: chunk.Substring(chunk.IndexOf(' ')), tag: chunk.Substring(0, chunk.IndexOf(' '))));
-                        if (currentPhrase.Words.Any(word => !word.Text.IsNullOrWhiteSpace()))
-                            parsedPhrases.Add(currentPhrase);
-                        if (currentPhrase is SubordinateClauseBeginPhrase) {
-                            parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count - 1)));
-                            parsedPhrases = new List<Phrase>();
-                            parsedPhrases.Add(currentPhrase);
-                        }
-
-                    } else if (token == '/') {
-                        var words = CreateWords(chunk);
-                        if (words.First() != null) {
-                            if (words.Any(word => word is DoubleQuote || word is SingleQuote)) {
-                                parsedPhrases.Add(new SymbolPhrase(words));
-                                parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
-                                parsedPhrases = new List<Phrase>();
-                            } else {
-                                if (words.All(word => word is Conjunction) || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
-                                    parsedPhrases.Add(new ConjunctionPhrase(words));
-                                } else if (words.Count == 1 && words[0] is SentenceEnding) {
-                                    sentenceTerminator = words.First() as SentenceEnding;
-                                    parsedClauses.Add(new Clause(parsedPhrases.Take(parsedPhrases.Count)));
-                                    parsedPhrases = new List<Phrase>();
-                                } else if (words.All(word => word is Punctuator) || words.All(word => word is Punctuator || word is Conjunction)) {
-                                    parsedPhrases.Add(new SymbolPhrase(words));
-                                } else {
-                                    parsedPhrases.Add(new UnknownPhrase(words));
-                                }
-                            }
-                        }
-                    }
-
-                }
-                parsedSentences.Add(new Sentence(parsedClauses, sentenceTerminator));
+                var parsedSentence = BuildSentence(sentence);
+                parsedSentences.Add(parsedSentence);
             }
             return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default);
         }
 
+        private Sentence BuildSentence(string sentence) {
+            var accumulatedClauses = new List<Clause>();
+            var accumulatedPhrases = new List<Phrase>();
+            var chunks = from chunk in sentence.SplitRemoveEmpty('[', ']')
+                         where !chunk.IsNullOrWhiteSpace()
+                         select chunk.Trim();
+            SentenceEnding sentenceEnding = null;
+            foreach (var chunk in chunks.Where(chunk => !chunk.IsNullOrWhiteSpace() && chunk.Contains('/'))) {
+                char token = SkipToNextElement(chunk);
+                if (token == ' ') {
+                    var currentPhrase = ParsePhrase(new TaggedText(text: chunk.Substring(chunk.IndexOf(' ')), tag: chunk.Substring(0, chunk.IndexOf(' '))));
+                    if (currentPhrase.Words.Any(word => !word.Text.IsNullOrWhiteSpace()))
+                        accumulatedPhrases.Add(currentPhrase);
+                    if (currentPhrase is SubordinateClauseBeginPhrase) {
+                        var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count - 1)); // create a new clause comprised of the accumulated phrases
+                        accumulatedClauses.Add(parsedClause);
+                        accumulatedPhrases = new List<Phrase> { currentPhrase }; // Reset the phrase accumulation list initializing it with the subordinate clause begin phrase.
+                    }
+
+                } else if (token == '/') {
+                    var words = CreateWords(chunk);
+                    if (words.Any()) {
+                        if (words.Any(word => word is DoubleQuote || word is SingleQuote)) {
+                            accumulatedPhrases.Add(new SymbolPhrase(words));
+                            var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count));
+                            accumulatedClauses.Add(parsedClause);
+                            accumulatedPhrases = new List<Phrase>();
+                        } else {
+                            if (words.All(word => word is Conjunction) || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
+                                accumulatedPhrases.Add(new ConjunctionPhrase(words));
+                            } else if (words.Count == 1 && words[0] is SentenceEnding) {
+                                sentenceEnding = words[0] as SentenceEnding;
+                                accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
+                                accumulatedPhrases = new List<Phrase>();
+                            } else if (words.All(word => word is Punctuator) || words.All(word => word is Punctuator || word is Conjunction)) {
+                                accumulatedPhrases.Add(new SymbolPhrase(words));
+                            } else {
+                                accumulatedPhrases.Add(new UnknownPhrase(words));
+                            }
+                        }
+                    }
+                }
+
+            }
+            var parsedSentence = new Sentence(accumulatedClauses, sentenceEnding);
+            return parsedSentence;
+        }
 
         private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading) {
             hasBulletOrHeading = paragraph.Contains("<enumeration>");
             return paragraph
                 .SplitRemoveEmpty("<sentence>", "</sentence>")
-                .Select(s => s.RemoveSubstrings("<enumeration>", "</enumeration>"));
+                .Select(sentence => sentence.Replace("<enumeration>", "").Replace("</enumeration>", ""));
         }
 
         private static char SkipToNextElement(string chunk) {

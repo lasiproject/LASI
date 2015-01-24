@@ -17,9 +17,9 @@ namespace LASI.Core
         private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source) {
             var data = GetVerbWiseRelationships(source);
             return from svs in data
-                   let dataPoint = new {
-                       Key =
-                       string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
+                   let dataPoint = new
+                   {
+                       Key = string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
                        (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
                        (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
                        Value = (float)Math.Round(svs.Weight, 2)

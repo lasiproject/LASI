@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace LASI.Utilities.SupportTypes
 {
+    /// <summary>
+    /// Provides static facilities for the creation of optional values.
+    /// </summary>
     public static class Option
     {
         /// <summary>
@@ -21,11 +24,39 @@ namespace LASI.Utilities.SupportTypes
         /// <param name="value">The <see cref="Option{T}" />.</param>
         /// <returns>A singleton sequence containing the specified element or en empty sequence if the element is <c>null</c>.</returns>
         public static Option<T> ToOption<T>(this Option<T> option) => option;
+        /// <summary>
+        /// Returns the None Option value for the given type.
+        /// </summary>
+        /// <typeparam name="T">The type for which to retrieve the corresponding None option.</typeparam>
+        /// <returns>The None Option value for the given type.</returns>
         public static Option<T> None<T>() => Option<T>.NoneOfT;
+        /// <summary>
+        /// Creates an Option&lt;<typeparamref name="T"/>&gt; which wraps the given value. 
+        /// Returns an Option of Some&lt;<typeparamref name="T"/>&gt; if <paramref name="value"/> is not <c>null</c>;
+        /// otherwise, the None&lt;<typeparamref name="T"/>&gt; singleton.
+        /// </summary>
+        /// <typeparam name="T">The type of the value being wrapped.</typeparam>
+        /// <param name="value">The value to wrap.</param>
+        /// <returns>An Option of Some&lt;<typeparamref name="T"/>&gt; if <paramref name="value"/> is not <c>null</c>;
+        /// otherwise, the None&lt;<typeparamref name="T"/>&gt; singleton.</returns>
+        public static Option<T> Create<T>(T value) => Option<T>.FromValue(value);
     }
-
+    /// <summary>
+    /// A class used to represent a value which may or may not be present in a valid state.
+    /// </summary>
+    /// <remarks>Instances of this type can be used to represent values whose presence or absense does impact validity. 
+    /// That is, they not may or may not be specified. Instances of this type either hold a value of type <typeparamref name="T"/> or ARE the singleton <see cref="None"/> instance for their respective <see cref="Option{T}"/>.
+    /// </remarks>
+    /// <typeparam name="T">The type of the optional value.</typeparam>
     public abstract class Option<T> : IEnumerable<T>, IEquatable<Option<T>>
     {
+        /// <summary>
+        /// Transforms the <see cref="Option"/>&lt;T&gt; into an <see cref="Option"/>&lt;<typeparamref name="TResult"/>&gt; by applying the given projection to the Option's value if present,
+        /// or returning the <see cref="Option"/>&lt;<typeparamref name="TResult"/>&gt;.<see cref="None"/> if is it is not.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         public abstract Option<TResult> Select<TResult>(Func<T, TResult> selector);
 
         public abstract Option<TResult> SelectMany<TResult>(Func<T, Option<TResult>> selector);
@@ -65,6 +96,15 @@ namespace LASI.Utilities.SupportTypes
         /// <summary>
         /// The None case for Options representing a possible value of type <typeparamref name="T"/>
         /// </summary>
+        /// <remarks>
+        /// There is exactly on instance of None for every parameterization of <see cref="Option{T}"/>.
+        /// Therefore, if a value of <see cref="Option{T}"/> is an instance of None. The following are equivalent:
+        /// <list><item>
+        /// value <c>is</c> <see cref="Option{T}.None"/></item><item>
+        /// value.Equals<see cref="Option{T}.None"/> (or value <c>==</c> <see cref="Option{T}.None"/>)</item><item>
+        /// <c>object.ReferenceEquals(value, <see cref="Option{T}.None"/>)</c></item>
+        ///</list>
+        /// </remarks>
         internal static readonly Option<T> NoneOfT = new None();
         protected abstract IEnumerator<T> GetEnumerator();
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -89,7 +129,18 @@ namespace LASI.Utilities.SupportTypes
         public static bool operator ==(T left, Option<T> right) => right is Some && right.Value.Equals(left);
 
         public static bool operator !=(T left, Option<T> right) => !(left == right);
-
+        /// <summary>
+        /// Represents <see cref="Option{T}"/>s that do not have a value.
+        /// </summary>
+        /// <remarks>
+        /// There is exactly on instance of None for every parameterization of <see cref="Option{T}"/>.
+        /// Therefore, if a value of <see cref="Option{T}"/> is an instance of None. The following are equivalent:
+        /// <list><item>
+        /// value <c>is</c> <see cref="Option{T}.None"/></item><item>
+        /// value.Equals<see cref="Option{T}.None"/> (or value <c>==</c> <see cref="Option{T}.None"/>)</item><item>
+        /// <c>object.ReferenceEquals(value, <see cref="Option{T}.None"/>)</c></item>
+        ///</list>
+        /// </remarks>
         private sealed class None : Option<T>
         {
             public override Option<TResult> Select<TResult>(Func<T, TResult> selector) => Option<TResult>.NoneOfT;
@@ -139,7 +190,6 @@ namespace LASI.Utilities.SupportTypes
             internal Some(T value) { Value = value; }
 
             internal Some(Some other) { Value = other.Value; }
-
         }
     }
 }

@@ -111,10 +111,8 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\Termification\Tests.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\TokenBased.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\IMatchQueryExpressionEnabled.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchToEnumerableProvider.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
@@ -153,7 +151,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributable.cs" />
     <Compile Include="LexicalStructures\UnderpinningTypes\IAggregateLexical.cs" />
-    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchToResult.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchTTResult.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchExtensions.cs" />
     <Compile Include="LexicalStructures\SymbolsAndPunctuators\IPairedPunctuator.cs" />
     <Compile Include="Analysis\LookupAndComparison\EntityClassificationExtensions.cs" />

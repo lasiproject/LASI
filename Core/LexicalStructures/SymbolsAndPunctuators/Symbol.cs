@@ -14,17 +14,16 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Symbol class.
         /// </summary>
-        /// <param name="text">The text of the Symbol.</param>
-        public Symbol(string text) : base(text) { LiteralCharacter = text[0]; }
-        /// <summary>
-        /// Initializes a new instance of the Symbol class.
-        /// </summary>
         /// <param name="character">The single character of the Symbol.</param>
         public Symbol(char character) : base(character.ToString()) { LiteralCharacter = character; }
         /// <summary>
+        /// Initializes a new instance of the Symbol class.
+        /// </summary>
+        /// <param name="text">The text of the Symbol.</param>
+        public Symbol(string text) : this(text.First()) { }
+        /// <summary>
         /// Gets the literal punctuation character of the Punctuator.
         /// </summary>
-        public char LiteralCharacter { get; protected set; }
-
+        public char LiteralCharacter { get; }
     }
 }

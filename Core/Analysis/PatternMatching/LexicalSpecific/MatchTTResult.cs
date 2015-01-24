@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LASI.Utilities;
+using LASI.Utilities.SupportTypes;
 
 namespace LASI.Core.PatternMatching
 {
@@ -120,7 +122,7 @@ namespace LASI.Core.PatternMatching
     /// </para>
     /// </remarks>
     [DebuggerStepThrough]
-    public class Match<T, TResult> : MatchBase<T>, IMatchQueryExpressionEnabled<TResult> where T : class, ILexical
+    public class Match<T, TResult> : MatchBase<T> where T : class, ILexical
     {
         #region Constructors
 
@@ -134,7 +136,7 @@ namespace LASI.Core.PatternMatching
         /// </param>
         [DebuggerStepThrough]
         internal Match(T value, bool accepted) : base(value) {
-            Accepted = accepted;
+            Matched = accepted;
         }
 
         #endregion Constructors
@@ -174,8 +176,8 @@ namespace LASI.Core.PatternMatching
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical {
-            var typed = Value as TCase;
-            return new PredicatedMatch<T, TResult>(typed != null && predicate(typed), this);
+            var cast = Value as TCase;
+            return new PredicatedMatch<T, TResult>(cast != null && predicate(cast), this);
         }
 
         /// <summary>
@@ -211,9 +213,9 @@ namespace LASI.Core.PatternMatching
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical {
-            if (!Accepted && Value is TCase) { // Despite the nullary func, TCase must match.
+            if (!Matched && Value is TCase) { // Despite the nullary func, TCase must match.
                 result = func();
-                Accepted = true;
+                Matched = true;
             }
             return this;
         }
@@ -233,11 +235,11 @@ namespace LASI.Core.PatternMatching
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical {
-            if (!Accepted) {
-                var matched = Value as TCase;
-                if (matched != null) {
-                    result = func(matched);
-                    Accepted = true;
+            if (!Matched) {
+                var cast = Value as TCase;
+                if (cast != null) {
+                    result = func(cast);
+                    Matched = true;
                 }
             }
             return this;
@@ -272,9 +274,9 @@ namespace LASI.Core.PatternMatching
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical {
-            if (!Accepted && Value is TPattern) {
+            if (!Matched && Value is TPattern) {
                 this.result = result;
-                Accepted = true;
+                Matched = true;
             }
             return this;
         }
@@ -310,9 +312,9 @@ namespace LASI.Core.PatternMatching
         /// factory function.
         /// </returns>
         public TResult Result(Func<TResult> func) {
-            if (!Accepted) {
+            if (!Matched) {
                 result = func();
-                Accepted = true;
+                Matched = true;
             }
             return result;
         }
@@ -329,9 +331,9 @@ namespace LASI.Core.PatternMatching
         /// factory function.
         /// </returns>
         public TResult Result(Func<T, TResult> func) {
-            if (Value != null && !Accepted) {
+            if (Value != null && !Matched) {
                 result = func(Value);
-                Accepted = true;
+                Matched = true;
             }
             return result;
         }
@@ -347,9 +349,9 @@ namespace LASI.Core.PatternMatching
         /// The result of the first successful match or supplied default value. 
         /// </returns>
         public TResult Result(TResult defaultValue) {
-            if (!Accepted) {
+            if (!Matched) {
                 result = defaultValue;
-                Accepted = true;
+                Matched = true;
             }
             return result;
         }
@@ -362,24 +364,12 @@ namespace LASI.Core.PatternMatching
 
         #endregion Fields
 
-        #region Type Compatability
-        internal Utilities.SupportTypes.Option<TResult> ResultOption() => Accepted ? Utilities.SupportTypes.Option.ToOption(result) : Utilities.SupportTypes.Option.None<TResult>();
+        #region Monadic Operators over Match<T, TResult>
+        public Option<TProjection> Select<TProjection>(Func<TResult, TProjection> selector) => from result in Matched ? result.ToOption() : Option.None<TResult>()
+                                                                                               select selector(result);
+        public Option<TProjection> SelectMany<TProjection>(Func<TResult, Option<TProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
+        //public Option<TProjection> SelectMany<TProjection, TOption>(Func<TResult, Option<TOption>> optionSelector, Func<TResult, TOption, TProjection> projection) => optionSelector(result).Select(projection.Apply(result)(this.Select(projection)));
 
-        public IMatchQueryExpressionEnabled<TResult> Where(object dummy) {
-            return this;
-        }
-
-        public IEnumerable<TResult> Select<TX>(Func<TResult, TX> f) {
-            return ResultOption();
-        }
-
-        public IEnumerable<TX> SelectMany<TX>(Func<IMatchQueryExpressionEnabled<TResult>, IEnumerable<TX>> f) {
-            return f(this);
-        }
-
-        public IEnumerable<TX> SelectMany<TX>(Func<Match<ILexical, TResult>, TX> f) {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

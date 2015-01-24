@@ -20,10 +20,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the word.</param>
         protected Word(string text) {
-#if DEBUG
             if (text.Contains(' '))
-                throw new ArgumentException("The text of a word may not contain word separators (e.g ' '", "text");
-#endif
+                throw new ArgumentException("The text of a word may not contain white space");
             Text = text;
             Weight = 1;
             MetaWeight = 1;
@@ -43,7 +41,7 @@ namespace LASI.Core
         /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying Noun and its text content.</returns>
-        public override string ToString() =>$"{this.GetType().Name } \"{Text}\"";
+        public override string ToString() => $"{this.GetType().Name } \"{Text}\"";
 
         #endregion
 
@@ -52,7 +50,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the text content of the word instance.
         /// </summary>
-        public string Text { get; protected set; }
+        public string Text { get; }
 
         /// <summary>
         /// Gets the document instance to which the word belongs.

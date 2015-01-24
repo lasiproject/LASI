@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core
 {
+    using static DeterminerKind;
     /// <summary>
     /// Represents a Determiner word such as "the" or "a"
     /// </summary>
@@ -20,25 +21,17 @@ namespace LASI.Core
         public Determiner(string text)
             : base(text) {
             // TODO: Improve this to handle contextual cases. Need to analyse tagger output first.
-            if (string.Compare(text, "the", true, System.Globalization.CultureInfo.InvariantCulture) == 0)
-                DeterminerKind = DeterminerKind.Definite;
-            else
-                DeterminerKind = DeterminerKind.Indefinite;
+
+            DeterminerKind = text.EqualsIgnoreCase("the") ? Definite : Indefinite;
         }
         /// <summary>
         /// Gets or sets the Entity Determined by the Determiner.
         /// </summary>
-        public virtual IEntity Determines {
-            get;
-            set;
-        }
+        public IEntity Determines { get; set; }
         /// <summary>
         /// Gets the DeterminerKind value of the current instance.
         /// </summary>
-        public DeterminerKind DeterminerKind {
-            get;
-            protected set;
-        }
+        public virtual DeterminerKind DeterminerKind { get; }
 
     }
 }

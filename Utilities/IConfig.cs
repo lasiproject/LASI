@@ -9,9 +9,7 @@ namespace LASI.Utilities
 {
     public interface IConfig
     {
-        string this[string key] { get; }
-        string this[string key, string defaultValue] { get; }
-        string this[string key, StringComparison stringComparison] { get; }
-        string this[string key, StringComparison stringComparison, string defaultValue] { get; }
+        string this[string name] { get; }
+        string this[string name, StringComparison stringComparison] { get; }
     }
 }

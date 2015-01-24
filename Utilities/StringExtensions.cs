@@ -33,7 +33,7 @@ namespace LASI
         /// An array whose elements contain the nonempty substrings in this string that are delimited
         /// by one or more characters in separator.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params char[] seperator) {
             Validator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
@@ -48,7 +48,7 @@ namespace LASI
         /// An array whose elements contain the nonempty substrings in this string that are delimited
         /// by one or more characters in separator.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params string[] seperator) {
             Validator.ThrowIfNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
@@ -61,8 +61,8 @@ namespace LASI
         /// <param name="remove">Zero or more substrings whose occurrences will be removed.</param>
         /// <returns>A new string in which all occurrences of any of the specified strings
         /// in the current instance have been removed.</returns>         
-        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
         public static string RemoveSubstrings(this string value, params string[] remove) {
             Validator.ThrowIfNull(value, "value");
             if (remove.Contains(string.Empty)) {
@@ -78,13 +78,13 @@ namespace LASI
         /// in the current instance are replaced with another specified Unicode character.
         /// </summary>
         /// <param name="value">The string to filter.</param>
-        /// <param name="remove">Zero or more characters to remove from the string.</param>
+        /// <param name="anyOf">Zero or more characters to remove from the string.</param>
         /// <returns>A new string in which all occurrences of any of the specified Unicode characters
         /// in the current instance are replaced with another specified Unicode character.</returns>  
-        /// <exception cref="System.ArgumentNullException">Thrown when value is null.</exception>
-        public static string RemoveElements(this string value, params char[] remove) {
+        /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
+        public static string RemoveAnyOf(this string value, params char[] anyOf) {
             Validator.ThrowIfNull(value, "value");
-            return RemoveSubstrings(value, remove.Select(c => c.ToString()).ToArray());
+            return RemoveSubstrings(value, anyOf.Select(c => c.ToString()).ToArray());
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace LASI.Core.PatternMatching
         /// <summary>
         /// Gets or sets the value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
-        protected bool Accepted { get; set; }
+        protected bool Matched { get; set; }
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>

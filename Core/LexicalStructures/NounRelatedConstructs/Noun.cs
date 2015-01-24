@@ -57,18 +57,9 @@ namespace LASI.Core
         /// sets its owner to be the Noun. If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
+        public virtual void AddPossession(IPossessable possession) {
             possessions = possessions.Add(possession);
             possession.Possesser = this;
-        }
-
-        private void EstablishKind() {
-            if (Text.Contains('<')) {
-                System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"<([^>]+)>");
-                var found = regex.Match(Text).Value ?? string.Empty;
-                var txt = Text;
-                Text = found.Length > 0 ? new string(txt.Skip(found.Length).TakeWhile(c => c != '<').ToArray()) : txt;
-            }
         }
 
         #endregion Methods

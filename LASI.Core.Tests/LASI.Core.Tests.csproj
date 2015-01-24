@@ -114,7 +114,6 @@
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
     <Compile Include="LASI\UnitTests\TestAttributes.cs" />
-    <Compile Include="PatternMatching\LexicalSpecific\MatchToEnumerableProviderTest.cs" />
     <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
@@ -165,8 +164,10 @@
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />
     <Compile Include="SymbolTest.cs" />
+    <Compile Include="TestAttributes\CustomizedExpectedExceptionBaseAttribute.cs" />
     <Compile Include="TestAttributes\ExpectedFileNotFoundExceptionAttribute.cs" />
     <Compile Include="TestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
+    <Compile Include="TestAttributes\ExpectedInvalidOperationExceptionAttribute.cs" />
     <Compile Include="TestHelpers\EnumerableAssert.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
@@ -203,6 +204,7 @@
   <ItemGroup>
     <Folder Include="Analysis\Binding\Experimental\" />
     <Folder Include="Analysis\RelationshipLookups\Helpers\" />
+    <Folder Include="PatternMatching\LexicalSpecific\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

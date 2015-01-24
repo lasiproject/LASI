@@ -146,7 +146,7 @@ namespace LASI.Core.PatternMatching
         /// <returns>
         /// A Match&lt;T, R&gt; representing the now result yielding Match expression. 
         /// </returns>
-        public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Accepted);
+        public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Matched);
 
         public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Yield<TResult>().Case(f);
 
@@ -225,8 +225,8 @@ namespace LASI.Core.PatternMatching
         /// The Match&lt;T&gt; describing the Match expression so far. 
         /// </returns>
         public Match<T> Case<TCase>(Action action) where TCase : class, ILexical {
-            if (!Accepted && Value is TCase) {
-                Accepted = true;
+            if (!Matched && Value is TCase) {
+                Matched = true;
                 action();
             }
             return Case((TCase t) => action());
@@ -248,10 +248,10 @@ namespace LASI.Core.PatternMatching
         /// </returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical {
             if (Value != null) {
-                if (!Accepted) {
+                if (!Matched) {
                     var matched = Value as TCase;
                     if (matched != null) {
-                        Accepted = true;
+                        Matched = true;
                         action(matched);
                     }
                 }
@@ -270,7 +270,7 @@ namespace LASI.Core.PatternMatching
         /// The function to invoke if no matches in the expression succeeded. 
         /// </param>
         public void Default(Action action) {
-            if (!Accepted)
+            if (!Matched)
                 action();
         }
 
@@ -281,7 +281,7 @@ namespace LASI.Core.PatternMatching
         /// The function to invoke on the match Case value if no matches in the expression succeeded. 
         /// </param>
         public void Default(Action<T> action) {
-            if (!Accepted && Value != null) {
+            if (!Matched && Value != null) {
                 action(Value);
             }
         }

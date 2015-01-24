@@ -38,11 +38,11 @@ namespace LASI.WebApp
         private static IAccountProvider SetupUserAccounts(HttpApplication app) {
             switch (ConfigurationManager.AppSettings["AccountSource"]) {
                 case "LocalFileSystem":
-                    return new FileSystemAccountProvider(app);
+                return new FileSystemAccountProvider(app);
                 case "MongoDb":
-                    return new MongoDbAccountProvider(app);
+                return new MongoDbAccountProvider(app);
                 default:
-                    return new MongoDbAccountProvider(app);
+                return new MongoDbAccountProvider(app);
             }
         }
 

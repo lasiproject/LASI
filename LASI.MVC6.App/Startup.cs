@@ -13,6 +13,8 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using LASI.MVC6.App.Models;
+using LASI.Utilities;
+using System.IO;
 
 namespace LASI.MVC6.App
 {
@@ -24,6 +26,12 @@ namespace LASI.MVC6.App
                 .AddJsonFile("config.json")
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
+
+            //System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
+            Interop.ResourceManagement.UsageManager.SetPerformanceMode(Interop.ResourceManagement.PerformanceMode.High);
+
+            Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
+
         }
 
         public IConfiguration Configuration { get; set; }
