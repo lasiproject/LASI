@@ -95,27 +95,24 @@ namespace LASI.Content
                         accumulatedClauses.Add(parsedClause);
                         accumulatedPhrases = new List<Phrase> { currentPhrase }; // Reset the phrase accumulation list initializing it with the subordinate clause begin phrase.
                     }
-
                 } else if (token == '/') {
                     var words = CreateWords(chunk);
-                    if (words.First() != null) {
-                        if (words.Any(word => word is DoubleQuote || word is SingleQuote)) {
-                            accumulatedPhrases.Add(new SymbolPhrase(words));
-                            var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count));
-                            accumulatedClauses.Add(parsedClause);
+                    if (words.Any(word => word is DoubleQuote || word is SingleQuote)) {
+                        accumulatedPhrases.Add(new SymbolPhrase(words));
+                        var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count));
+                        accumulatedClauses.Add(parsedClause);
+                        accumulatedPhrases = new List<Phrase>();
+                    } else {
+                        if (words.All(word => word is Conjunction) || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
+                            accumulatedPhrases.Add(new ConjunctionPhrase(words));
+                        } else if (words.Count == 1 && words[0] is SentenceEnding) {
+                            sentenceEnding = words[0] as SentenceEnding;
+                            accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
                             accumulatedPhrases = new List<Phrase>();
+                        } else if (words.All(word => word is Punctuator) || words.All(word => word is Punctuator || word is Conjunction)) {
+                            accumulatedPhrases.Add(new SymbolPhrase(words));
                         } else {
-                            if (words.All(word => word is Conjunction) || (words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)) {
-                                accumulatedPhrases.Add(new ConjunctionPhrase(words));
-                            } else if (words.Count == 1 && words[0] is SentenceEnding) {
-                                sentenceEnding = words[0] as SentenceEnding;
-                                accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
-                                accumulatedPhrases = new List<Phrase>();
-                            } else if (words.All(word => word is Punctuator) || words.All(word => word is Punctuator || word is Conjunction)) {
-                                accumulatedPhrases.Add(new SymbolPhrase(words));
-                            } else {
-                                accumulatedPhrases.Add(new UnknownPhrase(words));
-                            }
+                            accumulatedPhrases.Add(new UnknownPhrase(words));
                         }
                     }
                 }
@@ -234,6 +231,8 @@ namespace LASI.Content
                     } catch (UnknownWordTagException x) {
                         Output.WriteLine("\n{0}\nText: {1}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {2}", x.Message, pair.Text, element);
                         parsedWords.Add(new UnknownWord(pair.Text));
+                    } catch (EmptyOrWhiteSpaceStringTaggedAsWordException x) {
+                        Output.WriteLine("\n" + x.Message + "\nDiscarding");
                     }
                 }
             }

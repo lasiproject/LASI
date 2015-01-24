@@ -33,15 +33,15 @@ namespace LASI.Content
         /// <returns>A new instance of the appropriate word type corresponding to the tag and containing the given text.</returns>
         public Word Create(TaggedText taggedText) {
             // TODO: Change this to not return null under any circumstances.
-            if (string.IsNullOrWhiteSpace(taggedText.Text)) { return null; }
+            if (string.IsNullOrWhiteSpace(taggedText.Text)) {
+                throw new EmptyOrWhiteSpaceStringTaggedAsWordException(taggedText.Tag);
+            }
             try {
-                var wordCreator = context[taggedText.Tag];
-                return wordCreator(taggedText.Text);
-            }
-            catch (EmptyWordTagException) {
+                var createWord = context[taggedText.Tag];
+                return createWord(taggedText.Text);
+            } catch (EmptyWordTagException) {
                 return new UnknownWord(taggedText.Text);
-            }
-            catch (UnknownWordTagException) {
+            } catch (UnknownWordTagException) {
                 return taggedText.Tag.Length == 1 ? new Punctuator(taggedText.Text[0]) : new UnknownWord(taggedText.Text) as Word;
             }
         }

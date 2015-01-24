@@ -10,14 +10,14 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an unknown Word Tag
     /// </summary>
     [Serializable]
-    public sealed class UnknownWordTagException : POSTagException
+    public sealed class UnknownWordTagException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
         internal UnknownWordTagException(string posTagString)
-            : base(string.Format("The Word Level Tag \"{0}\" is not defined by the TagSet", posTagString)) {
+            : base($"The Word Level Tag \"{posTagString}\" is not defined by the TagSet") {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPOSException class with its message string set to message.
@@ -49,14 +49,14 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an unknown Phrase Tag
     /// </summary>
     [Serializable]
-    public sealed class UnknownPhraseTagException : POSTagException
+    public sealed class UnknownPhraseTagException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
         /// </summary>
         /// <param name="posTagString">A description of the error. The content of message is intended to be understood by humans.</param>
         public UnknownPhraseTagException(string posTagString)
-            : base(string.Format("The phrase tag {0}\nis not defined by the TagSet", posTagString)) {
+            : base($"The phrase tag {posTagString}\nis not defined by the TagSet") {
         }
         /// <summary>
         /// Initializes a new instance of the UnknownPhraseTypeException class with its message string set to message.
@@ -85,17 +85,53 @@ namespace LASI.Content
 
     }
     /// <summary>
+    /// The Exception that is thrown when attempting to parse a Word Tag with no associated text. Likely indicates a Tagger error.
+    /// </summary>
+    [Serializable]
+    public class EmptyOrWhiteSpaceStringTaggedAsWordException : TaggedSourceParsingException
+    {
+        /// <summary>
+        /// Initializes a new instance of the BlankWordException class.
+        /// </summary>
+        /// <param name="tagGivenToBlankWord">The Word Tag that was associated with a blank or empty piece of text.</param>
+        public EmptyOrWhiteSpaceStringTaggedAsWordException(string tagGivenToBlankWord)
+            : base($"An piece of whitespace was annotated with a Word Tag. Tag: {tagGivenToBlankWord}") { }
+        /// <summary>
+        /// Initializes a new instance of the EmptyOrWhiteSpaceStringTaggedAsWordException class with its message string set to message.
+        /// </summary>
+        /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
+        /// <param name="inner">
+        /// The exception that is the cause of the current exception. If the innerException
+        /// parameter is not null, the current exception is raised in a catch block that
+        /// handles the inner exception.
+        /// </param>
+        public EmptyOrWhiteSpaceStringTaggedAsWordException(string message, Exception inner) : base(message, inner) { }
+        /// <summary>
+        /// Initializes a new instance of the EmptyTagException class with the serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        /// <param name="context">
+        /// The object that holds the serialized object data about the exception being
+        /// thrown.</param>
+        protected EmptyOrWhiteSpaceStringTaggedAsWordException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+
+    /// <summary>
     /// The Exception that is thrown when attempting to parse an empty Word Tag
     /// </summary>
     [Serializable]
-    public sealed class EmptyWordTagException : POSTagException
+    public sealed class EmptyWordTagException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
         /// </summary>
         /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
         internal EmptyWordTagException(string wordText)
-            : base(string.Format("The tag for word: {0} is empty", wordText)) {
+            : base($"The tag for word: {wordText} is empty") {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
@@ -126,14 +162,14 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse empty Phrase Tag
     /// </summary>
     [Serializable]
-    public sealed class EmptyPhraseTagException : POSTagException
+    public sealed class EmptyPhraseTagException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
         /// </summary>
         /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
         internal EmptyPhraseTagException(string phraseText)
-            : base(string.Format("The tag for phrase: {0} is empty", phraseText)) {
+            : base($"The tag for phrase: {phraseText} is empty") {
         }
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string set to message.
@@ -165,14 +201,14 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an untagged word
     /// </summary>
     [Serializable]
-    public sealed class UntaggedWordException : POSTagException
+    public sealed class UntaggedWordException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
         /// <param name="wordText">A description of the error. The content of message is intended to be understood by humans.</param>
         internal UntaggedWordException(string wordText)
-            : base(string.Format("The word level token: {0} has no tag", wordText)) {
+            : base($"The word level token: {wordText} has no tag") {
         }
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
@@ -203,14 +239,14 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an untagged phrase
     /// </summary>
     [Serializable]
-    public sealed class UntaggedPhraseException : POSTagException
+    public sealed class UntaggedPhraseException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
         /// </summary>
         /// <param name="phraseText">A description of the error. The content of message is intended to be understood by humans.</param>
         internal UntaggedPhraseException(string phraseText)
-            : base(string.Format("The word level token: {0} has no tag", phraseText)) {
+            : base($"The word level token: {phraseText} has no tag") {
         }
         /// <summary>
         /// Initializes a new instance of the UntaggedElementException class with its message string set to message.
@@ -243,15 +279,13 @@ namespace LASI.Content
     /// <seealso cref="LASI.Content.TaggerEncapsulation.SharpNLPWordTagsetMap"/>
     /// </summary>
     [Serializable]
-    public sealed class UnmappedWordTypeException : POSTagException
+    public sealed class UnmappedWordTypeException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UnmappedWordConstructorException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        internal UnmappedWordTypeException(string message)
-            : base(message) {
-        }
+        internal UnmappedWordTypeException(string message) : base(message) { }
         /// <summary>
         /// Initializes a new instance of the UnmappedWordConstructorException class with its message string set to message.
         /// </summary>
@@ -281,15 +315,13 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to access the indexing tag for a LASI.Algorithm.Phrase Type (or constructor returning it) which is not known to the Tagset.
     /// </summary>
     [Serializable]
-    public sealed class UnmappedPhraseTypeException : POSTagException
+    public sealed class UnmappedPhraseTypeException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UnmappedPhraseTagException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        internal UnmappedPhraseTypeException(string message)
-            : base(message) {
-        }
+        internal UnmappedPhraseTypeException(string message) : base(message) { }
         /// <summary>
         /// Initializes a new instance of the UnmappedPhraseTagException class with its message string set to message.
         /// </summary>
@@ -320,7 +352,7 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an improperly delimited Phrase
     /// </summary>
     [Serializable]
-    public sealed class UndelimitedPhraseException : POSTagException
+    public sealed class UndelimitedPhraseException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UndelimitedPhraseException class with its message string set to message.
@@ -358,7 +390,7 @@ namespace LASI.Content
     /// The Exception that is thrown when attempting to parse an unknown clause tag.
     /// </summary>
     [Serializable]
-    public sealed class UnknownClauseTypeException : POSTagException
+    public sealed class UnknownClauseTypeException : TaggedSourceParsingException
     {
         /// <summary>
         /// Initializes a new instance of the UnknownClauseTypeException class with its message string set to message.
@@ -398,13 +430,13 @@ namespace LASI.Content
     /// If one encounters an exception not suited for one of its derrived types, a new exception class should be derrived from this class.
     /// </summary>
     [Serializable]
-    public abstract class POSTagException : NotSupportedException
+    public abstract class TaggedSourceParsingException : NotSupportedException
     {
         /// <summary>
         /// Initializes a new instance of the POSTagException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        protected POSTagException(string message)
+        protected TaggedSourceParsingException(string message)
             : base(message) {
         }
         /// <summary>
@@ -416,7 +448,7 @@ namespace LASI.Content
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        protected POSTagException(string message, Exception inner)
+        protected TaggedSourceParsingException(string message, Exception inner)
             : base(message, inner) {
         }
         /// <summary>
@@ -428,7 +460,7 @@ namespace LASI.Content
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        protected POSTagException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected TaggedSourceParsingException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
 
         }
