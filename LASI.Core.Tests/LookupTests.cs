@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
+using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.Core.Heuristics.Tests
 {

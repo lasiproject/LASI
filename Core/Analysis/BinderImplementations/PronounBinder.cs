@@ -1,13 +1,5 @@
-﻿using LASI;
-using LASI.Core;
-using LASI.Core.Heuristics;
-using LASI.Utilities;
-using LASI.Core.PatternMatching;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace LASI.Core.Binding

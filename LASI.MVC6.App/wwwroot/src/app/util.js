@@ -6,10 +6,10 @@
     var identity = function (x) { return x; };
 
     /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
-     * flatMap takes an array of items, projects each one to an array,using the provided
+     * flatMap takes an array of items, projects each one to an array, using the provided
      * collectionSelector function,
-     * and flattens the resulting array of arrays onto a single flat array.
-     * A second, optional function performs a projection on each element of the resulting flat array.
+     * and flattens the resulting array of arrays onto a single array.
+     * A second, optional function performs a projection on each element of the resulting array.
      * This function is analogous to SelectMany in C#, and flatMap in Scala.
      */
     if (!Array.prototype.hasOwnProperty('flatMap').call) {
@@ -70,11 +70,6 @@
     if (!Array.prototype.hasOwnProperty('average').call) {
         Array.prototype.average = function (valueSelector) {
             return this.sum(valueSelector || function (x) { return Number(x); }) / this.length;
-        };
-    }
-    if (!String.prototype.hasOwnProperty('formatAsPercent').call) {
-        String.prototype.formatAsPercent = function (num) {
-            return num.toString() + '%';
         };
     }
 }());

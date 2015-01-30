@@ -1,7 +1,6 @@
 ﻿using LASI.Core.Binding;
 using LASI.Core.Binding.Experimental;
 using LASI.Core.Reporting;
-using LASI.Core.PatternMatching;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;

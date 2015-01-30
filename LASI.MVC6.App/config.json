@@ -1,6 +1,6 @@
 ﻿{
     "Data": {
-        "DefaultConnection": { 
+        "DefaultConnection": {
             "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-LASI.MVC6.App-fe018c01-fee8-4175-aa3a-6f5810319774;Trusted_Connection=True;MultipleActiveResultSets=true"
         }
     },

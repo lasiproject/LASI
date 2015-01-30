@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Core
 {
+    using LASI.Utilities;
     using static DeterminerKind;
     /// <summary>
     /// Represents a Determiner word such as "the" or "a"

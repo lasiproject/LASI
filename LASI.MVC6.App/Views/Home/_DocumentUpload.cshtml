@@ -1,0 +1,45 @@
+﻿@using LASI.MVC6.App.Models;
+
+@model DocumentUploadModel
+<link rel="stylesheet" href="~/Content/App/Widgets/document-upload.css" />
+<div>
+    @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new
+    {
+        enctype = "multipart/form-data",
+        target = Model.UploadTarget,
+        @class = "form-inline",
+        id = "fileuploadform",
+    })) {
+        <div class="col-md-6">
+            <div class="progress">
+                <p id="progress-text" class="progress-bar-info">
+                    @Model.Message
+                </p>
+            </div>
+
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar text-aligned-progress-bar" style="max-width: 100%; width:@Model.Percentage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <div class="panel panel-primary">
+
+                <div class="panel-body">
+                    <div class="panel text-left">Your Docs</div>
+                    <div id="document-upload-list" class="list-group">
+                    </div>
+                </div>
+            </div>
+            <span class="btn btn-default btn-file" id="document-upload-button">
+                Browse for Docs <input type="file" name="fileuploadform" form="fileuploadform" multiple id="document-upload-input" accept=".txt,.pdf,.docx,.doc" />
+            </span>
+
+            <input type="submit" name="Submit" value="Upload" class="btn btn-default" form="fileuploadform" />
+
+
+
+            <iframe class="hidden" id=@Model.UploadTarget name=@Model.UploadTarget src=""></iframe>
+        </div>
+    }
+</div>
+
+@*<script src="~/Scripts/app/Widgets/document-upload.js" type="text/javascript"></script>*@

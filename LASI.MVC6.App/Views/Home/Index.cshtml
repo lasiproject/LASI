@@ -1,7 +1,7 @@
-﻿@{
+﻿@using LASI.MVC6.App.Models;
+@{
     ViewBag.Title = "Home Page";
 }
-
 <div class="jumbotron">
     <h1>ASP.NET 5</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
@@ -9,6 +9,15 @@
 </div>
 
 <div class="row">
+    <div id="main-content">
+        <div>
+            @Html.Partial("_DocumentUpload", new DocumentUploadModel
+       {
+           UploadTarget = "fileuploadtarget"
+       })
+        </div>
+    </div>
+
     <div class="col-md-4">
         <h2>This application consists of:</h2>
         <ul>

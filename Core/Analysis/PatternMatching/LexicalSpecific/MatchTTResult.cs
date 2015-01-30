@@ -4,7 +4,7 @@ using System.Diagnostics;
 using LASI.Utilities;
 using LASI.Utilities.SupportTypes;
 
-namespace LASI.Core.PatternMatching
+namespace LASI.Core.Analysis.PatternMatching
 {
     /// <summary>
     /// Provides for the representation and free form structuring of Type based Pattern Matching

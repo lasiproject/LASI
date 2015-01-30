@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities.Validation;
 
-namespace LASI
+namespace LASI.Utilities
 {
-    using Validator = Validator;
     /// <summary>
     /// Defines various useful methods for working with System.String instances.
     /// </summary>

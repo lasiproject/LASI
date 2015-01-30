@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.PatternMatching
+namespace LASI.Core.Analysis.PatternMatching
 {
     /// <summary>
     /// Represents a type for the representation and free form structuring of Type based Pattern Matching expressions 

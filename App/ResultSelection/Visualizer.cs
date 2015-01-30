@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using LASI.Core;
 using LASI.Core.Heuristics;
-using LASI.Core.PatternMatching;
 using LASI.Interop;
 using LASI.Utilities;
 
@@ -50,9 +49,9 @@ namespace LASI.App
 
         private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document) {
             switch (chartKind) {
-            case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
-            case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
-            default: return await GetNounWiseDataAsync(document);
+                case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
+                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+                default: return await GetNounWiseDataAsync(document);
             }
         }
 

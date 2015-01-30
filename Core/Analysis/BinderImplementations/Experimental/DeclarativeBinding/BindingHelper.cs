@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.PatternMatching
+namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
     static class BindingHelper
     {

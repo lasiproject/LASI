@@ -1,4 +1,4 @@
-﻿{
+{
     /* Click to learn more about project.json  http://go.microsoft.com/fwlink/?LinkID=517074 */
     "webroot": "wwwroot",
     "version": "1.0.0-*",
@@ -22,7 +22,9 @@
         "LASI.Core": "",
         "LASI.Content": "",
         "LASI.Interop": "",
-        "LASI.Utilities": ""
+        "LASI.Utilities": "",
+"qunit.TypeScript.DefinitelyTyped": "0.1.6",
+"google.visualization.TypeScript.DefinitelyTyped": "0.1.4"
     },
     "commands": {
         /* Change the port number when you are self hosting this application */

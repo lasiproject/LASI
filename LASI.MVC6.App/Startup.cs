@@ -81,8 +81,7 @@ namespace LASI.MVC6.App
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
         }

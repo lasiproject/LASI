@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
-using LASI.Core.PatternMatching;
+using LASI.Core.Analysis.PatternMatching;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 
 namespace LASI.Core

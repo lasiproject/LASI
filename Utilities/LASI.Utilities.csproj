@@ -72,12 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
-    <Compile Include="ConfigBase.cs" />
+    <Compile Include="CharExtensions.cs" />
     <Compile Include="OptionExtensions.cs" />
-    <Compile Include="CharacterExtensions.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="IConfig.cs" />
-    <Compile Include="JsonConfig.cs" />
     <Compile Include="SupportTypes\Option.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="SupportTypes\CustomComparer.cs" />
@@ -91,7 +87,6 @@
     <Compile Include="SupportTypes\Pair.cs" />
     <Compile Include="Weight.cs" />
     <Compile Include="ExceptionExtensions.cs" />
-    <Compile Include="XmlConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

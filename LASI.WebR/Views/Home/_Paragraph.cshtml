@@ -1,0 +1,7 @@
+﻿@model LASI.WebR.Models.ParagraphModel
+
+<p class="lexical-content-block @Model.Style.CssClass">
+    @foreach (var phraseModel in Model.PhraseModels) {
+        Html.RenderPartial("_Phrase", phraseModel);
+    }
+</p>

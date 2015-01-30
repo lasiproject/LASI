@@ -1,10 +1,7 @@
 ﻿using LASI.Core.Heuristics;
-using LASI.Utilities;
-using LASI.Core.PatternMatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Reporting;
 

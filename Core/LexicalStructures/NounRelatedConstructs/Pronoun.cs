@@ -1,11 +1,6 @@
-﻿using LASI.Core.PatternMatching;
-using LASI.Core.Heuristics;
-using LASI.Utilities;
-using System;
+﻿using LASI.Core.Heuristics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>

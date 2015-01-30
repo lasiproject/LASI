@@ -15,10 +15,7 @@ namespace LASI.Core
         /// Initializes a new instance of the ConflictingClauseRoleException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood by humans.</param>
-        public ConflictingClauseRoleException(string message)
-            : base(message) {
-
-        }
+        public ConflictingClauseRoleException(string message) : base(message) { }
         /// <summary>
         /// Initializes a new instance of the ConflictingClauseRoleException class with the serialized data.
         /// </summary>
@@ -28,9 +25,6 @@ namespace LASI.Core
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        protected ConflictingClauseRoleException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-
-        }
+        protected ConflictingClauseRoleException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 }

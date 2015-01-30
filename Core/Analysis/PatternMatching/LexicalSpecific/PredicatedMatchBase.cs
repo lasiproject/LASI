@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.PatternMatching
+namespace LASI.Core.Analysis.PatternMatching
 {
     /// <summary>
     /// Provides for the representation and free-form structuring of a non result yielding Match expression which is predicated by an arbitrary condition.

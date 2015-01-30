@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.PatternMatching;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
@@ -15,8 +14,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <param name="sentence">The sentence to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this Sentence sentence)
-        {
+        public static SequenceMatch Match(this Sentence sentence) {
             return new SequenceMatch(sentence);
         }
         /// <summary>
@@ -24,8 +22,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <param name="lexicalSequence">The sequence of to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence)
-        {
+        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) {
             return new SequenceMatch(lexicalSequence);
         }
     }
