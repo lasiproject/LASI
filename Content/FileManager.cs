@@ -314,21 +314,7 @@ namespace LASI.Content
             }
             return convertedFiles;
         }
-        public static async Task<IEnumerable<TxtFile>> ConvertAsNeededAsync(params InputFile[] files) {
-            ThrowIfUninitialized();
-            var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var file in await ConvertDocToTextAsync()) {
-                convertedFiles.Add(file);
-            }
-            foreach (var file in await ConvertDocxToTextAsync()) {
-                convertedFiles.Add(file);
-            }
-            foreach (var file in await ConvertPdfToTextAsync()) {
-                convertedFiles.Add(file);
-            }
-            return convertedFiles;
-        }
-
+          
         /// <summary>
         /// Converts all of the .docx files it receives into text files
         /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory
@@ -615,7 +601,7 @@ namespace LASI.Content
         /// <summary>
         /// Initializes a new instance of the ExtensionWrapperMap class.
         /// </summary>
-        /// <param name="unsupportedFormatHandling">The specifies the manner in which unsupported extensions are handled.</param>
+        /// <param name="unsupportedFileHandler">The specifies the manner in which unsupported extensions are handled.</param>
         public ExtensionWrapperMap(Func<string, InputFile> unsupportedFileHandler) {
             unsupportedHandler = unsupportedFileHandler;
         }

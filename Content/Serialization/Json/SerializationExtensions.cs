@@ -81,7 +81,7 @@ namespace LASI.Content.Serialization.Json
         /// <summary>
         /// Creates a Newtonsoft.Linq.JObject representation of the Adverbial.
         /// </summary>
-        /// <param name="verbal">The source Adverbial.</param>
+        /// <param name="adverbial">The source Adverbial.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the Adverbial.</returns>
         public static JObject ToJObject(this IAdverbial adverbial) {
             return new JObject(GetRoleIndependentProperties(adverbial))

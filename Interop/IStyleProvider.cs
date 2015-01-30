@@ -19,7 +19,6 @@ namespace LASI.Interop
     /// Motivation:
     /// This interface was defined to encourage a common patern in which lexical elements would be styled for display by indexing into the map. 
     /// For example in the LASI WebApp an implementation of this interface associates CSS classes with syntactic elements.
-    /// See <see cref="LASI.WebApp.SyntacticStyleMap"/> and <see cref="LASI.App.SyntacticColorMap"/> for a concrete examples.
     /// These implementations use the pattern matching facilities provided by the LASI infrastructure to provide a clean readable style mappings to various types.
     /// </remarks>
     public interface IStyleProvider<in TLexical, out TStylingArtifact> where TLexical : ILexical

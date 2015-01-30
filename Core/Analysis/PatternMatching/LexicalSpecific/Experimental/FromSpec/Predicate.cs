@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSpec
 {

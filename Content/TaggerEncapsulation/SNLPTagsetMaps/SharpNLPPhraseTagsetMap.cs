@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace LASI.Content.TaggerEncapsulation
 {
+    using LASI.Utilities;
     using PhraseCreator = System.Func<IEnumerable<LASI.Core.Word>, LASI.Core.Phrase>;
     /// <summary>
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates

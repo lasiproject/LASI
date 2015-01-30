@@ -257,9 +257,6 @@ namespace LASI.Utilities
         /// <typeparam name="T2">
         /// The type of the second argument of the function.
         /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
-        /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
         /// A new function, of the form (T1) => (T2) => TResult.
@@ -277,9 +274,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T3">
         /// The type of the third argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
@@ -302,9 +296,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T4">
         /// The type of the fourth argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
@@ -330,9 +321,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T5">
         /// The type of the fifth argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
@@ -361,9 +349,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T6">
         /// The type of the sixth argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
@@ -395,9 +380,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T7">
         /// The type of the seventh argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>
@@ -432,9 +414,6 @@ namespace LASI.Utilities
         /// </typeparam>
         /// <typeparam name="T8">
         /// The type of the eight argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
         /// </typeparam>
         /// <param name="fn">The function to curry.</param>
         /// <returns>

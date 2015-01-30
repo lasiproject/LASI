@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -52,7 +53,7 @@ namespace LASI.Core
                 throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{this.ToString()}");
             }
         }
-
+        
         public ILexical ObjectOfThePreposition { get { throw new NotImplementedException(); } }
 
         public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }

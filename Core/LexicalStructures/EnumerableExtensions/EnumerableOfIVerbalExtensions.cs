@@ -14,6 +14,11 @@ namespace LASI.Core
     /// <see cref="IVerbal"/>
     public static partial class LexicalEnumerable
     {
+        /// <summary>
+        /// Creates an <see cref="IAggregateVerbal"/> from the sequence of verbals.
+        /// </summary>
+        /// <param name="verbals">The sequence of verbals to aggregate.</param>
+        /// <returns>An <see cref="IAggregateVerbal"/> formed from the sequence of verbals.</returns>
         public static IAggregateVerbal ToAggregate(this IEnumerable<IVerbal> verbals) {
             return new AggregateVerbal(verbals);
         }

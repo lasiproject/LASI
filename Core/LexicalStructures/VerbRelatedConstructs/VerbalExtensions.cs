@@ -45,6 +45,7 @@ namespace LASI.Core
         /// Return a value indicating if the Verbal has any indirect objects bound to it which match the given predicate function.
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
+        /// <param name="predicate">The predicate to match indirect objects. </param>
         /// <returns> <c>true</c> if the Verbal has any indirect objects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
         public static bool HasIndirectObject(this IVerbal verbal, Func<IEntity, bool> predicate) => HasBoundEntity(verbal.IndirectObjects, predicate);
 
@@ -59,7 +60,7 @@ namespace LASI.Core
         /// Return a value indicating if the Verbal has any direct OR indirect objects bound to it which match the given predicate function.
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
-        /// <param name="predicate">The predicate to test match against.</param>
+        /// <param name="predicate">The predicate to test match objects.</param>
         /// <returns> <c>true</c> if the Verbal has any direct OR indirect objects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
         public static bool HasObject(this IVerbal verbal, Func<IEntity, bool> predicate) => verbal.HasDirectObject(predicate) || verbal.HasIndirectObject(predicate);
 
