@@ -186,24 +186,6 @@
     <Compile Include="JavaScriptTestLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
-      <Name>LASI.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>LASI.Interop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
-      <Name>LASI.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WebApp\LASI.WebApp.csproj">
-      <Project>{d9e607c7-e135-487c-b1b5-a6d087275b09}</Project>
-      <Name>LASI.WebApp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -233,6 +215,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\App\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\LASI.Core.csproj">
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Name>LASI.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApp\LASI.WebApp.csproj">
+      <Project>{d9e607c7-e135-487c-b1b5-a6d087275b09}</Project>
+      <Name>LASI.WebApp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

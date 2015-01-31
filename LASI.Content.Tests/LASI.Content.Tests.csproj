@@ -43,8 +43,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.33-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -80,13 +85,23 @@
     <Compile Include="TxtFileTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
+      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+      <Name>LASI.Interop</Name>
     </ProjectReference>
     <ProjectReference Include="..\LASI.Core.Tests\LASI.Core.Tests.csproj">
       <Project>{f4abc10c-0be9-4195-99e7-db027757ec6b}</Project>
@@ -96,11 +111,6 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

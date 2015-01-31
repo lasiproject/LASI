@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <Tailcalls>true</Tailcalls>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -68,6 +68,16 @@
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="Script.fsx" />
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Content\LASI.Content.csproj">
@@ -85,18 +95,6 @@
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\LASI.Utilities.csproj">
-      <Name>LASI.Utilities</Name>
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

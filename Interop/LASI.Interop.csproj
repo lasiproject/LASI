@@ -64,6 +64,9 @@
     <Compile Include="ResourceNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="LASI\Core\Interop\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
@@ -76,9 +79,6 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LASI\Core\Interop\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

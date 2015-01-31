@@ -58,6 +58,10 @@
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.33.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,6 +75,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -91,10 +99,6 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -121,9 +125,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -298,6 +299,22 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\App\Home\ContextMenuProvider.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\Index.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\Initialize.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\Progress.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\TextInteraction.ts" />
+    <TypeScriptCompile Include="Scripts\App\Widgets\document-upload.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
@@ -314,22 +331,6 @@
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\App\Home\ContextMenuProvider.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Index.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Initialize.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Progress.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\TextInteraction.ts" />
-    <TypeScriptCompile Include="Scripts\App\Widgets\document-upload.ts" />
-    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

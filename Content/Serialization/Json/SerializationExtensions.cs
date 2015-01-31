@@ -1,21 +1,14 @@
-﻿using LASI;
-using LASI.Core;
- using System;
+﻿using LASI.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
 
 namespace LASI.Content.Serialization.Json
 {
-    /// <summary>
-    /// Provides extension methods for converting Lexical constructs into Json structures.
-    /// </summary>
-    public static class SerializationExtensions
+	/// <summary>
+	/// Provides extension methods for converting Lexical constructs into Json structures.
+	/// </summary>
+	public static class SerializationExtensions
     {
         /// <summary>
         /// Creates a Newtonsoft.Linq.JArray from the sequence of lexicals.
