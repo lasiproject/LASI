@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 
 namespace LASI.WebApp.Models
 {
-      class PageModel : TextualModel<Core.Document.Page>
+    public class PageModel : TextualModel<Core.Document.Page>
     {
         public PageModel(Core.Document.Page page) : base(page) {
             this.page = page;

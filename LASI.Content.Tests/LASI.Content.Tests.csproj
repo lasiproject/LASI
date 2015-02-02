@@ -68,6 +68,7 @@
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
+    <Compile Include="CustomTestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
     <Compile Include="FileConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="InputFileTest.cs" />

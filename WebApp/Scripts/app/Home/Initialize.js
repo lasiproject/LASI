@@ -71,4 +71,4 @@
         };
     }
 })();
-//# sourceMappingURL=Initialize.js.map
+//# sourceMappingURL=initialize.js.map

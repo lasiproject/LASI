@@ -205,7 +205,7 @@ namespace LASI.App
                                      (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
                                  Value = (float)Math.Round(relationship.Weight, 2)
                              };
-            return dataPoints.Distinct();
+            return dataPoints.Distinct(); 
 
         }
         private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) {

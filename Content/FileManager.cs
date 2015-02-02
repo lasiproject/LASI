@@ -265,11 +265,9 @@ namespace LASI.Content
                         AddFile(txt.FullPath);
                         File.Delete(txt.FullPath);
                         File.Delete(docx.FullPath);
-                    }
-                    // TODO: Fix this expection handler.
-                    catch (Exception e) {
-                        Output.WriteLine(e.Message);
-                        throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
+                    } catch (IOException e) {
+                        Output.WriteLine("{0}\n{1}\n", e.Message, e.StackTrace);
+                        throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt", e);
                     }
                 } catch (UnauthorizedAccessException e) {
                     RecordConversionFailure(document, e);
@@ -280,7 +278,7 @@ namespace LASI.Content
         }
 
         private static void RecordConversionFailure(InputFile doc, Exception e) {
-            Output.WriteLine($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.");
+            Output.WriteLine($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.\n{e.StackTrace}");
         }
 
         /// <summary>
@@ -314,7 +312,7 @@ namespace LASI.Content
             }
             return convertedFiles;
         }
-          
+
         /// <summary>
         /// Converts all of the .docx files it receives into text files
         /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory

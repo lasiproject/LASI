@@ -106,7 +106,7 @@ namespace LASI.Content
     /// The base class for all Exceptions thrown by the FileManager.
     /// </summary>
     [Serializable]
-    public abstract class FileManagerException : FileSystemException
+    public abstract class FileManagerException : ContentFileException
     {
         /// <summary>
         /// Initializes a new instance of the FileManagerException class with its message string set to message.
@@ -185,13 +185,13 @@ namespace LASI.Content
     /// The base class for all file related exceptions within the LASI framework.
     /// </summary>
     [Serializable]
-    public abstract class FileSystemException : Exception
+    public abstract class ContentFileException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
-        protected FileSystemException(string message)
+        protected ContentFileException(string message)
             : base(message) {
 
         }
@@ -204,7 +204,7 @@ namespace LASI.Content
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        protected FileSystemException(string message, Exception inner)
+        protected ContentFileException(string message, Exception inner)
             : base(message, inner) {
 
         }
@@ -218,7 +218,7 @@ namespace LASI.Content
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        protected FileSystemException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected ContentFileException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }

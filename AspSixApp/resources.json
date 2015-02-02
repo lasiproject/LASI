@@ -1,0 +1,15 @@
+﻿{
+    "projectWebsite": "http://lasi-project.org",
+    "resourcesDirectory": ".\\..\\..\\..\\WebApp\\",
+    "maximumEntropyModelDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+    "wordnetSearchDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
+    "wordnetFileDirectory": "resources\\WordNetThesaurusData\\",
+    "subordinatingPrepositionalsInfoFile": "resources\\LASICustom\\Binding\\KnownSubordinators.txt",
+    "nameDataDirectory": "resources\\LASICustom\\NameData\\",
+    "convertersDirectory": "resources\\StandaloneFileConverters\\",
+    "autoDebugCleanupOn": "true",
+    "projectFileSchemaLocation": "resources\\DotLasiFile.xsd",
+    "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
+    "MongoDbPath": "App_Data\\Mongo\\data\\db",
+    "AccountStorageMedium": "MongoDb"
+}

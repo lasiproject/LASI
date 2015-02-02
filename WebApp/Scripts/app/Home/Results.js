@@ -30,4 +30,4 @@
         google.setOnLoadCallback(drawChart(element, rowData));
     });
 })();
-//# sourceMappingURL=Results.js.map
+//# sourceMappingURL=results.js.map

@@ -1,4 +1,5 @@
 ﻿using System;
+using LASI.Utilities;
 
 namespace LASI.Content
 {
@@ -37,20 +38,18 @@ namespace LASI.Content
                 Extension = FileName.Substring(FileName.LastIndexOf('.'));
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathAndExt = directory + fileNameWithExt;
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Extension = string.Empty;
                 FileNameSansExt = FileName;
 
             }
-
             FullPathAndExt = Directory + FileNameSansExt + Extension;
             FullPathSansExt = Directory + FileNameSansExt;
         }
         /// <summary>
         /// Constructs a new instance from the given pararameters.
         /// </summary>
-        /// <param name="fileNameWithPathAndExt">The full newPath, filename, and file extension of the file as single, non escaped, string.</param>
+        /// <param name="fileNameWithPathAndExt">The complete path, filename, and file extension of the file as single, non escaped, string.</param>
         public FileData(string fileNameWithPathAndExt)
             : this() {
             Directory = fileNameWithPathAndExt.Substring(0, fileNameWithPathAndExt.LastIndexOf('\\') + 1);
@@ -62,8 +61,7 @@ namespace LASI.Content
                 FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
                 FullPathSansExt = Directory + FileNameSansExt;
 
-            }
-            catch (ArgumentOutOfRangeException) {
+            } catch (ArgumentOutOfRangeException) {
                 Extension = string.Empty;
                 FileNameSansExt = FileName;
                 FullPathSansExt = Directory + FileNameSansExt;
@@ -78,9 +76,8 @@ namespace LASI.Content
         /// Returns a string prepsentation of the FileData, containing its directory path and full name.
         /// </summary>
         /// <returns>A string prepsentation of the FileData, containing its directory path and full name.</returns>
-        public override string ToString() {
-            return string.Format("  -  File:  {0}, Location:  {1}", FileName, Directory);
-        }
+        public override string ToString() => $"  -  File:  {FileName}, Location:  {Directory}";
+
         /// <summary>
         /// Determines if the current instance is equal to the given FileData.
         /// </summary> 
@@ -98,9 +95,7 @@ namespace LASI.Content
         /// Gets a hash code for the FileData instance.
         /// </summary>
         /// <returns>A hash code of the current FileData instance.</returns>
-        public override int GetHashCode() {
-            return FullPathAndExt.GetHashCode();
-        }
+        public override int GetHashCode() => FullPathAndExt.GetHashCode();
 
         #endregion
 
@@ -109,27 +104,27 @@ namespace LASI.Content
         /// <summary>
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
-        public string Directory { get; private set; }
+        public string Directory { get; }
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Extension { get; private set; }
+        public string Extension { get; }
         /// <summary>
         /// Gets the name of the file.
         /// </summary>
-        public string FileName { get; private set; }
+        public string FileName { get; }
         /// <summary>
         /// Gets the name of the file, not encluding its extension.
         /// </summary>
-        public string FileNameSansExt { get; private set; }
+        public string FileNameSansExt { get; }
         /// <summary>
         /// Gets the full path of the file.
         /// </summary>
-        public string FullPathAndExt { get; private set; }
+        public string FullPathAndExt { get; }
         /// <summary>
         /// Gets the full path of the file, not encluding its extension..
         /// </summary>
-        public string FullPathSansExt { get; private set; }
+        public string FullPathSansExt { get; }
 
         #endregion
 
@@ -141,19 +136,15 @@ namespace LASI.Content
         /// <param name="first">The first FileData</param>
         /// <param name="second">The second FileData</param>
         /// <returns> <c>true</c> if two instances of the FileData structure should be considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(FileData first, FileData second) {
-            return string.Equals(first.FullPathAndExt, second.FullPathAndExt, StringComparison.OrdinalIgnoreCase);
+        public static bool operator ==(FileData first, FileData second) => first.FullPathAndExt.EqualsIgnoreCase(second.FullPathAndExt);
 
-        }
         /// <summary>
         /// Determines if two instances of the FileData structure are unequal.
         /// </summary>
         /// <param name="A">The first FileData</param>
         /// <param name="B">The second FileData</param>
         /// <returns> <c>true</c> if two instances of the FileData structure should be considered unequal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(FileData A, FileData B) {
-            return !(A == B);
-        }
+        public static bool operator !=(FileData A, FileData B) => !(A == B);
 
         #endregion
     }

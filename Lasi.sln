@@ -8,7 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		XMLSchemas\documentStructure.xsd = XMLSchemas\documentStructure.xsd
 		XMLSchemas\dotLasiFile.xsd = XMLSchemas\dotLasiFile.xsd
+		failingtests.playlist = failingtests.playlist
 		Icons\favicon.ico = Icons\favicon.ico
+		global.json = global.json
 		XMLSchemas\ProjectFileEx.xml = XMLSchemas\ProjectFileEx.xml
 		README.md = README.md
 		RuleSet1.ruleset = RuleSet1.ruleset
@@ -17,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
+		global_1json__JSONSchema = http://json.schemastore.org/global
+		tslint_1json__JSONSchema = http://json.schemastore.org/tslint
+		Documents_2GitHub_2LASI_2tslint_1json__JSONSchema = http://json.schemastore.org/tslint
+		Documents_2GitHub_2LASI_2global_1json__JSONSchema = http://json.schemastore.org/global
 		__JSONSchema = 
 	EndProjectSection
 EndProject
@@ -64,6 +70,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentationWPF", "ExperimentalClientProjects\WPFExperimentation\ExperimentationWPF.csproj", "{F57E105E-00CD-429A-8819-FAC415678F84}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB32A172-AF94-4FAF-9655-5E339DDB032C}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspSixApp", "AspSixApp\AspSixApp.kproj", "{61E987AD-E614-40D1-8901-9AC6262FB9F4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspSixApp.Tests", "test\AspSixApp.Tests\AspSixApp.Tests.kproj", "{494FC4E7-39D3-4FD5-A131-6D6057D37423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +133,14 @@ Global
 		{F57E105E-00CD-429A-8819-FAC415678F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F57E105E-00CD-429A-8819-FAC415678F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494FC4E7-39D3-4FD5-A131-6D6057D37423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494FC4E7-39D3-4FD5-A131-6D6057D37423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494FC4E7-39D3-4FD5-A131-6D6057D37423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494FC4E7-39D3-4FD5-A131-6D6057D37423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

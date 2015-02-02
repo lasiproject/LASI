@@ -1,5 +1,7 @@
 {
     "sources": [
-        "wrap"
+        "wrap",
+        "AspSixApp",
+        "test/AspSixApp.Tests"
     ]
 }

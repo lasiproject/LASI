@@ -164,10 +164,9 @@
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />
     <Compile Include="SymbolTest.cs" />
-    <Compile Include="TestAttributes\CustomizedExpectedExceptionBaseAttribute.cs" />
-    <Compile Include="TestAttributes\ExpectedFileNotFoundExceptionAttribute.cs" />
-    <Compile Include="TestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
-    <Compile Include="TestAttributes\ExpectedInvalidOperationExceptionAttribute.cs" />
+    <Compile Include="CustomTestAttributes\CustomizedExpectedExceptionBaseAttribute.cs" />
+    <Compile Include="CustomTestAttributes\ExpectedFileNotFoundExceptionAttribute.cs" />
+    <Compile Include="CustomTestAttributes\ExpectedInvalidOperationExceptionAttribute.cs" />
     <Compile Include="TestHelpers\EnumerableAssert.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
@@ -189,10 +188,6 @@
     <Folder Include="PatternMatching\LexicalSpecific\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Content\LASI.Content.csproj">
-      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Name>LASI.Content</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>

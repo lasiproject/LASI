@@ -1,7 +1,7 @@
 var LASI;
 (function (LASI) {
-    var Index;
-    (function (Index) {
+    var index;
+    (function (index) {
         'use strict';
         // This function disables submit button 
         $(function () {
@@ -15,7 +15,7 @@ var LASI;
                 }
             });
         });
-    })(Index = LASI.Index || (LASI.Index = {}));
+    })(index = LASI.index || (LASI.index = {}));
 })(LASI || (LASI = {}));
 ;
-//# sourceMappingURL=Index.js.map
+//# sourceMappingURL=index.js.map

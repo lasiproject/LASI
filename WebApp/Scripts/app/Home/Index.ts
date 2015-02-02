@@ -1,4 +1,4 @@
-﻿module LASI.Index {
+﻿module LASI.index {
     'use strict';
     // This function disables submit button 
     $(function () {

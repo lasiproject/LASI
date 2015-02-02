@@ -1,2 +1,2 @@
-declare module LASI.Index {
+declare module LASI.index {
 }

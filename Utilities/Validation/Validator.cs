@@ -150,6 +150,14 @@ namespace LASI.Utilities.Validation
             ThrowIfNull(value, name);
             ThrowIfEmpty(value, name);
         }
+        public static void ThrowIfNotOneOf<T>(IEnumerable<T> members, T value, string name) {
+            ThrowIfNotOneOf(members, value, name, EqualityComparer<T>.Default);
+        }
+
+        public static void ThrowIfNotOneOf<T>(IEnumerable<T> members, T value, string name, IEqualityComparer<T> comparer) {
+            if (!members.Contains(value, comparer))
+                throw new ArgumentException($"{name} must be a member of the set {members.Format()}. Actual value: {value}.", name);
+        }
         #endregion
     }
 }

@@ -2,7 +2,7 @@
 
 namespace LASI.WebApp.Models
 {
-    public interface IAccountModel
+    public interface IAccountModel 
     {
         string Email { get; set; }
         string FirstName { get; set; }

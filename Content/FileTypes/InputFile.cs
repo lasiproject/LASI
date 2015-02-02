@@ -8,7 +8,7 @@ namespace LASI.Content
     /// <summary>
     /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.
     /// </summary>
-    public abstract class InputFile : IRawTextSource
+    public abstract class InputFile : IRawTextSource, IEquatable<InputFile>
     {
         /// <summary>
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
@@ -23,110 +23,56 @@ namespace LASI.Content
         /// <summary>
         /// Gets the full file path, including the file name and extension of the file.
         /// </summary>
-        public string FullPath {
-            get {
-                return fileData.FullPathAndExt;
-            }
-        }
+        public string FullPath => fileData.FullPathAndExt;
+
         /// <summary>
         /// Gets the file path, including the file name, but not the extension, of the file.
         /// </summary>
-        public string PathSansExt {
-            get {
-                return fileData.FullPathSansExt;
-            }
-        }
+        public string PathSansExt => fileData.FullPathSansExt;
+
         /// <summary>
         /// Gets the filename, including its extension.
         /// </summary>
-        public string FileName {
-            get {
-                return fileData.FileName;
-            }
-        }
+        public string FileName => fileData.FileName;
+
         /// <summary>
         /// Gets the filename, not including its extension.
         /// </summary>
-        public string NameSansExt {
-            get {
-                return fileData.FileNameSansExt;
-            }
-        }
+        public string NameSansExt => fileData.FileNameSansExt;
+
         /// <summary>
         /// Gets the extension of the file.
         /// </summary>
-        public string Extension {
-            get {
-                return fileData.Extension;
-            }
-        }
+        public string Extension => fileData.Extension;
+
         /// <summary>
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
-        public string Directory {
-            get {
-                return fileData.Directory;
-            }
-        }
+        public string Directory => fileData.Directory;
+
+        public bool Equals(InputFile other) => fileData == other.fileData;
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
         /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
-        public override bool Equals(object obj) {
-            return this == obj as InputFile;
-        }
+        public override bool Equals(object obj) => Equals(obj as InputFile);
         /// <summary>
         /// Gets the hash code of the InputFile.
         /// </summary>
         /// <returns>The hash code of the InputFile.</returns>
-        public override int GetHashCode() {
-            return fileData.GetHashCode();
-        }
+        public override int GetHashCode() => fileData.GetHashCode();
         /// <summary>
         /// Returns a string prepsentation of the InputFile, including its full path.
         /// </summary>
         /// <returns>A string prepsentation of the InputFile, including its full path.</returns>
-        public override string ToString() {
-            return $"{GetType()}: {FileName} in: {Directory}";
-        }
-        /// <summary>
-        /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
-        /// </summary>
-        /// <param name="left">The InputFile on the left.</param>
-        /// <param name="right">The InputFile on the right.</param>
-        /// <returns> <c>true</c> if the InputFile on the left is equal to the InputFile on the right.</returns>
-        public static bool operator ==(InputFile left, InputFile right) {
-            if (left as object == null && right as object == null) {
-                return true;
-            }
-            else if (right as object == null || left as object == null) {
-                return false;
-            }
-            else {
-                return left.fileData == right.fileData;
-            }
-        }
-        /// <summary>
-        /// Returns a value that indicates whether the InputFile on the left is not equal to the InputFile on the right.
-        /// </summary>
-        /// <param name="left">The InputFile on the left.</param>
-        /// <param name="right">The InputFile on the right.</param>
-        /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
-        public static bool operator !=(InputFile left, InputFile right) {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// Provides encapsulated access to underlying path information.
-        /// </summary>
-        private FileData fileData;
-
+        public override string ToString() => $"{GetType()}: {FileName} in: {Directory}";
         /// <summary>
         /// Returns a single string containing all of the text in the InputFile.
         /// </summary>
         /// <returns>A string containing all of the text in the InputFile.</returns>
         public abstract string GetText();
+
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the InputFile.
         /// </summary>
@@ -135,8 +81,31 @@ namespace LASI.Content
         /// <summary>
         /// Gets the simple file name of the InputFile. This does not include its extension.
         /// </summary>
-        public string SourceName {
-            get { return NameSansExt; }
-        }
+        public string SourceName => NameSansExt;
+
+        /// <summary>
+        /// Provides encapsulated access to underlying path information.
+        /// </summary>
+        private FileData fileData;
+
+
+        /// <summary>
+        /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
+        /// </summary>
+        /// <param name="left">The InputFile on the left.</param>
+        /// <param name="right">The InputFile on the right.</param>
+        /// <returns> <c>true</c> if the InputFile on the left is equal to the InputFile on the right.</returns>
+        public static bool operator ==(InputFile left, InputFile right) => Equals(left, right);
+
+        /// <summary>
+        /// Returns a value that indicates whether the InputFile on the left is not equal to the InputFile on the right.
+        /// </summary>
+        /// <param name="left">The InputFile on the left.</param>
+        /// <param name="right">The InputFile on the right.</param>
+        /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
+        public static bool operator !=(InputFile left, InputFile right) => !(left == right);
+
+
+
     }
 }

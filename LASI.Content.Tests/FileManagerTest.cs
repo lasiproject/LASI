@@ -447,8 +447,7 @@ namespace LASI.Core.Tests
             if (Directory.Exists(testProjectDirectory)) {
                 try {
                     Directory.Delete(testProjectDirectory, recursive: true);
-                }
-                catch (IOException) {
+                } catch (IOException) {
                     testProjectDirectory += "011";
                 }
             }

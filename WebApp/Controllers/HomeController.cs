@@ -69,8 +69,7 @@ namespace LASI.WebApp.Controllers
                     var dir = remnant as DirectoryInfo;
                     if (dir != null) {
                         dir.Delete(true);
-                    }
-                    else {
+                    } else {
                         remnant.Delete();
                     }
                 }
@@ -87,9 +86,8 @@ namespace LASI.WebApp.Controllers
             var files = Directory.EnumerateFiles(serverPath)
                 .Select(file => {
                     try {
-                        return extensionMap[file.SplitRemoveEmpty('.').Last()](file);
-                    }
-                    catch (ArgumentException) { return null; }
+                        return extensionMap['.' + file.SplitRemoveEmpty('.').Last()](file);
+                    } catch (ArgumentException) { return null; }
                 })
                 .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);

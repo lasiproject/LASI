@@ -369,10 +369,10 @@
     <Content Include="Global.asax" />
     <Content Include="Images\ic_launcher-web.png" />
     <Content Include="Images\ic_launcher-web50x50.png" />
-    <TypeScriptCompile Include="Scripts\App\Home\ContextMenuProvider.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Progress.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\TextInteraction.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Results.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\context-menu-provider.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\progress.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\text-interaction.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\results.ts" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -448,7 +448,9 @@
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <TypeScriptCompile Include="Scripts\App\Home\utilities.ts" />
     <TypeScriptCompile Include="Scripts\App\Widgets\document-upload.ts" />
+    <TypeScriptCompile Include="Scripts\typings\augmentations.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.fileupload\jquery.fileupload.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
@@ -467,8 +469,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\App\Home\Index.ts" />
-    <TypeScriptCompile Include="Scripts\App\Home\Initialize.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\index.ts" />
+    <TypeScriptCompile Include="Scripts\App\Home\initialize.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
   </ItemGroup>
   <ItemGroup>

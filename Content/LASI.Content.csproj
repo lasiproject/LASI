@@ -92,7 +92,7 @@
     <Compile Include="Serialization\Xml\NodeNameMapper.cs" />
     <Compile Include="Serialization\Xml\SerializationExtensions.cs" />
     <Compile Include="Serialization\ILexicalSerializer.cs" />
-    <Compile Include="FileTypes\FileTypeWrapperMismatchException.cs" />
+    <Compile Include="Exceptions\FileTypeWrapperMismatchException.cs" />
     <Compile Include="FileTypes\XmlFile.cs" />
     <Compile Include="Serialization\Xml\SimpleXmlSerializer.cs" />
     <Compile Include="FileManager.cs" />

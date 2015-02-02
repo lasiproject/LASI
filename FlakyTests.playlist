@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="LASI.Core.Tests.FileManagerTest.ConvertDocToTextTest" /><Add Test="LASI.Content.Tests.DocxToTextConverterTest.ConvertFileTest" /><Add Test="LASI.Content.Tests.PdfFileTest.PdfFileConstructorTest2" /><Add Test="LASI.Core.Tests.FileManagerTest.ConvertDocToTextAsyncTest" /></Playlist>
