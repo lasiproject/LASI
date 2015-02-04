@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Content.TaggerEncapsulation;
-using LASI.Utilities;
 
 namespace LASI.Interop
 {
@@ -20,15 +19,15 @@ namespace LASI.Interop
              /// Initializes a new instance of the AnalysisController class.
              /// </summary>
              /// <param name="rawTextSource">An untagged English language written work.</param>
-        public AnalysisOrchestrator(IRawTextSource first, params IRawTextSource[] rest)
-            : this(rest.Prepend(first)) { }
+        public AnalysisOrchestrator(IRawTextSource rawTextSource)
+            : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged English language written works.</param>
         public AnalysisOrchestrator(IEnumerable<IRawTextSource> rawTextSources)
-            : base(delegate { }) {
+            : base(e => { }) {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
             stepMagnitude = 2d / sourceCount;
@@ -67,7 +66,7 @@ namespace LASI.Interop
             return await BindAndWeightAsync(taggedFiles);
         }
         private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments) {
-            Progress("Tagging Documents");
+            Progress("Tagging Documents", 0);
             var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
             var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
             while (tasks.Any()) {
@@ -75,11 +74,9 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                percentDone += stepMagnitude + 1.5;
-                Progress($"{tagged.SourceName}: Tagged");
+                Progress($"{tagged.SourceName}: Tagged", stepMagnitude + 1.5);
             }
-             percentDone += 3;
-            Progress("Tagged Documents");
+            Progress("Tagged Documents", 3);
             return taggedFiles;
         }
         private async Task<IEnumerable<Document>> BindAndWeightAsync(IEnumerable<ITaggedTextSource> taggedFiles) {
@@ -88,38 +85,32 @@ namespace LASI.Interop
         }
         private async Task<Document> ProcessTaggedAsync(ITaggedTextSource tagged) {
             var name = tagged.SourceName;
-            Progress($"{name}: Loading...");
+            Progress($"{name}: Loading...", 0);
             var document = await tagger.DocumentFromTaggedAsync(tagged);
-            percentDone += 4 / sourceCount;
-            Progress($"{name}: Loaded");
-            Progress($"{name}: Analyzing Syntax...");
+            Progress($"{name}: Loaded", 4 / sourceCount);
+            Progress($"{name}: Analyzing Syntax...", 0);
             foreach (var bindingTask in document.GetBindingTasks()) {
-                Progress(bindingTask.InitializationMessage);
+                Progress(bindingTask.InitializationMessage, 0);
                 await bindingTask.Task;
-                percentDone += bindingTask.PercentCompleted * 0.8 / sourceCount;
-                Progress(bindingTask.CompletionMessage);
+                Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.71 / sourceCount);
             }
-            Progress($"{name}: Correlating Relationships...");
+            Progress($"{name}: Correlating Relationships...", 0);
             foreach (var task in document.GetWeightingTasks()) {
-                percentDone += 1 / sourceCount;
-                Progress(task.InitializationMessage);
+                Progress(task.InitializationMessage, 1 / sourceCount);
                 await task.Task;
-                percentDone += task.PercentCompleted * 0.59 / sourceCount;
-                Progress(task.CompletionMessage);
+                Progress(task.CompletionMessage, task.PercentCompleted * 0.59 / sourceCount);
             }
-            percentDone += stepMagnitude;
-            Progress($"{name}: Coalescing Results...");
+            Progress($"{name}: Coalescing Results...", stepMagnitude);
             return document;
         }
         private async Task<ITaggedTextSource> TagRawAsync(IRawTextSource raw) => await tagger.TaggedFromRawAsync(raw);
-        private void Progress(string message) {
-            OnReport(new AnalysisUpdateEventArgs(message, percentDone));
+        private void Progress(string message, double percentCompleted) {
+            OnReport(new AnalysisUpdateEventArgs(message, percentCompleted));
         }
         #region Fields
 
         private double sourceCount;
         private double stepMagnitude;
-        private double percentDone;
         private IEnumerable<IRawTextSource> rawTextSources;
         private Tagger tagger = new Tagger();
         #endregion

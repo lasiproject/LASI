@@ -352,9 +352,3 @@ WebEssentials-Settings.json
 /LASI.WebApp.Transitional.Tests/App.config
 /LASI.WebApp.Transitional.Tests/
 /LASI.MVC6.App/node_modules/
-/AspSixApp/bower_components/bootstrap
-/AspSixApp/bower_components/jquery
-/AspSixApp/bower_components/jquery-validation
-/AspSixApp/bower_components/jquery-validation-unobtrusive
-/AspSixApp/bower_components/qunit/src
-/AspSixApp/bower_components/qunit
