@@ -65,6 +65,8 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <ItemGroup>
+      <Compile Include="InputFileAdapter.fs" />
+      <Compile Include="LexicalUnion.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="Script.fsx" />

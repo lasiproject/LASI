@@ -32,6 +32,8 @@ namespace AspSixApp
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services) {
+
+            #region replaced
             // Add EF services to the services container.
             //services.AddEntityFramework(Configuration)
             //    .AddSqlServer()
@@ -41,10 +43,16 @@ namespace AspSixApp
             //services.AddIdentity<ApplicationUser, IdentityRole>(Configuration)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            #endregion
 
-            services.AddSingleton(provider => new MongoDbAccountProvider(AppDomain.CurrentDomain.BaseDirectory))
-                    .AddIdentity<MongoUser, IdentityRole>(Configuration)
-                    .AddUserStore<MongoDbUserStore>().AddRoleStore<WebAppUserRole>();
+            services.AddIdentity<FileSystemUser, IdentityRole>(Configuration)
+                .AddUserStore<FileSystemUserStore>();
+
+            //services.AddIdentity<MongoUser, IdentityRole>(Configuration)
+            //        .AddUserStore<MongoDbUserStore>()/*.AddRoleStore<WebAppUserRole>()*/;
+
+            #region stock
+
             // Add MVC services to the services container.
             services.AddMvc();
 
@@ -52,6 +60,7 @@ namespace AspSixApp
             // You need to add Microsoft.AspNet.Mvc.WebApiCompatShim package to project.json
             // services.AddWebApiConventions();
 
+            #endregion
         }
 
         // Configure is called after ConfigureServices is called.
