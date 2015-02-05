@@ -11,5 +11,8 @@
     "projectFileSchemaLocation": "resources\\DotLasiFile.xsd",
     "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
     "MongoDbPath": "App_Data\\Mongo\\data\\db",
-    "AccountStorageMedium": "MongoDb"
+    "AccountStorageMedium": "MongoDb",
+    "MongoConnection": "mongodb://localhost:27017",
+    "UserCollectionName": "users",
+    "UserRolesCollectionName": "usersRoles"
 }

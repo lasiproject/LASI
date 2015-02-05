@@ -13,13 +13,13 @@ namespace AspSixApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController(UserManager<MongoUser> userManager, SignInManager<MongoUser> signInManager) {
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public UserManager<MongoUser> UserManager { get; private set; }
-        public SignInManager<MongoUser> SignInManager { get; private set; }
+        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public SignInManager<ApplicationUser> SignInManager { get; private set; }
 
         // GET: /Account/Login
         [HttpGet]
@@ -66,7 +66,7 @@ namespace AspSixApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model) {
             if (ModelState.IsValid) {
-                var user = new MongoUser { UserName = model.UserName };
+                var user = new ApplicationUser { UserName = model.UserName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     await SignInManager.SignInAsync(user, isPersistent: false);
@@ -129,7 +129,7 @@ namespace AspSixApp.Controllers
             }
         }
 
-        private async Task<MongoUser> GetCurrentUserAsync() {
+        private async Task<ApplicationUser> GetCurrentUserAsync() {
             return await UserManager.FindByIdAsync(Context.User.Identity.GetUserId());
         }
 

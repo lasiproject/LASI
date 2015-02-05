@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LASI.WebApp.Models
+namespace AspSixApp.Models
 {
     public class ProgressModel
     {

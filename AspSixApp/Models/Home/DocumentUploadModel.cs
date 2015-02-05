@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LASI.WebApp.Models
+namespace AspSixApp.Models
 {
     public class DocumentUploadModel
     {
