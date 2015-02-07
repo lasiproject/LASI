@@ -85,7 +85,7 @@ namespace LASI.Core
 
         public static ParallelQuery<Paragraph> Paragraphs(this ParallelQuery<Document.Page> documents) => documents.SelectMany(p => p.Paragraphs);
 
-        public static ParallelQuery<Sentence> Sentences(this ParallelQuery<Document> documents) => 
+        public static ParallelQuery<Sentence> Sentences(this ParallelQuery<Document> documents) =>
             documents
                 .SelectMany(d => d.Paragraphs
                     .SelectMany(p => p.Sentences));

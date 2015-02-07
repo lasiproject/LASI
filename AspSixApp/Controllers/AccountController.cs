@@ -6,25 +6,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using AspSixApp.Models;
-using AspSixApp.Models.ApplicationUsers;
 
 namespace AspSixApp.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) {
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-        public SignInManager<ApplicationUser> SignInManager { get; private set; }
+        public UserManager<ApplicationUser> UserManager { get; }
+        public SignInManager<ApplicationUser> SignInManager { get; }
 
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null) {
+        public IActionResult Login(string returnUrl = null)
+        {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -34,10 +35,13 @@ namespace AspSixApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null) {
-            if (ModelState.IsValid) {
-                var signInStatus = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-                switch (signInStatus) {
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                var signInStatus = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (signInStatus)
+                {
                     case SignInStatus.Success:
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.Failure:
@@ -55,7 +59,8 @@ namespace AspSixApp.Controllers
         // GET: /Account/Register
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Register() {
+        public IActionResult Register()
+        {
             return View();
         }
 
@@ -64,14 +69,24 @@ namespace AspSixApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model) {
-            if (ModelState.IsValid) {
-                var user = new ApplicationUser { UserName = model.UserName };
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     await SignInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
-                } else {
+                } else
+                {
                     AddErrors(result);
                 }
             }
@@ -83,7 +98,8 @@ namespace AspSixApp.Controllers
         //
         // GET: /Account/Manage
         [HttpGet]
-        public IActionResult Manage(ManageMessageId? message = null) {
+        public IActionResult Manage(ManageMessageId? message = null)
+        {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -96,14 +112,18 @@ namespace AspSixApp.Controllers
         // POST: /Account/Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Manage(ManageUserViewModel model) {
+        public async Task<IActionResult> Manage(ManageUserViewModel model)
+        {
             ViewBag.ReturnUrl = Url.Action("Manage");
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 var user = await GetCurrentUserAsync();
                 var result = await UserManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                } else {
+                } else
+                {
                     AddErrors(result);
                 }
             }
@@ -116,20 +136,24 @@ namespace AspSixApp.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult LogOff() {
+        public IActionResult LogOff()
+        {
             SignInManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
         #region Helpers
 
-        private void AddErrors(IdentityResult result) {
-            foreach (var error in result.Errors) {
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
                 ModelState.AddModelError("", error);
             }
         }
 
-        private async Task<ApplicationUser> GetCurrentUserAsync() {
+        private async Task<ApplicationUser> GetCurrentUserAsync()
+        {
             return await UserManager.FindByIdAsync(Context.User.Identity.GetUserId());
         }
 
@@ -139,10 +163,13 @@ namespace AspSixApp.Controllers
             Error
         }
 
-        private IActionResult RedirectToLocal(string returnUrl) {
-            if (Url.IsLocalUrl(returnUrl)) {
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
                 return Redirect(returnUrl);
-            } else {
+            } else
+            {
                 return RedirectToAction("Index", "Home");
             }
         }

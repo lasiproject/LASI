@@ -21,7 +21,7 @@
   <Import Project="$(VSToolsPath)\AspNet\Microsoft.Web.AspNet.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties bower_1json__JSONSchema="http://json.schemastore.org/bower" Properties_2debugSettings_1json__JSONSchema="http://json.schemastore.org/debugsettings" config_1json__JSONSchema="http://json.schemastore.org/config" project_1json__JSONSchema="http://www.asp.net/media/4878834/project.json" package_1json__JSONSchema="http://json.schemastore.org/package" />
+      <UserProperties bower_1json__JSONSchema="" Properties_2debugSettings_1json__JSONSchema="http://json.schemastore.org/debugsettings" config_1json__JSONSchema="http://json.schemastore.org/config" wwwroot_2src_2dist_2lib_2lib_1min_1js_1map__JSONSchema="" project_1json__JSONSchema="http://www.asp.net/media/4878834/project.json" package_1json__JSONSchema="http://json.schemastore.org/package" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

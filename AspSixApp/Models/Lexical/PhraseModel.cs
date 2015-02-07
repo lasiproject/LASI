@@ -10,7 +10,8 @@ namespace AspSixApp.Models.Lexical
 {
     class PhraseModel : LexicalModel<Phrase>
     {
-        public PhraseModel(Phrase phrase) : base(phrase) {
+        public PhraseModel(Phrase phrase) : base(phrase)
+        {
             ContextMenuJson = phrase.GetJsonMenuData();
             //Core.Phrase.VerboseOutput = true;
             DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
@@ -22,7 +23,7 @@ namespace AspSixApp.Models.Lexical
         public ParagraphModel ParagraphModel { get; set; }
         public override string ContextMenuJson { get; }
         public string DetailText { get; private set; }
-        public IEnumerable<ILexicalModel<LASI.Core.Word>> WordViewModels { get; private set; }
+        public IEnumerable<ILexicalModel<Word>> WordViewModels { get; }
         public SentenceModel SentenceModel { get; internal set; }
     }
 }

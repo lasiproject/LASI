@@ -32,7 +32,8 @@ namespace LASI.Core
         /// The SentenceEnding which terminates the Sentence. If not provided, a period will be
         /// assumed, and an instance of SentenceEnding created to represent it.
         /// </param>
-        public Sentence(IEnumerable<Clause> clauses, SentenceEnding ending) {
+        public Sentence(IEnumerable<Clause> clauses, SentenceEnding ending)
+        {
             Clauses = clauses;
             Ending = ending ?? SentenceEnding.Period;
         }
@@ -69,7 +70,8 @@ namespace LASI.Core
         /// <param name="parent">
         /// The Paragraph to which the Sentence belongs.
         /// </param>
-        public void EstablishParenthood(Paragraph parent) {
+        public void EstablishParenthood(Paragraph parent)
+        {
             EndsParagraph = this == parent.Sentences.Last();
             BeginsParagraph = this == parent.Sentences.First();
             Paragraph = parent;
@@ -97,8 +99,10 @@ namespace LASI.Core
         public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
 
 
-        public IEnumerable<ILexical> Lexicals {
-            get {
+        public IEnumerable<ILexical> Lexicals
+        {
+            get
+            {
                 foreach (var clause in Clauses) {
                     yield return clause;
                     foreach (var phrase in clause.Phrases) {
@@ -128,8 +132,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of Phrases which comprise the sentence.
         /// </summary>
-        public IEnumerable<Phrase> Phrases {
-            get {
+        public IEnumerable<Phrase> Phrases
+        {
+            get
+            {
                 return from clause in Clauses
                        from phrase in clause.Phrases
                        select phrase;

@@ -1,8 +1,5 @@
 ﻿@using LASI.WebApp.Models;
-@model AccountModel
-@{
-    ViewBag.Title = "Welcome " + Model.FirstName ?? string.Empty;
-}
+
 @functions{
     public string GetAntiForgeryToken() {
         string cookieToken, formToken;

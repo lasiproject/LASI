@@ -1,8 +1,11 @@
-﻿namespace AspSixApp.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace AspSixApp.Models
 {
     public class Project
     {
-        public System.Guid Id { get; set; }
-        public System.Collections.Generic.IEnumerable<UserDocument> SourceTexts { get; set; }
+        public Guid Id { get; set; }
+        public IEnumerable<UserDocument> SourceTexts { get; set; }
     }
 }

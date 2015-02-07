@@ -9,7 +9,8 @@ namespace AspSixApp.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
-        public override void Up(MigrationBuilder migrationBuilder) {
+        public override void Up(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateTable("AspNetRoles",
                 c => new
                 {
@@ -71,7 +72,9 @@ namespace AspSixApp.Migrations
                     PhoneNumberConfirmed = c.Boolean(nullable: false),
                     SecurityStamp = c.String(),
                     TwoFactorEnabled = c.Boolean(nullable: false),
-                    UserName = c.String()
+                    UserName = c.String(),
+                    FirstName = c.String(nullable: false, maxLength: 200),
+                    LastName = c.String(nullable: false, maxLength: 200),
                 })
                 .PrimaryKey("PK_AspNetUsers", t => t.Id);
 
@@ -99,7 +102,8 @@ namespace AspSixApp.Migrations
                  cascadeDelete: false);
         }
 
-        public override void Down(MigrationBuilder migrationBuilder) {
+        public override void Down(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.DropForeignKey("AspNetRoleClaims", "FK_AspNetRoleClaims_AspNetRoles_RoleId");
 
             migrationBuilder.DropForeignKey("AspNetUserClaims", "FK_AspNetUserClaims_AspNetUsers_UserId");
@@ -123,30 +127,38 @@ namespace AspSixApp.Migrations
     [ContextType(typeof(Models.ApplicationDbContext))]
     public partial class CreateIdentitySchema : IMigrationMetadata
     {
-        string IMigrationMetadata.MigrationId {
-            get {
+        string IMigrationMetadata.MigrationId
+        {
+            get
+            {
                 return "000000000000000_CreateIdentitySchema";
             }
         }
 
-        string IMigrationMetadata.ProductVersion {
-            get {
+        string IMigrationMetadata.ProductVersion
+        {
+            get
+            {
                 return "7.0.0-beta2";
             }
         }
 
-        IModel IMigrationMetadata.TargetModel {
-            get {
+        IModel IMigrationMetadata.TargetModel
+        {
+            get
+            {
                 var builder = new BasicModelBuilder();
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityRole", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityRole", b =>
+                {
                     b.Property<string>("Id");
                     b.Property<string>("Name");
                     b.Key("Id");
                     b.ForRelational().Table("AspNetRoles");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityRoleClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityRoleClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.Property<string>("ClaimType");
                     b.Property<string>("ClaimValue");
                     b.Property<int>("Id")
@@ -156,7 +168,8 @@ namespace AspSixApp.Migrations
                     b.ForRelational().Table("AspNetRoleClaims");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityUserClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityUserClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.Property<string>("ClaimType");
                     b.Property<string>("ClaimValue");
                     b.Property<int>("Id")
@@ -166,7 +179,8 @@ namespace AspSixApp.Migrations
                     b.ForRelational().Table("AspNetUserClaims");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityUserLogin`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityUserLogin`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.Property<string>("LoginProvider");
                     b.Property<string>("ProviderDisplayName");
                     b.Property<string>("ProviderKey");
@@ -175,14 +189,16 @@ namespace AspSixApp.Migrations
                     b.ForRelational().Table("AspNetUserLogins");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityUserRole`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityUserRole`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.Property<string>("RoleId");
                     b.Property<string>("UserId");
                     b.Key("UserId", "RoleId");
                     b.ForRelational().Table("AspNetUserRoles");
                 });
 
-                builder.Entity("AspSixApp.Models.ApplicationUser", b => {
+                builder.Entity("AspSixApp.Models.ApplicationUser", b =>
+                {
                     b.Property<int>("AccessFailedCount");
                     b.Property<string>("Email");
                     b.Property<bool>("EmailConfirmed");
@@ -196,19 +212,24 @@ namespace AspSixApp.Migrations
                     b.Property<string>("SecurityStamp");
                     b.Property<bool>("TwoFactorEnabled");
                     b.Property<string>("UserName");
+                    b.Property<string>("FirstName");
+                    b.Property<string>("LastName");
                     b.Key("Id");
                     b.ForRelational().Table("AspNetUsers");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityRoleClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityRoleClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.ForeignKey("Microsoft.AspNet.Identity.IdentityRole", "RoleId");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityUserClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityUserClaim`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.ForeignKey("AspSixApp.Models.ApplicationUser", "UserId");
                 });
 
-                builder.Entity("Microsoft.AspNet.Identity.IdentityUserLogin`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b => {
+                builder.Entity("Microsoft.AspNet.Identity.IdentityUserLogin`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]", b =>
+                {
                     b.ForeignKey("AspSixApp.Models.ApplicationUser", "UserId");
                 });
 

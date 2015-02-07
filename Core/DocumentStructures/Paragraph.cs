@@ -16,7 +16,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="sentences">The sentences which comprise the Paragraph.</param>
         ///<param name="kind">Indicates the kind of paragraph.</param>
-        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind kind) {
+        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind kind)
+        {
             ParagraphKind = kind;
             Sentences = sentences;
         }
@@ -25,7 +26,8 @@ namespace LASI.Core
         /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
         /// </summary>
         /// <param name="parentDocument">The document instance to identified as the Paragraph's parent.</param>
-        public void EstablishParent(Document parentDocument) {
+        public void EstablishParent(Document parentDocument)
+        {
             Document = parentDocument;
             foreach (var sentence in Sentences) {
                 sentence.EstablishParenthood(this);
@@ -43,7 +45,7 @@ namespace LASI.Core
         /// Returns a string representation of the Paragraph.
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
-        public override string ToString() => base.ToString() + ": " + Sentences.Count() + " sentences\n\"" + Text + "\"";
+        public override string ToString() => $"{base.ToString()}: {Sentences.Count()} sentences\n{Text}";
 
 
         /// <summary>

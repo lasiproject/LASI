@@ -17,38 +17,46 @@ namespace LASI.Core.Binding
         /// This is the Bind function for the SubjectBinder Class 
         /// </summary>
         /// <param name="s">The sentence to bind within.</param>
-        public void Bind(Sentence s) {
+        public void Bind(Sentence s)
+        {
 
             //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
-            if (s.Phrases.OfVerbPhrase().None()) {
+            if (s.Phrases.OfVerbPhrase().None())
+            {
                 throw new VerblessPhrasalSequenceException();
             }
 
-            foreach (var i in s.Phrases) {
-                if (i is AdjectivePhrase) {
+            foreach (var i in s.Phrases)
+            {
+                if (i is AdjectivePhrase)
+                {
                     State s2 = new State();
                     s2.StatePhrase = i;
                     stateList.Add(s2);
                 }
-                if (i is NounPhrase) {
+                if (i is NounPhrase)
+                {
                     State s3 = new State();
                     s3.StatePhrase = i;
                     stateList.Add(s3);
                 }
-                if (i is VerbPhrase && i.Words.Any(n => n is PresentParticiple)) {
+                if (i is VerbPhrase && i.Words.Any(n => n is PresentParticiple))
+                {
                     State s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
                     break;
                 }
-                if (i is ConjunctionPhrase) {
+                if (i is ConjunctionPhrase)
+                {
                     State s5 = new State();
                     s5.StatePhrase = i;
                     stateList.Add(s5);
                 }
 
 
-                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticiple))) {
+                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticiple)))
+                {
                     State s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
@@ -56,14 +64,16 @@ namespace LASI.Core.Binding
                     //subject for normal sentence.
                     if ((i.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.Sentence == i.Sentence) &&
-                         (i.PreviousPhrase as NounPhrase).SubjectOf == null) {
+                         (i.PreviousPhrase as NounPhrase).SubjectOf == null)
+                    {
 
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
                     if ((i.PreviousPhrase.HasSubjectPronoun() || (i.PreviousPhrase.PreviousPhrase.HasSubjectPronoun())) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
                         (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
-                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null)) {
+                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null))
+                    {
 
                         (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
@@ -76,28 +86,33 @@ namespace LASI.Core.Binding
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
                 if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
                     && (i.Sentence == i.NextPhrase.NextPhrase.Sentence)
-                    && (i.NextPhrase.NextPhrase as NounPhrase).SubjectOf == null) {
+                    && (i.NextPhrase.NextPhrase as NounPhrase).SubjectOf == null)
+                {
                     (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
                     s.IsInverted = true;
 
                 }
 
-                if (i is AdverbPhrase) {
+                if (i is AdverbPhrase)
+                {
                     State s7 = new State();
                     s7.StatePhrase = i;
                     stateList.Add(s7);
                 }
-                if (i is PrepositionalPhrase) {
+                if (i is PrepositionalPhrase)
+                {
                     State s8 = new State();
                     s8.StatePhrase = i;
                     stateList.Add(s8);
                 }
-                if (i is ParticlePhrase) {
+                if (i is ParticlePhrase)
+                {
                     State s9 = new State();
                     stateList.Add(s9);
                     s9.StatePhrase = i;
                 }
-                if (i is InterjectionPhrase) {
+                if (i is InterjectionPhrase)
+                {
                     State s10 = new State();
                     s10.StatePhrase = i;
                     stateList.Add(s10);
@@ -110,11 +125,13 @@ namespace LASI.Core.Binding
         /// <summary>
         /// Display the current state of the SubjectBinder for debugging purposes.
         /// </summary>
-        public void Display() {
+        public void Display()
+        {
 
             for (int i = 0;
             i < stateList.Count;
-            i++) {
+            i++)
+            {
 
                 Output.Write(stateList[i].StatePhrase);
                 Output.WriteLine();
@@ -124,18 +141,22 @@ namespace LASI.Core.Binding
 
         internal class State
         {
-            public State() {
+            public State()
+            {
                 S = StateType.Default;
             }
-            public StateType S {
+            public StateType S
+            {
                 get;
                 set;
             }
-            public int count {
+            public int count
+            {
                 get;
                 private set;
             }
-            public Phrase StatePhrase {
+            public Phrase StatePhrase
+            {
                 get;
                 set;
             }
@@ -159,7 +180,8 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>
-        public static bool HasSubjectPronoun(this Phrase p) {
+        public static bool HasSubjectPronoun(this Phrase p)
+        {
             return p.Words
                 .OfPronoun()
                 .Any(w => subjectPronounStrings.Contains(w.Text));

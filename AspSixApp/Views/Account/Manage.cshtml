@@ -1,13 +1,13 @@
 ﻿@{
     ViewBag.Title = "Manage Account";
 }
-
+@model AspSixApp.Models.ManageUserViewModel
 <h2>@ViewBag.Title.</h2>
 <p class="text-success">@ViewBag.StatusMessage</p>
 
 <div class="row">
     <div class="col-md-12">
-        @await Html.PartialAsync("_ChangePasswordPartial")
+        @await Html.PartialAsync("_ChangePasswordPartial", Model)
     </div>
 </div>
 

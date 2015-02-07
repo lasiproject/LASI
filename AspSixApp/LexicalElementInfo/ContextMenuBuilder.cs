@@ -17,16 +17,17 @@ namespace AspSixApp.LexicalElementInfo
     /// </summary>
     public static class ContextMenuBuilder
     {
-        public static int GetSerializationId(this ILexical element) {
+        public static int GetSerializationId(this ILexical element)
+        {
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
-        public static string GetJsonMenuData(this ILexical lexical) {
-            return lexical.Match()
+        public static string GetJsonMenuData(this ILexical lexical) =>
+            lexical.Match()
                 .Case((IReferencer r) => r.GetJsonMenuData())
                 .Case((IVerbal v) => v.GetJsonMenuData())
                 .Result();
-        }
-        public static string GetJsonMenuData(this IVerbal verbal) {
+        public static string GetJsonMenuData(this IVerbal verbal)
+        {
             Validator.ThrowIfNull(verbal, nameof(verbal));
             var data = new
             {
@@ -37,18 +38,20 @@ namespace AspSixApp.LexicalElementInfo
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
-        public static string GetJsonMenuData(this IReferencer referencer) {
+        public static string GetJsonMenuData(this IReferencer referencer)
+        {
             Validator.ThrowIfNull(referencer, nameof(referencer));
             var data = new
             {
                 Referencer = referencer.GetSerializationId(),
-
                 RefererredTo = referencer.RefersTo.Any() ? referencer.RefersTo.OfType<Phrase>().Select(e => e.GetSerializationId()).ToArray() : null
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }
-        private static JsonSerializerSettings SerializerSettings {
-            get {
+        private static JsonSerializerSettings SerializerSettings
+        {
+            get
+            {
                 return new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

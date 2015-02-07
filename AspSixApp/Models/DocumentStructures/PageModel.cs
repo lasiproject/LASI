@@ -6,19 +6,23 @@ namespace AspSixApp.Models.DocumentStructures
 {
     class PageModel : TextualModel<Document.Page>
     {
-        public PageModel(Document.Page page) : base(page) {
+        public PageModel(Document.Page page) : base(page)
+        {
             this.page = page;
             ParagraphModels = page.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
-            foreach (var model in ParagraphModels) { model.PageModel = this; }
-
+            foreach (var model in ParagraphModels)
+            {
+                model.PageModel = this;
+            }
         }
-        public override string Text { get { return "&nbsp;&nbsp;&nbsp;&nbsp;" + string.Join("\r\n\r\n", ParagraphModels.Select(paragraph => paragraph.Text)); } }
-        public override Style Style { get { return new Style { CssClass = "page" }; } }
-        public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
-        public IEnumerable<SentenceModel> SentenceModels { get { return ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels); } }
+        public override string Text =>
+            string.Join("", Enumerable.Repeat(TextHelper.HtmlSpace, 4)) +
+            string.Join("", ParagraphModels.Select(m => m.Text));
+        public override Style Style => new Style { CssClass = "page" };
+        public IEnumerable<ParagraphModel> ParagraphModels { get; }
+        public IEnumerable<SentenceModel> SentenceModels => ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels);
 
         public DocumentModel DocumentModel { get; internal set; }
         private Document.Page page;
-
     }
 }

@@ -26,13 +26,25 @@ namespace AspSixApp.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [NameField]
+        [StringLength(maximumLength: 200, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "First Name", ShortName = "First")]
+        public string FirstName { get; set; }
+
+        [NameField]
+        [StringLength(maximumLength: 200, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "Last Name", ShortName = "Last")]
+        public string LastName { get; set; }
+
+
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -46,18 +58,44 @@ namespace AspSixApp.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email Address", ShortName = "Email")]
+        public string Email { get; set; }
+
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [NameField]
+        [StringLength(maximumLength: 200, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "First Name", ShortName = "First")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [NameField]
+        [StringLength(maximumLength: 200, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 1)]
+        [Display(Name = "Last Name", ShortName = "Last")]
+        public string LastName { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
+        [StringLength(20, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 4)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
+        [StringLength(20, ErrorMessage = Messages.LENGTH_INVALID_MESSAGE, MinimumLength = 4)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
     }
+
+    #region Validation Messages
+    internal static class Messages
+    {
+        public const string LENGTH_INVALID_MESSAGE = "Must be between 1 and 200 characters";
+    }
+    #endregion
+
 }

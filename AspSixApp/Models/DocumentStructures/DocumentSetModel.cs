@@ -7,15 +7,19 @@ namespace AspSixApp.Models.DocumentStructures
 {
     class DocumentSetModel : TextualModel<IEnumerable<Document>>
     {
-        public DocumentSetModel(IEnumerable<Document> documents) : base(documents) {
-            DocumentModels = documents.Select(document => new DocumentModel(document));
-            foreach (var model in DocumentModels) { model.DocumentSetModel = this; }
+        public DocumentSetModel(IEnumerable<Document> documents) : base(documents)
+        {
+            foreach (var document in documents)
+            {
+                var model = new DocumentModel(document);
+                model.DocumentSetModel = this;
+            }
         }
-        public IEnumerable<DocumentModel> DocumentModels { get; private set; }
 
-        public override Style Style { get { return new Style { CssClass = "documentlist" }; } }
+        public override Style Style => new Style { CssClass = "documentlist" };
         // TODO: Fix name of lambda arg
-        public override string Text { get { return ModelFor.Format(documentModel => documentModel.Text); } }
+        public override string Text => $@"{GetType()}:\n{string.Join("\n\n", DocumentModels.Select(m => m.Text))}";
+        public IEnumerable<DocumentModel> DocumentModels { get; }
 
     }
 }
