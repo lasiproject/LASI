@@ -2,11 +2,11 @@
     "name": "AspSixApp",
     "private": true,
     "dependencies": {
-        "bootstrap": "~3.3.2",
-        "jquery": "~2.1.3",
-        "jquery-validation": "~1.13.1",
-        "jquery-validation-unobtrusive": "~3.2.2",
-        "qunit": "1.17.1"
+        "bootstrap": "3.3.2",
+        "jquery": "2.1.3",
+        "jquery-validation": "1.13.1",
+        "jquery-validation-unobtrusive": "3.2.2",
+        "qunit": ""
     },
     "exportsOverride": {
         "bootstrap": {

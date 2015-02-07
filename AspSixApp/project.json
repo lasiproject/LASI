@@ -1,4 +1,4 @@
-﻿{
+{
     /* Click to learn more about project.json  http://go.microsoft.com/fwlink/?LinkID=517074 */
     "webroot": "wwwroot",
     "version": "1.0.0-*",
@@ -20,7 +20,11 @@
         "Microsoft.Framework.Logging": "1.0.0-beta2",
         "Microsoft.Framework.Logging.Console": "1.0.0-beta2",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta1",
-        "mongocsharpdriver": "1.9.2"
+        "mongocsharpdriver": "1.9.2",
+        "LASI.Content": "",
+        "LASI.Core": "",
+        "LASI.Interop": "",
+        "LASI.Utilities": ""
     },
     "commands": {
         /* Change the port number when you are self hosting this application */

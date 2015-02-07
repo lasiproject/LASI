@@ -15,7 +15,8 @@ namespace AspSixApp.Models.Lexical
             ContextMenuJson = phrase.GetJsonMenuData();
             //Core.Phrase.VerboseOutput = true;
             DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
-            WordViewModels = phrase.Words.Select(word => new WordModel(word));
+            WordViewModels = from word in phrase.Words
+                             select new WordModel(word);
             //foreach (var wvm in WordViewModels) {
             //wvm.PhraseModel = this;
             //}

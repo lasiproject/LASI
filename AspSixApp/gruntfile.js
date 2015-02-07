@@ -1,50 +1,43 @@
-/// <binding AfterBuild='default' ProjectOpened='watch' />
 // This file in the main entry point for defining grunt tasks and using grunt plugins.
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
 module.exports = function (grunt) {
+    var appPath = 'Scripts/**/*.js';
     grunt.initConfig({
         bower: {
             install: {
                 options: {
                     targetDir: "wwwroot/lib",
                     layout: "byComponent",
-                    cleanTargetDir: true
+                    cleanTargetDir: false
                 }
             }
         },
         jslint: {
-            all: {
-                src: [
-                  'Scripts/**/*.js'
-                ], directives: {
+            client: {
+                src: [appPath],
+                exclude: [],
+                directives: {
                     browser: true,
-                    predef: [
-                      'jQuery', '$', // jQuery
-                      'test', 'ok', 'deepEqual', 'notStrictEqual',
-                      'require', 'exports', 'module' // requirejs
-                    ]
+                    predef: ['jQuery', 'test', 'ok', 'deepEqual', 'notStrictEqual', '$', 'require']
                 }
             }
-        },
-        'jsmin-sourcemap': {
+        }, 'jsmin-sourcemap': {
             app: {
-                src: ['Scripts/**/*.js'],
-                dest: 'wwwroot/dist/scripts/js/app.min.js',
-                destMap: 'wwwroot/dist/scripts/js/app.min.js.map'
+                src: [appPath],
+                dest: 'wwwroot/dist/app/app.min.js',
+                destMap: 'wwwroot/dist/app/app.min.js.map'
             },
             lib: {
-                src: [
-                    'wwwroot/lib/**/*.js'
-                ],
-                dest: 'wwwroot/dist/scripts/js/lib.min.js',
-                destMap: 'wwwroot/dist/scripts/js/lib.min.js.map'
+                src: ['wwwroot/lib/**/*.js'],
+                dest: 'wwwroot/dist/lib/lib.js',
+                destMap: 'wwwroot/dist/lib/lib.js.map'
             }
         }
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install', 'jsmin-sourcemap:lib', 'jsmin-sourcemap:app']);
+    grunt.registerTask("default", ["bower:install", 'jslint:client', 'jsmin-sourcemap']);
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
     // cannot use an array or varargs to load tasks from multiple plugins here. 

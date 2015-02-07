@@ -18,7 +18,7 @@ namespace AspSixApp.Models.Lexical
         public Style Style { get; }
         public TLexical Element { get; }
 
-        public TLexical ModelFor { get { return Element; } }
+        public TLexical ModelFor => Element;
 
         public abstract string ContextMenuJson { get; }
 
