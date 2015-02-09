@@ -10,17 +10,22 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
-    using static FunctionExtensions;
+    /// <summary>
+    /// Provides extension methods for Melding sequences of entities.
+    /// </summary>
     public static class MeldingExtensions
     {
-        public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity {
+        public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity
+        {
             return entities.Meld((e1, e2) => e1.IsSimilarTo(e2));
         }
-        public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities, Func<TEntity, TEntity, bool> meldWhen) where TEntity : class, IEntity {
+        public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities, Func<TEntity, TEntity, bool> meldWhen) where TEntity : class, IEntity
+        {
             return MeldImplementation(entities, CustomComparer.Create(meldWhen));
         }
         private static IEnumerable<IEntity> MeldImplementation<TEntity>(IEnumerable<TEntity> entities, IEqualityComparer<TEntity> comparer)
-            where TEntity : class, IEntity {
+            where TEntity : class, IEntity
+        {
 
             var groupsToMeld =
                 entities.GroupJoin(entities, // Group join the set entities to itself using the given comparer.
@@ -37,6 +42,5 @@ namespace LASI.Core
                          select new LiftedEntity(avatar: avatar, represented: toMeld);
             return result;
         }
-        public static T Identity<T>(T t) => t;
     }
 }

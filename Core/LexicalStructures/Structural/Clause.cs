@@ -6,24 +6,31 @@ namespace LASI.Core
 {
     /// <summary>
     /// Represents a Clause Level construct.
+    /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
+    /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
     /// </summary>
     public class Clause : ILexical, IPrepositionLinkable
     {
         /// <summary>
-        /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
-        /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
+        /// Initializes a new instances of the Clause class.
         /// </summary>
         /// <param name="phrases">The linear sequence of Phrases which compose to form the Clause.</param>
-        public Clause(IEnumerable<Phrase> phrases) {
+        public Clause(IEnumerable<Phrase> phrases)
+        {
             Phrases = phrases;
         }
-
+        /// <summary>
+        /// Initializes a new instances of the Clause class.
+        /// </summary>
+        ///<param name="first">The phrase which begins the Clause.</param>
+        /// <param name="rest">The linear sequence of Phrases which form the remainder of the Clause.</param>
         public Clause(Phrase first, params Phrase[] rest) : this(rest.Prepend(first)) { }
         /// <summary>
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        public void EstablishParent(LASI.Core.Sentence sentence) {
+        public void EstablishParent(LASI.Core.Sentence sentence)
+        {
             Sentence = sentence;
             foreach (var phrase in Phrases) { phrase.EstablishParent(this); }
         }

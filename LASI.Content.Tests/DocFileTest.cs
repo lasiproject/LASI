@@ -24,11 +24,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -42,7 +45,8 @@ namespace LASI.Content.Tests
         ///A test for DocFile Constructor
         ///</summary>
         [TestMethod]
-        public void DocFileConstructorTest() {
+        public void DocFileConstructorTest()
+        {
             DocFile target = new DocFile(DOC_TEST_FILE_PATH);
             Assert.IsTrue(File.Exists(DOC_TEST_FILE_PATH));
             Assert.AreEqual(target.Extension, ".doc");
@@ -53,7 +57,8 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
-        public void DocFileConstructorTest1() {
+        public void DocFileConstructorTest1()
+        {
             string wrongFileTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
             DocFile target = new DocFile(wrongFileTypePath);
         }
@@ -62,7 +67,8 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void DocFileConstructorTest2() {
+        public void DocFileConstructorTest2()
+        {
             string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             Assert.IsFalse(File.Exists(invalidPath));
             DocFile target = new DocFile(invalidPath);

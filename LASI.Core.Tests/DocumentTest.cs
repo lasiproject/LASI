@@ -26,11 +26,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -67,12 +70,14 @@ namespace LASI.Core.Tests
 
         #region Testing Helpers
 
-        private static Document CreateUnboundUnweightedTestDocument() {
+        private static Document CreateUnboundUnweightedTestDocument()
+        {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
             return new Document(allParagrpahs);
         }
 
-        private static IEnumerable<Paragraph> BuildParagraphs() {
+        private static IEnumerable<Paragraph> BuildParagraphs()
+        {
             IEnumerable<Paragraph> allParagrpahs = new[] {
                 new Paragraph(new[] {
                     new Sentence(new Clause[] {
@@ -143,7 +148,8 @@ namespace LASI.Core.Tests
         ///A test for Document Constructor
         ///</summary>
         [TestMethod]
-        public void DocumentConstructorTest() {
+        public void DocumentConstructorTest()
+        {
             Document doc = CreateUnboundUnweightedTestDocument();
             Assert.IsTrue(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
@@ -158,7 +164,8 @@ namespace LASI.Core.Tests
         ///A test for GetActions
         ///</summary>
         [TestMethod]
-        public void GetVerbalsTest() {
+        public void GetVerbalsTest()
+        {
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IVerbal> expected = new IVerbal[]{
                     new VerbPhrase(new Word[] {
@@ -175,7 +182,8 @@ namespace LASI.Core.Tests
             };
             IEnumerable<IVerbal> actual;
             actual = target.Verbals;
-            foreach (var e in expected) {
+            foreach (var e in expected)
+            {
                 Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
 
@@ -185,7 +193,8 @@ namespace LASI.Core.Tests
         ///A test for GetEntities
         ///</summary>
         [TestMethod]
-        public void GetEntitiesTest() {
+        public void GetEntitiesTest()
+        {
 
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
@@ -209,7 +218,8 @@ namespace LASI.Core.Tests
             };
             IEnumerable<IEntity> actual;
             actual = target.Entities;
-            foreach (var e in expected) {
+            foreach (var e in expected)
+            {
                 Assert.IsTrue(actual.Contains(e, LexicalComparers.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
         }
@@ -219,12 +229,14 @@ namespace LASI.Core.Tests
         ///A test for Paragraphs
         ///</summary>
         [TestMethod]
-        public void ParagraphsTest() {
+        public void ParagraphsTest()
+        {
             IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
             Document target = new Document(paragraphsIn);
             IEnumerable<Paragraph> actual;
             actual = target.Paragraphs;
-            for (var i = 0; i < paragraphsIn.Count(); ++i) {
+            for (var i = 0; i < paragraphsIn.Count(); ++i)
+            {
 
                 Assert.AreEqual(paragraphsIn.ToList()[i], actual.ToList()[i]);
             }
@@ -234,7 +246,8 @@ namespace LASI.Core.Tests
         ///A test for Phrases
         ///</summary>
         [TestMethod]
-        public void PhrasesTest() {
+        public void PhrasesTest()
+        {
 
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Phrase> actual;
@@ -250,7 +263,8 @@ namespace LASI.Core.Tests
         ///A test for Sentences
         ///</summary>
         [TestMethod]
-        public void SentencesTest() {
+        public void SentencesTest()
+        {
             Sentence[] firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] {
@@ -285,7 +299,8 @@ namespace LASI.Core.Tests
             Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
-            for (var i = 0; i < actual.Count(); ++i) {
+            for (var i = 0; i < actual.Count(); ++i)
+            {
 
                 Assert.AreEqual(firstParagraphSentences.ToList()[i], actual.ToList()[i]);
             }
@@ -295,7 +310,8 @@ namespace LASI.Core.Tests
         ///A test for Words
         ///</summary>
         [TestMethod]
-        public void WordsTest() {
+        public void WordsTest()
+        {
             Document target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Word> actual;
             actual = target.Words;
@@ -312,7 +328,8 @@ namespace LASI.Core.Tests
         ///A test for Name
         ///</summary>
         [TestMethod]
-        public void TitleTest() {
+        public void TitleTest()
+        {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
             Document target = new Document(allParagrpahs, "testname");
             string expected = "testname";
@@ -325,7 +342,8 @@ namespace LASI.Core.Tests
         ///A test for Clauses
         ///</summary>
         [TestMethod]
-        public void ClausesTest() {
+        public void ClausesTest()
+        {
             Sentence[] firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] {
@@ -369,9 +387,10 @@ namespace LASI.Core.Tests
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             Document target = CreateUnboundUnweightedTestDocument();
-            string expected = string.Join(string.Empty, target.GetType(), ":  ", target.Title, "\nParagraphs: \n", target.Paragraphs.Format());
+            string expected = string.Join(string.Empty, target.GetType(), ": ", target.Title, "\nParagraphs:\n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -381,7 +400,8 @@ namespace LASI.Core.Tests
         ///A test for Paginate
         ///</summary>
         [TestMethod]
-        public void PaginateTest() {
+        public void PaginateTest()
+        {
             Document target = CreateUnboundUnweightedTestDocument();
             int lineLength = 80;
             int linesPerPage = 3;
@@ -389,7 +409,8 @@ namespace LASI.Core.Tests
             IEnumerable<Document.Page> actual;
 
             actual = target.Paginate(lineLength, linesPerPage);
-            foreach (var page in actual) {
+            foreach (var page in actual)
+            {
                 Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
             EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
@@ -400,7 +421,8 @@ namespace LASI.Core.Tests
         ///A test for Paginate
         ///</summary>
         [TestMethod]
-        public void PaginateTest1() {
+        public void PaginateTest1()
+        {
             Document target = CreateUnboundUnweightedTestDocument();
             int lineLength = 80;
             int linesPerPage = 1;
@@ -408,7 +430,8 @@ namespace LASI.Core.Tests
             IEnumerable<Document.Page> actual;
 
             actual = target.Paginate(lineLength, linesPerPage);
-            foreach (var page in actual) {
+            foreach (var page in actual)
+            {
                 Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
             EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));

@@ -31,9 +31,8 @@ namespace LASI.Core
         {
             Title = title;
             this.paragraphs = paragraphs.ToList();
-            enumerationOrHeadingsParagraphs = this.paragraphs
-                .Where(p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading)
-                .ToList();
+            this.enumerationOrHeadingsParagraphs = this.paragraphs
+                .Where(p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading);
             new DocumentReifier(this).Reifiy();
         }
 
@@ -66,14 +65,15 @@ namespace LASI.Core
                from paragraph in Paragraphs
                let lines = (int)Math.Floor(measureText(paragraph.Text) / lineLength)
                let actualLines = lines + Math.Round(measureText(paragraph.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
-               select new 
+               select new
                {
                    Paragraph = paragraph,
                    LinesUsed = actualLines
                };
 
             var skip = 0;
-            while (skip < measuredParagraphs.Count()) {
+            while (skip < measuredParagraphs.Count())
+            {
                 var totalLines = 0;
                 var pragraphs = measuredParagraphs
                     .Skip(skip)
@@ -108,7 +108,7 @@ namespace LASI.Core
         /// A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting
         /// in the instance's full materialization and reification.
         /// </returns>
-        public override string ToString() => @"${GetType()}: {Title}\nParagraphs:\n ${Paragraphs.Format()}";
+        public override string ToString() => $"{GetType()}: {Title}\nParagraphs:\n{Paragraphs.Format()}";
 
         /// <summary>
         /// Returns all of the verbals identified within the document.
@@ -130,9 +130,12 @@ namespace LASI.Core
 
         private IEnumerable<ILexical> EnumerateAllLexicals()
         {
-            foreach (var lexical in words) { yield return lexical; }
-            foreach (var lexical in phrases) { yield return lexical; }
-            foreach (var lexical in Clauses) { yield return lexical; }
+            foreach (var lexical in words)
+                yield return lexical;
+            foreach (var lexical in phrases)
+                yield return lexical;
+            foreach (var lexical in Clauses)
+                yield return lexical;
         }
 
         #endregion Methods
@@ -179,15 +182,15 @@ namespace LASI.Core
 
         #region Fields
 
-        private IReadOnlyList<Word> words;
-        private IReadOnlyList<Phrase> phrases;
+        private List<Word> words;
+        private List<Phrase> phrases;
 
-        private IReadOnlyList<ILexical> lexicals;
+        private List<ILexical> lexicals;
 
-        private IReadOnlyList<Sentence> sentences;
+        private List<Sentence> sentences;
 
-        private IReadOnlyList<Paragraph> paragraphs;
-        private IReadOnlyList<Paragraph> enumerationOrHeadingsParagraphs;
+        private List<Paragraph> paragraphs;
+        private List<Paragraph> enumerationOrHeadingsParagraphs;
 
         #endregion Fields
 
@@ -201,17 +204,12 @@ namespace LASI.Core
             /// <summary>
             /// Gets the Paragraphs which comprise the Page.
             /// </summary>
-            public IEnumerable<Paragraph> Paragraphs
-            {
-                get
-                {
-                    Func<Paragraph, int> rank = Document.paragraphs.ToList().IndexOf;
-                    return Sentences
-                            .Select(s => s.Paragraph)
-                            .Distinct()
-                            .OrderBy(rank);
-                }
-            }
+            public IEnumerable<Paragraph> Paragraphs =>
+                from paragraph in Sentences.Select(s => s.Paragraph).Distinct()
+                let rank = Document.paragraphs.ToList().IndexOf(paragraph)
+                orderby rank
+                select paragraph;
+
 
             /// <summary>
             /// Gets the Document to which the Page belongs.
@@ -275,7 +273,8 @@ namespace LASI.Core
             public void Reifiy()
             {
                 AssignMembers();
-                foreach (var paragraph in document.paragraphs) {
+                foreach (var paragraph in document.paragraphs)
+                {
                     paragraph.EstablishParent(document);
                 }
                 LinksAdjacentElements();
@@ -284,9 +283,9 @@ namespace LASI.Core
             private void AssignMembers()
             {
                 document.sentences = document.paragraphs
-                     .Sentences()
-                     .Where(sentence => sentence.Words.OfVerb().Any())
-                     .ToList();
+                    .Sentences()
+                    .Where(sentence => sentence.Words.OfVerb().Any())
+                    .ToList();
                 document.phrases = document.sentences.Phrases()
                     .ToList();
                 document.words = document.sentences
@@ -306,14 +305,17 @@ namespace LASI.Core
             private void LinksAdjacentWords()
             {
                 var words = document.words;
-                if (words.Count > 1) {
+                if (words.Count > 1)
+                {
                     var indexOfLast = 0;
-                    for (var i = 1; i < words.Count; ++i) {
+                    for (var i = 1; i < words.Count; ++i)
+                    {
                         words[i].PreviousWord = words[i - 1];
                         words[i - 1].NextWord = words[i];
                         indexOfLast = i;
                     }
-                    if (indexOfLast > 0) {
+                    if (indexOfLast > 0)
+                    {
                         var lastWord = words[indexOfLast];
                         lastWord.PreviousWord = words[indexOfLast - 1];
                     }
@@ -323,14 +325,15 @@ namespace LASI.Core
             private void LinksAdjacentPhrases()
             {
                 var phrases = document.phrases;
-                if (phrases.Count > 1) {
-                    for (var i = 1; i < phrases.Count; ++i) {
+                if (phrases.Count > 1)
+                {
+                    for (var i = 1; i < phrases.Count; ++i)
+                    {
                         phrases[i].PreviousPhrase = phrases[i - 1];
                         phrases[i - 1].NextPhrase = phrases[i];
                     }
                 }
             }
-
             private readonly Document document;
         }
 

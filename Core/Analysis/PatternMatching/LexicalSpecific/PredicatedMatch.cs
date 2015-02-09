@@ -19,7 +19,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         /// <param name="accepted">Indicates if match operations are to be tested. If false, Then expressions will have no effect and simply return the original match.</param>
         /// <param name="inner">The match which has been predicated.</param>
-        internal PredicatedMatch(bool accepted, Match<T> inner) : base(accepted) {
+        internal PredicatedMatch(bool accepted, Match<T> inner) : base(accepted)
+        {
             this.expression = inner;
         }
         /// <summary>
@@ -28,7 +29,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then<TCase>(Action action) where TCase : class, ILexical {
+        public Match<T> Then<TCase>(Action action) where TCase : class, ILexical
+        {
             return Accepted ? expression.Case<TCase>(action) : expression;
         }
 
@@ -38,7 +40,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided action invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical {
+        public Match<T> Then<TCase>(Action<TCase> action) where TCase : class, ILexical
+        {
             return Accepted ? expression.Case(action) : expression;
         }
         /// <summary>
@@ -78,7 +81,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="inner">The Match&lt;T, TResult&gt; which created the current instance.</param>
         [DebuggerStepThrough]
         internal PredicatedMatch(bool predicateSucceeded, Match<T, TResult> inner)
-           : base(predicateSucceeded) {
+           : base(predicateSucceeded)
+        {
             this.expression = inner;
         }
         #endregion
@@ -90,7 +94,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="result">The value which, if this Case expression is Matched, will be the result of the Pattern Match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TCase>(TResult result) where TCase : class, ILexical {
+        public Match<T, TResult> Then<TCase>(TResult result) where TCase : class, ILexical
+        {
             return Accepted ? expression.Case<TCase>(result) : expression;
         }
         /// <summary>
@@ -99,7 +104,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <typeparam name="TCase">The Type to match with. This expression will be selected, and the provided function invoked, if and only if the predicate has been satisfied and the value being matched over is of this type.</typeparam>
         /// <param name="func">The function whose result will be the result of the Then match expression.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Then<TCase>(Func<TResult> func) where TCase : class, ILexical {
+        public Match<T, TResult> Then<TCase>(Func<TResult> func) where TCase : class, ILexical
+        {
             return Accepted ? expression.Case<TCase>(func) : expression;
         }
         /// <summary>

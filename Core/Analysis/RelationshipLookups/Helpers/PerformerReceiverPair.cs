@@ -43,7 +43,7 @@ namespace LASI.Core.Heuristics
         /// <param name="right">The second PerformerReceiverPair&lt;TPerformer, TReceiver&gt;.</param>
         /// <returns><c>true</c> if the structures are considered unequal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(PerformerReceiverPair<TPerformer, TReceiver> left, PerformerReceiverPair<TPerformer, TReceiver> right) => !(left == right);
-
+        ///
         public bool Equals(PerformerReceiverPair<TPerformer, TReceiver> other) => Performer.Equals(other.Performer) && Receiver.Equals(other.Receiver);
 
         /// <summary>

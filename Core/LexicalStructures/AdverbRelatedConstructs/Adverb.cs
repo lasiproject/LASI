@@ -14,8 +14,13 @@ namespace LASI.Core
     /// </summary>
     public class Adverb : Word, IAdverbial, IAdverbialModifiable
     {
-
+        /// <summary>
+        /// Gets the collection of Adverbial constructs which modify the Adverb
+        /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        /// <summary>
+        /// Gets the Verbal the Adverb modifies.
+        /// </summary>
         public IVerbal AttributedTo => Modifies as IVerbal;
         IDescriptor IAttributive<IDescriptor>.AttributedTo => Modifies as IDescriptor;
         /// <summary>

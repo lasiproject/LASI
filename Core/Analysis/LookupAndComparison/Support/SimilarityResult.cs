@@ -32,7 +32,8 @@ namespace LASI.Core.Heuristics
         /// <param name="similarityRatio">
         /// Represents the similarity ratio between the tested elements, if applicable.
         /// </param>
-        private Similarity(bool similar, double similarityRatio) : this() {
+        private Similarity(bool similar, double similarityRatio) : this()
+        {
             Boolean = similar;
             Rational = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
         }
@@ -53,7 +54,17 @@ namespace LASI.Core.Heuristics
         #endregion Constructors
 
         #region Factory Methods
+        /// <summary>
+        /// Creates a new Similarity based on the given value.
+        /// </summary>
+        /// <param name="rational">The value to construct a Similarity from.</param>
+        /// <returns>A new Similarity based on the given value.</returns>
         public static Similarity FromRational(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
+        /// <summary>
+        /// Creates a new Similarity based on the given Boolean value.
+        /// </summary>
+        /// <param name="similar">The value to construct a Similarity from.</param>
+        /// <returns>A new Similarity based on the given value.</returns>
         public static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
 
         #endregion Factory Methods
@@ -208,8 +219,13 @@ namespace LASI.Core.Heuristics
         #endregion Operators
 
         #region Static Fields
-
+        /// <summary>
+        /// Constant representing a Similarity that is similar.
+        /// </summary>
         public static readonly Similarity Similar = new Similarity(true, 1);
+        /// <summary>
+        /// Constant representing a Similarity that is not Similar.
+        /// </summary>
         public static readonly Similarity Dissimilar = new Similarity(false, 0);
 
         #endregion Static Fields

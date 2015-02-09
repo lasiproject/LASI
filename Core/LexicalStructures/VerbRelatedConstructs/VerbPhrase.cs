@@ -12,6 +12,9 @@ namespace LASI.Core
     /// </summary>
     public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
+        /// <summary>
+        /// Gets or the collection of IAdverbial modifiers which modify the VerbPhrase.
+        /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         #region Constructors
 
@@ -20,7 +23,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="words">The words which compose to form the VerbPhrase.</param>
         public VerbPhrase(IEnumerable<Word> words)
-            : base(words) {
+            : base(words)
+        {
             PrevailingForm = (from verb in Words.OfVerb()
                               group verb.VerbForm by verb.VerbForm into byForm
                               orderby byForm.Count() descending
@@ -48,7 +52,8 @@ namespace LASI.Core
         /// Attaches an Adverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb.
         /// </summary>
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
-        public void ModifyWith(IAdverbial modifier) {
+        public void ModifyWith(IAdverbial modifier)
+        {
             modifiers = modifiers.Add(modifier);
             modifier.Modifies = this;
         }
@@ -58,7 +63,8 @@ namespace LASI.Core
         /// <para>Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to"</para>
         /// </summary>
         /// <param name="prepositional">The IPrepositional construct through which the Object is associated.</param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
+        public virtual void AttachObjectViaPreposition(IPrepositional prepositional)
+        {
             ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
@@ -67,8 +73,10 @@ namespace LASI.Core
         /// Binds the given Entity as a subject of the VerbPhrase instance.
         /// </summary>
         /// <param name="subject">The Entity to attach to the VerbPhrase as a subject.</param>
-        public virtual void BindSubject(IEntity subject) {
-            if (subject != null) {
+        public virtual void BindSubject(IEntity subject)
+        {
+            if (subject != null)
+            {
                 subjects = subjects.Add(subject);
                 subject.SubjectOf = this;
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
@@ -80,17 +88,23 @@ namespace LASI.Core
         /// Binds the given Entity as a direct object of the VerbPhrase instance.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the VerbPhrase as a direct object.</param>
-        public virtual void BindDirectObject(IEntity directObject) {
-            if (directObject != null) {
+        public virtual void BindDirectObject(IEntity directObject)
+        {
+            if (directObject != null)
+            {
                 directObjects = directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
-                if (IsPossessive) {
-                    foreach (var subject in Subjects) {
+                if (IsPossessive)
+                {
+                    foreach (var subject in Subjects)
+                    {
                         subject.AddPossession(directObject);
                     }
-                } else if (IsClassifier) {
-                    foreach (var subject in Subjects) {
+                } else if (IsClassifier)
+                {
+                    foreach (var subject in Subjects)
+                    {
                         AliasLookup.DefineAlias(subject, directObject);
                     }
                 }
@@ -101,8 +115,10 @@ namespace LASI.Core
         /// Binds the given Entity as an indirect object of the VerbPhrase instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the VerbPhrase as an indirect object.</param>
-        public virtual void BindIndirectObject(IEntity indirectObject) {
-            if (indirectObject != null) {
+        public virtual void BindIndirectObject(IEntity indirectObject)
+        {
+            if (indirectObject != null)
+            {
                 indirectObjects = indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
                 foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
@@ -113,7 +129,8 @@ namespace LASI.Core
         /// Returns a string representation of the VerbPhrase.
         /// </summary>
         /// <returns>A string representation of the VerbPhrase.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return !Phrase.VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
                 Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
@@ -140,7 +157,8 @@ namespace LASI.Core
         /// "are definitely" acts as a classifier because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns><c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
-        private bool DetermineIsClassifier() {
+        private bool DetermineIsClassifier()
+        {
             return !IsPossessive &&
                 //AdverbialModifiers.None() &&
                 Words.OfVerb().Any() &&
@@ -174,11 +192,14 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IDescriptor which modifies, by way of the Verbal, its Subject.
         /// </summary>
-        public IDescriptor PostpositiveDescriptor {
-            get {
+        public IDescriptor PostpositiveDescriptor
+        {
+            get
+            {
                 return postpositiveDescriptor;
             }
-            set {
+            set
+            {
                 postpositiveDescriptor = value;
                 foreach (var described in Subjects) { described.BindDescriptor(value); }
             }

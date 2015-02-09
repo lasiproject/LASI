@@ -135,7 +135,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The value to match with. 
         /// </param>
         [DebuggerStepThrough]
-        internal Match(T value, bool accepted) : base(value) {
+        internal Match(T value, bool accepted) : base(value)
+        {
             Matched = accepted;
         }
 
@@ -156,7 +157,18 @@ namespace LASI.Core.Analysis.PatternMatching
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
-
+        /// <summary>
+        /// Appends a When expression to the current pattern. This applies a predicate to the value
+        /// being matched such that the subsequent Then expression will only be chosen if the
+        /// predicate returns true.
+        /// </summary>
+        /// <param name="when">
+        /// The predicate to test the value being matched. 
+        /// </param>
+        /// <returns>
+        /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
+        /// followed by a single Then expression.
+        /// </returns>
         public PredicatedMatch<T, TResult> When(Func<bool> when) => new PredicatedMatch<T, TResult>(when(), this);
 
         /// <summary>
@@ -175,7 +187,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical {
+        public PredicatedMatch<T, TResult> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical
+        {
             var cast = Value as TCase;
             return new PredicatedMatch<T, TResult>(cast != null && predicate(cast), this);
         }
@@ -212,8 +225,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical {
-            if (!Matched && Value is TCase) { // Despite the nullary func, TCase must match.
+        public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical
+        {
+            if (!Matched && Value is TCase)
+            { // Despite the nullary func, TCase must match.
                 result = func();
                 Matched = true;
             }
@@ -234,10 +249,13 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical {
-            if (!Matched) {
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical
+        {
+            if (!Matched)
+            {
                 var cast = Value as TCase;
-                if (cast != null) {
+                if (cast != null)
+                {
                     result = func(cast);
                     Matched = true;
                 }
@@ -273,8 +291,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The Match&lt;T, R&gt; describing the Match expression so far. 
         /// </returns>
-        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical {
-            if (!Matched && Value is TPattern) {
+        public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical
+        {
+            if (!Matched && Value is TPattern)
+            {
                 this.result = result;
                 Matched = true;
             }
@@ -311,8 +331,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The result of the first successful match or the value given by invoking the supplied
         /// factory function.
         /// </returns>
-        public TResult Result(Func<TResult> func) {
-            if (!Matched) {
+        public TResult Result(Func<TResult> func)
+        {
+            if (!Matched)
+            {
                 result = func();
                 Matched = true;
             }
@@ -330,8 +352,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The result of the first successful match or the value given by invoking the supplied
         /// factory function.
         /// </returns>
-        public TResult Result(Func<T, TResult> func) {
-            if (Value != null && !Matched) {
+        public TResult Result(Func<T, TResult> func)
+        {
+            if (Value != null && !Matched)
+            {
                 result = func(Value);
                 Matched = true;
             }
@@ -348,8 +372,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The result of the first successful match or supplied default value. 
         /// </returns>
-        public TResult Result(TResult defaultValue) {
-            if (!Matched) {
+        public TResult Result(TResult defaultValue)
+        {
+            if (!Matched)
+            {
                 result = defaultValue;
                 Matched = true;
             }
@@ -364,11 +390,10 @@ namespace LASI.Core.Analysis.PatternMatching
 
         #endregion Fields
 
-        #region Monadic Operators over Match<T, TResult>
+        #region Monadic Operators over Match
         public Option<TProjection> Select<TProjection>(Func<TResult, TProjection> selector) => from result in Matched ? result.ToOption() : Option.None<TResult>()
                                                                                                select selector(result);
         public Option<TProjection> SelectMany<TProjection>(Func<TResult, Option<TProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
-        //public Option<TProjection> SelectMany<TProjection, TOption>(Func<TResult, Option<TOption>> optionSelector, Func<TResult, TOption, TProjection> projection) => optionSelector(result).Select(projection.Apply(result)(this.Select(projection)));
 
         #endregion
     }

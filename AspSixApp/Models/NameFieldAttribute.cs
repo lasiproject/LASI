@@ -22,6 +22,6 @@ namespace AspSixApp.Models
             return true;
         }
 
-        private static readonly char[] illegalCharacters = {'  ', '\t', '\n', '\r', '!', '?', '.', ';', ':' };
+        private static readonly char[] illegalCharacters = {' ', '\t', '\n', '\r', '!', '?', '.', ';', ':' };
     }
 }

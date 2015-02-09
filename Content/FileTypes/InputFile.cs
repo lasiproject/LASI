@@ -49,7 +49,11 @@ namespace LASI.Content
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
         public string Directory => fileData.Directory;
-
+        /// <summary>
+        /// Returns a value that indicates whether the specified InputFile is equal to the current InputFile.
+        /// </summary>
+        /// <param name="other">The InputFile to compare with.</param> 
+        /// <returns> <c>true</c> if the specified InputFile is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
         public bool Equals(InputFile other) => fileData == other.fileData;
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current InputFile.

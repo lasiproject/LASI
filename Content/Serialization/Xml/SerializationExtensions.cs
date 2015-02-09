@@ -12,8 +12,16 @@ using Newtonsoft.Json.Utilities;
 
 namespace LASI.Content.Serialization.Xml
 {
+    /// <summary>
+    /// Provides extension methods for creating XML markup structures representing ILexical instances.
+    /// </summary>
     public static class SerializationExtensions
     {
+        /// <summary>
+        /// Produces an XElement representation of the Entity.
+        /// </summary>
+        /// <param name="entity">The Entity for which to obtain an XElement.</param>
+        /// <returns>An XElement representation of the Entity.</returns>
         public static XElement ToXElement(this IEntity entity) {
 
             return new XElement(ElementNames[entity],

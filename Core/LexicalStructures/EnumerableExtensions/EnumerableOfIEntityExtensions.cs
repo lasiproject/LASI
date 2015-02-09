@@ -14,6 +14,11 @@ namespace LASI.Core
     /// <seealso cref="System.Linq.Enumerable"/>
     public static partial class LexicalEnumerable
     {
+        /// <summary>
+        /// Creates an <see cref="IAggregateEntity"/> from the collection of entities.
+        /// </summary>
+        /// <param name="entities">The collection of entities to aggreate.</param>
+        /// <returns>An <see cref="IAggregateEntity"/> created from the collection of entities.</returns>
         public static IAggregateEntity ToAggregate(this IEnumerable<IEntity> entities) {
             return new AggregateEntity(entities);
         }

@@ -55,6 +55,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Test.Utilities\Test.Utilities.csproj">
+      <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
+      <Name>Test.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

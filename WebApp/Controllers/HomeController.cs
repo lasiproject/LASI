@@ -47,7 +47,7 @@ namespace LASI.WebApp.Controllers
             var charts = from document in documents
                          let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                          let rowData = from result in topResults
-                                       select new object[] { result.Key, result.Value }
+                                       select new object[] { result.First, result.Second }
                          select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Title };
 
             ViewBag.Charts = charts.ToDictionary(chart => chart.Title, chart => chart.Rows);

@@ -68,7 +68,6 @@
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
-    <Compile Include="CustomTestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
     <Compile Include="FileConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="InputFileTest.cs" />
@@ -107,6 +106,10 @@
     <ProjectReference Include="..\LASI.Core.Tests\LASI.Core.Tests.csproj">
       <Project>{f4abc10c-0be9-4195-99e7-db027757ec6b}</Project>
       <Name>LASI.Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test.Utilities\Test.Utilities.csproj">
+      <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
+      <Name>Test.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

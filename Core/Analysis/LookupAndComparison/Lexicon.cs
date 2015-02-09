@@ -31,7 +31,8 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Clears all cached adjective
         /// </summary>
-        public static void ClearAllCachedSynonymData() {
+        public static void ClearAllCachedSynonymData()
+        {
             ClearAdjectiveCache();
             ClearVerbCache();
             ClearAdverbCache();
@@ -57,7 +58,8 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// A NameGender value indicating the likely gender of the entity.
         /// </returns>
-        public static Gender GetGender(this IEntity entity) {
+        public static Gender GetGender(this IEntity entity)
+        {
             return entity.Match()
                     .Case((ISimpleGendered p) => p.Gender)
                     .Case((IReferencer p) => GetGender(p))
@@ -82,7 +84,8 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// The synonyms for the provided Noun.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Noun noun) {
+        public static IImmutableSet<string> GetSynonyms(this Noun noun)
+        {
             return cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
         }
 
@@ -95,7 +98,8 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// The synonyms for the provided Verb.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Verb verb) {
+        public static IImmutableSet<string> GetSynonyms(this Verb verb)
+        {
             return cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
         }
 
@@ -108,7 +112,8 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// The synonyms for the provided Adjective.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Adjective adjective) {
+        public static IImmutableSet<string> GetSynonyms(this Adjective adjective)
+        {
             return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
         }
 
@@ -121,7 +126,8 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// The synonyms for the provided Adverb.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Adverb adverb) {
+        public static IImmutableSet<string> GetSynonyms(this Adverb adverb)
+        {
             return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
         }
 
@@ -190,7 +196,8 @@ namespace LASI.Core.Heuristics
 
         #endregion
 
-        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word {
+        private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
+        {
             var resourceName = typeof(TWord).Name + " Association Map";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -272,7 +279,8 @@ namespace LASI.Core.Heuristics
                     capacity: 40960
                 );
 
-        private static Lazy<NameProvider> names = new Lazy<NameProvider>(() => {
+        private static Lazy<NameProvider> names = new Lazy<NameProvider>(() =>
+        {
             var resourceName = "Name Data";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -289,18 +297,22 @@ namespace LASI.Core.Heuristics
         private static Lazy<WordNetLookup<Noun>> nounLookup =
             new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), true);
 
-        private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() => {
+        private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() =>
+        {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;
-            var words = FunctionExtensions.InvokeWithTimer(() => {
-                using (var reader = new StreamReader(Paths.ScrabbleDict)) {
-                    return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                             .Select(s => s.ToLower())
-                             .Except(NameData.AllNames, IgnoreCase)
-                             .ToImmutableHashSet(IgnoreCase);
-                }
-            }, out timer);
+            var loadWords = FunctionExtensions.WithTimer(() =>
+             {
+                 using (var reader = new StreamReader(Paths.ScrabbleDict))
+                 {
+                     return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                              .Select(s => s.ToLower())
+                              .Except(NameData.AllNames, IgnoreCase)
+                              .ToImmutableHashSet(IgnoreCase);
+                 }
+             }, out timer);
+            var words = loadWords();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return words;
         }, true);

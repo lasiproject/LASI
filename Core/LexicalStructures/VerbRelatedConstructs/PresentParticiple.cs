@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents the present participle form of a verb. As such it may act as verbal, when paired with an auxilary, an entity, or a descriptor.
     /// </summary>
-    public class PresentParticiple : Verb, IEntity, IDescriptor 
+    public class PresentParticiple : Verb, IEntity
     {
         #region Constuctors
         /// <summary>
@@ -18,7 +18,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the Verb.</param>
         public PresentParticiple(string text)
-            : base(text, VerbForm.PresentParticiple) {
+            : base(text, VerbForm.PresentParticiple)
+        {
             EntityKind = EntityKind.Activity;
         }
         #endregion
@@ -29,7 +30,8 @@ namespace LASI.Core
         /// Binds a referencer, e.g. a Pronoun or PronounPhrase, to refer to the gerund.
         /// </summary>
         /// <param name="referencer">The referencer to bind to the gerund</param>
-        public void BindReferencer(IReferencer referencer) {
+        public void BindReferencer(IReferencer referencer)
+        {
             referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
@@ -37,7 +39,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the PresentParticiple.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the PresentParticiple' descriptors.</param>
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -47,7 +50,8 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possessable">The possession to add.</param>
-        public void AddPossession(IPossessable possessable) {
+        public void AddPossession(IPossessable possessable)
+        {
             possessions = possessions.Add(possessable);
             possessable.Possesser = this;
         }
@@ -88,11 +92,6 @@ namespace LASI.Core
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>
         public EntityKind EntityKind { get; }
-        /// <summary>
-        /// Gets or sets the Entity which the PresentParticiple describes.
-        /// </summary>
-        public IEntity Describes { get; set; }
-        public IEntity AttributedTo => Describes;
 
         #endregion
 

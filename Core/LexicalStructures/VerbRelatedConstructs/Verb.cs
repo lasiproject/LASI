@@ -19,7 +19,8 @@ namespace LASI.Core
         /// <param name="text">The text content of the verb.</param>
         /// <param name="form">The tense of the verb</param>
         protected Verb(string text, VerbForm form)
-            : base(text) {
+            : base(text)
+        {
             VerbForm = form;
         }
 
@@ -31,7 +32,8 @@ namespace LASI.Core
         /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the Verb <param name="modifier">The
         /// IAdverbial construct by which to modify the AdjectivePhrase.</param>
         /// </summary>
-        public virtual void ModifyWith(IAdverbial modifier) {
+        public virtual void ModifyWith(IAdverbial modifier)
+        {
             modifiers = modifiers.Add(modifier);
             modifier.Modifies = this;
         }
@@ -41,7 +43,8 @@ namespace LASI.Core
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to".
         /// </summary>
         /// <param name="prepositional">The prepositional which links the verb and its prepositional object.</param>
-        public virtual void AttachObjectViaPreposition(IPrepositional prepositional) {
+        public virtual void AttachObjectViaPreposition(IPrepositional prepositional)
+        {
             ObjectOfThePreposition = prepositional.BoundObject;
             PrepositionalToObject = prepositional;
         }
@@ -50,7 +53,8 @@ namespace LASI.Core
         /// Binds the given Entity as a subject of the Verb instance.
         /// </summary>
         /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
-        public virtual void BindSubject(IEntity subject) {
+        public virtual void BindSubject(IEntity subject)
+        {
             subjects = subjects.Add(subject);
             subject.SubjectOf = this;
         }
@@ -59,15 +63,20 @@ namespace LASI.Core
         /// Binds the given Entity as a direct object of the Verb instance.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
-        public virtual void BindDirectObject(IEntity directObject) {
+        public virtual void BindDirectObject(IEntity directObject)
+        {
             directObjects = directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
-            if (IsPossessive) {
-                foreach (var subject in subjects) {
+            if (IsPossessive)
+            {
+                foreach (var subject in subjects)
+                {
                     subject.AddPossession(directObject);
                 }
-            } else if (IsClassifier) {
-                foreach (var subject in subjects) {
+            } else if (IsClassifier)
+            {
+                foreach (var subject in subjects)
+                {
                     AliasLookup.DefineAlias(subject, directObject);
                 }
             }
@@ -77,7 +86,8 @@ namespace LASI.Core
         /// Binds the given Entity as an indirect object of the Verb instance.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
-        public virtual void BindIndirectObject(IEntity indirectObject) {
+        public virtual void BindIndirectObject(IEntity indirectObject)
+        {
             indirectObjects = indirectObjects.Add(indirectObject);
             indirectObject.IndirectObjectOf = this;
         }
@@ -94,7 +104,8 @@ namespace LASI.Core
         /// classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns><c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.</returns>
-        protected virtual bool DetermineIsClassifier() {
+        protected virtual bool DetermineIsClassifier()
+        {
             return !IsPossessive &&
                 //Modality == null &&
                 //AdverbialModifiers.None() &&
@@ -104,6 +115,9 @@ namespace LASI.Core
         #endregion Methods
 
         #region Properties
+        /// <summary>
+        /// Gets or the collection of IAdverbial modifiers which modify the Verb.
+        /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
         /// <summary>

@@ -29,7 +29,8 @@ namespace LASI.Core
         public void EstablishParent(Document parentDocument)
         {
             Document = parentDocument;
-            foreach (var sentence in Sentences) {
+            foreach (var sentence in Sentences)
+            {
                 sentence.EstablishParenthood(this);
             }
         }
@@ -45,7 +46,7 @@ namespace LASI.Core
         /// Returns a string representation of the Paragraph.
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
-        public override string ToString() => $"{base.ToString()}: {Sentences.Count()} sentences\n{Text}";
+        public override string ToString() => $"{base.ToString()}: {Sentences.Count()} sentences\n\"{Text}\"";
 
 
         /// <summary>
@@ -84,10 +85,14 @@ namespace LASI.Core
         /// Returns an enumeration of all constituent Lexical structures of the Paragraph.
         /// Lexical structures that contain other Lexical structures, such as Clauses, will be followed by their constituents.
         /// </summary>
-        public IEnumerable<ILexical> Lexicals => Clauses.SelectMany(c => c.Phrases.SelectMany(p => p.Words));
-
+        public IEnumerable<ILexical> Lexicals => Sentences.SelectMany(c => c.Phrases.SelectMany(p => p.Words));
+        /// <summary>
+        /// Gets all of the Entities in the Paragraph.
+        /// </summary>
         public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
-
+        /// <summary>
+        /// Gets all of the Verbals in the Paragraph.
+        /// </summary>
         public IEnumerable<IVerbal> Verbals => Lexicals.OfVerbal();
 
         private string text;

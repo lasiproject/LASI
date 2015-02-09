@@ -10,7 +10,13 @@ namespace LASI.Core
     /// </summary>
     public class AdjectivePhrase : Phrase, IDescriptor, IAdverbialModifiable
     {
+        /// <summary>
+        /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
+        /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        /// <summary>
+        /// Gets the Entity the AdjectivePhrase modifies.
+        /// </summary>
         public IEntity AttributedTo => Describes;
         /// <summary>
         /// Initializes a new instance of the AdjectivePhrase class.

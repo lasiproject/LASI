@@ -95,10 +95,14 @@ namespace LASI.Core
         /// Gets the ending punctuation character of the sentence.
         /// </summary>
         public SentenceEnding Ending { get; }
-
+        /// <summary>
+        /// Gets all of the Entities in the Sentence.
+        /// </summary>
         public IEnumerable<IEntity> Entities => Lexicals.OfEntity();
 
-
+        /// <summary>
+        /// Gets all of the Words, Phrases, and Clauses in the Sentence.
+        /// </summary>
         public IEnumerable<ILexical> Lexicals
         {
             get
@@ -146,7 +150,9 @@ namespace LASI.Core
         /// Gets the concatenated text content of all of the Words which compose the Sentence.
         /// </summary>
         public string Text => string.Join(" ", Phrases.Select(e => e.Text)).Trim() + Ending.Text;
-
+        /// <summary>
+        /// Gets all of the Verbals in the Sentence.
+        /// </summary>
         public IEnumerable<IVerbal> Verbals => Lexicals.OfVerbal();
 
         /// <summary>

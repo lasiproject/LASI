@@ -27,7 +27,8 @@ namespace LASI.Core.Tests
         ///A test for AddDocFile
         ///</summary>
         [TestMethod]
-        public void AddDocFileTest() {
+        public void AddDocFileTest()
+        {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
 
             var result = FileManager.AddFile(sourcePath);
@@ -38,7 +39,8 @@ namespace LASI.Core.Tests
         ///A test for AddDocXFile
         ///</summary>
         [TestMethod]
-        public void AddDocXFileTest() {
+        public void AddDocXFileTest()
+        {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             var result = FileManager.AddFile(sourcePath);
             Assert.IsTrue(File.Exists(FileManager.DocxFilesDirectory + @"\Draft_Environmental_Assessment.docx") && result is DocXFile);
@@ -48,7 +50,8 @@ namespace LASI.Core.Tests
         ///A test for AddFile
         ///</summary>
         [TestMethod]
-        public void AddFileTest() {
+        public void AddFileTest()
+        {
             string path = string.Empty;
             InputFile actual;
             path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.doc";
@@ -72,7 +75,8 @@ namespace LASI.Core.Tests
         ///A test for AddPdfFile
         ///</summary>
         [TestMethod]
-        public void AddPdfFileTest() {
+        public void AddPdfFileTest()
+        {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.pdf";
 
             var result = FileManager.AddFile(sourcePath);
@@ -83,7 +87,8 @@ namespace LASI.Core.Tests
         ///A test for AddTextFile
         ///</summary>
         [TestMethod]
-        public void AddTxtFileTest() {
+        public void AddTxtFileTest()
+        {
             string sourcePath = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
 
             var result = FileManager.AddFile(sourcePath);
@@ -94,7 +99,8 @@ namespace LASI.Core.Tests
         ///A test for BackupProject
         ///</summary>
         [TestMethod]
-        public void BackupProjectTest() {
+        public void BackupProjectTest()
+        {
             FileManager.BackupProject();
             Assert.IsTrue(Directory.Exists(Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" + FileManager.ProjectName));
         }
@@ -104,7 +110,8 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod]
         public void
-        ConvertAsNeededAsyncTest() {
+        ConvertAsNeededAsyncTest()
+        {
             ConvertAsNeededAsyncTestHelper().Wait();
         }
 
@@ -112,12 +119,14 @@ namespace LASI.Core.Tests
         ///A test for ConvertAsNeeded
         ///</summary>
         [TestMethod]
-        public void ConvertAsNeededTest() {
+        public void ConvertAsNeededTest()
+        {
             var files = from fileInfo in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
                         where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase)
                         select fileInfo;
             Assert.IsTrue(files.Any());
-            foreach (var fi in files) {
+            foreach (var fi in files)
+            {
                 File.Copy(fi.FullName,
                     testProjectDirectory + "\\input" + mapExtToDir(fi.Extension) + fi.FullName.Substring(fi.FullName.LastIndexOf('\\') + 1),
                     overwrite: true);
@@ -135,7 +144,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocFilesAsync
         ///</summary>
         [TestMethod]
-        public void ConvertDocFilesAsyncTest() {
+        public void ConvertDocFilesAsyncTest()
+        {
             DocFile[] files = (from file in Directory.EnumerateFiles(FileManager.DocFilesDirectory)
                                select new DocFile(file)).ToArray();
             Assert.IsTrue(files.Any());
@@ -151,7 +161,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocFiles
         ///</summary>
         [TestMethod]
-        public void ConvertDocFilesTest() {
+        public void ConvertDocFilesTest()
+        {
             DocFile[] files = GetTestDocFiles();
             Assert.IsTrue(files.Any());
 
@@ -164,7 +175,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocToTextAsync
         ///</summary>
         [TestMethod]
-        public void ConvertDocToTextAsyncTest() {
+        public void ConvertDocToTextAsyncTest()
+        {
             DocFile[] files = GetTestDocFiles();
             FileManager.ConvertDocToTextAsync(files).Wait();
             Assert.IsTrue(files.Any());
@@ -176,7 +188,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocToText
         ///</summary>
         [TestMethod]
-        public void ConvertDocToTextTest() {
+        public void ConvertDocToTextTest()
+        {
             DocFile[] files = GetTestDocFiles();
             if (!files.Any())
                 Assert.Inconclusive();
@@ -190,7 +203,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocxToTextAsync
         ///</summary>
         [TestMethod]
-        public void ConvertDocxToTextAsyncTest() {
+        public void ConvertDocxToTextAsyncTest()
+        {
             ConvertDocxToTextAsyncTestHelper().Wait();
         }
 
@@ -198,7 +212,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertDocxToText
         ///</summary>
         [TestMethod]
-        public void ConvertDocxToTextTest() {
+        public void ConvertDocxToTextTest()
+        {
             DocXFile[] files = GetTestDocXFiles();
 
             FileManager.ConvertDocxToText(files);
@@ -211,7 +226,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertPdfFilesAsync
         ///</summary>
         [TestMethod]
-        public void ConvertPdfToTextAsyncTest() {
+        public void ConvertPdfToTextAsyncTest()
+        {
             PdfFile[] files = GetTestPdfFiles();
             if (!files.Any())
                 Assert.Inconclusive();
@@ -225,7 +241,8 @@ namespace LASI.Core.Tests
         ///A test for ConvertPdfToText
         ///</summary>
         [TestMethod]
-        public void ConvertPdfToTextTest() {
+        public void ConvertPdfToTextTest()
+        {
             PdfFile[] files = GetTestPdfFiles();
             if (!files.Any())
                 Assert.Inconclusive();
@@ -239,7 +256,8 @@ namespace LASI.Core.Tests
         ///A test for DecimateProject
         ///</summary>
         [TestMethod]
-        public void DecimateProjectTest() {
+        public void DecimateProjectTest()
+        {
             FileManager.DecimateProject();
             Assert.IsFalse(Directory.Exists(testProjectDirectory));
         }
@@ -248,11 +266,14 @@ namespace LASI.Core.Tests
         ///A test for HasSimilarFile
         ///</summary>
         [TestMethod]
-        public void HasSimilarFileTest() {
-            foreach (var file in GetAllTestFiles()) {
+        public void HasSimilarFileTest()
+        {
+            foreach (var file in GetAllTestFiles())
+            {
                 FileManager.AddFile(file.FullPath);
             }
-            foreach (var file in GetAllTestFiles()) {
+            foreach (var file in GetAllTestFiles())
+            {
                 Assert.IsTrue(FileManager.HasSimilarFile(file.NameSansExt));
                 Assert.IsTrue(FileManager.HasSimilarFile(file));
             }
@@ -262,7 +283,8 @@ namespace LASI.Core.Tests
         ///A test for ProjectName
         ///</summary>
         [TestMethod]
-        public void ProjectNameTest() {
+        public void ProjectNameTest()
+        {
             FileManager.Initialize(testProjectDirectory);
             string expected = testProjectDirectory.Split('\\').Last();
             string actual;
@@ -274,11 +296,13 @@ namespace LASI.Core.Tests
         ///A test for RemoveAllNotIn
         ///</summary>
         [TestMethod]
-        public void RemoveAllNotInTest() {
+        public void RemoveAllNotInTest()
+        {
             IEnumerable<InputFile> filesToKeep = GetAllTestFiles().Skip(GetAllTestFiles().Count() / 2);
             foreach (var file in GetAllTestFiles()) { FileManager.AddFile(file.FullPath); }
             FileManager.RemoveAllNotIn(filesToKeep);
-            foreach (var file in filesToKeep) {
+            foreach (var file in filesToKeep)
+            {
                 Assert.IsTrue(
                     FileManager.DocFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
                     FileManager.PdfFiles.Select(x => x.NameSansExt).Contains(file.NameSansExt) ||
@@ -292,7 +316,8 @@ namespace LASI.Core.Tests
         ///A test for RemoveFile
         ///</summary>
         [TestMethod]
-        public void RemoveFileTest() {
+        public void RemoveFileTest()
+        {
             InputFile file = GetAllTestFiles().ElementAt(new Random().Next(0, GetAllTestFiles().Count()));
             FileManager.AddFile(file.FullPath);
             Assert.IsTrue(FileManager.HasSimilarFile(file));
@@ -304,14 +329,16 @@ namespace LASI.Core.Tests
         ///A test for TagTextFilesAsync
         ///</summary>
         [TestMethod]
-        public async Task TagTextFilesAsyncTest() {
+        public async Task TagTextFilesAsyncTest()
+        {
             var files = (from file in Directory.EnumerateFiles(FileManager.TxtFilesDirectory)
                          select new TxtFile(file)).ToArray();
             files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
 
             Assert.IsTrue(files.Any());
             await FileManager.TagTextFilesAsync(files);
-            foreach (var file in files) {
+            foreach (var file in files)
+            {
                 Assert.IsTrue(File.Exists(FileManager.TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged"));
             }
         }
@@ -320,7 +347,8 @@ namespace LASI.Core.Tests
         ///A test for TagTextFile
         ///</summary>
         [TestMethod]
-        public void TagTextFilesTest() {
+        public void TagTextFilesTest()
+        {
             TxtFile[] files = (from file in Directory.EnumerateFiles(FileManager.TxtFilesDirectory)
                                select new TxtFile(file)).ToArray();
             files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
@@ -331,12 +359,14 @@ namespace LASI.Core.Tests
                 Assert.IsTrue(File.Exists(FileManager.TaggedFilesDirectory + "\\" + F.NameSansExt + ".tagged"));
         }
 
-        private static async Task ConvertAsNeededAsyncTestHelper() {
+        private static async Task ConvertAsNeededAsyncTestHelper()
+        {
             var files = from fileInfo in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
                         where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase)
                         select fileInfo;
             Assert.IsTrue(files.Any());
-            foreach (var fi in files) {
+            foreach (var fi in files)
+            {
                 File.Copy(fi.FullName,
                     testProjectDirectory + "\\input" + mapExtToDir(fi.Extension) + fi.FullName.Substring(fi.FullName.LastIndexOf('\\') + 1),
                     overwrite: true);
@@ -349,7 +379,8 @@ namespace LASI.Core.Tests
             Assert.IsFalse(filesUnconverted.Any());
         }
 
-        private static async Task ConvertDocxToTextAsyncTestHelper() {
+        private static async Task ConvertDocxToTextAsyncTestHelper()
+        {
             DocXFile[] files = (from file in Directory.EnumerateFiles(FileManager.DocxFilesDirectory)
                                 select new DocXFile(file)).ToArray();
             files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
@@ -362,7 +393,8 @@ namespace LASI.Core.Tests
         }
 
 
-        private static DocFile[] GetTestDocFiles() {
+        private static DocFile[] GetTestDocFiles()
+        {
             return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(f => f.Extension == ".doc")
@@ -370,7 +402,8 @@ namespace LASI.Core.Tests
                 .ToArray();
         }
 
-        private static DocXFile[] GetTestDocXFiles() {
+        private static DocXFile[] GetTestDocXFiles()
+        {
             return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".docx")
@@ -378,7 +411,8 @@ namespace LASI.Core.Tests
                 .ToArray();
         }
 
-        private static PdfFile[] GetTestPdfFiles() {
+        private static PdfFile[] GetTestPdfFiles()
+        {
             return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".pdf")
@@ -386,7 +420,8 @@ namespace LASI.Core.Tests
                 .ToArray();
         }
 
-        private static TxtFile[] GetTestTxtFiles() {
+        private static TxtFile[] GetTestTxtFiles()
+        {
             return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".txt")
@@ -398,16 +433,20 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
 
-        private static IEnumerable<InputFile> GetAllTestFiles() {
+        private static IEnumerable<InputFile> GetAllTestFiles()
+        {
             foreach (var file in GetTestDocFiles())
                 yield return file;
             foreach (var file in GetTestDocXFiles())
@@ -422,11 +461,13 @@ namespace LASI.Core.Tests
         #region Additional test attributes
         ////  Use ClassCleanup to run code after all tests in A class have run
         [ClassCleanup()]
-        public static void MyClassCleanup() {
+        public static void MyClassCleanup()
+        {
             FileManager.DecimateProject();
         }
         [TestCleanup]
-        public void MyTestCleanup() {
+        public void MyTestCleanup()
+        {
             FileManager.DecimateProject();
         }
         // 
@@ -434,8 +475,10 @@ namespace LASI.Core.Tests
         //
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext) {
-            if (Directory.Exists(testProjectDirectory)) {
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            if (Directory.Exists(testProjectDirectory))
+            {
                 Directory.Delete(testProjectDirectory, recursive: true);
             }
             FileManager.Initialize(testProjectDirectory);
@@ -443,19 +486,20 @@ namespace LASI.Core.Tests
         }
         //Use TestInitialize to run code before running each test
         [TestInitialize()]
-        public void MyTestInitialize() {
-            if (Directory.Exists(testProjectDirectory)) {
-                try {
+        public void MyTestInitialize()
+        {
+            if (Directory.Exists(testProjectDirectory))
+            {
+                try
+                {
                     Directory.Delete(testProjectDirectory, recursive: true);
-                } catch (IOException) {
+                } catch (IOException)
+                {
                     testProjectDirectory += "011";
                 }
             }
             FileManager.Initialize(testProjectDirectory);
         }
-
-
-
         #endregion
     }
 }

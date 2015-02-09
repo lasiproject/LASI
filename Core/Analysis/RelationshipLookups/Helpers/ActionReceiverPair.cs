@@ -22,7 +22,8 @@ namespace LASI.Core.Heuristics
         /// <param name="action">The action.</param>
         /// <param name="receiver">The receiver of the action.</param>
         public ActionReceiverPair(TVerbal action, TEntity receiver)
-            : this() {
+            : this()
+        {
             Action = action;
             Receiver = receiver;
         }
@@ -37,23 +38,30 @@ namespace LASI.Core.Heuristics
         /// Gets a hash code for the current ActionReceiverPair instance.
         /// </summary>
         /// <returns>A hash code of the current ActionReceiverPair instance.</returns>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Action.GetHashCode() ^ Receiver.GetHashCode();
         }
-
+        /// <summary>
+        /// Indicates whether the current <see cref="ActionReceiverPair{TEntity,TVerbal}"/> is equal to another instance of the same type.
+        /// </summary>
+        /// <param name="other">The instance to test for equality.</param>
+        /// <returns><c>true</c> if the two <see cref="ActionReceiverPair{TEntity,TVerbal}"/> are equal; otherwise <c>false</c></returns>
         public bool Equals(ActionReceiverPair<TVerbal, TEntity> other) => Action.Equals(other.Action) && Receiver.Equals(other.Receiver);
 
         /// <summary>
         /// Gets the Action.
         /// </summary>
-        public TVerbal Action {
+        public TVerbal Action
+        {
             get;
             private set;
         }
         /// <summary>
         /// Gets the Receiver of the Action.
         /// </summary>
-        public TEntity Receiver {
+        public TEntity Receiver
+        {
             get;
             private set;
         }
@@ -63,7 +71,8 @@ namespace LASI.Core.Heuristics
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
+        public static bool operator ==(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right)
+        {
             return left.Equals(right);
         }
         /// <summary>
@@ -72,7 +81,8 @@ namespace LASI.Core.Heuristics
         /// <param name="left">The first ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <param name="right">The second ActionReceiverPair&lt;TVerbal, TEntity&gt; instance.</param>
         /// <returns> <c>true</c> if the ActionReceiverPair&lt;TVerbal, TEntity&gt; instances are considered unequal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right) {
+        public static bool operator !=(ActionReceiverPair<TVerbal, TEntity> left, ActionReceiverPair<TVerbal, TEntity> right)
+        {
             return !(left == right);
         }
     }

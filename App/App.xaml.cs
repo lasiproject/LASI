@@ -10,20 +10,28 @@ namespace LASI.App
     /// </summary>
     public partial class App : Application
     {
-        public App() {
+        /// <summary>
+        /// Intializes a new instances of the <see cref="App"/> class
+        /// </summary>
+        public App()
+        {
             LoadPerformancePreference();
             BindEventHandlers();
         }
-        private static void LoadPerformancePreference() {
+        private static void LoadPerformancePreference()
+        {
             Interop.ResourceManagement.PerformanceMode performanceMode;
-            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode)) {
+            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode))
+            {
                 Interop.ResourceManagement.UsageManager.SetPerformanceMode(performanceMode);
             }
         }
-        private void Application_Exit(object sender, ExitEventArgs e) {
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
             if (Settings.Default.AutoCleanProjectFiles && FileManager.Initialized) FileManager.DecimateProject();
         }
-        private void BindEventHandlers() {
+        private void BindEventHandlers()
+        {
             Exit += Application_Exit;
         }
 

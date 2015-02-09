@@ -13,15 +13,21 @@ namespace LASI.Core
     /// </summary>
     public class AdverbPhrase : Phrase, IAdverbial
     {
+        /// <summary>
+        /// Gets the collection of Adverbial constructs which modify the AdverbPhrase
+        /// </summary>
         public IVerbal AttributedTo { get; }
-
+        /// <summary>
+        /// Gets the Verbal the AdverbPhrase modifies.
+        /// </summary>
         IDescriptor IAttributive<IDescriptor>.AttributedTo { get; }
         /// <summary>
         /// Initializes entity new instance of the AdverbPhrase class.
         /// </summary>
         /// <param name="words">The words which compose to form the AdverbPhrase.</param>
         public AdverbPhrase(IEnumerable<Word> words)
-            : base(words) {
+            : base(words)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the AdverbPhrase class.
@@ -34,7 +40,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct; such as an Adjective, AdjectivePhrase, Verb, or VerbPhrase; which the AdverPhrase Modifies. 
         /// </summary>
-        public virtual IAdverbialModifiable Modifies {
+        public virtual IAdverbialModifiable Modifies
+        {
             get;
             set;
         }

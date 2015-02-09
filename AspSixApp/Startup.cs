@@ -10,6 +10,11 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using AspSixApp.Models;
+using System.Linq;
+using Microsoft.AspNet.Mvc;
+using System.Net.Http.Formatting;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace AspSixApp
 {
@@ -29,19 +34,40 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Add MVC services to the services container.
+            services
+                .AddMvc()
+                .Configure<MvcOptions>(options =>
+                {
+
+                });
+            services
+                .AddWebApiConventions()
+                .Configure<MvcOptions>(options =>
+                {
+                    options.InputFormatters
+                        .OfType<JsonMediaTypeFormatter>()
+                        .First().SerializerSettings = new JsonSerializerSettings
+                        {
+                            Error = (sender, e) => { throw e.ErrorContext.Error; },
+                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                            NullValueHandling = NullValueHandling.Ignore,
+                            Formatting = Formatting.Indented
+                        };
+                });
+
             // Add EF services to the services container.
-            services.AddEntityFramework(Configuration)
+            services
+                .AddEntityFramework(Configuration)
                 .AddSqlServer()
                 .AddDbContext<ApplicationDbContext>();
 
             // Add Identity services to the services container.
-            services.AddIdentity<ApplicationUser, IdentityRole>(Configuration)
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(Configuration)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            // Add MVC services to the services container.
-            services.AddMvc();
-
-            services.AddWebApiConventions();
 
         }
 
@@ -74,13 +100,13 @@ namespace AspSixApp
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                        name: "default",
-                        template: "{controller}/{action}/{id?}",
-                        defaults: new { controller = "Home", action = "Index" }
-                    ).MapWebApiRoute(
-                        name: "DefaultApi",
-                        template: "api/{controller}/{id?}"
-                    );
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
+                routes.MapWebApiRoute(
+                    name: "DefaultApi",
+                    template: "api/{controller}/{id?}"
+                );
             });
         }
     }

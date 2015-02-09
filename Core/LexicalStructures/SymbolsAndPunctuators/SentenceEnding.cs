@@ -49,9 +49,17 @@ namespace LASI.Core
         /// <param name="right">The second SentenceEnding to compare.</param>
         /// <returns> <c>true</c> if the Sentence Endings are not equal; false otherwise.</returns>
         public static bool operator !=(SentenceEnding left, SentenceEnding right) => !(left == right);
-
+        /// <summary>
+        /// A factory property which creates and yields a new ExclamationPoint when referenced.
+        /// </summary>
         public static SentenceEnding ExclamationPoint => new SentenceEnding('!');
+        /// <summary>
+        /// A factory property which creates and yields a new QuestionMark when referenced.
+        /// </summary>
         public static SentenceEnding QuestionMark => new SentenceEnding('?');
+        /// <summary>
+        /// A factory property which creates and yields a new Period when referenced.
+        /// </summary>
         public static SentenceEnding Period => new SentenceEnding('.');
 
     }

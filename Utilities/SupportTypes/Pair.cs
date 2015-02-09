@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Provides static methods for creating key value pairs.
+    /// Provides static methods for creating instances of the <see cref="KeyValuePair{T1, T2}"/> structure.
     /// </summary>
     public static class KeyValuePair
     {
@@ -15,37 +15,88 @@ namespace LASI.Utilities
         /// <typeparam name="TValue">The type of the pairs's second component.</typeparam>
         /// <param name="key">The value of the pairs's first component.</param>
         /// <param name="value">The value of the pairs's second component.</param>
-        /// <returns>A pair whose value is (item1, item2).</returns>
-        public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) {
+        /// <returns>A pair whose value is (first, second).</returns>
+        public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value)
+        {
             return new KeyValuePair<TKey, TValue>(key, value);
         }
     }
-    public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
-    {
-        private Pair(T1 first, T2 second) {
-            Key = first;
-            Value = second;
-        }
-        public T1 Key { get; }
-        public T2 Value { get; }
-
-        public static implicit operator KeyValuePair<T1, T2>(Pair<T1, T2> pair) => new KeyValuePair<T1, T2>(pair.Key, pair.Value);
-
-        public static implicit operator Pair<T1, T2>(KeyValuePair<T1, T2> keyValuePair) => new Pair<T1, T2>(keyValuePair.Key, keyValuePair.Value);
-
-        internal static Pair<T1, T2> Create(T1 first, T2 second) => new Pair<T1, T2>(first, second);
-        public bool Equals(Pair<T1, T2> other) => (Key?.Equals(other.Key) ?? false) && (Value?.Equals(other.Value) ?? false);
-        public override bool Equals(object obj) => obj is Pair<T1, T2> && Equals((Pair<T1, T2>)obj);
-        public override int GetHashCode() => Key?.GetHashCode() ?? 0 ^ Value?.GetHashCode() ?? 0;
-        public static bool operator ==(Pair<T1, T2> left, Pair<T1, T2> right) => left.Equals(right);
-        public static bool operator !=(Pair<T1, T2> left, Pair<T1, T2> right) => !(left == right);
-        public static bool operator ==(Pair<T1, T2> left, KeyValuePair<T1, T2> right) => left.Equals(right);
-        public static bool operator !=(Pair<T1, T2> left, KeyValuePair<T1, T2> right) => !(left == right);
-        public static bool operator ==(KeyValuePair<T1, T2> left, Pair<T1, T2> right) => left.Equals(right);
-        public static bool operator !=(KeyValuePair<T1, T2> left, Pair<T1, T2> right) => !(left == right);
-    }
+    /// <summary>
+    /// Provides static methods for creating instances of the <see cref="Pair{T1, T2}"/> structure.
+    /// </summary>
     public static class Pair
     {
-        public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) => Pair<T1, T2>.Create(first, second);
+        /// <summary>
+        /// Creates a new pair
+        /// </summary>
+        /// <typeparam name="T1">The type of the pairs's first component.</typeparam>
+        /// <typeparam name="T2">The type of the pairs's second component.</typeparam>
+        /// <param name="first">The value of the pairs's first component.</param>
+        /// <param name="second">The value of the pairs's second component.</param>
+        /// <returns>A pair whose value is (first, second).</returns>
+        public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) => new Pair<T1, T2>(first, second);
+    }
+    /// <summary>
+    /// Defiens a generic pair.
+    /// </summary>
+    /// <typeparam name="T1">The type of the first component of the pair.</typeparam>
+    /// <typeparam name="T2">The type of the second component of the pair.</typeparam>
+    public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
+    {
+        internal Pair(T1 first, T2 second)
+        {
+            First = first;
+            Second = second;
+        }
+        /// <summary>
+        /// The first component of the pair.
+        /// </summary>
+        public T1 First { get; }
+        /// <summary>
+        /// The second component of the pair.
+        /// </summary>
+        public T2 Second { get; }
+        /// <summary>
+        /// Defines an implicit conversion to an instance of the <see cref= "KeyValuePair{T1,T2}"/> structure.
+        /// </summary>
+        /// <param name="pair">The pair undergoing the conversion/</param>
+        public static implicit operator KeyValuePair<T1, T2>(Pair<T1, T2> pair) => new KeyValuePair<T1, T2>(pair.First, pair.Second);
+        /// <summary>
+        /// Defines an implicit conversion from an instance of the <see cref="KeyValuePair{T1,T2}"/> to an instance of the <see cref= "Pair{T1,T2}"/> structure.
+        /// </summary>
+        /// <param name="keyValuePair">The key value pair undergoing the conversion.</param>
+        public static implicit operator Pair<T1, T2>(KeyValuePair<T1, T2> keyValuePair) => new Pair<T1, T2>(keyValuePair.Key, keyValuePair.Value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Pair<T1, T2> other) => (First?.Equals(other.First) ?? false) && (Second?.Equals(other.Second) ?? false);
+        /// <summary>
+        /// Determines if the specified object is equal to the current instance.
+        /// </summary>
+        /// <param name="obj">An object to test for equality.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current instance; otherwise <c>false</c>.</returns>
+        public override bool Equals(object obj) => obj is Pair<T1, T2> && Equals((Pair<T1, T2>)obj);
+        /// <summary>
+        /// Gets a hashcode for current instance.
+        /// </summary>
+        /// <returns>A hashcode for current instance.</returns>
+        public override int GetHashCode() => First?.GetHashCode() ?? 0 ^ Second?.GetHashCode() ?? 0;
+        /// <summary>
+        /// Performs an equality comparison between two instances of the <see cref="Pair{T1,T2}"/> structure.
+        /// </summary>
+        /// <param name="left">The first instance to compare.</param>
+        /// <param name="right">The second instance to compare.</param>
+        /// <returns><c>true</c> if the pairs are equal; otherwise <c>false</c>.</returns>
+        public static bool operator ==(Pair<T1, T2> left, Pair<T1, T2> right) => left.Equals(right);
+        /// <summary>
+        /// Performs an inequality comparison between two instances of the <see cref="Pair{T1,T2}"/> structure.
+        /// </summary>
+        /// <param name="left">The first instance to compare.</param>
+        /// <param name="right">The second instance to compare.</param>
+        /// <returns><c>true</c> if the pairs are not equal; otherwise <c>false</c>.</returns>
+        public static bool operator !=(Pair<T1, T2> left, Pair<T1, T2> right) => !(left == right);
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -12,7 +8,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// expressions which match with a value of Type T and does not yield a result.
     /// </summary>
     /// <typeparam name="T">
-    /// The Type of the value which the the Pattern Matching expression will match with. 
+    /// The Type of the value which the the Pattern Matching expression will match with.
     /// </typeparam>
     /// <remarks>
     /// <para>
@@ -70,19 +66,19 @@ namespace LASI.Core.Analysis.PatternMatching
     /// implementations of visitors will inherently get spread out in both the textual space of the
     /// source code and the conceptions of implementers. The syntax for pattern matching uses a
     /// fluent interface style.
-    /// </para> <example> 
+    /// </para> <example>
     /// <code>
     /// var weight = myLexical.Match()
     ///         .Case((IReferencer r) =&gt; Console.WriteLine(r.ReferredTo.Weight))
     ///     	.Case((IEntity e) =&gt; Console.WriteLine(e.Weight))
     ///     	.Case((IVerbal v) =&gt;  Console.WriteLine(v.HasSubject()? v.Subject.Weight : 0));
-    /// </code> </example><example> 
+    /// </code> </example><example>
     /// <code>
     /// var weight = myLexical.Match()
     /// 		.Case((Phrase p) =&gt; Console.WriteLine(p.Words.Average(w =&gt; w.Weight)))
     /// 		.Case((Word w) =&gt; Console.WriteLine(w.Weight))
     ///     .Default(()=&gt; Console.WriteLine("not a word or phrase"))
-    /// </code> </example> 
+    /// </code> </example>
     /// <para> Patterns may be nested arbitrarily as in the following example </para>
     /// <para>
     /// When a Yield clause is not applied, the Match Expression will not yield a value. Instead it
@@ -92,7 +88,7 @@ namespace LASI.Core.Analysis.PatternMatching
     ///         .Case((Phrase p) =&gt; Console.WriteLine("Phrase: ", p.Text))
     /// 	    .Case((Word w) =&gt; Console.WriteLine("Word: ", w.Text))
     ///     .Default(() =&gt; Console.WriteLine("Not a Word or Phrase"));
-    /// </code> </example> 
+    /// </code> </example>
     /// </para>
     /// <para>
     /// * a: The visitor pattern provides statically type safe double dispatch, at the cost of
@@ -114,7 +110,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </para>
     /// </remarks>
     /// <see cref="LASI.Core.MatchExtensions">
-    /// Provides extension methods which allow for the creation of Match expressions. 
+    /// Provides extension methods which allow for the creation of Match expressions.
     /// </see>
     [DebuggerStepThrough]
     public class Match<T> : MatchBase<T> where T : class, ILexical
@@ -126,7 +122,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// supplied value.
         /// </summary>
         /// <param name="value">
-        /// The value to match against. 
+        /// The value to match against.
         /// </param>
         [DebuggerStepThrough]
         internal Match(T value) : base(value) { }
@@ -141,13 +137,26 @@ namespace LASI.Core.Analysis.PatternMatching
         /// are now to yield a result value of the supplied Type R.
         /// </summary>
         /// <typeparam name="TResult">
-        /// The Type of the result which the match expression may now return. 
+        /// The Type of the result which the match expression may now return.
         /// </typeparam>
         /// <returns>
-        /// A Match&lt;T, R&gt; representing the now result yielding Match expression. 
+        /// A Match&lt;T, R&gt; representing the now result yielding Match expression.
         /// </returns>
         public Match<T, TResult> Yield<TResult>() => new Match<T, TResult>(Value, Matched);
 
+        /// <summary>
+        /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result
+        /// returning expression of Case&lt;T, R&gt; Such that it will yield a result value of the type <typeparamref name="TResult"/>.
+        /// </summary>
+        /// <typeparam name="TCase"> The Type to match with. If the value being matched is of this type, this Case expression
+        /// will be selected and the provided action invoked.</typeparam>
+        /// <typeparam name="TResult">
+        /// The Type of the result which the match expression may now return.
+        /// </typeparam>
+        /// <param name="f">The function describing the case.</param>
+        /// <returns>
+        /// A Match&lt;T, R&gt; representing the now result yielding Match expression.
+        /// </returns>
         public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Yield<TResult>().Case(f);
 
         #endregion Expression Transformations
@@ -160,13 +169,14 @@ namespace LASI.Core.Analysis.PatternMatching
         /// expression which is only considered if the predicate applied here returns true.
         /// </summary>
         /// <param name="predicate">
-        /// The predicate to test the value being matched over. 
+        /// The predicate to test the value being matched over.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T> When(Func<T, bool> predicate) {
+        public PredicatedMatch<T> When(Func<T, bool> predicate)
+        {
             return new PredicatedMatch<T>(predicate(Value), this);
         }
 
@@ -180,13 +190,14 @@ namespace LASI.Core.Analysis.PatternMatching
         /// for the following then expression to be selected.
         /// </typeparam>
         /// <param name="predicate">
-        /// The predicate to test the value being matched over. 
+        /// The predicate to test the value being matched over.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression.
         /// </returns>
-        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical {
+        public PredicatedMatch<T> When<TCase>(Func<TCase, bool> predicate) where TCase : class, ILexical
+        {
             var typed = Value as TCase;
             return new PredicatedMatch<T>(typed != null && predicate(typed), this);
         }
@@ -197,13 +208,14 @@ namespace LASI.Core.Analysis.PatternMatching
         /// predicate returns true.
         /// </summary>
         /// <param name="condition">
-        /// The predicate to test the value being matched. 
+        /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T&gt; describing the Match expression so far. This must be
         /// followed by a single Then expression
         /// </returns>
-        public PredicatedMatch<T> When(bool condition) {
+        public PredicatedMatch<T> When(bool condition)
+        {
             return new PredicatedMatch<T>(condition, this);
         }
 
@@ -212,20 +224,22 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Case Expressions
 
         /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression. 
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">
         /// The Type to match with. If the value being matched is of this type, this Case expression
         /// will be selected and the provided action invoked.
         /// </typeparam>
         /// <param name="action">
-        /// The Action which, if this Case expression is Matched, will be invoked. 
+        /// The Action which, if this Case expression is Matched, will be invoked.
         /// </param>
         /// <returns>
-        /// The Match&lt;T&gt; describing the Match expression so far. 
+        /// The Match&lt;T&gt; describing the Match expression so far.
         /// </returns>
-        public Match<T> Case<TCase>(Action action) where TCase : class, ILexical {
-            if (!Matched && Value is TCase) {
+        public Match<T> Case<TCase>(Action action) where TCase : class, ILexical
+        {
+            if (!Matched && Value is TCase)
+            {
                 Matched = true;
                 action();
             }
@@ -233,7 +247,7 @@ namespace LASI.Core.Analysis.PatternMatching
         }
 
         /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression. 
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">
         /// The Type to match with. If the value being matched is of this type, this Case expression
@@ -244,13 +258,17 @@ namespace LASI.Core.Analysis.PatternMatching
         /// the value being matched over by the PatternMatching expression.
         /// </param>
         /// <returns>
-        /// The Match&lt;T&gt; describing the Match expression so far. 
+        /// The Match&lt;T&gt; describing the Match expression so far.
         /// </returns>
-        public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical {
-            if (Value != null) {
-                if (!Matched) {
+        public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
+        {
+            if (Value != null)
+            {
+                if (!Matched)
+                {
                     var matched = Value as TCase;
-                    if (matched != null) {
+                    if (matched != null)
+                    {
                         Matched = true;
                         action(matched);
                     }
@@ -264,29 +282,31 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Default Expressions
 
         /// <summary>
-        /// Appends the Default expression to the current Pattern Matching expression. 
+        /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">
-        /// The function to invoke if no matches in the expression succeeded. 
+        /// The function to invoke if no matches in the expression succeeded.
         /// </param>
-        public void Default(Action action) {
+        public void Default(Action action)
+        {
             if (!Matched)
                 action();
         }
 
         /// <summary>
-        /// Appends the Default expression to the current Pattern Matching expression. 
+        /// Appends the Default expression to the current Pattern Matching expression.
         /// </summary>
         /// <param name="action">
-        /// The function to invoke on the match Case value if no matches in the expression succeeded. 
+        /// The function to invoke on the match Case value if no matches in the expression succeeded.
         /// </param>
-        public void Default(Action<T> action) {
-            if (!Matched && Value != null) {
+        public void Default(Action<T> action)
+        {
+            if (!Matched && Value != null)
+            {
                 action(Value);
             }
         }
 
         #endregion Default Expressions
-
     }
 }

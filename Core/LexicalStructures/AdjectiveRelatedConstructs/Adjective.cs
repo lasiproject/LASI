@@ -8,7 +8,13 @@ namespace LASI.Core
     /// </summary>
     public class Adjective : Word, IAdverbialModifiable, IDescriptor
     {
+        /// <summary>
+        /// Gets the collection of Adverbial constructs which modify the Adjective
+        /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
+        /// <summary>
+        /// Gets the Entity the Adjective modifies.
+        /// </summary>
         public IEntity AttributedTo => Describes;
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace LASI.Core
         private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
 
         /// <summary>
-        /// Gets the collection of Adverbial constructs which modify the AdjectivePhrase
+        /// Gets the collection of Adverbial constructs which modify the Adjective
         /// </summary>
         public virtual IEnumerable<IAdverbial> AdverbialModifiers { get { return modifiers; } }
 

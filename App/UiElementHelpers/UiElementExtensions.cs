@@ -18,7 +18,8 @@ namespace LASI.App.UIElementHelpers
 
         private static Action<UIElement, Visibility> setVisibility = (element, visibility) => element.Visibility = visibility;
         private static void SetVisibility(IEnumerable<UIElement> elements, Visibility visibility) => elements.ForEach(setVisibility.Apply(visibility));
-        private static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
+        private static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
             foreach (var e in source) action(e);
         }
     }

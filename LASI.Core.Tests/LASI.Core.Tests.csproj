@@ -164,9 +164,6 @@
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />
     <Compile Include="SymbolTest.cs" />
-    <Compile Include="CustomTestAttributes\CustomizedExpectedExceptionBaseAttribute.cs" />
-    <Compile Include="CustomTestAttributes\ExpectedFileNotFoundExceptionAttribute.cs" />
-    <Compile Include="CustomTestAttributes\ExpectedInvalidOperationExceptionAttribute.cs" />
     <Compile Include="TestHelpers\EnumerableAssert.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
@@ -191,6 +188,10 @@
     <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test.Utilities\Test.Utilities.csproj">
+      <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
+      <Name>Test.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

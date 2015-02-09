@@ -90,11 +90,11 @@ namespace LASI.Utilities
         /// <summary>
         /// Determines whether two characters are considered equal when viewed in a case Insensitive manner.
         /// </summary>
-        /// <param name="value">The first character to compare.</param>
+        /// <param name="c">The first character to compare.</param>
         /// <param name="other">The second character to compare</param>
         /// <returns> <c>true</c> if the given characters considered are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>This comparison uses the default culture.</remarks>
-        public static bool EqualsIgnoreCase(this char a, char b) => a.ToUpper() == b.ToUpper();
+        public static bool EqualsIgnoreCase(this char c, char other) => c.ToUpper() == other.ToUpper();
 
         private const string VOWELS = "AEIOUY";
     }

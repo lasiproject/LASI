@@ -7,19 +7,32 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
-
+    /// <summary>
+    /// <para> Represents an collection of Verbals whichs are aggregated through abstraction over a linked entity. </para>
+    /// <para> As such it provides both the behaviors of a Verbal and an Enumerable collection of Vebals. 
+    /// That is to say that you can use an instance of this class in </para> 
+    /// <para> situtation where an IEntity is Expected, but also enumerate it via foreach(var in ...) or (from e in ...) </para>
+    /// </summary>
+    /// <see cref="IAggregateVerbal"/>
+    /// <seealso cref="IVerbal"/>
     public class AggregateVerbal : IAggregateVerbal
     {
         /// <summary>
         /// Intializes a new instance of the AggregateVerbal class.
         /// </summary>
         /// <param name="constituents">The collection of verbals which form the aggregate.</param>
-        public AggregateVerbal(IEnumerable<IVerbal> constituents) {
+        public AggregateVerbal(IEnumerable<IVerbal> constituents)
+        {
             this.constituents = constituents.ToImmutableList();
             Weight = this.constituents.Select(member => member.Weight)
                          .DefaultIfEmpty(0)
                          .Average();
         }
+        /// <summary>
+        /// Intializes a new instance of the AggregateVerbal class.
+        /// </summary>
+        /// <param name="first">The first verbal of the aggregate.</param>
+        /// <param name="rest">The remaining verbals which form the aggregate.</param>
         public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
 
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
@@ -45,15 +58,18 @@ namespace LASI.Core
 
         public double MetaWeight { get; set; }
 
-        public ModalAuxilary Modality {
-            get {
+        public ModalAuxilary Modality
+        {
+            get
+            {
                 return this.Select(member => member.Modality).DefaultIfEmpty().GroupBy(modality => modality?.Text).MaxBy(group => group.Count()).First();
             }
-            set {
+            set
+            {
                 throw new NotSupportedException($"Cannot Modify The Modality of an Aggregate Verbal.{this.ToString()}");
             }
         }
-        
+
         public ILexical ObjectOfThePreposition { get { throw new NotImplementedException(); } }
 
         public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
@@ -79,7 +95,8 @@ namespace LASI.Core
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) {
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout)
+        {
             return this.SelectMany(flattenAbout).Where(result => result != null);
         }
 
