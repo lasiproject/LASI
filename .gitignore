@@ -328,3 +328,6 @@ WebEssentials-Settings.json
 *.zip
 /AspSixApp/wwwroot/lib/
 *.zip
+/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment
+/LASI.Content.Tests/NewProject/input/pdf
+/LASI.Content.Tests/NewProject/input/txt
