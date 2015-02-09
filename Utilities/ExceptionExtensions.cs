@@ -8,13 +8,21 @@ namespace LASI.Utilities
     public static class ExceptionExtensions
     {
         /// <summary>
-        /// Logs the Exception to the Output object if the debug flag is set.
+        /// Logs the Exception to the output channel.
         /// </summary>
-        /// <typeparam name="TException">The type of the Exception being logged.</typeparam>
         /// <param name="exception">The exception to log.</param>
-        public static void LogIfDebug<TException>(this TException exception) where TException : Exception {
+        public static void Log(this Exception exception)
+        {
+            Output.WriteLine($"{exception.Message}\n{exception.StackTrace}");
+        }
+        /// <summary>
+        /// Logs the Exception to the output channel if the debug flag is set.
+        /// </summary>
+        /// <param name="exception">The exception to log.</param>
+        public static void LogIfDebug(this Exception exception)
+        {
 #if DEBUG
-            Output.WriteLine(exception.Message);
+            exception.Log();
 #endif
         }
     }

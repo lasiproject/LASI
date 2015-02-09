@@ -44,7 +44,6 @@ namespace LASI.Utilities.Tests
             var actual = from x in target where x % 2 == 0 select x;
             AssertTestSuiteCommonAssertions(expected, actual);
         }
-
         [TestMethod]
         public void SelectManyTest1()
         {
@@ -87,20 +86,171 @@ namespace LASI.Utilities.Tests
                          select x;
             AssertTestSuiteCommonAssertions(expected, actual);
         }
-
-
-        private static void AssertTestSuiteCommonAssertions<T>(IEnumerable<T> expected, IEnumerable<T> actual) where T : IEquatable<T>
+        private static void AssertTestSuiteCommonAssertions<T>(List<T> expected, List<T> actual)
         {
-            // expected and actual are of both System.collections.Generic.List<T> instances.
-            Assert.IsTrue(expected is List<T>);
-            Assert.IsTrue(actual is List<T>);
-            // expected and actual are of the same runtime type
-            Assert.AreEqual(expected.GetType(), actual.GetType());
+            Assert.IsNotNull(actual);
             // expected and actual contain the same items.
             EnumerableAssert.AreSequenceEqual(expected, actual);
-
         }
-
+        [TestMethod]
+        public void SkipTest1()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = target.AsEnumerable().Skip(1).ToList();
+            List<int> actual = target.Skip(1);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest2()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Skip(0);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest3()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Skip(-1);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest4()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Skip(-1);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest5()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Skip(-140);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest6()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Skip(10);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest7()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Skip(11);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTest8()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Skip(110);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest1()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 5);
+            List<int> actual = target.Take(5);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest2()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Take(10);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest3()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Take(11);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest4()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Take(101);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest5()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Take(0);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest6()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Take(-1);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest7()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 0);
+            List<int> actual = target.Take(-101);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void TakeTest8()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Take(10);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTakeTest1()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(2, 5);
+            List<int> actual = target.Skip(2).Take(5);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        [TestMethod]
+        public void SkipTakeTest2()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Skip(0).Take(10);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        public void TakeSkipTest1()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(4, 1);
+            List<int> actual = target.Take(5).Skip(4);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
+        public void TakeSkipTest2()
+        {
+            List<int> target = Range(0, 10);
+            List<int> expected = Range(0, 10);
+            List<int> actual = target.Take(10).Skip(0);
+            EnumerableAssert.AreSequenceEqual(expected, actual);
+        }
         private static List<T> List<T>(params T[] values) => values.ToList();
+        private static List<int> Range(int start, int count) => Enumerable.Range(start, count).ToList();
     }
 }

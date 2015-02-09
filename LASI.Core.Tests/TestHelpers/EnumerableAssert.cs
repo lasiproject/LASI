@@ -11,16 +11,20 @@ namespace LASI.Core.Tests.TestHelpers
 {
     public static class EnumerableAssert
     {
-        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) {
+        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
             Assert.IsTrue(expected.SequenceEqual(actual));
         }
-        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) {
+        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer)
+        {
             Assert.IsTrue(expected.SequenceEqual(actual, comparer));
         }
-        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) {
+        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
             Assert.IsFalse(expected.Except(actual).Any());
         }
-        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) {
+        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer)
+        {
             Assert.IsFalse(expected.Except(actual, comparer).Any());
         }
     }

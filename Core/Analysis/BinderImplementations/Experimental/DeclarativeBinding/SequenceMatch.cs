@@ -989,33 +989,42 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <c>true</c> if all guards have been satisfied or there are no applicable guards; otherwise, <c>false</c>.
         /// </summary>
         private bool ApplicableGuardsSatisfied => guarded && guardSatisfied || !guarded;
+
+        public Action<string> Log { get; private set; } = delegate { };
+
         private ContinuationMode continuationMode;
         private bool guardSatisfied;
         private bool guarded;
         private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
         private List<ILexical> value;
+        private bool recordResults;
 
         #endregion
-    }
-    internal static class ListExtensions
-    {
-        public static List<T> Take<T>(this List<T> source, int count)
-        {
-            return source.GetRange(0, count);
-        }
-        public static List<T> Skip<T>(this List<T> source, int count)
-        {
-            try
-            {
-                return source.GetRange(count, source.Count);
-            } catch (ArgumentException)
-            {
-                return new List<T>();
-            }
-        }
 
+        public SequenceMatch RecordingResultsTo(System.IO.TextWriter logTo)
+        {
+            recordResults = true;
+            var logfunction = Log;
+            Log = (string s) =>
+            {
+                if (recordResults)
+                {
+                    logfunction(s);
+                    try
+                    {
+                        logTo.WriteLine(s);
+                    } catch (System.IO.IOException e)
+                    {
+                        e.Log();
+                        throw new MatchLoggingFailureException(e.Message, e);
+                    }
+                }
+            };
+            return this;
+        }
     }
+
     /// <summary>
     /// Determines how a match should be applied to a sentence or sentence fragment.
     /// </summary>

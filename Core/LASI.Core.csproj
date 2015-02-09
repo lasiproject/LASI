@@ -123,6 +123,7 @@
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
+    <Compile Include="LASI\Core\Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchLoggingFailureException.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
