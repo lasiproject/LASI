@@ -23,7 +23,7 @@ namespace LASI.Utilities
         /// A <see cref="List{R}"/> whose elements are the result of invoking the transform function on each element of source.
         ///</returns>
         public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) =>
-            list.Select(selector).ToList();
+            list.AsEnumerable().Select(selector).ToList();
         /// <summary>
         /// Filters a lsit of values based on a predicate.
         /// </summary>
@@ -33,7 +33,7 @@ namespace LASI.Utilities
         /// <returns>
         /// A <see cref="List{T}"/> that contains elements from the input list that satisfy the condition.</returns>
         public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) =>
-            list.Where(predicate).ToList();
+            list.AsEnumerable().Where(predicate).ToList();
         /// <summary>
         /// Projects each element of a list to an <see cref="IEnumerable{T}"/> and flattens the resulting sequences into one list.
         /// </summary>

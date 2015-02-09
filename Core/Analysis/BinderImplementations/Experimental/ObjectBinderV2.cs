@@ -17,12 +17,12 @@ namespace LASI.Core.Binding.Experimental
             sentence.Match()
                   .WithContinuationMode(ContinuationMode.Recursive)
                   .IgnoreOnce<IAdverbial, IDescriptor>()
-                  .BindWhen((IEntity s, IVerbal v, IEntity d) =>
+                  .Case((IEntity s, IVerbal v, IEntity d) =>
                   {
                       v.BindSubject(s);
                       v.BindDirectObject(d);
                   })
-                  .BindWhen((IEntity subject,
+                  .Case((IEntity subject,
                         IVerbal verb,
                         IEntity direct,
                         IPrepositional prepToDirectObject,
