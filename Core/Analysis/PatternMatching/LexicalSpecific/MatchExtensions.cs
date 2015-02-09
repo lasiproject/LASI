@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
 
@@ -105,6 +106,29 @@ namespace LASI.Core
         public static Match<T> Match<T>(this T value) where T : class, ILexical
         {
             return new Match<T>(value);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T">The type of the value being matched over.</typeparam>
+        /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <typeparam name="TRBase">The result type of the pattern function.</typeparam>
+        /// <param name="match">The match expression to which to append the Case clause.</param>
+        /// <param name="func">The function which describes the case.</param>
+        /// <returns>A match expression which now yields</returns>
+        /// <remarks>This externalized Case expression function allows for some sligh additional flexibility. 
+        /// Specifically it allows a <see cref="Match{T, TResult}"/> expression to be transformed 
+        /// into one where TResult is less derived in the case where a cause clause yields a result
+        /// which is a of a base type of TResult. This will transform the match into a more general form which
+        /// yields a TBase.</remarks>
+        public static Match<T, TRBase> Case<T, TCase, TResult, TRBase>(this Match<T, TResult> match, Func<TCase, TRBase> func)
+            where TCase : class, ILexical
+            where TResult : TRBase
+            where T : class, ILexical
+        {
+            return Match<T, TResult>.FromLowerToHigherResultType<TRBase, TResult>(match).Case(func);
         }
 
         public static SequenceMatch Match(this Sentence sentence)

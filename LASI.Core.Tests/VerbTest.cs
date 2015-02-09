@@ -71,7 +71,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void VerbConstructorTest() {
             string text = "insulate";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
 
             Assert.IsTrue(target.Text == text);
             Assert.IsTrue(target.VerbForm == VerbForm.Base);
@@ -88,7 +88,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void AttachObjectViaPrepositionTest() {
             string text = "insulate";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             NounPhrase prepositionObject = new NounPhrase(new[] { new PersonalPronoun("them") });
             IPrepositional prep = new Preposition("for");
             prep.BindObject(prepositionObject);
@@ -128,7 +128,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void BindSubjectTest() {
             string text = "gave";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
             Assert.IsTrue(target.Subjects.Count() == 1);
@@ -143,7 +143,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void ModifyWithTest() {
             string text = "insulate";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IAdverbial adv = new Adverb("sufficiently");
             target.ModifyWith(adv);
             Assert.IsTrue(target.AdverbialModifiers.Contains(adv) && target.AdverbialModifiers.Count() == 1);
@@ -157,7 +157,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void ModalityTest() {
             string text = "insulate";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             ModalAuxilary expected = new ModalAuxilary("can");
             ModalAuxilary actual;
             target.Modality = expected;
@@ -175,7 +175,7 @@ namespace LASI.Core.Tests
         public void SubjectsTest() {
             string text = "attack";
             //            VerbForm form = (VerbForm)(new Random(DateTime.Now.Millisecond).Next(0, Enum.GetValues(typeof(VerbForm)).Length)); // TODO: Initialize to an appropriate value
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IEnumerable<IEntity> actual;
             actual = target.Subjects;
             Assert.IsTrue(!actual.Any());
@@ -211,7 +211,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void IsPossessiveTest() {
             string text = "has";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             bool actual;
             actual = target.IsPossessive;
             Assert.IsTrue(actual);
@@ -223,7 +223,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void IsClassifierTest() {
             string text = "is";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             bool actual;
             actual = target.IsClassifier;
             Assert.IsTrue(actual);
@@ -235,7 +235,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void IndirectObjectsTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
             Assert.IsTrue(!actual.Any());
@@ -253,7 +253,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void DirectObjectsTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
             Assert.IsTrue(!actual.Any());
@@ -270,7 +270,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void AggregateSubjectTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IAggregateEntity actual;
             actual = target.AggregateSubject;
             Assert.IsFalse(actual.Any());
@@ -286,7 +286,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void AggregateIndirectObjectTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
             Assert.IsFalse(actual.Any());
@@ -302,7 +302,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void AggregateDirectObjectTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
             Assert.IsFalse(actual.Any());
@@ -321,7 +321,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void HasSubjectOrObjectTest() {
             string text = "attack";
-            Verb target = new SimpleVerb(text);
+            Verb target = new BaseVerb(text);
             IEntity entity = new CommonPluralNoun("monkeys");
             int rand = new Random().Next(-1, 2);
             switch (rand) {

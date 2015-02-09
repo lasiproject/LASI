@@ -163,7 +163,7 @@
     <Compile Include="Analysis\RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\SampleRelationshipLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\AggregateVerbal.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\SimpleVerb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\BaseVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\SingularPresentVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbalExtensions.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IAggregateVerbal.cs" />

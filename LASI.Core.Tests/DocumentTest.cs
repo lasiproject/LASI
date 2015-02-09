@@ -87,7 +87,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -99,7 +99,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -116,7 +116,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")
                             }),
                             new VerbPhrase(new Word[] {
-                                new SimpleVerb("are")
+                                new BaseVerb("are")
                             }),
                             new AdjectivePhrase(new[] {
                                 new Adjective("obligated")
@@ -130,7 +130,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("they")
                             }),
                             new VerbPhrase(new []{
-                                new SimpleVerb("are")
+                                new BaseVerb("are")
                             }),
                             new NounPhrase(new []{
                                 new CommonPluralNoun("jerks")
@@ -170,13 +170,13 @@ namespace LASI.Core.Tests
             IEnumerable<IVerbal> expected = new IVerbal[]{
                     new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
-                            }),new SimpleVerb("attack"),
+                                new BaseVerb("attack")
+                            }),new BaseVerb("attack"),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
-                            }),new SimpleVerb("do"),
-                    new VerbPhrase(new[] {new SimpleVerb("are")
+                                new BaseVerb("do")
+                            }),new BaseVerb("do"),
+                    new VerbPhrase(new[] {new BaseVerb("are")
                 }),
 
             };
@@ -273,7 +273,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -285,7 +285,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -352,7 +352,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -364,7 +364,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")

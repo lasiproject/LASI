@@ -133,7 +133,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void DirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new SimpleVerb("insult");
+            IVerbal expected = new BaseVerb("insult");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
@@ -146,7 +146,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void IndirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new VerbPhrase(new SimpleVerb("gave"), new Adverb("willingly"));
+            IVerbal expected = new VerbPhrase(new BaseVerb("gave"), new Adverb("willingly"));
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
@@ -185,7 +185,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void SubjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            IVerbal expected = new SimpleVerb("are");
+            IVerbal expected = new BaseVerb("are");
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;

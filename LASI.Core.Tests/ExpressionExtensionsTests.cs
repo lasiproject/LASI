@@ -16,7 +16,7 @@ namespace LASI.Core.Heuristics.Tests
 
             IEntity e1 = new CommonPluralNoun("dogs");
             IEntity e2 = new CommonPluralNoun("cats");
-            IVerbal v = new SimpleVerb("chase");
+            IVerbal v = new BaseVerb("chase");
             e1.SetRelationshipLookup(new SampleRelationshipLookup(new[] { v }));
             v.BindSubject(e1);
             v.BindDirectObject(e2);

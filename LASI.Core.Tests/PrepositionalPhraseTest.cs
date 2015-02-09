@@ -89,7 +89,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void BindObjectOfPrepositionTest() {
             PrepositionalPhrase target = CreatePrepositionPhrase();
-            ILexical prepositionalObject = new VerbPhrase(new Word[] { new SimpleVerb("have") });
+            ILexical prepositionalObject = new VerbPhrase(new Word[] { new BaseVerb("have") });
             target.BindObject(prepositionalObject);
             Assert.IsTrue(target.BoundObject == prepositionalObject);
         }

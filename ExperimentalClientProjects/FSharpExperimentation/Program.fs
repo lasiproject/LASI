@@ -1,6 +1,16 @@
 ﻿// Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
+
+#if INTERACTIVE
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Utilities.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Core.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Content.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Interop.dll"
+#else
 module LASI.FSharpExperimentation.program
+System.IO.Directory.SetCurrentDirectory(@"C:\Users\Aluan\Documents\GitHub\LASI\App\Resources")
+#endif
+
 
 open LASI.Content
 open LASI.Core
@@ -23,8 +33,7 @@ let (|Entity|Referencer|Verbal|Other|) (lex : ILexical) =
     | :? IVerbal as a -> Verbal a
     | _ -> Other lex
 
-[<EntryPoint>]
-let main argv = 
+let run = 
     Lexicon.ResourceLoading.Add(fun e -> printfn "Started loading %s" e.Message)
     Lexicon.ResourceLoaded.Add(fun e -> printfn "Finished loading %s ms elapsed: %d" e.Message e.ElapsedMiliseconds)
     let resourceLoadNotifier = ResourceNotifier()
@@ -37,7 +46,7 @@ let main argv =
         prog := e.PercentWorkRepresented + !prog
         printfn "Update: %s \nProgress: %A" e.Message (min !prog 100.0))
     let orchestrator = 
-        AnalysisOrchestrator [ @"C:\Users\Aluan\Desktop\Documents\cats.txt"
+        AnalysisOrchestrator [ @"C:\Users\Aluan\Documents\GitHub\LASI\LASI.Core.Tests\MockUserFiles\Test paragraph about house fires.txt"
                                |> wrapFile
                                |> Option.get ]
     // Register callbacks to print operation progress to the terminal
@@ -52,7 +61,7 @@ let main argv =
     
     let docs = Async.RunSynchronously docTask
     for doc in docs do
-        let toAttack = SimpleVerb("attack")
+        let toAttack = BaseVerb("attack")
         let bellicoseVerbals = doc.Verbals |> Seq.filter (fun v -> Similarity.op_Implicit (v.IsSimilarTo toAttack))
         let bellicoseIndividuals = doc.Entities |> Seq.filter (fun e -> bellicoseVerbals |> Seq.contains e.SubjectOf)
         let attackerAttackeePairs = 
@@ -83,6 +92,13 @@ let main argv =
             | [] -> () // list has been exhausted
         
         processPhrases << Seq.toList <| doc.Phrases //bind and output the document.
+
+#if INTERACTIVE
+do run
+#else
+[<EntryPoint>]
+let main argv = 
+    do run
     let rec waitForInput unit = 
         printfn "type exit to quit..."
         match stdin.ReadLine() with
@@ -91,3 +107,4 @@ let main argv =
     //    printfn "type exit to exit..."
     waitForInput()
 // the last value computed by the function is the exit code
+#endif

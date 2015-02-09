@@ -64,7 +64,7 @@ namespace LASI.Core.Tests
 
 
         private static VerbPhrase CreateVerbPhrase1() {
-            return new VerbPhrase(new SimpleVerb("help"));
+            return new VerbPhrase(new BaseVerb("help"));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod]
         public void VerbPhraseConstructorTest() {
-            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
         }
@@ -114,7 +114,7 @@ namespace LASI.Core.Tests
         }
 
         private static VerbPhrase CreateVerbPhrase() {
-            IEnumerable<Word> composedWords = new Word[] { new SimpleVerb("run"), new Adverb("swiftly"), new Preposition("through") };
+            IEnumerable<Word> composedWords = new Word[] { new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             return target;
         }
@@ -287,7 +287,7 @@ namespace LASI.Core.Tests
         public void ToStringTest() {
             Phrase.VerboseOutput = false;
             VerbPhrase target = new VerbPhrase(
-                new SimpleVerb("run"),
+                new BaseVerb("run"),
                 new Adverb("swiftly"),
                 new Preposition("through")
             );
@@ -428,7 +428,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod]
         public void AttachObjectViaPrepositionTest() {
-            VerbPhrase target = new VerbPhrase(new SimpleVerb("consume"));
+            VerbPhrase target = new VerbPhrase(new BaseVerb("consume"));
             IPrepositional prepositional = new Preposition("with");
             ILexical prepositionalObject = new NounPhrase(new Adjective("great"), new CommonSingularNoun("haste"));
             prepositional.BindObject(prepositionalObject);

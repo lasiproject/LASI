@@ -353,3 +353,6 @@ WebEssentials-Settings.json
 /LASI.WebApp.Transitional.Tests/
 /LASI.MVC6.App/node_modules/
 /AspSixApp/bower_components
+*.docx
+*.doc
+*.zip

@@ -133,7 +133,7 @@ namespace LASI.Core.Tests
         ///</summary>
         [TestMethod]
         public void TextTest() {
-            Word target = new SimpleVerb("run");
+            Word target = new BaseVerb("run");
             string expected = "run";
             string actual;
             actual = target.Text;

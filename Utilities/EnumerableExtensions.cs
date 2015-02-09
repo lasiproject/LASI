@@ -701,8 +701,8 @@ namespace LASI.Utilities
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func)
         {
             Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
-            Validator.ThrowIfEmpty(source, nameof(source));
             var accumulated = source.First();
+            yield return accumulated;
             foreach (var e in source.Skip(1))
             {
                 yield return accumulated = func(accumulated, e);
@@ -712,9 +712,12 @@ namespace LASI.Utilities
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
             Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
+            yield return seed;
             var accumulated = seed;
             foreach (var e in source)
+            {
                 yield return accumulated = func(accumulated, e);
+            }
         }
 
         /// <summary>

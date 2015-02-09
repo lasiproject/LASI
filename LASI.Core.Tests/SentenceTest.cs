@@ -188,7 +188,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),

@@ -89,7 +89,7 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod]
         public void GetSynonymsTest1() {
-            Verb verb = new SimpleVerb("heal");
+            Verb verb = new BaseVerb("heal");
             Assert.IsTrue(verb.GetSynonyms().Any(v => !v.EqualsIgnoreCase(verb.Text)));
         }
 
@@ -117,8 +117,8 @@ namespace LASI.Core.Heuristics.Tests
 
         [TestMethod]
         public void IsSynonymForTest1() {
-            Verb verb1 = new SimpleVerb("walk");
-            Verb verb2 = new SimpleVerb("perambulate");
+            Verb verb1 = new BaseVerb("walk");
+            Verb verb2 = new BaseVerb("perambulate");
             Assert.IsTrue(verb1.IsSynonymFor(verb2));
             Assert.IsTrue(verb2.IsSynonymFor(verb1));
         }

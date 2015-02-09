@@ -80,7 +80,7 @@ namespace LASI.Core.Tests
         public void ModifiesTest() {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
-            IModalityModifiable expected = new SimpleVerb("capitulate");
+            IModalityModifiable expected = new BaseVerb("capitulate");
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;

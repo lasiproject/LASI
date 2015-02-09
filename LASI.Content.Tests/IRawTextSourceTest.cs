@@ -22,11 +22,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -61,7 +64,8 @@ namespace LASI.Content.Tests
         //
         #endregion
 
-        internal virtual IRawTextSource CreateIRawTextSource() {
+        internal virtual IRawTextSource CreateIRawTextSource()
+        {
             IRawTextSource target = new RawTextFragment(lines, "test fragment");
             return target;
         }
@@ -72,7 +76,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
@@ -85,7 +90,8 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
@@ -98,7 +104,8 @@ namespace LASI.Content.Tests
         ///A test for Name
         ///</summary>
         [TestMethod]
-        public void NameTest() {
+        public void NameTest()
+        {
             string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
 

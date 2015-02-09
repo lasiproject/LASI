@@ -24,7 +24,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Initializes a new instance of the MatchBase&lt;T&gt; class which will match against the given value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        protected MatchBase(T value) {
+        protected MatchBase(T value)
+        {
             Value = value;
         }
 

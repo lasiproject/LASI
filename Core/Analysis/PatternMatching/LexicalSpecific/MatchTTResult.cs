@@ -131,13 +131,13 @@ namespace LASI.Core.Analysis.PatternMatching
         /// with the provided value.
         /// </summary>
         /// <param name="value">
-        /// <param name="accepted">Indicates if the match is to be initialized as already matched. </param>
+        /// <param name="matched">Indicates if the match is to be initialized as already matched. </param>
         /// The value to match with. 
         /// </param>
         [DebuggerStepThrough]
-        internal Match(T value, bool accepted) : base(value)
+        internal Match(T value, bool matched) : base(value)
         {
-            Matched = accepted;
+            Matched = matched;
         }
 
         #endregion Constructors
@@ -262,6 +262,7 @@ namespace LASI.Core.Analysis.PatternMatching
             }
             return this;
         }
+
         public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, bool when) where TPattern : class, ILexical => When(when).Then(func);
         /// <summary>
         /// Appends a Case of Type expression to the current PatternMatching Expression.
@@ -396,5 +397,15 @@ namespace LASI.Core.Analysis.PatternMatching
         public Option<TProjection> SelectMany<TProjection>(Func<TResult, Option<TProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
 
         #endregion
+
+        internal static Match<T, TUpper> FromLowerToHigherResultType<TUpper, TResultX>(Match<T, TResultX> from) where TResultX : TUpper
+        {
+            var raised = new Match<T, TUpper>(from.Value, from.Matched);
+            if (raised.Matched)
+            {
+                raised.result = from.result;
+            }
+            return raised;
+        }
     }
 }

@@ -149,7 +149,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -161,7 +161,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -192,7 +192,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -204,7 +204,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -239,7 +239,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             startAfter}
                             )}, SentenceEnding.ExclamationPoint),
@@ -248,7 +248,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")
@@ -279,7 +279,7 @@ namespace LASI.Core.Tests
                             }),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("attack")
+                                new BaseVerb("attack")
                             }),
                             new NounPhrase(new Word[] {
                                 new Adjective("blue"),
@@ -291,7 +291,7 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("We")}),
                             new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
-                                new SimpleVerb("do")
+                                new BaseVerb("do")
                             }),
                         new NounPhrase(new Word[]{
                             new PersonalPronoun("this")

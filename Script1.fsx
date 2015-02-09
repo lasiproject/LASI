@@ -1,38 +1,26 @@
 ﻿#r @"C:\Users\Aluan\Documents\GitHub\LASI\Utilities\bin\Debug\LASI.Utilities.dll"
 
-type Tree<'a> = 
-    | Tree of Tree<'a> * Tree<'a>
-    | Leaf of 'a
+open LASI.Utilities
 
-let t = Tree(Leaf(1), Tree(Leaf(2), Tree(Leaf(7), Tree(Leaf(4), Leaf(5)))))
+let scanCs : seq<'a> -> 'b -> ('b -> 'a -> 'b) -> seq<'b> = (fun x y z -> x.Scan(y, new System.Func<'b, 'a, 'b>(z)))
+let scanFs = Seq.scan
+let scanRx = Observable.scan
+let nums = [ 1..Microsoft.FSharp.Core.int.MaxValue / 50 ]
+let scannWithCs (nums) = Seq.toList <| scanCs nums 0 (+)
+let scannWithFs (nums) = Seq.toList <| scanFs (+) 0 nums
 
-let rec bottomToTop t = 
-    match t with
-    | Tree(a, Leaf(b)) -> b :: bottomToTop a
-    | Tree(a, b) -> 
-        List.concat ([ bottomToTop b
-                       bottomToTop a ])
-    | Leaf a -> a :: []
+let timef (name, f) = 
+    let sw = System.Diagnostics.Stopwatch.StartNew()
+    let result = f()
+    let time = (float) sw.ElapsedMilliseconds / 1000.0
+    (name, time, result)
 
-bottomToTop t
+let test = 
+    [| for (name, f) in [ ("scanCs", fun () -> scannWithCs nums)
+                          ("scanFs", fun () -> scannWithFs nums) ] -> 
+           Async.StartImmediate(async { 
+                                    let (name, time, result) = timef (name, f)
+                                    printfn "name: %A elapsed %A result: %A\n\n" name time result
+                                }) |]
 
-let rec topToBottom t = 
-    match t with
-    | Tree(Leaf(b), a) -> List.Cons(b, topToBottom a)
-    | Leaf a -> a :: []
-    | Tree(a, b) -> 
-        List.concat ([ topToBottom a
-                       topToBottom b ])
-
-topToBottom t
-
-let v1 = bottomToTop t
-let v2 = topToBottom t
-let res = v1.Equals(List.rev v2)
-
-let xs  =
-    v1
-    |> List.zip
-    >> List.map (fun u -> float (fst u) + float (snd u))
-    >> List.fold (/) 1.0
-    <| v2
+do test |> Array.iter (fun t -> ignore (t))

@@ -15,16 +15,19 @@ namespace LASI.Content.Serialization.Json.Tests
     public class SerializationExtensionsTests
     {
         [TestMethod]
-        public void ToJArrayTest() {
+        public void ToJArrayTest()
+        {
             var target = TestHelper.GetLexicalSequence();
             var result = target.Zip(target.ToJArray(), (source, serialized) => new { Source = source, Serialized = serialized as dynamic });
-            foreach (var serialized in result) {
+            foreach (var serialized in result)
+            {
                 Assert.AreEqual(serialized.Source.Text, (string)serialized.Serialized.text);
             }
         }
 
         [TestMethod]
-        public void ToJObject_NounPhraseTest() {
+        public void ToJObject_NounPhraseTest()
+        {
             var target = TestHelper.TestNounPhrase;
             JObject serialized = target.ToJObject();
             Assert.IsNotNull(serialized);
@@ -33,7 +36,8 @@ namespace LASI.Content.Serialization.Json.Tests
         }
 
         [TestMethod]
-        public void ToJObject_VerbalTest() {
+        public void ToJObject_VerbalTest()
+        {
             var target = TestHelper.TestVerbal;
             JObject serialized = target.ToJObject();
             Assert.IsNotNull(serialized);
@@ -43,10 +47,12 @@ namespace LASI.Content.Serialization.Json.Tests
 
         private static class TestHelper
         {
-            public static IVerbal TestVerbal => new VerbPhrase(new SimpleVerb("walk"), new Adverb("swiftly"));
+            public static IVerbal TestVerbal => new VerbPhrase(new BaseVerb("walk"), new Adverb("swiftly"));
             public static NounPhrase TestNounPhrase => new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            public static IEnumerable<ILexical> GetLexicalSequence() {
-                foreach (var lexical in new[] { new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) }) {
+            public static IEnumerable<ILexical> GetLexicalSequence()
+            {
+                foreach (var lexical in new[] { new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians")) })
+                {
                     yield return lexical;
                 }
             }

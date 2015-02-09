@@ -125,6 +125,7 @@
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
+    <Compile Include="PatternMatching\MatchTTresultTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />
@@ -182,7 +183,6 @@
   <ItemGroup>
     <Folder Include="Analysis\Binding\Experimental\" />
     <Folder Include="Analysis\RelationshipLookups\Helpers\" />
-    <Folder Include="PatternMatching\LexicalSpecific\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">

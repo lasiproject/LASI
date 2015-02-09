@@ -67,7 +67,7 @@ namespace LASI.Content.TaggerEncapsulation
             ["RBR"] = t => new ComparativeAdverb(t), //Adverb }, comparative
             ["RBS"] = t => new SuperlativeAdverb(t), //Adverb }, superlative
             //Verb mappings
-            ["VB"] = t => new SimpleVerb(t), //Verb }, base form
+            ["VB"] = t => new BaseVerb(t), //Verb }, base form
             ["VBD"] = t => new PastTenseVerb(t), //Verb }, past tense
             ["VBG"] = t => new PresentParticiple(t), //Verb }, gerund or present participle
             ["VBN"] = t => new PastParticiple(t), //Verb }, past participle

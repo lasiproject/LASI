@@ -212,7 +212,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IVerbal expected = new VerbPhrase(new SimpleVerb("eat"));
+            IVerbal expected = new VerbPhrase(new BaseVerb("eat"));
             target.DirectObjectOf = expected;
 
             IVerbal actual = target.DirectObjectOf;
@@ -294,7 +294,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IVerbal expected = new SimpleVerb("eat");
+            IVerbal expected = new BaseVerb("eat");
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
