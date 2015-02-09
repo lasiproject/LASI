@@ -319,8 +319,9 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Returns a Tuple&lt; <see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
-        /// representing the sequence bifurcated by the provided predicate.
+        /// <para>Produces a Tuple&lt;<see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
+        /// representing the sequence bifurcated by the provided predicate.</para> 
+        /// The first item contains those elements for which the predicate returns <c>true</c>; the second those items for which the predicate returns <c>false</c>.
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence of values to bisect.</param>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.Linq.List;
 
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns

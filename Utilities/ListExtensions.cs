@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Utilities
+namespace LASI.Utilities.Specialized.Enhanced.Linq.List
 {
     /// <summary>
     /// Provides a set of methods for querying collections of type <see cref="List{T}" /> allowing
