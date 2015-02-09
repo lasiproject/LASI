@@ -184,36 +184,6 @@ $RECYCLE.BIN/
 .DS_Store
 
 
-#############
-## Python
-#############
-
-*.py[co]
-
-# Packages
-*.egg
-*.egg-info
-dist/
-build/
-eggs/
-parts/
-var/
-sdist/
-develop-eggs/
-.installed.cfg
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-
-#Translations
-*.mo
-
-#Mr Developer
-.mr.developer.cfg
 /Aluan_AOS 2013-10-25 21_07_07.coveragexml
 WebEssentials-Settings.json
 /LASI.WebApp.Transitional/
@@ -356,3 +326,4 @@ WebEssentials-Settings.json
 *.docx
 *.doc
 *.zip
+/AspSixApp/wwwroot/lib/
