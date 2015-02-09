@@ -114,6 +114,7 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\MatchAgainstTuple.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\MatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Match.cs" />
+    <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchTTresult.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />

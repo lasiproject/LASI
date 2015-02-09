@@ -23,7 +23,8 @@ namespace LASI.Core
         /// Initializes a new instance of aggregate entity forming, an aggregate entity composed of the given entities
         /// </summary>
         /// <param name="entities">The entities aggregated into the group.</param>
-        public AggregateEntity(IEnumerable<IEntity> entities) {
+        public AggregateEntity(IEnumerable<IEntity> entities)
+        {
             constituents = ImmutableList.CreateRange((from entity in entities
                                                       select entity.Match()
                                                       .Case((IAggregateEntity a) => a.AsEnumerable())
@@ -54,7 +55,8 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
+        public void AddPossession(IPossessable possession)
+        {
             possessions = possessions.Add(possession);
             possession.Possesser = this;
         }
@@ -62,7 +64,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the aggregate entity.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the to the aggregate entity.</param>
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -70,7 +73,8 @@ namespace LASI.Core
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the aggregate entity.
         /// </summary>
         /// <param name="referencer">The referencer which refers to the aggregate entity Instance.</param>
-        public void BindReferencer(IReferencer referencer) {
+        public void BindReferencer(IReferencer referencer)
+        {
             referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
@@ -78,17 +82,20 @@ namespace LASI.Core
         /// Returns an enumerator that iterates through the members of the aggregate entity.
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the aggregate entity.</returns>
-        public IEnumerator<IEntity> GetEnumerator() {
+        public IEnumerator<IEntity> GetEnumerator()
+        {
             return constituents.GetEnumerator();
         }
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
             return GetEnumerator();
         }
         /// <summary>
         /// Returns a string representation of the aggregate entity.
         /// </summary>
         /// <returns>A string representation of the aggregate entity.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return "[ " + constituents.Count() + " ] " +
                 string.Join(" ",
                     from member in constituents.AsRecursivelyEnumerable()
@@ -135,8 +142,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets a textual representation of the aggregate entity.
         /// </summary>
-        public string Text {
-            get {
+        public string Text
+        {
+            get
+            {
                 return string.Join(" , ",
                     from member in constituents.AsRecursivelyEnumerable()
                     let prepositionText = member.Match().Case((IPrepositionLinkable i) => i.PrepositionOnRight?.Text ?? string.Empty).Result()
@@ -153,7 +162,7 @@ namespace LASI.Core
         /// Gets or sets the numeric weight of the aggregate entity over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
-       
+
         #endregion
 
         #region Fields

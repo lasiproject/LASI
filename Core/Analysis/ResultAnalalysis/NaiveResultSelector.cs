@@ -14,7 +14,8 @@ namespace LASI.Core
     /// </summary>
     public static class NaiveResultSelector
     {
-        private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source) {
+        private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source)
+        {
             var data = GetVerbWiseRelationships(source);
             return from svs in data
                    let dataPoint = new
@@ -29,14 +30,15 @@ namespace LASI.Core
                    select Pair.Create(key.Key, key.Value);
 
         }
-        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source) {
+        private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source)
+        {
             var data = from verbal in source.Phrases.OfVerbPhrase().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).RefersTo != null).Distinct((x, y) => x.IsSimilarTo(y))
                        from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                       let subject = entity.Match().Yield<IEntity>()
+                       let subject = entity.Match()/*.Yield<IEntity>()*/
                             .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
                             .Then((IReferencer r) => r.RefersTo)
-                            .Result(entity)
+                            .Result() ?? entity
                        from direct in verbal.DirectObjects.DefaultIfEmpty()
                        from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                        let relationship = new SvoRelationship(verbal.AggregateSubject, verbal, verbal.AggregateDirectObject, verbal.AggregateIndirectObject)
@@ -55,11 +57,12 @@ namespace LASI.Core
         /// <param name="source">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
         /// other metrics.</returns>
-        public static IEnumerable<Pair<string, float>> GetTopResultsByEntity(IReifiedTextual source) {
+        public static IEnumerable<Pair<string, float>> GetTopResultsByEntity(IReifiedTextual source)
+        {
             var results = from entity in source.Phrases.OfEntity()
                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                           orderby entity.Weight descending
-                          let e = entity.Match().Yield<IEntity>()
+                          let e = entity.Match()/*.Yield<IEntity>()*/
                               .Case((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
                           .Result(entity)
                           where e != null

@@ -109,7 +109,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        ///
+        /// This externalized Case expression function allows for some sligh additional flexibility. 
         /// </summary>
         /// <typeparam name="T">The type of the value being matched over.</typeparam>
         /// <typeparam name="TCase">The type of the Case pattern.</typeparam>

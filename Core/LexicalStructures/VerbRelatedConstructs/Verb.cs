@@ -17,11 +17,11 @@ namespace LASI.Core
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The text content of the verb.</param>
-        /// <param name="form">The tense of the verb</param>
-        protected Verb(string text, VerbForm form)
+        /// <param name="verbForm">The tense of the verb</param>
+        protected Verb(string text, VerbForm verbForm)
             : base(text)
         {
-            VerbForm = form;
+            VerbForm = verbForm;
         }
 
         #endregion Constructors
@@ -178,12 +178,12 @@ namespace LASI.Core
         /// <summary>
         /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is) a B"
         /// </summary>
-        public bool IsClassifier => (classifier = classifier ?? DetermineIsClassifier()) ?? false;
+        public bool IsClassifier => classifier ?? (classifier = DetermineIsClassifier()) ?? false;
 
         /// <summary>
         /// Gets a value indicating whether or not the Verb has possessive semantics. E.g. "A (has) a B"
         /// </summary>
-        public bool IsPossessive => (possessive = possessive ?? DetermineIsPossessive()) ?? false;
+        public bool IsPossessive => possessive ?? (possessive = DetermineIsPossessive()) ?? false;
 
         #endregion Properties
 

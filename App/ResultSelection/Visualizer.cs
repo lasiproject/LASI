@@ -27,9 +27,11 @@ namespace LASI.App
         /// The given ChartKind will be used for all further chart operations until it is changed via another call to ChangeChartKind.
         /// </summary>
         /// <param name="chartKind">The ChartKind value determining the what data set is to be displayed.</param>
-        public static async void ChangeChartKindAsync(ChartKind chartKind) {
+        public static async void ChangeChartKindAsync(ChartKind chartKind)
+        {
             ChartKind = chartKind;
-            foreach (var pair in documentsByChart) {
+            foreach (var pair in documentsByChart)
+            {
                 var document = pair.Value;
                 var chart = pair.Key;
                 var data = await CreateChartDataAsync(chartKind, document);
@@ -47,8 +49,10 @@ namespace LASI.App
         }
 
 
-        private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document) {
-            switch (chartKind) {
+        private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document)
+        {
+            switch (chartKind)
+            {
                 case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
                 case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
                 default: return await GetNounWiseDataAsync(document);
@@ -61,8 +65,10 @@ namespace LASI.App
         /// Reconfigures all charts to Subjects Column perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToColumnChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static async Task ToColumnChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 var items = chart.GetItemSource();
                 var series = new ColumnSeries
                 {
@@ -82,8 +88,10 @@ namespace LASI.App
         /// Reconfigures all charts to Subjects Pie perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToPieChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static async Task ToPieChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 var items = chart.GetItemSource();
                 var series = new PieSeries
                 {
@@ -92,7 +100,8 @@ namespace LASI.App
                     ItemsSource = items,
                     IsSelectionEnabled = true,
                 };
-                series.IsMouseCaptureWithinChanged += (sender, e) => {
+                series.IsMouseCaptureWithinChanged += (sender, e) =>
+                {
                     series.ToolTip = (((series.SelectedItem as DataPoint))).DependentValue;
                 };
                 ResetChartContent(chart, series);
@@ -100,7 +109,8 @@ namespace LASI.App
             }
         }
 
-        private static IEnumerable<Chart> RetrieveCharts() {
+        private static IEnumerable<Chart> RetrieveCharts()
+        {
             return WindowManager.ResultsScreen.FrequencyCharts.Items.OfType<TabItem>().Select(tab => tab.Content).OfType<Chart>();
         }
 
@@ -109,8 +119,10 @@ namespace LASI.App
         /// Reconfigures all charts to Subjects Bar perspective
         /// </summary>
         /// <returns>A Task which completes on the successful reconstruction of all charts</returns>
-        public static async Task ToBarChartsAsync() {
-            foreach (var chart in RetrieveCharts()) {
+        public static async Task ToBarChartsAsync()
+        {
+            foreach (var chart in RetrieveCharts())
+            {
                 ResetChartContent(
                     chart,
                     new BarSeries
@@ -128,7 +140,8 @@ namespace LASI.App
         /// </summary>
         /// <param name="document">The document whose contents are to be charted.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
-        public static async Task InitChartDisplayAsync(Document document) {
+        public static async Task InitChartDisplayAsync(Document document)
+        {
             var chart = await BuildBarChartAsync(document);
             documentsByChart.Add(chart, document);
             var tab = new TabItem
@@ -143,7 +156,8 @@ namespace LASI.App
         }
 
 
-        private static async Task<Chart> BuildBarChartAsync(Document document) {
+        private static async Task<Chart> BuildBarChartAsync(Document document)
+        {
 
             var dataPointSource =
                 ChartKind == ChartKind.NounPhrasesOnly ?
@@ -163,7 +177,8 @@ namespace LASI.App
                 IsSelectionEnabled = true,
                 Tag = document,
             };
-            series.MouseMove += (sender, e) => {
+            series.MouseMove += (sender, e) =>
+            {
                 series.ToolTip = (e.Source as DataPoint).IndependentValue;
             };
             var chart = new Chart
@@ -186,7 +201,8 @@ namespace LASI.App
         /// </summary>
         /// <param name="chart">The chart whose contents to replace with the given The DataPointSeries.</param>
         /// <param name="series">The DataPointSeries containing the data points which the chart will contain.</param>
-        public static void ResetChartContent(Chart chart, DataPointSeries series) {
+        public static void ResetChartContent(Chart chart, DataPointSeries series)
+        {
             chart.Series.Clear();
             chart.Series.Add(series);
         }
@@ -196,7 +212,8 @@ namespace LASI.App
 
 
         #endregion
-        private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document) {
+        private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document)
+        {
             var dataPoints = from relationship in await GetVerbWiseRelationshipsAsync(document)
                              select new
                              {
@@ -205,11 +222,13 @@ namespace LASI.App
                                      (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
                                  Value = (float)Math.Round(relationship.Weight, 2)
                              };
-            return dataPoints.Distinct(); 
+            return dataPoints.Distinct();
 
         }
-        private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) {
-            return await Task.Run(() => {
+        private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document)
+        {
+            return await Task.Run(() =>
+            {
                 var consideredVerbals = document.Phrases.OfVerbPhrase()
                                      .WithSubject(s => !(s is IReferencer) || (s as IReferencer).RefersTo != null)
                                      .Distinct((x, y) => x.IsSimilarTo(y))
@@ -217,7 +236,7 @@ namespace LASI.App
                                      .WithDegreeOfParallelism(Concurrency.Max);
                 var relationships = from verbal in consideredVerbals
                                     from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                    let subject = entity.Match().Yield<IEntity>()
+                                    let subject = entity.Match()/*.Yield<IEntity>()*/
                                             .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
                                             .Then((IReferencer r) => r.RefersTo)
                                             .Case((IEntity e) => e)
@@ -227,8 +246,7 @@ namespace LASI.App
                                     from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                                     where direct != null || indirect != null
                                     where subject.Text != (direct ?? indirect).Text
-                                    let relationship = new SvoRelationship
-                                    (
+                                    let relationship = new SvoRelationship(
                                         subject: verbal.AggregateSubject,
                                         verbal: verbal,
                                         direct: verbal.AggregateDirectObject,
@@ -245,7 +263,8 @@ namespace LASI.App
         private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) =>
             await Task.Run(() => GetVerbWiseData(document));
 
-        private static IEnumerable<dynamic> GetNounWiseData(Document document) {
+        private static IEnumerable<dynamic> GetNounWiseData(Document document)
+        {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  .OfNounPhrase()
                  .Meld()
@@ -258,7 +277,8 @@ namespace LASI.App
         /// </summary>
         /// <param name="document">The document for which to build relationships.</param>
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
-        public static async Task DisplayKeyRelationshipsAsync(Document document) {
+        public static async Task DisplayKeyRelationshipsAsync(Document document)
+        {
             var tab = new TabItem
             {
                 Header = document.Title,
@@ -274,7 +294,8 @@ namespace LASI.App
         /// <summary>
         /// Gets the ChartKind currently used by the ChartManager.
         /// </summary>
-        internal static ChartKind ChartKind {
+        internal static ChartKind ChartKind
+        {
             get;
             private set;
         }
@@ -287,7 +308,8 @@ namespace LASI.App
         /// </summary>
         /// <param name="relationships">The sequence of Relationship Tuple to transform into textual Display elements.</param>
         /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
-        internal static IEnumerable<dynamic> ToGridRowData(this IEnumerable<SvoRelationship> relationships) {
+        internal static IEnumerable<dynamic> ToGridRowData(this IEnumerable<SvoRelationship> relationships)
+        {
             return from relationship in relationships
                    orderby relationship.Weight descending
                    select new
@@ -303,7 +325,8 @@ namespace LASI.App
         private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.PrepositionOnLeft?.Text + o?.Text;
 
 
-        private static string FormatVerbalText(IVerbal verbal) {
+        private static string FormatVerbalText(IVerbal verbal)
+        {
             var prepositionalText = (verbal as IPrepositionLinkable)?.PrepositionOnLeft?.Text;
             var adverbialText = string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";

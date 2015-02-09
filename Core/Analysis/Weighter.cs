@@ -24,7 +24,8 @@ namespace LASI.Core
         /// However, to ensure the consistency/determinism of the Weighting process, it is recommended that they be executed (awaited) in the order
         /// in which they are hereby returned.
         /// </remarks>
-        public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document) {
+        public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document)
+        {
             var name = document.Title;
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Words),
                 name + ": Aggregating Literals", name + ": Aggregated Literals", 23);
@@ -50,18 +51,22 @@ namespace LASI.Core
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static void Weight(Document document) {
+        public static void Weight(Document document)
+        {
             Task.WaitAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
         /// <summary>
         /// Assigns numeric Weights to each element in the given Document.
         /// </summary>
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
-        public static async Task WeightAsync(Document document) {
+        public static async Task WeightAsync(Document document)
+        {
             await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
-        private static void NormalizeWeights(IReifiedTextual source) {
-            if (source.Phrases.Any()) {
+        private static void NormalizeWeights(IReifiedTextual source)
+        {
+            if (source.Phrases.Any())
+            {
                 var maxWeight = source.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
                     foreach (var p in source.Phrases) p.Weight = p.Weight / maxWeight * 100;
@@ -73,7 +78,8 @@ namespace LASI.Core
         /// Increase noun weights in a document by abstracting over synonyms
         /// </summary>
         /// <param name="source">the Document whose noun weights may be modified</param>
-        private static void WeightSimilarNouns(IReifiedTextual source) {
+        private static void WeightSimilarNouns(IReifiedTextual source)
+        {
             var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
@@ -90,7 +96,8 @@ namespace LASI.Core
         /// For each noun parent in a document that is similar to another noun parent, increase the weight of that noun
         /// </summary>
         /// <param name="source">Document containing the componentPhrases to weight</param>
-        private static void WeightSimilarNounPhrases(IReifiedTextual source) {
+        private static void WeightSimilarNounPhrases(IReifiedTextual source)
+        {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases
@@ -98,37 +105,43 @@ namespace LASI.Core
                 .InSubjectOrObjectRole();
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
-        private static void WeightSimilarVerbs(IReifiedTextual source) {
+        private static void WeightSimilarVerbs(IReifiedTextual source)
+        {
             var toConsider = source.Words.OfVerb().WithSubjectOrObject();
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
         }
 
 
-        private static void WeightSimilarVerbPhrases(IReifiedTextual source) {
+        private static void WeightSimilarVerbPhrases(IReifiedTextual source)
+        {
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
 
-        private static void WeightSimilarEntities(IReifiedTextual source) {
+        private static void WeightSimilarEntities(IReifiedTextual source)
+        {
             GroupAndWeight(source.Entities, Lexicon.IsSimilarTo, 0.5);
         }
 
-        private static void HackSubjectPropernounImportance(IReifiedTextual source) {
+        private static void HackSubjectPropernounImportance(IReifiedTextual source)
+        {
             source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
                 .Where(nounPhrase => nounPhrase.Words.OfProperNoun().Any())
                 .ForAll(nounPhrase => nounPhrase.Weight *= 2);
         }
 
-        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements) {
+        private static void WeightByLiteralFrequency(IEnumerable<ILexical> syntacticElements)
+        {
             syntacticElements.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .GroupBy(lexical => new { Type = lexical.GetType(), lexical.Text }).Select(Enumerable.ToList)
                 .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
         }
 
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double scaleBy) where TLexical : class, ILexical {
+        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double scaleBy) where TLexical : class, ILexical
+        {
             var groups =
                 from outer in toConsider/*.ToList()*/.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/

@@ -264,6 +264,7 @@ namespace LASI.Core.Analysis.PatternMatching
         }
 
         public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, bool when) where TPattern : class, ILexical => When(when).Then(func);
+
         /// <summary>
         /// Appends a Case of Type expression to the current PatternMatching Expression.
         /// </summary>
@@ -394,8 +395,9 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Monadic Operators over Match
         public Option<TProjection> Select<TProjection>(Func<TResult, TProjection> selector) => from result in Matched ? result.ToOption() : Option.None<TResult>()
                                                                                                select selector(result);
-        public Option<TProjection> SelectMany<TProjection>(Func<TResult, Option<TProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
-
+        public Option<TFinalProjection> SelectMany<TFinalProjection>(Func<TResult, Option<TFinalProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
+        public Option<TFinalProjection> SelectMany<TProjection, TFinalProjection>(Func<TResult, Option<TProjection>> projection, Func<TResult, TProjection, TFinalProjection> resultSelector) =>
+            (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection, resultSelector);
         #endregion
 
         internal static Match<T, TUpper> FromLowerToHigherResultType<TUpper, TResultX>(Match<T, TResultX> from) where TResultX : TUpper
