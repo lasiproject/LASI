@@ -327,3 +327,4 @@ WebEssentials-Settings.json
 *.doc
 *.zip
 /AspSixApp/wwwroot/lib/
+*.zip
