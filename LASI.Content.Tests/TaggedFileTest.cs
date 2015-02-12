@@ -1,9 +1,8 @@
-﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading.Tasks;
-using LASI.TestUtilities;
+using LASI.Content.Tests.Helpers;
+using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {
@@ -24,11 +23,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -44,19 +46,22 @@ namespace LASI.Content.Tests
         ///A test for TaggedFile Constructor
         ///</summary>
         [TestMethod]
-        public void TaggedFileConstructorTest1() {
+        public void TaggedFileConstructorTest1()
+        {
             TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             System.IO.FileInfo fileInfo = new System.IO.FileInfo(VALID_TAGGED_FILE_PATH);
             Assert.AreEqual(target.FullPath, fileInfo.FullName);
         }
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
-        public void TaggedFileConstructorTest2() {
+        public void TaggedFileConstructorTest2()
+        {
             TaggedFile target = new TaggedFile(DIFFERENT_TYPE_FILE_PATH);
         }
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void TaggedFileConstructorTest3() {
+        public void TaggedFileConstructorTest3()
+        {
             string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             TaggedFile target = new TaggedFile(invalidPath);
         }
@@ -64,7 +69,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             string expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             string actual;
@@ -76,11 +82,13 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             GetTextAsyncTestHelper().Wait();
         }
 
-        private static async Task GetTextAsyncTestHelper() {
+        private static async Task GetTextAsyncTestHelper()
+        {
             TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             Task<string> expected = Task.FromResult(File.ReadAllText(VALID_TAGGED_FILE_PATH));
             Task<string> actual = target.GetTextAsync();

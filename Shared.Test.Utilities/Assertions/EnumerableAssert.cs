@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.TestUtilities
+namespace Shared.Test.Assertions
 {
     public static class EnumerableAssert
     {

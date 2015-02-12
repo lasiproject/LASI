@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Tests
+namespace LASI.Content.Tests
 {
 
 
@@ -21,11 +21,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -61,7 +64,8 @@ namespace LASI.Core.Tests
         #endregion
 
 
-        internal virtual InputFile CreateInputFile() {
+        internal virtual InputFile CreateInputFile()
+        {
             return new TxtFile(TEXT_TEST_FILE_PATH);
         }
 
@@ -69,7 +73,8 @@ namespace LASI.Core.Tests
         ///A test for Equals
         ///</summary>
         [TestMethod]
-        public void EqualsTest() {
+        public void EqualsTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
             object obj = null;
@@ -97,7 +102,8 @@ namespace LASI.Core.Tests
         ///A test for GetHashCode
         ///</summary>
         [TestMethod]
-        public void GetHashCodeTest() {
+        public void GetHashCodeTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
             int expected = new DocXFile(relativePath).GetHashCode();
@@ -110,10 +116,12 @@ namespace LASI.Core.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
-            using (var reader = new System.IO.StreamReader(target.FullPath)) {
+            using (var reader = new System.IO.StreamReader(target.FullPath))
+            {
                 expected = reader.ReadToEnd();
             }
             string actual;
@@ -125,7 +133,8 @@ namespace LASI.Core.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
             string actual = null;
@@ -140,7 +149,8 @@ namespace LASI.Core.Tests
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             InputFile target = CreateInputFile(); // TODO: Initialize to an appropriate value
             string expected = string.Format("{0}: {1} in: {2}", target.GetType(), target.FileName, target.Directory);
             string actual;
@@ -152,7 +162,8 @@ namespace LASI.Core.Tests
         ///A test for op_Equality
         ///</summary>
         [TestMethod]
-        public void op_EqualityTest() {
+        public void op_EqualityTest()
+        {
             InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
             InputFile right = null;
             bool expected = false;
@@ -174,7 +185,8 @@ namespace LASI.Core.Tests
         ///A test for op_Inequality
         ///</summary>
         [TestMethod]
-        public void op_InequalityTest() {
+        public void op_InequalityTest()
+        {
             InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
             InputFile right = null;
             bool expected = true;
@@ -196,7 +208,8 @@ namespace LASI.Core.Tests
         ///A test for Directory
         ///</summary>
         [TestMethod]
-        public void DirectoryTest() {
+        public void DirectoryTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
             string expected = new System.IO.FileInfo(relativePath).Directory.FullName + "\\";
@@ -209,7 +222,8 @@ namespace LASI.Core.Tests
         ///A test for Extension
         ///</summary>
         [TestMethod]
-        public void ExtTest() {
+        public void ExtTest()
+        {
             var fullPath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(fullPath);
             string expected = ".docx";
@@ -222,7 +236,8 @@ namespace LASI.Core.Tests
         ///A test for FileName
         ///</summary>
         [TestMethod]
-        public void FileNameTest() {
+        public void FileNameTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
             InputFile target = new PdfFile(relativePath);
             string expected = "Draft_Environmental_Assessment3.pdf";
@@ -235,7 +250,8 @@ namespace LASI.Core.Tests
         ///A test for FullPath
         ///</summary>
         [TestMethod]
-        public void FullPathTest() {
+        public void FullPathTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
@@ -245,7 +261,8 @@ namespace LASI.Core.Tests
                  ///A test for FullPath
                  ///</summary>
         [TestMethod]
-        public void FullPathTest1() {
+        public void FullPathTest1()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
@@ -257,7 +274,8 @@ namespace LASI.Core.Tests
         ///A test for Name
         ///</summary>
         [TestMethod]
-        public void NameTest() {
+        public void NameTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment1.doc";
             InputFile target = new DocFile(relativePath);
             string expected = "Draft_Environmental_Assessment1";
@@ -270,7 +288,8 @@ namespace LASI.Core.Tests
         ///A test for NameSansExt
         ///</summary>
         [TestMethod]
-        public void NameSansExtTest() {
+        public void NameSansExtTest()
+        {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
             InputFile target = new TxtFile(relativePath);
             string expected = "Draft_Environmental_Assessment4";
@@ -283,7 +302,8 @@ namespace LASI.Core.Tests
         ///A test for PathSansExt
         ///</summary>
         [TestMethod]
-        public void PathSansExtTest() {
+        public void PathSansExtTest()
+        {
             var absolutePath = System.IO.Path.GetFullPath(@"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf");
             InputFile target = new PdfFile(absolutePath);
             string expected = System.IO.Path.GetDirectoryName(absolutePath) + @"\Draft_Environmental_Assessment3";

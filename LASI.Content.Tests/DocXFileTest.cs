@@ -1,9 +1,6 @@
-﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using LASI.TestUtilities;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LASI.Content.Tests.Helpers;
+using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {

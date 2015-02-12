@@ -1,4 +1,4 @@
-﻿namespace LASI.TestUtilities
+﻿namespace Shared.Test.Attributes
 {
     public sealed class ExpectedFileNotFoundExceptionAttribute : CustomizedExpectedExceptionBaseAttribute
     {

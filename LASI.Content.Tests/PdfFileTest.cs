@@ -1,9 +1,7 @@
-﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using LASI.TestUtilities;
+using LASI.Content.Tests.Helpers;
+using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {
@@ -23,11 +21,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -41,7 +42,8 @@ namespace LASI.Content.Tests
         ///A test for PdfFile Constructor
         ///</summary>
         [TestMethod]
-        public void PdfFileConstructorTest() {
+        public void PdfFileConstructorTest()
+        {
             PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
             FileInfo pdfInfo = new FileInfo(TEST_PDF_FILE_PATH);
             Assert.AreEqual(pdfInfo.FullName, target.FullPath);
@@ -50,13 +52,15 @@ namespace LASI.Content.Tests
         }
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void PdfFileConstructorTest1() {
+        public void PdfFileConstructorTest1()
+        {
             string invalidPath = Directory.GetCurrentDirectory();
             PdfFile target = new PdfFile(invalidPath);
         }
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
-        public void PdfFileConstructorTest2() {
+        public void PdfFileConstructorTest2()
+        {
             string textFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.txt";
             PdfFile target = new PdfFile(textFilePath);
         }
@@ -64,7 +68,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             PdfFile target = new PdfFile(TEST_PDF_FILE_PATH);
             string expected = new PdfToTextConverter(target).ConvertFile().GetText();
             string actual;
@@ -76,7 +81,8 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             string path = TEST_PDF_FILE_PATH;
             PdfFile target = new PdfFile(path);
             string expected = new PdfToTextConverter(target).ConvertFile().GetText();

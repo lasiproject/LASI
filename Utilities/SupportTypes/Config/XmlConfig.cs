@@ -21,7 +21,7 @@ namespace LASI.Utilities
             XElement = xElement;
         }
 
-        public override string this[string name] => this[name, StringComparison.CurrentCulture];
+        public override string this[string name] => this[name, StringComparison.Ordinal];
 
 
         public override string this[string name, StringComparison stringComparison] => (

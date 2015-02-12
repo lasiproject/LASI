@@ -14,7 +14,8 @@ namespace LASI.Content
         /// Initializes a new instance of the InputFile class wrapping the provided filepath.
         /// </summary>
         /// <param name="path">The absolute or relative path of the file</param>
-        protected InputFile(string path) {
+        protected InputFile(string path)
+        {
             var infile = new System.IO.FileInfo(path);
             if (!infile.Exists)
                 throw new System.IO.FileNotFoundException("File Not Found.", infile.FullName);
@@ -60,7 +61,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="obj">The object to compare with.</param> 
         /// <returns> <c>true</c> if the specified object is equal to the current InputFile; otherwise, <c>false</c>.</returns> 
-        public override bool Equals(object obj) => Equals(obj as InputFile);
+        public override bool Equals(object obj) => obj is InputFile && Equals(obj as InputFile);
         /// <summary>
         /// Gets the hash code of the InputFile.
         /// </summary>

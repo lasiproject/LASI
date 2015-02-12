@@ -40,7 +40,8 @@ namespace LASI.Core
         /// <param name="modifier">
         /// The modifier to attach.
         /// </param>
-        public void ModifyWith(IAdverbial modifier) {
+        public void ModifyWith(IAdverbial modifier)
+        {
             throw new NotImplementedException();
         }
 
@@ -51,17 +52,23 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Verbial construct which the subordinate clause modifies.
         /// </summary>
-        public IAdverbialModifiable Modifies {
+        public IAdverbialModifiable Modifies
+        {
 
             //get;
             //set;
-            get {
+            get
+            {
                 return modifies;
             }
-            set {
-                if (describes == null) {
+            set
+            {
+                if (describes == null)
+                {
                     modifies = value;
-                } else {
+                }
+                else
+                {
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
                                         as a descriptive modifier of {1}\n
@@ -74,12 +81,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IDescribable construct which the subordinate clause describes.
         /// </summary>
-        public IEntity Describes {
+        public IEntity Describes
+        {
             get { return describes; }
-            set {
-                if (modifies == null) {
+            set
+            {
+                if (modifies == null)
+                {
                     describes = value;
-                } else {
+                }
+                else
+                {
                     throw new ConflictingClauseRoleException(
                         string.Format(@"Cannot bind {0}\n
                                         as an Entity descriptive modifier of {1}\n
@@ -92,8 +104,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of IAdverbial constructs which modify the SubordinateClause.
         /// </summary>
-        public IEnumerable<IAdverbial> AdverbialModifiers {
-            get {
+        public IEnumerable<IAdverbial> AdverbialModifiers
+        {
+            get
+            {
                 return adverbialModifiers;
             }
         }

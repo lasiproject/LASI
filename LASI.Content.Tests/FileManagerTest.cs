@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using LASI.Utilities;
 
-namespace LASI.Core.Tests
+namespace LASI.Content.Tests
 {
 
 

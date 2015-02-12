@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using LASI.Utilities.Specialized.Enhanced.Linq.List;
-using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using LASI.TestUtilities;
+using Shared.Test.Assertions;
 
 namespace LASI.Utilities.Tests
 {

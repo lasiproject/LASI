@@ -1,10 +1,9 @@
-﻿using LASI;
-using LASI.Core;
+﻿using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.TestUtilities;
+using Shared.Test.Assertions;
 
 namespace LASI.Core.Tests
 {

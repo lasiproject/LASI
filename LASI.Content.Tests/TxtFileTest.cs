@@ -1,9 +1,8 @@
-﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading.Tasks;
-using LASI.TestUtilities;
+using LASI.Content.Tests.Helpers;
+using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {
@@ -23,11 +22,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -36,7 +38,8 @@ namespace LASI.Content.Tests
         ///A test for TextFile Constructor
         ///</summary>
         [TestMethod]
-        public void TextFileConstructorTest() {
+        public void TextFileConstructorTest()
+        {
             string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             var sfi = new System.IO.FileInfo(path);
@@ -46,13 +49,15 @@ namespace LASI.Content.Tests
         }
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void TextFileConstructorTest1() {
+        public void TextFileConstructorTest1()
+        {
             string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             TxtFile target = new TxtFile(invalidPath);
         }
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
-        public void TxtFileConstructorTest2() {
+        public void TxtFileConstructorTest2()
+        {
             string wrongTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
             TxtFile target = new TxtFile(wrongTypePath);
         }
@@ -61,7 +66,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(path).ReadToEnd();
@@ -74,11 +80,13 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             GetTextAsyncTestHelper().Wait();
         }
 
-        private async Task GetTextAsyncTestHelper() {
+        private async Task GetTextAsyncTestHelper()
+        {
             string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(target.FullPath).ReadToEndAsync().Result;

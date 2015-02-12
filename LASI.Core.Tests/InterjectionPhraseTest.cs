@@ -1,8 +1,6 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using LASI.TestUtilities;
+using Shared.Test.Assertions;
 
 namespace LASI.Core.Tests
 {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -64,6 +64,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CustomTestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
     <Compile Include="DocFileTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />
@@ -99,17 +100,9 @@
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Name>LASI.Interop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LASI.Core.Tests\LASI.Core.Tests.csproj">
-      <Project>{f4abc10c-0be9-4195-99e7-db027757ec6b}</Project>
-      <Name>LASI.Core.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test.Utilities\LASI.TestUtilities.csproj">
+    <ProjectReference Include="..\Shared.Test.Utilities\LASI.Shared.Test.csproj">
       <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
-      <Name>LASI.TestUtilities</Name>
+      <Name>LASI.Shared.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
