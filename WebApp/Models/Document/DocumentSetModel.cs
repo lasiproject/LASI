@@ -10,7 +10,8 @@ namespace LASI.WebApp.Models
 {
     public class DocumentSetModel : TextualModel<IEnumerable<Document>>
     {
-        public DocumentSetModel(IEnumerable<Document> documents) : base(documents) {
+        public DocumentSetModel(IEnumerable<Document> documents) : base(documents)
+        {
             DocumentModels = documents.Select(document => new DocumentModel(document));
             foreach (var model in DocumentModels) { model.DocumentSetModel = this; }
         }

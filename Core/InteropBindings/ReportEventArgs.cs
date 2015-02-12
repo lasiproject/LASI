@@ -26,6 +26,5 @@ namespace LASI.Core.Reporting
         /// Gets a value indicating the amount of overall progress.
         /// </summary>
         public double PercentWorkRepresented { get; set; }
-
     }
 }

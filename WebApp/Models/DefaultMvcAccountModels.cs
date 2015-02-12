@@ -13,7 +13,8 @@ namespace LASI.WebApp.Models
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base("DefaultConnection") {
+            : base("DefaultConnection")
+        {
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }

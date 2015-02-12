@@ -6,7 +6,7 @@ namespace LASI.Utilities
     /// <summary>
     /// Defines various useful methods for working with characters.
     /// </summary>
-    public static class CharExtensions
+    public static class CharacterExtensions
     {
         /// <summary>
         /// Returns a value indicating whether the character is a valid letter.

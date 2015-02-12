@@ -93,9 +93,13 @@ namespace LASI.Content.TaggerEncapsulation
         /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordCreator this[string posTag] {
-            get {
-                try { return map[posTag]; } catch (KeyNotFoundException) {
+        public override WordCreator this[string posTag]
+        {
+            get
+            {
+                try { return map[posTag]; }
+                catch (KeyNotFoundException)
+                {
                     throw new UnknownWordTagException(posTag);
                 }
             }
@@ -106,11 +110,16 @@ namespace LASI.Content.TaggerEncapsulation
         /// </summary>
         /// <param name="word">The <see cref="Word"/> for which to get the corresponding tag.</param>
         /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="Word"/>.</returns>
-        public override string this[Word word] {
-            get {
-                try {
+        public override string this[Word word]
+        {
+            get
+            {
+                try
+                {
                     return map.First(funcPosTagPair => funcPosTagPair.Value.Method.ReturnType == word.GetType()).Key;
-                } catch (InvalidOperationException) {
+                }
+                catch (InvalidOperationException)
+                {
                     throw new UnmappedWordTypeException(string.Format("The indexing {0} has type {1}, a type which is not mapped by {2}.",
                         typeof(Word),
                         word.GetType(),

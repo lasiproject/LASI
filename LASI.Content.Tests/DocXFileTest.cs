@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
-using LASI.UnitTests;
+using LASI.TestUtilities;
 
 namespace LASI.Content.Tests
 {
@@ -24,11 +24,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -67,7 +70,8 @@ namespace LASI.Content.Tests
         ///A test for DocXFile Constructor
         ///</summary>
         [TestMethod]
-        public void DocXFileConstructorTest() {
+        public void DocXFileConstructorTest()
+        {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             DocXFile target = new DocXFile(path);
             Assert.IsTrue(System.IO.File.Exists(path));
@@ -78,7 +82,8 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
-        public void DocXFileConstructorTest1() {
+        public void DocXFileConstructorTest1()
+        {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
             DocXFile target = new DocXFile(path);
         }
@@ -87,7 +92,8 @@ namespace LASI.Content.Tests
         ///</summary>
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void DocXFileConstructorTest2() {
+        public void DocXFileConstructorTest2()
+        {
             string invalidPath = System.IO.Directory.GetCurrentDirectory();//This is should never be valid.
             Assert.IsFalse(System.IO.File.Exists(invalidPath));
             DocXFile target = new DocXFile(invalidPath);

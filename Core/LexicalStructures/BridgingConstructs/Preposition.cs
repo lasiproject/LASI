@@ -20,7 +20,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the Preposition.</param>
         public Preposition(string text)
-            : base(text) {
+            : base(text)
+        {
             Role = knownSubordinators.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
@@ -29,7 +30,8 @@ namespace LASI.Core
         /// Returns a string representation of the Preposition.
         /// </summary>
         /// <returns>A string representation of the Preposition.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return base.ToString() + (Word.VerboseOutput ? " " + Role : string.Empty);
         }
 
@@ -42,7 +44,8 @@ namespace LASI.Core
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the Preposition.</param>
-        public void BindObject(ILexical prepositionalObject) {
+        public void BindObject(ILexical prepositionalObject)
+        {
             BoundObject = prepositionalObject;
         }
 
@@ -74,8 +77,10 @@ namespace LASI.Core
         /// <summary>
         /// Static constructor which loads preposition identification and categorization information.
         /// </summary>
-        static Preposition() {
-            using (var reader = new System.IO.StreamReader(PrepositionaInfoFilePath)) {
+        static Preposition()
+        {
+            using (var reader = new System.IO.StreamReader(PrepositionaInfoFilePath))
+            {
                 knownSubordinators = new HashSet<string>(
                         from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                         let len = line.IndexOf('/')
@@ -85,8 +90,13 @@ namespace LASI.Core
             }
         }
         private static readonly ISet<string> knownSubordinators;
+        private static LASI.Utilities.IConfig Config => Heuristics.Lexicon.InjectedConfiguration;
 
-        private static readonly string PrepositionaInfoFilePath = ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"];
+        private static string PrepositionaInfoFilePath =>
+            (Config != null ?
+                Config["ResourcesDirectory"] + Config["SubordinatingPrepositionalsInfoFile"] :
+                ConfigurationManager.AppSettings["ResourcesDirectory"] +
+             ConfigurationManager.AppSettings["SubordinatingPrepositionalsInfoFile"]);
 
 
     }

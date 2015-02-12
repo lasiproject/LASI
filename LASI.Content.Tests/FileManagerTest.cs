@@ -146,16 +146,19 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void ConvertDocFilesAsyncTest()
         {
-            DocFile[] files = (from file in Directory.EnumerateFiles(FileManager.DocFilesDirectory)
-                               select new DocFile(file)).ToArray();
-            Assert.IsTrue(files.Any());
-            files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
+            ConvertDocFilesAsyncTestHelper().Wait();
+        }
 
-            FileManager.ConvertDocToTextAsync(files).Wait();
+        private static async Task ConvertDocFilesAsyncTestHelper()
+        {
+            DocFile[] files = GetTestDocFiles();
+            Assert.IsTrue(files.Any());
+            await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
                 Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
         }
+
 
         /// <summary>
         ///A test for ConvertDocFiles
@@ -258,8 +261,9 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void DecimateProjectTest()
         {
+            FileManager.Initialize(testProjectDirectory + "decimate_test");
             FileManager.DecimateProject();
-            Assert.IsFalse(Directory.Exists(testProjectDirectory));
+            Assert.IsFalse(Directory.Exists(testProjectDirectory + "decimate_test"));
         }
 
         /// <summary>
@@ -329,13 +333,16 @@ namespace LASI.Core.Tests
         ///A test for TagTextFilesAsync
         ///</summary>
         [TestMethod]
-        public async Task TagTextFilesAsyncTest()
+        public void TagTextFilesAsyncTest()
         {
-            var files = (from file in Directory.EnumerateFiles(FileManager.TxtFilesDirectory)
-                         select new TxtFile(file)).ToArray();
-            files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
+            TagTextFilesAsyncTestHelper().Wait();
+        }
 
+        private static async Task TagTextFilesAsyncTestHelper()
+        {
+            var files = GetTestTxtFiles();
             Assert.IsTrue(files.Any());
+
             await FileManager.TagTextFilesAsync(files);
             foreach (var file in files)
             {
@@ -343,15 +350,14 @@ namespace LASI.Core.Tests
             }
         }
 
+
         /// <summary>
         ///A test for TagTextFile
         ///</summary>
         [TestMethod]
         public void TagTextFilesTest()
         {
-            TxtFile[] files = (from file in Directory.EnumerateFiles(FileManager.TxtFilesDirectory)
-                               select new TxtFile(file)).ToArray();
-            files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
+            TxtFile[] files = GetTestTxtFiles();
 
             Assert.IsTrue(files.Any());
             FileManager.TagTextFiles(files);
@@ -483,6 +489,8 @@ namespace LASI.Core.Tests
             }
             FileManager.Initialize(testProjectDirectory);
             GetAllTestFiles().ToList().ForEach(file => FileManager.AddFile(file.FullPath));
+
+
         }
         //Use TestInitialize to run code before running each test
         [TestInitialize()]
@@ -493,7 +501,8 @@ namespace LASI.Core.Tests
                 try
                 {
                     Directory.Delete(testProjectDirectory, recursive: true);
-                } catch (IOException)
+                }
+                catch (IOException)
                 {
                     testProjectDirectory += "011";
                 }

@@ -5,15 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <script src="~/dist/scripts/js/lib.min.js"></script>
-    <script src="~/dist/scripts/js/app.min.js"></script>
+    <script src="~/dist/lib/lib.min.js"></script>
 
-    <script src="~/src/app/widgets/document-upload.js"></script>
+
+    <script src="~/dist/app/app.min.js"></script>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -42,8 +42,7 @@
             <p>&copy; @DateTime.Now.Year - LASI Project</p>
         </footer>
     </div>
-    <script src="~/dist/js/lib.min.js"></script>
-    <script src="~/dist/js/app.min.js"></script>
-    @RenderSection("scripts", required: false)
+
+    @{await RenderSectionAsync("scripts", required: false);}
 </body>
 </html>

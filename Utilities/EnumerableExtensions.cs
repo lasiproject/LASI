@@ -7,14 +7,13 @@ namespace LASI.Utilities
 {
     using System.Numerics;
     using LASI.Utilities;
-    using Validator = Utilities.Validation.Validator;
-
+    using Utilities.Validation;
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
     /// </summary>
     public static class EnumerableExtensions
     {
-        #region Sequence String Formatting Methods
+        #region Display Formatting Methods
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -74,7 +73,7 @@ namespace LASI.Utilities
         /// </returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters)
         {
-            Validator.ThrowIfNull(source, "source", delimiters, "delimiters");
+            Validate.NotNull(source, "source", delimiters, "delimiters");
             return source.Aggregate(
                     new StringBuilder(delimiters.Item1 + " "),
                     (builder, e) => builder.Append(e.ToString() + delimiters.Item2 + ' '),
@@ -123,7 +122,7 @@ namespace LASI.Utilities
         /// </returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, Func<T, string> selector)
         {
-            Validator.ThrowIfNull(source, "source", selector, "selector", delimiters, "delimiters");
+            Validate.NotNull(source, "source", selector, "selector", delimiters, "delimiters");
             return source.Select(selector).Format(delimiters);
         }
 
@@ -205,8 +204,8 @@ namespace LASI.Utilities
         /// </returns>
         public static string Format<T>(this IEnumerable<T> source, Tuple<char, char, char> delimiters, long lineLength, Func<T, string> selector)
         {
-            Validator.ThrowIfNull(source, "source", delimiters, "delimiters", selector, "selector");
-            Validator.ThrowIfLessThan(1, lineLength, "lineLength", "Line length must be greater than 0.");
+            Validate.NotNull(source, "source", delimiters, "delimiters", selector, "selector");
+            Validate.NotLessThan(lineLength, 1, "lineLength", "Line length must be greater than 0.");
             return source.Select(e => selector(e) + delimiters.Item2)
                 .Aggregate(new { ModLength = 1L, Text = delimiters.Item1.ToString() },
                 (z, element) =>
@@ -310,7 +309,7 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> head, TSource tail)
         {
-            Validator.ThrowIfNull(head, "head");
+            Validate.NotNull(head, "head");
             foreach (var e in head)
             {
                 yield return e;
@@ -378,9 +377,9 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
         {
-            Validator.ThrowIfNull(source, "source", selector, "selector");
+            Validate.NotNull(source, "source", selector, "selector");
             return source.Distinct(
-                CustomComparer.Create<TSource>(
+                ComparerFactory.CreateEquality<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -395,10 +394,10 @@ namespace LASI.Utilities
         /// <param name="second">The second sequence.</param>
         /// <param name="selector">The projection by which to compare elements.</param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences under the given projection.</returns>
-        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
+        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) /*where TKey : IEquatable<TKey>*/
         {
             return first.Except(second,
-                CustomComparer.Create<TSource>(
+                ComparerFactory.CreateEquality<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -418,7 +417,7 @@ namespace LASI.Utilities
         {
             return first
                 .Intersect(second,
-                CustomComparer.Create<TSource>(
+                ComparerFactory.CreateEquality<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
                 );
@@ -456,8 +455,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
         {
-            Validator.ThrowIfNull(source, "source", selector, "selector");
-            Validator.ThrowIfEmpty(source, "source");
+            Validate.NotNull(source, "source", selector, "selector");
+            Validate.NotEmpty(source, "source");
             return source.OrderByDescending(selector, comparer).First();
         }
 
@@ -490,8 +489,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty.</exception>
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
         {
-            Validator.ThrowIfNull(source, "source", selector, "selector");
-            Validator.ThrowIfEmpty(source, "source");
+            Validate.NotNull(source, "source", selector, "selector");
+            Validate.NotEmpty(source, "source");
             return source.OrderBy(selector, comparer).First();
         }
 
@@ -525,8 +524,8 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source)
         {
-            Validator.ThrowIfNull(source, "source");
-            Validator.ThrowIfEmpty(source, "source");
+            Validate.NotNull(source, "source");
+            Validate.NotEmpty(source, "source");
             var first = source.First();
             foreach (var next in source.Skip(1))
             {
@@ -548,7 +547,7 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head)
         {
-            Validator.ThrowIfNull(tail, "tail");
+            Validate.NotNull(tail, "tail");
             yield return head;
             foreach (var i in tail)
             {
@@ -592,7 +591,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> =>
-            first.SequenceEqual(second, CustomComparer.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, ComparerFactory.CreateEquality<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -701,7 +700,7 @@ namespace LASI.Utilities
 
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func)
         {
-            Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
+            Validate.NotNull(source, nameof(source), func, nameof(func));
             var accumulated = source.First();
             yield return accumulated;
             foreach (var e in source.Skip(1))
@@ -712,7 +711,7 @@ namespace LASI.Utilities
 
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
-            Validator.ThrowIfNull(source, nameof(source), func, nameof(func));
+            Validate.NotNull(source, nameof(source), func, nameof(func));
             yield return seed;
             var accumulated = seed;
             foreach (var e in source)
@@ -797,7 +796,7 @@ namespace LASI.Utilities
         /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {
-            Validator.ThrowIfNull(comparer, "comparer");
+            Validate.NotNull(comparer, "comparer");
             return new HashSet<TSource>(source, comparer);
         }
         /// <summary>
@@ -812,7 +811,7 @@ namespace LASI.Utilities
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
         {
             return first.Union(second,
-                CustomComparer.Create<TSource>(
+                ComparerFactory.CreateEquality<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -898,5 +897,15 @@ namespace LASI.Utilities
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
 
         #endregion Query Operators
+
+        #region Enumerable Factories
+
+        public static IEnumerable<int> To(this int start, int stop)
+        {
+            start.NotLessThan(0);
+            return Enumerable.Range(start, stop - start - 1);
+        }
+
+        #endregion
     }
 }

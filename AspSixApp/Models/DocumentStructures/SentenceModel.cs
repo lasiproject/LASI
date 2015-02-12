@@ -5,7 +5,7 @@ using LASI.Core;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    class SentenceModel : TextualModel<Sentence>
+    public class SentenceModel : TextualModel<Sentence>
     {
         public SentenceModel(Sentence sentence) : base(sentence)
         {

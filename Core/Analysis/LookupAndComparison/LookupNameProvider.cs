@@ -11,7 +11,8 @@ namespace LASI.Core.Heuristics
     {
         private sealed class NameProvider
         {
-            public void Load() {
+            public void Load()
+            {
                 Task.WaitAll(new[] {
                     Task.Run(async () => femaleNames = await ReadLinesAsync(Paths.Names.Female)),
                     Task.Run(async () => maleNames = await ReadLinesAsync(Paths.Names.Male)),
@@ -35,7 +36,8 @@ namespace LASI.Core.Heuristics
             /// </summary>
             /// <param name="text">The text to check.</param>
             /// <returns> <c>true</c> if the provided text is in the set of Female or Male first names; otherwise, <c>false</c>.</returns>
-            public bool IsFirstName(string text) {
+            public bool IsFirstName(string text)
+            {
                 return femaleNames.Count > maleNames.Count ?
                     maleNames.Contains(text) || femaleNames.Contains(text) :
                     femaleNames.Contains(text) || maleNames.Contains(text);
@@ -46,7 +48,8 @@ namespace LASI.Core.Heuristics
             /// </summary>
             /// <param name="text">The Name to lookup</param>
             /// <returns> <c>true</c> if the provided string corresponds to a common last name in the English language; otherwise, <c>false</c>.</returns>
-            public bool IsLastName(string text) {
+            public bool IsLastName(string text)
+            {
                 return lastNames.Contains(text);
             }
             /// <summary>
@@ -57,7 +60,8 @@ namespace LASI.Core.Heuristics
             /// <returns>
             /// <c>true</c> if the provided string corresponds to a common female name in the english language; otherwise, <c>false</c>.
             /// </returns>
-            public bool IsFemaleFirst(string text) {
+            public bool IsFemaleFirst(string text)
+            {
                 return femaleNames.Contains(text);
             }
             /// <summary>
@@ -68,12 +72,15 @@ namespace LASI.Core.Heuristics
             /// <returns>
             /// <c>true</c> if the provided string corresponds to a common male name in the English language; otherwise, <c>false</c>.
             /// </returns>
-            public bool IsMaleFirst(string text) {
+            public bool IsMaleFirst(string text)
+            {
                 return maleNames.Contains(text);
             }
 
-            private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName) {
-                using (var reader = new System.IO.StreamReader(fileName)) {
+            private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName)
+            {
+                using (var reader = new System.IO.StreamReader(fileName))
+                {
                     var data = await reader.ReadToEndAsync();
                     return data.SplitRemoveEmpty('\r', '\n')
                         .Select(s => s.Trim())
@@ -84,30 +91,37 @@ namespace LASI.Core.Heuristics
             /// <summary>
             /// Gets a sequence of all known Last Names.
             /// </summary>
-            public IReadOnlyCollection<string> LastNames {
+            public IReadOnlyCollection<string> LastNames
+            {
                 get { return lastNames.ToList().ToImmutableList(); }
             }
             /// <summary>
             /// Gets a sequence of all known Female Names.
             /// </summary>
-            public IReadOnlyCollection<string> FemaleNames {
-                get {
+            public IReadOnlyCollection<string> FemaleNames
+            {
+                get
+                {
                     return femaleNames.ToList().AsReadOnly();
                 }
             }
             /// <summary>
             /// Gets a sequence of all known Male Names.
             /// </summary>
-            public IReadOnlyCollection<string> MaleNames {
-                get {
+            public IReadOnlyCollection<string> MaleNames
+            {
+                get
+                {
                     return maleNames.ToList().AsReadOnly();
                 }
             }
             /// <summary>
             /// Gets a sequence of all known Names which are just as likely to be Female or Male.
             /// </summary>
-            public IReadOnlyCollection<string> GenderAmbiguousNames {
-                get {
+            public IReadOnlyCollection<string> GenderAmbiguousNames
+            {
+                get
+                {
                     return genderAmbiguousNames.ToList().AsReadOnly();
                 }
             }

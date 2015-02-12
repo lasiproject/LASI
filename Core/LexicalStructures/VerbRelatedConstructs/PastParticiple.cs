@@ -16,7 +16,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the PastParticipleVerb.</param>
         public PastParticiple(string text)
-            : base(text, VerbForm.PastParticiple) {
+            : base(text)
+        {
         }
     }
 }

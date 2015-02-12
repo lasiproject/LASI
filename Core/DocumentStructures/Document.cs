@@ -59,8 +59,8 @@ namespace LASI.Core
         /// </returns>
         public IEnumerable<Page> Paginate(int lineLength, int linesPerPage, Func<string, double> measureText)
         {
-            Validator.ThrowIfLessThan(1, lineLength, nameof(lineLength), "The supplied line length cannot be less than 0");
-            Validator.ThrowIfLessThan(1, linesPerPage, nameof(linesPerPage), "The supplied number of lines per page cannot be less than 0");
+            Validate.NotLessThan(lineLength, 1, nameof(lineLength), "The supplied line length cannot be less than 0");
+            Validate.NotLessThan(linesPerPage, 1, nameof(linesPerPage), "The supplied number of lines per page cannot be less than 0");
             var measuredParagraphs =
                from paragraph in Paragraphs
                let lines = (int)Math.Floor(measureText(paragraph.Text) / lineLength)

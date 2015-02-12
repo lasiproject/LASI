@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using LASI.UnitTests;
+using LASI.TestUtilities;
 
 namespace LASI.Content.Tests
 {

@@ -17,8 +17,7 @@ namespace LASI.Core
         /// Initializes a new instance of the PresentParticiple class.
         /// </summary>
         /// <param name="text">The text content of the Verb.</param>
-        public PresentParticiple(string text)
-            : base(text, VerbForm.PresentParticiple)
+        public PresentParticiple(string text) : base(text)
         {
             EntityKind = EntityKind.Activity;
         }

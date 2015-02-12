@@ -21,7 +21,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="verbForm">The root of a verb as a string.</param>
         /// <returns>All forms of the verb root.</returns>
-        public static IEnumerable<string> GetConjugations(string verbForm) {
+        public static IEnumerable<string> GetConjugations(string verbForm)
+        {
 
             var hyphenIndex = verbForm.IndexOf('-');
 
@@ -29,7 +30,8 @@ namespace LASI.Core.Heuristics
             var afterHyphen = hyphenIndex > -1 ? verbForm.Substring(hyphenIndex) : string.Empty;
             var root = FindRoots(beforeHyphen).FirstOrDefault() ?? beforeHyphen;
             IEnumerable<string> results = GetWithSpecialForms(root);
-            if (results.None()) {
+            if (results.None())
+            {
                 results = from ending in sufficesByEnding.Keys
                           where ending.Length == 0 || beforeHyphen.EndsWith(ending, StringComparison.OrdinalIgnoreCase)
                           from suffix in sufficesByEnding[ending]
@@ -43,38 +45,50 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="verb">The verb string to find the root of.</param>
         /// <returns>The root of the given verb string. If no root can be found, the verb string itself is returned.</returns>
-        public static IEnumerable<string> FindRoots(string verb) {
+        public static IEnumerable<string> FindRoots(string verb)
+        {
             var result = GetRootIfSpecialForm(verb) ?? ComputeRoot(verb);
             yield return result ?? verb;
         }
 
-        private static string ComputeRoot(string verb) {
+        private static string ComputeRoot(string verb)
+        {
             var hyphenIndex = verb.IndexOf('-');
             var afterHyphen = hyphenIndex > -1 ? verb.Substring(hyphenIndex) : string.Empty;
             var results = new List<string>();
-            for (var i = endings.Length - 1; i >= 0; --i) {
-                if (verb.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase)) {
-                    checked {
-                        try {
+            for (var i = endings.Length - 1; i >= 0; --i)
+            {
+                if (verb.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    checked
+                    {
+                        try
+                        {
                             var possibleRoot = verb.Substring(0, verb.Length - sufficies[i].Length);
 
-                            if (endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWith(endings[i])) {
+                            if (endings[i].IsNullOrWhiteSpace() || possibleRoot.EndsWith(endings[i]))
+                            {
                                 return possibleRoot + afterHyphen;
                             }
-                        } catch (StackOverflowException e) { Output.WriteLine(e); }
+                        }
+                        catch (StackOverflowException e) { Output.WriteLine(e); }
                     }
                 }
             }
             return verb;
         }
 
-        private static string GetRootIfSpecialForm(string verb) {
+        private static string GetRootIfSpecialForm(string verb)
+        {
             return exceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
         }
 
-        private static IEnumerable<string> GetWithSpecialForms(string verb) {
-            foreach (var kv in exceptionMapping) {
-                if (kv.Value.Contains(verb)) {
+        private static IEnumerable<string> GetWithSpecialForms(string verb)
+        {
+            foreach (var kv in exceptionMapping)
+            {
+                if (kv.Value.Contains(verb))
+                {
                     yield return kv.Key;
                 }
             }
@@ -96,8 +110,10 @@ namespace LASI.Core.Heuristics
 
         private static ConcurrentDictionary<string, IEnumerable<string>> exceptionMapping;
 
-        private static void LoadExceptionFile() {
-            using (var reader = new StreamReader(exceptionsFilePath)) {
+        private static void LoadExceptionFile()
+        {
+            using (var reader = new StreamReader(ExceptionsFilePath))
+            {
                 var verbExceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                                              select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-'));
                 exceptionMapping = new ConcurrentDictionary<string, IEnumerable<string>>(
@@ -108,12 +124,21 @@ namespace LASI.Core.Heuristics
             }
         }
 
-        static VerbMorpher() {
+        static VerbMorpher()
+        {
             LoadExceptionFile();
         }
-        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-        private static readonly string exceptionsFilePath = wordnetDataDirectory + "verb.exc";
+        private static LASI.Utilities.IConfig Config => Lexicon.InjectedConfiguration;
+
+        static string ResourcesDirectory =>
+            Config != null ?
+            Config["ResourcesDirectory"] :
+            ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static string WordnetDataDirectory =>
+            ResourcesDirectory + (Config != null ? Config["WordnetFileDirectory"] :
+            ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+
+        static string ExceptionsFilePath => WordnetDataDirectory + "verb.exc";
         #endregion
     }
 

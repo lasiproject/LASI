@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Heuristics;
 using LASI.Utilities;
 
 namespace LASI.Content
@@ -20,7 +21,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         public DocToDocXConverter(DocFile infile)
-            : base(infile) {
+            : base(infile)
+        {
 
         }
 
@@ -30,7 +32,8 @@ namespace LASI.Content
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="DocxFilesDir">The path of the directory in which to store the converted file.</param>
         public DocToDocXConverter(DocFile infile, string DocxFilesDir)
-            : base(infile, DocxFilesDir) {
+            : base(infile, DocxFilesDir)
+        {
         }
 
         /// <summary>
@@ -39,7 +42,8 @@ namespace LASI.Content
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override DocXFile ConvertFile() {
+        public override DocXFile ConvertFile()
+        {
             var process = new Process
             {
                 EnableRaisingEvents = true,
@@ -69,11 +73,17 @@ namespace LASI.Content
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public override async Task<DocXFile> ConvertFileAsync() {
+        public override async Task<DocXFile> ConvertFileAsync()
+        {
             var result = await Task.Run(() => ConvertFile());
             return result;
         }
-        private static readonly string doc2xPath = System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] + System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"] + "doc2x.exe";
+        private static IConfig Config => TaggerInterop.SharpNLPTagger.InjectedConfiguration;
+        private static string doc2xPath => (
+                Config != null ? Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
+                System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] +
+                System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"]
+            ) + "doc2x.exe";
 
 
 

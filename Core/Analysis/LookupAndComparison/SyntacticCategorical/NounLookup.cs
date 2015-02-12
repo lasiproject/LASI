@@ -11,12 +11,12 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-	using static Enumerable;
-	using EventArgs = ResourceLoadEventArgs;
-	using Link = NounLink;
-	using SetReference = KeyValuePair<NounLink, int>;
+    using static Enumerable;
+    using EventArgs = ResourceLoadEventArgs;
+    using Link = NounLink;
+    using SetReference = KeyValuePair<NounLink, int>;
 
-	internal sealed class NounLookup : WordNetLookup<Noun>
+    internal sealed class NounLookup : WordNetLookup<Noun>
     {
         /// <summary>
         /// Initializes a new instance of the NounProvider class.
@@ -29,35 +29,43 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        internal override void Load() {
+        internal override void Load()
+        {
             var setsEnumerated = 0;
             var setsSampled = 0;
             var indexedSynsets = LoadData()
                 .Zip(Range(1, TOTAL_LINES), (line, i) => new { Set = CreateSet(line), LineNumber = i });
-            try {
+            try
+            {
                 indexedSynsets.ToObservable()
-                    .Do(set => {
+                    .Do(set =>
+                    {
                         ++setsEnumerated;
                         setsById[set.Set.Id] = set.Set;
                     })
                     .Sample(TimeSpan.FromMilliseconds(20))
                     //.Where(e => e.LineNumber % 821 == 0)
                     .Subscribe(
-                        onNext: e => {
+                        onNext: e =>
+                        {
                             ++setsSampled;
                             OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TOTAL_LINES}", PROGRESS_AMOUNT));
                         },
                         onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
-                        onError: e => {
+                        onError: e =>
+                        {
                             e.LogIfDebug();
                         });
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.LogIfDebug();
                 throw;
             }
         }
 
-        private static NounSynSet CreateSet(string fileLine) {
+        private static NounSynSet CreateSet(string fileLine)
+        {
             var line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
             var referencedSets = from Match match in POINTER_REGEX.Matches(line)
@@ -75,60 +83,79 @@ namespace LASI.Core.Heuristics.WordNet
             );
         }
 
-        private IEnumerable<string> LoadData() {
-            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read))) {
-                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i) {
+        private IEnumerable<string> LoadData()
+        {
+            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read)))
+            {
+                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i)
+                {
                     reader.ReadLine();
                 }
-                for (var line = reader.ReadLine(); line != null; line = reader.ReadLine()) {
+                for (var line = reader.ReadLine(); line != null; line = reader.ReadLine())
+                {
                     yield return line;
                 }
             }
         }
 
-        private IImmutableSet<string> SearchFor(string word) {
+        private IImmutableSet<string> SearchFor(string word)
+        {
             var containingSet = setsById.Values.FirstOrDefault(set => set.ContainsWord(word));
-            if (containingSet != null) {
-                try {
+            if (containingSet != null)
+            {
+                try
+                {
                     var results = new List<string>();
                     SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
                     return results.ToImmutableHashSet(IgnoreCase);
-                } catch (InvalidOperationException e) {
+                }
+                catch (InvalidOperationException e)
+                {
                     Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e.Message, word, containingSet));
                 }
             }
             return ImmutableHashSet<string>.Empty;
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched) {
+        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched)
+        {
             results.AddRange(containingSet.Words);
             results.AddRange(containingSet[Link.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
             foreach (var set in containingSet.ReferencedSet
                 .Except(containingSet[Link.HypERnym])
-                .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; })) {
-                if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set)) {
+                .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; }))
+            {
+                if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set))
+                {
                     SearchSubsets(set, results, setsSearched);
                 }
             }
         }
 
-        internal override IImmutableSet<string> this[string search] {
-            get {
+        internal override IImmutableSet<string> this[string search]
+        {
+            get
+            {
                 var morpher = new NounMorpher();
-                try {
+                try
+                {
                     return SearchFor(morpher.FindRoot(search))
                         .SelectMany(morpher.GetLexicalForms)
                         .DefaultIfEmpty(search)
                         .ToImmutableHashSet();
-                } catch (AggregateException e) {
+                }
+                catch (AggregateException e)
+                {
                     e.LogIfDebug();
-                } catch (InvalidOperationException e) { e.LogIfDebug(); }
+                }
+                catch (InvalidOperationException e) { e.LogIfDebug(); }
                 return this[search];
             }
         }
 
-        internal override IImmutableSet<string> this[Noun search] {
+        internal override IImmutableSet<string> this[Noun search]
+        {
             get { return this[search.Text]; }
         }
 

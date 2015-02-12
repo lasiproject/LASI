@@ -17,7 +17,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="adverbText">The root of a Adverb as a string.</param>
         /// <returns>All forms of the Adverb root.</returns>
-        public IEnumerable<string> GetLexicalForms(string adverbText) {
+        public IEnumerable<string> GetLexicalForms(string adverbText)
+        {
             return TryComputeConjugations(adverbText);
         }
         /// <summary>
@@ -25,17 +26,22 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="adverb">The root of a Adverb as a string.</param>
         /// <returns>All forms of the Adverb root.</returns>
-        public IEnumerable<string> GetLexicalForms(Adverb adverb) {
+        public IEnumerable<string> GetLexicalForms(Adverb adverb)
+        {
             return GetLexicalForms(adverb.Text);
         }
-        private IEnumerable<string> TryComputeConjugations(string containingRoot) {
+        private IEnumerable<string> TryComputeConjugations(string containingRoot)
+        {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
             List<string> results;
-            if (!exceptionData.TryGetValue(root, out results)) {
+            if (!exceptionData.TryGetValue(root, out results))
+            {
                 results = new List<string>();
-                for (var i = 0; i < sufficies.Length; ++i) {
-                    if (root.EndsWith(endings[i]) || string.IsNullOrEmpty(endings[i])) {
+                for (var i = 0; i < sufficies.Length; ++i)
+                {
+                    if (root.EndsWith(endings[i]) || string.IsNullOrEmpty(endings[i]))
+                    {
                         results.Add(root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
                         break;
                     }
@@ -51,7 +57,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="adverbText">The adverb string to find the root of.</param>
         /// <returns>The root of the given adverb string. If the adverb cannot be reduced to a root, the string itself is returned.</returns>
-        public string FindRoot(string adverbText) {
+        public string FindRoot(string adverbText)
+        {
             return CheckSpecialForms(adverbText).FirstOrDefault() ?? ComputeBaseForm(adverbText).FirstOrDefault() ?? adverbText;
 
         }
@@ -60,17 +67,21 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="adverb">The Adverb string to find the root of.</param>
         /// <returns>The root of the given adverb string. If no root can be found, the adverb's original text is returned.</returns>
-        public string FindRoot(Adverb adverb) {
+        public string FindRoot(Adverb adverb)
+        {
             return FindRoot(adverb.Text);
 
         }
 
-        private IEnumerable<string> ComputeBaseForm(string adverbText) {
+        private IEnumerable<string> ComputeBaseForm(string adverbText)
+        {
             var result = new List<string>();
             for (var i = 0;
             i < sufficies.Length;
-            i++) {
-                if (adverbText.EndsWith(sufficies[i])) {
+            i++)
+            {
+                if (adverbText.EndsWith(sufficies[i]))
+                {
                     result.Add(adverbText.Substring(0, adverbText.Length - sufficies[i].Length) + endings[i]);
                     break;
                 }
@@ -79,7 +90,8 @@ namespace LASI.Core.Heuristics
         }
 
 
-        private IEnumerable<string> CheckSpecialForms(string search) {
+        private IEnumerable<string> CheckSpecialForms(string search)
+        {
             return from nounExceptKVs in exceptionData
                    where nounExceptKVs.Value.Contains(search)
                    select nounExceptKVs.Key;
@@ -89,20 +101,25 @@ namespace LASI.Core.Heuristics
 
 
         #region Exception File Processing
-        private static void LoadExceptionFile() {
-            using (var reader = new StreamReader(exceptionsFilePath)) {
-                while (!reader.EndOfStream) {
+        private static void LoadExceptionFile()
+        {
+            using (var reader = new StreamReader(ExceptionsFilePath))
+            {
+                while (!reader.EndOfStream)
+                {
                     var keyVal = ProcessLine(reader.ReadLine());
                     exceptionData[keyVal.Key] = keyVal.Value;
                 }
             }
         }
 
-        static AdverbMorpher() {
+        static AdverbMorpher()
+        {
             LoadExceptionFile();
         }
 
-        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine) {
+        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine)
+        {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
             return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
         }
@@ -110,10 +127,18 @@ namespace LASI.Core.Heuristics
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
+        private static IConfig Config => Lexicon.InjectedConfiguration;
 
-        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-        private static string exceptionsFilePath = wordnetDataDirectory + "adv.exc";
+        static string ResourcesDirectory =>
+                   Lexicon.InjectedConfiguration != null ?
+                   Lexicon.InjectedConfiguration["ResourcesDirectory"] :
+                   ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static string WordnetDataDirectory =>
+            ResourcesDirectory + (Lexicon.InjectedConfiguration != null ?
+                Lexicon.InjectedConfiguration["WordnetFileDirectory"] :
+                ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+
+        static string ExceptionsFilePath => WordnetDataDirectory + "adv.exc";
         #endregion
 
 

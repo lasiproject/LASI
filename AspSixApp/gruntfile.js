@@ -7,9 +7,9 @@ module.exports = function (grunt) {
         bower: {
             install: {
                 options: {
-                    targetDir: 'wwwroot/lib',
+                    targetDir: 'wwwroot/lib/',
                     layout: 'byComponent',
-                    cleanTargetDir: false
+                    cleanTargetDir: true
                 }
             }
         },
@@ -30,20 +30,23 @@ module.exports = function (grunt) {
             },
             lib: {
                 src: ['wwwroot/lib/**/*.js'],
-                dest: 'wwwroot/dist/lib/lib.js',
-                destMap: 'wwwroot/dist/lib/lib.js.map'
+                dest: 'wwwroot/dist/lib/lib.min.js',
+                destMap: 'wwwroot/dist/lib/lib.min.js.map'
             }
         }
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install', 'jslint:client', 'jsmin-sourcemap']);
+    grunt.registerTask('default', ['bower:install', 'jsmin-sourcemap:lib', 'jsmin-sourcemap:app']);
+    grunt.loadNpmTasks('grunt-qunitnode');
+    grunt.loadNpmTasks('grunt-jsmin-sourcemap');
+    grunt.loadNpmTasks('grunt-bower-task');
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
     // cannot use an array or varargs to load tasks from multiple plugins here. 
     // It seems that loadNpmTasks is a singular command which loads task(s) for a single plugin.
     // This api is a bit counter intuitive in that invokations cannot be chained.
-    grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-jslint');
-    grunt.loadNpmTasks('grunt-jsmin-sourcemap');
+
+    //grunt.loadNpmTasks('grunt-jslint');
+
 };

@@ -15,8 +15,6 @@ namespace LASI.Core
         /// Initializes a new instance of the PastTenseVerb class.
         /// </summary>
         /// <param name="text">The text content of the PastTenseVerb.</param>
-        public PastTenseVerb(string text)
-            : base(text, VerbForm.Past) {
-        }
+        public PastTenseVerb(string text) : base(text) { }
     }
 }

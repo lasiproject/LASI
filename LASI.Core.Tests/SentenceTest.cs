@@ -1,11 +1,10 @@
 ﻿using LASI;
 using LASI.Core;
 using System.Linq;
-
-using LASI.Core.Tests.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using LASI.TestUtilities;
 
 namespace LASI.Core.Tests
 {
@@ -26,11 +25,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -70,7 +72,8 @@ namespace LASI.Core.Tests
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             string expected = "LASI.Core.Sentence \"LASI found TIMIS.\"";
@@ -82,7 +85,8 @@ namespace LASI.Core.Tests
         ///A test for Text
         ///</summary>
         [TestMethod]
-        public void TextTest() {
+        public void TextTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             string expected = "LASI found TIMIS.";
@@ -94,7 +98,8 @@ namespace LASI.Core.Tests
         ///A test for Words
         ///</summary>
         [TestMethod]
-        public void WordsTest() {
+        public void WordsTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Word> actual;
@@ -107,7 +112,8 @@ namespace LASI.Core.Tests
         ///A test for Phrases
         ///</summary>
         [TestMethod]
-        public void PhrasesTest() {
+        public void PhrasesTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Phrase> actual;
@@ -119,7 +125,8 @@ namespace LASI.Core.Tests
         ///A test for IsInverted
         ///</summary>
         [TestMethod]
-        public void IsInvertedTest() {
+        public void IsInvertedTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             bool expected = false;
@@ -133,13 +140,15 @@ namespace LASI.Core.Tests
         ///A test for Document
         ///</summary>
         [TestMethod]
-        public void DocumentTest() {
+        public void DocumentTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Document actual = new Document(new[] { new Paragraph(new[] { target }, ParagraphKind.Default) });
 
             Assert.AreEqual(actual, target.Document);
-            foreach (var p in phrases) {
+            foreach (var p in phrases)
+            {
                 Assert.AreEqual(actual, target.Document);
             }
         }
@@ -150,7 +159,8 @@ namespace LASI.Core.Tests
         ///A test for GetPhrasesAfter
         ///</summary>
         [TestMethod]
-        public void GetPhrasesAfterTest() {
+        public void GetPhrasesAfterTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Phrase phrase = phrases[1];
@@ -164,13 +174,15 @@ namespace LASI.Core.Tests
         ///A test for EstablishParenthood
         ///</summary>
         [TestMethod]
-        public void EstablishParenthoodTest() {
+        public void EstablishParenthoodTest()
+        {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
             Paragraph parent = new Paragraph(new[] { target }, ParagraphKind.Default);
             target.EstablishParenthood(parent);
             Assert.AreEqual(parent, target.Paragraph);
-            foreach (var p in phrases) {
+            foreach (var p in phrases)
+            {
                 Assert.AreEqual(parent, p.Paragraph);
                 Assert.AreEqual(target, p.Sentence);
             }
@@ -180,7 +192,8 @@ namespace LASI.Core.Tests
         ///A test for Sentence Constructor
         ///</summary>
         [TestMethod]
-        public void SentenceConstructorTest() {
+        public void SentenceConstructorTest()
+        {
             IEnumerable<Clause> clauses = new Clause[] {
                         new Clause(new Phrase[] {
                             new NounPhrase(new Word[] {

@@ -23,11 +23,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -63,7 +66,8 @@ namespace LASI.Core.Tests
         #endregion
 
 
-        internal virtual IInderectObjectTaker CreateIInderectObjectTaker() {
+        internal virtual IInderectObjectTaker CreateIInderectObjectTaker()
+        {
             IInderectObjectTaker target = new BaseVerb("walk");
             return target;
         }
@@ -72,7 +76,8 @@ namespace LASI.Core.Tests
         ///A test for BindIndirectObject
         ///</summary>
         [TestMethod]
-        public void BindIndirectObjectTest() {
+        public void BindIndirectObjectTest()
+        {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IEntity indirectObject = new NounPhrase(new Word[] { new PossessivePronoun("my"), new CommonSingularNoun("friend") });
             target.BindIndirectObject(indirectObject);
@@ -84,12 +89,13 @@ namespace LASI.Core.Tests
         ///A test for AggregateIndirectObject
         ///</summary>
         [TestMethod]
-        public void AggregateIndirectObjectTest() {
+        public void AggregateIndirectObjectTest()
+        {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IAggregateEntity actual =
                 new AggregateEntity(new IEntity[] {
                     new PersonalPronoun("him"),
-                    new ProperSingularNoun("Patrick"), 
+                    new ProperSingularNoun("Patrick"),
                     new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
                 });
             actual = target.AggregateIndirectObject;
@@ -100,11 +106,12 @@ namespace LASI.Core.Tests
         ///A test for IndirectObjects
         ///</summary>
         [TestMethod]
-        public void IndirectObjectsTest() {
+        public void IndirectObjectsTest()
+        {
             IInderectObjectTaker target = CreateIInderectObjectTaker();
             IEnumerable<IEntity> actual = new IEntity[] {
                     new PersonalPronoun("him"),
-                    new ProperSingularNoun("Patrick"), 
+                    new ProperSingularNoun("Patrick"),
                     new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
                 };
             actual = target.IndirectObjects;

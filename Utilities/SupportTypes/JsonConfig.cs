@@ -1,0 +1,42 @@
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace LASI.Utilities
+{
+    public class JsonConfig : ConfigBase
+    {
+        private readonly JObject json;
+
+        public JsonConfig(string filePath) : base(filePath) {
+            var json = ParseAndValidateJson(RawConfigData);
+        }
+
+        public JsonConfig(Uri uri) : base(uri) {
+            json = ParseAndValidateJson(RawConfigData);
+        }
+
+        private static JObject ParseAndValidateJson(string jsonText) {
+            object data;
+            try {
+                data = JsonConvert.DeserializeObject(jsonText);
+            } catch (JsonReaderException e) {
+                throw new InvalidOperationException("Unable to parse data, ensure the file contains a valid JSON structure.", e);
+            }
+            ValidateJsonStructure(data);
+            return data as JObject;
+        }
+
+
+        private static void ValidateJsonStructure(object configSource) {
+            if (!(configSource is JObject)) {
+                throw new InvalidOperationException("The config source must be a JSON document with a single top level object.");
+            }
+        }
+
+        public override string this[string name] => this[name, StringComparison.CurrentCulture];
+
+        public override string this[string name, StringComparison stringComparison] => (string)json.GetValue(name, stringComparison);
+    }
+}

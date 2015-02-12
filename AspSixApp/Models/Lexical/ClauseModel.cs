@@ -3,7 +3,7 @@ using LASI.Core;
 
 namespace AspSixApp.Models.Lexical
 {
-    class ClauseModel : LexicalModel<Clause>
+    public class ClauseModel : LexicalModel<Clause>
     {
         public ClauseModel(Clause clause) : base(clause) { }
         public SentenceModel SentenceModel { get; internal set; }

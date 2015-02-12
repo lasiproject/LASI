@@ -73,7 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB32A172-A
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspSixApp", "AspSixApp\AspSixApp.kproj", "{61E987AD-E614-40D1-8901-9AC6262FB9F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Utilities", "Test.Utilities\Test.Utilities.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.TestUtilities", "Test.Utilities\LASI.TestUtilities.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
 ﻿using LASI.Content;
-using LASI.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using LASI.TestUtilities;
 
 namespace LASI.Content.Tests
 {

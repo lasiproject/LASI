@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace AspSixApp.LexicalElementInfo
 {
-    using Validator = LASI.Utilities.Validation.Validator;
+    using Validate = LASI.Utilities.Validation.Validate;
     /// <summary>
     /// Provides static and extension methods for serializing lexical elements and their relationships
     /// into JSON strings.
@@ -28,7 +28,7 @@ namespace AspSixApp.LexicalElementInfo
                 .Result();
         public static string GetJsonMenuData(this IVerbal verbal)
         {
-            Validator.ThrowIfNull(verbal, nameof(verbal));
+            Validate.NotNull(verbal, nameof(verbal));
             var data = new
             {
                 Verbal = verbal.GetSerializationId(),
@@ -40,7 +40,7 @@ namespace AspSixApp.LexicalElementInfo
         }
         public static string GetJsonMenuData(this IReferencer referencer)
         {
-            Validator.ThrowIfNull(referencer, nameof(referencer));
+            Validate.NotNull(referencer, nameof(referencer));
             var data = new
             {
                 Referencer = referencer.GetSerializationId(),

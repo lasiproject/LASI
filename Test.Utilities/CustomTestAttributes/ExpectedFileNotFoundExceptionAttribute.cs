@@ -1,4 +1,4 @@
-﻿namespace LASI.UnitTests
+﻿namespace LASI.TestUtilities
 {
     public sealed class ExpectedFileNotFoundExceptionAttribute : CustomizedExpectedExceptionBaseAttribute
     {

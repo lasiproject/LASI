@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LASI.Core
 {
-    using Validator = LASI.Utilities.Validation.Validator;
+    using Validate = LASI.Utilities.Validation.Validate;
 
     /// <summary>
     /// Defines extension methods for sequences of Word instances.
@@ -29,8 +29,9 @@ namespace LASI.Core
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when words or startAfter is null.
         /// </exception>
-        public static IEnumerable<Word> WordsAfter(this IEnumerable<Word> words, Word startAfter) {
-            Validator.ThrowIfNull(words, nameof(words), startAfter, nameof(startAfter));
+        public static IEnumerable<Word> WordsAfter(this IEnumerable<Word> words, Word startAfter)
+        {
+            Validate.NotNull(words, nameof(words), startAfter, nameof(startAfter));
             return words.SkipWhile(w => w != startAfter).Skip(1);
         }
 
@@ -45,7 +46,8 @@ namespace LASI.Core
         /// <returns>
         /// All Adverbs in the collection.
         /// </returns>
-        public static IEnumerable<Adverb> OfAdverb(this IEnumerable<Word> words) {
+        public static IEnumerable<Adverb> OfAdverb(this IEnumerable<Word> words)
+        {
             return words.OfType<Adverb>();
         }
 
@@ -58,7 +60,8 @@ namespace LASI.Core
         /// <returns>
         /// All Adjectives in the collection.
         /// </returns>
-        public static IEnumerable<Adjective> OfAdjective(this IEnumerable<Word> words) {
+        public static IEnumerable<Adjective> OfAdjective(this IEnumerable<Word> words)
+        {
             return words.OfType<Adjective>();
         }
 
@@ -71,7 +74,8 @@ namespace LASI.Core
         /// <returns>
         /// All Nouns in the collection.
         /// </returns>
-        public static IEnumerable<Noun> OfNoun(this IEnumerable<Word> words) {
+        public static IEnumerable<Noun> OfNoun(this IEnumerable<Word> words)
+        {
             return words.OfType<Noun>();
         }
 
@@ -84,7 +88,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperNouns in the collection.
         /// </returns>
-        public static IEnumerable<ProperNoun> OfProperNoun(this IEnumerable<Word> words) {
+        public static IEnumerable<ProperNoun> OfProperNoun(this IEnumerable<Word> words)
+        {
             return words.OfType<ProperNoun>();
         }
 
@@ -97,7 +102,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericNouns in the collection.
         /// </returns>
-        public static IEnumerable<CommonNoun> OfGenericNoun(this IEnumerable<Word> words) {
+        public static IEnumerable<CommonNoun> OfGenericNoun(this IEnumerable<Word> words)
+        {
             return words.OfType<CommonNoun>();
         }
 
@@ -110,7 +116,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericSingularNouns in the GenericNoun sequence.
         /// </returns>
-        public static IEnumerable<CommonSingularNoun> OfSingular(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonSingularNoun> OfSingular(this IEnumerable<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonSingularNoun>();
         }
 
@@ -123,7 +130,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericNouns in the GenericNoun sequence.
         /// </returns>
-        public static IEnumerable<CommonPluralNoun> OfPlural(this IEnumerable<CommonNoun> nouns) {
+        public static IEnumerable<CommonPluralNoun> OfPlural(this IEnumerable<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonPluralNoun>();
         }
 
@@ -136,7 +144,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperSingularNouns in the ProperNoun sequence.
         /// </returns>
-        public static IEnumerable<ProperSingularNoun> OfSingular(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperSingularNoun> OfSingular(this IEnumerable<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperSingularNoun>();
         }
 
@@ -149,7 +158,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperPluralNouns in the ProperNoun sequence.
         /// </returns>
-        public static IEnumerable<ProperPluralNoun> OfPlural(this IEnumerable<ProperNoun> nouns) {
+        public static IEnumerable<ProperPluralNoun> OfPlural(this IEnumerable<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperPluralNoun>();
         }
 
@@ -163,7 +173,8 @@ namespace LASI.Core
         /// <returns>
         /// All Pronouns in the collection.
         /// </returns>
-        public static IEnumerable<Pronoun> OfPronoun(this IEnumerable<Word> words) {
+        public static IEnumerable<Pronoun> OfPronoun(this IEnumerable<Word> words)
+        {
             return words.OfType<Pronoun>();
         }
 
@@ -177,7 +188,8 @@ namespace LASI.Core
         /// <returns>
         /// All RelativePronouns in the collection.
         /// </returns>
-        public static IEnumerable<RelativePronoun> OfRelativePronoun(this IEnumerable<Word> words) {
+        public static IEnumerable<RelativePronoun> OfRelativePronoun(this IEnumerable<Word> words)
+        {
             return words.OfType<RelativePronoun>();
         }
 
@@ -190,26 +202,11 @@ namespace LASI.Core
         /// <returns>
         /// All Verbs in the collection.
         /// </returns>
-        public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words) {
+        public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words)
+        {
             return words.OfType<Verb>();
         }
-
-        /// <summary>
-        /// Returns all Verbs in the collection with the given form.
-        /// </summary>
-        /// <param name="words">
-        /// The collection of Words to filter.
-        /// </param>
-        /// <param name="form">
-        /// The form to match.
-        /// </param>
-        /// <returns>
-        /// All Verbs in the collection matching the given verb form.
-        /// </returns>
-        public static IEnumerable<Verb> OfVerb(this IEnumerable<Word> words, VerbForm form) {
-            return words.OfType<Verb>().Where(v => v.VerbForm == form);
-        }
-
+ 
         /// <summary>
         /// Returns all ToLinkers in the collection.
         /// </summary>
@@ -219,7 +216,8 @@ namespace LASI.Core
         /// <returns>
         /// All ToLinkers in the collection.
         /// </returns>
-        public static IEnumerable<ToLinker> OfToLinker(this IEnumerable<Word> words) {
+        public static IEnumerable<ToLinker> OfToLinker(this IEnumerable<Word> words)
+        {
             return words.OfType<ToLinker>();
         }
 
@@ -232,7 +230,8 @@ namespace LASI.Core
         /// <returns>
         /// All ModalAuxilarys in the collection.
         /// </returns>
-        public static IEnumerable<ModalAuxilary> OfModal(this IEnumerable<Word> words) {
+        public static IEnumerable<ModalAuxilary> OfModal(this IEnumerable<Word> words)
+        {
             return words.OfType<ModalAuxilary>();
         }
 
@@ -245,7 +244,8 @@ namespace LASI.Core
         /// <returns>
         /// All Determiners in the collection.
         /// </returns>
-        public static IEnumerable<Determiner> OfDeterminer(this IEnumerable<Word> words) {
+        public static IEnumerable<Determiner> OfDeterminer(this IEnumerable<Word> words)
+        {
             return words.OfType<Determiner>();
         }
 
@@ -258,7 +258,8 @@ namespace LASI.Core
         /// <returns>
         /// All Quantifiers in the collection.
         /// </returns>
-        public static IEnumerable<Quantifier> OfQuantifier(this IEnumerable<Word> words) {
+        public static IEnumerable<Quantifier> OfQuantifier(this IEnumerable<Word> words)
+        {
             return words.OfType<Quantifier>();
         }
 
@@ -271,32 +272,12 @@ namespace LASI.Core
         /// <returns>
         /// All Punctuators in the collection.
         /// </returns>
-        public static IEnumerable<Punctuator> OfPunctuator(this IEnumerable<Word> words) {
+        public static IEnumerable<Punctuator> OfPunctuator(this IEnumerable<Word> words)
+        {
             return words.OfType<Punctuator>();
-        }
-
-        /// <summary>
-        /// Returns all Verbs in the collection that match the given form.
-        /// </summary>
-        /// <typeparam name="TVerb">
-        /// The type of Verbs in the collection.
-        /// </typeparam>
-        /// <param name="verbs">
-        /// The collection of Verbs to filter
-        /// </param>
-        /// <param name="form">
-        /// The form to match.
-        /// </param>
-        /// <returns>
-        /// All verbs in the collection that match the given form.
-        /// </returns>
-
+        } 
         #endregion Syntactic Type Filtering
-
-        public static IEnumerable<TVerb> WithForm<TVerb>(this IEnumerable<TVerb> verbs, VerbForm form) where TVerb : Verb {
-            return verbs.Where(v => v.VerbForm == form);
-        }
-
+ 
         #endregion Sequential Implementations
 
         #region Parallel Implementations
@@ -312,7 +293,8 @@ namespace LASI.Core
         /// <returns>
         /// All Adverbs in the collection.
         /// </returns>
-        public static ParallelQuery<Adverb> OfAdverb(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Adverb> OfAdverb(this ParallelQuery<Word> words)
+        {
             return words.OfType<Adverb>();
         }
 
@@ -325,7 +307,8 @@ namespace LASI.Core
         /// <returns>
         /// All Adjectives in the collection.
         /// </returns>
-        public static ParallelQuery<Adjective> OfAdjective(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Adjective> OfAdjective(this ParallelQuery<Word> words)
+        {
             return words.OfType<Adjective>();
         }
 
@@ -338,7 +321,8 @@ namespace LASI.Core
         /// <returns>
         /// All Nouns in the collection.
         /// </returns>
-        public static ParallelQuery<Noun> OfNoun(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Noun> OfNoun(this ParallelQuery<Word> words)
+        {
             return words.OfType<Noun>();
         }
 
@@ -351,7 +335,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperNouns in the collection.
         /// </returns>
-        public static ParallelQuery<ProperNoun> OfProperNoun(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ProperNoun> OfProperNoun(this ParallelQuery<Word> words)
+        {
             return words.OfType<ProperNoun>();
         }
 
@@ -364,7 +349,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericNouns in the collection.
         /// </returns>
-        public static ParallelQuery<CommonNoun> OfGenericNoun(this ParallelQuery<Word> words) {
+        public static ParallelQuery<CommonNoun> OfGenericNoun(this ParallelQuery<Word> words)
+        {
             return words.OfType<CommonNoun>();
         }
 
@@ -377,7 +363,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericSingularNouns in the GenericNoun sequence.
         /// </returns>
-        public static ParallelQuery<CommonSingularNoun> OfSingular(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonSingularNoun> OfSingular(this ParallelQuery<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonSingularNoun>();
         }
 
@@ -390,7 +377,8 @@ namespace LASI.Core
         /// <returns>
         /// All GenericNouns in the GenericNoun sequence.
         /// </returns>
-        public static ParallelQuery<CommonPluralNoun> OfPlural(this ParallelQuery<CommonNoun> nouns) {
+        public static ParallelQuery<CommonPluralNoun> OfPlural(this ParallelQuery<CommonNoun> nouns)
+        {
             return nouns.OfType<CommonPluralNoun>();
         }
 
@@ -403,7 +391,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperSingularNouns in the ProperNoun sequence.
         /// </returns>
-        public static ParallelQuery<ProperSingularNoun> OfSingular(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperSingularNoun> OfSingular(this ParallelQuery<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperSingularNoun>();
         }
 
@@ -416,7 +405,8 @@ namespace LASI.Core
         /// <returns>
         /// All ProperPluralNouns in the ProperNoun sequence.
         /// </returns>
-        public static ParallelQuery<ProperPluralNoun> OfPlural(this ParallelQuery<ProperNoun> nouns) {
+        public static ParallelQuery<ProperPluralNoun> OfPlural(this ParallelQuery<ProperNoun> nouns)
+        {
             return nouns.OfType<ProperPluralNoun>();
         }
 
@@ -430,7 +420,8 @@ namespace LASI.Core
         /// <returns>
         /// All Pronouns in the collection.
         /// </returns>
-        public static ParallelQuery<Pronoun> OfPronoun(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Pronoun> OfPronoun(this ParallelQuery<Word> words)
+        {
             return words.OfType<Pronoun>();
         }
 
@@ -444,7 +435,8 @@ namespace LASI.Core
         /// <returns>
         /// All RelativePronouns in the collection.
         /// </returns>
-        public static ParallelQuery<RelativePronoun> OfRelativePronoun(this ParallelQuery<Word> words) {
+        public static ParallelQuery<RelativePronoun> OfRelativePronoun(this ParallelQuery<Word> words)
+        {
             return words.OfType<RelativePronoun>();
         }
 
@@ -457,24 +449,9 @@ namespace LASI.Core
         /// <returns>
         /// All Verbs in the collection.
         /// </returns>
-        public static ParallelQuery<Verb> OfVerb(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Verb> OfVerb(this ParallelQuery<Word> words)
+        {
             return words.OfType<Verb>();
-        }
-
-        /// <summary>
-        /// Returns all Verbs in the collection with the given form.
-        /// </summary>
-        /// <param name="words">
-        /// The sequence of Words to filter.
-        /// </param>
-        /// <param name="form">
-        /// The form to match.
-        /// </param>
-        /// <returns>
-        /// All Verbs in the collection matching the given verb form.
-        /// </returns>
-        public static ParallelQuery<Verb> OfVerb(this ParallelQuery<Word> words, VerbForm form) {
-            return words.OfType<Verb>().Where(v => v.VerbForm == form);
         }
 
         /// <summary>
@@ -486,7 +463,8 @@ namespace LASI.Core
         /// <returns>
         /// All ToLinkers in the collection.
         /// </returns>
-        public static ParallelQuery<ToLinker> OfToLinker(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ToLinker> OfToLinker(this ParallelQuery<Word> words)
+        {
             return words.OfType<ToLinker>();
         }
 
@@ -499,7 +477,8 @@ namespace LASI.Core
         /// <returns>
         /// All ModalAuxilarys in the collection.
         /// </returns>
-        public static ParallelQuery<ModalAuxilary> OfModal(this ParallelQuery<Word> words) {
+        public static ParallelQuery<ModalAuxilary> OfModal(this ParallelQuery<Word> words)
+        {
             return words.OfType<ModalAuxilary>();
         }
 
@@ -512,7 +491,8 @@ namespace LASI.Core
         /// <returns>
         /// All Determiners in the collection.
         /// </returns>
-        public static ParallelQuery<Determiner> OfDeterminer(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Determiner> OfDeterminer(this ParallelQuery<Word> words)
+        {
             return words.OfType<Determiner>();
         }
 
@@ -525,7 +505,8 @@ namespace LASI.Core
         /// <returns>
         /// All Quantifiers in the collection.
         /// </returns>
-        public static ParallelQuery<Quantifier> OfQuantifier(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Quantifier> OfQuantifier(this ParallelQuery<Word> words)
+        {
             return words.OfType<Quantifier>();
         }
 
@@ -538,32 +519,14 @@ namespace LASI.Core
         /// <returns>
         /// All Punctuators in the collection.
         /// </returns>
-        public static ParallelQuery<Punctuator> OfPunctuator(this ParallelQuery<Word> words) {
+        public static ParallelQuery<Punctuator> OfPunctuator(this ParallelQuery<Word> words)
+        {
             return words.OfType<Punctuator>();
         }
-
-        /// <summary>
-        /// Returns all Verbs in the collection that match the given form.
-        /// </summary>
-        /// <typeparam name="TVerb">
-        /// The type of Verbs in the collection.
-        /// </typeparam>
-        /// <param name="verbs">
-        /// The collection of Verbs to filter
-        /// </param>
-        /// <param name="form">
-        /// The form to match.
-        /// </param>
-        /// <returns>
-        /// All verbs in the collection that match the given form.
-        /// </returns>
+         
+        #endregion Parallel Implementations
 
         #endregion Syntactic Type Filtering
 
-        public static ParallelQuery<TVerb> WithForm<TVerb>(this ParallelQuery<TVerb> verbs, VerbForm form) where TVerb : Verb {
-            return verbs.Where(v => v.VerbForm == form);
-        }
-
-        #endregion Parallel Implementations
     }
 }

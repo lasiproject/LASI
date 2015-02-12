@@ -5,19 +5,19 @@ using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Routing;
-using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using AspSixApp.Models;
-using System.Linq;
 using Microsoft.AspNet.Mvc;
-using System.Net.Http.Formatting;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Framework.ConfigurationModel;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AspSixApp
 {
+    using Path = System.IO.Path;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -25,12 +25,13 @@ namespace AspSixApp
             // Setup configuration sources.
             Configuration = new Configuration()
                 .AddJsonFile("config.json")
-                .AddJsonFile("resources.json")
                 .AddEnvironmentVariables();
+            var path = Path.Combine(AppContext.BaseDirectory, "resources.json");
+            ConfigureLASIComponents(path);
         }
 
         public IConfiguration Configuration { get; set; }
-
+        public LASI.Utilities.IConfig ComponentConfiguration { get; }
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -38,24 +39,19 @@ namespace AspSixApp
             // Add MVC services to the services container.
             services
                 .AddMvc()
-                .Configure<MvcOptions>(options =>
-                {
-
-                });
-            services
                 .AddWebApiConventions()
                 .Configure<MvcOptions>(options =>
                 {
-                    options.InputFormatters
-                        .OfType<JsonMediaTypeFormatter>()
-                        .First().SerializerSettings = new JsonSerializerSettings
-                        {
-                            Error = (sender, e) => { throw e.ErrorContext.Error; },
-                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                            NullValueHandling = NullValueHandling.Ignore,
-                            Formatting = Formatting.Indented
-                        };
+                    var serializerSettings = new JsonSerializerSettings
+                    {
+                        Error = (sender, e) => { throw e.ErrorContext.Error; },
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore,
+                        Formatting = Formatting.Indented
+                    };
+                    options.OutputFormatters.Select(of => of.Instance).OfType<JsonOutputFormatter>().First().SerializerSettings = serializerSettings;
+
                 });
 
             // Add EF services to the services container.
@@ -84,7 +80,8 @@ namespace AspSixApp
                 app.UseBrowserLink();
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
                 app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
-            } else
+            }
+            else
             {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
@@ -108,6 +105,13 @@ namespace AspSixApp
                     template: "api/{controller}/{id?}"
                 );
             });
+        }
+
+        private void ConfigureLASIComponents(string configFilePath)
+        {
+            var configSource = new LASI.Utilities.JsonConfig(configFilePath);
+            TaggerInterop.SharpNLPTagger.InjectedConfiguration = configSource;
+            LASI.Core.Heuristics.Lexicon.InjectedConfiguration = configSource;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace LASI.Utilities
         /// </returns>
         /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params char[] seperator) {
-            Validator.ThrowIfNull(value, "value");
+            Validate.NotNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -49,7 +49,7 @@ namespace LASI.Utilities
         /// </returns>
         /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         public static string[] SplitRemoveEmpty(this string value, params string[] seperator) {
-            Validator.ThrowIfNull(value, "value");
+            Validate.NotNull(value, "value");
             return value.Split(seperator, StringSplitOptions.RemoveEmptyEntries);
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         /// <exception cref="ArgumentException">Thrown when the array of strings to remove contains an empty string.</exception>
         public static string RemoveSubstrings(this string value, params string[] remove) {
-            Validator.ThrowIfNull(value, "value");
+            Validate.NotNull(value, "value");
             if (remove.Contains(string.Empty)) {
                 throw new ArgumentException($"The string[] {nameof(remove)} contained an empty string", "remove");
             }
@@ -82,7 +82,7 @@ namespace LASI.Utilities
         /// in the current instance are replaced with another specified Unicode character.</returns>  
         /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
         public static string RemoveAnyOf(this string value, params char[] anyOf) {
-            Validator.ThrowIfNull(value, "value");
+            Validate.NotNull(value, "value");
             return RemoveSubstrings(value, anyOf.Select(c => c.ToString()).ToArray());
         }
 

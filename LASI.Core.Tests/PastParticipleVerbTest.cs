@@ -21,11 +21,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -65,11 +68,11 @@ namespace LASI.Core.Tests
         ///A test for PastParticipleVerb Constructor
         ///</summary>
         [TestMethod]
-        public void PastParticipleVerbConstructorTest() {
+        public void PastParticipleVerbConstructorTest()
+        {
             string text = "abided";
             PastParticiple target = new PastParticiple(text);
             Assert.AreEqual(text, target.Text);
-            Assert.AreEqual(VerbForm.PastParticiple, target.VerbForm);
         }
     }
 }

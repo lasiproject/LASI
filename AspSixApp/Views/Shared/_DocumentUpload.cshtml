@@ -2,8 +2,8 @@
 
 @model DocumentUploadModel
 <link rel="stylesheet" href="~/css/Widgets/document-upload.css" />
-<div>
-    @using (Html.BeginForm(actionName: "Upload", controllerName: "Home", method: FormMethod.Post, htmlAttributes: new
+<div class="row">
+    @using (Html.BeginForm(actionName: "Upload", controllerName: "Documents", method: FormMethod.Post, htmlAttributes: new
     {
         enctype = "multipart/form-data",
         target = Model.UploadTarget,
@@ -42,5 +42,3 @@
         </div>
     }
 </div>
-
-@*<script src="~/Scripts/app/Widgets/document-upload.js" type="text/javascript"></script>*@

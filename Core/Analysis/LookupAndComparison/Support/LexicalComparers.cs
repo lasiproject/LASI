@@ -4,7 +4,7 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
-    using Validator = Utilities.Validation.Validator;
+    using Validate = Utilities.Validation.Validate;
     /// <summary>
     /// Provides access to predefined and customizable IEqualityComparer implementations which operate on instances of applicable ILexical types.
     /// </summary>
@@ -28,14 +28,14 @@ namespace LASI.Core
         /// approaches O(N^2), where as calls which use the default reference based, hash if possible comparers, IEqualityComparers only approach approach O(N).
         /// </remarks>
         public static IEqualityComparer<TLexical> Create<TLexical>(Func<TLexical, TLexical, bool> equals) where TLexical : ILexical {
-            Validator.ThrowIfNull(equals, "equals", "A null equals function was provided.");
-            return CustomComparer.Create(equals);
+            Validate.NotNull(equals, "equals", "A null equals function was provided.");
+            return ComparerFactory.CreateEquality(equals);
         }
         /// <summary>
         /// Gets a IEqualityComparer&lt;ILexical&gt; which uses a default, case-sensitive textual matching function.
         /// </summary>
         public static IEqualityComparer<ILexical> Textual {
-            get { return CustomComparer.Create<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode()); }
+            get { return ComparerFactory.CreateEquality<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode()); }
         }
     }
 }

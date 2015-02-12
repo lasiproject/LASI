@@ -15,6 +15,6 @@ namespace LASI.Core
         /// Initializes a new instance of the BaseVerb class.
         /// </summary>
         /// <param name="text">The text content of the BaseVerb.</param>
-        public BaseVerb(string text) : base(text, VerbForm.Base) { }
+        public BaseVerb(string text) : base(text) { }
     }
 }

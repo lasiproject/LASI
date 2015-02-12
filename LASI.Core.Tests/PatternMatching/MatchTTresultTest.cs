@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
-using LASI.Core.Tests.TestHelpers;
-using LASI.Utilities.SupportTypes;
+using LASI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LASI.TestUtilities;
+using LASI.Core;
+using LASI.Utilities.SupportTypes;
 
 namespace LASI.Core.Tests.PatternMatching
 {

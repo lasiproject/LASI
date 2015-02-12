@@ -1,4 +1,4 @@
-﻿namespace LASI.UnitTests
+﻿namespace LASI.TestUtilities
 {
     /// <summary>
     /// Provides a base class for ExpectedExceptionAttributes which throw some specific exception type.

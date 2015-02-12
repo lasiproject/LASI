@@ -4,7 +4,7 @@ using LASI.Core;
 
 namespace AspSixApp.Models.Lexical
 {
-    abstract class LexicalModel<TLexical> : ILexicalModel<TLexical>, IViewModel<TLexical> where TLexical : class, ILexical
+    public abstract class LexicalModel<TLexical> : ILexicalModel<TLexical>, IViewModel<TLexical> where TLexical : class, ILexical
     {
         protected LexicalModel(TLexical element)
         {
@@ -17,9 +17,7 @@ namespace AspSixApp.Models.Lexical
         public string Text { get; }
         public Style Style { get; }
         public TLexical Element { get; }
-
         public TLexical ModelFor => Element;
-
         public abstract string ContextMenuJson { get; }
 
         protected static readonly SyntacticStyleMap SyntacticStyleMap = new SyntacticStyleMap();

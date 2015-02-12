@@ -1,12 +1,10 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
+using LASI.Core;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is a test class for ILexicalTest and is intended
     ///to contain all ILexicalTest Unit Tests
@@ -14,40 +12,12 @@ namespace LASI.Core.Tests
     [TestClass]
     public class ILexicalTest
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-
-        #endregion
-
-
-        internal virtual ILexical CreateILexical() {
-            ILexical target = new AggregateEntity(new IEntity[] {
-                    new PersonalPronoun("him"),
-                    new ProperSingularNoun("Patrick"),
-                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
-                });
-            return target;
-        }
-
         /// <summary>
         ///A test for MetaWeight
         ///</summary>
         [TestMethod]
-        public void MetaWeightTest() {
+        public void MetaWeightTest()
+        {
             ILexical target = CreateILexical();
             double expected = 1d;
             double actual;
@@ -56,24 +26,24 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
         }
 
-
         /// <summary>
         ///A test for Text
         ///</summary>
         [TestMethod]
-        public void TextTest() {
+        public void TextTest()
+        {
             ILexical target = CreateILexical();
             string actual;
             actual = target.Text;
             Assert.AreEqual(target.Text, actual);
         }
 
-
         /// <summary>
         ///A test for Weight
         ///</summary>
         [TestMethod]
-        public void WeightTest() {
+        public void WeightTest()
+        {
             ILexical target = CreateILexical();
             double expected = 1d;
             double actual;
@@ -82,5 +52,36 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
+
+        internal virtual ILexical CreateILexical()
+        {
+            ILexical target = new AggregateEntity(new IEntity[] {
+                    new PersonalPronoun("him"),
+                    new ProperSingularNoun("Patrick"),
+                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
+                });
+            return target;
+        }
+
+        private TestContext testContextInstance;
+
+        #region Additional test attributes
+
+        #endregion Additional test attributes
     }
 }

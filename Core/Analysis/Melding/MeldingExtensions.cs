@@ -21,7 +21,7 @@ namespace LASI.Core
         }
         public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities, Func<TEntity, TEntity, bool> meldWhen) where TEntity : class, IEntity
         {
-            return MeldImplementation(entities, CustomComparer.Create(meldWhen));
+            return MeldImplementation(entities, ComparerFactory.CreateEquality(meldWhen));
         }
         private static IEnumerable<IEntity> MeldImplementation<TEntity>(IEnumerable<TEntity> entities, IEqualityComparer<TEntity> comparer)
             where TEntity : class, IEntity

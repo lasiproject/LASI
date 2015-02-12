@@ -18,11 +18,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the verb.</param>
         /// <param name="verbForm">The tense of the verb</param>
-        protected Verb(string text, VerbForm verbForm)
-            : base(text)
-        {
-            VerbForm = verbForm;
-        }
+        protected Verb(string text) : base(text) { }
 
         #endregion Constructors
 
@@ -73,7 +69,8 @@ namespace LASI.Core
                 {
                     subject.AddPossession(directObject);
                 }
-            } else if (IsClassifier)
+            }
+            else if (IsClassifier)
             {
                 foreach (var subject in subjects)
                 {
@@ -163,7 +160,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the VerbTense of the Verb.
         /// </summary>
-        public VerbForm VerbForm { get; }
+        //public VerbForm VerbForm { get; }
 
         /// <summary>
         /// Gets the object of the Verb's preposition. This can be any ILexical construct including a word, phrase, or clause.

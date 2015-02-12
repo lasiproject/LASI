@@ -15,6 +15,6 @@ namespace LASI.Core
         /// Initializes a new instance of the SingularPresentTenseVerb class.
         /// </summary>
         /// <param name="text">The text content of the SingularPresentTenseVerb.</param>
-        public SingularPresentVerb(string text) : base(text, VerbForm.SingularPresent) { }
+        public SingularPresentVerb(string text) : base(text) { }
     }
 }

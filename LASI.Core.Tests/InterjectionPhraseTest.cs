@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using LASI.Core.Tests.TestHelpers;
+using LASI.TestUtilities;
 
 namespace LASI.Core.Tests
 {
@@ -23,11 +23,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -67,7 +70,8 @@ namespace LASI.Core.Tests
         ///A test for InterjectionPhrase Constructor
         ///</summary>
         [TestMethod]
-        public void InterjectionPhraseConstructorTest() {
+        public void InterjectionPhraseConstructorTest()
+        {
             IEnumerable<Word> composed = new Word[] { new Preposition("by"), new Interjection("jove") };
             InterjectionPhrase target = new InterjectionPhrase(composed);
             Assert.AreEqual("by jove", target.Text);

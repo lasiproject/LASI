@@ -4,7 +4,7 @@ using LASI.Core;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    class PageModel : TextualModel<Document.Page>
+    public class PageModel : TextualModel<Document.Page>
     {
         public PageModel(Document.Page page) : base(page)
         {

@@ -24,7 +24,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
         public DocxToTextConverter(DocXFile infile) :
-            base(infile) {
+            base(infile)
+        {
             DestinationInfo = new FileData(destinationDir + infile.FileName);
         }
 
@@ -35,20 +36,29 @@ namespace LASI.Content
         /// <summary>
         /// Converts the .docx document into zip archive, deleting any preexisting conversion to zip.
         /// </summary>
-        protected virtual void DocxToZip() {
-            var zipName = DestinationInfo.Directory + DestinationInfo.FileNameSansExt;
+        protected virtual void DocxToZip()
+        {
+            var zipName = Path.Combine(DestinationInfo.Directory, DestinationInfo.FileNameSansExt);
             File.Copy(Original.FullPath, zipName + ".zip", true);
 
-            if (Directory.Exists(zipName)) {
-                try {
+            if (Directory.Exists(zipName))
+            {
+                try
+                {
                     Directory.Delete(zipName, recursive: true);
                 }
-                catch (IOException e) { Output.WriteLine(e.Message); throw; }
+                catch (IOException e)
+                {
+                    Output.WriteLine(e.Message); throw;
+                }
             }
-            using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false)) {
+            using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false))
+            {
 
-                if (Directory.Exists(zipName)) {
-                    try {
+                if (Directory.Exists(zipName))
+                {
+                    try
+                    {
                         Directory.Delete(zipName, recursive: true);
                     }
                     catch (IOException e) { Output.WriteLine(e.Message); throw; }
@@ -64,7 +74,8 @@ namespace LASI.Content
         /// </summary>
         /// <returns>An input document object representing the newly converted file
         /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
-        public override TxtFile ConvertFile() {
+        public override TxtFile ConvertFile()
+        {
             DocxToZip();
             XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
             using (XmlReader xmlReader = XmlReader.Create(
@@ -79,27 +90,34 @@ namespace LASI.Content
                 {
                     Async = true,
                     IgnoreWhitespace = true
-                })) {
+                }))
+            {
                 using (var writer = new StreamWriter(
                     new FileStream(
                         DestinationInfo.FullPathSansExt + ".txt",
                         FileMode.Create),
                         Encoding.UTF8, 100
                     )
-            ) {
+            )
+                {
                     xmlReader.ReadStartElement();
-                    while (xmlReader.Read()) {
-                        if (xmlReader.Name == "w:p") {
+                    while (xmlReader.Read())
+                    {
+                        if (xmlReader.Name == "w:p")
+                        {
                             writer.Write("<paragraph>");
                         }
                         var value = xmlReader.Value;
-                        if (!string.IsNullOrWhiteSpace(value)) {
+                        if (!string.IsNullOrWhiteSpace(value))
+                        {
                             writer.Write(value);
                         }
-                        if (xmlReader.Name.Contains("tbl")) {
+                        if (xmlReader.Name.Contains("tbl"))
+                        {
                             xmlReader.Skip();
                         }
-                        if (xmlReader.Name == "w:p") {
+                        if (xmlReader.Name == "w:p")
+                        {
                             writer.Write("</paragraph>\n");
                         }
                     }
@@ -115,7 +133,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
         /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
-        XmlFile GetRelevantXMLFile(ZipArchive arch) {
+        XmlFile GetRelevantXMLFile(ZipArchive arch)
+        {
             var extractedFile = arch.GetEntry(@"word/document.xml");
             var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
             return new XmlFile(absolutePath);
@@ -127,7 +146,8 @@ namespace LASI.Content
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<TxtFile> ConvertFileAsync() {
+        public async override Task<TxtFile> ConvertFileAsync()
+        {
             return await Task.Run(() => ConvertFile());
         }
 

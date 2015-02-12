@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.UnitTests
+namespace LASI.TestUtilities
 {
     public sealed class ExpectedFileTypeWrapperMismatchExceptionAttribute : CustomizedExpectedExceptionBaseAttribute
     {

@@ -18,7 +18,8 @@ namespace LASI.Core
         /// Initializes a new instance of the Phrase class.
         /// </summary>
         /// <param name="words">The one or more instances of the Word class which are composed to form the Phrase.</param>
-        protected Phrase(IEnumerable<Word> words) {
+        protected Phrase(IEnumerable<Word> words)
+        {
             Words = words;
             Weight = 1;
             MetaWeight = 1;
@@ -47,11 +48,13 @@ namespace LASI.Core
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
         /// <param name="parent">The Clause to which the Phrase belongs.</param>
-        internal void EstablishParent(Clause parent) {
+        internal void EstablishParent(Clause parent)
+        {
             Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
-            foreach (var word in Words) {
+            foreach (var word in Words)
+            {
                 word.EstablishParent(this);
             }
         }
@@ -120,15 +123,14 @@ namespace LASI.Core
         /// </summary>
         public double MetaWeight { get; set; }
 
+        #endregion
+
         #region Fields
 
         private string text;
 
-        #endregion
 
         #endregion
-
-        #region Static Members
 
         #region Static Properties
 
@@ -136,8 +138,6 @@ namespace LASI.Core
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
         public static bool VerboseOutput { get; set; } = true;
-
-        #endregion
 
         #endregion
     }

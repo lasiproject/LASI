@@ -4,7 +4,7 @@ using LASI.Utilities.Specialized.Enhanced.Linq.List;
 using LASI.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using LASI.Core.Tests.TestHelpers;
+using LASI.TestUtilities;
 
 namespace LASI.Utilities.Tests
 {

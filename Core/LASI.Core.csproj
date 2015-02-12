@@ -61,10 +61,13 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.33.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System.Collections.Immutable">
       <HintPath>..\packages\System.Collections.Immutable.1.1.33-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -122,6 +125,7 @@
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
+    <Compile Include="InteropBindings\Concurrency.cs" />
     <Compile Include="InteropBindings\Configuation.cs" />
     <Compile Include="LASI\Core\Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchLoggingFailureException.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
@@ -203,7 +207,6 @@
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfPhraseExtensions.cs" />
     <Compile Include="DocumentStructures\Sentence.cs" />
     <Compile Include="LexicalStructures\Behavioral\IAdverbial.cs" />
-    <Compile Include="LexicalStructures\MiscLanguageConstructs\IConflatable.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IDescriptor.cs" />
     <Compile Include="LexicalStructures\Behavioral\IPossessable.cs" />
     <Compile Include="LexicalStructures\Behavioral\IPossesser.cs" />

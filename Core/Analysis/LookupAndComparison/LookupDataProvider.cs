@@ -9,24 +9,29 @@ namespace LASI.Core.Heuristics
 {
     public static partial class Lexicon
     {
+        /// <summary>
+        /// TODO: refactor this into another kind of explicit dependency
+        /// </summary>
+        public static LASI.Utilities.IConfig InjectedConfiguration { internal get; set; }
+
         private static class Paths
         {
-            static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-            static readonly string wordnetPath = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-            public static string ScrabbleDict => wordnetPath + "dictionary.txt";
+            static string ResourcesDirectory => InjectedConfiguration != null ? InjectedConfiguration["ResourcesDirectory"] : ConfigurationManager.AppSettings["ResourcesDirectory"];
+            static string WordnetPath => ResourcesDirectory + (InjectedConfiguration != null ? InjectedConfiguration["WordnetFileDirectory"] : ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+            public static string ScrabbleDict => WordnetPath + "dictionary.txt";
             public static class WordNet
             {
-                public static string Noun => wordnetPath + "data.noun";
-                public static string Verb => wordnetPath + "data.verb";
-                public static string Adjective => wordnetPath + "data.adj";
-                public static string Adverb => wordnetPath + "data.adv";
+                public static string Noun => WordnetPath + "data.noun";
+                public static string Verb => WordnetPath + "data.verb";
+                public static string Adjective => WordnetPath + "data.adj";
+                public static string Adverb => WordnetPath + "data.adv";
             }
             public static class Names
             {
-                static readonly string basePath = resourcesDirectory + ConfigurationManager.AppSettings["NameDataDirectory"];
-                public static string Last => basePath + "last.txt";
-                public static string Female => basePath + "femalefirst.txt";
-                public static string Male => basePath + "malefirst.txt";
+                static string BasePath => ResourcesDirectory + (InjectedConfiguration != null ? InjectedConfiguration["NameDataDirectory"] : ConfigurationManager.AppSettings["NameDataDirectory"]);
+                public static string Last => BasePath + "last.txt";
+                public static string Female => BasePath + "femalefirst.txt";
+                public static string Male => BasePath + "malefirst.txt";
             }
 
         }

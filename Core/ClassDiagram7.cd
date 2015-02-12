@@ -102,7 +102,7 @@
   <Class Name="LASI.Core.Preposition" Collapsed="true">
     <Position X="30" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIABAAAEgAIEEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAIABAgAEgAIEEAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LexicalStructures\BridgingConstructs\Preposition.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -126,7 +126,7 @@
   <Class Name="LASI.Core.LexicalEnumerable" Collapsed="true">
     <Position X="74.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAEQZAKEAQSGAAAAAtEQAhSAQhAQiiEESoHAQEQhCA=</HashCode>
+      <HashCode>AIAEQZAKEAQSGAAAAAnEQAhSAQhAQgiEESoHAQEQhCA=</HashCode>
       <FileName>LexicalStructures\EnumerableExtensions\EnumerableOfIEntityExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -257,7 +257,7 @@
   <Class Name="LASI.Core.Noun" Collapsed="true">
     <Position X="36" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAMAAAEAAAAgAAkAIAAAAhQAAACQiACQIAAAAJABA=</HashCode>
+      <HashCode>AAEAMAAAEAAAAgAAkAIAAAABQAAACQiACQIAAAAJABA=</HashCode>
       <FileName>LexicalStructures\NounRelatedConstructs\Noun.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -466,7 +466,7 @@
   <Class Name="LASI.Core.PresentParticiple" Collapsed="true">
     <Position X="70.25" Y="3.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAEAEAAAEAAAAggAkAIAAAIAQAAAAQAACQIAAAABABA=</HashCode>
+      <HashCode>AAEAEAAAEAAAAgAAkAIAAAAAQAAAAQAACQIAAAABABA=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\PresentParticiple.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -474,7 +474,7 @@
   <Class Name="LASI.Core.Verb" Collapsed="true">
     <Position X="68" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAAAkBBBQAAAAAFCBAAAgAiAoAAAgAEGQAAREAEBAQ=</HashCode>
+      <HashCode>UAAAAkBBBQAAAAAFCBAAAgAiAoAAAgAEGQAARAAEBAQ=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\Verb.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -489,7 +489,7 @@
   <Class Name="LASI.Core.VerbPhrase" Collapsed="true">
     <Position X="12.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAAAkABBRAAAAAFCBACggAiAoAAAgBEGAAAVAAEBAQ=</HashCode>
+      <HashCode>UAAAAkABBRAAAAAFCBACggAiAsAAAgAEGAAAVAAEBAQ=</HashCode>
       <FileName>LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -664,13 +664,6 @@
       <FileName>LexicalStructures\Structural\ILexical.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LASI.Core.IConflatable&lt;TLexical&gt;" Collapsed="true">
-    <Position X="73" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>LexicalStructures\MiscLanguageConstructs\IConflatable.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="LASI.Core.IAggregateEntity" Collapsed="true">
     <Position X="13" Y="15.25" Width="1.75" />
     <TypeIdentifier>
@@ -767,13 +760,6 @@
     <TypeIdentifier>
       <HashCode>ACAAAQAAAAAQAAAAAAEAAACAAAAAAAAAAAAAAAAAEAA=</HashCode>
       <FileName>LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="LASI.Core.VerbForm" Collapsed="true">
-    <Position X="73" Y="5.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAAAAAIAAAEAAAAAAAAAAAAAAAAQAAAAAAAACAQAA=</HashCode>
-      <FileName>LexicalStructures\VerbRelatedConstructs\VerbForm.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="LASI.Core.Heuristics.Gender" Collapsed="true">

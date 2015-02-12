@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI;
 
-namespace LASI.UnitTests
+namespace LASI.Utilities.Tests
 {
     /// <summary>
     ///This is A test class for FunctionExtensionsTest and is intended
@@ -20,11 +20,14 @@ namespace LASI.UnitTests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -64,7 +67,8 @@ namespace LASI.UnitTests
         /// <summary>
         ///A test for Compose
         ///</summary>
-        public void ComposeTest1Helper<R, U, T>() {
+        public void ComposeTest1Helper<R, U, T>()
+        {
             Func<R, T> f = r => default(T);
             Func<U, R> g = u => default(R);
             Func<U, T> expected = u => default(T);
@@ -76,7 +80,8 @@ namespace LASI.UnitTests
         }
 
         [TestMethod]
-        public void ComposeTest1() {
+        public void ComposeTest1()
+        {
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
         }
 

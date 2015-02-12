@@ -9,6 +9,6 @@ namespace LASI.Core
         /// Initializes a new instance of the ThirdPersonSingularPresentTenseVerb class.
         /// </summary>
         /// <param name="text">The text content of the ThirdPersonSingularPresentTenseVerb.</param>
-        public ThirdPersonSingularPresentVerb(string text) : base(text, VerbForm.ThirdPersonSingularPresent) { }
+        public ThirdPersonSingularPresentVerb(string text) : base(text) { }
     }
 }

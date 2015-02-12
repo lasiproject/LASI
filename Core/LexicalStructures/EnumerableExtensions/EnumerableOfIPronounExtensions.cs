@@ -21,7 +21,7 @@ namespace LASI.Core
         /// <param name="referencers">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> referencers) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers");
+            Validate.NotNull(referencers, "referencers");
             return referencers
                 .Where(referencer => referencer.RefersTo != null);
         }
@@ -33,7 +33,7 @@ namespace LASI.Core
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> referencers, IEntity referenced) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers", referenced, "referenced");
+            Validate.NotNull(referencers, "referencers", referenced, "referenced");
             return referencers.Referencing()
                 .Where(referencer => referencer.RefersTo == referenced || referencer.RefersTo.Any(entity => entity == referenced));
         }
@@ -45,7 +45,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which tests the referenced entity of each IPronoun to determine if the IPronoun should be selected.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> referencers, Func<IEntity, bool> predicate) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers", predicate, "predicate");
+            Validate.NotNull(referencers, "referencers", predicate, "predicate");
             return referencers.Referencing().Where(referencer => predicate(referencer.RefersTo) || referencer.RefersTo.Any(predicate));
         }
         #endregion
@@ -58,7 +58,7 @@ namespace LASI.Core
         /// <param name="referencers">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> referencers) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers");
+            Validate.NotNull(referencers, "referencers");
             return referencers.Where(referencer => referencer.RefersTo != null);
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace LASI.Core
         /// <param name="referenced">The entity whose referencing pronouns will be returned.</param>
         /// <returns>All Pronouns in the collection that refer to the given entity</returns>
         public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> referencers, IEntity referenced) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers", referenced, "referenced");
+            Validate.NotNull(referencers, "referencers", referenced, "referenced");
             return referencers.Referencing()
                 .Where(referencer => referencer.RefersTo == referenced || referencer.RefersTo.Any(entity => entity == referenced));
         }
@@ -81,7 +81,7 @@ namespace LASI.Core
         /// <param name="predicate">The function which tests the referenced entity of each IPronoun to determine if the IPronoun should be selected.</param>
         /// <returns>All IPronoun constructs in the collection that refer to the given entity</returns>
         public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> referencers, Func<IEntity, bool> predicate) where T : IReferencer {
-            Validator.ThrowIfNull(referencers, "referencers", predicate, "predicate");
+            Validate.NotNull(referencers, "referencers", predicate, "predicate");
             return referencers.Referencing()
                 .Where(referencer => predicate(referencer.RefersTo) || referencer.RefersTo.Any(predicate));
         }

@@ -25,7 +25,8 @@ namespace LASI.Content
         /// Automatically loads existing files and sets up input paths
         /// </summary>
         /// <param name="projectDirectoryPath">The realRoot directory of the current project</param>
-        public static void Initialize(string projectDirectoryPath) {
+        public static void Initialize(string projectDirectoryPath)
+        {
             ProjectName = projectDirectoryPath.Substring(projectDirectoryPath.LastIndexOf('\\') + 1);
             ProjectDirectory = projectDirectoryPath;
             BuildSubDirectories();
@@ -36,7 +37,8 @@ namespace LASI.Content
         /// <summary>
         /// Checks for the existence of the extension stratified input file project subject-directories and creates them if they do not exist.
         /// </summary>
-        private static void MapInputDirectories() {
+        private static void MapInputDirectories()
+        {
             foreach (var docPath in Directory.EnumerateFiles(DocFilesDirectory, "*.doc"))
                 docFiles.Add(new DocFile(docPath));
             foreach (var docPath in Directory.EnumerateFiles(DocxFilesDirectory, "*.docx"))
@@ -52,7 +54,8 @@ namespace LASI.Content
         /// <summary>
         /// Checks for the existence of the project subject-directories creating them as needed.
         /// </summary>
-        private static void BuildSubDirectories() {
+        private static void BuildSubDirectories()
+        {
             foreach (var path in new[] {
                 ProjectDirectory,
                 InputFilesDirectory,
@@ -63,7 +66,8 @@ namespace LASI.Content
                 PdfFilesDirectory,
                 TaggedFilesDirectory,
                 TxtFilesDirectory,
-            }) {
+            })
+            {
                 if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
             }
         }
@@ -78,10 +82,12 @@ namespace LASI.Content
         /// <param name="path">The path string of the document file to add to the project</param>
         /// 
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
-        public static InputFile AddFile(string path) {
+        public static InputFile AddFile(string path)
+        {
             ThrowIfUninitialized();
             var ext = path.Substring(path.LastIndexOf('.')).ToLower();
-            try {
+            try
+            {
                 var originalFile = WrapperMap[ext](path);
                 var newPath =
                     ext == ".doc" ? DocFilesDirectory :
@@ -97,7 +103,9 @@ namespace LASI.Content
 
                 AddToTypedList(newFile as dynamic);
                 return newFile;
-            } catch (KeyNotFoundException ex) {
+            }
+            catch (KeyNotFoundException ex)
+            {
                 throw new UnsupportedFileTypeAddedException(ext, ex);
             }
         }
@@ -118,7 +126,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="filePath">A partial or full, extension-less or extension-full, file newPath containing the name of the file to check.</param>
         /// <returns>False if a file with the same name, irrespective of its extension, is part of the project. False otherwise.</returns>
-        public static bool HasSimilarFile(string filePath) {
+        public static bool HasSimilarFile(string filePath)
+        {
             var fileName = filePath.Contains('\\') ? System.IO.Path.GetFileNameWithoutExtension(filePath) : filePath.Substring(0, filePath.IndexOf('.') >= 0 ? filePath.IndexOf('.') : filePath.Length);
             return AllDocumentNames.Contains(fileName);
         }
@@ -127,7 +136,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="inputFile">An Instance of the InputFile class or one of its descendants.</param>
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
-        public static bool HasSimilarFile(InputFile inputFile) {
+        public static bool HasSimilarFile(InputFile inputFile)
+        {
             return HasSimilarFile(inputFile.FullPath);
         }
 
@@ -135,7 +145,8 @@ namespace LASI.Content
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
         /// </summary>
         /// <param name="filesToKeep">A collection of file path strings indicating which files are not to be culled. All others will summarily executed.</param>
-        public static void RemoveAllFilesNotIn(IEnumerable<string> filesToKeep) {
+        public static void RemoveAllFilesNotIn(IEnumerable<string> filesToKeep)
+        {
             ThrowIfUninitialized();
             RemoveAllNotIn(filesToKeep.Select(fileName => fileName.IndexOf('.') > 0 ? WrapperMap[fileName.Substring(fileName.LastIndexOf('.'))](fileName) : new TxtFile(fileName)));
         }
@@ -143,14 +154,17 @@ namespace LASI.Content
         /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
         /// </summary>
         /// <param name="filesToKeep">collection of InputFile objects indicating which files are not to be culled. All others will summarily executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep) {
+        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep)
+        {
             ThrowIfUninitialized();
-            foreach (var f in AllDocumentNames.Except(taggedFiles.Select(tagged => tagged.NameSansExt))) {
+            foreach (var f in AllDocumentNames.Except(taggedFiles.Select(tagged => tagged.NameSansExt)))
+            {
                 RemoveAllAlikeFiles(f);
             }
         }
 
-        private static void RemoveAllAlikeFiles(string fileName) {
+        private static void RemoveAllAlikeFiles(string fileName)
+        {
             txtFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
             docFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
             docXFiles.RemoveAll(f => f.NameSansExt.Contains(fileName));
@@ -164,7 +178,8 @@ namespace LASI.Content
         /// Removes the document represented by InputFile object from the project.
         /// </summary>
         /// <param name="file">The document to remove.</param>
-        public static void RemoveFile(InputFile file) {
+        public static void RemoveFile(InputFile file)
+        {
             ThrowIfUninitialized();
             RemoveAllAlikeFiles(file.NameSansExt);
             RemoveFile(file as dynamic);
@@ -174,7 +189,8 @@ namespace LASI.Content
         /// Removes the document at the provided path from the project.
         /// </summary>
         /// <param name="filePath">The path of the document to remove.</param>
-        public static void RemoveFile(string filePath) {
+        public static void RemoveFile(string filePath)
+        {
             ThrowIfUninitialized();
             RemoveAllAlikeFiles(filePath);
         }
@@ -193,7 +209,8 @@ namespace LASI.Content
         /// <summary>
         /// Performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
-        public static void ConvertAsNeeded() {
+        public static void ConvertAsNeeded()
+        {
             ThrowIfUninitialized();
             ConvertPdfToText();
             ConvertDocToText();
@@ -203,9 +220,11 @@ namespace LASI.Content
         /// <summary>
         /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
         /// </summary>
-        public static async Task ConvertAsNeededAsync() {
+        public static async Task ConvertAsNeededAsync()
+        {
             ThrowIfUninitialized();
-            try {
+            try
+            {
                 var tasks = new
                 {
                     ConvertPdf = ConvertPdfToTextAsync(pdfFiles.ToArray()),
@@ -213,7 +232,9 @@ namespace LASI.Content
                     ConvertDocx = ConvertDocxToTextAsync(docXFiles.ToArray())
                 };
                 await Task.WhenAll(tasks.ConvertPdf, tasks.ConvertDocs, tasks.ConvertDocx);
-            } catch (FileConversionFailureException e) {
+            }
+            catch (FileConversionFailureException e)
+            {
                 e.LogIfDebug();
                 throw;
             }
@@ -226,22 +247,28 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static IEnumerable<TxtFile> ConvertDocToText(params DocFile[] files) {
+        public static IEnumerable<TxtFile> ConvertDocToText(params DocFile[] files)
+        {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles)) {
-                try {
-                    try {
-                        var docx = new DocToDocXConverter(document as DocFile).ConvertFile();
-                        var txt = new DocxToTextConverter(docx).ConvertFile();
-                        AddFile(txt.FullPath);
-                        File.Delete(txt.FullPath);
-                        convertedFiles.Add(txt);
-                    } catch (IOException e) {
-                        Output.WriteLine(e.Message);
-                        throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
-                    }
-                } catch (UnauthorizedAccessException e) {
+            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles))
+            {
+                try
+                {
+                    var docx = new DocToDocXConverter(document as DocFile).ConvertFile();
+                    var txt = new DocxToTextConverter(docx).ConvertFile();
+                    AddFile(txt.FullPath);
+                    File.Delete(txt.FullPath);
+                    convertedFiles.Add(txt);
+                }
+                catch (IOException e)
+                {
+                    RecordConversionFailure(document, e);
+                    //throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
+                    throw;
+                }
+                catch (UnauthorizedAccessException e)
+                {
                     RecordConversionFailure(document, e);
                     throw;
                 }
@@ -254,22 +281,28 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(params DocFile[] files) {
+        public static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(params DocFile[] files)
+        {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles)) {
-                try {
-                    try {
-                        var docx = await new DocToDocXConverter(document as DocFile).ConvertFileAsync();
-                        var txt = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
-                        AddFile(txt.FullPath);
-                        File.Delete(txt.FullPath);
-                        File.Delete(docx.FullPath);
-                    } catch (IOException e) {
-                        Output.WriteLine("{0}\n{1}\n", e.Message, e.StackTrace);
-                        throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt", e);
-                    }
-                } catch (UnauthorizedAccessException e) {
+            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles))
+            {
+                try
+                {
+                    var docx = await new DocToDocXConverter(document as DocFile).ConvertFileAsync();
+                    var txt = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
+                    AddFile(txt.FullPath);
+                    File.Delete(txt.FullPath);
+                    File.Delete(docx.FullPath);
+                }
+                catch (IOException e)
+                {
+                    RecordConversionFailure(document, e);
+                    //throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt", e);
+                    throw;
+                }
+                catch (UnauthorizedAccessException e)
+                {
                     RecordConversionFailure(document, e);
                     throw;
                 }
@@ -277,7 +310,8 @@ namespace LASI.Content
             return convertedFiles;
         }
 
-        private static void RecordConversionFailure(InputFile doc, Exception e) {
+        private static void RecordConversionFailure(InputFile doc, Exception e)
+        {
             Output.WriteLine($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.\n{e.StackTrace}");
         }
 
@@ -287,9 +321,11 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static IEnumerable<TxtFile> ConvertPdfToText(params PdfFile[] files) {
+        public static IEnumerable<TxtFile> ConvertPdfToText(params PdfFile[] files)
+        {
             ThrowIfUninitialized();
-            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles)) {
+            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            {
                 var converted = new PdfToTextConverter(pdf as PdfFile).ConvertFile();
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath); yield return converted;
@@ -301,10 +337,12 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(params PdfFile[] files) {
+        public static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(params PdfFile[] files)
+        {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles)) {
+            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            {
                 var converted = await new PdfToTextConverter(pdf as PdfFile).ConvertFileAsync();
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
@@ -319,9 +357,11 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static IEnumerable<TxtFile> ConvertDocxToText(params DocXFile[] files) {
+        public static IEnumerable<TxtFile> ConvertDocxToText(params DocXFile[] files)
+        {
             ThrowIfUninitialized();
-            foreach (var doc in files.ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt)) {
+            foreach (var doc in files.ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
+            {
                 var converted = new DocxToTextConverter(doc as DocXFile).ConvertFile();
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
@@ -334,10 +374,12 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(params DocXFile[] files) {
+        public static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(params DocXFile[] files)
+        {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : docXFiles).Except<InputFile>(taggedFiles)) {
+            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : docXFiles).Except<InputFile>(taggedFiles))
+            {
                 var converted = await new DocxToTextConverter(doc as DocXFile).ConvertFileAsync();
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
@@ -352,9 +394,11 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFiles(params TxtFile[] files) {
+        public static void TagTextFiles(params TxtFile[] files)
+        {
             ThrowIfUninitialized();
-            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)) {
+            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles))
+            {
                 var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
                     TaggedFilesDirectory + "\\" + doc.NameSansExt + ".tagged");
@@ -368,13 +412,15 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static async Task TagTextFilesAsync(params TxtFile[] files) {
+        public static async Task TagTextFilesAsync(params TxtFile[] files)
+        {
             ThrowIfUninitialized();
             var tasks = (
                 from file in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)
                 select new SharpNLPTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
                 ).ToList();
-            while (tasks.Any()) {
+            while (tasks.Any())
+            {
                 var tagged = await Task.WhenAny(tasks);
                 var taggedFile = await tagged;
                 taggedFiles.Add(new TaggedFile(taggedFile));
@@ -391,13 +437,16 @@ namespace LASI.Content
         /// <summary>
         /// Copies the entire contents of the current project directory to a predetermined, relative path
         /// </summary>
-        public static void BackupProject() {
+        public static void BackupProject()
+        {
             ThrowIfUninitialized();
             var projd = new DirectoryInfo(ProjectDirectory);
             var pard = new DirectoryInfo(projd.Parent.FullName);
             var desitination = Directory.CreateDirectory(pard.FullName + "\\backup\\" + ProjectName);
-            foreach (var file in new DirectoryInfo(ProjectDirectory).GetFiles("*", SearchOption.AllDirectories)) {
-                if (!Directory.Exists(file.Directory.Name)) {
+            foreach (var file in new DirectoryInfo(ProjectDirectory).GetFiles("*", SearchOption.AllDirectories))
+            {
+                if (!Directory.Exists(file.Directory.Name))
+                {
                     desitination.CreateSubdirectory(file.Directory.Parent.Name + "\\" + file.Directory.Name);
                 }
                 file.CopyTo(desitination.FullName + "\\" + file.Directory.Parent.Name + "\\" + file.Directory.Name + "\\" + file.Name, true);
@@ -406,9 +455,11 @@ namespace LASI.Content
         /// <summary>
         /// Deletes everything from the current Project directory.
         /// </summary>
-        public static void DecimateProject() {
+        public static void DecimateProject()
+        {
             ThrowIfUninitialized();
-            try {
+            try
+            {
                 Directory.Delete(ProjectDirectory, true);
                 docFiles.Clear();
                 docXFiles.Clear();
@@ -417,7 +468,9 @@ namespace LASI.Content
                 taggedFiles.Clear();
                 ProjectName = null;
                 Initialized = false;
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 Output.WriteLine(e.Message);
             }
         }
@@ -475,28 +528,32 @@ namespace LASI.Content
         /// Gets the list of TextFile instances which represent all *.txt files which are included in the project. 
         /// TextFile instances are wrapper objects which provide discrete accessors to relevant *.txt file properties.
         /// </summary>
-        public static IReadOnlyList<TxtFile> TxtFiles {
+        public static IReadOnlyList<TxtFile> TxtFiles
+        {
             get { return txtFiles; }
         }
         /// <summary>
         /// Gets the list of DocXFile instances which represent all *.docx files which are included in the project. 
         /// DocXFile instances are wrapper objects which provide discrete accessors to relevant *.docx file properties.
         /// </summary>
-        public static IReadOnlyList<DocXFile> DocXFiles {
+        public static IReadOnlyList<DocXFile> DocXFiles
+        {
             get { return docXFiles; }
         }
         /// <summary>
         /// Gets the list of DocFile instances which represent all *.doc files which are included in the project. 
         /// DocFile instances are wrapper objects which provide discrete accessors to relevant *.doc file properties.
         /// </summary>
-        public static IReadOnlyList<DocFile> DocFiles {
+        public static IReadOnlyList<DocFile> DocFiles
+        {
             get { return docFiles; }
         }
         /// <summary>
         /// Gets the list of PdfFile instances which represent all *.pdf files which are included in the project. 
         /// PdfFile instances are wrapper objects which provide discrete accessors to relevant *.pdf file properties.
         /// </summary>
-        public static IReadOnlyList<PdfFile> PdfFiles {
+        public static IReadOnlyList<PdfFile> PdfFiles
+        {
             get { return pdfFiles; }
         }
         /// <summary>
@@ -515,8 +572,10 @@ namespace LASI.Content
         /// Gets the names of all documents in the current project. Ignoring file extensions.
         /// </summary>
         /// <returns>The names of all documents in the current project. Ignoring file extensions.</returns>
-        public static IEnumerable<string> AllDocumentNames {
-            get {
+        public static IEnumerable<string> AllDocumentNames
+        {
+            get
+            {
                 return AllFiles.Select(file => file.NameSansExt).ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
             }
         }
@@ -524,8 +583,10 @@ namespace LASI.Content
         /// Gets all input files in the current project.
         /// </summary>
         /// <returns>All input files in the current project.</returns>
-        public static IEnumerable<InputFile> AllFiles {
-            get {
+        public static IEnumerable<InputFile> AllFiles
+        {
+            get
+            {
                 foreach (var txt in txtFiles) { yield return txt; }
                 foreach (var pdf in pdfFiles) { yield return pdf; }
                 foreach (var doc in docFiles) { yield return doc; }
@@ -549,7 +610,8 @@ namespace LASI.Content
     {
         private readonly Func<string, TFile> typedFileFactory;
 
-        public TypedFileCollection(IEnumerable<TFile> initialFiles, Func<string, TFile> typedFileFactory) {
+        public TypedFileCollection(IEnumerable<TFile> initialFiles, Func<string, TFile> typedFileFactory)
+        {
             this.typedFileFactory = typedFileFactory;
             files = initialFiles.ToList();
         }
@@ -567,8 +629,10 @@ namespace LASI.Content
 
         public bool Contains(TFile item) => files.Contains(item);
 
-        public void CopyTo(TFile[] array, int arrayIndex) {
-            for (var i = 0; i < Count; ++i) {
+        public void CopyTo(TFile[] array, int arrayIndex)
+        {
+            for (var i = 0; i < Count; ++i)
+            {
                 array[arrayIndex + i] = files[i];
             }
         }
@@ -600,7 +664,8 @@ namespace LASI.Content
         /// Initializes a new instance of the ExtensionWrapperMap class.
         /// </summary>
         /// <param name="unsupportedFileHandler">The specifies the manner in which unsupported extensions are handled.</param>
-        public ExtensionWrapperMap(Func<string, InputFile> unsupportedFileHandler) {
+        public ExtensionWrapperMap(Func<string, InputFile> unsupportedFileHandler)
+        {
             unsupportedHandler = unsupportedFileHandler;
         }
         /// <summary>

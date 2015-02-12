@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI;
-using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.Core.Tests.TestHelpers
+namespace LASI.TestUtilities
 {
     public static class EnumerableAssert
     {

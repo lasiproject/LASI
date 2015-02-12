@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -113,7 +113,6 @@
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
-    <Compile Include="LASI\UnitTests\TestAttributes.cs" />
     <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
@@ -165,7 +164,6 @@
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />
     <Compile Include="SymbolTest.cs" />
-    <Compile Include="TestHelpers\EnumerableAssert.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
     <Compile Include="VerbConjugatorTest.cs" />
@@ -189,9 +187,9 @@
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test.Utilities\Test.Utilities.csproj">
+    <ProjectReference Include="..\Test.Utilities\LASI.TestUtilities.csproj">
       <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
-      <Name>Test.Utilities</Name>
+      <Name>LASI.TestUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>

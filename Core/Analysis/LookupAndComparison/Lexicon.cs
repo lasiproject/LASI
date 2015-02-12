@@ -297,7 +297,7 @@ namespace LASI.Core.Heuristics
         private static Lazy<WordNetLookup<Noun>> nounLookup =
             new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), true);
 
-        private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() =>
+        private static Lazy<ISet<string>> scrabbleDictionary => new Lazy<ISet<string>>(() =>
         {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));

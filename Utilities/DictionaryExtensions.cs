@@ -7,7 +7,6 @@ using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
-    using Validator = Validator;
     /// <summary>
     /// Provides various methods for Dictionary types.
     /// </summary>
@@ -24,8 +23,9 @@ namespace LASI.Utilities
         /// <returns>
         /// The value with the specified key from the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the default(TValue) if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) {
-            Validator.ThrowIfNull(dictionary, "dictionary", key, "key");
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            Validate.NotNull(dictionary, "dictionary", key, "key");
             TValue value;
             return dictionary.TryGetValue(key, out value) ? value : default(TValue);
         }
@@ -41,8 +41,9 @@ namespace LASI.Utilities
         /// <returns>
         /// The value with the specified key from the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the specified defaultValue if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) {
-            Validator.ThrowIfNull(dictionary, "dictionary", key, "key");
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            Validate.NotNull(dictionary, "dictionary", key, "key");
             TValue value;
             return dictionary.TryGetValue(key, out value) ? value : defaultValue;
         }
@@ -58,8 +59,9 @@ namespace LASI.Utilities
         /// <returns>
         /// The value with the specified key from the System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the result of invoking the specified defaultValueFactory function if the key does not exist.
         /// </returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory) {
-            Validator.ThrowIfNull(dictionary, "dictionary", key, "key");
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
+        {
+            Validate.NotNull(dictionary, "dictionary", key, "key");
             TValue value;
             return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
         }

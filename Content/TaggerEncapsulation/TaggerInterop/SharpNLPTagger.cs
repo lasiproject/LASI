@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaggerInterop
 {
-    class SharpNLPTagger
+    public class SharpNLPTagger
     {
         private string mModelPath;
         private string mNameFinderPath;
@@ -20,19 +20,30 @@ namespace TaggerInterop
         private OpenNLP.Tools.Parser.EnglishTreebankParser mParser;
         private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
+
+        public static LASI.Utilities.IConfig InjectedConfiguration { internal get; set; }
         /// <summary>
         /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provied TaggerMode value.
         /// </summary>
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
-        public SharpNLPTagger(TaggerMode taggingMode) {
-            string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+        public SharpNLPTagger(TaggerMode taggingMode)
+        {
+            string resourcesDirectory;
             TaggingMode = taggingMode;
-            mModelPath = resourcesDirectory + ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
-            //mModelPath = @"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\OpenNLP\OpenNLP\Models";
-            mNameFinderPath = resourcesDirectory + ConfigurationManager.AppSettings["WordnetSearchDirectory"];
-            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mNameFinderPath);
-            //mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(@"C:\Users\books\Source\Repos\LASI\App\Resources\TaggingPackage\WordNet\2.1\dict");
+            if (InjectedConfiguration != null)
+            {
+                resourcesDirectory = InjectedConfiguration["ResourcesDirectory"];
+                mModelPath = resourcesDirectory + InjectedConfiguration["MaximumEntropyModelDirectory"];
+                mNameFinderPath = resourcesDirectory + InjectedConfiguration["WordnetSearchDirectory"];
+            }
+            else
+            {
+                resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
+                mModelPath = resourcesDirectory + ConfigurationManager.AppSettings["MaximumEntropyModelDirectory"];
+                mNameFinderPath = resourcesDirectory + ConfigurationManager.AppSettings["WordnetSearchDirectory"];
+            }
 
+            mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mNameFinderPath);
         }
 
         /// <summary>
@@ -42,7 +53,8 @@ namespace TaggerInterop
         /// <param name="sourcePath">The path to a text file whose contents will be read and tagged.</param>
         /// <param name="destinationPath">The optional path specifying the location where the tagged file should be created. If not provided, the tagged file will be placed in the same directory as the source.</param>
         public SharpNLPTagger(TaggerMode taggingMode, string sourcePath, string destinationPath = null)
-            : this(taggingMode) {
+            : this(taggingMode)
+        {
 
 
 
@@ -58,8 +70,10 @@ namespace TaggerInterop
         /// </summary>
         /// <param name="p">The source string.</param>
         /// <returns>A new string with certain characters replaced by aliases to aid in the ease of parsing.</returns>
-        protected string PreProcessText(string p) {
-            foreach (var rr in textToNumeralMap) {
+        protected string PreProcessText(string p)
+        {
+            foreach (var rr in textToNumeralMap)
+            {
                 p = p.Replace(rr.Key, rr.Value);
 
             }
@@ -69,7 +83,8 @@ namespace TaggerInterop
         /// Processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
         ///// <returns>The TaggedFile resulting from the process.</returns>
-        public virtual string ProcessFile() {
+        public virtual string ProcessFile()
+        {
             WriteToFile(ParseViaTaggingMode());
             return outputFilePath;
 
@@ -78,13 +93,15 @@ namespace TaggerInterop
         /// Asynchronously processes the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.
         /// </summary>
         /// <returns>rocesses the text given to the tagger based on the Tagger's current TaggerMode. Returns the path to the tagged file resulting from the process.</returns>
-        public virtual async Task<string> ProcessFileAsync() {
+        public virtual async Task<string> ProcessFileAsync()
+        {
             return await Task.Run(() => ProcessFile());
 
 
         }
 
-        private string LoadSourceText() {
+        private string LoadSourceText()
+        {
             using (
                 var reader = new StreamReader(
                 new FileStream(inputFilePath,
@@ -92,7 +109,8 @@ namespace TaggerInterop
                     FileAccess.Read,
                     FileShare.None, 1024,
                     FileOptions.SequentialScan),
-                    Encoding.UTF8)) {
+                    Encoding.UTF8))
+            {
                 return string.Join(" ",
                     reader.ReadToEnd()
                     .Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
@@ -100,53 +118,64 @@ namespace TaggerInterop
                 );
             }
         }
-        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode) {
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync(TaggerMode taggingMode)
+        {
             return await ParseViaTaggingModeAsync(taggingMode);
         }
-        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync() {
+        protected async System.Threading.Tasks.Task<string> ParseViaTaggingModeAsync()
+        {
             return await System.Threading.Tasks.Task.Run(() => ParseViaTaggingMode(TaggingMode));
         }
-        protected string ParseViaTaggingMode() {
+        protected string ParseViaTaggingMode()
+        {
             return ParseViaTaggingMode(TaggingMode);
         }
-        protected string ParseViaTaggingMode(TaggerMode taggingMode) {
-            switch (TaggingMode) {
+        protected string ParseViaTaggingMode(TaggerMode taggingMode)
+        {
+            switch (TaggingMode)
+            {
                 case TaggerMode.TagIndividual:
-                return POSTag();
+                    return POSTag();
                 case TaggerMode.TagAndAggregate:
-                return Chunk();
+                    return Chunk();
                 case TaggerMode.FullyNestingParse:
-                return Parse();
+                    return Parse();
                 case TaggerMode.GenderFind:
 
-                return Gender();
+                    return Gender();
                 case TaggerMode.NameFind:
-                return NameFind();
+                    return NameFind();
                 default:
-                return POSTag();
+                    return POSTag();
             }
         }
-        private string SplitIntoSentences() {
+        private string SplitIntoSentences()
+        {
             string[] sentences = SplitSentences(SourceText);
 
             var result = string.Join("\r\n\r\n", sentences);
             return result;
         }
 
-        private void WriteToFile(params string[] txtOut) {
-            using (var writer = new StreamWriter(new FileStream(outputFilePath, FileMode.Create), Encoding.Unicode, 200)) {
-                foreach (var line in txtOut) {
+        private void WriteToFile(params string[] txtOut)
+        {
+            using (var writer = new StreamWriter(new FileStream(outputFilePath, FileMode.Create), Encoding.Unicode, 200))
+            {
+                foreach (var line in txtOut)
+                {
                     writer.Write(line);
                 }
             }
         }
 
-        private string Tokenize() {
+        private string Tokenize()
+        {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
                 string[] tokens = TokenizeSentence(sentence);
                 output.Append(string.Join(" | ", tokens)).Append("\r\n\r\n");
             }
@@ -156,15 +185,18 @@ namespace TaggerInterop
 
         }
 
-        private string POSTag() {
+        private string POSTag()
+        {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
-                for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                for (int currentTag = 0; currentTag < tags.Length; currentTag++)
+                {
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
                 }
 
@@ -174,14 +206,17 @@ namespace TaggerInterop
             return result;
         }
 
-        private string Chunk() {
+        private string Chunk()
+        {
 
             StringBuilder output = new StringBuilder();
             var paragraphs = SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p))) {
+            foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p)))
+            {
                 string[] sentences = SplitSentences(paragraph);
 
-                foreach (var sentence in sentences.Where(s => !string.IsNullOrWhiteSpace(s))) {
+                foreach (var sentence in sentences.Where(s => !string.IsNullOrWhiteSpace(s)))
+                {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
                     output.Append(string.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
@@ -192,26 +227,32 @@ namespace TaggerInterop
             return result;
         }
 
-        private string StripParentheticals(string paragraph) {
-            for (int j = paragraph.IndexOf(')'), i = paragraph.IndexOf('('); i < j && i != -1 && j != -1; i = paragraph.IndexOf('('), j = paragraph.IndexOf(')')) {
+        private string StripParentheticals(string paragraph)
+        {
+            for (int j = paragraph.IndexOf(')'), i = paragraph.IndexOf('('); i < j && i != -1 && j != -1; i = paragraph.IndexOf('('), j = paragraph.IndexOf(')'))
+            {
                 paragraph = paragraph.Substring(0, i) + paragraph.Substring(j + 1);
             }
             return paragraph;
         }
-        private string Gender() {
+        private string Gender()
+        {
             StringBuilder output = new StringBuilder();
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
-            foreach (var p in paragraphs) {
+            foreach (var p in paragraphs)
+            {
                 string[] sentences = SplitSentences(p);
 
-                foreach (string sentence in sentences) {
+                foreach (string sentence in sentences)
+                {
                     string[] tokens = TokenizeSentence(sentence);
                     string[] tags = PosTagTokens(tokens);
 
                     string posTaggedSentence = string.Empty;
 
-                    for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                    for (int currentTag = 0; currentTag < tags.Length; currentTag++)
+                    {
                         posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
                     }
 
@@ -225,13 +266,15 @@ namespace TaggerInterop
             return result;
         }
 
-        private string Parse() {
+        private string Parse()
+        {
             var sentenceID = 0;
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
 
                 output.Append(string.Format("<sentence id = \"{0}\">{1}</sentence>", sentenceID++, ParseSentence(sentence).Show())).Append("\r\n\r\n");
             }
@@ -240,12 +283,14 @@ namespace TaggerInterop
             return result;
         }
 
-        private string NameFind() {
+        private string NameFind()
+        {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
                 output.Append(FindNames(sentence)).Append("\r\n");
             }
 
@@ -253,48 +298,60 @@ namespace TaggerInterop
             return result;
         }
 
-        private string[] SplitSentences(string paragraph) {
-            if (mSentenceDetector == null) {
+        private string[] SplitSentences(string paragraph)
+        {
+            if (mSentenceDetector == null)
+            {
                 mSentenceDetector = new OpenNLP.Tools.SentenceDetect.EnglishMaximumEntropySentenceDetector(mModelPath + "EnglishSD.nbin");
             }
 
             return mSentenceDetector.SentenceDetect(paragraph);
         }
 
-        private string[] TokenizeSentence(string sentence) {
-            if (mTokenizer == null) {
+        private string[] TokenizeSentence(string sentence)
+        {
+            if (mTokenizer == null)
+            {
                 mTokenizer = new OpenNLP.Tools.Tokenize.EnglishMaximumEntropyTokenizer(mModelPath + "EnglishTok.nbin");
             }
 
             return mTokenizer.Tokenize(sentence);
         }
 
-        private string[] PosTagTokens(string[] tokens) {
-            if (mPosTagger == null) {
+        private string[] PosTagTokens(string[] tokens)
+        {
+            if (mPosTagger == null)
+            {
                 mPosTagger = new OpenNLP.Tools.PosTagger.EnglishMaximumEntropyPosTagger(mModelPath + "EnglishPOS.nbin", mModelPath + @"\Parser\tagdict");
             }
 
             return mPosTagger.Tag(tokens);
         }
 
-        private string ChunkSentence(string[] tokens, string[] tags) {
-            if (mChunker == null) {
+        private string ChunkSentence(string[] tokens, string[] tags)
+        {
+            if (mChunker == null)
+            {
                 mChunker = new OpenNLP.Tools.Chunker.EnglishTreebankChunker(mModelPath + "EnglishChunk.nbin");
             }
 
             return mChunker.GetChunks(tokens, tags);
         }
 
-        private OpenNLP.Tools.Parser.Parse ParseSentence(string sentence) {
-            if (mParser == null) {
+        private OpenNLP.Tools.Parser.Parse ParseSentence(string sentence)
+        {
+            if (mParser == null)
+            {
                 mParser = new OpenNLP.Tools.Parser.EnglishTreebankParser(mModelPath, true, false);
             }
 
             return mParser.DoParse(sentence);
         }
 
-        private string FindNames(string sentence) {
-            if (mNameFinder == null) {
+        private string FindNames(string sentence)
+        {
+            if (mNameFinder == null)
+            {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
 
@@ -302,8 +359,10 @@ namespace TaggerInterop
             return mNameFinder.GetNames(models, sentence);
         }
 
-        private string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse) {
-            if (mNameFinder == null) {
+        private string FindNames(OpenNLP.Tools.Parser.Parse sentenceParse)
+        {
+            if (mNameFinder == null)
+            {
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
 
@@ -311,14 +370,17 @@ namespace TaggerInterop
             return mNameFinder.GetNames(models, sentenceParse);
         }
 
-        private string IdentifyCoreferents(string[] sentences) {
-            if (mCoreferenceFinder == null) {
+        private string IdentifyCoreferents(string[] sentences)
+        {
+            if (mCoreferenceFinder == null)
+            {
                 mCoreferenceFinder = new OpenNLP.Tools.Lang.English.TreebankLinker(mModelPath + "coref");
             }
 
             System.Collections.Generic.List<OpenNLP.Tools.Parser.Parse> parsedSentences = new System.Collections.Generic.List<OpenNLP.Tools.Parser.Parse>();
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
                 OpenNLP.Tools.Parser.Parse sentenceParse = ParseSentence(sentence);
                 string findNames = FindNames(sentenceParse);
                 parsedSentences.Add(sentenceParse);
@@ -327,18 +389,21 @@ namespace TaggerInterop
         }
 
 
-        private string Similarity() {
+        private string Similarity()
+        {
             StringBuilder output = new StringBuilder();
 
             string[] sentences = SplitSentences(SourceText);
 
-            foreach (string sentence in sentences) {
+            foreach (string sentence in sentences)
+            {
                 string[] tokens = TokenizeSentence(sentence);
                 string[] tags = PosTagTokens(tokens);
 
                 string posTaggedSentence = string.Empty;
 
-                for (int currentTag = 0; currentTag < tags.Length; currentTag++) {
+                for (int currentTag = 0; currentTag < tags.Length; currentTag++)
+                {
                     posTaggedSentence += tokens[currentTag] + @"/" + tags[currentTag] + " ";
                 }
 
@@ -352,7 +417,8 @@ namespace TaggerInterop
             return result;
         }
 
-        private string Coreference() {
+        private string Coreference()
+        {
             string[] sentences = SplitSentences(SourceText);
 
             var result = IdentifyCoreferents(sentences);
@@ -368,14 +434,16 @@ namespace TaggerInterop
         /// <summary>
         /// Gets or sets the text which the SharpNLPTagger will tag when the ProcessFile or ProcessFileAsync methods are invoked.
         /// </summary>
-        protected string SourceText {
+        protected string SourceText
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets the TaggerMode of the SharpNLPTagger. 
         /// </summary>
-        public TaggerMode TaggingMode {
+        public TaggerMode TaggingMode
+        {
             get;
             protected set;
         }
@@ -490,16 +558,19 @@ namespace TaggerInterop
     sealed class QuickTagger : SharpNLPTagger
     {
         public QuickTagger(TaggerMode option)
-            : base(option) {
+            : base(option)
+        {
 
         }
 
-        public string TagTextSource(string source) {
+        public string TagTextSource(string source)
+        {
             SourceText = base.PreProcessText(source);
             return base.ParseViaTaggingMode();
 
         }
-        public async Task<string> TagTextSourceAsync(string source) {
+        public async Task<string> TagTextSourceAsync(string source)
+        {
             SourceText = base.PreProcessText(source);
             return await base.ParseViaTaggingModeAsync();
 

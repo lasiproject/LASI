@@ -107,10 +107,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="LASI.Utilities, Version=1.0.5509.21578, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Utilities\bin\Debug\LASI.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
@@ -270,10 +266,6 @@
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -488,6 +480,11 @@
     <ProjectReference Include="..\Interop\LASI.Interop.csproj">
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
       <Name>LASI.Interop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Name>LASI.Utilities</Name>
+      <Aliases>global</Aliases>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

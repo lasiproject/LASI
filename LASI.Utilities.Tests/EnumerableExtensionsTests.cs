@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.Tests.TestHelpers;
+using LASI.TestUtilities;
+using LASI.Utilities;
 
-namespace LASI.Tests
+namespace LASI.Utilities.Tests
 {
-    using LASI.Utilities;
     using static Enumerable;
     [TestClass]
     public class EnumerableExtensionsTests
@@ -133,7 +133,7 @@ namespace LASI.Tests
         [TestMethod]
         public void ToHashSetTest2()
         {
-            var caseInsensitiveComparer = Utilities.CustomComparer.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            var caseInsensitiveComparer = Utilities.ComparerFactory.CreateEquality<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
             var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
             var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
             var actual = target.ToHashSet(caseInsensitiveComparer);

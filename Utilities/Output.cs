@@ -78,7 +78,7 @@ namespace LASI.Utilities
         /// <param name="outputWriter">The text writer to which subsequent messages will be written.</param>
         public static void SetTo(TextWriter outputWriter)
         {
-            Validator.ThrowIfNull(outputWriter, "outputWriter", "The output writer cannot be null. To disable output, call Output.SetToSilent");
+            Validate.NotNull(outputWriter, "outputWriter", "The output writer cannot be null. To disable output, call Output.SetToSilent");
             writer = outputWriter;
             OutputMode = Mode.Custom;
         }

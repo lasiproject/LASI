@@ -1,4 +1,4 @@
-﻿namespace LASI.UnitTests
+﻿namespace LASI.TestUtilities
 {
     /// <summary>
     /// Indicates that the test method to which the attribute is applied is expected to always throw an <see cref="System.InvalidOperationException"/>.

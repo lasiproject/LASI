@@ -5,7 +5,7 @@ using LASI.Core;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    class ParagraphModel : TextualModel<Paragraph>
+    public class ParagraphModel : TextualModel<Paragraph>
     {
         public ParagraphModel(Paragraph paragraph) : base(paragraph)
         {

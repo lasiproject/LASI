@@ -14,8 +14,9 @@ namespace LASI.Core.Heuristics
     public class NounMorpher : IWordMorpher<Noun>
     {
 
-        static NounMorpher() {
-            exceptionData = File.ReadAllLines(exceptionsFilePath)
+        static NounMorpher()
+        {
+            exceptionData = File.ReadAllLines(ExceptionsFilePath)
                 .Select(ProcessLine)
                 .GroupBy(entry => entry.Key, entry => entry.Value)
                 .ToDictionary(entry => entry.Key, entry => entry.SelectMany(e => e).ToList());
@@ -26,7 +27,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="nounForm">The root of a noun as a string.</param>
         /// <returns>All forms of the noun root.</returns>
-        public IEnumerable<string> GetLexicalForms(string nounForm) {
+        public IEnumerable<string> GetLexicalForms(string nounForm)
+        {
             return TryComputeConjugations(nounForm);
         }
         /// <summary>
@@ -34,18 +36,23 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="noun">The of a noun.</param>
         /// <returns>All forms of the noun.</returns>
-        public IEnumerable<string> GetLexicalForms(Noun noun) {
+        public IEnumerable<string> GetLexicalForms(Noun noun)
+        {
             return GetLexicalForms(noun.Text);
         }
 
-        private IEnumerable<string> TryComputeConjugations(string nounForm) {
+        private IEnumerable<string> TryComputeConjugations(string nounForm)
+        {
             var hyphenIndex = nounForm.LastIndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? nounForm.Substring(0, hyphenIndex) : nounForm);
             List<string> results;
-            if (!exceptionData.TryGetValue(root, out results)) {
+            if (!exceptionData.TryGetValue(root, out results))
+            {
                 results = new List<string>();
-                for (var i = 0; i < sufficies.Length; i++) {
-                    if (root.EndsWith(endings[i]) || endings[i].Length == 0) {
+                for (var i = 0; i < sufficies.Length; i++)
+                {
+                    if (root.EndsWith(endings[i]) || endings[i].Length == 0)
+                    {
                         results.Add(root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
                         break;
                     }
@@ -62,7 +69,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="nounForm">The noun string to find the root of.</param>
         /// <returns>The root of the given noun string. If no root can be found, the noun string itself is returned.</returns>
-        public string FindRoot(string nounForm) {
+        public string FindRoot(string nounForm)
+        {
             return CheckSpecialForms(nounForm).FirstOrDefault() ?? ComputeBaseForm(nounForm).FirstOrDefault() ?? nounForm;
 
         }
@@ -73,10 +81,13 @@ namespace LASI.Core.Heuristics
         /// <returns>The root of the given Noun. If no root can be found, the Noun's orignal text is returned.</returns>
         public string FindRoot(Noun noun) { return FindRoot(noun.Text); }
 
-        private IEnumerable<string> ComputeBaseForm(string nounForm) {
+        private IEnumerable<string> ComputeBaseForm(string nounForm)
+        {
             var result = new List<string>();
-            for (var i = 0; i < sufficies.Length; ++i) {
-                if (nounForm.EndsWith(sufficies[i])) {
+            for (var i = 0; i < sufficies.Length; ++i)
+            {
+                if (nounForm.EndsWith(sufficies[i]))
+                {
                     result.Add(nounForm.Substring(0, nounForm.Length - sufficies[i].Length) + endings[i]);
                     break;
                 }
@@ -85,7 +96,8 @@ namespace LASI.Core.Heuristics
         }
 
 
-        private IEnumerable<string> CheckSpecialForms(string nounForm) {
+        private IEnumerable<string> CheckSpecialForms(string nounForm)
+        {
             return from nounExceptKVs in exceptionData
                    where nounExceptKVs.Value.Contains(nounForm)
                    select nounExceptKVs.Key;
@@ -96,7 +108,8 @@ namespace LASI.Core.Heuristics
 
         #region Exception File Processing
 
-        private static KeyValuePair<string, IEnumerable<string>> ProcessLine(string exceptionLine) {
+        private static KeyValuePair<string, IEnumerable<string>> ProcessLine(string exceptionLine)
+        {
             var kvstr = exceptionLine.SplitRemoveEmpty(' ');
             return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1));
         }
@@ -105,9 +118,16 @@ namespace LASI.Core.Heuristics
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };
 
-        static readonly string resourcesDirectory = ConfigurationManager.AppSettings["ResourcesDirectory"];
-        static readonly string wordnetDataDirectory = resourcesDirectory + ConfigurationManager.AppSettings["WordnetFileDirectory"];
-        private static readonly string exceptionsFilePath = wordnetDataDirectory + "noun.exc";
+        static string ResourcesDirectory =>
+             Lexicon.InjectedConfiguration != null ?
+             Lexicon.InjectedConfiguration["ResourcesDirectory"] :
+             ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static string WordnetDataDirectory =>
+            ResourcesDirectory + (Lexicon.InjectedConfiguration != null ?
+                Lexicon.InjectedConfiguration["WordnetFileDirectory"] :
+                ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+
+        static string ExceptionsFilePath => WordnetDataDirectory + "noun.exc";
         #endregion
 
 

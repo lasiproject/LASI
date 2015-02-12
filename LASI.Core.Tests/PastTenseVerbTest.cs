@@ -22,11 +22,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -66,12 +69,11 @@ namespace LASI.Core.Tests
         ///A test for PastTenseVerb Constructor
         ///</summary>
         [TestMethod]
-        public void PastTenseVerbConstructorTest() {
+        public void PastTenseVerbConstructorTest()
+        {
             string text = "had";
-            VerbForm past = VerbForm.Past;
             PastTenseVerb target = new PastTenseVerb(text);
             Assert.IsTrue(target.Text == text);
-            Assert.IsTrue(target.VerbForm == past);
         }
 
     }

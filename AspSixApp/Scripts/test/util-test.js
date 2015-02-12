@@ -1,5 +1,10 @@
 ﻿(function () {
     'use strict';
+    var test = QUnit.test,
+        deepEqual = QUnit.deepEqual,
+        notStrictEqual = QUnit.notStrictEqual,
+        ok = QUnit.ok;
+
     test("flatMap defined test",
         function () {
             ok(Array.prototype.hasOwnProperty("flatMap"), "flatMap defined on Array.prototype!");

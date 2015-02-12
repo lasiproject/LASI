@@ -25,12 +25,13 @@ namespace LASI.Core
         public VerbPhrase(IEnumerable<Word> words)
             : base(words)
         {
-            PrevailingForm = (from verb in Words.OfVerb()
-                              group verb.VerbForm by verb.VerbForm into byForm
+            prevailingForm = (from verb in Words.OfVerb()
+                              let formName = verb.GetType().Name
+                              group formName by formName into byForm
                               orderby byForm.Count() descending
                               select byForm.Key)
                 .FirstOrDefault();
-            modifiers = modifiers.Union(words.OfAdverb());
+            modifiers.UnionWith(words.OfAdverb());
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial modifier)
         {
-            modifiers = modifiers.Add(modifier);
+            modifiers.Add(modifier);
             modifier.Modifies = this;
         }
 
@@ -77,7 +78,7 @@ namespace LASI.Core
         {
             if (subject != null)
             {
-                subjects = subjects.Add(subject);
+                subjects.Add(subject);
                 subject.SubjectOf = this;
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
                 foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
@@ -92,7 +93,7 @@ namespace LASI.Core
         {
             if (directObject != null)
             {
-                directObjects = directObjects.Add(directObject);
+                directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
                 foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
                 if (IsPossessive)
@@ -101,7 +102,8 @@ namespace LASI.Core
                     {
                         subject.AddPossession(directObject);
                     }
-                } else if (IsClassifier)
+                }
+                else if (IsClassifier)
                 {
                     foreach (var subject in Subjects)
                     {
@@ -119,7 +121,7 @@ namespace LASI.Core
         {
             if (indirectObject != null)
             {
-                indirectObjects = indirectObjects.Add(indirectObject);
+                indirectObjects.Add(indirectObject);
                 indirectObject.IndirectObjectOf = this;
                 foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
             }
@@ -131,17 +133,18 @@ namespace LASI.Core
         /// <returns>A string representation of the VerbPhrase.</returns>
         public override string ToString()
         {
+            var empty = string.Empty;
             return !Phrase.VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
-                Subjects.Any() ? "Subjects: " + Subjects.Format(s => s.Text) : string.Empty,
-                DirectObjects.Any() ? "Direct Objects: " + DirectObjects.Format(o => o.Text) : string.Empty,
-                IndirectObjects.Any() ? "Indirect Objects: " + IndirectObjects.Format(o => o.Text) : string.Empty,
-                ObjectOfThePreposition != null ? "Via Preposition Object: " + ObjectOfThePreposition.Text : string.Empty,
-                Modality != null ? "Modality: " + Modality.Text : string.Empty,
-                AdverbialModifiers.Any() ? "Modifiers: " + AdverbialModifiers.Format(m => m.Text) : string.Empty,
+                Subjects.Any() ? $"Subjects: {Subjects.Format(s => s.Text)}" : empty,
+                DirectObjects.Any() ? $"Direct Objects: {DirectObjects.Format(o => o.Text)}" : empty,
+                IndirectObjects.Any() ? $"Indirect Objects: {IndirectObjects.Format(o => o.Text)}" : empty,
+                ObjectOfThePreposition != null ? $"Via Preposition Object: {ObjectOfThePreposition.Text}" : empty,
+                Modality != null ? $"Modality: {Modality.Text}" : empty,
+                AdverbialModifiers.Any() ? $"Modifiers: {AdverbialModifiers.Format(m => m.Text)}" : empty,
                 $"\nPossessive: [{IsPossessive}]",
                 $"\nClassifier: [{IsClassifier}]",
-                $"\nPrevailing Form: [{PrevailingForm}]"
+                $"\nPrevailing Form: [{prevailingForm}]"
             );
         }
 
@@ -206,12 +209,6 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets the prevailing Tense of the VerbPhrase.
-        /// </summary>
-        /// <see cref="VerbForm" />
-        public VerbForm PrevailingForm { get; }
-
-        /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
         /// </summary>
         public ModalAuxilary Modality { get; set; }
@@ -256,14 +253,16 @@ namespace LASI.Core
 
         #region Fields
 
-        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
-        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
-        private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
-        private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private ISet<IEntity> subjects = new HashSet<IEntity>();
+        private ISet<IEntity> directObjects = new HashSet<IEntity>();
+        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
+
         private IDescriptor postpositiveDescriptor;
 
         private bool? isClassifier;
         private bool? isPossessive;
+        private readonly string prevailingForm;
 
         #endregion Fields
     }
