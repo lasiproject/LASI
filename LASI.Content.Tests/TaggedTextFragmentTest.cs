@@ -1,5 +1,5 @@
 ﻿using LASI.Content;
-using LASI.Content.TaggerEncapsulation;
+using LASI.Content.Tagging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -24,29 +24,34 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
 
         #region Additional test attributes
-        
+
         #endregion
 
 
-        private LASI.Content.TaggerEncapsulation.Tagger Tagger {
-            get { return new LASI.Content.TaggerEncapsulation.Tagger(); }
+        private LASI.Content.Tagging.Tagger Tagger
+        {
+            get { return new LASI.Content.Tagging.Tagger(); }
         }
 
         /// <summary>
         ///A test for TaggedTextFragment Constructor
         ///</summary>
         [TestMethod]
-        public void TaggedTextFragmentConstructorTest() {
+        public void TaggedTextFragmentConstructorTest()
+        {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
                 "While it may yield me, in the context of the system at large, only ",
@@ -61,7 +66,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
                 "While it may yield me, in the context of the system at large, only ",
@@ -79,7 +85,8 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
                 "While it may yield me, in the context of the system at large, only ",

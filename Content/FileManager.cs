@@ -472,6 +472,7 @@ namespace LASI.Content
             catch (IOException e)
             {
                 Output.WriteLine(e.Message);
+                throw;
             }
         }
         private static void ThrowIfUninitialized() { if (!Initialized) throw new FileManagerNotInitializedException(); }

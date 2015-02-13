@@ -13,16 +13,20 @@ namespace LASI.Content
     public class FileTypeWrapperMismatchException : ContentFileException
     {
         internal FileTypeWrapperMismatchException(string message)
-            : base(message) {
+            : base(message)
+        {
         }
         internal FileTypeWrapperMismatchException(string wrapperName, string actualExtension)
-            : base(string.Format("Mismatch between\nWrapper Type: {0} and File Extension{1}", wrapperName, actualExtension)) {
+            : base($"Mismatch between\nWrapper Type: {wrapperName} and File Extension{actualExtension}")
+        {
         }
         internal FileTypeWrapperMismatchException(string message, Exception inner)
-            : base(message, inner) {
+            : base(message, inner)
+        {
         }
         internal FileTypeWrapperMismatchException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+            : base(info, context)
+        {
         }
     }
 }

@@ -9,30 +9,39 @@ namespace AspSixApp.WebHelpers
     public static class StringExtensions
     {
         /// <summary>
-        /// Returns a new string in which all characters that are known to be problematic when used as Ids for DOM Query Selector engines,
-        /// e.g. jQuery's Sizzle Selector engine, are replaced with appropriate aliases.
+        /// Returns a new string in which all characters that are known to be problematic when used
+        /// as Ids for DOM Query Selector engines, e.g. jQuery's Sizzle Selector engine, are
+        /// replaced with appropriate aliases.
         /// </summary>
         /// <param name="value">The string to transform.</param>
-        /// <returns>A new string in which all characters that are known to be problematic when used as Ids for DOM Query Selector engines,
-        /// e.g. jQuery's Sizzle Selector, engine are replaced with appropriate aliases.
+        /// <returns>
+        /// A new string in which all characters that are known to be problematic when used as Ids
+        /// for DOM Query Selector engines, e.g. jQuery's Sizzle Selector, engine are replaced with
+        /// appropriate aliases.
         /// </returns>
         /// <remarks>
-        /// The extra underscores which pad the replacement are costly but allow for the name to remain legible.
-        /// Note that a space is replaced by a single underscore.
+        /// The extra underscores which pad the replacement are costly but allow for the name to
+        /// remain legible. Note that a space is replaced by a single underscore.
         /// </remarks>
         /// <example>
         /// <code>
         /// var arbitrary = "A Treatise on [Name Mangling Schemes] (ex C++) from http://isocpp.org";
         /// var safeIdString = arbitrary.ToSafeHtmlDomId();
         /// Assert.AreEqual(
-        /// safeIdString, 
+        /// safeIdString,
         /// "A_Treatise_on__leftb_Name_Mangling_Schemes_rightb___leftp_ex_C_plus__plus__rightp__from_http_colon__fslash__fslash_isocpp_period_org");
         /// </code>
         /// </example>
-        public static string ToSafeHtmlDomId(this string value) {
-
+        public static string ToSafeHtmlDomId(this string value)
+        {
             return string.Join("", value.Select(c => tokenMap.GetValueOrDefault(c, c.ToString())));
         }
+
+        public static int CreateUniqueId()
+        {
+            return idGenerator = System.Threading.Interlocked.Increment(ref idGenerator);
+        }
+
         private static IDictionary<char, string> tokenMap = new Dictionary<char, string>
         {
             [' '] = "_",
@@ -51,9 +60,6 @@ namespace AspSixApp.WebHelpers
             ['\\'] = "_bslash_"
         };
 
-        public static int CreateUniqueId() {
-            return idGenerator = System.Threading.Interlocked.Increment(ref idGenerator);
-        }
         private static int idGenerator;
     }
 }

@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\UnmappedLexicalTypeExceptions.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
     <Compile Include="FileConveters\PdfToTextConverter.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="FileTypes\TxtFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\TaggedSourceParser.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\WordTagsetMap.cs" />
-    <Compile Include="Exceptions\POSTaggerExceptions.cs" />
+    <Compile Include="Exceptions\PartOfSpeechTagExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TextTagPair.cs" />
     <Compile Include="TaggerEncapsulation\TaggerImpl.cs" />
@@ -127,11 +128,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LASI\ContentSystem\TaggerEncapsulation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>

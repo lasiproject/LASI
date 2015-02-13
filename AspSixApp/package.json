@@ -5,7 +5,11 @@
     "devDependencies": {
         "grunt": "^0.4.5",
         "grunt-bower-task": "^0.4.0",
+        "grunt-contrib-less": "^1.0.0",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-contrib-qunit": "^0.5.2",
         "grunt-jslint": "^1.1.12",
-        "grunt-jsmin-sourcemap": "^1.10.0"
+        "grunt-jsmin-sourcemap": "^1.10.0",
+        "qunitjs": "1.17.1"
     }
 }

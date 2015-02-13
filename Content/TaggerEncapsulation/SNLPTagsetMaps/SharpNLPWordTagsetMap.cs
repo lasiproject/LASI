@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Heuristics;
 
-namespace LASI.Content.TaggerEncapsulation
+namespace LASI.Content.Tagging
 {
-    using WordCreator = Func<string, Word>;
+    using WordFactory = Func<string, Word>;
     /// <summary>
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
@@ -18,15 +18,15 @@ namespace LASI.Content.TaggerEncapsulation
     /// <example>
     /// <code>
     /// var wordTagsetMap = new SharpNLPWordTagsetMap();
-    /// var createWord = wordMap["TAG"];
-    /// var word = createWord(wordText);
+    /// var wordFactory = wordMap["TAG"];
+    /// var word = wordFactory(wordText);
     /// </code>
     /// </example>    
     /// <see cref="WordTagsetMap"/>
-    /// <see cref="WordFactory"/> 
-    sealed class SharpNLPWordTagsetMap : WordTagsetMap
+    /// <see cref="Content.WordFactory"/> 
+    class SharpNLPWordTagsetMap : WordTagsetMap
     {
-        private static readonly IReadOnlyDictionary<string, WordCreator> map = new Dictionary<string, WordCreator>
+        private static readonly IReadOnlyDictionary<string, WordFactory> map = new Dictionary<string, WordFactory>
         {
             //Punctation Mappings
             ["."] = t => SentenceEnding.Period, //. sentence ending
@@ -93,7 +93,7 @@ namespace LASI.Content.TaggerEncapsulation
         /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordCreator this[string posTag]
+        public override WordFactory this[string posTag]
         {
             get
             {
@@ -120,12 +120,7 @@ namespace LASI.Content.TaggerEncapsulation
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new UnmappedWordTypeException(string.Format("The indexing {0} has type {1}, a type which is not mapped by {2}.",
-                        typeof(Word),
-                        word.GetType(),
-                        this.GetType()
-                        )
-                    );
+                    throw new UnmappedWordTypeException(word.GetType(), typeof(SharpNLPWordTagsetMap));
                 }
             }
         }

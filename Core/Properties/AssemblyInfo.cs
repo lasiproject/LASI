@@ -13,7 +13,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
+[assembly: InternalsVisibleTo("LASI.Core.Tests")]
+[assembly: InternalsVisibleTo("LASI.Content.Tests")]
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a Type in this assembly from 
 // COM, set the ComVisible attribute to true on that Type.

@@ -12,9 +12,8 @@ using LASI.Utilities;
 namespace LASI.App
 {
     using Interop.ResourceManagement;
-    using LASI.Core.Analysis;
-
-
+    using ChartItem = KeyValuePair<string, float>;
+    using ChartItemCollection = IEnumerable<KeyValuePair<string, float>>;
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -43,13 +42,13 @@ namespace LASI.App
                     ItemsSource = data,
                     IsSelectionEnabled = true,
                 });
-                chart.Title = string.Format("Key Relationships in {0}", document.Title);
+                chart.Title = $"Key Relationships in {document.Title}";
                 break;
             }
         }
 
 
-        private static async Task<IEnumerable<dynamic>> CreateChartDataAsync(ChartKind chartKind, Document document)
+        private static async Task<ChartItemCollection> CreateChartDataAsync(ChartKind chartKind, Document document)
         {
             switch (chartKind)
             {
@@ -183,7 +182,7 @@ namespace LASI.App
             };
             var chart = new Chart
             {
-                Title = string.Format("Key Subjects in {0}", document.Title),
+                Title = $"Key Subjects in {document.Title}",
                 Tag = topPoints
             };
             //chart.MouseEnter += (sender, e) => chart.ToolTip = (e.Source as DataPoint).DependentValue + " " + (e.Source as DataPoint).IndependentValue;
@@ -207,21 +206,20 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static IEnumerable<dynamic> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<dynamic>).Reverse();//.Take(CHART_ITEM_LIMIT);
+        private static ChartItemCollection GetItemSource(this Chart chart) => (chart.Tag as ChartItemCollection).Reverse();
 
 
 
         #endregion
-        private static async Task<IEnumerable<dynamic>> GetVerbWiseData(Document document)
+        private static async Task<ChartItemCollection> GetVerbWiseData(Document document)
         {
             var dataPoints = from relationship in await GetVerbWiseRelationshipsAsync(document)
-                             select new
-                             {
-                                 Key = string.Format("{0} -> {1}\n", relationship.Subject.Text, relationship.Verbal.Text) +
+                             select new ChartItem(
+                                 key: $"{relationship.Subject.Text} -> {relationship.Verbal.Text}\n" +
                                      (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
                                      (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
-                                 Value = (float)Math.Round(relationship.Weight, 2)
-                             };
+                                 value: (float)Math.Round(relationship.Weight, 2)
+                             );
             return dataPoints.Distinct();
 
         }
@@ -235,12 +233,15 @@ namespace LASI.App
                                      .AsParallel()
                                      .WithDegreeOfParallelism(Concurrency.Max);
                 var relationships = from verbal in consideredVerbals
-                                    from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                    let subject = entity.Match()/*.Yield<IEntity>()*/
-                                            .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
-                                            .Then((IReferencer r) => r.RefersTo)
-                                            .Case((IEntity e) => e)
-                                        .Result()
+                                    select verbal into verbal
+                                    from entity in verbal.Subjects
+                                        .AsParallel()
+                                        .WithDegreeOfParallelism(Concurrency.Max)
+                                    from subject in entity
+                                        .Match().When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
+                                        .Then((IReferencer r) => r.RefersTo)
+                                        .Case((IEntity e) => e)
+
                                     where subject != null
                                     from direct in verbal.DirectObjects.DefaultIfEmpty()
                                     from indirect in verbal.IndirectObjects.DefaultIfEmpty()
@@ -257,18 +258,18 @@ namespace LASI.App
                 return relationships.Distinct();
             });
         }
-        private static async Task<IEnumerable<dynamic>> GetNounWiseDataAsync(Document document) =>
+        private static async Task<ChartItemCollection> GetNounWiseDataAsync(Document document) =>
             await Task.Run(() => GetNounWiseData(document));
 
-        private static async Task<IEnumerable<dynamic>> GetVerbWiseDataAsync(Document document) =>
+        private static async Task<ChartItemCollection> GetVerbWiseDataAsync(Document document) =>
             await Task.Run(() => GetVerbWiseData(document));
 
-        private static IEnumerable<dynamic> GetNounWiseData(Document document)
+        private static ChartItemCollection GetNounWiseData(Document document)
         {
             return document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                  .OfNounPhrase()
                  .Meld()
-                 .Select(entity => new { Key = entity.Text, Value = (float)Math.Round(entity.Weight, 2) })
+                 .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
                  .Distinct();
         }
 
@@ -308,7 +309,7 @@ namespace LASI.App
         /// </summary>
         /// <param name="relationships">The sequence of Relationship Tuple to transform into textual Display elements.</param>
         /// <returns>A sequence of textual Display suitable for direct insertion into a DataGrid.</returns>
-        internal static IEnumerable<dynamic> ToGridRowData(this IEnumerable<SvoRelationship> relationships)
+        internal static IEnumerable<object> ToGridRowData(this IEnumerable<SvoRelationship> relationships)
         {
             return from relationship in relationships
                    orderby relationship.Weight descending

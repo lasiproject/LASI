@@ -1,9 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.Linq.List;
 
 namespace LASI.Core.Heuristics
 {
@@ -107,8 +109,7 @@ namespace LASI.Core.Heuristics
             {
                 while (!reader.EndOfStream)
                 {
-                    var keyVal = ProcessLine(reader.ReadLine());
-                    exceptionData[keyVal.Key] = keyVal.Value;
+                    ProcessLine(reader.ReadLine()).ForEach(entry => exceptionData[entry.Key] = entry.Value);
                 }
             }
         }
@@ -118,10 +119,11 @@ namespace LASI.Core.Heuristics
             LoadExceptionFile();
         }
 
-        private static KeyValuePair<string, List<string>> ProcessLine(string exceptionLine)
+        private static List<ExceptionEntry> ProcessLine(string exceptionLine)
         {
-            var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1).ToList());
+            var lineEntries = exceptionLine.SplitRemoveEmpty(' ').ToList();
+            return from exc in lineEntries
+                   select new ExceptionEntry(exc, lineEntries);
         }
         private static readonly ConcurrentDictionary<string, List<string>> exceptionData = new ConcurrentDictionary<string, List<string>>(Reporting.Concurrency.Max, 2055);
 

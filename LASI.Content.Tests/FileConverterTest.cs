@@ -1,8 +1,6 @@
-﻿//using LASI.ContentSystem;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-//using System.Threading.Tasks;
+﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
 //using System.IO;
+//using LASI.Content;
 
 //namespace LASI.Core.Tests
 //{
@@ -16,69 +14,35 @@
 //    public class FileConverterTest
 //    {
 //        private const string TEST_FILE_LOCATION = @"..\..\..\TestDocs\";
-//        private const string TEST_FILE_NAME = @"Draft_Environmental_Assessment2.docx";
-//        private const string TEST_WORKING_PATH = @"..\..\..FileConverterTest";
-//        private TestContext testContextInstance;
+//        private const string TEST_FILE_NAME = "Draft_Environmental_Assessment2.docx";
+//        private const string TEST_WORKING_PATH = "FileConverterTest";
 
 //        /// <summary>
 //        ///Gets or sets the test context which provides
 //        ///information about and functionality for the current test run.
 //        ///</summary>
-//        public TestContext TestContext {
-//            get {
-//                return testContextInstance;
-//            }
-//            set {
-//                testContextInstance = value;
-//            }
-//        }
+//        public TestContext TestContext { get; set; }
 
-//        #region Additional test attributes
-//        // 
-//        //You can use the following additional attributes as you write your tests:
-//        //
-//        //Use ClassInitialize to run code before running the first test in the class
-//        //[ClassInitialize()]
-//        //public static void MyClassInitialize(TestContext testContext)
-//        //{
-//        //}
-//        //
-//        //Use ClassCleanup to run code after all tests in a class have run
-//        //[ClassCleanup()]
-//        //public static void MyClassCleanup()
-//        //{
-//        //}
-//        //
-//        //Use TestInitialize to run code before running each test
-//        //[TestInitialize()]
-//        //public void MyTestInitialize()
-//        //{
-//        //}
-//        //
-//        //Use TestCleanup to run code after each test has run
-//        //[TestCleanup()]
-//        //public void MyTestCleanup()
-//        //{
-//        //}
-//        //
 
 //        private class FileHandler
 //        {
-//            public FileHandler(string testFolderName = TEST_WORKING_PATH, string fileLocation = TEST_FILE_LOCATION, string sourceName = TEST_FILE_NAME) {
+//            public FileHandler(string testFolderName = TEST_WORKING_PATH, string fileLocation = TEST_FILE_LOCATION, string sourceName = TEST_FILE_NAME)
+//            {
 
 //            }
-//            public string WorkingDirectory { get { return Path.Combine(fileLocation, testFolderName); } }
-//            public string FilePath { get { return Path.Combine(WorkingDirectory, sourceName); } }
-//            public void Init() {
+//            public string WorkingDirectory { get { return Path.Combine(TEST_FILE_LOCATION, TEST_WORKING_PATH); } }
+//            public string FilePath { get { return Path.Combine(WorkingDirectory, TEST_FILE_NAME); } }
+//            public void Init()
+//            {
 //                if (!Directory.Exists(WorkingDirectory)) { Directory.CreateDirectory(WorkingDirectory); }
-//                File.Copy(Path.Combine(fileLocation, sourceName), Path.Combine(WorkingDirectory, sourceName), overwrite: true);
+//                File.Copy(Path.Combine(TEST_FILE_LOCATION, TEST_FILE_NAME), Path.Combine(WorkingDirectory, TEST_FILE_NAME), overwrite: true);
 //            }
-//            public void Clean() {
-//                Directory.Delete(WorkingDirectory, true);
+//            public void Clean()
+//            {
+//                Directory.Delete(WorkingDirectory, recursive: true);
 //            }
 //        }
 
-//        #endregion
 
 
 //        /// <summary>
@@ -86,7 +50,8 @@
 //        ///</summary>
 //        public void ConvertFileTestHelper<TSource, TDestination>()
 //            where TSource : InputFile
-//            where TDestination : InputFile {
+//            where TDestination : InputFile
+//        {
 //            var fileHandler = new FileHandler();
 //            fileHandler.Init();
 //            var filePath = fileHandler.FilePath;
@@ -101,7 +66,8 @@
 
 //        internal virtual FileConverter<TSource, TDestination> CreateFileConverter<TSource, TDestination>(string filePath)
 //            where TSource : InputFile
-//            where TDestination : InputFile {
+//            where TDestination : InputFile
+//        {
 //            FileConverter<TSource, TDestination> target = new DocxToTextConverter(
 //                new DocXFile(filePath)) as FileConverter<TSource, TDestination>;
 
@@ -109,7 +75,8 @@
 //        }
 
 //        [TestMethod]
-//        public void ConvertFileTest() {
+//        public void ConvertFileTest()
+//        {
 //            ConvertFileTestHelper<DocXFile, TxtFile>();
 //        }
 
@@ -118,7 +85,8 @@
 //        ///</summary>
 //        public void ConvertFileAsyncTestHelper<TSource, TDestination>()
 //            where TSource : InputFile
-//            where TDestination : InputFile {
+//            where TDestination : InputFile
+//        {
 //            var fileHandler = new FileHandler();
 //            fileHandler.Init();
 //            var filePath = fileHandler.FilePath;
@@ -131,7 +99,8 @@
 //        }
 
 //        [TestMethod]
-//        public void ConvertFileAsyncTest() {
+//        public void ConvertFileAsyncTest()
+//        {
 //            ConvertFileAsyncTestHelper<DocXFile, TxtFile>();
 //        }
 //    }

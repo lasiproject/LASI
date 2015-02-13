@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Content.TaggerEncapsulation
+namespace LASI.Content.Tagging
 {
     internal class PhraseExtractor
     {

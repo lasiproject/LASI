@@ -1,5 +1,4 @@
 ﻿using LASI.Content;
-using LASI.Content.TaggerEncapsulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -23,11 +22,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -63,10 +65,12 @@ namespace LASI.Content.Tests
 
         #endregion
 
-        private static LASI.Content.TaggerEncapsulation.Tagger Tagger {
-            get { return new LASI.Content.TaggerEncapsulation.Tagger(); }
+        private static LASI.Content.Tagging.Tagger Tagger
+        {
+            get { return new LASI.Content.Tagging.Tagger(); }
         }
-        internal virtual ITaggedTextSource CreateITaggedTextSource() {
+        internal virtual ITaggedTextSource CreateITaggedTextSource()
+        {
             // TODO: Instantiate an appropriate concrete class.
             ITaggedTextSource target = new TaggedTextFragment(Tagger.TaggedFromRaw(new[] {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
@@ -84,7 +88,8 @@ namespace LASI.Content.Tests
         ///A test for GetText
         ///</summary>
         [TestMethod]
-        public void GetTextTest() {
+        public void GetTextTest()
+        {
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = expectedText;
             string actual;
@@ -98,7 +103,8 @@ namespace LASI.Content.Tests
         ///A test for GetTextAsync
         ///</summary>
         [TestMethod]
-        public void GetTextAsyncTest() {
+        public void GetTextAsyncTest()
+        {
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = expectedText;
             string actual;
@@ -109,7 +115,8 @@ namespace LASI.Content.Tests
         ///A test for Name
         ///</summary>
         [TestMethod]
-        public void NameTest() {
+        public void NameTest()
+        {
             ITaggedTextSource target = CreateITaggedTextSource();
             string actual;
             actual = target.SourceName;

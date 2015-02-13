@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using LASI.Utilities;
@@ -122,7 +123,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// </para>
     /// </remarks>
     [DebuggerStepThrough]
-    public class Match<T, TResult> : MatchBase<T> where T : class, ILexical
+    public class Match<T, TResult> : MatchBase<T>, IEnumerable<TResult> where T : class, ILexical
     {
         #region Constructors
 
@@ -393,12 +394,35 @@ namespace LASI.Core.Analysis.PatternMatching
         #endregion Fields
 
         #region Monadic Operators over Match
-        public Option<TProjection> Select<TProjection>(Func<TResult, TProjection> selector) => from result in Matched ? result.ToOption() : Option.None<TResult>()
-                                                                                               select selector(result);
-        public Option<TFinalProjection> SelectMany<TFinalProjection>(Func<TResult, Option<TFinalProjection>> projection) => (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection);
-        public Option<TFinalProjection> SelectMany<TProjection, TFinalProjection>(Func<TResult, Option<TProjection>> projection, Func<TResult, TProjection, TFinalProjection> resultSelector) =>
-            (Matched ? result.ToOption() : Option.None<TResult>()).SelectMany(projection, resultSelector);
+        public Option<TProjection> Select<TProjection>(Func<TResult, TProjection> selector)
+        {
+            if (Matched)
+            {
+                return selector(result).ToOption();
+            }
+            return Option.None<TProjection>();
+        }
+        public Option<TResult> Where(Func<TResult, bool> predicate) => Matched && predicate(result) ? result.ToOption() : Option.None<TResult>();
+        public Option<TFinalProjection> SelectMany<TFinalProjection>(Func<TResult, Option<TFinalProjection>> projection) => Matched ? projection(result) : Option.None<TFinalProjection>();
+
+        public IEnumerable<TResultant> SelectMany<TCollection, TResultant>(
+            Func<TResult, IEnumerable<TCollection>> collectionSelector,
+            Func<TResult, TCollection, TResultant> resultSelector) => from r in this.Select(collectionSelector)
+                                                                      let selector = resultSelector.Apply(result)
+                                                                      where Matched
+                                                                      from e in r
+                                                                      select selector(e);
+
+
+        IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
+        {
+            if (Matched) yield return result;
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.AsEnumerable().GetEnumerator();
         #endregion
+
+
+
 
         internal static Match<T, TUpper> FromLowerToHigherResultType<TUpper, TResultX>(Match<T, TResultX> from) where TResultX : TUpper
         {

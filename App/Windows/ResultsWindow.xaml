@@ -96,8 +96,8 @@
                     VerticalAlignment="Bottom"
                     Background="White"
                     Visibility="Visible">
+
                 <Label x:Name="currentOperationLabel"
-                       Width="auto"
                        Height="26"
                        VerticalAlignment="Center"
                        Content="current operation"

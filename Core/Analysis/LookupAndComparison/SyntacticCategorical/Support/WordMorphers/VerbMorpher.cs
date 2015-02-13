@@ -108,19 +108,19 @@ namespace LASI.Core.Heuristics
             ["y"] = new[] { "ies" },
         };
 
-        private static ConcurrentDictionary<string, IEnumerable<string>> exceptionMapping;
+        private static ConcurrentDictionary<string, List<string>> exceptionMapping;
 
         private static void LoadExceptionFile()
         {
             using (var reader = new StreamReader(ExceptionsFilePath))
             {
                 var verbExceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                                             select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-'));
-                exceptionMapping = new ConcurrentDictionary<string, IEnumerable<string>>(
-                    from exceptionSet in verbExceptionFileLines
-                    from exception in exceptionSet
-                    group exceptionSet by exception into g
-                    select KeyValuePair.Create(g.Key, g.SelectMany(exceptionSet => exceptionSet)));
+                                             select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-')).ToList();
+                exceptionMapping = new ConcurrentDictionary<string, List<string>>(
+                        verbExceptionFileLines
+                        .SelectMany(line => line.Select(e => new KeyValuePair<string, List<string>>(e, line)))
+                        .DistinctBy(e => e.Key)
+                   );
             }
         }
 

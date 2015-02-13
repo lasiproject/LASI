@@ -48,7 +48,7 @@ namespace LASI.Utilities.SupportTypes
     /// That is, they not may or may not be specified. Instances of this type either hold a value of type <typeparamref name="T"/> or ARE the singleton <see cref="None"/> instance for their respective <see cref="Option{T}"/>.
     /// </remarks>
     /// <typeparam name="T">The type of the optional value.</typeparam>
-    public abstract class Option<T> : IEnumerable<T>, IEquatable<Option<T>>, IEquatable<T>
+    public abstract class Option<T> : IEnumerable<T>, IEquatable<Option<T>>, IEquatable<T>, IEnumerable
     {
         /// <summary>
         /// Transforms the <see cref="Option"/>&lt;T&gt; into an <see cref="Option"/>&lt;<typeparamref name="TResult"/>&gt; by applying the given projection to the Option's value if present,
@@ -85,6 +85,12 @@ namespace LASI.Utilities.SupportTypes
         /// <c>true</c> if and only if the Option&lt;<typeparamref name="T"/>&gt;'s value matches the provided predicate; otherwise <c>false</c>.
         /// </returns>
         public abstract Option<T> Where(Func<T, bool> predicate);
+
+        public abstract IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector);
+        public abstract IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer);
+        public abstract IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector);
+        public abstract IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector, IEqualityComparer<TKey> comparer);
+
         /// <summary>
         /// Determines if the specified Option&lt;<typeparamref name="T"/>&gt; is equal to the current instance.
         /// </summary>
@@ -211,6 +217,11 @@ namespace LASI.Utilities.SupportTypes
         /// </summary>
         /// <param name="option">The option undergoing the conversion.</param>
         public static implicit operator Option<Option<T>>(Option<T> option) => option.ToOption();
+        ///// <summary>
+        ///// Defines an implicit conversion from an <see cref="Option{T}"/> to an Option&lt;<see cref="Option{T}"/>Option&gt;.
+        ///// </summary>
+        ///// <param name="option">The option undergoing the conversion.</param>
+        public static implicit operator Option<T>(Option<Option<T>> option) => option.Value;
 
         /// <summary>
         /// Defines <see cref="Option{T}"/>s that do not have a value.
@@ -234,7 +245,9 @@ namespace LASI.Utilities.SupportTypes
                 Func<T, TOption, TResult> resultSelector) => Option<TResult>.NoneOfT;
 
             public override Option<T> Where(Func<T, bool> predicate) => NoneOfT;
-
+            public override IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector) => Option<TResult>.NoneOfT;
+            public override IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer) => Option<TResult>.NoneOfT; public override IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector) => Option<TResult>.NoneOfT;
+            public override IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector, IEqualityComparer<TKey> comparer) => Option<TResult>.NoneOfT;
             public override bool Equals(Option<T> other) => other == NoneOfT;
 
             public override bool Equals(object obj) => obj is None || obj is Option<None>;
@@ -275,6 +288,28 @@ namespace LASI.Utilities.SupportTypes
 
             public override T Value { get; }
             protected override IEnumerator<T> GetEnumerator() { yield return Value; }
+
+            public override IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector)
+            {
+                return from value in this join i in inner on outerKeySelector(value) equals innerKeySelector(i) select resultSelector(value, i);
+            }
+            public override IEnumerable<TResult> Join<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+            {
+                foreach (var i in inner)
+                {
+                    if (comparer.Equals(outerKeySelector(Value), innerKeySelector(i)))
+                    {
+                        yield return resultSelector(Value, i);
+                    }
+                }
+            }
+            public override IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector)
+            {
+                return Join(inner, outerKeySelector, innerKeySelector, (x, y) => resultSelector(x, y.ToOption()));
+            }
+            public override IEnumerable<TResult> GroupJoin<TInner, TKey, TResult>(IEnumerable<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, IEnumerable<TInner>, TResult> resultSelector, IEqualityComparer<TKey> comparer) =>
+                Join(inner, outerKeySelector, innerKeySelector, (x, y) => resultSelector(x, y.ToOption()), comparer);
+
 
             internal Some(T value) { Value = value; }
 

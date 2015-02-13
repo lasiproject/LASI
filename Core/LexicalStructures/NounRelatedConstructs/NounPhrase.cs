@@ -19,7 +19,8 @@ namespace LASI.Core
         /// Initializes a new instance of the NounPhrase class.
         /// </summary>
         /// <param name="words">The words which compose to form the NounPhrase.</param>
-        public NounPhrase(IEnumerable<Word> words) : base(words) {
+        public NounPhrase(IEnumerable<Word> words) : base(words)
+        {
             EntityKind = words.OfEntity()
                 .Select(e => e.EntityKind)
                 .DefaultIfEmpty()
@@ -33,7 +34,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the NounPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of NounPhrases. 
         /// Thus, its purpose is to simplify test code.</remarks>
-        public NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
+        internal NounPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion
 
@@ -43,7 +44,8 @@ namespace LASI.Core
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
         /// <param name="referee">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindReferencer(IReferencer referee) {
+        public virtual void BindReferencer(IReferencer referee)
+        {
             references.Add(referee);
             referee.BindAsReferringTo(this);
         }
@@ -51,7 +53,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the NounPhrase' descriptors.</param>
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -61,7 +64,8 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
+        public void AddPossession(IPossessable possession)
+        {
             possessions.Add(possession);
             possession.Possesser = this;
         }
@@ -69,8 +73,10 @@ namespace LASI.Core
         /// Returns a string representation of the NounPhrase.
         /// </summary>
         /// <returns>A string representation of the NounPhrase.</returns>
-        public override string ToString() {
-            if (!VerboseOutput) {
+        public override string ToString()
+        {
+            if (!VerboseOutput)
+            {
                 return base.ToString();
             }
             var gender = this.GetGender();
@@ -103,14 +109,16 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase OuterAttributive {
+        public NounPhrase OuterAttributive
+        {
             get { return outerAttributive; }
             set { outerAttributive = value != this ? value : null; }
         }
         /// <summary>
         /// Gets or sets another NounPhrase, to the right of current instance, which is functions as an Attributor of current instance.
         /// </summary>
-        public NounPhrase InnerAttributive {
+        public NounPhrase InnerAttributive
+        {
             get { return innerAttributive; }
             set { innerAttributive = (value != this ? value : null); }
         }
@@ -127,14 +135,19 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
-        public IPossesser Possesser {
+        public IPossesser Possesser
+        {
             get { return possessor; }
-            set {
+            set
+            {
                 possessor = value;
                 // Bind entity words of the phrase as possessions of possessor.
-                if (value != null) {
+                if (value != null)
+                {
                     foreach (var entity in Words.OfType<IEntity>()) { value.AddPossession(entity); }
-                } else {
+                }
+                else
+                {
                     foreach (var entity in Words.OfType<IEntity>()) { entity.Possesser = value; }
                 }
             }
@@ -143,11 +156,14 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf {
+        public virtual IVerbal SubjectOf
+        {
             get { return subjectOf; }
-            set {
+            set
+            {
                 subjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>()) {
+                foreach (var entity in Words.OfType<IEntity>())
+                {
                     entity.SubjectOf = value;
                 }
             }
@@ -155,11 +171,14 @@ namespace LASI.Core
         /// <summary>
         /// Gets the or sets IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf {
+        public virtual IVerbal DirectObjectOf
+        {
             get { return directObjectOf; }
-            set {
+            set
+            {
                 directObjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>()) {
+                foreach (var entity in Words.OfType<IEntity>())
+                {
                     entity.DirectObjectOf = value;
                 }
             }
@@ -168,11 +187,14 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf {
+        public virtual IVerbal IndirectObjectOf
+        {
             get { return indirecObjectOf; }
-            set {
+            set
+            {
                 indirecObjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>()) {
+                foreach (var entity in Words.OfType<IEntity>())
+                {
                     entity.IndirectObjectOf = value;
                 }
             }

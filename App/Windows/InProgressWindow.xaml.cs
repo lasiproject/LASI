@@ -19,19 +19,23 @@ namespace LASI.App
         /// <summary>
         /// Initializes a new instance of the InProgressScreen class.
         /// </summary>
-        public InProgressWindow() {
+        public InProgressWindow()
+        {
             InitializeComponent();
             ConfigureOptions();
         }
 
-        private void ConfigureOptions() {
+        private void ConfigureOptions()
+        {
             SetPlatformSpecificStyling();
         }
 
-        private void SetPlatformSpecificStyling() {
+        private void SetPlatformSpecificStyling()
+        {
             var osVersionInfo = System.Environment.Version;
             //Check if current OS is windows NT or later (PlatformID) and then check if Vista or 7 (Major) then check if 7 
-            if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1) {
+            if (System.Environment.OSVersion.Platform == PlatformID.Win32NT && osVersionInfo.Major == 6 && osVersionInfo.Minor == 1)
+            {
                 progressBar.Foreground = System.Windows.Media.Brushes.DarkRed;
             }
         }
@@ -43,7 +47,8 @@ namespace LASI.App
         /// Asynchronously processes all documents in the project in a comprehensive manner.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task representing the asynchronous processing operation.</returns>
-        public async Task ParseDocuments() {
+        public async Task ParseDocuments()
+        {
             var resourceLoadingNotifier = new ResourceNotifier();
             var resourceLoadingEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoading += handler, handler => resourceLoadingNotifier.ResourceLoading -= handler);
 
@@ -57,7 +62,7 @@ namespace LASI.App
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
             progressBar.Value = 100;
-            var completetionMessage = string.Format("Complete. Time: {0} miliseconds", timer.ElapsedMilliseconds);
+            var completetionMessage = $"Processing Complete. Time: {timer.ElapsedMilliseconds / 1000f} seconds";
             progressLabel.Content = completetionMessage;
             progressBar.ToolTip = completetionMessage;
             proceedtoResultsButton.Visibility = Visibility.Visible;
@@ -67,7 +72,8 @@ namespace LASI.App
         }
 
 
-        private void ProceedToResultsView() {
+        private void ProceedToResultsView()
+        {
             WindowManager.ResultsScreen.SetTitle(WindowManager.StartupScreen.ProjectNameTextBox.Text + " - L.A.S.I.");
             this.SwapWith(WindowManager.ResultsScreen);
         }
@@ -75,40 +81,50 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        private async void ProgressUpdated(object sender, Core.Reporting.ReportEventArgs e) {
+        private async void ProgressUpdated(object sender, Core.Reporting.ReportEventArgs e)
+        {
             progressLabel.Content = e.Message;
             progressBar.ToolTip = e.Message;
             var animateStep = 0.028 * e.PercentWorkRepresented;
-            for (int i = 0; i < 33; ++i) {
+            for (int i = 0; i < 33; ++i)
+            {
                 progressBar.Value += animateStep;
                 await Task.Delay(1);
             }
         }
 
-        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e) {
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
             this.Close();
             Application.Current.Shutdown();
         }
 
 
 
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            try {
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
                 DragMove();
-            } catch (ArgumentOutOfRangeException x) {
+            }
+            catch (ArgumentOutOfRangeException x)
+            {
                 System.Diagnostics.Debug.Write(x.Message);
             }
         }
 
-        private void proceedtoResultsButton_Click(object sender, RoutedEventArgs e) {
+        private void proceedtoResultsButton_Click(object sender, RoutedEventArgs e)
+        {
             ProceedToResultsView();
         }
-        private void minButton_Click(object sender, RoutedEventArgs e) {
+        private void minButton_Click(object sender, RoutedEventArgs e)
+        {
             this.WindowState = WindowState.Minimized;
         }
 
@@ -136,9 +152,11 @@ namespace LASI.App
             /// <summary>
             /// Causes the application icon to begin flashing in the Windows Taskbar.
             /// </summary>
-            internal static void StartFlashing(Window windowToFlash) {
+            internal static void StartFlashing(Window windowToFlash)
+            {
                 {
-                    var fInfo = new FLASHWINFO {
+                    var fInfo = new FLASHWINFO
+                    {
                         hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
                         dwFlags = FLASHW_ALL,
                         uCount = System.UInt32.MaxValue,
@@ -153,8 +171,10 @@ namespace LASI.App
             /// <summary>
             /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
             /// </summary>
-            internal static void StopFlashing(Window windowToFlash) {
-                var fInfo = new FLASHWINFO {
+            internal static void StopFlashing(Window windowToFlash)
+            {
+                var fInfo = new FLASHWINFO
+                {
 
                     hwnd = new System.Windows.Interop.WindowInteropHelper(windowToFlash).Handle,
                     dwFlags = 0,

@@ -1,10 +1,12 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using LASI.Core.Reporting;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.Linq.List;
 
 namespace LASI.Core.Heuristics
 {
@@ -18,8 +20,7 @@ namespace LASI.Core.Heuristics
         {
             exceptionData = File.ReadAllLines(ExceptionsFilePath)
                 .Select(ProcessLine)
-                .GroupBy(entry => entry.Key, entry => entry.Value)
-                .ToDictionary(entry => entry.Key, entry => entry.SelectMany(e => e).ToList());
+                .ToDictionary(entry => entry.Key, entry => entry.Value);
         }
 
         /// <summary>
@@ -108,10 +109,13 @@ namespace LASI.Core.Heuristics
 
         #region Exception File Processing
 
-        private static KeyValuePair<string, IEnumerable<string>> ProcessLine(string exceptionLine)
+        private static ExceptionEntry ProcessLine(string exceptionLine)
         {
-            var kvstr = exceptionLine.SplitRemoveEmpty(' ');
-            return KeyValuePair.Create(kvstr.Last(), kvstr.Take(kvstr.Count() - 1));
+            var exceptionData = exceptionLine.SplitRemoveEmpty(' ').ToList();
+            return new ExceptionEntry(
+                key: exceptionData.Last(),
+                value: exceptionData
+            );
         }
         private static readonly IReadOnlyDictionary<string, List<string>> exceptionData = new Dictionary<string, List<string>>();
 

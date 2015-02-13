@@ -3,27 +3,6 @@ using System.Collections.Generic;
 
 namespace LASI.Utilities
 {
-    /// <summary>
-    /// Provides static methods for creating instances of the <see cref="KeyValuePair{T1, T2}"/> structure.
-    /// </summary>
-    public static class KeyValuePair
-    {
-        /// <summary>
-        /// Creates a new pair
-        /// </summary>
-        /// <typeparam name="TKey">The type of the pairs's first component.</typeparam>
-        /// <typeparam name="TValue">The type of the pairs's second component.</typeparam>
-        /// <param name="key">The value of the pairs's first component.</param>
-        /// <param name="value">The value of the pairs's second component.</param>
-        /// <returns>A pair whose value is (first, second).</returns>
-        public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value)
-        {
-            return new KeyValuePair<TKey, TValue>(key, value);
-        }
-    }
-    /// <summary>
-    /// Provides static methods for creating instances of the <see cref="Pair{T1, T2}"/> structure.
-    /// </summary>
     public static class Pair
     {
         /// <summary>

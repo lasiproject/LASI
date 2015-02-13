@@ -18,6 +18,7 @@ using Newtonsoft.Json.Serialization;
 namespace AspSixApp
 {
     using Path = System.IO.Path;
+    using LASIConfig = LASI.Utilities.IConfig;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -31,7 +32,6 @@ namespace AspSixApp
         }
 
         public IConfiguration Configuration { get; set; }
-        public LASI.Utilities.IConfig ComponentConfiguration { get; }
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {

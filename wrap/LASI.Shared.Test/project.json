@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net46": {
+      "wrappedProject": "../../Shared.Test.Utilities/LASI.Shared.Test.csproj",
+      "bin": {
+        "assembly": "../../Shared.Test.Utilities/obj/{configuration}/LASI.Shared.Test.dll",
+        "pdb": "../../Shared.Test.Utilities/obj/{configuration}/LASI.Shared.Test.pdb"
+      },
+      "dependencies": {
+        "Microsoft.VisualStudio.QualityTools.UnitTestFramework": "1.0.0-*"
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-﻿using LASI.Content.TaggerEncapsulation;
+﻿using LASI.Content.Tagging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
@@ -26,11 +26,14 @@ namespace LASI.Content.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -67,14 +70,18 @@ namespace LASI.Content.Tests
         class TestPhraseTagsetMap : PhraseTagsetMap
         {
 
-            public override Func<IEnumerable<Word>, Phrase> this[string tag] {
-                get {
+            public override Func<IEnumerable<Word>, Phrase> this[string tag]
+            {
+                get
+                {
                     try { return mapping[tag]; } catch (KeyNotFoundException) { throw new UnknownPhraseTagException(tag); }
                 }
             }
 
-            public override string this[Phrase phrase] {
-                get {
+            public override string this[Phrase phrase]
+            {
+                get
+                {
                     return (from tm in mapping
                             where tm.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
                             select tm.Key).Single();
@@ -87,7 +94,8 @@ namespace LASI.Content.Tests
 
         }
 
-        internal virtual PhraseTagsetMap CreatePhraseTagsetMap() {
+        internal virtual PhraseTagsetMap CreatePhraseTagsetMap()
+        {
             // TODO: Instantiate an appropriate concrete class.
             PhraseTagsetMap target = new TestPhraseTagsetMap();
             return target;
@@ -97,7 +105,8 @@ namespace LASI.Content.Tests
         ///A test for Item
         ///</summary>
         [TestMethod]
-        public void ItemTest() {
+        public void ItemTest()
+        {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             string tag = "NP";
             Func<IEnumerable<Word>, Phrase> actual;
@@ -110,7 +119,8 @@ namespace LASI.Content.Tests
         ///A test for Item
         ///</summary>
         [TestMethod]
-        public void ItemTest2() {
+        public void ItemTest2()
+        {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });
             string actual;
@@ -119,7 +129,8 @@ namespace LASI.Content.Tests
         }
         [TestMethod]
         [ExpectedException(typeof(UnknownPhraseTagException))]
-        public void ItemTest3() {
+        public void ItemTest3()
+        {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             var createPhrase = target["NOTMAPPED"];
         }

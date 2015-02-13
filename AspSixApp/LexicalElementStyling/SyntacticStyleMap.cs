@@ -7,7 +7,7 @@ namespace AspSixApp.LexicalElementStyling
     /// <summary>
     /// Associates synactic elements with CSS styles.
     /// </summary>
-    /// <see cref="Interop.IStyleProvider{TLexical, TStylingArtifact}"/>
+    /// <seealso cref="Interop.IStyleProvider{TLexical, TStylingArtifact}"/>
     public class SyntacticStyleMap : LASI.Interop.IStyleProvider<ILexical, Style>
     {
         /// <summary>

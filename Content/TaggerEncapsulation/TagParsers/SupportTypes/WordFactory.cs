@@ -1,7 +1,7 @@
 ﻿using LASI;
 using LASI.Core;
 using LASI.Utilities;
-using LASI.Content.TaggerEncapsulation;
+using LASI.Content.Tagging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,15 +33,21 @@ namespace LASI.Content
         /// <exception cref="UnknownWordTagException"/>
         /// <exception cref="EmptyWordTagException"/>
         /// <exception cref="EmptyOrWhiteSpaceStringTaggedAsWordException"/>
-        public Word Create(TaggedText taggedText) {
+        public Word Create(TaggedText taggedText)
+        {
             if (string.IsNullOrWhiteSpace(taggedText.Text))
                 throw new EmptyOrWhiteSpaceStringTaggedAsWordException(taggedText.Tag);
-            try {
+            try
+            {
                 var createWord = context[taggedText.Tag];
                 return createWord(taggedText.Text);
-            } catch (EmptyWordTagException) {
+            }
+            catch (EmptyWordTagException)
+            {
                 throw;
-            } catch (UnknownWordTagException) {
+            }
+            catch (UnknownWordTagException)
+            {
                 if (taggedText.Tag.Length == 1) // this is dubious
                     return new Punctuator(taggedText.Text[0]);
                 throw;

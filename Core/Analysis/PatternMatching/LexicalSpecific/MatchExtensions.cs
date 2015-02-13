@@ -109,7 +109,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// This externalized Case expression function allows for some sligh additional flexibility. 
+        /// This externalized Case expression function allows for some slight additional flexibility. 
         /// </summary>
         /// <typeparam name="T">The type of the value being matched over.</typeparam>
         /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
@@ -118,7 +118,7 @@ namespace LASI.Core
         /// <param name="match">The match expression to which to append the Case clause.</param>
         /// <param name="func">The function which describes the case.</param>
         /// <returns>A match expression which now yields</returns>
-        /// <remarks>This externalized Case expression function allows for some sligh additional flexibility. 
+        /// <remarks>This externalized Case expression function allows for some slight additional flexibility. 
         /// Specifically it allows a <see cref="Match{T, TResult}"/> expression to be transformed 
         /// into one where TResult is less derived in the case where a cause clause yields a result
         /// which is a of a base type of TResult. This will transform the match into a more general form which

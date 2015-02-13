@@ -880,7 +880,8 @@ namespace LASI.Utilities
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
         public static IEnumerable<Pair<T, int>> WithIndex<T>(this IEnumerable<T> source) => source.Select((element, index) => new Pair<T, int>(element, index));
-
+        public static IDictionary<TKey, Pair<TValue, int>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
+            dictionary.Select((entry, index) => Pair.Create(entry.Key, Pair.Create(entry.Value, index))).ToDictionary(x => x.First, x => x.Second);
         /// <summary>
         /// Transforms a possibly <c>null</c><see cref="IEnumerable{T}" /> into an empty enumerable.
         /// Return an empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is

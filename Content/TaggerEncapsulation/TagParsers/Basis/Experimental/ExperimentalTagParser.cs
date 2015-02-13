@@ -7,7 +7,7 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
-//namespace LASI.ContentSystem.TaggerEncapsulation.TagParsers.Experiment.Support
+//namespace LASI.ContentSystem.Tagging.TagParsers.Experiment.Support
 //{
 //    class ExperimentalTagParser : TagParser
 //    {
