@@ -34,7 +34,7 @@ namespace LASI.Core.Heuristics.WordNet
             var setsEnumerated = 0;
             var setsSampled = 0;
             var indexedSynsets = LoadData()
-                .Zip(Range(1, TOTAL_LINES), (line, i) => new { Set = CreateSet(line), LineNumber = i });
+                .Zip(Range(1, TotalLines), (line, i) => new { Set = CreateSet(line), LineNumber = i });
             try
             {
                 indexedSynsets.ToObservable()
@@ -49,17 +49,17 @@ namespace LASI.Core.Heuristics.WordNet
                         onNext: e =>
                         {
                             ++setsSampled;
-                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TOTAL_LINES}", PROGRESS_AMOUNT));
+                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount));
                         },
                         onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
                         onError: e =>
                         {
-                            e.LogIfDebug();
+                            e.Log();
                         });
             }
             catch (Exception e)
             {
-                e.LogIfDebug();
+                e.Log();
                 throw;
             }
         }
@@ -124,7 +124,8 @@ namespace LASI.Core.Heuristics.WordNet
             setsSearched.Add(containingSet);
             foreach (var set in containingSet.ReferencedSet
                 .Except(containingSet[Link.HypERnym])
-                .Select(pointer => { NounSynSet result; setsById.TryGetValue(pointer, out result); return result; }))
+                .Select(setsById.GetValueOrDefault)
+                .Where(set => set != null))
             {
                 if (set != null && set.Category == containingSet.Category && !setsSearched.Contains(set))
                 {
@@ -145,11 +146,10 @@ namespace LASI.Core.Heuristics.WordNet
                         .DefaultIfEmpty(search)
                         .ToImmutableHashSet();
                 }
-                catch (AggregateException e)
+                catch (Exception e) if (e is AggregateException || e is InvalidOperationException)
                 {
-                    e.LogIfDebug();
+                    e.Log();
                 }
-                catch (InvalidOperationException e) { e.LogIfDebug(); }
                 return this[search];
             }
         }
@@ -159,8 +159,8 @@ namespace LASI.Core.Heuristics.WordNet
             get { return this[search.Text]; }
         }
 
-        private const int TOTAL_LINES = 82114;
-        private const double PROGRESS_AMOUNT = 100 / (821 * 100d);
+        private const int TotalLines = 82114;
+        private const double ProgressAmount = 100 / (821 * 100d);
         private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
              Link.MemberOfThisDomain_REGION,
              Link.MemberOfThisDomain_TOPIC,
@@ -203,7 +203,7 @@ namespace LASI.Core.Heuristics.WordNet
         private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private string filePath;
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
-        private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TOTAL_LINES);
+        private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TotalLines);
 
     }
 }

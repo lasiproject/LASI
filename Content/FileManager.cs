@@ -235,7 +235,7 @@ namespace LASI.Content
             }
             catch (FileConversionFailureException e)
             {
-                e.LogIfDebug();
+                e.Log();
                 throw;
             }
         }

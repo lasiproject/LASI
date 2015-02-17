@@ -22,11 +22,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -65,7 +68,8 @@ namespace LASI.Core.Tests
         ///A test for AggregateEntity Constructor
         ///</summary>
         [TestMethod]
-        public void AggregateEntityConstructorTest() {
+        public void AggregateEntityConstructorTest()
+        {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -78,7 +82,8 @@ namespace LASI.Core.Tests
         ///A test for AggregateEntity Constructor
         ///</summary>
         [TestMethod]
-        public void AggregateEntityConstructorTest1() {
+        public void AggregateEntityConstructorTest1()
+        {
             IEntity e1 = new NounPhrase(new ProperPluralNoun("Americans"));
             IEntity e2 = new NounPhrase(new ProperPluralNoun("Canadians"));
             AggregateEntity target = new AggregateEntity(e1, e2);
@@ -90,7 +95,8 @@ namespace LASI.Core.Tests
         ///A test for AddPossession
         ///</summary>
         [TestMethod]
-        public void AddPossessionTest() {
+        public void AddPossessionTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
@@ -104,7 +110,8 @@ namespace LASI.Core.Tests
         ///A test for BindDescriptor
         ///</summary>
         [TestMethod]
-        public void BindDescriptorTest() {
+        public void BindDescriptorTest()
+        {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -120,7 +127,8 @@ namespace LASI.Core.Tests
         ///A test for BindPronoun
         ///</summary>
         [TestMethod]
-        public void BindPronounTest() {
+        public void BindPronounTest()
+        {
             IEnumerable<IEntity> members = new[] {
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -130,7 +138,8 @@ namespace LASI.Core.Tests
             target.BindReferencer(pro);
             Assert.IsTrue(target.Referencers.Contains(pro));
             Assert.IsTrue(pro.RefersTo.Contains(target) || pro.RefersTo == target || pro.RefersTo.SetEqual(target));
-            foreach (IEntity e in members) {
+            foreach (IEntity e in members)
+            {
                 Assert.IsTrue(pro.RefersTo.Contains(e) || pro.RefersTo == e);
 
             }
@@ -140,14 +149,16 @@ namespace LASI.Core.Tests
         ///A test for GetEnumerator
         ///</summary>
         [TestMethod]
-        public void GetEnumeratorTest() {
+        public void GetEnumeratorTest()
+        {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members
             );
             IEnumerator<IEntity> expected = members.GetEnumerator();
             IEnumerator<IEntity> actual;
             actual = target.GetEnumerator();
-            while (expected.MoveNext() | actual.MoveNext()) {
+            while (expected.MoveNext() | actual.MoveNext())
+            {
                 Assert.AreEqual(expected.Current, actual.Current);
             }
         }
@@ -156,7 +167,8 @@ namespace LASI.Core.Tests
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -171,7 +183,8 @@ namespace LASI.Core.Tests
         ///A test for BoundPronouns
         ///</summary>
         [TestMethod]
-        public void BoundPronounsTest() {
+        public void BoundPronounsTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -188,7 +201,8 @@ namespace LASI.Core.Tests
         ///A test for Descriptors
         ///</summary>
         [TestMethod]
-        public void DescriptorsTest() {
+        public void DescriptorsTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -207,7 +221,8 @@ namespace LASI.Core.Tests
         ///A test for DirectObjectOf
         ///</summary>
         [TestMethod]
-        public void DirectObjectOfTest() {
+        public void DirectObjectOfTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
@@ -223,7 +238,8 @@ namespace LASI.Core.Tests
         ///A test for IndirectObjectOf
         ///</summary>
         [TestMethod]
-        public void IndirectObjectOfTest() {
+        public void IndirectObjectOfTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new CommonSingularNoun("spoon"),
                 new CommonSingularNoun("fork")
@@ -239,7 +255,8 @@ namespace LASI.Core.Tests
         ///A test for MetaWeight
         ///</summary>
         [TestMethod]
-        public void MetaWeightTest() {
+        public void MetaWeightTest()
+        {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);
             double expected = new Random().NextDouble();
@@ -253,7 +270,8 @@ namespace LASI.Core.Tests
         ///A test for Possessed
         ///</summary>
         [TestMethod]
-        public void PossessedTest() {
+        public void PossessedTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
@@ -273,7 +291,8 @@ namespace LASI.Core.Tests
         ///A test for Possesser
         ///</summary>
         [TestMethod]
-        public void PossesserTest() {
+        public void PossesserTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
@@ -289,7 +308,8 @@ namespace LASI.Core.Tests
         ///A test for SubjectOf
         ///</summary>
         [TestMethod]
-        public void SubjectOfTest() {
+        public void SubjectOfTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
@@ -305,7 +325,8 @@ namespace LASI.Core.Tests
         ///A test for Text
         ///</summary>
         [TestMethod]
-        public void TextTest() {
+        public void TextTest()
+        {
             AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
@@ -320,7 +341,8 @@ namespace LASI.Core.Tests
         ///A test for Weight
         ///</summary>
         [TestMethod]
-        public void WeightTest() {
+        public void WeightTest()
+        {
             IEnumerable<IEntity> members = new IEntity[] { };
             AggregateEntity target = new AggregateEntity(members);
             double expected = new Random().NextDouble();

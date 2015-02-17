@@ -4,7 +4,6 @@ using LASI.Utilities.Specialized.Enhanced.Linq.List;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Shared.Test.Assertions;
-
 namespace LASI.Utilities.Tests
 {
     [TestClass]

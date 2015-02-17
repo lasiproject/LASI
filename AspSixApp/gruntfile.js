@@ -3,34 +3,59 @@
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
 module.exports = function (grunt) {
-    var scriptDir = 'Scripts/**/*.js';
+    var scriptDir = 'Scripts/app/**/*.js';
     grunt.initConfig({
         bower: {
             install: {
                 options: {
                     targetDir: 'wwwroot/lib/',
-                    layout: 'byComponent',
+                    layout: 'byType',
                     cleanTargetDir: true
                 }
             }
         },
         jslint: {
             app: {
-                src: [scriptDir],
+                src: [scriptDir,
+                    'Scripts/app/app.js',
+                    'Scripts/app/util.js',
+                    'Scripts/app/widgets/document-upload.js',
+                    'Scripts/app/account/manage.js',
+                    'Scripts/app/results/results.js'
+                ],
                 exclude: [],
                 directives: {
+                    vars: true,
                     browser: true,
-                    predef: ['jQuery', 'QUnit', '$', 'require']
+                    predef: {
+                        app: true,
+                        $: false,
+                        QUnit: false,
+                        require: false,
+                        google: false
+                    }
                 }
             }
         }, 'jsmin-sourcemap': {
             app: {
-                src: [scriptDir],
+                src: [
+                    'Scripts/app/app.js',
+                    'Scripts/app/util.js',
+                    'Scripts/app/widgets/document-upload.js',
+                    'Scripts/app/account/manage.js',
+                    'Scripts/app/results/*.js'
+                ],
                 dest: 'wwwroot/dist/app/app.min.js',
                 destMap: 'wwwroot/dist/app/app.min.js.map'
             },
             lib: {
-                src: ['wwwroot/lib/**/*.js'],
+                src: [
+                    'wwwroot/lib/jquery/**/*.js',
+                    'wwwroot/lib/jquery-validation/**/*.js',
+                    'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
+                    'wwwroot/lib/requirejs/**/*.js',
+                    'wwwroot/lib/js/bootstrap/bootstrap.js'
+                ],
                 dest: 'wwwroot/dist/lib/lib.min.js',
                 destMap: 'wwwroot/dist/lib/lib.min.js.map'
             }
@@ -41,17 +66,34 @@ module.exports = function (grunt) {
         watch: {
             app: {
                 files: [scriptDir],
-                tasks: ['jslint:app']
+                tasks: ['jslint:app', 'jsmin-sourcemap:app']
+            },
+            lib: {
+                files: ['gruntfile.js'],
+                //tasks: ['jsmin-sourcemap:lib']
+                tasks: ['uglify:my_target']
             },
             test: {
                 files: ['Scripts/app/util.js', 'Scripts/test/**/*.js'],
                 tasks: ['qunit:all']
             }
+        },
+        uglify: {
+            my_target: {
+                options: {
+                    sourceMap: true,
+                    sourceMapName: 'wwwroot/dist/lib/lib.map'
+                },
+                files: {
+                    'wwwroot/dist/lib/lib.min.js': ['wwwroot/lib/**/*.js']
+                }
+            }
         }
+
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install', 'jsmin-sourcemap:lib', 'jsmin-sourcemap:app']);
+    grunt.registerTask('default', ['bower:install',  'jsmin-sourcemap:app']);
     grunt.loadNpmTasks('grunt-jsmin-sourcemap');
     grunt.loadNpmTasks('grunt-bower-task');
     // The following lines loads the grunt plugins.
@@ -62,5 +104,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-jslint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
 };

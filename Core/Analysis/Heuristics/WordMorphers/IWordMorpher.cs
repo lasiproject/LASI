@@ -41,14 +41,4 @@ namespace LASI.Core.Heuristics
         /// <remarks>By convention the resulting collection should include the root of the originally specified word.</remarks>
         IEnumerable<string> GetLexicalForms(TWord search);
     }
-    internal struct ExceptionEntry
-    {
-        public ExceptionEntry(string key, List<string> value)
-        {
-            Key = key;
-            Value = value;
-        }
-        public string Key { get; }
-        public List<string> Value { get; }
-    }
 }

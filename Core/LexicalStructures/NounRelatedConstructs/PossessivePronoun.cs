@@ -26,9 +26,11 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
-            if (ProxyFor != null) {
-                ProxyFor.AddPossession(possession);
+        public void AddPossession(IPossessable possession)
+        {
+            if (PossessesFor != null)
+            {
+                PossessesFor.AddPossession(possession);
             }
             possessed = possessed.Add(possession);
         }
@@ -36,15 +38,18 @@ namespace LASI.Core
         /// Returns a string representation of the PossessivePronoun.
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
-        public override string ToString() {
-            return base.ToString() + $"\nSignifying {ProxyFor.Text} as owner of {Possessions.Format(e => e.Text)}";
+        public override string ToString()
+        {
+            return base.ToString() + $"\nSignifying {PossessesFor.Text} as owner of {Possessions.Format(e => e.Text)}";
         }
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessions {
-            get {
+        public virtual IEnumerable<IPossessable> Possessions
+        {
+            get
+            {
                 return possessed;
             }
         }
@@ -52,14 +57,21 @@ namespace LASI.Core
         /// Gets or sets the possessor which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
-        public virtual IPossesser ProxyFor {
-            get {
+        public virtual IPossesser PossessesFor
+        {
+            get
+            {
                 return possessesFor;
             }
-            set {
+            set
+            {
                 possessesFor = value;
-                if (value != null) {
-                    foreach (var possession in possessed) { possessesFor.AddPossession(possession); }
+                if (value != null)
+                {
+                    foreach (var possession in possessed)
+                    {
+                        possessesFor.AddPossession(possession);
+                    }
                 }
             }
         }

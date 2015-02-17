@@ -23,22 +23,15 @@
         "LASI.Core": "",
         "LASI.Interop": "",
         "LASI.Utilities": "",
-"Rx-Core": "2.2.5"
+        "Rx-Core": "2.2.5"
     },
     "commands": {
-        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5005",
         "gen": "Microsoft.Framework.CodeGeneration",
         "ef": "EntityFramework.Commands"
     },
     "frameworks": {
-        "aspnet50": {
-            "dependencies": {
-                "LASI.Utilities": "",
-                "LASI.Core": "",
-                "LASI.Content": "",
-                "LASI.Interop": ""
-            }
-        }
+        "aspnet50": { }
     },
     "exclude": [
         "wwwroot",

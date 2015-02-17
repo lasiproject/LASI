@@ -248,6 +248,8 @@ namespace LASI.Core
         /// Gets the IPrepositional object which links the VerbPhrase to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
+        /// <summary>Gets all of the Direct and Indirect objects of the VerbPhrase.</summary>
+        public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
 
         #endregion Properties
 

@@ -12,7 +12,8 @@
         //var $uploadElement = $('#document-upload-input'),
         var $uploadList = $('#document-upload-list');
         //$uploadButton = $('#document-upload-button');
-        $(document).find('.btn-file :file')
+        $(document)
+            .find('.btn-file :file')
             .change(function () {
                 var $input = $(this),
                     fileCount = $uploadList.find('span.file-index').length,

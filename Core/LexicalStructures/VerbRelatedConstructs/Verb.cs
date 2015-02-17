@@ -146,6 +146,8 @@ namespace LASI.Core
         /// Gets the direct objects of the Verb.
         /// </summary>
         public virtual IEnumerable<IEntity> DirectObjects => directObjects;
+        /// <summary>Gets all of the Direct and Indirect objects of the Verb.</summary>
+        public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
 
         /// <summary>
         /// Gets or the collection of IAdverbial modifiers which modify the Verb.

@@ -1,19 +1,15 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta lang="en" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+    <title>LASI</title>
+    <link rel="stylesheet" href="~/lib/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/css/bootstrap/bootstrap-theme.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <script src="~/dist/lib/lib.min.js"></script>
-
-
-    <script src="~/dist/app/app.min.js"></script>
-
+  
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -27,15 +23,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Results", "Index", "Results")</li>
+                    <li>@Html.ActionLink("About Asp.Net", "About", "Home")</li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
+    <!--Load the google data visualization AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="~/dist/lib/lib.min.js"></script>
+    <script src="~/dist/app/app.min.js"></script>
     <div class="container body-content">
+
         @RenderBody()
         <hr />
         <footer>
@@ -43,6 +44,7 @@
         </footer>
     </div>
 
-    @{await RenderSectionAsync("scripts", required: false);}
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

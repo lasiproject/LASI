@@ -82,10 +82,8 @@ namespace LASI.Core
         /// Returns an enumerator that iterates through the members of the aggregate entity.
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the aggregate entity.</returns>
-        public IEnumerator<IEntity> GetEnumerator()
-        {
-            return constituents.GetEnumerator();
-        }
+        public IEnumerator<IEntity> GetEnumerator() => constituents.GetEnumerator();
+
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -96,11 +94,13 @@ namespace LASI.Core
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString()
         {
-            return "[ " + constituents.Count() + " ] " +
-                string.Join(" ",
-                    from member in constituents.AsRecursivelyEnumerable()
-                    where !(member is IAggregateEntity)
-                    select member.GetType().Name + " \"" + member.Text + "\"");
+            var members = constituents.AsRecursivelyEnumerable().ToList();
+            return $@"[ {members.Count} ] {string.Join(" ",
+                from member in members
+                let quote = '\"'
+                where !(member is IAggregateEntity)
+                select $"{member.GetType().Name} {quote}{member.Text}{quote}")
+            }";
         }
 
         #endregion

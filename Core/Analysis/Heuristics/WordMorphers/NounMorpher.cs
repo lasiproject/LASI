@@ -20,7 +20,9 @@ namespace LASI.Core.Heuristics
         {
             exceptionData = File.ReadAllLines(ExceptionsFilePath)
                 .Select(ProcessLine)
-                .ToDictionary(entry => entry.Key, entry => entry.Value);
+                .GroupBy(entry => entry.Key, entry => entry.Value)
+                .DistinctBy(group => group.Key)
+                .ToDictionary(group => group.Key, group => group.SelectMany(values => values).ToList());
         }
 
         /// <summary>

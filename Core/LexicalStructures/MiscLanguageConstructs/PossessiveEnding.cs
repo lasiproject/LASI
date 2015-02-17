@@ -30,9 +30,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession) {
-            ProxyFor = ProxyFor ?? PreviousWord as IEntity;
-            if (ProxyFor != null) {
-                ProxyFor.AddPossession(possession);
+            PossessesFor = PossessesFor ?? PreviousWord as IEntity;
+            if (PossessesFor != null) {
+                PossessesFor.AddPossession(possession);
             }
             possessions = possessions.Add(possession);
         }
@@ -41,7 +41,7 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string represntation of the PossessiveEnding.</returns>
         public override string ToString() {
-            return base.ToString() + (VerboseOutput ? string.Format("\n\t\t\tSignifying {0} as owner of {1}", ProxyFor, Possessions.Format(e => e.Text)) : string.Empty);
+            return base.ToString() + (VerboseOutput ? string.Format("\n\t\t\tSignifying {0} as owner of {1}", PossessesFor, Possessions.Format(e => e.Text)) : string.Empty);
         }
 
         #region Properties
@@ -50,7 +50,7 @@ namespace LASI.Core
         /// Gets or sets the possessing the Entity the PosssessiveEnding is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is tranferred to the target IEntity.
         /// </summary>
-        public IPossesser ProxyFor {
+        public IPossesser PossessesFor {
             get {
                 return possessesFor;
             }

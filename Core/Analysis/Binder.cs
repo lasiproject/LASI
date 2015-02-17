@@ -68,25 +68,26 @@ namespace LASI.Core
                     .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence =>
                     {
-                        try { new SubjectBinder().Bind(sentence); } catch (Exception e)
-                        {
-                            if (e is NullReferenceException || e is VerblessPhrasalSequenceException)
-                            {
-                                e.LogIfDebug();
-                            } else { throw; }
+                        try { new SubjectBinder().Bind(sentence); }
+                        catch (Exception e) if (e is NullReferenceException ||
+                                                e is VerblessPhrasalSequenceException)
+                       { 
+                            e.Log();
                         }
                         try
                         {
                             new ObjectBinder().Bind(sentence);
-                        } catch (Exception x) if (x is InvalidStateTransitionException ||
-                                                  x is VerblessPhrasalSequenceException ||
-                                                  x is InvalidOperationException)
+                        }
+                        catch (Exception x) if (x is InvalidStateTransitionException ||
+                                                x is VerblessPhrasalSequenceException ||
+                                                x is InvalidOperationException)
                         {
-                            x.LogIfDebug();
+                            x.Log();
                         }
 
                     });
-            } catch (Exception x) { x.LogIfDebug(); }
+            }
+            catch (Exception x) { x.Log(); }
         }
 
         private static void MatchSentences(IEnumerable<Sentence> sentences)

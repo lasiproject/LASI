@@ -14,12 +14,12 @@ namespace AspSixApp.Controllers
     using LASI.Interop;
     using LASI.Utilities;
     using Directory = System.IO.Directory;
-    using DirectoryInfo = System.IO.DirectoryInfo;
     using Path = System.IO.Path;
     using SerializerSettings = Newtonsoft.Json.JsonSerializerSettings;
     using CamelCasePropertyNamesContractResolver = Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver;
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, Models.Results.JobStatus>;
     using ProcessedDocumentSet = System.Collections.Immutable.IImmutableSet<Document>;
+    using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
     public class ResultsController : Controller
     {
         public ResultsController()
@@ -89,7 +89,7 @@ namespace AspSixApp.Controllers
 
         private async Task<IEnumerable<Document>> LoadResults()
         {
-            var extensionMap = new LASI.Content.ExtensionWrapperMap(path => null);
+            var extensionMap = new FileExtensionMap(path => null);
             var files = Directory.EnumerateFiles(UserDocumentsDirectory)
                 .Select(file =>
                 {

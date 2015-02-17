@@ -13,45 +13,66 @@ namespace LASI.App
 {
     static class SharedFunctionality
     {
-        internal static void LaunchLASIWebsite(Window source) {
-            try {
+        internal static void LaunchLASIWebsite(Window source)
+        {
+            try
+            {
                 System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["ProjectWebsite"]);
-            } catch (Exception x) {
+            }
+            catch (Exception x)
+            {
                 MessageBox.Show(source, UiMessages.UnableToReachLASIWebSite);
                 Output.WriteLine(x.Message); Output.WriteLine(x);
             }
         }
-        internal static void OpenManualWithInstalledViewer(Window source) {
-            try {
+        internal static void OpenManualWithInstalledViewer(Window source)
+        {
+            try
+            {
                 System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
-            } catch (FileNotFoundException) {
+            }
+            catch (FileNotFoundException)
+            {
                 MessageBox.Show(source, UiMessages.UnableToLocateManual);
-            } catch (Exception x) {
+            }
+            catch (Exception x)
+            {
                 MessageBox.Show(source, UiMessages.UnableToOpenManual);
                 Output.WriteLine(x.Message); Output.WriteLine(x);
             }
         }
-        public static void DisplayMessage(this Window window, string message) {
+        public static void DisplayMessage(this Window window, string message)
+        {
             MessageBox.Show(window, message);
         }
-        public static void DisplayMessageWhen(this Window window, bool condition, string message) {
+
+        public static void DisplayMessageWhen(this Window window, Func<bool> condition, string message) => window.DisplayMessageWhen(condition(), message);
+        public static void DisplayMessageWhen(this Window window, bool condition, string message)
+        {
             if (condition) { window.DisplayMessage(message); }
         }
-        internal static async Task HandleDropAddAsync(Window window, DragEventArgs e, Func<FileInfo, Task> processValid) {
-            if (!DocumentManager.CanAdd) {
+        internal static async Task HandleDropAddAsync(Window window, DragEventArgs e, Func<FileInfo, Task> processValid)
+        {
+            if (!DocumentManager.CanAdd)
+            {
                 MessageBox.Show(window, UiMessages.DocumentLimitExceeded);
-            } else {
+            }
+            else
+            {
                 var data = e.Data.GetData(DataFormats.FileDrop, true);
                 var validFiles = DocumentManager.GetValidFilesInPathList(data as string[]);
 
-                if (validFiles.Any()) {
-                    foreach (var file in validFiles) {
+                if (validFiles.Any())
+                {
+                    foreach (var file in validFiles)
+                    {
                         var fileNamePresent = DocumentManager.HasFileWithName(file.Name);
                         window.DisplayMessageWhen(fileNamePresent, $"A document named {file} is already part of the current project.");
-                        if (!fileNamePresent) {
-                            window.DisplayMessageWhen(file.UnableToOpen(), 
-                                $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
-                            if (!file.UnableToOpen()) {
+                        if (!fileNamePresent)
+                        {
+                            window.DisplayMessageWhen(file.UnableToOpen(), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            if (!file.UnableToOpen())
+                            {
                                 await processValid(file);
                             }
                         }
@@ -61,36 +82,49 @@ namespace LASI.App
 
             }
         }
-      
-        internal static void HandleDropAdd(Window source, DragEventArgs e, Action<FileInfo> whereValid) {
-            if (!DocumentManager.CanAdd) {
+
+        internal static void HandleDropAdd(Window source, DragEventArgs e, Action<FileInfo> forValid)
+        {
+            if (!DocumentManager.CanAdd)
+            {
                 MessageBox.Show(source, UiMessages.DocumentLimitExceeded);
-            } else {
+            }
+            else
+            {
                 var data = e.Data.GetData(DataFormats.FileDrop, true);
                 var validFiles = DocumentManager.GetValidFilesInPathList(data as string[]);
-                if (!validFiles.Any()) {
+                if (!validFiles.Any())
+                {
                     MessageBox.Show(source, $"Cannot add a file of type {data}; " + UiMessages.ValidDocumentFormats);
-                } else {
-                    foreach (var file in validFiles) {
-                        if (DocumentManager.HasFileWithName(file.Name)) {
+                }
+                else
+                {
+                    foreach (var file in validFiles)
+                    {
+                        if (DocumentManager.HasFileWithName(file.Name))
+                        {
                             source.DisplayMessage($"A document named {file} is already part of the current project.");
-                        } else {
-                            if (file.UnableToOpen()) {
-                                source.DisplayMessage($"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
-                            } else {
-                                whereValid(file);
-                            }
+                        }
+                        else if (file.UnableToOpen())
+                        {
+                            source.DisplayMessage($"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                        }
+                        else
+                        {
+                            forValid(file);
                         }
                     }
                 }
             }
         }
 
-        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() {
+        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer()
+        {
             var format = Properties.Settings.Default.OutputFormat;
             return SerializerFactory.Create(format);
         }
-        internal static void DisplayPreferencesWindow(Window source) {
+        internal static void DisplayPreferencesWindow(Window source)
+        {
             var preferences = new PreferencesWindow();
             preferences.Left = (source.Left - preferences.Left) / 2;
             preferences.Top = (source.Top - preferences.Top) / 2;

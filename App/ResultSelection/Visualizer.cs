@@ -43,7 +43,6 @@ namespace LASI.App
                     IsSelectionEnabled = true,
                 });
                 chart.Title = $"Key Relationships in {document.Title}";
-                break;
             }
         }
 

@@ -117,5 +117,7 @@ namespace LASI.Utilities
         {
             return value.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static string ToPath(this IEnumerable<string> pathSegements) => System.IO.Path.Combine(pathSegements.ToArray());
     }
 }

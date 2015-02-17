@@ -1,18 +1,18 @@
 {
-    "name": "AspSixApp",
-    "private": true,
-    "dependencies": {
-        "jquery": "2.1.3",
-        "bootstrap": "~3.3.2",
-        "jquery-validation": "~1.13.1",
-        "jquery-validation-unobtrusive": "~3.2.2"
-    },
-    "exportsOverride": {
-        "bootstrap": {
-            "js": "dist/js/*.*",
-            "css": "dist/css/*.*",
-            "fonts": "dist/fonts/*.*"
-        }
-
+  "name": "AspSixApp",
+  "private": true,
+  "dependencies": {
+    "jquery": "2.1.3",
+    "bootstrap": "~3.3.2",
+    "jquery-validation": "~1.13.1",
+    "jquery-validation-unobtrusive": "~3.2.2",
+    "requirejs": "2.1.16"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/*.*",
+      "css": "dist/css/*.*",
+      "fonts": "dist/fonts/*.*"
     }
+  }
 }

@@ -69,8 +69,12 @@ namespace LASI.Core
             {
                 var maxWeight = source.Phrases.Max(p => p.Weight);
                 if (maxWeight != 0)
-                    foreach (var p in source.Phrases) p.Weight = p.Weight / maxWeight * 100;
-
+                {
+                    foreach (var phrase in source.Phrases)
+                    {
+                        phrase.Weight = phrase.Weight / maxWeight * 100;
+                    }
+                }
             }
         }
 

@@ -17,13 +17,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets the sequence of IEntity constructs which are indirect objects of the IInderectObjectTaker.
         /// </summary> 
-        IEnumerable<IEntity> IndirectObjects {
+        IEnumerable<IEntity> IndirectObjects
+        {
             get;
         }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the IInderectObjectTaker's IndirectObjects.
         /// </summary>
-        IAggregateEntity AggregateIndirectObject {
+        IAggregateEntity AggregateIndirectObject
+        {
             get;
         }
     }

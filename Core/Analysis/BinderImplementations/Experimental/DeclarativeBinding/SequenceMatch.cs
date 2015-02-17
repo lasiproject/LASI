@@ -4,25 +4,14 @@ using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.Linq.List;
 
-
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
-    /// <summary>
-    /// Represents a binding expression applied to a sequence if lexical constructs.
-    /// </summary>
+    /// <summary>Represents a binding expression applied to a sequence if lexical constructs.</summary>
     public class SequenceMatch
     {
-        internal SequenceMatch(IEnumerable<ILexical> sequencialElements)
-        {
-            value = sequencialElements.ToList();
-        }
-        internal SequenceMatch(Sentence setence)
-        {
-            value = setence.Phrases.Select(p => p as ILexical).ToList();
-
-        }
 
         #region Case Clauses
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -42,6 +31,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -54,6 +44,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -124,6 +115,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T5 : class, ILexical
         where T6 : class, ILexical
         where T7 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -170,17 +162,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T6 : class, ILexical
         where T7 : class, ILexical
         where T8 : class, ILexical
-        where T9 : class, ILexical
-            => CheckGuard(() =>
-        {
-            Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
-            if (Accepted)
-            {
-                pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                        Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9);
-                Values = Values.Skip(9);
-            }
-        });
+        where T9 : class, ILexical =>
+            CheckGuard(() =>
+             {
+                 Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                 if (Accepted)
+                 {
+                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
+                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9);
+                     Values = Values.Skip(9);
+                 }
+             });
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -220,6 +212,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -261,6 +254,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -304,6 +298,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -349,6 +344,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -396,6 +392,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -457,6 +454,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -508,6 +506,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -562,6 +561,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -603,21 +603,21 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T15 : class, ILexical
             where T16 : class, ILexical
             where T17 : class, ILexical
-            where T18 : class, ILexical
-        {
-            return CheckGuard(() =>
-            {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
-                if (Accepted)
+            where T18 : class, ILexical =>
+                CheckGuard(() =>
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                            Values[15] as T16, Values[16] as T17, Values[17] as T18);
-                    Values = Values.Skip(18);
-                }
-            });
-        }
+                    Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                    if (Accepted)
+                    {
+                        pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
+                                Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
+                                Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
+                                Values[15] as T16, Values[16] as T17, Values[17] as T18);
+                        Values = Values.Skip(18);
+                    }
+                });
+
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -676,6 +676,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                 }
             });
         }
+
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
         /// </summary>
@@ -739,12 +740,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             });
         }
 
-        #endregion
+        #endregion Case Clauses
 
         #region Ignore Clauses
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements of the given type out of the sequence before attempting to match any
+        /// subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <returns>The SentenceMatch so far.</returns>
@@ -754,8 +756,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(v => !(v is T1));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any
+        /// subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -767,8 +771,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(v => !(v is T1 || v is T2));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any
+        /// subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -782,8 +788,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(v => !(v is T1 || v is T2 || v is T3));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any
+        /// subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -799,8 +807,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements of the given types out of the sequence before attempting to match any
+        /// subsequent patterns.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -818,8 +828,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             predicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4 || v is T5));
             return this;
         }
+
         /// <summary>
-        /// Filters elements matching the supplied predicate out of the sequence before attempting to match any subsequent patterns.
+        /// Filters elements matching the supplied predicate out of the sequence before attempting
+        /// to match any subsequent patterns.
         /// </summary>
         /// <param name="predicate">The predicate which selects which elements to filter.</param>
         /// <returns>The SentenceMatch so far.</returns>
@@ -830,7 +842,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         }
 
         /// <summary>
-        /// Filters elements of the given type out of the sequence before attempting to match the next pattern.
+        /// Filters elements of the given type out of the sequence before attempting to match the
+        /// next pattern.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <returns>The SentenceMatch so far.</returns>
@@ -840,8 +853,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the
+        /// next pattern.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -853,8 +868,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the
+        /// next pattern.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -868,8 +885,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the
+        /// next pattern.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -885,8 +904,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4));
             return this;
         }
+
         /// <summary>
-        /// Filters elements of the given types out of the sequence before attempting to match the next pattern.
+        /// Filters elements of the given types out of the sequence before attempting to match the
+        /// next pattern.
         /// </summary>
         /// <typeparam name="T1">The first type of element to filter out.</typeparam>
         /// <typeparam name="T2">The second type of element to filter out.</typeparam>
@@ -904,8 +925,10 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Add(v => !(v is T1 || v is T2 || v is T3 || v is T4 || v is T5));
             return this;
         }
+
         /// <summary>
-        /// Filters elements matching the specified predicate out of the sequence before attempting to match the next pattern.
+        /// Filters elements matching the specified predicate out of the sequence before attempting
+        /// to match the next pattern.
         /// </summary>
         /// <param name="predicate">The predicate to apply to the sequence.</param>
         /// <returns>The SentenceMatch so far.</returns>
@@ -915,25 +938,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
 
-        #endregion
-
-        /// <summary>
-        /// Set the continuation mode of the SequenceMatch.
-        /// </summary>
-        /// <param name="mode">The continuation mode to set.</param>
-        /// <returns>The SentenceMatch so far.</returns>
-        public SequenceMatch WithContinuationMode(ContinuationMode mode)
-        {
-            continuationMode = mode;
-            return this;
-        }
+        #endregion Ignore Clauses
 
         #region Guard Clauses
 
-        /// <summary>
-        /// Predicates the next bind on the specified condition.
-        /// </summary>
-        /// <param name="condition">The condition which must be met for the next binding function to be attempted.</param>
+        /// <summary>Predicates the next bind on the specified condition.</summary>
+        /// <param name="condition">
+        /// The condition which must be met for the next binding function to be attempted.
+        /// </param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Guard(bool condition)
         {
@@ -941,10 +953,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             guarded = true;
             return this;
         }
-        /// <summary>
-        /// Predicates the next bind on the specified condition.
-        /// </summary>
-        /// <param name="condition">The condition which must be met for the next binding function to be attempted.</param>
+
+        /// <summary>Predicates the next bind on the specified condition.</summary>
+        /// <param name="condition">
+        /// The condition which must be met for the next binding function to be attempted.
+        /// </param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Guard(Func<bool> condition)
         {
@@ -952,6 +965,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             guarded = true;
             return this;
         }
+
         private SequenceMatch CheckGuard(Action onSuccess)
         {
             if (!Accepted && ApplicableGuardsSatisfied)
@@ -962,9 +976,42 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
 
-        #endregion
+        #endregion Guard Clauses
+
+        /// <summary>Set the continuation mode of the SequenceMatch.</summary>
+        /// <param name="mode">The continuation mode to set.</param>
+        /// <returns>The SentenceMatch so far.</returns>
+        public SequenceMatch WithContinuationMode(ContinuationMode mode)
+        {
+            continuationMode = mode;
+            return this;
+        }
+
+        public SequenceMatch AddLoggingBehavior(Action<object> loggingFunction)
+        {
+            Log += loggingFunction;
+            return this;
+        }
+
+        internal SequenceMatch(IEnumerable<ILexical> sequencialElements)
+        {
+            values = sequencialElements.ToList();
+        }
+
+        internal SequenceMatch(Sentence setence)
+        {
+            values = setence.Phrases.Select(p => p as ILexical).ToList();
+        }
 
         #region Private fields and properties
+
+        public Action<string> Log { get; private set; } = delegate { };
+
+        /// <summary>
+        /// Gets or sets the value indicating whether or not the a pattern has been matched.
+        /// </summary>
+        /// <returns></returns>
+        protected bool Accepted { get; set; }
 
         private IReadOnlyList<ILexical> FilterByIgnoreOncePredicates(List<ILexical> values)
         {
@@ -974,71 +1021,41 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             checkOncePredicates.Clear();
             return result;
         }
+
         private List<ILexical> Values
         {
-            get { return value; }
-            set { this.value = value; }
+            get { return values; }
+            set { this.values = value; }
         }
+
         private IReadOnlyList<ILexical> ValuesFilteredByIgnoreOncePredicates => FilterByIgnoreOncePredicates(Values);
 
         /// <summary>
-        /// Gets or sets the value indicating whether or not the a pattern has been matched.
-        /// </summary>
-        /// <returns></returns>
-        protected bool Accepted { get; set; }
-        /// <summary>
-        /// <c>true</c> if all guards have been satisfied or there are no applicable guards; otherwise, <c>false</c>.
+        /// <c>true</c> if all guards have been satisfied or there are no applicable guards;
+        /// otherwise, <c>false</c>.
         /// </summary>
         private bool ApplicableGuardsSatisfied => guarded && guardSatisfied || !guarded;
-
-        public Action<string> Log { get; private set; } = delegate { };
 
         private ContinuationMode continuationMode;
         private bool guardSatisfied;
         private bool guarded;
         private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private List<ILexical> value;
-        private bool recordResults;
+        private List<ILexical> values;
 
-        #endregion
-
-        public SequenceMatch RecordingResultsTo(System.IO.TextWriter logTo)
-        {
-            recordResults = true;
-            var logfunction = Log;
-            Log = (string s) =>
-            {
-                if (recordResults)
-                {
-                    logfunction(s);
-                    try
-                    {
-                        logTo.WriteLine(s);
-                    } catch (System.IO.IOException e)
-                    {
-                        e.Log();
-                        throw new MatchLoggingFailureException(e.Message, e);
-                    }
-                }
-            };
-            return this;
-        }
+        #endregion Private fields and properties
     }
 
-    /// <summary>
-    /// Determines how a match should be applied to a sentence or sentence fragment.
-    /// </summary>
+    /// <summary>Determines how a match should be applied to a sentence or sentence fragment.</summary>
     public enum ContinuationMode
     {
-        /// <summary>
-        /// After a successful match, no continuation will be performed.
-        /// </summary>
+        /// <summary>After a successful match, no continuation will be performed.</summary>
         None = 0,
+
         /// <summary>
-        /// After a successful match, the same patterns will be applied to the remainder of the sentence or sentence fragment.
+        /// After a successful match, the same patterns will be applied to the remainder of the
+        /// sentence or sentence fragment.
         /// </summary>
         Recursive,
     }
-
 }

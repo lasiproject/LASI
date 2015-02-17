@@ -30,6 +30,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the possessing Entity which possesses through the Weak Possessor.
         /// </summary>
-        IPossesser ProxyFor { get; set; }
+        IPossesser PossessesFor { get; set; }
     }
 }

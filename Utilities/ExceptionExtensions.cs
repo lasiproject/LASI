@@ -15,15 +15,5 @@ namespace LASI.Utilities
         {
             Output.WriteLine($"{exception.Message}\n{exception.StackTrace}");
         }
-        /// <summary>
-        /// Logs the Exception to the output channel if the debug flag is set.
-        /// </summary>
-        /// <param name="exception">The exception to log.</param>
-        public static void LogIfDebug(this Exception exception)
-        {
-#if DEBUG
-            exception.Log();
-#endif
-        }
     }
 }

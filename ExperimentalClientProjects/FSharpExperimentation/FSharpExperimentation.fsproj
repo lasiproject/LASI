@@ -70,7 +70,6 @@
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -93,6 +92,11 @@
     <ProjectReference Include="..\..\Interop\LASI.Interop.csproj">
       <Name>LASI.Interop</Name>
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\LASI.Utilities.csproj">
+      <Name>LASI.Utilities</Name>
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -898,15 +898,5 @@ namespace LASI.Utilities
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
 
         #endregion Query Operators
-
-        #region Enumerable Factories
-
-        public static IEnumerable<int> To(this int start, int stop)
-        {
-            start.NotLessThan(0);
-            return Enumerable.Range(start, stop - start - 1);
-        }
-
-        #endregion
     }
 }

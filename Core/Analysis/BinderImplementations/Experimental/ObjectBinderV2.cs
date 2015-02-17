@@ -51,7 +51,10 @@ namespace LASI.Core.Binding.Experimental
                                    select result;
             var bindingActions = ImagineBindings(releventElements.SkipWhile(p => !(p is VerbPhrase)));
             Phrase last = null;
-            foreach (var action in bindingActions) { last = action(); }
+            foreach (var action in bindingActions)
+            {
+                last = action();
+            }
             if (last != null)
             {
                 Bind(phrases.PhrasesAfter(last));

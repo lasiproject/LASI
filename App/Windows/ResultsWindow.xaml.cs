@@ -57,9 +57,9 @@ namespace LASI.App
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         public async Task CreateWeightViewsForAllDocumentsAsync()
         {
-            foreach (var doc in documents)
+            foreach (var document in documents)
             {
-                await CreateWeightViewAsync(doc);
+                await CreateWeightViewAsync(document);
 
             }
             SetupChartViewControls();
@@ -80,7 +80,7 @@ namespace LASI.App
             var weightedListPanel = new StackPanel();
             var grid = new Grid();
             grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
-            foreach (var l in nounPhraseLabels) { weightedListPanel.Children.Add(l); }
+            foreach (var label in nounPhraseLabels) { weightedListPanel.Children.Add(label); }
 
             var tab = new TabItem { Header = document.Title, Content = grid };
 

@@ -1,8 +1,6 @@
-﻿using Shared.Test.Attributes;
-
-namespace LASI.Content.Tests.Helpers
+﻿namespace LASI.Content.Tests.Helpers
 {
-    public sealed class ExpectedFileTypeWrapperMismatchExceptionAttribute : CustomizedExpectedExceptionBaseAttribute
+    public sealed class ExpectedFileTypeWrapperMismatchExceptionAttribute : Shared.Test.Attributes.CustomizedExpectedExceptionBaseAttribute
     {
         public ExpectedFileTypeWrapperMismatchExceptionAttribute() : base(typeof(FileTypeWrapperMismatchException)) { }
     }

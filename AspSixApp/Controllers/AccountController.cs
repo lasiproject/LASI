@@ -85,7 +85,8 @@ namespace AspSixApp.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
-                } else
+                }
+                else
                 {
                     AddErrors(result);
                 }
@@ -122,7 +123,8 @@ namespace AspSixApp.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                } else
+                }
+                else
                 {
                     AddErrors(result);
                 }
@@ -168,7 +170,8 @@ namespace AspSixApp.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
-            } else
+            }
+            else
             {
                 return RedirectToAction("Index", "Home");
             }

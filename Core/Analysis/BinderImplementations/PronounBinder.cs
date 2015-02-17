@@ -29,7 +29,7 @@ namespace LASI.Core.Binding
             foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor)) {
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns) {
-                    pro.ProxyFor = new AggregateEntity(vp.Subjects);
+                    pro.PossessesFor = new AggregateEntity(vp.Subjects);
                 }
             }
         }

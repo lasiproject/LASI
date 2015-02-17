@@ -100,7 +100,7 @@ namespace LASI.Core
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
         public IPossesser Possesser {
-            get { return possessor is IWeakPossessor ? (possessor as IWeakPossessor).ProxyFor ?? possessor : possessor; }
+            get { return possessor is IWeakPossessor ? (possessor as IWeakPossessor).PossessesFor ?? possessor : possessor; }
             set { possessor = value; }
         }
 

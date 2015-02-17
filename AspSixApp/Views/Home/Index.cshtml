@@ -1,21 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
-<div class="jumbotron">
-    <h1>ASP.NET 5</h1>
-    @using AspSixApp.Models;
 
-    <header>
-        <h1>@ViewBag.Title</h1>
-    </header>
+@using AspSixApp.Models;
 
-    <div id="main-content">
-        <div>
-            @Html.Partial("_DocumentUpload", new DocumentUploadModel
+<header>
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+</header>
+
+<div id="main-content">
+    <div>
+        @Html.Partial("_DocumentUpload", new DocumentUploadModel
        {
            UploadTarget = "fileuploadtarget"
        })
-        </div>
     </div>
-
 </div>
+

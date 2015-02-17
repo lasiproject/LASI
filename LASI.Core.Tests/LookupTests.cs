@@ -13,7 +13,8 @@ namespace LASI.Core.Heuristics.Tests
     public class LookupTests
     {
         [TestMethod]
-        public void GetGenderTest() {
+        public void GetGenderTest()
+        {
             var n = new ProperSingularNoun("Patrick");
 
             Assert.AreEqual(n.GetGender(), n.Gender);
@@ -29,7 +30,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsFemaleFullTest() {
+        public void IsFemaleFullTest()
+        {
             var np = new NounPhrase(new Word[] { new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts") });
             Assert.IsTrue(np.IsFemaleFull());
             Assert.IsFalse(np.IsMaleFull());
@@ -39,7 +41,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsMaleFullTest() {
+        public void IsMaleFullTest()
+        {
             var np = new NounPhrase(new Word[] { new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts") });
             Assert.IsTrue(np.IsMaleFull());
             Assert.IsFalse(np.IsFemaleFull());
@@ -49,13 +52,15 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsFirstNameTest() {
+        public void IsFirstNameTest()
+        {
             Assert.IsTrue(new ProperSingularNoun("Patrick").IsFirstName());
             Assert.IsTrue(new ProperSingularNoun("Rachel").IsFirstName());
         }
 
         [TestMethod]
-        public void IsLastNameTest() {
+        public void IsLastNameTest()
+        {
             Assert.IsTrue(new ProperSingularNoun("Patrick").IsLastName());
             Assert.IsTrue(new ProperSingularNoun("Williams").IsLastName());
             Assert.IsTrue(new ProperSingularNoun("Roberts").IsLastName());
@@ -63,7 +68,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsFemaleFirstTest() {
+        public void IsFemaleFirstTest()
+        {
             var n = new ProperSingularNoun("Rachel");
             Assert.IsTrue(n.IsFemaleFirst());
             Assert.IsFalse(n.IsMaleFirst());
@@ -72,7 +78,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsMaleFirstTest() {
+        public void IsMaleFirstTest()
+        {
             var n = new ProperSingularNoun("Patrick");
             var n1 = new ProperSingularNoun("James");
 
@@ -82,19 +89,22 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void GetSynonymsTest() {
+        public void GetSynonymsTest()
+        {
             Noun noun = new CommonSingularNoun("ball");
             Assert.IsTrue(noun.GetSynonyms().Any(n => !n.EqualsIgnoreCase(noun.Text)));
         }
 
         [TestMethod]
-        public void GetSynonymsTest1() {
+        public void GetSynonymsTest1()
+        {
             Verb verb = new BaseVerb("heal");
             Assert.IsTrue(verb.GetSynonyms().Any(v => !v.EqualsIgnoreCase(verb.Text)));
         }
 
         [TestMethod]
-        public void GetSynonymsTest2() {
+        public void GetSynonymsTest2()
+        {
             Assert.IsTrue(new Adverb("slow").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slowly").GetSynonyms().Any());
             Assert.IsTrue(new Adverb("slowest").GetSynonyms().Any());
@@ -102,13 +112,15 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void GetSynonymsTest3() {
+        public void GetSynonymsTest3()
+        {
             Adjective adjective = new Adjective("pale");
             Assert.IsTrue(adjective.GetSynonyms().Any(a => a.EqualsIgnoreCase(adjective.Text)));
         }
 
         [TestMethod]
-        public void IsSynonymForTest() {
+        public void IsSynonymForTest()
+        {
             Noun noun1 = new CommonSingularNoun("hobby");
             Noun noun2 = new CommonSingularNoun("passtime");
             Assert.IsTrue(noun1.IsSynonymFor(noun2));
@@ -116,7 +128,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsSynonymForTest1() {
+        public void IsSynonymForTest1()
+        {
             Verb verb1 = new BaseVerb("walk");
             Verb verb2 = new BaseVerb("perambulate");
             Assert.IsTrue(verb1.IsSynonymFor(verb2));
@@ -124,7 +137,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsSynonymForTest2() {
+        public void IsSynonymForTest2()
+        {
             Adverb adverb1 = new Adverb("fertively");
             Adverb adverb2 = new Adverb("stealthily");
             Assert.IsTrue(adverb1.IsSynonymFor(adverb2));
@@ -132,7 +146,8 @@ namespace LASI.Core.Heuristics.Tests
         }
 
         [TestMethod]
-        public void IsSynonymForTest3() {
+        public void IsSynonymForTest3()
+        {
             Adjective adjective1 = new Adjective("pale");
             Adjective adjective2 = new Adjective("palid");
             Assert.IsTrue(adjective1.IsSynonymFor(adjective2));
