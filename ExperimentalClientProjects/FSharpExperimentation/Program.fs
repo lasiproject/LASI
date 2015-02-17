@@ -1,22 +1,15 @@
 ﻿// Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
-
-#if INTERACTIVE
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Utilities.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Core.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Content.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\FSharpExperimentation\bin\Debug\LASI.Interop.dll"
-#else
-module LASI.FSharpExperimentation.program
-System.IO.Directory.SetCurrentDirectory(@"C:\Users\Aluan\Documents\GitHub\LASI\App\Resources")
-#endif
-
-
 open LASI.Content
 open LASI.Core
 open LASI.Core.Heuristics
 open LASI.Interop
 open LASI.Interop.ResourceManagement
+
+let config = LASI.Utilities.JsonConfig("C:\Users\Aluan\Documents\GitHub\LASI\AspSixApp\resources.json")
+
+TaggerInterop.SharpNLPTagger.set_InjectedConfiguration (config)
+LASI.Core.Heuristics.Lexicon.set_InjectedConfiguration (config)
 
 let wrapFile (path : string) = 
     match path.Split('.') |> Array.last with
@@ -93,9 +86,6 @@ let run =
         
         processPhrases << Seq.toList <| doc.Phrases //bind and output the document.
 
-#if INTERACTIVE
-do run
-#else
 [<EntryPoint>]
 let main argv = 
     do run
@@ -107,4 +97,3 @@ let main argv =
     //    printfn "type exit to exit..."
     waitForInput()
 // the last value computed by the function is the exit code
-#endif

@@ -36,7 +36,7 @@ namespace LASI.Utilities
 
         private static void ValidateFileExistence(string filePath)
         {
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException("Unable to locate the specified file.", filePath);
             }
