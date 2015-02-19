@@ -37,7 +37,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>
-        protected T Value { get; }
+        protected T Value { get; set; }
         #endregion
     }
 }

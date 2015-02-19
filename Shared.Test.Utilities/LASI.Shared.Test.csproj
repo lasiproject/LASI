@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assertions\Extensions.cs" />
     <Compile Include="Attributes\CustomizedExpectedExceptionBaseAttribute.cs" />
     <Compile Include="Attributes\ExpectedFileNotFoundExceptionAttribute.cs" />
     <Compile Include="Attributes\ExpectedInvalidOperationExceptionAttribute.cs" />

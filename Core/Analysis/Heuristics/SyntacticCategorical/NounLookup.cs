@@ -11,6 +11,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
+    using LASI.Core.Analysis.Heuristics.WordMorphing;
     using static Enumerable;
     using EventArgs = ResourceLoadEventArgs;
     using Link = NounLink;

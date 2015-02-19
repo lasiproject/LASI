@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using LASI.Utilities;
+using Newtonsoft.Json;
+using System;
 
 namespace LASI.Content.Serialization.Json
 {
@@ -41,11 +44,11 @@ namespace LASI.Content.Serialization.Json
         {
             return new JObject(GetRoleIndependentProperties(entity))
             {
-                new JProperty("subjectOf", elementNames[entity.SubjectOf]),
-                new JProperty("directObjectOf", elementNames[entity.DirectObjectOf]),
-                new JProperty("referees", from referencedBy in entity.Referencers select elementNames[referencedBy]),
-                new JProperty("descriptors", from descriptor in entity.Descriptors select elementNames[descriptor]),
-                new JProperty("possessed", from possession in entity.Possessions select elementNames[possession])
+                new JProperty("subjectOf", ElementNameMappingProvider [entity.SubjectOf]),
+                new JProperty("directObjectOf", ElementNameMappingProvider [entity.DirectObjectOf]),
+                new JProperty("referees", from referencedBy in entity.Referencers select ElementNameMappingProvider [referencedBy]),
+                new JProperty("descriptors", from descriptor in entity.Descriptors select ElementNameMappingProvider [descriptor]),
+                new JProperty("possessed", from possession in entity.Possessions select ElementNameMappingProvider [possession])
             };
         }
 
@@ -73,8 +76,8 @@ namespace LASI.Content.Serialization.Json
                 new JProperty("subjects", verbal.Subjects),
                 new JProperty("directObjects", verbal.DirectObjects),
                 new JProperty("indirectObjects", verbal.IndirectObjects),
-                new JProperty("modality", verbal.AdverbialModifiers),
-                new JProperty("adverbialModifiers", verbal.AdverbialModifiers)
+                new JProperty("modality", verbal.Modality),
+                new JProperty("adverbialModifiers", verbal.AdverbialModifiers.Select(ToJObject))
             };
         }
         /// <summary>
@@ -98,11 +101,30 @@ namespace LASI.Content.Serialization.Json
         {
             return new[] {
                 new JProperty("text", element.Text),
-                new JProperty("name", elementNames[element]),
+                new JProperty("name", ElementNameMappingProvider [element]),
                 new JProperty("weight", element.Weight ),
                 new JProperty("metaWeight", element.MetaWeight)
             };
         }
-        private static readonly NodeNameMapper elementNames = new NodeNameMapper();
+        private static readonly NodeNameMapper ElementNameMappingProvider = new NodeNameMapper();
+        private class AdverbialConverter : JsonConverter
+        {
+            private static readonly Type TargetType = typeof(IAdverbial);
+            public override bool CanConvert(Type objectType)
+            {
+                return objectType.GetInterfaces().Any(interfaceType => interfaceType == TargetType);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                IAdverbial target = value as IAdverbial;
+                writer.WriteRaw(target.ToJObject().ToString());
+            }
+        }
     }
 }

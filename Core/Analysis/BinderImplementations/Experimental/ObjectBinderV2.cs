@@ -76,7 +76,8 @@ namespace LASI.Core.Binding.Experimental
             var next = targetVerbPhrases.LastOrDefault(v => v.NextPhrase != null && v.Sentence == v.NextPhrase.Sentence);
             if (next != null)
             {
-                results.Add(targetVerbPhrases.Last().NextPhrase.Match().Yield<Func<Phrase>>()
+                results.Add(targetVerbPhrases.Last()
+                    .NextPhrase.Match().Yield<Func<Phrase>>()
                     .Case((NounPhrase n) => () =>
                     {
                         targetVerbPhrases.ToList().ForEach(v => v.BindDirectObject(n));
@@ -92,7 +93,8 @@ namespace LASI.Core.Binding.Experimental
                     {
                         targetVerbPhrases.ToList().ForEach(v => v.BindIndirectObject(p.NextPhrase as IEntity));
                         return p;
-                    }).Result());
+                    })
+                .Result());
             }
             return results;
         }

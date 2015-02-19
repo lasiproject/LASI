@@ -113,6 +113,7 @@
     <Compile Include="AdjectiveTest.cs" />
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpherTest.cs" />
     <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="DocumentTest.cs" />
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
-    <Compile Include="ExpressionExtensionsTests.cs" />
+    <Compile Include="ExpressionExtensionsTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
@@ -137,10 +138,10 @@
     <Compile Include="InvertedClauseBeginPhraseTest.cs" />
     <Compile Include="IQuantifiableTest.cs" />
     <Compile Include="ISimpleGenderedTest.cs" />
-    <Compile Include="LookupTests.cs" />
+    <Compile Include="LexiconTest.cs" />
     <Compile Include="ModalAuxilaryTest.cs" />
     <Compile Include="ModalTest.cs" />
-    <Compile Include="NounConjugatorTest.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\NounMorpherTest.cs" />
     <Compile Include="NounPhraseTest.cs" />
     <Compile Include="NounTest.cs" />
     <Compile Include="ParagraphTest.cs" />
@@ -166,7 +167,7 @@
     <Compile Include="SymbolTest.cs" />
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
-    <Compile Include="VerbConjugatorTest.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpherTest.cs" />
     <Compile Include="VerbPhraseTest.cs" />
     <Compile Include="VerbTest.cs" />
     <Compile Include="WeightTest.cs" />

@@ -8,12 +8,13 @@ namespace LASI.Utilities
     using System.Numerics;
     using LASI.Utilities;
     using Utilities.Validation;
+
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
     /// </summary>
     public static class EnumerableExtensions
     {
-        #region Display Formatting Methods
+        #region Formatting Methods
 
         /// <summary>
         /// Returns a formated string representation of the IEnumerable sequence with the pattern: [
@@ -217,7 +218,7 @@ namespace LASI.Utilities
                 }).Text.TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
 
-        #endregion Sequence String Formatting Methods
+        #endregion Formatting Methods
 
         #region Query Operators
 
@@ -298,6 +299,75 @@ namespace LASI.Utilities
             Func<TAccumulate, TResult> resultSelector) => resultSelector(source.Aggregate(seed, func));
 
         /// <summary>
+        /// Enumerates a sequence from right to left, applying an accumulator function to each element.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
+        /// <param name="func">An accumulator function to be invoked on each element</param>
+        /// <seealso cref="Enumerable.Aggregate{TSource}(IEnumerable{TSource}, Func{TSource, TSource, TSource})" />
+        /// <returns>The final accumulator value.</returns>
+        public static TSource AggregateRight<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func) => source.Reverse().Aggregate(func);
+
+        /// <summary>
+        /// Applies an accumulator function over a sequence, incorporating each elements index into
+        /// the calculation.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
+        /// <param name="func">
+        /// An accumulator function to be invoked on each element; the element's index, determined
+        /// by enumeration order, is available as the third argument.
+        /// </param>
+        /// <returns>The final accumulator value.</returns>
+        /// <seealso cref="EnumerableExtensions.Aggregate{TSource}(IEnumerable{TSource}, Func{TSource, TSource, int, TSource})" />
+        public static TSource AggregateRight<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) => source.Reverse().Aggregate(func);
+
+        /// <summary>
+        /// Enumerates a sequence from right to left, applying an accumulator function which
+        /// incorporating each element's index into the calculation. The specified seed value is
+        /// used as the initial accumulator value.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
+        /// <param name="source">
+        /// An <see cref="System.Collections.Generic.IEnumerable{TSource}" /> to aggregate over.
+        /// </param>
+        /// <param name="seed">The initial accumulator value.</param>
+        /// <param name="func">
+        /// An accumulator function to be invoked on each element; the element's index, determined
+        /// by enumeration order, is available as the third argument.
+        /// </param>
+        /// <returns>The final accumulator value.</returns>
+        /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
+        public static TAccumulate AggregateRight<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) => source.Reverse().Aggregate(seed, func);
+
+        /// <summary>
+        /// Enumerates a sequence from right to left, applying an accumulator function over a
+        /// sequence, incorporating each element's index into the calculation. The specified seed
+        /// value is used as the initial accumulator value, and the specified function is used to
+        /// select the result value.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
+        /// <typeparam name="TResult">The type of the resulting value.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
+        /// <param name="seed">The initial accumulator value.</param>
+        /// <param name="func">
+        /// An accumulator function to be invoked on each element; the element's index, determined
+        /// by enumeration order, is available as the third argument.
+        /// </param>
+        /// <param name="resultSelector">
+        /// A function to transform the final accumulator value into the result value.
+        /// </param>
+        /// <returns>The transformed final accumulator value.</returns>
+        /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
+        public static TResult AggregateRight<TSource, TAccumulate, TResult>(
+            this IEnumerable<TSource> source,
+            TAccumulate seed,
+            Func<TAccumulate, TSource, int, TAccumulate> func,
+            Func<TAccumulate, TResult> resultSelector) => resultSelector(source.AggregateRight(seed, func));
+
+        /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consisting of the
         /// original sequence followed by the appended element.
         /// </summary>
@@ -318,43 +388,55 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// <para>Produces a Tuple&lt;<see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
-        /// representing the sequence bifurcated by the provided predicate.</para> 
-        /// The first item contains those elements for which the predicate returns <c>true</c>; the second those items for which the predicate returns <c>false</c>.
+        /// <para>
+        /// Produces a Pair&lt;<see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
+        /// holding the sequence bifurcated by the provided predicate.
+        /// </para>
+        /// <para>
+        /// The <see cref="Pair{TResult,TResult}.First"/> property contains those elements for which the predicate returns <c>true</c>.</para>
+        /// <para>The <see cref="Pair{TResult,TResult}.Second"/> property contains those items for which the predicate returns <c>false</c>.
+        /// </para>
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">The sequence of values to bisect.</param>
-        /// <param name="predicate">
-        /// The predicate used to determine in which sequence to place each element.
-        /// </param>
+        /// <param name="partitioner">The predicate by which to bifurcate the source sequence.</param>
         /// <returns>
-        /// A Tuple&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; representing the sequence
+        /// A Pair&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; Produces the sequence
         /// bifurcated by the provided predicate.
         /// </returns>
-        public static Tuple<IEnumerable<T>, IEnumerable<T>> Bisect<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static Pair<IEnumerable<T>, IEnumerable<T>> Bifurcate<T>(this IEnumerable<T> source, Func<T, bool> partitioner)
         {
-            var partitions = source.ToLookup(predicate);
-            return Tuple.Create(partitions[true], partitions[false]);
+            var partitions = source.ToLookup(partitioner);
+            return Pair.Create(partitions[true], partitions[false]);
         }
 
         /// <summary>
-        /// Returns a Tuple&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt;
-        /// representing the sequence bifurcated by the provided predicate. A result selector
-        /// function is used to project the two resulting sequences into a new form.
+        /// <para>
+        /// Returns a Pair&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt;
+        /// holding the sequence bifurcated by the provided predicate.
+        /// </para>
+        /// <para>
+        /// The <see cref="Pair{TResult,TResult}.First"/> property contains the projection applied to the elements for which the predicate returns <c>true</c>.</para>        
+        /// <para>
+        /// The <see cref="Pair{TResult,TResult}.Second"/> property contains the projection applied to the elements for which the predicate returns <c>false</c>.
+        /// </para>
+        /// <para>
+        /// A result selector function is used to project the two resulting sequences into a new form.
+        /// </para> 
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <typeparam name="TResult">The type of the items in the tupled result.</typeparam>
         /// <param name="source">The sequence of values to bisect.</param>
-        /// <param name="predicate">The predicate by which to bisect.</param>
+        /// <param name="partitioner">The predicate by which to bifurcate the source sequence.</param>
         /// <param name="resultSelector">A function to project both of the resulting sequences.</param>
         /// <returns>
-        /// A Tuple&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt;
-        /// representing the sequence bifurcated by the provided predicate.
+        /// A Pair&lt;<typeparamref name="TResult" />, <typeparamref name="TResult" />&gt; holding
+        /// the sequence bifurcated by the provided predicate.
         /// </returns>
-        public static Tuple<TResult, TResult> Bisect<T, TResult>(this IEnumerable<T> source, Func<T, bool> predicate, Func<IEnumerable<T>, TResult> resultSelector)
+        public static Pair<TResult, TResult> Bifurcate<T, TResult>(this IEnumerable<T> source, Func<T, bool> partitioner, Func<IEnumerable<T>, TResult> resultSelector)
         {
-            var partitions = source.Bisect(predicate);
-            return Tuple.Create(resultSelector(partitions.Item1), resultSelector(partitions.Item2));
+            var partitions = source.Bifurcate(partitioner);
+            return Pair.Create(resultSelector(partitions.First), resultSelector(partitions.Second));
         }
 
         /// <summary>
@@ -386,14 +468,28 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Produces the set difference of two sequences under the given projection.
+        /// Transforms a possibly <c>null</c><see cref="IEnumerable{T}" /> into an empty enumerable.
+        /// Return an empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is
+        /// <c>null</c>; otherwise <paramref name="source" />.
         /// </summary>
+        /// <typeparam name="T">The type of the elements of the <see cref="IEnumerable{T}" />.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}" /> to transform.</param>
+        /// <returns>
+        /// An empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is <c>null</c>;
+        /// otherwise <paramref name="source" />.
+        /// </returns>
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
+
+        /// <summary>Produces the set difference of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
         /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>
         /// <param name="first">The first sequence.</param>
         /// <param name="second">The second sequence.</param>
         /// <param name="selector">The projection by which to compare elements.</param>
-        /// <returns>A sequence that contains the set difference of the elements of two sequences under the given projection.</returns>
+        /// <returns>
+        /// A sequence that contains the set difference of the elements of two sequences under the
+        /// given projection.
+        /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) /*where TKey : IEquatable<TKey>*/
         {
             return first.Except(second,
@@ -402,15 +498,17 @@ namespace LASI.Utilities
                     x => selector(x).GetHashCode())
             );
         }
-        /// <summary>
-        /// Produces the set intersection of two sequences under the given projection.
-        /// </summary>
+
+        /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
         /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>
         /// <param name="first">The first sequence.</param>
         /// <param name="second">The second sequence.</param>
         /// <param name="selector">The projection by which to compare elements.</param>
-        /// <returns>A sequence that contains the set intersection of the elements of two sequences under the given projection.</returns>
+        /// <returns>
+        /// A sequence that contains the set intersection of the elements of two sequences under the
+        /// given projection.
+        /// </returns>
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
             Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
@@ -423,9 +521,7 @@ namespace LASI.Utilities
                 );
         }
 
-        /// <summary>
-        /// Returns the maximal element of the given sequence, based on the given projection.
-        /// </summary>
+        /// <summary>Returns the maximal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
         /// <typeparam name="TKey">Type of the projected element</typeparam>
         /// <param name="source">Source sequence</param>
@@ -440,9 +536,7 @@ namespace LASI.Utilities
             Func<TSource, TKey> selector)
             where TKey : IComparable<TKey> => source.MaxBy(selector, Comparer<TKey>.Default);
 
-        /// <summary>
-        /// Returns the maximal element of the given sequence, based on the given projection.
-        /// </summary>
+        /// <summary>Returns the maximal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
         /// <typeparam name="TKey">Type of the projected element</typeparam>
         /// <param name="source">Source sequence</param>
@@ -460,9 +554,7 @@ namespace LASI.Utilities
             return source.OrderByDescending(selector, comparer).First();
         }
 
-        /// <summary>
-        /// Returns the minimal element of the given sequence, based on the given projection.
-        /// </summary>
+        /// <summary>Returns the minimal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
         /// <typeparam name="TKey">Type of the projected element</typeparam>
         /// <param name="source">Source sequence</param>
@@ -474,9 +566,7 @@ namespace LASI.Utilities
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
         public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IComparable<TKey> => source.MinBy(selector, Comparer<TKey>.Default);
 
-        /// <summary>
-        /// Returns the minimal element of the given sequence, based on the given projection.
-        /// </summary>
+        /// <summary>Returns the minimal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence.</typeparam>
         /// <typeparam name="TKey">Type of the projected element.</typeparam>
         /// <param name="source">Source sequence.</param>
@@ -494,9 +584,7 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        /// <summary>
-        /// Determines whether no element of a sequence satisfy a condition.
-        /// </summary>
+        /// <summary>Determines whether no element of a sequence satisfy a condition.</summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">
         /// An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.
@@ -504,17 +592,13 @@ namespace LASI.Utilities
         /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
         public static bool None<TSource>(this IEnumerable<TSource> source) => !source.Any();
 
-        /// <summary>
-        /// Determines whether a parallel sequence is empty.
-        /// </summary>
+        /// <summary>Determines whether a parallel sequence is empty.</summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
         /// <param name="source">The sequence to check for emptiness.</param>
         /// <returns><c>false</c> if the source sequence contains any elements; otherwise, <c>true</c>.</returns>
         public static bool None<T>(this ParallelQuery<T> source) => !source.Any();
 
-        /// <summary>
-        /// A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.
-        /// </summary>
+        /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
         /// An System.Collections.Generic.IEnumerable&lt;T&gt; from which to build a pairwise sequence.
@@ -576,12 +660,9 @@ namespace LASI.Utilities
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the input sequences.</typeparam>
         /// <typeparam name="TKey">The type of the projected elements.</typeparam>
-        /// <param name="first">
-        /// An <see cref="IEnumerable{T}" /> to compare to <paramref name="second" />.
-        /// </param>
+        /// <param name="first">An <see cref="IEnumerable{T}" /> to compare to <paramref name="second" />.</param>
         /// <param name="second">
-        /// An <see cref="IEnumerable{T}" /> to compare to the first sequence <paramref
-        /// name="second" />.
+        /// An <see cref="IEnumerable{T}" /> to compare to the first sequence <paramref name="second" />.
         /// </param>
         /// <param name="selector">
         /// A function to project the elements of the two sequences for comparison.
@@ -602,7 +683,7 @@ namespace LASI.Utilities
         /// <param name="source">The sequence of values to representing all elements in question.</param>
         /// <param name="predicate">The predicate used to delineate elements.</param>
         /// <returns></returns>
-        public static double PercentOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static double PercentTrue<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             return source
                 .Aggregate(new { Length = 0, Matched = 0 },
@@ -611,80 +692,60 @@ namespace LASI.Utilities
                 );
         }
 
-        /// <summary>
-        /// Calculates the percentage of true values in the collection of Boolean values.
-        /// </summary>
+        /// <summary>Calculates the percentage of true values in the collection of Boolean values.</summary>
         /// <param name="delineated">
         /// The collection of boolean values to for which to calculate the percent that are <c>== true</c>.
         /// </param>
         /// <returns>The percentage of true values in the collection of Boolean values.</returns>
-        public static double PercentOf(this IEnumerable<bool> delineated) => delineated.PercentOf(v => v);
+        public static double PercentTrue(this IEnumerable<bool> delineated) => delineated.PercentTrue(v => v);
 
         #endregion Statistical
 
         #region Product
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="Complex" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="Complex" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static Complex Product(this IEnumerable<Complex> source) => source.Aggregate(Complex.One, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="BigInteger" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="BigInteger" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static BigInteger Product(this IEnumerable<BigInteger> source) => source.Aggregate(BigInteger.One, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="long" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="long" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static long Product(this IEnumerable<long> source) => source.Aggregate(1L, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="int" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="int" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static int Product(this IEnumerable<int> source) => source.Aggregate(1, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="decimal" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="decimal" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static decimal Product(this IEnumerable<decimal> source) => source.Aggregate(1M, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="double" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="double" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static double Product(this IEnumerable<double> source) => source.Aggregate(1D, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of <see cref="float" /> values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="float" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>The product of all values in the source sequence.</returns>
         public static float Product(this IEnumerable<float> source) => source.Aggregate(1F, (z, y) => z * y);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of Boolean values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of Boolean values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>
         /// <c>true</c> if all values in the source sequence are equal to <c>true</c>; otherwise <c>false</c>.
         /// </returns>
         public static bool Product(this IEnumerable<bool> source) => source.Product(b => b);
 
-        /// <summary>
-        /// Calculates the Product of a sequence of Boolean values.
-        /// </summary>
+        /// <summary>Calculates the Product of a sequence of Boolean values.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="booleanSelector">
         /// A function to transform each element into a Boolean value.
@@ -799,15 +860,16 @@ namespace LASI.Utilities
             Validate.NotNull(comparer, "comparer");
             return new HashSet<TSource>(source, comparer);
         }
-        /// <summary>
-        /// Produces the set union of two sequences under the given projection.
-        /// </summary>
+
+        /// <summary>Produces the set union of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
         /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>
         /// <param name="first">The first sequence.</param>
         /// <param name="second">The second sequence.</param>
         /// <param name="selector">The projection by which to compare elements.</param>
-        /// <returns>A sequence that contains the set union of the elements of two sequences under the given projection.</returns>
+        /// <returns>
+        /// A sequence that contains the set union of the elements of two sequences under the given projection.
+        /// </returns>
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
         {
             return first.Union(second,
@@ -817,9 +879,7 @@ namespace LASI.Utilities
             );
         }
 
-        /// <summary>
-        /// Merges three sequences by using the specified function to select elements.
-        /// </summary>
+        /// <summary>Merges three sequences by using the specified function to select elements.</summary>
         /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
         /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
         /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
@@ -840,9 +900,7 @@ namespace LASI.Utilities
                 Func<TFirst, TSecond, TThird, TResult> selector) =>
             first.Zip(second, (a, b) => new { a, b }).Zip(third, (ab, c) => selector(ab.a, ab.b, c));
 
-        /// <summary>
-        /// Merges four sequences by using the specified function to select elements.
-        /// </summary>
+        /// <summary>Merges four sequences by using the specified function to select elements.</summary>
         /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
         /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
         /// <typeparam name="T3">The type of the elements of the third input sequence.</typeparam>
@@ -880,22 +938,9 @@ namespace LASI.Utilities
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
         public static IEnumerable<Pair<T, int>> WithIndex<T>(this IEnumerable<T> source) => source.Select((element, index) => new Pair<T, int>(element, index));
+
         public static IDictionary<TKey, Pair<TValue, int>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
             dictionary.Select((entry, index) => Pair.Create(entry.Key, Pair.Create(entry.Value, index))).ToDictionary(x => x.First, x => x.Second);
-        /// <summary>
-        /// Transforms a possibly <c>null</c><see cref="IEnumerable{T}" /> into an empty enumerable.
-        /// Return an empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is
-        /// <c>null</c>; otherwise <paramref name="source" />.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of the elements of the <see cref="IEnumerable{T}" />.
-        /// </typeparam>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to transform.</param>
-        /// <returns>
-        /// An empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is <c>null</c>;
-        /// otherwise <paramref name="source" />.
-        /// </returns>
-        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
 
         #endregion Query Operators
     }

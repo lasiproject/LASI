@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using LASI.Utilities;
-using LASI.Utilities.SupportTypes;
+using LASI.Utilities.Specialized;
+using LASI.Utilities.Specialized.Option;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -422,8 +423,6 @@ namespace LASI.Core.Analysis.PatternMatching
         #endregion
 
 
-
-
         internal static Match<T, TUpper> FromLowerToHigherResultType<TUpper, TResultX>(Match<T, TResultX> from) where TResultX : TUpper
         {
             var raised = new Match<T, TUpper>(from.Value, from.Matched);
@@ -432,6 +431,16 @@ namespace LASI.Core.Analysis.PatternMatching
                 raised.result = from.result;
             }
             return raised;
+        }
+
+        internal static Match<T, TXResult> TransferValue<TXResult>(Match<T, TXResult> from)
+        {
+            var targetExpression = new Match<T, TXResult>(from.Value, from.Matched);
+            if (targetExpression.Matched)
+            {
+                targetExpression.result = from.result;
+            }
+            return from;
         }
     }
 }

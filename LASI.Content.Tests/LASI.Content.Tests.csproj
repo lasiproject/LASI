@@ -79,7 +79,7 @@
     <Compile Include="PhraseTagsetMapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawTextFragmentTest.cs" />
-    <Compile Include="Serialization\Json\SerializationExtensionsTests.cs" />
+    <Compile Include="Serialization\Json\SerializationExtensionsTest.cs" />
     <Compile Include="TaggedFileTest.cs" />
     <Compile Include="TaggedTextFragmentTest.cs" />
     <Compile Include="TaggerTest.cs" />

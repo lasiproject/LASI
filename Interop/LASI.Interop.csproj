@@ -60,12 +60,13 @@
     <Compile Include="ProgressReporting\MB.cs" />
     <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ProgressReporting\ProgressReportEventArgs.cs" />
-    <Compile Include="IStyleProvider.cs" />
+    <Compile Include="Visualization\IStyleProvider.cs" />
     <Compile Include="ResourceUsageManager.cs" />
     <Compile Include="AnalysisOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLayerProviders.cs" />
     <Compile Include="ResourceNotifier.cs" />
+    <Compile Include="Visualization\ITextualRepresenation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LASI\Core\Interop\" />

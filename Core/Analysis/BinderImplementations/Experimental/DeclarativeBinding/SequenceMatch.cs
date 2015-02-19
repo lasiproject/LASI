@@ -989,7 +989,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         public SequenceMatch AddLoggingBehavior(Action<object> loggingFunction)
         {
-            Log += loggingFunction;
+            Log += x => loggingFunction(x);
             return this;
         }
 
@@ -1019,7 +1019,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                          where checkOncePredicates.All(f => f(value)) && predicates.All(f => f(value))
                          select value;
             checkOncePredicates.Clear();
-            return result;
+            return result.AsReadOnly();
         }
 
         private List<ILexical> Values

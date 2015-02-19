@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-
+using System.Collections.Generic;
 namespace LASI.Utilities
 {
     public abstract class ConfigBase : IConfig
@@ -23,15 +23,15 @@ namespace LASI.Utilities
             var response = request.GetResponse() as System.Net.HttpWebResponse;
             if (response?.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                throw new ArgumentException("Unable to retrieve the remote JSON object.");
+                throw new ArgumentException("Unable to retrieve the remote document.");
             }
             Func<int> readByte = response.GetResponseStream().ReadByte;
-            var chars = new System.Collections.Generic.List<int>();
+            var chars = new List<char>();
             for (var b = readByte(); b != -1; b = readByte())
             {
-                chars.Add(b);
+                chars.Add((char)b);
             }
-            rawConfigData = new string(chars.Select(i => (char)i).ToArray());
+            rawConfigData = new string(chars.ToArray());
         }
 
         private static void ValidateFileExistence(string filePath)

@@ -2,23 +2,23 @@
 using System.Collections.Immutable;
 using System.Linq;
 using LASI.Core;
-using LASI.Utilities;
 
 namespace AspSixApp.Models.DocumentStructures
 {
+    using LASI.Utilities.Specialized.Enhanced.Linq.List;
+
     public class DocumentSetModel : TextualModel<IEnumerable<Document>>
     {
         public DocumentSetModel(IEnumerable<Document> documents) : base(documents)
         {
-            DocumentModels = DocumentModels.AddRange(
-                documents.Select(d => new DocumentModel(d, this))
-            );
+            DocumentModels = from document in documents.ToList()
+                             select new DocumentModel(document, this);
         }
 
         public override Style Style => new Style { CssClass = "documentlist" };
         // TODO: Fix name of lambda arg
         public override string Text => $@"{GetType()}:\n{string.Join("\n\n", DocumentModels.Select(m => m.Text))}";
-        public ImmutableList<DocumentModel> DocumentModels { get; } = ImmutableList<DocumentModel>.Empty;
+        public IList<DocumentModel> DocumentModels { get; }
 
     }
 }

@@ -10,6 +10,7 @@ namespace LASI.Core.Heuristics.WordNet
     using Link = AdverbLink;
     using System.Collections.Immutable;
     using LASI.Utilities;
+    using LASI.Core.Analysis.Heuristics.WordMorphing;
 
     internal sealed class AdverbLookup : WordNetLookup<Adverb>
     {

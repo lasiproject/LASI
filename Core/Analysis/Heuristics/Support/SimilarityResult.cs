@@ -35,7 +35,7 @@ namespace LASI.Core.Heuristics
         private Similarity(bool similar, double similarityRatio) : this()
         {
             Boolean = similar;
-            Rational = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
+            Ratio = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="rational">The value to construct a Similarity from.</param>
         /// <returns>A new Similarity based on the given value.</returns>
-        public static Similarity FromRational(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
+        public static Similarity FromRatio(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
         /// <summary>
         /// Creates a new Similarity based on the given Boolean value.
         /// </summary>
@@ -105,7 +105,7 @@ namespace LASI.Core.Heuristics
         /// the other parameter.Zero This object is equal to other. Greater than zero This object is
         /// greater than other.
         /// </returns>
-        public int CompareTo(Similarity other) => Rational.CompareTo(other.Rational);
+        public int CompareTo(Similarity other) => Ratio.CompareTo(other.Ratio);
 
         /// <summary>
         /// Returns the hash code for this instance.
@@ -113,7 +113,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// A 32-bit signed integer hash code.
         /// </returns>
-        public override int GetHashCode() => Rational.GetHashCode() ^ Boolean.GetHashCode();
+        public override int GetHashCode() => Ratio.GetHashCode() ^ Boolean.GetHashCode();
         #endregion Methods
 
         #region Properties
@@ -124,7 +124,7 @@ namespace LASI.Core.Heuristics
         /// <summary>
         /// Returns the rational value representing the degree of the determined for the SimilarityRatio.
         /// </summary>
-        public double Rational { get; }
+        public double Ratio { get; }
 
         #endregion Properties
 
@@ -158,7 +158,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// A double with the same value as the conversion target's RatioResult Property.
         /// </returns>
-        public static implicit operator double (Similarity sr) => sr.Rational;
+        public static implicit operator double (Similarity sr) => sr.Ratio;
 
         #endregion Implcit Conversion Operators
 
@@ -187,7 +187,7 @@ namespace LASI.Core.Heuristics
         /// <returns>
         /// <c>true</c> if the SimResult on the left is equal to the SimResult on the right.
         /// </returns>
-        public static bool operator ==(Similarity left, Similarity right) => left.Boolean == right.Boolean && left.Rational == right.Rational;
+        public static bool operator ==(Similarity left, Similarity right) => left.Boolean == right.Boolean && left.Ratio == right.Ratio;
 
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is not equal to the

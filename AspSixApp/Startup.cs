@@ -17,13 +17,13 @@ using Newtonsoft.Json.Serialization;
 
 namespace AspSixApp
 {
+    using BuilderExtensions;
     using LASI.Utilities;
-    using LASIConfig = LASI.Utilities.JsonConfig;
     using Path = System.IO.Path;
 
     public class Startup
     {
-        public Startup(/*IHostingEnvironment env*/)
+        public Startup(IHostingEnvironment env)
         {
             Configuration = new Configuration()
                .AddJsonFile("config.json")
@@ -33,13 +33,14 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTypeActivator<
             // Add MVC services to the services container.
-            services
-                .AddMvc()
+            services.AddMvc()
                 .AddWebApiConventions()
                 .Configure<MvcOptions>(options =>
                 {
-                    options.OutputFormatters.Select(formatter => formatter.Instance)
+                    options.OutputFormatters
+                        .Select(formatter => formatter.Instance)
                         .OfType<JsonOutputFormatter>().First()
                         .SerializerSettings = new JsonSerializerSettings
                         {
@@ -60,13 +61,14 @@ namespace AspSixApp
             // Add Identity services to the services container.
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(Configuration)
+                //.AddPasswordValidator<PasswordValidator<ApplicationUser>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            app.UseLASIComponents(configFilePath: Path.Combine(AppContext.BaseDirectory, "resources.json"));
+            app.UseLASIComponents(configFile: Path.Combine(AppContext.BaseDirectory, "resources.json"));
 
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
@@ -106,6 +108,6 @@ namespace AspSixApp
             });
         }
 
-        public IConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get; set; }
     }
 }

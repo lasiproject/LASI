@@ -1,4 +1,5 @@
 ﻿using System;
+using AspSixApp.BuilderExtensions;
 using Microsoft.Framework.Logging;
 
 namespace AspSixApp

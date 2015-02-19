@@ -30,9 +30,13 @@ namespace LASI.Core
         public Document(IEnumerable<Paragraph> paragraphs, string title)
         {
             Title = title;
-            var nonStandardAndStandardParagraphs = paragraphs.Bisect(p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading);
-            this.enumerationOrHeadingsParagraphs = nonStandardAndStandardParagraphs.Item1.ToList();
-            this.paragraphs = nonStandardAndStandardParagraphs.Item2.ToList();
+            var nonStandardAndStandardParagraphs = paragraphs
+                .Bifurcate(
+                    partitioner: p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading,
+                    resultSelector: ps => ps.ToList()
+                );
+            this.enumerationOrHeadingsParagraphs = nonStandardAndStandardParagraphs.First;
+            this.paragraphs = nonStandardAndStandardParagraphs.Second;
             new DocumentReifier(this).Reifiy();
         }
 

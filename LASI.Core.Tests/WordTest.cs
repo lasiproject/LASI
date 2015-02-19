@@ -24,11 +24,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -64,7 +67,8 @@ namespace LASI.Core.Tests
         #endregion
 
 
-        internal virtual Word CreateWord() {
+        internal virtual Word CreateWord()
+        {
             Word target = new CommonSingularNoun("dog");
             return target;
         }
@@ -73,7 +77,8 @@ namespace LASI.Core.Tests
         ///A test for Equals
         ///</summary>
         [TestMethod]
-        public void EqualsTest() {
+        public void EqualsTest()
+        {
             Word target = CreateWord();
             object obj = CreateWord();
             bool expected = false;
@@ -90,7 +95,8 @@ namespace LASI.Core.Tests
         ///A test for GetHashCode
         ///</summary>
         [TestMethod]
-        public void GetHashCodeTest() {
+        public void GetHashCodeTest()
+        {
             Word target = CreateWord();
             int expected = (target).GetHashCode();
             int actual;
@@ -103,7 +109,8 @@ namespace LASI.Core.Tests
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             Word target = CreateWord();
             string expected = target.GetType().Name + " \"" + target.Text + "\"";
             string actual;
@@ -117,7 +124,8 @@ namespace LASI.Core.Tests
         ///A test for Document
         ///</summary>
         [TestMethod]
-        public void ParentDocTest() {
+        public void ParentDocTest()
+        {
             Word target = CreateWord();
             Document parent = new Document(new[] { new Paragraph(new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }, null) }, ParagraphKind.Default) });
             Document expected = parent;
@@ -132,7 +140,8 @@ namespace LASI.Core.Tests
         ///A test for Text
         ///</summary>
         [TestMethod]
-        public void TextTest() {
+        public void TextTest()
+        {
             Word target = new BaseVerb("run");
             string expected = "run";
             string actual;
@@ -146,7 +155,8 @@ namespace LASI.Core.Tests
         ///A test for Weight
         ///</summary>
         [TestMethod]
-        public void WeightTest() {
+        public void WeightTest()
+        {
             Word target = CreateWord();
             double expected = new Random().NextDouble() * double.MaxValue;
             double actual;
@@ -159,7 +169,8 @@ namespace LASI.Core.Tests
         ///A test for VerboseOutput
         ///</summary>
         [TestMethod]
-        public void VerboseOutputTest() {
+        public void VerboseOutputTest()
+        {
             bool expected = false;
             bool actual;
             Word.VerboseOutput = expected;

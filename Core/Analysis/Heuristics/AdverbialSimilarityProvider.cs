@@ -72,7 +72,7 @@ namespace LASI.Core.Heuristics
                 first.Words.OfAdverb()
                 .Zip(second.Words.OfAdverb(),
                     (a, b) => a.IsSynonymFor(b))
-                .PercentOf();
+                .PercentTrue();
             return Similarity.FromBoolean(first == second || percentMatched > SIMILARITY_THRESHOLD);
         }
     }

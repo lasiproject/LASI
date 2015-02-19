@@ -67,9 +67,15 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The Action which, if this Case expression is Matched, will be invoked on the value being matched over.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Then(Action<T> action) => Accepted ? expression.Case(action) : expression;
-        public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();
-        public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();
-        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ? expression.Yield<TResult>().Case(value) : expression.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(Func<T, TResult> f) => Accepted ?
+            expression.Yield<TResult>().Case(f) :
+            expression.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(Func<TResult> f) => Accepted ?
+            expression.Yield<TResult>().Case(f) :
+            expression.Yield<TResult>();
+        public Match<T, TResult> Then<TResult>(TResult value) => Accepted ?
+            expression.Yield<TResult>().Case(value) :
+            expression.Yield<TResult>();
 
         #region Fields
         private Match<T> expression;

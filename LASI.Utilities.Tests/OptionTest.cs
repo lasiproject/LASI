@@ -1,7 +1,8 @@
-﻿using LASI.Utilities.SupportTypes;
+﻿using LASI.Utilities.Specialized;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Shared.Test.Attributes;
+using LASI.Utilities.Specialized.Option;
 
 namespace LASI.Utilities.Tests
 {

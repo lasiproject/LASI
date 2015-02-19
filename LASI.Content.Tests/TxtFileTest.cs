@@ -6,8 +6,6 @@ using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {
-
-
     /// <summary>
     ///This is a test class for TextFileTest and is intended
     ///to contain all TextFileTest Unit Tests

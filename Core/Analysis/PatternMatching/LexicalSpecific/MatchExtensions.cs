@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
 
@@ -92,6 +93,7 @@ namespace LASI.Core
     ///	as/is operator semantics, which do not consider user defined conversions, it will not naturally adjust if the such conversions are defined)
     /// </para>
     /// </remarks>
+    [System.Diagnostics.DebuggerStepThrough]
     public static class MatchExtensions
     {
         /// <summary>
@@ -130,7 +132,13 @@ namespace LASI.Core
         {
             return Match<T, TResult>.FromLowerToHigherResultType<TRBase, TResult>(match).Case(func);
         }
-
+        public static Match<T, IEnumerable<TResult>> Case<T, TCase, TResultEnumerable, TResult>(this Match<T, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
+           where TResultEnumerable : IEnumerable<TResult>
+           where T : class, ILexical
+           where TCase : class, ILexical
+        {
+            return Match<T, IEnumerable<TResult>>.TransferValue(match).Case<T, TCase, TResultEnumerable, IEnumerable<TResult>>(func);
+        }
         public static SequenceMatch Match(this Sentence sentence)
         {
             return new SequenceMatch(sentence);

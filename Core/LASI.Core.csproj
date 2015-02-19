@@ -101,8 +101,10 @@
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdverbCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\NounCategory.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\VerbCategory.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphers\ExceptionEntry.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphers\IWordMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\ExceptionEntry.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\IWordMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\ExcDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
@@ -154,7 +156,7 @@
     <Compile Include="Analysis\Heuristics\EntitySimilarityProvider.cs" />
     <Compile Include="Analysis\Heuristics\DescriptorSimilarityProvider.cs" />
     <Compile Include="Analysis\Heuristics\Support\SimilarityResult.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphers\AdverbMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\AdverbMorpher.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\UnknownWord.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ISimpleGendered.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributable.cs" />
@@ -217,7 +219,7 @@
     <Compile Include="Analysis\Heuristics\Support\LexicalComparers.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdjectiveLookup.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\AdverbLookup.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphers\NounMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\NounMorpher.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\CommonNoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperNoun.cs" />
@@ -282,7 +284,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\ProperSingularNoun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ToLinker.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphers\VerbMorpher.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpher.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\VerbLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />

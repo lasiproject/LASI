@@ -116,8 +116,8 @@
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LexicalElementInfo\ContextMenuFactory.cs" />
-    <Compile Include="LexicalElementStyling\SyntacticColorMapping.cs" />
+    <Compile Include="Visualization\ContextMenuBuilder.cs" />
+    <Compile Include="Visualization\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
     <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
       <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
@@ -503,6 +503,7 @@
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

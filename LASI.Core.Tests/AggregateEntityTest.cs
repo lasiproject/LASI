@@ -280,9 +280,9 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("claws")),
                 new NounPhrase(new CommonPluralNoun("teeth"))
             };
+            foreach (var possession in possessions) { target.AddPossession(possession); }
             IEnumerable<IPossessable> actual;
             actual = target.Possessions;
-            foreach (var possession in possessions) { target.AddPossession(possession); }
             foreach (var possession in possessions) { Assert.IsTrue(actual.Contains(possession)); }
 
         }

@@ -15,6 +15,7 @@ namespace LASI.Core.Heuristics.WordNet
     using System.Reactive.Linq;
     using System.Collections.Immutable;
     using EventArgs = ResourceLoadEventArgs;
+    using LASI.Core.Analysis.Heuristics.WordMorphing;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -22,14 +23,16 @@ namespace LASI.Core.Heuristics.WordNet
         /// Initializes a new instance of the VerbThesaurus class. 
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for verbals.</param>
-        public VerbLookup(string path) {
+        public VerbLookup(string path)
+        {
             filePath = path;
         }
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary> 
-        internal override void Load() {
+        internal override void Load()
+        {
             //using (var reader = new StreamReader(filePath)) {
             OnReport(new EventArgs("Parsing File", 0));
             OnReport(new EventArgs("Mapping Verb Sets", 0));
@@ -37,10 +40,12 @@ namespace LASI.Core.Heuristics.WordNet
                     //.AsParallel()
                     //.Select((line, i) => new { Line = line, Index = i })
 
-                    ) {
+                    )
+            {
                 var set = CreateSet(indexed.Item1);
                 LinkSynset(set);
-                if (indexed.Item2 % PROGRESS_MODULUS == 0) {
+                if (indexed.Item2 % PROGRESS_MODULUS == 0)
+                {
                     OnReport(new EventArgs(string.Format(PROGRESS_FORMAT, indexed.Item2), PROGRESS_AMOUNT));
                 }
             }
@@ -48,18 +53,23 @@ namespace LASI.Core.Heuristics.WordNet
             //}
         }
 
-        private IEnumerable<Tuple<string, int>> LoadData() {
-            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read))) {
-                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i) {
+        private IEnumerable<Tuple<string, int>> LoadData()
+        {
+            using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read)))
+            {
+                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i)
+                {
                     reader.ReadLine();
                 }
                 int lineNumber = 0;
-                for (var line = reader.ReadLine(); line != null; ++lineNumber, line = reader.ReadLine()) {
+                for (var line = reader.ReadLine(); line != null; ++lineNumber, line = reader.ReadLine())
+                {
                     yield return Tuple.Create(line, lineNumber);
                 }
             }
         }
-        private static VerbSynSet CreateSet(string setLine) {
+        private static VerbSynSet CreateSet(string setLine)
+        {
             var line = setLine.Substring(0, setLine.IndexOf('|')).Replace('_', '-');
 
             var referencedSets =
@@ -75,22 +85,29 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
 
-        private void LinkSynset(VerbSynSet set) {
+        private void LinkSynset(VerbSynSet set)
+        {
             setsById[set.Id] = set;
-            foreach (var word in set.Words) {
+            foreach (var word in set.Words)
+            {
                 VerbSynSet extantSet;
-                if (setsByWord.TryGetValue(word, out extantSet)) {
+                if (setsByWord.TryGetValue(word, out extantSet))
+                {
                     extantSet.Words.UnionWith(set.Words);
                     extantSet.ReferencedSet.UnionWith(set.ReferencedSet);
-                } else {
+                }
+                else
+                {
                     setsByWord[word] = set;
                 }
             }
         }
-        private IImmutableSet<string> SearchFor(string search) {
+        private IImmutableSet<string> SearchFor(string search)
+        {
             var setBuilder = ImmutableHashSet.CreateBuilder(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            setBuilder.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root => {
+            setBuilder.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root =>
+            {
                 VerbSynSet containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(set => set.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
@@ -110,8 +127,10 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        internal override IImmutableSet<string> this[string search] {
-            get {
+        internal override IImmutableSet<string> this[string search]
+        {
+            get
+            {
                 return SearchFor(search);
             }
         }
@@ -121,8 +140,10 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        internal override IImmutableSet<string> this[Verb search] {
-            get {
+        internal override IImmutableSet<string> this[Verb search]
+        {
+            get
+            {
                 return this[search.Text];
             }
         }

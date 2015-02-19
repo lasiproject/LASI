@@ -5,10 +5,13 @@ using System.Linq;
 namespace LASI.Utilities.Specialized.Enhanced.Linq.List
 {
     /// <summary>
-    /// Provides a set of methods for querying collections of type <see cref="List{T}" /> allowing
-    /// queries over lists to transparently return <see cref="List{T}" /> instead of <see
+    /// Provides a set of methods for querying collections of type <see cref="IList{T}" /> allowing
+    /// queries over lists to transparently return <see cref="IList{T}" /> instead of <see
     /// cref="IEnumerable{T}" />
     /// </summary>
+    /// <seealso cref="Enumerable"/>
+    /// <seealso cref="IList{T}"/>
+    /// <seealso cref="List{T}"/>
     public static class ListExtensions
     {
         /// <summary>
@@ -19,21 +22,21 @@ namespace LASI.Utilities.Specialized.Enhanced.Linq.List
         /// <param name="list">A list of values to invoke a transform function on.</param>
         /// <param name="selector">A transform function to apply to each element.</param>
         /// <returns>
-        /// A <see cref="List{R}"/> whose elements are the result of invoking the transform function on each element of source.
+        /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform function on each element of source.
         ///</returns>
-        public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) =>
+        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) =>
             list.AsEnumerable().Select(selector).ToList();
 
         /// <summary>
         /// Filters a lsit of values based on a predicate.
         /// </summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
-        /// <param name="list">A <see cref="List{T}" /> to filter.</param>
+        /// <param name="list">A <see cref="IList{T}" /> to filter.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>
-        /// A <see cref="List{T}" /> that contains elements from the input list that satisfy the condition.
+        /// A <see cref="IList{T}" /> that contains elements from the input list that satisfy the condition.
         /// </returns>
-        public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) =>
+        public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) =>
             list.AsEnumerable().Where(predicate).ToList();
 
         /// <summary>
@@ -45,10 +48,10 @@ namespace LASI.Utilities.Specialized.Enhanced.Linq.List
         /// <param name="list">A list of values to project.</param>
         /// <param name="selector">A transform function to apply to each element.</param>
         /// <returns>
-        /// A <see cref="List{R}" /> whose elements are the result of invoking the one-to-many
+        /// A <see cref="IList{R}" /> whose elements are the result of invoking the one-to-many
         /// transform function on each element of the input list.
         /// </returns>
-        public static List<R> SelectMany<T, R>(this List<T> list, Func<T, IEnumerable<R>> selector) =>
+        public static IList<R> SelectMany<T, R>(this IList<T> list, Func<T, IEnumerable<R>> selector) =>
             list.AsEnumerable().SelectMany(selector).ToList();
 
         /// <summary>
@@ -69,11 +72,11 @@ namespace LASI.Utilities.Specialized.Enhanced.Linq.List
         /// A transform function to apply to each element of the intermediate sequence.
         /// </param>
         /// <returns>
-        /// A <see cref="List{R}" /> whose elements are the result of invoking the one-to-many
+        /// A <see cref="IList{R}" /> whose elements are the result of invoking the one-to-many
         /// transform function collectionSelector on each element of source and then mapping each of
         /// those sequence elements and their corresponding source element to a result element.
         /// </returns>
-        public static List<R> SelectMany<T, TCollection, R>(this List<T> list, Func<T, IEnumerable<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector) =>
+        public static IList<R> SelectMany<T, TCollection, R>(this IList<T> list, Func<T, IEnumerable<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector) =>
             list.AsEnumerable().SelectMany(collectionSelector, resultSelector).ToList();
 
         /// <summary>
@@ -111,5 +114,19 @@ namespace LASI.Utilities.Specialized.Enhanced.Linq.List
             if (count > source.Count) { return new List<T>(); }
             return source.GetRange(count, source.Count - count);
         }
+        /// <summary>
+        /// Performs the specified action on each element of the <see cref="System.Collections.Generic.IList{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the list</typeparam>
+        /// <param name="list">The list over which to execute.</param>
+        /// <param name="action">The <see cref="System.Action{T}"/> delegate to perform on each element of the <see cref="System.Collections.Generic.IList{T}"/>.</param>
+        public static void ForEach<T>(this IList<T> list, Action<T> action)
+        {
+            for (int i = 0; i < list.Count; ++i)
+            {
+                action(list[i]);
+            }
+        }
+        public static IReadOnlyList<T> AsReadOnly<T>(this IList<T> list) => list as IReadOnlyList<T> ?? list.ToList();
     }
 }

@@ -9,15 +9,15 @@ namespace LASI.Utilities
     public static class CharacterExtensions
     {
         /// <summary>
-        /// Returns a value indicating whether the character is a valid letter.
+        /// Returns a value indicating whether the character is a letter of the english alphabet.
         /// </summary>
         /// <param name="c">
         /// The character to test.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the character is a letter; otherwise, <c>false</c>.
+        /// <c>true</c> if the character is a letter in of english alphabet; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsAlphabetic(this char c) => c > 96 && c < 123 || c > 64 && c < 91;
+        public static bool IsEnglishLetter(this char c) => c > 96 && c < 123 || c > 64 && c < 91;
 
         /// <summary>
         /// Returns a value indicating whether the character is a consonant.
@@ -28,7 +28,7 @@ namespace LASI.Utilities
         /// <returns>
         /// <c>true</c> if the character is a consonant; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsConsonant(this char c) => c.EqualsIgnoreCase('Y') || c.IsAlphabetic() && !c.IsVowel();
+        public static bool IsConsonant(this char c) => c.EqualsIgnoreCase('Y') || c.IsEnglishLetter() && !c.IsVowel();
 
         /// <summary>
         /// Returns a value indicating whether the character is a lowercase letter.
@@ -94,7 +94,7 @@ namespace LASI.Utilities
         /// <param name="other">The second character to compare</param>
         /// <returns> <c>true</c> if the given characters considered are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>This comparison uses the default culture.</remarks>
-        public static bool EqualsIgnoreCase(this char c, char other) => c.ToUpper() == other.ToUpper();
+        public static bool EqualsIgnoreCase(this char c, char other) => c < 65 || c > 122 ? c == other : (c >= 96 ? c - 32 : c) == (other >= 96 ? other - 32 : other);
 
         private const string VOWELS = "AEIOUY";
     }

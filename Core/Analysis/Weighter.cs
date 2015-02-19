@@ -87,11 +87,11 @@ namespace LASI.Core
             var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                  .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
-                             select e.Match().Yield<IEntity>()
-                                   .Case((Noun n) => n)
-                                   .When((IReferencer r) => r.RefersTo != null)
-                                   .Then((IReferencer r) => r.RefersTo)
-                               .Result(e);
+                             from entity in e.Match()
+                                .When((IReferencer r) => r.RefersTo != null)
+                                .Then((IReferencer r) => r.RefersTo)
+                                .Case((IEntity x) => x)
+                             select entity;
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
 
         }

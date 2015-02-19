@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using LASI.Utilities.Specialized;
+using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -169,7 +171,7 @@ namespace LASI.Core
                 e.Match()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
-                    .Case((Word w) => new[] { w })
+                    .Case((Word w) => w.Lift())
                 .Result().EmptyIfNull());
         }
 
@@ -180,25 +182,19 @@ namespace LASI.Core
         {
             return elements.SelectMany(e => e.Match()
                     .Case((Clause c) => c.Phrases)
-                    .Case((Phrase p) => new[] { p })
-                    .Result().EmptyIfNull());
+                    .Case((Phrase p) => p.Lift())
+                .Result().EmptyIfNull());
         }
 
         /// <summary>Gets all of the Clause instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements)
-        {
-            return elements.OfType<Clause>();
-        }
+        public static IEnumerable<Clause> OfClause(this IEnumerable<ILexical> elements) => elements.OfType<Clause>();
 
         /// <summary>Returns all Entities in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter.</param>
         /// <returns>All Entities in the sequence.</returns>
-        public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements)
-        {
-            return elements.OfType<IEntity>();
-        }
+        public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) => elements.OfType<IEntity>();
 
         /// <summary>Returns all Verbals in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>

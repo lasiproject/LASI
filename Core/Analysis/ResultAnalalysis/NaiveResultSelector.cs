@@ -20,9 +20,9 @@ namespace LASI.Core
             return from svs in data
                    let dataPoint = new
                    {
-                       Key = string.Format("{0} -> {1}\n", svs.Subject.Text, svs.Verbal.Text) +
-                       (svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
-                       (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty),
+                       Key = $"{svs.Subject.Text} -> {svs.Verbal.Text}\n" + 
+                                ((svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
+                                (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)),
                        Value = (float)Math.Round(svs.Weight, 2)
                    }
                    group dataPoint by dataPoint into pointGroup
@@ -66,10 +66,10 @@ namespace LASI.Core
                               .Case((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
                           .Result(entity)
                           where e != null
-                          group new { Key = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
+                          group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
                           where g.Any()
                           select g.MaxBy(x => x.Value) into result
-                          select Pair.Create(result.Key, result.Value);
+                          select Pair.Create(result.Name, result.Value);
             return results;
         }
     }

@@ -236,8 +236,8 @@ namespace LASI.App
                                     from entity in verbal.Subjects
                                         .AsParallel()
                                         .WithDegreeOfParallelism(Concurrency.Max)
-                                    from subject in entity
-                                        .Match().When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
+                                    from subject in entity.Match()
+                                        .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
                                         .Then((IReferencer r) => r.RefersTo)
                                         .Case((IEntity e) => e)
 

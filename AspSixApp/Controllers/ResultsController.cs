@@ -41,8 +41,6 @@ namespace AspSixApp.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        [HttpGet]
         public async Task<ViewResult> Results()
         {
             var documents = await LoadResults();
@@ -57,7 +55,6 @@ namespace AspSixApp.Controllers
             return View(new DocumentSetModel(documents));
         }
 
-        [HttpPost]
         public async Task<ActionResult> Upload()
         {
             //if (!Directory.Exists(UserDocumentsDir))

@@ -1,5 +1,4 @@
 using LASI.App.Dialogs;
-using LASI.App.LexicalElementInfo;
 using LASI.Content;
 using LASI.Content.Serialization.Xml;
 using LASI.Core;
@@ -17,6 +16,7 @@ using LASI.Content.Serialization;
 
 namespace LASI.App
 {
+    using LASI.App.Visualization;
     using LASI.Interop.ResourceManagement;
     using LASI.Utilities;
     using FileInfo = System.IO.FileInfo;
@@ -137,7 +137,7 @@ namespace LASI.App
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sentence => sentence.Phrases());
-            var colorizer = new SyntacticColorMap();
+            var colorizer = new LASI.App.Visualization.SyntacticColorMap();
             var flowDocument = new System.Windows.Documents.FlowDocument();
 
             var documentContents = (from phrase in phrases
@@ -154,7 +154,7 @@ namespace LASI.App
 
             foreach (var source in documentContents)
             {
-                source.ContextMenu = ContextMenuFactory.ForLexical(source.Tag as Phrase, documentContents);
+                source.ContextMenu = ContextMenuBuilder.ForLexical(source.Tag as Phrase, documentContents);
             }
             var p = new System.Windows.Documents.Paragraph();
             p.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));

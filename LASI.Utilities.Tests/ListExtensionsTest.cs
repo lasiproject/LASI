@@ -85,7 +85,7 @@ namespace LASI.Utilities.Tests
                          select x;
             AssertTestSuiteCommonAssertions(expected, actual);
         }
-        private static void AssertTestSuiteCommonAssertions<T>(List<T> expected, List<T> actual)
+        private static void AssertTestSuiteCommonAssertions<T>(IList<T> expected, IList<T> actual)
         {
             Assert.IsNotNull(actual);
             // expected and actual contain the same items.

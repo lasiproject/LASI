@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Reporting;
-using LASI.Utilities.SupportTypes;
+using LASI.Utilities.Specialized;
+using LASI.Utilities.Specialized.Enhanced.Universal;
+using LASI.Utilities.Specialized.Option;
 
 namespace LASI.Core
 {
@@ -258,11 +260,14 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<IEntity> ResolvingReferences<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity
         {
-            return entities.SelectMany(entity =>
-                entity.Match().Yield<IEnumerable<IEntity>>()
-                    .When((IReferencer r) => r.RefersTo.Any())
-                    .Then((IReferencer r) => r.RefersTo)
-                .Result(Enumerable.Empty<IEntity>()));
+            return entities
+                .SelectMany(entity =>
+                    from matchResult in entity.Match()
+                        .When((IReferencer r) => r.RefersTo.Any())
+                        .Then((IReferencer r) => r.RefersTo)
+                        .Case((IEntity e) => e.Lift())
+                    from result in matchResult
+                    select result);
         }
 
         #endregion Sequential Implementations
@@ -516,10 +521,14 @@ namespace LASI.Core
         /// </returns>
         public static ParallelQuery<IEntity> ResolvingReferences<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : class, IEntity
         {
-            return entities.SelectMany(e => e.Match().Yield<IEnumerable<IEntity>>()
-                    .When((IReferencer r) => r.RefersTo.Any())
-                    .Then((IReferencer r) => r.RefersTo.AsEnumerable())
-                .Result(e.ToOption()));
+            return entities
+                .SelectMany(x =>
+                    from matchResult in x.Match()
+                       .When((IReferencer r) => r.RefersTo.Any())
+                       .Then((IReferencer r) => r.RefersTo)
+                       .Case((IEntity e) => e.Lift())
+                    from result in matchResult
+                    select result);
         }
 
         #endregion Parallel Implementations

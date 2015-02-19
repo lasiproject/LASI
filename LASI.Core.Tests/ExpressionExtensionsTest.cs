@@ -1,68 +1,27 @@
-﻿using LASI.Core.Heuristics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LASI.Core.Heuristics;
 using System;
-using LASI.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace L_CoreTests
+namespace LASI.Core.Heuristics.Tests
 {
-    
-    
-    /// <summary>
-    ///This is a test class for ExpressionExtensionsTest and is intended
-    ///to contain all ExpressionExtensionsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ExpressionExtensionsTest
     {
+        [TestMethod]
+        public void IsRelatedToTest1() {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        /// <summary>
+            IEntity e1 = new CommonPluralNoun("dogs");
+            IEntity e2 = new CommonPluralNoun("cats");
+            IVerbal v = new BaseVerb("chase");
+            e1.SetRelationshipLookup(new SampleRelationshipLookup(new[] { v }));
+            v.BindSubject(e1);
+            v.BindDirectObject(e2);
+            Assert.IsTrue(e1.IsRelatedTo(e2).On(v));
+        } /// <summary>
         ///A test for SetRelationshipLookup
         ///</summary>
         [TestMethod()]
@@ -91,7 +50,7 @@ namespace L_CoreTests
         ///A test for IsRelatedTo
         ///</summary>
         [TestMethod()]
-        public void IsRelatedToTest() {
+        public void IsRelatedToTest2() {
             IEntity performer = null; // TODO: Initialize to an appropriate value
             IEntity receiver = null; // TODO: Initialize to an appropriate value
             Nullable<ActionsRelatedOn> expected = new Nullable<ActionsRelatedOn>(); // TODO: Initialize to an appropriate value

@@ -21,7 +21,8 @@ namespace LASI.Core
         /// <param name="verbal">The verbal component of the relationship.</param>
         /// <param name="direct">The direct object component of the relationship.</param>
         /// <param name="indirect">The indirect object component of the relationship.</param>
-        public SvoRelationship(IEntity subject, IVerbal verbal, IEntity direct, IEntity indirect) {
+        public SvoRelationship(IEntity subject, IVerbal verbal, IEntity direct, IEntity indirect)
+        {
             Verbal = verbal; Subject = subject; Direct = direct; Indirect = indirect;
         }
         /// <summary>
@@ -49,8 +50,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
-        public IEnumerable<ILexical> Elements {
-            get {
+        public IEnumerable<ILexical> Elements
+        {
+            get
+            {
                 yield return Subject;
                 yield return Verbal;
                 yield return Direct;
@@ -66,7 +69,8 @@ namespace LASI.Core
         /// Returns a string representation of the Relationship.
         /// </summary>
         /// <returns>A string representation of the Relationship.</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             var result = Subject.Text + Verbal.Text;
             if (Direct != null) { result += Direct.Text; }
             if (Indirect != null) { result += Indirect.Text; }
@@ -95,18 +99,19 @@ namespace LASI.Core
         /// <param name="left">The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
         /// <returns> <c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(SvoRelationship left, SvoRelationship right) {
-            if (ReferenceEquals(left, null)) {
+        public static bool operator ==(SvoRelationship left, SvoRelationship right)
+        {
+            if (ReferenceEquals(left, null))
+            {
                 return ReferenceEquals(right, null);
             }
             if (ReferenceEquals(right, null)) { return ReferenceEquals(left, null); }
 
-            return left.Verbal.IsSimilarTo(right.Verbal) &&
-               (ReferenceEquals(left.Subject, right.Subject) ||
-                   left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
-                   (ReferenceEquals(left.Direct, right.Direct) || left.Direct.IsAliasFor(right.Direct) || left.Direct.IsSimilarTo(right.Direct)) &&
-                   (ReferenceEquals(left.Indirect, right.Indirect) || left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
-
+            return left.Verbal.IsSimilarTo(right.Verbal) && (ReferenceEquals(left.Subject, right.Subject) ||
+                left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
+                (ReferenceEquals(left.Direct, right.Direct) || left.Direct.IsAliasFor(right.Direct) ||
+                left.Direct.IsSimilarTo(right.Direct)) && (ReferenceEquals(left.Indirect, right.Indirect) ||
+                left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
         }
         /// <summary>
         /// Determines if two SvoRelationship instances are considered unequal.
@@ -114,7 +119,8 @@ namespace LASI.Core
         /// <param name="left">The first SvoRelationship instance.</param>
         /// <param name="right">The second SvoRelationship instance.</param>
         /// <returns> <c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(SvoRelationship left, SvoRelationship right) {
+        public static bool operator !=(SvoRelationship left, SvoRelationship right)
+        {
             return !(left == right);
         }
     }

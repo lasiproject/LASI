@@ -115,11 +115,12 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="CharacterExtensions.cs" />
+    <Compile Include="Specialized\Enhanced\Universal\UniversalExtensions.cs" />
     <Compile Include="SupportTypes\Config\ConfigBase.cs" />
     <Compile Include="SupportTypes\Config\IConfig.cs" />
     <Compile Include="SupportTypes\Config\JsonConfig.cs" />
     <Compile Include="Specialized\Enhanced\Linq\List\ListExtensions.cs" />
-    <Compile Include="Option.cs" />
+    <Compile Include="Specialized\Option.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="ComparerFactory.cs" />
     <Compile Include="DictionaryExtensions.cs" />
