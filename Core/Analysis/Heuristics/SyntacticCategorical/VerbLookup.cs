@@ -106,7 +106,7 @@ namespace LASI.Core.Heuristics.WordNet
         {
             var setBuilder = ImmutableHashSet.CreateBuilder(StringComparer.OrdinalIgnoreCase);
             var verbRoots = VerbMorpher.FindRoots(search);
-            setBuilder.UnionWith(new HashSet<string>(verbRoots.AsParallel().SelectMany(root =>
+            setBuilder.UnionWith(verbRoots.AsParallel().SelectMany(root =>
             {
                 VerbSynSet containingSet;
                 setsByWord.TryGetValue(root, out containingSet);
@@ -118,7 +118,7 @@ namespace LASI.Core.Heuristics.WordNet
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
                          .Concat(VerbMorpher.GetConjugations(root));
-            })));
+            }));
             return setBuilder.ToImmutable();
         }
 

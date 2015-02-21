@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace LASI.Content
 {
@@ -78,12 +79,18 @@ namespace LASI.Content
             var result = await Task.Run(() => ConvertFile());
             return result;
         }
-        private static IConfig Config => TaggerInterop.SharpNLPTagger.InjectedConfiguration;
-        private static string doc2xPath => (
-                Config != null ? Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
-                System.Configuration.ConfigurationManager.AppSettings["ResourcesDirectory"] +
-                System.Configuration.ConfigurationManager.AppSettings["ConvertersDirectory"]
-            ) + "doc2x.exe";
+        internal static Utilities.Configuration.IConfig Config { get; set; }
+
+        private static string doc2xPathField;
+        private static string doc2xPath
+        {
+            get
+            {
+                return doc2xPathField ?? (doc2xPathField = (Config != null ?
+                    Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
+                    ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["ConvertersDirectory"]) + "doc2x.exe");
+            }
+        }
 
 
 

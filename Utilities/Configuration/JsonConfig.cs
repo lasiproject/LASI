@@ -3,12 +3,10 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LASI.Utilities
+namespace LASI.Utilities.Configuration
 {
     public class JsonConfig : ConfigBase
     {
-        private readonly JObject jObject;
-
         public JsonConfig(string filePath) : base(filePath)
         {
             jObject = ParseAndValidateJson(RawConfigData);
@@ -39,7 +37,6 @@ namespace LASI.Utilities
             return data as JObject;
         }
 
-
         private static void ValidateJsonStructure(object configSource)
         {
             if (!(configSource is JObject))
@@ -51,5 +48,8 @@ namespace LASI.Utilities
         public override string this[string name] => this[name, StringComparison.CurrentCulture];
 
         public override string this[string name, StringComparison stringComparison] => (string)jObject.GetValue(name, stringComparison);
+
+ 
+        private readonly JObject jObject;
     }
 }

@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace LASI.Utilities
+namespace LASI.Utilities.Configuration
 {
-    internal class XmlConfig : ConfigBase
+    public class XmlConfig : ConfigBase
     {
         private XElement XElement;
         public XmlConfig(string filePath) : base(filePath)

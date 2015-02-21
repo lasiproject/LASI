@@ -90,7 +90,7 @@ namespace LASI.Core
             }
         }
         private static readonly ISet<string> knownSubordinators;
-        private static LASI.Utilities.IConfig Config => Heuristics.Paths.InjectedConfiguration;
+        private static LASI.Utilities.Configuration.IConfig Config => Heuristics.Paths.Settings;
 
         private static string PrepositionaInfoFilePath =>
             (Config != null ?

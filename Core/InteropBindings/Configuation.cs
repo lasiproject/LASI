@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core.InteropBindings
+﻿namespace LASI.Core.InteropBindings
 {
     /// <summary>
     /// Provides access to resource and performance configuration options.
     /// </summary>
     public static class Configuation
     {
-        public static void Initialize(Utilities.IConfig settings)
+        public static void Initialize(Utilities.Configuration.IConfig settings)
         {
             Settings = settings;
-            Heuristics.Paths.InjectedConfiguration = Settings;
+            Heuristics.Paths.Settings = Settings;
         }
-        internal static Utilities.IConfig Settings { get; private set; }
+        internal static Utilities.Configuration.IConfig Settings { get; private set; }
 
         /// <summary>
         /// Statically initializes the performance proxy with a concurrency level determined by the same heuristic as the PLINQ infrastructure.
@@ -24,13 +18,13 @@ namespace LASI.Core.InteropBindings
         /// </summary>
         static Configuation()
         {
-            MaxConcurrency = Math.Min(System.Environment.ProcessorCount, 64);
+            MaxConcurrency = System.Math.Min(System.Environment.ProcessorCount, 64);
         }
         /// <summary>
         /// Sets the maximum degree of concurrency to the result of the given function.
         /// </summary>
         /// <param name="concurrencyLevelFactory"></param>
-        public static void ConfigureConcurrency(Func<int> concurrencyLevelFactory)
+        public static void ConfigureConcurrency(System.Func<int> concurrencyLevelFactory)
         {
             MaxConcurrency = concurrencyLevelFactory();
         }

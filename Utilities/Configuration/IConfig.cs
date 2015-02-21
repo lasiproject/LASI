@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace LASI.Utilities
+namespace LASI.Utilities.Configuration
 {
     // TODO: Mark with [AssemblyNeutral] as defined by the next version (5.0) of AspNet for better interop.
     public interface IConfig

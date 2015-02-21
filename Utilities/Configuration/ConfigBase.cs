@@ -2,7 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-namespace LASI.Utilities
+
+namespace LASI.Utilities.Configuration
 {
     public abstract class ConfigBase : IConfig
     {
@@ -42,7 +43,6 @@ namespace LASI.Utilities
             }
         }
         public string RawConfigData => rawConfigData;
-
         public abstract string this[string name, StringComparison stringComparison] { get; }
         public abstract string this[string name] { get; }
     }

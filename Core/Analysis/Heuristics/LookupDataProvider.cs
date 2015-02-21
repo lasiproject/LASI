@@ -11,9 +11,9 @@ namespace LASI.Core.Heuristics
     {/// <summary>
      /// TODO: refactor this into another kind of explicit dependency
      /// </summary>
-        public static LASI.Utilities.IConfig InjectedConfiguration { internal get; set; }
-        static string ResourcesDirectory => InjectedConfiguration != null ? InjectedConfiguration["ResourcesDirectory"] : ConfigurationManager.AppSettings["ResourcesDirectory"];
-        static string WordnetPath => ResourcesDirectory + (InjectedConfiguration != null ? InjectedConfiguration["WordnetFileDirectory"] : ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+        internal static LASI.Utilities.Configuration.IConfig Settings { get; set; }
+        static string ResourcesDirectory => Settings != null ? Settings["ResourcesDirectory"] : ConfigurationManager.AppSettings["ResourcesDirectory"];
+        static string WordnetPath => ResourcesDirectory + (Settings != null ? Settings["WordnetFileDirectory"] : ConfigurationManager.AppSettings["WordnetFileDirectory"]);
         public static string ScrabbleDict => WordnetPath + "dictionary.txt";
         public static class WordNet
         {
@@ -24,7 +24,7 @@ namespace LASI.Core.Heuristics
         }
         public static class Names
         {
-            static string BasePath => ResourcesDirectory + (InjectedConfiguration != null ? InjectedConfiguration["NameDataDirectory"] : ConfigurationManager.AppSettings["NameDataDirectory"]);
+            static string BasePath => ResourcesDirectory + (Settings != null ? Settings["NameDataDirectory"] : ConfigurationManager.AppSettings["NameDataDirectory"]);
             public static string Last => BasePath + "last.txt";
             public static string Female => BasePath + "femalefirst.txt";
             public static string Male => BasePath + "malefirst.txt";

@@ -17,9 +17,9 @@ using Newtonsoft.Json.Serialization;
 using AspSixApp.Logging;
 using LASI.Utilities;
 using Path = System.IO.Path;
- 
+
 namespace AspSixApp
-{ 
+{
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -66,7 +66,7 @@ namespace AspSixApp
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            ConfigureLASIComponents(configFile: Path.Combine(AppContext.BaseDirectory, "resources.json"));
+            ConfigureLASIComponents(configFilePath: Path.Combine(AppContext.BaseDirectory, "resources.json"));
 
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
@@ -110,7 +110,7 @@ namespace AspSixApp
         /// <summary>
         /// Bootstrap LASI by loading the necessary configuration information from the specified file.
         /// </summary>
-        /// <param name="configFile">The location of a JSON file containing the desired settings.</param>
+        /// <param name="configFilePath">The location of a JSON file containing the desired settings.</param>
         /// <remarks>
         /// In the desktop application and previous versions of the web application, the
         /// configuration settings were stored in App.config and Web.config respectively, and were
@@ -119,12 +119,10 @@ namespace AspSixApp
         /// the gap. A better solution, one which abstracts the configuration from the assemblies
         /// entirely should be designed and implemented.
         /// </remarks>
-        private void ConfigureLASIComponents(string configFile)
+        private void ConfigureLASIComponents(string configFilePath)
         {
             LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceLevel.High);
-            var lasiConfig = new JsonConfig(configFile);
-            TaggerInterop.SharpNLPTagger.InjectedConfiguration = lasiConfig;
-            LASI.Core.Heuristics.Paths.InjectedConfiguration = lasiConfig;
+            LASI.Interop.Configuration.Initialize(configFilePath, LASI.Interop.ConfigFormat.Json);
         }
         public IConfiguration Configuration { get; set; }
     }

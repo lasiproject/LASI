@@ -241,13 +241,16 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
-        /// <param name="collection">The collection in which must contain the value.</param>
         /// <param name="name">The name of the value to validate.</param>
-        public static void ExistsIn<T>(this T value, IEnumerable<T> collection, string name)
+        /// <param name="collection">The collection in which must contain the value.</param>
+        public static void ExistsIn<T>(this T value, string name, IEnumerable<T> collection)
         {
-            InCollection(value, collection, name, EqualityComparer<T>.Default);
+            ExistsIn(value, name, collection, EqualityComparer<T>.Default);
         }
-
+        public static void ExistsIn<T>(this T value, string name, params T[] set)
+        {
+            ExistsIn(value, name, set.AsEnumerable(), EqualityComparer<T>.Default);
+        }
         /// <summary>
         /// Validates that the specified value exists in the specified set of values using the
         /// specified <see cref="IEqualityComparer{T}" />, throwing a <see cref="ArgumentException"
@@ -258,7 +261,7 @@ namespace LASI.Utilities.Validation
         /// <param name="value">The value to validate.</param>
         /// <param name="comparer">The comparer to use to validate that the value exists.</param>
         /// <param name="name">The name of the value to validate.</param>
-        public static void InCollection<T>(this T value, IEnumerable<T> collection, string name, IEqualityComparer<T> comparer)
+        public static void ExistsIn<T>(this T value, string name, IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
             if (!collection.Contains(value, comparer))
                 throw new ArgumentException($"{name} must be a member of the set {collection.Format()}. Actual value: {value}.", name);

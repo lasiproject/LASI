@@ -2,6 +2,10 @@
 using LASI.Content;
 using System;
 using System.Windows;
+using System.Linq;
+using System.Xml.Linq;
+using System.Text;
+using System.IO;
 
 namespace LASI.App
 {
@@ -16,7 +20,22 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
-            BindEventHandlers();
+            Interop.Configuration.Initialize(format: Interop.ConfigFormat.Xml,
+                stream: new MemoryStream(
+                    Encoding.Default.GetBytes(
+                        new XElement(
+                            name: "configuration",
+                            content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
+                                     let name = element.Attribute("key")
+                                     let content = element.Attribute("value")
+                                     where name != null && content != null
+                                     select new XElement(name: name.Value, content: content.Value)
+                        ).ToString()
+                    )
+                )
+            );
+
+            this.Exit += Application_Exit;
         }
         private static void LoadPerformancePreference()
         {
@@ -30,11 +49,5 @@ namespace LASI.App
         {
             if (Settings.Default.AutoCleanProjectFiles && FileManager.Initialized) FileManager.DecimateProject();
         }
-        private void BindEventHandlers()
-        {
-            Exit += Application_Exit;
-        }
-
-
     }
 }

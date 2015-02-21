@@ -6,10 +6,7 @@ open LASI.Core.Heuristics
 open LASI.Interop
 open LASI.Interop.ResourceManagement
 
-let config = LASI.Utilities.JsonConfig("C:\Users\Aluan\Documents\GitHub\LASI\AspSixApp\resources.json")
-
-TaggerInterop.SharpNLPTagger.set_InjectedConfiguration (config)
-LASI.Core.Heuristics.Paths.set_InjectedConfiguration (config)
+Configuration.Initialize("C:\Users\Aluan\Documents\GitHub\LASI\AspSixApp\resources.json", ConfigFormat.Json)
 
 let wrapFile (path : string) = 
     match path.Split('.') |> Array.last with

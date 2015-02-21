@@ -21,7 +21,7 @@ namespace TaggerInterop
         private OpenNLP.Tools.NameFind.EnglishNameFinder mNameFinder;
         private OpenNLP.Tools.Lang.English.TreebankLinker mCoreferenceFinder;
 
-        public static LASI.Utilities.IConfig InjectedConfiguration { internal get; set; }
+        public static LASI.Utilities.Configuration.IConfig Settings { internal get; set; }
         /// <summary>
         /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provied TaggerMode value.
         /// </summary>
@@ -30,11 +30,11 @@ namespace TaggerInterop
         {
             string resourcesDirectory;
             TaggingMode = taggingMode;
-            if (InjectedConfiguration != null)
+            if (Settings != null)
             {
-                resourcesDirectory = InjectedConfiguration["ResourcesDirectory"];
-                mModelPath = resourcesDirectory + InjectedConfiguration["MaximumEntropyModelDirectory"];
-                mNameFinderPath = resourcesDirectory + InjectedConfiguration["WordnetSearchDirectory"];
+                resourcesDirectory = Settings["ResourcesDirectory"];
+                mModelPath = resourcesDirectory + Settings["MaximumEntropyModelDirectory"];
+                mNameFinderPath = resourcesDirectory + Settings["WordnetSearchDirectory"];
             }
             else
             {
