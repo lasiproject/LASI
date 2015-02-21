@@ -11,7 +11,7 @@ namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<VerbLink, int>;
     using LinkType = VerbLink;
-    using Reporting;
+    using InteropBindings;
     using System.Reactive.Linq;
     using System.Collections.Immutable;
     using EventArgs = ResourceLoadEventArgs;

@@ -28,6 +28,7 @@ module.exports = function (grunt) {
                     vars: true,
                     browser: true,
                     predef: {
+                        alert: false,
                         app: true,
                         $: false,
                         QUnit: false,
@@ -36,7 +37,11 @@ module.exports = function (grunt) {
                     }
                 }
             }
-        }, 'jsmin-sourcemap': {
+        },
+        qunit: {
+            all: ['Scripts/test/**/*.html']
+        },
+        'jsmin-sourcemap': {
             app: {
                 src: [
                     'Scripts/app/app.js',
@@ -46,55 +51,65 @@ module.exports = function (grunt) {
                     'Scripts/app/results/*.js'
                 ],
                 dest: 'wwwroot/dist/app/app.min.js',
-                destMap: 'wwwroot/dist/app/app.min.js.map'
+                destMap: 'wwwroot/dist/app/app.js.map'
+
             },
             lib: {
                 src: [
-                    'wwwroot/lib/jquery/**/*.js',
-                    'wwwroot/lib/jquery-validation/**/*.js',
-                    'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
-                    'wwwroot/lib/requirejs/**/*.js',
-                    'wwwroot/lib/js/bootstrap/bootstrap.js'
+                      'wwwroot/lib/jquery/**/*.js',
+                      'wwwroot/lib/jquery-validation/**/*.js',
+                      'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
+                      'wwwroot/lib/requirejs/**/*.js',
+                      'wwwroot/lib/js/bootstrap/bootstrap.js',
+                      'wwwroot/lib/bootstrap-contextmenu/bootstrap-contextmenu.js'
                 ],
                 dest: 'wwwroot/dist/lib/lib.min.js',
-                destMap: 'wwwroot/dist/lib/lib.min.js.map'
+                destMap: 'wwwroot/dist/lib/lib.js.map'
             }
         },
-        qunit: {
-            all: ['Scripts/test/**/*.html']
-        },
-        watch: {
+        cssmin: {
+            options: {
+                shorthandCompacting: false,
+                roundingPrecision: -1,
+                sourceMap: true
+            },
             app: {
-                files: [scriptDir],
-                tasks: ['jslint:app', 'jsmin-sourcemap:app']
+                files: {
+                    'wwwroot/dist/app/app.min.css': ['wwwroot/css/**/*.css']
+                }
             },
             lib: {
-                files: ['gruntfile.js'],
-                //tasks: ['jsmin-sourcemap:lib']
-                tasks: ['uglify:my_target']
+                files: {
+                    'wwwroot/dist/lib/lib.min.css': ['wwwroot/lib/**/*.css']
+                }
+            }
+        },
+        watch: {
+            //bower: {
+            //    files: ['bower.json'],
+            //    tasks: ['bower:install', 'jsmin-sourcemap:lib']
+            //},
+            appjs: {
+                files: [scriptDir],
+                tasks: ['jslint:app', 'jsmin-sourcemap:app', 'qunit:all']
+            },
+            appcss: {
+                files: ['wwwroot/css/results/results.css'],
+                tasks: ['cssmin:app']
+            },
+            lib: {
+                files: ['wwwroot/lib/**/*.js'],
+                tasks: ['jsmin-sourcemap:lib']
             },
             test: {
                 files: ['Scripts/app/util.js', 'Scripts/test/**/*.js'],
                 tasks: ['qunit:all']
             }
-        },
-        uglify: {
-            my_target: {
-                options: {
-                    sourceMap: true,
-                    sourceMapName: 'wwwroot/dist/lib/lib.map'
-                },
-                files: {
-                    'wwwroot/dist/lib/lib.min.js': ['wwwroot/lib/**/*.js']
-                }
-            }
         }
-
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install',  'jsmin-sourcemap:app']);
-    grunt.loadNpmTasks('grunt-jsmin-sourcemap');
+    grunt.registerTask('default', ['bower:install', 'jslint:app', 'jsmin-sourcemap:app', 'jsmin-sourcemap:lib']);
     grunt.loadNpmTasks('grunt-bower-task');
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
@@ -102,8 +117,9 @@ module.exports = function (grunt) {
     // It seems that loadNpmTasks is a singular command which loads task(s) for a single plugin.
     // This api is a bit counter intuitive in that invokations cannot be chained.
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-jsmin-sourcemap');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-jslint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
 
 };

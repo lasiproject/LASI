@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LASI.Core.Reporting
+namespace LASI.Core.InteropBindings
 {
     /// <summary>
     /// Contains numeric and textual data related to an event.

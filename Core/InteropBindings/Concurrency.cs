@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Reporting
+namespace LASI.Core.InteropBindings
 {
     /// <summary>
     /// Provides access to concurrency information.

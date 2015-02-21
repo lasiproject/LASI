@@ -1,8 +1,11 @@
 ﻿@model AspSixApp.Models.DocumentStructures.ParagraphModel
 
 <p class="lexical-content-block @Model.Style.CssClass">
-    @foreach (var phraseModel in Model.PhraseModels)
+    @foreach (var sentenceModel in Model.SentenceModels)
     {
-        await Html.RenderPartialAsync("_Phrase", phraseModel);
+        foreach (var phraseModel in sentenceModel.PhraseModels)
+        {
+            @await Html.PartialAsync("_Phrase", phraseModel)
+        }
     }
 </p>

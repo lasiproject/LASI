@@ -6,7 +6,7 @@ namespace LASI.Core
     /// Carries event data associated with the loading of a specific resource.
     /// </summary>
     [Serializable]
-    public class ResourceLoadEventArgs : Reporting.ReportEventArgs
+    public class ResourceLoadEventArgs : InteropBindings.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the ResourceLoadEventArgs.

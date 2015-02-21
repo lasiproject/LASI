@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Framework.Logging;
 
-namespace AspSixApp.BuilderExtensions
+namespace AspSixApp.Logging
 {
     public class OutputLoggerProvider : ILoggerProvider
     {
@@ -13,6 +13,7 @@ namespace AspSixApp.BuilderExtensions
         }
         public ILogger Create(string name)
         {
+            LASI.Utilities.Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
             return new Logger(name, filter);
         }
 

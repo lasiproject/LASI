@@ -14,13 +14,12 @@ using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
+using AspSixApp.Logging;
+using LASI.Utilities;
+using Path = System.IO.Path;
+ 
 namespace AspSixApp
-{
-    using BuilderExtensions;
-    using LASI.Utilities;
-    using Path = System.IO.Path;
-
+{ 
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -33,7 +32,6 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTypeActivator<
             // Add MVC services to the services container.
             services.AddMvc()
                 .AddWebApiConventions()
@@ -68,7 +66,7 @@ namespace AspSixApp
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            app.UseLASIComponents(configFile: Path.Combine(AppContext.BaseDirectory, "resources.json"));
+            ConfigureLASIComponents(configFile: Path.Combine(AppContext.BaseDirectory, "resources.json"));
 
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
@@ -89,6 +87,8 @@ namespace AspSixApp
                 app.UseErrorHandler("/Home/Error");
             }
 
+            app.UseRuntimeInfoPage();
+
             // Add static files to the request pipeline.
             app.UseStaticFiles();
             // Add cookie-based authentication to the request pipeline.
@@ -107,7 +107,25 @@ namespace AspSixApp
                 );
             });
         }
-
+        /// <summary>
+        /// Bootstrap LASI by loading the necessary configuration information from the specified file.
+        /// </summary>
+        /// <param name="configFile">The location of a JSON file containing the desired settings.</param>
+        /// <remarks>
+        /// In the desktop application and previous versions of the web application, the
+        /// configuration settings were stored in App.config and Web.config respectively, and were
+        /// thus automatically loaded into the System.ConfigurationManager.AppSettings property.
+        /// This is not possible with the current build of AspNet 5, so this is implemented to fill
+        /// the gap. A better solution, one which abstracts the configuration from the assemblies
+        /// entirely should be designed and implemented.
+        /// </remarks>
+        private void ConfigureLASIComponents(string configFile)
+        {
+            LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceLevel.High);
+            var lasiConfig = new JsonConfig(configFile);
+            TaggerInterop.SharpNLPTagger.InjectedConfiguration = lasiConfig;
+            LASI.Core.Heuristics.Paths.InjectedConfiguration = lasiConfig;
+        }
         public IConfiguration Configuration { get; set; }
     }
 }

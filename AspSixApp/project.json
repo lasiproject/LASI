@@ -20,11 +20,11 @@
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta1",
         "Microsoft.AspNet.Mvc.ModelBinding": "6.0.0-beta2",
         "mongocsharpdriver": "1.9.2",
+        "Rx-Core": "2.2.5",
         "LASI.Content": "",
         "LASI.Core": "",
         "LASI.Interop": "",
-        "LASI.Utilities": "",
-        "Rx-Core": "2.2.5"
+        "LASI.Utilities": ""
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5005",

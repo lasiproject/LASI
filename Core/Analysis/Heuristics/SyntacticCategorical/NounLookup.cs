@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text.RegularExpressions;
-using LASI.Core.Reporting;
+using LASI.Core.InteropBindings;
 using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet

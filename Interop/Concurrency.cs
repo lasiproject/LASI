@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Mode = PerformanceMode;
+    using Mode = PerformanceLevel;
     /// <summary>
     /// Centralizes management and control of the concurrency level of concurrent operations.
     /// </summary>
@@ -45,7 +45,7 @@
             Max = ComputeDefaultMax();
             // This is critical for LASI.Core to obey the same concurrency constraints as its client
             // assemblies without a circular dependency
-            Core.Reporting.Configuation.ConfigureConcurrency(() => Max);
+            Core.InteropBindings.Configuation.ConfigureConcurrency(() => Max);
         }
 
         /// <summary>

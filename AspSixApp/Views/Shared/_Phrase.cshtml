@@ -1,10 +1,6 @@
 ﻿@model PhraseModel
-<span class=@Model.Style.CssClass
-      title='@Model.DetailText'
-      id=@Model.Id>
-    @Model.Text
-    <span id=@("context" + Model.Id) hidden>
-        @Model.ContextMenuJson
-    </span>
+<span class='phrase @Model.Style.CssClass' data-toggle="context" data-target="#context-menu"
+      title='@Model.DetailText.Trim()'
+      id=@Model.Id>@Model.Text.Trim()<span id=@("context" + Model.Id) hidden>@Model.ContextMenuJson</span>
 </span>
 <!--the title attribute must be quoted for the DetailText property to display properly.-->

@@ -52,7 +52,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
         }
 
-        private static IConfig Config => Core.Heuristics.Lexicon.InjectedConfiguration;
+        private static IConfig Config => Core.Heuristics.Paths.InjectedConfiguration;
 
         static string ResourcesDirectory =>
             Config != null ?

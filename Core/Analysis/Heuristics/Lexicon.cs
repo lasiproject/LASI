@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics.WordNet;
-using LASI.Core.Reporting;
+using LASI.Core.InteropBindings;
 
 namespace LASI.Core.Heuristics
 {

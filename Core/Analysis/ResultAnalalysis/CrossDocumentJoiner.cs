@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
-using LASI.Core.Reporting;
+using LASI.Core.InteropBindings;
 
 namespace LASI.Core
 {

@@ -7,7 +7,7 @@ namespace LASI.Interop.ContractHelperTypes
     /// </summary>
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class ResourceLoadEventArgs : LASI.Core.Reporting.ReportEventArgs
+    public class ResourceLoadEventArgs : LASI.Core.InteropBindings.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the ResourceLoadEventArgs class.

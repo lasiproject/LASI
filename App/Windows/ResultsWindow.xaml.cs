@@ -137,7 +137,7 @@ namespace LASI.App
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sentence => sentence.Phrases());
-            var colorizer = new LASI.App.Visualization.SyntacticColorMap();
+            var colorizer = new SyntacticColorMap();
             var flowDocument = new System.Windows.Documents.FlowDocument();
 
             var documentContents = (from phrase in phrases
@@ -147,18 +147,20 @@ namespace LASI.App
                                         Tag = phrase,
                                         Foreground = colorizer[phrase],
                                         Background = Brushes.White,
-                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + '\n')
+                                        ToolTip = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', '\n', ' '))
                                     }).ToList();
 
 
 
-            foreach (var source in documentContents)
+            foreach (var run in documentContents)
             {
-                source.ContextMenu = ContextMenuBuilder.ForLexical(source.Tag as Phrase, documentContents);
+                run.ContextMenu = ContextMenuBuilder.ForLexical(run.Tag as Phrase, documentContents);
             }
-            var p = new System.Windows.Documents.Paragraph();
-            p.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));
-            flowDocument.Blocks.Add(p);
+            var flowDocumentParagraph = new System.Windows.Documents.Paragraph();
+            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));
+            flowDocument.Blocks.Add(flowDocumentParagraph);
+            //flowDocument.GotFocus += (s, e) => MessageBox.Show((s as System.Windows.Documents.Run).Text);
+
             var tab = new TabItem
             {
                 Header = document.Title,

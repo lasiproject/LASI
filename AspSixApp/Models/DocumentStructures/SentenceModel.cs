@@ -2,6 +2,7 @@
 using System.Linq;
 using AspSixApp.Models.Lexical;
 using LASI.Core;
+using LASI.Utilities;
 
 namespace AspSixApp.Models.DocumentStructures
 {
@@ -10,7 +11,9 @@ namespace AspSixApp.Models.DocumentStructures
         public SentenceModel(Sentence sentence) : base(sentence)
         {
             this.sentence = sentence;
-            PhraseModels = sentence.Phrases.Select(phrase => new PhraseModel(phrase));
+            PhraseModels = sentence.Phrases
+                .Select(phrase => new PhraseModel(phrase))
+                .Append(new PhraseModel(new SymbolPhrase(sentence.Ending)));
             foreach (var model in PhraseModels)
             {
                 model.SentenceModel = this;

@@ -1,4 +1,8 @@
-﻿.proper {
+﻿.phrase {
+    position: relative;
+}
+
+.proper {
     color: darkred;
 }
 
@@ -62,6 +66,7 @@
 
 
 .paragraph {
+    clear: both;
     text-indent: each-line !important;
 }
 
@@ -112,6 +117,10 @@
 
 .lexical-content-block span.paragraph {
     text-indent: each-line;
+}
+
+.active-phrase-highlight {
+    outline: solid thin orangered; 
 }
 
 .view-subects-menu-item {

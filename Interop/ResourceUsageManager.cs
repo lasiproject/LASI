@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LASI;
-using LASI.Core;
-
-namespace LASI.Interop.ResourceManagement
+﻿namespace LASI.Interop.ResourceManagement
 {
+    using Lexicon = Core.Heuristics.Lexicon;
+    using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
+    using DateTime = System.DateTime;
     /// <summary>
     /// Controls global performance and resource usage settings.
     /// </summary>
-    public static class UsageManager
+    public static class ResourceUsageManager
     {
         /// <summary>
         /// Sets the overall performance level based on the provided enumeration value, providing
@@ -18,7 +15,8 @@ namespace LASI.Interop.ResourceManagement
         /// <param name="mode">
         /// The PerformanceLevel value indicating the new performance and resource usage settings to adopt.
         /// </param>
-        public static void SetPerformanceMode(PerformanceMode mode) {
+        public static void SetPerformanceLevel(PerformanceLevel mode)
+        {
             Concurrency.SetByPerformanceMode(mode);
             Memory.SetByPerformanceMode(mode);
         }
@@ -32,7 +30,8 @@ namespace LASI.Interop.ResourceManagement
         /// machine hosting the application.
         /// </returns>
         /// w
-        public static ResourceUsageSample GetCurrentUsage() {
+        public static ResourceUsageSample GetCurrentUsage()
+        {
             return new ResourceUsageSample
             (
                 memoryUsage: new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
@@ -43,12 +42,14 @@ namespace LASI.Interop.ResourceManagement
         /// <summary>
         /// Raised when less than the minimum amount of available RAM, in MB, remains.
         /// </summary>
-        public static event EventHandler<MemoryThresholdExceededEventArgs> MemoryThresholdExceeded {
+        public static event MemoryThresholdEventHandler MemoryThresholdExceeded
+        {
             add { Memory.MemoryCritical += value; }
             remove { Memory.MemoryCritical -= value; }
         }
 
-        static UsageManager() {
+        static ResourceUsageManager()
+        {
             BindDefaultHandlers();
         }
 
@@ -56,17 +57,19 @@ namespace LASI.Interop.ResourceManagement
         /// By default, set the memory critical application response to simply jettison all cached
         /// synonym data.
         /// </summary>
-        private static void BindDefaultHandlers() {
-            MemoryThresholdExceeded += (s, e) => {
-                Core.Heuristics.Lexicon.ClearNounCache();
-                Core.Heuristics.Lexicon.ClearVerbCache();
-                Core.Heuristics.Lexicon.ClearAdjectiveCache();
-                Core.Heuristics.Lexicon.ClearAdverbCache();
+        private static void BindDefaultHandlers()
+        {
+            MemoryThresholdExceeded += (s, e) =>
+            {
+                Lexicon.ClearNounCache();
+                Lexicon.ClearVerbCache();
+                Lexicon.ClearAdjectiveCache();
+                Lexicon.ClearAdverbCache();
 
                 // Experimental: Invoke an explicit garbage collection to free up memory. This may
                 // be advantageous to performance in this situation, but it remains to be seen. See
                 // the second paragraph of http://msdn.microsoft.com/en-us/library/bb384155
-                GC.Collect();
+                System.GC.Collect();
             };
         }
 
@@ -75,7 +78,7 @@ namespace LASI.Interop.ResourceManagement
     /// <summary>
     /// Broadly specifies the various resource usage profiles of the program.
     /// </summary>
-    public enum PerformanceMode
+    public enum PerformanceLevel
     {
         /// <summary>
         /// High resource usage indicates a liberal allocation and consumption of available
@@ -113,7 +116,8 @@ namespace LASI.Interop.ResourceManagement
         /// The time when the sample was taken.
         /// </param>
         public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTime? timeSnapshotted = default(DateTime?))
-            : this() {
+            : this()
+        {
             CpuUsage = cpuUsage;
             MemoryUsage = memoryUsage;
             TimeSnapshotted = timeSnapshotted ?? DateTime.Now;
