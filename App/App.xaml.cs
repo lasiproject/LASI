@@ -20,10 +20,10 @@ namespace LASI.App
         }
         private static void LoadPerformancePreference()
         {
-            Interop.ResourceManagement.PerformanceMode performanceMode;
+            Interop.ResourceManagement.PerformanceLevel performanceMode;
             if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode))
             {
-                Interop.ResourceManagement.UsageManager.SetPerformanceMode(performanceMode);
+                Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(performanceMode);
             }
         }
         private void Application_Exit(object sender, ExitEventArgs e)

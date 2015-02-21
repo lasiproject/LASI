@@ -30,7 +30,7 @@ namespace LASI.WebApp
         /// </summary>
         private void PerformCustomInitialization() {
             ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
-            Interop.ResourceManagement.UsageManager.SetPerformanceMode(Interop.ResourceManagement.PerformanceMode.High);
+            Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceLevel.High);
             AccountProvider = SetupUserAccounts(this);
             Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
         }
