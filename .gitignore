@@ -95,32 +95,8 @@ ipch/
 # Guidance Automation Toolkit
 *.gpState
 
-# ReSharper is a .NET coding add-in
-_ReSharper*/
-*.[Rr]e[Ss]harper
-
-# TeamCity is a build add-in
-_TeamCity*
-
-# DotCover is a Code Coverage Tool
-*.dotCover
-
-# NCrunch
-*.ncrunch*
-.*crunch*.local.xml
-
 # Installshield output folder
 [Ee]xpress/
-
-# DocProject is a documentation generator add-in
-#DocProject/buildhelp/
-#DocProject/Help/*.HxT
-#DocProject/Help/*.HxC
-#DocProject/Help/*.hhc
-#DocProject/Help/*.hhk
-#DocProject/Help/*.hhp
-#DocProject/Help/Html2
-#DocProject/Help/html
 
 # Click-Once directory
 publish/
@@ -137,9 +113,6 @@ packages/
 csx
 *.build.csdef
 
-# Windows Store app package directory
-AppPackages/
-
 # Others
 sql/
 *.Cache
@@ -151,9 +124,6 @@ ClientBin/
 *.[Pp]ublish.xml
 *.pfx
 *.publishsettings
-
-# RIA/Silverlight projects
-Generated_Code/
 
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
@@ -183,8 +153,6 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-
-/Aluan_AOS 2013-10-25 21_07_07.coveragexml
 WebEssentials-Settings.json
 /LASI.WebApp.Transitional/
 /WebApp/App_Data/Mongo
@@ -205,115 +173,13 @@ WebEssentials-Settings.json
 /TestDocs
 /WebApp/node_modules/grunt-bower-task
 /WebApp/node_modules/grunt
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/styles.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/settings.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/numbering.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/footnotes.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/fontTable.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/endnotes.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/document.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/customizations.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/comments.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment.zip
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/_rels/.rels
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/_rels/document.xml.rels
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/styles.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/settings.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/numbering.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/footnotes.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/fontTable.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/endnotes.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/document.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/customizations.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/word/comments.xml
-/LASI.Core.Tests/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/document.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/_rels/.rels
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/_rels/document.xml.rels
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/styles.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/settings.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/numbering.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/footnotes.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/fontTable.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/endnotes.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/document.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/customizations.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/comments.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/_rels/document.xml.rels
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/styles.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/settings.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/numbering.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/footnotes.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/fontTable.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/endnotes.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/document.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/customizations.xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/word/comments.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1.zip
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/_rels/.rels
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/word/_rels/document.xml.rels
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/_rels/.rels
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/styles.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/settings.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/numbering.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/footnotes.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/fontTable.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/endnotes.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/document.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/customizations.xml
-/DocXFileTest_GetTextTest/Draft_Environmental_Assessment/word/comments.xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/WebEssentials-Settings.json
-/LASI.Core.Tests/NewProject/input/pdf/Draft_Environmental_Assessment.pdf
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/NewProject/input/docx/Draft_Environmental_Assessment2.zip
-/LASI.Core.Tests/NewProject/input/doc/Draft_Environmental_Assessment1.zip
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/NewProject/input/doc/Draft_Environmental_Assessment/word/fontTable.xml
-/LASI.Core.Tests/NewProject/input/docx/Draft_Environmental_Assessment.zip
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment1/[Content_Types].xml
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-/LASI.Core.Tests/MockUserFiles/Draft_Environmental_Assessment/[Content_Types].xml
-
+LASI.Core.Tests/MockUserFiles/
+LASI.Core.Tests/DocXFileTest_GetTextTest/
+LASI.Content.Tests/MockUserFiles/
+DocXFileTest_GetTextTest/
+WebEssentials-Settings.json
+LASI.Core.Tests/NewProject/
+AspSixApp/node_modules/
 #############
 ## Mono Develop/Xamarin Studio
 #############
@@ -328,9 +194,6 @@ WebEssentials-Settings.json
 *.zip
 /AspSixApp/wwwroot/lib/
 *.zip
-/LASI.Content.Tests/MockUserFiles/Draft_Environmental_Assessment
-/LASI.Content.Tests/NewProject/input/pdf
-/LASI.Content.Tests/NewProject/input/txt
 /AspSixApp/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js
 /AspSixApp/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js
 /AspSixApp/wwwroot/lib/jquery-validation-unobtrusive
@@ -355,3 +218,4 @@ WebEssentials-Settings.json
 /AspSixApp/wwwroot/lib
 /AspSixApp/node_modules
 /LASI.Content.Tests/MockUserFiles
+Aso
