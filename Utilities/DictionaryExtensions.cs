@@ -125,6 +125,9 @@ namespace LASI.Utilities
             }
         }
 
+        public static IDictionary<TKey, Pair<TValue, int>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
+            dictionary.Select((entry, index) => Pair.Create(entry.Key, Pair.Create(entry.Value, index))).ToDictionary(x => x.First, x => x.Second);
+
         #endregion IDictionary Extensions
     }
 }

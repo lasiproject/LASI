@@ -1,4 +1,0 @@
-﻿namespace LASI.Utilities.Configuration
-{
-    
-}

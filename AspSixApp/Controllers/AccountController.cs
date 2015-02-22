@@ -43,11 +43,11 @@ namespace AspSixApp.Controllers
                 switch (signInStatus)
                 {
                     case SignInStatus.Success:
-                        return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Invalid username or password.");
-                        return View(model);
+                    ModelState.AddModelError("", "Invalid username or password.");
+                    return View(model);
                 }
             }
 

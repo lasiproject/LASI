@@ -32,7 +32,7 @@
                         return !$uploadList.children('span').toArray().some(function () {
                             return $(this).text() === file.name;
                         });
-                    })
+                    }).toArray()
                     .forEach(function (file, index) {
                         $uploadList.append(generateUploadListItemMarkup(file, index));
                         $('span.glyphicon.glyphicon-remove.remove-file')

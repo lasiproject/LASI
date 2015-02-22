@@ -23,7 +23,6 @@ namespace LASI.Utilities.Configuration
 
         public override string this[string name] => this[name, StringComparison.Ordinal];
 
-
         public override string this[string name, StringComparison stringComparison] => (
             from element in XElement.Descendants()
             where element.Name.ToString().Equals(name, stringComparison)

@@ -38,9 +38,7 @@ namespace LASI.WebApp
             {
                 FileName = mongodExecutableLocation,
                 Arguments = string.Join(" ", "--dbpath", applicationContext.Server.MapPath(mongoDbPath))
-            }
-
-            );
+            });
             applicationContext.Disposed += delegate { mongoServerProcess.Dispose(); };
         }
 

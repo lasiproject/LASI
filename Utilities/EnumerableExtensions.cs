@@ -738,7 +738,7 @@ namespace LASI.Utilities
         /// <returns>The product of all values in the source sequence.</returns>
         public static float Product(this IEnumerable<float> source) => source.Aggregate(1F, (z, y) => z * y);
 
-        /// <summary>Calculates the Product of a sequence of Boolean values.</summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="bool"/> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>
         /// <c>true</c> if all values in the source sequence are equal to <c>true</c>; otherwise <c>false</c>.
@@ -938,9 +938,6 @@ namespace LASI.Utilities
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
         public static IEnumerable<Pair<T, int>> WithIndex<T>(this IEnumerable<T> source) => source.Select((element, index) => new Pair<T, int>(element, index));
-
-        public static IDictionary<TKey, Pair<TValue, int>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
-            dictionary.Select((entry, index) => Pair.Create(entry.Key, Pair.Create(entry.Value, index))).ToDictionary(x => x.First, x => x.Second);
 
         #endregion Query Operators
     }

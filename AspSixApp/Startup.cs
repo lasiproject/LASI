@@ -26,6 +26,7 @@ namespace AspSixApp
         {
             Configuration = new Configuration()
                .AddJsonFile("config.json")
+               .AddJsonFile("resources.json")
                .AddEnvironmentVariables();
         }
 

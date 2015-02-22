@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Reactive.Linq;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -43,7 +40,7 @@ namespace LASI.Utilities
             var logPath = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), path ?? $"./LasiLog{DateTime.Now}.txt");
             OutputMode = Mode.File;
             var newFile = !File.Exists(logPath);
-            
+
             var fileStream = new FileStream(
                 path: logPath,
                 mode: (newFile ? FileMode.Create : FileMode.Append),
@@ -56,11 +53,9 @@ namespace LASI.Utilities
             var domain = AppDomain.CurrentDomain;
             //Ensure fileStream is properly freed by subscribing to the DomainUnload event of the current domain. 
             //This is necessary because static classes cannot have destructors or finalizers.
-
-            Observable.FromEvent(handler => domain.ProcessExit += (s, e) => handler(), handler => domain.ProcessExit -= (s, e) => handler());
-            Observable.FromEvent(handler => domain.DomainUnload += (s, e) => handler(), handler => domain.DomainUnload -= (s, e) => handler());
-            Observable.FromEvent(handler => domain.UnhandledException += (s, e) => handler(), handler => domain.UnhandledException -= (s, e) => handler());
-
+            domain.ProcessExit += delegate { writer.Dispose(); };
+            domain.DomainUnload += delegate { writer.Dispose(); };
+            domain.UnhandledException += delegate { writer.Dispose(); };
         }
 
         /// <summary>
