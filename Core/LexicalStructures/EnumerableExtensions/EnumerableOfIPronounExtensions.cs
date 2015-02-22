@@ -17,7 +17,7 @@ namespace LASI.Core
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
-        ///<typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
+        /// <typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="referencers">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static IEnumerable<T> Referencing<T>(this IEnumerable<T> referencers) where T : IReferencer {
@@ -54,7 +54,7 @@ namespace LASI.Core
         /// <summary>
         /// Returns all Pronouns in the collection that are bound to some entity
         /// </summary>
-        ///<typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
+        /// <typeparam name="T">Any Type which implements the IPronoun interface.</typeparam>
         /// <param name="referencers">The sequence of IPronoun elements to filter.</param>
         /// <returns>All Pronouns in the collection that are bound as references of some entity.</returns>
         public static ParallelQuery<T> Referencing<T>(this ParallelQuery<T> referencers) where T : IReferencer {

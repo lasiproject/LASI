@@ -10,7 +10,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for ProperPluralNounTest and is intended
     ///to contain all ProperPluralNounTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ProperPluralNounTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -64,7 +64,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ProperPluralNoun Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ProperPluralNounConstructorTest() {
             string text = "Canadians";
@@ -74,7 +74,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for QuantifiedBy
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void QuantifierTest() {
             string text = "Canadians";

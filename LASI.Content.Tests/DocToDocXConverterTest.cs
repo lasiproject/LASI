@@ -11,7 +11,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class DocToDocXConverterTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -66,7 +66,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for DocToDocXConverter Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocToDocXConverterConstructorTest() {
             var infile = CreateTarget();
@@ -76,7 +76,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for DocToDocXConverter Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocToDocXConverterConstructorTest1() {
             var infile = CreateTarget();
@@ -93,7 +93,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertFileTest() {
             var infile = CreateTarget();
@@ -105,7 +105,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertFileAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public async Task ConvertFileAsyncTest() {
             var infile = CreateTarget();

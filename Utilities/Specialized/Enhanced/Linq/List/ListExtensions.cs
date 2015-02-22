@@ -23,7 +23,7 @@ namespace LASI.Utilities.Specialized.Enhanced.Linq.List
         /// <param name="selector">A transform function to apply to each element.</param>
         /// <returns>
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform function on each element of source.
-        ///</returns>
+        /// </returns>
         public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) =>
             list.AsEnumerable().Select(selector).ToList();
 

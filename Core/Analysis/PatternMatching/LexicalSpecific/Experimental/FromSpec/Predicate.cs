@@ -20,7 +20,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
 
         protected virtual Func<bool> ToFunc(ILexical element) => () => Satifies(element);
 
-        protected static Predicate<T> LiftOver(ILexical element, params Predicate<T>[] predicates) => new LiftedPredicate<T>(e => predicates.Product(f => f.ToFunc(e)()));
+        protected static Predicate<T> LiftOver(ILexical element, params Predicate<T>[] predicates) => new LiftedPredicate<T>(e => predicates.All(f => f.ToFunc(e)()));
         /// <summary>
         /// Combines the <see cref="Predicate{T}"/> with another <see cref="Predicate{T}"/> 
         /// yielding a new <see cref="Predicate{T}"/> stipulating the conditions of both.
@@ -28,7 +28,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         /// <typeparam name="TOther">The Type stipulation of the other Predicate</typeparam>
         /// <param name="other">The <see cref="Predicate{T}"/> to combine with the current instance. </param>
         /// <returns> A new <see cref="Predicate{T}"/> stipulating the conditions of both. </returns>
-        public virtual Predicate<TOther> Combine<TOther>(Predicate<TOther> other) where TOther : class, ILexical {
+        public virtual Predicate<TOther> Combine<TOther>(Predicate<TOther> other) where TOther : class, ILexical
+        {
             return new LiftedPredicate<TOther>(e => this.ToFunc(e)() && other.ToFunc(e)());
         }
 

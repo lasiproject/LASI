@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for ParticleTest and is intended
     ///to contain all ParticleTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ParticleTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>wd:\Users\Aluan\Desktop\LASI\LASI_v1\AlgorithmAssemblyUnitTestProject\ParticleTest.cs
+        /// </summary>wd:\Users\Aluan\Desktop\LASI\LASI_v1\AlgorithmAssemblyUnitTestProject\ParticleTest.cs
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Particle Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ParticleConstructorTest() {
             string text = "about";
@@ -76,7 +76,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObjectOfPreposition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectOfPrepositionTest() {
             string text = "about";
@@ -88,7 +88,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnLeftSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnLeftSideTest() {
             string text = "about";
@@ -102,7 +102,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnRightSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnRightSideTest() {
             string text = "about";
@@ -116,7 +116,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PrepositionalRole
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionalRoleTest() {
             string text = "about";
@@ -129,7 +129,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheRightOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheRightOfTest() {
             string text = "about";
@@ -143,7 +143,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheLeftOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheLeftOfTest() {
             string text = "about";
@@ -157,7 +157,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Role
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RoleTest() {
             string text = "about";
@@ -171,7 +171,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectTest() {
             string text = "about";

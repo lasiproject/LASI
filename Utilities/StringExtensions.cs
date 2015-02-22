@@ -15,7 +15,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="value">The string to test.</param>
         /// <returns> <c>true</c> if the value parameter is null or System.String.Empty, or if value consists exclusively of white-space characters.
-        ///</returns>
+        /// </returns>
         public static bool IsNullOrWhiteSpace(this string value) => string.IsNullOrWhiteSpace(value);
 
         /// <summary>

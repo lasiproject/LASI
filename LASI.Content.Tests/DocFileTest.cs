@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for DocFileTest and is intended
     ///to contain all DocFileTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class DocFileTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -41,7 +41,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for DocFile Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocFileConstructorTest()
         {
@@ -52,7 +52,7 @@ namespace LASI.Content.Tests
         }
         /// <summary>
         ///A test for DocFile Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
         public void DocFileConstructorTest1()
@@ -62,7 +62,7 @@ namespace LASI.Content.Tests
         }
         /// <summary>
         ///A test for DocFile Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         [ExpectedFileNotFoundException]
         public void DocFileConstructorTest2()

@@ -10,7 +10,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for SentenceTest and is intended
     ///to contain all SentenceTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class SentenceTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -67,7 +67,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -80,7 +80,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Text
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TextTest()
         {
@@ -93,7 +93,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Words
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WordsTest()
         {
@@ -107,7 +107,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Phrases
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PhrasesTest()
         {
@@ -120,7 +120,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IsInverted
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsInvertedTest()
         {
@@ -135,7 +135,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Document
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocumentTest()
         {
@@ -154,7 +154,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetPhrasesAfter
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetPhrasesAfterTest()
         {
@@ -169,7 +169,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for EstablishParenthood
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EstablishParenthoodTest()
         {
@@ -187,7 +187,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Sentence Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SentenceConstructorTest()
         {

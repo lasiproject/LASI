@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for InputFileTest and is intended
     ///to contain all InputFileTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class InputFileTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -71,7 +71,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Equals
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EqualsTest()
         {
@@ -100,7 +100,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetHashCode
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetHashCodeTest()
         {
@@ -114,7 +114,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextTest()
         {
@@ -131,7 +131,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextAsyncTest()
         {
@@ -147,7 +147,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -160,7 +160,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for op_Equality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_EqualityTest()
         {
@@ -183,7 +183,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for op_Inequality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_InequalityTest()
         {
@@ -206,7 +206,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Directory
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectoryTest()
         {
@@ -220,7 +220,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Extension
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ExtTest()
         {
@@ -234,7 +234,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for FileName
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void FileNameTest()
         {
@@ -248,7 +248,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for FullPath
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void FullPathTest()
         {
@@ -259,7 +259,7 @@ namespace LASI.Content.Tests
             Assert.AreEqual(System.IO.Path.GetFullPath(relativePath), actual);
         }        /// <summary>
                  ///A test for FullPath
-                 ///</summary>
+                 /// </summary>
         [TestMethod]
         public void FullPathTest1()
         {
@@ -272,7 +272,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Name
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void NameTest()
         {
@@ -286,7 +286,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for NameSansExt
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void NameSansExtTest()
         {
@@ -300,7 +300,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for PathSansExt
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PathSansExtTest()
         {

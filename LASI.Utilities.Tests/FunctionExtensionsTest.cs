@@ -6,7 +6,7 @@ namespace LASI.Utilities.Tests
     /// <summary>
     ///This is A test class for FunctionExtensionsTest and is intended
     ///to contain all FunctionExtensionsTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class FunctionExtensionsTest
     {
@@ -15,7 +15,7 @@ namespace LASI.Utilities.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -62,7 +62,7 @@ namespace LASI.Utilities.Tests
 
         /// <summary>
         ///A test for Compose
-        ///</summary>
+        /// </summary>
         public void ComposeTest1Helper<R, U, T>()
         {
             Func<R, T> f = r => default(T);

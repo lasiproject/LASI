@@ -12,7 +12,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
     /// <summary>
     ///This is A test class for VerbConjugatorTest and is intended
     ///to contain all VerbConjugatorTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class VerbMorpherTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -70,7 +70,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
 
         /// <summary>
         ///A test for GetLexicalForms
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetConjugationsTest()
         {
@@ -87,7 +87,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
 
         /// <summary>
         ///A test for FindRoot
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void FindRootTest()
         {

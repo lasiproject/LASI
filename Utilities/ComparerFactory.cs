@@ -6,7 +6,7 @@ using LASI.Utilities.Validation;
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Provides static methods for the creation of CustomComparer&lt;T&gt; instances.
+    /// Provides static methods for the creation of <see cref="IEqualityComparer{T}" /> instances.
     /// </summary>
     public static class ComparerFactory
     {
@@ -26,7 +26,8 @@ namespace LASI.Utilities
         /// </remarks>
         public static IEqualityComparer<T> CreateEquality<T>(Func<T, T, bool> equals)
         {
-            return new CustomComparerImplementation<T>(equals);
+            Validate.NotNull(equals, nameof(equals));
+            return ComparerWithCutomEqualsAndNullityBasedHashing<T>.Create(equals);
         }
 
         /// <summary>
@@ -51,7 +52,9 @@ namespace LASI.Utilities
         /// </returns>
         public static IEqualityComparer<T> CreateEquality<T>(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
-            return new CustomComparerImplementation<T>(equals, getHashCode);
+            Validate.NotNull(equals, nameof(equals));
+            Validate.NotNull(getHashCode, nameof(getHashCode));
+            return ComparerWithCutomEqualsAndHashing<T>.Create(equals, getHashCode);
         }
 
         /// <summary>
@@ -71,11 +74,50 @@ namespace LASI.Utilities
         public static IEqualityComparer<T> CreateEquality<T>(Func<T, T, bool> equals, params Func<T, object>[] hashValueSelectors)
         {
             Validate.NotNull(hashValueSelectors, nameof(hashValueSelectors));
-            Validate.NotEmpty(hashValueSelectors, nameof(hashValueSelectors), "At least one mapping to a hashable field must be specified.");
-            return new CustomComparerImplementation<T>(
+            Validate.NeitherNullNorEmpty(hashValueSelectors, nameof(hashValueSelectors));
+            return new ComparerWithCutomEqualsAndHashing<T>(
+               // use the supplied equals function
                equals: equals,
-               getHashCode: value => hashValueSelectors.Select(f => f(value).GetHashCode()).Aggregate((h, x) => h ^ x)
-           );
+               // define a hashing function which uses all fields of the object selected by the supplied array of functions and caches the result
+               getHashCode: obj =>
+               {
+                   int? hashCode = default(int?);
+                   return ((Func<int>)(() => hashCode ?? (hashCode = hashValueSelectors.Select(f => f(obj).GetHashCode()).Aggregate((h, x) => h ^ x)) ?? int.MinValue))();
+               });
+        }
+
+        private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : IEqualityComparer<T>
+        {
+            public static ComparerWithCutomEqualsAndNullityBasedHashing<T> Create(Func<T, T, bool> equals) => new ComparerWithCutomEqualsAndNullityBasedHashing<T>(equals);
+            /// <summary>
+            /// Initializes a new instance of the
+            /// <see cref="ComparerWithCutomEqualsAndNullityBasedHashing{T}" /> class which
+            /// will use the provided function to define element equality.
+            /// </summary>
+            /// <param name="equals">
+            /// A function which determines if two objects of type T are equal.
+            /// </param>
+            /// <exception cref="ArgumentNullException">
+            /// The provided <paramref name="equals" /> function is null.
+            /// </exception>
+            /// <remarks>
+            /// A custom hashing function is automatically provided, ensuring that equality
+            /// comparisons take place except when reference is null. While this provides clean,
+            /// customizable semantics for set operations, more expensive to use having a complexity
+            /// of N^2
+            /// </remarks>
+            public ComparerWithCutomEqualsAndNullityBasedHashing(Func<T, T, bool> equals)
+            {
+                this.equals = equals;
+            }
+            /// <summary>Determines whether two objects of type T are equal.</summary>
+            /// <param name="x">The first object to compare.</param>
+            /// <param name="y">The second object to compare.</param>
+            /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
+            public bool Equals(T x, T y) => equals(x, y);
+            public int GetHashCode(T obj) => obj == null ? 0 : 1;
+
+            private readonly Func<T, T, bool> equals;
         }
 
         /// <summary>
@@ -105,28 +147,9 @@ namespace LASI.Utilities
         /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) =&gt; x.IsSimilarTo(y), x =&gt; x == null? 0 : 1);
         /// </code>
         /// </example>
-        private class CustomComparerImplementation<T> : EqualityComparer<T>
+        private sealed class ComparerWithCutomEqualsAndHashing<T> : IEqualityComparer<T>
         {
-            #region Constructors
-
-            /// <summary>
-            /// Initializes a new instance of the CustomComparer class which will use the provided
-            /// function to define element equality.
-            /// </summary>
-            /// <param name="equals">
-            /// A function which determines if two objects of type T are equal.
-            /// </param>
-            /// <exception cref="ArgumentNullException">
-            /// The provided <paramref name="equals" /> function is null.
-            /// </exception>
-            /// <remarks>
-            /// A custom hashing function is automatically provided, ensuring that equality
-            /// comparisons take place except when reference is null. While this provides clean,
-            /// customizable semantics for set operations, more expensive to use having a complexity
-            /// of N^2
-            /// </remarks>
-            public CustomComparerImplementation(Func<T, T, bool> equals) : this(equals, o => o == null ? 0 : 1) { }
-
+            public static ComparerWithCutomEqualsAndHashing<T> Create(Func<T, T, bool> equals, Func<T, int> getHashCode) => new ComparerWithCutomEqualsAndHashing<T>(equals, getHashCode);
             /// <summary>
             /// Initializes a new instance of the CustomComparer class which will use the provided
             /// equality and hashing functions.
@@ -146,33 +169,23 @@ namespace LASI.Utilities
             /// equals function will also produce identical hashcodes. Elements may yield identical
             /// hash codes, without being considered equal.
             /// </remarks>
-            public CustomComparerImplementation(Func<T, T, bool> equals, Func<T, int> getHashCode)
+            public ComparerWithCutomEqualsAndHashing(Func<T, T, bool> equals, Func<T, int> getHashCode)
             {
-                Validate.NotNull(equals, "equals", "A null equals function was provided.");
-                Validate.NotNull(getHashCode, "getHashCode", "A null getHashCode function was provided.");
+                Func<T, int> hasher = xs => ((Func<int>)(() =>
+             {
+                 var hashCode = default(int?);
+                 return () => hashCode ?? (hashCode = getHashCode(x)) ?? int.MinValue;
+             })(xs))();
                 this.equals = equals;
                 this.getHashCode = getHashCode;
             }
 
-            #endregion Constructors
-
-            #region Methods
-
-            /// <summary>
-            /// Determines whether two objects of type T are equal.
-            /// </summary>
+            /// <summary>Determines whether two objects of type T are equal.</summary>
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public override bool Equals(T x, T y)
-            {
-                if (ReferenceEquals(x, null))
-                    return ReferenceEquals(y, null);
-                else if (ReferenceEquals(y, null))
-                    return ReferenceEquals(x, null);
-                else
-                    return equals(x, y);
-            }
+            public bool Equals(T x, T y) => ReferenceEquals(x, null) ? ReferenceEquals(y, null) : ReferenceEquals(y, null) ? ReferenceEquals(x, null) : equals(x, y);
+
 
             /// <summary>
             /// Serves as a hash function for the specified object for hashing algorithms and data
@@ -180,19 +193,10 @@ namespace LASI.Utilities
             /// </summary>
             /// <param name="obj">The object for which to get a hash code.</param>
             /// <returns>A hash code for the specified object.</returns>
-            public override int GetHashCode(T obj)
-            {
-                return getHashCode(obj);
-            }
+            public int GetHashCode(T obj) => getHashCode(obj);
 
-            #endregion Methods
-
-            #region Fields
-
-            private Func<T, T, bool> equals;
-            private Func<T, int> getHashCode;
-
-            #endregion Fields
+            private readonly Func<T, T, bool> equals;
+            private readonly Func<T, int> getHashCode;
         }
     }
 }

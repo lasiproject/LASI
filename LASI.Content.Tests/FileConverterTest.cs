@@ -9,7 +9,7 @@
 //    /// <summary>
 //    ///This is a test class for FileConverterTest and is intended
 //    ///to contain all FileConverterTest Unit Tests
-//    ///</summary>
+//    /// </summary>
 //    [TestClass]
 //    public class FileConverterTest
 //    {
@@ -20,7 +20,7 @@
 //        /// <summary>
 //        ///Gets or sets the test context which provides
 //        ///information about and functionality for the current test run.
-//        ///</summary>
+//        /// </summary>
 //        public TestContext TestContext { get; set; }
 
 
@@ -47,7 +47,7 @@
 
 //        /// <summary>
 //        ///A test for ConvertFile
-//        ///</summary>
+//        /// </summary>
 //        public void ConvertFileTestHelper<TSource, TDestination>()
 //            where TSource : InputFile
 //            where TDestination : InputFile
@@ -82,7 +82,7 @@
 
 //        /// <summary>
 //        ///A test for ConvertFileAsync
-//        ///</summary>
+//        /// </summary>
 //        public void ConvertFileAsyncTestHelper<TSource, TDestination>()
 //            where TSource : InputFile
 //            where TDestination : InputFile

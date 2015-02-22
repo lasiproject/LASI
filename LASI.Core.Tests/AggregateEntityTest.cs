@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for AggregateEntityTest and is intended
     ///to contain all AggregateEntityTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class AggregateEntityTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateEntity Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateEntityConstructorTest()
         {
@@ -80,7 +80,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateEntity Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateEntityConstructorTest1()
         {
@@ -93,7 +93,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for AddPossession
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddPossessionTest()
         {
@@ -108,7 +108,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDescriptor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDescriptorTest()
         {
@@ -125,7 +125,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindPronoun
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindPronounTest()
         {
@@ -147,7 +147,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetEnumerator
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetEnumeratorTest()
         {
@@ -165,7 +165,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -181,7 +181,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BoundPronouns
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BoundPronounsTest()
         {
@@ -199,7 +199,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Descriptors
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DescriptorsTest()
         {
@@ -219,7 +219,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectOfTest()
         {
@@ -236,7 +236,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectOfTest()
         {
@@ -253,7 +253,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for MetaWeight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void MetaWeightTest()
         {
@@ -268,7 +268,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Possessed
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PossessedTest()
         {
@@ -289,7 +289,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Possesser
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PossesserTest()
         {
@@ -306,7 +306,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for SubjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SubjectOfTest()
         {
@@ -323,7 +323,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Text
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TextTest()
         {
@@ -339,7 +339,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Weight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WeightTest()
         {

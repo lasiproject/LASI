@@ -8,13 +8,13 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for ILexicalTest and is intended
     ///to contain all ILexicalTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ILexicalTest
     {
         /// <summary>
         ///A test for MetaWeight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void MetaWeightTest()
         {
@@ -28,7 +28,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Text
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TextTest()
         {
@@ -40,7 +40,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Weight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WeightTest()
         {
@@ -55,7 +55,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get

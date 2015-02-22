@@ -10,7 +10,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for PastTenseVerbTest and is intended
     ///to contain all PastTenseVerbTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PastTenseVerbTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -67,7 +67,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PastTenseVerb Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PastTenseVerbConstructorTest()
         {

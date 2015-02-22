@@ -51,7 +51,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(Pair<T1, T2> other) => (First?.Equals(other.First) ?? false) && (Second?.Equals(other.Second) ?? false);
+        public bool Equals(Pair<T1, T2> other) => (First?.Equals(other.First) ?? other.First == null) && (Second?.Equals(other.Second) ?? other.Second == null);
         /// <summary>
         /// Determines if the specified object is equal to the current instance.
         /// </summary>

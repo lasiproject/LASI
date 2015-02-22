@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for IInderectObjectTakerTest and is intended
     ///to contain all IInderectObjectTakerTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class IInderectObjectTakerTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -74,7 +74,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindIndirectObjectTest()
         {
@@ -87,7 +87,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateIndirectObjectTest()
         {
@@ -104,7 +104,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectsTest()
         {

@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for IQuantifiableTest and is intended
     ///to contain all IQuantifiableTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class IQuantifiableTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -69,7 +69,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for QuantifiedBy
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void QuantifiedByTest() {
             IQuantifiable target = CreateIQuantifiable(); // TODO: Initialize to an appropriate value

@@ -18,9 +18,10 @@ namespace LASI.Utilities.Validation
         /// <param name="argumentName">
         /// The name of the value being validated in the context of the calling method.
         /// </param>
+        /// <exception cref="ArgumentNullException">The value was null.</exception>
         public static void NotNull<T>(this T value, string argumentName = "value")
         {
-            if (value == null) { throw new ArgumentNullException(argumentName, "Value cannot be null."); }
+            if (value == null) { throw new ArgumentNullException(argumentName, "Argument may not be null."); }
         }
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace LASI.Utilities.Validation
         /// <param name="message">
         /// A message that provides additional detail as to why the value may not be null.
         /// </param>
+        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T>(T value, string argumentName, string message)
         {
             if (value == null) { throw new ArgumentNullException(argumentName, message); }
@@ -47,6 +49,7 @@ namespace LASI.Utilities.Validation
         /// <param name="name1">The name of the first value.</param>
         /// <param name="value2">The second value to validate.</param>
         /// <param name="name2">The name of the second value.</param>
+        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2>(T1 value1, string name1, T2 value2, string name2)
         {
             NotNull(value1, name1);
@@ -66,6 +69,7 @@ namespace LASI.Utilities.Validation
         /// <param name="name2">The name of the second value.</param>
         /// <param name="value3">The third value to validate.</param>
         /// <param name="name3">The name of the third value.</param>
+        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3)
         {
             NotNull(value1, name1, value2, name2);
@@ -88,6 +92,7 @@ namespace LASI.Utilities.Validation
         /// <param name="name3">The name of the third value.</param>
         /// <param name="value4">The fourth value to validate.</param>
         /// <param name="name4">The name of the fourth value.</param>
+        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3, T4>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4)
         {
             NotNull(value1, name1, value2, name2, value3, name3);
@@ -113,6 +118,7 @@ namespace LASI.Utilities.Validation
         /// <param name="name4">The name of the fourth value.</param>
         /// <param name="value5">The fifth value to validate.</param>
         /// <param name="name5">The name of the fifth value.</param>
+        /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3, T4, T5>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4, T5 value5, string name5)
         {
             NotNull(value1, name1, value2, name2, value3, name3, value4, name4);
@@ -129,15 +135,31 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
-        /// <param name="min">The minimum value to validate against.</param>
+        /// <param name="minimum">The minimum value to validate against.</param>
         /// <param name="name">The name of the value to validate.</param>
-        /// <param name="failureMessage">
+        /// <param name="message">
         /// A message that provides additional detail as to why failed validation.
         /// </param>
-        public static void NotLessThan<T>(this T value, T min, string name = "value", string failureMessage = "The specified value was less than the required minimum") where T : IComparable<T>, IEquatable<T>
+        /// <exception cref="ArgumentOutOfRangeException">The value was less the specified minimum.</exception>
+        public static void NotLessThan<T>(this T value, T minimum, string name = null, string message = null)
+            where T : IComparable<T>, IEquatable<T>
         {
-            if (value.CompareTo(min) < 0) { throw new ArgumentOutOfRangeException(name, value, failureMessage); }
+            if (value.CompareTo(minimum) < 0)
+            {
+                var argumentName = name ?? nameof(value);
+                throw CreateOutOfRangeException(
+                    actualValue: value,
+                    paramName: argumentName,
+                    message: message ?? $"The argument, {argumentName}, was less than the required minimum\n. Required: {argumentName} >= {minimum}; Recieved: {value}"
+                );
+            }
         }
+
+        private static ArgumentOutOfRangeException CreateOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
+        {
+            return new ArgumentOutOfRangeException(paramName, actualValue, message);
+        }
+
 
         /// <summary>
         /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is
@@ -145,14 +167,23 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
+        /// <param name="maximum">The maximum value to validate against.</param>
         /// <param name="name">The name of the value to validate.</param>
-        /// <param name="max">The maximum value to validate against.</param>
         /// <param name="message">
         /// A message that provides additional detail as to why the value failed validation.
         /// </param>
-        public static void NotGreaterThan<T>(this T value, string name, T max, string message) where T : IComparable<T>
+        /// <exception cref="ArgumentOutOfRangeException">The value was greater than the specified maximum.</exception>
+        public static void NotGreaterThan<T>(this T value, T maximum, string name = null, string message = null) where T : IComparable<T>, IEquatable<T>
         {
-            if (value.CompareTo(max) > 0) { throw new ArgumentOutOfRangeException(name, value, message); }
+            if (value.CompareTo(maximum) > 0)
+            {
+                var argumentName = name ?? "value";
+                throw CreateOutOfRangeException(
+                    actualValue: value,
+                    paramName: argumentName,
+                    message: message ?? $"The argument, {argumentName}, was greater than the required maximum\n. Required: {argumentName} <= {maximum}; Recieved: {value}"
+                );
+            }
         }
 
         /// <summary>
@@ -161,41 +192,24 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
-        /// <param name="min">The minimum value to validate against.</param>
-        /// <param name="max">The maximum value to validate against.</param>
+        /// <param name="minimum">The minimum value to validate against.</param>
+        /// <param name="maximum">The maximum value to validate against.</param>
         /// <param name="name">The name of the value to validate.</param>
         /// <param name="message">
         /// A message that provides additional detail as to why the value failed validation.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">The value was less than the specified minimum or greater than the specified maximum.</exception>
         public static void WithinRange<T>(
             this T value,
-            T min, T max,
-            string name = "value",
-            string message = "The specified value was out of range."
-            ) where T : IComparable<T>, IEquatable<T>
+            T minimum, T maximum,
+            string name = "value") where T : IComparable<T>, IEquatable<T>
         {
-            if (value.CompareTo(min) < 0 || value.CompareTo(max) > 0)
-            {
-                throw new ArgumentOutOfRangeException(name, value, message);
-            }
+            NotLessThan(value, minimum, name ?? nameof(value), null);
+            NotGreaterThan(value, maximum, name ?? nameof(value), null);
         }
 
-        /// <summary>
-        /// Validates the specified <see cref="IEnumerable{T}" /> value, raising a
-        /// System.ArgumentException if it is contains no elements. This implicitely materializes
-        /// the sequence; see the remarks section for further details.
-        /// </summary>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <remarks>
-        /// In order to validate that the given sequence contains at least one element, a portion of
-        /// sequence must be materialized. If the sequence is described by a stateful or transient
-        /// iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the <see cref="Enumerable.Any{TSource}(this
-        /// IEnumerable{TSource})" /> method.
-        /// </remarks>
 
-        ///<summary>
+        /// <summary>
         /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
@@ -215,9 +229,9 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified <see cref="IEnumerable{T}" />, raising a <see
-        /// cref="ArgumentException" /> if the it is null or contains no elements. This implicitely
-        /// materializes the sequence; see the remarks section for further details.
+        /// Validates the specified <see cref="IEnumerable{T}" />, raising a
+        /// <see cref="ArgumentException" /> if the it is null or contains no elements. This
+        /// implicitely materializes the sequence; see the remarks section for further details.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
         /// <param name="value">The value to validate.</param>
@@ -226,8 +240,8 @@ namespace LASI.Utilities.Validation
         /// In order to validate that the given sequence contains at least one element, a portion of
         /// sequence must be materialized. If the sequence is described by a stateful or transient
         /// iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the <see
-        /// cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
+        /// The validation is described by the
+        /// <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
         /// </remarks>
         public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name)
         {
@@ -247,14 +261,16 @@ namespace LASI.Utilities.Validation
         {
             ExistsIn(value, name, collection, EqualityComparer<T>.Default);
         }
+
         public static void ExistsIn<T>(this T value, string name, params T[] set)
         {
             ExistsIn(value, name, set.AsEnumerable(), EqualityComparer<T>.Default);
         }
+
         /// <summary>
         /// Validates that the specified value exists in the specified set of values using the
-        /// specified <see cref="IEqualityComparer{T}" />, throwing a <see cref="ArgumentException"
-        /// /> if it is not.
+        /// specified <see cref="IEqualityComparer{T}" />, throwing a
+        /// <see cref="ArgumentException" /> if it is not.
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="collection">The collection in which must contain the value.</param>

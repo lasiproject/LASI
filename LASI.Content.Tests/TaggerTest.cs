@@ -15,7 +15,7 @@
 //    /// <summary>
 //    ///This is a test class for TaggerTest and is intended
 //    ///to contain all TaggerTest Unit Tests
-//    ///</summary>
+//    /// </summary>
 //    [TestClass]
 //    public class TaggerTest
 //    {
@@ -26,7 +26,7 @@
 //        /// <summary>
 //        ///Gets or sets the test context which provides
 //        ///information about and functionality for the current test run.
-//        ///</summary>
+//        /// </summary>
 //        public TestContext TestContext
 //        {
 //            get
@@ -77,7 +77,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromDoc
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromDocTest()
 //        {
@@ -91,7 +91,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromDocX
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromDocXTest()
 //        {
@@ -105,7 +105,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromPDF
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromPDFTest()
 //        {
@@ -119,7 +119,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromRaw
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromRawTest()
 //        {
@@ -133,7 +133,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromRaw
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromRawTest1()
 //        {
@@ -147,7 +147,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromRaw
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromRawTest2()
 //        {
@@ -161,7 +161,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromRawAsync
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromRawAsyncTest()
 //        {
@@ -175,7 +175,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromRawAsync
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromRawAsyncTest1()
 //        {
@@ -189,7 +189,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromTagged
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromTaggedTest()
 //        {
@@ -203,7 +203,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromTagged
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromTaggedTest1()
 //        {
@@ -217,7 +217,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromTaggedAsync
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromTaggedAsyncTest()
 //        {
@@ -231,7 +231,7 @@
 
 //        /// <summary>
 //        ///A test for DocumentFromTaggedAsync
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void DocumentFromTaggedAsyncTest1()
 //        {
@@ -245,7 +245,7 @@
 
 //        /// <summary>
 //        ///A test for TaggedFromRaw
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void TaggedFromRawTest()
 //        {
@@ -259,7 +259,7 @@
 
 //        /// <summary>
 //        ///A test for TaggedFromRaw
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void TaggedFromRawTest1()
 //        {
@@ -273,7 +273,7 @@
 
 //        /// <summary>
 //        ///A test for TaggedFromRawAsync
-//        ///</summary>
+//        /// </summary>
 //        [TestMethod]
 //        public void TaggedFromRawAsyncTest()
 //        {

@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for AdjectivePhraseTest and is intended
     ///to contain all AdjectivePhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class AdjectivePhraseTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -62,7 +62,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AdjectivePhrase Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AdjectivePhraseConstructorTest() {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Adjective("smooth"), new Adjective("silky") };
@@ -72,7 +72,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifiers
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AdverbialModifiersTest() {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Conjunction("and"), new Adjective("silky") };
@@ -88,7 +88,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Describes
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DescribesTest() {
             IEnumerable<Word> composedWords = new Word[] { new Adverb("very"), new Adjective("tall") };
@@ -102,7 +102,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ModifyWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifyWithTest() {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("tall") };

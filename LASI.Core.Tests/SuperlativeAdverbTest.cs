@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for SuperlativeAdverbTest and is intended
     ///to contain all SuperlativeAdverbTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class SuperlativeAdverbTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -63,7 +63,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for SuperlativeAdverb Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SuperlativeAdverbConstructorTest() {
             string text = "worthiest";

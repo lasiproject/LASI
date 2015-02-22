@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instances of the Clause class.
         /// </summary>
-        ///<param name="first">The phrase which begins the Clause.</param>
+        /// <param name="first">The phrase which begins the Clause.</param>
         /// <param name="rest">The linear sequence of Phrases which form the remainder of the Clause.</param>
         public Clause(Phrase first, params Phrase[] rest) : this(rest.Prepend(first)) { }
         /// <summary>

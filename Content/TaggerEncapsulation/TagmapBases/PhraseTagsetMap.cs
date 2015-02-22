@@ -12,7 +12,7 @@ namespace LASI.Content.Tagging
     /// This class represents the tagset => runtime-type mapping for word occurances.
     /// </summary>
     /// <example>
-    ///<code>
+    /// <code>
     /// var phraseMap = new PhraseTagSetMap();
     /// var phraseFactory = phraseMap["TAG"];
     /// var phrase = phraseFactory(phraseWords);

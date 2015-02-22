@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for IEntityTest and is intended
     ///to contain all IEntityTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class IEntityTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -64,7 +64,7 @@ namespace LASI.Core.Tests
      
         /// <summary>
         ///A test for EntityKind
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EntityKindTest() {
             IEntity target = new CommonSingularNoun("cat");

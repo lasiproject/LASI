@@ -13,7 +13,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for PronounTest and is intended
     ///to contain all PronounTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PersonalPronounTest
     {
@@ -24,7 +24,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -67,7 +67,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PersonalPronoun Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PronounConstructorTest() {
             string text = "him";
@@ -78,7 +78,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindPronoun
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindPronounTest() {
             string text = "him";
@@ -90,7 +90,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Equals
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EqualsTest() {
             string text = "her";
@@ -108,7 +108,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BoundEntity
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BoundEntityTest() {
             string text = "him";
@@ -122,7 +122,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectOfTest() {
             string text = "him";
@@ -137,7 +137,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectOfTest() {
             string text = "him";
@@ -151,7 +151,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectReferences
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectReferencesTest() {
             string text = "he";
@@ -163,7 +163,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for SubjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SubjectOfTest() {
             string text = "him";
@@ -178,7 +178,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for EntityKind
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EntityKindTest() {
             string text = "they";
@@ -192,7 +192,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PersonalPronoun Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PersonalPronounConstructorTest() {
             string text = "her";

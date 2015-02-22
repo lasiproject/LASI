@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for IUntaggedTextSourceTest and is intended
     ///to contain all IUntaggedTextSourceTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class IRawTextSourceTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -74,7 +74,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextTest()
         {
@@ -88,7 +88,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextAsyncTest()
         {
@@ -102,7 +102,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Name
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void NameTest()
         {

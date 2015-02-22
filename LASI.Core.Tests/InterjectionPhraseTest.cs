@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for InterjectionPhraseTest and is intended
     ///to contain all InterjectionPhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class InterjectionPhraseTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for InterjectionPhrase Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void InterjectionPhraseConstructorTest()
         {

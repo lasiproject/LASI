@@ -18,7 +18,7 @@ namespace LASI.Core.Heuristics
     /// <code>if (Lexicon.GetSimiliarityRatio(a, b) > 0.7) { ... }</code>
     /// Instead one may simple write the same logic as:
     /// <code>if (a.IsSimilarTo(b) > 0.7) { ... }</code>
-    ///</remarks>
+    /// </remarks>
     public struct Similarity : IEquatable<Similarity>, IComparable<Similarity>
     {
         #region Constructors

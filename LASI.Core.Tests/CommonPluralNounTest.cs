@@ -10,7 +10,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for GenericPluralNounTest and is intended
     ///to contain all GenericPluralNounTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class CommonPluralNounTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -64,7 +64,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for CommonPluralNoun Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void CommonPluralNounConstructorTest() {
             string text = "clowns";
@@ -74,7 +74,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for QuantifiedBy
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void QuantifiedByTest() {
             string text = "clowns";

@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for VerbTest and is intended
     ///to contain all VerbTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class VerbTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -69,7 +69,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Verb Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void VerbConstructorTest()
         {
@@ -86,7 +86,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AttachObjectViaPreposition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AttachObjectViaPrepositionTest()
         {
@@ -101,7 +101,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDirectObjectTest()
         {
@@ -115,7 +115,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindIndirectObjectTest()
         {
@@ -129,7 +129,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindSubjectTest()
         {
@@ -145,7 +145,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ModifyWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifyWithTest()
         {
@@ -160,7 +160,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModalityTest()
         {
@@ -178,7 +178,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Subjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SubjectsTest()
         {
@@ -197,7 +197,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifiers
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifiersTest()
         {
@@ -217,7 +217,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IsPossessive
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsPossessiveTest()
         {
@@ -230,7 +230,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IsClassifier
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsClassifierTest()
         {
@@ -243,7 +243,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectsTest()
         {
@@ -262,7 +262,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectsTest()
         {
@@ -280,7 +280,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateSubjectTest()
         {
@@ -297,7 +297,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateIndirectObjectTest()
         {
@@ -314,7 +314,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateDirectObjectTest()
         {
@@ -334,7 +334,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasSubjectOrObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasSubjectOrObjectTest()
         {
@@ -368,7 +368,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasSubjectTest()
         {

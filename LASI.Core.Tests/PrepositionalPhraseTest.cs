@@ -13,7 +13,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for PrepositionalPhraseTest and is intended
     ///to contain all PrepositionalPhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PrepositionalPhraseTest
     {
@@ -24,7 +24,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -71,7 +71,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PrepositionalPhrase Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionalPhraseConstructorTest() {
             var composedWords = new[] { new Preposition("on") };
@@ -85,7 +85,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObjectOfPreposition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectOfPrepositionTest() {
             PrepositionalPhrase target = CreatePrepositionPhrase();
@@ -96,7 +96,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest() {
             Phrase.VerboseOutput = true;
@@ -113,7 +113,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PrepositionalRole
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionalRoleTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -127,7 +127,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnLeftSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnLeftSideTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -141,7 +141,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnRightSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnRightSideTest() {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -155,7 +155,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheRightOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheRightOfTest() {
             var composedWords = new[] { new Preposition("on") };
@@ -169,7 +169,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheLeftOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheLeftOfTest() {
             var composedWords = new[] { new Preposition("on") };
@@ -183,7 +183,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Role
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RoleTest() {
             var composedWords = new[] { new Preposition("on") };
@@ -199,7 +199,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectTest() {
             var composedWords = new[] { new Preposition("on") };

@@ -13,7 +13,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for AdverbTest and is intended
     ///to contain all AdverbTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class AdverbTest
     {
@@ -24,7 +24,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -67,7 +67,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifies
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModiffiedTest() {
             string text = "quickly";
@@ -81,7 +81,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Adverb Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AdverbConstructorTest() {
             string text = "quickly";
@@ -91,7 +91,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifies
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifiesTest() {
             string text = "quickly";
@@ -105,7 +105,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifiers
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifiersTest() {
             string text = "unfothomably";
@@ -117,7 +117,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ModifyWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifyWithTest() {
             string text = "unfothomably";

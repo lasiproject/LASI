@@ -13,7 +13,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for AdjectiveTest and is intended
     ///to contain all AdjectiveTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class AdjectiveTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Adjective Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AdjectiveConstructorTest() {
             string text = "orangish";
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ModifyWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifyWithTest() {
             Adjective target = new Adjective("orangish");
@@ -88,7 +88,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Describes
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DescribesTest() {
             string text = "funny";
@@ -106,7 +106,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifiers
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifiersTest() {
             string text = "funny";

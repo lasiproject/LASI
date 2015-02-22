@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for WordTest and is intended
     ///to contain all WordTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class WordTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Equals
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EqualsTest()
         {
@@ -93,7 +93,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetHashCode
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetHashCodeTest()
         {
@@ -107,7 +107,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -122,7 +122,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Document
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ParentDocTest()
         {
@@ -138,7 +138,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Text
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TextTest()
         {
@@ -153,7 +153,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Weight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WeightTest()
         {
@@ -167,7 +167,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for VerboseOutput
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void VerboseOutputTest()
         {

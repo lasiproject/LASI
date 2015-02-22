@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for PrepositionTest and is intended
     ///to contain all PrepositionTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PrepositionTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Preposition Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionConstructorTest() {
             string text = "into";
@@ -81,7 +81,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObjectOfPreposition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectOfPrepositionTest() {
             string text = "into";
@@ -94,7 +94,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnLeftSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnLeftSideTest() {
             string text = "into";
@@ -109,7 +109,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OnRightSide
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OnRightSideTest() {
             string text = "into";
@@ -125,7 +125,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheRightOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheRightOfTest() {
             string text = "into";
@@ -139,7 +139,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToTheLeftOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToTheLeftOfTest() {
             string text = "inside";
@@ -155,7 +155,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Role
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RoleTest() {
             string text = "over";
@@ -169,7 +169,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest() {
             string text = "with";
@@ -182,7 +182,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindObjectTest() {
             string text = "with";

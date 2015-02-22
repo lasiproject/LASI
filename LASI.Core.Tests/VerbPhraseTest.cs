@@ -13,14 +13,14 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for VerbPhraseTest and is intended
     ///to contain all VerbPhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class VerbPhraseTest
     {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext { get; set; }
 
         private static VerbPhrase CreateVerbPhrase1()
@@ -30,7 +30,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for VerbPhrase Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void VerbPhraseConstructorTest()
         {
@@ -40,7 +40,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for ModifyWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifyWithTest()
         {
@@ -52,7 +52,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BoundSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BoundSubjectTest()
         {
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModalityTest()
         {
@@ -89,7 +89,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IsPossessive
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsPossessiveTest()
         {
@@ -103,7 +103,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for IsPossessive
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsPossessiveTest1()
         {
@@ -117,7 +117,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for IsClassifier
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsClassifierTest()
         {
@@ -131,7 +131,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for IsClassifier
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IsClassifierTest1()
         {
@@ -147,7 +147,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectsTest()
         {
@@ -162,7 +162,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectsTest()
         {
@@ -180,7 +180,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateSubjectTest()
         {
@@ -202,7 +202,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateIndirectObjectTest()
         {
@@ -224,7 +224,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateDirectObjectTest()
         {
@@ -241,7 +241,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AdjectivalModifier
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AdjectivalModifierTest()
         {
@@ -258,7 +258,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -277,7 +277,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasSubjectOrObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasSubjectOrObjectTest()
         {
@@ -302,7 +302,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasSubjectTest()
         {
@@ -318,7 +318,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasObjectTest()
         {
@@ -339,7 +339,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasIndirectObjectTest()
         {
@@ -355,7 +355,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for HasDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasDirectObjectTest()
         {
@@ -373,7 +373,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindSubject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindSubjectTest()
         {
@@ -386,7 +386,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindIndirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindIndirectObjectTest()
         {
@@ -398,7 +398,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDirectObjectTest()
         {
@@ -410,7 +410,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AttachObjectViaPreposition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AttachObjectViaPrepositionTest()
         {

@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for ModalTest and is intended
     ///to contain all ModalTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ModalTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ModalAuxilary Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModalConstructorTest() {
             string text = "can";
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Modifies
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ModifiesTest() {
             string text = "can";

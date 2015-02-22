@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for NounPhraseTest and is intended
     ///to contain all NounPhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class NounPhraseTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for NounPhrase Constructorf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void NounPhraseConstructorTest() {
             IEnumerable<Word> composedWords = new Word[] {
@@ -81,7 +81,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDescriptor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDescriberTest() {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
@@ -93,7 +93,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindPronoun
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindPronounTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -105,7 +105,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Equals
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EqualsTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -114,7 +114,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Descriptors
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DescribedByTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -129,7 +129,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -142,7 +142,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectObjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectObjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -155,7 +155,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for IndirectReferences
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void IndirectReferencesTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -167,7 +167,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PossessesFor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PossesserTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -181,7 +181,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for SubjectOf
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SubjectOfTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -195,7 +195,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AddPossession
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddPossessionTest() {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -206,7 +206,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest() {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy"));
@@ -219,7 +219,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Referees
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RefereesTest() {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
@@ -235,7 +235,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Possessed
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PossessedTest() {
             NounPhrase target = new NounPhrase(new Adjective("large"), new CommonSingularNoun("elephants"));
@@ -248,7 +248,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for OuterAttributive
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void OuterAttributiveTest() {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Catus"));
@@ -261,7 +261,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for InnerAttributive
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void InnerAttributiveTest() {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Felis"));
@@ -277,7 +277,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Descriptors
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DescriptorsTest() {
             NounPhrase target = new NounPhrase(new Determiner("the"), new CommonSingularNoun("elephants"));
@@ -293,7 +293,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindReferencer
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindReferencerTest() {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant"));
@@ -305,7 +305,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDescriptor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDescriptorTest() {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));

@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for IDirectObjectTakerTest and is intended
     ///to contain all IDirectObjectTakerTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class IDirectObjectTakerTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -70,7 +70,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for BindDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BindDirectObjectTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
@@ -81,7 +81,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for AggregateDirectObject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AggregateDirectObjectTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();
@@ -96,7 +96,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for DirectObjects
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DirectObjectsTest() {
             IDirectObjectTaker target = CreateIDirectObjectTaker();

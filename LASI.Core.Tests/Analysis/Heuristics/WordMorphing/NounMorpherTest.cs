@@ -15,13 +15,13 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
     /// <summary>
     ///This is A test class for NounConjugatorTest and is intended
     ///to contain all NounConjugatorTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class NounMorpherTest
     {
         /// <summary>
         ///A test for FindRoot
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void FindRootTest()
         {
@@ -35,7 +35,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
 
         /// <summary>
         ///A test for FindRoot
-        ///</summary>
+        /// </summary>
         [TestMethod()]
         public void FindRootTest1()
         {
@@ -50,7 +50,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
 
         /// <summary>
         ///A test for FindRoot
-        ///</summary>
+        /// </summary>
         [TestMethod()]
         public void FindRootTest2()
         {
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
 
         /// <summary>
         ///A test for GetLexicalForms
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetLexicalFormsTest1()
         {
@@ -100,7 +100,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get

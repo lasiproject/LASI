@@ -15,7 +15,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Paragraph class.
         /// </summary>
         /// <param name="sentences">The sentences which comprise the Paragraph.</param>
-        ///<param name="kind">Indicates the kind of paragraph.</param>
+        /// <param name="kind">Indicates the kind of paragraph.</param>
         public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind kind)
         {
             ParagraphKind = kind;

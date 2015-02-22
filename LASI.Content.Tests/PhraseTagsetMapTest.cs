@@ -14,7 +14,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for PhraseTagsetMapTest and is intended
     ///to contain all PhraseTagsetMapTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PhraseTagsetMapTest
     {
@@ -25,7 +25,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -103,7 +103,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Item
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ItemTest()
         {
@@ -117,7 +117,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for Item
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ItemTest2()
         {

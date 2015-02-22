@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for DeterminerTest and is intended
     ///to contain all DeterminerTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class DeterminerTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Determiner Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DeterminerConstructorTest() {
             string text = "the";
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Determines
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DeterminesTest() {
             string text = "the";

@@ -14,7 +14,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is A test class for FileManagerTest and is intended
     ///to contain all FileManagerTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class FileManagerTest
     {
@@ -25,7 +25,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for AddDocFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddDocFileTest()
         {
@@ -37,7 +37,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for AddDocXFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddDocXFileTest()
         {
@@ -48,7 +48,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for AddFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddFileTest()
         {
@@ -73,7 +73,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for AddPdfFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddPdfFileTest()
         {
@@ -85,7 +85,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for AddTextFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void AddTxtFileTest()
         {
@@ -97,7 +97,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for BackupProject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void BackupProjectTest()
         {
@@ -107,7 +107,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertAsNeededAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void
         ConvertAsNeededAsyncTest()
@@ -117,7 +117,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertAsNeeded
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertAsNeededTest()
         {
@@ -142,7 +142,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocFilesAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocFilesAsyncTest()
         {
@@ -162,7 +162,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocFiles
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocFilesTest()
         {
@@ -176,7 +176,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocToTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocToTextAsyncTest()
         {
@@ -194,7 +194,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocToText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocToTextTest()
         {
@@ -209,7 +209,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocxToTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocxToTextAsyncTest()
         {
@@ -218,7 +218,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertDocxToText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertDocxToTextTest()
         {
@@ -232,7 +232,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertPdfFilesAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertPdfToTextAsyncTest()
         {
@@ -247,7 +247,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertPdfToText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertPdfToTextTest()
         {
@@ -262,7 +262,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for DecimateProject
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DecimateProjectTest()
         {
@@ -273,7 +273,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for HasSimilarFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void HasSimilarFileTest()
         {
@@ -290,7 +290,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ProjectName
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ProjectNameTest()
         {
@@ -303,7 +303,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for RemoveAllNotIn
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RemoveAllNotInTest()
         {
@@ -323,7 +323,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for RemoveFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RemoveFileTest()
         {
@@ -336,7 +336,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for TagTextFilesAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TagTextFilesAsyncTest()
         {
@@ -358,7 +358,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for TagTextFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TagTextFilesTest()
         {
@@ -443,7 +443,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get

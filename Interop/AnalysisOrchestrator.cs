@@ -44,7 +44,7 @@ namespace LASI.Interop
         /// </returns>
         /// <example>
         ///Example event registration:
-        ///<code>
+        /// <code>
         /// var myDocument = new TxtFile(path);
         /// var myOrchestrator = new AnalysisOrchestrator(myDocument);
         /// myOrchestrator.ProgressChanged += (sender, e) => MsgBox.Show(e.Message + " " + e.Increment);

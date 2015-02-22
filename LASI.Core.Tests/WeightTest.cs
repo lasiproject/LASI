@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for WeightTest and is intended
     ///to contain all WeightTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class WeightTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -66,7 +66,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Weight Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WeightConstructorTest() {
             double rawWeight = 65;
@@ -78,7 +78,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Equals
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EqualsTest() {
             Weight target = new Weight(1, 1);
@@ -91,7 +91,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetHashCode
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetHashCodeTest() {
             Weight target = new Weight();
@@ -103,7 +103,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Addition
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_AdditionTest() {
             Weight A = new Weight(43, 2);
@@ -116,7 +116,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Division
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_DivisionTest() {
             Weight A = new Weight(15d, 0.75d);
@@ -129,7 +129,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Equality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_EqualityTest() {
             Weight A = new Weight(10, 0.5);
@@ -142,7 +142,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_GreaterThan
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_GreaterThanTest() {
             Weight A = new Weight(10, 0.78);
@@ -155,7 +155,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Inequality
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_InequalityTest() {
             Weight A = new Weight(86, 1);
@@ -168,7 +168,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_LessThan
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_LessThanTest() {
             Weight A = new Weight(15.6, 1.5);
@@ -181,7 +181,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Multiply
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_MultiplyTest() {
             Weight A = new Weight(9876.4, 15.65);
@@ -194,7 +194,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for op_Subtraction
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_SubtractionTest() {
             Weight A = new Weight(10, 1.89);

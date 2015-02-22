@@ -12,7 +12,7 @@ namespace LASI.Core
     /// <see cref="Match{T}"/>
     /// <see cref="Match{T, TResult}"/>
     /// <see cref="LASI.Core.Analysis.PatternMatching"/>
-    ///<remarks>
+    /// <remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of performing subtype dependent operations which could not be described by traditional virtual method approaches in an expressive or practical manner.
     /// There are several reasons for this. First and most important, is that the virtual method approach is limited to single dispatch* . Secondly different binding operations must be chosen based on a variety of information gathered from contexts

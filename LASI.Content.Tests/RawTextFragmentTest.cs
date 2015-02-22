@@ -11,19 +11,19 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for RawTextFragmentTest and is intended
     ///to contain all RawTextFragmentTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class RawTextFragmentTest
     {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext { get; set; }
 
         /// <summary>
         ///A test for RawTextFragment Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void RawTextFragmentConstructorTest()
         {
@@ -39,7 +39,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextTest()
         {
@@ -55,7 +55,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextAsyncTest()
         {
@@ -72,7 +72,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for op_Implicit
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void op_ImplicitTest()
         {

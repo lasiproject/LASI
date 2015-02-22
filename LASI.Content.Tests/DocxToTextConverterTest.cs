@@ -11,7 +11,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is A test class for DocxToTextConverterTest and is intended
     ///to contain all DocxToTextConverterTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class DocxToTextConverterTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -49,7 +49,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for ConvertFileAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public async Task ConvertFileAsyncTest()
         {
@@ -61,7 +61,7 @@ namespace LASI.Content.Tests
         }
         /// <summary>
         ///A test for ConvertFile
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConvertFileTest()
         {
@@ -73,7 +73,7 @@ namespace LASI.Content.Tests
         }
         /// <summary>
         ///A test for DocxToTextConverter Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocxToTextConverterConstructorTest()
         {

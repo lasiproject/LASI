@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
     /// <summary>
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class PdfFileTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -40,7 +40,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for PdfFile Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PdfFileConstructorTest()
         {
@@ -66,7 +66,7 @@ namespace LASI.Content.Tests
         }
         /// <summary>
         ///A test for GetText
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextTest()
         {
@@ -79,7 +79,7 @@ namespace LASI.Content.Tests
 
         /// <summary>
         ///A test for GetTextAsync
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetTextAsyncTest()
         {

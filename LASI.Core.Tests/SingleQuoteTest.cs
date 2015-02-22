@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for SingleQuoteTest and is intended
     ///to contain all SingleQuoteTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class SingleQuoteTest
     {
@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -32,7 +32,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PairWith
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PairWithTest() {
             SingleQuote target = new SingleQuote();
@@ -44,7 +44,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for SingleQuote Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SingleQuoteConstructorTest() {
             SingleQuote target = new SingleQuote();

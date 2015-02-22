@@ -10,7 +10,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for ParagraphTest and is intended
     ///to contain all ParagraphTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ParagraphTest
     {
@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -41,7 +41,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Text
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TextTest()
         {
@@ -109,7 +109,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for EstablishParent
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void EstablishParentTest()
         {
@@ -141,7 +141,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Words
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WordsTest()
         {
@@ -185,7 +185,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Phrases
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PhrasesTest()
         {
@@ -230,7 +230,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetPhrasesAfter
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetPhrasesAfterTest()
         {
@@ -274,7 +274,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Paragraph Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ParagraphConstructorTest()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities.SpecializedResultTypes;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -125,8 +126,10 @@ namespace LASI.Utilities
             }
         }
 
-        public static IDictionary<TKey, Pair<TValue, int>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
-            dictionary.Select((entry, index) => Pair.Create(entry.Key, Pair.Create(entry.Value, index))).ToDictionary(x => x.First, x => x.Second);
+        public static IDictionary<TKey, Indexed<TValue>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
+            dictionary
+                .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
+                .ToDictionary(x => x.Key, x => x.Value);
 
         #endregion IDictionary Extensions
     }

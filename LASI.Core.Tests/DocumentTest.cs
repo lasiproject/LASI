@@ -12,7 +12,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class DocumentTest
     {
@@ -23,7 +23,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext
         {
             get
@@ -144,7 +144,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Document Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void DocumentConstructorTest()
         {
@@ -160,7 +160,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetActions
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetVerbalsTest()
         {
@@ -189,7 +189,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for GetEntities
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void GetEntitiesTest()
         {
@@ -225,7 +225,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Paragraphs
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ParagraphsTest()
         {
@@ -242,7 +242,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Phrases
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PhrasesTest()
         {
@@ -259,7 +259,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Sentences
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void SentencesTest()
         {
@@ -306,7 +306,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Words
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void WordsTest()
         {
@@ -324,7 +324,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Name
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void TitleTest()
         {
@@ -338,7 +338,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Clauses
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ClausesTest()
         {
@@ -383,7 +383,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ToString
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ToStringTest()
         {
@@ -396,7 +396,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for Paginate
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PaginateTest()
         {
@@ -417,7 +417,7 @@ namespace LASI.Core.Tests
         }
         /// <summary>
         ///A test for Paginate
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PaginateTest1()
         {

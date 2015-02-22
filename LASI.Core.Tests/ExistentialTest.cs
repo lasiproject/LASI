@@ -9,20 +9,20 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for ExistentialTest and is intended
     ///to contain all ExistentialTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ExistentialTest
     {
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext { get; set; }
 
 
         /// <summary>
         ///A test for Existential Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ExistentialConstructorTest()
         {

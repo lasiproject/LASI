@@ -23,7 +23,7 @@ namespace LASI.Core.Heuristics.Tests
             Assert.IsTrue(e1.IsRelatedTo(e2).On(v));
         } /// <summary>
         ///A test for SetRelationshipLookup
-        ///</summary>
+        /// </summary>
         [TestMethod()]
         public void SetRelationshipLookupTest() {
             IEntity entity = null; // TODO: Initialize to an appropriate value
@@ -34,7 +34,7 @@ namespace LASI.Core.Heuristics.Tests
 
         /// <summary>
         ///A test for On
-        ///</summary>
+        /// </summary>
         [TestMethod()]
         public void OnTest() {
             Nullable<ActionsRelatedOn> relatorSet = new Nullable<ActionsRelatedOn>(); // TODO: Initialize to an appropriate value
@@ -48,7 +48,7 @@ namespace LASI.Core.Heuristics.Tests
 
         /// <summary>
         ///A test for IsRelatedTo
-        ///</summary>
+        /// </summary>
         [TestMethod()]
         public void IsRelatedToTest2() {
             IEntity performer = null; // TODO: Initialize to an appropriate value

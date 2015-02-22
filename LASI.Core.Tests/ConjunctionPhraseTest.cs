@@ -11,7 +11,7 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is a test class for ConjunctionPhraseTest and is intended
     ///to contain all ConjunctionPhraseTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class ConjunctionPhraseTest
     {
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for ConjunctionPhrase Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void ConjunctionPhraseConstructorTest() {
             IEnumerable<Word> composedWords = new[] { new Conjunction("or") };
@@ -75,7 +75,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for JoinedLeft
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void JoinedLeftTest() {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
@@ -89,7 +89,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for JoinedRight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void JoinedRightTest() {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };

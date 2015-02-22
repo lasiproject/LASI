@@ -9,7 +9,7 @@ namespace LASI.Core.Tests
     {
         /// <summary>
         ///A test for PrepositionOnLeft
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionOnLeftTest() {
             IPrepositionLinkable target = CreateILexical();
@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
 
         /// <summary>
         ///A test for PrepositionOnRight
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void PrepositionOnRightTest() {
             IPrepositionLinkable target = CreateILexical();

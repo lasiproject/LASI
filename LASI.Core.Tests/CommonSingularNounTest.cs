@@ -7,13 +7,13 @@ namespace LASI.Core.Tests
     /// <summary>
     ///This is A test class for GenericSingularNounTest and is intended
     ///to contain all GenericSingularNounTest Unit Tests
-    ///</summary>
+    /// </summary>
     [TestClass]
     public class CommonSingularNounTest
     {
         /// <summary>
         /// A test for CommonSingularNoun Constructor
-        ///</summary>
+        /// </summary>
         [TestMethod]
         public void CommonSingularNounConstructorTest() {
             string text = "cat";
@@ -24,7 +24,7 @@ namespace LASI.Core.Tests
         /// <summary>
         /// Gets or sets the test context which provides
         /// information about and functionality for the current test run.
-        ///</summary>
+        /// </summary>
         public TestContext TestContext {
             get {
                 return testContextInstance;
