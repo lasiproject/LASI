@@ -27,7 +27,7 @@ namespace LASI.Utilities
         public static IEqualityComparer<T> CreateEquality<T>(Func<T, T, bool> equals)
         {
             Validate.NotNull(equals, nameof(equals));
-            return ComparerWithCutomEqualsAndNullityBasedHashing<T>.Create(equals);
+            return new ComparerWithCutomEqualsAndNullityBasedHashing<T>(equals);
         }
 
         /// <summary>
@@ -54,41 +54,11 @@ namespace LASI.Utilities
         {
             Validate.NotNull(equals, nameof(equals));
             Validate.NotNull(getHashCode, nameof(getHashCode));
-            return ComparerWithCutomEqualsAndHashing<T>.Create(equals, getHashCode);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the CustomComparer class which will use the provided equality
-        /// to define element equality and use the provided functions to compute hashcodes.
-        /// </summary>
-        /// <typeparam name="T">The type of the objects to compare.</typeparam>
-        /// <param name="equals">A function which determines if two objects of type T are equal.</param>
-        /// <param name="hashValueSelectors">
-        /// One or more functions which describe an ad hoc representation from which hashcodes will
-        /// be produced.
-        /// </param>
-        /// A new
-        /// <see cref="IEqualityComparer{T}" />
-        /// which will define equality based on the provided equals function and define a hashcode
-        /// based on the given hash value selector functions.
-        public static IEqualityComparer<T> CreateEquality<T>(Func<T, T, bool> equals, params Func<T, object>[] hashValueSelectors)
-        {
-            Validate.NotNull(hashValueSelectors, nameof(hashValueSelectors));
-            Validate.NeitherNullNorEmpty(hashValueSelectors, nameof(hashValueSelectors));
-            return new ComparerWithCutomEqualsAndHashing<T>(
-               // use the supplied equals function
-               equals: equals,
-               // define a hashing function which uses all fields of the object selected by the supplied array of functions and caches the result
-               getHashCode: obj =>
-               {
-                   int? hashCode = default(int?);
-                   return ((Func<int>)(() => hashCode ?? (hashCode = hashValueSelectors.Select(f => f(obj).GetHashCode()).Aggregate((h, x) => h ^ x)) ?? int.MinValue))();
-               });
+            return new ComparerWithCutomEqualsAndHashing<T>(equals, getHashCode);
         }
 
         private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : IEqualityComparer<T>
         {
-            public static ComparerWithCutomEqualsAndNullityBasedHashing<T> Create(Func<T, T, bool> equals) => new ComparerWithCutomEqualsAndNullityBasedHashing<T>(equals);
             /// <summary>
             /// Initializes a new instance of the
             /// <see cref="ComparerWithCutomEqualsAndNullityBasedHashing{T}" /> class which
@@ -149,7 +119,6 @@ namespace LASI.Utilities
         /// </example>
         private sealed class ComparerWithCutomEqualsAndHashing<T> : IEqualityComparer<T>
         {
-            public static ComparerWithCutomEqualsAndHashing<T> Create(Func<T, T, bool> equals, Func<T, int> getHashCode) => new ComparerWithCutomEqualsAndHashing<T>(equals, getHashCode);
             /// <summary>
             /// Initializes a new instance of the CustomComparer class which will use the provided
             /// equality and hashing functions.
@@ -171,11 +140,6 @@ namespace LASI.Utilities
             /// </remarks>
             public ComparerWithCutomEqualsAndHashing(Func<T, T, bool> equals, Func<T, int> getHashCode)
             {
-                Func<T, int> hasher = xs => ((Func<int>)(() =>
-             {
-                 var hashCode = default(int?);
-                 return () => hashCode ?? (hashCode = getHashCode(x)) ?? int.MinValue;
-             })(xs))();
                 this.equals = equals;
                 this.getHashCode = getHashCode;
             }
@@ -184,8 +148,7 @@ namespace LASI.Utilities
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public bool Equals(T x, T y) => ReferenceEquals(x, null) ? ReferenceEquals(y, null) : ReferenceEquals(y, null) ? ReferenceEquals(x, null) : equals(x, y);
-
+            public bool Equals(T x, T y) => y == null ? y == null : y == null ? x == null : equals(x, y);
 
             /// <summary>
             /// Serves as a hash function for the specified object for hashing algorithms and data
