@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shared.Test.Assertions;
 using System.Linq;
 
-namespace LASI.Core.Tests.Analysis.Heuristics.WordMorphing
+namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
 {
     [TestClass]
     public class AdjectiveMorpherTest

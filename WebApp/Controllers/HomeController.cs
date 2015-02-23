@@ -132,7 +132,7 @@ namespace LASI.WebApp.Controllers
         private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create(
-                    ComparerFactory.CreateEquality<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
+                    ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {

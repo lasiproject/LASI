@@ -6,7 +6,7 @@ using LASI.Core.Analysis.Heuristics.WordMorphing;
 using LASI.Core.Heuristics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.Core.Tests.Analysis.WordMorphing
+namespace LASI.Core.Analysis.WordMorphing.Tests
 {
     using LASI.Utilities;
     using LASI.Utilities.Specialized.Enhanced.Linq.List;
@@ -96,7 +96,7 @@ namespace LASI.Core.Tests.Analysis.WordMorphing
             });
         }
 
-        
+
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Analysis
 {
     /// <summary>
     /// Stores the relationship between two Entity constructs which are related together by the first performing an action received by the second.
@@ -23,7 +23,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="performer">The performer of some action.</param>
         /// <param name="receiver">The receiver of that action.</param>
-        public PerformerReceiverPair(TPerformer performer, TReceiver receiver) : this() {
+        public PerformerReceiverPair(TPerformer performer, TReceiver receiver) : this()
+        {
             Performer = performer;
             Receiver = receiver;
         }

@@ -123,6 +123,9 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchTTresult.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />
+    <Compile Include="Analysis\RelationshipLookups\RelationshipLookupBase.cs" />
+    <Compile Include="Analysis\RelationshipLookups\RelationshipLookupExtensions.cs" />
     <Compile Include="Analysis\ResultAnalalysis\NaiveResultSelector.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
@@ -171,7 +174,7 @@
     <Compile Include="Analysis\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
     <Compile Include="Analysis\RelationshipLookups\IRelationshipLookup.cs" />
-    <Compile Include="Analysis\RelationshipLookups\SampleRelationshipLookup.cs" />
+    <Compile Include="Analysis\RelationshipLookups\RelationshipLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\AggregateVerbal.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\BaseVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\SingularPresentVerb.cs" />

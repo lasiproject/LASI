@@ -181,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Analysis\Binding\Experimental\" />
-    <Folder Include="Analysis\RelationshipLookups\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">

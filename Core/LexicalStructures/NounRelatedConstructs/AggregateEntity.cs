@@ -13,7 +13,7 @@ namespace LASI.Core
     /// <para> As such it provides both the behaviors of an Entity and an Enumerable collection of Entities. That is to say that you can use an instance of this class in </para> 
     /// <para> situtation where an IEntity is Expected, but also enumerate it via foreach(var in ...) or (from e in ...) </para>
     /// </summary>
-    /// <see cref="IAggregateEntity"/>
+    /// <seealso cref="IAggregateEntity"/>
     /// <seealso cref="IEntity"/>
     public class AggregateEntity : IAggregateEntity
     {

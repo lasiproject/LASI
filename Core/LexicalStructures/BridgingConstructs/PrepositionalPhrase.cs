@@ -6,7 +6,7 @@ namespace LASI.Core
 {
     /// <summary>
     /// Represents a prepositional construct at the phrase level.
-    /// <see cref="IPrepositional"/>
+    /// <seealso cref="IPrepositional"/>
     /// <seealso cref="Preposition"/>
     /// </summary>
     public class PrepositionalPhrase : Phrase, IPrepositional
@@ -84,7 +84,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the PrepositionalPhrase.
         /// </summary>
-        /// <see cref="PrepositionRole"/>
+        /// <seealso cref="PrepositionRole"/>
         public PrepositionRole Role { get; set; }
         #endregion
 

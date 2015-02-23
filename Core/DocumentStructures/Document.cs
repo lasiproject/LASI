@@ -14,10 +14,10 @@ namespace LASI.Core
     /// comparatively: myDocument.Words; yields the same collection.
     /// </para>
     /// </summary>
-    /// <see cref="Page" />
-    /// <see cref="Paragraph" />
-    /// <see cref="Sentence" />
-    /// <see cref="IReifiedTextual" />
+    /// <seealso cref="Page" />
+    /// <seealso cref="Paragraph" />
+    /// <seealso cref="Sentence" />
+    /// <seealso cref="IReifiedTextual" />
     public class Document : IReifiedTextual
     {
         #region Constructors

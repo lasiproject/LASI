@@ -649,7 +649,7 @@ namespace LASI.Content
     /// Defines mappings between file extensions and functions which construct their respective wrappers.
     /// </summary>
     /// <remarks>Wrapper types are format enforcing classes derived from InputFile</remarks>
-    /// <see cref="LASI.Content.InputFile"/>
+    /// <seealso cref="LASI.Content.InputFile"/>
     public class ExtensionWrapperMap
     {
         private IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase){

@@ -109,7 +109,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// conversions are defined)
     /// </para>
     /// </remarks>
-    /// <see cref="LASI.Core.MatchExtensions">
+    /// <seealso cref="LASI.Core.MatchExtensions">
     /// Provides extension methods which allow for the creation of Match expressions.
     /// </see>
     [DebuggerStepThrough]

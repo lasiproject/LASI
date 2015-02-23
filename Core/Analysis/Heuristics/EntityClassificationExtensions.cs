@@ -1,19 +1,13 @@
 ﻿using LASI.Core.Heuristics;
-using LASI.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Core
 {
     /// <summary>
     /// Defines extension methods which augment specific enum Types for quick, centralized access to common usage patterns.
     /// </summary>
-    /// <see cref="PronounKind"/>
-    /// <see cref="RelativePronounKind"/>
-    /// <see cref="EntityKind"/>
+    /// <seealso cref="PronounKind"/>
+    /// <seealso cref="RelativePronounKind"/>
+    /// <seealso cref="EntityKind"/>
     public static class EntityClassificationExtensions
     {
         #region PronounKind Extensions

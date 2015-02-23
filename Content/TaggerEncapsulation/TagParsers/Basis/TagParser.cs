@@ -12,7 +12,8 @@ namespace LASI.Content.Tagging
 
 
         public abstract Task<LASI.Core.Document> LoadDocumentAsync();
-        public LASI.Content.TaggedFile TaggedDocumentFile {
+        public TaggedFile TaggedDocumentFile
+        {
             get;
             protected set;
         }
@@ -22,7 +23,8 @@ namespace LASI.Content.Tagging
         /// </summary>
         /// <param name="data">A string containing the text to be broken down.</param>
         /// <returns>A collection of strings, each entry corresponding to the entire content of a single Paragraph.</returns>
-        protected virtual IEnumerable<string> ParseParagraphs(string data) {
+        protected virtual IEnumerable<string> ParseParagraphs(string data)
+        {
             return data.SplitRemoveEmpty("\r\n\r\n", "\n\n", "<paragraph>", "</paragraph>").Select(datum => datum.Trim());
         }
 
@@ -30,7 +32,8 @@ namespace LASI.Content.Tagging
         /// <summary>
         /// Gets the newPath of the tagged file which the TaggedFileParser governs.
         /// </summary>
-        public string FilePath {
+        public string FilePath
+        {
             get;
             protected set;
         }
@@ -39,7 +42,8 @@ namespace LASI.Content.Tagging
         /// <summary>
         /// Gets the .tagged file object which encapsulates the input file which the TaggedFileParser governs.
         /// </summary>
-        public string TaggedInputData {
+        public string TaggedInputData
+        {
             get;
             protected set;
         }

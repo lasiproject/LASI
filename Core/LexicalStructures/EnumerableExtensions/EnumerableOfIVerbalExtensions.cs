@@ -11,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of objects implementing the IVerbal interface.
     /// </summary>
-    /// <see cref="IVerbal"/>
+    /// <seealso cref="IVerbal"/>
     public static partial class LexicalEnumerable
     {
         /// <summary>

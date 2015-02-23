@@ -21,7 +21,7 @@
         /// <summary>
         /// Gets the contextually extrapolated role of the IPrepositional Construct.
         /// </summary>
-        /// <see cref="PrepositionRole"/>
+        /// <seealso cref="PrepositionRole"/>
         PrepositionRole Role { get; }
         /// <summary>
         /// Binds an ILexical construct as the object of the IPrepositional. 

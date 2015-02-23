@@ -8,7 +8,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of objects implementing the IPronoun interface.
     /// </summary>
-    /// <see cref="IReferencer"/>
+    /// <seealso cref="IReferencer"/>
     /// <seealso cref="PersonalPronoun"/>
     /// <seealso cref="RelativePronoun"/>
     public static partial class LexicalEnumerable

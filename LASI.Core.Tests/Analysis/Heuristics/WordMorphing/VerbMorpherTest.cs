@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
 
-namespace LASI.Core.Tests.Analysis.WordMorphing
+namespace LASI.Core.Analysis.WordMorphing.Tests
 {
 
 

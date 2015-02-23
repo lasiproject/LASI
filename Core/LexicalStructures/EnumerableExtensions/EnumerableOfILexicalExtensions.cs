@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of objects implementing the ILexical interface.
     /// </summary>
-    /// <see cref="ILexical" />
+    /// <seealso cref="ILexical" />
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
     /// <seealso cref="System.Linq.Enumerable" />
     public static partial class LexicalEnumerable
@@ -39,7 +39,7 @@ namespace LASI.Core
         /// </example>
         public static bool Contains<TLexical>(this IEnumerable<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return elements.Contains(element, LexicalComparers.Create(comparison));
+            return elements.Contains(element, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace LASI.Core
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
         public static IEnumerable<TLexical> Except<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Except(second, LexicalComparers.Create(comparison));
+            return first.Except(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace LASI.Core
         /// </example>
         public static IEnumerable<TLexical> Distinct<TLexical>(this IEnumerable<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return elements.Distinct(LexicalComparers.Create(comparison));
+            return elements.Distinct(ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace LASI.Core
         /// </example>
         public static IEnumerable<TLexical> Intersect<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Intersect(second, LexicalComparers.Create(comparison));
+            return first.Intersect(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace LASI.Core
         /// </returns>
         public static bool SequenceEqual<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.SequenceEqual(second, LexicalComparers.Create(comparison));
+            return first.SequenceEqual(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace LASI.Core
         public static IEnumerable<TLexical> Union<TLexical>(
             this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Union(second, LexicalComparers.Create(comparison));
+            return first.Union(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>
@@ -238,7 +238,7 @@ namespace LASI.Core
         /// </example>
         public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return elements.Contains(element, LexicalComparers.Create(comparison));
+            return elements.Contains(element, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace LASI.Core
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
         public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Except(second, LexicalComparers.Create(comparison));
+            return first.Except(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace LASI.Core
         /// </example>
         public static ParallelQuery<TLexical> Distinct<TLexical>(this ParallelQuery<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return elements.Distinct(LexicalComparers.Create(comparison));
+            return elements.Distinct(ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace LASI.Core
         /// </example>
         public static ParallelQuery<TLexical> Intersect<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Intersect(second, LexicalComparers.Create(comparison));
+            return first.Intersect(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace LASI.Core
         /// </returns>
         public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.SequenceEqual(second, LexicalComparers.Create(comparison));
+            return first.SequenceEqual(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace LASI.Core
         /// </example>
         public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
         {
-            return first.Union(second, LexicalComparers.Create(comparison));
+            return first.Union(second, ComparerFactory.Create(comparison));
         }
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>

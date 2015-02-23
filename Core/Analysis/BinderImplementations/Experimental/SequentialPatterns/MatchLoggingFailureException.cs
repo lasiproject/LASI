@@ -6,7 +6,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     /// <summary>
     /// The exception which is thrown when an error occurs in the Sequential Matching logging process.
     /// </summary>
-    /// <see cref="SequenceMatch"/>
+    /// <seealso cref="SequenceMatch"/>
     /// <seealso cref="SequentialPatterns"/>
     [Serializable]
     public class MatchLoggingFailureException : Exception

@@ -125,7 +125,7 @@ namespace AspSixApp.Controllers
         private const int ChartItemLimit = 5;
 
         private static ProcessedDocumentSet processedDocuments = System.Collections.Immutable.ImmutableHashSet.Create(
-                    ComparerFactory.CreateEquality<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
+                    ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
         private static SerializerSettings serializerSettings = new SerializerSettings
         {

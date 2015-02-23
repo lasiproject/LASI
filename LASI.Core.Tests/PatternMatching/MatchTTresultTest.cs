@@ -4,7 +4,7 @@ using LASI.Utilities.Specialized;
 using Shared.Test.Assertions;
 using LASI.Utilities.Specialized.Option;
 
-namespace LASI.Core.Tests.PatternMatching
+namespace LASI.Core.PatternMatching.Tests
 {
     [TestClass]
     public class MatchTTresultTest

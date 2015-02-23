@@ -23,7 +23,7 @@ namespace LASI.Content
         /// Initialized an instance of the TaggedWordParser class using the Tagset provided defined by the TaggingContext argument.
         /// </summary>
         /// <param name="taggingContext">The tagset-to-runtime-type mapping which will define how new word instances will be instantiated.</param>
-        public WordFactory(WordTagsetMap taggingContext) { context = taggingContext; }
+        public WordFactory(WordTagsetMap taggingContext) { wordTagset = taggingContext; }
 
         /// <summary>
         /// Creates a new Instance of the Word class which corresponds to the given text token and Part Of Speech tag.
@@ -39,8 +39,7 @@ namespace LASI.Content
                 throw new EmptyOrWhiteSpaceStringTaggedAsWordException(taggedText.Tag);
             try
             {
-                var createWord = context[taggedText.Tag];
-                return createWord(taggedText.Text);
+                return wordTagset[taggedText.Tag](taggedText.Text);
             }
             catch (EmptyWordTagException)
             {
@@ -54,6 +53,6 @@ namespace LASI.Content
             }
         }
 
-        private WordTagsetMap context;
+        private WordTagsetMap wordTagset;
     }
 }

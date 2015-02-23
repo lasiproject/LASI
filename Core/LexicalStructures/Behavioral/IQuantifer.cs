@@ -12,8 +12,8 @@ namespace LASI.Core
     /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IQuantifier interface provides
     /// for generalization and abstraction over many otherwise disparate element types and Type hierarchies. </para>
     /// </summary>
-    /// <see cref="IQuantifiable"/>
-    /// <see cref="IDeterminable"/>
+    /// <seealso cref="IQuantifiable"/>
+    /// <seealso cref="IDeterminable"/>
     public interface IQuantifier : IQuantifiable
     {
         /// <summary>

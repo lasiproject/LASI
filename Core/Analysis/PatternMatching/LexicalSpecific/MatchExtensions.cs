@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
 
@@ -9,9 +8,9 @@ namespace LASI.Core
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
-    /// <see cref="Match{T}"/>
-    /// <see cref="Match{T, TResult}"/>
-    /// <see cref="LASI.Core.Analysis.PatternMatching"/>
+    /// <seealso cref="Match{T}"/>
+    /// <seealso cref="Match{T, TResult}"/>
+    /// <seealso cref="Analysis.PatternMatching"/>
     /// <remarks>
     /// <para>
     /// The type based pattern matching functionality was introduced to solve the problem of performing subtype dependent operations which could not be described by traditional virtual method approaches in an expressive or practical manner.

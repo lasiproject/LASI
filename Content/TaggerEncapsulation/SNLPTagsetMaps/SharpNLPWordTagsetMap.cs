@@ -22,24 +22,28 @@ namespace LASI.Content.Tagging
     /// var word = wordFactory(wordText);
     /// </code>
     /// </example>    
-    /// <see cref="WordTagsetMap"/>
-    /// <see cref="Content.WordFactory"/> 
+    /// <seealso cref="WordTagsetMap"/>
+    /// <seealso cref="Content.WordFactory"/> 
     class SharpNLPWordTagsetMap : WordTagsetMap
     {
         private static readonly IReadOnlyDictionary<string, WordFactory> map = new Dictionary<string, WordFactory>
         {
             //Punctation Mappings
-            ["."] = t => SentenceEnding.Period, //. sentence ending
-            ["!"] = t => SentenceEnding.ExclamationPoint, //! sentence ending
-            ["?"] = t => SentenceEnding.QuestionMark, //? sentence ending
-            [","] = t => new Punctuator(t),//Comma punctuation
-            [";"] = t => new Punctuator(t), //Semicolon punctuation
-            [":"] = t => new Punctuator(t), //Colon punctuation 
-            ["``"] = t => new SingleQuote(), //Single quote * should be remapped
-            ["''"] = t => new DoubleQuote(), //Double Quotation Mark punctuation
+            ["."] = _ => SentenceEnding.Period, //. sentence ending
+            ["!"] = _ => SentenceEnding.ExclamationPoint, //! sentence ending
+            ["?"] = _ => SentenceEnding.QuestionMark, //? sentence ending
+            ["``"] = _ => new SingleQuote(), //Single quote * should be remapped
+            ["''"] = _ => new DoubleQuote(), //Double Quotation Mark punctuation
+            [","] = _ => new Punctuator(','),//Comma punctuation
+            [";"] = _ => new Punctuator(';'), //Semicolon punctuation
+            [":"] = _ => new Punctuator(':'), //Colon punctuation 
             ["LS"] = t => new Punctuator(t), //List item marker
-            ["-LRB-"] = t => new Punctuator(t), //Left Brackets
-            ["-RRB-"] = t => new Punctuator(t),  //Right Bracket
+            ["-LRB-"] = t => new Punctuator(t), //Left Round Bracket
+            ["-RRB-"] = t => new Punctuator(t),  //Right Round Bracket
+            ["-LSB-"] = t => new Punctuator(t), //Left Square Bracket
+            ["-RSB-"] = t => new Punctuator(t),  //Right Square Bracket 
+            ["-LCB-"] = t => new Punctuator(t), //Left Curly Bracket
+            ["-RCB-"] = t => new Punctuator(t),  //Right Curly Bracket
             //Determiner mappings
             ["CD"] = t => new Quantifier(t),//Cardinal number
             ["DT"] = t => new Determiner(t),//Determiner
@@ -64,14 +68,14 @@ namespace LASI.Content.Tagging
             ["PRP$"] = t => new PossessivePronoun(t), //Possessive pronoun
             //Adverb mappings
             ["RB"] = t => new Adverb(t), //Adverb
-            ["RBR"] = t => new ComparativeAdverb(t), //Adverb }, comparative
-            ["RBS"] = t => new SuperlativeAdverb(t), //Adverb }, superlative
+            ["RBR"] = t => new ComparativeAdverb(t), //Adverb, comparative
+            ["RBS"] = t => new SuperlativeAdverb(t), //Adverb, superlative
             //Verb mappings
-            ["VB"] = t => new BaseVerb(t), //Verb }, base form
-            ["VBD"] = t => new PastTenseVerb(t), //Verb }, past tense
-            ["VBG"] = t => new PresentParticiple(t), //Verb }, gerund or present participle
-            ["VBN"] = t => new PastParticiple(t), //Verb }, past participle
-            ["VBP"] = t => new SingularPresentVerb(t), //Verb }, non-3rd person singular present
+            ["VB"] = t => new BaseVerb(t), //Verb, base form
+            ["VBD"] = t => new PastTenseVerb(t), //Verb, past tense
+            ["VBG"] = t => new PresentParticiple(t), //Verb, gerund or present participle
+            ["VBN"] = t => new PastParticiple(t), //Verb, past participle
+            ["VBP"] = t => new SingularPresentVerb(t), //Verb, non-3rd person singular present
             ["VBZ"] = t => new ThirdPersonSingularPresentVerb(t), //Verb, 3rd person singular present
             //WH-word mappings
             ["WDT"] = t => new Determiner(t), //Wh-Determiner

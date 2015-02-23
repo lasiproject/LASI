@@ -16,8 +16,8 @@ namespace LASI.Utilities
     public static partial class EnumerableExtensions
     {
         /// <summary>
-        /// Applies an accumulator function over the sequence, incorporating each elements index into
-        /// the calculation.
+        /// Applies an accumulator function over the sequence, incorporating each elements index
+        /// into the calculation.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
@@ -42,8 +42,8 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Applies an accumulator function over the sequence, incorporating each element's index into
-        /// the calculation. The specified seed value is used as the initial accumulator value.
+        /// Applies an accumulator function over the sequence, incorporating each element's index
+        /// into the calculation. The specified seed value is used as the initial accumulator value.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
@@ -67,9 +67,9 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Applies an accumulator function over the sequence, incorporating each element's index into
-        /// the calculation. The specified seed value is used as the initial accumulator value, and
-        /// the specified function is used to select the result value.
+        /// Applies an accumulator function over the sequence, incorporating each element's index
+        /// into the calculation. The specified seed value is used as the initial accumulator value,
+        /// and the specified function is used to select the result value.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
@@ -102,8 +102,8 @@ namespace LASI.Utilities
         public static TSource AggregateRight<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func) => source.Reverse().Aggregate(func);
 
         /// <summary>
-        /// Applies an accumulator function over the sequence, incorporating each elements index into
-        /// the calculation.
+        /// Applies an accumulator function over the sequence, incorporating each elements index
+        /// into the calculation.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of source.</typeparam>
         /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
@@ -182,12 +182,16 @@ namespace LASI.Utilities
 
         /// <summary>
         /// <para>
-        /// Produces a Pair&lt;<see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
+        /// Produces a Pair&lt; <see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
         /// holding the sequence bifurcated by the provided predicate.
         /// </para>
         /// <para>
-        /// The <see cref="Pair{TResult,TResult}.First"/> property contains those elements for which the predicate returns <c>true</c>.</para>
-        /// <para>The <see cref="Pair{TResult,TResult}.Second"/> property contains those items for which the predicate returns <c>false</c>.
+        /// The <see cref="Pair{TResult,TResult}.First" /> property contains those elements for
+        /// which the predicate returns <c>true</c>.
+        /// </para>
+        /// <para>
+        /// The <see cref="Pair{TResult,TResult}.Second" /> property contains those items for which
+        /// the predicate returns <c>false</c>.
         /// </para>
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
@@ -209,13 +213,16 @@ namespace LASI.Utilities
         /// holding the sequence bifurcated by the provided predicate.
         /// </para>
         /// <para>
-        /// The <see cref="Pair{TResult,TResult}.First"/> property contains the projection applied to the elements for which the predicate returns <c>true</c>.</para>        
+        /// The <see cref="Pair{TResult,TResult}.First" /> property contains the projection applied
+        /// to the elements for which the predicate returns <c>true</c>.
+        /// </para>
         /// <para>
-        /// The <see cref="Pair{TResult,TResult}.Second"/> property contains the projection applied to the elements for which the predicate returns <c>false</c>.
+        /// The <see cref="Pair{TResult,TResult}.Second" /> property contains the projection applied
+        /// to the elements for which the predicate returns <c>false</c>.
         /// </para>
         /// <para>
         /// A result selector function is used to project the two resulting sequences into a new form.
-        /// </para> 
+        /// </para>
         /// </summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <typeparam name="TResult">The type of the items in the tupled result.</typeparam>
@@ -223,7 +230,7 @@ namespace LASI.Utilities
         /// <param name="partitioner">The predicate by which to bifurcate the source sequence.</param>
         /// <param name="resultSelector">A function to project both of the resulting sequences.</param>
         /// <returns>
-        /// A Pair&lt;<typeparamref name="TResult" />, <typeparamref name="TResult" />&gt; holding
+        /// A Pair&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt; holding
         /// the sequence bifurcated by the provided predicate.
         /// </returns>
         public static Pair<TResult, TResult> Bifurcate<T, TResult>(this IEnumerable<T> source, Func<T, bool> partitioner, Func<IEnumerable<T>, TResult> resultSelector)
@@ -254,7 +261,7 @@ namespace LASI.Utilities
         {
             Validate.NotNull(source, "source", selector, "selector");
             return source.Distinct(
-                ComparerFactory.CreateEquality<TSource>(
+                ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -286,7 +293,7 @@ namespace LASI.Utilities
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) /*where TKey : IEquatable<TKey>*/
         {
             return first.Except(second,
-                ComparerFactory.CreateEquality<TSource>(
+                ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -308,7 +315,7 @@ namespace LASI.Utilities
         {
             return first
                 .Intersect(second,
-                ComparerFactory.CreateEquality<TSource>(
+                ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
                 );
@@ -397,16 +404,16 @@ namespace LASI.Utilities
         /// An System.Collections.Generic.IEnumerable&lt;T&gt; from which to build a pairwise sequence.
         /// </param>
         /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is null</exception>
-        /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
-        public static IEnumerable<Tuple<T, T>> PairWise<T>(this IEnumerable<T> source)
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is null.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="source" /> has exactly one element.</exception>
+        public static IEnumerable<Pair<T, T>> PairWise<T>(this IEnumerable<T> source)
         {
-            Validate.NotNull(source, "source");
-            Validate.NotEmpty(source, "source");
+            Validate.NotNull(source, nameof(source));
+            if (source.Count() == 1) { throw new InvalidOperationException("If source is not empty, it must have have more than 1 element."); }
             var first = source.First();
             foreach (var next in source.Skip(1))
             {
-                yield return Tuple.Create(first, next);
+                yield return Pair.Create(first, next);
                 first = next;
             }
         }
@@ -430,24 +437,8 @@ namespace LASI.Utilities
             {
                 yield return i;
             }
-        }// Summary:
+        }
 
-        // Determines whether two sequences are equal by comparing their elements by using a
-        // specified System.Collections.Generic.IEqualityComparer`1.
-        // 
-        // Parameters: first: An System.Collections.Generic.IEnumerable`1 to compare to second.
-        // 
-        // second: An System.Collections.Generic.IEnumerable`1 to compare to the first sequence.
-        // 
-        // comparer: An System.Collections.Generic.IEqualityComparer`1 to use to compare elements.
-        // 
-        // Type parameters: TSource: The type of the elements of the input sequences.
-        // 
-        // Returns: true if the two source sequences are of equal length and their corresponding
-        // elements compare equal according to comparer; otherwise, false.
-        // 
-        // Exceptions:
-        // T: System.ArgumentNullException: first or second is null.
         /// <summary>
         /// Determines whether two sequences are equal by comparing their elements under the given projection.
         /// </summary>
@@ -465,7 +456,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> =>
-            first.SequenceEqual(second, ComparerFactory.CreateEquality<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, ComparerFactory.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -531,7 +522,7 @@ namespace LASI.Utilities
         /// <returns>The product of all values in the source sequence.</returns>
         public static float Product(this IEnumerable<float> source) => source.Aggregate(1F, (z, y) => z * y);
 
-        /// <summary>Calculates the Product of a sequence of <see cref="bool"/> values.</summary>
+        /// <summary>Calculates the Product of a sequence of <see cref="bool" /> values.</summary>
         /// <param name="source">The sequence of elements to test.</param>
         /// <returns>
         /// <c>true</c> if all values in the source sequence are equal to <c>true</c>; otherwise <c>false</c>.
@@ -550,17 +541,14 @@ namespace LASI.Utilities
                 yield return accumulated = func(accumulated, e);
             }
         }
-        /// <summary>
-        /// Applies an accumulator over the sequence yielding each intermediate value. 
-        /// The resulting sequence begins with the specified seed and ends with the final aggregate.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
-        /// <param name="source">A sequence to scan.</param>
-        /// <param name="seed">A an itintial seed value.</param>
-        /// <param name="func">A function to invoke on each element in source and the accumulator value.</param>
-        /// <returns>The sequence starting </returns>
-        /// <exception cref=""
+
+        /// <summary> Applies an accumulator over the sequence yielding each intermediate value. The
+        /// resulting sequence begins with the specified seed and ends with the final aggregate.
+        /// </summary> <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam> <param
+        /// name="source">A sequence to scan.</param> <param name="seed">A an itintial seed
+        /// value.</param> <param name="func">A function to invoke on each element in source and the
+        /// accumulator value.</param> <returns>The sequence starting </returns> <exception cref=""
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
             Validate.NotNull(source, nameof(source), func, nameof(func));
@@ -600,7 +588,7 @@ namespace LASI.Utilities
         /// order and duplicate items, as the second sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer) =>
-            first.Except(second).Any() == second.Except(first).Any() == false;
+            !first.Except(second).Any() && !second.Except(first).Any();
 
         /// <summary>
         /// Determines if the source collection contains the same elements as the second under the
@@ -640,12 +628,21 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Returns a HashSet representation of the given sequence using the specified IEqualityComparer to determine element uniqueness.
+        /// Returns a HashSet representation of the given sequence using the specified
+        /// IEqualityComparer to determine element uniqueness.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence whose distinct elements will comprise the resulting set.</param>
-        /// <param name="comparer">The System.Collections.Generic.IEqualityComparer implementation which will determine the distinctness of elements.</param>
-        /// <returns>A HashSet representation of the given sequence using the default IEqualityComparer for the given element type.</returns>
+        /// <param name="source">
+        /// The sequence whose distinct elements will comprise the resulting set.
+        /// </param>
+        /// <param name="comparer">
+        /// The System.Collections.Generic.IEqualityComparer implementation which will determine the
+        /// distinctness of elements.
+        /// </param>
+        /// <returns>
+        /// A HashSet representation of the given sequence using the default IEqualityComparer for
+        /// the given element type.
+        /// </returns>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {
             Validate.NotNull(comparer, "comparer");
@@ -664,7 +661,7 @@ namespace LASI.Utilities
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
         {
             return first.Union(second,
-                ComparerFactory.CreateEquality<TSource>(
+                ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );

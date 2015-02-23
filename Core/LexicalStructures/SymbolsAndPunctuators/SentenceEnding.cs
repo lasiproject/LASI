@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// A specialization of Punctuation which represents character which demarcate the end of a sentence.
     /// </summary>
-    public sealed class SentenceEnding : Punctuator
+    public sealed class SentenceEnding : Punctuator, IEquatable<SentenceEnding>
     {
         /// <summary>
         /// Initializes a new instance of the SentenceEnding class.
@@ -17,8 +17,10 @@ namespace LASI.Core
         /// <param name="ending">A character which denotes the end of a sentence (valid values are '?', '!', and '.'</param>
         /// <exception cref="ArgumentException">Thrown when a character not within the specified set of valid values is passed to the constructor.</exception>
         private SentenceEnding(char ending)
-            : base(ending) {
-            if (ending != '.' && ending != '!' && ending != '?') {
+            : base(ending)
+        {
+            if (ending != '.' && ending != '!' && ending != '?')
+            {
                 throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", ending));
             }
         }
@@ -32,7 +34,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="obj">A SentenceEnding to compare with the current instance.</param>
         /// <returns> <c>true</c> if the given SentenceEnding is equal to the current instance; false otherwise.</returns>
-        public override bool Equals(object obj) => obj is SentenceEnding && (SentenceEnding)(obj) == this;
+        public override bool Equals(object obj) => this.Equals(obj as SentenceEnding);
+
+        public bool Equals(SentenceEnding other) => this.LiteralCharacter == other?.LiteralCharacter;
 
         /// <summary>
         /// Determines if two Sentence Endings are equal.
@@ -40,7 +44,7 @@ namespace LASI.Core
         /// <param name="left">The first SentenceEnding to compare.</param>
         /// <param name="right">The second SentenceEnding to compare.</param>
         /// <returns> <c>true</c> if the Sentence Endings are equal; false otherwise.</returns>
-        public static bool operator ==(SentenceEnding left, SentenceEnding right) => left.LiteralCharacter == right.LiteralCharacter;
+        public static bool operator ==(SentenceEnding left, SentenceEnding right) => left.Equals(right);
 
         /// <summary>
         /// Determines if two Sentence Endings are not equal.

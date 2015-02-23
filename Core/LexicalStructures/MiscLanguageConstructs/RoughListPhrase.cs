@@ -17,7 +17,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composedWords">The words which compose to form the RoughListPhrase.</param>
         public RoughListPhrase(IEnumerable<Word> composedWords)
-            : base(composedWords) {
+            : base(composedWords)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the RoughListPhrase class.

@@ -10,8 +10,8 @@ namespace LASI.Content
     /// The base class from which file format conversion objects are derrived.
     /// Provides a small set of common methods, properties, and attributes which all file conversion objects.
     /// Any new file converters should be derrived from this base class.
-    /// <see cref="DocToDocXConverter"/>
-    /// <see cref="DocxToTextConverter"/>
+    /// <seealso cref="DocToDocXConverter"/>
+    /// <seealso cref="DocxToTextConverter"/>
     /// </summary>
     public abstract class FileConverter<TSource, TDestination>
         where TSource : InputFile

@@ -22,8 +22,8 @@ namespace LASI.Content.Tagging
     /// var phrase = phraseFactory(phraseWords);
     /// </code>
     /// </example>
-    /// <see cref="WordTagsetMap" />
-    /// <see cref="WordFactory" />
+    /// <seealso cref="WordTagsetMap" />
+    /// <seealso cref="WordFactory" />
     internal sealed class SharpNLPPhraseTagsetMap : PhraseTagsetMap
     {
         private static readonly IReadOnlyDictionary<string, PhraseFactory> map = new Dictionary<string, PhraseFactory>

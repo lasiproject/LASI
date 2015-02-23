@@ -11,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of objects implementing the IEntity interface.
     /// </summary>
-    /// <see cref="IEntity" />
+    /// <seealso cref="IEntity" />
     /// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
     /// <seealso cref="System.Linq.Enumerable" />
     public static partial class LexicalEnumerable

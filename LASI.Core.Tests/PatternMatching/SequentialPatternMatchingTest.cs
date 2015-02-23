@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LASI.Utilities;
 
-namespace LASI.Core.Tests.Analysis.PatternMatching.Experimental
+namespace LASI.Core.PatternMatching.Tests
 {
     using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
     [TestClass]

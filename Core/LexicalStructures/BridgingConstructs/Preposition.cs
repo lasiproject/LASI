@@ -68,7 +68,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the Preposition.
         /// </summary>
-        /// <see cref="Role"/>
         public PrepositionRole Role { get; set; }
 
 

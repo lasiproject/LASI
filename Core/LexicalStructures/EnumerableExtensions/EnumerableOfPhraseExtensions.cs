@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of Phrase instances.
     /// </summary>
-    /// <see cref="Phrase"/>
+    /// <seealso cref="Phrase"/>
     public static partial class LexicalEnumerable
     {
         /// <summary>

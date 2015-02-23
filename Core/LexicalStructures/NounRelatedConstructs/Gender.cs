@@ -8,7 +8,7 @@ namespace LASI.Core.Heuristics
     /// <summary>
     /// Contains values corresponding to distinct genders.
     /// </summary> 
-    /// <see cref="PronounKind">Defines the various kinds of Personal Pronouns.</see>
+    /// <seealso cref="PronounKind">Defines the various kinds of Personal Pronouns.</see>
     /// <seealso cref="EntityKind">Defines the various kinds of Entities.</seealso>
     public enum Gender : byte
     {

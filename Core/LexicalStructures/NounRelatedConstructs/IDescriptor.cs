@@ -5,7 +5,7 @@
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides 
     /// for generalization and abstraction over word and Phrase types.
     /// </summary>
-    /// <see cref="IEntity"/>
+    /// <seealso cref="IEntity"/>
     public interface IDescriptor : ILexical, IAdverbialModifiable, IAttributive<IEntity>
     {
         /// <summary>

@@ -6,9 +6,9 @@ namespace LASI.Core
     /// Represents a discrete textual source which has been parsed tagged and re-composed.
     /// Examples documents, paragraphs, and sentences.
     /// </summary>
-    /// <see cref="Document"/>
-    /// <see cref="Paragraph"/>
-    /// <see cref="Sentence"/>
+    /// <seealso cref="Document"/>
+    /// <seealso cref="Paragraph"/>
+    /// <seealso cref="Sentence"/>
     public interface IReifiedTextual
     {
         /// <summary>

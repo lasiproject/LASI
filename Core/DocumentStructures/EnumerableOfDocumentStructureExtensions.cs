@@ -6,7 +6,7 @@ namespace LASI.Core
     /// <summary>
     /// Defines extension methods for sequences of various document level constructs.
     /// </summary>
-    /// <see cref="Document" />
+    /// <seealso cref="Document" />
     /// <seealso cref="Sentence" />
     /// <seealso cref="Paragraph" />
     public static partial class TextualEnumerable

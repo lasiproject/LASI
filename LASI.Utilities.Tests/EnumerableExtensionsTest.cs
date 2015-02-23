@@ -10,7 +10,7 @@ namespace LASI.Utilities.Tests
     [TestClass]
     public class EnumerableExtensionsTest
     {
-        private static System.Tuple<T1, T2> Tuple<T1, T2>(T1 x, T2 y) => System.Tuple.Create(x, y);
+        private static LASI.Utilities.Pair<T1, T2> Pair<T1, T2>(T1 x, T2 y) => LASI.Utilities.Pair.Create(x, y);
         private static System.Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
 
         #region Sequence String Formatting Methods
@@ -132,7 +132,7 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         public void ToHashSetTest2()
         {
-            var caseInsensitiveComparer = Utilities.ComparerFactory.CreateEquality<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            var caseInsensitiveComparer = Utilities.ComparerFactory.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
             var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
             var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
             var actual = target.ToHashSet(caseInsensitiveComparer);
@@ -148,7 +148,7 @@ namespace LASI.Utilities.Tests
         public void PairWiseTest()
         {
             var target = Range(0, 5);
-            var expected = new[] { Tuple(0, 1), Tuple(1, 2), Tuple(2, 3), Tuple(3, 4) };
+            var expected = new[] { Pair(0, 1), Pair(1, 2), Pair(2, 3), Pair(3, 4) };
             var actual = target.PairWise();
             Assert.IsTrue(expected.SequenceEqual(actual));
         }

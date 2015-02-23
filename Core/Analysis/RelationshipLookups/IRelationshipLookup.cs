@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Analysis.Relationships
 {
     /// <summary>
     /// Defines the behaviors required of a lookup  table which indexes on various relationships between various combinations of IEntity and IVerbal constructs. 
     /// </summary>
     /// <typeparam name="TEntity">Any type which implements the IEntity interface.</typeparam>
     /// <typeparam name="TVerbal">Any type which implements the IVerbal interface.</typeparam>
-    public interface IRelationshipLookup<TEntity, TVerbal> where TEntity : IEntity where TVerbal : IVerbal
+    public interface IRelationshipLookup<TEntity, TVerbal> : IEnumerable<TVerbal> where TEntity : class, IEntity where TVerbal : class, IVerbal
     {
         /// <summary>
         /// Gets the Verbals which are known to link the given action Performing Entity and action Receiving Entity.

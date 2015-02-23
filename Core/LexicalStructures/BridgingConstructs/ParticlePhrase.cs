@@ -12,8 +12,8 @@ namespace LASI.Core
     /// <summary>
     /// Represents a phrase with the syntactic role of a particle.
     /// </summary>
-    /// <see cref="Particle"/>
-    /// <see cref="IPrepositional"/>
+    /// <seealso cref="Particle"/>
+    /// <seealso cref="IPrepositional"/>
     public class ParticlePhrase : Phrase, IPrepositional
     {
         /// <summary>
@@ -68,7 +68,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the contextually extrapolated role of the ParticlePhrase.
         /// </summary>
-        /// <see cref="PrepositionRole"/>
+        /// <seealso cref="PrepositionRole"/>
         public PrepositionRole Role {
             get;
             set;

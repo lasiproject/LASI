@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Analysis.Relationships
 {
     /// <summary>
     /// Stores the relationship between a Verbal construct used transitively (having at least one direct or indirect object) 
@@ -12,8 +12,7 @@ namespace LASI.Core.Heuristics
     /// <typeparam name="TVerbal">The Type of the Verbal construct in the relationship. The stated or inferred Type must implement the IVerbal interface.</typeparam>
     /// <typeparam name="TEntity">The Type of the Entity construct in the relationship. The stated or inferred Type must implement the IEntity interface.</typeparam>
     /// <remarks>Any instance of the ActionReceiverPair struct is immutable unless passed as a 'ref' or 'out' argument to a function.</remarks>
-    public struct ActionReceiverPair<TVerbal, TEntity> : IEquatable<ActionReceiverPair<TVerbal, TEntity>>
-        where TVerbal : IVerbal
+    public struct ActionReceiverPair<TVerbal, TEntity> : IEquatable<ActionReceiverPair<TVerbal, TEntity>>, IActionReceiverPair<TVerbal, TEntity> where TVerbal : IVerbal
         where TEntity : IEntity
     {
         /// <summary>

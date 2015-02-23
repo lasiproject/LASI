@@ -422,28 +422,28 @@ namespace LASI.Utilities
             /// <summary>
             /// The default. All output will be directed to the current console window.
             /// </summary>
-            /// <see cref="SetToConsole"/>
+            /// <seealso cref="SetToConsole"/>
             Console,
             /// <summary>
             /// All output will be directed to the IDE's debug window.
             /// </summary>
-            /// <see cref="SetToDebug"/>
+            /// <seealso cref="SetToDebug"/>
             Debug,
             /// <summary>
             /// All output will be directed to a file.
             /// </summary>
-            /// <see cref="SetToFile"></see>
-            /// <see cref="SetToFile(string)"></see>
+            /// <seealso cref="SetToFile"></see>
+            /// <seealso cref="SetToFile(string)"></see>
             File,
             /// <summary>
             /// All output will be directed to an externally supplied destination.
             /// </summary>
-            /// <see cref="SetTo(TextWriter)"/>
+            /// <seealso cref="SetTo(TextWriter)"/>
             Custom,
             /// <summary>
             /// No output will occur.
             /// </summary>
-            /// <see cref="SetToSilent"/>
+            /// <seealso cref="SetToSilent"/>
             Silent
         }
     }

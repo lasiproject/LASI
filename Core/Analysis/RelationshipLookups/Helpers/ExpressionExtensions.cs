@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Heuristics;
+using LASI.Utilities;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Analysis.Relationships
 {
     /// <summary>
     /// Provides convenient extension methods for working with IEntity and IVerbal constructs in the context of an applicable IRelationshipLookup.
@@ -18,18 +20,20 @@ namespace LASI.Core.Heuristics
         /// <param name="performer">The first IEntity, the peformer of the action.</param>
         /// <param name="receiver">The second IEntity, the receiver of the action.</param>
         /// <returns>An object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.</returns>
-        public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver) {
-            Func<IEntity, IEntity, bool> predicate = (x, y) => x.IsAliasFor(y) || x.IsSimilarTo(y);
+        public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver)
+        {
+            var mapping = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
+            if (mapping != null)
+            {
 
-            var lookupTable = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
-            if (lookupTable != null) {
-
-                var actions = lookupTable[performer, predicate, receiver, predicate];
+                var actions = mapping[performer, receiver].Concat(mapping[receiver, performer]);
                 if (actions.Any()) { return new ActionsRelatedOn(actions); } else { return null; }
-            } else {
+            }
+            else
+            {
                 throw new InvalidOperationException(
-                    $@"There is no relationship lookup context associated with {performer} or {receiver}.\n
-                    Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.");
+                    $"There is no relationship lookup context associated with {performer} or {receiver}.\n" +
+                    $"Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.");
             }
 
         }
@@ -39,8 +43,8 @@ namespace LASI.Core.Heuristics
         /// <param name="relatorSet">The object whose contents are to be searched. This parameter can be null. If it is null, false is returned.</param>
         /// <param name="relator">The IVerbal for which to search.</param>
         /// <returns> <c>true</c> if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
-        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) {
-
+        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator)
+        {
             return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
         }
         /// <summary>
@@ -48,7 +52,8 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="entity">The IEntity to associate to a lookup context.</param>
         /// <param name="relationshipLookup">The IRelationshipLookup instance providing a lookup context for the entity.</param>
-        public static void SetRelationshipLookup(this IEntity entity, IRelationshipLookup<IEntity, IVerbal> relationshipLookup) {
+        public static void SetRelationshipLookup(this IEntity entity, IRelationshipLookup<IEntity, IVerbal> relationshipLookup)
+        {
             entityLookupContexts.AddOrUpdate(entity, relationshipLookup, (k, v) => relationshipLookup);
         }
 
@@ -71,7 +76,7 @@ namespace LASI.Core.Heuristics
         /// </summary>
         /// <param name="other">The ActionsRelatedOn to compare to.</param>
         /// <returns> <c>true</c> if the current ActionsRelatedOn is equal to the supplied ActionsRelatedOn.</returns>
-        public bool Equals(ActionsRelatedOn other) => RelatedOn.SequenceEqual(other.RelatedOn);
+        public bool Equals(ActionsRelatedOn other) => RelatedOn.SetEqual(other.RelatedOn);
 
         /// <summary>
         /// Determines if the current ActionsRelatedOn instance is equal to the specified System.Object.
