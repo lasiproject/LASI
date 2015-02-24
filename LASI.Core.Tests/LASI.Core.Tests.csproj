@@ -126,6 +126,7 @@
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
     <Compile Include="PatternMatching\MatchTTresultTest.cs" />
+    <Compile Include="PatternMatching\MonadOperatorsTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />

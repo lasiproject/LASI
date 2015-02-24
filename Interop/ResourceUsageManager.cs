@@ -3,6 +3,8 @@
     using Lexicon = Core.Heuristics.Lexicon;
     using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
     using DateTime = System.DateTime;
+    using System;
+
     /// <summary>
     /// Controls global performance and resource usage settings.
     /// </summary>
@@ -73,6 +75,10 @@
             };
         }
 
+        public static void SetPerformanceLevel(object high)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

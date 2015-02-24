@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.Linq.List;
-
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+// TODO: SequenceMatch like class with result returning case expressions. Probably not add them to the current class. API is large as it is.
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
     /// <summary>Represents a binding expression applied to a sequence if lexical constructs.</summary>
@@ -23,11 +23,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2);
-                    Values = Values.Skip(3);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2);
+                    Sequence = Sequence.Skip(3);
                 }
             });
         }
@@ -42,7 +42,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3>(Action<T1, T2, T3> pattern) where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical
         {
-            return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+            return CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         public SequenceMatch Case<T1, T2, T3, T4>(Action<T1, T2, T3, T4> pattern)
             where T1 : class, ILexical where T2 : class, ILexical
             where T3 : class, ILexical where T4 : class, ILexical =>
-            CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+            CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -74,7 +74,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T2 : class, ILexical
         where T3 : class, ILexical
         where T4 : class, ILexical
-        where T5 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+        where T5 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -93,7 +93,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T3 : class, ILexical
         where T4 : class, ILexical
         where T5 : class, ILexical
-        where T6 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+        where T6 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -114,7 +114,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T4 : class, ILexical
         where T5 : class, ILexical
         where T6 : class, ILexical
-        where T7 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+        where T7 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -137,7 +137,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T5 : class, ILexical
         where T6 : class, ILexical
         where T7 : class, ILexical
-        where T8 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(ValuesFilteredByIgnoreOncePredicates));
+        where T8 : class, ILexical => CheckGuard(() => Accepted = pattern.Curry().ApplyIfApplicable(SequenceFilteredByIgnoreOncePredicates));
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -165,12 +165,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T9 : class, ILexical =>
             CheckGuard(() =>
              {
-                 Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                 Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                  if (Accepted)
                  {
-                     pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                             Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9);
-                     Values = Values.Skip(9);
+                     pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                             Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9);
+                     Sequence = Sequence.Skip(9);
                  }
              });
 
@@ -203,12 +203,12 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10);
-                    Values = Values.Skip(10);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10);
+                    Sequence = Sequence.Skip(10);
                 }
             });
         }
@@ -244,13 +244,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11);
-                    Values = Values.Skip(11);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11);
+                    Sequence = Sequence.Skip(11);
                 }
             });
         }
@@ -288,13 +288,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12);
-                    Values = Values.Skip(12);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12);
+                    Sequence = Sequence.Skip(12);
                 }
             });
         }
@@ -334,13 +334,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13);
-                    Values = Values.Skip(13);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13);
+                    Sequence = Sequence.Skip(13);
                 }
             });
         }
@@ -382,13 +382,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14);
-                    Values = Values.Skip(14);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14);
+                    Sequence = Sequence.Skip(14);
                 }
             });
         }
@@ -432,25 +432,25 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1,
-                    Values[1] as T2,
-                    Values[2] as T3,
-                    Values[3] as T4,
-                    Values[4] as T5,
-                    Values[5] as T6,
-                    Values[6] as T7,
-                    Values[7] as T8,
-                    Values[8] as T9,
-                    Values[9] as T10,
-                    Values[10] as T11,
-                    Values[11] as T12,
-                    Values[12] as T13,
-                    Values[13] as T14,
-                    Values[14] as T15);
-                    Values = Values.Skip(15);
+                    pattern(Sequence[0] as T1,
+                    Sequence[1] as T2,
+                    Sequence[2] as T3,
+                    Sequence[3] as T4,
+                    Sequence[4] as T5,
+                    Sequence[5] as T6,
+                    Sequence[6] as T7,
+                    Sequence[7] as T8,
+                    Sequence[8] as T9,
+                    Sequence[9] as T10,
+                    Sequence[10] as T11,
+                    Sequence[11] as T12,
+                    Sequence[12] as T13,
+                    Sequence[13] as T14,
+                    Sequence[14] as T15);
+                    Sequence = Sequence.Skip(15);
                 }
             });
         }
@@ -496,13 +496,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15, Values[15] as T16);
-                    Values = Values.Skip(16);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15, Sequence[15] as T16);
+                    Sequence = Sequence.Skip(16);
                 }
             });
         }
@@ -550,14 +550,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                            Values[15] as T16, Values[16] as T17);
-                    Values = Values.Skip(17);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
+                            Sequence[15] as T16, Sequence[16] as T17);
+                    Sequence = Sequence.Skip(17);
                 }
             });
         }
@@ -606,14 +606,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T18 : class, ILexical =>
                 CheckGuard(() =>
                 {
-                    Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                    Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                     if (Accepted)
                     {
-                        pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                                Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                                Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                                Values[15] as T16, Values[16] as T17, Values[17] as T18);
-                        Values = Values.Skip(18);
+                        pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                                Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                                Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
+                                Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18);
+                        Sequence = Sequence.Skip(18);
                     }
                 });
 
@@ -665,14 +665,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
-                    pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                            Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                            Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                            Values[15] as T16, Values[16] as T17, Values[17] as T18, Values[18] as T19);
-                    Values = Values.Skip(19);
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
+                            Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19);
+                    Sequence = Sequence.Skip(19);
                 }
             });
         }
@@ -726,15 +726,15 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         {
             return CheckGuard(() =>
             {
-                Accepted = pattern.Applicable(ValuesFilteredByIgnoreOncePredicates);
+                Accepted = pattern.Applicable(SequenceFilteredByIgnoreOncePredicates);
                 if (Accepted)
                 {
                     {
-                        pattern(Values[0] as T1, Values[1] as T2, Values[2] as T3, Values[3] as T4, Values[4] as T5,
-                                Values[5] as T6, Values[6] as T7, Values[7] as T8, Values[8] as T9, Values[9] as T10,
-                                Values[10] as T11, Values[11] as T12, Values[12] as T13, Values[13] as T14, Values[14] as T15,
-                                Values[15] as T16, Values[16] as T17, Values[17] as T18, Values[18] as T19, Values[19] as T20);
-                        Values = Values.Skip(20);
+                        pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                                Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                                Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
+                                Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18, Sequence[18] as T19, Sequence[19] as T20);
+                        Sequence = Sequence.Skip(20);
                     }
                 }
             });
@@ -993,14 +993,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
 
-        internal SequenceMatch(IEnumerable<ILexical> sequencialElements)
+        internal SequenceMatch(IEnumerable<ILexical> sequence)
         {
-            values = sequencialElements.ToList();
+            this.sequence = sequence.ToList();
         }
 
         internal SequenceMatch(Sentence setence)
         {
-            values = setence.Phrases.Select(p => p as ILexical).ToList();
+            sequence = setence.Phrases.Select(p => p as ILexical).ToList();
         }
 
         #region Private fields and properties
@@ -1022,13 +1022,13 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return result.AsReadOnly();
         }
 
-        private List<ILexical> Values
+        private List<ILexical> Sequence
         {
-            get { return values; }
-            set { this.values = value; }
+            get { return sequence; }
+            set { this.sequence = value; }
         }
 
-        private IReadOnlyList<ILexical> ValuesFilteredByIgnoreOncePredicates => FilterByIgnoreOncePredicates(Values);
+        private IReadOnlyList<ILexical> SequenceFilteredByIgnoreOncePredicates => FilterByIgnoreOncePredicates(Sequence);
 
         /// <summary>
         /// <c>true</c> if all guards have been satisfied or there are no applicable guards;
@@ -1041,7 +1041,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         private bool guarded;
         private List<Func<ILexical, bool>> predicates = new List<Func<ILexical, bool>>();
         private List<Func<ILexical, bool>> checkOncePredicates = new List<Func<ILexical, bool>>();
-        private List<ILexical> values;
+        private List<ILexical> sequence;
 
         #endregion Private fields and properties
     }

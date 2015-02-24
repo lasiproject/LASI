@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using LASI.Utilities.Specialized.Enhanced.Linq.List;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Shared.Test.Assertions;

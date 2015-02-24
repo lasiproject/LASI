@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
     using LASI.Utilities;
-    using LASI.Utilities.Specialized.Enhanced.Linq.List;
+    using LASI.Utilities.Specialized.Enhanced.IList.Linq;
     using Shared.Test.Assertions;
 
     /// <summary>

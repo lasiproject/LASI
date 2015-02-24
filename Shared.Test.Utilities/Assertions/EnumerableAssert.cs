@@ -50,6 +50,21 @@ namespace Shared.Test.Assertions
                 throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(AreSetEqual)} failed.\nThe following expected elements not found:\n{string.Join(", ", missingElements)}", e);
             }
         }
+        public static void IsEmpty<T>(IEnumerable<T> enumerable) => IsEmpty(enumerable, null);
+        public static void IsEmpty<T>(IEnumerable<T> enumerable, string message)
+        {
+
+            try
+            {
+                Assert.IsFalse(enumerable.Any());
+            }
+            catch (AssertFailedException e)
+            {
+                var m = ProcessMessage(message);
+                throw new AssertFailedException(m + $"{nameof(EnumerableAssert) }.{nameof(IsEmpty)} failed.", e);
+            }
+        }
+
         public static void Contains<T>(IEnumerable<T> enumerable, T item) => Contains(enumerable, item, string.Empty);
         public static void Contains<T>(IEnumerable<T> enumerable, T item, string message)
         {
@@ -73,7 +88,7 @@ namespace Shared.Test.Assertions
             catch (AssertFailedException e)
             {
                 var m = ProcessMessage(message);
-                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(Contains)} failed.", e);
+                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(Contains)} failed.\nEnumerable: {string.Join(", ", enumerable)}", e);
             }
         }
 

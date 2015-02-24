@@ -2,11 +2,10 @@
 using System.Collections.Immutable;
 using System.Linq;
 using LASI.Core;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    using LASI.Utilities.Specialized.Enhanced.Linq.List;
-
     public class DocumentSetModel : TextualModel<IEnumerable<Document>>
     {
         public DocumentSetModel(IEnumerable<Document> documents) : base(documents)

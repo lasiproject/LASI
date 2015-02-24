@@ -49,14 +49,12 @@ namespace LASI.App
 
             public TrayIconProvider(InProgressWindow window)
             {
-                window.ProcessingCompleted += delegate
+                this.window = window;
+                window.ProcessingCompleted += (s, e) =>
                 {
                     window.Title = "Analysis Complete";
-                }
-
-                ;
-                window.ProcessingCompleted += HandleStateChanged;
-                this.window = window;
+                    HandleStateChanged(s, e);
+                };
                 window.StateChanged += HandleStateChanged;
             }
 
@@ -114,10 +112,10 @@ namespace LASI.App
                 }
             }
 
-#region Fields
+            #region Fields
             private Window window;
             private System.Windows.Forms.NotifyIcon notifyIcon;
-#endregion
+            #endregion
         }
     }
 }

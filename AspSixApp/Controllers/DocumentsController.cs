@@ -17,7 +17,7 @@ namespace AspSixApp.Controllers
 
         public DocumentsController()
         {
-            this.uploadDirRelativePath = @"\App_Data\SourceFiles";
+            this.uploadDirRelativePath = Path.Combine(AppContext.BaseDirectory, "App_Data", "SourceFiles");
         }
         [HttpPost]
         public async Task<ActionResult> Upload()

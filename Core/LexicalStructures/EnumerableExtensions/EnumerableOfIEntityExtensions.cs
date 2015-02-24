@@ -262,11 +262,10 @@ namespace LASI.Core
         {
             return entities
                 .SelectMany(entity =>
-                    from matchResult in entity.Match()
+                    from result in entity.Match()
                         .When((IReferencer r) => r.RefersTo.Any())
                         .Then((IReferencer r) => r.RefersTo)
-                        .Case((IEntity e) => e.Lift())
-                    from result in matchResult
+                        .Case((IEntity e) => e)
                     select result);
         }
 
@@ -522,13 +521,10 @@ namespace LASI.Core
         public static ParallelQuery<IEntity> ResolvingReferences<TEntity>(this ParallelQuery<TEntity> entities) where TEntity : class, IEntity
         {
             return entities
-                .SelectMany(x =>
-                    from matchResult in x.Match()
+                .Select(x => x.Match()
                        .When((IReferencer r) => r.RefersTo.Any())
                        .Then((IReferencer r) => r.RefersTo)
-                       .Case((IEntity e) => e.Lift())
-                    from result in matchResult
-                    select result);
+                       .Case((IEntity e) => e).Result());
         }
 
         #endregion Parallel Implementations

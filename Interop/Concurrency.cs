@@ -14,7 +14,8 @@
         /// <param name = "mode">
         /// The ResourceUsageMode value from which to determine concurrency settings.
         /// </param>
-        public static void SetByPerformanceMode(Mode mode) {
+        public static void SetByPerformanceMode(Mode mode)
+        {
             var logicalCores = Environment.ProcessorCount; // Get the number of logical cores.
             var calculate = concurrencyCalculationMap[mode];
             Max = calculate(logicalCores);
@@ -36,22 +37,24 @@
         /// The default maximum number of logical CPU cores the document analysis process is allowed
         /// to utilize.
         /// </returns>
-        private static int ComputeDefaultMax() {
+        private static int ComputeDefaultMax()
+        {
             var logicalCores = Environment.ProcessorCount;
             return logicalCores < 3 ? logicalCores : logicalCores - 1;
         }
 
-        static Concurrency() {
-            Max = ComputeDefaultMax();
+        static Concurrency()
+        {
             // This is critical for LASI.Core to obey the same concurrency constraints as its client
             // assemblies without a circular dependency
-            Core.InteropBindings.Configuation.ConfigureConcurrency(() => Max);
+            Core.InteropBindings.Configuation.ConfigureConcurrency(ComputeDefaultMax);
         }
 
         /// <summary>
         /// Gets the maximum allowed Concurrency level for Parallel operations.
         /// </summary>
-        public static int Max {
+        public static int Max
+        {
             get;
             private set;
         }

@@ -6,35 +6,36 @@ using LASI.Utilities.Validation;
 namespace LASI.Utilities
 {
     /// <summary>
-    /// Provides static methods for the creation of <see cref="IEqualityComparer{T}" /> instances.
+    /// Provides static methods for the creation of <see cref="IEqualityComparer{T}"/> instances.
     /// </summary>
     public static class ComparerFactory
     {
         /// <summary>
-        /// Creates an <see cref="IEqualityComparer{T}" /> which will use the provided function to
+        /// Creates an <see cref="IEqualityComparer{T}"/> which will use the provided function to
         /// determine equality, and define hash codes purely in terms of nullity.
         /// </summary>
         /// <typeparam name="T">The type of the objects to compare.</typeparam>
         /// <param name="equals">A function which determines if two objects of type T are equal.</param>
         /// <exception cref="ArgumentNullException">
-        /// The provided <paramref name="equals" /> function is null.
+        /// The provided <paramref name="equals"/> function is null.
         /// </exception>
         /// <returns>
-        /// An <see cref="IEqualityComparer{T}" /> which will use the provided function to determine
+        /// An <see cref="IEqualityComparer{T}"/> which will use the provided function to determine
         /// equality, and defines hash codes purely in terms of nullity.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The intent of the functionality provided is to simplify the use of LINQ methods, such as
-        /// <see cref="Enumerable.Contains" /> and <see cref="Enumerable.Distinct" /> which require
-        /// an IEqualityComparer as opposed to a simple predicate function. Because the custom
-        /// comparer created produces identical hashcodes for non null objects, it allows for these
-        /// methods to behave more transparently, but introduced. This however means that the
-        /// overhead of using the returned comparer in a LINQ query is substantial. Specifically,
-        /// the complexity of a calling methods such as contains
-        /// <see cref="IEnumerable{T}.Contains(item, (x, y) =&gt; x == y)" /> or
-        /// <see cref="IEnumerable{T}.Distinct((x, y) =&gt; x == y)" /> approaches O(N^2), where as
+        /// <see cref="Enumerable.Contains"/> and <see cref="Enumerable.Distinct"/> which require an
+        /// IEqualityComparer as opposed to a simple predicate function. Because the custom comparer
+        /// created produces identical hashcodes for non null objects, it allows for these methods
+        /// to behave more transparently, but introduced. This however means that the overhead of
+        /// using the returned comparer in a LINQ query is substantial. Specifically, the complexity
+        /// of a calling methods such as IEnumerable&lt;T&gt;.Contains(item, (x, y) =&gt; x == y)
+        /// and IEnumerable&lt;T&gt;.Distinct((x, y) =&gt; x == y) approaches O(N^2). Comparatively,
         /// calls which use the default equality comparers, including those that do not take an
-        /// <see cref="IEqualityComparer{T}" /> only approach approach O(N).
+        /// <see cref="IEqualityComparer{T}"/> only approach approach O(N).
+        /// </para>
         /// </remarks>
         /// <seealso cref="Enumerable.Distinct{TSource}(IEnumerable{TSource})"/>
         /// <seealso cref="Enumerable.Distinct{TSource}(IEnumerable{TSource}, IEqualityComparer{TSource})"/>
@@ -42,7 +43,7 @@ namespace LASI.Utilities
         /// <seealso cref="Enumerable.Except{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>
         /// <seealso cref="Enumerable.Intersect{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>
         /// <seealso cref="Enumerable.Intersect{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>
-        /// <seealso cref="Enumerable.Contains{TSource}(IEnumerable{TSource}, TSource){TSource}"/>
+        /// <seealso cref="Enumerable.Contains{TSource}(IEnumerable{TSource}, TSource, IEqualityComparer{TSource})"/>
         /// <seealso cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>
         /// <seealso cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource}, IEqualityComparer{TSource})"/>
         /// <seealso cref="EnumerableExtensions.SetEqual{T}(IEnumerable{T}, IEnumerable{T})"/>
@@ -54,7 +55,7 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Creates a new <see cref="IEqualityComparer{T}" /> which will use the provided equality
+        /// Creates a new <see cref="IEqualityComparer{T}"/> which will use the provided equality
         /// and hashing functions.
         /// </summary>
         /// <param name="equals">A function which determines if two objects of type T are equal.</param>
@@ -62,10 +63,10 @@ namespace LASI.Utilities
         /// A function which generates a hash code from an element of type T.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// The provided <paramref name="equals" /> or <paramref name="getHashCode" /> function is null.
+        /// The provided <paramref name="equals"/> or <paramref name="getHashCode"/> function is null.
         /// </exception>
         /// <returns>
-        /// A new <see cref="IEqualityComparer{T}" /> which will use the provided equality and
+        /// A new <see cref="IEqualityComparer{T}"/> which will use the provided equality and
         /// hashing functions.
         /// </returns>
         /// <remarks>
@@ -80,18 +81,18 @@ namespace LASI.Utilities
             return new ComparerWithCutomEqualsAndHashing<T>(equals, getHashCode);
         }
 
-        private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : IEqualityComparer<T>
+        private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : EqualityComparer<T>
         {
             /// <summary>
             /// Initializes a new instance of the
-            /// <see cref="ComparerWithCutomEqualsAndNullityBasedHashing{T}" /> class which will use
+            /// <see cref="ComparerWithCutomEqualsAndNullityBasedHashing{T}"/> class which will use
             /// the provided function to define element equality.
             /// </summary>
             /// <param name="equals">
             /// A function which determines if two objects of type T are equal.
             /// </param>
             /// <exception cref="ArgumentNullException">
-            /// The provided <paramref name="equals" /> function is null.
+            /// The provided <paramref name="equals"/> function is null.
             /// </exception>
             /// <remarks>
             /// A custom hashing function is automatically provided, ensuring that equality
@@ -108,9 +109,15 @@ namespace LASI.Utilities
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public bool Equals(T x, T y) => equals(x, y);
+            public override bool Equals(T x, T y) => equals(x, y);
 
-            public int GetHashCode(T obj) => obj == null ? 0 : 1;
+            /// <summary>
+            /// Serves as a hash function for the specified object for hashing algorithms and data
+            /// structures, such as a hash table.
+            /// </summary>
+            /// <param name="obj">The object for which to get a hash code.</param>
+            /// <returns>A hash code for the specified object.</returns>
+            public override int GetHashCode(T obj) => obj == null ? 0 : 1;
 
             private readonly Func<T, T, bool> equals;
         }
@@ -142,7 +149,7 @@ namespace LASI.Utilities
         /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) =&gt; x.IsSimilarTo(y), x =&gt; x == null? 0 : 1);
         /// </code>
         /// </example>
-        private sealed class ComparerWithCutomEqualsAndHashing<T> : IEqualityComparer<T>
+        private sealed class ComparerWithCutomEqualsAndHashing<T> : EqualityComparer<T>
         {
             /// <summary>
             /// Initializes a new instance of the CustomComparer class which will use the provided
@@ -155,8 +162,7 @@ namespace LASI.Utilities
             /// A function which generates a hash code from an element of type T.
             /// </param>
             /// <exception cref="ArgumentNullException">
-            /// The provided <paramref name="equals" /> or <paramref name="getHashCode" /> function
-            /// is null.
+            /// The provided <paramref name="equals"/> or <paramref name="getHashCode"/> function is null.
             /// </exception>
             /// <remarks>
             /// Proper usage requires that elements which will compare equal under the specified
@@ -173,7 +179,7 @@ namespace LASI.Utilities
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public bool Equals(T x, T y) => y == null ? y == null : y == null ? x == null : equals(x, y);
+            public override bool Equals(T x, T y) => y == null ? y == null : y == null ? x == null : equals(x, y);
 
             /// <summary>
             /// Serves as a hash function for the specified object for hashing algorithms and data
@@ -181,7 +187,7 @@ namespace LASI.Utilities
             /// </summary>
             /// <param name="obj">The object for which to get a hash code.</param>
             /// <returns>A hash code for the specified object.</returns>
-            public int GetHashCode(T obj) => getHashCode(obj);
+            public override int GetHashCode(T obj) => getHashCode(obj);
 
             private readonly Func<T, T, bool> equals;
             private readonly Func<T, int> getHashCode;

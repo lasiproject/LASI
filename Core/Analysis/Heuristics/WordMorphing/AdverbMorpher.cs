@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
-using LASI.Utilities.Specialized.Enhanced.Linq.List;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {

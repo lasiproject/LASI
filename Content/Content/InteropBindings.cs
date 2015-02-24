@@ -2,10 +2,10 @@
 {
     public class Configuration
     {
-        public static void Initialize(Utilities.Configuration.IConfig config)
+        public static void Initialize(Utilities.Configuration.IConfig settings)
         {
-            TaggerInterop.SharpNLPTagger.Settings = config;
-            DocToDocXConverter.Config = config;
+            TaggerInterop.SharpNLPTagger.Settings = settings;
+            DocToDocXConverter.Config = settings;
         }
     }
 }

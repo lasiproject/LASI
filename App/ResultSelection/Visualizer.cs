@@ -236,11 +236,10 @@ namespace LASI.App
                                     from entity in verbal.Subjects
                                         .AsParallel()
                                         .WithDegreeOfParallelism(Concurrency.Max)
-                                    from subject in entity.Match()
+                                    let subject = entity.Match()
                                         .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
                                         .Then((IReferencer r) => r.RefersTo)
-                                        .Case((IEntity e) => e)
-
+                                        .Case((IEntity e) => e).Result()
                                     where subject != null
                                     from direct in verbal.DirectObjects.DefaultIfEmpty()
                                     from indirect in verbal.IndirectObjects.DefaultIfEmpty()

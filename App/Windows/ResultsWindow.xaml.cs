@@ -154,7 +154,7 @@ namespace LASI.App
 
             foreach (var run in documentContents)
             {
-                run.ContextMenu = ContextMenuBuilder.ForLexical(run.Tag as Phrase, documentContents);
+                run.ContextMenu = ContextMenuBuilder.ForLexical(run.Tag as ILexical, documentContents);
             }
             var flowDocumentParagraph = new System.Windows.Documents.Paragraph();
             flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));

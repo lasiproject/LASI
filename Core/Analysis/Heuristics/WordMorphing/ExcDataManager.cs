@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
-using LASI.Utilities.Specialized.Enhanced.Linq.List;
+using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing

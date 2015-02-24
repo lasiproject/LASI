@@ -97,6 +97,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Func.cs" />
     <Compile Include="Action.cs" />
     <Compile Include="CharacterExtensions.cs" />
     <Compile Include="EnumerableFormattingExtensions.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\IConfig.cs" />
     <Compile Include="Configuration\JsonConfig.cs" />
-    <Compile Include="Specialized\Enhanced\Linq\List\ListExtensions.cs" />
+    <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
     <Compile Include="Specialized\Option.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="ComparerFactory.cs" />

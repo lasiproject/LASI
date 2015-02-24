@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LASI.Utilities.Specialized;
 using Shared.Test.Assertions;
 using LASI.Utilities.Specialized.Option;
+using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.PatternMatching.Tests
 {
@@ -25,11 +26,11 @@ namespace LASI.Core.PatternMatching.Tests
         {
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
             var result = target.Match()
-                 .Case((IVerbal v) => v.ToOption())
+                 .Case((IVerbal v) => v.Lift())
                  .Case((VerbPhrase v) => v.Words.AsEnumerable().OfType<ILexical>())
                  .Result();
             Assert.AreNotEqual(result, null);
-            EnumerableAssert.AreSequenceEqual(result, target.ToOption());
+            EnumerableAssert.AreSequenceEqual(result, target.Lift());
         }
     }
 }

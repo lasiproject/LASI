@@ -13,7 +13,8 @@ namespace LASI.App.Properties
     internal sealed partial class Settings
     {
 
-        public Settings() {
+        public Settings()
+        {
             // // To add event handlers for saving and changing settings, uncomment the lines below:
             //
             // this.SettingChanging += this.SettingChangingEventHandler;
@@ -23,21 +24,23 @@ namespace LASI.App.Properties
             SettingsLoaded += Settings_SettingsLoaded;
         }
 
-        private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e) {
-            if (Default.TrayMinimize) {
-                new List<Window> { WindowManager.ProjectPreviewScreen, WindowManager.InProgressScreen, WindowManager.ResultsScreen }
-                .ForEach(TrayIconManager.Enable);
+        private void Settings_SettingsLoaded(object sender, System.Configuration.SettingsLoadedEventArgs e)
+        {
+            if (Default.TrayMinimize)
+            {
                 TrayIconManager.Enable(WindowManager.ProjectPreviewScreen);
                 TrayIconManager.Enable(WindowManager.InProgressScreen);
                 TrayIconManager.Enable(WindowManager.ResultsScreen);
             }
         }
 
-        private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
+        private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e)
+        {
             // Add code to handle the SettingChangingEvent event here.
         }
 
-        private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             // Add code to handle the SettingsSaving event here.
         }
     }
