@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LASI.Utilities
 {
@@ -546,9 +545,9 @@ namespace LASI.Utilities
         /// resulting sequence begins with the specified seed and ends with the final aggregate.
         /// </summary> <typeparam name="T">The type of the elements in the sequence.</typeparam>
         /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam> <param
-        /// name="source">A sequence to scan.</param> <param name="seed">A an itintial seed
+        /// name="source">A sequence to scan.</param> <param name="seed">A an initial seed
         /// value.</param> <param name="func">A function to invoke on each element in source and the
-        /// accumulator value.</param> <returns>The sequence starting </returns> <exception cref=""
+        /// accumulator value.</param> <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
             Validate.NotNull(source, nameof(source), func, nameof(func));

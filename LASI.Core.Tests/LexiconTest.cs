@@ -105,7 +105,7 @@ namespace LASI.Core.Heuristics.Tests
             Assert.IsTrue(verb.GetSynonyms().Any(v => !v.EqualsIgnoreCase(verb.Text)));
         }
 
-   
+
         [TestMethod]
         public void GetSynonymsTest3()
         {
@@ -118,6 +118,7 @@ namespace LASI.Core.Heuristics.Tests
         {
             Noun noun1 = new CommonSingularNoun("hobby");
             Noun noun2 = new CommonSingularNoun("passtime");
+
             Assert.IsTrue(noun1.IsSynonymFor(noun2));
             Assert.IsTrue(noun2.IsSynonymFor(noun1));
         }

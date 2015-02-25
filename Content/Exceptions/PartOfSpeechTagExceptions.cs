@@ -49,7 +49,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnknownWordTagException(SerializationInfo info, StreamingContext context)
+        private UnknownWordTagException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
     }
@@ -94,9 +94,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnknownPhraseTagException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
+        private UnknownPhraseTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
@@ -176,7 +174,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected EmptyWordTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private EmptyWordTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>The Exception that is thrown when attempting to parse empty Phrase Tag</summary>
@@ -216,7 +214,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected EmptyPhraseTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private EmptyPhraseTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
@@ -257,7 +255,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UntaggedWordException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UntaggedWordException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
@@ -298,7 +296,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UntaggedPhraseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UntaggedPhraseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
 
@@ -342,7 +340,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UndelimitedPhraseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UndelimitedPhraseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>The Exception that is thrown when attempting to parse an unknown clause tag.</summary>
@@ -381,13 +379,13 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnknownClauseTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UnknownClauseTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
-    /// Base of the tag parsing exception heirarchy. Cannot be instantiated and thus cannot be
-    /// explicitely thrown If one encounters an exception not suited for one of its derrived types,
-    /// a new exception class should be derrived from this class.
+    /// Base of the tag parsing exception hierarchy. Cannot be instantiated and thus cannot be
+    /// explicitly thrown If one encounters an exception not suited for one of its derived types,
+    /// a new exception class should be derived from this class.
     /// </summary>
     [Serializable]
     public abstract class PartOfSpeechTagException : Exception

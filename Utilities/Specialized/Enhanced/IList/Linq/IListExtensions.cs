@@ -109,7 +109,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
             var i = 0;
-            while (predicate(list[i]))
+            while (i < list.Count && predicate(list[i]))
             {
                 ++i;
             }
@@ -141,7 +141,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
             var i = 0;
-            while (predicate(list[i]))
+            while (i < list.Count && predicate(list[i]))
             {
                 ++i;
             }
@@ -173,7 +173,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         public static IReadOnlyList<T> AsReadOnly<T>(this IList<T> list)
         {
             Validate.NotNull(list);
-            return list.AsReadOnly();
+            return list as IReadOnlyList<T> ?? list.ToList();
         }
         #endregion Converting
     }

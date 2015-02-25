@@ -147,7 +147,7 @@ namespace LASI.Core.Heuristics.WordNet
                         .DefaultIfEmpty(search)
                         .ToImmutableHashSet();
                 }
-                catch (Exception e) if (e is AggregateException || e is InvalidOperationException)
+                catch (Exception e) when (e is AggregateException || e is InvalidOperationException)
                 {
                     e.Log();
                 }

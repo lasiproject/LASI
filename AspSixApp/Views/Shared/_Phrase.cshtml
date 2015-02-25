@@ -1,4 +1,4 @@
-﻿@model PhraseModel
+﻿@model AspSixApp.Models.Lexical.PhraseModel
 <span class='phrase @Model.Style.CssClass' data-toggle="context" data-target="#context-menu"
       title='@Model.DetailText.Trim()'
       id=@Model.Id>@Model.Text.Trim()<span id=@("context" + Model.Id) hidden>@Model.ContextMenuJson</span>

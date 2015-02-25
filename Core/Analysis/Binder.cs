@@ -69,16 +69,16 @@ namespace LASI.Core
                     .ForAll(sentence =>
                     {
                         try { new SubjectBinder().Bind(sentence); }
-                        catch (Exception e) if (e is NullReferenceException ||
+                        catch (Exception e) when (e is NullReferenceException ||
                                                 e is VerblessPhrasalSequenceException)
-                       { 
+                        {
                             e.Log();
                         }
                         try
                         {
                             new ObjectBinder().Bind(sentence);
                         }
-                        catch (Exception x) if (x is InvalidStateTransitionException ||
+                        catch (Exception x) when (x is InvalidStateTransitionException ||
                                                 x is VerblessPhrasalSequenceException ||
                                                 x is InvalidOperationException)
                         {

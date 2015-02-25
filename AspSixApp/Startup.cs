@@ -67,7 +67,7 @@ namespace AspSixApp
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            ConfigureLASIComponents(configFilePath: Path.Combine(AppContext.BaseDirectory, "resources.json"));
+            ConfigureLASIComponents(configFilePath: Path.Combine(System.IO.Directory.GetParent(env.WebRoot).FullName, "resources.json"));
 
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory

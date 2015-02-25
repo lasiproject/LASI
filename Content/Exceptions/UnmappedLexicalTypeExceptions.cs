@@ -56,7 +56,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnmappedWordTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UnmappedWordTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ namespace LASI.Content.Tagging
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        protected UnmappedPhraseTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        private UnmappedPhraseTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>

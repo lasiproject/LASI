@@ -292,7 +292,6 @@
     <Compile Include="LexicalStructures\VerbRelatedConstructs\Verb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhrase.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIVerbalExtensions.cs" />
-    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbForm.cs" />
     <Compile Include="LexicalStructures\Structural\Word.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />

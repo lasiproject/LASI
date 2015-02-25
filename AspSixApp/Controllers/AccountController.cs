@@ -40,17 +40,16 @@ namespace AspSixApp.Controllers
             if (ModelState.IsValid)
             {
                 var signInStatus = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-                switch (signInStatus)
+                if (signInStatus.Succeeded)
                 {
-                    case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
-                    case SignInStatus.Failure:
-                    default:
+                }
+                else
+                {
                     ModelState.AddModelError("", "Invalid username or password.");
                     return View(model);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -88,7 +87,7 @@ namespace AspSixApp.Controllers
                 }
                 else
                 {
-                    AddErrors(result);
+                    AddErrors(result.Errors);
                 }
             }
 
@@ -126,7 +125,7 @@ namespace AspSixApp.Controllers
                 }
                 else
                 {
-                    AddErrors(result);
+                    AddErrors(result.Errors);
                 }
             }
 
@@ -146,11 +145,11 @@ namespace AspSixApp.Controllers
 
         #region Helpers
 
-        private void AddErrors(IdentityResult result)
+        private void AddErrors(IEnumerable<IdentityError> errors)
         {
-            foreach (var error in result.Errors)
+            foreach (var error in errors)
             {
-                ModelState.AddModelError("", error);
+                ModelState.AddModelError(error.Code, error.Description);
             }
         }
 

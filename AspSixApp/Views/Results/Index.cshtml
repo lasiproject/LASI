@@ -11,27 +11,99 @@
 </header>
 
 <div id="main-content">
-
-    <div class="results-pane">
+    <div class="results-pane container container-fluid">
         <ul class="nav nav-tabs" id="results">
-            <li class="active"><a data-toggle="tab" href="#reconstructeddocuments">Reconstructed Documents</a></li>
-            <li><a data-toggle="tab" href="#topresults">Top Results</a></li>
-            <li><a data-toggle="tab" href="#adddocuments">Add Documents</a></li>
+            <li class="active">
+                <a data-toggle="tab" href="#reconstructeddocuments">
+                    Reconstructed Documents
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#topresults">
+                    Top Results
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#adddocuments">
+                    Add Documents
+                </a>
+            </li>
         </ul>
         <br />
-        @*<div class="tab-content" id="resultstabs">*@
-            @RenderReconstructedDocumentsPanel()
+        <div class="tab-content" id="resultstabs">
+            @RenderReconstructedDocumentsPane()
 
             @RenderDocumentChartsPane()
 
             @RenderAddAditionalDocumentsPanel()
-        @*</div>*@
+        </div>
     </div>
+</div>
+@helper RenderReconstructedDocumentsPane()
+        {
+            <div class="tab-pane fade in active" id="reconstructeddocuments">
+                <ul class="documentselectiontab col-md-3">
+                    @foreach (var documentModel in Model.DocumentModels)
+                    {
+                        <li class="list-group-item">
+                            <input type="button"
+                                   class="list-group-item-text btn btn-block btn-primary"
+                                   data-toggle="modal"
+                                   data-target=@('#' + documentModel.Title.ToSafeHtmlDomId())
+                                   value="@documentModel.Title" />
+                        </li>
+                    }
+                </ul>
+            </div>
+            <br />
+            <div>
+                @foreach (var documentModel in Model.DocumentModels)
+                {
+                    @RenderDocumentBodyModel(documentModel)
+                }
+                @*@RenderStaticContextMenuMarkup()*@
+            </div>
 
-    @helper RenderDocumentModelBody(DocumentModel documentModel)
-    {
-            <div id=@documentModel.Title.ToSafeHtmlDomId()
-                 class="modal fade document-modal-lg"
+}
+@helper RenderDocumentChartsPane()
+        {
+            <div class="tab-pane fade in" id="topresults">
+
+                <ul class="documentselectiontab col-md-3">
+                    @foreach (var documentModel in Model.DocumentModels)
+                    {
+                        <li class="list-group-item">
+                            <input type="button"
+                                   class="list-group-item-text btn btn-block btn-primary"
+                                   data-toggle="modal"
+                                   data-target=@('#' + documentModel.Title.ToSafeHtmlDomId() + "_topresults")
+                                   value="@documentModel.Title" />
+
+                        </li>
+                    }
+                </ul>
+                @foreach (var documentModel in Model.DocumentModels)
+                {
+                    @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary);
+                }
+
+            </div>
+}
+@helper RenderAddAditionalDocumentsPanel()
+        {
+            <div id="adddocuments" class="tab-pane fade in">
+                <h1>Add documents</h1>
+                @Html.Partial("_DocumentUpload", new DocumentUploadModel { UploadTarget = "fileuploadtarget" })
+            </div>
+}
+
+
+
+
+@helper RenderDocumentBodyModel(DocumentModel documentModel)
+        {
+            <div id=@(documentModel.Title.ToSafeHtmlDomId())
+                 class="modal fade"
                  tabindex="-1"
                  role="dialog"
                  aria-labelledby="#myModalLabel"
@@ -45,7 +117,7 @@
                                     aria-hidden="true">
                                 &times;
                             </button>
-                            <h4 class="modal-title" id="document-title">@documentModel.Title</h4>
+                            <h4 class="modal-title">@documentModel.Title</h4>
                         </div>
                         <div class="modal-body">
                             <div class="document">
@@ -55,57 +127,31 @@
                                 }
                             </div>
                         </div>
-
+                        <div class="modal-footer">@documentModel.Title</div>
                     </div>
                 </div>
             </div>
 }
-    @helper RenderReconstructedDocumentsPanel()
-    {
-            <div class="tab-pane fade in active" id="reconstructeddocuments">
-                <div>
-                    <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                        @foreach (var documentModel in Model.DocumentModels)
-                        {
-                            <li class="list-group-item">
-                                <input type="button"
-                                       class="list-group-item-text btn btn-block btn-primary"
-                                       data-toggle="modal"
-                                       data-target=@('#' + documentModel.Title.ToSafeHtmlDomId())
-                                       value="@documentModel.Title" />
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <br />
-                <div>
-                    @foreach (var documentModel in Model.DocumentModels)
-                    {
-                        @RenderDocumentModelBody(documentModel)
-                    }
-                    @RenderStaticContextMenuMarkup()
-                </div>
-
-            </div>
-}
 
 
-    @helper RenderTopResultsChartData(DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
-    {
-            <div id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresults" )
-                 class="modal fade top-results-modal"
-                 tabindex="-1" role="dialog"
+
+@helper RenderTopResultsChartData(DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
+        {
+            <div id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresults")
+                 class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
                  aria-labelledby="#topResultsModal"
                  aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="document-title">@documentModel.Title</h4>
+                            <h4 class="modal-title">@documentModel.Title</h4>
                         </div>
                         <div class="modal-body">
                             <div class="container chart-container" id=@(documentModel.Title.ToSafeHtmlDomId() + "_resultschart" )>
-                                <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows" ) hidden>
+                                <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows") hidden>
                                     <!-- Render the chart data which will be JSON encoded as an array of arrays -->
                                     @chartsByDocumentTitle[documentModel.Title])
                                 </span>
@@ -118,8 +164,8 @@
 }
 
 
-    @helper RenderStaticContextMenuMarkup()
-    {
+@helper RenderStaticContextMenuMarkup()
+        {
             <div id="context-menu" class="context" hidden>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
                     <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
@@ -129,46 +175,3 @@
                 </ul>
             </div>
 }
-
-    @helper RenderDocumentChartsPane()
-    {
-            <div class="tab-pane fade list-group documentselectiontab col-md-3" id="topresults">
-
-                <ul id="documentlist" class="list-group documentselectiontab col-md-3">
-                    @foreach (var documentModel in Model.DocumentModels)
-                    {
-                        <li class="list-group-item">
-                            <input type="button"
-                                   class="list-group-item-text btn btn-block btn-primary"
-                                   data-toggle="modal"
-                                   data-target=@('#' + documentModel.Title.ToSafeHtmlDomId() + "_topresults" )
-                                   value="@documentModel.Title" />
-
-                        </li>
-                    }
-                </ul>
-                @foreach (var documentModel in Model.DocumentModels)
-                {
-                    @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary);
-                }
-
-            </div>
-}
-    @helper RenderAddAditionalDocumentsPanel()
-    {
-            <div class="tab-pane fade list-group documentselectiontab col-md-3" id="adddocuments">
-                <div class="container add-document-container">
-                    <h1>Add documents</h1>
-                    <div id="main-content">
-                        <div>
-                            @Html.Partial("_DocumentUpload", new DocumentUploadModel { UploadTarget = "fileuploadtarget" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-}
-    <br />
-
-</div>
-<br />
-<br />

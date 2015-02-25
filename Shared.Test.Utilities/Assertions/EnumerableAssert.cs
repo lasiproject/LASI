@@ -21,8 +21,8 @@ namespace Shared.Test.Assertions
             }
             catch (AssertFailedException e)
             {
-                var m = ProcessMessage(message);
-                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(AreSequenceEqual)} failed.\nExpected: {expected.ToArray()}\nActual: {actual.ToArray()}", e);
+                var m = FormatMessage(message);
+                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(AreSequenceEqual)} failed.\nExpected: {string.Join(", ", expected)}\nActual: {string.Join(", ", actual)}", e);
             }
         }
         public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) =>
@@ -43,7 +43,7 @@ namespace Shared.Test.Assertions
             }
             catch (AssertFailedException e)
             {
-                var m = ProcessMessage(message);
+                var m = FormatMessage(message);
                 var set = new HashSet<T>(expected, comparer);
                 set.SymmetricExceptWith(actual);
                 var missingElements = from element in set select element;
@@ -60,7 +60,7 @@ namespace Shared.Test.Assertions
             }
             catch (AssertFailedException e)
             {
-                var m = ProcessMessage(message);
+                var m = FormatMessage(message);
                 throw new AssertFailedException(m + $"{nameof(EnumerableAssert) }.{nameof(IsEmpty)} failed.", e);
             }
         }
@@ -74,7 +74,7 @@ namespace Shared.Test.Assertions
             }
             catch (AssertFailedException e)
             {
-                var m = ProcessMessage(message);
+                var m = FormatMessage(message);
                 throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(Contains)} failed.", e);
             }
         }
@@ -87,12 +87,14 @@ namespace Shared.Test.Assertions
             }
             catch (AssertFailedException e)
             {
-                var m = ProcessMessage(message);
-                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(Contains)} failed.\nEnumerable: {string.Join(", ", enumerable)}", e);
+                throw new AssertFailedException(
+                    $@"{(FormatMessage(message))}{nameof(EnumerableAssert)}.{nameof(Contains)} failed.
+                    Enumerable: {string.Join(", ", enumerable)}",
+                e);
             }
         }
 
-        private static string ProcessMessage(string message)
+        private static string FormatMessage(string message)
         {
             return string.IsNullOrWhiteSpace(message) ? null : message + "\nAdditional Messages: ";
         }

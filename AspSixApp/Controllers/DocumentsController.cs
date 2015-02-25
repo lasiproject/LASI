@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Http;
-using LASI.Utilities;
+//using LASI.Utilities;
 using System.Threading.Tasks;
 using System;
 
@@ -13,11 +13,11 @@ namespace AspSixApp.Controllers
 {
     public class DocumentsController : Controller
     {
-        private readonly string uploadDirRelativePath;
+        //private readonly string uploadDirRelativePath;
 
         public DocumentsController()
         {
-            this.uploadDirRelativePath = Path.Combine(AppContext.BaseDirectory, "App_Data", "SourceFiles");
+            //this.uploadDirRelativePath = Path.Combine(AppContext.BaseDirectory, "App_Data", "SourceFiles");
         }
         [HttpPost]
         public async Task<ActionResult> Upload()

@@ -26,11 +26,13 @@ namespace LASI.Core
             : base(words)
         {
             prevailingForm = (from verb in Words.OfVerb()
-                              let formName = verb.GetType().Name
+                              let typeName = verb.GetType().Name
+                              let formName = typeName.Substring(0, typeName.Length - 4)
                               group formName by formName into byForm
                               orderby byForm.Count() descending
                               select byForm.Key)
                 .FirstOrDefault();
+
             modifiers.UnionWith(words.OfAdverb());
         }
 
@@ -41,7 +43,7 @@ namespace LASI.Core
         /// <param name="rest">The rest of the Words comprise the VerbPhrase.</param>
         /// <remarks>
         /// This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. Thus, its purpose
-        /// is to simplifiy test code.
+        /// is to simplify test code.
         /// </remarks>
         public VerbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
