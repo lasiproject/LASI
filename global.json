@@ -1,7 +1,10 @@
 {
-    "sources": [
+    "projects": [
         "wrap",
         "AspSixApp",
-        "AspSixApp.Test"
+        "Core",
+        "Content",
+        "Utilities",
+        "Interop"
     ]
 }

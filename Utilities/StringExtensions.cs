@@ -75,7 +75,8 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentException">
         /// Thrown when the array of strings to remove contains an empty string.
         /// </exception>
-        public static string RemoveSubstrings(this string value, params string[] remove)
+        public static string RemoveSubstrings(this string value, params string[] remove) => value.RemoveSubstrings(StringComparison.CurrentCulture, remove);
+        public static string RemoveSubstrings(this string value, StringComparison comparison, params string[] remove)
         {
             Validate.NotNull(value, "value");
             if (remove.Contains(string.Empty))
@@ -115,9 +116,24 @@ namespace LASI.Utilities
         /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
         public static bool EqualsIgnoreCase(this string value, string other)
         {
-            return value.Equals(other, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
         }
 
+        public static string CollapseSpaces(this string value) => string.Join(" ", value.SplitRemoveEmpty(' ', '\t').Select(s => s.Trim()));
+
+        /// <summary>
+        /// Transforms the input string, adding a space before each capital letter except the first.
+        /// </summary>
+        /// <param name="value">The string to transform.</param>
+        /// <returns>A new string with a space inserted before each capital letter but the first.s</returns>
+        public static string SpaceByCase(this string value) =>
+            value?.Aggregate(
+                new StringBuilder(),
+                (builder, c, index) =>
+                    index > 0 && c.IsUpper() ?
+                    builder.Append(' ').Append(c) :
+                    builder.Append(c)
+            ).ToString() ?? "";
         public static string ToPath(this IEnumerable<string> pathSegements) => System.IO.Path.Combine(pathSegements.ToArray());
     }
 }

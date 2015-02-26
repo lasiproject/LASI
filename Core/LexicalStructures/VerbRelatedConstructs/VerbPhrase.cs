@@ -12,10 +12,6 @@ namespace LASI.Core
     /// </summary>
     public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
     {
-        /// <summary>
-        /// Gets or the collection of IAdverbial modifiers which modify the VerbPhrase.
-        /// </summary>
-        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
         #region Constructors
 
         /// <summary>
@@ -26,12 +22,11 @@ namespace LASI.Core
             : base(words)
         {
             prevailingForm = (from verb in Words.OfVerb()
-                              let typeName = verb.GetType().Name
-                              let formName = typeName.Substring(0, typeName.Length - 4)
+                              let formName = verb.GetType().Name
                               group formName by formName into byForm
                               orderby byForm.Count() descending
                               select byForm.Key)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? "Undetermined";
 
             modifiers.UnionWith(words.OfAdverb());
         }
@@ -48,6 +43,10 @@ namespace LASI.Core
         public VerbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         #endregion Constructors
+        /// <summary>
+        /// Gets or the collection of IAdverbial modifiers which modify the VerbPhrase.
+        /// </summary>
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
         #region Methods
 
@@ -97,7 +96,10 @@ namespace LASI.Core
             {
                 directObjects.Add(directObject);
                 directObject.DirectObjectOf = this;
-                foreach (var v in Words.OfVerb()) { v.BindDirectObject(directObject); }
+                foreach (var v in Words.OfVerb())
+                {
+                    v.BindDirectObject(directObject);
+                }
                 if (IsPossessive)
                 {
                     foreach (var subject in Subjects)
@@ -144,9 +146,9 @@ namespace LASI.Core
                 ObjectOfThePreposition != null ? $"Via Preposition Object: {ObjectOfThePreposition.Text}" : empty,
                 Modality != null ? $"Modality: {Modality.Text}" : empty,
                 AdverbialModifiers.Any() ? $"Modifiers: {AdverbialModifiers.Format(m => m.Text)}" : empty,
-                $"\nPossessive: [{IsPossessive}]",
-                $"\nClassifier: [{IsClassifier}]",
-                $"\nPrevailing Form: [{prevailingForm}]"
+                $"\nPossessive: [{(IsPossessive ? "Yes" : "No")}]",
+                $"\nClassifier: [{(IsClassifier ? "Yes" : "No")}]",
+                $"\nPrevailing Form: [{prevailingForm.SpaceByCase().RemoveSubstrings(StringComparison.OrdinalIgnoreCase, "Verb").Trim()}]"
             );
         }
 
