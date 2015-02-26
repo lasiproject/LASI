@@ -12,7 +12,7 @@
 
     public abstract class RoleProvider<TRole> : IEnumerable<TRole> where TRole : class
     {
-        public abstract IEnumerator<TRole> GetEnumerator();
+        public abstract IEnumerator<TRole> GetEnumerator(); 
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         internal abstract void Remove(ApplicationUser user);

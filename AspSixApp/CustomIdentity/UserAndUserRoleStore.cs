@@ -6,7 +6,7 @@ namespace AspSixApp.CustomIdentity
     using System.Threading;
     using System.Threading.Tasks;
     using User = ApplicationUser;
-    using Cancellation = System.Threading.CancellationToken;
+    using CancellationToken = System.Threading.CancellationToken;
     using System.Linq;
     using LASI.Utilities.Specialized.Enhanced.IList.Linq;
     using LASI.Utilities;
@@ -20,7 +20,7 @@ namespace AspSixApp.CustomIdentity
             this.userProvider = userProvider;
             this.roleProvider = roleProvider;
         }
-        public async Task AddToRoleAsync(User user, string roleName, Cancellation t = default(Cancellation))
+        public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!await IsInRoleAsync(user, roleName))
             {
@@ -33,43 +33,43 @@ namespace AspSixApp.CustomIdentity
             }
         }
 
-        public async Task<IdentityResult> CreateAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => userProvider.Add(user), t);
-        public async Task<IdentityResult> DeleteAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => userProvider.Delete(user), t);
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider.Add(user), cancellationToken);
+        public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider.Delete(user), cancellationToken);
 
-        public async Task<User> FindByIdAsync(string userId, Cancellation t = default(Cancellation)) => await Asnyc(() => userProvider[userId], t);
+        public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider[userId], cancellationToken);
 
-        public async Task<User> FindByNameAsync(string normalizedUserName, Cancellation t = default(Cancellation)) =>
-            await Asnyc(() => userProvider.FirstOrDefault(u => u.NormalizedUserName == normalizedUserName), t);
+        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default(CancellationToken)) =>
+            await ExecuteAsnyc(() => userProvider.FirstOrDefault(u => u.NormalizedUserName == normalizedUserName), cancellationToken);
 
-        public async Task<string> GetNormalizedUserNameAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => user.NormalizedUserName, t);
+        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.NormalizedUserName, cancellationToken);
 
-        public async Task<IList<string>> GetRolesAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => new List<string>(
+        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => new List<string>(
                                                                                                                             from role in roleProvider
                                                                                                                             where role.UserId == user.Id
-                                                                                                                            select role.RoleId), t);
-        public async Task<string> GetUserIdAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => user.Id, t);
+                                                                                                                            select role.RoleId), cancellationToken);
+        public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.Id, cancellationToken);
 
-        public async Task<string> GetUserNameAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => user.UserName, t);
+        public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.UserName, cancellationToken);
 
-        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, Cancellation t = default(Cancellation)) => await Asnyc(() => (from user in userProvider
-                                                                                                                                          join role in from role in roleProvider
-                                                                                                                                                       where role.RoleName == roleName
-                                                                                                                                                       select role
-                                                                                                                                          on user.Id equals role.UserId
-                                                                                                                                          select user).ToList(), t);
+        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => (from user in userProvider
+                                                                                                                                                                           join role in from role in roleProvider
+                                                                                                                                                                                        where role.RoleName == roleName
+                                                                                                                                                                                        select role
+                                                                                                                                                                           on user.Id equals role.UserId
+                                                                                                                                                                           select user).ToList(), cancellationToken);
 
 
-        public async Task<bool> IsInRoleAsync(User user, string roleName, Cancellation t = default(Cancellation)) => await Asnyc(() => roleProvider.Any(role => role.RoleName == roleName && role.UserId == user.Id), t);
+        public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => roleProvider.Any(role => role.RoleName == roleName && role.UserId == user.Id), cancellationToken);
 
-        public async Task RemoveFromRoleAsync(User user, string roleName, Cancellation t = default(Cancellation))
+        public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             //var index = roleProvider.IndexOf(roleProvider.Where(role => role.RoleName == roleName && role.UserId == user.Id).FirstOrDefault());
-            await Async(() => roleProvider.Remove(user), t);
+            await ExecuteAsync(() => roleProvider.Remove(user), cancellationToken);
         }
 
-        public async Task SetNormalizedUserNameAsync(User user, string normalizedName, Cancellation t = default(Cancellation)) => await Async(() => user.NormalizedUserName = normalizedName, t);
-        public async Task SetUserNameAsync(User user, string userName, Cancellation t = default(Cancellation)) => await Async(() => user.UserName = userName, t);
-        public async Task<IdentityResult> UpdateAsync(User user, Cancellation t = default(Cancellation)) => await Asnyc(() => userProvider.Update(user), t);
+        public async Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsync(() => user.NormalizedUserName = normalizedName, cancellationToken);
+        public async Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsync(() => user.UserName = userName, cancellationToken);
+        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider.Update(user), cancellationToken);
 
         #region IDisposable Support
 
@@ -111,32 +111,42 @@ namespace AspSixApp.CustomIdentity
 
         #endregion IDisposable Support
 
-        public async Task<IdentityResult> CreateAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => roleProvider.Add(role), t);
+        public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => roleProvider.Add(role), cancellationToken);
 
-        public async Task<IdentityResult> UpdateAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => roleProvider.Update(role), t);
+        public async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => roleProvider.Update(role), cancellationToken);
 
-        public async Task<IdentityResult> DeleteAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => roleProvider.Delete(role), t);
+        public async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => roleProvider.Delete(role), cancellationToken);
 
-        public async Task<string> GetRoleIdAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => role.RoleId, t);
+        public async Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => role.RoleId, cancellationToken);
 
-        public async Task<string> GetRoleNameAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => role.RoleName, t);
-        public async Task SetRoleNameAsync(TRole role, string roleName, Cancellation t = default(Cancellation)) => await Async(() => role.RoleName = roleName, t);
+        public async Task<string> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => role.RoleName, cancellationToken);
+        public async Task SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsync(() => role.RoleName = roleName, cancellationToken);
 
-        public async Task<string> GetNormalizedRoleNameAsync(TRole role, Cancellation t = default(Cancellation)) => await Asnyc(() => role.NormalizedRoleName, t);
-        public async Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, Cancellation t = default(Cancellation)) => await Asnyc(() => role.NormalizedRoleName = normalizedName, t);
-        async Task<TRole> IRoleStore<TRole>.FindByIdAsync(string roleId, Cancellation t) => await Asnyc(() => roleProvider.FirstOrDefault(role => role.RoleId == roleId), t);
-        async Task<TRole> IRoleStore<TRole>.FindByNameAsync(string normalizedRoleName, Cancellation t) => await Asnyc(() => roleProvider.FirstOrDefault(role => role.NormalizedRoleName == normalizedRoleName), t);
+        public async Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => role.NormalizedRoleName, cancellationToken);
+        public async Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken = default(CancellationToken)) => 
+            await ExecuteAsnyc(() => role.NormalizedRoleName = normalizedName, cancellationToken);
+        async Task<TRole> IRoleStore<TRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken) => 
+            await ExecuteAsnyc(() => roleProvider.FirstOrDefault(role => role.RoleId == roleId), cancellationToken);
+        async Task<TRole> IRoleStore<TRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken) => 
+            await ExecuteAsnyc(() => roleProvider.FirstOrDefault(role => role.NormalizedRoleName == normalizedRoleName), cancellationToken);
 
         #region Helpers
-        private async Task<T> Asnyc<T>(Func<T> function, Cancellation t)
+        private async Task<T> ExecuteAsnyc<T>(Func<T> function, CancellationToken cancellationToken)
         {
-            t.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
             return await Task.FromResult(default(T));
         }
 
-        private async Task Async(Action function, Cancellation t)
+        private async Task ExecuteAsync(Action function, CancellationToken cancellationToken)
         {
-            t.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
             await Task.Yield();
         }
 
