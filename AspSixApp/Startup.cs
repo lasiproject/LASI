@@ -7,7 +7,6 @@ using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
@@ -32,8 +31,7 @@ namespace AspSixApp
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // Add MVC services to the services container.
+        {    // Add MVC services to the services container.
             services.AddMvc()
                 .AddWebApiConventions()
                 .Configure<MvcOptions>(options =>
@@ -56,12 +54,18 @@ namespace AspSixApp
                 .AddEntityFramework(Configuration)
                 .AddSqlServer()
                 .AddDbContext<ApplicationDbContext>();
-
+            services.AddSingleton<CustomIdentity.UserProvider<ApplicationUser, string>>(provider =>
+            {
+                return new CustomIdentity.InMemoryUserProvider();
+            });
             // Add Identity services to the services container.
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(Configuration)
-                //.AddPasswordValidator<PasswordValidator<ApplicationUser>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<CustomIdentity.UserAndUserRoleStore<CustomIdentity.UserRole>>()
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddRoleStore<CustomIdentity.UserAndUserRoleStore<CustomIdentity.UserRole>>()
+                .AddRoleManager<RoleManager<CustomIdentity.UserRole>>();
         }
 
         // Configure is called after ConfigureServices is called.

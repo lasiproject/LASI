@@ -18,15 +18,17 @@ namespace LASI.Core
         /// Initializes a new instance of the VerbPhrase class.
         /// </summary>
         /// <param name="words">The words which compose to form the VerbPhrase.</param>
-        public VerbPhrase(IEnumerable<Word> words)
-            : base(words)
+        public VerbPhrase(IEnumerable<Word> words) : base(words)
         {
-            prevailingForm = (from verb in Words.OfVerb()
-                              let formName = verb.GetType().Name
-                              group formName by formName into byForm
-                              orderby byForm.Count() descending
-                              select byForm.Key)
-                .FirstOrDefault() ?? "Undetermined";
+            var constituentVerbForms = from verb in Words.OfVerb()
+                                       let name = verb.GetType().Name
+                                       group name by name into byform
+                                       let count = byform.Count()
+                                       let name = byform.Key
+                                       select new { Name = name, Count = count };
+            prevailingForm = constituentVerbForms
+                .DefaultIfEmpty(new { Name = "Undetermined", Count = 1 })
+                .MaxBy(form => form.Count).Name;
 
             modifiers.UnionWith(words.OfAdverb());
         }
@@ -157,20 +159,14 @@ namespace LASI.Core
         /// VerbPhrase "certainly have" asserts a possessor possessee relationship between "They" and "a lot of ideas".
         /// </summary>
         /// <returns><c>true</c> if the VerbPhrase is a possessive relationship specifier; otherwise, <c>false</c>.</returns>
-        private bool DetermineIsPossessive() => Words.OfVerb().Any() && Words.OfVerb().Last().IsPossessive;
+        private bool DetermineIsPossessive() => Words.OfVerb().DefaultIfEmpty().Last()?.IsPossessive ?? false;
 
         /// <summary>
         /// Determines if the VerbPhrase acts as a classifier. E.g. in the sentence "Rodents are definitely prey animals." the VerbPhrase
         /// "are definitely" acts as a classifier because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns><c>true</c> if the VerbPhrase is a classifier; otherwise, <c>false</c>.</returns>
-        private bool DetermineIsClassifier()
-        {
-            return !IsPossessive &&
-                //AdverbialModifiers.None() &&
-                Words.OfVerb().Any() &&
-                Words.OfVerb().All(v => v.IsClassifier);
-        }
+        private bool DetermineIsClassifier() => Words.OfVerb().DefaultIfEmpty().Last()?.IsClassifier ?? false;
 
         #endregion Methods
 
@@ -254,6 +250,7 @@ namespace LASI.Core
         public IPrepositional PrepositionalToObject { get; protected set; }
         /// <summary>Gets all of the Direct and Indirect objects of the VerbPhrase.</summary>
         public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
+        public string prevailingForm { get; }
 
         #endregion Properties
 
@@ -268,7 +265,6 @@ namespace LASI.Core
 
         private bool? isClassifier;
         private bool? isPossessive;
-        private readonly string prevailingForm;
 
         #endregion Fields
     }
