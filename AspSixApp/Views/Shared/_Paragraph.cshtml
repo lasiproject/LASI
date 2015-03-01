@@ -3,10 +3,12 @@
 <p class="lexical-content-block @Model.Style.CssClass">
     @foreach (var sentenceModel in Model.SentenceModels)
     {
-        <span class="glyphicon glyphicon-indent-left"></span>
-        foreach (var phraseModel in sentenceModel.PhraseModels)
-        {
-            @await Html.PartialAsync("_Phrase", phraseModel)
-        }
+        <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            @foreach (var phraseModel in sentenceModel.PhraseModels)
+            {
+                @await Html.PartialAsync("_Phrase", phraseModel)
+            }
+        </span>
     }
 </p>

@@ -16,41 +16,22 @@ namespace AspSixApp.CustomIdentity.MongoDb
     {
         public MongoDbUserProvider(IConfiguration config, AppDomain appDomain)
         {
-            Configuration = config;
-            mongodExecutableLocation = Configuration["MongodExecutableLocation"];
-            MongoDbPath = Configuration["MongoDbPath"];
-            MongoFilesLocation = System.IO.Path.Combine(System.IO.Directory.GetParent(appDomain.BaseDirectory).FullName, MongoDbPath);
-            ConnectionString = Configuration["MongoConnection"];
-            // TODO: Fixe this awful hack. 
+            var mongodExePath = config["MongodExecutableLocation"];
+            var mongoDbPath = config["MongoDbPath"];
+            var mongoFilesDirectory = appDomain.BaseDirectory + mongoDbPath;
+            var connectionString = config["MongoConnection"];
             System.Diagnostics.Process.Start(
-                @"C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe",
-                "--dbpath \"C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\AspSixApp\\App_Data\\Mongo\\data\\db\"");
+               fileName: mongodExePath,
+               arguments: $"--dbpath {mongoFilesDirectory}"
+           );
 
-            //CreateMongoServer();
-            mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(ConnectionString)).GetServer().GetDatabase("accounts"));
+            mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(connectionString)).GetServer().GetDatabase("accounts"));
 
         }
         public void Insert(ApplicationUser account)
         {
             Accounts.Insert(account);
         }
-
-
-        private void CreateMongoServer()
-        {
-            //var processStartInfo = new System.Diagnostics.ProcessStartInfo
-            //{
-            //    FileName = mongodExecutableLocation,
-            //    Arguments = "--dbpath " + MongoFilesLocation,
-            //    UseShellExecute = false,
-            //    RedirectStandardOutput = true,
-            //    RedirectStandardError = true,
-            //};
-            //var mongoProcess = System.Diagnostics.Process.Start(processStartInfo);
-
-            //AppDomain.CurrentDomain.DomainUnload += delegate { mongoProcess.Close(); };
-        }
-        IConfiguration Configuration { get; }
 
         public override IEnumerator<ApplicationUser> GetEnumerator() => Accounts.AsQueryable().GetEnumerator();
 
@@ -107,16 +88,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 }
             });
         }
-        public override ApplicationUser this[string id] => WithLock(() =>
-        {
-            try { return Accounts.FindOneById(id); }
-            catch (MongoConnectionException)
-            {
-                CreateMongoServer();
-                return Accounts.FindOneById(id);
-                throw;
-            }
-        });
+        public override ApplicationUser this[string id] => WithLock(() => Accounts.FindOneById(id));
 
         private T WithLock<T>(Func<T> f)
         {
@@ -125,18 +97,11 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 return f();
             }
         }
-        private object lockon = new object();
 
-        #region Fields
         private MongoCollection<ApplicationUser> Accounts => mongoDatabase.Value.GetCollection<ApplicationUser>("users");
 
-        private string mongodExecutableLocation;
         private Lazy<MongoDatabase> mongoDatabase;
-        private string ConnectionString;
-        private string MongoDbPath;
+        private object lockon = new object();
 
-        private string MongoFilesLocation { get; }
-
-        #endregion Fields
     }
 }
