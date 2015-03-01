@@ -4,8 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LASI</title>
-    <link rel="stylesheet" href="~/dist/lib/lib.min.css" />
-    <link rel="stylesheet" href="~/dist/app/app.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/widgets/document-upload.css" />
+    <link rel="stylesheet" href="~/css/results/results.css" />
+
 </head>
 <body>
 
@@ -37,9 +41,7 @@
         </div>
     </div>
     <!--Load the google data visualization AJAX API-->
-    <script src="~/dist/lib/lib.min.js"></script>
-    <script src="https://www.google.com/jsapi"></script>
-    <script src="~/dist/app/app.min.js"></script>
+
     <div class="container body-content">
 
         @RenderBody()
@@ -48,7 +50,11 @@
             <p>&copy; @DateTime.Now.Year - LASI Project</p>
         </footer>
     </div>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
+    <script src="~/dist/app/app.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

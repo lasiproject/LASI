@@ -2,10 +2,10 @@
     "name": "AspSixApp",
     "private": true,
     "dependencies": {
-        "jquery": "2.1.3",
-        "jquery-validation": "1.13.1",
+        "bootstrap": "3.0.0",
+        "jquery": "1.10.2",
+        "jquery-validation": "1.11.1",
         "jquery-validation-unobtrusive": "3.2.2",
-        "bootstrap": "3.3.2",
         "bootstrap-contextmenu": "0.3.2"
     },
     "exportsOverride": {
@@ -13,6 +13,18 @@
             "js": "dist/js/*.*",
             "css": "dist/css/*.*",
             "fonts": "dist/fonts/*.*"
+        },
+        "bootstrap-contextmenu": {
+            "": "bootstrap-contextmenu.{js,min.js,min.map}"
+        },
+        "jquery": {
+            "": "jquery.{js,min.js,min.map}"
+        },
+        "jquery-validation": {
+            "": "jquery.validate.js"
+        },
+        "jquery-validation-unobtrusive": {
+            "": "jquery.validate.unobtrusive.{js,min.js}"
         }
     }
 }
