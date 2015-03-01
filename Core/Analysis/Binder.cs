@@ -1,6 +1,6 @@
 ﻿using LASI.Core.Binding;
 using LASI.Core.Binding.Experimental;
-using LASI.Core.InteropBindings;
+using LASI.Core.Configuration;
 using LASI.Utilities;
 using System;
 using System.Collections.Generic;

@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Core.Configuration;
 
 namespace LASI.Core.Heuristics
 {

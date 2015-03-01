@@ -12,7 +12,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// which match over a value of Type T and does not yield a result. 
     /// </summary>
     /// <typeparam name="T">
-    /// The Type of the value which the the Pattern Matching expression will match with.
+    /// The Type of the value which the Pattern Matching expression will match with.
     /// </typeparam>
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.

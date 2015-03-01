@@ -19,7 +19,7 @@ namespace LASI.Utilities.Configuration
 
         /// <summary>Initializes a new instance of the JsonConfig class.</summary>
         /// <param name="uri">
-        /// A uri specifying the location of the JSON document which will define the configuration object.
+        /// A Uri specifying the location of the JSON document which will define the configuration object.
         /// </param>
         public JsonConfig(Uri uri) : base(uri)
         {

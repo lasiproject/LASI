@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics.WordNet;
-using LASI.Core.InteropBindings;
+using LASI.Core.Configuration;
 
 namespace LASI.Core.Heuristics
 {
     using System.Collections.Immutable;
+    using LASI.Core.Configuration;
     using Utilities;
 
     /// <summary>

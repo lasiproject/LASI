@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core.Configuration
 {
     public static class Paths
     {/// <summary>

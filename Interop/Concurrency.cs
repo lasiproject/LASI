@@ -47,7 +47,7 @@
         {
             // This is critical for LASI.Core to obey the same concurrency constraints as its client
             // assemblies without a circular dependency
-            Core.InteropBindings.Configuation.ConfigureConcurrency(ComputeDefaultMax);
+            Core.Configuration.Configuration.ConfigureConcurrency(ComputeDefaultMax);
         }
 
         /// <summary>

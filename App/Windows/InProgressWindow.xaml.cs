@@ -55,7 +55,7 @@ namespace LASI.App
             var resourceLoadedEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoaded += handler, handler => resourceLoadingNotifier.ResourceLoaded -= handler);
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-            var analysisUpdates = Observable.FromEventPattern<Core.InteropBindings.ReportEventArgs>(handler => analysisProvider.ProgressChanged += handler, handler => analysisProvider.ProgressChanged -= handler);
+            var analysisUpdates = Observable.FromEventPattern<Core.Configuration.ReportEventArgs>(handler => analysisProvider.ProgressChanged += handler, handler => analysisProvider.ProgressChanged -= handler);
             resourceLoadedEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
             resourceLoadingEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
             analysisUpdates.Subscribe(e => ProgressUpdated(this, e.EventArgs));
@@ -81,7 +81,7 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        private async void ProgressUpdated(object sender, Core.InteropBindings.ReportEventArgs e)
+        private async void ProgressUpdated(object sender, Core.Configuration.ReportEventArgs e)
         {
             progressLabel.Content = e.Message;
             progressBar.ToolTip = e.Message;

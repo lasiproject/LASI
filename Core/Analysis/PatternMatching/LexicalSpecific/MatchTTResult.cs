@@ -425,7 +425,6 @@ namespace LASI.Core.Analysis.PatternMatching
         //System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.AsEnumerable().GetEnumerator();
         #endregion
 
-
         internal static Match<T, TUpper> FromLowerToHigherResultType<TUpper, TResultX>(Match<T, TResultX> from) where TResultX : TUpper
         {
             var raised = new Match<T, TUpper>(from.Value, from.Matched);

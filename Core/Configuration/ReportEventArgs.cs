@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
-namespace LASI.Core.InteropBindings
+namespace LASI.Core.Configuration
 {
     /// <summary>
     /// Contains numeric and textual data related to an event.
     /// </summary>
     [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
+    [ComVisible(true)]
     public abstract class ReportEventArgs : EventArgs
     {
         /// <summary>

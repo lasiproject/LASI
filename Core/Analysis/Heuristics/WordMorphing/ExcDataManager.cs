@@ -52,7 +52,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
         }
 
-        private static Utilities.Configuration.IConfig Config => Core.Heuristics.Paths.Settings;
+        private static Utilities.Configuration.IConfig Config => Core.Configuration.Paths.Settings;
 
         static string ResourcesDirectory =>
             Config != null ?

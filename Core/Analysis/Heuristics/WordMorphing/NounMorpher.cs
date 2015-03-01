@@ -5,7 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics;
-using LASI.Core.InteropBindings;
+using LASI.Core.Configuration;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 

@@ -131,8 +131,8 @@
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
-    <Compile Include="InteropBindings\Concurrency.cs" />
-    <Compile Include="InteropBindings\Configuation.cs" />
+    <Compile Include="Configuration\Concurrency.cs" />
+    <Compile Include="Configuration\Configuation.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchLoggingFailureException.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
     <Compile Include="LexicalStructures\Behavioral\IObjectTaker.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\Gender.cs" />
     <Compile Include="Analysis\ResultAnalalysis\CrossDocumentJoiner.cs" />
     <Compile Include="Analysis\ResultAnalalysis\SVORelationship.cs" />
-    <Compile Include="InteropBindings\ReportEventArgs.cs" />
+    <Compile Include="Configuration\ReportEventArgs.cs" />
     <Compile Include="Analysis\Heuristics\AdverbialSimilarityProvider.cs" />
     <Compile Include="Analysis\Heuristics\ResourceLoadEventArgs.cs" />
     <Compile Include="Analysis\Heuristics\VerbalSimilarityProvider.cs" />

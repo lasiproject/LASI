@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Core.Configuration;
 
 namespace LASI.Core.Heuristics.WordNet
 {
     using SetReference = KeyValuePair<VerbLink, int>;
     using LinkType = VerbLink;
-    using InteropBindings;
+    using Configuration;
     using System.Reactive.Linq;
     using System.Collections.Immutable;
     using EventArgs = ResourceLoadEventArgs;
@@ -149,7 +150,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
         private const int TOTAL_LINES = 13766;
         /// <summary>
-        /// A report will be propagated for every 1 in 138 sets rougly 100 updates will take place.
+        /// A report will be propagated for every 1 in 138 sets roughly 100 updates will take place.
         /// </summary>
         private const int PROGRESS_MODULUS = 138;
         private const double PROGRESS_AMOUNT = 100 / (100d * PROGRESS_MODULUS);

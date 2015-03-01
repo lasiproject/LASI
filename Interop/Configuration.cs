@@ -1,17 +1,18 @@
 ﻿using System;
 using LASI.Utilities;
-using IConfig = LASI.Utilities.Configuration.IConfig;
-using File = System.IO.File;
-using JObject = Newtonsoft.Json.Linq.JObject;
-using JsonConfig = LASI.Utilities.Configuration.JsonConfig;
-using JToken = Newtonsoft.Json.Linq.JToken;
-using Path = System.IO.Path;
-using Validate = LASI.Utilities.Validation.Validate;
-using XElement = System.Xml.Linq.XElement;
-using XmlConfig = LASI.Utilities.Configuration.XmlConfig;
 
 namespace LASI.Interop
 {
+    using File = System.IO.File;
+    using IConfig = Utilities.Configuration.IConfig;
+    using JObject = Newtonsoft.Json.Linq.JObject;
+    using JsonConfig = Utilities.Configuration.JsonConfig;
+    using JToken = Newtonsoft.Json.Linq.JToken;
+    using Path = System.IO.Path;
+    using Validate = Utilities.Validation.Validate;
+    using XElement = System.Xml.Linq.XElement;
+    using XmlConfig = Utilities.Configuration.XmlConfig;
+
     public static class Configuration
     {
         /// <summary>
@@ -25,6 +26,7 @@ namespace LASI.Interop
         /// Specifies the format of the document containing the configuration information.
         /// </param>
         public static void Initialize(string resourceConfigSourceLocation, ConfigFormat format) => Initialize(resourceConfigSourceLocation, format, null);
+
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required
         /// resource files.
@@ -37,7 +39,7 @@ namespace LASI.Interop
         /// </param>
         /// <param name="subkey">
         /// Specifies the name of the child object or nested element containing the resource
-        /// configuration inforamation. For example, if the config source is a "classical"
+        /// configuration information. For example, if the configure source is a "classical"
         /// App.config file, such as that used by the LASI.App WPF application, the value of this
         /// argument would be "AppSettings".
         /// </param>
@@ -66,7 +68,7 @@ namespace LASI.Interop
         /// <param name="subkey">
         /// Specifies the format of the stream containing the configuration information. Specifies
         /// the name of the child object or nested element containing the resource configuration
-        /// inforamation. For example, if the config source is a "classical" App.config file, such
+        /// information. For example, if the configuration source is a "classical" App.config file, such
         /// as that used by the LASI.App WPF application, the value of this argument would be "AppSettings".
         /// </param>
         public static void Initialize(System.IO.Stream stream, ConfigFormat format, string subkey)
@@ -83,7 +85,7 @@ namespace LASI.Interop
             {
                 if (configured)
                 {
-                    throw new System.InvalidOperationException(AlreadyConfiguredErrorMessage);
+                    throw new InvalidOperationException(AlreadyConfiguredErrorMessage);
                 };
 
                 Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
@@ -92,7 +94,7 @@ namespace LASI.Interop
 
                 Action<IConfig> initializeComponents = settings =>
                 {
-                    Core.InteropBindings.Configuation.Initialize(settings);
+                    Core.Configuration.Configuration.Initialize(settings);
                     Content.InteropBindings.Configuration.Initialize(settings);
                 };
 

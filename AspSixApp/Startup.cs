@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using AspSixApp.Logging;
 using LASI.Utilities;
-using Path = System.IO.Path;
+using System.IO;
 using AspSixApp.CustomIdentity;
 using AspSixApp.CustomIdentity.MongoDb;
 
@@ -34,7 +34,8 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {    // Add MVC services to the services container.
-            services.AddMvc()
+            services
+                .AddMvc()
                 .AddWebApiConventions()
                 .Configure<MvcOptions>(options =>
                 {
@@ -50,82 +51,51 @@ namespace AspSixApp
                             Formatting = Formatting.Indented
                         };
                 });
-            // Add EF services to the services container.
-            //services
-            //    .AddEntityFramework(Configuration)
-            //    .AddSqlServer()
-            //    .AddDbContext<ApplicationDbContext>();
-            var identityOptions = new IdentityOptions
-            {
-                User = new UserOptions
-                {
-                    RequireUniqueEmail = true
-                },
-                Lockout = new LockoutOptions
-                {
-                    EnabledByDefault = true,
-                    DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                    MaxFailedAccessAttempts = 10
-                }
-            };
-            //services
-            //    .AddSingleton<UserProvider<ApplicationUser, string>>(provider => new InMemoryUserProvider())
-            //    .AddSingleton(provider => new UserManager<ApplicationUser>(new UserAndUserRoleStore(
-            //        provider.GetService<UserProvider<ApplicationUser, string>>())));
-            //.AddSingleton(provider => new SignInManager<ApplicationUser>(
-            //    userManager: provider.GetService<UserManager<ApplicationUser>>(),
-            //    contextAccessor: new HttpContextAccessor(),
-            //    claimsFactory: provider.GetService<IClaimsIdentityFactory<ApplicationUser>>()));
 
-
-            // Add Identity services to the services container.
             services
                 .AddSingleton<RoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
-                .AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer())
-                //.AddSingleton<UserProvider<ApplicationUser>>(provier => new InMemoryUserProvider())
-                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain))
-                .AddIdentity<ApplicationUser, UserRole>(
-                    identityConfig: Configuration,
-                    configureOptions: options =>
+                .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
+                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+            services
+                .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
+                {
+                    options.Lockout = new LockoutOptions
                     {
-                        options.Lockout = new LockoutOptions
-                        {
-                            EnabledByDefault = true,
-                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                            MaxFailedAccessAttempts = 10
-                        };
-                        options.User = new UserOptions
-                        {
-                            RequireUniqueEmail = true
-                        };
-                        options.SignIn = new SignInOptions
-                        {
-                            RequireConfirmedEmail = false,
-                            RequireConfirmedPhoneNumber = false
-                        };
-                    })
+                        EnabledByDefault = true,
+                        DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                        MaxFailedAccessAttempts = 10
+                    };
+                    options.User = new UserOptions
+                    {
+                        RequireUniqueEmail = true
+                    };
+                    options.SignIn = new SignInOptions
+                    {
+                        RequireConfirmedEmail = false,
+                        RequireConfirmedPhoneNumber = false
+                    };
+                })
                 .AddUserStore<UserAndUserRoleStore<UserRole>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>()
                 .AddUserManager<UserManager<ApplicationUser>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>();
-
-
         }
 
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            ConfigureLASIComponents(configFilePath: Path.Combine(System.IO.Directory.GetParent(env.WebRoot).FullName, "resources.json"));
+            ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "resources.json"));
 
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
                 .AddConsole()
                 .AddLASIOutput();
 
+            app.UseBrowserLink();
+
             // Add the following to the request pipeline only in development environment.
             if (env.EnvironmentName.EqualsIgnoreCase("Development"))
             {
-                app.UseBrowserLink();
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
                 app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
             }
@@ -135,7 +105,6 @@ namespace AspSixApp
                 // send the request to the following path or controller action.
                 app.UseErrorHandler("/Home/Error");
             }
-
             app.UseRuntimeInfoPage();
 
             // Add static files to the request pipeline.

@@ -170,6 +170,7 @@ AspSixApp/node_modules/grunt-bower-task/
 /node_modules/
 /AspSixApp/wwwroot/lib/
 /AspSixApp/bower_components
+/AspSixApp/App_Data/Mongo/
 #############
 ## Mono Develop/Xamarin Studio
 #############

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LASI.Core.InteropBindings;
+using LASI.Core.Configuration;
 
 namespace LASI.Core
 {
@@ -175,7 +175,7 @@ namespace LASI.Core
     /// A class containing information regarding a weighting process level status update.
     /// </summary>
     [Serializable]
-    public class WeightingUpdateEventArgs : InteropBindings.ReportEventArgs
+    public class WeightingUpdateEventArgs : Configuration.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the WeightingUpdateEventArgs class.

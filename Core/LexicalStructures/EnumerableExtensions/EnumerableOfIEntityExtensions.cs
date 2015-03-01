@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Core.InteropBindings;
+using LASI.Core.Configuration;
 using LASI.Utilities.Specialized;
 using LASI.Utilities.Specialized.Enhanced.Universal;
 using LASI.Utilities.Specialized.Option;

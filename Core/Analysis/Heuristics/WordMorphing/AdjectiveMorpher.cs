@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Core.Heuristics;
-using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
@@ -109,7 +105,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             bool exceptional;
             var rootWithHyphenatedAppendage = FindRootImplementation(adjective, out exceptional);
             var rootHyphenIndex = rootWithHyphenatedAppendage.IndexOf('-');
-            var root = rootWithHyphenatedAppendage.Substring(0, rootHyphenIndex>0?rootHyphenIndex :rootWithHyphenatedAppendage.Length);
+            var root = rootWithHyphenatedAppendage.Substring(0, rootHyphenIndex > 0 ? rootHyphenIndex : rootWithHyphenatedAppendage.Length);
             yield return root + hyphenatedAppendage;
 
             if (exceptional)
@@ -130,6 +126,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 }
             }
         }
+
         static AdjectiveMorpher()
         {
             Helper = new ExcDataManager("adj.exc");
@@ -157,14 +154,8 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
             public string Suffix
             {
-                get
-                {
-                    return suffix;
-                }
-                set
-                {
-                    suffixLength = value.Length; suffix = value;
-                }
+                get { return suffix; }
+                set { suffixLength = (suffix = value).Length; }
             }
 
             public string Ending

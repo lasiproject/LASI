@@ -9,30 +9,29 @@
      */
     var createForDocument = function (context) {
 
-        //var getAllBy$Ids = function (ids) { return $(ids.map(function (id) { return '#' + id; }).join(',')); };
-        //var $contextElements = getAllBy$Ids(context.map(function (e) { return e.id || e; }));
-        //var getRelatedElements = function (element, targetIdCollection) {
-        //    $contextElements.filter(function (x) {
-        //        element[targetIdCollection].some(function (id) {
-        //            return x.id === id;
-        //        });
-        //    });
-        //};
-        //return {
-        //    verbal: function (rawData) {
+        var getAllBy$Ids = function (ids) { return $(ids.map(function (id) { return '#' + id; }).join(',')); };
+        var $contextElements = getAllBy$Ids(context.map(function (e) { return e.id || e; }));
+        var getRelatedElements = function (element, targetIdCollection) {
+            $contextElements.filter(function (x) {
+                element[targetIdCollection].some(function (id) {
+                    return x.id === id;
+                });
+            });
+        };
+        return {
+            verbal: function (rawData) {
 
-        //        var verbal = $.parseJSON(rawData);
-        //        var subjects = getRelatedElements(verbal, 'subjects'),
-        //            directObjects = getRelatedElements(verbal, 'directObjects'),
-        //            indirectObjects = getRelatedElements(verbal, 'indirectObjects');
-        //        return {
-        //            subjects: subjects,
-        //            directObjects: directObjects,
-        //            indirectObjects: indirectObjects
-        //        };
-        //    }
-        //};
-        return function () { alert(context); };
+                var verbal = $.parseJSON(rawData);
+                var subjects = getRelatedElements(verbal, 'subjects'),
+                    directObjects = getRelatedElements(verbal, 'directObjects'),
+                    indirectObjects = getRelatedElements(verbal, 'indirectObjects');
+                return {
+                    subjects: subjects,
+                    directObjects: directObjects,
+                    indirectObjects: indirectObjects
+                };
+            }
+        };
     };
     $(function () {
         createForDocument(document);
