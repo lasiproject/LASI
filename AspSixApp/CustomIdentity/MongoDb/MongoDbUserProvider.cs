@@ -21,7 +21,12 @@ namespace AspSixApp.CustomIdentity.MongoDb
             MongoDbPath = Configuration["MongoDbPath"];
             MongoFilesLocation = System.IO.Path.Combine(System.IO.Directory.GetParent(appDomain.BaseDirectory).FullName, MongoDbPath);
             ConnectionString = Configuration["MongoConnection"];
-            CreateMongoServer();
+            // TODO: Fixe this awful hack. 
+            System.Diagnostics.Process.Start(
+                @"C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe",
+                "--dbpath \"C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\AspSixApp\\App_Data\\Mongo\\data\\db\"");
+
+            //CreateMongoServer();
             mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(ConnectionString)).GetServer().GetDatabase("accounts"));
 
         }
@@ -33,15 +38,15 @@ namespace AspSixApp.CustomIdentity.MongoDb
 
         private void CreateMongoServer()
         {
-            var processStartInfo = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = mongodExecutableLocation,
-                Arguments = "--dbpath " + MongoFilesLocation,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-            };
-            var mongoProcess = System.Diagnostics.Process.Start(processStartInfo);
+            //var processStartInfo = new System.Diagnostics.ProcessStartInfo
+            //{
+            //    FileName = mongodExecutableLocation,
+            //    Arguments = "--dbpath " + MongoFilesLocation,
+            //    UseShellExecute = false,
+            //    RedirectStandardOutput = true,
+            //    RedirectStandardError = true,
+            //};
+            //var mongoProcess = System.Diagnostics.Process.Start(processStartInfo);
 
             //AppDomain.CurrentDomain.DomainUnload += delegate { mongoProcess.Close(); };
         }

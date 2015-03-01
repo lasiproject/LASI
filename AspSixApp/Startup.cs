@@ -85,7 +85,7 @@ namespace AspSixApp
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
             ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "resources.json"));
-
+            
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
                 .AddConsole()

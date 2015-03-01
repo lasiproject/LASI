@@ -1,4 +1,4 @@
-(function () {
+$(function () {
     'use strict';
     /**
      * @description Creates a context menu builder which operates over the given context.
@@ -33,7 +33,5 @@
             }
         };
     };
-    $(function () {
-        createForDocument(document);
-    });
-}());
+    createForDocument(document);
+});
