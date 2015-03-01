@@ -20,7 +20,7 @@ namespace AspSixApp.Controllers
 
         public UserManager<ApplicationUser> UserManager { get; }
         public SignInManager<ApplicationUser> SignInManager { get; }
-
+        private static readonly ILookupNormalizer StringNormalizer = new UpperInvariantLookupNormalizer();
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
@@ -77,7 +77,9 @@ namespace AspSixApp.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    NormalizedEmail = StringNormalizer.Normalize(model.Email),
+                    NormalizedUserName = StringNormalizer.Normalize(model.Email),
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -140,7 +142,7 @@ namespace AspSixApp.Controllers
         public IActionResult LogOff()
         {
             SignInManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         #region Helpers

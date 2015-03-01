@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "0.0.0",
     "name": "AspSixApp",
     "private": true,
@@ -9,7 +9,7 @@
         "grunt-contrib-watch": "^0.6.1",
         "grunt-contrib-qunit": "^0.5.2",
         "grunt-jsmin-sourcemap": "^1.10.0",
-        "grunt-contrib-cssmin": "^0.12.1",
+        "grunt-contrib-cssmin": "0.12.2",
         "grunt-jslint": "^1.1.12",
         "qunitjs": "1.17.1"
     }

@@ -7,10 +7,6 @@ namespace AspSixApp.Models
         public override bool IsValid(object value)
         {
             var text = value as string ?? string.Empty;
-            if (text.Length < 1)
-            {
-                return false;
-            }
 
             var index = text.IndexOfAny(illegalCharacters);
             if (index > -1)
@@ -22,6 +18,6 @@ namespace AspSixApp.Models
             return true;
         }
 
-        private static readonly char[] illegalCharacters = {' ', '\t', '\n', '\r', '!', '?', '.', ';', ':' };
+        private static readonly char[] illegalCharacters = { ' ', '\t', '\n', '\r', '!', '?', '.', ';', ':' };
     }
 }

@@ -47,7 +47,7 @@ namespace LASI.Utilities
                 access: FileAccess.Write,
                 share: FileShare.ReadWrite,
                 bufferSize: 1024,
-                useAsync: true);
+                useAsync: false);
             writer = new StreamWriter(fileStream, Encoding.ASCII, 1024, leaveOpen: false);
             writer.WriteLine(newFile ? string.Empty : $"LASI Message Log: {DateTime.Now}");
             var domain = AppDomain.CurrentDomain;

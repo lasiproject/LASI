@@ -16,6 +16,8 @@ using Newtonsoft.Json.Serialization;
 using AspSixApp.Logging;
 using LASI.Utilities;
 using Path = System.IO.Path;
+using AspSixApp.CustomIdentity;
+using AspSixApp.CustomIdentity.MongoDb;
 
 namespace AspSixApp
 {
@@ -48,24 +50,66 @@ namespace AspSixApp
                             Formatting = Formatting.Indented
                         };
                 });
-
             // Add EF services to the services container.
-            services
-                .AddEntityFramework(Configuration)
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>();
-            services.AddSingleton<CustomIdentity.UserProvider<ApplicationUser, string>>(provider =>
+            //services
+            //    .AddEntityFramework(Configuration)
+            //    .AddSqlServer()
+            //    .AddDbContext<ApplicationDbContext>();
+            var identityOptions = new IdentityOptions
             {
-                return new CustomIdentity.InMemoryUserProvider();
-            });
+                User = new UserOptions
+                {
+                    RequireUniqueEmail = true
+                },
+                Lockout = new LockoutOptions
+                {
+                    EnabledByDefault = true,
+                    DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                    MaxFailedAccessAttempts = 10
+                }
+            };
+            //services
+            //    .AddSingleton<UserProvider<ApplicationUser, string>>(provider => new InMemoryUserProvider())
+            //    .AddSingleton(provider => new UserManager<ApplicationUser>(new UserAndUserRoleStore(
+            //        provider.GetService<UserProvider<ApplicationUser, string>>())));
+            //.AddSingleton(provider => new SignInManager<ApplicationUser>(
+            //    userManager: provider.GetService<UserManager<ApplicationUser>>(),
+            //    contextAccessor: new HttpContextAccessor(),
+            //    claimsFactory: provider.GetService<IClaimsIdentityFactory<ApplicationUser>>()));
+
+
             // Add Identity services to the services container.
             services
-                .AddIdentity<ApplicationUser, IdentityRole>(Configuration)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserStore<CustomIdentity.UserAndUserRoleStore<CustomIdentity.UserRole>>()
+                .AddSingleton<RoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
+                .AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer())
+                //.AddSingleton<UserProvider<ApplicationUser>>(provier => new InMemoryUserProvider())
+                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain))
+                .AddIdentity<ApplicationUser, UserRole>(
+                    identityConfig: Configuration,
+                    configureOptions: options =>
+                    {
+                        options.Lockout = new LockoutOptions
+                        {
+                            EnabledByDefault = true,
+                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                            MaxFailedAccessAttempts = 10
+                        };
+                        options.User = new UserOptions
+                        {
+                            RequireUniqueEmail = true
+                        };
+                        options.SignIn = new SignInOptions
+                        {
+                            RequireConfirmedEmail = false,
+                            RequireConfirmedPhoneNumber = false
+                        };
+                    })
+                .AddUserStore<UserAndUserRoleStore<UserRole>>()
+                .AddRoleStore<UserAndUserRoleStore<UserRole>>()
                 .AddUserManager<UserManager<ApplicationUser>>()
-                .AddRoleStore<CustomIdentity.UserAndUserRoleStore<CustomIdentity.UserRole>>()
-                .AddRoleManager<RoleManager<CustomIdentity.UserRole>>();
+                .AddRoleStore<UserAndUserRoleStore<UserRole>>();
+
+
         }
 
         // Configure is called after ConfigureServices is called.

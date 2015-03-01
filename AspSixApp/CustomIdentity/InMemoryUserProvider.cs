@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AspSixApp.CustomIdentity
 {
-    internal class InMemoryUserProvider : UserProvider<ApplicationUser, string>
+    internal class InMemoryUserProvider : UserProvider<ApplicationUser>
     {
         public InMemoryUserProvider()
         {
@@ -39,9 +39,10 @@ namespace AspSixApp.CustomIdentity
                     return IdentityResult.Failed();
                 }
                 else
-                {   // Transfer all properties except UserId, UserName, and NormalizedUserName
+                {   // Transfer all properties except UserId, UserName,
                     existing.AccessFailedCount = user.AccessFailedCount;
                     existing.ConcurrencyStamp = user.ConcurrencyStamp;
+                    existing.NormalizedUserName = user.NormalizedUserName;
                     existing.Email = user.Email;
                     existing.EmailConfirmed = user.EmailConfirmed;
                     existing.FirstName = user.FirstName;
@@ -58,17 +59,17 @@ namespace AspSixApp.CustomIdentity
                     return IdentityResult.Success;
                 }
             });
-        public override ApplicationUser this[string id] => users.Find(u => u.Id == id);
+        public override ApplicationUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
 
         private readonly List<ApplicationUser> users;
 
-        private static T WithLock<T>(Func<T> f)
+        private   T WithLock<T>(Func<T> f)
         {
             lock (lockon)
             {
                 return f();
             }
         }
-        private static readonly object lockon = new object();
+        private readonly object lockon = new object();
     }
 }

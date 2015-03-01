@@ -13,9 +13,11 @@ namespace AspSixApp.CustomIdentity
     using Microsoft.AspNet.Mvc;
     using Microsoft.AspNet.Identity;
 
-    public class UserAndUserRoleStore<TRole> : IUserStore<User>, IUserRoleStore<User>, IRoleStore<TRole> where TRole : UserRole, new()
+    public class UserAndUserRoleStore<TRole> : IUserStore<User>, IUserRoleStore<User>, IRoleStore<TRole>, IUserPasswordStore<User>, IUserEmailStore<User> where TRole : UserRole, new()
     {
-        public UserAndUserRoleStore([Activate]UserProvider<User, string> userProvider, [Activate] RoleProvider<TRole> roleProvider)
+        private static readonly ILookupNormalizer lookupNormalizer = new UpperInvariantLookupNormalizer();
+
+        public UserAndUserRoleStore(UserProvider<User> userProvider, RoleProvider<TRole> roleProvider)
         {
             this.userProvider = userProvider;
             this.roleProvider = roleProvider;
@@ -28,7 +30,7 @@ namespace AspSixApp.CustomIdentity
                 {
                     UserId = user.Id,
                     RoleName = roleName,
-                    NormalizedRoleName = roleName
+                    NormalizedRoleName = lookupNormalizer.Normalize(roleName)
                 });
             }
         }
@@ -43,28 +45,29 @@ namespace AspSixApp.CustomIdentity
 
         public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.NormalizedUserName, cancellationToken);
 
-        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => new List<string>(
-                                                                                                                            from role in roleProvider
-                                                                                                                            where role.UserId == user.Id
-                                                                                                                            select role.RoleId), cancellationToken);
+        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) =>
+            await ExecuteAsnyc(() => new List<string>(
+                from role in roleProvider
+                where role.UserId == user.Id
+                select role.RoleId), cancellationToken);
         public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.Id, cancellationToken);
 
         public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.UserName, cancellationToken);
 
-        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => (from user in userProvider
-                                                                                                                                                                           join role in from role in roleProvider
-                                                                                                                                                                                        where role.RoleName == roleName
-                                                                                                                                                                                        select role
-                                                                                                                                                                           on user.Id equals role.UserId
-                                                                                                                                                                           select user).ToList(), cancellationToken);
+        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default(CancellationToken)) =>
+            await ExecuteAsnyc(() => (from user in userProvider
+                                      join role in from role in roleProvider
+                                                   where role.RoleName == roleName
+                                                   select role
+                                      on user.Id equals role.UserId
+                                      select user).ToList(), cancellationToken);
 
 
         public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => roleProvider.Any(role => role.RoleName == roleName && role.UserId == user.Id), cancellationToken);
 
         public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            //var index = roleProvider.IndexOf(roleProvider.Where(role => role.RoleName == roleName && role.UserId == user.Id).FirstOrDefault());
-            await ExecuteAsync(() => roleProvider.Remove(user), cancellationToken);
+            await ExecuteAsync(() => roleProvider.Remove(user, roleName), cancellationToken);
         }
 
         public async Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsync(() => user.NormalizedUserName = normalizedName, cancellationToken);
@@ -76,7 +79,7 @@ namespace AspSixApp.CustomIdentity
         private bool disposedValue = false; // To detect redundant calls
         private RoleProvider<TRole> roleProvider;
 
-        private UserProvider<User, string> userProvider;
+        private UserProvider<User> userProvider;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -111,37 +114,72 @@ namespace AspSixApp.CustomIdentity
 
         #endregion IDisposable Support
 
-        public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => roleProvider.Add(role), cancellationToken);
 
-        public async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => roleProvider.Update(role), cancellationToken);
 
-        public async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => roleProvider.Delete(role), cancellationToken);
 
-        public async Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => role.RoleId, cancellationToken);
 
-        public async Task<string> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<string> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => role.RoleName, cancellationToken);
-        public async Task SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsync(() => role.RoleName = roleName, cancellationToken);
 
-        public async Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => role.NormalizedRoleName, cancellationToken);
-        public async Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken = default(CancellationToken)) => 
+        public async Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => role.NormalizedRoleName = normalizedName, cancellationToken);
-        async Task<TRole> IRoleStore<TRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken) => 
+        async Task<TRole> IRoleStore<TRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken) =>
             await ExecuteAsnyc(() => roleProvider.FirstOrDefault(role => role.RoleId == roleId), cancellationToken);
-        async Task<TRole> IRoleStore<TRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken) => 
+        async Task<TRole> IRoleStore<TRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken) =>
             await ExecuteAsnyc(() => roleProvider.FirstOrDefault(role => role.NormalizedRoleName == normalizedRoleName), cancellationToken);
+
+
+        private static readonly PasswordHasher<User> PasswordHasher = new PasswordHasher<User>();
+        private System.Collections.Concurrent.ConcurrentDictionary<User, string> hashedPasswords = new System.Collections.Concurrent.ConcurrentDictionary<User, string>();
+
+        public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            user.PasswordHash = passwordHash;
+            await ExecuteAsnyc(() => hashedPasswords.AddOrUpdate(user, passwordHash, (u, h) => passwordHash), cancellationToken);
+        }
+
+        public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.PasswordHash, cancellationToken);
+
+        public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await ExecuteAsnyc(() => hashedPasswords.ContainsKey(user), cancellationToken);
+        }
+
+        public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default(CancellationToken)) =>
+            await ExecuteAsnyc(() => user.Email = email, cancellationToken);
+
+
+        public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.Email, cancellationToken);
+
+        public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.EmailConfirmed, cancellationToken);
+
+        public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.EmailConfirmed = confirmed, cancellationToken);
+
+        public async Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider.FirstOrDefault(user => user.NormalizedEmail == normalizedEmail), cancellationToken);
+
+
+        public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.NormalizedEmail, cancellationToken);
+
+        public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default(CancellationToken)) =>
+            await ExecuteAsnyc(() => user.NormalizedEmail = normalizedEmail, cancellationToken);
 
         #region Helpers
         private async Task<T> ExecuteAsnyc<T>(Func<T> function, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await Task.FromResult(default(T));
+            return await Task.FromResult(function());
         }
 
         private async Task ExecuteAsync(Action function, CancellationToken cancellationToken)

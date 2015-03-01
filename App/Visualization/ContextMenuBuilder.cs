@@ -17,25 +17,25 @@ namespace LASI.App.Visualization
         /// the lexical does not have significant information from which to build a menu.
         /// </summary>
         /// <param name="element">The element for which to construct a context menu.</param>
-        /// <param name="neighboringElements">
-        /// The collection of UI objects representating neighboring elements.
+        /// <param name="neighboringElementDisplayStructures">
+        /// The collection of UI objects representing neighboring elements.
         /// </param>
         /// <returns>
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures)
         {
             return element.Match()
-                .Case((IVerbal v) => ForVerbal(v, neighboringElements))
-                .Case((IReferencer r) => ForReferencer(r, neighboringElements))
+                .Case((IVerbal v) => ForVerbal(v, neighboringElementDisplayStructures))
+                .Case((IReferencer r) => ForReferencer(r, neighboringElementDisplayStructures))
                 .Result();
         }
 
         #region Lexical Element Context Menu Construction
 
         /// <summary>
-        /// Creates a context menu specific to the given IVerbal elemenet with context determined by
+        /// Creates a context menu specific to the given IVerbal element with context determined by
         /// the provided labels.
         /// </summary>
         /// <param name="verbal">The element to create a context menu for.</param>
@@ -43,7 +43,7 @@ namespace LASI.App.Visualization
         /// The labels which determine the context in which the menu is to be created.
         /// </param>
         /// <returns>
-        /// A context menu based on the provided IVerbal in the contexxt of the provided labels.
+        /// A context menu based on the provided IVerbal in the context of the provided labels.
         /// </returns>
         private static ContextMenu ForVerbal(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
         {
@@ -70,7 +70,7 @@ namespace LASI.App.Visualization
         }
 
         /// <summary>
-        /// Creates a context menu specific to the given IReferencer elemenet with context
+        /// Creates a context menu specific to the given IReferencer element with context
         /// determined by the provided labels.
         /// </summary>
         /// <param name="referencer">The element to create a context menu for.</param>
@@ -78,7 +78,7 @@ namespace LASI.App.Visualization
         /// The labels which determine the context in which the menu is to be created.
         /// </param>
         /// <returns>
-        /// A context menu based on the provided IReferencer in the contexxt of the provided labels.
+        /// A context menu based on the provided IReferencer in the context of the provided labels.
         /// </returns>
         private static ContextMenu ForReferencer(IReferencer referencer, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
         {

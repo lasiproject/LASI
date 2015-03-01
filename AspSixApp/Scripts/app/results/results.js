@@ -45,4 +45,3 @@
         google.setOnLoadCallback(drawChart(element, rowData));
     });
 }());
-//# sourceMappingURL=results.js.map

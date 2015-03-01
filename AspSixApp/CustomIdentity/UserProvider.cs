@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AspSixApp.CustomIdentity
 {
-    public abstract class UserProvider<TUser, TKey> : IEnumerable<TUser> where TUser : class
+    public abstract class UserProvider<TUser> : IEnumerable<TUser> where TUser : class
     {
         public abstract Microsoft.AspNet.Identity.IdentityResult Delete(TUser user);
         public abstract Microsoft.AspNet.Identity.IdentityResult Add(TUser user);
