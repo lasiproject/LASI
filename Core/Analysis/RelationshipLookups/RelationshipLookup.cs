@@ -16,6 +16,8 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the RelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of TVerbal instances which provide the relevant relationships.</param>
+        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>
+        /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(IEnumerable<TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
         {
             verbalRelationshipDomain = domain.WithSubject().WithObject();
@@ -28,6 +30,9 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the RelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of Sentence instances which contain the relevant lexical data set.</param>
+        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>    
+        /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>  
+        /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(IEnumerable<Sentence> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
             : this(domain.Phrases().OfVerbPhrase().OfType<TVerbal>(), actionComparer, performerComparer, receiverComparer)
         {
@@ -36,6 +41,9 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the RelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The sequence of Paragraph instances which contain the relevant lexical data set.</param>
+        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>    
+        /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>       
+        /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(IEnumerable<Paragraph> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
             : this(domain.SelectMany(paragraph => paragraph.Sentences), actionComparer, performerComparer, receiverComparer)
         {
@@ -44,6 +52,9 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the RelationshipLookup class over the given domain.
         /// </summary>
         /// <param name="domain">The Document instance which contains the relevant lexical data set.</param>
+        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>    
+        /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>       
+        /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(Document domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
             : this(domain.Paragraphs, actionComparer, performerComparer, receiverComparer)
         {
@@ -52,15 +63,18 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the RelationshipLookup class from the domain of an exiting RelationshipLookup;
         /// </summary>
         /// <param name="domain">The RelationshipLookup instance which contains the relevant lexical data set.</param>
+        /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>       
         public RelationshipLookup(RelationshipLookup<TEntity, TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer)
-            : this(domain.verbalRelationshipDomain, actionComparer, domain.performerComparer, domain.receiverComparer)
+           : this(domain.verbalRelationshipDomain, actionComparer, domain.performerComparer, domain.receiverComparer)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the RelationshipLookup class from the domain of an exiting RelationshipLookup;
         /// </summary>
-        /// <param name="domain">The RelationshipLookup instance which contains the relevant lexical data set.</param>
+        /// <param name="domain">The RelationshipLookup instance which contains the relevant lexical data set.</param>    
+        /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>       
+        /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(IRelationshipLookup<TEntity, TVerbal> domain, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
             : this(domain, EqualityComparer<TVerbal>.Default.Equals, performerComparer, receiverComparer)
         {

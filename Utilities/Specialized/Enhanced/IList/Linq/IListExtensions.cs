@@ -137,6 +137,13 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             if (count > list.Count) { return new List<T>(); }
             return list.GetRange(count, list.Count - count);
         }
+        /// <summary>
+        /// Bypasses the elements of the specified list while they satisfy the specified predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the list.</typeparam>
+        /// <param name="list">The <see cref="List{T}"/> to return elements from.</param>
+        /// <param name="predicate">The predicate to test elements.</param>
+        /// <returns>All elements in the list including and following the first that does not satisfy the predicate.</returns>
         public static List<T> SkipWhile<T>(this List<T> list, Func<T, bool> predicate)
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
@@ -169,7 +176,12 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #endregion ForEach
 
         #region Converting
-
+        /// <summary>
+        /// Returns the a readonly reference to the specified <see cref="IList{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the list.</typeparam>
+        /// <param name="list">The list.</param>
+        /// <returns>A readonly reference to the specified <see cref="IList{T}"/>.</returns>
         public static IReadOnlyList<T> AsReadOnly<T>(this IList<T> list)
         {
             Validate.NotNull(list);

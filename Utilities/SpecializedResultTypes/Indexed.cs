@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities.SpecializedResultTypes
 {
+    /// <summary>
+    /// Serves as a factory for instances of the <see cref="Indexed{T}"/> structure.
+    /// </summary>
     public static class Indexed
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Indexed{T}"/> structure with the specified value and index.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="element">The value.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>A new instance of the <see cref="Indexed{T}"/> structure with the specified value and index.</returns>
         public static Indexed<T> Create<T>(T element, int index) => new Indexed<T>(element, index);
     }
     public struct Indexed<T> : IEquatable<Indexed<T>>

@@ -26,7 +26,8 @@ namespace LASI.Utilities
         /// <remarks>
         /// <para>
         /// The intent of the functionality provided is to simplify the use of LINQ methods, such as
-        /// <see cref="Enumerable.Contains"/> and <see cref="Enumerable.Distinct"/> which require an
+        /// <see cref="Enumerable.Contains{TSource}(IEnumerable{TSource}, TSource, IEqualityComparer{TSource})"/> 
+        /// and <see cref="Enumerable.Distinct{TSource}(IEnumerable{TSource}, IEqualityComparer{TSource})"/> which require an
         /// IEqualityComparer as opposed to a simple predicate function. Because the custom comparer
         /// created produces identical hashcodes for non null objects, it allows for these methods
         /// to behave more transparently, but introduced. This however means that the overhead of
@@ -34,7 +35,7 @@ namespace LASI.Utilities
         /// of a calling methods such as IEnumerable&lt;T&gt;.Contains(item, (x, y) =&gt; x == y)
         /// and IEnumerable&lt;T&gt;.Distinct((x, y) =&gt; x == y) approaches O(N^2). Comparatively,
         /// calls which use the default equality comparers, including those that do not take an
-        /// <see cref="IEqualityComparer{T}"/> only approach approach O(N).
+        /// <see cref="IEqualityComparer{T}"/> only approach O(N).
         /// </para>
         /// </remarks>
         /// <seealso cref="Enumerable.Distinct{TSource}(IEnumerable{TSource})"/>

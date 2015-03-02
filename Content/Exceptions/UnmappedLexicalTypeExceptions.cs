@@ -12,8 +12,8 @@ namespace LASI.Content.Tagging
     /// The Exception that is thrown when attempting to access the tag corresponding to a
     /// <see cref="Core.Word" /> whose type is not mapped by the Tagset.
     /// </summary>
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.WordTagsetMap" />
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.SharpNLPWordTagsetMap" />
+    /// <seealso cref="WordTagsetMap" />
+    /// <seealso cref="SharpNLPWordTagsetMap" />
     [Serializable]
     public sealed class UnmappedWordTypeException : UnmappedLexicalTypeException
     {
@@ -112,18 +112,23 @@ namespace LASI.Content.Tagging
     /// The Exception that is thrown when attempting to access the tag corresponding to a
     /// <see cref="Core.ILexical" /> whose type is not mapped by the Tagset.
     /// </summary>
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.WordTagsetMap" />
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.SharpNLPWordTagsetMap" />
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.PhraseTagsetMap" />
-    /// <seealso cref="LASI.Content.TaggerEncapsulation.SharpNLPPhraseTagsetMap" />
+    /// <seealso cref="WordTagsetMap" />
+    /// <seealso cref="SharpNLPWordTagsetMap" />
+    /// <seealso cref="PhraseTagsetMap" />
+    /// <seealso cref="SharpNLPPhraseTagsetMap" />
     [Serializable]
     public abstract class UnmappedLexicalTypeException : ArgumentException
     {
+        /// <summary>
+        /// The <see cref="System.Type"/> of the Tagset which does not provide a mapping for the type.
+        /// </summary>
         public Type TagsetType
         {
             get;
         }
-
+        /// <summary>
+        /// The <see cref="System.Type"/> not mapped by the Tagset.
+        /// </summary>
         public Type UnmappedType
         {
             get;

@@ -160,7 +160,6 @@ namespace LASI.Utilities.Validation
             return new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
 
-
         /// <summary>
         /// Validates the specified value, raising a System.ArgumentOutOfRangeException if it is
         /// greater than the specified maximum.
@@ -195,9 +194,6 @@ namespace LASI.Utilities.Validation
         /// <param name="minimum">The minimum value to validate against.</param>
         /// <param name="maximum">The maximum value to validate against.</param>
         /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">
-        /// A message that provides additional detail as to why the value failed validation.
-        /// </param>
         /// <exception cref="ArgumentOutOfRangeException">The value was less than the specified minimum or greater than the specified maximum.</exception>
         public static void WithinRange<T>(
             this T value,
@@ -208,13 +204,15 @@ namespace LASI.Utilities.Validation
             NotGreaterThan(value, maximum, name ?? nameof(value), null);
         }
 
-
         /// <summary>
         /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
         /// <param name="value">The sequence to validate.</param>
         /// <param name="name">The name of the value to validate.</param>
+        /// <param name="message">
+        /// A message that provides additional detail as to why the value failed validation.
+        /// </param>
         /// <remarks>
         /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized.
         /// If the sequence is described by a stateful or transient iterator, there is no guarantee that it will not be empty when it is actually consumed.
@@ -231,7 +229,7 @@ namespace LASI.Utilities.Validation
         /// <summary>
         /// Validates the specified <see cref="IEnumerable{T}" />, raising a
         /// <see cref="ArgumentException" /> if the it is null or contains no elements. This
-        /// implicitely materializes the sequence; see the remarks section for further details.
+        /// implicitly materializes the sequence; see the remarks section for further details.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
         /// <param name="value">The value to validate.</param>
@@ -251,7 +249,7 @@ namespace LASI.Utilities.Validation
 
         /// <summary>
         /// Validates that the specified value exists in the specified set of values, throwing a
-        /// <see cref="ArgumentException" /> if it is not.
+        /// <see cref="ArgumentException" /> if does is not.
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
@@ -262,9 +260,17 @@ namespace LASI.Utilities.Validation
             ExistsIn(value, name, collection, EqualityComparer<T>.Default);
         }
 
-        public static void ExistsIn<T>(this T value, string name, params T[] set)
+        /// <summary>
+        /// Validates that the specified value exists in the specified array of values, throwing a
+        /// <see cref="ArgumentException" /> if it does not.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to validate.</typeparam>
+        /// <param name="value">The value to validate.</param>
+        /// <param name="name">The name of the value to validate.</param>
+        /// <param name="values">The array of values in which to ensure membership.</param>
+        public static void ExistsIn<T>(this T value, string name, params T[] values)
         {
-            ExistsIn(value, name, set.AsEnumerable(), EqualityComparer<T>.Default);
+            ExistsIn(value, name, values.AsEnumerable(), EqualityComparer<T>.Default);
         }
 
         /// <summary>

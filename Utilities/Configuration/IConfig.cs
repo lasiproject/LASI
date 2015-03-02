@@ -1,9 +1,10 @@
-﻿/// <summary>
-/// Provides structures to support the exchange of simple, minimal configuration information between assemblies.
-/// </summary>
+﻿
 namespace LASI.Utilities.Configuration
 {
-    // TODO: Mark with [AssemblyNeutral] as defined by the next version (5.0) of AspNet for better interop.
+    /// <summary>
+    /// Provides structures to support the exchange of simple, minimal configuration information between assemblies.
+    /// </summary>
+    /// TODO: Mark with [AssemblyNeutral] as defined by the next version (5.0) of AspNet for better interop.
     /// <summary>
     /// Describes a minimal configuration object for the exchange of simple configuration
     /// information between assemblies.

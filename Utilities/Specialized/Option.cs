@@ -108,10 +108,7 @@ namespace LASI.Utilities.Specialized.Option
         /// the provided predicate; otherwise <c>false</c>.
         /// </returns>
         public abstract Option<T> Where(Func<T, bool> predicate);
-
-        public abstract Option<TResult> Join<TInner, TKey, TResult>(Option<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector);
-        public abstract Option<TResult> Join<TInner, TKey, TResult>(Option<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer);
-
+         
         /// <summary>
         /// Determines if the specified Option&lt; <typeparamref name="T"/>&gt; is equal to the
         /// current instance.
@@ -275,9 +272,7 @@ namespace LASI.Utilities.Specialized.Option
                 Func<T, TOption, TResult> resultSelector) => Option<TResult>.NoneOfT;
 
             public override Option<T> Where(Func<T, bool> predicate) => NoneOfT;
-            public override Option<TResult> Join<TInner, TKey, TResult>(Option<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector) => Option<TResult>.NoneOfT;
-            public override Option<TResult> Join<TInner, TKey, TResult>(Option<TInner> inner, Func<T, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<T, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer) => Option<TResult>.NoneOfT;
-
+           
             public override bool Equals(Option<T> other) => other == NoneOfT;
             public override bool Equals(object obj) => obj is None || obj is Option<None>;
             public override bool Equals(T other) => false;
@@ -318,28 +313,6 @@ namespace LASI.Utilities.Specialized.Option
             public override T Value { get; }
             protected override IEnumerator<T> GetEnumerator() { yield return Value; }
 
-            public override Option<TResult> Join<TInner, TKey, TResult>(
-                Option<TInner> inner,
-                Func<T, TKey> outerKeySelector,
-                Func<TInner, TKey> innerKeySelector,
-                Func<T, TInner, TResult> resultSelector
-            )
-            {
-                return this.Join(inner, outerKeySelector, innerKeySelector, resultSelector, EqualityComparer<TKey>.Default);
-            }
-            public override Option<TResult> Join<TInner, TKey, TResult>(
-                Option<TInner> inner,
-                Func<T, TKey> outerKeySelector,
-                Func<TInner, TKey> innerKeySelector,
-                Func<T, TInner, TResult> resultSelector,
-                IEqualityComparer<TKey> comparer
-            )
-            {
-                return from value in this
-                       from i in inner
-                       where comparer.Equals(outerKeySelector(Value), innerKeySelector(i))
-                       select resultSelector(Value, i);
-            }
             internal Some(T value) { Value = value; }
 
             internal Some(Some other) { Value = other.Value; }

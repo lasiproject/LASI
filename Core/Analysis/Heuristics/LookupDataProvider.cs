@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace LASI.Core.Configuration
 {
+    /// <summary>
+    /// Provides access to the location of shared static resource files.
+    /// </summary>
     public static class Paths
-    {/// <summary>
-     /// TODO: refactor this into another kind of explicit dependency
-     /// </summary>
+    {
+        /// <summary>
+        /// TODO: refactor this into another kind of explicit dependency
+        /// </summary>
         internal static LASI.Utilities.Configuration.IConfig Settings { get; set; }
         static string ResourcesDirectory => Settings != null ? Settings["ResourcesDirectory"] : ConfigurationManager.AppSettings["ResourcesDirectory"];
         static string WordnetPath => ResourcesDirectory + (Settings != null ? Settings["WordnetFileDirectory"] : ConfigurationManager.AppSettings["WordnetFileDirectory"]);
+        /// <summary>
+        /// The location of the text file containing the Scrabble dictionary.
+        /// </summary>
         public static string ScrabbleDict => WordnetPath + "dictionary.txt";
         public static class WordNet
         {
@@ -22,6 +29,7 @@ namespace LASI.Core.Configuration
             public static string Adjective => WordnetPath + "data.adj";
             public static string Adverb => WordnetPath + "data.adv";
         }
+
         public static class Names
         {
             static string BasePath => ResourcesDirectory + (Settings != null ? Settings["NameDataDirectory"] : ConfigurationManager.AppSettings["NameDataDirectory"]);

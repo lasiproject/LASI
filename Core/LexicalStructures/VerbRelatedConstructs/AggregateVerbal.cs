@@ -9,14 +9,14 @@ namespace LASI.Core
 {
     /// <summary>
     /// <para>
-    /// Represents an collection of Verbals whichs are aggregated through abstraction over a linked entity.
+    /// Represents an collection of Verbals which are aggregated through abstraction over a linked entity.
     /// </para>
     /// <para>
-    /// As such it provides both the behaviors of a Verbal and an Enumerable collection of Vebals.
+    /// As such it provides both the behaviors of a Verbal and an Enumerable collection of Verbals.
     /// That is to say that you can use an instance of this class in
     /// </para>
     /// <para>
-    /// situtation where an IEntity is Expected, but also enumerate it via foreach(var in ...) or
+    /// situation where an IEntity is Expected, but also enumerate it via foreach(var in ...) or
     /// (from e in ...)
     /// </para>
     /// </summary>
@@ -24,7 +24,7 @@ namespace LASI.Core
     /// <seealso cref="IVerbal" />
     public class AggregateVerbal : IAggregateVerbal
     {
-        /// <summary>Intializes a new instance of the AggregateVerbal class.</summary>
+        /// <summary>Initializes a new instance of the AggregateVerbal class.</summary>
         /// <param name="constituents">The collection of verbals which form the aggregate.</param>
         public AggregateVerbal(IEnumerable<IVerbal> constituents)
         {
@@ -34,7 +34,7 @@ namespace LASI.Core
                          .Average();
         }
 
-        /// <summary>Intializes a new instance of the AggregateVerbal class.</summary>
+        /// <summary>Initializes a new instance of the AggregateVerbal class.</summary>
         /// <param name="first">The first verbal of the aggregate.</param>
         /// <param name="rest">The remaining verbals which form the aggregate.</param>
         public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }

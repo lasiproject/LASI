@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace LASI.Utilities
 {
+    /// <summary>
+    /// Serves as a factory for instances of the <see cref="Pair{T1, T2}"/> structure.
+    /// </summary>
     public static class Pair
     {
         /// <summary>

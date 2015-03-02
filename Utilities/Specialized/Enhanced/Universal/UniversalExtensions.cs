@@ -7,6 +7,9 @@ using LASI.Utilities.Specialized.Option;
 
 namespace LASI.Utilities.Specialized.Enhanced.Universal
 {
+    /// <summary>
+    /// Defines extension methods that apply to all types. Import with care.
+    /// </summary>
     public static class UniversalExtensions
     {
         /// <summary>
