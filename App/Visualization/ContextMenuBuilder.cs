@@ -47,13 +47,11 @@ namespace LASI.App.Visualization
         /// </returns>
         private static ContextMenu ForVerbal(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
         {
-            var result = new ContextMenu()
+            var result = new ContextMenu();
+            if (verbal.Subjects.Any())
             {
-                Items = {
-                    verbal.Subjects.Any() ? VerbalMenuItemFactory.ForSubject(verbal, neighboringElements) : null
-                }
-            };
-            result.Items.Cast<MenuItem>().ToList().ForEach(i => i.Items.Remove(i));
+                result.Items.Add(VerbalMenuItemFactory.ForSubject(verbal, neighboringElements));
+            }
             if (verbal.DirectObjects.Any())
             {
                 result.Items.Add(VerbalMenuItemFactory.ForDirectObject(verbal, neighboringElements));
