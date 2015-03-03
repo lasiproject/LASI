@@ -16,12 +16,12 @@ module.exports = function (grunt) {
         jslint: {
             app: {
                 src: [
-                    'Scripts/app/**/*.js',
                     'Scripts/app/LASI.js',
                     'Scripts/app/util.js',
                     'Scripts/app/widgets/document-upload.js',
                     'Scripts/app/account/manage.js',
-                    'Scripts/app/results/results.js'
+                    'Scripts/app/results/results.js',
+                    'Scripts/app/results/context-menu-provider.js'
                 ],
                 exclude: [],
                 directives: {
@@ -42,32 +42,31 @@ module.exports = function (grunt) {
         qunit: {
             all: ['Scripts/test/**/*.html']
         },
-        //'jsmin-sourcemap': {
-        //    app: {
-        //        src: [
-        //            'Scripts/app/LASI.js',
-        //            'Scripts/app/util.js',
-        //            'Scripts/app/widgets/document-upload.js',
-        //            'Scripts/app/account/manage.js',
-        //            'Scripts/app/results/results.js',
-        //            'Scripts/app/results/context-menu-provider.js'
-        //        ],
-        //        dest: 'wwwroot/dist/app/appfs.min.js',
-        //        destMap: 'wwwroot/dist/app/appfs.min.map'
+        'jsmin-sourcemap': {
+            app: {
+                src: [
+                    'Scripts/app/util.js',
+                    'Scripts/app/widgets/document-upload.js',
+                    'Scripts/app/account/manage.js',
+                    'Scripts/app/results/results.js',
+                    'Scripts/app/results/context-menu-provider.js'
+                ],
+                dest: 'wwwroot/dist/app/app.min.js',
+                destMap: 'wwwroot/dist/app/app.min.map'
 
-        //    },
-        //    lib: {
-        //        src: [
-        //            'wwwroot/lib/jquery/**/*.js',
-        //            'wwwroot/lib/jquery-validation/**/*.js',
-        //            'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
-        //            'wwwroot/lib/bootstrap/js/bootstrap.js',
-        //            'wwwroot/lib/bootstrap-contextmenu/bootstrap-contextmenu.js'
-        //        ],
-        //        dest: 'wwwroot/dist/lib/libs.min.js',
-        //        destMap: 'wwwroot/dist/libs/lib.min.map'
-        //    }
-        //},
+            },
+            lib: {
+                src: [
+                    'wwwroot/lib/jquery/**/*.js',
+                    'wwwroot/lib/jquery-validation/**/*.js',
+                    'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
+                    'wwwroot/lib/bootstrap/js/bootstrap.js',
+                    'wwwroot/lib/bootstrap-contextmenu/bootstrap-contextmenu.js'
+                ],
+                dest: 'wwwroot/dist/lib/libs.min.js',
+                destMap: 'wwwroot/dist/libs/lib.min.map'
+            }
+        },
         cssmin: {
             options: {
                 shorthandCompacting: false,

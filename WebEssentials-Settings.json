@@ -49,7 +49,7 @@
     "ValidateDuplicateSelectors": true
   },
   "General": {
-    "AllMessagesToOutputWindow": false,
+    "AllMessagesToOutputWindow": true,
     "KeepImportantComments": true,
     "SvgPreviewPane": true,
     "ShowWEIgnoreLogs": true,

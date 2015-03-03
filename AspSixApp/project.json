@@ -2,15 +2,10 @@
     "webroot": "wwwroot",
     "version": "1.0.0-*",
     "dependencies": {
-        "EntityFramework.Core": "7.0.0-beta3",
-        "EntityFramework.SqlServer": "7.0.0-beta3",
-        "EntityFramework.Commands": "7.0.0-beta3",
         "Microsoft.AspNet.Mvc": "6.0.0-beta3",
         "Microsoft.AspNet.Mvc.WebApiCompatShim": "6.0.0-beta3",
         "Microsoft.AspNet.Diagnostics": "1.0.0-beta3",
-        "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-beta3",
         "Microsoft.AspNet.Identity": "3.0.0-beta3",
-        "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta3",
         "Microsoft.AspNet.Security.Cookies": "1.0.0-beta3",
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta3",
@@ -32,8 +27,7 @@
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5005",
-        "gen": "Microsoft.Framework.CodeGeneration",
-        "ef": "EntityFramework.Commands"
+        "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
         "aspnet50": {
@@ -59,5 +53,8 @@
             "grunt bower:install"
         ]
     },
-    "configurations": { "Debug": { "compilationOptions": { "warningsAsErrors": true } }, "Release": { "compilationOptions": { "warningsAsErrors": true, "optimize": true } } }
+    "configurations": {
+        "Debug": { "compilationOptions": { "warningsAsErrors": true } },
+        "Release": { "compilationOptions": { "warningsAsErrors": true, "optimize": true } }
+    }
 }

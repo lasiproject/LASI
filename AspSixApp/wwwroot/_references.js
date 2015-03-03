@@ -18,3 +18,4 @@
 /// <reference path="dist/lib/libs.min.js" />
 /// <reference path="lib/jquery/jquery.js" />
 /// <reference path="lib/jquery-validation/jquery.validate.js" />
+/// <reference path="../scripts/test/app/results/app-test.js" />

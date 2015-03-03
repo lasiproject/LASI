@@ -1,17 +1,15 @@
-﻿@using AspSixApp.Models;
-@using AspSixApp.WebHelpers;
-@using AspSixApp.Models.DocumentStructures;
+﻿@model AspSixApp.Models.DocumentStructures.DocumentSetModel
 @{
     ViewBag.Title = "Results";
 }
-@model DocumentSetModel
-
+@using AspSixApp.WebHelpers
 <header>
     <h2>@ViewBag.Title</h2>
 </header>
 
 <div id="main-content">
     <div class="results-pane container container-fluid">
+        @RenderStaticContextMenuMarkup()
         <ul class="nav nav-tabs" id="results">
             <li class="active">
                 <a data-toggle="tab" href="#reconstructeddocuments">
@@ -19,9 +17,7 @@
                 </a>
             </li>
             <li>
-                <a data-toggle="tab" href="#topresults">
-                    Top Results
-                </a>
+                <a data-toggle="tab" href="#topresults">Top Results</a>
             </li>
             <li>
                 <a data-toggle="tab" href="#adddocuments">
@@ -50,7 +46,7 @@
                                    class="list-group-item-text btn btn-block btn-primary"
                                    data-toggle="modal"
                                    data-target=@('#' + documentModel.Title.ToSafeHtmlDomId())
-                                   value="@documentModel.Title" />
+                                   value=@documentModel.Title />
                         </li>
                     }
                 </ul>
@@ -61,7 +57,6 @@
                 {
                     @RenderDocumentBodyModel(documentModel)
                 }
-                @*@RenderStaticContextMenuMarkup()*@
             </div>
 
 }
@@ -84,7 +79,7 @@
                 </ul>
                 @foreach (var documentModel in Model.DocumentModels)
                 {
-                    @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary);
+                    @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary)
                 }
 
             </div>
@@ -93,14 +88,14 @@
         {
             <div id="adddocuments" class="tab-pane fade in">
                 <h1>Add documents</h1>
-                @Html.Partial("_DocumentUpload", new DocumentUploadModel { UploadTarget = "fileuploadtarget" })
+                @Html.Partial("_DocumentUpload", new AspSixApp.Models.DocumentUploadModel { UploadTarget = "fileuploadtarget" })
             </div>
 }
 
 
 
 
-@helper RenderDocumentBodyModel(DocumentModel documentModel)
+@helper RenderDocumentBodyModel(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
         {
             <div id=@(documentModel.Title.ToSafeHtmlDomId())
                  class="modal fade modal-lg"
@@ -135,7 +130,7 @@
 
 
 
-@helper RenderTopResultsChartData(DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
+@helper RenderTopResultsChartData(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
         {
             <div id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresults")
                  class="modal fade"

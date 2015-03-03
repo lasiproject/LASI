@@ -1,5 +1,11 @@
 $(function () {
     'use strict';
+    var idxs = document.getElementsByTagName('span'),
+        actuals = [],
+        i;
+    for (i = 0; i < idxs.length; i += 1) {
+        actuals.push(idxs[i].id);
+    }
     /**
      * @description Creates a context menu builder which operates over the given context.
      * @param {Array} Context An array of objects representing the context. 
@@ -9,7 +15,7 @@ $(function () {
      */
     var createForDocument = function (context) {
 
-        var getAllBy$Ids = function (ids) { return $(ids.map(function (id) { return '#' + id; }).join(',')); };
+        var getAllBy$Ids = function (ids) { return $(ids.filter(function (id) { return id; }).map(function (id) { return '#' + id; }).join(',')); };
         var $contextElements = getAllBy$Ids(context.map(function (e) { return e.id || e; }));
         var getRelatedElements = function (element, targetIdCollection) {
             $contextElements.filter(function (x) {
@@ -18,20 +24,27 @@ $(function () {
                 });
             });
         };
-        return {
-            verbal: function (rawData) {
+        var forVerbal = function (rawData) {
 
-                var verbal = $.parseJSON(rawData);
-                var subjects = getRelatedElements(verbal, 'subjects'),
-                    directObjects = getRelatedElements(verbal, 'directObjects'),
-                    indirectObjects = getRelatedElements(verbal, 'indirectObjects');
-                return {
-                    subjects: subjects,
-                    directObjects: directObjects,
-                    indirectObjects: indirectObjects
-                };
-            }
+            var verbal = $.parseJSON(rawData);
+            var subjects = getRelatedElements(verbal, 'subjects'),
+                directObjects = getRelatedElements(verbal, 'directObjects'),
+                indirectObjects = getRelatedElements(verbal, 'indirectObjects');
+            return {
+                subjects: subjects,
+                directObjects: directObjects,
+                indirectObjects: indirectObjects
+            };
         };
+        $('.verbal').each(function (i, e) {
+            $(e).contextmenu(function () {
+                var data = forVerbal('#context' + e.id);
+                i = i + 1;
+                alert(e.data);
+                return data;
+
+            });
+        });
     };
-    createForDocument(document);
+    createForDocument(actuals);
 });

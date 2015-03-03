@@ -1,12 +1,12 @@
-﻿{
-    "Data": {
-        "DefaultConnection": {
-            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-AspSixApp-45c5647f-e635-4e2b-976c-067a568e2343;Trusted_Connection=True;MultipleActiveResultSets=true"
-        }
-    },
-    "EntityFramework": {
-        "ApplicationDbContext": {
-            "ConnectionStringKey": "Data:DefaultConnection:ConnectionString"
-        }
-    }
-}
+﻿//{
+//    "Data": {
+//        "DefaultConnection": {
+//            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-AspSixApp-45c5647f-e635-4e2b-976c-067a568e2343;Trusted_Connection=True;MultipleActiveResultSets=true"
+//        }
+//    }
+//    //"EntityFramework": {
+//    //    "ApplicationDbContext": {
+//    //        "ConnectionStringKey": "Data:DefaultConnection:ConnectionString"
+//    //    }
+//    //}
+//}

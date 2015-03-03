@@ -12,7 +12,7 @@ using MongoDB.Driver.Builders;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
-    public class MongoDbUserProvider : UserProvider<ApplicationUser>
+    public class MongoDbUserProvider : UserProvider<IndividualUser>
     {
         public MongoDbUserProvider(IConfiguration config, AppDomain appDomain)
         {
@@ -28,17 +28,17 @@ namespace AspSixApp.CustomIdentity.MongoDb
             mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(connectionString)).GetServer().GetDatabase("accounts"));
 
         }
-        public void Insert(ApplicationUser account)
+        public void Insert(IndividualUser account)
         {
             Accounts.Insert(account);
         }
 
-        public override IEnumerator<ApplicationUser> GetEnumerator() => Accounts.AsQueryable().GetEnumerator();
+        public override IEnumerator<IndividualUser> GetEnumerator() => Accounts.AsQueryable().GetEnumerator();
 
         private const string MongoIdFieldName = "_id";
         private static IMongoQuery EQ_id_Query(string id) => Query.EQ(MongoIdFieldName, id);
 
-        public override IdentityResult Add(ApplicationUser user)
+        public override IdentityResult Add(IndividualUser user)
         {
             return WithLock(() =>
             {
@@ -58,11 +58,11 @@ namespace AspSixApp.CustomIdentity.MongoDb
             });
         }
 
-        public override IdentityResult Update(ApplicationUser user)
+        public override IdentityResult Update(IndividualUser user)
         {
             return WithLock(() =>
             {
-                var result = Accounts.Update(EQ_id_Query(user.Id), Update<ApplicationUser>.Replace(user));
+                var result = Accounts.Update(EQ_id_Query(user.Id), Update<IndividualUser>.Replace(user));
                 if (result?.ErrorMessage == null) { return IdentityResult.Success; }
                 else
                 {
@@ -70,7 +70,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 }
             });
         }
-        public override IdentityResult Delete(ApplicationUser user)
+        public override IdentityResult Delete(IndividualUser user)
         {
             return WithLock(() =>
             {
@@ -88,7 +88,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 }
             });
         }
-        public override ApplicationUser this[string id] => WithLock(() => Accounts.FindOneById(id));
+        public override IndividualUser this[string id] => WithLock(() => Accounts.FindOneById(id));
 
         private T WithLock<T>(Func<T> f)
         {
@@ -98,7 +98,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
             }
         }
 
-        private MongoCollection<ApplicationUser> Accounts => mongoDatabase.Value.GetCollection<ApplicationUser>("users");
+        private MongoCollection<IndividualUser> Accounts => mongoDatabase.Value.GetCollection<IndividualUser>("users");
 
         private Lazy<MongoDatabase> mongoDatabase;
         private object lockon = new object();

@@ -3,7 +3,6 @@ using System.Linq;
 using AspSixApp.Models;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
-using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
@@ -26,7 +25,7 @@ namespace AspSixApp
         public Startup(IHostingEnvironment env)
         {
             Configuration = new Configuration()
-               .AddJsonFile("config.json")
+               //.AddJsonFile("config.json")
                .AddJsonFile("resources.json")
                .AddEnvironmentVariables();
         }
@@ -55,9 +54,9 @@ namespace AspSixApp
             services
                 .AddSingleton<RoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
                 .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+                .AddSingleton<UserProvider<IndividualUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
             services
-                .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
+                .AddIdentity<IndividualUser, UserRole>(Configuration, options =>
                 {
                     options.Lockout = new LockoutOptions
                     {
@@ -77,7 +76,7 @@ namespace AspSixApp
                 })
                 .AddUserStore<UserAndUserRoleStore<UserRole>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>()
-                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddUserManager<UserManager<IndividualUser>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>();
         }
 
@@ -85,7 +84,7 @@ namespace AspSixApp
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
             ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "resources.json"));
-            
+
             // Configure the HTTP request pipeline. Add the console logger.
             loggerfactory
                 .AddConsole()
@@ -96,8 +95,7 @@ namespace AspSixApp
             // Add the following to the request pipeline only in development environment.
             if (env.EnvironmentName.EqualsIgnoreCase("Development"))
             {
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
-                app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
+                app.UseErrorPage(ErrorPageOptions.ShowAll); 
             }
             else
             {

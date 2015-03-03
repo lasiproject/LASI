@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LASI</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.css" />
@@ -12,13 +12,6 @@
 
 </head>
 <body>
-
-
-
-
-
-    <script src="~/lib/jquery/jquery.js"></script>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,7 +24,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Results", "Index", "Results")</li>
                     <li>@Html.ActionLink("About Asp.Net", "About", "Home")</li>
@@ -51,10 +43,10 @@
         </footer>
     </div>
     <script src="https://www.google.com/jsapi"></script>
-    <script src="~/lib/jquery/jquery.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-    <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
-    <script src="~/dist/app/app.min.js"></script>
+    <script src="/lib/jquery/jquery.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
+    <script src="/dist/app/app.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

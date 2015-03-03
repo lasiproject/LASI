@@ -38,7 +38,7 @@ namespace AspSixApp.CustomIdentity
             return IdentityResult.Success;
         }
 
-        internal override void Remove(ApplicationUser user, string roleName)
+        internal override void Remove(IndividualUser user, string roleName)
         {
             Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
         }
