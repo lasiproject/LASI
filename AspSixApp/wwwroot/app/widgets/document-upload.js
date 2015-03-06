@@ -9,9 +9,9 @@
         };
     }());
     $(function () {
-        //var $uploadElement = $('#document-upload-input'),
+        //var $uploadElement = $('#document-upload-input');
         var $uploadList = $('#document-upload-list');
-        //$uploadButton = $('#document-upload-button');
+        //var $uploadButton = $('#document-upload-button');
         $(document)
             .find('.btn-file :file')
             .change(function () {
@@ -27,12 +27,14 @@
                             file.name + '</span></div>';
                     },
                     label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
-                $(files).filter(function () { return validateFileExtension($(this).text()); })
+                $(files).filter(function () {
+                    return validateFileExtension($(this)[0].name);
+                }).toArray()
                     .filter(function (file) {
-                        return !$uploadList.children('span').toArray().some(function () {
+                        return !($uploadList.children('span').toArray().some(function () {
                             return $(this).text() === file.name;
-                        });
-                    }).toArray()
+                        }));
+                    })
                     .forEach(function (file, index) {
                         $uploadList.append(generateUploadListItemMarkup(file, index));
                         $('span.glyphicon.glyphicon-remove.remove-file')

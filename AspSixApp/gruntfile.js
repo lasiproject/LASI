@@ -16,12 +16,12 @@ module.exports = function (grunt) {
         jslint: {
             app: {
                 src: [
-                    'Scripts/app/LASI.js',
-                    'Scripts/app/util.js',
-                    'Scripts/app/widgets/document-upload.js',
-                    'Scripts/app/account/manage.js',
-                    'Scripts/app/results/results.js',
-                    'Scripts/app/results/context-menu-provider.js'
+                    'wwwroot/app/util.js',
+                    'wwwroot/app/LASI.js',
+                    'wwwroot/app/widgets/document-upload.js',
+                    'wwwroot/app/account/manage.js',
+                    'wwwroot/app/results/results.js',
+                    'wwwroot/app/results/context-menu-provider.js'
                 ],
                 exclude: [],
                 directives: {
@@ -40,21 +40,22 @@ module.exports = function (grunt) {
             }
         },
         qunit: {
-            all: ['Scripts/test/**/*.html']
+            all: ['Scripts/test/qunit.html']
         },
         'jsmin-sourcemap': {
-            app: {
-                src: [
-                    'Scripts/app/util.js',
-                    'Scripts/app/widgets/document-upload.js',
-                    'Scripts/app/account/manage.js',
-                    'Scripts/app/results/results.js',
-                    'Scripts/app/results/context-menu-provider.js'
-                ],
-                dest: 'wwwroot/dist/app/app.min.js',
-                destMap: 'wwwroot/dist/app/app.min.map'
+            //app: {
+            //    src: [
+            //        'Scripts/app/util.js',
+            //        'Scripts/app/LASI.js',
+            //        'Scripts/app/widgets/document-upload.js',
+            //        'Scripts/app/account/manage.js',
+            //        'Scripts/app/results/results.js',
+            //        'Scripts/app/results/context-menu-provider.js'
+            //    ],
+            //    srcRoot: 'dist/app',
+            //    dest: 'wwwroot/dist/app/app.min.js'
 
-            },
+            //},
             lib: {
                 src: [
                     'wwwroot/lib/jquery/**/*.js',
@@ -63,8 +64,7 @@ module.exports = function (grunt) {
                     'wwwroot/lib/bootstrap/js/bootstrap.js',
                     'wwwroot/lib/bootstrap-contextmenu/bootstrap-contextmenu.js'
                 ],
-                dest: 'wwwroot/dist/lib/libs.min.js',
-                destMap: 'wwwroot/dist/libs/lib.min.map'
+                dest: 'wwwroot/dist/lib/lib.min.js'
             }
         },
         cssmin: {
@@ -88,29 +88,29 @@ module.exports = function (grunt) {
         watch: {
             appjs: {
                 files: ['Scripts/app/**/*.js'],
-                tasks: ['jslint:app', 'jsmin-sourcemap:app', 'qunit:all']
-            }
+                tasks: ['jslint:app', 'qunit:all']
+            },
             //libjs: {
             //    files: ['wwwroot/lib/**/*.js'],
             //    tasks: ['jsmin-sourcemap:lib']
             //},
-            //appcss: {
-            //    files: ['wwwroot/css/**'],
-            //    tasks: ['cssmin:app']
-            //},
-            //libcss: {
-            //    files: ['wwwroot/lib/**/*.css'],
-            //    tasks: ['cssmin:lib']
-            //},
-            //test: {
-            //    files: ['Scripts/app/util.js', 'Scripts/test/**/*.js'],
-            //    tasks: ['qunit:all']
-            //}
+            appcss: {
+                files: ['wwwroot/css/**'],
+                tasks: ['cssmin:app']
+            },
+            libcss: {
+                files: ['wwwroot/lib/**/*.css'],
+                tasks: ['cssmin:lib']
+            },
+            test: {
+                files: ['Scripts/app/util.js', 'Scripts/test/**/*.js'],
+                tasks: ['qunit:all']
+            }
         }
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install']);
+    grunt.registerTask('default', ['bower:install', 'jsmin-sourcemap:lib']);
     grunt.loadNpmTasks('grunt-bower-task');
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
