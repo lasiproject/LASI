@@ -52,11 +52,14 @@ namespace AspSixApp
                 });
 
             services
+                .AddSingleton(provider => new MongoConfiguration(Configuration, AppDomain.CurrentDomain))
+                .AddSingleton(provider => new MongoDbInputDocumentStore(provider.GetService<MongoConfiguration>()))
                 .AddSingleton<RoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
                 .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                .AddSingleton<UserProvider<IndividualUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+
             services
-                .AddIdentity<IndividualUser, UserRole>(Configuration, options =>
+                .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
                 {
                     options.Lockout = new LockoutOptions
                     {
@@ -76,7 +79,7 @@ namespace AspSixApp
                 })
                 .AddUserStore<UserAndUserRoleStore<UserRole>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>()
-                .AddUserManager<UserManager<IndividualUser>>()
+                .AddUserManager<UserManager<ApplicationUser>>()
                 .AddRoleStore<UserAndUserRoleStore<UserRole>>();
         }
 
@@ -95,7 +98,7 @@ namespace AspSixApp
             // Add the following to the request pipeline only in development environment.
             if (env.EnvironmentName.EqualsIgnoreCase("Development"))
             {
-                app.UseErrorPage(ErrorPageOptions.ShowAll); 
+                app.UseErrorPage(ErrorPageOptions.ShowAll);
             }
             else
             {

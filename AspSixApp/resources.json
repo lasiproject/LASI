@@ -13,6 +13,8 @@
     "MongoDbPath": "\\App_Data\\Mongo\\data\\db",
     "AccountStorageMedium": "MongoDb",
     "MongoConnection": "mongodb://localhost:27017",
+    "ApplicationDatabaseName": "accounts",
     "UserCollectionName": "users",
+    "UserDocumentCollectionName": "documents",
     "UserRolesCollectionName": "usersRoles"
 }

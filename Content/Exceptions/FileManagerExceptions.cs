@@ -58,9 +58,9 @@ namespace LASI.Content
     }
 
 
-    #region Dirived Types
+    #region Derived Types
     /// <summary>
-    /// The Exception thrown when an attempt is made to add a file of an ussuported type to a project.
+    /// The Exception thrown when an attempt is made to add a file of an unsupported type to a project.
     /// </summary>
     [Serializable]
     public class UnsupportedFileTypeAddedException : FileManagerException
@@ -72,7 +72,7 @@ namespace LASI.Content
         /// Initializes a new instance of the UnsupportedFileTypeAddedException class with its message string set to message.
         /// </summary>
         /// <param name="unsupportedFormat">A description of the error. The content of message is intended to be understood</param>
-        internal UnsupportedFileTypeAddedException(string unsupportedFormat)
+        public UnsupportedFileTypeAddedException(string unsupportedFormat)
             : base(FormatMessage(unsupportedFormat))
         {
         }
@@ -85,7 +85,7 @@ namespace LASI.Content
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.
         /// </param>
-        internal UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
+        public UnsupportedFileTypeAddedException(string unsupportedFormat, Exception inner)
             : base(FormatMessage(unsupportedFormat), inner)
         {
 
@@ -99,7 +99,7 @@ namespace LASI.Content
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being
         /// thrown.</param>
-        private UnsupportedFileTypeAddedException(SerializationInfo info, StreamingContext context)
+        protected UnsupportedFileTypeAddedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

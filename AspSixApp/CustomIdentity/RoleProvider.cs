@@ -15,7 +15,7 @@
         public abstract IEnumerator<TRole> GetEnumerator(); 
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        internal abstract void Remove(IndividualUser user,string roleName);
+        internal abstract void Remove(ApplicationUser user,string roleName);
         internal abstract IdentityResult Add(TRole role);
         internal abstract IdentityResult Update(TRole role);
         internal abstract IdentityResult Delete(TRole role);

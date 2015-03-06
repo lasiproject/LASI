@@ -8,9 +8,10 @@ using Microsoft.Framework.OptionsModel;
 namespace AspSixApp.Models
 {
     // Add profile data for application users by adding properties to the IndividualUser class
-    public class IndividualUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
-        public IEnumerable<Project> Projects { get; set; }
+        public IEnumerable<UserProject> Projects { get; set; }
+        IEnumerable<UserDocument> Documents { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

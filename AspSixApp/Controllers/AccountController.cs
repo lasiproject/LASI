@@ -12,14 +12,14 @@ namespace AspSixApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController(UserManager<IndividualUser> userManager, SignInManager<IndividualUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public UserManager<IndividualUser> UserManager { get; }
-        public SignInManager<IndividualUser> SignInManager { get; }
+        public UserManager<ApplicationUser> UserManager { get; }
+        public SignInManager<ApplicationUser> SignInManager { get; }
         private static readonly ILookupNormalizer StringNormalizer = new UpperInvariantLookupNormalizer();
         // GET: /Account/Login
         [HttpGet]
@@ -72,7 +72,7 @@ namespace AspSixApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IndividualUser
+                var user = new ApplicationUser
                 {
                     Email = model.Email,
                     UserName = model.Email,
@@ -155,7 +155,7 @@ namespace AspSixApp.Controllers
             }
         }
 
-        private async Task<IndividualUser> GetCurrentUserAsync()
+        private async Task<ApplicationUser> GetCurrentUserAsync()
         {
             return await UserManager.FindByIdAsync(Context.User.Identity.GetUserId());
         }

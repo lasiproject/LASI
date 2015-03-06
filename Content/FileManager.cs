@@ -596,6 +596,17 @@ namespace LASI.Content
             }
         }
 
+        public static IEnumerable<string> AcceptedFileFormats
+        {
+            get
+            {
+                yield return "TXT";
+                yield return "DOC";
+                yield return "DOCX";
+                yield return "PDF";
+            }
+        }
+
         #region Fields
 
         private static List<DocFile> docFiles = new List<DocFile>();

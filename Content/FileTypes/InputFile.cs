@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 namespace LASI.Content
 {
     /// <summary>
-    /// This class serves as a wrapper around a file path, providing for direct access to the indvidual components of the file path.
+    /// This class serves as a wrapper around a file path, providing for direct access to the individual components of the file path.
     /// </summary>
     public abstract class InputFile : IRawTextSource, IEquatable<InputFile>
     {
         /// <summary>
-        /// Initializes a new instance of the InputFile class wrapping the provided filepath.
+        /// Initializes a new instance of the InputFile class wrapping the provided file path.
         /// </summary>
         /// <param name="path">The absolute or relative path of the file</param>
         protected InputFile(string path)
@@ -68,9 +68,9 @@ namespace LASI.Content
         /// <returns>The hash code of the InputFile.</returns>
         public override int GetHashCode() => fileData.GetHashCode();
         /// <summary>
-        /// Returns a string prepsentation of the InputFile, including its full path.
+        /// Returns a string representation of the InputFile, including its full path.
         /// </summary>
-        /// <returns>A string prepsentation of the InputFile, including its full path.</returns>
+        /// <returns>A string representation of the InputFile, including its full path.</returns>
         public override string ToString() => $"{GetType()}: {FileName} in: {Directory}";
         /// <summary>
         /// Returns a single string containing all of the text in the InputFile.

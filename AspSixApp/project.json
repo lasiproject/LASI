@@ -23,15 +23,13 @@
         "LASI.Content": "1.0.0-*",
         "LASI.Interop": "1.0.0-*",
         "LASI.Utilities": "1.0.0-*"
-
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5005",
         "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
-        "aspnet50": {
-        }
+        "aspnet50": { }
     },
     "exclude": [
         "wwwroot",

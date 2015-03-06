@@ -20,11 +20,14 @@ namespace AspSixApp.Controllers
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, Models.Results.JobStatus>;
     using ProcessedDocumentSet = System.Collections.Immutable.IImmutableSet<Document>;
     using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
+    using System.Security.Principal;
+    using AspSixApp.CustomIdentity.MongoDb;
+
     public class ResultsController : Controller
     {
-        public ResultsController()
+        public ResultsController(MongoDbInputDocumentStore documentStore)
         {
-            Phrase.VerboseOutput = true;
+            Phrase.VerboseOutput = true; this.documentStore = documentStore;
         }
         //static int timesExecuted = 0;
         public async Task<ActionResult> Index()
@@ -32,7 +35,6 @@ namespace AspSixApp.Controllers
             TrackedJobs.Clear();
             CurrentOperation = string.Empty;
             PercentComplete = 0;
-
             return await Results();
         }
 
@@ -87,19 +89,23 @@ namespace AspSixApp.Controllers
         private async Task<IEnumerable<Document>> LoadResults()
         {
             var extensionMap = new FileExtensionMap(path => null);
-            var files = Directory.EnumerateFiles(UserDocumentsDirectory)
-                .Select(file =>
-                {
-                    try
-                    {
-                        return extensionMap['.' + file.SplitRemoveEmpty('.').Last()](file);
-                    }
-                    catch (ArgumentException)
-                    {
-                        return null;
-                    }
-                })
-                .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
+            //var files = Directory.EnumerateFiles(UserDocumentsDirectory)
+            //    .Select(file =>
+            //    {
+            //        try
+            //        {
+            //            return extensionMap['.' + file.SplitRemoveEmpty('.').Last()](file);
+            //        }
+            //        catch (ArgumentException)
+            //        {
+            //            return null;
+            //        }
+            //    })
+            //    .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
+
+            var userId = Context.User.Identity.GetUserId();
+
+            var files = documentStore.GetAllUserInputDocuments(userId);
             var analyzer = new AnalysisOrchestrator(files);
             analyzer.ProgressChanged += (s, e) =>
             {
@@ -131,5 +137,6 @@ namespace AspSixApp.Controllers
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
+        private readonly MongoDbInputDocumentStore documentStore;
     }
 }

@@ -5,15 +5,15 @@ using Microsoft.AspNet.Identity;
 
 namespace AspSixApp.CustomIdentity
 {
-    internal class InMemoryUserProvider : UserProvider<IndividualUser>
+    internal class InMemoryUserProvider : UserProvider<ApplicationUser>
     {
         public InMemoryUserProvider()
         {
-            users = new List<IndividualUser>();
+            users = new List<ApplicationUser>();
         }
-        public override IEnumerator<IndividualUser> GetEnumerator() => users.GetEnumerator();
+        public override IEnumerator<ApplicationUser> GetEnumerator() => users.GetEnumerator();
 
-        public override IdentityResult Add(IndividualUser user) =>
+        public override IdentityResult Add(ApplicationUser user) =>
             WithLock(() =>
             {
                 if (!users.Contains(user))
@@ -27,10 +27,10 @@ namespace AspSixApp.CustomIdentity
                 }
             });
 
-        public override IdentityResult Delete(IndividualUser user) =>
+        public override IdentityResult Delete(ApplicationUser user) =>
             WithLock(() => users.Remove(user) ? IdentityResult.Success : IdentityResult.Failed());
 
-        public override IdentityResult Update(IndividualUser user) =>
+        public override IdentityResult Update(ApplicationUser user) =>
             WithLock(() =>
             {
                 var existing = this[user.Id];
@@ -59,9 +59,9 @@ namespace AspSixApp.CustomIdentity
                     return IdentityResult.Success;
                 }
             });
-        public override IndividualUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
+        public override ApplicationUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
 
-        private readonly List<IndividualUser> users;
+        private readonly List<ApplicationUser> users;
 
         private   T WithLock<T>(Func<T> f)
         {

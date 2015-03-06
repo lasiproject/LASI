@@ -5,7 +5,7 @@ namespace AspSixApp.CustomIdentity
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using User = IndividualUser;
+    using User = ApplicationUser;
     using CancellationToken = System.Threading.CancellationToken;
     using System.Linq;
     using LASI.Utilities.Specialized.Enhanced.IList.Linq;

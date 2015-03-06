@@ -12,41 +12,39 @@ using MongoDB.Driver.Builders;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
-    public class MongoDbUserProvider : UserProvider<IndividualUser>
+    public class MongoDbUserProvider : UserProvider<ApplicationUser>
     {
+
         public MongoDbUserProvider(IConfiguration config, AppDomain appDomain)
         {
-            var mongodExePath = config["MongodExecutableLocation"];
-            var mongoDbPath = config["MongoDbPath"];
-            var mongoFilesDirectory = appDomain.BaseDirectory + mongoDbPath;
-            var connectionString = config["MongoConnection"];
+            var mongoConfig = new MongoConfiguration(config, appDomain);
             System.Diagnostics.Process.Start(
-               fileName: mongodExePath,
-               arguments: $"--dbpath {mongoFilesDirectory}"
+               fileName: mongoConfig.MongodExePath,
+               arguments: $"--dbpath {mongoConfig.MongoFilesDirectory}"
            );
 
-            mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(connectionString)).GetServer().GetDatabase("accounts"));
+            mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(mongoConfig.ConnectionString)).GetServer().GetDatabase(mongoConfig.ApplicationDatabase));
 
         }
-        public void Insert(IndividualUser account)
+        public void Insert(ApplicationUser account)
         {
-            Accounts.Insert(account);
+            Users.Insert(account);
         }
 
-        public override IEnumerator<IndividualUser> GetEnumerator() => Accounts.AsQueryable().GetEnumerator();
+        public override IEnumerator<ApplicationUser> GetEnumerator() => Users.AsQueryable().GetEnumerator();
 
         private const string MongoIdFieldName = "_id";
         private static IMongoQuery EQ_id_Query(string id) => Query.EQ(MongoIdFieldName, id);
 
-        public override IdentityResult Add(IndividualUser user)
+        public override IdentityResult Add(ApplicationUser user)
         {
             return WithLock(() =>
             {
-                if (Accounts.Count(Query.EQ("email", user.NormalizedEmail)) != 0)
+                if (Users.Count(Query.EQ("email", user.NormalizedEmail)) != 0)
                 {
                     return IdentityResult.Failed(IdentityErrorDescriber.Default.DuplicateEmail(user.Email));
                 }
-                var result = Accounts.Insert(user);
+                var result = Users.Insert(user);
                 if (result?.ErrorMessage == null)
                 {
                     return IdentityResult.Success;
@@ -58,11 +56,11 @@ namespace AspSixApp.CustomIdentity.MongoDb
             });
         }
 
-        public override IdentityResult Update(IndividualUser user)
+        public override IdentityResult Update(ApplicationUser user)
         {
             return WithLock(() =>
             {
-                var result = Accounts.Update(EQ_id_Query(user.Id), Update<IndividualUser>.Replace(user));
+                var result = Users.Update(EQ_id_Query(user.Id), Update<ApplicationUser>.Replace(user));
                 if (result?.ErrorMessage == null) { return IdentityResult.Success; }
                 else
                 {
@@ -70,11 +68,11 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 }
             });
         }
-        public override IdentityResult Delete(IndividualUser user)
+        public override IdentityResult Delete(ApplicationUser user)
         {
             return WithLock(() =>
             {
-                var writeConcernResult = Accounts.Remove(EQ_id_Query(user.Id));
+                var writeConcernResult = Users.Remove(EQ_id_Query(user.Id));
                 if (writeConcernResult?.ErrorMessage == null)
                 {
                     return IdentityResult.Success;
@@ -88,7 +86,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 }
             });
         }
-        public override IndividualUser this[string id] => WithLock(() => Accounts.FindOneById(id));
+        public override ApplicationUser this[string id] => WithLock(() => Users.FindOneById(id));
 
         private T WithLock<T>(Func<T> f)
         {
@@ -98,10 +96,11 @@ namespace AspSixApp.CustomIdentity.MongoDb
             }
         }
 
-        private MongoCollection<IndividualUser> Accounts => mongoDatabase.Value.GetCollection<IndividualUser>("users");
+        private MongoCollection<ApplicationUser> Users => mongoDatabase.Value.GetCollection<ApplicationUser>("users");
 
         private Lazy<MongoDatabase> mongoDatabase;
         private object lockon = new object();
+
 
     }
 }
