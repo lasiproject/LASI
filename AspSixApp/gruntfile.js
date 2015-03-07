@@ -16,6 +16,7 @@ module.exports = function (grunt) {
         jslint: {
             app: {
                 src: [
+                    'wwwroot/test/util-test.js',
                     'wwwroot/app/util.js',
                     'wwwroot/app/LASI.js',
                     'wwwroot/app/widgets/document-upload.js',
@@ -29,18 +30,19 @@ module.exports = function (grunt) {
                     browser: true,
                     predef: {
                         alert: false,
-                        app: true,
                         LASI: true,
                         $: false,
                         QUnit: false,
                         google: false,
-                        require: false
+                        require: false,
+                        define: false,
+                        module:false
                     }
                 }
             }
         },
         qunit: {
-            all: ['Scripts/test/qunit.html']
+            all: ['wwwroot/test/**/*.html']
         },
         'jsmin-sourcemap': {
             //app: {
@@ -87,7 +89,7 @@ module.exports = function (grunt) {
         },
         watch: {
             appjs: {
-                files: ['Scripts/app/**/*.js'],
+                files: ['wwwroot/app/**/*.js'],
                 tasks: ['jslint:app', 'qunit:all']
             },
             //libjs: {
@@ -103,7 +105,7 @@ module.exports = function (grunt) {
                 tasks: ['cssmin:lib']
             },
             test: {
-                files: ['Scripts/app/util.js', 'Scripts/test/**/*.js'],
+                files: ['wwwroot/test/**/*.js'],
                 tasks: ['qunit:all']
             }
         }

@@ -5,7 +5,9 @@
         var accepted = Object.freeze(['.txt', '.docx', '.pdf', 'doc']);
         return function (fileName) {
             var extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
-            return accepted.some(function (ext) { return ext === extension; });
+            return accepted.some(function (ext) {
+                return ext === extension;
+            });
         };
     }());
     $(function () {

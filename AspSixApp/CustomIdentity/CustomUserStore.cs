@@ -13,11 +13,17 @@ namespace AspSixApp.CustomIdentity
     using Microsoft.AspNet.Mvc;
     using Microsoft.AspNet.Identity;
 
-    public class UserAndUserRoleStore<TRole> : IUserStore<User>, IUserRoleStore<User>, IRoleStore<TRole>, IUserPasswordStore<User>, IUserEmailStore<User> where TRole : UserRole, new()
+    public class CustomUserStore<TRole> :
+        IUserStore<User>,
+        IUserRoleStore<User>,
+        IRoleStore<TRole>,
+        IUserPasswordStore<User>,
+        IUserEmailStore<User> where TRole : UserRole, new()
     {
-        private static readonly ILookupNormalizer lookupNormalizer = new UpperInvariantLookupNormalizer();
+        [Activate]
+        private ILookupNormalizer lookupNormalizer { get; set; }
 
-        public UserAndUserRoleStore(UserProvider<User> userProvider, RoleProvider<TRole> roleProvider)
+        public CustomUserStore(UserProvider<User> userProvider, RoleProvider<TRole> roleProvider)
         {
             this.userProvider = userProvider;
             this.roleProvider = roleProvider;
@@ -74,45 +80,10 @@ namespace AspSixApp.CustomIdentity
         public async Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsync(() => user.UserName = userName, cancellationToken);
         public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => userProvider.Update(user), cancellationToken);
 
-        #region IDisposable Support
-
-        private bool disposedValue = false; // To detect redundant calls
         private RoleProvider<TRole> roleProvider;
 
         private UserProvider<User> userProvider;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).          
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources. 
-        // ~RoleManager() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-
-        #endregion IDisposable Support
 
         public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => roleProvider.Add(role), cancellationToken);
@@ -140,22 +111,12 @@ namespace AspSixApp.CustomIdentity
         async Task<TRole> IRoleStore<TRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken) =>
             await ExecuteAsnyc(() => roleProvider.FirstOrDefault(role => role.NormalizedRoleName == normalizedRoleName), cancellationToken);
 
+        public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.PasswordHash = passwordHash, cancellationToken);
 
-        private static readonly PasswordHasher<User> PasswordHasher = new PasswordHasher<User>();
-        private System.Collections.Concurrent.ConcurrentDictionary<User, string> hashedPasswords = new System.Collections.Concurrent.ConcurrentDictionary<User, string>();
-
-        public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            user.PasswordHash = passwordHash;
-            await ExecuteAsnyc(() => hashedPasswords.AddOrUpdate(user, passwordHash, (u, h) => passwordHash), cancellationToken);
-        }
 
         public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.PasswordHash, cancellationToken);
 
-        public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return await ExecuteAsnyc(() => hashedPasswords.ContainsKey(user), cancellationToken);
-        }
+        public async Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default(CancellationToken)) => await ExecuteAsnyc(() => user.PasswordHash != null, cancellationToken);
 
         public async Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default(CancellationToken)) =>
             await ExecuteAsnyc(() => user.Email = email, cancellationToken);
@@ -189,6 +150,17 @@ namespace AspSixApp.CustomIdentity
         }
 
         #endregion Helpers
+        #region IDisposable Support
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue) { if (disposing) { } disposedValue = true; }
+        }
+        public void Dispose() { Dispose(true); }
+
+        #endregion IDisposable Support
 
     }
 }

@@ -14,8 +14,12 @@ $(function () {
      * @returns {Object} a context menu builder for the specified context.
      */
     var createForDocument = function (context) {
-
-        var getAllBy$Ids = function (ids) { return $(ids.filter(function (id) { return id; }).map(function (id) { return '#' + id; }).join(',')); };
+        var getAllBy$Ids = function (ids) {
+            return $(ids
+                .filter(function (id) { return id; })
+                .map(function (id) { return '#' + id; })
+                .join(','));
+        };
         var $contextElements = getAllBy$Ids(context.map(function (e) { return e.id || e; }));
         var getRelatedElements = function (element, targetIdCollection) {
             $contextElements.filter(function (x) {

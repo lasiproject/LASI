@@ -53,7 +53,7 @@
     "KeepImportantComments": true,
     "SvgPreviewPane": true,
     "ShowWEIgnoreLogs": true,
-    "ShowLogoWatermark": true
+    "ShowLogoWatermark": false
   },
   "Html": {
     "AutoMinify": false,

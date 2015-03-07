@@ -64,5 +64,5 @@ define('util', [], function () {
             };
         }
     }());
-    return function () { return undefined; };
+    return function () { };
 });

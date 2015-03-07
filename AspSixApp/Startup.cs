@@ -77,10 +77,10 @@ namespace AspSixApp
                         RequireConfirmedPhoneNumber = false
                     };
                 })
-                .AddUserStore<UserAndUserRoleStore<UserRole>>()
-                .AddRoleStore<UserAndUserRoleStore<UserRole>>()
+                .AddUserStore<CustomUserStore<UserRole>>()
+                .AddRoleStore<CustomUserStore<UserRole>>()
                 .AddUserManager<UserManager<ApplicationUser>>()
-                .AddRoleStore<UserAndUserRoleStore<UserRole>>();
+                .AddRoleStore<CustomUserStore<UserRole>>();
         }
 
         // Configure is called after ConfigureServices is called.

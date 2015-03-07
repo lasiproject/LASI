@@ -1,10 +1,11 @@
 ﻿using System;
+using Microsoft.Framework.ConfigurationModel;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
     public class MongoConfiguration
     {
-        public MongoConfiguration(Microsoft.Framework.ConfigurationModel.IConfiguration config, AppDomain appDomain)
+        public MongoConfiguration(IConfiguration config, AppDomain appDomain)
         {
             MongodExePath = config["MongodExecutableLocation"];
             MongoDbPath = config["MongoDbPath"];

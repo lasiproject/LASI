@@ -6,7 +6,9 @@
         "jquery": "1.10.2",
         "jquery-validation": "1.11.1",
         "jquery-validation-unobtrusive": "3.2.2",
-        "bootstrap-contextmenu": "0.3.2"
+        "bootstrap-contextmenu": "0.3.2",
+        "requirejs": "^2.1.16",
+        "qunit": "^1.17.1"
     },
     "exportsOverride": {
         "bootstrap": {
@@ -15,7 +17,7 @@
             "fonts": "dist/fonts/*.*"
         },
         "bootstrap-contextmenu": {
-            "": "bootstrap-contextmenu.{js,min.js,min.map}"
+            "": "bootstrap-contextmenu.{min.js,min.map}"
         },
         "jquery": {
             "": "jquery.{js,min.js,min.map}"
@@ -24,7 +26,10 @@
             "": "jquery.validate.js"
         },
         "jquery-validation-unobtrusive": {
-            "": "jquery.validate.unobtrusive.{js,min.js}"
+            "": "jquery.validate.unobtrusive.{min.js}"
+        },
+        "requirejs": {
+            "": "require.js"
         }
     }
 }

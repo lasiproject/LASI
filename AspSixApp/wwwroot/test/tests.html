@@ -3,19 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <title>QUnit JS Tests</title>
-    <link rel="stylesheet" href="../../node_modules/qunitjs/qunit/qunit.css" />
+    <link rel="stylesheet" href="qunit.css" />
 </head>
 <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <script src="../../wwwroot/lib/jquery/jquery.min.js"></script>
-    <script src="../../node_modules/qunitjs/qunit/qunit.js"></script>
+    <script src="../lib/requirejs/require.js"></script>
+    <script src="util-test.js" data-main="util-test.js"></script>
 
-    <script src="../../Scripts/app/util.js"></script>
-    <script src="../../Scripts/app/LASI.js"></script>
-
-
-    <script src="util-test.js"></script>
     <ol id="qunit-tests">
         <li class="pass" id="qunit-test-output0">
             <strong>
