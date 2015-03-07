@@ -20,7 +20,7 @@ namespace LASI.Content
 
         /// <summary>
         /// Constructs a new instance which will govern the conversion InputFile instance provided.
-        /// The converted file will be placed in the same diretory as the original.
+        /// The converted file will be placed in the same directory as the original.
         /// </summary>
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
         public DocxToTextConverter(DocXFile infile) :
@@ -70,10 +70,10 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// Converts the document governed by this instance from .docx binary format to .txt ascii text format.
+        /// Converts the document governed by this instance from .docx binary format to .txt ASCII text format.
         /// </summary>
         /// <returns>An input document object representing the newly converted file
-        /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
+        /// Note that both the original and converted document objects can be also be accessed independently via instance properties</returns>
         public override TxtFile ConvertFile()
         {
             DocxToZip();
@@ -129,7 +129,7 @@ namespace LASI.Content
 
         }
         /// <summary>
-        /// Extracts the xml file containing the significant text of the of the docx file from its corresponding zip file.
+        /// Extracts the XML file containing the significant text of the of the docx file from its corresponding zip file.
         /// </summary>
         /// <param name="arch">The object which represents the zip file from which to extract.</param>
         /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
@@ -140,8 +140,8 @@ namespace LASI.Content
             return new XmlFile(absolutePath);
         }
         /// <summary>
-        /// <para>This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
-        /// Use with the await operator in an asnyc method to retrieve the new file object </para> <para>and specify a continuation function to be executed when the conversion is complete.</para> 
+        /// <para>This method invokes the file conversion routine asynchronously, generally in a separate thread.
+        /// Use with the await operator in an async method to retrieve the new file object </para> <para>and specify a continuation function to be executed when the conversion is complete.</para> 
         /// </summary>
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LASI.Utilities
 {
-    /// <summary> A numberical data type associating a double value with contextual multiplier. </summary>
+    /// <summary> A numerical data type associating a double value with contextual multiplier. </summary>
     public struct Weight : IComparable<Weight>, IEquatable<Weight>
     {
         /// <summary> Initializes a new instance of the Weight structure with the given raw weight and multiplier. </summary>
@@ -176,24 +176,24 @@ namespace LASI.Utilities
         /// A new Weight instance with its raw weight as the possible truncated value of the BigInteger and its multiplier as 1.
         /// </returns>
         public static explicit operator Weight(BigInteger value) { return new Weight((double)value, 1); }
-        /// <summary> Implicitely creates a new Weight instance with its raw weight as the value of the int and its multiplier as 1. </summary>
+        /// <summary> Implicitly creates a new Weight instance with its raw weight as the value of the int and its multiplier as 1. </summary>
         /// <param name="value"> The int to convert. </param>
         /// <returns> A new Weight instance with its raw weight as the value of the int and its multiplier as 1. </returns>
         public static implicit operator Weight(int value) { return new Weight(value, 1); }
         /// <summary>
-        /// Implicitely creates a new Weight instance with its raw weight as the value of the uint and its multiplier as 1.
+        /// Implicitly creates a new Weight instance with its raw weight as the value of the uint and its multiplier as 1.
         /// </summary>
         /// <param name="value"> The uint to convert. </param>
         /// <returns> A new Weight instance with its raw weight as the value of the uint and its multiplier as 1. </returns>
         public static implicit operator Weight(uint value) { return new Weight(value, 1); }
         /// <summary>
-        /// Implicitely creates a new Weight instance with its raw weight as the value of the float and its multiplier as 1.
+        /// Implicitly creates a new Weight instance with its raw weight as the value of the float and its multiplier as 1.
         /// </summary>
         /// <param name="value"> The float to convert. </param>
         /// <returns> A new Weight instance with its raw weight as the value of the float and its multiplier as 1. </returns>
         public static implicit operator Weight(float value) { return new Weight(value, 1); }
         /// <summary>
-        /// Implicitely creates a new Weight instance with its raw weight as the value of the double and its multiplier as 1.
+        /// Implicitly creates a new Weight instance with its raw weight as the value of the double and its multiplier as 1.
         /// </summary>
         /// <param name="value"> The double to convert. </param>
         /// <returns> A new Weight instance with its raw weight as the value of the double and its multiplier as 1. </returns>

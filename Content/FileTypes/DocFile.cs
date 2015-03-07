@@ -18,8 +18,10 @@ namespace LASI.Content
         /// <param name="path">The path to a .doc file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
         public DocFile(string path)
-            : base(path) {
-            if (!Extension.EqualsIgnoreCase(".doc")) {
+            : base(path)
+        {
+            if (!Extension.EqualsIgnoreCase(".doc"))
+            {
                 throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
             }
         }
@@ -27,10 +29,12 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the DocFile.
         /// </summary>
         /// <returns>A string containing all of the text in the DocFile.</returns>
-        public override string GetText() {
+        public override string GetText()
+        {
             DocXFile docx;
             var todocXConverter = new DocToDocXConverter(this);
-            try {
+            try
+            {
                 docx = todocXConverter.ConvertFile() as DocXFile;
             }
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
@@ -40,10 +44,12 @@ namespace LASI.Content
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocFile.</returns>
-        public override async Task<string> GetTextAsync() {
+        public override async Task<string> GetTextAsync()
+        {
             DocXFile docx;
             var toDocXConverter = new DocToDocXConverter(this);
-            try {
+            try
+            {
                 docx = await toDocXConverter.ConvertFileAsync() as DocXFile;
             }
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }

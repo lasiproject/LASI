@@ -9,7 +9,7 @@ using MongoDB.Driver.Builders;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
-    public class MongoDbInputDocumentStore
+    public class MongoDbInputDocumentStore : IInputDocumentStore<UserDocument>
     {
         private Lazy<MongoDatabase> mongoDatabase;
 
@@ -19,15 +19,15 @@ namespace AspSixApp.CustomIdentity.MongoDb
             this.mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(configuration.ConnectionString)).GetServer().GetDatabase(configuration.ApplicationDatabase));
         }
 
-        public LASI.Content.IRawTextSource GetUserInputDocumentByName(string userId, string sourceName)
+        public UserDocument GetUserInputDocumentByName(string userId, string sourceName)
         {
             return Documents.FindOne(Query.And(Query.EQ("OwnerId", userId), Query.EQ("SourceName", sourceName)));
         }
-        public IEnumerable<LASI.Content.IRawTextSource> GetAllUserInputDocuments(string userId)
+        public IEnumerable<UserDocument> GetAllUserInputDocuments(string userId)
         {
             return Documents.FindAs<UserDocument>(Query.EQ("OwnerId", userId));
         }
-        public void AddUserInputDocument(UserDocument document)
+        public void AddUserInputDocument(string userId, UserDocument document)
         {
             Documents.Insert(document);
         }

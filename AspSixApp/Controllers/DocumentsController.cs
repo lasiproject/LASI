@@ -19,26 +19,26 @@ namespace AspSixApp.Controllers
 {
     public class DocumentsController : Controller
     {
-        private readonly MongoDbInputDocumentStore documentStore;
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IInputDocumentStore<UserDocument> documentStore;
 
-        //private readonly string uploadDirRelativePath;
-
-        public DocumentsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, MongoDbInputDocumentStore documentStore)
+        public DocumentsController(IInputDocumentStore<UserDocument> documentStore)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
             this.documentStore = documentStore;
-
         }
         [HttpPost]
         public async Task<HttpResponse> Upload()
         {
             var files = Request.Form.Files;
+            if (files.Count == 0)
+            {
+                throw new ArgumentException("No files were received");
+            }
             if (!files.All(IsValidContentType))
             {
-                await Response.WriteAsync($"One or more of your documents was in an incorrect format. The accepted formats are {string.Join(", ", LASI.Content.FileManager.AcceptedFileFormats)}");
+                throw new UnsupportedFileTypeAddedException(
+                     $@"One or more of your files was in an incorrect format.
+                    The accepted formats are {string.Join(", ", FileManager.AcceptedFileFormats)}"
+                 );
             }
             else
             {
@@ -47,13 +47,12 @@ namespace AspSixApp.Controllers
                     var ownerId = Context.User.Identity.GetUserId();
                     var fileName = GetFileName(file);
                     var textContent = await ProcessFileContents(file);
-                    this.documentStore.AddUserInputDocument(new UserDocument
+                    this.documentStore.AddUserInputDocument(ownerId, new UserDocument
                     {
                         Name = fileName,
                         Content = textContent,
                         OwnerId = ownerId
                     });
-
                     await Response.WriteAsync($"{file.ContentType}\n{file.ContentDisposition}\n{file.Length}");
 
                 }
@@ -64,20 +63,11 @@ namespace AspSixApp.Controllers
         private async Task<string> ProcessFileContents(IFormFile file)
         {
             var fileName = GetFileName(file);
+            await SaveFileAsync(file, fileName);
             var fileExtension = fileName.Substring(fileName.LastIndexOf('.') + 1);
-            switch (fileExtension.ToLower())
-            {
-                case "txt":
-                return await ProcessPlainText(file);
-                case "doc":
-                return await HandleLegacyDocument(file, fileName);
-                case "docx":
-                return await ProcessWordDocument(file, fileName);
-                case "pdf":
-                return await ProcessPdfDocument(file, fileName);
-                default:
-                throw new UnsupportedFileTypeAddedException(fileExtension);
-            }
+            var fileTypeHandler = new ExtensionWrapperMap(unsupported => { throw new UnsupportedFileTypeAddedException(fileExtension); });
+            var typed = fileTypeHandler[fileExtension](fileName);
+            return await typed.GetTextAsync();
         }
 
         private static async Task<string> ProcessPlainText(IFormFile file)
@@ -91,29 +81,22 @@ namespace AspSixApp.Controllers
         private async Task<string> ProcessPdfDocument(IFormFile file, string fileName)
         {
             await SaveFileAsync(file, fileName);
-            var pdf = new PdfFile(fileName);
-            var pdfConverter = new PdfToTextConverter(pdf);
-            var txt = await pdfConverter.ConvertFileAsync();
-            return await txt.GetTextAsync();
+            var pdfFile = new PdfFile(fileName);
+            return await pdfFile.GetTextAsync();
         }
 
         private async Task<string> ProcessWordDocument(IFormFile file, string fileName)
         {
             await SaveFileAsync(file, fileName);
             var docx = new DocXFile(fileName);
-            var docxConverter = new DocxToTextConverter(docx);
-            var txt = await docxConverter.ConvertFileAsync();
-            return await txt.GetTextAsync();
+            return await docx.GetTextAsync();
         }
 
         private async Task<string> HandleLegacyDocument(IFormFile file, string fileName)
         {
             await SaveFileAsync(file, fileName);
-            var docConverter = new DocToDocXConverter(new DocFile(fileName));
-            var docx = await docConverter.ConvertFileAsync();
-            var docxConverter = new DocxToTextConverter(docx);
-            var txt = await docxConverter.ConvertFileAsync();
-            return await txt.GetTextAsync();
+            var docFile = new DocFile(fileName);
+            return await docFile.GetTextAsync();
         }
 
         private async Task SaveFileAsync(IFormFile file, string fileName)
@@ -131,10 +114,10 @@ namespace AspSixApp.Controllers
         {
             return new[]
             {
-                "text/plain",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "application/msword",
-                "application/pdf"
+                "text/plain", // generally corresponds to .txt
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // generally corresponds to .docx
+                "application/msword", // generally corresponds to .doc
+                "application/pdf" // generally corresponds to .pdf
             }.Contains(arg.ContentType, StringComparer.OrdinalIgnoreCase);
         }
     }

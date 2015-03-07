@@ -122,7 +122,7 @@
 
         test('average defined test',
             function () {
-                ok(Array.prototype.hasOwnPropert(y'average'), 'average defined on Array.prototype!');
+                ok(Array.prototype.hasOwnProperty('average'), 'average defined on Array.prototype!');
             });
         test('average test1',
             function () {

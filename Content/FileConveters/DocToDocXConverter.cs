@@ -11,7 +11,7 @@ using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace LASI.Content
 {
     /// <summary>
-    /// Converts Microsoft word .doc binary files to modern Microsoft wd .docx open XML files.
+    /// Converts Microsoft word .doc binary files to modern Microsoft word .docx open XML files.
     /// This allows for easy extraction of the raw textual content which must be passed to the tagging module.
     /// </summary>
     public class DocToDocXConverter : FileConverter<DocFile, DocXFile>
@@ -42,7 +42,7 @@ namespace LASI.Content
         /// The newly converted file is automatically saved in the same directory as the original
         /// </summary>
         /// <returns>An input document object representing the newly converted file
-        /// Note that both the original and converted document objects can be also be accessed independtly via instance properties</returns>
+        /// Note that both the original and converted document objects can be also be accessed independently via instance properties</returns>
         public override DocXFile ConvertFile()
         {
             var process = new Process
@@ -68,8 +68,8 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// This method invokes the file conversion routine asynchronously, gernerally in a serparate thread.
-        /// Use with the await operator in an asnyc method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
+        /// This method invokes the file conversion routine asynchronously, generally in a separate thread.
+        /// Use with the await operator in an async method to retrieve the new file object and specify a continuation function to be executed when the conversion is complete.
         /// </summary>
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()

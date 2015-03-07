@@ -567,7 +567,7 @@ namespace LASI.Content
         /// </summary>
         public static bool Initialized { get; private set; }
 
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new ArgumentException("unmapped " + path); });
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeAddedException("unmapped " + path); });
         #endregion
         /// <summary>
         /// Gets the names of all documents in the current project. Ignoring file extensions.

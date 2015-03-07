@@ -18,14 +18,14 @@ namespace LASI.Content
     {
         /// <summary>
         /// Constructs a new instance which will govern the conversion of the PdfFile instance provided.
-        /// The converted file will be placed in the same diretory as the original.
+        /// The converted file will be placed in the same directory as the original.
         /// </summary>
         /// <param name="infile">The PdfFile instance representing the .pdf document to convert.</param>
         public PdfToTextConverter(PdfFile infile)
             : base(infile) {
         }
         /// <summary>
-        /// Converts the document governed by this instance from .pdf format to .txt ascii text format.
+        /// Converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
         /// <returns>An InputFile object wrapping the newly created .txt file resulting from the operation.</returns>
         public override TxtFile ConvertFile() {
@@ -34,9 +34,9 @@ namespace LASI.Content
             return new TxtFile(newPath);
         }
         /// <summary>
-        /// Asynchronously converts the document governed by this instance from .pdf format to .txt ascii text format.
+        /// Asynchronously converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
-        /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wrpas the newly created .txt file.</returns>
+        /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wraps the newly created .txt file.</returns>
         public override async Task<TxtFile> ConvertFileAsync() {
             return await Task.Run(() => ConvertFile());
         }
