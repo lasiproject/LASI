@@ -156,7 +156,32 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         }
 
         #endregion Skips
+        #region Concat
+        public static IEnumerable<T> Concat<T>(this IList<T> first, IEnumerable<T> second)
+        {
+            for (var i = 0; i < first.Count; ++i)
+            {
+                yield return first[i];
+            }
+            foreach (var item in second)
+            {
+                yield return item;
 
+            }
+        }
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IList<T> second)
+        {
+            foreach (var item in first)
+            {
+                yield return item;
+
+            }
+            for (var i = 0; i < second.Count; ++i)
+            {
+                yield return second[i];
+            }
+        }
+        #endregion
         #region ForEach
 
         /// <summary>Performs the specified action on each element of the <see cref="System.Collections.Generic.IList{T}"/>.</summary>

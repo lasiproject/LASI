@@ -22,14 +22,17 @@ namespace AspSixApp.Controllers
     using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
     using System.Security.Principal;
     using AspSixApp.CustomIdentity.MongoDb;
+    using AspSixApp.CustomIdentity;
+    using LASI.Content;
 
+    [Authorize]
     public class ResultsController : Controller
     {
-        public ResultsController(MongoDbInputDocumentStore documentStore)
+        public ResultsController(IInputDocumentStore<UserDocument> documentStore)
         {
-            Phrase.VerboseOutput = true; this.documentStore = documentStore;
+            Phrase.VerboseOutput = true;
+            this.documentStore = documentStore;
         }
-        //static int timesExecuted = 0;
         public async Task<ActionResult> Index()
         {
             TrackedJobs.Clear();
@@ -38,76 +41,48 @@ namespace AspSixApp.Controllers
             return await Results();
         }
 
-        public ActionResult Progress()
+        public async Task<ViewResult> Single(string sourceName)
         {
-            return View();
+            //var docResult =  
+            return View(await LoadResultDocument(documentStore.GetUserInputDocumentByName(User.Identity.GetUserId(), sourceName)));
         }
 
         public async Task<ViewResult> Results()
         {
-            var documents = await LoadResults();
-            var charts = from document in documents
-                         let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
-                         let rowData = from result in topResults
-                                       select new object[] { result.First, result.Second }
-                         select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Title };
+            var udocuments = GetAllUserDocuments();
+            var resultModels = from document in udocuments select LoadResultDocument(document).Result;
 
-            ViewBag.Charts = charts.ToDictionary(chart => chart.Title, chart => chart.Rows);
+            ViewBag.Charts = resultModels.DistinctBy(chart => chart.Title).ToDictionary(chart => chart.Title, chart => chart.ChartData);
             ViewBag.Title = "Results";
-            return View(new DocumentSetModel(documents));
-        }
+            return await Task.FromResult(View(new DocumentSetModel(resultModels)));
 
-        public async Task<ActionResult> Upload()
-        {
-            //if (!Directory.Exists(UserDocumentsDir))
-            //{
-            //    Directory.CreateDirectory(UserDocumentsDir);
-            //}
-            //for (var i = 0; i < Items.Files.Count; ++i)
-            //{
-            //    var file = Request.Files[i];// file in Request.Files where file != null && file.ContentLength > 0 select file;
-            //    foreach (var remnant in from remnant in new DirectoryInfo(serverPath).EnumerateFileSystemInfos()
-            //                            where remnant.Name.Contains(file.FileName.SplitRemoveEmpty('\\').Last())
-            //                            select remnant)
-            //    {
-            //        var dir = remnant as DirectoryInfo;
-            //        if (dir != null)
-            //        {
-            //            dir.Delete(true);
-            //        } else
-            //        {
-            //            remnant.Delete();
-            //        }
-            //    }
-            //    var path = Path.Combine(serverPath,
-            //        file.FileName.SplitRemoveEmpty('\\').Last());
-            //    file.SaveAs(path);
-            //}
-            return await Results();
         }
-
-        private async Task<IEnumerable<Document>> LoadResults()
+        private async Task<DocumentModel> LoadResultDocument(UserDocument userDocument)
         {
-            var extensionMap = new FileExtensionMap(path => null);
-            //var files = Directory.EnumerateFiles(UserDocumentsDirectory)
-            //    .Select(file =>
-            //    {
-            //        try
-            //        {
-            //            return extensionMap['.' + file.SplitRemoveEmpty('.').Last()](file);
-            //        }
-            //        catch (ArgumentException)
-            //        {
-            //            return null;
-            //        }
-            //    })
-            //    .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
+            var document = (await ProcessUserDocuments(userDocument)).First();
+
+            var topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit);
+            var ChartData = from chartResult in topResults
+                            select new object[] { chartResult.First, chartResult.Second };
+            var result = new
+            {
+                Rows = Newtonsoft.Json.Linq.JArray.FromObject(ChartData),
+                Title = document.Title
+            };
+            return new DocumentModel(document, result.Rows);
+        }
+        private IEnumerable<UserDocument> GetAllUserDocuments()
+        {
 
             var userId = Context.User.Identity.GetUserId();
 
-            var files = documentStore.GetAllUserInputDocuments(userId);
+            var files = documentStore.GetAllUserInputDocuments(userId); return files;
+        }
+
+        private static async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] files)
+        {
             var analyzer = new AnalysisOrchestrator(files);
-            analyzer.ProgressChanged += (s, e) =>
+            analyzer.ProgressChanged += (sender, e) =>
             {
                 PercentComplete += e.PercentWorkRepresented;
                 CurrentOperation = e.Message;
@@ -118,6 +93,7 @@ namespace AspSixApp.Controllers
             processedDocuments = processedDocuments.Union(documents);
             return processedDocuments;
         }
+
 
         // These properties should be removed and replaced with a better solution to sharing
         // progress This was a hack to initially test the functionality
@@ -130,13 +106,14 @@ namespace AspSixApp.Controllers
         private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
         private const int ChartItemLimit = 5;
 
-        private static ProcessedDocumentSet processedDocuments = System.Collections.Immutable.ImmutableHashSet.Create(
+        private static ProcessedDocumentSet processedDocuments =
+            System.Collections.Immutable.ImmutableHashSet.Create(
                     ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
         private static SerializerSettings serializerSettings = new SerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        private readonly MongoDbInputDocumentStore documentStore;
+        private readonly IInputDocumentStore<UserDocument> documentStore;
     }
 }

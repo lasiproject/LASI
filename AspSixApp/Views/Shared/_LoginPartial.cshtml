@@ -1,22 +1,28 @@
-﻿@using System.Security.Principal
-
+﻿@using System.Security.Principal;
+@using Microsoft.Framework.DependencyInjection;
+@using Microsoft.AspNet.Http;
 @if (User.Identity.IsAuthenticated)
 {
     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
+            <li class="dropdown" id="dropdown-menu-one">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@User.Identity.Name <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Projects</a></li>
+                <ul class="dropdown-menu" id="first-ddl-ul">
+                    <li class="divider"></li>
+
+                    @await Component.InvokeAsync("DocumentList", 4)
+
+
+                    <li class="divider"></li>
                     <li>@Html.ActionLink("View Profile", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                     <li><a href="#">Organization</a></li>
                     <li class="divider"></li>
                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                 </ul>
-            </li>
         </ul>
+
     }
 }
 else
@@ -25,4 +31,18 @@ else
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
+
+}
+
+@helper RenderDocumentsMenu(AspSixApp.Models.ApplicationUser user)
+{
+            @*@await Component.InvokeAsync("DocumentList", 4)*@
+
+            @*<ul class="dropdown-menu">
+                    @foreach (var item in user.Documents)
+                    {
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">@item.Name</a></li>
+                    }
+
+                </ul>*@
 }

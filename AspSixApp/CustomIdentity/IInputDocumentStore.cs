@@ -2,7 +2,7 @@
 using AspSixApp.Models;
 using LASI.Content;
 
-namespace AspSixApp.CustomIdentity.MongoDb
+namespace AspSixApp.CustomIdentity
 {
     public interface IInputDocumentStore<TDocument> where TDocument : class, IRawTextSource
     {

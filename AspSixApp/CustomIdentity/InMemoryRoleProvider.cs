@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AspSixApp.CustomIdentity
 {
-    public class InMemoryRoleProvider : RoleProvider<UserRole>
+    public class InMemoryRoleProvider : IRoleProvider<UserRole>
     {
         public InMemoryRoleProvider()
         {
@@ -16,9 +16,7 @@ namespace AspSixApp.CustomIdentity
 
         public System.Collections.Immutable.IImmutableSet<UserRole> Roles { get; private set; }
 
-        public override IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
-
-        internal override IdentityResult Add(UserRole role)
+        public IdentityResult Add(UserRole role)
         {
             if (Roles.Any(r => r.RoleId == role.RoleId || r == role))
             {
@@ -32,18 +30,18 @@ namespace AspSixApp.CustomIdentity
         }
 
 
-        internal override IdentityResult Delete(UserRole role)
+        public IdentityResult Delete(UserRole role)
         {
             Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleId == role.RoleId || r == role));
             return IdentityResult.Success;
         }
 
-        internal override void Remove(ApplicationUser user, string roleName)
+        public void Remove(ApplicationUser user, string roleName)
         {
             Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
         }
 
-        internal override IdentityResult Update(UserRole role)
+        public IdentityResult Update(UserRole role)
         {
             var target = Roles.FirstOrDefault(r => r.RoleName == role.RoleName || r.RoleId == role.RoleId || r == role);
             if (role == null)
@@ -56,5 +54,19 @@ namespace AspSixApp.CustomIdentity
             target.UserId = role.UserId;
             return IdentityResult.Success;
         }
+
+        #region Synchronization
+        /// <summary>
+        /// Provides an on which to synchronize. Do not use for any other purpose. Do not expose reference.
+        /// </summary>
+        private static readonly object Lock = new object();
+
+        private static void WithLock(Action a) { lock (Lock) a(); }
+
+        private static T WithLock<T>(Func<T> f) { lock (Lock) return f(); }
+
+        #endregion
+        public IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

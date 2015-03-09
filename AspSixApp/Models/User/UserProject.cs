@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AspSixApp.Models
 {
     public class UserProject
     {
-        public Guid Id { get; set; }
-        public IEnumerable<UserDocument> SourceTexts { get; set; }
+        MongoDB.Bson.ObjectId _id { get; set; }
+        public IEnumerable<UserDocument> SourceTexts { get; set; } = Enumerable.Empty<UserDocument>();
     }
 }

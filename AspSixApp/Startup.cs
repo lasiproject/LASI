@@ -54,9 +54,9 @@ namespace AspSixApp
             services
                 .AddSingleton(provider => new MongoConfiguration(Configuration, AppDomain.CurrentDomain))
                 .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDbInputDocumentStore(provider.GetService<MongoConfiguration>()))
-                .AddSingleton<RoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
+                .AddSingleton<IRoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
                 .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                .AddSingleton<UserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
 
             services
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>

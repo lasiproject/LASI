@@ -1,0 +1,21 @@
+﻿@model IEnumerable<string>
+<ul class="nav navbar-collapse">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="#" class="document-list-item" id="document-list-item-@(item)">@item</a>
+            <div class="progress hidden">                
+                <span class="item-id-hidden">@item</span>
+                <div id="progress-bar-@(item)"
+                     class="progress-bar text-aligned-progress-bar"
+                     style="max-width: 100%; width:@Model"
+                     role="progressbar"
+                     aria-valuenow="60"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                </div>
+            </div>
+        </li>
+    }
+
+</ul>

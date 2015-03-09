@@ -1,0 +1,41 @@
+﻿@using AspSixApp.WebHelpers
+
+@model AspSixApp.Models.DocumentStructures.DocumentModel
+
+<div id="main-content">
+    <div>
+        @RenderDocumentBodyModel(Model)
+    </div>
+</div>
+@helper RenderDocumentBodyModel(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
+{
+            <div id=@(documentModel.Title.ToSafeHtmlDomId())
+                 class="modal fade modal-lg"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="#myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">@documentModel.Title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="document">
+                                @foreach (var paragraphModel in documentModel.ParagraphModels)
+                                {
+                                    @Html.Partial("_Paragraph", paragraphModel)
+                                }
+                            </div>
+                        </div>
+                        <div class="modal-footer">@documentModel.Title</div>
+                    </div>
+                </div>
+            </div>
+}

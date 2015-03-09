@@ -1,11 +1,11 @@
 ﻿var app = {};
 (function () {
     'use strict';
-    var account = require('/account/manage'),
-        widgets = require('/widgets/document-upload');
+    //var account = require('/account/manage'),
+    //    widgets = require('/widgets/document-upload');
     app.exports = {
-        account: account,
-        widgets: widgets
+        //account: account,
+        //widgets: widgets
     };
     return app;
 }(app || {}));

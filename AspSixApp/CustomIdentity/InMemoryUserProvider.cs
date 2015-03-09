@@ -5,15 +5,15 @@ using Microsoft.AspNet.Identity;
 
 namespace AspSixApp.CustomIdentity
 {
-    internal class InMemoryUserProvider : UserProvider<ApplicationUser>
+    internal class InMemoryUserProvider : IUserProvider<ApplicationUser>
     {
         public InMemoryUserProvider()
         {
             users = new List<ApplicationUser>();
         }
-        public override IEnumerator<ApplicationUser> GetEnumerator() => users.GetEnumerator();
-
-        public override IdentityResult Add(ApplicationUser user) =>
+        public IEnumerator<ApplicationUser> GetEnumerator() => users.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        public IdentityResult Add(ApplicationUser user) =>
             WithLock(() =>
             {
                 if (!users.Contains(user))
@@ -27,10 +27,10 @@ namespace AspSixApp.CustomIdentity
                 }
             });
 
-        public override IdentityResult Delete(ApplicationUser user) =>
+        public IdentityResult Delete(ApplicationUser user) =>
             WithLock(() => users.Remove(user) ? IdentityResult.Success : IdentityResult.Failed());
 
-        public override IdentityResult Update(ApplicationUser user) =>
+        public IdentityResult Update(ApplicationUser user) =>
             WithLock(() =>
             {
                 var existing = this[user.Id];
@@ -59,17 +59,14 @@ namespace AspSixApp.CustomIdentity
                     return IdentityResult.Success;
                 }
             });
-        public override ApplicationUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
+        public ApplicationUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
 
         private readonly List<ApplicationUser> users;
 
-        private   T WithLock<T>(Func<T> f)
-        {
-            lock (lockon)
-            {
-                return f();
-            }
-        }
-        private readonly object lockon = new object();
+        #region Synchronization
+        private static readonly object Lock = new object();
+
+        private T WithLock<T>(Func<T> f) { lock (Lock) return f(); }
+        #endregion
     }
 }

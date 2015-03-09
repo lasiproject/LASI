@@ -24,8 +24,6 @@ namespace LASI.Content
         /// <summary>
         /// Gets the name associated with the IRawTextSource.
         /// </summary>
-        string SourceName {
-            get;
-        }
+        string SourceName { get; }
     }
 }
