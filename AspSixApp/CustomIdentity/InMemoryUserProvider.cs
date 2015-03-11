@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AspSixApp.Models;
 using Microsoft.AspNet.Identity;
 
@@ -13,33 +14,42 @@ namespace AspSixApp.CustomIdentity
         }
         public IEnumerator<ApplicationUser> GetEnumerator() => users.GetEnumerator();
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
-        public IdentityResult Add(ApplicationUser user) =>
-            WithLock(() =>
+        public IdentityResult Add(ApplicationUser user) => WithLock(() =>
+        {
+            if (!users.Contains(user))
             {
-                if (!users.Contains(user))
-                {
-                    users.Add(user);
-                    return IdentityResult.Success;
-                }
-                else
-                {
-                    return IdentityResult.Failed();
-                }
-            });
+                users.Add(user);
+                return IdentityResult.Success;
+            }
+            else
+            {
+                return IdentityResult.Failed(
+                    IdentityErrorDescriber.Default.DuplicateUserName(user.UserName),
+                    IdentityErrorDescriber.Default.DuplicateEmail(user.Email)
+                );
+            }
+        });
 
         public IdentityResult Delete(ApplicationUser user) =>
             WithLock(() => users.Remove(user) ? IdentityResult.Success : IdentityResult.Failed());
 
-        public IdentityResult Update(ApplicationUser user) =>
-            WithLock(() =>
+        public IdentityResult Update(ApplicationUser user)
+        {
+            return WithLock(() =>
             {
                 var existing = this[user.Id];
                 if (existing == null)
                 {
-                    return IdentityResult.Failed();
+                    return IdentityResult.Failed(new IdentityError
+                    {
+                        Description = $@"Unable to locate the user to update.
+                                         Failed to locate user with the Id of {user.Id}"
+                    });
                 }
                 else
-                {   // Transfer all properties except UserId, UserName,
+                {
+                    existing.UserName = user.UserName;
+                    existing.Id = user.Id;
                     existing.AccessFailedCount = user.AccessFailedCount;
                     existing.ConcurrencyStamp = user.ConcurrencyStamp;
                     existing.NormalizedUserName = user.NormalizedUserName;
@@ -59,7 +69,10 @@ namespace AspSixApp.CustomIdentity
                     return IdentityResult.Success;
                 }
             });
-        public ApplicationUser this[string id] => WithLock(() => users.Find(u => u.Id == id));
+        }
+        public ApplicationUser Get(Func<ApplicationUser, bool> match) => WithLock(() => users.FirstOrDefault(match));
+
+        public ApplicationUser this[string id] => Get(u => u.Id == id);
 
         private readonly List<ApplicationUser> users;
 
@@ -67,6 +80,7 @@ namespace AspSixApp.CustomIdentity
         private static readonly object Lock = new object();
 
         private T WithLock<T>(Func<T> f) { lock (Lock) return f(); }
+
         #endregion
     }
 }

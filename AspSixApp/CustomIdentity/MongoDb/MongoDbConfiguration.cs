@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using AspSixApp.Models;
 using Microsoft.Framework.ConfigurationModel;
 
 namespace AspSixApp.CustomIdentity.MongoDb
@@ -11,13 +13,19 @@ namespace AspSixApp.CustomIdentity.MongoDb
             MongoDbPath = config["MongoDbPath"];
             MongoFilesDirectory = appDomain.BaseDirectory + MongoDbPath;
             ConnectionString = config["MongoConnection"];
-            ApplicationDatabase = config["ApplicationDatabaseName"];
+            ApplicationDatabaseName = config["ApplicationDatabaseName"];
+            CollectionNamesByType = new Dictionary<Type, string>
+            {
+                [typeof(ApplicationUser)] = config["UserCollectionName"],
+                [typeof(UserRole)] = config["UserRoleCollectionName"],
+                [typeof(UserDocument)] = config["UserDocumentCollectionName"]
+            };
         }
-
-        public string ApplicationDatabase { get; }
+        public string ApplicationDatabaseName { get; }
         public string ConnectionString { get; }
         public string MongoDbPath { get; }
         public string MongodExePath { get; }
         public string MongoFilesDirectory { get; }
+        public IReadOnlyDictionary<Type, string> CollectionNamesByType { get; }
     }
 }

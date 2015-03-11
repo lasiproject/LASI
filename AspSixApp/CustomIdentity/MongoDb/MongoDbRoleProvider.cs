@@ -12,13 +12,10 @@ namespace AspSixApp.CustomIdentity.MongoDb
 {
     public class MongoDbRoleProvider : IRoleProvider<UserRole>
     {
-        private readonly Lazy<MongoDatabase> mongoDatabase;
-
-        public MongoDbRoleProvider(MongoDbConfiguration mongoConfig)
+        public UserRole Get(Func<UserRole, bool> match) => Roles.AsQueryable().FirstOrDefault(match);
+        public MongoDbRoleProvider(MongoDbService dbService)
         {
-            mongoDatabase = new Lazy<MongoDatabase>(
-                () => new MongoClient(new MongoUrl(mongoConfig.ConnectionString)).GetServer().GetDatabase(mongoConfig.ApplicationDatabase)
-            );
+            roles = new Lazy<MongoCollection<UserRole>>(() => dbService.GetCollection<UserRole>());
         }
         public IdentityResult Add(UserRole role)
         {
@@ -60,10 +57,12 @@ namespace AspSixApp.CustomIdentity.MongoDb
             }
         }
 
-        private MongoCollection<UserRole> Roles => mongoDatabase.Value.GetCollection<UserRole>("roles");
+        private MongoCollection<UserRole> Roles => roles.Value;
 
         public IEnumerator<UserRole> GetEnumerator() => Roles.AsQueryable().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        private readonly Lazy<MongoCollection<UserRole>> roles;
+
     }
 }

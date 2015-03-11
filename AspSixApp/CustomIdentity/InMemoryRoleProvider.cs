@@ -68,5 +68,7 @@ namespace AspSixApp.CustomIdentity
         #endregion
         public IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public UserRole Get(Func<UserRole, bool> match) => Roles.FirstOrDefault(match);
     }
 }

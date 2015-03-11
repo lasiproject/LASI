@@ -51,12 +51,20 @@ namespace AspSixApp
                         };
                 });
 
+            services.AddSingleton(provider => new MongoDbConfiguration(this.Configuration, AppDomain.CurrentDomain));
+
+            services.Add(new ServiceDescriptor(
+                serviceType: typeof(MongoDbService),
+                factory: provider => new MongoDbService(provider.GetService<MongoDbConfiguration>()),
+                lifecycle: LifecycleKind.Singleton
+            ));
+
             services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
-            var mongoConfiguration = new MongoDbConfiguration(this.Configuration, AppDomain.CurrentDomain);
+
             services
-                .AddInstance<IInputDocumentStore<UserDocument>>(new MongoDbInputDocumentStore(mongoConfiguration))
-                .AddInstance<IRoleProvider<UserRole>>(new MongoDbRoleProvider(mongoConfiguration))
-                .AddInstance<IUserProvider<ApplicationUser>>(new MongoDbUserProvider(mongoConfiguration));
+                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDbInputDocumentStore(provider.GetService<MongoDbService>()))
+                .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDbRoleProvider(provider.GetService<MongoDbService>()))
+                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(provider.GetService<MongoDbService>()));
 
             services
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>

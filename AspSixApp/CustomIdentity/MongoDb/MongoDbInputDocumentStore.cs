@@ -8,20 +8,19 @@ using MongoDB.Driver.Linq;
 using System.Linq;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using AspSixApp.CustomIdentity.MongoDb;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
     public class MongoDbInputDocumentStore : IInputDocumentStore<UserDocument>
     {
-        private readonly Lazy<MongoDatabase> mongoDatabase;
 
 
-        public MongoDbInputDocumentStore(MongoDbConfiguration configuration)
+        public MongoDbInputDocumentStore(MongoDbService dbService)
         {
-            this.mongoDatabase = new Lazy<MongoDatabase>(
-                () => new MongoClient(new MongoUrl(configuration.ConnectionString)).GetServer().GetDatabase(configuration.ApplicationDatabase)
-            );
+            documents = new Lazy<MongoCollection<UserDocument>>(() => dbService.GetCollection<UserDocument>());
         }
+
 
         public UserDocument GetUserInputDocumentById(string userId, string documentId)
         {
@@ -39,7 +38,10 @@ namespace AspSixApp.CustomIdentity.MongoDb
         {
             Documents.Insert(document);
         }
-        private MongoCollection<UserDocument> Documents => mongoDatabase.Value.GetCollection<UserDocument>("documents");
+
+        private MongoCollection<UserDocument> Documents => documents.Value;
+
+        private readonly Lazy<MongoCollection<UserDocument>> documents;
 
     }
 }

@@ -16,5 +16,5 @@
     "ApplicationDatabaseName": "accounts",
     "UserCollectionName": "users",
     "UserDocumentCollectionName": "documents",
-    "UserRolesCollectionName": "roles"
+    "UserRoleCollectionName": "roles"
 }
