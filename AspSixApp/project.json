@@ -17,6 +17,14 @@
         "Microsoft.AspNet.Mvc.ModelBinding": "6.0.0-beta3",
         "Microsoft.Framework.DependencyInjection": "1.0.0-beta3",
         "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3",
+        "Microsoft.AspNet.Http": "1.0.0-beta3",
+        "Microsoft.AspNet.Http.Extensions": "1.0.0-beta3",
+        //"Microsoft.AspNet.Security.OAuthBearer": "1.0.0-beta3",
+
+
+        "Microsoft.AspNet.Security": "1.0.0-beta3",
+        "Microsoft.AspNet.Security.DataProtection": "1.0.0-beta3",
+
         "mongocsharpdriver": "1.10.0",
         "Newtonsoft.Json": "6.0.8",
         "LASI.Core": "1.0.0-*",
@@ -29,7 +37,10 @@
         "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
-        "aspnet50": { }
+        "aspnet50": {
+            "dependencies": {
+            }
+        }
     },
     "exclude": [
         "wwwroot",

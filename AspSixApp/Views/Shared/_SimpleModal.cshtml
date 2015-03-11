@@ -1,0 +1,22 @@
+﻿@model AspSixApp.WebHelpers.ModalSource
+{
+<div id=@Model.DialogId
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="#myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">@Model.Title</h4>
+            </div>
+            <div class="modal-body">
+                @Model.RenderBody()
+            </div>
+            <div class="modal-footer">@Model.FooterText</div>
+        </div>
+    </div>
+</div>
+}

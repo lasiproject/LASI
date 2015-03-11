@@ -132,9 +132,7 @@ namespace LASI.Core.Binding
             i < stateList.Count;
             i++)
             {
-
-                Output.Write(stateList[i].StatePhrase);
-                Output.WriteLine();
+                Logger.Log(stateList[i].StatePhrase);
             }
 
         }

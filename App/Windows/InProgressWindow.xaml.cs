@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Reactive.Linq;
+using System.Reactive;
+using System.Reactive.Joins;
 using LASI.Interop.ResourceManagement;
 
 namespace LASI.App
@@ -50,15 +52,43 @@ namespace LASI.App
         public async Task ParseDocuments()
         {
             var resourceLoadingNotifier = new ResourceNotifier();
-            var resourceLoadingEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoading += handler, handler => resourceLoadingNotifier.ResourceLoading -= handler);
 
-            var resourceLoadedEvents = Observable.FromEventPattern<ResourceLoadEventArgs>(handler => resourceLoadingNotifier.ResourceLoaded += handler, handler => resourceLoadingNotifier.ResourceLoaded -= handler);
+            var loadingEvents = ConfigureLoadingEvents(resourceLoadingNotifier);
+
+            var loadedEvents = ConfigureLoadedEventStream(resourceLoadingNotifier);
 
             var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-            var analysisUpdates = Observable.FromEventPattern<Core.Configuration.ReportEventArgs>(handler => analysisProvider.ProgressChanged += handler, handler => analysisProvider.ProgressChanged -= handler);
-            resourceLoadedEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
-            resourceLoadingEvents.Subscribe(e => ProgressUpdated(this, e.EventArgs));
-            analysisUpdates.Subscribe(e => ProgressUpdated(this, e.EventArgs));
+
+            var analysisUpdateEvents = ConfigureAnalysisUpdateEvents(analysisProvider);
+
+            var events = (
+                    from e in loadedEvents
+                    let args = e.EventArgs
+                    select new { args.Message, args.PercentWorkRepresented }
+                ).Merge(
+                    from e in loadingEvents
+                    let args = e.EventArgs
+                    select new { args.Message, args.PercentWorkRepresented }
+                ).Merge(
+                    from e in analysisUpdateEvents
+                    let args = e.EventArgs
+                    select new { args.Message, args.PercentWorkRepresented }
+                );
+
+            events
+                .SubscribeOn(System.Threading.SynchronizationContext.Current)
+                .Subscribe(async e =>
+                {
+                    progressLabel.Content = e.Message;
+                    progressBar.ToolTip = e.Message;
+                    var animateStep = 0.028 * e.PercentWorkRepresented;
+                    for (int i = 0; i < 33; ++i)
+                    {
+                        progressBar.Value += animateStep;
+                        await Task.Delay(1);
+                    }
+                });
+
             var timer = System.Diagnostics.Stopwatch.StartNew();
             WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
             progressBar.Value = 100;
@@ -71,6 +101,27 @@ namespace LASI.App
             ProcessingCompleted(this, new EventArgs());
         }
 
+        private static IObservable<System.Reactive.EventPattern<Core.Configuration.ReportEventArgs>> ConfigureAnalysisUpdateEvents(AnalysisOrchestrator analysisProvider)
+        {
+            return Observable.FromEventPattern<Core.Configuration.ReportEventArgs>(
+                addHandler: h => analysisProvider.ProgressChanged += h,
+                removeHandler: h => analysisProvider.ProgressChanged -= h
+            );
+        }
+        private static IObservable<System.Reactive.EventPattern<ResourceLoadEventArgs>> ConfigureLoadingEvents(ResourceNotifier resourceLoadingNotifier)
+        {
+            return Observable.FromEventPattern<ResourceLoadEventArgs>(
+                addHandler: h => resourceLoadingNotifier.ResourceLoading += h,
+                removeHandler: h => resourceLoadingNotifier.ResourceLoading -= h
+            );
+        }
+        private static IObservable<System.Reactive.EventPattern<ResourceLoadEventArgs>> ConfigureLoadedEventStream(ResourceNotifier resourceLoadingNotifier)
+        {
+            return Observable.FromEventPattern<ResourceLoadEventArgs>(
+                addHandler: h => resourceLoadingNotifier.ResourceLoaded += h,
+                removeHandler: h => resourceLoadingNotifier.ResourceLoaded -= h
+            );
+        }
 
         private void ProceedToResultsView()
         {
@@ -80,18 +131,6 @@ namespace LASI.App
         #endregion
 
         #region Named Event Handlers
-
-        private async void ProgressUpdated(object sender, Core.Configuration.ReportEventArgs e)
-        {
-            progressLabel.Content = e.Message;
-            progressBar.ToolTip = e.Message;
-            var animateStep = 0.028 * e.PercentWorkRepresented;
-            for (int i = 0; i < 33; ++i)
-            {
-                progressBar.Value += animateStep;
-                await Task.Delay(1);
-            }
-        }
 
         private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

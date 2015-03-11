@@ -12,15 +12,16 @@ namespace AspSixApp.CustomIdentity.MongoDb
     public class MongoDbUserProvider : IUserProvider<ApplicationUser>
     {
 
-        public MongoDbUserProvider(IConfiguration config, AppDomain appDomain)
+        public MongoDbUserProvider(MongoDbConfiguration mongoConfig)
         {
-            var mongoConfig = new MongoConfiguration(config, appDomain);
             System.Diagnostics.Process.Start(
                fileName: mongoConfig.MongodExePath,
                arguments: $"--dbpath {mongoConfig.MongoFilesDirectory}"
            );
 
-            mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(mongoConfig.ConnectionString)).GetServer().GetDatabase(mongoConfig.ApplicationDatabase));
+            mongoDatabase = new Lazy<MongoDatabase>(
+                () => new MongoClient(new MongoUrl(mongoConfig.ConnectionString)).GetServer().GetDatabase(mongoConfig.ApplicationDatabase)
+            );
 
         }
         public void Insert(ApplicationUser account)
@@ -47,7 +48,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 if (result?.ErrorMessage == null)
                 {
                     return IdentityResult.Success;
-                } 
+                }
                 else
                 {
                     return IdentityResult.Failed(new IdentityError { Description = result.ErrorMessage });

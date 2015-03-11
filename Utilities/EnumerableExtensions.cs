@@ -256,7 +256,7 @@ namespace LASI.Utilities
         /// <paramref name="source" /> or <paramref name="selector" /> is null
         /// </exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
         {
             Validate.NotNull(source, "source", selector, "selector");
             return source.Distinct(
@@ -289,14 +289,13 @@ namespace LASI.Utilities
         /// A sequence that contains the set difference of the elements of two sequences under the
         /// given projection.
         /// </returns>
-        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) /*where TKey : IEquatable<TKey>*/
-        {
-            return first.Except(second,
+        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
+            first.Except(second,
                 ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
-        }
+
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -308,17 +307,12 @@ namespace LASI.Utilities
         /// A sequence that contains the set intersection of the elements of two sequences under the
         /// given projection.
         /// </returns>
-        public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first,
-            IEnumerable<TSource> second,
-            Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
-        {
-            return first
-                .Intersect(second,
+        public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
+            first.Intersect(second,
                 ComparerFactory.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
                 );
-        }
 
         /// <summary>Returns the maximal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
@@ -330,9 +324,7 @@ namespace LASI.Utilities
         /// <paramref name="source" /> or <paramref name="selector" /> is null
         /// </exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
-        public static TSource MaxBy<TSource, TKey>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TKey> selector)
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
             where TKey : IComparable<TKey> => source.MaxBy(selector, Comparer<TKey>.Default);
 
         /// <summary>Returns the maximal element of the given sequence, based on the given projection.</summary>
@@ -346,7 +338,7 @@ namespace LASI.Utilities
         /// <paramref name="source" /> or <paramref name="selector" /> is null
         /// </exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty</exception>
-        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
             Validate.NotNull(source, "source", selector, "selector");
             Validate.NotEmpty(source, "source");
@@ -376,7 +368,7 @@ namespace LASI.Utilities
         /// <paramref name="source" /> or <paramref name="selector" /> is null.
         /// </exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> is empty.</exception>
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer) where TKey : IComparable<TKey>
         {
             Validate.NotNull(source, "source", selector, "selector");
             Validate.NotEmpty(source, "source");
@@ -454,7 +446,7 @@ namespace LASI.Utilities
         /// true if the two source sequences are of equal length and their corresponding elements
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
-        public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey> =>
+        public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.SequenceEqual(second, ComparerFactory.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
@@ -465,8 +457,8 @@ namespace LASI.Utilities
         /// <typeparam name="T">The type of elements in the source sequence.</typeparam>
         /// <param name="source">The sequence of values to representing all elements in question.</param>
         /// <param name="predicate">The predicate used to delineate elements.</param>
-        /// <returns></returns>
-        public static double PercentTrue<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        /// <returns>The percentage of values in the sequence which match the specified predicate.</returns>
+        public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             return source
                 .Aggregate(new { Length = 0, Matched = 0 },
@@ -480,7 +472,7 @@ namespace LASI.Utilities
         /// The collection of boolean values to for which to calculate the percent that are <c>== true</c>.
         /// </param>
         /// <returns>The percentage of true values in the collection of Boolean values.</returns>
-        public static double PercentTrue(this IEnumerable<bool> delineated) => delineated.PercentTrue(v => v);
+        public static double PercentTrue(this IEnumerable<bool> delineated) => delineated.PercentWhere(v => v);
 
         #endregion Statistical
 
@@ -604,16 +596,14 @@ namespace LASI.Utilities
         /// <c>true</c> if the given source sequence contain the same elements, irrespective or
         /// order and duplicate items, as the second sequence; otherwise, <c>false</c>.
         /// </returns>
-        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector)
-        {
-            return first.Select(selector).SetEqual(second.Select(selector));
-        }
+        public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
+            first.Select(selector).SetEqual(second.Select(selector));
 
         /// <summary>
         /// Returns a HashSet representation of the given sequence using the default
         /// IEqualityComparer for the given element type.
         /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
         /// The sequence whose distinct elements will comprise the resulting set.
         /// </param>
@@ -621,16 +611,13 @@ namespace LASI.Utilities
         /// A HashSet representation of the given sequence using the default
         /// System.Collections.Generic.IEqualityComparer for the given element type.
         /// </returns>
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source)
-        {
-            return new HashSet<TSource>(source);
-        }
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => source.ToHashSet(EqualityComparer<T>.Default);
 
         /// <summary>
         /// Returns a HashSet representation of the given sequence using the specified
         /// IEqualityComparer to determine element uniqueness.
         /// </summary>
-        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
         /// The sequence whose distinct elements will comprise the resulting set.
         /// </param>
@@ -642,10 +629,10 @@ namespace LASI.Utilities
         /// A HashSet representation of the given sequence using the default IEqualityComparer for
         /// the given element type.
         /// </returns>
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer)
         {
-            Validate.NotNull(comparer, "comparer");
-            return new HashSet<TSource>(source, comparer);
+            Validate.NotNull(source, nameof(source), comparer, nameof(comparer));
+            return new HashSet<T>(source, comparer);
         }
 
         /// <summary>Produces the set union of two sequences under the given projection.</summary>
@@ -657,7 +644,7 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence that contains the set union of the elements of two sequences under the given projection.
         /// </returns>
-        public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) where TKey : IEquatable<TKey>
+        public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector)
         {
             return first.Union(second,
                 ComparerFactory.Create<TSource>(

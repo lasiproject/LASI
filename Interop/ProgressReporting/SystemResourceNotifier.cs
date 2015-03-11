@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LASI.Interop.ContractHelperTypes.Base
 {
+    using Lexicon = Core.Lexicon;
+    using ResourceLoadEventArgs = Core.ResourceLoadEventArgs;
+
     /// <summary>
     /// Provides for the subscription of events involving the loading of core resources.
     /// </summary>
@@ -15,17 +14,19 @@ namespace LASI.Interop.ContractHelperTypes.Base
         /// Initializes a new instance of the SystemResourceNotifier class which provides for the subscription of events corresponding to resource loading events.
         /// </summary>
         public SystemResourceNotifier()
-            : base(BASE_MESSAGE_ADJUNCT) {
-            Core.Heuristics.Lexicon.ResourceLoaded += (sender, e) => OnReport(e);
+            : base(BaseMessageAdjunct)
+        {
+            Lexicon.ResourceLoaded += (sender, e) => OnReport(e);
         }
         /// <summary>
         /// Raised when a System Core resource begins loading.
         /// </summary>
-        public event EventHandler<LASI.Core.ResourceLoadEventArgs> ProgressChanging {
+        public event EventHandler<ResourceLoadEventArgs> ProgressChanging
+        {
             add { loadingProvider.ProgressChanged += value; }
             remove { loadingProvider.ProgressChanged -= value; }
         }
         private SystemResourceLoadingNotifier loadingProvider = new SystemResourceLoadingNotifier();
-        private const string BASE_MESSAGE_ADJUNCT = "Loaded";
+        private const string BaseMessageAdjunct = "Loaded";
     }
 }

@@ -116,14 +116,14 @@ namespace LASI.Content
             }
             catch (UnknownPhraseTagException e)
             {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
+                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
                     e.Message,
                     lazyWords.Format(lazy => lazy.Value.ToString()));
                 return () => new UnknownPhrase(lazyWords.Select(lazy => lazy.Value));
             }
             catch (EmptyPhraseTagException e)
             {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
+                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
                     e.Message, lazyWords.Format(lazy => lazy.Value.ToString()));
                 return () => new UnknownPhrase(lazyWords.Select(we => we.Value));
             }
@@ -159,17 +159,17 @@ namespace LASI.Content
                     }
                     catch (EmptyWordTagException x)
                     {
-                        Output.WriteLine($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
+                        Logger.Log($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
                         parsedWords.Add(new UnknownWord(pair.Text));
                     }
                     catch (UnknownWordTagException x)
                     {
-                        Output.WriteLine($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
+                        Logger.Log($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
                         parsedWords.Add(new UnknownWord(pair.Text));
                     }
                     catch (EmptyOrWhiteSpaceStringTaggedAsWordException x)
                     {
-                        Output.WriteLine("\n" + x.Message + "\nDiscarding");
+                        Logger.Log("\n" + x.Message + "\nDiscarding");
                     }
                 }
             }
@@ -204,7 +204,7 @@ namespace LASI.Content
                     }
                     catch (UnknownWordTagException e)
                     {
-                        Output.WriteLine("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, pair.Text, element);
+                        Logger.Log("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, pair.Text, element);
                         wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(pair.Text)));
                     }
                 }
@@ -324,12 +324,12 @@ namespace LASI.Content
             }
             catch (UnknownPhraseTagException e)
             {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
             catch (EmptyPhraseTagException e)
             {
-                Output.WriteLine("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
                 return new UnknownPhrase(words);
             }
         }

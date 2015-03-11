@@ -32,7 +32,7 @@ namespace LASI.Core.Heuristics.WordNet
             using (StreamReader reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
                     try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
-                        Output.WriteLine("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
+                        Logger.Log("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
                     }
                 }
             }

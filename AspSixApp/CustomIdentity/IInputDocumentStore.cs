@@ -8,6 +8,6 @@ namespace AspSixApp.CustomIdentity
     {
         void AddUserInputDocument(string userId, TDocument document);
         IEnumerable<TDocument> GetAllUserInputDocuments(string userId);
-        TDocument GetUserInputDocumentByName(string userId, string sourceName);
+        TDocument GetUserInputDocumentById(string userId, string sourceName);
     }
 }

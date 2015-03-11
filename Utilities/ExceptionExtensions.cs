@@ -13,7 +13,7 @@ namespace LASI.Utilities
         /// <param name="exception">The exception to log.</param>
         public static void Log(this Exception exception)
         {
-            Output.WriteLine($"{exception.Message}\n{exception.StackTrace}");
+            Logger.Log($"{exception.Message}\n{exception.StackTrace}");
         }
     }
 }

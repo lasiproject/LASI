@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core
 {
     /// <summary>
     /// Contains values corresponding to distinct genders.

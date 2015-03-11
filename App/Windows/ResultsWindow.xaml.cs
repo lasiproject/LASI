@@ -17,6 +17,7 @@ using LASI.Content.Serialization;
 namespace LASI.App
 {
     using LASI.App.Visualization;
+    using LASI.Core.Analysis.Heuristics;
     using LASI.Interop.ResourceManagement;
     using LASI.Utilities;
     using FileInfo = System.IO.FileInfo;
@@ -67,9 +68,9 @@ namespace LASI.App
 
         private async Task CreateWeightViewAsync(Document document)
         {
-            var page1 = document.Paginate(100, 100).FirstOrDefault();
+            //var pages = document.Paginate(lineLength: 100, linesPerPage: 100);
 
-            var nounPhraseLabels = from sentence in page1 != null ? page1.Sentences : document.Paragraphs.Sentences()
+            var nounPhraseLabels = from sentence in document.Sentences
                                    select sentence.Phrases.OfNounPhrase() into nounPhrases
                                    from np in nounPhrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    group np by new { np.Text, Type = np.GetType() } into byTypeAndText
@@ -132,8 +133,10 @@ namespace LASI.App
             Phrase.VerboseOutput = true;
             Word.VerboseOutput = true;
             var panel = new WrapPanel();
-            var phrases = document.Paginate(80, 20)
-                .Take(1)
+            var phrases = document
+                .Paginate(80, 20)
+                .Where(page => page.Paragraphs.PercentWhere(p => !p.Text.IsNullOrWhiteSpace()) < 50)
+                .Take(10)
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sentence => sentence.Phrases());
@@ -196,7 +199,7 @@ namespace LASI.App
             catch (FileConversionFailureException e)
             {
                 var failureMessage = $".doc file conversion failed\n{e.Message}";
-                Output.WriteLine(failureMessage);
+                Logger.Log(failureMessage);
                 MessageBox.Show(this, failureMessage);
             }
         }
@@ -283,7 +286,7 @@ namespace LASI.App
             }
             catch (NullReferenceException)
             {
-                Output.WriteLine("There is no chart selected by the user, there is nothing to print.");
+                Logger.Log("There is no chart selected by the user, there is nothing to print.");
             }
         }
 

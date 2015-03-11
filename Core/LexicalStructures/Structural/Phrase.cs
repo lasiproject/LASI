@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all Phrase level grammatical constructs.
     /// </summary>
-    public abstract class Phrase : ILexical, IPrepositionLinkable
+    public abstract class Phrase : ILexical, LexicalStructures.Structural.ICompositeLexical<Word>, LexicalStructures.Structural.IUnitLexical
     {
         #region Constructors
 
@@ -122,6 +122,7 @@ namespace LASI.Core
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
+        public IEnumerable<Word> Components => Words;
 
         #endregion
 
@@ -138,6 +139,7 @@ namespace LASI.Core
         /// Controls the level detail of the information provided by the ToString method of all instances of the Phrase class.
         /// </summary>
         public static bool VerboseOutput { get; set; } = true;
+
 
         #endregion
     }

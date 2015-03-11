@@ -22,13 +22,15 @@ namespace LASI.Content
         /// </summary>
         /// <param name="infile">The PdfFile instance representing the .pdf document to convert.</param>
         public PdfToTextConverter(PdfFile infile)
-            : base(infile) {
+            : base(infile)
+        {
         }
         /// <summary>
         /// Converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
         /// <returns>An InputFile object wrapping the newly created .txt file resulting from the operation.</returns>
-        public override TxtFile ConvertFile() {
+        public override TxtFile ConvertFile()
+        {
             var newPath = Original.PathSansExt + ".txt";
             new PdfParser().ExtractText(Original.FullPath, newPath);
             return new TxtFile(newPath);
@@ -37,7 +39,8 @@ namespace LASI.Content
         /// Asynchronously converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wraps the newly created .txt file.</returns>
-        public override async Task<TxtFile> ConvertFileAsync() {
+        public override async Task<TxtFile> ConvertFileAsync()
+        {
             return await Task.Run(() => ConvertFile());
         }
 
@@ -68,16 +71,19 @@ namespace LASI.Content
             /// <param name="inFileName">the full path to the pdf file.</param>
             /// <param name="outFileName">the output file name.</param>
             /// <returns>the extracted text</returns>
-            public void ExtractText(string inFileName, string outFileName) {
+            public void ExtractText(string inFileName, string outFileName)
+            {
                 // Create a reader for the given PDF file   
                 PdfReader reader = new PdfReader(new FileStream(inFileName,
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.Read, 1024,
                     FileOptions.Asynchronous));
-                Output.Write("Processing: ");
-                using (var outFile = new StreamWriter(outFileName, false, Encoding.UTF8)) {
-                    for (int page = 1; page <= reader.NumberOfPages; page++) {
+                Logger.Log("Processing: ");
+                using (var outFile = new StreamWriter(outFileName, false, Encoding.UTF8))
+                {
+                    for (int page = 1; page <= reader.NumberOfPages; page++)
+                    {
                         outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(page)) + " ");
                     }
                 }
@@ -89,8 +95,9 @@ namespace LASI.Content
             /// and extracts text.
             /// </summary>
             /// <param name="input">uncompressed</param>
-            /// <returns></returns>
-            private string ExtractTextFromPDFBytes(byte[] input) {
+            /// <returns>The text extracted from the stream of PDF encoded bytes.</returns>
+            private string ExtractTextFromPDFBytes(byte[] input)
+            {
                 if (input == null || input.Length == 0)
                     return string.Empty;
                 var resultString = string.Empty;
@@ -109,19 +116,29 @@ namespace LASI.Content
                 char[] previousCharacters = Enumerable.Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
-                for (int i = 0; i < input.Length; i++) {
+                for (int i = 0; i < input.Length; i++)
+                {
                     char c = (char)input[i];
 
-                    if (inTextObject) {
+                    if (inTextObject)
+                    {
                         // Position the text
-                        if (bracketDepth == 0) {
-                            if (CheckToken(new[] { "TD", "Td" }, previousCharacters, 15)) {
+                        if (bracketDepth == 0)
+                        {
+                            if (CheckToken(new[] { "TD", "Td" }, previousCharacters, 15))
+                            {
                                 resultString += "\n\r";
-                            } else {
-                                if (CheckToken(new[] { "'", "T*", "\"" }, previousCharacters, 15)) {
+                            }
+                            else
+                            {
+                                if (CheckToken(new[] { "'", "T*", "\"" }, previousCharacters, 15))
+                                {
                                     resultString += "\n";
-                                } else {
-                                    if (CheckToken(new[] { "Tj" }, previousCharacters, 15)) {
+                                }
+                                else
+                                {
+                                    if (CheckToken(new[] { "Tj" }, previousCharacters, 15))
+                                    {
                                         resultString += " ";
                                     }
                                 }
@@ -130,27 +147,41 @@ namespace LASI.Content
 
                         // End of a text object, also go to a new line.
                         if (bracketDepth == 0 &&
-                            CheckToken(new string[] { "ET" }, previousCharacters, 15)) {
+                            CheckToken(new string[] { "ET" }, previousCharacters, 15))
+                        {
                             inTextObject = false;
                             resultString += " ";
-                        } else {
+                        }
+                        else
+                        {
                             // Start outputting text
-                            if ((c == '(') && (bracketDepth == 0) && (!nextLiteral)) {
+                            if ((c == '(') && (bracketDepth == 0) && (!nextLiteral))
+                            {
                                 bracketDepth = 1;
-                            } else {
+                            }
+                            else
+                            {
                                 // Stop outputting text
-                                if ((c == ')') && (bracketDepth == 1) && (!nextLiteral)) {
+                                if ((c == ')') && (bracketDepth == 1) && (!nextLiteral))
+                                {
                                     bracketDepth = 0;
-                                } else {
+                                }
+                                else
+                                {
                                     // Just a normal text character:
-                                    if (bracketDepth == 1) {
+                                    if (bracketDepth == 1)
+                                    {
                                         // Only print out next character no matter what. 
                                         // Do not interpret.
-                                        if (c == '\\' && !nextLiteral) {
+                                        if (c == '\\' && !nextLiteral)
+                                        {
                                             nextLiteral = true;
-                                        } else {
+                                        }
+                                        else
+                                        {
                                             if (((c >= ' ') && (c <= '~')) ||
-                                                ((c >= 128) && (c < 255))) {
+                                                ((c >= 128) && (c < 255)))
+                                            {
                                                 resultString += c.ToString();
                                             }
                                             nextLiteral = false;
@@ -163,13 +194,15 @@ namespace LASI.Content
 
                     // Store the recent characters for 
                     // when we have to go back for a checking
-                    for (int j = 0; j < CHARS_TO_KEEP - 1; j++) {
+                    for (int j = 0; j < CHARS_TO_KEEP - 1; j++)
+                    {
                         previousCharacters[j] = previousCharacters[j + 1];
                     }
                     previousCharacters[CHARS_TO_KEEP - 1] = c;
 
                     // Start of a text object
-                    if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters, 15)) {
+                    if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters, 15))
+                    {
                         inTextObject = true;
                     }
                 }
@@ -185,9 +218,12 @@ namespace LASI.Content
             /// <param name="recent">the recent character array</param>
             /// <param name="charsToKeep"></param>
             /// <returns></returns>
-            private bool CheckToken(string[] tokens, char[] recent, int charsToKeep) {
-                foreach (string currentCharacterToken in tokens) {
-                    try {
+            private bool CheckToken(string[] tokens, char[] recent, int charsToKeep)
+            {
+                foreach (string currentCharacterToken in tokens)
+                {
+                    try
+                    {
                         if ((recent[charsToKeep - 3] == currentCharacterToken[0]) &&
                             (recent[charsToKeep - 2] == currentCharacterToken[1]) &&
                             ((recent[charsToKeep - 1] == ' ') ||
@@ -196,10 +232,12 @@ namespace LASI.Content
                             ((recent[charsToKeep - 4] == ' ') ||
                             (recent[charsToKeep - 4] == 0x0d) ||
                             (recent[charsToKeep - 4] == 0x0a))
-                            ) {
+                            )
+                        {
                             return true;
                         }
-                    } catch (IndexOutOfRangeException) { return false; }
+                    }
+                    catch (IndexOutOfRangeException) { return false; }
                 }
                 return false;
             }

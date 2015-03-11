@@ -31,7 +31,7 @@ namespace LASI.Core.Heuristics.WordNet
             using (var reader = new StreamReader(filePath)) {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
                     try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
-                        Output.WriteLine($"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
+                        Logger.Log($"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
                     }
                 }
             }

@@ -22,7 +22,8 @@ namespace LASI.App
             catch (Exception x)
             {
                 MessageBox.Show(source, UiMessages.UnableToReachLASIWebSite);
-                Output.WriteLine(x.Message); Output.WriteLine(x);
+                Logger.Log(x.Message);
+                Logger.Log(x);
             }
         }
         internal static void OpenManualWithInstalledViewer(Window source)
@@ -38,7 +39,8 @@ namespace LASI.App
             catch (Exception x)
             {
                 MessageBox.Show(source, UiMessages.UnableToOpenManual);
-                Output.WriteLine(x.Message); Output.WriteLine(x);
+                Logger.Log(x.Message);
+                Logger.Log(x);
             }
         }
         public static void DisplayMessage(this Window window, string message)

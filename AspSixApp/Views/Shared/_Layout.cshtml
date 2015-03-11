@@ -20,42 +20,60 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("LASI", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                { @await Component.InvokeAsync("DocumentList", 4);
+                }
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("LASI", "Index", "Home")</li>*@
+                    <li class="navbar-brand">
+                        <a href="~/" onclick="(function(){$.get('/home/index');})">
+                            <div>
+                                <img class="logo" src="~/images/ic_launcher-web - Copy.png" width="30" style="margin-top:-30px;" />
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="glyphicon glyphicon-upload">
+                        </a>
+                    </li>
                     <li>@Html.ActionLink("Results", "Index", "Results")</li>
-                    <li>@Html.ActionLink("About Asp.Net", "About", "Home")</li>
+                    @*<li>@Html.ActionLink("Contact","Contact", "Home")</li>
+
+                        <li>@Html.ActionLink("About Asp.Net","About", "Home")</li>*@
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
     <!--Load the google data visualization AJAX API-->
+    <div class="jumbotron">
+        <div class="container body-content">
 
-    <div class="container body-content">
-
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - LASI Project</p>
-        </footer>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - LASI Project</p>
+            </footer>
+        </div>
     </div>
     <script src="https://www.google.com/jsapi"></script>
-    <script src="lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-    <script src="lib/requirejs/require.js"></script>
-    @*<script src="lib/bootstrap/js/npm.js"></script>*@
+    <script src="~/lib/requirejs/require.js"></script>
 
-    <script src="/app/util.js"></script>
-    <script src="/app/LASI.js"></script>
-    <script src="/app/account/manage.js"></script>
-    <script src="/app/results/context-menu-provider.js"></script>
-    <script src="/app/results/results.js"></script>
-    <script src="/app/widgets/document-upload.js"></script>
+    <script src="~/app/util.js"></script>
+    <script src="~/app/LASI.js"></script>
+    <script src="~/app/account/manage.js"></script>
+    <script src="~/app/results/context-menu-provider.js"></script>
+    <script src="~/app/results/results.js"></script>
+    <script src="~/app/widgets/document-upload.js"></script>
+    <script src="~/app/widgets/document-list.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

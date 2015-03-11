@@ -128,8 +128,8 @@ namespace LASI.App
             }
             catch (IOException e)
             {
-                Output.WriteLine(e.Message);
-                Output.WriteLine(e.StackTrace);
+                Logger.Log(e.Message);
+                Logger.Log(e.StackTrace);
                 return true;
             }
         }

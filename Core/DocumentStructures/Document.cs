@@ -81,10 +81,10 @@ namespace LASI.Core
                 var totalLines = 0;
                 var pragraphs = measuredParagraphs
                     .Skip(skip)
-                    .TakeWhile((p, index) =>
+                    .TakeWhile((paragraph, index) =>
                     {
-                        bool forceOutput = totalLines == 0 && p.LinesUsed > linesPerPage;
-                        totalLines += p.LinesUsed;
+                        bool forceOutput = totalLines == 0 && paragraph.LinesUsed > linesPerPage;
+                        totalLines += paragraph.LinesUsed;
                         return totalLines <= linesPerPage || forceOutput;
                     })
                     .Select(measured => measured.Paragraph);
@@ -206,13 +206,23 @@ namespace LASI.Core
         public sealed class Page : IReifiedTextual
         {
             /// <summary>
+            /// Initializes a new instance of the Page class.
+            /// </summary>
+            /// <param name="paragraphs">The Paragraphs which comprise the Page.</param>
+            /// <param name="document">The Document to which the Page belongs.</param>
+            internal Page(IEnumerable<Paragraph> paragraphs, Document document)
+            {
+                Document = document;
+                Sentences = paragraphs.Sentences();
+            }
+            /// <summary>
             /// Gets the Paragraphs which comprise the Page.
             /// </summary>
             public IEnumerable<Paragraph> Paragraphs =>
-                from paragraph in Sentences.Select(s => s.Paragraph).Distinct()
-                let rank = Document.paragraphs.ToList().IndexOf(paragraph)
+                from sentence in Sentences.DistinctBy(s => s.Paragraph)
+                let rank = Document.paragraphs.IndexOf(sentence.Paragraph)
                 orderby rank
-                select paragraph;
+                select sentence.Paragraph;
 
 
             /// <summary>
@@ -251,16 +261,7 @@ namespace LASI.Core
             /// Gets all verbals spanned by the page.
             /// </summary>
             public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(s => s.Verbals);
-            /// <summary>
-            /// Initializes a new instance of the Page class.
-            /// </summary>
-            /// <param name="paragraphs">The Paragraphs which comprise the Page.</param>
-            /// <param name="document">The Document to which the Page belongs.</param>
-            internal Page(IEnumerable<Paragraph> paragraphs, Document document)
-            {
-                Document = document;
-                Sentences = paragraphs.Sentences();
-            }
+
         }
 
         #endregion Document.Page

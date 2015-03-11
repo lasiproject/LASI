@@ -12,6 +12,7 @@ using LASI.Utilities;
 namespace LASI.App
 {
     using Interop.ResourceManagement;
+    using LASI.Core.Analysis.Heuristics.Support;
     using ChartItem = KeyValuePair<string, float>;
     using ChartItemCollection = IEnumerable<KeyValuePair<string, float>>;
     /// <summary>

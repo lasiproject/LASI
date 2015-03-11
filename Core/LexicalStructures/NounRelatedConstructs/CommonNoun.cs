@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class and functionality for classes which represent Generic Nouns.
@@ -18,7 +12,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the GenericNoun</param>
         protected CommonNoun(string text)
-            : base(text) {
+            : base(text)
+        {
             EntityKind = EntityKind.Thing;
         }
     }

@@ -32,7 +32,7 @@ namespace AspSixApp
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
-        {    // Add MVC services to the services container.
+        {
             services
                 .AddMvc()
                 .AddWebApiConventions()
@@ -51,12 +51,12 @@ namespace AspSixApp
                         };
                 });
 
+            services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
+            var mongoConfiguration = new MongoDbConfiguration(this.Configuration, AppDomain.CurrentDomain);
             services
-                .AddSingleton(provider => new MongoConfiguration(Configuration, AppDomain.CurrentDomain))
-                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDbInputDocumentStore(provider.GetService<MongoConfiguration>()))
-                .AddSingleton<IRoleProvider<UserRole>>(provider => new InMemoryRoleProvider())
-                .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(Configuration, AppDomain.CurrentDomain));
+                .AddInstance<IInputDocumentStore<UserDocument>>(new MongoDbInputDocumentStore(mongoConfiguration))
+                .AddInstance<IRoleProvider<UserRole>>(new MongoDbRoleProvider(mongoConfiguration))
+                .AddInstance<IUserProvider<ApplicationUser>>(new MongoDbUserProvider(mongoConfiguration));
 
             services
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
@@ -88,12 +88,12 @@ namespace AspSixApp
         {
             ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "resources.json"));
 
-            // Configure the HTTP request pipeline. Add the console logger.
-            loggerfactory
-                .AddConsole()
-                .AddLASIOutput();
+            loggerfactory.AddConsole();
 
             app.UseBrowserLink();
+            // Configure the HTTP request pipeline. Add the console logger.
+            //.AddLASIOutput();
+
 
             // Add the following to the request pipeline only in development environment.
             if (env.EnvironmentName.EqualsIgnoreCase("Development"))

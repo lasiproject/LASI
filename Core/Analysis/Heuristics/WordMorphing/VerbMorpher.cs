@@ -70,7 +70,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                                 return possibleRoot + afterHyphen;
                             }
                         }
-                        catch (StackOverflowException e) { Output.WriteLine(e); }
+                        catch (StackOverflowException e) { Logger.Log(e); }
                     }
                 }
             }

@@ -12,7 +12,7 @@
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
         public static SequenceMatch Match(this Sentence sentence)
         {
-            return new SequenceMatch(sentence).AddLoggingBehavior(message => Utilities.Output.WriteLine(message));
+            return new SequenceMatch(sentence).AddLoggingBehavior(message => Utilities.Logger.Log(message));
         }
         /// <summary>
         /// Begins a pattern match expression over the sequence of <see cref="ILexical" />s.
@@ -22,7 +22,7 @@
         public static SequenceMatch Match(this System.Collections.Generic.IEnumerable<ILexical> lexicalSequence)
         {
             return new SequenceMatch(lexicalSequence)
-                .AddLoggingBehavior(message => Utilities.Output.WriteLine(message));
+                .AddLoggingBehavior(message => Utilities.Logger.Log(message));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace LASI.Interop.ResourceManagement
 {
-    using Lexicon = Core.Heuristics.Lexicon;
+    using Lexicon = Core.Lexicon;
     using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
     using DateTime = System.DateTime;
     using System;

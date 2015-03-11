@@ -5,23 +5,31 @@ using AspSixApp.Models;
 using Microsoft.Framework.ConfigurationModel;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using System.Linq;
 using MongoDB.Driver.Builders;
+using MongoDB.Bson;
 
 namespace AspSixApp.CustomIdentity.MongoDb
 {
     public class MongoDbInputDocumentStore : IInputDocumentStore<UserDocument>
     {
-        private Lazy<MongoDatabase> mongoDatabase;
+        private readonly Lazy<MongoDatabase> mongoDatabase;
 
 
-        public MongoDbInputDocumentStore(MongoConfiguration configuration)
+        public MongoDbInputDocumentStore(MongoDbConfiguration configuration)
         {
-            this.mongoDatabase = new Lazy<MongoDatabase>(valueFactory: () => new MongoClient(new MongoUrl(configuration.ConnectionString)).GetServer().GetDatabase(configuration.ApplicationDatabase));
+            this.mongoDatabase = new Lazy<MongoDatabase>(
+                () => new MongoClient(new MongoUrl(configuration.ConnectionString)).GetServer().GetDatabase(configuration.ApplicationDatabase)
+            );
         }
 
-        public UserDocument GetUserInputDocumentByName(string userId, string sourceName)
+        public UserDocument GetUserInputDocumentById(string userId, string documentId)
         {
-            return Documents.FindOne(Query.And(Query.EQ("OwnerId", userId), Query.EQ("SourceName", sourceName)));
+            return (from document in Documents.AsQueryable()
+                    where document._id == ObjectId.Parse(documentId)
+                    where document.OwnerId == userId
+                    select document).FirstOrDefault();
+            //return Documents.FindOne(Query.And(Query.EQ("OwnerId", userId), Query.EQ("_id",documentId)));
         }
         public IEnumerable<UserDocument> GetAllUserInputDocuments(string userId)
         {

@@ -58,12 +58,12 @@ namespace LASI.Content
 
                 }
             };
-            process.OutputDataReceived += (sender, e) => Output.Write(e.Data);
+            process.OutputDataReceived += (sender, e) => Logger.Log(e.Data);
             var stopWatch = Stopwatch.StartNew();
             process.Start();
             process.WaitForExit();
             Converted = new DocXFile(Original.PathSansExt + ".docx");
-            Output.WriteLine("Converted {0} to {1} in {2}", Original.FileName, Converted.FileName, stopWatch.Elapsed);
+            Logger.Log("Converted {0} to {1} in {2}", Original.FileName, Converted.FileName, stopWatch.Elapsed);
             return Converted;
         }
 

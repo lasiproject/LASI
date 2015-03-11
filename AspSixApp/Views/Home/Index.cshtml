@@ -1,20 +1,19 @@
-﻿@{
-    ViewBag.Title = "Home";
-}
-
-@using AspSixApp.Models;
-
-<header>
-    <h2>@ViewBag.Title</h2>
-    <h3>@ViewBag.Message</h3>
-</header>
-
-<div id="main-content">
+﻿@using AspSixApp.Models;
+<div id="main-content" class="row">
     <div>
-        @Html.Partial("_DocumentUpload", new DocumentUploadModel
+        <div class="col-md-4 pull-left" id="col-left">
+
+        </div>
+        <div class="col-md" id="col-main">
+            @Html.Partial("_DocumentUpload", new DocumentUploadModel
        {
            UploadTarget = "fileuploadtarget"
        })
+        </div>
+        <div class="col-md-4 pull-right" id="col-right">
+
+        </div>
+
     </div>
 </div>
 

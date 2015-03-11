@@ -38,7 +38,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 )
             )
             {
-                Output.WriteLine($"Loading Exception Information from : {exceptionsFileRelativePath}\n");
+                Logger.Log($"Loading Exception Information from : {exceptionsFileRelativePath}\n");
                 var exceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
                                          select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-')).ToList();
                 var results = exceptionFileLines
@@ -47,7 +47,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                                         .ToDictionary(e => e.Key, e => e.SelectMany(excs => excs).ToList());
 
                 var mostComplex = results.MaxBy(r => r.Value.Count);
-                Output.WriteLine($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.Value} {mostComplex.Key} -> {mostComplex.Value.Count} entries.\"");
+                Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.Value} {mostComplex.Key} -> {mostComplex.Value.Count} entries.\"");
                 return results;
             }
         }

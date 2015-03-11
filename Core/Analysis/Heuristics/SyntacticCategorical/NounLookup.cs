@@ -112,7 +112,7 @@ namespace LASI.Core.Heuristics.WordNet
                 }
                 catch (InvalidOperationException e)
                 {
-                    Output.WriteLine(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e.Message, word, containingSet));
+                    Logger.Log(string.Format("{0} was thrown when attempting to get synonyms for word {1}: , containing set: {2}", e.Message, word, containingSet));
                 }
             }
             return ImmutableHashSet<string>.Empty;

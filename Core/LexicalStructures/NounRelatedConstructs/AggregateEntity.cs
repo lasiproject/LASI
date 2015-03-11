@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Immutable;
-using System.Threading.Tasks;
-using LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental;
 using LASI.Utilities;
 
 namespace LASI.Core

@@ -13,7 +13,7 @@ namespace AspSixApp.Logging
         }
         public ILogger Create(string name)
         {
-            LASI.Utilities.Output.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
+            LASI.Utilities.Logger.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
             return new Logger(name, filter);
         }
 
@@ -24,7 +24,7 @@ namespace AspSixApp.Logging
 
             public Logger(string name, Func<string, LogLevel, bool> filter)
             {
-                this.name = name ?? typeof(LASI.Utilities.Output).FullName;
+                this.name = name ?? typeof(LASI.Utilities.Logger).FullName;
                 this.filter = filter ?? delegate { return true; };
             }
             public IDisposable BeginScope(object state) => null;
@@ -39,7 +39,7 @@ namespace AspSixApp.Logging
                     var message = formatter != null ? formatter(state, exception) : $"{exception.Message}\n{exception.StackTrace}";
 
                     var severity = logLevel.ToString().ToUpperInvariant();
-                    LASI.Utilities.Output.WriteLine($"[{severity}:{name}] {message}");
+                    LASI.Utilities.Logger.Log($"[{severity}:{name}] {message}");
                 }
             }
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LASI.Utilities;
 using LASI.Core.Configuration;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core
 {
     public static partial class Lexicon
     {

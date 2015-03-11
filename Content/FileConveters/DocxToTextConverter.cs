@@ -49,7 +49,7 @@ namespace LASI.Content
                 }
                 catch (IOException e)
                 {
-                    Output.WriteLine(e.Message); throw;
+                    Logger.Log(e.Message); throw;
                 }
             }
             using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false))
@@ -61,7 +61,7 @@ namespace LASI.Content
                     {
                         Directory.Delete(zipName, recursive: true);
                     }
-                    catch (IOException e) { Output.WriteLine(e.Message); throw; }
+                    catch (IOException e) { Logger.Log(e.Message); throw; }
                 }
                 ZipArch.ExtractToDirectory(zipName);
                 XmlFile = GetRelevantXMLFile(ZipArch);

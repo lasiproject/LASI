@@ -2,7 +2,7 @@
 using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core
 {
     public static partial class Lexicon
     {

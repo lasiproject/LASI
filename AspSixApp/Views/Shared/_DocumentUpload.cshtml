@@ -9,24 +9,22 @@
         @class = "form-inline",
         id = "fileuploadform"
     }))
-    {
+    {<div>
         <div class="col-md-6">
-            <div class="progress">
+            @*<div class="progress">
                 <p id="progress-text" class="progress-bar-info">
                     @Model.Message
                 </p>
-            </div>
+            </div>*@
 
             <div class="progress">
                 <div id="progress-bar" class="progress-bar text-aligned-progress-bar" style="max-width: 100%; width:@Model.Percentage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
                 </div>
             </div>
-            <div class="panel panel-primary">
 
-                <div class="panel-body">
-                    <div class="panel text-left">Your Docs</div>
-                    <div id="document-upload-list" class="list-group">
-                    </div>
+            <div class="panel-body">
+                <div class="panel text-left">Your Docs</div>
+                <div id="document-upload-list" class="list-group">
                 </div>
             </div>
             <span class="btn btn-default btn-file" id="document-upload-button">
@@ -35,5 +33,6 @@
             <input type="submit" name="Submit" value="Upload" class="btn btn-default" form="fileuploadform" />
             <iframe class="hidden" id=@Model.UploadTarget name=@Model.UploadTarget src=""></iframe>
         </div>
+    </div>
     }
 </div>

@@ -6,7 +6,7 @@ using System.Linq;
 using LASI.Core.Heuristics.WordNet;
 using LASI.Core.Configuration;
 
-namespace LASI.Core.Heuristics
+namespace LASI.Core
 {
     using System.Collections.Immutable;
     using LASI.Core.Configuration;

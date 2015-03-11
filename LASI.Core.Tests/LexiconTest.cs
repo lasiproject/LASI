@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Core.Analysis.Heuristics;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
 using LASI.Core.Heuristics;
 using LASI.Utilities;

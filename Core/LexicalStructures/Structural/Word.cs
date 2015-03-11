@@ -11,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level grammatical constructs.
     /// </summary>
-    public abstract class Word : ILexical, IPrepositionLinkable
+    public abstract class Word : ILexical, LexicalStructures.Structural.IUnitLexical
     {
         #region Constructors
         /// <summary>
@@ -19,7 +19,8 @@ namespace LASI.Core
         /// and behaviors of a word-level grammatical element.
         /// </summary>
         /// <param name="text">The text content of the word.</param>
-        protected Word(string text) {
+        protected Word(string text)
+        {
             if (text.Contains(' '))
                 throw new ArgumentException("The text of a word may not contain white space");
             Text = text;

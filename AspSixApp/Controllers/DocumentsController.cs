@@ -14,6 +14,8 @@ using LASI.Utilities;
 using LASI.Content;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using AspSixApp.CustomIdentity;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 //// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -60,7 +62,8 @@ namespace AspSixApp.Controllers
                                               {
                                                   Name = fileName,
                                                   Content = textContent.Value,
-                                                  OwnerId = ownerId
+                                                  OwnerId = ownerId,
+                                                  DateUploaded = (string)(JToken)DateTime.Now
                                               }
                                             };
                 uploadedUserDocuments.ForEach(async file =>
@@ -92,7 +95,7 @@ namespace AspSixApp.Controllers
 
         private async Task<string> SaveFileAsync(IFormFile file, string fileName)
         {
-            var physicalPath = Path.Combine(hostingEnvironment.WebRoot, fileName);
+            var physicalPath = Path.Combine(Directory.GetParent(hostingEnvironment.WebRoot).FullName, "App_Data", "Temp", file.GetHashCode() + fileName);
             await file.SaveAsAsync(physicalPath);
             return physicalPath;
         }

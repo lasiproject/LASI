@@ -79,8 +79,8 @@ namespace LASI.App.Dialogs
             }
             catch (ArgumentException e)
             {
-                Output.WriteLine(e.Message);
-                Output.WriteLine(e.StackTrace);
+                Logger.Log(e.Message);
+                Logger.Log(e.StackTrace);
                 Normal.IsChecked = true;
                 PerformanceMode = PerformanceLevel.Normal;
             }

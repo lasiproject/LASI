@@ -17,7 +17,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composed">The words which compose to form the SubordinateClauseBeginPhrase.</param>
         public SubordinateClauseBeginPhrase(IEnumerable<Word> composed)
-            : base(composed) {
+            : base(composed)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the SubordinateClauseBeginPhrase class.
@@ -28,7 +29,8 @@ namespace LASI.Core
         /// Thus, its purpose is to simplifiy test code.</remarks>
         public SubordinateClauseBeginPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
-        private void deterimineEndOfClause() {
+        private void deterimineEndOfClause()
+        {
             EndOfClause = Sentence.Words
                 .SkipWhile(w => w != Words.Last())
                 .First(w => w is Punctuator) as Punctuator;
@@ -36,7 +38,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Punctuation which terminates the Clause.
         /// </summary>
-        public Punctuator EndOfClause {
+        public Punctuator EndOfClause
+        {
             get;
             protected set;
         }

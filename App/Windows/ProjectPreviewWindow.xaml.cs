@@ -51,11 +51,8 @@ namespace LASI.App
         private async Task LoadTextandTabAsync(TxtFile textfile)
         {
             var text = await textfile.GetTextAsync();
-
-
-
-            var processedText = string.Join("\t", text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "\n\",", "<paragraph>", "</paragraph>").Select(value => value.Trim()));
-
+            var processedText = string.Join("\t", from displayChunk in text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "\n\",", "<paragraph>", "</paragraph>")
+                                                  select displayChunk.Trim());
 
             var block = new System.Windows.Documents.Section(
                  new System.Windows.Documents.Paragraph(

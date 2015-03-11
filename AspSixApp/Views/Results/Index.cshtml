@@ -93,12 +93,61 @@
 }
 
 
-
+@helper RenderDocumentBodyContent(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
+{ <div class="document">
+        @foreach (var paragraphModel in documentModel.ParagraphModels)
+        {
+            @Html.Partial("_Paragraph", paragraphModel)
+        }
+    </div>
+}
 
 @helper RenderDocumentBodyModel(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
-        {
-            <div id=@(documentModel.Title.ToSafeHtmlDomId())
-                 class="modal fade modal-lg"
+{
+            @Modal(
+                renderModalBody: () => RenderDocumentBodyContent(documentModel),
+                dialogId: documentModel.Title.ToSafeHtmlDomId(),
+                footerText: documentModel.Title,
+                title: documentModel.Title
+            )
+}
+@helper RenderTopResultsChartData(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
+{
+            @Modal(
+                renderModalBody: () => RenderDocumentTopResultsModalBody(documentModel, chartsByDocumentTitle),
+                dialogId: documentModel.Title.ToSafeHtmlDomId() + "_topresults",
+                footerText: documentModel.Title,
+                title: documentModel.Title
+            )
+}
+
+
+@helper RenderDocumentTopResultsModalBody(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
+{
+            <div class="container chart-container" id=@(documentModel.Title.ToSafeHtmlDomId() + "_resultschart" )>
+                <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows") hidden>
+                    <!-- Render the chart data which will be JSON encoded as an array of arrays -->
+                    @chartsByDocumentTitle[documentModel.Title])
+                </span>
+            </div>
+}
+
+
+
+@helper RenderStaticContextMenuMarkup()
+{<div id="context-menu" class="context" hidden>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
+            <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
+            <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
+            <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
+            <li class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
+        </ul>
+    </div>}
+
+    @helper Modal(string dialogId, string title, string footerText, Func<Microsoft.AspNet.Mvc.Razor.HelperResult> renderModalBody)
+    { 
+            <div id="@(dialogId)"
+                 class="modal fade"
                  tabindex="-1"
                  role="dialog"
                  aria-labelledby="#myModalLabel"
@@ -106,67 +155,13 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title">@documentModel.Title</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="document">
-                                @foreach (var paragraphModel in documentModel.ParagraphModels)
-                                {
-                                    @Html.Partial("_Paragraph", paragraphModel)
-                                }
-                            </div>
-                        </div>
-                        <div class="modal-footer">@documentModel.Title</div>
-                    </div>
-                </div>
-            </div>
-}
-
-
-
-@helper RenderTopResultsChartData(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
-        {
-            <div id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresults")
-                 class="modal fade"
-                 tabindex="-1"
-                 role="dialog"
-                 aria-labelledby="#topResultsModal"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">@documentModel.Title</h4>
+                            <h4 class="modal-title">@title</h4>
                         </div>
                         <div class="modal-body">
-                            <div class="container chart-container" id=@(documentModel.Title.ToSafeHtmlDomId() + "_resultschart" )>
-                                <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows") hidden>
-                                    <!-- Render the chart data which will be JSON encoded as an array of arrays -->
-                                    @chartsByDocumentTitle[documentModel.Title])
-                                </span>
-                            </div>
+                            @renderModalBody()
                         </div>
-                        <div class="modal-footer">@documentModel.Title</div>
+                        <div class="modal-footer">@footerText</div>
                     </div>
                 </div>
-            </div>
-}
-
-
-@helper RenderStaticContextMenuMarkup()
-        {
-            <div id="context-menu" class="context" hidden>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
-                    <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
-                    <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
-                    <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
-                    <li class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
-                </ul>
-            </div>
-}
+            </div>}

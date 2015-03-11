@@ -312,7 +312,7 @@ namespace LASI.Content
 
         private static void RecordConversionFailure(InputFile doc, Exception e)
         {
-            Output.WriteLine($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.\n{e.StackTrace}");
+            Logger.Log($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.\n{e.StackTrace}");
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace LASI.Content
             }
             catch (IOException e)
             {
-                Output.WriteLine(e.Message);
+                Logger.Log(e.Message);
                 throw;
             }
         }

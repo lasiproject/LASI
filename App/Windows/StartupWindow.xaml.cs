@@ -42,18 +42,18 @@ namespace LASI.App
                 {
                     var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
                     if (!Directory.Exists(logDir)) { Directory.CreateDirectory(logDir); }
-                    Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Logger.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                        "LASI", logFileName + ".txt"));
                 }
                 catch (IOException e)
                 {
-                    Output.WriteLine(e.Message);
+                    Logger.Log(e.Message);
                     SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
                 }
             }
             else
             {
-                Output.SetToSilent();
+                Logger.SetToSilent();
             }
         }
         #endregion

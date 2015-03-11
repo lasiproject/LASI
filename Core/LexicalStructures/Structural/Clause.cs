@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 
@@ -9,7 +10,7 @@ namespace LASI.Core
     /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
     /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
     /// </summary>
-    public class Clause : ILexical, IPrepositionLinkable
+    public class Clause : ILexical, LexicalStructures.Structural.ICompositeLexical<Phrase>, LexicalStructures.Structural.IUnitLexical
     {
         /// <summary>
         /// Initializes a new instances of the Clause class.
@@ -74,6 +75,9 @@ namespace LASI.Core
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
+
+        public IEnumerable<Phrase> Components => Phrases;
+
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>

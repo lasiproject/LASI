@@ -20,6 +20,7 @@ namespace AspSixApp.Controllers
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, Models.Results.JobStatus>;
     using ProcessedDocumentSet = System.Collections.Immutable.IImmutableSet<Document>;
     using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
+    using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
     using System.Security.Principal;
     using AspSixApp.CustomIdentity.MongoDb;
     using AspSixApp.CustomIdentity;
@@ -40,11 +41,11 @@ namespace AspSixApp.Controllers
             PercentComplete = 0;
             return await Results();
         }
-
-        public async Task<ViewResult> Single(string sourceName)
+        [HttpGet("Results/Single/{documentId}")]
+        public async Task<PartialViewResult> Single(string documentId)
         {
             //var docResult =  
-            return View(await LoadResultDocument(documentStore.GetUserInputDocumentByName(User.Identity.GetUserId(), sourceName)));
+            return PartialView("_Single", await LoadResultDocument(documentStore.GetUserInputDocumentById(User.Identity.GetUserId(), documentId)));
         }
 
         public async Task<ViewResult> Results()
@@ -61,7 +62,7 @@ namespace AspSixApp.Controllers
         {
             var document = (await ProcessUserDocuments(userDocument)).First();
 
-            var topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit);
+            var topResults = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit);
             var ChartData = from chartResult in topResults
                             select new object[] { chartResult.First, chartResult.Second };
             var result = new

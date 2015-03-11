@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                         google: false,
                         require: false,
                         define: false,
-                        module:false
+                        module: false
                     }
                 }
             }
@@ -91,11 +91,14 @@ module.exports = function (grunt) {
             appjs: {
                 files: ['wwwroot/app/**/*.js'],
                 tasks: ['jslint:app', 'qunit:all']
+            }, test: {
+                files: ['wwwroot/test/**/*.js'],
+                tasks: ['qunit:all']
             },
-            //libjs: {
-            //    files: ['wwwroot/lib/**/*.js'],
-            //    tasks: ['jsmin-sourcemap:lib']
-            //},
+            libjs: {
+                files: ['wwwroot/lib/**/*.js'],
+                tasks: ['jsmin-sourcemap:lib']
+            },
             appcss: {
                 files: ['wwwroot/css/**'],
                 tasks: ['cssmin:app']
@@ -103,11 +106,8 @@ module.exports = function (grunt) {
             libcss: {
                 files: ['wwwroot/lib/**/*.css'],
                 tasks: ['cssmin:lib']
-            },
-            test: {
-                files: ['wwwroot/test/**/*.js'],
-                tasks: ['qunit:all']
             }
+
         }
     });
 
