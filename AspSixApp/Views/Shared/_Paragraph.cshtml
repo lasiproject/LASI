@@ -1,14 +1,9 @@
 ﻿@model AspSixApp.Models.DocumentStructures.ParagraphModel
 
-<p class="lexical-content-block @Model.Style.CssClass">
+<div class="lexical-content-block @Model.Style.CssClass">
+    &nbsp;&nbsp;&nbsp;&nbsp;
     @foreach (var sentenceModel in Model.SentenceModels)
     {
-        <span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            @foreach (var phraseModel in sentenceModel.PhraseModels)
-            {
-                @await Html.PartialAsync("_Phrase", phraseModel)
-            }
-        </span>
+        @Html.Partial("_Sentence", sentenceModel)
     }
-</p>
+</div>

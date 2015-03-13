@@ -11,7 +11,7 @@ namespace AspSixApp.Models.User
                 Content = document.Content,
                 DateUploaded = document.DateUploaded,
                 Name = document.Name,
-                OwnerId = document.OwnerId,
+                UserId = document.UserId,
                 _id = document._id,
                 Progress = 0
             };

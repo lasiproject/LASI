@@ -6,7 +6,7 @@ namespace AspSixApp.CustomIdentity
 {
     public interface IInputDocumentStore<TDocument> where TDocument : class, IRawTextSource
     {
-        void AddUserInputDocument(string userId, TDocument document);
+        void AddUserDocument(string userId, TDocument document);
         IEnumerable<TDocument> GetAllUserInputDocuments(string userId);
         TDocument GetUserInputDocumentById(string userId, string sourceName);
     }

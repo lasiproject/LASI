@@ -16,7 +16,7 @@ using AspSixApp.Logging;
 using LASI.Utilities;
 using System.IO;
 using AspSixApp.CustomIdentity;
-using AspSixApp.CustomIdentity.MongoDb;
+using AspSixApp.CustomIdentity.MongoDB;
 
 namespace AspSixApp
 {
@@ -25,8 +25,8 @@ namespace AspSixApp
         public Startup(IHostingEnvironment env)
         {
             Configuration = new Configuration()
-               //.AddJsonFile("config.json")
-               .AddJsonFile("resources.json")
+               .AddJsonFile("config.json")
+               //.AddJsonFile("resources.json")
                .AddEnvironmentVariables();
         }
 
@@ -51,20 +51,14 @@ namespace AspSixApp
                         };
                 });
 
-            services.AddSingleton(provider => new MongoDbConfiguration(this.Configuration, AppDomain.CurrentDomain));
-
-            services.Add(new ServiceDescriptor(
-                serviceType: typeof(MongoDbService),
-                factory: provider => new MongoDbService(provider.GetService<MongoDbConfiguration>()),
-                lifecycle: LifecycleKind.Singleton
-            ));
-
             services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
 
             services
-                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDbInputDocumentStore(provider.GetService<MongoDbService>()))
-                .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDbRoleProvider(provider.GetService<MongoDbService>()))
-                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDbUserProvider(provider.GetService<MongoDbService>()));
+                .AddSingleton(provider => new MongoDBConfiguration(this.Configuration, AppDomain.CurrentDomain))
+                .AddSingleton(provider => new MongoDBService(provider.GetService<MongoDBConfiguration>()))
+                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDBUserDocumentStore(provider.GetService<MongoDBService>()))
+                .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
+                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()));
 
             services
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
@@ -84,6 +78,13 @@ namespace AspSixApp
                         RequireConfirmedEmail = false,
                         RequireConfirmedPhoneNumber = false
                     };
+                    options.Password = new PasswordOptions
+                    {
+                        RequireLowercase = true,
+                        RequireUppercase = true,
+                        RequireNonLetterOrDigit = true,
+                        RequiredLength = 8,
+                    };
                 })
                 .AddUserStore<CustomUserStore<UserRole>>()
                 .AddRoleStore<CustomUserStore<UserRole>>()
@@ -94,13 +95,13 @@ namespace AspSixApp
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "resources.json"));
+            ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "config.json"));
 
-            loggerfactory.AddConsole();
+            // Configure the HTTP request pipeline. Add the loggers.
+            loggerfactory
+                .AddConsole()
+              /*  .AddLASIOutput()*/;
 
-            app.UseBrowserLink();
-            // Configure the HTTP request pipeline. Add the console logger.
-            //.AddLASIOutput();
 
 
             // Add the following to the request pipeline only in development environment.
@@ -133,6 +134,8 @@ namespace AspSixApp
                     template: "api/{controller}/{id?}"
                 );
             });
+            app.UseBrowserLink();
+
         }
         /// <summary>
         /// Bootstrap LASI by loading the necessary configuration information from the specified file.

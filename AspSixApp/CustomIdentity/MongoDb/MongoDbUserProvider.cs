@@ -8,19 +8,14 @@ using MongoDB.Driver.Linq;
 using MongoDB.Driver.Builders;
 using System.Linq;
 
-namespace AspSixApp.CustomIdentity.MongoDb
+namespace AspSixApp.CustomIdentity.MongoDB
 {
-    public class MongoDbUserProvider : IUserProvider<ApplicationUser>
+    public class MongoDBUserProvider : IUserProvider<ApplicationUser>
     {
 
-        public MongoDbUserProvider(MongoDbService dbService)
+        public MongoDBUserProvider(MongoDBService dbService)
         {
             users = new Lazy<MongoCollection<ApplicationUser>>(() => dbService.GetCollection<ApplicationUser>());
-        }
-
-        public void Insert(ApplicationUser account)
-        {
-            Users.Insert(account);
         }
 
         public IEnumerator<ApplicationUser> GetEnumerator() => Users.AsQueryable().GetEnumerator();
@@ -34,68 +29,68 @@ namespace AspSixApp.CustomIdentity.MongoDb
         {
             return WithLock(() =>
             {
-                if (Users.Count(Query.EQ("email", user.NormalizedEmail)) != 0)
+                if (Users.Count(Query.EQ("Email", user.NormalizedEmail)) != 0)
                 {
                     return IdentityResult.Failed(IdentityErrorDescriber.Default.DuplicateEmail(user.Email));
                 }
-                var result = Users.Insert(user);
-                if (result?.ErrorMessage == null)
+                var outcome = Users.Insert(user);
+                if (outcome?.ErrorMessage == null)
                 {
                     return IdentityResult.Success;
                 }
                 else
                 {
-                    return IdentityResult.Failed(new IdentityError { Description = result.ErrorMessage });
+                    return IdentityResult.Failed(new IdentityError { Description = outcome.ErrorMessage });
                 }
             });
         }
 
         public IdentityResult Update(ApplicationUser user)
         {
-            return WithLock(() =>
+            var outcome = Users.Update(EQ_id_Query(user.Id), Update<ApplicationUser>.Replace(user));
+            if (outcome?.ErrorMessage == null) { return IdentityResult.Success; }
+            else
             {
-                var result = Users.Update(EQ_id_Query(user.Id), Update<ApplicationUser>.Replace(user));
-                if (result?.ErrorMessage == null) { return IdentityResult.Success; }
-                else
+                return IdentityResult.Failed(new IdentityError
                 {
-                    return IdentityResult.Failed(new IdentityError
-                    {
-                        Description = $@"Unable to locate the user to update.
-                                         Failed to locate user with the Id of {user.Id}"
-                    }, new IdentityError
-                    {
-                        Description = result.ErrorMessage
-                    });
-                }
-            });
+                    Description = $@"Unable to locate the user to update.
+                                    Failed to locate user with the Id of {user.Id}"
+                }, new IdentityError
+                {
+                    Description = outcome.ErrorMessage
+                });
+            }
         }
         public IdentityResult Delete(ApplicationUser user)
         {
-            return WithLock(() =>
+            var outcome = Users.Remove(EQ_id_Query(user.Id));
+            if (outcome?.ErrorMessage == null)
             {
-                var writeConcernResult = Users.Remove(EQ_id_Query(user.Id));
-                if (writeConcernResult?.ErrorMessage == null)
+                return IdentityResult.Success;
+            }
+            else
+            {
+                return IdentityResult.Failed(new IdentityError
                 {
-                    return IdentityResult.Success;
-                }
-                else
-                {
-                    return IdentityResult.Failed(new IdentityError
-                    {
-                        Description = writeConcernResult.ErrorMessage
-                    });
-                }
-            });
+                    Description = outcome.ErrorMessage
+                });
+            }
         }
         public ApplicationUser Get(Func<ApplicationUser, bool> match) => WithLock(() => Users.AsQueryable().FirstOrDefault(match));
-        public ApplicationUser this[string id] => WithLock(() => Users.FindOneById(id));
-
-
+        /// <summary>
+        /// The <see cref="MongoCollection{T}"/> type is thread safe, making explicit synchronization necessary 
+        /// only when it is accessed multiple times.
+        /// </summary>
         private MongoCollection<ApplicationUser> Users => users.Value;
 
         private Lazy<MongoCollection<ApplicationUser>> users;
 
         private object lockon = new object();
+        /// <summary>
+        /// Invokes the given function after wrapping it in an instance lock.
+        /// The <see cref="MongoCollection{T}"/> type is thread safe, making explicit synchronization necessary 
+        /// only when it is accessed multiple times.
+        /// </summary>
         private T WithLock<T>(Func<T> f)
         {
             lock (lockon)
@@ -103,7 +98,5 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 return f();
             }
         }
-
-
     }
 }

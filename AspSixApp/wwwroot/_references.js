@@ -93,3 +93,4 @@
 /// <reference path="lib/jquery-validation/test/firebug/firebug.js" />
 /// <reference path="lib/jquery-validation/test/firebug/firebugx.js" />
 /// <reference path="lib/jquery-validation/test/qunit/qunit.js" />
+/// <reference path="lib/bootstrap-contextmenu.js" />

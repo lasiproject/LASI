@@ -9,7 +9,6 @@
 
 <div id="main-content">
     <div class="results-pane container container-fluid">
-        @RenderStaticContextMenuMarkup()
         <ul class="nav nav-tabs" id="results">
             <li class="active">
                 <a data-toggle="tab" href="#reconstructeddocuments">
@@ -33,6 +32,8 @@
 
             @RenderAddAditionalDocumentsPanel()
         </div>
+
+        @RenderStaticContextMenuMarkup()
     </div>
 </div>
 @helper RenderReconstructedDocumentsPane()
@@ -132,20 +133,9 @@
             </div>
 }
 
+@helper Modal(string dialogId, string title, string footerText, Func<Microsoft.AspNet.Mvc.Razor.HelperResult> renderModalBody)
+{
 
-
-@helper RenderStaticContextMenuMarkup()
-{<div id="context-menu" class="context" hidden>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px;">
-            <li class="view-subects-menu-item"><a href="#">View Subjects</a></li>
-            <li class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
-            <li class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
-            <li class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
-        </ul>
-    </div>}
-
-    @helper Modal(string dialogId, string title, string footerText, Func<Microsoft.AspNet.Mvc.Razor.HelperResult> renderModalBody)
-    { 
             <div id="@(dialogId)"
                  class="modal fade"
                  tabindex="-1"
@@ -159,9 +149,29 @@
                             <h4 class="modal-title">@title</h4>
                         </div>
                         <div class="modal-body">
-                            @renderModalBody()
-                        </div>
-                        <div class="modal-footer">@footerText</div>
+                            <div>
+                                @renderModalBody()
+                            </div>
+                        </div><div class="modal-footer">@footerText</div>
                     </div>
                 </div>
-            </div>}
+            </div>
+}
+@helper RenderStaticContextMenuMarkup()
+{<div id="verbal-context-menu">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li id="subjects-item"
+                class="view-subjects-menu-item"><a href="#">View Subjects</a></li>
+            <li id="directobjects-item"
+                class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
+            <li id="indirectobjects-item"
+                class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
+        </ul>
+    </div>
+    <div id="referencer-context-menu">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li id="referredto-item"
+                class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
+        </ul>
+    </div>
+}

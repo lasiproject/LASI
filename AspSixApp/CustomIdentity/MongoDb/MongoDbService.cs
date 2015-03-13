@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using MongoDB.Driver;
 
-namespace AspSixApp.CustomIdentity.MongoDb
+namespace AspSixApp.CustomIdentity.MongoDB
 {
-    public class MongoDbService : IDisposable
+    public class MongoDBService : IDisposable
     {
 
-        public MongoDbService(MongoDbConfiguration configuration) { this.Configuration = configuration; StartDatabaseProcess(); }
-        public MongoDbConfiguration Configuration { get; }
+        public MongoDBService(MongoDBConfiguration configuration) { this.Configuration = configuration; StartDatabaseProcess(); }
+        public MongoDBConfiguration Configuration { get; }
 
         private void StartDatabaseProcess()
         {
@@ -35,7 +35,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
                 var name = Configuration.CollectionNamesByType[typeof(TDocument)];
                 return GetDatabase().GetCollection<TDocument>(name);
             }
-            catch (SocketException e) when (e.InnerException is MongoConnectionException)
+            catch (MongoConnectionException e) when (e.InnerException is SocketException)
             {
                 StartDatabaseProcess();
                 return GetCollection<TDocument>();
@@ -46,7 +46,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
         {
             //((IDisposable)this.win64MongoDbProcess).Dispose();
         }
-        ~MongoDbService()
+        ~MongoDBService()
         {
             Dispose();
         }

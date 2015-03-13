@@ -1,17 +1,23 @@
 //(function () {
 //    /* global google: false*/
-//    'use strict';
-//    $(function () {
-//        var phrasalTextSpans = $('span.phrase'),
-//            highlightClass = 'active-phrase-highlight';
-//        phrasalTextSpans.click(function () {
-//            phrasalTextSpans.each(function () {
-//                $(this).removeClass(highlightClass);
-//            });
-//            $(this).addClass(highlightClass);
-//        });
-//    });
-//    // Load the Visualization API and the piechart package.
+app.enableActiveHighlighting = (function () {
+    'use strict';
+    var f = function () {
+        var phrasalTextSpans = $('span.phrase'),
+            highlightClass = 'active-phrase-highlight',
+            recolor = function () {
+                phrasalTextSpans.each(function () {
+                    $(this).removeClass(highlightClass);
+                });
+                $(this).addClass(highlightClass);
+            };
+        phrasalTextSpans.click(recolor);
+        phrasalTextSpans.on('contextmenu', recolor);
+    };
+    $(f);
+    return f;
+}());
+// Load the Visualization API and the piechart package.
 //    google.load('visualization', '1.0', { 'packages': ['corechart'] });
 //    $('#myTab a').click(function (event) {
 //        event.preventDefault();

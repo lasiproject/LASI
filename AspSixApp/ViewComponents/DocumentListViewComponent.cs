@@ -22,7 +22,7 @@ namespace AspSixApp.ViewComponents
         /// <summary>
         /// Retrieves the last <paramref name="maxResults"/> documents uploaded by the user ordered by date uploaded.
         /// </summary>
-        /// <param name="maxResults">The maxiumum number of documents to retrieve.</param>
+        /// <param name="maxResults">The maximum number of documents to retrieve.</param>
         /// <returns>The last <paramref name="maxResults"/> documents uploaded by the user ordered by date uploaded.</returns>
         public async Task<IViewComponentResult> InvokeAsync(int maxResults)
         {
@@ -32,7 +32,7 @@ namespace AspSixApp.ViewComponents
                 let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
                 orderby dateUploaded descending
                 select ActiveUserDocument.FromUserDocument(document);
-            return View(userDocuments.Take(maxResults));
+            return View(userDocuments.Take(maxResults).OrderBy(document => document.DateUploaded));
         }
 
 

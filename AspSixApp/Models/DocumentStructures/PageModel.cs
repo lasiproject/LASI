@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LASI.Core;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    public class PageModel : TextualModel<Document.Page>
+    public class PageModel : TextualModel<Document.Page, DocumentModel>
     {
         public PageModel(Document.Page page) : base(page)
         {
@@ -23,6 +24,9 @@ namespace AspSixApp.Models.DocumentStructures
         public IEnumerable<SentenceModel> SentenceModels => ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels);
 
         public DocumentModel DocumentModel { get; internal set; }
+
+        public override DocumentModel Parent => DocumentModel;
+
         private Document.Page page;
     }
 }

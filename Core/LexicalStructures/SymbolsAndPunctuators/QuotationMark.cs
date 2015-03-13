@@ -1,8 +1,12 @@
 ﻿namespace LASI.Core
 {
     /// <summary>
-    /// Represents a quotation mark. Implementing the IPairedPunctuator interface, it provides for a pairing to the its complementary quotation mark type quote.
+    /// Represents a quotation mark. 
+    /// Implementing the IPairedPunctuator interface, it provides for a pairing to the its complementary quotation mark type quote.
     /// </summary>
+    /// <seealso cref="SingleQuote"/>
+    /// <seealso cref="DoubleQuote"/>
+    /// <seealso cref="IPairedPunctuator{TPunctuator}"/>
     public abstract class QuotationMark<TQuote> : Punctuator, IPairedPunctuator<TQuote>
     where TQuote : QuotationMark<TQuote>, IPairedPunctuator<TQuote>
     {
@@ -20,7 +24,8 @@
         /// Gets the QuotationMark 
         /// which, together with the current instance, bookends some lexical content.
         /// </summary>
-        public TQuote PairedWith {
+        public TQuote PairedWith
+        {
             get;
             protected set;
         }

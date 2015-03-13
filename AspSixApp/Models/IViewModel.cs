@@ -1,9 +1,9 @@
-namespace AspSixApp.Models
+﻿namespace AspSixApp.Models
 {
-    interface IViewModel<out T>
+    public interface IViewModel
     {
-        T ModelFor { get; }
         int Id { get; }
         Style Style { get; }
+        string ContextmenuId { get; }
     }
 }

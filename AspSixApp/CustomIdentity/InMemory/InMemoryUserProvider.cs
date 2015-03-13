@@ -37,7 +37,7 @@ namespace AspSixApp.CustomIdentity
         {
             return WithLock(() =>
             {
-                var existing = this[user.Id];
+                var existing = Get(u => u.Id == user.Id);
                 if (existing == null)
                 {
                     return IdentityResult.Failed(new IdentityError
@@ -48,8 +48,8 @@ namespace AspSixApp.CustomIdentity
                 }
                 else
                 {
+                    // update all properties except Id
                     existing.UserName = user.UserName;
-                    existing.Id = user.Id;
                     existing.AccessFailedCount = user.AccessFailedCount;
                     existing.ConcurrencyStamp = user.ConcurrencyStamp;
                     existing.NormalizedUserName = user.NormalizedUserName;
@@ -66,13 +66,14 @@ namespace AspSixApp.CustomIdentity
                     existing.Projects = user.Projects;
                     existing.SecurityStamp = user.SecurityStamp;
                     existing.TwoFactorEnabled = user.TwoFactorEnabled;
+                    existing.Documents = user.Documents;
+                    existing.Projects = user.Projects;
+                    existing.Organizations = user.Organizations;
                     return IdentityResult.Success;
                 }
             });
         }
         public ApplicationUser Get(Func<ApplicationUser, bool> match) => WithLock(() => users.FirstOrDefault(match));
-
-        public ApplicationUser this[string id] => Get(u => u.Id == id);
 
         private readonly List<ApplicationUser> users;
 

@@ -16,6 +16,8 @@
                 .done(function (data, status, xhr) {
                     var markup = $('<div class="panel">' + data + '</div>');
                     $('#col-main').append(markup); xhr.progress('100%');
+                    app.buildMenus();
+                    app.enableActiveHighlighting();
                 })
                 .fail(function (xhr, message, detail) {
                     alert(message);

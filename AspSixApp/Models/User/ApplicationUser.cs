@@ -13,6 +13,7 @@ namespace AspSixApp.Models
     {
         public IEnumerable<UserProject> Projects { get; set; } = Enumerable.Empty<UserProject>();
         public IEnumerable<UserDocument> Documents { get; set; } = Enumerable.Empty<UserDocument>();
+        public IEnumerable<Organization> Organizations { get; set; } = Enumerable.Empty<Organization>();
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

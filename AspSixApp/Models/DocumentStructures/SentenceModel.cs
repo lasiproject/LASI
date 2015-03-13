@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AspSixApp.Models.Lexical;
 using LASI.Core;
@@ -6,7 +7,7 @@ using LASI.Utilities;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    public class SentenceModel : TextualModel<Sentence>
+    public class SentenceModel : TextualModel<Sentence, ParagraphModel>
     {
         public SentenceModel(Sentence sentence) : base(sentence)
         {
@@ -30,7 +31,7 @@ namespace AspSixApp.Models.DocumentStructures
         public IEnumerable<PhraseModel> PhraseModels { get; }
         public IEnumerable<ClauseModel> ClauseModels { get; }
         public ParagraphModel ParagraphModel { get; internal set; }
-
+        public override ParagraphModel Parent => ParagraphModel;
         private Sentence sentence;
     }
 }

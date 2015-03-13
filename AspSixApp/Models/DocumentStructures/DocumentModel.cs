@@ -2,10 +2,11 @@ using System.Linq;
 using System.Collections.Generic;
 using LASI.Core;
 using AspSixApp.Models.Lexical;
+using System;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    public class DocumentModel : TextualModel<Document>
+    public class DocumentModel : TextualModel<Document, DocumentSetModel>
     {
         public DocumentModel(Document document, IEnumerable<IEnumerable<object>> chartData, DocumentSetModel containinSetModel) : this(document, chartData)
         {
@@ -36,5 +37,7 @@ namespace AspSixApp.Models.DocumentStructures
         public DocumentSetModel DocumentSetModel { get; }
         public Document Document { get; }
         public IEnumerable<IEnumerable<object>> ChartData { get; private set; }
+
+        public override DocumentSetModel Parent => DocumentSetModel;
     }
 }

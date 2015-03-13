@@ -36,7 +36,7 @@ namespace AspSixApp.CustomIdentity
             return IdentityResult.Success;
         }
 
-        public void Remove(ApplicationUser user, string roleName)
+        public void RemoveFromRole(ApplicationUser user, string roleName)
         {
             Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
         }

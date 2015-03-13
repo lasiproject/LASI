@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a single single quote within a passage of text. 
+    /// Represents a single quote within a passage of text. 
     /// </summary>
     public class SingleQuote : QuotationMark<SingleQuote>
     {

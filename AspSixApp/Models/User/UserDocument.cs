@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using MongoDB.Bson;
+﻿using System.Threading.Tasks;
 
 namespace AspSixApp.Models
 {
     public class UserDocument : LASI.Content.IRawTextSource
     {
-        public ObjectId _id { get; set; }
+        public MongoDB.Bson.ObjectId _id { get; set; }
 
-        public string OwnerId { get; set; }
+        public string UserId { get; set; }
         public string GetText() => Content;
         public async Task<string> GetTextAsync() => await Task.FromResult(Content);
 

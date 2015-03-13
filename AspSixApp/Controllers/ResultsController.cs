@@ -22,7 +22,7 @@ namespace AspSixApp.Controllers
     using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
     using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
     using System.Security.Principal;
-    using AspSixApp.CustomIdentity.MongoDb;
+    using AspSixApp.CustomIdentity.MongoDB;
     using AspSixApp.CustomIdentity;
     using LASI.Content;
 
@@ -45,32 +45,30 @@ namespace AspSixApp.Controllers
         public async Task<PartialViewResult> Single(string documentId)
         {
             //var docResult =  
-            return PartialView("_Single", await LoadResultDocument(documentStore.GetUserInputDocumentById(User.Identity.GetUserId(), documentId)));
+            var doc = documentStore.GetUserInputDocumentById(User.Identity.GetUserId(), documentId);
+            var results = await LoadResultDocument(doc);
+            return PartialView("_Single", results.First());
         }
 
         public async Task<ViewResult> Results()
         {
             var udocuments = GetAllUserDocuments();
-            var resultModels = from document in udocuments select LoadResultDocument(document).Result;
+            var resultModels = await LoadResultDocument(udocuments.ToArray());
 
             ViewBag.Charts = resultModels.DistinctBy(chart => chart.Title).ToDictionary(chart => chart.Title, chart => chart.ChartData);
             ViewBag.Title = "Results";
             return await Task.FromResult(View(new DocumentSetModel(resultModels)));
 
         }
-        private async Task<DocumentModel> LoadResultDocument(UserDocument userDocument)
+        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments)
         {
-            var document = (await ProcessUserDocuments(userDocument)).First();
+            var documents = from document in (await ProcessUserDocuments(userDocuments))
+                            let topResults = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
+                            let chartData = from chartResult in topResults
+                                            select new object[] { chartResult.First, chartResult.Second }
+                            select new { Document = document, Title = document.Title, Rows = Newtonsoft.Json.Linq.JArray.FromObject(chartData) };
 
-            var topResults = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit);
-            var ChartData = from chartResult in topResults
-                            select new object[] { chartResult.First, chartResult.Second };
-            var result = new
-            {
-                Rows = Newtonsoft.Json.Linq.JArray.FromObject(ChartData),
-                Title = document.Title
-            };
-            return new DocumentModel(document, result.Rows);
+            return documents.Select(e => new DocumentModel(e.Document, e.Rows));
         }
         private IEnumerable<UserDocument> GetAllUserDocuments()
         {

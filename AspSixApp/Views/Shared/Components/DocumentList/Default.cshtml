@@ -27,8 +27,16 @@
                         </div>
                     </li>
                 }
-
+                <li class="dropdown">
+                    <a href="#"><span class="glyphicon glyphicon-upload"></span></a>
+                    @*@Html.Partial("_DocumentUpload", new AspSixApp.Models.DocumentUploadModel
+               {
+                   UploadTarget = "fileuploadtarget"
+               })*@
+                </li>
             </ul>
+
+
 
         </li>
         <li class="dropdown"><a href="#" id="new-text-editor-item" class="nav-justified glyphicon glyphicon-pencil"></a></li>

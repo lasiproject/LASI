@@ -29,8 +29,10 @@ module.exports = function (grunt) {
                     vars: true,
                     browser: true,
                     predef: {
-                        alert: false,
+                        app: true,
                         LASI: true,
+                        alert: false,
+                        console: false,
                         $: false,
                         QUnit: false,
                         google: false,

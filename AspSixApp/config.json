@@ -1,12 +1,21 @@
-﻿//{
-//    "Data": {
-//        "DefaultConnection": {
-//            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-AspSixApp-45c5647f-e635-4e2b-976c-067a568e2343;Trusted_Connection=True;MultipleActiveResultSets=true"
-//        }
-//    }
-//    //"EntityFramework": {
-//    //    "ApplicationDbContext": {
-//    //        "ConnectionStringKey": "Data:DefaultConnection:ConnectionString"
-//    //    }
-//    //}
-//}
+﻿{
+    "ProjectWebsite": "http://lasi-project.org",
+    "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp\\Resources\\",
+    "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+    "WordnetSearchDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
+    "WordnetFileDirectory": "WordNetThesaurusData\\",
+    "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
+    "NameDataDirectory": "LASICustom\\NameData\\",
+    "ConvertersDirectory": "StandaloneFileConverters\\",
+    "AutoDebugCleanupOn": "true",
+    "ProjectFileSchemaLocation": "DotLasiFile.xsd",
+    "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
+    "MongoDbPath": "\\App_Data\\Mongo\\data\\db",
+    "AccountStorageMedium": "MongoDb",
+    "MongoConnection": "mongodb://localhost:27017",
+    "ApplicationDatabaseName": "accounts",
+    "UserCollectionName": "users",
+    "UserDocumentCollectionName": "documents",
+    "UserRoleCollectionName": "roles",
+    "OrganizationCollectionName": "organizations"
+}

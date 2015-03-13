@@ -1,23 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Http;
-//using LASI.Utilities;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNet.Identity;
 using AspSixApp.Models;
-using AspSixApp.CustomIdentity.MongoDb;
 using System.Security.Principal;
 using LASI.Utilities;
 using LASI.Content;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 using AspSixApp.CustomIdentity;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-//// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AspSixApp.Controllers
 {
@@ -48,31 +42,30 @@ namespace AspSixApp.Controllers
             }
             else
             {
-                var ownerId = Context.User.Identity.GetUserId();
-                var user = await userManager.FindByIdAsync(ownerId);
+                var userId = Context.User.Identity.GetUserId();
+                var user = await userManager.FindByIdAsync(userId);
 
-                var uploadedUserDocuments = from file in files
-                                            let fileName = ParseFileName(file)
-                                            let textContent = new Lazy<string>(() => ProcessFileContents(file).Result)
-                                            select new
-                                            {
-                                                ContentType = $"{file.ContentType}\n{file.ContentDisposition}\n{file.Length}",
-                                                Document =
-                                              new UserDocument
-                                              {
-                                                  Name = fileName,
-                                                  Content = textContent.Value,
-                                                  OwnerId = ownerId,
-                                                  DateUploaded = (string)(JToken)DateTime.Now
-                                              }
-                                            };
-                uploadedUserDocuments.ForEach(async file =>
+                var uploads =
+                    from file in files
+                    let fileName = ParseFileName(file)
+                    let textContent = new Lazy<string>(() => ProcessFileContents(file).Result)
+                    select new
+                    {
+                        ContentType = $"{file.ContentType}\n{file.ContentDisposition}\n{file.Length}",
+                        Document = new UserDocument
+                        {
+                            Name = fileName,
+                            Content = textContent.Value,
+                            UserId = userId,
+                            DateUploaded = (string)(JToken)DateTime.Now
+                        }
+                    };
+                uploads.ForEach(async file =>
                 {
-                    this.documentStore.AddUserInputDocument(ownerId, file.Document);
+                    this.documentStore.AddUserDocument(userId, file.Document);
                     await Response.WriteAsync(file.ContentType);
-
                 });
-                user.Documents = user.Documents.Concat(uploadedUserDocuments.Select(upload => upload.Document));
+                user.Documents = user.Documents.Concat(uploads.Select(upload => upload.Document));
 
                 await this.userManager.UpdateAsync(user);
             }

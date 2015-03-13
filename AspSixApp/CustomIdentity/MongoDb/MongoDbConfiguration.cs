@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using AspSixApp.Models;
 using Microsoft.Framework.ConfigurationModel;
 
-namespace AspSixApp.CustomIdentity.MongoDb
+namespace AspSixApp.CustomIdentity.MongoDB
 {
-    public class MongoDbConfiguration
+    public class MongoDBConfiguration
     {
-        public MongoDbConfiguration(IConfiguration config, AppDomain appDomain)
+        public MongoDBConfiguration(IConfiguration config, AppDomain appDomain)
         {
             MongodExePath = config["MongodExecutableLocation"];
             MongoDbPath = config["MongoDbPath"];
@@ -18,7 +18,8 @@ namespace AspSixApp.CustomIdentity.MongoDb
             {
                 [typeof(ApplicationUser)] = config["UserCollectionName"],
                 [typeof(UserRole)] = config["UserRoleCollectionName"],
-                [typeof(UserDocument)] = config["UserDocumentCollectionName"]
+                [typeof(UserDocument)] = config["UserDocumentCollectionName"],
+                [typeof(Organization)] = config["OrganizationCollectionName"]
             };
         }
         public string ApplicationDatabaseName { get; }

@@ -8,12 +8,12 @@ using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using System.Linq;
 
-namespace AspSixApp.CustomIdentity.MongoDb
+namespace AspSixApp.CustomIdentity.MongoDB
 {
-    public class MongoDbRoleProvider : IRoleProvider<UserRole>
+    public class MongoDBRoleProvider : IRoleProvider<UserRole>
     {
         public UserRole Get(Func<UserRole, bool> match) => Roles.AsQueryable().FirstOrDefault(match);
-        public MongoDbRoleProvider(MongoDbService dbService)
+        public MongoDBRoleProvider(MongoDBService dbService)
         {
             roles = new Lazy<MongoCollection<UserRole>>(() => dbService.GetCollection<UserRole>());
         }
@@ -30,7 +30,7 @@ namespace AspSixApp.CustomIdentity.MongoDb
         }
 
 
-        public void Remove(ApplicationUser user, string roleName)
+        public void RemoveFromRole(ApplicationUser user, string roleName)
         {
             var toRemove = from role in Roles.AsQueryable()
                            where role.RoleName == roleName

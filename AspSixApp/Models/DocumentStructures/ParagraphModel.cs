@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AspSixApp.Models.Lexical;
 using LASI.Core;
 
 namespace AspSixApp.Models.DocumentStructures
 {
-    public class ParagraphModel : TextualModel<Paragraph>
+    public class ParagraphModel : TextualModel<Paragraph, PageModel>
     {
         public ParagraphModel(Paragraph paragraph) : base(paragraph)
         {
@@ -19,5 +20,9 @@ namespace AspSixApp.Models.DocumentStructures
         public override Style Style => new Style { CssClass = "paragraph" };
         public IEnumerable<SentenceModel> SentenceModels { get; private set; }
         public IEnumerable<PhraseModel> PhraseModels { get; private set; }
+
+        public override PageModel Parent => PageModel;
+
+        public new string ContextmenuId { get; set; }
     }
 }

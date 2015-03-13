@@ -13,7 +13,8 @@ namespace AspSixApp.Logging
         }
         public ILogger Create(string name)
         {
-            LASI.Utilities.Logger.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
+            LASI.Utilities.Logger.SetToFile(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
+                $"WebApp_log{DateTime.Now.ToFileTimeUtc()}"));
             return new Logger(name, filter);
         }
 

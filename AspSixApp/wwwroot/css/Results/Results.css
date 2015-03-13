@@ -74,6 +74,7 @@
 }
 
 .sentence {
+    text-wrap: normal !important;
 }
 
 .documentlist {
@@ -120,10 +121,22 @@
 }
 
 .active-phrase-highlight {
-    outline: solid thin orangered; 
+    outline: solid thin orangered;
 }
 
-.view-subects-menu-item {
+.subject-of-current {
+    outline: solid thin blue;
+}
+
+.direct-object-of-current {
+    outline: solid thin forestgreen;
+}
+
+.indirect-object-of-current {
+    outline: solid thin #b200ff;
+}
+
+.view-subjects-menu-item {
 }
 
 .view-directobjects-menu-item {
