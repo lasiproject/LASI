@@ -3,69 +3,60 @@
 
 @model AspSixApp.Models.DocumentStructures.DocumentModel
 
-<div id="main-content">
-    @RenderDocumentBodyModel(Model)
+<div class="document">
+    @{
+        var indexedPages = Model.PageModels.WithIndex();
+        @*<nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @foreach (var pageModel in indexedPages)
+                    {
+                        var index = pageModel.Index + 1;
+                        <li><a href="#page@(index)">@index</a></li>
+                    }
+
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>*@
+        <div>
+            @foreach (var pageModel in indexedPages)
+            {
+                var index = pageModel.Index + 1;
+
+                <div>
+
+                    @foreach (var paragraphModel in pageModel.Element.ParagraphModels)
+                    {
+                        @Html.Partial("_Paragraph", paragraphModel)
+                    }
+                </div>
+            }
+        </div>
+
+
+    }
+</div><div id="verbal-context-menu">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li id="subjects-item"
+            class="view-subjects-menu-item"><a href="#">View Subjects</a></li>
+        <li id="directobjects-item"
+            class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
+        <li id="indirectobjects-item"
+            class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
+    </ul>
 </div>
-@helper RenderDocumentBodyModel(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
-{
-            <div id=@(documentModel.Title.ToSafeHtmlDomId()) class="container">
-                <h4 class="panel-title">@documentModel.Title</h4>
-            </div>
-            <div class="document">
-                @{
-                    var indexedPages = documentModel.PageModels.WithIndex();
-                    <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            @foreach (var pageModel in indexedPages)
-                            {
-                                var index = pageModel.Index + 1;
-                                <li><a href="#page@(index)">@index</a></li>
-                            }
-
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </nav>
-                    <div>
-                        @foreach (var pageModel in indexedPages)
-                        {
-                            var index = pageModel.Index + 1;
-
-                            <div id="page@(index)">
-
-                                @foreach (var paragraphModel in pageModel.Element.ParagraphModels)
-                                {
-                                    @Html.Partial("_Paragraph", paragraphModel)
-                                }
-                            </div>
-                        }
-                    </div>
-
-
-                }
-            </div><div id="verbal-context-menu">
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    <li id="subjects-item"
-                        class="view-subjects-menu-item"><a href="#">View Subjects</a></li>
-                    <li id="directobjects-item"
-                        class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
-                    <li id="indirectobjects-item"
-                        class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
-                </ul>
-            </div>
-            <div id="referencer-context-menu">
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    <li id="referredto-item"
-                        class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
-                </ul>
-            </div>
-}
+<div id="referencer-context-menu">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li id="referredto-item"
+            class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
+    </ul>
+</div>

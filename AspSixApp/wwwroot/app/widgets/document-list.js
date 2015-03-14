@@ -14,8 +14,15 @@
         var contentRequest =
             $.get('Results/Single/' + documentId)
                 .done(function (data, status, xhr) {
-                    var markup = $('<div class="panel">' + data + '</div>');
-                    $('#col-main').append(markup); xhr.progress('100%');
+                    var markup = $('<div class="panel panel-default">' +
+                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
+                        documentName +
+                        '</a></h4></div></div>' +
+                        '<div id="' + documentId + '" class="panel-collapse collapse">' +
+                        data + '</div>' +
+                        '</div>');
+                    $('#accordion').append(markup);
+                    xhr.progress('100%');
                     app.buildMenus();
                     app.enableActiveHighlighting();
                 })

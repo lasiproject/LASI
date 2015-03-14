@@ -90,7 +90,7 @@ namespace AspSixApp.Controllers
             PercentComplete = 100;
             CurrentOperation = "Analysis Complete.";
             processedDocuments = processedDocuments.Union(documents);
-            return processedDocuments;
+            return documents;
         }
 
 
