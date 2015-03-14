@@ -4,32 +4,20 @@
         <div class="col-md-4 pull-left" id="col-left">
             <div class="row" id="task-list-panel">
                 <div class="panel-group" id="accordion">
-
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4" id="col-main">
+        <div class="col-md-7" id="col-main">
             @Html.Partial("_DocumentUpload", new DocumentUploadModel
        {
            UploadTarget = "fileuploadtarget"
        })
         </div>
-        <div class="col-md-4 pull-right" id="col-right">
-            <div class="row">
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" value="first"> <span class="caret"></span></button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">first</a></li>
-                            <li><a href="#">second</a></li>
-                        </ul>
-                    </div>
-                    <input type="text" class="form-control">
-
-                </div>
-            </div>
+        <div class="col-md-1 pull-right" id="col-right">
+            
         </div>
 
     </div>
 </div>
+@await Html.PartialAsync("_LexicalContextMenus")

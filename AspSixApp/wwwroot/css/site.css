@@ -38,3 +38,9 @@ li menuitem {
 
 .document-list-item {
 }
+
+.tooltip-inner {
+    white-space: pre-wrap;
+    text-align: left;
+    /*font-size: 0.7em;*/
+}

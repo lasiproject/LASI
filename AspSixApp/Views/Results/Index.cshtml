@@ -33,64 +33,64 @@
             @RenderAddAditionalDocumentsPanel()
         </div>
 
-        @RenderStaticContextMenuMarkup()
+        @await Html.PartialAsync("_LexicalContextMenus")
     </div>
 </div>
 @helper RenderReconstructedDocumentsPane()
         {
-            <div class="tab-pane fade in active" id="reconstructeddocuments">
-                <ul class="documentselectiontab col-md-3">
-                    @foreach (var documentModel in Model.DocumentModels)
+    <div class="tab-pane fade in active" id="reconstructeddocuments">
+        <ul class="documentselectiontab col-md-3">
+            @foreach (var documentModel in Model.DocumentModels)
                     {
-                        <li class="list-group-item">
-                            <input type="button"
-                                   class="list-group-item-text btn btn-block btn-primary"
-                                   data-toggle="modal"
-                                   data-target=@('#' + documentModel.Title.ToSafeHtmlDomId())
-                                   value=@documentModel.Title />
-                        </li>
+                <li class="list-group-item">
+                    <input type="button"
+                           class="list-group-item-text btn btn-block btn-primary"
+                           data-toggle="modal"
+                           data-target=@('#' + documentModel.Title.ToSafeHtmlDomId())
+                           value=@documentModel.Title />
+                </li>
                     }
-                </ul>
-            </div>
-            <br />
-            <div>
-                @foreach (var documentModel in Model.DocumentModels)
+        </ul>
+    </div>
+    <br />
+    <div>
+        @foreach (var documentModel in Model.DocumentModels)
                 {
-                    @RenderDocumentBodyModel(documentModel)
+            @RenderDocumentBodyModel(documentModel)
                 }
-            </div>
+    </div>
 
 }
 @helper RenderDocumentChartsPane()
         {
-            <div class="tab-pane fade in" id="topresults">
+    <div class="tab-pane fade in" id="topresults">
 
-                <ul class="documentselectiontab col-md-3">
-                    @foreach (var documentModel in Model.DocumentModels)
+        <ul class="documentselectiontab col-md-3">
+            @foreach (var documentModel in Model.DocumentModels)
                     {
-                        <li class="list-group-item">
-                            <input type="button"
-                                   class="list-group-item-text btn btn-block btn-primary"
-                                   data-toggle="modal"
-                                   data-target=@('#' + documentModel.Title.ToSafeHtmlDomId() + "_topresults")
-                                   value="@documentModel.Title" />
+                <li class="list-group-item">
+                    <input type="button"
+                           class="list-group-item-text btn btn-block btn-primary"
+                           data-toggle="modal"
+                           data-target=@('#' + documentModel.Title.ToSafeHtmlDomId() + "_topresults")
+                           value="@documentModel.Title" />
 
-                        </li>
+                </li>
                     }
-                </ul>
-                @foreach (var documentModel in Model.DocumentModels)
+        </ul>
+        @foreach (var documentModel in Model.DocumentModels)
                 {
-                    @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary)
+            @RenderTopResultsChartData(documentModel, ViewBag.Charts as System.Collections.IDictionary)
                 }
 
-            </div>
+    </div>
 }
 @helper RenderAddAditionalDocumentsPanel()
         {
-            <div id="adddocuments" class="tab-pane fade in">
-                <h1>Add documents</h1>
-                @Html.Partial("_DocumentUpload", new AspSixApp.Models.DocumentUploadModel { UploadTarget = "fileuploadtarget" })
-            </div>
+    <div id="adddocuments" class="tab-pane fade in">
+        <h1>Add documents</h1>
+        @Html.Partial("_DocumentUpload", new AspSixApp.Models.DocumentUploadModel { UploadTarget = "fileuploadtarget" })
+    </div>
 }
 
 
@@ -105,7 +105,7 @@
 
 @helper RenderDocumentBodyModel(AspSixApp.Models.DocumentStructures.DocumentModel documentModel)
 {
-            @Modal(
+    @Modal(
                 renderModalBody: () => RenderDocumentBodyContent(documentModel),
                 dialogId: documentModel.Title.ToSafeHtmlDomId(),
                 footerText: documentModel.Title,
@@ -114,7 +114,7 @@
 }
 @helper RenderTopResultsChartData(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
 {
-            @Modal(
+    @Modal(
                 renderModalBody: () => RenderDocumentTopResultsModalBody(documentModel, chartsByDocumentTitle),
                 dialogId: documentModel.Title.ToSafeHtmlDomId() + "_topresults",
                 footerText: documentModel.Title,
@@ -125,53 +125,35 @@
 
 @helper RenderDocumentTopResultsModalBody(AspSixApp.Models.DocumentStructures.DocumentModel documentModel, System.Collections.IDictionary chartsByDocumentTitle)
 {
-            <div class="container chart-container" id=@(documentModel.Title.ToSafeHtmlDomId() + "_resultschart" )>
-                <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows") hidden>
-                    <!-- Render the chart data which will be JSON encoded as an array of arrays -->
-                    @chartsByDocumentTitle[documentModel.Title])
-                </span>
-            </div>
+    <div class="container chart-container" id=@(documentModel.Title.ToSafeHtmlDomId() + "_resultschart" )>
+        <span id=@(documentModel.Title.ToSafeHtmlDomId() + "_topresultrows") hidden>
+            <!-- Render the chart data which will be JSON encoded as an array of arrays -->
+            @chartsByDocumentTitle[documentModel.Title])
+        </span>
+    </div>
 }
 
 @helper Modal(string dialogId, string title, string footerText, Func<Microsoft.AspNet.Mvc.Razor.HelperResult> renderModalBody)
 {
 
-            <div id="@(dialogId)"
-                 class="modal fade"
-                 tabindex="-1"
-                 role="dialog"
-                 aria-labelledby="#myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">@title</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                @renderModalBody()
-                            </div>
-                        </div><div class="modal-footer">@footerText</div>
-                    </div>
+    <div id="@(dialogId)"
+         class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="#myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">@title</h4>
                 </div>
+                <div class="modal-body">
+                    <div>
+                        @renderModalBody()
+                    </div>
+                </div><div class="modal-footer">@footerText</div>
             </div>
-}
-@helper RenderStaticContextMenuMarkup()
-{<div id="verbal-context-menu">
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-            <li id="subjects-item"
-                class="view-subjects-menu-item"><a href="#">View Subjects</a></li>
-            <li id="directobjects-item"
-                class="view-directobjects-menu-item"><a href="#">View Direct Objects</a></li>
-            <li id="indirectobjects-item"
-                class="view-indirectobjects-menu-item"><a href="#">View Indirect Objects</a></li>
-        </ul>
-    </div>
-    <div id="referencer-context-menu">
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-            <li id="referredto-item"
-                class="view-referredto-menu-item"><a href="#">View Referred To</a></li>
-        </ul>
+        </div>
     </div>
 }

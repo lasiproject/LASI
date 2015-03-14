@@ -1,5 +1,3 @@
-//(function () {
-//    /* global google: false*/
 app.enableActiveHighlighting = (function () {
     'use strict';
     var f = function () {
@@ -13,6 +11,7 @@ app.enableActiveHighlighting = (function () {
             };
         phrasalTextSpans.click(recolor);
         phrasalTextSpans.on('contextmenu', recolor);
+        $('[data-toggle="tooltip"]').tooltip();// enable bootstrap tooltips.
     };
     $(f);
     return f;

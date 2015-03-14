@@ -2,4 +2,4 @@
 @using LASI.Utilities
 @model AspSixApp.Models.Lexical.PhraseModel
 
-<span class="phrase @(Model.Style.CssClass)" title="@Model.DetailText.Trim()" id=@(Model.Id)>@(Model.Text.Trim())<span id="context@(Model.Id)" hidden>@(Model.ContextMenuJson)</span></span>
+<span id=@(Model.Id) class="phrase @(Model.Style.CssClass)" title="@(Model.DetailText.Trim())" data-toggle="tooltip">@(Model.Text.Trim())<span id="context@(Model.Id)" hidden>@(Model.ContextMenuJson)</span></span>
