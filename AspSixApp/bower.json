@@ -19,9 +19,7 @@
         "bootstrap-contextmenu": {
             "": "bootstrap-contextmenu.{js,min.js,min.map}"
         },
-        "jquery": {
-            "": "jquery.{js,min.js,min.map}"
-        },
+
         "jquery-validation-unobtrusive": {
             "": "jquery.validate.unobtrusive.{js,min.js}"
         },

@@ -11,8 +11,16 @@ app.enableActiveHighlighting = (function () {
             };
         phrasalTextSpans.click(recolor);
         phrasalTextSpans.on('contextmenu', recolor);
-        $('[data-toggle="tooltip"]').tooltip();// enable bootstrap tooltips.
-    };
+        $('[data-toggle="tooltip"]').tooltip({
+            delay: 250,
+            container: 'body'
+        });
+        // bootstrap requires that tooltips be manually enabled. The data-toggle="tooltip" attributes set on each element
+        // have no effect without this or an equivalent call. By setting container to 'body', we allow the contents of the 
+        // tooltip to overflow its container. This is generally close to the desired behavior as it is difficult to predict width
+        // and this gives good flexibility. 
+        // TODO: look into fixing tooltips on elements containing a line break or remove such breaks.
+    }
     $(f);
     return f;
 }());

@@ -42,5 +42,5 @@ li menuitem {
 .tooltip-inner {
     white-space: pre-wrap;
     text-align: left;
-    /*font-size: 0.7em;*/
+    max-width: none !important;
 }

@@ -9,7 +9,7 @@ module.exports = function (grunt) {
                 options: {
                     targetDir: "wwwroot/lib",
                     layout: "byComponent",
-                    cleanTargetDir: false
+                    cleanTargetDir: true
                 }
             }
         },
@@ -114,7 +114,7 @@ module.exports = function (grunt) {
     });
 
     // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
-    grunt.registerTask('default', ['bower:install', 'jsmin-sourcemap:lib']);
+    grunt.registerTask('default', ['bower:install']);
     grunt.loadNpmTasks('grunt-bower-task');
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
