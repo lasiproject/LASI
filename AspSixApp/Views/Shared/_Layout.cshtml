@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -26,7 +26,7 @@
 
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-left">
                     @*<li>@Html.ActionLink("LASI", "Index", "Home")</li>*@
                     <li class="navbar-brand">
                         <a href="~/" onclick="(function(){$.get('/home/index');})">
@@ -47,18 +47,19 @@
             </div>
         </div>
     </div>
-    <!--Load the google data visualization AJAX API-->
     <div class="jumbotron">
-        <div class="container body-content">
+        <div class="body-content">
+            <div class="container-fluid">
 
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - LASI Project</p>
-            </footer>
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - LASI Project</p>
+                </footer>
+            </div>
         </div>
     </div>
-    <script src="https://www.google.com/jsapi"></script>
+    <script src="http://www.google.com/jsapi"></script>
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>

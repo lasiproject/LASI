@@ -44,7 +44,7 @@ namespace AspSixApp.LexicalElementInfo
             var data = new
             {
                 Referencer = referencer.GetSerializationId(),
-                ReferredTo = referencer.RefersTo.Any() ? referencer.RefersTo.OfPhrase().Select(e => e.GetSerializationId()).ToArray() : null
+                RefersTo = referencer.RefersTo.Any() ? referencer.RefersTo.OfPhrase().Select(e => e.GetSerializationId()).ToArray() : null
             };
             return JsonConvert.SerializeObject(data, SerializerSettings);
         }

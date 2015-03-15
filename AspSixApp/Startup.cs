@@ -26,7 +26,6 @@ namespace AspSixApp
         {
             Configuration = new Configuration()
                .AddJsonFile("config.json")
-               //.AddJsonFile("resources.json")
                .AddEnvironmentVariables();
         }
 
@@ -55,7 +54,7 @@ namespace AspSixApp
 
             services
                 .AddSingleton(provider => new MongoDBConfiguration(this.Configuration, AppDomain.CurrentDomain))
-                .AddSingleton(provider => new MongoDBService(provider.GetService<MongoDBConfiguration>()))
+                .AddSingleton<MongoDBService>()
                 .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDBUserDocumentStore(provider.GetService<MongoDBService>()))
                 .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
                 .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()));
@@ -105,8 +104,9 @@ namespace AspSixApp
 
 
             // Add the following to the request pipeline only in development environment.
-            if (env.EnvironmentName.EqualsIgnoreCase("Development"))
+            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
             {
+                app.UseBrowserLink();
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
             }
             else
@@ -134,8 +134,6 @@ namespace AspSixApp
                     template: "api/{controller}/{id?}"
                 );
             });
-            app.UseBrowserLink();
-
         }
         /// <summary>
         /// Bootstrap LASI by loading the necessary configuration information from the specified file.

@@ -12,11 +12,12 @@ namespace AspSixApp.CustomIdentity.MongoDB
 {
     public class MongoDBRoleProvider : IRoleProvider<UserRole>
     {
-        public UserRole Get(Func<UserRole, bool> match) => Roles.AsQueryable().FirstOrDefault(match);
         public MongoDBRoleProvider(MongoDBService dbService)
         {
             roles = new Lazy<MongoCollection<UserRole>>(() => dbService.GetCollection<UserRole>());
         }
+        public UserRole Get(Func<UserRole, bool> match) => Roles.AsQueryable().FirstOrDefault(match);
+
         public IdentityResult Add(UserRole role)
         {
             var result = Roles.Insert(role);

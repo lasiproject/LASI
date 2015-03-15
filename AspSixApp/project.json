@@ -10,17 +10,11 @@
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta3",
         "Microsoft.AspNet.StaticFiles": "1.0.0-beta3",
+        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3",
         "Microsoft.Framework.CodeGenerators.Mvc": "1.0.0-beta3",
         "Microsoft.Framework.Logging": "1.0.0-beta3",
         "Microsoft.Framework.Logging.Console": "1.0.0-beta3",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta3",
-        "Microsoft.AspNet.Mvc.ModelBinding": "6.0.0-beta3",
-        "Microsoft.Framework.DependencyInjection": "1.0.0-beta3",
-        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3",
-        "Microsoft.AspNet.Http": "1.0.0-beta3",
-        "Microsoft.AspNet.Http.Extensions": "1.0.0-beta3",
-        //"Microsoft.AspNet.Security.OAuthBearer": "1.0.0-beta3",
-
 
         "Microsoft.AspNet.Security": "1.0.0-beta3",
         "Microsoft.AspNet.Security.DataProtection": "1.0.0-beta3",
@@ -39,6 +33,7 @@
     "frameworks": {
         "aspnet50": {
             "dependencies": {
+
             }
         }
     },

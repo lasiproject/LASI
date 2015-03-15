@@ -19,7 +19,7 @@ namespace AspSixApp.CustomIdentity
         IUserEmailStore<User> where TRole : UserRole, new()
     {
         [Activate]
-        private ILookupNormalizer lookupNormalizer { get; set; }
+        private ILookupNormalizer LookupNormalizer { get; set; }
 
         public CustomUserStore(IUserProvider<User> userProvider, IRoleProvider<TRole> roleProvider)
         {

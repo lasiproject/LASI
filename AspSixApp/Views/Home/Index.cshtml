@@ -9,13 +9,16 @@
         </div>
 
         <div class="col-md-7" id="col-main">
-            @Html.Partial("_DocumentUpload", new DocumentUploadModel
+            <div class="panel panel-collapse" id="free-editor">
+                <textarea></textarea>
+            </div>
+            @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel
        {
            UploadTarget = "fileuploadtarget"
        })
         </div>
         <div class="col-md-1 pull-right" id="col-right">
-            
+
         </div>
 
     </div>

@@ -13,18 +13,12 @@ namespace AspSixApp.Controllers
     using AspSixApp.Models.DocumentStructures;
     using LASI.Interop;
     using LASI.Utilities;
-    using Directory = System.IO.Directory;
     using Path = System.IO.Path;
-    using SerializerSettings = Newtonsoft.Json.JsonSerializerSettings;
-    using CamelCasePropertyNamesContractResolver = Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver;
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, Models.Results.JobStatus>;
     using ProcessedDocumentSet = System.Collections.Immutable.IImmutableSet<Document>;
-    using FileExtensionMap = LASI.Content.ExtensionWrapperMap;
     using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
     using System.Security.Principal;
-    using AspSixApp.CustomIdentity.MongoDB;
     using AspSixApp.CustomIdentity;
-    using LASI.Content;
 
     [Authorize]
     public class ResultsController : Controller
@@ -101,7 +95,9 @@ namespace AspSixApp.Controllers
         public static double PercentComplete { get; internal set; }
 
         public static JobStatusMap TrackedJobs { get; } = new JobStatusMap();
-        private string ServerPath => AppDomain.CurrentDomain.BaseDirectory/*.GetData("DataDirectory").ToString()*/;
+        private string ServerPath => System.IO.Directory.GetParent(HostingEnvironment.WebRoot).FullName;
+        [Activate]
+        private Microsoft.AspNet.Hosting.IHostingEnvironment HostingEnvironment { get; set; }
         private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
         private const int ChartItemLimit = 5;
 
@@ -109,10 +105,7 @@ namespace AspSixApp.Controllers
             System.Collections.Immutable.ImmutableHashSet.Create(
                     ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
-        private static SerializerSettings serializerSettings = new SerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
+
         private readonly IInputDocumentStore<UserDocument> documentStore;
     }
 }

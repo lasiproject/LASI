@@ -8,23 +8,23 @@ namespace AspSixApp.CustomIdentity.MongoDB
     public class MongoDBService : IDisposable
     {
 
-        public MongoDBService(MongoDBConfiguration configuration) { this.Configuration = configuration; StartDatabaseProcess(); }
-        public MongoDBConfiguration Configuration { get; }
+        public MongoDBService(MongoDBConfiguration configuration) { this.configuration = configuration; StartDatabaseProcess(); }
+        private readonly MongoDBConfiguration configuration;
 
         private void StartDatabaseProcess()
         {
             win64MongoDbProcess = Process.Start(
-                fileName: Configuration.MongodExePath,
-                arguments: $"--dbpath {Configuration.MongoFilesDirectory}"
+                fileName: configuration.MongodExePath,
+                arguments: $"--dbpath {configuration.MongoFilesDirectory}"
             );
         }
         private MongoDatabase GetDatabase()
         {
 
-            var mongoUrl = new MongoUrl(Configuration.ConnectionString);
+            var mongoUrl = new MongoUrl(configuration.ConnectionString);
             return new MongoClient(
                 mongoUrl).GetServer()
-                .GetDatabase(Configuration.ApplicationDatabaseName);
+                .GetDatabase(configuration.ApplicationDatabaseName);
 
 
         }
@@ -32,7 +32,7 @@ namespace AspSixApp.CustomIdentity.MongoDB
         {
             try
             {
-                var name = Configuration.CollectionNamesByType[typeof(TDocument)];
+                var name = configuration.CollectionNamesByType[typeof(TDocument)];
                 return GetDatabase().GetCollection<TDocument>(name);
             }
             catch (MongoConnectionException e) when (e.InnerException is SocketException)
