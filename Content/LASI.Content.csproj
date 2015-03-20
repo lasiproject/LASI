@@ -120,7 +120,7 @@
     <Compile Include="TaggerEncapsulation\TagmapBases\WordTagsetMap.cs" />
     <Compile Include="Exceptions\PartOfSpeechTagExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TextTagPair.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedText.cs" />
     <Compile Include="TaggerEncapsulation\TaggerImpl.cs" />
   </ItemGroup>
   <ItemGroup>

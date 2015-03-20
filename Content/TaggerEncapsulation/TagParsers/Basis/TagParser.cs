@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Utilities;
+using LASI.Core;
 
 namespace LASI.Content.Tagging
 {
     abstract class TagParser
     {
-        public abstract Core.Document LoadDocument();
-        public abstract IEnumerable<Core.Paragraph> LoadParagraphs();
+        public abstract Document LoadDocument();
+        public abstract IEnumerable<Paragraph> LoadParagraphs();
 
 
-        public abstract Task<LASI.Core.Document> LoadDocumentAsync();
         public TaggedFile TaggedDocumentFile
         {
             get;

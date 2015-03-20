@@ -16,21 +16,15 @@ namespace LASI.Content
         /// </summary>
         /// <param name="text">The text content string of the element.</param>
         /// <param name="tag">The pos tag string of the element. Any whitespace will be removed.</param>
-        public TaggedText(string text, string tag) : this() { Text = text; Tag = tag.Trim(); }
+        public TaggedText(string text, string tag) { Text = text; Tag = tag.Trim(); }
 
         /// <summary>
-        /// Gets the english text of a tagged word.
+        /// Gets the English text of a tagged word.
         /// </summary>
-        public string Text {
-            get;
-            private set;
-        }
+        public string Text { get; }
         /// <summary>
         /// Gets the text of the pos tag associated with the piece of text.
         /// </summary>
-        public string Tag {
-            get;
-            private set;
-        }
+        public string Tag { get; }
     }
 }

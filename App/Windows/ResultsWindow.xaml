@@ -50,25 +50,20 @@
                 <MenuItem x:Name="FileMenu"
                       HorizontalAlignment="Left"
                       Header="_File">
-                    <MenuItem Width="200"
-                          HorizontalAlignment="Left"
+                    <MenuItem
                           Click="NewProjectMenuItem_Click_1"
                           Header="_New Project"
                           InputGestureText="Ctrl+N" />
                     <MenuItem Name="addDocumentMenuItem"
-                          Width="200"
-                          HorizontalAlignment="Left"
                           Command="{x:Static ApplicationCommands.Open}"
                           Header="_Open Document"
                           InputGestureText="Ctrl+O" />
-                    <MenuItem Width="200"
-                          HorizontalAlignment="Left"
+                    <MenuItem
                           Click="ExitMenuItem_Click"
                           Command="{x:Static ApplicationCommands.Print}"
                           Header="_Print"
                           InputGestureText="Ctrl+P" />
-                    <MenuItem Width="200"
-                          HorizontalAlignment="Left"
+                    <MenuItem
                           Command="{x:Static ApplicationCommands.Close}"
                           Header="E_xit"
                           InputGestureText="Alt+F4" />
@@ -91,11 +86,9 @@
 
             <Canvas Name="currentOperationFeedbackCanvas"
                     Canvas.Left="10"
-                    Height="26"
                     Margin="10,0,10,4"
-                    VerticalAlignment="Bottom"
                     Background="White"
-                    Visibility="Visible">
+                    Visibility="Visible" Height="26" VerticalAlignment="Bottom">
 
                 <Label x:Name="currentOperationLabel"
                        Height="26"

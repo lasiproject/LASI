@@ -15,7 +15,7 @@ namespace LASI.Content
 {
     internal class TaggedSourceParser : LASI.Content.Tagging.TagParser
     {
-        #region Construtors
+        #region Constructors
 
         /// <summary>
         /// Initialized a new instance of the TaggedFilerParser class to parse the contents of the
@@ -34,18 +34,24 @@ namespace LASI.Content
         #region Methods
 
         /// <summary>
-        /// Returns a LASI.Algorithm.DocumentConstructs.Document instance representating of all of
-        /// the textual constructs in the source.
+        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of
+        /// the textual constructs in the tagged source.
         /// </summary>
         /// <returns>
-        /// A traversable, queriable LASI.Algorithm.DocumentConstructs.Document instance defining
-        /// representing the textual constructs of the tagged file which the TaggedSourceParser governs.
+        /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
         /// </returns>
         public override Document LoadDocument()
         {
-            return LoadDocument();
+            return LoadDocument(null);
         }
-
+        /// <summary>
+        /// Builds a <see cref="LASI.Core.Document"/> instance from of all of
+        /// the textual constructs in the tagged source.
+        /// </summary>
+        /// <param name="title">The title to give to the constructed document.</param>
+        /// <returns>
+        /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
+        /// </returns>
         public virtual Document LoadDocument(string title)
         {
             return new Document(
@@ -53,32 +59,17 @@ namespace LASI.Content
                 title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled");
         }
 
-        public virtual async Task<Document> LoadDocumentAsync(string title)
-        {
-            return await Task.Run(() => LoadDocument(title));
-        }
-
-        public override async Task<Document> LoadDocumentAsync()
-        {
-            return await Task.Run(() => LoadDocument());
-        }
+        public virtual async Task<Document> LoadDocumentAsync(string title) => await Task.Run(() => LoadDocument(title));
 
         /// <summary>
         /// Returns the strongly typed representations of the sentences, componentPhrases,and words
         /// extracted from the tagged file the TaggedSourceParser governs.
         /// </summary>
         /// <returns>
-        /// The stringly typed constructs which represent the text of the document, aggregated into paragraphs.
+        /// The strongly typed constructs which represent the text of the document, aggregated into paragraphs.
         /// </returns>
-        public override IEnumerable<Paragraph> LoadParagraphs()
-        {
-            var data = PreProcessText(TaggedInputData.Trim());
-            var results = new List<Paragraph>();
-            foreach (var paragraph in ParseParagraphs(data))
-                results.Add(BuildParagraph(paragraph));
-
-            return results;
-        }
+        public override IEnumerable<Paragraph> LoadParagraphs() =>
+            ParseParagraphs(PreProcessText(TaggedInputData.Trim())).Select(BuildParagraph);
 
         /// <summary>
         /// Pre-processes the line read from the file by replacing some instances of problematic
@@ -99,10 +90,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="text">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual async Task<string> PreProcessTextAsync(string text)
-        {
-            return await Task.Run(() => PreProcessText(text));
-        }
+        protected virtual async Task<string> PreProcessTextAsync(string text) => await Task.FromResult(PreProcessText(text));
 
 
         protected virtual Func<Phrase> CreatePhraseExpression(TaggedText taggedPhraseElement)
@@ -114,21 +102,13 @@ namespace LASI.Content
                 var phraseConstructor = phraseTagset[phraseTag];
                 return () => phraseConstructor(lazyWords.Select(lazy => lazy.Value));
             }
-            catch (UnknownPhraseTagException e)
+            catch (PartOfSpeechTagException e) when (e is UnknownPhraseTagException || e is EmptyPhraseTagException)
             {
-                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
-                    e.Message,
-                    lazyWords.Format(lazy => lazy.Value.ToString()));
+                Logger.Log($"\n{e.Message}\nPhrase Words: {lazyWords.Format(lazy => lazy.Value.ToString())}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate");
                 return () => new UnknownPhrase(lazyWords.Select(lazy => lazy.Value));
             }
-            catch (EmptyPhraseTagException e)
-            {
-                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate",
-                    e.Message, lazyWords.Format(lazy => lazy.Value.ToString()));
-                return () => new UnknownPhrase(lazyWords.Select(we => we.Value));
-            }
         }
- 
+
         /// <summary>
         /// Parses a string of text containing tagged words e.g. "LASI/NNP can/MD sniff-out/VBP
         /// the/DT problem/NN" into a collection of Part of Speech subtyped LASI.Algorithm.Word
@@ -157,14 +137,9 @@ namespace LASI.Content
                     {
                         parsedWords.Add(factory.Create(pair));
                     }
-                    catch (EmptyWordTagException x)
+                    catch (PartOfSpeechTagException e) when (e is EmptyWordTagException || e is UnknownWordTagException)
                     {
-                        Logger.Log($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
-                        parsedWords.Add(new UnknownWord(pair.Text));
-                    }
-                    catch (UnknownWordTagException x)
-                    {
-                        Logger.Log($"\n{x.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
+                        Logger.Log($"\n{e.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
                         parsedWords.Add(new UnknownWord(pair.Text));
                     }
                     catch (EmptyOrWhiteSpaceStringTaggedAsWordException x)
@@ -217,13 +192,10 @@ namespace LASI.Content
             hasBulletOrHeading = paragraph.Contains("<enumeration>");
             return paragraph
                 .SplitRemoveEmpty("<sentence>", "</sentence>")
-                .Select(sentence => sentence.Replace("<enumeration>", "").Replace("</enumeration>", ""));
+                .Select(sentence => sentence.RemoveSubstrings("<enumeration>", "</enumeration>"));
         }
 
-        private static IEnumerable<string> GetTaggedWordStrings(string text)
-        {
-            return text.SplitRemoveEmpty(' ', '\r', '\n', '\t');
-        }
+        private static IEnumerable<string> GetTaggedWordStrings(string text) => text.SplitRemoveEmpty(' ', '\r', '\n', '\t');
 
         private Paragraph BuildParagraph(string paragraph)
         {
@@ -238,20 +210,18 @@ namespace LASI.Content
             return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default);
         }
 
+
         private Sentence BuildSentence(string sentence)
         {
-            var skipToNextElement = (Func<string, char?>)(chunk => chunk.Cast<char?>().SkipWhile(c => c != ' ' && c != '/').FirstOrDefault());
-
-
             var accumulatedClauses = new List<Clause>();
             var accumulatedPhrases = new List<Phrase>();
-            var chunks = from chunk in sentence.SplitRemoveEmpty('[', ']')//where !chunk.IsNullOrWhiteSpace()
+            var chunks = from chunk in sentence.SplitRemoveEmpty('[', ']')
                          where chunk.Contains('/')
                          select chunk.Trim();
             SentenceEnding sentenceEnding = null;
             foreach (var chunk in chunks)
             {
-                char? token = skipToNextElement(chunk);
+                char? token = SkipToNextToken(chunk);
                 if (token == ' ')
                 {
                     var phraseTag = chunk.Substring(0, chunk.IndexOf(' '));
@@ -264,56 +234,45 @@ namespace LASI.Content
                     }
                     if (currentPhrase is SubordinateClauseBeginPhrase)
                     {
-                        var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count - 1)); // create a new clause comprised of the accumulated phrases
-                        accumulatedClauses.Add(parsedClause);
-                        accumulatedPhrases = new List<Phrase> { currentPhrase }; // Reset the phrase accumulation list initializing it with the subordinate clause begin phrase.
+                        // Create a new clause comprised of the previously accumulated phrases and add it to the accumulated clauses.
+                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count - 1)));
+                        // Reset the accumulated phrase list initializing it with the subordinate clause begin phrase.
+                        accumulatedPhrases = new List<Phrase> { currentPhrase };
                     }
                 }
                 else if (token == '/')
                 {
                     var words = CreateWords(chunk);
 
-                    var containsAnyQuoteMarks = words.Any(w => w is SingleQuote || w is DoubleQuote);
-
-                    if (containsAnyQuoteMarks)
+                    if (words.Any(w => w is SingleQuote || w is DoubleQuote))
                     {
                         accumulatedPhrases.Add(new SymbolPhrase(words));
-                        var parsedClause = new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count));
-                        accumulatedClauses.Add(parsedClause);
+                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
                         accumulatedPhrases = new List<Phrase>();
+                    }
+                    else if (words.All(word => word is Conjunction) || words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)
+                    {
+                        accumulatedPhrases.Add(new ConjunctionPhrase(words));
+                    }
+                    else if (words.Count == 1 && words[0] is SentenceEnding)
+                    {
+                        sentenceEnding = words[0] as SentenceEnding;
+                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
+                        accumulatedPhrases = new List<Phrase>();
+                    }
+                    else if (words.All(w => w is Punctuator || w is Conjunction))
+                    {
+                        accumulatedPhrases.Add(new SymbolPhrase(words));
                     }
                     else
                     {
-                        var wordsIsAPunctuatorFollowedByAConjunction = words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction;
-
-                        if (words.All(word => word is Conjunction) || wordsIsAPunctuatorFollowedByAConjunction)
-                        {
-                            accumulatedPhrases.Add(new ConjunctionPhrase(words));
-                        }
-                        else if (words.Count == 1 && words[0] is SentenceEnding)
-                        {
-                            sentenceEnding = words[0] as SentenceEnding;
-                            accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
-                            accumulatedPhrases = new List<Phrase>();
-                        }
-                        else
-                        {
-                            var allWordsArePunctuatorsOrConjunctions = words.All(w => w is Punctuator) || words.All(w => w is Punctuator || w is Conjunction);
-                            if (allWordsArePunctuatorsOrConjunctions)
-                            {
-                                accumulatedPhrases.Add(new SymbolPhrase(words));
-                            }
-                            else
-                            {
-                                accumulatedPhrases.Add(new UnknownPhrase(words));
-                            }
-                        }
+                        accumulatedPhrases.Add(new UnknownPhrase(words));
                     }
                 }
             }
-            var parsedSentence = new Sentence(accumulatedClauses, sentenceEnding);
-            return parsedSentence;
+            return new Sentence(accumulatedClauses, sentenceEnding);
         }
+        char? SkipToNextToken(string chunk) => chunk.Cast<char?>().SkipWhile(c => c != ' ' && c != '/').FirstOrDefault();
 
         private Phrase CreatePhrase(string phraseTag, string phraseText)
         {
@@ -322,14 +281,9 @@ namespace LASI.Content
             {
                 return phraseTagset[phraseTag](words);
             }
-            catch (UnknownPhraseTagException e)
+            catch (Exception e) when (e is UnknownPhraseTagException || e is EmptyPhraseTagException)
             {
-                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
-                return new UnknownPhrase(words);
-            }
-            catch (EmptyPhraseTagException e)
-            {
-                Logger.Log("\n{0}\nPhrase Words: {1}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate", e.Message, words.Format());
+                Logger.Log($"\n{e.Message}\nPhrase Words: {words.Format()}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate");
                 return new UnknownPhrase(words);
             }
         }
