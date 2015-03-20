@@ -1,5 +1,16 @@
-﻿$(function () {
-    (function (log) {
+﻿(function (log) {
+    $(function () {
+        var enableModalDraggability = function () {
+            $("[id^=confirm-delete-modal]").toArray().forEach(function (modal) {
+                var dragHandle = $(modal).find('.handle')[0];
+                draggable(modal, dragHandle);
+            });
+            var draggableDialog = $('#manage-documents-modal');
+            var dragHandle = draggableDialog.find('.handle')[0];
+            draggable(draggableDialog[0], dragHandle);
+        };
+        enableModalDraggability();
+
         $('.document-list-item > a').click(function (event) {
             event.preventDefault();
             var $listItem = $(this);
@@ -35,7 +46,20 @@
                     }).progress(function (data) {
                         $progress.css('width', data);
                     });
+
         });
 
-    }(console.log.bind(console)));
-});
+        $('.glyphicon.glyphicon-remove').click(function () {
+            var element = this;
+            var id = element.id.substring(element.id.indexOf('-') + 1);
+            $.ajax({
+                url: 'api/tasks/' + id,
+                method: 'DELETE',
+                cache: false
+            }).done(function (data, status, xhr) {
+                log(xhr);
+                $(element).remove();
+            });
+        });
+    });
+}(console.log.bind(console)));

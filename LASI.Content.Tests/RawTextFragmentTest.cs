@@ -33,7 +33,7 @@ namespace LASI.Content.Tests
                 "Heathens are far less dangerous than he." };
             string name = "test fragment";
             RawTextFragment target = new RawTextFragment(text, name);
-            Assert.AreEqual(target.SourceName, name);
+            Assert.AreEqual(target.Name, name);
             Assert.AreEqual(target.GetText(), string.Join("\n", text));
         }
 

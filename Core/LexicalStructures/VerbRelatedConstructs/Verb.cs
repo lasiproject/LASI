@@ -30,12 +30,12 @@ namespace LASI.Core
         /// </summary>
         public virtual void ModifyWith(IAdverbial modifier)
         {
-            modifiers = modifiers.Add(modifier);
+            modifiers.Add(modifier);
             modifier.Modifies = this;
         }
 
         /// <summary>
-        /// Binds the Verb to an object via a prepositional construct such as a Preposition or or PrepositionalPhrase.
+        /// Binds the Verb to an object via a prepositional construct such as a Preposition or PrepositionalPhrase.
         /// Example: He "ran" to work. where "work" is the object of ran via the prepositional construct "to".
         /// </summary>
         /// <param name="prepositional">The prepositional which links the verb and its prepositional object.</param>
@@ -51,7 +51,7 @@ namespace LASI.Core
         /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
         public virtual void BindSubject(IEntity subject)
         {
-            subjects = subjects.Add(subject);
+            subjects.Add(subject);
             subject.SubjectOf = this;
         }
 
@@ -61,7 +61,7 @@ namespace LASI.Core
         /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject)
         {
-            directObjects = directObjects.Add(directObject);
+            directObjects.Add(directObject);
             directObject.DirectObjectOf = this;
             if (IsPossessive)
             {
@@ -85,7 +85,7 @@ namespace LASI.Core
         /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject)
         {
-            indirectObjects = indirectObjects.Add(indirectObject);
+            indirectObjects.Add(indirectObject);
             indirectObject.IndirectObjectOf = this;
         }
 
@@ -101,13 +101,7 @@ namespace LASI.Core
         /// classification tool because it states that rodents are a subset of prey animals.
         /// </summary>
         /// <returns><c>true</c> if the Verb is a classifier; otherwise, <c>false</c>.</returns>
-        protected virtual bool DetermineIsClassifier()
-        {
-            return !IsPossessive &&
-                //Modality == null &&
-                //AdverbialModifiers.None() &&
-                this.GetSynonyms().Contains("be", ignoreCase);
-        }
+        protected virtual bool DetermineIsClassifier() => this.GetSynonyms().Contains("be", ignoreCase);
 
         #endregion Methods
 
@@ -188,10 +182,10 @@ namespace LASI.Core
 
         #region Fields
 
-        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
-        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
-        private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
-        private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
+        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
+        private ISet<IEntity> subjects = new HashSet<IEntity>();
+        private ISet<IEntity> directObjects = new HashSet<IEntity>();
+        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
         private bool? possessive;
         private bool? classifier;
 

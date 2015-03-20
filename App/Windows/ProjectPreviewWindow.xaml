@@ -17,36 +17,30 @@
         <CommandBinding Command="{x:Static ApplicationCommands.Help}" Executed="OpenManual_CommandBinding_Executed" />
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Key="F4"
+        <KeyBinding Key="F4" Modifiers="Alt" 
                     Command="{x:Static ApplicationCommands.Close}"
-                    Modifiers="Alt" />
-        <KeyBinding Key="O"
+                   />
+        <KeyBinding Key="O" Modifiers="Ctrl"
                     Command="{x:Static ApplicationCommands.Open}"
-                    Modifiers="Control" />
-        <KeyBinding Key="I"
+                    />
+        <KeyBinding Key="I" Modifiers="Ctrl"
                     Command="{x:Static ApplicationCommands.Properties}"
-                    Modifiers="Control" />
-        <KeyBinding Key="M"
-                    Command="{x:Static ApplicationCommands.Help}"
-                    Modifiers="Control" />
+                    />
+        <KeyBinding Key="F1"
+                    Command="{x:Static ApplicationCommands.Help}" />
+        <KeyBinding Key="M" Modifiers="Ctrl"  />
     </Window.InputBindings>
-    <Grid Name="mainGrid" AllowDrop="True">
-        <Canvas Margin="0,56,0,0" Background="#FFF6F6F6">
-            <!--
-                <Grid
-                Height="443"
-                Canvas.Top="10"
-                Width="159" />
-            -->
-        </Canvas>
-        <Grid>
-            <Canvas Canvas.Left="44"
+            <Grid Name="mainGrid" AllowDrop="True">
+                <Canvas Margin="0,56,0,0" Background="#FFF6F6F6">
+                </Canvas>
+                <Grid>
+                    <Canvas Canvas.Left="44"
                     Width="155"
                     Margin="0,56,0,10"
                     HorizontalAlignment="Left"
                     Background="#FFE5E5E5"
                     OpacityMask="#FF5A5A62">
-                <Label x:Name="label"
+                        <Label x:Name="label"
                        Canvas.Left="26"
                        Canvas.Top="15"
                        Width="42"
@@ -54,7 +48,7 @@
                        Content="Docs:"
                        Foreground="#FFBC1200"
                        RenderTransformOrigin="0.631,-0.38" />
-                <Button x:Name="RemoveCurrentDocument"
+                        <Button x:Name="RemoveCurrentDocument"
                         Canvas.Left="26"
                         Canvas.Top="40"
                         Width="35"
@@ -62,14 +56,14 @@
                         Click="RemoveCurrentDocument_Click"
                         Content="Remove"
                         Style="{DynamicResource RemoveDocumentStyle}" />
-                <Label x:Name="numDocsLabel"
+                        <Label x:Name="numDocsLabel"
                        Canvas.Left="80"
                        Canvas.Top="15"
                        Width="32"
                        Height="25"
                        Content="0"
                        Foreground="#FFBC1200" />
-                <Button x:Name="AddNewDocumentButton"
+                        <Button x:Name="AddNewDocumentButton"
                         Canvas.Left="80"
                         Canvas.Top="40"
                         Width="35"
@@ -80,55 +74,55 @@
                         IsEnabled="True"
                         OpacityMask="#FFDDDDDD"
                         Style="{DynamicResource AddDocumentStyle}" />
-            </Canvas>
-        </Grid>
-        <Menu Height="35"
+                    </Canvas>
+                </Grid>
+                <Menu Height="35"
               Margin="0,26,0,0"
               VerticalAlignment="Top"
               Background="#FFDDDADA"
               Opacity="0.85"
               Padding="10,4,0,4">
-            <MenuItem x:Name="startProcessingButton"
+                    <MenuItem x:Name="startProcessingButton"
                       Margin="10,0,0,0"
                       Background="#FFEEE9E9"
                       BorderBrush="#FF999999"
                       Click="StartButton_Click"
                       Header="I &gt; Start" />
-        </Menu>
-        <TabControl x:Name="DocumentPreview"
+                </Menu>
+                <TabControl x:Name="DocumentPreview"
                     Margin="158,61,10,10"
                     AllowDrop="True"
                     Drop="Grid_Drop" />
-        <Menu Height="26" VerticalAlignment="Top">
-            <MenuItem Header="_File">
-                <MenuItem x:Name="FileMenuAdd"
+                <Menu Height="26" VerticalAlignment="Top">
+                    <MenuItem Header="_File">
+                        <MenuItem x:Name="FileMenuAdd"
                           Command="{x:Static ApplicationCommands.Open}"
                           Header="_Open Document"
                           InputGestureText="Ctrl+O" />
-                <MenuItem Command="{x:Static ApplicationCommands.Close}"
+                        <MenuItem Command="{x:Static ApplicationCommands.Close}"
                           Header="E_xit"
                           InputGestureText="Alt+F4" />
-            </MenuItem>
-            <MenuItem Header="_Build">
-                <MenuItem Name="StartProcessMenuItem"
+                    </MenuItem>
+                    <MenuItem Header="_Build">
+                        <MenuItem Name="StartProcessMenuItem" 
                           Click="StartButton_Click"
-                          InputGestureText="Ctrl + O"
+                          InputGestureText="Ctrl+M"
                           Header="_Start" />
-            </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem Name="openPreferencesMenuItem"
+                    </MenuItem>
+                    <MenuItem Header="_Tools">
+                        <MenuItem Name="openPreferencesMenuItem"
                           Command="{x:Static ApplicationCommands.Properties}"
                           Header="P_references"
                           InputGestureText="Ctrl+I" />
-            </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Command="{x:Static ApplicationCommands.Help}"
+                    </MenuItem>
+                    <MenuItem Header="_Help">
+                        <MenuItem Command="{x:Static ApplicationCommands.Help}"
                           Header="View Manual"
-                          InputGestureText="Ctrl+M" />
-                <MenuItem Click="MenuItem_Click" Header="About LASI" />
-                <MenuItem Click="OpenLicensesMenuItem_Click_1" Header="Component Info" />
-            </MenuItem>
-        </Menu>
-    </Grid>
+                          InputGestureText="F1" />
+                        <MenuItem Click="MenuItem_Click" Header="About LASI" />
+                        <MenuItem Click="OpenLicensesMenuItem_Click_1" Header="Component Info" />
+                    </MenuItem>
+                </Menu>
+            </Grid>
 </Window>
 

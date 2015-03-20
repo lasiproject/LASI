@@ -6,7 +6,6 @@ using Microsoft.AspNet.Mvc;
 
 namespace AspSixApp.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,10 +14,9 @@ namespace AspSixApp.Controllers
     using LASI.Utilities;
     using Path = System.IO.Path;
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, Models.Results.JobStatus>;
-    using ProcessedDocumentSet = System.Collections.Immutable.IImmutableSet<Document>;
     using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
     using System.Security.Principal;
-    using AspSixApp.CustomIdentity;
+    using CustomIdentity;
 
     [Authorize]
     public class ResultsController : Controller
@@ -72,9 +70,9 @@ namespace AspSixApp.Controllers
             var files = documentStore.GetAllUserInputDocuments(userId); return files;
         }
 
-        private static async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] files)
+        private static async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] userDocuments)
         {
-            var analyzer = new AnalysisOrchestrator(files);
+            var analyzer = new AnalysisOrchestrator(userDocuments);
             analyzer.ProgressChanged += (sender, e) =>
             {
                 PercentComplete += e.PercentWorkRepresented;
@@ -101,7 +99,7 @@ namespace AspSixApp.Controllers
         private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
         private const int ChartItemLimit = 5;
 
-        private static ProcessedDocumentSet processedDocuments =
+        private static System.Collections.Immutable.IImmutableSet<Document> processedDocuments =
             System.Collections.Immutable.ImmutableHashSet.Create(
                     ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 

@@ -22,8 +22,6 @@ namespace AspSixApp.CustomIdentity.MongoDB
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
-        private const string MongoIdFieldName = "_id";
-        private static IMongoQuery EQ_id_Query(string id) => Query.EQ(MongoIdFieldName, id);
 
         public IdentityResult Add(ApplicationUser user)
         {
@@ -47,8 +45,11 @@ namespace AspSixApp.CustomIdentity.MongoDB
 
         public IdentityResult Update(ApplicationUser user)
         {
-            var outcome = Users.Update(EQ_id_Query(user.Id), Update<ApplicationUser>.Replace(user));
-            if (outcome?.ErrorMessage == null) { return IdentityResult.Success; }
+            var outcome = Users.Update(Query.EQ("_id", user.Id), Update<ApplicationUser>.Replace(user));
+            if (outcome?.ErrorMessage == null)
+            {
+                return IdentityResult.Success;
+            }
             else
             {
                 return IdentityResult.Failed(new IdentityError
@@ -63,7 +64,7 @@ namespace AspSixApp.CustomIdentity.MongoDB
         }
         public IdentityResult Delete(ApplicationUser user)
         {
-            var outcome = Users.Remove(EQ_id_Query(user.Id));
+            var outcome = Users.Remove(Query.EQ("_id", user.Id));
             if (outcome?.ErrorMessage == null)
             {
                 return IdentityResult.Success;

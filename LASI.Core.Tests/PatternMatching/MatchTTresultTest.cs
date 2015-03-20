@@ -16,7 +16,7 @@ namespace LASI.Core.PatternMatching.Tests
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
             var result = target.Match()
                  .Case((VerbPhrase v) => v.Words)
-                 .Case((IVerbal v) => new[] { v }.AsEnumerable().OfType<ILexical>())
+                 .Case((IVerbal v) => new[] { v }.OfType<ILexical>())
                  .Result();
             Assert.AreNotEqual(result, null);
             EnumerableAssert.AreSequenceEqual(result, ((Phrase)target).Words);
@@ -27,7 +27,7 @@ namespace LASI.Core.PatternMatching.Tests
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
             var result = target.Match()
                  .Case((IVerbal v) => v.Lift())
-                 .Case((VerbPhrase v) => v.Words.AsEnumerable().OfType<ILexical>())
+                 .Case((VerbPhrase v) => v.Words.OfType<ILexical>())
                  .Result();
             Assert.AreNotEqual(result, null);
             EnumerableAssert.AreSequenceEqual(result, target.Lift());

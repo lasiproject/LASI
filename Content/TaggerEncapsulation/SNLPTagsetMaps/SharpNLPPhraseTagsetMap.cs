@@ -12,7 +12,7 @@ namespace LASI.Content.Tagging
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The
     /// SharpNLP Tagger's tagset and the classes whose instances provide the runtime representations
     /// of the tag. This class represents the tagset =&gt; runtime-type mapping for the tagset used
-    /// by SharpNLP, a derrivative of the Penn Tagset. This class is sealed and thus may not be
+    /// by SharpNLP, a derivative of the Penn Tagset. This class is sealed and thus may not be
     /// extended. If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// </summary>
     /// <example>
@@ -61,14 +61,12 @@ namespace LASI.Content.Tagging
         {
             get
             {
-                try
-                {
-                    return map[posTag];
-                }
-                catch (KeyNotFoundException)
+                PhraseFactory result;
+                if (!map.TryGetValue(posTag, out result))
                 {
                     throw new UnknownPhraseTagException(posTag);
                 }
+                return result;
             }
         }
 

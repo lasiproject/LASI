@@ -32,7 +32,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 
         #region Where
 
-        /// <summary>Filters a lsit of values based on a predicate.</summary>
+        /// <summary>Filters a list of values based on a predicate.</summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
         /// <param name="list">A <see cref="IList{T}"/> to filter.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
@@ -166,7 +166,6 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             foreach (var item in second)
             {
                 yield return item;
-
             }
         }
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IList<T> second)

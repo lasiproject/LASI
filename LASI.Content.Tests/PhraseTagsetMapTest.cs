@@ -19,53 +19,8 @@ namespace LASI.Content.Tests
     public class PhraseTagsetMapTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+
         #endregion
         class TestPhraseTagsetMap : PhraseTagsetMap
         {
@@ -74,7 +29,14 @@ namespace LASI.Content.Tests
             {
                 get
                 {
-                    try { return mapping[tag]; } catch (KeyNotFoundException) { throw new UnknownPhraseTagException(tag); }
+                    try
+                    {
+                        return mappings[tag];
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        throw new UnknownPhraseTagException(tag);
+                    }
                 }
             }
 
@@ -82,24 +44,20 @@ namespace LASI.Content.Tests
             {
                 get
                 {
-                    return (from tm in mapping
-                            where tm.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
-                            select tm.Key).Single();
+                    return (from mapping in mappings
+                            where mapping.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
+                            select mapping.Key).Single();
                 }
             }
-            private readonly IReadOnlyDictionary<string, Func<IEnumerable<Word>, Phrase>> mapping = new Dictionary<string, Func<IEnumerable<Word>, Phrase>> {
-                { "NP", ws => new NounPhrase(ws) },
-                { "VP", ws => new VerbPhrase(ws) },
+            private readonly IDictionary<string, Func<IEnumerable<Word>, Phrase>> mappings = new Dictionary<string, Func<IEnumerable<Word>, Phrase>>
+            {
+                ["NP"] = ws => new NounPhrase(ws),
+                ["VP"] = ws => new VerbPhrase(ws),
             };
 
         }
 
-        internal virtual PhraseTagsetMap CreatePhraseTagsetMap()
-        {
-            // TODO: Instantiate an appropriate concrete class.
-            PhraseTagsetMap target = new TestPhraseTagsetMap();
-            return target;
-        }
+        private static PhraseTagsetMap CreatePhraseTagsetMap() => new TestPhraseTagsetMap();
 
         /// <summary>
         ///A test for Item
@@ -129,7 +87,7 @@ namespace LASI.Content.Tests
         }
         [TestMethod]
         [ExpectedException(typeof(UnknownPhraseTagException))]
-        public void ItemTest3()
+        public void ItemTest3_FailureExpected()
         {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
             var createPhrase = target["NOTMAPPED"];

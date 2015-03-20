@@ -17,6 +17,7 @@ using LASI.Utilities;
 using System.IO;
 using AspSixApp.CustomIdentity;
 using AspSixApp.CustomIdentity.MongoDB;
+using AspSixApp.CustomIdentity.MongoDB.Extensions;
 
 namespace AspSixApp
 {
@@ -42,24 +43,18 @@ namespace AspSixApp
                         .OfType<JsonOutputFormatter>().First()
                         .SerializerSettings = new JsonSerializerSettings
                         {
-                            Error = (sender, e) => { throw e.ErrorContext.Error; },
+                            Error = (s, e) => { throw e.ErrorContext.Error; },
                             ContractResolver = new CamelCasePropertyNamesContractResolver(),
                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                             NullValueHandling = NullValueHandling.Ignore,
                             Formatting = Formatting.Indented
                         };
-                });
-
-            services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
-
-            services
-                .AddSingleton(provider => new MongoDBConfiguration(this.Configuration, AppDomain.CurrentDomain))
-                .AddSingleton<MongoDBService>()
-                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDBUserDocumentStore(provider.GetService<MongoDBService>()))
-                .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
-                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()));
-
-            services
+                })
+                .AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>()
+                .AddMongoDb(provider =>
+                {
+                    return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain);
+                })
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
                 {
                     options.Lockout = new LockoutOptions
@@ -82,29 +77,26 @@ namespace AspSixApp
                         RequireLowercase = true,
                         RequireUppercase = true,
                         RequireNonLetterOrDigit = true,
-                        RequiredLength = 8,
+                        RequireDigit = true,
+                        RequiredLength = 8
                     };
                 })
                 .AddUserStore<CustomUserStore<UserRole>>()
                 .AddRoleStore<CustomUserStore<UserRole>>()
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddRoleStore<CustomUserStore<UserRole>>();
+                .AddUserManager<UserManager<ApplicationUser>>();
         }
 
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            ConfigureLASIComponents(configFilePath: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "config.json"));
+            ConfigureLASIComponents(fileName: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "config.json"), subkey: "Data");
 
             // Configure the HTTP request pipeline. Add the loggers.
             loggerfactory
-                .AddConsole()
-              /*  .AddLASIOutput()*/;
-
-
+                .AddConsole();
 
             // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.EnvironmentName.EqualsIgnoreCase("Development"))
             {
                 app.UseBrowserLink();
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
@@ -116,7 +108,6 @@ namespace AspSixApp
                 app.UseErrorHandler("/Home/Error");
             }
             app.UseRuntimeInfoPage();
-
             // Add static files to the request pipeline.
             app.UseStaticFiles();
             // Add cookie-based authentication to the request pipeline.
@@ -138,7 +129,7 @@ namespace AspSixApp
         /// <summary>
         /// Bootstrap LASI by loading the necessary configuration information from the specified file.
         /// </summary>
-        /// <param name="configFilePath">The location of a JSON file containing the desired settings.</param>
+        /// <param name="fileName">The path to a JSON file containing the desired settings.</param>
         /// <remarks>
         /// In the desktop application and previous versions of the web application, the
         /// configuration settings were stored in App.config and Web.config respectively, and were
@@ -147,10 +138,10 @@ namespace AspSixApp
         /// the gap. A better solution, one which abstracts the configuration from the assemblies
         /// entirely should be designed and implemented.
         /// </remarks>
-        private void ConfigureLASIComponents(string configFilePath)
+        private void ConfigureLASIComponents(string fileName, string subkey)
         {
             LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceLevel.High);
-            LASI.Interop.Configuration.Initialize(configFilePath, LASI.Interop.ConfigFormat.Json);
+            LASI.Interop.Configuration.Initialize(fileName, LASI.Interop.ConfigFormat.Json, subkey);
         }
         public IConfiguration Configuration { get; set; }
     }

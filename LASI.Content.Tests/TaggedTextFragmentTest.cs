@@ -59,7 +59,7 @@ namespace LASI.Content.Tests
             });
             string name = "Test Fragment";
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
-            Assert.AreEqual(target.SourceName, name);
+            Assert.AreEqual(target.Name, name);
         }
 
         /// <summary>

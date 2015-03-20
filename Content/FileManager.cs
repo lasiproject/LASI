@@ -618,43 +618,6 @@ namespace LASI.Content
         #endregion
     }
 
-    class TypedFileCollection<TFile> : ICollection<TFile> where TFile : InputFile
-    {
-        private readonly Func<string, TFile> typedFileFactory;
-
-        public TypedFileCollection(IEnumerable<TFile> initialFiles, Func<string, TFile> typedFileFactory)
-        {
-            this.typedFileFactory = typedFileFactory;
-            files = initialFiles.ToList();
-        }
-
-        public int Count => files.Count;
-
-        private readonly List<TFile> files;
-
-        public bool IsReadOnly => false;
-        public void Add(TFile item) => files.Add(item);
-        public void Add(string path) => Add(typedFileFactory(path));
-        public void Add(IEnumerable<TFile> files) => this.files.AddRange(files);
-        public void Add(IEnumerable<string> paths) => Add(paths.Select(typedFileFactory));
-        public void Clear() { throw new NotSupportedException(); }
-
-        public bool Contains(TFile item) => files.Contains(item);
-
-        public void CopyTo(TFile[] array, int arrayIndex)
-        {
-            for (var i = 0; i < Count; ++i)
-            {
-                array[arrayIndex + i] = files[i];
-            }
-        }
-
-        public IEnumerator<TFile> GetEnumerator() => files.GetEnumerator();
-
-        public bool Remove(TFile item) => files.Remove(item);
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }
     #region Helper Types
     /// <summary>
     /// Defines mappings between file extensions and functions which construct their respective wrappers.
@@ -663,13 +626,14 @@ namespace LASI.Content
     /// <seealso cref="LASI.Content.InputFile"/>
     public class ExtensionWrapperMap
     {
-        private IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase){
-                { ".txt", p => new TxtFile(p) },
-                { ".doc", p => new DocFile(p) },
-                { ".docx", p => new DocXFile(p) },
-                { ".pdf", p => new PdfFile(p) },
-                { ".tagged", p => new TaggedFile(p) },
-            };
+        private IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase)
+        {
+            [".txt"] = p => new TxtFile(p),
+            [".doc"] = p => new DocFile(p),
+            [".docx"] = p => new DocXFile(p),
+            [".pdf"] = p => new PdfFile(p),
+            [".tagged"] = p => new TaggedFile(p)
+        };
         private readonly Func<string, InputFile> unsupportedHandler;
 
         /// <summary>
@@ -680,6 +644,9 @@ namespace LASI.Content
         {
             unsupportedHandler = unsupportedFileHandler;
         }
+
+        public ExtensionWrapperMap() : this(extension => { throw new UnsupportedFileTypeAddedException(extension); }) { }
+
         /// <summary>
         /// Gets all of the file extensions, which are supported.
         /// </summary>

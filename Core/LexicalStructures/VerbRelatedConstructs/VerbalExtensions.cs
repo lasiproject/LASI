@@ -80,14 +80,11 @@ namespace LASI.Core
         /// <param name="predicate">A predicate to test each associated subject, direct object, or indirect object.</param>
         /// <param name="verbal">The Verbal to test.</param>
         /// <returns><c>true</c> if the Verbal has at least one subject, direct object, or indirect object  matching the provided predicate; otherwise, <c>false</c>.</returns>
-        public static bool HasSubjectOrObject(this IVerbal verbal, Func<IEntity, bool> predicate)
-        {
-            return verbal.HasObject(predicate) || verbal.HasSubject(predicate);
-        }
+        public static bool HasSubjectOrObject(this IVerbal verbal, Func<IEntity, bool> predicate) =>
+             verbal.HasObject(predicate) || verbal.HasSubject(predicate);
 
-        private static bool HasBoundEntity(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate)
-        {
-            return entities.Any(predicate) || entities.OfType<IReferencer>().Any(r => r.RefersTo != null && predicate(r.RefersTo));
-        }
+
+        private static bool HasBoundEntity(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) =>
+            entities.Any(predicate) || entities.OfReferencer().Any(r => r.RefersTo != null && predicate(r.RefersTo));
     }
 }

@@ -18,7 +18,8 @@ namespace LASI.Core.Heuristics.WordNet
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for adverbs.</param>
-        public AdverbLookup(string path) {
+        public AdverbLookup(string path)
+        {
             filePath = path;
         }
 
@@ -27,18 +28,25 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        internal override void Load() {
-            using (var reader = new StreamReader(filePath)) {
-                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
-                    try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
+        internal override void Load()
+        {
+            using (var reader = new StreamReader(filePath))
+            {
+                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT))
+                {
+                    try { allSets.Add(CreateSet(line)); }
+                    catch (KeyNotFoundException e)
+                    {
                         Logger.Log($"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
+                        throw;
                     }
                 }
             }
         }
 
 
-        private static AdverbSynSet CreateSet(string fileLine) {
+        private static AdverbSynSet CreateSet(string fileLine)
+        {
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
@@ -55,8 +63,8 @@ namespace LASI.Core.Heuristics.WordNet
             return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
         }
 
-        private IImmutableSet<string> SearchFor(string search) {
-            return ImmutableHashSet.CreateRange(IgnoreCase,
+        private IImmutableSet<string> SearchFor(string search) =>
+            ImmutableHashSet.CreateRange(IgnoreCase,
                 from wordForm in conjugator.GetLexicalForms(search)
                 from set in allSets
                 where set.ContainsWord(wordForm)
@@ -64,7 +72,6 @@ namespace LASI.Core.Heuristics.WordNet
                 where set.DirectlyReferences(linkedSet)
                 from word in linkedSet.Words
                 select word);
-        }
 
         internal override IImmutableSet<string> this[string search] => SearchFor(search);
 

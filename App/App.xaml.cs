@@ -15,7 +15,7 @@ namespace LASI.App
     public partial class App : Application
     {
         /// <summary>
-        /// Intializes a new instances of the <see cref="App"/> class
+        /// Initializes a new instances of the <see cref="App"/> class
         /// </summary>
         public App()
         {
@@ -47,7 +47,10 @@ namespace LASI.App
         }
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            if (Settings.Default.AutoCleanProjectFiles && FileManager.Initialized) FileManager.DecimateProject();
+            if (Settings.Default.AutoCleanProjectFiles && FileManager.Initialized)
+            {
+                FileManager.DecimateProject();
+            }
         }
     }
 }

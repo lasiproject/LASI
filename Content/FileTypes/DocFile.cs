@@ -17,8 +17,7 @@ namespace LASI.Content
         /// </summary>
         /// <param name="path">The path to a .doc file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
-        public DocFile(string path)
-            : base(path)
+        public DocFile(string path) : base(path)
         {
             if (!Extension.EqualsIgnoreCase(".doc"))
             {

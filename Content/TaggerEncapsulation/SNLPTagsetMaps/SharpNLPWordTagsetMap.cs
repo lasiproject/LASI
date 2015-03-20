@@ -101,11 +101,12 @@ namespace LASI.Content.Tagging
         {
             get
             {
-                try { return map[posTag]; }
-                catch (KeyNotFoundException)
+                WordFactory result;
+                if (!map.TryGetValue(posTag, out result))
                 {
                     throw new UnknownWordTagException(posTag);
                 }
+                return result;
             }
         }
 

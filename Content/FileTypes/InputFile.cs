@@ -86,7 +86,7 @@ namespace LASI.Content
         /// <summary>
         /// Gets the simple file name of the InputFile. This does not include its extension.
         /// </summary>
-        public string SourceName => NameSansExt;
+        public string Name => NameSansExt;
 
         /// <summary>
         /// Provides encapsulated access to underlying path information.

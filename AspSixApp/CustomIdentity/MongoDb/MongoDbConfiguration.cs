@@ -7,6 +7,14 @@ namespace AspSixApp.CustomIdentity.MongoDB
 {
     public class MongoDBConfiguration
     {
+        public MongoDBConfiguration(MongoDbOptions options)
+        {
+            MongodExePath = options.MongodExePath;
+            MongoDbPath = options.MongoDbPath;
+            MongoFilesDirectory = options.MongoFilesDirectory;
+            ConnectionString = options.ConnectionString;
+            ApplicationDatabaseName = options.ApplicationDatabaseName;
+        }
         public MongoDBConfiguration(IConfiguration config, AppDomain appDomain)
         {
             MongodExePath = config["MongodExecutableLocation"];

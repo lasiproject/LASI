@@ -6,7 +6,7 @@ using Shared.Test.Assertions;
 namespace LASI.Core.Tests.PatternMatching
 {
     [TestClass]
-    public class MonadOepratorsTest
+    public class MonadOperatorsTest
     {
         [TestMethod]
         public void SelectTest1()
@@ -88,8 +88,7 @@ namespace LASI.Core.Tests.PatternMatching
         {
             var expectedString = "walk";
             ILexical target = new Clause(new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly")));
-            var result = from phrase in target.Match()
-                         .Case((Clause c) => c.Phrases.OfVerbPhrase().First())
+            var result = from phrase in target.Match().Case((Clause c) => c.Phrases.OfVerbPhrase().First())
                          from word in phrase.Words
                          where word.Text == "walk"
                          select word.Text;
@@ -124,13 +123,13 @@ namespace LASI.Core.Tests.PatternMatching
         {
             var word = new BaseVerb("walk");
             var verbPhrase = new VerbPhrase(word, new Adverb("briskly"));
-            var expected = new { Character = 'w', word, phrase = verbPhrase };
+            var expected = new { Character = 'w', Word = word, Phrase = verbPhrase };
             ILexical target = new Clause(verbPhrase);
             var result = from phrase in target.Match()
                          .Case((Clause c) => c.Phrases.OfVerbPhrase().First())
                          from w in phrase.Words.OfVerb()
-                         select new { Character = w.Text.First(), word = w, phrase };
-            Assert.AreEqual(expected.phrase, result.First().phrase);
+                         select new { Character = w.Text.First(), word = w, Phrase = phrase };
+            Assert.AreEqual(expected.Phrase, result.First().Phrase);
         }
     }
 }

@@ -12,24 +12,24 @@ namespace LASI.Core.PatternMatching.Tests
     [TestClass]
     public class SequentialPatternMatchingTest
     {
-        private static IEnumerable<ILexical> TestTarget =>
-             new ILexical[] {
-                new CommonPluralNoun("Dogs"),
-                new Conjunction("or"),
-                new CommonPluralNoun("cats"),
-                new Preposition("but"),
-                new Adverb("not"),
-                new PersonalPronoun("both")
-             };
+        private static IEnumerable<ILexical> TestTarget
+        {
+            get
+            {
+                yield return new CommonPluralNoun("Dogs");
+                yield return new Conjunction("or");
+                yield return new CommonPluralNoun("cats");
+                yield return new Preposition("but");
+                yield return new Adverb("not");
+                yield return new PersonalPronoun("both");
+            }
+        }
         [TestMethod]
         public void EnumerableOfLexicalWithoutFiltersOrGuardsExactTypesTest()
         {
             bool actual = false;
             TestTarget.Match()
-                .Case(
-                    (CommonPluralNoun n1, Conjunction c,
-                    CommonPluralNoun n2, Preposition p,
-                    Adverb a, PersonalPronoun pp) => actual = true);
+                .Case((CommonPluralNoun n1, Conjunction c, CommonPluralNoun n2, Preposition p, Adverb a, PersonalPronoun pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -38,9 +38,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Case(
-                    (IEntity n1, IConjunctive c, CommonNoun n2,
-                    IPrepositional p, IAdverbial a, IReferencer pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, CommonNoun n2, IPrepositional p, IAdverbial a, IReferencer pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -49,8 +47,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -60,9 +57,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .Guard(false) // this guard is impossible to satisfy, thus the following match must fail even though the pattern is applicable.
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2,
-                    IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
             bool expected = false;
             Assert.AreEqual(expected, actual);
         }
@@ -72,9 +67,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .Guard(() => false) // this guard is impossible to satisfy
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2,
-                    IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
             bool expected = false;
             Assert.AreEqual(expected, actual);
         }
@@ -84,9 +77,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .Guard(true) // this guard is always satisfied
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2,
-                    IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -96,9 +87,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .Guard(() => true) // this guard is always satisfied
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2,
-                    IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -108,9 +97,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .IgnoreOnce<IAdverbial>()
-                .Case(
-                    (IEntity n1, IConjunctive c, IEntity n2,
-                    IPrepositional p, IEntity pp) => actual = true);
+                .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IEntity pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }
@@ -120,9 +107,7 @@ namespace LASI.Core.PatternMatching.Tests
             bool actual = false;
             TestTarget.Match()
                 .IgnoreOnce<IAdverbial, IConjunctive>()
-                .Case(
-                    (IEntity n1, IEntity n2,
-                    IPrepositional p, IEntity pp) => actual = true);
+                .Case((IEntity n1, IEntity n2, IPrepositional p, IEntity pp) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
         }

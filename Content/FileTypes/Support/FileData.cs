@@ -11,7 +11,7 @@ namespace LASI.Content
         #region Constructors
 
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs a new instance from the given parameters.
         /// </summary>
         /// <param name="directory">The full path to a file, not including the file name itself.</param>
         /// <param name="fileName">The name of the file, not including the file extension.</param>
@@ -26,7 +26,7 @@ namespace LASI.Content
             FullPathSansExt = directory + fileName;
         }
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs a new instance from the given parameters.
         /// </summary>
         /// <param name="directory">The full newPath to the file, not including the file name itself.</param>
         /// <param name="fileNameWithExt">The name of the file, including the file extension.</param>
@@ -47,7 +47,7 @@ namespace LASI.Content
             FullPathSansExt = Directory + FileNameSansExt;
         }
         /// <summary>
-        /// Constructs a new instance from the given pararameters.
+        /// Constructs a new instance from the given parameters.
         /// </summary>
         /// <param name="fileNameWithPathAndExt">The complete path, filename, and file extension of the file as single, non escaped, string.</param>
         public FileData(string fileNameWithPathAndExt)
@@ -73,9 +73,9 @@ namespace LASI.Content
 
         #region Methods
         /// <summary>
-        /// Returns a string prepsentation of the FileData, containing its directory path and full name.
+        /// Returns a string representation of the FileData, containing its directory path and full name.
         /// </summary>
-        /// <returns>A string prepsentation of the FileData, containing its directory path and full name.</returns>
+        /// <returns>A string representation of the FileData, containing its directory path and full name.</returns>
         public override string ToString() => $"  -  File:  {FileName}, Location:  {Directory}";
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace LASI.Content
         /// </summary>
         public string FileName { get; }
         /// <summary>
-        /// Gets the name of the file, not encluding its extension.
+        /// Gets the name of the file, not including its extension.
         /// </summary>
         public string FileNameSansExt { get; }
         /// <summary>
@@ -122,7 +122,7 @@ namespace LASI.Content
         /// </summary>
         public string FullPathAndExt { get; }
         /// <summary>
-        /// Gets the full path of the file, not encluding its extension..
+        /// Gets the full path of the file, not including its extension..
         /// </summary>
         public string FullPathSansExt { get; }
 

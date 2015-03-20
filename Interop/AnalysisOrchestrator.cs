@@ -82,7 +82,7 @@ namespace LASI.Interop
                 var tagged = await task;
                 tasks.Remove(task);
                 taggedFiles.Add(tagged);
-                Progress($"{tagged.SourceName}: Tagged", stepMagnitude + 1.5);
+                Progress($"{tagged.Name}: Tagged", stepMagnitude + 1.5);
             }
             Progress("Tagged Documents", 3);
             return taggedFiles;
@@ -96,7 +96,7 @@ namespace LASI.Interop
 
         private async Task<Document> ProcessTaggedAsync(ITaggedTextSource tagged)
         {
-            var name = tagged.SourceName;
+            var name = tagged.Name;
             Progress($"{name}: Loading...", 0);
             var document = await tagger.DocumentFromTaggedAsync(tagged);
             Progress($"{name}: Loaded", 4 / sourceCount);

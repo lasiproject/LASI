@@ -280,7 +280,7 @@ namespace LASI.Content.Tests
             InputFile target = new DocFile(relativePath);
             string expected = "Draft_Environmental_Assessment1";
             string actual;
-            actual = target.SourceName;
+            actual = target.Name;
             Assert.AreEqual(expected, actual);
         }
 
@@ -294,7 +294,7 @@ namespace LASI.Content.Tests
             InputFile target = new TxtFile(relativePath);
             string expected = "Draft_Environmental_Assessment4";
             string actual;
-            actual = target.SourceName;
+            actual = target.Name;
             Assert.AreEqual(expected, actual);
         }
 

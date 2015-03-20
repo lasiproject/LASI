@@ -8,15 +8,15 @@
                role="button"
                aria-expanded="false"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">
-                <li class="dropdown document-list-item" id="document-list-item-manage"><a href="#">Manage</a></li>
-                @foreach (var userDocument in Model)
+                <li class="dropdown" id="document-list-item-manage"><a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a></li>
+                @foreach (var document in Model)
                 {
-                    var id = userDocument._id;
-                    var progress = userDocument.Progress;
+                    var id = document._id;
+                    var progress = document.Progress;
                     <li class="dropdown document-list-item" id="document-list-item-@(id)">
-                        <a href="#"><span class="glyphicon glyphicon-file pull-left"></span>@userDocument.Name</a>
+                        <a href="#"><span class="glyphicon glyphicon-file pull-left"></span>@document.Name</a>
+                        <span class="item-id-hidden" hidden>@(document._id)</span>
                         <div class="progress hidden">
-                            <span class="item-id-hidden">@(userDocument._id)</span>
                             <div id="progress-bar-@(id)"
                                  class="progress-bar text-aligned-progress-bar"
                                  style="max-width: 100%; width:@(progress)"
@@ -28,16 +28,57 @@
                         </div>
                     </li>
                 }
+                <li class="dropdown"><a href="#" id="new-text-editor-item" data-toggle="collapse" data-target="#free-editor" class="nav-justified glyphicon glyphicon-pencil"></a></li>
             </ul>
-
-
-
         </li>
-        <li class="dropdown"><a href="#" id="new-text-editor-item" data-toggle="collapse" data-target="#free-editor" class="nav-justified glyphicon glyphicon-pencil"></a></li>
 
     </ul>
 </div>
+<div id="manage-documents-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="#myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header handle modal-drag-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Manage Documents</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
 
-<div>
+                    @foreach (var document in Model)
+                    {
+                        <li class="list-group-item">
+                            <div>
+                                @document.Name<a href="#" data-toggle="modal" data-target="#confirm-delete-modal@(document._id)">
+                                    <span class="glyphicon glyphicon-remove pull-right"></span>
+                                </a>
+                            </div>
+                            <div id="confirm-delete-modal@(document._id)"
+                                 class="modal fade"
+                                 role="dialog"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header handle modal-drag-handle">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <div class="modal-title">Really Delete?</div>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete <em>@document.Name</em>?
+                                        </div>
+                                        <div class="modal-footer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div><div class="modal-footer"></div>
+        </div>
+    </div>
 
 </div>

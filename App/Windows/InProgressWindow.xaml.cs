@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Reactive.Linq;
 using System.Reactive;
-using System.Reactive.Joins;
 using LASI.Interop.ResourceManagement;
+using System.ComponentModel;
 
 namespace LASI.App
 {
@@ -24,13 +24,9 @@ namespace LASI.App
         public InProgressWindow()
         {
             InitializeComponent();
-            ConfigureOptions();
-        }
-
-        private void ConfigureOptions()
-        {
             SetPlatformSpecificStyling();
         }
+
 
         private void SetPlatformSpecificStyling()
         {
@@ -62,11 +58,11 @@ namespace LASI.App
             var analysisUpdateEvents = ConfigureAnalysisUpdateEvents(analysisProvider);
 
             var events = (
-                    from e in loadedEvents
+                    from e in loadingEvents
                     let args = e.EventArgs
                     select new { args.Message, args.PercentWorkRepresented }
                 ).Merge(
-                    from e in loadingEvents
+                    from e in loadedEvents
                     let args = e.EventArgs
                     select new { args.Message, args.PercentWorkRepresented }
                 ).Merge(
@@ -85,6 +81,7 @@ namespace LASI.App
                     for (int i = 0; i < 33; ++i)
                     {
                         progressBar.Value += animateStep;
+
                         await Task.Delay(1);
                     }
                 });
@@ -108,14 +105,14 @@ namespace LASI.App
                 removeHandler: h => analysisProvider.ProgressChanged -= h
             );
         }
-        private static IObservable<System.Reactive.EventPattern<ResourceLoadEventArgs>> ConfigureLoadingEvents(ResourceNotifier resourceLoadingNotifier)
+        private static IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadingEvents(ResourceNotifier resourceLoadingNotifier)
         {
             return Observable.FromEventPattern<ResourceLoadEventArgs>(
                 addHandler: h => resourceLoadingNotifier.ResourceLoading += h,
                 removeHandler: h => resourceLoadingNotifier.ResourceLoading -= h
             );
         }
-        private static IObservable<System.Reactive.EventPattern<ResourceLoadEventArgs>> ConfigureLoadedEventStream(ResourceNotifier resourceLoadingNotifier)
+        private static IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadedEventStream(ResourceNotifier resourceLoadingNotifier)
         {
             return Observable.FromEventPattern<ResourceLoadEventArgs>(
                 addHandler: h => resourceLoadingNotifier.ResourceLoaded += h,
@@ -167,6 +164,11 @@ namespace LASI.App
             this.WindowState = WindowState.Minimized;
         }
 
+        /// <summary>
+        /// Raised when processing of all documents has been completed.
+        /// </summary>
+        public event EventHandler ProcessingCompleted = delegate { };
+
         #endregion
 
         #region Taskbar Notification
@@ -208,7 +210,7 @@ namespace LASI.App
 
             }
             /// <summary>
-            /// Cuases the application icon in the Windows Taskbar to dicontinue flashing.
+            /// Causes the application icon in the Windows Taskbar to discontinue flashing.
             /// </summary>
             internal static void StopFlashing(Window windowToFlash)
             {
@@ -223,12 +225,9 @@ namespace LASI.App
                 FlashWindowEx(ref fInfo);
             }
         }
-        #endregion
 
-        /// <summary>
-        /// Raised when processing of all documents has been completed.
-        /// </summary>
-        public event EventHandler ProcessingCompleted = delegate { };
+
+        #endregion
 
     }
 }

@@ -1,10 +1,10 @@
 {
     "projects": [
         "wrap",
-        "AspSixApp" 
-        //"Core",
-        //"Content",
-        //"Utilities",
-        //"Interop"
+        "AspSixApp",
+        "Core",
+        "Content",
+        "Utilities",
+        "Interop"
     ]
 }

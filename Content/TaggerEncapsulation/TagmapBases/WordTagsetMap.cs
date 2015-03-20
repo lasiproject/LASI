@@ -8,7 +8,7 @@ namespace LASI.Content.Tagging
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide their runtime representations of the tag.
-    /// This class represents the tagset => runtime-type mapping for word occurances.
+    /// This class represents the tagset => runtime-type mapping for word occurrences.
     /// </summary>
     /// <example>
     /// <code>
@@ -23,13 +23,13 @@ namespace LASI.Content.Tagging
     public abstract class WordTagsetMap
     {
         /// <summary>
-        /// When overriden in a derrived class, Provides POS-Tag indexed access to a constructor
+        /// When overridden in a derived class, Provides POS-Tag indexed access to a constructor
         /// function which can be invoked to create an instance of the class which provides its
         /// run-time representation.
         /// </summary>
         /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>
-        /// A function which creates an isntance of the run-time type associated with the textual tag.
+        /// A function which creates an instance of the run-time type associated with the textual tag.
         /// </returns>
         /// <exception cref="UnknownWordTagException">
         /// Implementors should Throw this exception if and only if when the index string is not a

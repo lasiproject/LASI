@@ -123,7 +123,7 @@ namespace LASI.Core.Heuristics.WordNet
             results.AddRange(containingSet.Words);
             results.AddRange(containingSet[Link.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
             setsSearched.Add(containingSet);
-            foreach (var set in containingSet.ReferencedSet
+            foreach (var set in containingSet.ReferencedSets
                 .Except(containingSet[Link.HypERnym])
                 .Select(setsById.GetValueOrDefault)
                 .Where(set => set != null))

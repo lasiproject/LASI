@@ -17,39 +17,36 @@ namespace LASI.Content
         /// </summary>
         /// <param name="text">A string containing tagged text.</param>
         /// <param name="name">The desired name of the TaggedTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
-        public TaggedTextFragment(string text, string name) {
+        public TaggedTextFragment(string text, string name)
+        {
             taggedText = text;
-            SourceName = name;
+            Name = name;
         }
         /// <summary>
         /// Initializes a new instance of the TaggedTextFragment class containing the provided text and having the provided name.
         /// </summary>
         /// <param name="lines">A sequence of strings containing tagged text.</param>
         /// <param name="name">The desired name of the TaggedTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
-        public TaggedTextFragment(IEnumerable<string> lines, string name) {
+        public TaggedTextFragment(IEnumerable<string> lines, string name)
+        {
             taggedText = string.Join("\n", lines);
-            SourceName = name;
+            Name = name;
         }
 
         /// <summary>
         /// Returns a single string containing all of the Tagged Text in the TaggedTextFragment.
         /// </summary>
         /// <returns>A single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
-        public string GetText() {
-            return taggedText;
-        }
+        public string GetText() => taggedText;
         /// <summary>
         /// Returns a system.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.
         /// </summary>
         /// <returns>A System.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
-        public async Task<string> GetTextAsync() {
-            await Task.Yield();
-            return taggedText;
-        }
+        public async Task<string> GetTextAsync() => await Task.FromResult(taggedText);
         /// <summary>
         /// Gets the name associated with the TaggedTextFragment.
         /// </summary>
-        public string SourceName { get; private set; }
+        public string Name { get; }
 
         private string taggedText;
 

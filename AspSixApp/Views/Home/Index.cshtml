@@ -1,6 +1,6 @@
 ﻿@using AspSixApp.Models
 <div id="main-content" class="row">
-    <div class="panel-collapse">
+    <div class="panel panel-collapse">
         <div class="col-md-4 pull-left" id="col-left">
             <div class="row" id="task-list-panel">
                 <div class="panel-group" id="accordion">
@@ -9,13 +9,15 @@
         </div>
 
         <div class="col-md-7" id="col-main">
-            <div class="panel panel-collapse" id="free-editor">
+            <div class="panel-collapse collapse" aria-hidden="true" id="free-editor">
                 <textarea></textarea>
             </div>
-            @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel
+            <div>
+                @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel
        {
            UploadTarget = "fileuploadtarget"
        })
+            </div>
         </div>
         <div class="col-md-1 pull-right" id="col-right">
 

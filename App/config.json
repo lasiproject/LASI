@@ -1,11 +1,13 @@
 ﻿{
-    "projectWebsite": "http://lasi-project.org",
-    "resourcesDirectory": ".\\..\\..\\..\\WebApp\\",
-    "maximumEntropyModelDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
-    "wordnetSearchDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
-    "wordnetFileDirectory": "resources\\WordNetThesaurusData\\",
-    "subordinatingPrepositionalsInfoFile": "resources\\LASICustom\\Binding\\KnownSubordinators.txt",
-    "nameDataDirectory": "resources\\LASICustom\\NameData\\",
-    "convertersDirectory": "resources\\StandaloneFileConverters\\",
-    "projectFileSchemaLocation": "resources\\DotLasiFile.xsd"
+    "Data": {
+        "ProjectWebsite": "http://lasi-project.org",
+        "ResourcesDirectory": ".\\..\\..\\..\\WebApp\\",
+        "MaximumEntropyModelDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+        "WordnetSearchDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
+        "WordnetFileDirectory": "resources\\WordNetThesaurusData\\",
+        "SubordinatingPrepositionalsInfoFile": "resources\\LASICustom\\Binding\\KnownSubordinators.txt",
+        "NameDataDirectory": "resources\\LASICustom\\NameData\\",
+        "ConvertersDirectory": "resources\\StandaloneFileConverters\\",
+        "ProjectFileSchemaLocation": "resources\\DotLasiFile.xsd"
+    }
 }

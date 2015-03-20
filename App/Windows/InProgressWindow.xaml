@@ -13,20 +13,20 @@
         WindowStartupLocation="CenterOwner"
         WindowStyle="None">
     <Window.TaskbarItemInfo>
-        <TaskbarItemInfo />
+        <TaskbarItemInfo ProgressState="Normal"/>
     </Window.TaskbarItemInfo>
     <Grid>
         <Canvas Background="#FFE6E6E6">
-             
+
             <ProgressBar x:Name="progressBar"
-                         Canvas.Top="328"
-                         Width="654"
-                         Height="26"
-                         VerticalAlignment="Top"
-                         Background="{x:Null}"
-                         RenderTransformOrigin="0.5,0.5"
-                         ToolTip="Initializing"
-                         Value="0.0">
+        		Canvas.Top="328"
+        		Width="654"
+        		Height="26"
+        		VerticalAlignment="Top"
+        		Background="{x:Null}"
+        		RenderTransformOrigin="0.5,0.5"
+        		ToolTip="Initializing" 
+        		UseLayoutRounding="True" ValueChanged="progressBar_ValueChanged" Value="0">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Offset="0.995" Color="#FFC21300" />
@@ -36,7 +36,7 @@
                     </LinearGradientBrush>
                 </ProgressBar.Foreground>
                 <ProgressBar.BindingGroup>
-                    <BindingGroup />
+                    <BindingGroup SharesProposedValues="False" Name="ProgressValueBindingExpressions" />
                 </ProgressBar.BindingGroup>
                 <ProgressBar.RenderTransform>
                     <TransformGroup>

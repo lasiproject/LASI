@@ -17,6 +17,5 @@ namespace AspSixApp.Models
         /// </summary>
         public string DateUploaded { get; set; }
         public string Content { get; set; }
-        public string SourceName => Name;
     }
 }

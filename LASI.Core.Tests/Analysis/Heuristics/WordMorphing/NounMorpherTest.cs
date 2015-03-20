@@ -40,12 +40,11 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void FindRootTest1()
         {
             NounMorpher target = new NounMorpher();
-            string nounForm = string.Empty; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            string nounForm = "octopi";
+            string expected = "octopus";
             string actual;
             actual = target.FindRoot(nounForm);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
 
         /// <summary>
@@ -55,12 +54,23 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void FindRootTest2()
         {
             NounMorpher target = new NounMorpher();
-            Noun noun = null; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            Noun noun = new CommonSingularNoun("octopi");
+            string expected = "octopus";
             string actual;
             actual = target.FindRoot(noun);
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+        }  /// <summary>
+           ///A test for FindRoot
+           /// </summary>
+        [TestMethod()]
+        public void FindRootTest3()
+        {
+            NounMorpher target = new NounMorpher();
+            string nounForm = "octopi-hunter";
+            string expected = "octopus-hunter";
+            string actual;
+            actual = target.FindRoot(nounForm);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>

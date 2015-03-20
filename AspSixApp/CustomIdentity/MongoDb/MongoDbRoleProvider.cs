@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using System.Linq;
+using AspSixApp.CustomIdentity.MongoDB.Extensions;
 
 namespace AspSixApp.CustomIdentity.MongoDB
 {
@@ -16,7 +17,7 @@ namespace AspSixApp.CustomIdentity.MongoDB
         {
             roles = new Lazy<MongoCollection<UserRole>>(() => dbService.GetCollection<UserRole>());
         }
-        public UserRole Get(Func<UserRole, bool> match) => Roles.AsQueryable().FirstOrDefault(match);
+        public UserRole Get(Func<UserRole, bool> match) => this.FirstOrDefault(match);
 
         public IdentityResult Add(UserRole role)
         {
@@ -26,7 +27,7 @@ namespace AspSixApp.CustomIdentity.MongoDB
 
         public IdentityResult Delete(UserRole role)
         {
-            var result = Roles.Remove(Query.And(Query.EQ("RoleId", role.RoleId), Query.EQ("UserId", role.UserId)));
+            var result = Roles.Remove(Query.EQ("RoleId", role.RoleId).And(Query.EQ("UserId", role.UserId)));
             return CreateIdentityResultFromQueryResult(result);
         }
 
@@ -37,12 +38,12 @@ namespace AspSixApp.CustomIdentity.MongoDB
                            where role.RoleName == roleName
                            where role.UserId == user.Id
                            select role;
-            var result = Roles.Remove(Query.And(Query.EQ("RoleName", roleName), Query.EQ("UserId", user.Id)));
+            var result = Roles.Remove(Query.EQ("RoleName", roleName).And(Query.EQ("UserId", user.Id)));
         }
 
         public IdentityResult Update(UserRole role)
         {
-            var result = Roles.Update(Query.And(Query.EQ("_id", role.RoleId), Query.EQ("UserId", role.UserId)), Update<UserRole>.Replace(role));
+            var result = Roles.Update(Query.EQ("_id", role.RoleId).And(Query.EQ("UserId", role.UserId)), Update<UserRole>.Replace(role));
             return CreateIdentityResultFromQueryResult(result);
         }
 
@@ -60,7 +61,7 @@ namespace AspSixApp.CustomIdentity.MongoDB
 
         private MongoCollection<UserRole> Roles => roles.Value;
 
-        public IEnumerator<UserRole> GetEnumerator() => Roles.AsQueryable().GetEnumerator();
+        public IEnumerator<UserRole> GetEnumerator() => Roles.FindAll().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         private readonly Lazy<MongoCollection<UserRole>> roles;

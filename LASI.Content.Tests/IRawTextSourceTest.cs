@@ -111,7 +111,7 @@ namespace LASI.Content.Tests
 
             string actual;
             string expected = "test fragment";
-            actual = target.SourceName;
+            actual = target.Name;
             Assert.AreEqual(expected, actual);
 
         }

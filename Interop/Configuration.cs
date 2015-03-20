@@ -19,13 +19,14 @@ namespace LASI.Interop
         /// Configures how components are initialized by specifying the locations of required
         /// resource files.
         /// </summary>
-        /// <param name="resourceConfigSourceLocation">
+        /// <param name="path">
         /// The location of an XML or JSON document containing configuration information.
         /// </param>
         /// <param name="format">
         /// Specifies the format of the document containing the configuration information.
         /// </param>
-        public static void Initialize(string resourceConfigSourceLocation, ConfigFormat format) => Initialize(resourceConfigSourceLocation, format, null);
+        public static void Initialize(string path, ConfigFormat format) =>
+            Initialize(path, format, null);
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required

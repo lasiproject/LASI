@@ -25,14 +25,16 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the right-hand-side of the ToLinker.
         /// </summary>
-        public ILexical ToTheRightOf {
+        public ILexical ToTheRightOf
+        {
             get;
             set;
         }
         /// <summary>
         /// Gets or sets the IprepositionLinkable construct on the left-hand-side of the ToLinker.
         /// </summary>
-        public ILexical ToTheLeftOf {
+        public ILexical ToTheLeftOf
+        {
             get;
             set;
         }
@@ -44,23 +46,26 @@ namespace LASI.Core
         /// <summary>
         /// Gets the object of the IPrepositional construct.
         /// </summary>
-        public ILexical BoundObject {
+        public ILexical BoundObject
+        {
             get;
-            protected set;
+            private set;
         }
         /// <summary>
         /// Binds an ILexical construct as the object of the ToLinker. 
         /// Lexical constructs include word, Phrase, and Clause Types.
         /// </summary>
         /// <param name="prepositionalObject">The ILexical construct as the object of the ToLinker.</param>
-        public void BindObject(ILexical prepositionalObject) {
+        public void BindObject(ILexical prepositionalObject)
+        {
             BoundObject = prepositionalObject;
         }
 
         /// <summary>
         /// Gets or sets the contextually extrapolated <see cref="PrepositionRole"/> of the ToLinker.
         /// </summary> 
-        public PrepositionRole Role {
+        public PrepositionRole Role
+        {
             get;
             set;
         }

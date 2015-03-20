@@ -45,11 +45,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         public string FindRoot(string noun) => CheckSpecialForms(noun).FirstOrDefault() ?? ComputeBaseForm(noun).FirstOrDefault() ?? noun;
 
         /// <summary>
-        /// Returns the root of the given Noun. If no root can be found, the Noun's orignal text is returned.
+        /// Returns the root of the given Noun. If no root can be found, the Noun's original text is returned.
         /// </summary>
         /// <param name="noun">The Noun to find the root of.</param>
         /// <returns>
-        /// The root of the given Noun. If no root can be found, the Noun's orignal text is returned.
+        /// The root of the given Noun. If no root can be found, the Noun's original text is returned.
         /// </returns>
         public string FindRoot(Noun noun) { return FindRoot(noun.Text); }
 

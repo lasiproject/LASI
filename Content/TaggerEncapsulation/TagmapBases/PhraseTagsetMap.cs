@@ -9,7 +9,7 @@ namespace LASI.Content.Tagging
     /// <summary>
     /// Represents a tagset-to-runtime-type-mapping context for Phrase constructs which translates between a Part Of Speech
     /// Tagger's tagset and the classes whose instances provide the runtime representations of the Phrase tag.
-    /// This class represents the tagset => runtime-type mapping for word occurances.
+    /// This class represents the tagset => runtime-type mapping for word occurrences.
     /// </summary>
     /// <example>
     /// <code>
@@ -22,7 +22,7 @@ namespace LASI.Content.Tagging
     public abstract class PhraseTagsetMap
     {
         /// <summary>
-        /// When overriden in a derrived class, Provides POS-Tag indexed access to a constructor
+        /// When overridden in a derived class, Provides POS-Tag indexed access to a constructor
         /// function which can be invoked to create an instance of the Phrase class which provides
         /// its run-time representation.
         /// </summary>
@@ -37,7 +37,7 @@ namespace LASI.Content.Tagging
         public abstract PhraseFactory this[string tag] { get; }
 
         /// <summary>
-        /// When overriden in a derrived class, Gets the PosTag string corresponding to the
+        /// When overridden in a derived class, Gets the PosTag string corresponding to the
         /// System.Type of the given LASI.Algorithm.Phrase.
         /// </summary>
         /// <param name="phrase">

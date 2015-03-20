@@ -11,10 +11,10 @@ namespace AspSixApp.CustomIdentity
     {
         public InMemoryRoleProvider()
         {
-            Roles = System.Collections.Immutable.ImmutableHashSet.Create<UserRole>();
+            Roles = new System.Collections.Generic.HashSet<UserRole>();
         }
 
-        public System.Collections.Immutable.IImmutableSet<UserRole> Roles { get; private set; }
+        public System.Collections.Generic.ISet<UserRole> Roles { get; }
 
         public IdentityResult Add(UserRole role)
         {
@@ -24,7 +24,7 @@ namespace AspSixApp.CustomIdentity
             }
             else
             {
-                Roles = Roles.Add(role);
+                Roles.Add(role);
                 return IdentityResult.Success;
             }
         }
@@ -32,13 +32,13 @@ namespace AspSixApp.CustomIdentity
 
         public IdentityResult Delete(UserRole role)
         {
-            Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleId == role.RoleId || r == role));
+            Roles.Remove(Roles.FirstOrDefault(r => r.RoleId == role.RoleId || r == role));
             return IdentityResult.Success;
         }
 
         public void RemoveFromRole(ApplicationUser user, string roleName)
         {
-            Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
+            Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
         }
 
         public IdentityResult Update(UserRole role)

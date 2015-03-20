@@ -16,7 +16,9 @@ namespace LASI.Core.Heuristics.WordNet
     using System.Reactive.Linq;
     using System.Collections.Immutable;
     using EventArgs = ResourceLoadEventArgs;
-    using LASI.Core.Analysis.Heuristics.WordMorphing;
+    using Analysis.Heuristics.WordMorphing;
+    using static Enumerable;
+    using LASI.Utilities.Specialized.Enhanced.Universal;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
@@ -95,7 +97,7 @@ namespace LASI.Core.Heuristics.WordNet
                 if (setsByWord.TryGetValue(word, out extantSet))
                 {
                     extantSet.Words.UnionWith(set.Words);
-                    extantSet.ReferencedSet.UnionWith(set.ReferencedSet);
+                    extantSet.ReferencedSets.UnionWith(set.ReferencedSets);
                 }
                 else
                 {
@@ -113,8 +115,8 @@ namespace LASI.Core.Heuristics.WordNet
                 setsByWord.TryGetValue(root, out containingSet);
                 containingSet = containingSet ?? setsByWord.Where(set => set.Value.ContainsWord(root)).Select(kv => kv.Value).FirstOrDefault();
                 return containingSet == null ? new[] { search } :
-                    containingSet[LinkType.Verb_Group, LinkType.Hypernym]
-                         .SelectMany(id => { VerbSynSet set; return setsById.TryGetValue(id, out set) ? set[LinkType.Verb_Group, LinkType.Hypernym] : Enumerable.Empty<int>(); })
+                    containingSet[TraversedLinks]
+                         .SelectMany(id => { VerbSynSet set; return setsById.TryGetValue(id, out set) ? set[TraversedLinks] : Empty<int>(); })
                          .Select(id => { VerbSynSet referenced; return setsById.TryGetValue(id, out referenced) ? referenced : null; })
                          .Where(set => set != null)
                          .SelectMany(set => set.Words.SelectMany(w => VerbMorpher.GetConjugations(w)))
@@ -188,7 +190,18 @@ namespace LASI.Core.Heuristics.WordNet
         /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
         /// </summary>
         private const uint SET_COUNT = 13797;
-
+        private static readonly LinkType[] TraversedLinks =
+        {
+            LinkType.Hypernym,
+            LinkType.Hyponym,
+            LinkType.Entailment,
+            LinkType.AlsoSee,
+            LinkType.Verb_Group,
+            LinkType.DerivationallyRelatedForm,
+            LinkType. Entailment,
+            LinkType.Cause,
+            LinkType.DomainOfSynset_USAGE
+        };
         // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
         private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
         {

@@ -12,6 +12,8 @@ namespace LASI.Core.Heuristics.WordNet
     using Link = AdjectiveLink;
     using System.Collections.Immutable;
     using Utilities;
+    using LASI.Core.Analysis.Heuristics.WordMorphing;
+    using LASI.Core.Configuration;
 
     internal sealed class AdjectiveLookup : WordNetLookup<Adjective>
     {
@@ -19,26 +21,33 @@ namespace LASI.Core.Heuristics.WordNet
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for adjectives.</param>
-        public AdjectiveLookup(string path) {
-
-            filePath = path;
+        public AdjectiveLookup(string path)
+        {
+            this.filePath = path;
+            this.formGenerator = new AdjectiveMorpher();
         }
 
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
-        internal override void Load() {
-            using (StreamReader reader = new StreamReader(filePath)) {
-                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT)) {
-                    try { allSets.Add(CreateSet(line)); } catch (KeyNotFoundException e) {
+        internal override void Load()
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT))
+                {
+                    try { allSets.Add(CreateSet(line)); }
+                    catch (KeyNotFoundException e)
+                    {
                         Logger.Log("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
                     }
                 }
             }
 
         }
-        private static AdjectiveSynSet CreateSet(string fileLine) {
+        private static AdjectiveSynSet CreateSet(string fileLine)
+        {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
             var referencedSets = from Match match in Regex.Matches(line, POINTER_REGEX)
@@ -58,24 +67,16 @@ namespace LASI.Core.Heuristics.WordNet
 
         }
 
-        private IImmutableSet<string> SearchFor(string search) {
-            //gets words of searched word
-            return allSets.AsParallel()
+        private IImmutableSet<string> SearchFor(string search) =>
+            allSets.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
                 .Where(set => set.ContainsWord(search))
-                .SelectMany(set => set.Words)
+                .SelectMany(set => set.Words.SelectMany(formGenerator.GetLexicalForms))
                 .ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
-        }
-        internal override IImmutableSet<string> this[string search] {
-            get {
-                return SearchFor(search);
-            }
-        }
-        internal override IImmutableSet<string> this[Adjective search] {
-            get {
-                return this[search.Text];
-            }
-        }
 
+        internal override IImmutableSet<string> this[string search] => SearchFor(search);
+
+        internal override IImmutableSet<string> this[Adjective search] => this[search.Text];
 
         private string filePath;
         private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
@@ -97,7 +98,7 @@ namespace LASI.Core.Heuristics.WordNet
             [";r"] = Link.DomainOfSynset_REGION,
             [";u"] = Link.DomainOfSynset_USAGE
         };
-
+        private readonly AdjectiveMorpher formGenerator;
     }
 
 }

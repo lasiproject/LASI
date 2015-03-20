@@ -6,8 +6,15 @@ namespace AspSixApp.CustomIdentity
 {
     public interface IInputDocumentStore<TDocument> where TDocument : class, IRawTextSource
     {
-        void AddUserDocument(string userId, TDocument document);
+        /// <summary>
+        /// Adds the given document to the store and returns a string representation of its id.
+        /// </summary>
+        /// <param name="userId">The id of the user associated with the document.</param>
+        /// <param name="document">The document to add.</param>
+        /// <returns>A string representation of the added document's id.</returns>
+        string AddUserDocument(string userId, TDocument document);
         IEnumerable<TDocument> GetAllUserInputDocuments(string userId);
-        TDocument GetUserInputDocumentById(string userId, string sourceName);
+        TDocument GetUserInputDocumentById(string userId, string documentId);
+        void Remove(string userId, string documentId);
     }
 }

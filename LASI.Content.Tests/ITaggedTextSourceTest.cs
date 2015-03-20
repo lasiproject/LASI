@@ -119,7 +119,7 @@ namespace LASI.Content.Tests
         {
             ITaggedTextSource target = CreateITaggedTextSource();
             string actual;
-            actual = target.SourceName;
+            actual = target.Name;
             Assert.AreEqual("test fragment", actual);
         }
     }

@@ -11,9 +11,7 @@
         "LASI.Content": "1.0.0-*",
         "LASI.Core": "1.0.0-*",
         "LASI.Utilities": "1.0.0-*",
-        "Newtonsoft.Json": "6.0.8",
-        "Microsoft.Framework.ConfigurationModel": "1.0.0-beta2",
-        "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta2"
+        "Newtonsoft.Json": "6.0.8"
       }
     }
   }

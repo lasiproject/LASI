@@ -28,6 +28,8 @@ namespace LASI.Core
 
         #region Sequential Implementations
 
+        public static IEnumerable<IReferencer> OfReferencer(this IEnumerable<IEntity> entities) => entities.OfType<IReferencer>();
+
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the
         /// Subject of an IVerbal construct.
@@ -258,20 +260,18 @@ namespace LASI.Core
         /// All entities in the sequence such that, if they are referencers, their references will
         /// be returned in their place.
         /// </returns>
-        public static IEnumerable<IEntity> ResolvingReferences<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity
-        {
-            return entities
-                .SelectMany(entity =>
-                    from result in entity.Match()
-                        .When((IReferencer r) => r.RefersTo.Any())
-                        .Then((IReferencer r) => r.RefersTo)
-                        .Case((IEntity e) => e)
-                    select result);
-        }
+        public static IEnumerable<IEntity> ResolvingReferences<TEntity>(this IEnumerable<TEntity> entities) where TEntity : class, IEntity =>
+            entities.SelectMany(entity =>
+                from result in entity.Match()
+                 .When((IReferencer r) => r.RefersTo.Any())
+                 .Then((IReferencer r) => r.RefersTo)
+                 .Case((IEntity e) => e)
+                select result);
 
         #endregion Sequential Implementations
 
         #region Parallel Implementations
+        public static ParallelQuery<IReferencer> OfReferencer(this ParallelQuery<IEntity> entities) => entities.OfType<IReferencer>();
 
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the

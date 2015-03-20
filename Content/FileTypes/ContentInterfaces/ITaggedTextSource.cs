@@ -24,8 +24,6 @@ namespace LASI.Content
         /// <summary>
         /// Gets the name associated with the ITaggedTextSource.
         /// </summary>
-        string SourceName {
-            get;
-        }
+        string Name { get; }
     }
 }

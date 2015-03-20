@@ -253,16 +253,10 @@ namespace LASI.Core
         /// </summary>
         internal const double SIMILARITY_THRESHOLD = 0.6;
 
-        private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
-                    new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), true);
-
-        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
-                    new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), true);
-
         private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, IImmutableSet<string>>(
-                    concurrencyLevel: Concurrency.Max,
-                    capacity: 40960
-                );
+                   concurrencyLevel: Concurrency.Max,
+                   capacity: 40960
+               );
 
         private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdverbData = new ConcurrentDictionary<string, IImmutableSet<string>>(
                     concurrencyLevel: Concurrency.Max,
@@ -292,34 +286,41 @@ namespace LASI.Core
                 ElapsedMiliseconds = timer.ElapsedMilliseconds
             });
             return val;
-        }, true);
+        }, isThreadSafe: true);
 
         // scrabble dictionary Internal Lookups
-        private static Lazy<WordNetLookup<Noun>> nounLookup =
-            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), true);
-
         private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() =>
         {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;
             var loadWords = FunctionExtensions.WithTimer(() =>
-             {
-                 using (var reader = new StreamReader(Paths.ScrabbleDict))
-                 {
-                     return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                              .Select(s => s.ToLower())
-                              .Except(NameData.AllNames, IgnoreCase)
-                              .ToImmutableHashSet(IgnoreCase);
-                 }
-             }, out timer);
+            {
+                using (var reader = new StreamReader(Paths.ScrabbleDict))
+                {
+                    return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                             .Select(s => s.ToLower())
+                             .Except(NameData.AllNames, IgnoreCase)
+                             .ToImmutableHashSet(IgnoreCase);
+                }
+            }, out timer);
             var words = loadWords();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return words;
         }, true);
 
+        private static Lazy<WordNetLookup<Noun>> nounLookup =
+          new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
+
         private static Lazy<WordNetLookup<Verb>> verbLookup =
-                    new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), true);
+                    new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), isThreadSafe: true);
+
+        private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
+                new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), isThreadSafe: true);
+
+        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
+                    new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), isThreadSafe: true);
+
 
         #region Name Lookup Methods
         #endregion

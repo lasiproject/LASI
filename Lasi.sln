@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WE-browsers.xml = WE-browsers.xml
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
-		global_1json__JSONSchema = http://json.schemastore.org/global
 		tslint_1json__JSONSchema = http://json.schemastore.org/tslint
 		Documents_2GitHub_2LASI_2tslint_1json__JSONSchema = http://json.schemastore.org/tslint
 		Documents_2GitHub_2LASI_2global_1json__JSONSchema = http://json.schemastore.org/global
@@ -72,11 +71,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wrap", "wrap", "{5E8CB98D-7
 		wrap\System.Reactive.Linq\project.json = wrap\System.Reactive.Linq\project.json
 		wrap\System.Reactive.Interfaces\project.json = wrap\System.Reactive.Interfaces\project.json
 		wrap\System.Reactive.Core\project.json = wrap\System.Reactive.Core\project.json
-		wrap\System.Collections.Immutable\project.json = wrap\System.Collections.Immutable\project.json
 		wrap\SharpWordNet\project.json = wrap\SharpWordNet\project.json
 		wrap\SharpEntropy\project.json = wrap\SharpEntropy\project.json
 		wrap\OpenNLP\project.json = wrap\OpenNLP\project.json
-		wrap\Microsoft.VisualStudio.QualityTools.UnitTestFramework\project.json = wrap\Microsoft.VisualStudio.QualityTools.UnitTestFramework\project.json
 		wrap\LASI.Utilities\project.json = wrap\LASI.Utilities\project.json
 		wrap\LASI.Shared.Test\project.json = wrap\LASI.Shared.Test\project.json
 		wrap\LASI.Interop\project.json = wrap\LASI.Interop\project.json
@@ -84,6 +81,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wrap", "wrap", "{5E8CB98D-7
 		wrap\LASI.Content\project.json = wrap\LASI.Content\project.json
 		wrap\itextsharp\project.json = wrap\itextsharp\project.json
 		wrap\FSharp.Core\project.json = wrap\FSharp.Core\project.json
+		wrap\System.Collections.Immutable\project.json = wrap\System.Collections.Immutable\project.json
+	EndProjectSection
+	ProjectSection(FolderGlobals) = preProject
+		project_1json__JSONSchema = http://json-schema.org/draft-04/schema
 	EndProjectSection
 EndProject
 Global
