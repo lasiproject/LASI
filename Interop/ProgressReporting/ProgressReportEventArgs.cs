@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace LASI.Interop
+﻿namespace LASI.Interop
 {
     /// <summary>
     /// A LASI.Core.Reporting.Reporting.ReportEventArgs implementation providing updates on an ongoing operation.
     /// </summary>
-    [Serializable]
     public class AnalysisUpdateEventArgs : Core.Configuration.ReportEventArgs
     {
         /// <summary>

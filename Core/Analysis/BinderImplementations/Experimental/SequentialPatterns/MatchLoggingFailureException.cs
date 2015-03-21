@@ -12,7 +12,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     public class MatchLoggingFailureException : Exception
     {
         /// <summary>
-        /// Intializes a new instance of the MatchLoggingFailureException class.
+        /// Initializes a new instance of the MatchLoggingFailureException class.
         /// </summary>
         public MatchLoggingFailureException() { }
         /// <summary>

@@ -5,9 +5,7 @@ namespace LASI.Interop.ContractHelperTypes
     /// <summary>
     /// Carries event data associated with the loading of a specific resource.
     /// </summary>
-    [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public class ResourceLoadEventArgs : LASI.Core.Configuration.ReportEventArgs
+    public class ResourceLoadEventArgs : Core.Configuration.ReportEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the ResourceLoadEventArgs class.

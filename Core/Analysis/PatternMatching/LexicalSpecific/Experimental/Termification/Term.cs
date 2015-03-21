@@ -28,7 +28,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
         public Pattern<TResult> ApplyWhen<TTerm, TTypePattern>(TTerm predicate, Func<TTypePattern, TResult> f) where TTerm : Term where TTypePattern : ILexical {
             return ApplyIfApplicable(predicate, f);
         }
-        public Pattern<TResult> ApplyWhen<TypePattern>(MetaTerm<TypePattern> predicate, Func<TypePattern, TResult> f) where TypePattern : ILexical {
+        public Pattern<TResult> ApplyWhen<TTypePattern>(MetaTerm<TTypePattern> predicate, Func<TTypePattern, TResult> f) where TTypePattern : ILexical {
             return ApplyIfApplicable(predicate, f);
         }
         public static TermWithResultType<TResult> operator |(Pattern<TResult> pattern, Term term) {
@@ -115,7 +115,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.Termif
         public override bool Test(ILexical lexical) => lexical is T;
 
     }
-    class TextualTerm<R> : TermWithResultType<R>
+    class TextualTerm<TResult> : TermWithResultType<TResult>
     {
         public TextualTerm(Term term) : base(term) { }
         public string Text { get; }

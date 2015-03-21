@@ -50,7 +50,7 @@ namespace LASI.Core.Heuristics.WordNet
                         onNext: e =>
                         {
                             ++setsSampled;
-                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount));
+                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount * 2));
                         },
                         onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
                         onError: e =>
@@ -161,7 +161,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
         private const int TotalLines = 82114;
-        private const double ProgressAmount = 100 / (821 * 100d);
+        private const double ProgressAmount = 100 / (211 * 100d);
         private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
              Link.MemberOfThisDomain_REGION,
              Link.MemberOfThisDomain_TOPIC,

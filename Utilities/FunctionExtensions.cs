@@ -7,6 +7,16 @@ namespace LASI.Utilities
     /// </summary>
     public static class FunctionExtensions
     {
+        // Adaptors to convert methods to System.Func delegates to allow for clean transition to curry, apply, and compose.
+        // And perhaps someday AndThen.
+        #region Using Static Oriented Helpers
+
+        public static Func<TResult> Func<TResult>(Func<TResult> f) => f;
+        public static Func<T, TResult> Func<T, TResult>(Func<T, TResult> f) => f;
+        public static Func<T1, T2, TResult> Func<T1, T2, TResult>(Func<T1, T2, TResult> f) => f;
+        public static Func<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> f) => f;
+
+        #endregion Using Static Oriented Helpers
         /// <summary>
         /// Composes two functions returning a new function which represents the application of the
         /// first function to the result of the application of the second function. In other words
@@ -790,12 +800,12 @@ namespace LASI.Utilities
 
         /// <summary>
         /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/> 
-        /// and sets up an invokation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
+        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
         /// </summary>
         /// <typeparam name="T">The type of the value returned by the function.</typeparam>
         /// <param name="function">the function to time.</param>
         /// <param name="stopwatch">The stopwatch reference which will be bound.</param>
-        /// <returns>A function which will invoke the specified function and reveal elasped execution time by way of <paramref name="stopwatch"/>.</returns>
+        /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
         public static Func<T> WithTimer<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch)
         {
             var proxy = new[] { new System.Diagnostics.Stopwatch() };
@@ -810,13 +820,13 @@ namespace LASI.Utilities
         }
         /// <summary>
         /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/> 
-        /// and sets up an invokation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
+        /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
         /// </summary>
         /// <typeparam name="T">The type of argument of the function.</typeparam>
         /// <typeparam name="TResult">The type of the value returned by the function</typeparam>
         /// <param name="function">the function to time.</param>
         /// <param name="stopwatch">The stopwatch reference which will be bound.</param>
-        /// <returns>A function which will invoke the specified function and reveal elasped execution time by way of <paramref name="stopwatch"/>.</returns>
+        /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
         public static Func<T, TResult> WithTimer<T, TResult>(this Func<T, TResult> function, out System.Diagnostics.Stopwatch stopwatch)
         {
             var proxy = new[] { new System.Diagnostics.Stopwatch() };

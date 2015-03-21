@@ -5,7 +5,6 @@ namespace LASI.Core
     /// <summary>
     /// Carries event data associated with the loading of a specific resource.
     /// </summary>
-    [Serializable]
     public class ResourceLoadEventArgs : Configuration.ReportEventArgs
     {
         /// <summary>

@@ -13,6 +13,7 @@ using System.ComponentModel;
 
 namespace LASI.App
 {
+    using ReportEventArgs = Core.Configuration.ReportEventArgs;
     /// <summary>
     /// Interaction logic for DialogToProceedToResults.xaml
     /// </summary>
@@ -48,46 +49,37 @@ namespace LASI.App
         public async Task ParseDocuments()
         {
             var resourceLoadingNotifier = new ResourceNotifier();
+            var analysisOrchestrator = new AnalysisOrchestrator(FileManager.TxtFiles);
 
             var loadingEvents = ConfigureLoadingEvents(resourceLoadingNotifier);
-
             var loadedEvents = ConfigureLoadedEventStream(resourceLoadingNotifier);
+            var analysisUpdateEvents = ConfigureAnalysisUpdateEvents(analysisOrchestrator);
 
-            var analysisProvider = new AnalysisOrchestrator(FileManager.TxtFiles);
-
-            var analysisUpdateEvents = ConfigureAnalysisUpdateEvents(analysisProvider);
 
             var events = (
-                    from e in loadingEvents
-                    let args = e.EventArgs
-                    select new { args.Message, args.PercentWorkRepresented }
-                ).Merge(
-                    from e in loadedEvents
-                    let args = e.EventArgs
-                    select new { args.Message, args.PercentWorkRepresented }
-                ).Merge(
-                    from e in analysisUpdateEvents
-                    let args = e.EventArgs
-                    select new { args.Message, args.PercentWorkRepresented }
-                );
-
-            events
+                from pattern in Observable.Merge(
+                    from ex in loadingEvents select ex.EventArgs,
+                    from ex in loadedEvents select ex.EventArgs,
+                    from ex in analysisUpdateEvents select ex.EventArgs)
+                select new
+                {
+                    pattern.Message,
+                    Progress = pattern.PercentWorkRepresented
+                })
                 .SubscribeOn(System.Threading.SynchronizationContext.Current)
-                .Subscribe(async e =>
+                .Subscribe(onNext: async e =>
                 {
                     progressLabel.Content = e.Message;
                     progressBar.ToolTip = e.Message;
-                    var animateStep = 0.028 * e.PercentWorkRepresented;
+                    var animateStep = 0.028 * e.Progress;
                     for (int i = 0; i < 33; ++i)
                     {
                         progressBar.Value += animateStep;
-
                         await Task.Delay(1);
                     }
                 });
-
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            WindowManager.ResultsScreen.Documents = await analysisProvider.ProcessAsync();
+            WindowManager.ResultsScreen.Documents = await analysisOrchestrator.ProcessAsync();
             progressBar.Value = 100;
             var completetionMessage = $"Processing Complete. Time: {timer.ElapsedMilliseconds / 1000f} seconds";
             progressLabel.Content = completetionMessage;
@@ -97,28 +89,25 @@ namespace LASI.App
             await Task.WhenAll(WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync());
             ProcessingCompleted(this, new EventArgs());
         }
+        #region Observable Event Adapters
+        private IObservable<EventPattern<ReportEventArgs>> ConfigureAnalysisUpdateEvents(AnalysisOrchestrator analyzerNotifier) =>
+            Observable.FromEventPattern<ReportEventArgs>(
+                addHandler: h => analyzerNotifier.ProgressChanged += h,
+                removeHandler: h => analyzerNotifier.ProgressChanged -= h
+            );
 
-        private static IObservable<System.Reactive.EventPattern<Core.Configuration.ReportEventArgs>> ConfigureAnalysisUpdateEvents(AnalysisOrchestrator analysisProvider)
-        {
-            return Observable.FromEventPattern<Core.Configuration.ReportEventArgs>(
-                addHandler: h => analysisProvider.ProgressChanged += h,
-                removeHandler: h => analysisProvider.ProgressChanged -= h
+        private IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadingEvents(ResourceNotifier loadingNotifier) =>
+            Observable.FromEventPattern<ResourceLoadEventArgs>(
+                addHandler: h => loadingNotifier.ResourceLoading += h,
+                removeHandler: h => loadingNotifier.ResourceLoading -= h
             );
-        }
-        private static IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadingEvents(ResourceNotifier resourceLoadingNotifier)
-        {
-            return Observable.FromEventPattern<ResourceLoadEventArgs>(
-                addHandler: h => resourceLoadingNotifier.ResourceLoading += h,
-                removeHandler: h => resourceLoadingNotifier.ResourceLoading -= h
+        private IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadedEventStream(ResourceNotifier loadedNotifier) =>
+            Observable.FromEventPattern<ResourceLoadEventArgs>(
+                addHandler: h => loadedNotifier.ResourceLoaded += h,
+                removeHandler: h => loadedNotifier.ResourceLoaded -= h
             );
-        }
-        private static IObservable<EventPattern<ResourceLoadEventArgs>> ConfigureLoadedEventStream(ResourceNotifier resourceLoadingNotifier)
-        {
-            return Observable.FromEventPattern<ResourceLoadEventArgs>(
-                addHandler: h => resourceLoadingNotifier.ResourceLoaded += h,
-                removeHandler: h => resourceLoadingNotifier.ResourceLoaded -= h
-            );
-        }
+
+        #endregion
 
         private void ProceedToResultsView()
         {

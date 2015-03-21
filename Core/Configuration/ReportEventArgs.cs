@@ -6,8 +6,6 @@ namespace LASI.Core.Configuration
     /// <summary>
     /// Contains numeric and textual data related to an event.
     /// </summary>
-    [Serializable]
-    [ComVisible(true)]
     public abstract class ReportEventArgs : EventArgs
     {
         /// <summary>
@@ -15,7 +13,8 @@ namespace LASI.Core.Configuration
         /// </summary>
         /// <param name="message">The phase of analysis currently underway.</param>
         /// <param name="percentWorkRepresented">The percent of overall progress completed.</param>
-        protected ReportEventArgs(string message, double percentWorkRepresented) {
+        protected ReportEventArgs(string message, double percentWorkRepresented)
+        {
             Message = message;
             PercentWorkRepresented = percentWorkRepresented;
         }

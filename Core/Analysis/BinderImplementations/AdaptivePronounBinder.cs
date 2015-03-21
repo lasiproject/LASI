@@ -13,12 +13,14 @@ namespace LASI.Core.Binding.Experimental
         /// Binds and identifies Clauses over the provided set of Words. Assumes that the Words supplied begin a sentence (or possibly follow a semicolon).
         /// </summary>
         /// <param name="words">The set of Words to bind over.</param>
-        public static void Bind(IEnumerable<Word> words) {
+        public static void Bind(IEnumerable<Word> words)
+        {
             var splitPoints =
                 from e in words.Select((w, i) => new { Word = w, Index = i })
                 where e.Word is Preposition || e.Word is Punctuator || e.Word is Conjunction
                 select e.Index;
-            if (splitPoints.Any()) {
+            if (splitPoints.Any())
+            {
                 var branches = splitPoints.Count() == 1 ? Enumerable.Repeat(words, 1) : splitPoints
                     .Skip(1)
                     .Select(splitter => words
@@ -31,12 +33,14 @@ namespace LASI.Core.Binding.Experimental
                                       where actions.Any()
                                       orderby actions.Count() descending
                                       select actions;
-                foreach (var action in actionsByBranch.DefaultIfEmpty(Enumerable.Empty<Action>()).First()) {
+                foreach (var action in actionsByBranch.DefaultIfEmpty(Enumerable.Empty<Action>()).First())
+                {
                     action();
                 }
             }
         }
-        private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words) {
+        private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words)
+        {
             var wordList = words.ToList();
             return
                  from noun in

@@ -7,6 +7,7 @@ using LASI.Utilities;
 
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
+    using static FunctionExtensions;
     static class BindingHelper
     {
         internal static bool Applicable<T1, T2, TLexical>(this Action<T1, T2> pattern, IReadOnlyList<TLexical> elements)
@@ -402,8 +403,6 @@ where TLexical : ILexical
               elements[16] is T17;
         }
 
-
-
         internal static bool Applicable<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TLexical>(this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> pattern, IReadOnlyList<TLexical> elements)
 where T1 : ILexical
 where T2 : ILexical
@@ -424,24 +423,24 @@ where T16 : ILexical
 where T17 : ILexical
 where T18 : ILexical
 where TLexical : ILexical => elements.Count >= 18 &&
-              elements[0] is T1 &&
-              elements[1] is T2 &&
-              elements[2] is T3 &&
-              elements[3] is T4 &&
-              elements[4] is T5 &&
-              elements[5] is T6 &&
-              elements[6] is T7 &&
-              elements[7] is T8 &&
-              elements[8] is T9 &&
-              elements[9] is T10 &&
-              elements[10] is T11 &&
-              elements[11] is T12 &&
-              elements[12] is T13 &&
-              elements[13] is T14 &&
-              elements[14] is T15 &&
-              elements[15] is T16 &&
-              elements[16] is T17 &&
-              elements[17] is T18;
+      elements[0] is T1 &&
+      elements[1] is T2 &&
+      elements[2] is T3 &&
+      elements[3] is T4 &&
+      elements[4] is T5 &&
+      elements[5] is T6 &&
+      elements[6] is T7 &&
+      elements[7] is T8 &&
+      elements[8] is T9 &&
+      elements[9] is T10 &&
+      elements[10] is T11 &&
+      elements[11] is T12 &&
+      elements[12] is T13 &&
+      elements[13] is T14 &&
+      elements[14] is T15 &&
+      elements[15] is T16 &&
+      elements[16] is T17 &&
+      elements[17] is T18;
 
 
 

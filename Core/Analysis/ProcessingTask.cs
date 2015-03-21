@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Associates a Task, the Document to which it applies, and initialization and completion feedback properties.
     /// </summary>
-    public class ProcessingTask
+    public class ProcessingTask : IDisposable
     {
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Task, initialization message, completion message, and percentage of total work represented. 
@@ -22,7 +22,8 @@ namespace LASI.Core
             Task workToPerform,
             string initializationMessage,
             string completionMessage,
-            double percentWorkRepresented) {
+            double percentWorkRepresented)
+        {
             Task = workToPerform;
             InitializationMessage = initializationMessage;
             CompletionMessage = completionMessage;
@@ -35,31 +36,36 @@ namespace LASI.Core
         /// <param name="initializationMessage">A message indicating the start of specific the ProcessingTask.</param>
         /// <param name="completionMessage">A message indicating the end of specific the ProcessingTask.</param>
         /// <param name="percentWorkRepresented">An arbitrary double value corresponding to a relative amount of work the ProcessingTask represents.</param>
-        public ProcessingTask(
-            Action workToPerform,
+        public ProcessingTask(Action workToPerform,
             string initializationMessage,
             string completionMessage,
             double percentWorkRepresented)
             : this(Task.Run(workToPerform),
             initializationMessage,
             completionMessage,
-            percentWorkRepresented) { }
+            percentWorkRepresented)
+        { }
         /// <summary>
         /// Gets the work the ProcessingTask will perform.
         /// </summary>
-        public Task Task { get; private set; }
+        public Task Task { get; }
         /// <summary>
         /// Gets a message indicating the start of specific the ProcessingTask.
         /// </summary>
-        public string InitializationMessage { get; private set; }
+        public string InitializationMessage { get; }
         /// <summary>
         /// Gets a message indicating the end of specific the ProcessingTask.
         /// </summary>
-        public string CompletionMessage { get; private set; }
+        public string CompletionMessage { get; }
         /// <summary>
         /// Gets a double value corresponding to the relative amount of work the ProcessingTask represents.
         /// </summary>
-        public double PercentCompleted { get; private set; }
+        public double PercentCompleted { get; }
+
+        public void Dispose()
+        {
+            ((IDisposable)this.Task).Dispose();
+        }
     }
 
 }

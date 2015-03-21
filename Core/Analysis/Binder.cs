@@ -68,22 +68,21 @@ namespace LASI.Core
                     .WithDegreeOfParallelism(Concurrency.Max)
                     .ForAll(sentence =>
                     {
-                        try { new SubjectBinder().Bind(sentence); }
-                        catch (Exception e) when (e is NullReferenceException ||
-                                                e is VerblessPhrasalSequenceException)
+                        try
                         {
-                            e.Log();
+                            new SubjectBinder().Bind(sentence);
                         }
+                        catch (Exception e) when (e is NullReferenceException ||
+                                                  e is VerblessPhrasalSequenceException)
+                        { e.Log(); }
                         try
                         {
                             new ObjectBinder().Bind(sentence);
                         }
                         catch (Exception x) when (x is InvalidStateTransitionException ||
-                                                x is VerblessPhrasalSequenceException ||
-                                                x is InvalidOperationException)
-                        {
-                            x.Log();
-                        }
+                                                  x is VerblessPhrasalSequenceException ||
+                                                  x is InvalidOperationException)
+                        { x.Log(); }
 
                     });
             }

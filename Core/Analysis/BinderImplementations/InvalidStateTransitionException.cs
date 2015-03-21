@@ -21,14 +21,14 @@ namespace LASI.Core.Binding
             : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
         }
         /// <summary>
-        /// Initializes a new isntance of the InvalidStateTransitionException with a message indicating the state where the error occurred and the ILexical instance which caused the error.
+        /// Initializes a new instance of the InvalidStateTransitionException with a message indicating the state where the error occurred and the ILexical instance which caused the error.
         /// </summary>
         /// <param name="stateName">The number representing the State where the error occurred.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
         internal InvalidStateTransitionException(string stateName, ILexical errorOn)
             : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn)) {
         }
-        private InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }
@@ -39,12 +39,12 @@ namespace LASI.Core.Binding
     public class VerblessPhrasalSequenceException : Exception
     {
         /// <summary>
-        /// Initializes a new isntance of the VerblessPhrasalSequenceException with a default message indicating that the sequence contained no VerbPhrase instances.
+        /// Initializes a new instance of the VerblessPhrasalSequenceException with a default message indicating that the sequence contained no VerbPhrase instances.
         /// </summary>
         internal VerblessPhrasalSequenceException()
             : base("No verb phrases in sequence") {
         }
-        private VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) {
         }
     }

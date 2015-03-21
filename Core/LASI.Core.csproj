@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,6 +32,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>1a74ad5a</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,10 +94,14 @@
     <Compile Include="Analysis\Binder.cs" />
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\BindingHelper.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\DeclarativeBinder.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\MatchExtensions.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\SequenceMatch.cs" />
+    <Compile Include="Analysis\BinderImplementations\DeclarativePronounBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\BindingHelper.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\ContinuationMode.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchExtensions.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchFailureException.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatchMain.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\SequenceMatchCaseClauses.cs" />
     <Compile Include="Analysis\Heuristics\LookupDataProvider.cs" />
     <Compile Include="Analysis\Heuristics\LookupNameProvider.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\CategoricalEnumerations\AdjectiveCategory.cs" />
@@ -128,7 +134,7 @@
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookupBase.cs" />
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookupExtensions.cs" />
     <Compile Include="Analysis\Heuristics\NaiveTopResultSelector.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\PreBinder.cs" />
+    <Compile Include="Analysis\BinderImplementations\PreBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\ScopedAliasMap.cs" />
     <Compile Include="Analysis\BinderImplementations\AdaptivePronounBinder.cs" />
     <Compile Include="DocumentStructures\IReifiedTextual.cs" />
@@ -143,7 +149,7 @@
     <Compile Include="LexicalStructures\Structural\ICompositeLexical.cs" />
     <Compile Include="LexicalStructures\Structural\IPrepositionLinkable.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\NestingClause.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\ObjectBinderV2.cs" />
+    <Compile Include="Analysis\BinderImplementations\ObjectBinderV2.cs" />
     <Compile Include="Analysis\ProcessingTask.cs" />
     <Compile Include="Analysis\BinderImplementations\SubordinateClauseIdentifier.cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\InvertedClauseBeginPhrase.cs" />
@@ -299,7 +305,6 @@
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
     <None Include="ClassDiagram5.cd" />
-    <None Include="ClassDiagram7.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +335,10 @@
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\tools\analyzers\C#\Microsoft.CodeAnalysis.CSharp.FxCopAnalyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\tools\analyzers\Microsoft.CodeAnalysis.FxCopAnalyzers.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -337,6 +346,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
