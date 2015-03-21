@@ -10,16 +10,14 @@ namespace AspSixApp.CustomIdentity.MongoDB
         public MongoDBConfiguration(MongoDbOptions options)
         {
             MongodExePath = options.MongodExePath;
-            MongoDbPath = options.MongoDbPath;
             MongoFilesDirectory = options.MongoFilesDirectory;
             ConnectionString = options.ConnectionString;
             ApplicationDatabaseName = options.ApplicationDatabaseName;
         }
-        public MongoDBConfiguration(IConfiguration config, AppDomain appDomain)
+        public MongoDBConfiguration(IConfiguration config, string applicationBasePath)
         {
             MongodExePath = config["MongodExecutableLocation"];
-            MongoDbPath = config["MongoDbPath"];
-            MongoFilesDirectory = appDomain.BaseDirectory + MongoDbPath;
+            MongoFilesDirectory = applicationBasePath + config["MongoDbPath"];
             ConnectionString = config["MongoConnection"];
             ApplicationDatabaseName = config["ApplicationDatabaseName"];
             CollectionNamesByType = new Dictionary<Type, string>
@@ -32,7 +30,6 @@ namespace AspSixApp.CustomIdentity.MongoDB
         }
         public string ApplicationDatabaseName { get; }
         public string ConnectionString { get; }
-        public string MongoDbPath { get; }
         public string MongodExePath { get; }
         public string MongoFilesDirectory { get; }
         public IReadOnlyDictionary<Type, string> CollectionNamesByType { get; }

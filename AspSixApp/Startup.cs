@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using AspSixApp.Models;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
@@ -12,9 +11,10 @@ using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using AspSixApp.Logging;
 using LASI.Utilities;
 using System.IO;
+using AspSixApp.Models;
+using AspSixApp.Logging;
 using AspSixApp.CustomIdentity;
 using AspSixApp.CustomIdentity.MongoDB;
 using AspSixApp.CustomIdentity.MongoDB.Extensions;
@@ -53,7 +53,7 @@ namespace AspSixApp
                 .AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>()
                 .AddMongoDb(provider =>
                 {
-                    return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain);
+                    return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory);
                 })
                 .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
                 {

@@ -2,18 +2,24 @@
 using System.Diagnostics;
 using System.Net.Sockets;
 using MongoDB.Driver;
+using Directory = System.IO.Directory;
 
 namespace AspSixApp.CustomIdentity.MongoDB
 {
     public class MongoDBService : IDisposable
     {
-
-        public MongoDBService(MongoDBConfiguration configuration) { this.configuration = configuration; StartDatabaseProcess(); }
-        private readonly MongoDBConfiguration configuration;
+        public MongoDBService(MongoDBConfiguration configuration)
+        {
+            this.configuration = configuration; StartDatabaseProcess();
+        }
 
         private void StartDatabaseProcess()
         {
-            win64MongoDbProcess = Process.Start(
+            if (!Directory.Exists(configuration.MongoFilesDirectory))
+            {
+                Directory.CreateDirectory(configuration.MongoFilesDirectory);
+            }
+            mongoDbProcess = Process.Start(
                 fileName: configuration.MongodExePath,
                 arguments: $"--dbpath {configuration.MongoFilesDirectory}"
             );
@@ -44,12 +50,15 @@ namespace AspSixApp.CustomIdentity.MongoDB
 
         public void Dispose()
         {
-            //((IDisposable)this.win64MongoDbProcess).Dispose();
+            ((IDisposable)this.mongoDbProcess).Dispose();
         }
         ~MongoDBService()
         {
             Dispose();
         }
-        private Process win64MongoDbProcess;
+
+        private readonly MongoDBConfiguration configuration;
+
+        private Process mongoDbProcess;
     }
 }

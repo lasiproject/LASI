@@ -92,18 +92,27 @@ namespace AspSixApp.Controllers.Controllers
         }
         private async Task<string> ExtractRawTextAsync(IFormFile formFile)
         {
-            var name = formFile.ExtractFileName();
-            var fullpath = Path.Combine(
-                Directory.GetParent(HostingEnvironment.WebRoot).FullName,
-                "App_Data",
-                "Temp",
-                formFile.GetHashCode() + new FileInfo(name).Name
-            );
+            var tempDirectory = Path.Combine(
+                            Directory.GetParent(HostingEnvironment.WebRoot).FullName,
+                            "App_Data",
+                            "Temp");
+            this.EnsureDirectoryExists(tempDirectory);
+            var fileName = formFile.ExtractFileName();
+            var fullpath = Path.Combine(tempDirectory, formFile.GetHashCode() + new FileInfo(fileName).Name);
             await formFile.SaveAsAsync(fullpath);
-            var extension = name.Substring(name.LastIndexOf('.'));
+            var extension = fileName.Substring(fileName.LastIndexOf('.'));
             var wrapped = WrapperFactory[extension](fullpath);
             return await wrapped.GetTextAsync();
         }
+
+        private void EnsureDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
         private ExtensionWrapperMap WrapperFactory { get; } = new ExtensionWrapperMap();
 
         [Activate]

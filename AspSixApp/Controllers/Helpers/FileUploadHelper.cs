@@ -15,9 +15,6 @@ namespace AspSixApp.Controllers.Helpers
     {
         public static bool ContentTypeIsValid(this IFormFile formFile) => AcceptedContentTypes.Contains(formFile.ContentType);
 
-
-
-
         public static string ExtractFileName(this IFormFile formFile)
         {
             var contentDispositonProperties = formFile.ContentDisposition.SplitRemoveEmpty(';').Select(s => s.Trim());
