@@ -1,7 +1,11 @@
-(function () {
+define(['jquery', 'bootstrap', 'bootstrapContextmenu'], function ($, bootstrap, bootstrapContextmenu) {
+    'use strict';
+    if (bootstrap && bootstrapContextmenu) {
+        console.log(bootstrap);
+        console.log(bootstrapContextmenu);
+    }
     google.load('visualization', '1.0', { 'packages': ['corechart', 'table'] });
-    app.enableActiveHighlighting = (function () {
-        'use strict';
+    var enableActiveHighlighting = (function () {
         var f = function () {
             var phrasalTextSpans = $('span.phrase'),
                 highlightClass = 'active-phrase-highlight',
@@ -22,7 +26,7 @@
             // tooltip to overflow its container. This is generally close to the desired behavior as it is difficult to predict width
             // and this gives good flexibility. 
             // TODO: look into fixing tooltips on elements containing a line break or remove such breaks.
-        }
+        };
         $(f);
         return f;
     }());
@@ -61,4 +65,5 @@
         });
 
     });
-}());
+    return { enableActiveHighlighting: enableActiveHighlighting };
+});

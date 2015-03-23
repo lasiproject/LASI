@@ -1,22 +1,7 @@
 ﻿(function (config) {
-    /*
-     * package json
-     * "gulp": "3.8.11",
-        "gulp-qunit": "1.2.1",
-        "gulp-concat": "2.5.2",
-        "gulp-cssmin": "0.1.6",
-        "gulp-rename": "1.2.0",
-        "gulp-jslint": "^0.2.2",
-        "gulp-jsmin": "0.1.4",
-        "gulp-sourcemaps": "1.5.0",
-        "gulp-watch": "4.1.1",
-        "gulp-bower": "0.0.10",
-        "gulp-filter": "2.0.2",
-        "gulp-clean": "0.3.1",
-        "qunitjs": "1.17.1"
-     * 
-     */
+
     var gulp = require('gulp');
+    var plumber = require('gulp-plumber');
     var bower = require('gulp-bower');
     var qunit = require('gulp-qunit');
     var jslint = require('gulp-jslint');
@@ -26,7 +11,6 @@
     var concat = require('gulp-concat');
     var watch = require('gulp-watch');
     var clean = require('gulp-clean');
-    var rename = require('gulp-rename');
 
     gulp.task('cleanBowerInstallDir', [], function () {
         return gulp
@@ -66,34 +50,27 @@
           .pipe(concat('lib.min.css'))
           .pipe(gulp.dest('wwwroot/dist/lib'));
     });
-    gulp.task('jslintWatcher', [], function () {
-        var srcs = [
-            'wwwroot/test/util-test.js',
-            'wwwroot/app/util.js',
-            'wwwroot/app/LASI.js',
-            'wwwroot/app/widgets/document-upload.js',
-            'wwwroot/app/account/manage.js',
-            'wwwroot/app/results/results.js',
-            'wwwroot/app/results/context-menu-provider.js'
-        ];
-        return watch(srcs, function () {
-            gulp.src(srcs)
-                .pipe(jslint({
-                    vars: true,
-                    browser: true,
-                    predef: {
-                        alert: false,
-                        app: true,
-                        LASI: true,
-                        $: false,
-                        QUnit: false,
-                        google: false,
-                        require: false
-                    },
-                    version: 'latest'
-                }));
-        });
-    });
+
+    gulp.src('wwwroot/app/**/*.js')
+          .pipe(plumber())
+          .pipe(jslint({
+              vars: true,
+              browser: true, todo: true,
+              predef: {
+                  alert: false,
+                  console: false,
+                  app: true,
+                  LASI: true,
+                  $: false,
+                  QUnit: false,
+                  google: false,
+                  require: false,
+                  define: false
+              },
+              version: 'latest'
+          }));
+
+
     gulp.task('test', [], function () {
         return gulp
             .src('wwwroot/test/**/*.html')
