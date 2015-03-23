@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
+    using Logger = Utilities.Logger;
     /// <summary>
     /// Provides extension methods for acquiring a <see cref="SequenceMatch"/> object to perform a operation.
     /// </summary>
@@ -12,15 +12,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <param name="sentence">The sentence to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this Sentence sentence) =>
-            new SequenceMatch(sentence).AddLoggingBehavior(message => Utilities.Logger.Log(message));
+        public static SequenceMatch Match(this Sentence sentence) => new SequenceMatch(sentence).LoggingWith(Logger.Log);
 
         /// <summary>
         /// Begins a pattern match expression over the sequence of <see cref="ILexical"/>s.
         /// </summary>
         /// <param name="lexicalSequence">The sequence of to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) =>
-            new SequenceMatch(lexicalSequence).AddLoggingBehavior(message => Utilities.Logger.Log(message));
+        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) => new SequenceMatch(lexicalSequence).LoggingWith(Logger.Log);
+
+        public static SequenceMatch MatchSequence(this Phrase phrase) => phrase.Words.Match();
+
+        public static SequenceMatch MatchSequence(this Clause clause) => clause.Phrases.Match();
     }
 }

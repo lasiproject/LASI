@@ -8,9 +8,24 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 {
     using static FunctionExtensions;
 
-    /// <summary>Represents a binding expression applied to a sequence if lexical constructs.</summary>
+    /// <summary>
+    /// Represents a binding expression applied to a sequence if lexical constructs.
+    /// </summary>
     public partial class SequenceMatch
     {
+        #region Constructors
+
+        internal SequenceMatch(IEnumerable<ILexical> sequence)
+        {
+            this.sequence = sequence.ToList();
+        }
+
+        internal SequenceMatch(Sentence sentence)
+        {
+            sequence = sentence.Phrases.Select(p => p as ILexical).ToList();
+        }
+        #endregion
+
         #region Ignore Clauses
 
         /// <summary>
@@ -256,25 +271,16 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
 
-        public SequenceMatch AddLoggingBehavior(Action<object> loggingFunction)
+        public SequenceMatch LoggingWith(Action<object> log)
         {
-            Log += x => loggingFunction(x);
+            this.log += message => log(message);
             return this;
         }
 
-        internal SequenceMatch(IEnumerable<ILexical> sequence)
-        {
-            this.sequence = sequence.ToList();
-        }
-
-        internal SequenceMatch(Sentence setence)
-        {
-            sequence = setence.Phrases.Select(p => p as ILexical).ToList();
-        }
 
         #region Private fields and properties
 
-        public Action<string> Log { get; private set; } = delegate { };
+        private Action<string> log = delegate { };
 
         /// <summary>
         /// Gets or sets the value indicating whether or not the a pattern has been matched.
@@ -284,11 +290,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         private IReadOnlyList<ILexical> FilterByIgnoreOncePredicates(List<ILexical> values)
         {
-            var result = from value in values/*.OfClause()*/
-                         where checkOncePredicates.All(f => f(value)) && predicates.All(f => f(value))
+            var result = from value in values
+                         where checkOncePredicates.Concat(predicates).All(f => f(value))
                          select value;
             checkOncePredicates.Clear();
-            return result.AsReadOnly();
+            return result;
         }
 
         private List<ILexical> Sequence

@@ -13,8 +13,8 @@ namespace AspSixApp.CustomIdentity
         /// <param name="document">The document to add.</param>
         /// <returns>A string representation of the added document's id.</returns>
         string AddUserDocument(string userId, TDocument document);
-        IEnumerable<TDocument> GetAllUserInputDocuments(string userId);
-        TDocument GetUserInputDocumentById(string userId, string documentId);
+        IEnumerable<TDocument> GetAllUserDocuments(string userId);
+        TDocument GetUserDocumentById(string userId, string documentId);
         void Remove(string userId, string documentId);
     }
 }

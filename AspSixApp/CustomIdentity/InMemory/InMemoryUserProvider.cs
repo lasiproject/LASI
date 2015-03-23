@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AspSixApp.CustomIdentity
 {
-    internal class InMemoryUserProvider : IUserProvider<ApplicationUser>
+    public class InMemoryUserProvider : IUserProvider<ApplicationUser>
     {
         public InMemoryUserProvider()
         {

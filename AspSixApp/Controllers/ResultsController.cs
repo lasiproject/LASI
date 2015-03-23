@@ -37,7 +37,7 @@ namespace AspSixApp.Controllers
         public async Task<PartialViewResult> Single(string documentId)
         {
             //var docResult =  
-            var doc = documentStore.GetUserInputDocumentById(User.Identity.GetUserId(), documentId);
+            var doc = documentStore.GetUserDocumentById(User.Identity.GetUserId(), documentId);
             var results = await LoadResultDocument(doc);
             return PartialView("_Single", results.First());
         }
@@ -67,7 +67,7 @@ namespace AspSixApp.Controllers
 
             var userId = Context.User.Identity.GetUserId();
 
-            var files = documentStore.GetAllUserInputDocuments(userId); return files;
+            var files = documentStore.GetAllUserDocuments(userId); return files;
         }
 
         private static async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] userDocuments)

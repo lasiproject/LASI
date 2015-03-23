@@ -8,14 +8,14 @@ using LASI.Utilities;
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
     using static FunctionExtensions;
-    static class BindingHelper
+    static class ActionBindingHelper
     {
         internal static bool Applicable<T1, T2, TLexical>(this Action<T1, T2> pattern, IReadOnlyList<TLexical> elements)
                  where T1 : ILexical
                  where T2 : ILexical
                  where TLexical : ILexical
         {
-            return elements.Count >= 3 &&
+            return elements.Count >= 2 &&
                 elements[0] is T1 &&
                 elements[1] is T2;
         }
@@ -464,8 +464,7 @@ where T16 : ILexical
 where T17 : ILexical
 where T18 : ILexical
 where T19 : ILexical
-where TLexical : ILexical =>
-    elements.Count >= 19 &&
+where TLexical : ILexical => elements.Count >= 19 &&
     elements[0] is T1 &&
     elements[1] is T2 &&
     elements[2] is T3 &&
@@ -507,8 +506,7 @@ where T17 : ILexical
 where T18 : ILexical
 where T19 : ILexical
 where T20 : ILexical
-where TLexical : ILexical =>
-    elements.Count >= 19 &&
+where TLexical : ILexical => elements.Count >= 20 &&
     elements[0] is T1 &&
     elements[1] is T2 &&
     elements[2] is T3 &&
@@ -528,12 +526,12 @@ where TLexical : ILexical =>
     elements[16] is T17 &&
     elements[17] is T18 &&
     elements[18] is T19 &&
-    elements[18] is T20;
+    elements[19] is T20;
 
         internal static bool Applicable<T1, T2, TLexical>(this Func<T1, Action<T2>> pattern, IReadOnlyList<TLexical> elements)
                       where T1 : ILexical
                       where T2 : ILexical
-                      where TLexical : ILexical => elements.Count >= 3 &&
+                      where TLexical : ILexical => elements.Count >= 2 &&
                 elements[0] is T1 &&
                 elements[1] is T2;
 
@@ -541,8 +539,7 @@ where TLexical : ILexical =>
                       where T1 : ILexical
                       where T2 : ILexical
                       where T3 : ILexical
-                      where TLexical : ILexical =>
-         elements.Count >= 3 &&
+                      where TLexical : ILexical => elements.Count >= 3 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
                 elements[2] is T3;
@@ -563,8 +560,7 @@ where TLexical : ILexical =>
                       where T3 : ILexical
                       where T4 : ILexical
                       where T5 : ILexical
-                      where TLexical : ILexical =>
-             elements.Count >= 5 &&
+                      where TLexical : ILexical => elements.Count >= 5 &&
                 elements[0] is T1 &&
                 elements[1] is T2 &&
                 elements[2] is T3 &&

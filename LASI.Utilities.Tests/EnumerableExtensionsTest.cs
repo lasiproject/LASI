@@ -82,12 +82,26 @@ namespace LASI.Utilities.Tests
         public void FormatTest7()
         {
             var target = Range(0, 4);
-            var expected1 = "[ 0, 1, 2,\n3 ]";
-            var result1 = target.Format(9);
-            Assert.AreEqual(expected1, result1);
-            var expected2 = "[ 0, 1, 2,\n3 ]";
-            var result2 = target.Format(10);
-            Assert.AreEqual(expected2, result2);
+            var expected = "[ 0, 1, 2,\n3 ]";
+            var actual = target.Format(9);
+            Assert.AreEqual(expected, actual);
+
+        }
+        [TestMethod]
+        public void FormatTest8()
+        {
+            var target = Range(0, 4);
+            var expected = "[ 0, 1, 2,\n3 ]";
+            var actual = target.Format(10);
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void FormatTest9()
+        {
+            var target = Range(0, 4);
+            var expected = "[ 0, 1,\n2, 3 ]";
+            var actual = target.Format(8);
+            Assert.AreEqual(expected, actual);
 
         }
         #endregion
@@ -132,7 +146,7 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         public void ToHashSetTest2()
         {
-            var caseInsensitiveComparer = Utilities.ComparerFactory.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
+            var caseInsensitiveComparer = ComparerFactory.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
             var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
             var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
             var actual = target.ToHashSet(caseInsensitiveComparer);
@@ -207,7 +221,7 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void ZipTest()
+        public void Zip3Test()
         {
             Zip3TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
             Zip3TestHelper(new[] { 2, 4, 6, 5 }, new[] { 1, 3, 5, }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
@@ -227,7 +241,7 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void ZipTest1()
+        public void Zip4Test()
         {
             Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
             Zip4TestHelper(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });

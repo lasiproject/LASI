@@ -6,7 +6,7 @@ using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
-    public  static  class EnumerableFormattingExtensions
+    public static class EnumerableFormattingExtensions
     {
         #region Formatting Methods
 
@@ -177,7 +177,7 @@ namespace LASI.Utilities
         /// ...delimiters.Item2 selector(elementN) delimiters.Item3 such that the string
         /// representation of each element is produced by calling the provided selector function on
         /// each element of the sequence and separating their each resulting string with the second
-        /// element of the provided tupple of delimiters. The resultant string is line broken based
+        /// element of the provided tuple of delimiters. The resultant string is line broken based
         /// on the provided line length.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the generic IEnumerable sequence.</typeparam>
@@ -201,15 +201,16 @@ namespace LASI.Utilities
         {
             Validate.NotNull(source, "source", delimiters, "delimiters", selector, "selector");
             Validate.NotLessThan(lineLength, 1, "lineLength", "Line length must be greater than 0.");
-            return source.Select(e => selector(e) + delimiters.Item2)
-                .Aggregate(new { ModLength = 1L, Text = delimiters.Item1.ToString() },
-                (z, element) =>
-                {
-                    var rem = 1L;
-                    var quotient = Math.DivRem(z.ModLength + element.Length + 1, lineLength, out rem);
-                    var sep = z.ModLength + element.Length + 1 > lineLength ? '\n' : ' ';
-                    return new { ModLength = z.ModLength + element.Length + 1, Text = z.Text + sep + element };
-                }).Text.TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
+            return source
+                .Select(e => selector(e) + delimiters.Item2)
+                .Aggregate(seed: new { ModLength = 0L, Text = delimiters.Item1.ToString() },
+                           func: (z, element) =>
+                           {
+                               var rem = 0L;
+                               var quotient = Math.DivRem(z.ModLength + element.Length + 1, lineLength, out rem);
+                               var sep = z.ModLength + element.Length + 1 > lineLength ? '\n' : ' ';
+                               return new { ModLength = z.ModLength + element.Length + 1, Text = z.Text + sep + element };
+                           }).Text.TrimEnd(' ', delimiters.Item2) + ' ' + delimiters.Item3;
         }
 
         #endregion Formatting Methods

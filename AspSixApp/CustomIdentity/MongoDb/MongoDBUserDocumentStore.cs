@@ -21,8 +21,8 @@ namespace AspSixApp.CustomIdentity.MongoDB
         }
 
 
-        public UserDocument GetUserInputDocumentById(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d._id == ObjectId.Parse(documentId));
-        public IEnumerable<UserDocument> GetAllUserInputDocuments(string userId) => Documents.Find(Query.EQ("UserId", userId));
+        public UserDocument GetUserDocumentById(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d._id == ObjectId.Parse(documentId));
+        public IEnumerable<UserDocument> GetAllUserDocuments(string userId) => Documents.Find(Query.EQ("UserId", userId));
 
 
         /// <summary>

@@ -114,6 +114,7 @@
     <Compile Include="AdverbTest.cs" />
     <Compile Include="AggregateEntityTest.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpherTest.cs" />
+    <Compile Include="PatternMatching\PhraseAsSequentialPatternMatchingTest.cs" />
     <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
     <Compile Include="ConjunctionPhraseTest.cs" />
     <Compile Include="ConjunctionTest.cs" />
@@ -181,9 +182,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Analysis\BinderImplementations\Experimental\DeclarativeBinding\" />
-    <Folder Include="Analysis\Binding\Experimental\" />
-    <Folder Include="Analysis\PatternMatching\LexicalSpecific\" />
+    <Folder Include="Analysis\BinderImplementations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">

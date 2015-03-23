@@ -95,7 +95,8 @@
     <Compile Include="Analysis\BinderImplementations\AttributivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\AdjectivePhraseBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\DeclarativePronounBinder.cs" />
-    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\BindingHelper.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\PatternBindingHelpers\FuncBindingHelper.cs" />
+    <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\PatternBindingHelpers\ActionBindingHelper.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\ContinuationMode.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\DeclarativeBinder.cs" />
     <Compile Include="Analysis\BinderImplementations\Experimental\SequentialPatterns\MatchExtensions.cs" />

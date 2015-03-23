@@ -22,7 +22,7 @@ namespace AspSixApp.ViewComponents
         {
             var userId = User.Identity.GetUserId();
             var userDocuments =
-                from document in documentStore.GetAllUserInputDocuments(userId)
+                from document in documentStore.GetAllUserDocuments(userId)
                 let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
                 orderby dateUploaded descending
                 select ActiveUserDocument.FromUserDocument(document);

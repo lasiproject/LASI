@@ -20,20 +20,28 @@ using Newtonsoft.Json.Linq;
 
 namespace AspSixApp.Controllers.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class TasksController : Controller
     {
-
-        // GET: api/values
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        public TasksController(
+            UserManager<ApplicationUser> userManager,
+            IInputDocumentStore<UserDocument> documentStore,
+            IHostingEnvironment hostingEnvironment
+        )
         {
-            return "value";
+            UserManager = userManager;
+            DocumentStore = documentStore;
+            HostingEnvironment = hostingEnvironment;
         }
 
-        // POST api/values
+        [HttpGet]
+        public IEnumerable<UserDocument> Get() => DocumentStore.GetAllUserDocuments(Context.User.Identity.GetUserId());
+
+        [HttpGet("{id}")]
+        public UserDocument Get(string id) => DocumentStore.GetUserDocumentById(Context.User.Identity.GetUserId(), id);
+
+
         [HttpPost]
         public async Task<IActionResult> Post()
         {
@@ -49,38 +57,7 @@ namespace AspSixApp.Controllers.Controllers
             }
             return Json(await ProcessFormFilesAsync(Request.Form.Files));
         }
-        private async Task<IEnumerable<JObject>> ProcessFormFilesAsync(IFormFileCollection files)
-        {
-            var userId = Context.User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
-            var uploads = from file in files
-                          let fileName = new FileInfo(file.ExtractFileName()).Name
-                          let textContent = ExtractRawTextAsync(file).Result
-                          select new
-                          {
-                              ContentType = $"{file.ContentType}\n{file.ContentDisposition}\n{file.Length}",
-                              Document = new UserDocument
-                              {
-                                  Name = fileName,
-                                  Content = textContent,
-                                  UserId = userId,
-                                  DateUploaded = (string)(JToken)DateTime.Now
-                              }
-                          };
-            foreach (var upload in uploads)
-            {
-                var documentId = DocumentStore.AddUserDocument(userId, upload.Document);
-                upload.Document._id = ObjectId.Parse(documentId);
-                user.Documents = user.Documents.Append(upload.Document);
-            }
-            await UserManager.UpdateAsync(user);
-            return uploads.Select(upload => new JObject
-            {
-                ["id"] = upload.Document._id.ToString(),
-                ["name"] = upload.Document.Name
-            });
-        }
-        // DELETE api/values/5
+
         [HttpDelete("{id}")]
         public async Task Delete(string id)
         {
@@ -90,12 +67,38 @@ namespace AspSixApp.Controllers.Controllers
             DocumentStore.Remove(user.Id, id);
             await UserManager.UpdateAsync(user);
         }
+
+        private async Task<IEnumerable<JObject>> ProcessFormFilesAsync(IFormFileCollection files)
+        {
+            var userId = Context.User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+            var uploads = from file in files
+                          let fileName = new FileInfo(file.ExtractFileName()).Name
+                          let textContent = ExtractRawTextAsync(file).Result
+                          select new UserDocument
+                          {
+                              Name = fileName,
+                              Content = textContent,
+                              UserId = userId,
+                              DateUploaded = (string)(JToken)DateTime.Now
+                          };
+            foreach (var document in uploads)
+            {
+                var documentId = DocumentStore.AddUserDocument(userId, document);
+                document._id = ObjectId.Parse(documentId);
+                user.Documents = user.Documents.Append(document);
+            }
+            await UserManager.UpdateAsync(user);
+            return uploads.Select(document => new JObject
+            {
+                ["id"] = document._id.ToString(),
+                ["name"] = document.Name
+            });
+        }
+
         private async Task<string> ExtractRawTextAsync(IFormFile formFile)
         {
-            var tempDirectory = Path.Combine(
-                            Directory.GetParent(HostingEnvironment.WebRoot).FullName,
-                            "App_Data",
-                            "Temp");
+            var tempDirectory = Path.Combine(Directory.GetParent(HostingEnvironment.WebRoot).FullName, "App_Data", "Temp");
             this.EnsureDirectoryExists(tempDirectory);
             var fileName = formFile.ExtractFileName();
             var fullpath = Path.Combine(tempDirectory, formFile.GetHashCode() + new FileInfo(fileName).Name);
@@ -113,15 +116,11 @@ namespace AspSixApp.Controllers.Controllers
             }
         }
 
+        #region Properties
         private ExtensionWrapperMap WrapperFactory { get; } = new ExtensionWrapperMap();
-
-        [Activate]
-        private IHostingEnvironment HostingEnvironment { get; set; }
-        [Activate]
-        private UserManager<ApplicationUser> UserManager { get; set; }
-        [Activate]
-        private IInputDocumentStore<UserDocument> DocumentStore { get; set; }
-
-
+        private IHostingEnvironment HostingEnvironment { get; }
+        private UserManager<ApplicationUser> UserManager { get; }
+        private IInputDocumentStore<UserDocument> DocumentStore { get; }
+        #endregion
     }
 }

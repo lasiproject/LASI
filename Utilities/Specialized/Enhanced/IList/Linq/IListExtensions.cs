@@ -25,8 +25,8 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform
         /// function on each element of source.
         /// </returns>
-        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) =>
-            list.AsEnumerable().Select(selector).ToList();
+        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) => list.AsEnumerable().Select(selector).ToList();
+        public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) => list.AsEnumerable().Select(selector).ToList();
 
         #endregion Select
 
@@ -39,8 +39,8 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <returns>
         /// A <see cref="IList{T}"/> that contains elements from the input list that satisfy the condition.
         /// </returns>
-        public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) =>
-            list.AsEnumerable().Where(predicate).ToList();
+        public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+        public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         #endregion Where
 
@@ -157,7 +157,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 
         #endregion Skips
         #region Concat
-        public static IEnumerable<T> Concat<T>(this IList<T> first, IEnumerable<T> second)
+        public static IEnumerable<T> Concat<T>(this IList<T> first, IList<T> second)
         {
             for (var i = 0; i < first.Count; ++i)
             {
@@ -166,18 +166,6 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             foreach (var item in second)
             {
                 yield return item;
-            }
-        }
-        public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, IList<T> second)
-        {
-            foreach (var item in first)
-            {
-                yield return item;
-
-            }
-            for (var i = 0; i < second.Count; ++i)
-            {
-                yield return second[i];
             }
         }
         #endregion

@@ -3,25 +3,24 @@
     "version": "1.0.0-*",
     "dependencies": {
         "Microsoft.AspNet.Mvc": "6.0.0-beta3",
-        "Microsoft.AspNet.Mvc.WebApiCompatShim": "6.0.0-beta3",
         "Microsoft.AspNet.Diagnostics": "1.0.0-beta3",
         "Microsoft.AspNet.Identity": "3.0.0-beta3",
         "Microsoft.AspNet.Security.Cookies": "1.0.0-beta3",
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta3",
         "Microsoft.AspNet.StaticFiles": "1.0.0-beta3",
+        "Microsoft.AspNet.FileProviders": "1.0.0-beta3",
+        "Microsoft.AspNet.FileProviders.Interfaces": "1.0.0-beta3",
+        "Microsoft.Framework.ConfigurationModel": "1.0.0-beta3",
         "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta3",
         "Microsoft.Framework.CodeGenerators.Mvc": "1.0.0-beta3",
         "Microsoft.Framework.Logging": "1.0.0-beta3",
         "Microsoft.Framework.Logging.Console": "1.0.0-beta3",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta3",
-
         "Microsoft.AspNet.Security": "1.0.0-beta3",
         "Microsoft.AspNet.Security.DataProtection": "1.0.0-beta3",
-
         "mongocsharpdriver": "1.10.0",
         "System.Collections.Immutable": "1.134-rc",
-
         "Newtonsoft.Json": "6.0.8",
         "LASI.Core": "1.0.0-*",
         "LASI.Content": "1.0.0-*",
@@ -58,9 +57,5 @@
         "prepare": [
             "grunt bower:install"
         ]
-    },
-    "configurations": {
-        "Debug": { "compilationOptions": { "warningsAsErrors": true } },
-        "Release": { "compilationOptions": { "warningsAsErrors": true, "optimize": true } }
     }
 }

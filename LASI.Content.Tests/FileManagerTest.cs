@@ -156,7 +156,9 @@ namespace LASI.Content.Tests
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
+            {
                 Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            }
         }
 
 

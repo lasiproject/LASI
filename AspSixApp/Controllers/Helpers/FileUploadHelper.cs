@@ -15,21 +15,17 @@ namespace AspSixApp.Controllers.Helpers
     {
         public static bool ContentTypeIsValid(this IFormFile formFile) => AcceptedContentTypes.Contains(formFile.ContentType);
 
-        public static string ExtractFileName(this IFormFile formFile)
-        {
-            var contentDispositonProperties = formFile.ContentDisposition.SplitRemoveEmpty(';').Select(s => s.Trim());
-            return contentDispositonProperties.First(p => p.StartsWith("filename")).Substring(9).Trim('\"');
-        }
+        public static string ExtractFileName(this IFormFile formFile)=>
+            formFile.ContentDisposition.SplitRemoveEmpty(';')
+                .Select(s => s.Trim())
+                .First(p => p.StartsWith("filename")).Substring(9).Trim('\"');
+        
 
-
-        private static readonly HashSet<string> AcceptedContentTypes = new[]{
+        private static readonly ISet<string> AcceptedContentTypes = new[] {
                 "text/plain", // generally corresponds to .txt
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // generally corresponds to .docx
                 "application/msword", // generally corresponds to .doc
                 "application/pdf" // generally corresponds to .pdf
         }.ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-        public static IHostingEnvironment HostingEnvironment { get; set; }
     }
-
 }

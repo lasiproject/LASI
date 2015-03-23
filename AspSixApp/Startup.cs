@@ -33,15 +33,10 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddMvc()
-                .AddWebApiConventions()
-                .Configure<MvcOptions>(options =>
-                {
-                    options.OutputFormatters
-                        .Select(formatter => formatter.Instance)
-                        .OfType<JsonOutputFormatter>().First()
-                        .SerializerSettings = new JsonSerializerSettings
+            services.AddMvc()
+                    .Configure<MvcOptions>(options =>
+                    {
+                        var serializerSettings = new JsonSerializerSettings
                         {
                             Error = (s, e) => { throw e.ErrorContext.Error; },
                             ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -49,41 +44,49 @@ namespace AspSixApp
                             NullValueHandling = NullValueHandling.Ignore,
                             Formatting = Formatting.Indented
                         };
-                })
-                .AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>()
-                .AddMongoDb(provider =>
-                {
-                    return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory);
-                })
-                .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
-                {
-                    options.Lockout = new LockoutOptions
+                        options.InputFormatters
+                            .Select(formatter => formatter.Instance)
+                            .OfType<JsonInputFormatter>()
+                            .First().SerializerSettings = serializerSettings;
+
+                        options.OutputFormatters
+                            .Select(formatter => formatter.Instance)
+                            .OfType<JsonOutputFormatter>()
+                            .First().SerializerSettings = serializerSettings;
+                    });
+            services.AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>()
+                    .AddMongoDb(provider =>
                     {
-                        EnabledByDefault = true,
-                        DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                        MaxFailedAccessAttempts = 10
-                    };
-                    options.User = new UserOptions
+                        return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory);
+                    }).AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
                     {
-                        RequireUniqueEmail = true
-                    };
-                    options.SignIn = new SignInOptions
-                    {
-                        RequireConfirmedEmail = false,
-                        RequireConfirmedPhoneNumber = false
-                    };
-                    options.Password = new PasswordOptions
-                    {
-                        RequireLowercase = true,
-                        RequireUppercase = true,
-                        RequireNonLetterOrDigit = true,
-                        RequireDigit = true,
-                        RequiredLength = 8
-                    };
-                })
-                .AddUserStore<CustomUserStore<UserRole>>()
-                .AddRoleStore<CustomUserStore<UserRole>>()
-                .AddUserManager<UserManager<ApplicationUser>>();
+                        options.Lockout = new LockoutOptions
+                        {
+                            EnabledByDefault = true,
+                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                            MaxFailedAccessAttempts = 10
+                        };
+                        options.User = new UserOptions
+                        {
+                            RequireUniqueEmail = true
+                        };
+                        options.SignIn = new SignInOptions
+                        {
+                            RequireConfirmedEmail = false,
+                            RequireConfirmedPhoneNumber = false
+                        };
+                        options.Password = new PasswordOptions
+                        {
+                            RequireLowercase = true,
+                            RequireUppercase = true,
+                            RequireNonLetterOrDigit = true,
+                            RequireDigit = true,
+                            RequiredLength = 8
+                        };
+                    })
+                    .AddUserStore<CustomUserStore<UserRole>>()
+                    .AddRoleStore<CustomUserStore<UserRole>>()
+                    .AddUserManager<UserManager<ApplicationUser>>();
         }
 
         // Configure is called after ConfigureServices is called.
@@ -92,21 +95,20 @@ namespace AspSixApp
             ConfigureLASIComponents(fileName: Path.Combine(Directory.GetParent(env.WebRoot).FullName, "config.json"), subkey: "Data");
 
             // Configure the HTTP request pipeline. Add the loggers.
-            loggerfactory
-                .AddConsole();
+            loggerfactory.AddConsole();
 
-            // Add the following to the request pipeline only in development environment.
-            if (env.EnvironmentName.EqualsIgnoreCase("Development"))
-            {
-                app.UseBrowserLink();
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
-            }
-            else
-            {
-                // Add Error handling middleware which catches all application specific errors and
-                // send the request to the following path or controller action.
-                app.UseErrorHandler("/Home/Error");
-            }
+            //// Add the following to the request pipeline only in development environment.
+            //if (env.EnvironmentName.EqualsIgnoreCase("Development"))
+            //{
+            app.UseBrowserLink();
+            app.UseErrorPage(ErrorPageOptions.ShowAll);
+            //}
+            //else
+            //{
+            //    // Add Error handling middleware which catches all application specific errors and
+            //    // send the request to the following path or controller action.
+            //    app.UseErrorHandler("/Home/Error");
+            //}
             app.UseRuntimeInfoPage();
             // Add static files to the request pipeline.
             app.UseStaticFiles();
@@ -120,7 +122,7 @@ namespace AspSixApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
-                routes.MapWebApiRoute(
+                routes.MapRoute(
                     name: "DefaultApi",
                     template: "api/{controller}/{id?}"
                 );

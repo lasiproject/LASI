@@ -15,7 +15,7 @@ namespace LASI.Utilities
 
         /// <summary>
         /// Gets the value with the specified key from the
-        /// System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the default(TValue) if the
+        /// System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or default(TValue) if the
         /// key does not exist.
         /// </summary>
         /// <typeparam name="TKey">
@@ -30,7 +30,7 @@ namespace LASI.Utilities
         /// <param name="key">The key for which to retrieve a value.</param>
         /// <returns>
         /// The value with the specified key from the
-        /// System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or the default(TValue) if the
+        /// System.Collections.Generic.IDictionary&lt;TKey, TValue&gt; or default(TValue) if the
         /// key does not exist.
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
