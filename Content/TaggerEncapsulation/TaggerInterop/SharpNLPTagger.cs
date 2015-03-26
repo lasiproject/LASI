@@ -23,7 +23,7 @@ namespace TaggerInterop
 
         public static LASI.Utilities.Configuration.IConfig Settings { internal get; set; }
         /// <summary>
-        /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provied TaggerMode value.
+        /// Initializes a new instance of the SharpNLPTagger class with its behavior specified by the provided TaggerMode value.
         /// </summary>
         /// <param name="taggingMode">Specifies the mode under which the tagger will operate.</param>
         public SharpNLPTagger(TaggerMode taggingMode)

@@ -1,5 +1,4 @@
 Everything was perfectly swell.
-
 There were no prisons, no slums, no insane asylums, no cripples, no
 poverty, no wars.
 
@@ -376,7 +375,4 @@ her his name, spelling it out.
 
 "Thank you, sir," said the hostess. "Your city thanks you; your country
 thanks you; your planet thanks you. But the deepest thanks of all is
-from future generations."
-
-
-END
+from future generations.

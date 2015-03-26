@@ -21,7 +21,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 @if (User?.Identity?.IsAuthenticated ?? false)
-                { @await Component.InvokeAsync("DocumentList", 4);
+                {
+                    @await Component.InvokeAsync("DocumentList", 4);
                 }
 
             </div>
@@ -61,25 +62,28 @@
     </div>
     <script src="http://www.google.com/jsapi"></script>
 
-    <script data-main="startup.js" src="~/lib/requirejs/require.js"></script>
-    @*<script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
-        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/draggable/draggable.js"></script>
+    @*<script data-main="startup.js" src="~/lib/requirejs/require.js"></script>*@
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
+    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/draggable/draggable.js"></script>
 
-        @*<script src="~/lib/bootstrap/js/npm.js"></script>*@
+    @*<script src="~/lib/bootstrap/js/npm.js"></script>*@
 
 
-    @*<script src="~/app/util.js"></script>
-        <script src="~/app/LASI.js"></script>
-        <script src="~/app/account/manage.js"></script>*@
-    @*<script src="~/app/results/context-menu-provider.js"></script>
-        <script src="~/app/results/results.js"></script>*@
-    @*<script src="~/app/widgets/document-upload.js"></script>
-        <script src="~/app/widgets/document-list.js"></script>*@
+    <script src="~/app/utilities/log.js"></script>
+    <script src="~/app/utilities/augmentations.js"></script>
+
+    <script src="~/app/LASI.js"></script>
+    <script src="~/app/account/manage.js"></script>
+    <script src="~/app/results/context-menu-provider.js"></script>
+    <script src="~/app/results/result-chart-provider.js"></script>
+    <script src="~/app/widgets/document-upload.js"></script>
+    <script src="~/app/widgets/document-list.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

@@ -20,6 +20,7 @@ namespace LASI.App
     using LASI.Core.Analysis.Heuristics;
     using LASI.Interop.ResourceManagement;
     using LASI.Utilities;
+    using LASI.Utilities.Specialized.Enhanced.Universal;
     using FileInfo = System.IO.FileInfo;
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
@@ -208,7 +209,7 @@ namespace LASI.App
         {
             currentOperationLabel.Content = $"Tagging {documentName}...";
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == documentName).First();
-            var analizer = new AnalysisOrchestrator(textfile);
+            var analizer = new AnalysisOrchestrator(textfile.Lift());
             analizer.ProgressChanged += async (sender, e) =>
             {
                 currentOperationLabel.Content = e.Message;

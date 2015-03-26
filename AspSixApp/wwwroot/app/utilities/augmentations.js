@@ -13,7 +13,9 @@
      */
     if (!Array.prototype.hasOwnProperty('flatMap')) {
         Array.prototype.flatMap = function (arraySelector, elementSelector) {
-            arraySelector = arraySelector || function (array) { return array; };
+            arraySelector = arraySelector || function (array) {
+                return array instanceof Array && array;
+            };
             elementSelector = elementSelector || function (element) { return element; };
             return this.reduce(function (array, a) {
                 return array.concat(arraySelector(a).map(elementSelector));

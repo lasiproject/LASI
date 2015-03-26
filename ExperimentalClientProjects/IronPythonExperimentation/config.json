@@ -1,0 +1,13 @@
+﻿{
+    "Data": {
+        "ProjectWebsite": "http://lasi-project.org",
+        "ResourcesDirectory": ".\\WebApp\\",
+        "MaximumEntropyModelDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+        "WordnetSearchDirectory": "resources\\TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
+        "WordnetFileDirectory": "resources\\WordNetThesaurusData\\",
+        "SubordinatingPrepositionalsInfoFile": "resources\\LASICustom\\Binding\\KnownSubordinators.txt",
+        "NameDataDirectory": "resources\\LASICustom\\NameData\\",
+        "ConvertersDirectory": "resources\\StandaloneFileConverters\\",
+        "ProjectFileSchemaLocation": "resources\\DotLasiFile.xsd"
+    }
+}

@@ -6,9 +6,9 @@
     <ProjectGuid>95bdf76d-5ba6-433a-b62d-e67bd31f8ee5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>IronPythonExperimentation.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
-    <WorkingDirectory>.\..\..\</WorkingDirectory>
+    <SearchPath>..\..\</SearchPath>
+    <WorkingDirectory>
+    </WorkingDirectory>
     <InterpreterId>{fcc291aa-427c-498c-a4d7-4502d6449b8c}</InterpreterId>
     <LaunchProvider>IronPython (.NET) launcher</LaunchProvider>
     <InterpreterVersion>2.7</InterpreterVersion>
@@ -27,6 +27,10 @@
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="IronPythonExperimentation.py" />
   </ItemGroup>
@@ -34,6 +38,7 @@
     <Folder Include="testDocs\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config.json" />
     <Content Include="requirements.txt" />
     <Content Include="testDocs\testDoc1.txt" />
     <Content Include="App.config" />
@@ -42,26 +47,13 @@
     <InterpreterReference Include="{fcc291aa-427c-498c-a4d7-4502d6449b8c}\2.7" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ContentSystem\L_ContentSystem.csproj">
-      <Name>L_ContentSystem</Name>
-      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\L_Core.csproj">
-      <Name>L_Core</Name>
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\InteropLayer\L_Interop.csproj">
-      <Name>L_Interop</Name>
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\L_Utilities.csproj">
-      <Name>L_Utilities</Name>
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <Compile Include="ProgressReporter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TxtFile.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
 </Project>

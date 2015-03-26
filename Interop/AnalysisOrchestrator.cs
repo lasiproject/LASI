@@ -48,7 +48,7 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged English language written works.</param>
         public AnalysisOrchestrator(IEnumerable<IRawTextSource> rawTextSources)
-            : base(e => { })
+            : base(delegate { })
         {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
@@ -68,15 +68,16 @@ namespace LASI.Interop
         public async Task<IEnumerable<Document>> ProcessAsync()
         {
             var taggedFiles = await TagFilesAsync(rawTextSources);
-            return await BindAndWeightAsync(taggedFiles);
+            Results = await BindAndWeightAsync(taggedFiles);
+            return Results;
         }
 
-        private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync(IEnumerable<IRawTextSource> rawTextDocuments)
+        private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync<TRaw>(IEnumerable<TRaw> rawTextDocuments) where TRaw : IRawTextSource
         {
             Progress("Tagging Documents", 0);
-            var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
+            var tasks = rawTextDocuments.Select(raw => TagRawAsync(raw)).ToList();
             var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
-            while (tasks.Any())
+            while (tasks.Count > 0)
             {
                 var task = await Task.WhenAny(tasks);
                 var tagged = await task;
@@ -118,7 +119,8 @@ namespace LASI.Interop
             return document;
         }
 
-        private async Task<ITaggedTextSource> TagRawAsync(IRawTextSource raw) => await tagger.TaggedFromRawAsync(raw);
+        private async Task<ITaggedTextSource> TagRawAsync<TRaw>(TRaw raw) where TRaw : IRawTextSource =>
+            await tagger.TaggedFromRawAsync(raw);
 
         private void Progress(string message, double percentCompleted)
         {
@@ -131,7 +133,7 @@ namespace LASI.Interop
         private double stepMagnitude;
         private IEnumerable<IRawTextSource> rawTextSources;
         private Tagger tagger = new Tagger();
-
+        public IEnumerable<Document> Results { get; private set; }
         #endregion Fields
     }
 }

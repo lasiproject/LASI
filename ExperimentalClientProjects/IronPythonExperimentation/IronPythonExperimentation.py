@@ -1,102 +1,67 @@
 import os
 import clr
 import System
-
 import System.Collections.Generic
 import System.Configuration
+from ProgressReporter import ProgressReporter
+from TxtFile import TxtFile 
+#
+def make_path(*segments):
+    return os.path.join(segments)
 
-class callbackclass():
-    def __init__(self):
-        self.percentComplete = 0.0
-    def callback(self,sender, event_args):
-        self.percentComplete += event_args.PercentWorkRepresented
-        print "Increment:",event_args.PercentWorkRepresented
-        print "Message:",event_args.Message
+lasi_root_dir = unicode("C:\Users\Aluan\Documents\GitHub\LASI")
+System.IO.Directory.SetCurrentDirectory(lasi_root_dir)
+lasi_assembly_dir = make_path(lasi_root_dir, "App","bin", "Debug")
+clr.AddReferenceToFileAndPath(make_path("OpenNLP.dll"))
+clr.AddReferenceToFileAndPath(make_path("Newtonsoft.Json.dll"))
+clr.AddReferenceToFileAndPath(make_path("LASI.Utilities.dll"))
+clr.AddReferenceToFileAndPath(make_path("LASI.Core.dll"))
+clr.AddReferenceToFileAndPath(make_path("LASI.Interop.dll"))
 
-System.IO.Directory.SetCurrentDirectory("C:\Users\Aluan\Documents\GitHub\LASI")
+# This is necessary to expose extension methods on the Enumerable components of
+# the LASI.Core data structures.
+# The order must be exactly as follows and the actual assembly previously
+# loaded.
+# First add an additional reference to LASI.Core;
+# we must use the name which is brought into scope by the 4th call to
+# clr.AddReferenceToFileAndPath above
+clr.AddReference("LASI.Core")
+# Next we need to import LASI to otherwise lookup of LASI.Core, which is not by
+# string but references the actual namespace object, will fail.
+import LASI
+# Finally we call clr.ImportExtensions passing the qualified namespace which
+# contains extension providing static classes.
+clr.ImportExtensions(LASI.Core)
+
+try:
  
-cwd = os.getcwd()
+    from LASI.Utilities import *  
+    from LASI.Interop import AnalysisOrchestrator, ConfigFormat
+    from LASI.Interop.Configuration import *
+    from LASI.Core import *
 
-coreDir = os.path.join(cwd,"Core","bin","Debug")
-clr.AddReferenceToFileAndPath(os.path.join(coreDir,"Lasi.Core.dll"))
-
-
-contentSystemDir = os.path.join(cwd,"ContentSystem","bin","Debug")
-clr.AddReferenceToFileAndPath(os.path.join(contentSystemDir,"Lasi.ContentSystem.dll"))
-
-utilitiesDir = os.path.join(cwd,"Utilities","bin","Debug")
-clr.AddReferenceToFileAndPath(os.path.join(utilitiesDir,"Lasi.Utilities.dll"))
-
-interopDir = os.path.join(cwd,"Interop","bin","Debug")
-clr.AddReferenceToFileAndPath(os.path.join(interopDir,"Lasi.Interop.dll"))
-
+    cwd = os.getcwd()
+    app_path = os.path.join(cwd, "ExperimentalClientProjects","IronPythonExperimentation")
+    Initialize(os.path.join(app_path, "config.json"), ConfigFormat.Json, "Data")
     
-filePath = os.path.join("C:\\","Users","Aluan","Documents","GitHub","LASI","ExperimentalClientProjects","IronPythonExperimentation","testDocs","testDoc1.txt")
-from LASI import *
-import LASI.ContentSystem
-ContentSystem.TxtFile(filePath)
+    filePath = os.path.join(app_path, "testDocs","testDoc1.txt")
+    textToAnalyze = TxtFile("testDoc1", filePath)
+    analyzer = AnalysisOrchestrator([textToAnalyze])
+    reporter = ProgressReporter()
+    analyzer.ProgressChanged += lambda s, event_args: reporter.Report(event_args)
+    task = analyzer.ProcessAsync()
+    docs = task.Result
 
-a = ContentSystem.TxtFile(filePath)
-b = Interop.AnalysisOrchestrator(a)
-b.ProgressChanged+= callbackclass().callback
-#c = callbackclass()
- 
-docs = b.ProcessAsync().Result;
+    print ("Printing Verb Phrases")
+    for doc in docs:
+        for vp in doc.Phrases.OfVerbPhrase():
+            print vp
 
-#print "incrementSum:", c.percentComplete
-print "Printing Verb Phrases"
-for doc in docs:
-    for vp in doc.Phrases.OfVerbPhrase():
-        print vp
-
-print "Printing Noun Phrases bound to a verbal"
-for doc in docs:
-    for np in doc.Phrases.OfNounPhrase().InSubjectOrObjectRole():
-        print np
-#"""
-#strlist=["Hello there you fool.",]
-
-
-#lasiDoc=lasi.ContentSystem.Tagger.DocumentFromRaw(strlist)
-
-#entities=lasiDoc.GetEntities()
-#entitiesEnumerator=IEnumerable[IEntity].GetEnumerator(entities)
-#print type(entitiesEnumerator)
-
-#print "lasiDoc Info:"
-#print "type:",type(lasiDoc)
-#print "available:",dir(lasiDoc)
-#print "entities:",entities
-
-#print lasiDoc.Words.Count
-#"""
-#"""
-#class lasiPrompt(cmd.Cmd):
-#    def preloop(self):
-#        self.docList=[]
-#        self.taggedDocList=[]
-#        self.prompt="lasi cmd prompt: "
-    
-#    def do_showDocs(self,line):
-#        print self.docList
-    
-#    def do_showTagged(self,line):
-#        print self.taggedDocList
-    
-#    def do_addDocFromRawLine(self,line):
-#        self.docList.append(lasi.ContentSystem.Tagger.DocumentFromRaw(line.split(".")))
-
-#    def do_createAnalysisController(self,line):
-#        for doc in self.docList:
-#            print type(lasi.Interop.AnalysisController(doc))
-
-#    def do_exit(self,line):
-#        return True
-    
-#    def postloop(self):
-#        print
-
-#if __name__=='__main__':
-#    lasiPrompt().cmdloop()
-
-#"""
+    print "Printing Noun Phrases bound to a verbal"
+    for doc in docs:
+        for np in doc.Phrases.OfNounPhrase().InSubjectOrObjectRole():
+            print np
+except Exception as exc: 
+    print exc
+    #for (m, s) in [(x.Message,x.StackTrace) for x in (exc.InnerExceptions if exc.InnerExceptions else [exc])]: 
+    #    print (m,s)
