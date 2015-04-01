@@ -24,20 +24,6 @@ namespace LASI.Content.Serialization
         /// <param name="elements">The sequence S&lt;T&gt; containing the values to serialize.</param>
         /// <param name="resultSetTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
         /// <param name="degreeOfOutput">Controls the level of output detail to which elements will be serialized.</param>
-        TResult Serialize(IEnumerable<T> elements, string resultSetTitle, DegreeOfOutput degreeOfOutput);
-    }
-    /// <summary>
-    /// Controls the quantity and level detail which will be serialized into the XML representations of each lexical element.
-    /// </summary>
-    public enum DegreeOfOutput
-    {
-        /// <summary>
-        /// Only the top weighted elements in the input set will be serialized.
-        /// </summary>
-        TopWeighted,
-        /// <summary>
-        /// All elements will in the input set will be serialized.
-        /// </summary>
-        Comprehensive,
+        TResult Serialize(IEnumerable<T> elements, string resultSetTitle);
     }
 }

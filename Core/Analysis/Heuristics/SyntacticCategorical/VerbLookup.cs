@@ -76,12 +76,13 @@ namespace LASI.Core.Heuristics.WordNet
             var line = setLine.Substring(0, setLine.IndexOf('|')).Replace('_', '-');
 
             var referencedSets =
-                from Match m in RELATIONSHIP_REGEX.Matches(line)
+                from Match m in RelationshipRegex.Matches(line)
                 let segments = m.Value.SplitRemoveEmpty(' ')
-                where segments.Length >= 3
+                //where segments.Length >= 3
+                where segments.Length > 1
                 select new SetReference(interSetMap[segments[0]], int.Parse(segments[1]));
 
-            var words = from Match m in WORD_REGEX.Matches(line.Substring(17)) select m.Value;
+            var words = from Match m in WordRegex.Matches(line.Substring(17)) select m.Value;
             var id = int.Parse(line.Substring(0, 8));
             var category = (VerbCategory)int.Parse(line.Substring(9, 2));
             return new VerbSynSet(id, words, referencedSets, category);
@@ -93,16 +94,13 @@ namespace LASI.Core.Heuristics.WordNet
             setsById[set.Id] = set;
             foreach (var word in set.Words)
             {
-                VerbSynSet extantSet;
-                if (setsByWord.TryGetValue(word, out extantSet))
-                {
-                    extantSet.Words.UnionWith(set.Words);
-                    extantSet.ReferencedSets.UnionWith(set.ReferencedSets);
-                }
-                else
-                {
-                    setsByWord[word] = set;
-                }
+                setsByWord.AddOrUpdate(
+                    key: word,
+                    addValue: set,
+                    updateValueFactory: (key, extant) => new VerbSynSet(extant.Id,
+                        extant.Words.Union(set.Words),
+                        extant.RelatedSetIdsByRelationKind.Union(set.RelatedSetIdsByRelationKind).SelectMany(x => x.Select(e => new SetReference(x.Key, e))),
+                        extant.Category));
             }
         }
         private IImmutableSet<string> SearchFor(string search)
@@ -173,7 +171,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// starts at a word(in the regex sense of word) boundary: \b
         /// consisting of any combination of alpha, underscore, and minus(dash), that is at least 2 characters in length: [A-Za-z-_]{2,}
         /// </summary>
-        private static readonly Regex WORD_REGEX = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
+        private static readonly Regex WordRegex = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
         /// <summary>
         /// The regular expression describes a string which 
         /// starts with at least one but not more than two non-digit characters (matches the pointer symbol): \D{1,2}
@@ -184,7 +182,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// followed by a single space: [\s]
         /// ends with the sequence 0000 (indicates that the source/target relationship between to the set is semantic as opposed to lexical): [0]{4,}
         /// </summary>
-        private static readonly Regex RELATIONSHIP_REGEX = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
+        private static readonly Regex RelationshipRegex = new Regex(@"\D{1,2}\s*[\d]{8}[\s].[\s][0]{4,}", RegexOptions.Compiled);
 
         /// <summary>
         /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.

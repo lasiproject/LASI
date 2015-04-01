@@ -12,7 +12,7 @@ namespace LASI.Core
     /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".
     /// Note that noun componentPhrases are the constructs which wrap both nouns and pronouns at the phrase level.
     /// </summary>
-    public class NounPhrase : Phrase, IEntity
+    public class NounPhrase : Phrase, IEntity, LexicalStructures.Structural.IRoleCompositeLexical<Word, Noun>
     {
         #region Constructors
         /// <summary>
@@ -81,16 +81,17 @@ namespace LASI.Core
             }
             var gender = this.GetGender();
             var aliases = this.GetDefinedAliases();
+            var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
-                Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : string.Empty,
-                Possesser != null ? "\nPossessed By: " + Possesser.Text : string.Empty,
-                OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : string.Empty,
-                InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : string.Empty,
-                aliases.Any() ? "\nClassified as: " + aliases.Format() : string.Empty,
-                SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : string.Empty,
-                DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : string.Empty,
-                IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : string.Empty,
-                gender.IsDefined() ? "\nPrevailing Gender: " + gender : string.Empty
+                this.Possessions.Any() ? "\nPossessions: " + this.Possessions.Format(p => p.Text + '\n') : empty,
+                this.Possesser != null ? "\nPossessed By: " + this.Possesser.Text : empty,
+                this.OuterAttributive != null ? "\nDefinedby: " + this.OuterAttributive.Text : empty,
+                this.InnerAttributive != null ? "\nDefines: " + this.InnerAttributive.Text : empty,
+                aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
+                this.SubjectOf != null ? "\nSubject Of: " + this.SubjectOf.Text : empty,
+                this.DirectObjectOf != null ? "\nDirect Object Of: " + this.DirectObjectOf.Text : empty,
+                this.IndirectObjectOf != null ? "\nIndirect Object Of: " + this.IndirectObjectOf.Text : empty,
+                gender.IsDefined() ? "\nPrevailing Gender: " + gender : empty
             );
 
         }
@@ -199,10 +200,12 @@ namespace LASI.Core
                 }
             }
         }
+
+        public virtual IEnumerable<Noun> RoleWords => roleComponents ?? (roleComponents = Words.OfNoun());
         #endregion
 
         #region Fields
-
+        private IEnumerable<Noun> roleComponents;
         private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
         private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
         private HashSet<IReferencer> references = new HashSet<IReferencer>();

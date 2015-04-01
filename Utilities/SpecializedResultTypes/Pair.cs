@@ -19,7 +19,7 @@ namespace LASI.Utilities
         public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) => new Pair<T1, T2>(first, second);
     }
     /// <summary>
-    /// Defiens a generic pair.
+    /// Defines a generic pair.
     /// </summary>
     /// <typeparam name="T1">The type of the first component of the pair.</typeparam>
     /// <typeparam name="T2">The type of the second component of the pair.</typeparam>

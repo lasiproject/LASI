@@ -49,14 +49,15 @@ namespace LASI.Core
         /// Establishes the linkages between the Sentence, its parent Paragraph, and its child Clauses.
         /// </summary>
         /// <param name="parent">The Paragraph to which the Sentence belongs.</param>
-        public void EstablishParenthood(Paragraph parent)
+        public void EstablishTextualLinks(Paragraph parent)
         {
             EndsParagraph = this == parent.Sentences.Last();
             BeginsParagraph = this == parent.Sentences.First();
             Paragraph = parent;
+
             foreach (var clause in Clauses)
             {
-                clause.EstablishParent(this);
+                clause.EstablishTextualLinks(this);
             }
         }
 

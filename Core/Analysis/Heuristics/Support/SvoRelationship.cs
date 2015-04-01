@@ -15,7 +15,7 @@ namespace LASI.Core.Analysis.Heuristics.Support
     public sealed class SvoRelationship : IEquatable<SvoRelationship>
     {
         /// <summary>
-        /// Intializes a new instance of the SvoRelationship class.
+        /// Initializes a new instance of the SvoRelationship class.
         /// </summary>
         /// <param name="subject">The subject component of the relationship.</param>
         /// <param name="verbal">The verbal component of the relationship.</param>

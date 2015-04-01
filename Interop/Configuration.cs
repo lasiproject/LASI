@@ -86,7 +86,7 @@ namespace LASI.Interop
             {
                 if (configured)
                 {
-                    throw new InvalidOperationException(AlreadyConfiguredErrorMessage);
+                    throw new SystemAlreadyConfiguredException();
                 };
 
                 Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
@@ -107,7 +107,6 @@ namespace LASI.Interop
 
         private static bool configured;
         private static readonly object initializationLock = new object();
-        private const string AlreadyConfiguredErrorMessage = "Configuration has already been Initialized. Initialize may only be called once.";
     }
 
     public enum ConfigFormat

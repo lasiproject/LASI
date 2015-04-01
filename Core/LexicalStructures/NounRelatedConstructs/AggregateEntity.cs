@@ -146,7 +146,7 @@ namespace LASI.Core
                 return string.Join(" , ",
                     from member in constituents.AsRecursivelyEnumerable()
                     let prepositionText = member.Match().Case((IPrepositionLinkable i) => i.PrepositionOnRight?.Text ?? string.Empty).Result()
-                    select member.Text + prepositionText);
+                    select member.Text + (prepositionText.IsNullOrWhiteSpace() ? string.Empty : " " + prepositionText));
             }
         }
 

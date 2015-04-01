@@ -66,6 +66,7 @@
     <Compile Include="ProgressReporting\MB.cs" />
     <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ProgressReporting\ProgressReportEventArgs.cs" />
+    <Compile Include="SystemAlreadyConfiguredException.cs" />
     <Compile Include="Visualization\IStyleProvider.cs" />
     <Compile Include="ResourceUsageManager.cs" />
     <Compile Include="AnalysisOrchestrator.cs" />

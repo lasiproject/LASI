@@ -52,3 +52,7 @@ li menuitem {
 #free-editor textarea {
     min-width: 400px;
 }
+
+.progress-bar-half {
+    width: 100%;
+}

@@ -99,7 +99,7 @@ namespace LASI.Utilities
         /// Writes a string to the text output stream.
         /// </summary>
         /// <param name="value">The string to write to the text output stream.</param>
-        public static void Log(string value) { writer.WriteLine(value); }
+        public static void Log(string value) { if (OutputMode != Mode.Silent) writer.WriteLine(value); }
 
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
@@ -113,7 +113,7 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1) { writer.WriteLine(format, arg0, arg1); }
+        public static void Log(string format, object arg0, object arg1) { if (OutputMode != Mode.Silent) writer.WriteLine(format, arg0, arg1); }
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
         /// as the System.String.Format(System.String,System.Object) method.
@@ -127,13 +127,13 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1, object arg2) { writer.WriteLine(format, arg0, arg1, arg2); }
+        public static void Log(string format, object arg0, object arg1, object arg2) { if (OutputMode != Mode.Silent) writer.WriteLine(format, arg0, arg1, arg2); }
 
         /// <summary>
         /// Writes an object to the text output stream.
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
-        public static void Log(object value) { writer.WriteLine(value); }
+        public static void Log(object value) { if (OutputMode != Mode.Silent) writer.WriteLine(value); }
 
         #endregion
 
@@ -213,8 +213,7 @@ namespace LASI.Utilities
             /// <summary>
             /// All output will be directed to a file.
             /// </summary>
-            /// <seealso cref="SetToFile"></see>
-            /// <seealso cref="SetToFile(string)"></see>
+            /// <seealso cref="SetToFile(string)" />
             File,
             /// <summary>
             /// All output will be directed to an externally supplied destination.

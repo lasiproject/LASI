@@ -33,31 +33,41 @@ namespace LASI.Core.Heuristics.WordNet
         internal override void Load()
         {
             var setsEnumerated = 0;
-            var setsSampled = 0;
+            //var setsSampled = 0;
             var indexedSynsets = LoadData()
                 .Zip(Range(1, TotalLines), (line, i) => new { Set = CreateSet(line), LineNumber = i });
             try
             {
-                indexedSynsets.ToObservable()
-                    .Do(set =>
+                foreach (var indexed in indexedSynsets)
+                {
+                    ++setsEnumerated;
+                    setsById[indexed.Set.Id] = indexed.Set;
+                    if (indexed.LineNumber % 821 == 0)
                     {
-                        ++setsEnumerated;
-                        setsById[set.Set.Id] = set.Set;
-                    })
-                    .Sample(TimeSpan.FromMilliseconds(20))
-                    //.Where(e => e.LineNumber % 821 == 0)
-                    .Subscribe(
-                        onNext: e =>
-                        {
-                            ++setsSampled;
-                            OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount * 2));
-                        },
-                        onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
-                        onError: e =>
-                        {
-                            e.Log();
-                        });
+                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2));
+                    }
+                }
             }
+            //    indexedSynsets.ToObservable()
+            //        .Do(set =>
+            //        {
+            //            ++setsEnumerated;
+            //            setsById[set.Set.Id] = set.Set;
+            //        })
+            //        .Sample(TimeSpan.FromMilliseconds(20))
+            //        //.Where(e => e.LineNumber % 821 == 0)
+            //        .Subscribe(
+            //            onNext: e =>
+            //            {
+            //                ++setsSampled;
+            //                OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount * 2));
+            //            },
+            //            onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
+            //            onError: e =>
+            //            {
+            //                e.Log();
+            //            });
+            //}
             catch (Exception e)
             {
                 e.Log();
@@ -69,16 +79,16 @@ namespace LASI.Core.Heuristics.WordNet
         {
             var line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
 
-            var referencedSets = from Match match in POINTER_REGEX.Matches(line)
+            var referencedSets = from Match match in PointerRegex.Matches(line)
                                  let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Length > 1 && consideredSetLinks.Contains(linkMap[split[0]])
-                                 select new SetReference(
-                                    key: linkMap[split[0]],
-                                    value: int.Parse(split[1])
-                                 );
+                                 where split.Length > 1
+                                 let linkKind = linkMap[split[0]]
+                                 where consideredSetLinks.Contains(linkKind)
+                                 let referenced = int.Parse(split[1])
+                                 select new SetReference(linkKind, referenced);
             return new NounSynSet(
                 id: int.Parse(line.Substring(0, 8)),
-                words: from Match m in WORD_REGEX.Matches(line) select m.Value,
+                words: from Match m in WordRegex.Matches(line) select m.Value,
                 category: (NounCategory)int.Parse(line.Substring(9, 2)),
                 pointerRelationships: referencedSets
             );
@@ -200,8 +210,8 @@ namespace LASI.Core.Heuristics.WordNet
             ["-u"] = Link.MemberOfThisDomain_USAGE
         };
 
-        private static readonly Regex POINTER_REGEX = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
-        private static readonly Regex WORD_REGEX = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
+        private static readonly Regex PointerRegex = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
+        private static readonly Regex WordRegex = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
         private string filePath;
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
         private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TotalLines);

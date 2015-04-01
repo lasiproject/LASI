@@ -35,19 +35,15 @@ namespace LASI.Utilities.Configuration
         {
             XElement = xElement;
         }
-        /// <summary>Gets the value with the specified name.</summary>
-        /// <param name="name">The name of the value to retrieve.</param>
-        /// <returns>The value with the specified name.</returns>
-        public override string this[string name] => this[name, StringComparison.Ordinal];
         /// <summary>
         /// Gets the value with the specified name, matching based on the specified <see cref="System.StringComparison" />.
         /// </summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <param name="stringComparison">The string comparison to use for matching the name.</param>
         /// <returns>The value with the specified name, in the context of the <see cref="System.StringComparison" />.</returns>
-        public override string this[string name, StringComparison stringComparison] => (
+        public override string this[string name] => (
             from element in XElement.Descendants()
-            where element.Name.ToString().Equals(name, stringComparison)
+            where element.Name == name
             select element.Value).FirstOrDefault();
     }
 }

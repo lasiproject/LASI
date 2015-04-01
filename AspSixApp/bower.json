@@ -9,7 +9,9 @@
         "bootstrap-contextmenu": "0.3.2",
         "requirejs": "^2.1.16",
         "qunit": "^1.17.1",
-        "draggable": "1.0.0"
+        "draggable": "1.0.0",
+        "angular": "1.3.15",
+        "angular-ui-bootstrap": "0.12.1"
     },
     "exportsOverride": {
         "bootstrap": {
@@ -27,6 +29,9 @@
         "requirejs": {
             "": "require.js"
         },
-        "draggable": { "": "draggable.js" }
+        "draggable": {
+            "": "draggable.js"
+        },
+        "angular-ui-bootstrap": { "": "dist/*.min.js" }
     }
 }

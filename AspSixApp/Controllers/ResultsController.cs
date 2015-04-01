@@ -9,7 +9,7 @@ namespace AspSixApp.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using AspSixApp.Models.DocumentStructures;
+    using Models.DocumentStructures;
     using LASI.Interop;
     using LASI.Utilities;
     using Path = System.IO.Path;
@@ -21,7 +21,7 @@ namespace AspSixApp.Controllers
     [Authorize]
     public class ResultsController : Controller
     {
-        public ResultsController(IInputDocumentStore<UserDocument> documentStore)
+        public ResultsController(IInputDocumentProvider<UserDocument> documentStore)
         {
             Phrase.VerboseOutput = true;
             this.documentStore = documentStore;
@@ -104,6 +104,6 @@ namespace AspSixApp.Controllers
                     ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
 
 
-        private readonly IInputDocumentStore<UserDocument> documentStore;
+        private readonly IInputDocumentProvider<UserDocument> documentStore;
     }
 }

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LASI.Core.Heuristics.WordNet;
+using System.Collections.Immutable;
 using LASI.Core.Configuration;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
-    using System.Collections.Immutable;
-    using LASI.Core.Configuration;
-    using Utilities;
+
 
     /// <summary>
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
@@ -19,6 +19,17 @@ namespace LASI.Core
     public static partial class Lexicon
     {
         #region Public Methods
+        /// <summary>
+        /// Clears all synonym caches
+        /// </summary>
+        public static void ClearAllCachedSynonymData()
+        {
+            ClearNounCache();
+            ClearVerbCache();
+            ClearAdjectiveCache();
+            ClearAdverbCache();
+        }
+
         /// <summary>
         /// Clears the cache of Adjective synonym data.
         /// </summary>
@@ -29,16 +40,7 @@ namespace LASI.Core
         /// </summary>
         public static void ClearAdverbCache() => cachedAdverbData.Clear();
 
-        /// <summary>
-        /// Clears all cached adjective
-        /// </summary>
-        public static void ClearAllCachedSynonymData()
-        {
-            ClearAdjectiveCache();
-            ClearVerbCache();
-            ClearAdverbCache();
-            ClearAdjectiveCache();
-        }
+
 
         /// <summary>
         /// Clears the cache of Noun synonym data.
@@ -50,31 +52,7 @@ namespace LASI.Core
         /// </summary>
         public static void ClearVerbCache() => cachedVerbData.Clear();
 
-        /// <summary>
-        /// Returns a NameGender value indicating the likely gender of the entity.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity whose gender to lookup.
-        /// </param>
-        /// <returns>
-        /// A NameGender value indicating the likely gender of the entity.
-        /// </returns>
-        public static Gender GetGender(this IEntity entity)
-        {
-            return entity.Match()
-                    .Case((ISimpleGendered p) => p.Gender)
-                    .Case((IReferencer p) => GetGender(p))
-                    .Case((NounPhrase n) => DetermineNounPhraseGender(n))
-                    .Case((CommonNoun n) => Gender.Neutral)
-                    .Case((IEntity e) => (
-                        from referener in e.Referencers
-                        let gendered = referener as ISimpleGendered
-                        let gender = gendered != null ? gendered.Gender : default(Gender)
-                        group gender by gender into byGender
-                        orderby byGender.Count() descending
-                        select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
-                    .Result();
-        }
+
 
         /// <summary>
         /// Returns the synonyms for the provided Noun.
@@ -85,10 +63,7 @@ namespace LASI.Core
         /// <returns>
         /// The synonyms for the provided Noun.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Noun noun)
-        {
-            return cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
-        }
+        public static IEnumerable<string> GetSynonyms(this Noun noun) => cachedNounData.GetOrAdd(noun.Text, key => NounLookup[key]);
 
         /// <summary>
         /// Returns the synonyms for the provided Verb.
@@ -99,10 +74,8 @@ namespace LASI.Core
         /// <returns>
         /// The synonyms for the provided Verb.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Verb verb)
-        {
-            return cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
-        }
+        public static IEnumerable<string> GetSynonyms(this Verb verb) => cachedVerbData.GetOrAdd(verb.Text, key => VerbLookup[key]);
+
 
         /// <summary>
         /// Returns the synonyms for the provided Adjective.
@@ -113,10 +86,8 @@ namespace LASI.Core
         /// <returns>
         /// The synonyms for the provided Adjective.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Adjective adjective)
-        {
-            return cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
-        }
+        public static IEnumerable<string> GetSynonyms(this Adjective adjective) => cachedAdjectiveData.GetOrAdd(adjective.Text, key => AdjectiveLookup[key]);
+
 
         /// <summary>
         /// Returns the synonyms for the provided Adverb.
@@ -127,10 +98,7 @@ namespace LASI.Core
         /// <returns>
         /// The synonyms for the provided Adverb.
         /// </returns>
-        public static IImmutableSet<string> GetSynonyms(this Adverb adverb)
-        {
-            return cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
-        }
+        public static IEnumerable<string> GetSynonyms(this Adverb adverb) => cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
 
         /// <summary>
         /// Determines if two Noun instances are synonymous.
@@ -144,7 +112,8 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the Noun instances are synonymous; otherwise, <c>false</c>.
         /// </returns> 
-        public static bool IsSynonymFor(this Noun first, Noun second) => first?.GetSynonyms().Contains(second?.Text) ?? false;
+        public static bool IsSynonymFor(this Noun first, Noun second) =>
+            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
 
         /// <summary>
         /// Determines if two Verb instances are synonymous.
@@ -158,7 +127,8 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the Verb instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsSynonymFor(this Verb first, Verb second) => first?.GetSynonyms().Contains(second?.Text) ?? false;
+        public static bool IsSynonymFor(this Verb first, Verb second) =>
+            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
 
         /// <summary>
         /// Determines if two Adjective instances are synonymous.
@@ -172,7 +142,8 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the Adjective instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsSynonymFor(this Adjective first, Adjective second) => first?.GetSynonyms().Contains(second?.Text) ?? false;
+        public static bool IsSynonymFor(this Adjective first, Adjective second) =>
+            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
 
         /// <summary>
         /// Determines if two Adverb instances are synonymous.
@@ -186,7 +157,8 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the Adverb instances are synonymous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsSynonymFor(this Adverb first, Adverb second) => first?.GetSynonyms().Contains(second?.Text) ?? false;
+        public static bool IsSynonymFor(this Adverb first, Adverb second) =>
+            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
 
         #endregion Public Methods
 
@@ -200,11 +172,12 @@ namespace LASI.Core
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
         {
             var resourceName = typeof(TWord).Name + " Association Map";
-            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
-            var timer = System.Diagnostics.Stopwatch.StartNew();
+            ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = 0 });
+            System.Diagnostics.Stopwatch timer;
             wordNetLookup.ProgressChanged += ResourceLoading;
-            wordNetLookup.Load();
-            ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
+            Action load = wordNetLookup.Load;
+            load.WithTimer(out timer)();
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return wordNetLookup;
         }
 
@@ -213,14 +186,12 @@ namespace LASI.Core
         /// <summary>
         /// Raised when a data set resource finishes loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate
-        { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoaded = delegate { };
 
         /// <summary>
         /// Raised when a resource starts loading.
         /// </summary>
-        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate
-        { };
+        public static event EventHandler<ResourceLoadEventArgs> ResourceLoading = delegate { };
 
         /// <summary>
         /// Gets the sequence of strings corresponding to all nouns in the Scrabble Dictionary data source.
@@ -232,7 +203,7 @@ namespace LASI.Core
         #region Events
         #endregion
 
-        private static NameProvider NameData => names.Value;
+        private static NameProvider NameData => nameData.Value;
 
         private static WordNetLookup<Adjective> AdjectiveLookup => adjectiveLookup.Value;
 
@@ -247,11 +218,11 @@ namespace LASI.Core
         // Resource Data File Paths
 
         /// <summary>
-        /// Similarity threshold for lexical element comparisons. If the computed ration of a
+        /// Similarity threshold for lexical element comparisons. If the computed ratio of a
         /// similarity comparison is &gt;= the threshold, then the similarity comparison result will
         /// be considered as True in a boolean expression context.
         /// </summary>
-        internal const double SIMILARITY_THRESHOLD = 0.6;
+        internal const double SimilarityThreshold = 0.6;
 
         private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, IImmutableSet<string>>(
                    concurrencyLevel: Concurrency.Max,
@@ -274,22 +245,21 @@ namespace LASI.Core
                     capacity: 40960
                 );
 
-        private static Lazy<NameProvider> names = new Lazy<NameProvider>(() =>
+        private static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
         {
             var resourceName = "Name Data";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            var val = new NameProvider();
-            val.Load();
+            var nameProvider = new NameProvider();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0)
             {
                 ElapsedMiliseconds = timer.ElapsedMilliseconds
             });
-            return val;
+            return nameProvider;
         }, isThreadSafe: true);
 
         // scrabble dictionary Internal Lookups
-        private static Lazy<ISet<string>> scrabbleDictionary = new Lazy<ISet<string>>(() =>
+        private static Lazy<IEnumerable<string>> scrabbleDictionary = new Lazy<IEnumerable<string>>(() =>
         {
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
@@ -310,21 +280,23 @@ namespace LASI.Core
         }, true);
 
         private static Lazy<WordNetLookup<Noun>> nounLookup =
-          new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
+            new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
 
         private static Lazy<WordNetLookup<Verb>> verbLookup =
-                    new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), isThreadSafe: true);
+            new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), isThreadSafe: true);
 
         private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
-                new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), isThreadSafe: true);
+            new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), isThreadSafe: true);
 
         private static Lazy<WordNetLookup<Adverb>> adverbLookup =
-                    new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), isThreadSafe: true);
+            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), isThreadSafe: true);
 
 
         #region Name Lookup Methods
         #endregion
 
         #endregion
+        private static StringComparer IgnoreCase => StringComparer.OrdinalIgnoreCase;
+
     }
 }

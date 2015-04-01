@@ -56,7 +56,7 @@ namespace LASI.Core
                           from v2 in second.Words.OfVerb()
                           select v1.IsSynonymFor(v2);
 
-            var ratio = results.PercentTrue();
+            var ratio = results.PercentTrue() / 100;
             return Similarity.FromRatio(ratio);
 
             // TODO: make this fuzzier.

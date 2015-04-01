@@ -12,24 +12,28 @@ namespace LASI.Core
     {
         private sealed class NameProvider
         {
-            public void Load()
+            public NameProvider()
             {
-                Task.WaitAll(new[] {
-                    Task.Run(async () => femaleNames = await ReadLinesAsync(Paths.Names.Female)),
-                    Task.Run(async () => maleNames = await ReadLinesAsync(Paths.Names.Male)),
-                    Task.Run(async () => lastNames = await ReadLinesAsync(Paths.Names.Last))
-                });
-                genderAmbiguousNames = maleNames.Intersect(femaleNames);
+                var fileData = Task.Run(async () => new
+                {
+                    FemaleNames = await ReadLinesAsync(Paths.Names.Female),
+                    MaleNames = await ReadLinesAsync(Paths.Names.Male),
+                    LastNames = await ReadLinesAsync(Paths.Names.Last)
+                }).Result;
+                FemaleNames = fileData.FemaleNames;
+                MaleNames = fileData.MaleNames;
+                GenderAmbiguousNames = MaleNames.Intersect(FemaleNames).WithComparer(IgnoreCase);
+                LastNames = fileData.LastNames;
 
                 var stratified =
-                    from m in maleNames.Select((name, index) => new { Rank = (double)index / maleNames.Count, Name = name })
-                    join f in femaleNames.Select((name, i) => new { Rank = (double)i / femaleNames.Count, Name = name })
+                    from m in MaleNames.Select((name, i) => new { Rank = (double)i / MaleNames.Count, Name = name })
+                    join f in FemaleNames.Select((name, i) => new { Rank = (double)i / FemaleNames.Count, Name = name })
                     on m.Name equals f.Name
                     group f.Name by f.Rank / m.Rank > 1 ? 'F' : m.Rank / f.Rank > 1 ? 'M' : 'U';
                 var byLikelyGender = stratified.ToDictionary(strata => strata.Key);
 
-                maleNames = maleNames.Except(byLikelyGender['F']);
-                femaleNames = femaleNames.Except(byLikelyGender['M']);
+                MaleNames = MaleNames.Except(byLikelyGender['F']);
+                FemaleNames = FemaleNames.Except(byLikelyGender['M']);
             }
 
             /// <summary>
@@ -39,9 +43,9 @@ namespace LASI.Core
             /// <returns> <c>true</c> if the provided text is in the set of Female or Male first names; otherwise, <c>false</c>.</returns>
             public bool IsFirstName(string text)
             {
-                return femaleNames.Count > maleNames.Count ?
-                    maleNames.Contains(text) || femaleNames.Contains(text) :
-                    femaleNames.Contains(text) || maleNames.Contains(text);
+                return FemaleNames.Count > MaleNames.Count ?
+                    MaleNames.Contains(text) || FemaleNames.Contains(text) :
+                    FemaleNames.Contains(text) || MaleNames.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating whether the provided string corresponds to a common last name in the English language. 
@@ -51,7 +55,7 @@ namespace LASI.Core
             /// <returns> <c>true</c> if the provided string corresponds to a common last name in the English language; otherwise, <c>false</c>.</returns>
             public bool IsLastName(string text)
             {
-                return lastNames.Contains(text);
+                return LastNames.Contains(text);
             }
             /// <summary>
             /// Returns a value indicating whether the provided string corresponds to a common female name in the English language. 
@@ -59,14 +63,14 @@ namespace LASI.Core
             /// </summary>
             /// <param name="text">The Name to lookup</param>
             /// <returns>
-            /// <c>true</c> if the provided string corresponds to a common female name in the english language; otherwise, <c>false</c>.
+            /// <c>true</c> if the provided string corresponds to a common female name in the English language; otherwise, <c>false</c>.
             /// </returns>
             public bool IsFemaleFirst(string text)
             {
-                return femaleNames.Contains(text);
+                return FemaleNames.Contains(text);
             }
             /// <summary>
-            /// Returns a value indicating whether the provided string corresponds to a common male name in the english language. 
+            /// Returns a value indicating whether the provided string corresponds to a common male name in the English language. 
             /// Lookups are performed in a case insensitive manner and currently do not respect plurality.
             /// </summary>
             /// <param name="text">The Name to lookup</param>
@@ -75,15 +79,15 @@ namespace LASI.Core
             /// </returns>
             public bool IsMaleFirst(string text)
             {
-                return maleNames.Contains(text);
+                return MaleNames.Contains(text);
             }
 
             private static async Task<ImmutableSortedSet<string>> ReadLinesAsync(string fileName)
             {
                 using (var reader = new System.IO.StreamReader(fileName))
                 {
-                    var data = await reader.ReadToEndAsync();
-                    return data.SplitRemoveEmpty('\r', '\n')
+                    return (await reader.ReadToEndAsync())
+                        .SplitRemoveEmpty('\r', '\n')
                         .Select(s => s.Trim())
                         .ToImmutableSortedSet(IgnoreCase);
                 }
@@ -92,56 +96,30 @@ namespace LASI.Core
             /// <summary>
             /// Gets a sequence of all known Last Names.
             /// </summary>
-            public IReadOnlyCollection<string> LastNames
-            {
-                get { return lastNames.ToList().ToImmutableList(); }
-            }
+            public ImmutableSortedSet<string> LastNames { get; }
             /// <summary>
             /// Gets a sequence of all known Female Names.
             /// </summary>
-            public IReadOnlyCollection<string> FemaleNames
-            {
-                get
-                {
-                    return femaleNames.ToList().AsReadOnly();
-                }
-            }
+            public ImmutableSortedSet<string> FemaleNames { get; }
             /// <summary>
             /// Gets a sequence of all known Male Names.
             /// </summary>
-            public IReadOnlyCollection<string> MaleNames
-            {
-                get
-                {
-                    return maleNames.ToList().AsReadOnly();
-                }
-            }
+            public ImmutableSortedSet<string> MaleNames { get; }
             /// <summary>
             /// Gets a sequence of all known Names which are just as likely to be Female or Male.
             /// </summary>
-            public IReadOnlyCollection<string> GenderAmbiguousNames
+            public ImmutableSortedSet<string> GenderAmbiguousNames { get; }
+            public ImmutableSortedSet<string> AllNames
             {
                 get
                 {
-                    return genderAmbiguousNames.ToList().AsReadOnly();
+                    var builder = FemaleNames.ToBuilder();
+                    builder.UnionWith(MaleNames);
+                    builder.UnionWith(GenderAmbiguousNames);
+                    builder.UnionWith(LastNames);
+                    return builder.ToImmutable().WithComparer(IgnoreCase);
                 }
             }
-
-            public IImmutableSet<string> AllNames => new[] { lastNames, maleNames, femaleNames, genderAmbiguousNames }
-                .Aggregate((fold, current) => fold.Union(current))
-                .WithComparer(IgnoreCase);
-
-            #region Fields
-
-            // Name Data Sets
-            private ImmutableSortedSet<string> lastNames;
-            private ImmutableSortedSet<string> maleNames;
-            private ImmutableSortedSet<string> femaleNames;
-            private ImmutableSortedSet<string> genderAmbiguousNames;
-
-            #endregion
-
         }
-        static StringComparer IgnoreCase => StringComparer.OrdinalIgnoreCase;
     }
 }

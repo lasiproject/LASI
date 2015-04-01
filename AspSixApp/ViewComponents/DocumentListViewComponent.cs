@@ -13,6 +13,10 @@ namespace AspSixApp.ViewComponents
 {
     public class DocumentListViewComponent : ViewComponent
     {
+        public DocumentListViewComponent(IInputDocumentProvider<UserDocument> documentStore)
+        {
+            this.documentStore = documentStore;
+        }
         /// <summary>
         /// Retrieves the last <paramref name="maxResults"/> documents uploaded by the user ordered by date uploaded.
         /// </summary>
@@ -29,7 +33,6 @@ namespace AspSixApp.ViewComponents
             return await Task.FromResult(View(userDocuments.Take(maxResults).Reverse()));
         }
 
-        [Activate]
-        private IInputDocumentStore<UserDocument> documentStore { get; set; }
+        private readonly IInputDocumentProvider<UserDocument> documentStore;
     }
 }

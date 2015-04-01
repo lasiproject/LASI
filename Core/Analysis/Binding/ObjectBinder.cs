@@ -1,703 +1,512 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Utilities;
-using LASI.Algorithm.DocumentConstructs;
 
-
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
+    /// <summary>
+    /// Attempts to establish bindings between verbals and their objects at the Phrase level.
+    /// </summary>
     public class ObjectBinder
     {
+        #region Fields
+        private IVerbalObject directObject;
+        private bool directFound;
+        private VerbPhrase bindingTarget;
+        private Stack<Phrase> source;
+        private PhraseStackWrapper inputstream;
+        private List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
+        private List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
+        private Stack<NounPhrase> entities = new Stack<NounPhrase>();
+        private S0 s0;
+        private S1 s1;
+        private S2 s2;
+        private S3 s3;
+        private S4 s4;
+        private S5 s5;
+        private ConjunctionPhrase lastConjunctive;
+        private IPrepositional lastPrepositional;
+        #endregion
+
         /// <summary>
-        /// Initializes a new instances of ObjectBinder class.
+        /// Initializes a new instance of ObjectBinder class.
         /// </summary>
         public ObjectBinder()
         {
-
-            St0 = new State0(this);
-            St1 = new State1(this);
-            St2 = new State2(this);
-            St3 = new State3(this);
-            St4 = new State4(this);
-            St5 = new State5(this);
-            St6 = new State6(this);
-
+            s0 = new S0(this);
+            s1 = new S1(this);
+            s2 = new S2(this);
+            s3 = new S3(this);
+            s4 = new S4(this);
+            s5 = new S5(this);
         }
 
+        #region Methods
 
+        /// <summary>
+        /// Performance IVerbal :=: IVerbalObject binding between the applicable elements within the provided sentence.
+        /// </summary>
+        /// <param name="sentence">The Sentence to bind within.</param>
         public void Bind(Sentence sentence)
         {
-            this.Bind(sentence.Phrases);
+            if (sentence.Phrases.OfVerbPhrase().None())
+            {
+                throw new VerblessPhrasalSequenceException(sentence.Phrases);
+            }
+            Bind(sentence.Phrases);
         }
+
+        /// <summary>
+        /// Performs IVerbal :=: IVerbalObject binding between the applicable elements within the provided sequence of Phrase instances.
+        /// </summary>
+        /// <param name="contiguousPhrases">The sequence of Phrase instances to bind within.</param>
         public void Bind(IEnumerable<Phrase> contiguousPhrases)
         {
-            if (contiguousPhrases.GetVerbPhrases().Count() == 0)
-                throw new VerblessPhrasalSequenceException();
             var phrases = contiguousPhrases.ToList();
             var verbPhraseIndex = phrases.FindIndex(r => r is VerbPhrase);
-            bindingTarget = contiguousPhrases.ElementAt(verbPhraseIndex) as VerbPhrase;
-            var remainingPhrases = phrases.Skip(verbPhraseIndex + 1).Reverse();
-            if (remainingPhrases.Any()) {
-                inputstream.PushAll(remainingPhrases);
-                try {
-                    St0.Transition(inputstream.PopDynamic());
+            bindingTarget = contiguousPhrases.ElementAtOrDefault(verbPhraseIndex) as VerbPhrase;
+            if (bindingTarget != null)
+            {
+                var remainingPhrases = phrases.Skip(verbPhraseIndex + 1);
+                if (remainingPhrases.Any())
+                {
+                    source = new Stack<Phrase>(remainingPhrases);
+                    inputstream = new PhraseStackWrapper(source, this);
+                    foreach (var state in States)
+                    {
+                        state.Stream = inputstream;
+                    }
+                    try
+                    {
+                        s0.Transition(inputstream.Get());
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        e.Log();
+                    }
                 }
-                catch (InvalidOperationException) {
-                }
+            }
+        }
+        IEnumerable<State> States
+        {
+            get
+            {
+                yield return s0;
+                yield return s1;
+                yield return s2;
+                yield return s3;
+                yield return s4;
+                yield return s5;
             }
         }
         private void AssociateDirect()
         {
-            foreach (var e in entities) {
+            foreach (var e in entities)
+            {
                 bindingTarget.BindDirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
-
+            directFound = true;
         }
-
         private void AssociateIndirect()
         {
-            foreach (var e in entities) {
+            foreach (var e in entities)
+            {
                 bindingTarget.BindIndirectObject(e);
             }
             entities.Clear();
             ConjunctNounPhrases.Clear();
-
         }
         private void BindBuiltupAdjectivePhrases(NounPhrase phrase)
         {
-            foreach (var adjp in this.lastAdjectivals) {
-                phrase.BindDescriber(adjp);
+            foreach (var adjp in this.lastAdjectivals)
+            {
+                phrase.BindDescriptor(adjp);
             }
             this.lastAdjectivals.Clear();
         }
-
-
-        public Phrase LastPhrase
-        {
-            get;
-            set;
-        }
-        #region Fields
-        protected Stack<Phrase> inputstream = new Stack<Phrase>();
-        protected VerbPhrase bindingTarget;
-        protected IVerbalObject directObject;
-        protected IVerbalObject indirectObject;
-        protected bool directFound = false;
-
-        protected List<AdjectivePhrase> lastAdjectivals = new List<AdjectivePhrase>();
-        protected List<NounPhrase> ConjunctNounPhrases = new List<NounPhrase>();
-        protected List<AdjectivePhrase> ConjunctAdjectivePhrases = new List<AdjectivePhrase>();
-        protected Stack<NounPhrase> entities = new Stack<NounPhrase>();
-        private State0 St0;
-        private State1 St1;
-        private State2 St2;
-        private State3 St3;
-        private State4 St4;
-        private State5 St5;
-        private State6 St6;
-        private ConjunctionPhrase lastConjunctive;
-        private PrepositionalPhrase lastPrepositional;
-        public bool indirectFound;
-
         #endregion
 
 
 
+        #region State Classes
 
-        abstract class State
+        class S0 : State
         {
-            protected State(ObjectBinder machine)
+            public S0(ObjectBinder machine) : base(machine, "s0") { }
+
+            public override void Transition(Phrase phrase)
             {
-                _machine = machine;
-                _stream = machine.inputstream;
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-            public virtual void Transition(Phrase phrase)
+            private void InternalBind(Phrase phrase)
             {
-                throw new InvalidStateTransitionException(StateName, phrase);
+                phrase.Match()
+                    .Case((PrepositionalPhrase p) =>
+                    {
+                        M.lastPrepositional = p;
+                        if (M.inputstream.Count > 1) { M.s0.Transition(Stream.Get()); }
+                    })
+                    .Case((VerbPhrase v) => new ObjectBinder().Bind(Stream.ToList().Prepend(v)))
+                    .Case((AdverbPhrase phr) =>
+                    {
+                        M.bindingTarget.ModifyWith(phr);
+                        if (Stream.Any)
+                            M.s0.Transition(Stream.Get());
+                    })
+                    .Case((ConjunctionPhrase c) =>
+                    {
+                        if (M.lastPrepositional != null)
+                        {
+                            c.PrepositionOnLeft = M.lastPrepositional;
+                            M.lastPrepositional.ToTheRightOf = c;
+                        }
+                        if (Stream.None)
+                        {
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                            return;
+                        }
+                        M.s2.Transition(Stream.Get());
+                    })
+                    .Case((NounPhrase n) =>
+                    {
+                        if (M.lastPrepositional != null)
+                        {
+                            n.PrepositionOnLeft = M.lastPrepositional;
+                            M.lastPrepositional.ToTheRightOf = n;
+                            M.bindingTarget.AttachObjectViaPreposition(n.PrepositionOnLeft);
+                        }
+                        M.entities.Push(n);
+                        if (Stream.None)
+                        {
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                            return;
+                        }
+                        M.s2.Transition(Stream.Get());
+                    })
+                    .Case((AdjectivePhrase a) =>
+                    {
+                        M.lastAdjectivals.Add(a);
+                        if (M.inputstream.Any)
+                            M.s1.Transition(Stream.Get());
+                    })
+                    .Case<SubordinateClauseBeginPhrase>(a => WhenSbar(a))
+                    .Case<SymbolPhrase>(a => WhenSbar(a))
+                    .Default(() => base.Transition(phrase));
             }
 
-            protected void Universal(Phrase Phrase)
-            {
-                Machine.LastPhrase = Phrase;
-            }
-
-            protected string StateName
-            {
-                get
-                {
-                    return stateName;
-                }
-                set
-                {
-                    stateName = value;
-                }
-            }
-
-
-            public ObjectBinder Machine
-            {
-                get
-                {
-                    return _machine;
-                }
-                set
-                {
-                    _machine = value;
-                }
-            }
-
-
-            protected Stack<Phrase> Stream
-            {
-                get
-                {
-                    return _stream;
-                }
-                set
-                {
-                    _stream = value;
-                }
-            }
-
-
-
-            private string stateName;
-            private Stack<Phrase> _stream;
-            private ObjectBinder _machine;
-
-
-        }
-
-
-
-        class State0 : State
-        {
-            public State0(ObjectBinder machine)
-                : base(machine)
-            {
-                StateName = "s0";
-            }
-            public void Transition(PrepositionalPhrase phrase)
-            {
-                Machine.lastPrepositional = phrase;
-                try {
-                    if (Machine.inputstream.Count > 1)
-                        Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(VerbPhrase phrase)
-            {
-                new ObjectBinder().Bind(phrase.AsEnumerable().Concat(Stream.ToList()));
-            }
-            public void Transition(SubordinateClauseBeginPhrase phrase)
+            private void WhenSbar(Phrase phrase)
             {
                 var subordinateClauseConstituents = new List<Phrase> {
                     phrase};
-                for (var r = Stream.Count > 0 ? Stream.Pop() : null; !(r.Words.First() is Punctuation) && Stream.Count > 0; r = Stream.Pop()) {
+                for (var r = Stream.Count > 0 ? Stream.Get() : null; r != null && !(r.Words.First() is Punctuator) && Stream.Count > 0; r = Stream.Get())
+                {
                     subordinateClauseConstituents.Add(r);
                 }
-                var subClause = new ClauseTypes.SubordinateClause(subordinateClauseConstituents);
-                Machine.bindingTarget.ModifyWith(subClause);
+                var subClause = new SubordinateClause(subordinateClauseConstituents);
+                M.bindingTarget.ModifyWith(subClause);
                 new ObjectBinder().Bind(subordinateClauseConstituents);
             }
+        }
 
-            public void Transition(AdverbPhrase phrase)
+        class S1 : State
+        {
+            public S1(ObjectBinder machine) : base(machine, "s1") { }
+            public override void Transition(Phrase phrase)
             {
-                Machine.bindingTarget.ModifyWith(phrase);
-                Universal(phrase);
-                if (Stream.Count < 1)
-                    return;
-                try {
-                    Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
             }
 
-
-            public void Transition(ConjunctionPhrase phrase)
+            private void InternalBind(Phrase phrase)
             {
-                if (Machine.lastPrepositional != null) {
-                    phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.OnRightSide = phrase;
-                    Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
-                }
-                //Machine(parent);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-
+                phrase.Match()
+                    .Case((VerbPhrase v) =>
+                    {
+                        v.PostpositiveDescriptor = M.lastAdjectivals.Last();
+                        M.lastAdjectivals.Clear();
+                        M.s1.Transition(Stream.Get());
+                    })
+                    .Case((NounPhrase n) =>
+                    {
+                        M.entities.Push(n);
+                        M.BindBuiltupAdjectivePhrases(n);
+                        if (Stream.None)
+                        {
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                            return;
+                        }
+                        M.s2.Transition(Stream.Get());
+                    })
+                    .Case((PrepositionalPhrase p) =>
+                    {
+                        M.lastPrepositional = p;
+                        M.s0.Transition(Stream.Get());
+                    })
+                    .Case((Action<ConjunctionPhrase>)(c => M.lastConjunctive = c))
+                .Default(() => base.Transition(phrase));
             }
 
-
-            public void Transition(NounPhrase phrase)
+        }
+        class S2 : State
+        {
+            public S2(ObjectBinder machine) : base(machine, "s2") { }
+            public override void Transition(Phrase phrase)
             {
-                if (Machine.lastPrepositional != null) {
-                    phrase.PrepositionOnLeft = Machine.lastPrepositional;
-                    Machine.lastPrepositional.OnRightSide = phrase;
-                    Machine.bindingTarget.AttachObjectViaPreposition(phrase.PrepositionOnLeft);
-                }
-                Machine.entities.Push(phrase);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
+                try { InternalBind(phrase); } catch (InvalidOperationException) { PerformExceptionFallback(); }
+            }
 
-                    return;
-                }
-                Universal(phrase);
+            private void InternalBind(Phrase phrase)
+            {
+                phrase.Match()
+                    .Case((ConjunctionPhrase c) =>
+                    {
+                        c.JoinedLeft = M.entities.Peek();
+                        M.lastConjunctive = c;
+                        M.ConjunctNounPhrases.Add(M.entities.Peek());
+                        if (Stream.None)
+                        {
+                            if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                            return;
+                        }
+                        M.s3.Transition(Stream.Get());
+                    })
+                    .Case((AdjectivePhrase a) =>
+                    {
+                        M.AssociateIndirect();
+                        M.s3.Transition(Stream.Get());
+                    })
+                    .Case((AdverbPhrase a) =>
+                    {
+                        M.bindingTarget.ModifyWith(a);
+                        foreach (var e in M.entities)
+                        {
+                            if (!M.directFound)
+                            {
+                                M.bindingTarget.BindDirectObject(e);
+                            }
+                            else
+                            {
+                                M.bindingTarget.BindIndirectObject(e);
+                            }
+                        }
+                        if (Stream.Any) { M.s0.Transition(Stream.Get()); }
+                    })
+                    .Case((VerbPhrase v) =>
+                    {
+                        InfinitivePhrase infinitive = new InfinitivePhrase(
+                            phrase.Words.Concat(
+                            phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).OfWord()));
+                        M.directObject = infinitive;
+                    })
+                    .Case((IPrepositional p) =>
+                    {
+                        foreach (var e in M.entities) { M.bindingTarget.BindDirectObject(e); }
+                        M.lastPrepositional = p;
+                        M.entities.Last().PrepositionOnRight = M.lastPrepositional;
+                        p.ToTheLeftOf = M.entities.Last();
+                        M.entities.Clear();
+                        M.directFound = true;
+                        M.ConjunctNounPhrases.Clear();
+                        M.s0.Transition(Stream.Get());
+                    })
+                    .Case((NounPhrase n) =>
+                    {
+                        foreach (var e in M.entities) { M.bindingTarget.BindIndirectObject(e); }
+                        M.entities.Clear();
+                        M.ConjunctNounPhrases.Clear();
+                        M.entities.Push(n);
+                        if (Stream.None)
+                        {
+                            M.AssociateDirect();
+                            return;
+                        }
+                        M.s0.Transition(Stream.Get());
+                    })
+                   .Case((SymbolPhrase s) => WhenSbar())
+                   .Case((SubordinateClauseBeginPhrase s) => WhenSbar())
+                   .Default(() => base.Transition(phrase));
+            }
 
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
+            private void WhenSbar()
+            {
+                while (Stream.Count > 1)
+                {
+                    var endOfSbar = Stream.Get();
+                    if (endOfSbar is SymbolPhrase || endOfSbar is SubordinateClauseBeginPhrase) { break; }
                 }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                this.Transition(Stream.Get());
+                PerformExceptionFallback();
+            }
+
+        }
+
+        class S3 : State
+        {
+            public override void Transition(Phrase phrase)
+            {
+                try
+                {
+                    InternalBind(phrase);
+                }
+                catch (InvalidOperationException)
+                {
+                    PerformExceptionFallback();
                 }
             }
-            public void Transition(AdjectivePhrase phrase)
+
+            private void InternalBind(Phrase phrase)
             {
-                Machine.lastAdjectivals.Add(phrase);
-                Universal(phrase);
-                if (Machine.inputstream.Count > 0) {
-                    try {
-                        Machine.St1.Transition(Stream.PopDynamic());
+                phrase.Match()
+                .Case<AdjectivePhrase>(phr =>
+                {
+                    M.lastAdjectivals.Add(phr);
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
                     }
-                    catch (InvalidOperationException) {
-                        Machine.AssociateDirect();
-                        Machine.AssociateIndirect();
+                    M.s4.Transition(Stream.Get());
+                })
+                .Case<NounPhrase>(n =>
+                {
+                    M.entities.Push(n);
+                    M.ConjunctNounPhrases.Add(n);
+                    if (M.lastConjunctive != null)
+                    {
+                        M.lastConjunctive.JoinedRight = n;
                     }
-                }
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
+                    }
+                    M.s2.Transition(Stream.Get());
+                })
+               .Default(() => base.Transition(phrase));
             }
+            public S3(ObjectBinder machine) : base(machine, "s3") { }
         }
 
-
-        class State1 : State
+        class S4 : State
         {
-            public State1(ObjectBinder machine)
-                : base(machine)
+            public override void Transition(Phrase phrase)
             {
-                StateName = "s1";
+                try
+                {
+                    InternalBind(phrase);
+                }
+                catch (InvalidOperationException)
+                {
+                    PerformExceptionFallback();
+                }
             }
+            private void InternalBind(Phrase phrase)
+            {
+                phrase.Match()
+                .Case<NounPhrase>(n =>
+                {
+                    M.ConjunctNounPhrases.Add(n);
+                    M.entities.Push(n);
+                    M.BindBuiltupAdjectivePhrases(n);
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
+                    }
+                    M.s2.Transition(Stream.Get());
+                })
+                .Case<ConjunctionPhrase>(c =>
+                {
+                    c.JoinedLeft = M.lastAdjectivals.Last();
+                    M.lastConjunctive = c;
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
+                    }
 
-            public void Transition(VerbPhrase phrase)
-            {
-                phrase.AdjectivalModifier = Machine.lastAdjectivals.Last();
-                Machine.lastAdjectivals.Clear();
-                try {
-                    Machine.St1.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
+                    M.s5.Transition(Stream.Get());
+                })
+               .Default(() => base.Transition(phrase));
             }
-            public void Transition(NounPhrase phrase)
-            {
-                Machine.entities.Push(phrase);
-                Machine.BindBuiltupAdjectivePhrases(phrase);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(ConjunctionPhrase phrase)
-            {
-                Machine.lastConjunctive = phrase;
-                Universal(phrase);
-            }
-            public void Transition(PrepositionalPhrase phrase)
-            {
-                Machine.lastPrepositional = phrase;
-
-                Universal(phrase);
-                try {
-                    Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
+            public S4(ObjectBinder machine) : base(machine, "s4") { }
         }
-        class State3 : State
-        {
-            public State3(ObjectBinder machine)
-                : base(machine)
-            {
-                StateName = "s3";
-            }
 
-        }
-        class State2 : State
+        class S5 : State
         {
 
-
-            public State2(ObjectBinder machine)
-                : base(machine)
+            public override void Transition(Phrase phrase)
             {
-                StateName = "s2";
-
-            }
-            public void Transition(ConjunctionPhrase phrase)
-            {
-                phrase.OnLeft = Machine.entities.Peek();
-                Machine.lastConjunctive = phrase;
-                Machine.ConjunctNounPhrases.Add(Machine.entities.Peek());
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-
-                try {
-                    Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-
-            }
-            public void Transition(AdjectivePhrase phrase)
-            {
-                Machine.AssociateIndirect();
-                Universal(phrase);
-
-                try {
-                    Machine.St4.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-
-            }
-            public void Transition(VerbPhrase phrase)
-            {
-                InfinitivePhrase infinitive = new InfinitivePhrase(
-                    phrase.AsEnumerable().GetWords().Concat(
-                   phrase.Sentence.GetPhrasesAfter(phrase)
-                    .TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).GetWords()));
-                Machine.directObject = infinitive;
-
-            }
-            public void Transition(PrepositionalPhrase phrase)
-            {
-                foreach (var e in Machine.entities)
-                    Machine.bindingTarget.BindDirectObject(e);
-                try {
-                    Machine.lastPrepositional = phrase;
-
-                    Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
-                }
-                catch (InvalidOperationException) {
-                }
-                phrase.OnLeftSide = Machine.entities.Last();
-                Machine.entities.Clear();
-                Machine.directFound = true;
-                Machine.ConjunctNounPhrases.Clear();
-                Universal(phrase);
-
-                try {
-                    Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
+                try { InternalBind(phrase); }
+                catch (InvalidOperationException)
+                {
+                    PerformExceptionFallback();
                 }
             }
-            public void Transition(NounPhrase phrase)
+
+            private void InternalBind(Phrase phrase)
             {
-                foreach (var e in Machine.entities)
-                    Machine.bindingTarget.BindIndirectObject(e);
-                Machine.entities.Clear();
-                Machine.indirectFound = true;
-                Machine.ConjunctNounPhrases.Clear();
-
-                Machine.entities.Push(phrase);
-
-                if (Stream.Count < 1) {
-
-                    Machine.AssociateDirect();
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(SubordinateClauseBeginPhrase phrase)
-            {
-                Machine.AssociateDirect();
-                Machine.AssociateIndirect();
-                Universal(phrase);
-
-            }
-            public virtual void Transition(AdverbPhrase phrase)
-            {
-                Machine.bindingTarget.ModifyWith(phrase);
-                Universal(phrase);
-                foreach (var e in Machine.entities) if (!Machine.directFound)
-                        Machine.bindingTarget.BindDirectObject(e);
-                    else
-                        Machine.bindingTarget.BindIndirectObject(e);
-                if (Stream.Count < 1)
-                    return;
-                try {
-                    Machine.St0.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-
+                phrase.Match()
+                .Case<AdjectivePhrase>(a =>
+                {
+                    M.lastAdjectivals.Add(a);
+                    M.lastConjunctive.JoinedRight = phrase;
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
+                    }
+                    M.s4.Transition(Stream.Get());
+                })
+                .Case<NounPhrase>(n =>
+                {
+                    M.entities.Push(n);
+                    M.ConjunctNounPhrases.Add(n);
+                    M.lastConjunctive.JoinedRight = n;
+                    M.BindBuiltupAdjectivePhrases(n);
+                    if (Stream.None)
+                    {
+                        if (!M.directFound) { M.AssociateDirect(); } else { M.AssociateIndirect(); }
+                        return;
+                    }
+                    M.s2.Transition(Stream.Get());
+                })
+                .Default(() => base.Transition(phrase));
             }
 
+            public S5(ObjectBinder machine) : base(machine, "s5") { }
         }
-        class State4 : State
+        abstract class State
         {
-
-
-            public State4(ObjectBinder machine)
-                : base(machine)
+            protected State(ObjectBinder machine, string stateName) { M = machine; Stream = machine.inputstream; StateName = stateName; }
+            public virtual void Transition(Phrase phrase) { throw new InvalidStateTransitionException(StateName, phrase); }
+            public virtual void PerformExceptionFallback()
             {
-
-                StateName = "s4";
+                M.AssociateDirect();
+                M.AssociateIndirect();
             }
-            public void Transition(NounPhrase phrase)
-            {
-                Machine.entities.Push(phrase);
-                Machine.ConjunctNounPhrases.Add(phrase);
-                if (Machine.lastConjunctive != null) {
-                    Machine.lastConjunctive.OnRight = phrase;
-                }
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(AdjectivePhrase phrase)
-            {
-                Machine.lastAdjectivals.Add(phrase);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
+            protected string StateName { get; private set; }
+            public ObjectBinder M { get; private set; }
+            public PhraseStackWrapper Stream { get; set; }
         }
-        class State5 : State
+        #endregion
+
+        #region Helper Classes
+        private class PhraseStackWrapper
         {
-            public State5(ObjectBinder machine)
-                : base(machine)
-            {
-                StateName = "s5";
-            }
-
-            public void Transition(NounPhrase phrase)
-            {
-                Machine.ConjunctNounPhrases.Add(phrase);
-                Machine.entities.Push(phrase);
-                Machine.BindBuiltupAdjectivePhrases(phrase);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(ConjunctionPhrase phrase)
-            {
-                phrase.OnLeft = Machine.lastAdjectivals.Last();
-                Machine.lastConjunctive = phrase;
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St6.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-
+            public PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine) { Machine = machine; stream = new Stack<Phrase>(source); }
+            public ObjectBinder Machine { get; private set; }
+            public Phrase Get() { return stream.Pop(); }
+            public bool Any { get { return stream.Any(); } }
+            public bool None { get { return !Any; } }
+            public int Count { get { return stream.Count; } }
+            public List<Phrase> ToList() { return stream.ToList(); }
+            private Stack<Phrase> stream;
         }
-        class State6 : State
-        {
-
-
-            public State6(ObjectBinder machine)
-                : base(machine)
-            {
-                StateName = "s6";
-            }
-            public void Transition(AdjectivePhrase phrase)
-            {
-                Machine.lastAdjectivals.Add(phrase);
-                Machine.lastConjunctive.OnRight = phrase;
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St5.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-            public void Transition(NounPhrase phrase)
-            {
-                Machine.entities.Push(phrase);
-                Machine.ConjunctNounPhrases.Add(phrase);
-                Machine.lastConjunctive.OnRight = phrase;
-                Machine.BindBuiltupAdjectivePhrases(phrase);
-                if (Machine.inputstream.Count < 1) {
-                    if (!Machine.directFound)
-                        Machine.AssociateDirect();
-                    else
-                        Machine.AssociateIndirect();
-
-                    return;
-                }
-                Universal(phrase);
-
-                try {
-                    Machine.St2.Transition(Stream.PopDynamic());
-                }
-                catch (InvalidOperationException) {
-                    Machine.AssociateDirect();
-                    Machine.AssociateIndirect();
-                }
-            }
-
-
-        }
-
+        #endregion
 
     }
-
-    static class DynamicStackExtensions
-    {
-        /// <summary>
-        /// An extension method which pops the next item from the stack, but returns it as a an object of Type dynamic.
-        /// This allows the overloaded methods present in each state to be correctly selected based on the run time type of the parent.
-        /// </summary>
-        /// <param name="stack">The Stack instances from which to pop.</param>
-        /// <returns>The Phrase at the top of the stack typed as dynamic.</returns>
-        /// <exception cref="System.InvalidOperationException">Thrown if the Stack is empty.</exception>
-        internal static dynamic PopDynamic(this Stack<Phrase> stack)
-        {
-            return stack.Pop();
-        }
-        internal static void PushAll(this Stack<Phrase> stack, IEnumerable<Phrase> items)
-        {
-            foreach (var i in items)
-                stack.Push(i);
-        }
-    }
-
 }

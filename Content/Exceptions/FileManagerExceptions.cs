@@ -22,7 +22,7 @@ namespace LASI.Content
         /// <param name="fileName">The name of the file for which conversion failed.</param>
         /// <param name="sourceType">The extension of the source file format.</param>
         /// <param name="targetType">The extension of the target file format</param>
-        internal FileConversionFailureException(string fileName, string sourceType, string targetType) : base($"File conversion failed\nCould not convert {fileName} from {sourceType} to {targetType}.") { }
+        public FileConversionFailureException(string fileName, string sourceType, string targetType) : base($"File conversion failed\nCould not convert {fileName} from {sourceType} to {targetType}.") { }
         /// <summary>
         /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
         /// </summary>
@@ -32,16 +32,16 @@ namespace LASI.Content
         /// <param name="inner">The exception that is the cause of the current exception. If the innerException
         /// parameter is not null, the current exception is raised in a catch block that
         /// handles the inner exception.</param>
-        internal FileConversionFailureException(string fileName, string sourceType, string targetType, Exception inner) : base($"File conversion failed\nCould not convert {fileName} from {sourceType} to {targetType}.", inner) { }
-        private FileConversionFailureException(string message) : base(message) { }
-        private FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
-        private FileConversionFailureException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public FileConversionFailureException(string fileName, string sourceType, string targetType, Exception inner) : base($"File conversion failed\nCould not convert {fileName} from {sourceType} to {targetType}.", inner) { }
+        public FileConversionFailureException(string message) : base(message) { }
+        public FileConversionFailureException(string message, Exception inner) : base(message, inner) { }
+        protected FileConversionFailureException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     /// <summary>
-    /// The exception thrown when methods are invoked or preperties accessed on the FileManager before a call has been made to initialize it.
+    /// The exception thrown when methods are invoked or properties accessed on the FileManager before a call has been made to initialize it.
     /// </summary>
     [Serializable]
-    public class FileManagerNotInitializedException : FileManagerException
+    public sealed class FileManagerNotInitializedException : FileManagerException
     {
         /// <summary>
         /// Initializes a new instance of the FileManagerNotInitializedException class with its message string set to message.

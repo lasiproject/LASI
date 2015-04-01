@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using LASI.Core.LexicalStructures.Structural;
 
 namespace LASI.Core
 {
     /// <summary>
     /// Provides the base class, properties, and behaviors for all Phrase level grammatical constructs.
     /// </summary>
-    public abstract class Phrase : ILexical, LexicalStructures.Structural.ICompositeLexical<Word>, LexicalStructures.Structural.IUnitLexical
+    public abstract class Phrase : ILexical, ICompositeLexical<Word>, ILinkedUnitLexical<Phrase>
     {
         #region Constructors
 
@@ -48,14 +49,14 @@ namespace LASI.Core
         /// Establish the nested links between the Phrase, its parent Clause, and the Words comprising it.
         /// </summary>
         /// <param name="parent">The Clause to which the Phrase belongs.</param>
-        internal void EstablishParent(Clause parent)
+        internal void EstablishTextualLinks(Clause parent)
         {
             Clause = parent;
             Sentence = parent.Sentence;
             Document = Sentence.Document;
             foreach (var word in Words)
             {
-                word.EstablishParent(this);
+                word.EstablishTextualLinks(this);
             }
         }
 
@@ -77,12 +78,18 @@ namespace LASI.Core
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase NextPhrase { get; internal set; }
-
+        /// <summary>
+        /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
+        /// </summary>
+        public Phrase Next => NextPhrase;
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
         public Phrase PreviousPhrase { get; internal set; }
-
+        /// <summary>
+        /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
+        /// </summary>
+        public Phrase Previous => PreviousPhrase;
         /// <summary>
         /// Gets or sets the Clause to which the Phrase belongs.
         /// </summary>

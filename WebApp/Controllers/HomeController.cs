@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LASI.Content;
 using LASI.Core;
+using LASI.Core.Analysis.Heuristics;
 using LASI.Interop;
 using LASI.Utilities;
 using LASI.WebApp.Models;
@@ -51,7 +52,7 @@ namespace LASI.WebApp.Controllers
         {
             var documents = await LoadResults();
             var charts = from document in documents
-                         let topResults = NaiveResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
+                         let topResults = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                          let rowData = from result in topResults
                                        select new object[] { result.First, result.Second }
                          select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Title };

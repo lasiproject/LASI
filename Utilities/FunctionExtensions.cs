@@ -7,39 +7,32 @@ namespace LASI.Utilities
     /// </summary>
     public static class FunctionExtensions
     {
-        // Adaptors to convert methods to System.Func delegates to allow for clean transition to curry, apply, and compose.
-        // And perhaps someday AndThen.
-        #region Using Static Oriented Helpers
 
-        public static Func<TResult> Func<TResult>(Func<TResult> f) => f;
-        public static Func<T, TResult> Func<T, TResult>(Func<T, TResult> f) => f;
-        public static Func<T1, T2, TResult> Func<T1, T2, TResult>(Func<T1, T2, TResult> f) => f;
-        public static Func<T1, T2, T3, TResult> Func<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> f) => f;
+        #region Compose
 
-        #endregion Using Static Oriented Helpers
         /// <summary>
         /// Composes two functions returning a new function which represents the application of the
         /// first function to the result of the application of the second function. In other words
         /// f.Compose(g)(x) is equivalent to f(g(x)).
         /// </summary>
-        /// <typeparam name="T1">
+        /// <typeparam name="T2">
         /// The input type of the second function.
         /// </typeparam>
-        /// <typeparam name="T2">
+        /// <typeparam name="T1">
         /// The input type of the second function and the result type of the second function.
         /// </typeparam>
         /// <typeparam name="T3">
         /// The return type of the first function and result type of the their composition.
         /// </typeparam>
-        /// <param name="first">
+        /// <param name="f">
         /// The outer function f, of the composition to perform f(g)
         /// </param>
-        /// <param name="second">
+        /// <param name="g">
         /// The inner function g, of the composition to perform f(g)
         /// </param>
         /// <returns>
         /// a new function which when invoked is equivalent to invoking the first function on the
-        /// result of invoking the second on some arbitrary B, b.
+        /// result of invoking the second.
         /// </returns>
         /// <example>
         /// <code>
@@ -53,16 +46,62 @@ namespace LASI.Utilities
         /// </example>
         /// <remarks>
         /// </remarks>
-        public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> first, Func<T2, T1> second) => x => first(second(x));
+        public static Func<T1, T3> Compose<T2, T1, T3>(this Func<T2, T3> f, Func<T1, T2> g) => x => f(g(x));
 
-        public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> first, Func<T1, T1> second) => x => first(second(x));
+        //public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> f, Func<T1, T1> g) => x => f(g(x));
 
-        public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> first, Func<T1, T2> second) => x => first(second(x));
+        //public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> f, Func<T1, T2> g) => x => f(g(x));
 
-        public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> first, Func<T2, T1> second) => x => first(second(x));
+        //public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> f, Func<T2, T1> g) => x => f(g(x));
 
+        #endregion
+        #region AndThen
+        /// <summary>
+        /// Composes two functions returning a new function which represents the application of the
+        /// second function to the result of the application of the first function. In other words
+        /// f.Compose(g)(x) is equivalent to g(f(x)).
+        /// </summary>
+        /// <typeparam name="T2">
+        /// The input type of the second function.
+        /// </typeparam>
+        /// <typeparam name="T1">
+        /// The input type of the second function and the result type of the second function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The return type of the first function and result type of the their composition.
+        /// </typeparam>
+        /// <param name="f">
+        /// The outer function f, of the composition to perform f(g)
+        /// </param>
+        /// <param name="g">
+        /// The inner function g, of the composition to perform f(g)
+        /// </param>
+        /// <returns>
+        /// a new function which when invoked is equivalent to invoking the second function on the
+        /// result of invoking the first.
+        /// </returns>
+        /// </example>
+        /// <remarks>
+        /// </remarks>
+        public static Func<T1, T3> AndThen<T2, T1, T3>(this Func<T1, T2> f, Func<T2, T3> g) => x => g(f(x));
 
-        #region Currying
+        public static Func<T1, T2> AndThen<T1, T2>(this Func<T1, T1> f, Func<T1, T2> g) => x => g(f(x));
+
+        public static Func<T1, T1> AndThen<T1, T2>(this Func<T1, T2> f, Func<T2, T1> g) => x => g(f(x));
+
+        public static Func<T2, T1> AndThen<T1, T2>(this Func<T2, T1> f, Func<T1, T1> g) => x => g(f(x));
+
+        #region Experimental
+
+        public static Action<T1> AndThen<T1, T2>(this Action<T1> a1, Action<T2> a2) where T1 : T2 => x => { a1(x); a2(x); };
+        public static Action<T> AndThen<T>(this Action<T> a1, Action a2) => x => { a1(x); a2(); };
+        public static Action AndThen(this Action a1, Action a2) => a1 + a2;
+
+        #endregion
+
+        #endregion
+
+        #region Curry
 
         /// <summary>
         /// Curries a function of the form (T1, T2) => TResult, yielding a function of the form (T1) => (T2) => TResult.
@@ -366,7 +405,7 @@ namespace LASI.Utilities
         /// A new action of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => void.
         /// </returns>
         public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Action<T6>>>>>> Curry<T1, T2, T3, T4, T5, T6>
-            (this Action<T1, T2, T3, T4, T5, T6> fn) => a => b => c => d => e => g => fn(a, b, c, d, e, g);
+            (this Action<T1, T2, T3, T4, T5, T6> fn) => a => b => c => d => e => f => fn(a, b, c, d, e, f);
 
         /// <summary>
         /// Curries an action of the form (T1, T2, T3, T4, T5, T6, T7) => TResult, yielding an action of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => void.
@@ -433,7 +472,7 @@ namespace LASI.Utilities
         public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Action<T8>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8>
             (this Action<T1, T2, T3, T4, T5, T6, T7, T8> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
 
-        #endregion Action Currying
+        #endregion
 
         #region Partial Application
 
@@ -516,10 +555,7 @@ namespace LASI.Utilities
         /// A new function, of the form (T2, T3) => TResult, produced by binding the supplied
         /// value as the first argument.
         /// </returns>
-        public static Func<T2, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T1 value)
-        {
-            return (x, y) => fn(value, x, y);
-        }
+        public static Func<T2, T3, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T1 value) => (x, y) => fn(value, x, y);
 
         /// <summary>
         /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult,
@@ -637,7 +673,7 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="fn">
+        /// <param name="f">
         /// The function to partially apply.
         /// </param>
         /// <param name="value">
@@ -647,10 +683,8 @@ namespace LASI.Utilities
         /// A new function, of the form (T2, T3, T4, T5) => TResult, produced by binding the
         /// supplied value as the first argument.
         /// </returns>
-        public static Func<T2, T3, T4, T5, TResult> Apply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> fn, T1 value)
-        {
-            return (b, c, d, e) => fn(value, b, c, d, e);
-        }
+        public static Func<T2, T3, T4, T5, TResult> Apply<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> f, T1 value) => (b, c, d, e) => f(value, b, c, d, e);
+
 
         /// <summary>
         /// Partially applies a function taking 6 arguments, of the form (T1, T2, T3, T4, T5, T6)
@@ -688,10 +722,8 @@ namespace LASI.Utilities
         /// A new function, of the form (T2, T3, T4, T5, T6) => TResult, produced by binding the
         /// supplied value as the first argument.
         /// </returns>
-        public static Func<T2, T3, T4, T5, T6, TResult> Apply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> fn, T1 value)
-        {
-            return (b, c, d, e, f) => fn(value, b, c, d, e, f);
-        }
+        public static Func<T2, T3, T4, T5, T6, TResult> Apply<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> fn, T1 value) => (b, c, d, e, f) => fn(value, b, c, d, e, f);
+
         /// <summary>
         /// Partially applies an action taking 2 arguments of the form (T1, T2) => void, by
         /// binding the supplied value as the first argument and returning a new action of the
@@ -802,20 +834,20 @@ namespace LASI.Utilities
         /// Binds a new <see cref="System.Diagnostics.Stopwatch"/>to <paramref name="stopwatch"/> 
         /// and sets up an invocation context such that after a call to <paramref name="function"/> it will track the elapsed execution time. 
         /// </summary>
-        /// <typeparam name="T">The type of the value returned by the function.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by the function.</typeparam>
         /// <param name="function">the function to time.</param>
         /// <param name="stopwatch">The stopwatch reference which will be bound.</param>
         /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
-        public static Func<T> WithTimer<T>(this Func<T> function, out System.Diagnostics.Stopwatch stopwatch)
+        public static Func<TResult> WithTimer<TResult>(this Func<TResult> function, out System.Diagnostics.Stopwatch stopwatch)
         {
-            var proxy = new[] { new System.Diagnostics.Stopwatch() };
-            stopwatch = proxy[0];
+            var proxy = new System.Diagnostics.Stopwatch();
+            stopwatch = proxy;
             return () =>
              {
-                 proxy[0].Start();
-                 var value = function();
-                 proxy[0].Stop();
-                 return value;
+                 proxy.Start();
+                 var result = function();
+                 proxy.Stop();
+                 return result;
              };
         }
         /// <summary>
@@ -829,14 +861,27 @@ namespace LASI.Utilities
         /// <returns>A function which will invoke the specified function and reveal elapsed execution time by way of <paramref name="stopwatch"/>.</returns>
         public static Func<T, TResult> WithTimer<T, TResult>(this Func<T, TResult> function, out System.Diagnostics.Stopwatch stopwatch)
         {
-            var proxy = new[] { new System.Diagnostics.Stopwatch() };
-            stopwatch = proxy[0];
+            var proxy = new System.Diagnostics.Stopwatch();
+            stopwatch = proxy;
             return x =>
             {
-                proxy[0].Start();
-                return function(x);
+                proxy.Start();
+                var result = function(x);
+                proxy.Stop();
+                return result;
             };
         }
-        private static void InitializeTimer(out System.Diagnostics.Stopwatch stopwatch) => stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+        public static Action WithTimer(this Action action, out System.Diagnostics.Stopwatch stopwatch)
+        {
+            var proxy = new System.Diagnostics.Stopwatch();
+            stopwatch = proxy;
+            return () =>
+            {
+                proxy.Start();
+                action();
+                proxy.Stop();
+            };
+        }
     }
 }

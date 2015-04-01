@@ -11,13 +11,12 @@ using Microsoft.Framework.Logging;
 using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using LASI.Utilities;
 using System.IO;
 using AspSixApp.Models;
-using AspSixApp.Logging;
 using AspSixApp.CustomIdentity;
 using AspSixApp.CustomIdentity.MongoDB;
 using AspSixApp.CustomIdentity.MongoDB.Extensions;
+using LASI.Utilities;
 
 namespace AspSixApp
 {
@@ -33,6 +32,8 @@ namespace AspSixApp
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
+
             services.AddMvc()
                     .Configure<MvcOptions>(options =>
                     {
@@ -48,17 +49,18 @@ namespace AspSixApp
                             .Select(formatter => formatter.Instance)
                             .OfType<JsonInputFormatter>()
                             .First().SerializerSettings = serializerSettings;
-
                         options.OutputFormatters
                             .Select(formatter => formatter.Instance)
                             .OfType<JsonOutputFormatter>()
                             .First().SerializerSettings = serializerSettings;
-                    });
-            services.AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>()
+
+                        options.Filters.Add(new CustomAsyncExceptionFilter());
+                    })
                     .AddMongoDb(provider =>
                     {
                         return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory);
-                    }).AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
+                    })
+                    .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
                     {
                         options.Lockout = new LockoutOptions
                         {
@@ -84,8 +86,8 @@ namespace AspSixApp
                             RequiredLength = 8
                         };
                     })
-                    .AddUserStore<CustomUserStore<UserRole>>()
                     .AddRoleStore<CustomUserStore<UserRole>>()
+                    .AddUserStore<CustomUserStore<UserRole>>()
                     .AddUserManager<UserManager<ApplicationUser>>();
         }
 
@@ -97,18 +99,18 @@ namespace AspSixApp
             // Configure the HTTP request pipeline. Add the loggers.
             loggerfactory.AddConsole();
 
-            //// Add the following to the request pipeline only in development environment.
-            //if (env.EnvironmentName.EqualsIgnoreCase("Development"))
-            //{
-            app.UseBrowserLink();
-            app.UseErrorPage(ErrorPageOptions.ShowAll);
-            //}
-            //else
-            //{
-            //    // Add Error handling middleware which catches all application specific errors and
-            //    // send the request to the following path or controller action.
-            //    app.UseErrorHandler("/Home/Error");
-            //}
+            // Add the following to the request pipeline only in development environment.
+            if (env.EnvironmentName.EqualsIgnoreCase("Development"))
+            {
+                app.UseBrowserLink();
+                app.UseErrorPage(ErrorPageOptions.ShowAll);
+            }
+            else
+            {
+                // Add Error handling middleware which catches all application specific errors and
+                // send the request to the following path or controller action.
+                app.UseErrorHandler("/Home/Error");
+            }
             app.UseRuntimeInfoPage();
             // Add static files to the request pipeline.
             app.UseStaticFiles();
@@ -123,9 +125,14 @@ namespace AspSixApp
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
                 routes.MapRoute(
+                    name: "ChildApi",
+                    template: "api/{parentController}/{parentId?}/{controller}/{id?}"
+                );
+                routes.MapRoute(
                     name: "DefaultApi",
                     template: "api/{controller}/{id?}"
                 );
+
             });
         }
         /// <summary>

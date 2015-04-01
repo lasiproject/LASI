@@ -335,7 +335,7 @@ namespace LASI.App
                                    document.Title.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Title + '.' + Properties.Settings.Default.OutputFormat))
                                let serializer = new SimpleXmlSerializer()
                                select Task.Run(() => serializer
-                                    .Serialize(document.Phrases, document.Title, DegreeOfOutput.Comprehensive)
+                                    .Serialize(document.Phrases, document.Title)
                                     .Save(outfilePath)));
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();

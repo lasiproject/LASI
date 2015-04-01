@@ -9,17 +9,18 @@ namespace AspSixApp.CustomIdentity.MongoDB
     {
         public MongoDBConfiguration(MongoDbOptions options)
         {
-            MongodExePath = options.MongodExePath;
-            MongoFilesDirectory = options.MongoFilesDirectory;
-            ConnectionString = options.ConnectionString;
-            ApplicationDatabaseName = options.ApplicationDatabaseName;
+            Options = options;
         }
         public MongoDBConfiguration(IConfiguration config, string applicationBasePath)
         {
-            MongodExePath = config["MongodExecutableLocation"];
-            MongoFilesDirectory = applicationBasePath + config["MongoDbPath"];
-            ConnectionString = config["MongoConnection"];
-            ApplicationDatabaseName = config["ApplicationDatabaseName"];
+            this.Options = new MongoDbOptions
+            {
+                MongodExePath = config["MongodExecutableLocation"],
+                DataDbPath = applicationBasePath + config["MongoDataDbPath"],
+                InstanceUrl = config["MongoDbInstanceUrl"],
+                ApplicationDatabaseName = config["ApplicationDatabaseName"],
+                CreateProcess = Convert.ToBoolean(config["CreateMongoDbProcess"])
+            };
             CollectionNamesByType = new Dictionary<Type, string>
             {
                 [typeof(ApplicationUser)] = config["UserCollectionName"],
@@ -28,10 +29,15 @@ namespace AspSixApp.CustomIdentity.MongoDB
                 [typeof(Organization)] = config["OrganizationCollectionName"]
             };
         }
-        public string ApplicationDatabaseName { get; }
-        public string ConnectionString { get; }
-        public string MongodExePath { get; }
-        public string MongoFilesDirectory { get; }
+        /// <summary>
+        /// Gets a value indicating if the application should attempt start a mongod.exe instance and manage its lifetime.
+        /// </summary>
+        public bool CreateProcess => Options.CreateProcess;
+        public string ApplicationDatabaseName => Options.ApplicationDatabaseName;
+        public string InstanceUrl => Options.InstanceUrl;
+        public string MongodExePath => Options.MongodExePath;
+        public string DataDbPath => Options.DataDbPath;
         public IReadOnlyDictionary<Type, string> CollectionNamesByType { get; }
+        public MongoDbOptions Options { get; }
     }
 }

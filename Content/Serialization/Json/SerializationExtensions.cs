@@ -16,25 +16,19 @@ namespace LASI.Content.Serialization.Json
         /// <summary>
         /// Creates a Newtonsoft.Linq.JArray from the sequence of lexicals.
         /// </summary>
-        /// <param name="elements">The sequence of leixcals from which to construct the Newtonsoft.Linq.JArray</param>
+        /// <param name="elements">The sequence of lexicals from which to construct the Newtonsoft.Linq.JArray</param>
         /// <returns>A Newtonsoft.Linq.JArray from the sequence of lexicals.</returns>
-        public static JArray ToJArray(this IEnumerable<ILexical> elements)
-        {
-            return new JArray(elements.Select(ToJObject));
-        }
+        public static JArray ToJArray(this IEnumerable<ILexical> elements) => new JArray(elements.Select(ToJObject));
         /// <summary>
         /// Creates a Newtonsoft.Linq.JObject representation of the lexical.
         /// </summary>
         /// <param name="lexical">The source entity.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the lexical.</returns>
-        public static JObject ToJObject(this ILexical lexical)
-        {
-            return lexical.Match()
-                    .Case((IEntity e) => e.ToJObject())
-                    .Case((IVerbal v) => v.ToJObject())
-                    .Case((IAdverbial a) => a.ToJObject())
-                .Result(new JObject(GetRoleIndependentProperties(lexical)));
-        }
+        public static JObject ToJObject(this ILexical lexical) => lexical.Match()
+            .Case((IEntity e) => e.ToJObject())
+            .Case((IVerbal v) => v.ToJObject())
+            .Case((IAdverbial a) => a.ToJObject())
+            .Result(new JObject(GetRoleIndependentProperties(lexical)));
         /// <summary>
         /// Creates a Newtonsoft.Linq.JObject representation of the Entity.
         /// </summary>
@@ -44,25 +38,27 @@ namespace LASI.Content.Serialization.Json
         {
             return new JObject(GetRoleIndependentProperties(entity))
             {
-                new JProperty("subjectOf", ElementNameMappingProvider [entity.SubjectOf]),
-                new JProperty("directObjectOf", ElementNameMappingProvider [entity.DirectObjectOf]),
-                new JProperty("referees", from referencedBy in entity.Referencers select ElementNameMappingProvider [referencedBy]),
-                new JProperty("descriptors", from descriptor in entity.Descriptors select ElementNameMappingProvider [descriptor]),
-                new JProperty("possessed", from possession in entity.Possessions select ElementNameMappingProvider [possession])
+                ["subjectOf"] = ElementNameMappingProvider[entity.SubjectOf],
+                ["directObjectOf"] = ElementNameMappingProvider[entity.DirectObjectOf],
+                ["referees"] = new JArray(from referencedBy in entity.Referencers select ElementNameMappingProvider[referencedBy]),
+                ["descriptors"] = new JArray(from descriptor in entity.Descriptors select ElementNameMappingProvider[descriptor]),
+                ["possessed"] = new JArray(from possession in entity.Possessions select ElementNameMappingProvider[possession])
             };
         }
 
         private static IEnumerable<JProperty> GetRoleIndependentProperties(ILexical element)
         {
-            return GetCommonProperties(element).Concat(GetStructuralProperties(element));
+            foreach (var property in GetCommonProperties(element))
+                yield return property;
+            foreach (var property in GetStructuralProperties(element))
+                yield return property;
         }
-        private static IEnumerable<JProperty> GetStructuralProperties(ILexical element)
-        {
-            return element.Match()
-                 .Case((Phrase p) => new[] { new JProperty("words", p.Words.ToJArray()) })
-                 .Case((Clause c) => new[] { new JProperty("phrases", c.Phrases.ToJArray()) })
-                 .Result(new JProperty[0]);
-        }
+        private static IEnumerable<JProperty> GetStructuralProperties(ILexical element) =>
+            from result in element.Match()
+                .Case((Phrase p) => new JProperty("words", p.Words.ToJArray()))
+                .Case((Clause c) => new JProperty("phrases", c.Phrases.ToJArray()))
+            select result;
+
 
         /// <summary>
         /// Creates a Newtonsoft.Linq.JObject representation of the Verbal.
@@ -73,11 +69,11 @@ namespace LASI.Content.Serialization.Json
         {
             return new JObject(GetRoleIndependentProperties(verbal))
             {
-                new JProperty("subjects", verbal.Subjects),
-                new JProperty("directObjects", verbal.DirectObjects),
-                new JProperty("indirectObjects", verbal.IndirectObjects),
-                new JProperty("modality", verbal.Modality),
-                new JProperty("adverbialModifiers", verbal.AdverbialModifiers.Select(ToJObject))
+                ["subjects"] = verbal.Subjects.ToJArray(),
+                ["directObjects"] = verbal.DirectObjects.ToJArray(),
+                ["indirectObjects"] = verbal.IndirectObjects.ToJArray(),
+                ["modality"] = verbal.Modality?.ToJObject(),
+                ["adverbialModifiers"] = verbal.AdverbialModifiers.EmptyIfNull().ToJArray()
             };
         }
         /// <summary>
@@ -99,32 +95,13 @@ namespace LASI.Content.Serialization.Json
         /// <returns>The common properties serialized for all lexical types.</returns>
         private static IEnumerable<JProperty> GetCommonProperties(ILexical element)
         {
-            return new[] {
-                new JProperty("text", element.Text),
-                new JProperty("name", ElementNameMappingProvider [element]),
-                new JProperty("weight", element.Weight ),
-                new JProperty("metaWeight", element.MetaWeight)
-            };
+            yield return new JProperty("text", element.Text);
+            yield return new JProperty("name", ElementNameMappingProvider[element]);
+            yield return new JProperty("weight", element.Weight);
+            yield return new JProperty("metaWeight", element.MetaWeight);
         }
         private static readonly NodeNameMapper ElementNameMappingProvider = new NodeNameMapper();
-        private class AdverbialConverter : JsonConverter
-        {
-            private static readonly Type TargetType = typeof(IAdverbial);
-            public override bool CanConvert(Type objectType)
-            {
-                return objectType.GetInterfaces().Any(interfaceType => interfaceType == TargetType);
-            }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                IAdverbial target = value as IAdverbial;
-                writer.WriteRaw(target.ToJObject().ToString());
-            }
-        }
     }
 }
+

@@ -57,6 +57,7 @@
 
 
 .document {
+    padding: 10px;
     background-color: ghostwhite;
     text-wrap: normal !important;
     text-align: left !important;
@@ -112,6 +113,7 @@
 /*#endregion */
 .lexical-content-block span.selected {
     background-color: black;
+    padding: 10px;
     color: silver;
     border: none;
 }

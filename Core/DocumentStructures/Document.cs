@@ -30,13 +30,12 @@ namespace LASI.Core
         public Document(IEnumerable<Paragraph> paragraphs, string title)
         {
             Title = title;
-            var nonStandardAndStandardParagraphs = paragraphs
-                .Bifurcate(
-                    partitioner: p => p.ParagraphKind == ParagraphKind.Enumeration || p.ParagraphKind == ParagraphKind.Heading,
-                    resultSelector: ps => ps.ToList()
-                );
-            this.enumerationOrHeadingsParagraphs = nonStandardAndStandardParagraphs.First;
-            this.paragraphs = nonStandardAndStandardParagraphs.Second;
+            this.paragraphs = paragraphs
+                .Where(p => p.ParagraphKind == ParagraphKind.Default)
+                .ToList();
+            this.listOrBulletParagraphs = paragraphs
+                .Where(p => p.ParagraphKind == ParagraphKind.Heading || p.ParagraphKind == ParagraphKind.Enumeration)
+                .ToList();
             new DocumentReifier(this).Reifiy();
         }
 
@@ -157,7 +156,7 @@ namespace LASI.Core
         public IEnumerable<Paragraph> Paragraphs => paragraphs.Where(p => p.ParagraphKind == ParagraphKind.Default);
 
         /// <summary>
-        /// Gets the Clauses of the Document ub linear, left to right order.
+        /// Gets the Clauses of the Document in linear, left to right order.
         /// </summary>
         public IEnumerable<Clause> Clauses => sentences.Clauses();
 
@@ -194,10 +193,10 @@ namespace LASI.Core
         private List<Sentence> sentences;
 
         private List<Paragraph> paragraphs;
-        private List<Paragraph> enumerationOrHeadingsParagraphs;
+        private List<Paragraph> listOrBulletParagraphs;
 
         #endregion Fields
-
+        #region Classes 
         #region Document.Page
 
         /// <summary>
@@ -280,7 +279,7 @@ namespace LASI.Core
                 AssignMembers();
                 foreach (var paragraph in document.paragraphs)
                 {
-                    paragraph.EstablishParent(document);
+                    paragraph.EstablishTextualLinks(document);
                 }
                 LinksAdjacentElements();
             }
@@ -343,5 +342,7 @@ namespace LASI.Core
         }
 
         #endregion Private Classes
+
+        #endregion Classes 
     }
 }

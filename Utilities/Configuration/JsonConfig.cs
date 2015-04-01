@@ -58,14 +58,7 @@ namespace LASI.Utilities.Configuration
         /// <summary>Gets the value with the specified name.</summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
-        public override string this[string name] => this[name, StringComparison.CurrentCulture];
-        /// <summary>
-        /// Gets the value with the specified name, matching based on the specified <see cref="System.StringComparison" />.
-        /// </summary>
-        /// <param name="name">The name of the value to retrieve.</param>
-        /// <param name="stringComparison">The string comparison to use for matching the name.</param>
-        /// <returns>The value with the specified name, in the context of the <see cref="System.StringComparison" />.</returns>
-        public override string this[string name, StringComparison stringComparison] => (string)jObject.GetValue(name, stringComparison);
+        public override string this[string name] => (string)jObject.GetValue(name);
 
         private readonly JObject jObject;
 

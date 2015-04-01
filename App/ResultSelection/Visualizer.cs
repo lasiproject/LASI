@@ -322,7 +322,7 @@ namespace LASI.App
                    };
         }
 
-        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.PrepositionOnLeft?.Text + o?.Text;
+        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.PrepositionOnLeft?.Text + " " + o?.Text;
 
 
         private static string FormatVerbalText(IVerbal verbal)

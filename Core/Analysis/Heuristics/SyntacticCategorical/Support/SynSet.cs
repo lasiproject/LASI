@@ -23,7 +23,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// Gets all of the words belonging to the SynSet.
         /// </summary>
-        public ISet<string> Words { get; }
+        public IEnumerable<string> Words { get; }
         /// <summary>
         /// Gets the IDs of all sets referenced by the SynSet.
         /// </summary>
@@ -66,11 +66,8 @@ namespace LASI.Core.Heuristics.WordNet
         /// Returns a single string representing the SynSet.
         /// </summary>
         /// <returns>A single string representing the SynSet.</returns>
-        public override string ToString()
-        {
-            return "[" + Id + "] " + Words
-                .Format(Tuple.Create(' ', ',', ' '));
-        }
+        public override string ToString() => "[" + Id + "] " + Words.Format(Tuple.Create(' ', ',', ' '));
+
         public static bool operator ==(SynSet<TLinkKind> left, SynSet<TLinkKind> right)
         {
             if (ReferenceEquals(left, null))
@@ -79,10 +76,7 @@ namespace LASI.Core.Heuristics.WordNet
                 return ReferenceEquals(left, null);
             return left.Id == right.Id;
         }
-        public static bool operator !=(SynSet<TLinkKind> left, SynSet<TLinkKind> right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(SynSet<TLinkKind> left, SynSet<TLinkKind> right) => !(left == right);
 
 
     }
@@ -93,7 +87,7 @@ namespace LASI.Core.Heuristics.WordNet
     /// <summary>
     /// Represents a synset parsed from a line of the data.noun file of the WordNet package.
     /// </summary>
-    internal sealed class NounSynSet : SynSet<NounLink>
+    sealed class NounSynSet : SynSet<NounLink>
     {
         public NounSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<NounLink, int>> pointerRelationships, NounCategory category)
             : base(id, words, pointerRelationships)
@@ -106,7 +100,7 @@ namespace LASI.Core.Heuristics.WordNet
     /// <summary>
     /// Represents a synset parsed from a line of the data.verb file of the WordNet package.
     /// </summary>
-    internal sealed class VerbSynSet : SynSet<VerbLink>
+    sealed class VerbSynSet : SynSet<VerbLink>
     {
         public VerbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<VerbLink, int>> referencedSets, VerbCategory category)
             : base(id, words, referencedSets)
@@ -118,7 +112,7 @@ namespace LASI.Core.Heuristics.WordNet
     /// <summary>
     /// Represents a synset parsed from the data.adj file of the WordNet package.
     /// </summary>
-    internal sealed class AdjectiveSynSet : SynSet<AdjectiveLink>
+    sealed class AdjectiveSynSet : SynSet<AdjectiveLink>
     {
         public AdjectiveSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdjectiveLink, int>> pointerRelationships, AdjectiveCategory category)
             : base(id, words, pointerRelationships)
@@ -131,7 +125,7 @@ namespace LASI.Core.Heuristics.WordNet
     /// <summary>
     /// Represents a synset parsed from a line of the data.adv file of the WordNet package.
     /// </summary>
-    internal sealed class AdverbSynSet : SynSet<AdverbLink>
+    sealed class AdverbSynSet : SynSet<AdverbLink>
     {
         public AdverbSynSet(int id, IEnumerable<string> words, IEnumerable<KeyValuePair<AdverbLink, int>> pointerRelationships, AdverbCategory category)
             : base(id, words, pointerRelationships)

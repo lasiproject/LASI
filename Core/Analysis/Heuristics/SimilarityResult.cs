@@ -59,7 +59,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="rational">The value to construct a Similarity from.</param>
         /// <returns>A new Similarity based on the given value.</returns>
-        public static Similarity FromRatio(double rational) => new Similarity(rational > Lexicon.SIMILARITY_THRESHOLD, rational);
+        public static Similarity FromRatio(double rational) => new Similarity(rational > Lexicon.SimilarityThreshold, rational);
         /// <summary>
         /// Creates a new Similarity based on the given Boolean value.
         /// </summary>

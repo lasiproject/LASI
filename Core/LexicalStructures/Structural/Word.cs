@@ -11,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level grammatical constructs.
     /// </summary>
-    public abstract class Word : ILexical, LexicalStructures.Structural.IUnitLexical
+    public abstract class Word : ILexical, LexicalStructures.Structural.ILinkedUnitLexical<Word>
     {
         #region Constructors
         /// <summary>
@@ -37,7 +37,7 @@ namespace LASI.Core
         /// Establishes the linkage between the word and its parent Phrase.
         /// </summary>
         /// <param name="parent">The Phrase to which the word belongs.</param>
-        internal void EstablishParent(Phrase parent) { Phrase = parent; }
+        internal void EstablishTextualLinks(Phrase parent) { Phrase = parent; }
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>
@@ -65,6 +65,14 @@ namespace LASI.Core
         /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
         /// </summary>
         public Word PreviousWord { get; internal set; }
+        /// <summary>
+        /// Gets, lexically speaking, the next word in the Document to which the instance belongs.
+        /// </summary>
+        public Word Next => NextWord;
+        /// <summary>
+        /// Gets, lexically speaking, the previous word in the Document to which the instance belongs.
+        /// </summary>
+        public Word Previous => PreviousWord;
         /// <summary>
         /// Gets or the Phrase the word belongs to.
         /// </summary>

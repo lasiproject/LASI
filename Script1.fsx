@@ -1,36 +1,38 @@
 ﻿#r @"C:\Users\Aluan\Documents\GitHub\LASI\Utilities\bin\Debug\LASI.Utilities.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\Experimentation\bin\Debug\System.Reactive.Core.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\Experimentation\bin\Debug\System.Reactive.Interfaces.dll"
-#r @"C:\Users\Aluan\Documents\GitHub\LASI\ExperimentalClientProjects\Experimentation\bin\Debug\System.Reactive.Linq.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\Core\bin\Debug\LASI.Core.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\Content\bin\Debug\LASI.Content.dll"
+#r @"C:\Users\Aluan\Documents\GitHub\LASI\Interop\bin\Debug\LASI.Interop.dll"
 
-open LASI.Utilities
+System.IO.Directory.SetCurrentDirectory(@"C:\Users\Aluan\Documents\GitHub\LASI\")
+type TextSource = IRawTextSource
 
-type Rx = System.Reactive.Linq.Observable
+open LASI.Core
+open LASI.Content
+open LASI.Interop
+open LASI.Core.LexicalStructures
 
-let scanCs : seq<'a> -> 'b -> ('b -> 'a -> 'b) -> seq<'b> = (fun x y z -> x.Scan(y, new System.Func<'b, 'a, 'b>(z)))
-let scanFs = Seq.scan
-//let scanRx = Rx.Scan(fun )
-let nums = [ 1..Microsoft.FSharp.Core.int.MaxValue / 50 ]
-let scannWithCs (nums) = scanCs nums 0 (+) |> Seq.toList
-let scannWithFs (nums) = scanFs (+) 0 nums |> Seq.toList
+try Configuration.Initialize(@".\AspSixApp\config.json",ConfigFormat.Json,"Data") with | :? System.InvalidOperationException as e-> printfn "%A" e.Message
 
-//let scanWithRx (nums) = 
-//    scanRx (+) 0 nums
-//    |> Rx.ToEnumerable
-//    |> Seq.toList
-let timefn (name, f) = 
-    let sw = System.Diagnostics.Stopwatch.StartNew()
-    let result = f()
-    let time = (float) sw.ElapsedMilliseconds / 1000.0
-    (name, time, result)
 
-let test = 
-    [| for (name, f) in [ ("scanCs", fun () -> scannWithCs nums)
-                          ("scanFs", fun () -> scannWithFs nums) ] //                          ("scanRx", fun () -> scanWithRx nums) 
-                                                                   -> 
-           Async.StartImmediate(async { 
-                                    let (name, time, result) = timefn (name, f)
-                                    printfn "name: %A elapsed %A result: %A\n\n" name time result
-                                }) |]
+LASI.Utilities.Logger.SetToSilent 
+type Source =  
+    | Path of string 
+    | Paths of seq<string>
+    
+let analyze (sources : Source) =
+    let sources = 
+        match sources with
+        | Paths p-> p |> Seq.map TxtFile 
+        | Path p -> Seq.singleton (TxtFile p)
+    let analyzer = AnalysisOrchestrator(sources|>Seq.cast<IRawTextSource>)
+    async{ return! Async.AwaitTask(analyzer.ProcessAsync())  }
 
-do test |> Array.iter (fun t -> ignore (t))
+let display (ls: seq<ILexical>) =
+    ls 
+    |> Seq.map(fun e->e.Text) 
+    |> Seq.fold (fun  x e -> x + e) ""
+let result = async {
+   let! analyzed= analyze(Path(@"C:\Users\Aluan\Documents\GitHub\LASI\DocXFileTest_GetTextTest\Draft_Environmental_Assessment.txt" )) 
+   do analyzed |> Seq.iter(fun e-> printf  "%A" (display(e.Lexicals)))
+}
+Async.StartImmediate result

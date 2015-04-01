@@ -15,17 +15,21 @@ namespace AspSixApp.LexicalElementInfo
     /// Provides static and extension methods for serializing lexical elements and their relationships
     /// into JSON strings.
     /// </summary>
-    public static class ContextMenuBuilder
+    public static class ContextmenuBuilder
     {
         public static int GetSerializationId(this ILexical element)
         {
+            Validate.NotNull(element, nameof(element));
             return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
         }
-        public static string GetJsonMenuData(this ILexical lexical) =>
-            lexical.Match()
-                .Case((IReferencer r) => r.GetJsonMenuData())
-                .Case((IVerbal v) => v.GetJsonMenuData())
-                .Result();
+        public static string GetJsonMenuData(this ILexical lexical)
+        {
+            Validate.NotNull(lexical, nameof(lexical));
+            return lexical.Match()
+                    .Case((IReferencer r) => r.GetJsonMenuData())
+                    .Case((IVerbal v) => v.GetJsonMenuData())
+                    .Result();
+        }
         public static string GetJsonMenuData(this IVerbal verbal)
         {
             Validate.NotNull(verbal, nameof(verbal));
@@ -63,6 +67,5 @@ namespace AspSixApp.LexicalElementInfo
         }
         private static int idGenerator = 0;
         private static readonly ConcurrentDictionary<ILexical, int> idCache = new ConcurrentDictionary<ILexical, int>();
-
     }
 }

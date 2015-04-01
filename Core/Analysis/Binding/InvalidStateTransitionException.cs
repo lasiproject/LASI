@@ -1,35 +1,31 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Utilities;
 
-
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
     /// <summary>
-    /// An Exception which is to be thrown when attempting to transition from a state on a lexical type for which no transition has been defined.
+    /// The Exception which is to be thrown when attempting to transition from a state on a lexical Type for which no transition has been defined.
     /// </summary>
     [Serializable]
     public class InvalidStateTransitionException : Exception
     {
-        public InvalidStateTransitionException(int stateNumber, ILexical errorOn)
-            : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateNumber, errorOn)) {
-        }
+        /// <summary>
+        /// Initializes a new instance of the InvalidStateTransitionException with a message indicating the state where the error occurred and the ILexical instance which caused the error.
+        /// </summary>
+        /// <param name="stateName">The number representing the State where the error occurred.</param>
+        /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
         public InvalidStateTransitionException(string stateName, ILexical errorOn)
-            : base(String.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn)) {
+            : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn))
+        {
         }
-        public InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
-        }
-    }
-    [Serializable]
-    public class VerblessPhrasalSequenceException : Exception
-    {
-        public VerblessPhrasalSequenceException()
-            : base("No verb phrases in sequence") {
-        }
-        public VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) {
+        protected InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        {
         }
     }
+  
 }

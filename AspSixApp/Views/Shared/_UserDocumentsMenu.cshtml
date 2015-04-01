@@ -1,0 +1,4 @@
+﻿@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    @await Component.InvokeAsync("DocumentList", 4);
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,8 +130,9 @@ namespace LASI.Utilities
         public static IDictionary<TKey, Indexed<TValue>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
             dictionary
                 .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
-                .ToDictionary(x => x.Key, x => x.Value);
+                .ToDictionary();
 
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
         #endregion IDictionary Extensions
     }
 }

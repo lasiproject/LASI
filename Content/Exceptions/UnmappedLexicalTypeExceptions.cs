@@ -24,14 +24,14 @@ namespace LASI.Content.Tagging
         /// <param name="message">
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
-        internal UnmappedWordTypeException(string message) : base(message) { }
+        public UnmappedWordTypeException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedWordTypeException class with the given type information.
         /// </summary>
         /// <param name="wordType">The type of the unmapped word.</param>
         /// <param name="tagsetType">The type of the tagset in which the word is unmapped.</param>
-        internal UnmappedWordTypeException(Type wordType, Type tagsetType) : base(wordType, tagsetType) { }
+        public UnmappedWordTypeException(Type wordType, Type tagsetType) : base(wordType, tagsetType) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedWordTypeException class with its message
@@ -45,7 +45,7 @@ namespace LASI.Content.Tagging
         /// parameter is not null, the current exception is raised in a catch block that handles the
         /// inner exception.
         /// </param>
-        internal UnmappedWordTypeException(string message, Exception inner) : base(message, inner) { }
+        public UnmappedWordTypeException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedLexicalTypeException class with the serialized data.
@@ -73,14 +73,14 @@ namespace LASI.Content.Tagging
         /// <param name="message">
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
-        internal UnmappedPhraseTypeException(string message) : base(message) { }
+        public UnmappedPhraseTypeException(string message) : base(message) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedPhraseTypeException class with the given type information.
         /// </summary>
         /// <param name="phraseType">The type of the unmapped word.</param>
         /// <param name="tagsetType">The type of the tagset in which the word is unmapped.</param>
-        internal UnmappedPhraseTypeException(Type phraseType, Type tagsetType) : base(phraseType, tagsetType) { }
+        public UnmappedPhraseTypeException(Type phraseType, Type tagsetType) : base(phraseType, tagsetType) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedPhraseTypeException class with its message
@@ -94,7 +94,7 @@ namespace LASI.Content.Tagging
         /// parameter is not null, the current exception is raised in a catch block that handles the
         /// inner exception.
         /// </param>
-        internal UnmappedPhraseTypeException(string message, Exception inner) : base(message, inner) { }
+        public UnmappedPhraseTypeException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the UnmappedPhraseTypeException class with the serialized data.

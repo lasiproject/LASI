@@ -42,13 +42,15 @@ namespace LASI.Core.Analysis.Heuristics
         }
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<IReifiedTextual> sources)
         {
-            await Task.Yield();
-            var topNPsByDoc = from document in sources
-                               .AsParallel()
-                               .WithDegreeOfParallelism(Concurrency.Max)
-                              select new { TopNounPhrases = GetTopNounPhrases(document), Document = document };
+            //await Task.Yield();
+            var topNPsByDoc = from document in sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                              select new
+                              {
+                                  TopNounPhrases = GetTopNounPhrases(document),
+                                  Document = document
+                              };
 
-            await Task.Yield();
+            //await Task.Yield();
             var crossReferenced =
                 from outer in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 from inner in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -59,7 +61,12 @@ namespace LASI.Core.Analysis.Heuristics
             await Task.Yield();
             return from nounPhrase in crossReferenced.Distinct(CompareNounPhrases)
                    orderby nounPhrase.SubjectOf.Text
-                   select new SvoRelationship(new AggregateEntity(nounPhrase), nounPhrase.SubjectOf, new AggregateEntity(nounPhrase.SubjectOf.DirectObjects), new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects));
+                   select new SvoRelationship(
+                       subject: new AggregateEntity(nounPhrase),
+                       verbal: nounPhrase.SubjectOf,
+                       direct: new AggregateEntity(nounPhrase.SubjectOf.DirectObjects),
+                       indirect: new AggregateEntity(nounPhrase.SubjectOf.IndirectObjects)
+                    );
         }
         private IEnumerable<NounPhrase> GetTopNounPhrases(IReifiedTextual source)
         {
@@ -75,54 +82,48 @@ namespace LASI.Core.Analysis.Heuristics
             var topVerbalsByDoc = await Task.WhenAll(sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max).Select(GetTopVerbPhrasesAsync));
             var verbalCominalities = from verbals in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                      from verbal in verbals
-                                     where (from verbs in topVerbalsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                            select verbs.Contains(verbal, (x, y) => x.Text == y.Text || x.IsSimilarTo(y)))
-                                            .All(x => x)
+                                     where topVerbalsByDoc.ToList()
+                                        .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                        .All(verbs => verbs.Contains(verbal, (x, y) => x.Text == y.Text || x.IsSimilarTo(y)))
                                      select verbal;
             var relationships = from verbal in verbalCominalities
                                 let testPronouns = new Func<IEnumerable<IEntity>, AggregateEntity>(entities => new AggregateEntity(
-                                    from s in entities
-                                    let asPro = s as IReferencer
-                                    select asPro != null ? asPro.RefersTo.Any() ? asPro.RefersTo : s : s))
-                                let relationship = new SvoRelationship(testPronouns(verbal.Subjects), verbal, testPronouns(verbal.DirectObjects), testPronouns(verbal.IndirectObjects))
-                                where relationship.Subject != null
-                                orderby relationship.Verbal.Weight
-                                select relationship;
+                                    from entity in entities
+                                    select entity.Match().Yield<IEntity>()
+                                        .When((IReferencer r) => r.RefersTo?.Any() ?? false)
+                                        .Then((IReferencer r) => r.RefersTo)
+                                        .Result(entity)))
+                                let subject = testPronouns(verbal.Subjects)
+                                where subject != null
+                                orderby verbal.Weight
+                                select new SvoRelationship(
+                                    subject: subject,
+                                    verbal: verbal,
+                                    direct: testPronouns(verbal.DirectObjects),
+                                    indirect: testPronouns(verbal.IndirectObjects));
             return relationships.DistinctBy(r => r.Verbal.Text.ToLower());
         }
         private async Task<ParallelQuery<VerbPhrase>> GetTopVerbPhrasesAsync(IReifiedTextual source)
         {
             return await Task.Run(() =>
-                from verbPhrase in source.Phrases
-                    .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from verbPhrase in source.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                     .OfVerbPhrase()
-                    .WithSubject().WithObject().Distinct((x, y) => x.IsSimilarTo(y))
-                orderby verbPhrase.Weight + verbPhrase.Subjects.Sum(e => e.Weight) + verbPhrase.DirectObjects.Sum(e => e.Weight) + verbPhrase.IndirectObjects.Sum(e => e.Weight)
+                    .WithSubject()
+                    .WithObject()
+                    .Distinct((x, y) => x.IsSimilarTo(y))
+                orderby verbPhrase.Weight + verbPhrase.Subjects.Concat(verbPhrase.DirectAndIndirectObjects).Sum(e => e.Weight)
                 select verbPhrase);
         }
 
         private static bool CompareNounPhrases(NounPhrase first, NounPhrase second)
         {
-            return
-                ReferencerTestCompare(first, second) ||
-                ReferencerTestCompare(second, first) ||
-                first.Text == second.Text ||
-                first.IsAliasFor(second) || first.IsSimilarTo(second);
+            return ReferencerTestCompare(first, second) ||
+                   ReferencerTestCompare(second, first) ||
+                   first.Text == second.Text ||
+                   first.IsAliasFor(second) ||
+                   first.IsSimilarTo(second);
         }
-        private class NounPhraseComparer : IEqualityComparer<NounPhrase>
-        {
-            private NounPhraseComparer() { }
-            private static readonly NounPhraseComparer comparer = new NounPhraseComparer();
-            public static NounPhraseComparer Instance { get { return comparer; } }
-            public bool Equals(NounPhrase x, NounPhrase y)
-            {
-                return CompareNounPhrases(x, y);
-            }
-            public int GetHashCode(NounPhrase obj)
-            {
-                return obj.Text.GetHashCode();
-            }
-        }
+
         private static bool ReferencerTestCompare(NounPhrase x, NounPhrase y)
         {
             return x.Match().Case((IReferencer r) => r.RefersTo.Any(e =>
@@ -132,15 +133,14 @@ namespace LASI.Core.Analysis.Heuristics
         }
         private static bool CompareNounPhrasesOld(NounPhrase x, NounPhrase y)
         {
-            var leftAsPro = x as IReferencer;
-            var rightAsPro = y as IReferencer;
-            var result = rightAsPro != null && x.Referencers.Contains(rightAsPro) || leftAsPro != null && y.Referencers.Contains(leftAsPro);
+            var leftAsRef = x as IReferencer;
+            var rightAsRef = y as IReferencer;
 
-            if (!result)
-            {
-                result = x.Text == y.Text || x.IsAliasFor(y) || x.IsSimilarTo(y);
-            }
-            return result;
+            return rightAsRef != null && x.Referencers.Contains(rightAsRef) ||
+                leftAsRef != null && y.Referencers.Contains(leftAsRef) ||
+                x.Text == y.Text ||
+                x.IsAliasFor(y) ||
+                x.IsSimilarTo(y);
         }
     }
 

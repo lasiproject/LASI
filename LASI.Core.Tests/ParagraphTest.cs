@@ -135,7 +135,7 @@ namespace LASI.Core.Tests
 
             Paragraph[] target = { new Paragraph(sentences, ParagraphKind.Default) };
             Document parentDoc = new Document(target);
-            target[0].EstablishParent(parentDoc);
+            target[0].EstablishTextualLinks(parentDoc);
             Assert.AreEqual(target[0].Document, parentDoc);
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities.SpecializedResultTypes;
 using LASI.Utilities.Validation;
+using System.Diagnostics.Contracts;
 
 namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 {
@@ -25,8 +27,17 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform
         /// function on each element of source.
         /// </returns>
-        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) => list.AsEnumerable().Select(selector).ToList();
-        public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) => list.AsEnumerable().Select(selector).ToList();
+        public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) => list.Select((e, i) => selector(e));
+
+        public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) => Select(list, (e, i) => selector(e));
+        public static List<R> Select<T, R>(this List<T> list, Func<T, int, R> selector) => Select(list as IList<T>, selector) as List<R>;
+        public static IList<R> Select<T, R>(this IList<T> list, Func<T, int, R> selector)
+        {
+            var results = new List<R>(list.Count);
+            list.ForEach((e, i) => results.Add(selector(e, i)));
+            return results;
+        }
+
 
         #endregion Select
 
@@ -41,6 +52,15 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// </returns>
         public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
         public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+        /// <summary>Filters a list of values based on a predicate.</summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="list">A <see cref="IList{T}"/> to filter.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns>
+        /// A <see cref="IList{T}"/> that contains elements from the input list that satisfy the condition.
+        /// </returns>
+        public static IList<T> Where<T>(this IList<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+        public static List<T> Where<T>(this List<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         #endregion Where
 
@@ -133,9 +153,14 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// </returns>
         public static List<T> Skip<T>(this List<T> list, int count)
         {
-            if (count < 0) { return list.GetRange(0, list.Count); }
-            if (count > list.Count) { return new List<T>(); }
-            return list.GetRange(count, list.Count - count);
+            if (count > list.Count)
+            {
+                return new List<T>();
+            }
+            else
+            {
+                return list.GetRange(count < 0 ? 0 : count, list.Count - count);
+            }
         }
         /// <summary>
         /// Bypasses the elements of the specified list while they satisfy the specified predicate.
@@ -177,28 +202,29 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <param name="action">
         /// The <see cref="System.Action{T}"/> delegate to perform on each element of the <see cref="System.Collections.Generic.IList{T}"/>.
         /// </param>
-        public static void ForEach<T>(this IList<T> list, Action<T> action)
+        public static void ForEach<T>(this IList<T> list, Action<T> action) => ForEach(list, (e, i) => action(e));
+        public static void ForEach<T>(this IList<T> list, Action<T, int> action)
         {
-            for (int i = 0; i < list.Count; ++i)
+            for (var i = 0; i < list.Count; ++i)
             {
-                action(list[i]);
+                action(list[i], i);
             }
         }
 
         #endregion ForEach
 
-        #region Converting
-        /// <summary>
-        /// Returns the a readonly reference to the specified <see cref="IList{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the list.</typeparam>
-        /// <param name="list">The list.</param>
-        /// <returns>A readonly reference to the specified <see cref="IList{T}"/>.</returns>
-        public static IReadOnlyList<T> AsReadOnly<T>(this IList<T> list)
+
+
+        #region WithIndex
+        public static IList<Indexed<T>> WithIndex<T>(this IList<T> list)
         {
-            Validate.NotNull(list);
-            return list as IReadOnlyList<T> ?? list.ToList();
+            var results = new List<Indexed<T>>(list.Count);
+            for (var i = 0; i < list.Count; ++i)
+            {
+                results.Add(Indexed.Create(list[i], i));
+            }
+            return results;
         }
-        #endregion Converting
+        #endregion
     }
 }

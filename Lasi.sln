@@ -87,8 +87,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wrap", "wrap", "{5E8CB98D-7
 		project_1json__JSONSchema = http://json-schema.org/draft-04/schema
 	EndProjectSection
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IronPythonExperimentation", "ExperimentalClientProjects\IronPythonExperimentation\IronPythonExperimentation.pyproj", "{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,8 +137,6 @@ Global
 		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E987AD-E614-40D1-8901-9AC6262FB9F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +150,5 @@ Global
 		{1314082A-EB47-44E9-88A0-72C71489035F} = {AB837D56-33CB-4A49-BAE1-4E36D371BCE6}
 		{AB837D56-33CB-4A49-BAE1-4E36D371BCE6} = {AB32A172-AF94-4FAF-9655-5E339DDB032C}
 		{5E8CB98D-7F60-4D02-A0CA-1B47A497C810} = {E61EB5D5-494B-437A-A9ED-20756769E139}
-		{95BDF76D-5BA6-433A-B62D-E67BD31F8EE5} = {2F5E64C4-89A9-4B41-942F-97BB85044FE5}
 	EndGlobalSection
 EndGlobal

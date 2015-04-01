@@ -17,7 +17,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="composed">The words which comprise the InvertedClauseBeginPhrase.</param>
         public InvertedClauseBeginPhrase(IEnumerable<Word> composed)
-            : base(composed) {
+            : base(composed)
+        {
         }
         /// <summary>
         /// Initializes a new instance of the InvertedClauseBeginPhrase class.

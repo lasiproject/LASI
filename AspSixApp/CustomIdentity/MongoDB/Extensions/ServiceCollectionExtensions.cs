@@ -12,9 +12,9 @@ namespace AspSixApp.CustomIdentity.MongoDB.Extensions
             return services
                 .AddSingleton(mongoConfigFactory)
                 .AddSingleton<MongoDBService>()
-                .AddSingleton<IInputDocumentStore<UserDocument>>(provider => new MongoDBUserDocumentStore(provider.GetService<MongoDBService>()))
                 .AddSingleton<IRoleProvider<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
-                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()));
+                .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()))
+                .AddSingleton<IInputDocumentProvider<UserDocument>>(provider => new MongoDBUserDocumentProvider(provider.GetService<MongoDBService>()));
         }
     }
 }

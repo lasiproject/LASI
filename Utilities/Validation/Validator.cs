@@ -15,14 +15,23 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
-        /// <param name="argumentName">
+        /// <param name="name">
         /// The name of the value being validated in the context of the calling method.
         /// </param>
         /// <exception cref="ArgumentNullException">The value was null.</exception>
-        public static void NotNull<T>(this T value, string argumentName = "value")
+        public static void NotNull<T>(this T value, string name = "value")
         {
-            if (value == null) { throw new ArgumentNullException(argumentName, "Argument may not be null."); }
+            if (value == null)
+            {
+                FailWithArgumentNullException(name);
+            }
         }
+
+        private static void FailWithArgumentNullException(string name)
+        {
+            throw new ArgumentNullException(name);
+        }
+
 
         /// <summary>
         /// Validates the specified value, raising a System.ArgumentNullException if it is null.
@@ -34,10 +43,19 @@ namespace LASI.Utilities.Validation
         /// A message that provides additional detail as to why the value may not be null.
         /// </param>
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
-        public static void NotNull<T>(T value, string argumentName, string message)
+        public static void NotNull<T>(T value, string argumentName, string message) where T : class
         {
-            if (value == null) { throw new ArgumentNullException(argumentName, message); }
+            if (value == null)
+            {
+                FailWithArgumentNullException(argumentName, message);
+            }
         }
+
+        private static void FailWithArgumentNullException(string argumentName, string message)
+        {
+            throw new ArgumentNullException(argumentName, message);
+        }
+
 
         /// <summary>
         /// Validates the specified arguments, raising a System.ArgumentNullException if any of them
@@ -147,7 +165,7 @@ namespace LASI.Utilities.Validation
             if (value.CompareTo(minimum) < 0)
             {
                 var argumentName = name ?? nameof(value);
-                throw CreateOutOfRangeException(
+                FailWithOutOfRangeException(
                     actualValue: value,
                     paramName: argumentName,
                     message: message ?? $"The argument, {argumentName}, was less than the required minimum\n. Required: {argumentName} >= {minimum}; Recieved: {value}"
@@ -155,9 +173,9 @@ namespace LASI.Utilities.Validation
             }
         }
 
-        private static ArgumentOutOfRangeException CreateOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
+        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
         {
-            return new ArgumentOutOfRangeException(paramName, actualValue, message);
+            throw new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
 
         /// <summary>
@@ -177,7 +195,7 @@ namespace LASI.Utilities.Validation
             if (value.CompareTo(maximum) > 0)
             {
                 var argumentName = name ?? "value";
-                throw CreateOutOfRangeException(
+                FailWithOutOfRangeException(
                     actualValue: value,
                     paramName: argumentName,
                     message: message ?? $"The argument, {argumentName}, was greater than the required maximum\n. Required: {argumentName} <= {maximum}; Recieved: {value}"
@@ -220,10 +238,7 @@ namespace LASI.Utilities.Validation
         /// </remarks>
         public static void NotEmpty<T>(this IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
         {
-            if (!value.Any())
-            {
-                throw new ArgumentException($"Sequence cannot be empty; {name}");
-            }
+            if (!value.Any()) FailWithArgumentException(name, $"Sequence cannot be empty; {name}");
         }
 
         /// <summary>
@@ -285,8 +300,13 @@ namespace LASI.Utilities.Validation
         /// <param name="name">The name of the value to validate.</param>
         public static void ExistsIn<T>(this T value, string name, IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
-            if (!collection.Contains(value, comparer))
-                throw new ArgumentException($"{name} must be a member of the set {collection.Format()}. Actual value: {value}.", name);
+            if (!collection.Contains(value, comparer)) FailWithArgumentException($"{name} must be a member of the set {collection.Format()}. Actual value: {value}.", name);
+
+        }
+
+        private static void FailWithArgumentException(string message, string name)
+        {
+            throw new ArgumentException(message, name);
         }
 
         #endregion Range Validation

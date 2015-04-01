@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace LASI.Utilities
 {
+    using System.Collections.Immutable;
     using System.Numerics;
     using LASI.Utilities;
     using LASI.Utilities.SpecializedResultTypes;
@@ -179,63 +180,27 @@ namespace LASI.Utilities
             yield return tail;
         }
 
-        /// <summary>
-        /// <para>
-        /// Produces a Pair&lt; <see cref="IEnumerable{T}" />, <see cref="IEnumerable{T}" />&gt;
-        /// holding the sequence bifurcated by the provided predicate.
-        /// </para>
-        /// <para>
-        /// The <see cref="Pair{TResult,TResult}.First" /> property contains those elements for
-        /// which the predicate returns <c>true</c>.
-        /// </para>
-        /// <para>
-        /// The <see cref="Pair{TResult,TResult}.Second" /> property contains those items for which
-        /// the predicate returns <c>false</c>.
-        /// </para>
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source">The sequence of values to bisect.</param>
-        /// <param name="partitioner">The predicate by which to bifurcate the source sequence.</param>
-        /// <returns>
-        /// A Pair&lt;IEnumerable&lt;T&gt;, IEnumerable&lt;T&gt;&gt; Produces the sequence
-        /// bifurcated by the provided predicate.
-        /// </returns>
-        public static Pair<IEnumerable<T>, IEnumerable<T>> Bifurcate<T>(this IEnumerable<T> source, Func<T, bool> partitioner)
-        {
-            var partitions = source.ToLookup(partitioner);
-            return Pair.Create(partitions[true], partitions[false]);
-        }
 
-        /// <summary>
-        /// <para>
-        /// Returns a Pair&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt;
-        /// holding the sequence bifurcated by the provided predicate.
-        /// </para>
-        /// <para>
-        /// The <see cref="Pair{TResult,TResult}.First" /> property contains the projection applied
-        /// to the elements for which the predicate returns <c>true</c>.
-        /// </para>
-        /// <para>
-        /// The <see cref="Pair{TResult,TResult}.Second" /> property contains the projection applied
-        /// to the elements for which the predicate returns <c>false</c>.
-        /// </para>
-        /// <para>
-        /// A result selector function is used to project the two resulting sequences into a new form.
-        /// </para>
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <typeparam name="TResult">The type of the items in the tupled result.</typeparam>
-        /// <param name="source">The sequence of values to bisect.</param>
-        /// <param name="partitioner">The predicate by which to bifurcate the source sequence.</param>
-        /// <param name="resultSelector">A function to project both of the resulting sequences.</param>
-        /// <returns>
-        /// A Pair&lt; <typeparamref name="TResult" />, <typeparamref name="TResult" />&gt; holding
-        /// the sequence bifurcated by the provided predicate.
-        /// </returns>
-        public static Pair<TResult, TResult> Bifurcate<T, TResult>(this IEnumerable<T> source, Func<T, bool> partitioner, Func<IEnumerable<T>, TResult> resultSelector)
+        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<IEnumerable<T>>> forGroups) where TKey : IComparable
         {
-            var partitions = source.Bifurcate(partitioner);
-            return Pair.Create(resultSelector(partitions.First), resultSelector(partitions.Second));
+            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
+            foreach (var groupAction in forGroups)
+            {
+                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Enumerable.Empty<T>);
+                groupAction.Value(enumerable);
+            }
+        }
+        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<T>> forGrouped) where TKey : IComparable
+        {
+            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
+            foreach (var groupAction in forGrouped)
+            {
+                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Enumerable.Empty<T>);
+                foreach (var element in enumerable)
+                {
+                    groupAction.Value(element);
+                }
+            }
         }
 
         /// <summary>
@@ -464,7 +429,7 @@ namespace LASI.Utilities
                 .Aggregate(new { Length = 0, Matched = 0 },
                     (s, e) => new { Length = s.Length + 1, Matched = s.Matched + (predicate(e) ? 1 : 0) },
                     tally => (double)tally.Matched / tally.Length
-                );
+                ) * 100;
         }
 
         /// <summary>Calculates the percentage of true values in the collection of Boolean values.</summary>

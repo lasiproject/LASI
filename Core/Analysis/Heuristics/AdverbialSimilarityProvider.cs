@@ -12,8 +12,9 @@ namespace LASI.Core
         /// <param name="first">The first IAdverbial</param>
         /// <param name="second">The second IAdverbial</param>
         /// <returns><c>true</c> if the given IAdverbial instances are similar; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this IAdverbial first, IAdverbial second) {
-            return Similarity.FromBoolean(
+        public static Similarity IsSimilarTo(this IAdverbial first, IAdverbial second)
+        {
+            return Similarity.FromBoolean(Equals(first, second) ||
                 first.Text.EqualsIgnoreCase(second.Text) ||
                 first.Match()
                     .Case((Adverb a1) =>
@@ -35,7 +36,8 @@ namespace LASI.Core
         /// <param name="first">The first Adverb.</param>
         /// <param name="second">The second Adverb.</param>
         /// <returns><c>true</c> if the first Adverb is similar to the second; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this Adverb first, Adverb second) {
+        public static Similarity IsSimilarTo(this Adverb first, Adverb second)
+        {
             return Similarity.FromBoolean(first.IsSynonymFor(second));
         }
 
@@ -45,7 +47,8 @@ namespace LASI.Core
         /// <param name="first">The AdverbPhrase.</param>
         /// <param name="second">The Adjective.</param>
         /// <returns><c>true</c> if the provided AdverbPhrase is similar to the provided Adverb; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this AdverbPhrase first, Adverb second) {
+        public static Similarity IsSimilarTo(this AdverbPhrase first, Adverb second)
+        {
             return second.IsSimilarTo(first);
         }
 
@@ -55,7 +58,8 @@ namespace LASI.Core
         /// <param name="first">The Adverb.</param>
         /// <param name="second">The AdverbPhrase.</param>
         /// <returns><c>true</c> if the provided Adverb is similar to the provided AdverbPhrase; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) {
+        public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second)
+        {
             return Similarity.FromBoolean(second.Words.OfAdverb().Any(a => a.IsSynonymFor(first)));
 
             // Must refine this to check for negators and modals which will potentially invert the meaning.
@@ -67,13 +71,14 @@ namespace LASI.Core
         /// <param name="first">The first AdverbPhrase</param>
         /// <param name="second">The second AdverbPhrase</param>
         /// <returns><c>true</c> if the given AdverbPhrases are similar; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second) {
+        public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second)
+        {
             var percentMatched =
                 first.Words.OfAdverb()
                 .Zip(second.Words.OfAdverb(),
                     (a, b) => a.IsSynonymFor(b))
                 .PercentTrue();
-            return Similarity.FromBoolean(first == second || percentMatched > SIMILARITY_THRESHOLD);
+            return Similarity.FromBoolean(first == second || percentMatched / 100 > SimilarityThreshold);
         }
     }
 }

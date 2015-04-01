@@ -1,94 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Utilities.TypedSwitch;
-using LASI.Algorithm;
-using LASI.Utilities;
-using LASI.Algorithm.DocumentConstructs;
 
 
-namespace LASI.Algorithm.Binding
+namespace LASI.Core.Binding
 {
-    public class PronounBinder
+    /// <summary>
+    /// Attempts to bind pronouns to the entities they refer to.
+    /// </summary>
+    public static class PronounBinder
     {
-        public void Bind(Document document) {
-
-
-
-            possessivePronounBinderWithinSentence(document);
-
+        /// <summary>
+        /// Attempts to perform pronoun binding within the given Sentence.
+        /// </summary>
+        /// <param name="sentence">The Sentence over which to perform pronoun binding.</param>
+        public static void Bind(Sentence sentence) {
+            BindPosessivePronouns(sentence.Phrases);
         }
 
 
         /// <summary>
-        /// Bind posessive pronouns located in the objects of a sentence to the proper noun in the subject of that sentence. 
+        /// Binds possessive pronouns located in the sequence of phrases sentence. 
         /// Example Sentence that this applies to:
-        /// "LASI binds it's pronouns."
-        /// Pronoun "it's" binds to the proper noun "LASI"
+        /// "LASI binds its pronouns."
+        /// Pronoun "its" binds to the proper noun "LASI"
         /// </summary>
-        /// <param name="doc">Document for analysis</param>
-        public void possessivePronounBinderWithinSentence(Document doc) { //Aluan Says: Beautiful function man.
-            foreach (var s in doc.Sentences) {
-                foreach (VerbPhrase vp in from VerbPhrase p in s.Phrases.GetVerbPhrases()
-                                          where p.DirectObjects.Any() || p.IndirectObjects.Any()
-                                          where p.DirectObjects.Any((IEntity dirobj) => dirobj is PossessivePronoun) ||
-                                                p.IndirectObjects.Any((IEntity indirobj) => indirobj is PossessivePronoun)
-                                          where p.BoundSubjects.Any((IEntity subject) => subject is ProperNoun)
-                                          select p) {
-                    var pronounsInDO = from pn in vp.DirectObjects
-                                       let pos = pn as PossessivePronoun
-                                       where pos != null
-                                       select pos;
-                    var pronounsInIO = from pn in vp.IndirectObjects
-                                       let pos = pn as PossessivePronoun
-                                       where pos != null
-                                       select pos;
-                    var propernounsInSubject = from propn in vp.BoundSubjects
-                                               let pos = propn as ProperNoun
-                                               where pos != null
-                                               select pos;
-
-                    foreach (var pronoun in pronounsInDO.Concat(pronounsInIO)) {
-                        foreach (var propernoun in propernounsInSubject) {
-                            pronoun.PossessesFor = propernoun;
-                        }
-                    }
+        /// <param name="phrases">The sequence of phrases to bind within.</param>
+        private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
+            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor)) {
+                var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
+                foreach (var pro in pronouns) {
+                    pro.PossessesFor = new AggregateEntity(vp.Subjects);
                 }
             }
         }
-
-
     }
 
 }
-#region Deprecated Bind Implmenttation
-
-//foreach (var g in documennt.Paragraphs) {
-//    NounPhrase lastTarg = null;
-//    foreach (var f in g.Phrases.GetPhrasesAfter(lastTarg ?? g.Phrases.First()).GetNounPhrases().Where(n => !(n is PronounPhrase))) {
-//        var pairs = from i in g.Phrases.GetPhrasesAfter(f).GetPronounPhrases()
-
-//                    select new {
-//                        nps = f,
-//                        pro = i
-//                    };
-//        foreach (var n in pairs.Where(r => r.pro.PronounKind == PronounKind.GenderNeurtral || r.pro.PronounKind == PronounKind.Inanimate))
-
-//        //.GetNounPhrases().Where(
-//        //   )
-
-//    {
-
-//            if (n.pro != null) {
-//                n.nps.BindPronoun(n.pro);
-//                n.pro.BindToIEntity(n.nps);
-//            }
-
-//        }
-//        lastTarg = f;
-//    }
-//}
-
-#endregion

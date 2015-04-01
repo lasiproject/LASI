@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
-    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable
+    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable, LASI.Core.LexicalStructures.Structural.IRoleCompositeLexical<Word, Verb>
     {
         #region Constructors
 
@@ -206,6 +206,7 @@ namespace LASI.Core
                 foreach (var described in Subjects) { described.BindDescriptor(value); }
             }
         }
+        public virtual IEnumerable<Verb> RoleWords => Words.OfVerb();
 
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.

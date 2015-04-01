@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Core.LexicalStructures.Structural;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -10,7 +11,7 @@ namespace LASI.Core
     /// This class is currently experimental and is not a tier in the Document objects created by the tagged file parsers
     /// Initializes a new instance of the Clause class, by composing the given linear sequence of componentPhrases.
     /// </summary>
-    public class Clause : ILexical, LexicalStructures.Structural.ICompositeLexical<Phrase>, LexicalStructures.Structural.IUnitLexical
+    public class Clause : ILexical, ICompositeLexical<Phrase>, ILinkedUnitLexical<Clause>
     {
         /// <summary>
         /// Initializes a new instances of the Clause class.
@@ -30,10 +31,24 @@ namespace LASI.Core
         /// Establishes the nested links between the Clause, its parent Sentence and Phrases which comprise it.
         /// </summary>
         /// <param name="sentence">The Sentence containing the Clause.</param>
-        public void EstablishParent(LASI.Core.Sentence sentence)
+        public void EstablishTextualLinks(Sentence sentence)
         {
             Sentence = sentence;
-            foreach (var phrase in Phrases) { phrase.EstablishParent(this); }
+            foreach (var phrase in Phrases)
+            {
+                phrase.EstablishTextualLinks(this);
+            }
+
+            var sistren = Sentence.Clauses.ToList();
+            for (var i = 0; sistren.Count > 1 && i < sistren.Count - 1; ++i)
+            {
+                if (i > 0)
+                {
+                    sistren[i].Previous = sistren[i - 1];
+                }
+                sistren[i].Next = sistren[i + 1];
+
+            }
         }
         /// <summary>
         /// Returns a string representation of the Clause.
@@ -81,7 +96,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentence which contains The Clause.
         /// </summary>
-        public LASI.Core.Sentence Sentence { get; private set; }
+        public Sentence Sentence { get; private set; }
         /// <summary>
         /// Gets or sets the IPrepositional instance lexically to the Left of the Clause.
         /// </summary>
@@ -90,6 +105,9 @@ namespace LASI.Core
         /// Gets or sets the IPrepositional instance lexically to the Right of the Clause.
         /// </summary>
         public IPrepositional PrepositionOnRight { get; set; }
+
+        public Clause Previous { get; private set; }
+        public Clause Next { get; private set; }
     }
 
 }

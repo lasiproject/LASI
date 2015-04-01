@@ -13,7 +13,7 @@ namespace LASI.Core
         public static Similarity IsSimilarTo(this IEntity first, IEntity second)
         {
             return first.Match()
-                .When(first.Text.EqualsIgnoreCase(second.Text))
+                .When(Equals(first, second) || first.Text.EqualsIgnoreCase(second.Text))
                 .Then(Similarity.Similar)
                 .Case((IAggregateEntity ae1) => second.Match()
                         .Case((IAggregateEntity ae2) => ae1.IsSimilarTo(ae2))
@@ -41,7 +41,7 @@ namespace LASI.Core
             var simResults = from e1 in first
                              from e2 in second
                              select e1.IsSimilarTo(e2);
-            return Similarity.FromRatio(simResults.Select(x => x.Boolean).PercentTrue());
+            return Similarity.FromRatio(simResults.Select(x => x.Boolean).PercentTrue() / 100);
         }
 
         /// <summary>Determines if the provided Noun is similar to the provided NounPhrase.</summary>
@@ -68,20 +68,14 @@ namespace LASI.Core
         /// <param name="first">The first NounPhrase</param>
         /// <param name="second">The second NounPhrase</param>
         /// <returns><c>true</c> if the given NounPhrases are similar; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this NounPhrase first, NounPhrase second)
-        {
-            var ratio = GetSimilarityRatio(first, second);
-            return Similarity.FromRatio(ratio);
-        }
+        public static Similarity IsSimilarTo(this NounPhrase first, NounPhrase second) => Similarity.FromRatio(GetSimilarityRatio(first, second));
+
 
         /// <summary>Determines if the two provided Noun instances are similar.</summary>
         /// <param name="first">The first Noun.</param>
         /// <param name="second">The second Noun.</param>
         /// <returns><c>true</c> if the first Noun is similar to the second; otherwise, <c>false</c>.</returns>
-        private static Similarity IsSimilarTo(this Noun first, Noun second)
-        {
-            return Similarity.FromBoolean(first.IsSynonymFor(second));
-        }
+        private static Similarity IsSimilarTo(this Noun first, Noun second) => Similarity.FromBoolean(first.IsSynonymFor(second));
 
         /// <summary>Determines if the text is equal to that of a known Common Noun.</summary>
         /// <param name="nounText">The text to test.</param>
@@ -146,6 +140,50 @@ namespace LASI.Core
         public static bool IsMaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
 
         /// <summary>
+        /// Returns a NameGender value indicating the likely gender of the entity.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity whose gender to lookup.
+        /// </param>
+        /// <returns>
+        /// A NameGender value indicating the likely gender of the entity.
+        /// </returns>
+        public static Gender GetGender(this IEntity entity) => entity.Match()
+            .Case((ISimpleGendered p) => p.Gender)
+            .Case((IReferencer p) => GetGender(p))
+            .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+            .Case((CommonNoun n) => Gender.Neutral)
+            .Case((IEntity e) => (
+                from referener in e.Referencers
+                let gendered = referener as ISimpleGendered
+                let gender = gendered != null ? gendered.Gender : default(Gender)
+                group gender by gender into byGender
+                orderby byGender.Count() descending
+                select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
+            .Result();
+        /// <summary>
+        /// Returns a NameGender value indicating the likely gender of the Pronoun based on its
+        /// referent if known, or else its PronounKind.
+        /// </summary>
+        /// <param name="referencer">The Pronoun whose gender to lookup.</param>
+        /// <returns>A NameGender value indicating the likely gender of the Pronoun.</returns>
+        private static Gender GetGender(IReferencer referencer) => referencer.Match()
+            .Case((PronounPhrase p) => DeterminePronounPhraseGender(p))
+            .When(referencer.RefersTo != null)
+            .Then((from referent in referencer.RefersTo
+                   let gender = referent.Match()
+                       .Case((NounPhrase n) => DetermineNounPhraseGender(n))
+                       .Case((Pronoun r) => r.Gender)
+                       .Case((ProperSingularNoun r) => r.Gender)
+                       .Case((CommonNoun n) => Gender.Neutral)
+                   .Result()
+                   group gender by gender into byGender
+                   where byGender.Count() == referencer.RefersTo.Count()
+                   select byGender.Key).FirstOrDefault())
+            .Case((ISimpleGendered p) => p.Gender)
+        .Result();
+
+        /// <summary>
         /// Returns a double value indicating the degree of similarity between two NounPhrases.
         /// </summary>
         /// <param name="first">The first NounPhrase</param>
@@ -192,29 +230,6 @@ namespace LASI.Core
                 Gender.Undetermined;
         }
 
-        /// <summary>
-        /// Returns a NameGender value indicating the likely gender of the Pronoun based on its
-        /// referent if known, or else its PronounKind.
-        /// </summary>
-        /// <param name="referencer">The Pronoun whose gender to lookup.</param>
-        /// <returns>A NameGender value indicating the likely gender of the Pronoun.</returns>
-        private static Gender GetGender(IReferencer referencer)
-        {
-            return referencer.Match()
-                    .Case((PronounPhrase p) => DeterminePronounPhraseGender(p))
-                    .When(referencer.RefersTo != null)
-                    .Then((from referent in referencer.RefersTo
-                           let gender = referent.Match()
-                               .Case((NounPhrase n) => DetermineNounPhraseGender(n))
-                               .Case((Pronoun r) => r.Gender)
-                               .Case((ProperSingularNoun r) => r.Gender)
-                               .Case((CommonNoun n) => Gender.Neutral)
-                           .Result()
-                           group gender by gender into byGender
-                           where byGender.Count() == referencer.RefersTo.Count()
-                           select byGender.Key).FirstOrDefault())
-                    .Case((ISimpleGendered p) => p.Gender)
-                .Result();
-        }
+
     }
 }

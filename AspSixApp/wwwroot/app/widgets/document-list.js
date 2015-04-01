@@ -31,24 +31,23 @@
                 .find('.progress hidden')
                 .find('.progress-bar')
                 .removeClass('.hidden').css('width', '100');
-            var contentRequest =
-                $.get('Results/Single/' + documentId)
-                    .done(function (data, status, xhr) {
-                        var markupHeader = $('<div class="panel panel-default">' +
-                            '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
-                            documentName +
-                            '</a></h4></div></div>');
-                        var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
-                        if (!$('#' + documentId).length) {
-                            $('#accordion').append(markupHeader).append(markupPanel);
-                        } else {
-                            $('#' + documentId).remove();
-                            $('#accordion').append(markupPanel);
-                        }
-                        xhr.progress('100%');
-                        app.buildMenus();
-                        app.enableActiveHighlighting();
-                    })
+            var contentRequest = $.get('Results/Single/' + documentId)
+                .done(function (data, status, xhr) {
+                    var markupHeader = $('<div class="panel panel-default">' +
+                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
+                        documentName +
+                        '</a></h4></div></div>');
+                    var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
+                    if (!$('#' + documentId).length) {
+                        $('#accordion').append(markupHeader).append(markupPanel);
+                    } else {
+                        $('#' + documentId).remove();
+                        $('#accordion').append(markupPanel);
+                    }
+                    xhr.progress('100%');
+                    app.buildMenus();
+                    app.enableActiveHighlighting();
+                })
                     .fail(function (xhr, message, detail) {
                         log(message);
                     }).progress(function (data) {
@@ -61,7 +60,7 @@
             var element = this;
             var id = element.id.substring(element.id.indexOf('-button-') + 8);
             $.ajax({
-                url: 'api/tasks/' + id,
+                url: 'api/UserDocuments/' + id,
                 method: 'DELETE',
                 cache: false
             }).done(function (data, status, xhr) {

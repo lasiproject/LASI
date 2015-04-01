@@ -1,44 +1,43 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.Sockets;
 using MongoDB.Driver;
-using Directory = System.IO.Directory;
 
 namespace AspSixApp.CustomIdentity.MongoDB
 {
+    using Process = System.Diagnostics.Process;
+    using Directory = System.IO.Directory;
+
     public class MongoDBService : IDisposable
     {
-        public MongoDBService(MongoDBConfiguration configuration)
+        public MongoDBService(MongoDBConfiguration config)
         {
-            this.configuration = configuration; StartDatabaseProcess();
-        }
-
-        private void StartDatabaseProcess()
-        {
-            if (!Directory.Exists(configuration.MongoFilesDirectory))
+            this.config = config;
+            if (config.CreateProcess)
             {
-                Directory.CreateDirectory(configuration.MongoFilesDirectory);
+                this.mongoDbProcess = StartDatabaseProcess();
             }
-            mongoDbProcess = Process.Start(
-                fileName: configuration.MongodExePath,
-                arguments: $"--dbpath {configuration.MongoFilesDirectory}"
-            );
         }
-        private MongoDatabase GetDatabase()
+
+        private Process StartDatabaseProcess()
         {
-
-            var mongoUrl = new MongoUrl(configuration.ConnectionString);
-            return new MongoClient(
-                mongoUrl).GetServer()
-                .GetDatabase(configuration.ApplicationDatabaseName);
-
-
+            if (!Directory.Exists(config.DataDbPath))
+            {
+                Directory.CreateDirectory(config.DataDbPath);
+            }
+            return Process.Start(
+                 fileName: config.MongodExePath,
+                 arguments: $"--dbpath {config.DataDbPath}"
+             );
         }
+        private MongoDatabase GetDatabase() =>
+            new MongoClient(new MongoUrl(config.InstanceUrl))
+            .GetServer()
+            .GetDatabase(config.ApplicationDatabaseName);
         public MongoCollection<TDocument> GetCollection<TDocument>()
         {
             try
             {
-                var name = configuration.CollectionNamesByType[typeof(TDocument)];
+                var name = config.CollectionNamesByType[typeof(TDocument)];
                 return GetDatabase().GetCollection<TDocument>(name);
             }
             catch (MongoConnectionException e) when (e.InnerException is SocketException)
@@ -48,17 +47,42 @@ namespace AspSixApp.CustomIdentity.MongoDB
             }
         }
 
-        public void Dispose()
-        {
-            ((IDisposable)this.mongoDbProcess).Dispose();
-        }
-        ~MongoDBService()
-        {
-            Dispose();
-        }
-
-        private readonly MongoDBConfiguration configuration;
+        private MongoDBConfiguration config;
 
         private Process mongoDbProcess;
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).          
+                }
+                mongoDbProcess?.Dispose();
+                config = null;
+                disposedValue = true;
+            }
+        }
+        /// <summary>
+        /// Disposes the <see cref="MongoDBService"/> instance.
+        /// </summary>
+        ~MongoDBService()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(false);
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

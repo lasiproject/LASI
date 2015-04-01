@@ -20,7 +20,7 @@
         "Microsoft.AspNet.Security": "1.0.0-beta3",
         "Microsoft.AspNet.Security.DataProtection": "1.0.0-beta3",
         "mongocsharpdriver": "1.10.0",
-        "System.Collections.Immutable": "1.134-rc",
+        "System.Collections.Immutable": "1.1.34-rc",
         "Newtonsoft.Json": "6.0.8",
         "LASI.Core": "1.0.0-*",
         "LASI.Content": "1.0.0-*",
@@ -33,6 +33,7 @@
     },
     "frameworks": {
         "aspnet50": {
+            "compilationOptions": { "languageVersion": "experimental" },
             "dependencies": {
 
             }

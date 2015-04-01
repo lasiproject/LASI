@@ -60,13 +60,7 @@ namespace LASI.Utilities.Configuration
         /// Gets the raw textual representation of the configuration object.
         /// </summary>
         public string RawConfigData => rawConfigData;
-        /// <summary>
-        /// Gets the value with the specified key under the specified string comparison.
-        /// </summary>
-        /// <param name="name">The name of the value to retrieve.</param>
-        /// <param name="stringComparison">The string comparison to use when matching the name.</param>
-        /// <returns>The value with the specified key under the specified string comparison.</returns>
-        public abstract string this[string name, StringComparison stringComparison] { get; }
+
         /// <summary>
         /// Gets the value with the specified key.
         /// </summary>

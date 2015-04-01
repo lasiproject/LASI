@@ -11,7 +11,8 @@
         "LASI.Content": "1.0.0-*",
         "LASI.Core": "1.0.0-*",
         "LASI.Utilities": "1.0.0-*",
-        "Newtonsoft.Json": "6.0.8"
+        "Newtonsoft.Json": "6.0.8",
+        "System.Collections.Immutable": "1.0.0-*"
       }
     }
   }
