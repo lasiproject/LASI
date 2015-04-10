@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using LASI.Interop;
 
 namespace LASI.App
 {
@@ -239,5 +241,21 @@ namespace LASI.App
 
         #endregion
 
+
+        private void FreeWriterMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void FreeWriter_KeyDown(object sender, KeyEventArgs e)
+        {
+            var textBlock = sender as TextBlock;
+            if (e.Key == Key.Enter && !textBlock.Text.IsNullOrWhiteSpace())
+            {
+                var chunks = textBlock.Text.SplitRemoveEmpty('.', '!', '?').ToList();
+                var orchestrator = new AnalysisOrchestrator(new RawTextFragment(chunks.Take(chunks.Count - 1), "free snippet"));
+                await orchestrator.ProcessAsync();
+            }
+        }
     }
 }

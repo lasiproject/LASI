@@ -20,7 +20,8 @@
                 .success(function (data) {
                     deferred.resolve(data);
                     $log.info(data);
-                }).error(function (status) {
+                })
+                .error(function (status) {
                     deferred.reject(status);
                 });
             return deferred.promise;

@@ -1,30 +1,30 @@
 ﻿(function () {
     'use strict';
-
     angular
         .module(LASI.results.ngName)
         .directive('contextMenu', contextMenu);
 
-    contextMenu.$inject = ['$window'];
+    contextMenu.$inject = ['$window', '$log'];
 
     function contextMenu($window) {
-        // Usage:
-        //     <contextMenu></contextMenu>
-        // Creates:
-        // 
-        var directive = {
-            link: link,
+        return {
             restrict: 'A',
             scope: {
                 lexicalType: '=',
                 lexicalId: '='
             },
-            transclude: false
+            transclude: false,
+            link: function link(scope, element, attrs, ctrl) {
+                $log("scope");
+                $log(scope);
+                $log("element");
+                $log(element);
+                $log("attrs");
+                $log(attrs);
+                $log("ctrl");
+                $log(ctrl);
+            },
         };
-        return directive;
-
-        function link(scope, element, attrs) {
-        }
     }
 
 })();

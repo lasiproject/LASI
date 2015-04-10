@@ -36,7 +36,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void FindRootTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -50,7 +50,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void FindRootTest2()
         {
             NounMorpher target = new NounMorpher();
@@ -62,7 +62,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         }  /// <summary>
            ///A test for FindRoot
            /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void FindRootTest3()
         {
             NounMorpher target = new NounMorpher();

@@ -1,6 +1,14 @@
-﻿var app = app || {};
-(function (log) {
+﻿(function (app) {
     'use strict';
+    var log = app.log;
+    var createHeaderMarkup = function (documentId, documentName) {
+        return '<div class="panel panel-default">' +
+            '<div class="panel-heading">' +
+            '<h4 class="panel-title">' +
+            '<a href="#' + documentId +
+            '" data-toggle="collapse" data-parent="#accordion">' + documentName +
+            '</a></h4></div></div>';
+    };
     $(function () {
         app.setupDraggableDialogs = function () {
             var enableDragging = function (e) {
@@ -8,9 +16,9 @@
                 draggable(e, handle);
                 e.style.position = '';
             };
-            $("[id^=confirm-delete-modal]")
-                .toArray()
-                .forEach(enableDragging);
+            // Make all confirm delete modals draggable.
+            $("[id^=confirm-delete-modal]").toArray().forEach(enableDragging);
+            // Make the manage documents modal draggable.
             var draggableDialog = $('#manage-documents-modal');
             var dragHandle = draggableDialog.find('.handle')[0];
             if (draggableDialog[0] || dragHandle) {
@@ -23,50 +31,33 @@
             event.preventDefault();
             var $listItem = $(this);
             var $element = $(event.target);
-            var $parentListItem = $($(event.target).parent());
+
             var documentName = $element[0].text;
             var documentId = $element.next()[0].textContent.trim();
             log('clicked Name: ' + documentName + ', Id: ' + documentId);
+            var $parentListItem = $($(event.target).parent());
             var $progress = $parentListItem
-                .find('.progress hidden')
-                .find('.progress-bar')
-                .removeClass('.hidden').css('width', '100');
-            var contentRequest = $.get('Results/Single/' + documentId)
-                .done(function (data, status, xhr) {
-                    var markupHeader = $('<div class="panel panel-default">' +
-                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
-                        documentName +
-                        '</a></h4></div></div>');
-                    var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
-                    if (!$('#' + documentId).length) {
-                        $('#accordion').append(markupHeader).append(markupPanel);
-                    } else {
-                        $('#' + documentId).remove();
-                        $('#accordion').append(markupPanel);
-                    }
-                    xhr.progress('100%');
-                    app.buildMenus();
-                    app.enableActiveHighlighting();
-                })
-                    .fail(function (xhr, message, detail) {
-                        log(message);
-                    }).progress(function (data) {
-                        $progress.css('width', data);
-                    });
-
-        });
-
-        $('.modal-body > .btn').click(function () {
-            var element = this;
-            var id = element.id.substring(element.id.indexOf('-button-') + 8);
-            $.ajax({
-                url: 'api/UserDocuments/' + id,
-                method: 'DELETE',
-                cache: false
-            }).done(function (data, status, xhr) {
-                log(xhr);
-                $(element).parent().remove();
+                      .find('.progress hidden')
+                      .find('.progress-bar')
+                      .removeClass('.hidden').css('width', '100');
+            var contentRequest = $.get('Results/Single/' + documentId).done(function (data, status, xhr) {
+                var headerMarkup = $(createHeaderMarkup(documentId, documentName));
+                var panelMarkup = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
+                if (!$('#' + documentId).length) {
+                    $('#accordion').append(headerMarkup).append(panelMarkup);
+                } else {
+                    $('#' + documentId).remove();
+                    $('#accordion').append(panelMarkup);
+                }
+                xhr.progress('100%');
+                app.buildMenus();
+                app.enableActiveHighlighting();
+            }).fail(function (xhr, message, detail) {
+                log(message);
+            }).progress(function (data) {
+                $progress.css('width', data);
             });
+
         });
     });
-}(app.log || console.log.bind(console)));
+}(LASI));

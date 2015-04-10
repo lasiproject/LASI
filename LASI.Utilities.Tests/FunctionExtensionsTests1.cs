@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
-
+using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
 namespace LASI.Utilities.Tests
 {
+    using static System.Threading.Thread;
     using static FunctionExtensions;
-    [TestClass()]
+    [TestClass]
     public class FunctionExtensionsTests1
     {
-        [TestMethod()]
+        [Test]
         public void ComposeTest()
         {
             Func<double, double> f = x => x * x;
@@ -26,7 +27,7 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComposeTest1()
         {
             bool fCalled = false;
@@ -48,7 +49,7 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(gCalled);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComposeTest2()
         {
             bool fCalled = false;
@@ -78,12 +79,12 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(gCalled);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComposeTest4()
         {
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
         }
-        [TestMethod()]
+        [Test]
         public void ComposeTest5()
         {
             ComposeTest1Helper<object, object, object>();
@@ -115,7 +116,7 @@ namespace LASI.Utilities.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest4()
         {
             bool a1Called = false;
@@ -139,7 +140,7 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest5()
         {
             bool a1Called = false;
@@ -163,7 +164,7 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest6()
         {
             bool a1Called = false;
@@ -187,193 +188,193 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest3()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest2()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest1()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void AndThenTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest1()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest2()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest3()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest4()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest5()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest6()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest7()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest8()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest9()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest10()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest11()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest12()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void CurryTest13()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest1()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest2()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest3()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest4()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest5()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest6()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest7()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest8()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest9()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest10()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest11()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest12()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        [Test]
         public void IdentityTest()
         {
             IdentityTestHelper<object>();
@@ -390,14 +391,14 @@ namespace LASI.Utilities.Tests
             T actual = Identity(target);
             Assert.AreEqual(expected, actual);
         }
-        [TestMethod()]
+        [Test]
         public void WithTimerTest()
         {
-            int synthetizedWaitInMs = 0;
+            int synthesizedWaitInMs = 0;
             Complex result = default(Complex);
             Func<Complex> compute = () =>
             {
-                System.Threading.Thread.Sleep(synthetizedWaitInMs);
+                System.Threading.Thread.Sleep(synthesizedWaitInMs);
                 return result;
             };
             System.Diagnostics.Stopwatch sw;
@@ -408,13 +409,13 @@ namespace LASI.Utilities.Tests
             Assert.IsFalse(sw.IsRunning);
         }
 
-        [TestMethod()]
+        [Test]
         public void WithTimerTest1()
         {
-            int synthetizedWaitInMs = 0;
+            int synthesizedWaitInMs = 0;
             Func<Complex, Complex> compute = data =>
             {
-                System.Threading.Thread.Sleep(synthetizedWaitInMs);
+                Sleep(synthesizedWaitInMs);
                 return new Complex(data.Imaginary, data.Real);
             };
             System.Diagnostics.Stopwatch sw;
@@ -425,14 +426,14 @@ namespace LASI.Utilities.Tests
             Assert.IsFalse(sw.IsRunning);
         }
 
-        [TestMethod()]
+        [Test]
         public void WithTimerTest2()
         {
-            int synthetizedWaitInMs = 0;
+            int synthesizedWaitInMs = 0;
             Complex result = default(Complex);
             Action compute = () =>
             {
-                System.Threading.Thread.Sleep(synthetizedWaitInMs);
+                Sleep(synthesizedWaitInMs);
                 result = new Complex(1, -1);
             };
             System.Diagnostics.Stopwatch sw;

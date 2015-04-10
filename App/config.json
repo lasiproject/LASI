@@ -7,7 +7,6 @@
         "WordnetFileDirectory": "resources\\WordNetThesaurusData\\",
         "SubordinatingPrepositionalsInfoFile": "resources\\LASICustom\\Binding\\KnownSubordinators.txt",
         "NameDataDirectory": "resources\\LASICustom\\NameData\\",
-        "ConvertersDirectory": "resources\\StandaloneFileConverters\\",
-        "ProjectFileSchemaLocation": "resources\\DotLasiFile.xsd"
+        "ConvertersDirectory": "resources\\StandaloneFileConverters\\"
     }
 }

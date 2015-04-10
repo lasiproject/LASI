@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LASI.Utilities;
-
+using Interlocked = System.Threading.Interlocked;
 namespace AspSixApp.WebHelpers
 {
     public static class StringExtensions
@@ -32,17 +32,15 @@ namespace AspSixApp.WebHelpers
         /// "A_Treatise_on__leftb_Name_Mangling_Schemes_rightb___leftp_ex_C_plus__plus__rightp__from_http_colon__fslash__fslash_isocpp_period_org");
         /// </code>
         /// </example>
-        public static string ToSafeHtmlDomId(this string value)
-        {
-            return string.Join("", value.Select(c => tokenMap.GetValueOrDefault(c, c.ToString())));
-        }
+        public static string ToSafeHtmlDomId(this string value) =>
+            value.Aggregate(string.Empty, (a, c) => a + mapping.GetValueOrDefault(c, c.ToString()));
 
-        public static int CreateUniqueId()
-        {
-            return idGenerator = System.Threading.Interlocked.Increment(ref idGenerator);
-        }
 
-        private static IDictionary<char, string> tokenMap = new Dictionary<char, string>
+        public static int CreateUniqueId() =>
+            idGenerator = Interlocked.Increment(ref idGenerator);
+
+
+        private static IDictionary<char, string> mapping = new Dictionary<char, string>
         {
             [' '] = "_",
             ['.'] = "_period_",

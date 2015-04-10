@@ -445,7 +445,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LasiLogo.ico" />
-    <Resource Include="XMLFile1.xml" />
     <Resource Include="Resources\WordNetThesaurusData\dictionary.txt" />
     <Resource Include="Resources\LASICustom\Binding\KnownSubordinators.txt" />
     <Resource Include="Resources\LASICustom\NameData\femalefirst.txt" />

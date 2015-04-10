@@ -10,7 +10,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for SetRelationshipLookup
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException), AllowDerivedTypes = true)]
         public void SetRelationshipLookupTest1()
         {
@@ -41,7 +41,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for SetRelationshipLookup
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException), AllowDerivedTypes = true)]
         public void SetRelationshipLookupTest2()
         {
@@ -60,7 +60,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for SetRelationshipLookup
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetRelationshipLookupTest3()
         {
             IEntity entity1 = new ProperSingularNoun("John");
@@ -78,7 +78,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for SetRelationshipLookup
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetRelationshipLookupTest4()
         {
             IEntity entity1 = new ProperSingularNoun("John");
@@ -97,7 +97,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for On
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnTest1()
         {
             ActionsRelatedOn? relatorSet = null;
@@ -110,7 +110,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for On
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void OnTest2()
         {
             IVerbal relator = new PastTenseVerb("walked");
@@ -124,7 +124,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         /// <summary>
         ///A test for IsRelatedTo
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsRelatedToTest()
         {
             IEntity performer = new CommonPluralNoun("dogs");

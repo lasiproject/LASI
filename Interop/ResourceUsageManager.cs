@@ -17,7 +17,7 @@
         /// <param name="mode">
         /// The PerformanceLevel value indicating the new performance and resource usage settings to adopt.
         /// </param>
-        public static void SetPerformanceLevel(PerformanceLevel mode)
+        public static void SetPerformanceLevel(PerformanceProfile mode)
         {
             Concurrency.SetByPerformanceMode(mode);
             Memory.SetByPerformanceMode(mode);
@@ -84,7 +84,7 @@
     /// <summary>
     /// Broadly specifies the various resource usage profiles of the program.
     /// </summary>
-    public enum PerformanceLevel
+    public enum PerformanceProfile
     {
         /// <summary>
         /// High resource usage indicates a liberal allocation and consumption of available

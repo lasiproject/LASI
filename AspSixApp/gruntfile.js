@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='default' />
+/// <binding AfterBuild='default' ProjectOpened='watch' />
 // This file in the main entry point for defining grunt tasks and using grunt plugins.
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
@@ -13,53 +13,26 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jslint: {
+        jshint: {
             app: {
-                src: [
-                    'wwwroot/test/util-test.js',
-                    'wwwroot/app/util.js',
-                    'wwwroot/app/LASI.js',
-                    'wwwroot/app/widgets/document-upload.js',
-                    'wwwroot/app/account/manage.js',
-                    'wwwroot/app/results/results.js',
-                    'wwwroot/app/results/context-menu-provider.js'
-                ],
-                exclude: [],
-                directives: {
-                    vars: true,
-                    browser: true,
-                    predef: {
-                        app: true,
-                        LASI: true,
-                        alert: false,
-                        console: false,
-                        $: false,
-                        QUnit: false,
-                        google: false,
-                        require: false,
-                        define: false,
-                        module: false
-                    }
-                }
-            }
+                src: 'wwwroot/app/**/*.js',
+                verbose: true,
+                maxparams: 4,
+                undef: true,
+                unused: true
+            },
+            test: {
+                src: 'wwwroot/test/**/*.js',
+                verbose: true,
+                maxparams: 4,
+                undef: true,
+                unused: true
+            },
         },
         qunit: {
             all: ['wwwroot/test/**/*.html']
         },
         'jsmin-sourcemap': {
-            //app: {
-            //    src: [
-            //        'Scripts/app/util.js',
-            //        'Scripts/app/LASI.js',
-            //        'Scripts/app/widgets/document-upload.js',
-            //        'Scripts/app/account/manage.js',
-            //        'Scripts/app/results/results.js',
-            //        'Scripts/app/results/context-menu-provider.js'
-            //    ],
-            //    srcRoot: 'dist/app',
-            //    dest: 'wwwroot/dist/app/app.min.js'
-
-            //},
             lib: {
                 src: [
                     'wwwroot/lib/jquery/**/*.js',
@@ -92,10 +65,11 @@ module.exports = function (grunt) {
         watch: {
             appjs: {
                 files: ['wwwroot/app/**/*.js'],
-                tasks: ['jslint:app', 'qunit:all']
-            }, test: {
+                tasks: ['jshint:app', 'qunit:all']
+            },
+            test: {
                 files: ['wwwroot/test/**/*.js'],
-                tasks: ['qunit:all']
+                tasks: ['jshint:test', 'qunit:all']
             },
             libjs: {
                 files: ['wwwroot/lib/**/*.js'],
@@ -113,18 +87,22 @@ module.exports = function (grunt) {
         }
     });
 
-    // This command registers the default task which installs bower packages into wwwroot/lib, and runs jslint.
+    // This command registers the default task which installs bower packages into wwwroot/lib.
     grunt.registerTask('default', ['bower:install']);
-    grunt.loadNpmTasks('grunt-bower-task');
+
+    // register an alias for qunit tests called 'test'.
+    grunt.registerTask('test', ['qunit:all']);
+
+
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
     // cannot use an array or varargs to load tasks from multiple plugins here. 
     // It seems that loadNpmTasks is a singular command which loads task(s) for a single plugin.
     // This api is a bit counter intuitive in that invocations cannot be chained.
+    grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-jsmin-sourcemap');
     grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-jslint');
-
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 };

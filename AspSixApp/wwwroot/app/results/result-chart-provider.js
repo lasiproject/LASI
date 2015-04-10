@@ -1,29 +1,32 @@
-app.enableActiveHighlighting = (function () {
-    'use strict';
-    var f = function () {
-        var phrasalTextSpans = $('span.phrase'),
-            highlightClass = 'active-phrase-highlight',
-            recolor = function () {
-                phrasalTextSpans.each(function () {
-                    $(this).removeClass(highlightClass);
-                });
-                $(this).addClass(highlightClass);
-            };
-        phrasalTextSpans.click(recolor);
-        phrasalTextSpans.on('contextmenu', recolor);
-        $('[data-toggle="tooltip"]').tooltip({
-            delay: 250,
-            container: 'body'
-        });
-        // bootstrap requires that tooltips be manually enabled. The data-toggle="tooltip" attributes set on each element
-        // have no effect without this or an equivalent call. By setting container to 'body', we allow the contents of the 
-        // tooltip to overflow its container. This is generally close to the desired behavior as it is difficult to predict width
-        // and this gives good flexibility. 
-        // TODO: look into fixing tooltips on elements containing a line break or remove such breaks.
-    }
-    $(f);
-    return f;
-}());
+(function (app) {
+    app.enableActiveHighlighting = (function () {
+        'use strict';
+        var onReady = function () {
+            var phrasalTextSpans = $('span.phrase'),
+                highlightClass = 'active-phrase-highlight',
+                recolor = function () {
+                    phrasalTextSpans.each(function () {
+                        $(this).removeClass(highlightClass);
+                    });
+                    $(this).addClass(highlightClass);
+                };
+            phrasalTextSpans.click(recolor);
+            phrasalTextSpans.on('contextmenu', recolor);
+
+            // bootstrap requires that tooltips be manually enabled. The data-toggle="tooltip" attributes set on each element
+            // have no effect without this or an equivalent call. By setting container to 'body', we allow the contents of the 
+            // tooltip to overflow its container. This is generally close to the desired behavior as it is difficult to predict width
+            // and this gives good flexibility. There is probably a cleaner and more precise/obvious way of doing this, change to that if discovered.
+            $('[data-toggle="tooltip"]').tooltip({
+                delay: 250,
+                container: 'body'
+            });
+            // TODO: look into fixing tooltips on elements containing a line break or remove such breaks.
+        };
+        $(onReady);
+        return onReady;
+    }());
+}(LASI));
 // Load the Visualization API and the piechart package.
 //    google.load('visualization', '1.0', { 'packages': ['corechart'] });
 //    $('#myTab a').click(function (event) {

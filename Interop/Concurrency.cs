@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Mode = PerformanceLevel;
     /// <summary>
     /// Centralizes management and control of the concurrency level of concurrent operations.
     /// </summary>
@@ -14,18 +13,18 @@
         /// <param name = "mode">
         /// The ResourceUsageMode value from which to determine concurrency settings.
         /// </param>
-        public static void SetByPerformanceMode(Mode mode)
+        public static void SetByPerformanceMode(PerformanceProfile profile)
         {
             var logicalCores = Environment.ProcessorCount; // Get the number of logical cores.
-            var calculate = concurrencyCalculationMap[mode];
+            var calculate = concurrencyCalculationMap[profile];
             Max = calculate(logicalCores);
         }
 
-        private static readonly IDictionary<Mode, Func<int, int>> concurrencyCalculationMap = new Dictionary<Mode, Func<int, int>>
+        private static readonly IDictionary<PerformanceProfile, Func<int, int>> concurrencyCalculationMap = new Dictionary<PerformanceProfile, Func<int, int>>
         {
-            [Mode.High] = cores => cores < 3 ? cores : cores - 1,
-            [Mode.Normal] = cores => cores < 3 ? cores : cores - 2,
-            [Mode.Low] = cores => cores < 4 ? 1 : cores - 3,
+            [PerformanceProfile.High] = cores => cores < 3 ? cores : cores - 1,
+            [PerformanceProfile.Normal] = cores => cores < 3 ? cores : cores - 2,
+            [PerformanceProfile.Low] = cores => cores < 4 ? 1 : cores - 3,
             [0] = cores => ComputeDefaultMax()
         };
 

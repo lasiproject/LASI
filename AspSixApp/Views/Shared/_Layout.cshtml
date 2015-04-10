@@ -22,9 +22,7 @@
                 </button>
                 @if (User?.Identity?.IsAuthenticated ?? false)
                 {
-
-                    @await Component.InvokeAsync("DocumentList", 4);
-
+                    @await Component.InvokeAsync("DocumentList", 4)
                 }
 
 
@@ -74,19 +72,16 @@
     <script src="~/lib/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/app/LASI.js"></script>
     <script src="~/lib/draggable/draggable.js"></script>
-    @*
-        <script src="~/lib/rivets/rivets.bundled.min.js"></script>*@
+
     <script src="~/lib/angular/angular.js"></script>
+
     <script src="~/lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
-    @*
-        <script src="~/lib/bootstrap/js/npm.js"></script>*@
-
-
+    <script src="~/lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
     <script src="~/app/utilities/log.js"></script>
     <script src="~/app/utilities/augmentations.js"></script>
 
-    <script src="~/app/LASI.js"></script>
     <script src="~/app/account/manage.js"></script>
     <script src="~/app/results/context-menu-provider.js"></script>
     <script src="~/app/results/result-chart-provider.js"></script>
@@ -104,5 +99,6 @@
 
     @RenderSection("scripts", required: false)
 </body>
+
 
 </html>

@@ -1,14 +1,10 @@
 {
-  "projects": [
-    "wrap",
-    "AspSixApp",
-    "Core",
-    "Content",
-    "Utilities",
-    "Interop"
-  ],
-  "sources": [
-    "wrap\\",
-    "wrap"
-  ]
+    "projects": [
+        "wrap",
+        "AspSixApp",
+        "LASI.Core",
+        "LASI.Content",
+        "LASI.Utilities",
+        "LASI.Interop"
+    ]
 }

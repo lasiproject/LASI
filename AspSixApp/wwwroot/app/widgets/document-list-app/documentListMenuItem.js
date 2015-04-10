@@ -1,9 +1,8 @@
-﻿(function () {
+﻿(function (log) {
     'use strict';
-
     angular
-        .module(LASI.documentList.ngName)
-        .directive('documentListMenuItem', documentListMenuItem);
+       .module(LASI.documentList.ngName)
+       .directive('documentListMenuItem', documentListMenuItem);
 
     documentListMenuItem.$inject = ['$window', 'resultsService'];
 
@@ -19,10 +18,10 @@
                 documentId: '='
             },
             link: function (scope, element, attrs, ctrl) {
-                console.log(scope);
-                console.log(element);
-                console.log(attrs);
-                console.log(ctrl);
+                log(scope);
+                log(element);
+                log(attrs);
+                log(ctrl);
                 element.click(function (e) {
                     e.preventDefault();
                     var promise = resultsService.processDocument(scope.documentId, scope.name);
@@ -39,4 +38,4 @@
 
     }
 
-})();
+})(LASI.log);

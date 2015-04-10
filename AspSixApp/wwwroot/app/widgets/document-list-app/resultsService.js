@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function (app) {
     'use strict';
 
     angular
@@ -8,10 +8,11 @@
     resultsService.$inject = ['$http', '$q', '$log'];
 
     function resultsService($http, $q, $log) {
-        this.processDocument = processDocument;
+        /* jshint validthis:true */
+
         this.tasks = [];
         var that = this;
-        function processDocument(documentId, documentName) {
+        this.processDocument = function (documentId, documentName) {
             that.tasks[documentId] = { percentComplete: 0 };
             var deferred = $q.defer();
             $http.get('Results/Single/' + documentId)
@@ -36,6 +37,6 @@
                     deferred.reject('failure');
                 });
             return deferred.promise;
-        }
+        };
     }
-})();
+}(LASI));

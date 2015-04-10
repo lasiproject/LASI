@@ -1,14 +1,16 @@
-﻿var app = {};
-(function () {
+﻿// Initailizes the top level module of the application the LASI object.
+var LASI = (function () {
     'use strict';
-    var $editor = $('#free-editor');
-    $editor.change(function (e) {
-    });
-    //var account = require('/account/manage'),
-    //    widgets = require('/widgets/document-upload');
-
-    app.log = console.log.bind(console);
-    app.editor = $editor;
-    return app;
-}(app || {}));
-var LASI = app;
+    var log = console.log.bind(console),
+        editor = $('#free-editor');
+    return {
+        editor: editor,
+        log: log,
+        bindDefaultEvents: function () {
+            editor.change(function (e) {
+                log(e);
+            });
+        }
+    };
+}());
+LASI.bindDefaultEvents();

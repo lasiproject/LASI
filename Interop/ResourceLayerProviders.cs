@@ -3,7 +3,7 @@
     using System;
     using MemoryEventArgs = MemoryThresholdExceededEventArgs;
     using MemoryHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
-    using Mode = PerformanceLevel;
+    using Mode = PerformanceProfile;
     /// <summary>
     /// Centralizes management and control of the memory (RAM) consumed by lookup caches.
     /// </summary>

@@ -9,7 +9,6 @@
         "NameDataDirectory": "LASICustom\\NameData\\",
         "ConvertersDirectory": "StandaloneFileConverters\\",
         "AutoDebugCleanupOn": "true",
-        "ProjectFileSchemaLocation": "DotLasiFile.xsd",
         "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
         "CreateMongoDbProcess": true,
         "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",

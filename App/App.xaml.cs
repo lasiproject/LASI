@@ -39,7 +39,7 @@ namespace LASI.App
         }
         private static void LoadPerformancePreference()
         {
-            Interop.ResourceManagement.PerformanceLevel performanceMode;
+            Interop.ResourceManagement.PerformanceProfile performanceMode;
             if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode))
             {
                 Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(performanceMode);

@@ -63,16 +63,16 @@ namespace LASI.App.Dialogs
         {
             try
             {
-                PerformanceMode = (PerformanceLevel)Enum.Parse(typeof(PerformanceLevel), Settings.Default.PerformanceLevel);
+                PerformanceMode = (PerformanceProfile)Enum.Parse(typeof(PerformanceProfile), Settings.Default.PerformanceLevel);
                 switch (PerformanceMode)
                 {
-                    case PerformanceLevel.High:
+                    case PerformanceProfile.High:
                     High.IsChecked = true;
                     break;
-                    case PerformanceLevel.Normal:
+                    case PerformanceProfile.Normal:
                     Normal.IsChecked = true;
                     break;
-                    case PerformanceLevel.Low:
+                    case PerformanceProfile.Low:
                     Low.IsChecked = true;
                     break;
                 }
@@ -82,7 +82,7 @@ namespace LASI.App.Dialogs
                 Logger.Log(e.Message);
                 Logger.Log(e.StackTrace);
                 Normal.IsChecked = true;
-                PerformanceMode = PerformanceLevel.Normal;
+                PerformanceMode = PerformanceProfile.Normal;
             }
         }
 
@@ -92,7 +92,7 @@ namespace LASI.App.Dialogs
             if (checkBox.IsChecked ?? false)
             {
                 Settings.Default.PerformanceLevel = checkBox.Name;
-                PerformanceMode = (PerformanceLevel)Enum.Parse(typeof(PerformanceLevel), checkBox.Name);
+                PerformanceMode = (PerformanceProfile)Enum.Parse(typeof(PerformanceProfile), checkBox.Name);
             }
         }
 
@@ -126,7 +126,7 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public Interop.ResourceManagement.PerformanceLevel PerformanceMode { get; private set; }
+        public Interop.ResourceManagement.PerformanceProfile PerformanceMode { get; private set; }
 
         #region Fields
 

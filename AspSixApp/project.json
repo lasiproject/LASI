@@ -1,6 +1,20 @@
 {
+    "configurations": {
+        "Debug": {
+            "compilationOptions": {
+                "warningsAsErrors": true,
+                "optimize": false
+            }
+        },
+        "Release": {
+            "compilationOptions": {
+                "warningsAsErrors": true,
+                "optimize": true
+            }
+        }
+    },
     "webroot": "wwwroot",
-    "version": "1.0.0-*",
+    "version": "1.0.0.1",
     "dependencies": {
         "Microsoft.AspNet.Mvc": "6.0.0-beta3",
         "Microsoft.AspNet.Diagnostics": "1.0.0-beta3",
@@ -32,12 +46,7 @@
         "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
-        "aspnet50": {
-            "compilationOptions": { "languageVersion": "experimental" },
-            "dependencies": {
-
-            }
-        }
+        "aspnet50": { }
     },
     "exclude": [
         "wwwroot",

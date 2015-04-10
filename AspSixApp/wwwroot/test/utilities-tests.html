@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <title>QUnit JS Tests</title>
-    <link rel="stylesheet" href="qunit.css" />
+    <link rel="stylesheet" href="../lib/qunit/qunit.css" />
 </head>
 <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <script src="../lib/requirejs/require.js"></script>
-    <script src="util-test.js" data-main="util-test.js"></script>
-
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/qunit/qunit.js"></script>
+    <script src="../app/utilities/augmentations.js"></script>
+    <script src="utilities-tests.js"></script>
     <ol id="qunit-tests">
         <li class="pass" id="qunit-test-output0">
             <strong>

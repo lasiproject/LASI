@@ -33,62 +33,60 @@ namespace AspSixApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer());
+            services.AddMvc().Configure<MvcOptions>(options =>
+            {
+                var serializerSettings = new JsonSerializerSettings
+                {
+                    Error = (s, e) => { throw e.ErrorContext.Error; },
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Formatting = Formatting.Indented
+                };
+                options.InputFormatters
+                    .Select(formatter => formatter.Instance)
+                    .OfType<JsonInputFormatter>()
+                    .First().SerializerSettings = serializerSettings;
+                options.OutputFormatters
+                    .Select(formatter => formatter.Instance)
+                    .OfType<JsonOutputFormatter>()
+                    .First().SerializerSettings = serializerSettings;
 
-            services.AddMvc()
-                    .Configure<MvcOptions>(options =>
-                    {
-                        var serializerSettings = new JsonSerializerSettings
-                        {
-                            Error = (s, e) => { throw e.ErrorContext.Error; },
-                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                            NullValueHandling = NullValueHandling.Ignore,
-                            Formatting = Formatting.Indented
-                        };
-                        options.InputFormatters
-                            .Select(formatter => formatter.Instance)
-                            .OfType<JsonInputFormatter>()
-                            .First().SerializerSettings = serializerSettings;
-                        options.OutputFormatters
-                            .Select(formatter => formatter.Instance)
-                            .OfType<JsonOutputFormatter>()
-                            .First().SerializerSettings = serializerSettings;
-
-                        options.Filters.Add(new CustomAsyncExceptionFilter());
-                    })
-                    .AddMongoDb(provider =>
-                    {
-                        return new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory);
-                    })
-                    .AddIdentity<ApplicationUser, UserRole>(Configuration, options =>
-                    {
-                        options.Lockout = new LockoutOptions
-                        {
-                            EnabledByDefault = true,
-                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                            MaxFailedAccessAttempts = 10
-                        };
-                        options.User = new UserOptions
-                        {
-                            RequireUniqueEmail = true
-                        };
-                        options.SignIn = new SignInOptions
-                        {
-                            RequireConfirmedEmail = false,
-                            RequireConfirmedPhoneNumber = false
-                        };
-                        options.Password = new PasswordOptions
-                        {
-                            RequireLowercase = true,
-                            RequireUppercase = true,
-                            RequireNonLetterOrDigit = true,
-                            RequireDigit = true,
-                            RequiredLength = 8
-                        };
-                    })
-                    .AddRoleStore<CustomUserStore<UserRole>>()
-                    .AddUserStore<CustomUserStore<UserRole>>()
-                    .AddUserManager<UserManager<ApplicationUser>>();
+                options.Filters.Add(new CustomAsyncExceptionFilter());
+            });
+            services
+                .AddMongoDb(provider => new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory));
+            services
+                .AddIdentity<ApplicationUser, UserRole>()
+                .AddRoleStore<CustomUserStore<UserRole>>()
+                .AddUserStore<CustomUserStore<UserRole>>()
+                .AddUserManager<UserManager<ApplicationUser>>();
+            services.ConfigureIdentity(options =>
+            {
+                options.Lockout = new LockoutOptions
+                {
+                    EnabledByDefault = true,
+                    DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                    MaxFailedAccessAttempts = 10
+                };
+                options.User = new UserOptions
+                {
+                    RequireUniqueEmail = true
+                };
+                options.SignIn = new SignInOptions
+                {
+                    RequireConfirmedEmail = false,
+                    RequireConfirmedPhoneNumber = false
+                };
+                options.Password = new PasswordOptions
+                {
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonLetterOrDigit = true,
+                    RequireDigit = true,
+                    RequiredLength = 8
+                };
+            });
         }
 
         // Configure is called after ConfigureServices is called.
@@ -111,11 +109,11 @@ namespace AspSixApp
                 // send the request to the following path or controller action.
                 app.UseErrorHandler("/Home/Error");
             }
-            app.UseRuntimeInfoPage();
+            app.UseRuntimeInfoPage()
             // Add static files to the request pipeline.
-            app.UseStaticFiles();
+                .UseStaticFiles()
             // Add cookie-based authentication to the request pipeline.
-            app.UseIdentity();
+                .UseIdentity();
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
@@ -132,7 +130,6 @@ namespace AspSixApp
                     name: "DefaultApi",
                     template: "api/{controller}/{id?}"
                 );
-
             });
         }
         /// <summary>
@@ -149,7 +146,7 @@ namespace AspSixApp
         /// </remarks>
         private void ConfigureLASIComponents(string fileName, string subkey)
         {
-            LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceLevel.High);
+            LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceProfile.High);
             LASI.Interop.Configuration.Initialize(fileName, LASI.Interop.ConfigFormat.Json, subkey);
         }
         public IConfiguration Configuration { get; set; }
