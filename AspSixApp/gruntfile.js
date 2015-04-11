@@ -44,6 +44,27 @@ module.exports = function (grunt) {
                 dest: 'wwwroot/dist/lib/lib.min.js'
             }
         },
+        concat: {
+            dist: {
+                src: [
+                        'wwwroot/app/LASI.js',
+                        'wwwroot/app/utilities/log.js',
+                        'wwwroot/app/utilities/augmentations.js',
+                        'wwwroot/app/account/manage.js',
+                        'wwwroot/app/results/context-menu-provider.js',
+                        'wwwroot/app/results/result-chart-provider.js',
+                        'wwwroot/app/widgets/document-upload.js',
+                        'wwwroot/app/widgets/document-list.js',
+                        'wwwroot/app/widgets/document-list-app/section.js',
+                        'wwwroot/app/widgets/document-list-app/app.js',
+                        'wwwroot/app/widgets/document-list-app/documentService.js',
+                        'wwwroot/app/widgets/document-list-app/resultsService.js',
+                        'wwwroot/app/widgets/document-list-app/documentListMenuItem.js',
+                        'wwwroot/app/widgets/document-list-app/ListController.js',
+                ],
+                dest: 'wwwroot/dist/app/app.js',
+            }, options: { sourceMap: true }
+        },
         cssmin: {
             options: {
                 shorthandCompacting: false,
@@ -93,7 +114,6 @@ module.exports = function (grunt) {
     // register an alias for qunit tests called 'test'.
     grunt.registerTask('test', ['qunit:all']);
 
-
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
     // cannot use an array or varargs to load tasks from multiple plugins here. 
@@ -102,6 +122,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-jsmin-sourcemap');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');

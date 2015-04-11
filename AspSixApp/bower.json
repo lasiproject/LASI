@@ -33,7 +33,7 @@
             "": "draggable.js"
         },
         "angular-ui-bootstrap": {
-            "": "dist/*.min.js"
+            "": "dist/*-tpls-*.min.js"
         }
     }
 }

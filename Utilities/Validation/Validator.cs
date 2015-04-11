@@ -8,7 +8,7 @@ namespace LASI.Utilities.Validation
     [System.Diagnostics.DebuggerStepThrough]
     public static class Validate
     {
-        #region Null Validation
+        #region Nullity Validation
 
         /// <summary>
         /// Validates the specified value, raising a System.ArgumentNullException if it is null.
@@ -27,12 +27,6 @@ namespace LASI.Utilities.Validation
             }
         }
 
-        private static void FailWithArgumentNullException(string name)
-        {
-            throw new ArgumentNullException(name);
-        }
-
-
         /// <summary>
         /// Validates the specified value, raising a System.ArgumentNullException if it is null.
         /// </summary>
@@ -50,12 +44,6 @@ namespace LASI.Utilities.Validation
                 FailWithArgumentNullException(argumentName, message);
             }
         }
-
-        private static void FailWithArgumentNullException(string argumentName, string message)
-        {
-            throw new ArgumentNullException(argumentName, message);
-        }
-
 
         /// <summary>
         /// Validates the specified arguments, raising a System.ArgumentNullException if any of them
@@ -90,7 +78,10 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3)
         {
-            NotNull(value1, name1, value2, name2);
+            NotNull(
+                value1, name1,
+                value2, name2
+            );
             NotNull(value3, name3);
         }
 
@@ -113,7 +104,11 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3, T4>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4)
         {
-            NotNull(value1, name1, value2, name2, value3, name3);
+            NotNull(
+                value1, name1,
+                value2, name2,
+                value3, name3
+            );
             NotNull(value4, name4);
         }
 
@@ -139,11 +134,63 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T1, T2, T3, T4, T5>(T1 value1, string name1, T2 value2, string name2, T3 value3, string name3, T4 value4, string name4, T5 value5, string name5)
         {
-            NotNull(value1, name1, value2, name2, value3, name3, value4, name4);
+            NotNull(
+                value1, name1,
+                value2, name2,
+                value3, name3,
+                value4, name4
+            );
             NotNull(value5, name5);
         }
 
-        #endregion Null Validation
+        #endregion Nullity Validation
+
+        #region Arity Validation
+
+        /// <summary>
+        /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="value">The sequence to validate.</param>
+        /// <param name="name">The name of the value to validate.</param>
+        /// <param name="message">
+        /// A message that provides additional detail as to why the value failed validation.
+        /// </param>
+        /// <remarks>
+        /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized.
+        /// If the sequence is described by a stateful or transient iterator, there is no guarantee that it will not be empty when it is actually consumed.
+        /// The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
+        /// </remarks>
+        public static void NotEmpty<T>(this IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
+        {
+            if (!value.Any())
+            {
+                FailWithArgumentException(name, $"Sequence cannot be empty; {name}");
+            }
+        }
+
+        /// <summary>
+        /// Validates the specified <see cref="IEnumerable{T}" />, raising a
+        /// <see cref="ArgumentException" /> if the it is null or contains no elements. This
+        /// implicitly materializes the sequence; see the remarks section for further details.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="value">The value to validate.</param>
+        /// <param name="name">The name of the value to validate.</param>
+        /// <remarks>
+        /// In order to validate that the given sequence contains at least one element, a portion of
+        /// sequence must be materialized. If the sequence is described by a stateful or transient
+        /// iterator, there is no guarantee that it will not be empty when it is actually consumed.
+        /// The validation is described by the
+        /// <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
+        /// </remarks>
+        public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name)
+        {
+            NotNull(value, name);
+            NotEmpty(value, name);
+        }
+
+        #endregion Arity Validation
 
         #region Range Validation
 
@@ -171,11 +218,6 @@ namespace LASI.Utilities.Validation
                     message: message ?? $"The argument, {argumentName}, was less than the required minimum\n. Required: {argumentName} >= {minimum}; Recieved: {value}"
                 );
             }
-        }
-
-        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
-        {
-            throw new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
 
         /// <summary>
@@ -213,53 +255,10 @@ namespace LASI.Utilities.Validation
         /// <param name="maximum">The maximum value to validate against.</param>
         /// <param name="name">The name of the value to validate.</param>
         /// <exception cref="ArgumentOutOfRangeException">The value was less than the specified minimum or greater than the specified maximum.</exception>
-        public static void WithinRange<T>(
-            this T value,
-            T minimum, T maximum,
-            string name = "value") where T : IComparable<T>, IEquatable<T>
+        public static void WithinRange<T>(this T value, T minimum, T maximum, string name = "value") where T : IComparable<T>, IEquatable<T>
         {
             NotLessThan(value, minimum, name ?? nameof(value), null);
             NotGreaterThan(value, maximum, name ?? nameof(value), null);
-        }
-
-        /// <summary>
-        /// Validates that the specified IEnumerable value, raising an <see cref="ArgumentException"/> if it is empty.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <param name="value">The sequence to validate.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <param name="message">
-        /// A message that provides additional detail as to why the value failed validation.
-        /// </param>
-        /// <remarks>
-        /// In order to validate that the given sequence contains at least one element, a portion of sequence must be materialized.
-        /// If the sequence is described by a stateful or transient iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})"/> method.
-        /// </remarks>
-        public static void NotEmpty<T>(this IEnumerable<T> value, string name = "value", string message = "Sequence cannot be empty")
-        {
-            if (!value.Any()) FailWithArgumentException(name, $"Sequence cannot be empty; {name}");
-        }
-
-        /// <summary>
-        /// Validates the specified <see cref="IEnumerable{T}" />, raising a
-        /// <see cref="ArgumentException" /> if the it is null or contains no elements. This
-        /// implicitly materializes the sequence; see the remarks section for further details.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value to validate.</param>
-        /// <remarks>
-        /// In order to validate that the given sequence contains at least one element, a portion of
-        /// sequence must be materialized. If the sequence is described by a stateful or transient
-        /// iterator, there is no guarantee that it will not be empty when it is actually consumed.
-        /// The validation is described by the
-        /// <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
-        /// </remarks>
-        public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name)
-        {
-            NotNull(value, name);
-            NotEmpty(value, name);
         }
 
         /// <summary>
@@ -300,15 +299,33 @@ namespace LASI.Utilities.Validation
         /// <param name="name">The name of the value to validate.</param>
         public static void ExistsIn<T>(this T value, string name, IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
-            if (!collection.Contains(value, comparer)) FailWithArgumentException($"{name} must be a member of the set {collection.Format()}. Actual value: {value}.", name);
-
+            if (!collection.Contains(value, comparer))
+            {
+                FailWithArgumentException($"{name} must be a member of the set {collection.Format()}. Actual value: {value}.", name);
+            }
         }
 
+        #endregion Range Validation
+
+        #region Exception Helpers
+
+        private static void FailWithArgumentNullException(string name)
+        {
+            throw new ArgumentNullException(name);
+        }
+        private static void FailWithArgumentNullException(string argumentName, string message)
+        {
+            throw new ArgumentNullException(argumentName, message);
+        }
+        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
+        {
+            throw new ArgumentOutOfRangeException(paramName, actualValue, message);
+        }
         private static void FailWithArgumentException(string message, string name)
         {
             throw new ArgumentException(message, name);
         }
 
-        #endregion Range Validation
+        #endregion Exception Helpers
     }
 }
