@@ -14,11 +14,12 @@ namespace AspSixApp
     {
         public async Task OnExceptionAsync(ExceptionContext context)
         {
-            var message = $"{context.ActionDescriptor.Name}\n failed with: {context.Exception.GetType()}\n with message: {context.Exception.Message}";
-            //context.HttpContext.Response.Body = new System.IO.MemoryStream();
-            //context.HttpContext.Response.StatusCode = 400;
             context.HttpContext.Response.ContentType = "Application/JSON";
-            await context.HttpContext.Response.WriteAsync(message.Aggregate(string.Empty, (f, y) => f + y));
+            await context.HttpContext.Response.WriteAsync(
+                $@"{context.ActionDescriptor.Name}
+                failed with: {context.Exception.GetType()}
+                with message: {context.Exception.Message}"
+            );
         }
     }
 }

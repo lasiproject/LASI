@@ -38,6 +38,4 @@
 /// <reference path="test/utilities-tests.js" />
 /// <reference path="app/results/results-app/contextmenuscontroller.js" />
 /// <reference path="lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.12.1.min.js" />
-/// <reference path="../app/app.min.js" />
-/// <reference path="app.min.js" />
 /// <reference path="dist/app/app.js" />

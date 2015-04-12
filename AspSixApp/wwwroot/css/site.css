@@ -56,3 +56,8 @@ li menuitem {
 .progress-bar-half {
     width: 100%;
 }
+
+.project-logo-navbar {
+    width: 30px;
+    margin-top: -30px;
+}

@@ -36,10 +36,19 @@ namespace AspSixApp
                 .AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer())
                 .AddMvc().Configure<MvcOptions>(options =>
                 {
+                    var jsonSerializerSettings = new JsonSerializerSettings
+                    {
+                        Error = (s, e) => { throw e.ErrorContext.Error; },
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore,
+                        Formatting = Formatting.Indented
+                    };
                     options.InputFormatters
                        .Select(formatter => formatter.Instance)
                        .OfType<JsonInputFormatter>()
                        .First().SerializerSettings = jsonSerializerSettings;
+
                     options.OutputFormatters
                         .Select(formatter => formatter.Instance)
                         .OfType<JsonOutputFormatter>()
@@ -73,7 +82,7 @@ namespace AspSixApp
                         RequiredLength = 8
                     };
                 })
-                .AddMongoDb(provider => new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory))
+                .AddMongoDB(new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory))
                 .AddIdentity<ApplicationUser, UserRole>()
                 .AddRoleStore<CustomUserStore<UserRole>>()
                 .AddUserStore<CustomUserStore<UserRole>>()
@@ -104,7 +113,7 @@ namespace AspSixApp
             // Add static files to the request pipeline.
             app.UseStaticFiles("/app")
                .UseStaticFiles("/lib")
-            //.UseStaticFiles()
+               .UseStaticFiles()
             // Add cookie-based authentication to the request pipeline.
                .UseIdentity()
             // Add MVC to the request pipeline.
@@ -141,15 +150,6 @@ namespace AspSixApp
             LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceProfile.High);
             LASI.Interop.Configuration.Initialize(fileName, LASI.Interop.ConfigFormat.Json, subkey);
         }
-        public IConfiguration Configuration { get; set; }
-
-        private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
-        {
-            Error = (s, e) => { throw e.ErrorContext.Error; },
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
+        public IConfiguration Configuration { get; }
     }
 }

@@ -376,18 +376,18 @@ LASI.bindDefaultEvents();
 
         });
     });
+    window.setTimeout(function () {
+        $('#document-list-navbar-item-container').removeClass('hidden');
+    }, 50);
 }(LASI));
 
 var LASI = LASI || {};
 LASI.documentList = (function () {
-
     'use strict';
-
     return {
         ngName: 'documentListApp'
     };
-
-})();
+}());
 (function () {
     'use strict';
 
@@ -442,33 +442,34 @@ LASI.documentList = (function () {
 
     function resultsService($http, $q, $log) {
         /* jshint validthis:true */
-
         this.tasks = [];
         var that = this;
         this.processDocument = function (documentId, documentName) {
             that.tasks[documentId] = { percentComplete: 0 };
+            function success(data) {
+                var markupHeader = $('<div class="panel panel-default">' +
+                    '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
+                    documentName +
+                    '</a></h4></div></div>');
+                var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
+                if (!$('#' + documentId).length) {
+                    $('#accordion').append(markupHeader).append(markupPanel);
+                } else {
+                    $('#' + documentId).remove();
+                    $('#accordion').append(markupPanel);
+                }
+                app.buildMenus();
+                app.enableActiveHighlighting();
+                that.tasks[documentId].percentComplete = 100;
+                deferred.resolve('success');
+            }
+            function error(xhr, message, detail) {
+                $log(message);
+                deferred.reject('failure');
+            }
             var deferred = $q.defer();
             $http.get('Results/Single/' + documentId)
-                .success(function (data) {
-                    var markupHeader = $('<div class="panel panel-default">' +
-                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
-                        documentName +
-                        '</a></h4></div></div>');
-                    var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
-                    if (!$('#' + documentId).length) {
-                        $('#accordion').append(markupHeader).append(markupPanel);
-                    } else {
-                        $('#' + documentId).remove();
-                        $('#accordion').append(markupPanel);
-                    }
-                    app.buildMenus();
-                    app.enableActiveHighlighting();
-                    that.tasks[documentId].percentComplete = 100;
-                    deferred.resolve('success');
-                }).error(function (xhr, message, detail) {
-                    $log(message);
-                    deferred.reject('failure');
-                });
+                .success(success).error(error);
             return deferred.promise;
         };
     }
@@ -483,7 +484,7 @@ LASI.documentList = (function () {
 
     function documentListMenuItem($window, resultsService) {
 
-        var directive = {
+        return {
             transclude: true,
             replace: true,
             restrict: 'E',
@@ -509,10 +510,7 @@ LASI.documentList = (function () {
 
             }
         };
-        return directive;
-
     }
-
 })(LASI.log);
 (function () {
     'use strict';

@@ -60,4 +60,7 @@
 
         });
     });
+    window.setTimeout(function () {
+        $('#document-list-navbar-item-container').removeClass('hidden');
+    }, 50);
 }(LASI));

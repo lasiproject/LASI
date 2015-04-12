@@ -187,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Analysis\BinderImplementations\" />
+    <Folder Include="Analysis\Binding\Experimental\SequentialPatterns\PatternBindingHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">

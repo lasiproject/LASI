@@ -1,15 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" meta charset="utf-8" />
     <title>LASI</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/widgets/document-upload.css" />
     <link rel="stylesheet" href="~/css/results/results.css" />
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,21 +18,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @if (User?.Identity?.IsAuthenticated ?? false)
-                {
-                    @await Component.InvokeAsync("DocumentList", 4)
-                }
-
-
+                <div id="document-list-navbar-item-container" class="dropdown-toggle hidden">
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        @await Component.InvokeAsync("DocumentList", 4)
+                    }
+                </div>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    @*
-                        <li>@Html.ActionLink("LASI", "Index", "Home")</li>*@
                     <li class="navbar-brand">
-                        <a href="~/" onclick="(function() { $.get('/home/index'); })">
+                        <a href="~/">
                             <div>
-                                <img class="logo" src="~/images/ic_launcher-web - Copy.png" width="30" style="margin-top:-30px;" />
+                                <img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" />
                             </div>
                         </a>
                     </li>
@@ -42,10 +38,6 @@
                         <a href="#" class="glyphicon glyphicon-upload"></a>
                     </li>
                     <li>@Html.ActionLink("Results", "Index", "Results")</li>
-                    @*
-                        <li>@Html.ActionLink("Contact","Contact", "Home")</li>
-
-                        <li>@Html.ActionLink("About Asp.Net","About", "Home")</li>*@
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -54,12 +46,7 @@
     <div class="jumbotron">
         <div class="body-content">
             <div class="container-fluid">
-
-                @RenderBody()
-                <hr />
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - LASI Project</p>
-                </footer>
+                @RenderBody()<hr /><footer><p>&copy; @DateTime.Now.Year - LASI Project</p></footer>
             </div>
         </div>
     </div>
@@ -70,12 +57,9 @@
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/draggable/draggable.js"></script>
-
     <script src="~/lib/angular/angular.js"></script>
-
     <script src="~/lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
     <script src="~/lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
-
     <script src="~/dist/app/app.js"></script>
     @RenderSection("scripts", required: false)
 </body>

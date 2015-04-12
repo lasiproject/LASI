@@ -1,6 +1,6 @@
 ﻿namespace AspSixApp.CustomIdentity.MongoDB
 {
-    public class MongoDbOptions
+    public class MongoDBOptions
     {
         public string ApplicationDatabaseName { get; set; }
         public string InstanceUrl { get; set; }

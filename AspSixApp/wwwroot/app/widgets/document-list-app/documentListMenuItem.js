@@ -8,7 +8,7 @@
 
     function documentListMenuItem($window, resultsService) {
 
-        var directive = {
+        return {
             transclude: true,
             replace: true,
             restrict: 'E',
@@ -34,8 +34,5 @@
 
             }
         };
-        return directive;
-
     }
-
 })(LASI.log);

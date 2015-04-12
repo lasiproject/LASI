@@ -86,7 +86,7 @@ module.exports = function (grunt) {
         watch: {
             appjs: {
                 files: ['wwwroot/app/**/*.js'],
-                tasks: ['jshint:app', 'qunit:all']
+                tasks: ['jshint:app', 'qunit:all', 'concat']
             },
             test: {
                 files: ['wwwroot/test/**/*.js'],

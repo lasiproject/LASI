@@ -7,13 +7,13 @@ namespace AspSixApp.CustomIdentity.MongoDB
 {
     public class MongoDBConfiguration
     {
-        public MongoDBConfiguration(MongoDbOptions options)
+        public MongoDBConfiguration(MongoDBOptions options)
         {
             Options = options;
         }
         public MongoDBConfiguration(IConfiguration config, string applicationBasePath)
         {
-            this.Options = new MongoDbOptions
+            this.Options = new MongoDBOptions
             {
                 MongodExePath = config["MongodExecutableLocation"],
                 DataDbPath = applicationBasePath + config["MongoDataDbPath"],
@@ -38,6 +38,6 @@ namespace AspSixApp.CustomIdentity.MongoDB
         public string MongodExePath => Options.MongodExePath;
         public string DataDbPath => Options.DataDbPath;
         public IReadOnlyDictionary<Type, string> CollectionNamesByType { get; }
-        public MongoDbOptions Options { get; }
+        public MongoDBOptions Options { get; }
     }
 }
