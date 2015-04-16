@@ -99,6 +99,8 @@ namespace LASI.Core
 
         public double Weight { get; set; }
 
+        public ILexical SubjectComplement { get; set; }
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout)

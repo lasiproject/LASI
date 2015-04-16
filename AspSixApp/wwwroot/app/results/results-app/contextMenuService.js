@@ -16,7 +16,7 @@
 
         function getData() {
             var deferred = $q.defer();
-            $http.get('api/UserDocuments/list')
+            $http.get('api/UserDocuments/List')
                 .success(function (data) {
                     deferred.resolve(data);
                     $log.info(data);

@@ -1,7 +1,9 @@
-﻿using LASI.Core.Heuristics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
+using static System.Linq.Enumerable;
+
 namespace LASI.Core.Binding.Experimental
 {
     /// <summary>
@@ -21,7 +23,7 @@ namespace LASI.Core.Binding.Experimental
                 select e.Index;
             if (splitPoints.Any())
             {
-                var branches = splitPoints.Count() == 1 ? Enumerable.Repeat(words, 1) : splitPoints
+                var branches = splitPoints.Count() == 1 ? new[] { words } : splitPoints
                     .Skip(1)
                     .Select(splitter => words
                         .Take(splitPoints.First())
@@ -33,35 +35,21 @@ namespace LASI.Core.Binding.Experimental
                                       where actions.Any()
                                       orderby actions.Count() descending
                                       select actions;
-                foreach (var action in actionsByBranch.DefaultIfEmpty(Enumerable.Empty<Action>()).First())
-                {
-                    action();
-                }
+
+                actionsByBranch.DefaultIfEmpty(Empty<Action>()).First().InvokeAll();
+
             }
         }
         private static IEnumerable<Action> GetBranchActions(IEnumerable<Word> words)
         {
             var wordList = words.ToList();
-            return
-                 from noun in
-                     from noun in wordList.OfNoun()
-                     where noun.Phrase is IEntity
-                     select new
-                     {
-                         Noun = noun,
-                         Key = noun.GetGender()
-                     }
-                 join pronoun in
-                     from pronoun in words.OfPronoun()
-                     select new
-                     {
-                         Pronoun = pronoun,
-                         Key = pronoun.Gender
-                     }
-                 on noun.Key equals pronoun.Key
-                 where wordList.IndexOf(noun.Noun) < wordList.IndexOf(pronoun.Pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
-                 group noun.Noun by pronoun.Pronoun into byPronoun
-                 select new Action(() => { byPronoun.Key.BindAsReferringTo(byPronoun.First()); });
+            return from noun in wordList.OfNoun()
+                   where noun.Phrase is IEntity
+                   from pronoun in words.OfPronoun()
+                   where noun.IsGenderEquivalentTo(pronoun)
+                   where wordList.IndexOf(noun) < wordList.IndexOf(pronoun)//Only those Nouns which precede the Pronoun are considered binding candidates.
+                   group noun by pronoun into byPronoun
+                   select (Action)(() => { byPronoun.Key.BindAsReferringTo(byPronoun.First()); });
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Configuration;
 
-namespace LASI.Core.Binding.Experimental
+namespace LASI.Core.Analysis.Binding
 {
     internal class ObjectBinderV2
     {
@@ -61,11 +61,9 @@ namespace LASI.Core.Binding.Experimental
         private static IEnumerable<Func<Phrase>> ImagineBindings(IEnumerable<Phrase> elements)
         {
             var results = new List<Func<Phrase>>();
-            var targetVerbPhrases = elements.Select(e =>
-                e.Match()
+            var targetVerbPhrases = elements.Select(e => e.Match()
                     .Case((ConjunctionPhrase c) => c.NextPhrase as VerbPhrase)
-                    .Case((SymbolPhrase s) =>
-                        s.NextPhrase.Match()
+                    .Case((SymbolPhrase s) => s.NextPhrase.Match()
                             .Case((VerbPhrase v) => v).Result(s.NextPhrase.NextPhrase as VerbPhrase))
                     .Case((VerbPhrase v) => v)
                 .Result())

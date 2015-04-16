@@ -170,8 +170,8 @@ namespace LASI.Core
         private static Gender GetGender(IReferencer referencer) => referencer.Match()
             .Case((PronounPhrase p) => DeterminePronounPhraseGender(p))
             .When(referencer.RefersTo != null)
-            .Then((from referent in referencer.RefersTo
-                   let gender = referent.Match()
+            .Then((from referrenced in referencer.RefersTo
+                   let gender = referrenced.Match()
                        .Case((NounPhrase n) => DetermineNounPhraseGender(n))
                        .Case((Pronoun r) => r.Gender)
                        .Case((ProperSingularNoun r) => r.Gender)

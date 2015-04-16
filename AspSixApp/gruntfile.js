@@ -1,4 +1,4 @@
-/// <binding AfterBuild='default' ProjectOpened='watch' />
+/// <binding AfterBuild='default' Clean='watch' ProjectOpened='watch' />
 // This file in the main entry point for defining grunt tasks and using grunt plugins.
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
@@ -57,10 +57,15 @@ module.exports = function (grunt) {
                         'wwwroot/app/widgets/document-list.js',
                         'wwwroot/app/widgets/document-list-app/section.js',
                         'wwwroot/app/widgets/document-list-app/app.js',
-                        'wwwroot/app/widgets/document-list-app/documentService.js',
-                        'wwwroot/app/widgets/document-list-app/resultsService.js',
-                        'wwwroot/app/widgets/document-list-app/documentListMenuItem.js',
-                        'wwwroot/app/widgets/document-list-app/ListController.js',
+                        'wwwroot/app/widgets/document-list-app/document-service.js',
+                        'wwwroot/app/widgets/document-list-app/results-service.js',
+                        'wwwroot/app/widgets/document-list-app/document-list-menu-item.js',
+                        'wwwroot/app/widgets/document-list-app/list-controller.js',
+                        'wwwroot/app/widgets/task-list-app/section.js',
+                        'wwwroot/app/widgets/task-list-app/app.js',
+                        'wwwroot/app/widgets/task-list-app/task-controller.js',
+                        'wwwroot/app/widgets/task-list-app/task-list-directive.js',
+                        'wwwroot/app/widgets/task-list-app/task-status-service.js',
                 ],
                 dest: 'wwwroot/dist/app/app.js',
             }, options: { sourceMap: true }

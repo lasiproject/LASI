@@ -12,7 +12,7 @@
             transclude: true,
             replace: true,
             restrict: 'E',
-            templateUrl: '/app/widgets/document-list-app/documentListMenuItem.html',
+            templateUrl: '/app/widgets/document-list-app/document-list-menu-item.html',
             scope: {
                 name: '=',
                 documentId: '='

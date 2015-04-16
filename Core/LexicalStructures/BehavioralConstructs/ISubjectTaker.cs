@@ -11,7 +11,7 @@ namespace LASI.Core
     public interface ISubjectTaker
     {
         /// <summary>
-        /// Binds the given IEntity as a subject of the ISubjectTaker instance.
+        /// Binds the given IEntity as a subject of the ISubjectTaker.
         /// </summary>
         /// <param name="subject">The IEntity to attach to the ISubjectTaker as a subject.</param>
         void BindSubject(IEntity subject);
@@ -25,6 +25,10 @@ namespace LASI.Core
         /// Gets the Aggregate Entity composed of the ISubjectTaker's subjects.
         /// </summary>
         IAggregateEntity AggregateSubject { get; }
-
+        /// <summary>
+        /// Gets or sets the SubjectComplement, a Lexical construct generally an IDescriptor or IEntity construct, which modifies the Subjects of the ISubjectTaker.
+        /// </summary>
+        // TODO: Refine the type of the Subject Complement property by unifying certain aspects of IEntity and IDescriptor and lifting them into a new Interface.
+        ILexical SubjectComplement { get; set; }
     }
 }

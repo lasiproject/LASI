@@ -17,10 +17,7 @@
                     <textarea></textarea>
                 </div>
                 <div>
-                    @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel
-               {
-                   UploadTarget = "fileuploadtarget"
-               })
+                    @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel { UploadTarget = "fileuploadtarget" })
                 </div>
             </div>
         </div>

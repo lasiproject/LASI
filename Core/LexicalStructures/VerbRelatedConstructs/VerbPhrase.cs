@@ -139,9 +139,10 @@ namespace LASI.Core
         public override string ToString()
         {
             var empty = string.Empty;
-            return !Phrase.VerboseOutput ? base.ToString() :
+            return !VerboseOutput ? base.ToString() :
             string.Join("\n", base.ToString(),
                 Subjects.Any() ? $"Subjects: {Subjects.Format(s => s.Text)}" : empty,
+                SubjectComplement != null ? $"\nAttached Subject Complement{SubjectComplement.Text}" : empty,
                 DirectObjects.Any() ? $"Direct Objects: {DirectObjects.Format(o => o.Text)}" : empty,
                 IndirectObjects.Any() ? $"Indirect Objects: {IndirectObjects.Format(o => o.Text)}" : empty,
                 ObjectOfThePreposition != null ? $"Via Preposition Object: {ObjectOfThePreposition.Text}" : empty,
@@ -251,6 +252,7 @@ namespace LASI.Core
         /// <summary>Gets all of the Direct and Indirect objects of the VerbPhrase.</summary>
         public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
         public string prevailingForm { get; }
+        public ILexical SubjectComplement { get; set; }
 
         #endregion Properties
 

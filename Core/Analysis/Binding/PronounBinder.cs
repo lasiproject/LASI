@@ -13,7 +13,8 @@ namespace LASI.Core.Binding
         /// Attempts to perform pronoun binding within the given Sentence.
         /// </summary>
         /// <param name="sentence">The Sentence over which to perform pronoun binding.</param>
-        public static void Bind(Sentence sentence) {
+        public static void Bind(Sentence sentence)
+        {
             BindPosessivePronouns(sentence.Phrases);
         }
 
@@ -25,10 +26,13 @@ namespace LASI.Core.Binding
         /// Pronoun "its" binds to the proper noun "LASI"
         /// </summary>
         /// <param name="phrases">The sequence of phrases to bind within.</param>
-        private static void BindPosessivePronouns(IEnumerable<Phrase> phrases) {
-            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor)) {
+        private static void BindPosessivePronouns(IEnumerable<Phrase> phrases)
+        {
+            foreach (var vp in phrases.OfVerbPhrase().WithObject(o => o is IWeakPossessor))
+            {
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
-                foreach (var pro in pronouns) {
+                foreach (var pro in pronouns)
+                {
                     pro.PossessesFor = new AggregateEntity(vp.Subjects);
                 }
             }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LASI.Core.Binding.Tests
+namespace LASI.Core.Analysis.Binding.Tests
 {
     [TestClass]
     public class SubjectBinderTests

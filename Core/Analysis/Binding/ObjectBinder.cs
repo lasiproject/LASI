@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 
-namespace LASI.Core.Binding
+namespace LASI.Core.Analysis.Binding
 {
     /// <summary>
     /// Attempts to establish bindings between verbals and their objects at the Phrase level.
     /// </summary>
-    public class ObjectBinder
+    public class ObjectBinder : IIntraSentenceBinder
     {
         #region Fields
         private IVerbalObject directObject;

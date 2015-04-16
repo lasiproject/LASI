@@ -12,14 +12,14 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <param name="sentence">The sentence to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this Sentence sentence) => new SequenceMatch(sentence).LoggingWith(Logger.Log);
+        public static SequenceMatch Match(this Sentence sentence) => new SequenceMatch(sentence).AddLogger(Logger.Log);
 
         /// <summary>
         /// Begins a pattern match expression over the sequence of <see cref="ILexical"/>s.
         /// </summary>
         /// <param name="lexicalSequence">The sequence of to match against.</param>
         /// <returns>A <see cref="SequenceMatch"/> instance representing defining the match expression.</returns>
-        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) => new SequenceMatch(lexicalSequence).LoggingWith(Logger.Log);
+        public static SequenceMatch Match(this IEnumerable<ILexical> lexicalSequence) => new SequenceMatch(lexicalSequence).AddLogger(Logger.Log);
 
         public static SequenceMatch MatchSequence(this Phrase phrase) => phrase.Words.Match();
 

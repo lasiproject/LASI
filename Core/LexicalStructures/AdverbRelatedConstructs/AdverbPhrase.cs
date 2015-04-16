@@ -46,6 +46,7 @@ namespace LASI.Core
             set;
         }
 
-
+        public override string ToString() =>
+            base.ToString() + (VerboseOutput && Modifies != null ? $"\nModifies: {Modifies}" : string.Empty);
     }
 }

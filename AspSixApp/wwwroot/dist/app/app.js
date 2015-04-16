@@ -260,9 +260,9 @@ LASI.bindDefaultEvents();
 
 
 /* global: LASI: true */
-(function () {
+(function (app) {
     'use strict';
-    var validateFileExtension = (function () {
+    app.validateFileExtension = (function () {
         var accepted = Object.freeze(['.txt', '.docx', '.pdf', 'doc']);
         return function (fileName) {
             var extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
@@ -272,48 +272,44 @@ LASI.bindDefaultEvents();
         };
     }());
     $(function () {
-        //var $uploadElement = $('#document-upload-input');
         var $uploadList = $('#document-upload-list');
-        //var $uploadButton = $('#document-upload-button');
-        $(document)
-            .find('.btn-file :file')
-            .change(function () {
-                var $input = $(this),
-                    fileCount = $uploadList.find('span.file-index').length,
-                    files = $input[0].files,
-                    generateUploadListItemMarkup = function (file, index) {
-                        return '<div class="list-group-item text-left">' +
-                            '<span class="glyphicon glyphicon-remove remove-file"/>' +
-                            '&nbsp;&nbsp;&nbsp;<span class="file-index">' +
-                            [fileCount, index, 1].sum() +
-                            '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' +
-                            file.name + '</span></div>';
-                    },
-                    label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
-                $(files).filter(function () {
-                    return validateFileExtension($(this)[0].name);
-                }).toArray()
-                    .filter(function (file) {
-                        return !($uploadList.children('span').toArray().some(function () {
-                            return $(this).text() === file.name;
-                        }));
-                    })
-                    .forEach(function (file, index) {
-                        $uploadList.append(generateUploadListItemMarkup(file, index));
-                        $('span.glyphicon.glyphicon-remove.remove-file')
-                            .click(function () {
-                                $(this).removeData(file.name);
-                                $(this).parent().parent().find('span.file-name')
-                                    .filter(function () { return $(this).text() === file.name; })
-                                    .each(function () { return $(this).parent('div').remove(); });
-                                $uploadList.find('span.file-index')
-                                    .each(function (index) { $(this).text(index + 1); });
-                            });
-                    });
-                $input.trigger('fileselect', [files && files.length, label]);
-            });
+        $(document).find('.btn-file :file')
+           .change(function () {
+               var $input = $(this),
+                   fileCount = $uploadList.find('span.file-index').length,
+                   files = $input[0].files,
+                   generateUploadListItemMarkup = function (file, index) {
+                       return '<div class="list-group-item text-left">' +
+                           '<span class="glyphicon glyphicon-remove remove-file"/>' +
+                           '&nbsp;&nbsp;&nbsp;<span class="file-index">' +
+                           [fileCount, index, 1].sum() +
+                           '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' +
+                           file.name + '</span></div>';
+                   },
+                   label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
+               $(files).filter(function () { return app.validateFileExtension($(this)[0].name); })
+                   .toArray()
+                   .filter(function (file) {
+                       return !($uploadList.children('span').toArray().some(function () {
+                           return $(this).text() === file.name;
+                       }));
+                   })
+                   .forEach(function (file, index) {
+                       $uploadList.append(generateUploadListItemMarkup(file, index));
+                       $('span.glyphicon.glyphicon-remove.remove-file')
+                           .click(function () {
+                               $(this).removeData(file.name);
+                               $(this).parent().parent().find('span.file-name')
+                                   .filter(function () { return $(this).text() === file.name; })
+                                   .each(function () { return $(this).parent('div').remove(); });
+                               $uploadList.find('span.file-index')
+                                   .each(function (index) { $(this).text(index + 1); });
+                           });
+                   });
+               $input.trigger('fileselect', [files && files.length, label]);
+           });
     });
-}());
+}(LASI));
 (function (app) {
     'use strict';
     var log = app.log;
@@ -399,7 +395,6 @@ LASI.documentList = (function () {
         // 3rd Party Modules
         'ui.bootstrap'
     ]);
-    //angular.bootstrap(angular.element('#documentListApp'), [LASI.documentList.ngName]);
 })();
 (function () {
     'use strict';
@@ -411,22 +406,37 @@ LASI.documentList = (function () {
     documentService.$inject = ['$http', '$q', '$log'];
 
     function documentService($http, $q, $log) {
-        var service = {
-            getData: getData
+        return {
+            getData: getData,
+            uploadDocuments: uploadDocuments
         };
-
-        return service;
 
         function getData() {
             var deferred = $q.defer();
             $http.get('api/UserDocuments/list')
                 .success(function (data) {
-                    deferred.resolve(data);
                     $log.info(data);
+                    deferred.resolve(data);
                 })
                 .error(function (status) {
                     deferred.reject(status);
                 });
+            return deferred.promise;
+        }
+        function uploadDocuments(fileInputs) {
+            var data = $(fileInputs);
+            var deferred = $q.defer(),
+                succuss = function (data) {
+                    $log.info(data);
+                },
+                error = function (status) {
+                    $log.error(status);
+                    deferred.reject(status);
+                };
+            $http.post({
+                url: 'api/UserDocuments',
+                contentType: 'xxx-multipart-form-encoded'
+            });
             return deferred.promise;
         }
     }
@@ -488,7 +498,7 @@ LASI.documentList = (function () {
             transclude: true,
             replace: true,
             restrict: 'E',
-            templateUrl: '/app/widgets/document-list-app/documentListMenuItem.html',
+            templateUrl: '/app/widgets/document-list-app/document-list-menu-item.html',
             scope: {
                 name: '=',
                 documentId: '='
@@ -543,4 +553,101 @@ LASI.documentList = (function () {
     }
 })();
 
+var LASI = LASI || {};
+LASI.taskList = (function () {
+    'use strict';
+    return {
+        ngName: 'taskListApp'
+    };
+}());
+(function () {
+    'use strict';
+
+    angular.module(LASI.taskList.ngName, [
+        // Angular modules 
+
+        // Custom modules 
+
+        // 3rd Party Modules
+        'ui.bootstrap'
+    ]);
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module(LASI.taskList.ngName)
+        .controller('TaskController', TaskController);
+
+    TaskController.$inject = ['$location'];
+
+    function TaskController($location) {
+        /* jshint validthis:true */
+        var vm = this;
+        vm.title = 'TaskController';
+
+        activate();
+
+        function activate() { }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module(LASI.taskList.ngName)
+        .directive('TaskListDirective', TaskListDirective);
+
+    TaskListDirective.$inject = ['$window'];
+    
+    function TaskListDirective ($window) {
+        // Usage:
+        //     <TaskListDirective></TaskListDirective>
+        // Creates:
+        // 
+        var directive = {
+            link: link,
+            restrict: 'EA'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+        }
+    }
+
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module(LASI.taskList.ngName)
+        .factory('taskStatusService', taskStatusService);
+
+    taskStatusService.$inject = ['$http', '$q'];
+
+    function taskStatusService($http, $q) {
+        var taskList = [];
+        return {
+            getList: function (reload) {
+                var request;
+                var deferred = $q.defer();
+                if (reload) {
+                    request = $http.get('api/Tasks')
+                        .success(function (data) {
+                            console.log(data);
+                            taskList = data;
+                            deferred.resolve(taskList);
+                        })
+                        .error(function (status) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    deferred.resolve(taskList);
+                }
+                return deferred.promise;
+            }
+        };
+    }
+})();
 //# sourceMappingURL=app.js.map

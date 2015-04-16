@@ -329,18 +329,18 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends a Result Expression to the current pattern, thus specifying the default result
         /// to yield when no other patterns have been matched.
         /// </summary>
-        /// <param name="func">
+        /// <param name="defaultValueFactory">
         /// The factory function returning a desired default value. 
         /// </param>
         /// <returns>
         /// The result of the first successful match or the value given by invoking the supplied
         /// factory function.
         /// </returns>
-        public TResult Result(Func<TResult> func)
+        public TResult Result(Func<TResult> defaultValueFactory)
         {
             if (!Matched)
             {
-                result = func();
+                result = defaultValueFactory();
                 Matched = true;
             }
             return result;

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
+using LASI.Core.Analysis.Binding;
 
 namespace LASI.Core
 {
@@ -72,21 +73,25 @@ namespace LASI.Core
                         {
                             new SubjectBinder().Bind(sentence);
                         }
-                        catch (Exception e) when (e is NullReferenceException ||
-                                                  e is VerblessPhrasalSequenceException)
-                        { e.Log(); }
+                        catch (Exception e) when (e is NullReferenceException || e is VerblessPhrasalSequenceException)
+                        {
+                            e.Log();
+                        }
                         try
                         {
                             new ObjectBinder().Bind(sentence);
                         }
-                        catch (Exception x) when (x is InvalidStateTransitionException ||
-                                                  x is VerblessPhrasalSequenceException ||
-                                                  x is InvalidOperationException)
-                        { x.Log(); }
-
+                        catch (Exception e) when (e is InvalidStateTransitionException || e is VerblessPhrasalSequenceException || e is InvalidOperationException)
+                        {
+                            e.Log();
+                        }
+                        new IntraSentenceIDescriptorToVerbalSubjectBinder().Bind(sentence);
                     });
             }
-            catch (Exception x) { x.Log(); }
+            catch (Exception e)
+            {
+                e.Log();
+            }
         }
 
         private static void MatchSentences(IEnumerable<Sentence> sentences)

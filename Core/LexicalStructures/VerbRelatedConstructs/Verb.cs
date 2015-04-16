@@ -167,6 +167,7 @@ namespace LASI.Core
         /// Gets the IPrepositional object which links the Verb to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
+        public ILexical SubjectComplement { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether or not the Verb has classifying semantics. E.g. "A (is) a B"

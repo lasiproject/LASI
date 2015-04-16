@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module(LASI.documentList.ngName, [
+    angular.module(LASI.taskList.ngName, [
         // Angular modules 
 
         // Custom modules 

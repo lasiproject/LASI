@@ -56,34 +56,33 @@ namespace AspSixApp
 
                     options.Filters.Add(new CustomAsyncExceptionFilter());
                 })
-                .ConfigureIdentity(options =>
-                {
-                    options.Lockout = new LockoutOptions
-                    {
-                        EnabledByDefault = true,
-                        DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                        MaxFailedAccessAttempts = 10
-                    };
-                    options.User = new UserOptions
-                    {
-                        RequireUniqueEmail = true
-                    };
-                    options.SignIn = new SignInOptions
-                    {
-                        RequireConfirmedEmail = false,
-                        RequireConfirmedPhoneNumber = false
-                    };
-                    options.Password = new PasswordOptions
-                    {
-                        RequireLowercase = true,
-                        RequireUppercase = true,
-                        RequireNonLetterOrDigit = true,
-                        RequireDigit = true,
-                        RequiredLength = 8
-                    };
-                })
                 .AddMongoDB(new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory))
-                .AddIdentity<ApplicationUser, UserRole>()
+                .AddIdentity<ApplicationUser, UserRole>(configureOptions: options =>
+                 {
+                     options.Lockout = new LockoutOptions
+                     {
+                         EnabledByDefault = true,
+                         DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                         MaxFailedAccessAttempts = 10
+                     };
+                     options.User = new UserOptions
+                     {
+                         RequireUniqueEmail = true
+                     };
+                     options.SignIn = new SignInOptions
+                     {
+                         RequireConfirmedEmail = false,
+                         RequireConfirmedPhoneNumber = false
+                     };
+                     options.Password = new PasswordOptions
+                     {
+                         RequireLowercase = true,
+                         RequireUppercase = true,
+                         RequireNonLetterOrDigit = true,
+                         RequireDigit = true,
+                         RequiredLength = 8
+                     };
+                 })
                 .AddRoleStore<CustomUserStore<UserRole>>()
                 .AddUserStore<CustomUserStore<UserRole>>()
                 .AddUserManager<UserManager<ApplicationUser>>();
@@ -132,6 +131,7 @@ namespace AspSixApp
                        template: "api/{controller}/{id?}"
                    );
                });
+            app.UseBrowserLink();
         }
         /// <summary>
         /// Bootstrap LASI by loading the necessary configuration information from the specified file.
@@ -150,6 +150,6 @@ namespace AspSixApp
             LASI.Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.ResourceManagement.PerformanceProfile.High);
             LASI.Interop.Configuration.Initialize(fileName, LASI.Interop.ConfigFormat.Json, subkey);
         }
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
     }
 }

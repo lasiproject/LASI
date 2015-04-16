@@ -108,7 +108,12 @@ namespace LASI.Core
         {
             return new Match<T>(value);
         }
-
+        public static TResult Match<T, T1, T2, TResult>(this T value, Func<T1, TResult> p1, Func<T2, TResult> p2)
+            where T : class, ILexical where T1 : class, ILexical where T2 : class, ILexical =>
+                value.Match().Yield<TResult>().Case(p1).Case(p2).Result();
+        public static TResult Match<T, T1, T2, T3, TResult>(this T value, Func<T1, TResult> p1, Func<T2, TResult> p2, Func<T3, TResult> p3)
+            where T : class, ILexical where T1 : class, ILexical where T2 : class, ILexical where T3 : class, ILexical =>
+                value.Match().Yield<TResult>().Case(p1).Case(p2).Case(p3).Result();
         /// <summary>
         /// This externalized Case expression function allows for some slight additional flexibility. 
         /// </summary>

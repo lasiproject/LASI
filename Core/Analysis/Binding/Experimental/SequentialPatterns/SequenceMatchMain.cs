@@ -272,7 +272,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             return this;
         }
 
-        public SequenceMatch LoggingWith(Action<object> log)
+        public SequenceMatch AddLogger(Action<object> log)
         {
             this.log += message => log(message);
             return this;
@@ -289,7 +289,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <returns></returns>
         protected bool Accepted { get; set; }
 
-        private IReadOnlyList<ILexical> FilterByIgnoreOncePredicates(List<ILexical> values)
+        private List<ILexical> FilterByCurrentPredicates(List<ILexical> values)
         {
             var results = new List<ILexical>(values.Count);
             var tests = checkOncePredicates.Concat(predicates);
@@ -314,7 +314,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             set { this.sequence = value; }
         }
 
-        private IReadOnlyList<ILexical> SequenceFilteredByIgnoreOncePredicates => FilterByIgnoreOncePredicates(Sequence);
+        private List<ILexical> SequenceFilteredByCurrentPredicates => FilterByCurrentPredicates(Sequence);
 
         /// <summary>
         /// <c>true</c> if all guards have been satisfied or there are no applicable guards;

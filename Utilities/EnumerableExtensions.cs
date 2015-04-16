@@ -677,5 +677,12 @@ namespace LASI.Utilities
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
         public static IEnumerable<Indexed<T>> WithIndex<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
+
+        public static void InvokeAll(this IEnumerable<Action> actions) {
+            foreach (var action in actions)
+            {
+                action();
+            }
+        }
     }
 }

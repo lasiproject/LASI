@@ -46,7 +46,9 @@
     <div class="jumbotron">
         <div class="body-content">
             <div class="container-fluid">
-                @RenderBody()<hr /><footer><p>&copy; @DateTime.Now.Year - LASI Project</p></footer>
+                @RenderBody()
+                <hr />
+                @RenderFooter()
             </div>
         </div>
     </div>
@@ -66,3 +68,9 @@
 
 
 </html>
+@helper RenderFooter()
+{
+    <footer>
+        <p>&copy; @DateTime.Now.Year - LASI Project</p>
+    </footer>
+}
