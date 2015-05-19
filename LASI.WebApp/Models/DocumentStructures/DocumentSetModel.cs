@@ -14,7 +14,7 @@ namespace LASI.WebApp.Models.DocumentStructures
         {
             Id = System.Threading.Interlocked.Decrement(ref IdGenerator);
             DocumentModels = from document in documents.ToList()
-                             select new DocumentModel(document, Enumerable.Empty<object[]>(), this);
+                             select new DocumentModel(document, chartData: Enumerable.Empty<object[]>(), containingSetModel: this);
         }
 
         public DocumentSetModel(IEnumerable<DocumentModel> documentModels)
@@ -23,7 +23,7 @@ namespace LASI.WebApp.Models.DocumentStructures
         }
 
         public Style Style => new Style { CssClass = "documentlist" };
-        // TODO: Fix name of lambda arg
+
         public string Text => $@"{GetType()}:\n{string.Join("\n\n", DocumentModels.Select(m => m.Text))}";
         public IList<DocumentModel> DocumentModels { get; }
 

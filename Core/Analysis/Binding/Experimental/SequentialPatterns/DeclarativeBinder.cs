@@ -13,9 +13,9 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
 
         public void Bind(Sentence sentence) {
             this.sentence = sentence;
-            Test(sentence);
+            Example(sentence);
         }
-        static void Test(Sentence sentence) {
+        static void Example(Sentence sentence) {
             sentence.Phrases.Match()
                 .WithContinuationMode(ContinuationMode.None)
                 .Ignore<IAdverbial, IDescriptor>()

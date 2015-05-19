@@ -3,6 +3,15 @@
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
 module.exports = function (grunt) {
+    /**
+     * prefixor factory
+     * @param {string} pathPrefix - the prefix
+     */
+    function prefix(pathPrefix ) {
+        return function (path) {
+            return pathPrefix + path;
+        };
+    };
     grunt.initConfig({
         bower: {
             install: {
@@ -35,38 +44,38 @@ module.exports = function (grunt) {
         'jsmin-sourcemap': {
             lib: {
                 src: [
-                    'wwwroot/lib/jquery/**/*.js',
-                    'wwwroot/lib/jquery-validation/**/*.js',
-                    'wwwroot/lib/jquery-validation-unobtrusive/**/*.js',
-                    'wwwroot/lib/bootstrap/js/bootstrap.js',
-                    'wwwroot/lib/bootstrap-contextmenu/bootstrap-contextmenu.js'
-                ],
+                    'jquery/**/*.js',
+                    'jquery-validation/**/*.js',
+                    'jquery-validation-unobtrusive/**/*.js',
+                    'bootstrap/js/bootstrap.js',
+                    'bootstrap-contextmenu/bootstrap-contextmenu.js'
+                ].map(prefix('wwwroot/lib/')),
                 dest: 'wwwroot/dist/lib/lib.min.js'
             }
         },
         concat: {
             dist: {
                 src: [
-                        'wwwroot/app/LASI.js',
-                        'wwwroot/app/utilities/log.js',
-                        'wwwroot/app/debug-panel/debug-panel.js',
-                        'wwwroot/app/utilities/augmentations.js',
-                        'wwwroot/app/account/manage.js',
-                        'wwwroot/app/results/context-menu-provider.js',
-                        'wwwroot/app/results/result-chart-provider.js',
-                        'wwwroot/app/widgets/document-upload.js',
-                        'wwwroot/app/widgets/document-list.js',
-                        'wwwroot/app/widgets/document-list-app/section.js',
-                        'wwwroot/app/widgets/document-list-app/app.js',
-                        'wwwroot/app/widgets/document-list-app/document-list-service-provider.js',
-                        'wwwroot/app/widgets/document-list-app/documents-service.js',
-                        'wwwroot/app/widgets/document-list-app/delete-document-modal-controller.js',
-                        'wwwroot/app/widgets/document-list-app/results-service.js',
-                        'wwwroot/app/widgets/document-list-app/document-list-menu-item.js',
-                        'wwwroot/app/widgets/document-list-app/document-list-tabset-item.js',
-                        'wwwroot/app/widgets/document-list-app/tasks-list-service-provider.js',
-                        'wwwroot/app/widgets/document-list-app/list-controller.js'
-                ],
+                    'LASI.js',
+                    'utilities/log.js',
+                    'debug-panel/debug-panel.js',
+                    'utilities/augmentations.js',
+                    'account/manage.js',
+                    'results/context-menu-provider.js',
+                    'results/result-chart-provider.js',
+                    'widgets/document-upload.js',
+                    'widgets/document-list.js',
+                    'widgets/document-list-app/section.js',
+                    'widgets/document-list-app/app.js',
+                    'widgets/document-list-app/document-list-service-provider.js',
+                    'widgets/document-list-app/documents-service.js',
+                    'widgets/document-list-app/delete-document-modal-controller.js',
+                    'widgets/document-list-app/results-service.js',
+                    'widgets/document-list-app/document-list-menu-item.js',
+                    'widgets/document-list-app/document-list-tabset-item.js',
+                    'widgets/document-list-app/tasks-list-service-provider.js',
+                    'widgets/document-list-app/list-controller.js'
+                ].map(prefix('wwwroot/app/')),
                 dest: 'wwwroot/dist/app/app.js',
             }, options: { sourceMap: true }
         },
@@ -91,7 +100,7 @@ module.exports = function (grunt) {
         watch: {
             appjs: {
                 files: ['wwwroot/app/**/*.js'],
-                tasks: ['jshint:app', 'qunit:all', 'concat']
+                tasks: ['qunit:all', 'concat']
             },
             test: {
                 files: ['wwwroot/test/**/*.js'],

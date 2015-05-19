@@ -18,8 +18,8 @@ namespace LASI.WebApp.Models.DocumentStructures
         public PageModel PageModel { get; set; }
         public override string Text => ModelFor.Text;
         public override Style Style => new Style { CssClass = "paragraph" };
-        public IEnumerable<SentenceModel> SentenceModels { get; private set; }
-        public IEnumerable<PhraseModel> PhraseModels { get; private set; }
+        public IEnumerable<SentenceModel> SentenceModels { get; }
+        public IEnumerable<PhraseModel> PhraseModels { get; }
 
         public override PageModel Parent => PageModel;
 

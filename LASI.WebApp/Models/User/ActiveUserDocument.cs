@@ -19,15 +19,14 @@ namespace LASI.WebApp.Models.User
         /// </summary>
         [BsonIgnore]
         public double Progress { get; private set; }
-        public static ActiveUserDocument FromUserDocument(UserDocument document) =>
-            new ActiveUserDocument
-            {
-                Content = document.Content,
-                DateUploaded = document.DateUploaded,
-                Name = document.Name,
-                UserId = document.UserId,
-                _id = document._id,
-            };
+        public static ActiveUserDocument FromUserDocument(UserDocument document) => new ActiveUserDocument
+        {
+            Content = document.Content,
+            DateUploaded = document.DateUploaded,
+            Name = document.Name,
+            UserId = document.UserId,
+            _id = document._id,
+        };
 
     }
 }

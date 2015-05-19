@@ -1,41 +1,45 @@
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../../typings/angularjs/angular-resource.d.ts" />
-var DocumentList;
-(function (DocumentList_1) {
-    var DocumentListServiceProvider = (function () {
-        function DocumentListServiceProvider() {
-            this.$inject = ['$resource'];
-        }
-        DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
-            this.documentListUrl = url;
-            return this;
+/// <reference path = "IDocumentListItem.d.ts" />
+var DocumentListServiceProvider = (function () {
+    function DocumentListServiceProvider() {
+        this.$inject = ['$resource'];
+        this.$get.$inject = ['$resource'];
+    }
+    DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
+        this.documentListUrl = url;
+        return this;
+    };
+    DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
+        this.recentDocumentCount = count;
+        return this;
+    };
+    /**
+     * @param $resource an instance of the Resource Service supplied by the angular-resource module.
+     */
+    DocumentListServiceProvider.prototype.$get = function ($resource) {
+        var resource = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
+            get: {
+                method: 'GET',
+                isArray: true
+            },
+            delete: {
+                method: 'DELETE',
+                isArray: false
+            }
+        });
+        return {
+            getDocumentList: function () {
+                return resource.get();
+            },
+            deleteDocument: function (documentId) {
+                return resource.delete({ documentId: documentId });
+            }
         };
-        DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
-            this.recentDocumentCount = count;
-            return this;
-        };
-        DocumentListServiceProvider.prototype.$get = function ($resource) {
-            var documentList;
-            var DocumentList;
-            return {
-                getDocumentList: function () {
-                    DocumentList = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
-                        get: {
-                            method: 'GET',
-                            isArray: true
-                        }
-                    });
-                    documentList = DocumentList.get();
-                    return documentList;
-                }
-            };
-        };
-        return DocumentListServiceProvider;
-    })();
-    (function () {
-        'use strict';
-        angular
-            .module(LASI.documentList.ngName)
-            .provider('documentListService', DocumentListServiceProvider);
-    })();
-})(DocumentList || (DocumentList = {}));
+    };
+    return DocumentListServiceProvider;
+})();
+(function () {
+    'use strict';
+    angular
+        .module(LASI.documentList.ngName)
+        .provider('documentListService', DocumentListServiceProvider);
+})();

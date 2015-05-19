@@ -51,7 +51,7 @@ namespace LASI.WebApp
 
             services
                 .AddTransient(provider => new Content.Tagging.Tagger(TaggerInterop.TaggerMode.TagAndAggregate))
-                .AddInstance<ILookupNormalizer>(new UpperInvariantLookupNormalizer())
+                .AddTransient<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                 .AddSingleton<IWorkItemsService>(provider => new DummyUserWorkItemService(
                         itemCount: 5,
                         maxUpdate: 10,
@@ -67,18 +67,17 @@ namespace LASI.WebApp
                 .AddUserManager<UserManager<ApplicationUser>>()
                 .AddUserStore<CustomUserStore<UserRole>>();
 
+
+            services
+                .AddMvc()
+                .ConfigureMvc(ConfigureMvcOptions);
+
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
             services
                 .ConfigureFacebookAuthentication(ConfigureFacebookAuthenticationOptions)
                 .ConfigureMicrosoftAccountAuthentication(ConfigureMicrosoftAccountAuthentication);
-
-            // Add MVC services to the services container.
-
-            services
-                .AddMvc()
-                .ConfigureMvc(ConfigureMvcOptions);
         }
 
         // Configure is called after ConfigureServices is called.

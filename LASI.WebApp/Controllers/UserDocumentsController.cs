@@ -14,6 +14,7 @@ using Microsoft.AspNet.Mvc;
 using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Authorization;
+using LASI.Utilities;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,10 +26,12 @@ namespace LASI.WebApp.Controllers.Controllers
     public class UserDocumentsController : Controller
     {
         public UserDocumentsController(
+            UserManager<ApplicationUser> userManager,
             IDocumentProvider<UserDocument> documentStore,
             IHostingEnvironment hostingEnvironment
         )
         {
+            UserManager = userManager;
             DocumentStore = documentStore;
             HostingEnvironment = hostingEnvironment;
         }
@@ -75,15 +78,16 @@ namespace LASI.WebApp.Controllers.Controllers
             ResultsController.ProcessedDocuments = ResultsController.ProcessedDocuments.Except(ResultsController.ProcessedDocuments.Where(d => d.Name == userDocument.Name));
         }
 
-        private IEnumerable<dynamic> ProcessFormFiles(IFormFileCollection files)
+        private async Task<IEnumerable<dynamic>> ProcessFormFiles(IFormFileCollection files)
         {
             var userId = Context.User.GetUserId();
-            //var user = await UserManager.FindByIdAsync(userId);
+            var user = await UserManager.FindByIdAsync(userId);
             var uploads = from file in files
                           let fileName = new FileInfo(file.ExtractFileName()).Name
                           let textContent = ExtractRawTextAsync(file).Result
                           select new UserDocument
                           {
+                              _id = ObjectId.GenerateNewId(),
                               Name = fileName,
                               Content = textContent,
                               UserId = userId,
@@ -93,11 +97,11 @@ namespace LASI.WebApp.Controllers.Controllers
             {
                 var documentId = DocumentStore.AddForUser(upload.UserId, upload);
                 upload._id = ObjectId.Parse(documentId);
-                //user.Documents = user.Documents.Append(document);
+                user.Documents = user.Documents.Append(upload);
                 DocumentStore.AddForUser(userId, upload);
             }
 
-            //await UserManager.UpdateAsync(user);
+            await UserManager.UpdateAsync(user);
             return uploads.Select(document => new
             {
                 Id = document._id.ToString(),
@@ -125,6 +129,7 @@ namespace LASI.WebApp.Controllers.Controllers
         private IHostingEnvironment HostingEnvironment { get; }
         //private UserManager<ApplicationUser> UserManager { get; }
         private IDocumentProvider<UserDocument> DocumentStore { get; }
+        public UserManager<ApplicationUser> UserManager { get; }
         #endregion
     }
 }

@@ -1,11 +1,14 @@
-var LASI = LASI || function () {
-    'use strict';
-    var log = console.log.bind(console), editor = $('#free-editor').change(log);
-    return {
-        log: log,
-        editor: editor
-    };
-}();
+var LASI;
+(function () {
+    LASI = LASI || function () {
+        'use strict';
+        var log = console.log.bind(console), editor = $('#free-editor').change(log);
+        return {
+            log: log,
+            editor: editor
+        };
+    }();
+})();
 
 
 //(function (log) {
@@ -384,19 +387,25 @@ var LASI = LASI || function () {
     });
 }(LASI));
 
-this.LASI = this.LASI || {};
-this.LASI.documentList = this.LASI.documentList || {
-    ngName: 'documentListApp'
-};
 (function () {
     'use strict';
+    if (!LASI) {
+        return;
+    }
+    else {
+        LASI.documentList = LASI.documentList || { ngName: 'documentListApp' };
+    }
+})();
+
+'use strict';
+(function () {
     angular
         .module(LASI.documentList.ngName, ['ngResource', 'ui.bootstrap', 'ngFileUpload'])
         .config(configure);
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
     function configure(tasksListServiceProvider, documentListServiceProvider) {
         tasksListServiceProvider
-            .setUpdateInterval(500)
+            .setUpdateInterval(5000)
             .setTasksListUrl('api/Tasks');
         documentListServiceProvider
             .setRecentDocumentCount(3)
@@ -404,52 +413,56 @@ this.LASI.documentList = this.LASI.documentList || {
     }
 })();
 
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../../typings/angularjs/angular-resource.d.ts" />
-var DocumentList;
-(function (DocumentList_1) {
-    var DocumentListServiceProvider = (function () {
-        function DocumentListServiceProvider() {
-            this.$inject = ['$resource'];
-        }
-        DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
-            this.documentListUrl = url;
-            return this;
+/// <reference path = "IDocumentListItem.d.ts" />
+var DocumentListServiceProvider = (function () {
+    function DocumentListServiceProvider() {
+        this.$inject = ['$resource'];
+        this.$get.$inject = ['$resource'];
+    }
+    DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
+        this.documentListUrl = url;
+        return this;
+    };
+    DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
+        this.recentDocumentCount = count;
+        return this;
+    };
+    /**
+     * @param $resource an instance of the Resource Service supplied by the angular-resource module.
+     */
+    DocumentListServiceProvider.prototype.$get = function ($resource) {
+        var resource = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
+            get: {
+                method: 'GET',
+                isArray: true
+            },
+            delete: {
+                method: 'DELETE',
+                isArray: false
+            }
+        });
+        return {
+            getDocumentList: function () {
+                return resource.get();
+            },
+            deleteDocument: function (documentId) {
+                return resource.delete({ documentId: documentId });
+            }
         };
-        DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
-            this.recentDocumentCount = count;
-            return this;
-        };
-        DocumentListServiceProvider.prototype.$get = function ($resource) {
-            var documentList;
-            var DocumentList;
-            return {
-                getDocumentList: function () {
-                    DocumentList = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
-                        get: {
-                            method: 'GET',
-                            isArray: true
-                        }
-                    });
-                    documentList = DocumentList.get();
-                    return documentList;
-                }
-            };
-        };
-        return DocumentListServiceProvider;
-    })();
-    (function () {
-        'use strict';
-        angular
-            .module(LASI.documentList.ngName)
-            .provider('documentListService', DocumentListServiceProvider);
-    })();
-})(DocumentList || (DocumentList = {}));
-
-/// <reference path = "../../../typings/angularjs/angular.d.ts" />
-/// <reference path = "../../../typings/angularjs/angular-resource.d.ts" />
+    };
+    return DocumentListServiceProvider;
+})();
 (function () {
     'use strict';
+    angular
+        .module(LASI.documentList.ngName)
+        .provider('documentListService', DocumentListServiceProvider);
+})();
+
+/// <reference path = "../../typings/angularjs/angular.d.ts" />
+/// <reference path = "../../typings/angularjs/angular-resource.d.ts" />
+'use strict';
+(function () {
     angular
         .module(LASI.documentList.ngName)
         .service('DocumentsService', DocumentsService);
@@ -505,7 +518,7 @@ var DocumentList;
             return deferred.promise;
         };
     }
-}(LASI));
+})(LASI);
 
 (function (log) {
     'use strict';
@@ -572,30 +585,24 @@ var DocumentList;
         }
     }
 })();
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../../typings/angularjs/angular-resource.d.ts" />
-(function () {
-    'use strict';
-    angular
-        .module(LASI.documentList.ngName)
-        .provider('tasksListService', TasksListServiceProvider);
-    function TasksListServiceProvider() {
-        /* jshint validthis:true */
-        var updateInterval = 200;
-        var tasksListUrl = 'api/Tasks';
-        this.setUpdateInterval = function (millisconds) {
-            updateInterval = millisconds;
+var tasksListServiceProvider = function () {
+    var updateInterval = 200;
+    var tasksListUrl = 'api/Tasks';
+    var provider = {
+        setUpdateInterval: function (milliseconds) {
+            updateInterval = milliseconds;
             return this;
-        };
-        this.setTasksListUrl = function (url) {
+        }, setTasksListUrl: function (url) {
             tasksListUrl = url;
             return this;
-        };
-        this.$get = tasksListServiceFactory;
-        return this;
-        function tasksListServiceFactory($resource, $window) {
+        },
+        $get: function ($resource, $window) {
             var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
-            var Tasks = $resource(tasksListUrl, {}, { 'get': { method: 'GET', isArray: true } });
+            var Tasks = $resource(tasksListUrl, {}, {
+                'get': {
+                    method: 'GET', isArray: true
+                }
+            });
             var tasks = [];
             var update = function () {
                 tasks = Tasks.get();
@@ -609,17 +616,22 @@ var DocumentList;
                 getActiveTasks: getActiveTasks
             };
         }
-        tasksListServiceFactory.$inject = ['$resource', '$window'];
-        function createDebugInfoUpdator(element) {
-            return function displayTaskInfo(tasks) {
-                element.html(tasks.map(function (task) {
-                    return "<div>" + Object.keys(task).map(function (key) {
-                        return "<span>&nbsp&nbsp" + task[key] + "</span>";
-                    }) + "</div>";
-                }).join());
-            };
-        }
+    };
+    provider.$get.$inject = ['$resource', '$window'];
+    return provider;
+    function createDebugInfoUpdator(element) {
+        return function (tasks) { return element.html(tasks
+            .map(function (task) { return "<div>" +
+            Object.keys(task).map(function (key) { return "<span>&nbsp&nbsp" + task[key] + "</span>"; }) +
+            "</div>"; })
+            .join()); };
     }
+}();
+(function () {
+    'use strict';
+    angular
+        .module(LASI.documentList.ngName)
+        .provider('tasksListService', tasksListServiceProvider);
 })();
 
 (function () {
@@ -647,9 +659,9 @@ var DocumentList;
                         var file = files[i];
                         Upload.upload({
                             url: 'api/UserDocuments',
-                            fields: {},
                             file: file,
-                            method: 'POST'
+                            method: 'POST',
+                            fileName: file.name
                         }).progress(progress)
                             .success(success);
                     }

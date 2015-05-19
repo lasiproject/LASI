@@ -23,9 +23,9 @@
                         var file = files[i];
                         Upload.upload({
                             url: 'api/UserDocuments',
-                            fields: {},
                             file: file,
-                            method: 'POST'
+                            method: 'POST',
+                            fileName: file.name
                         }).progress(progress)
                             .success(success);
                     }

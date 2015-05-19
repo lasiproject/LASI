@@ -29,7 +29,7 @@ namespace LASI.WebApp.Controllers
     [Authorize]
     public class ResultsController : Controller
     {
-        public ResultsController(IDocumentProvider<IUserDocument> documentStore, IWorkItemsService userWorkItemsService, IHostingEnvironment hostingEnvironment)
+        public ResultsController(IDocumentProvider<UserDocument> documentStore, IWorkItemsService userWorkItemsService, IHostingEnvironment hostingEnvironment)
         {
             Phrase.VerboseOutput = true;
             this.documentStore = documentStore;
@@ -73,14 +73,14 @@ namespace LASI.WebApp.Controllers
         }
 
 
-        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params IUserDocument[] userDocuments) =>
+        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments) =>
             from document in await ProcessUserDocuments(userDocuments)
             let topResultPointsPlot = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
             let chartData = from chartResult in topResultPointsPlot
                             select new object[] { chartResult.First, chartResult.Second }
             select new DocumentModel(document, JArray.FromObject(chartData)) { };
 
-        private IUserDocument[] GetAllUserDocuments()
+        private UserDocument[] GetAllUserDocuments()
         {
 
             var userId = Context.User.GetUserId();
@@ -89,7 +89,7 @@ namespace LASI.WebApp.Controllers
             return files;
         }
 
-        private async Task<IEnumerable<Document>> ProcessUserDocuments(params IUserDocument[] userDocuments)
+        private async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] userDocuments)
         {
             //processedDocuments = processedDocuments.Clear();
             var workItems = CreateWorkItemsForProcessingOperations(userDocuments).ToList();
@@ -142,7 +142,7 @@ namespace LASI.WebApp.Controllers
         /// </summary>
         /// <param name="userDocuments">The documents whose processing will become active work items.</param>
         /// <returns>A <see cref="Task"/> representing the ongoing operation.</returns>
-        private IEnumerable<WorkItem> CreateWorkItemsForProcessingOperations(IUserDocument[] userDocuments) =>
+        private IEnumerable<WorkItem> CreateWorkItemsForProcessingOperations(UserDocument[] userDocuments) =>
             from document in userDocuments
             let isCached = ProcessedDocuments.Select(d => d.Name).Any(name => name.EqualsIgnoreCase(document.Name))
             select new WorkItem
@@ -173,7 +173,7 @@ namespace LASI.WebApp.Controllers
         public static IImmutableSet<Document> ProcessedDocuments { get; internal set; } = ImmutableHashSet.Create(ComparerFactory.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
 
-        private readonly IDocumentProvider<IUserDocument> documentStore;
+        private readonly IDocumentProvider<UserDocument> documentStore;
         private readonly IWorkItemsService userWorkItemsService;
     }
 }

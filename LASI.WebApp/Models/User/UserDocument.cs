@@ -3,7 +3,7 @@
 namespace LASI.WebApp.Models
 {
     using BsonIgnoreAttribute = MongoDB.Bson.Serialization.Attributes.BsonIgnoreAttribute;
-    public class UserDocument : Content.IRawTextSource, IUserDocument
+    public class UserDocument : Content.IRawTextSource
     {
         public MongoDB.Bson.ObjectId _id { get; set; }
         [BsonIgnore]

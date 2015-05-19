@@ -52,11 +52,11 @@ namespace LASI.Core.Analysis.Heuristics
             return data.Distinct();
         }
         /// <summary>
-        /// Returns the top results for the given document using a heuristic which emphasises the occurence of Entities above
+        /// Returns the top results for the given document using a heuristic which emphasizes the occurrence of Entities above
         /// other metrics.
         /// </summary>
         /// <param name="source">The Document from which to retrieve results.</param>
-        /// <returns>The top results for the given document using a heuristic which emphasises the occurence of Entities above
+        /// <returns>The top results for the given document using a heuristic which emphasizes the occurrence of Entities above
         /// other metrics.</returns>
         public static IEnumerable<Pair<string, float>> GetTopResultsByEntity(IReifiedTextual source)
         {

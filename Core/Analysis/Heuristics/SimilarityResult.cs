@@ -130,7 +130,7 @@ namespace LASI.Core
 
         #region Operators
 
-        #region Implcit Conversion Operators
+        #region Implicit Conversion Operators
 
         // These allow the type to implicitly convert to the desired result type for the condition.
         // Thus, refactoring the IsSimilarTo implementations preserves and enhances existing code
@@ -168,7 +168,7 @@ namespace LASI.Core
         /// Returns a value that indicates whether the SimResult on the left is equal to the
         /// SimResult on the right. Although it seems unlikely that two instances of SimResult will
         /// be compared directly for equality. The == and != operators or defined to ensure type
-        /// coersion does not result from the implicit conversions which make the class convenient.
+        /// coercion does not result from the implicit conversions which make the class convenient.
         /// Equality is defined strictly such that both RatioResult properties must match exactly to
         /// 5 digits, in addition to both booleanResult properties being equivalent. Keep this in
         /// mind if, for some reason, it is ever necessary to write code such as:
@@ -193,7 +193,7 @@ namespace LASI.Core
         /// Returns a value that indicates whether the SimResult on the left is not equal to the
         /// SimResult on the right. Although it seems unlikely that two instances of SimResult will
         /// be compared directly for equality. The == and != operators or defined to ensure type
-        /// coersion does not result from the implicit conversions which make the class convenient.
+        /// coercion does not result from the implicit conversions which make the class convenient.
         /// Equality is defined strictly such that both RatioResult properties must match exactly to
         /// 5 digits, in addition to both booleanResult properties being equivalent. Keep this in
         /// mind if, for some reason, it is ever necessary to write code such as:

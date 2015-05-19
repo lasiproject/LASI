@@ -36,7 +36,7 @@
         "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
-        "dnx46": {}
+        "dnx451": {}
     },
     "exclude": [
         "wwwroot",

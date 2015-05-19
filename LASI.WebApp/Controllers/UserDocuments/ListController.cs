@@ -36,11 +36,8 @@ namespace LASI.WebApp.Controllers.Controllers
                }
            );
         [HttpGet("{limit}")]
-        public async Task<IEnumerable<dynamic>> Get(int limit)
-        {
-            var list = await Get();
-            return list.Take(limit);
-        }
+        public async Task<IEnumerable<dynamic>> Get(int limit) => (await Get()).Take(limit);
+
         private readonly IDocumentProvider<UserDocument> documentStore;
     }
 }

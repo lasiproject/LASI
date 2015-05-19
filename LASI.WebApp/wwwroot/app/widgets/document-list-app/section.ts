@@ -1,8 +1,9 @@
 ﻿(function () {
-
-    this.LASI = this.LASI || {
-        documentList: { ngName: 'documentListApp' },
-        editor: undefined,
-        log: console.log.bind(console)
-    };
+    'use strict';
+    if (!LASI) {
+        return;
+    } else {
+        LASI.documentList = LASI.documentList || { ngName: 'documentListApp' };
+    }
 })();
+ 

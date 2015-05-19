@@ -1,12 +1,12 @@
+'use strict';
 (function () {
-    'use strict';
     angular
         .module(LASI.documentList.ngName, ['ngResource', 'ui.bootstrap', 'ngFileUpload'])
         .config(configure);
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
     function configure(tasksListServiceProvider, documentListServiceProvider) {
         tasksListServiceProvider
-            .setUpdateInterval(500)
+            .setUpdateInterval(5000)
             .setTasksListUrl('api/Tasks');
         documentListServiceProvider
             .setRecentDocumentCount(3)

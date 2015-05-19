@@ -22,7 +22,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         }
 
 
-        public UserDocument GetByIds(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d._id == ObjectId.Parse(documentId));
+        public UserDocument GetByIds(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d.Id == documentId);
         public IEnumerable<UserDocument> GetAllForUser(string userId) => Documents.Find(Query.EQ("UserId", userId));
 
 
@@ -36,7 +36,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         {
             Documents.Insert(document);
             var inserted = Documents.FindOne(Query.EQ("UserId", userId).And(Query.EQ("Name", document.Name)));
-            return inserted._id.ToString();
+            return inserted.Id;
         }
 
         public string AddForUser(UserDocument document)

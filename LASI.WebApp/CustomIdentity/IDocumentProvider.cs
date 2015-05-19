@@ -4,7 +4,7 @@ using LASI.Content;
 
 namespace LASI.WebApp.CustomIdentity
 {
-    public interface IDocumentProvider<TDocument> where TDocument : class, IUserDocument, IRawTextSource
+    public interface IDocumentProvider<TDocument> where TDocument : class, IRawTextSource
     {
         /// <summary>
         /// Adds the given document to the store associates it with the user indicated by <paramref name="userId"/>, and returns a string representation of its id.
