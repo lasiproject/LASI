@@ -1,4 +1,6 @@
-﻿namespace LASI.WebApp.Models.DocumentStructures
+﻿using Newtonsoft.Json;
+
+namespace LASI.WebApp.Models.DocumentStructures
 {
     public abstract class TextualModel<T, TParent> : IHierarchicaViewModel<T, TParent> where TParent : IViewModel
     {
@@ -8,7 +10,9 @@
             ModelFor = modelFor;
         }
         public int Id { get; }
+        [JsonIgnore]
         public T ModelFor { get; }
+        [JsonIgnore]
         public abstract string Text { get; }
         /// <summary>
         /// Contains a detailed textual representation of the model. 
@@ -19,6 +23,6 @@
 
         private static int IdGenerator;
         public abstract TParent Parent { get; }
-        public virtual string ContextmenuId => Parent.ContextmenuId;
+        public virtual string ContextmenuId => Parent?.ContextmenuId;
     }
 }

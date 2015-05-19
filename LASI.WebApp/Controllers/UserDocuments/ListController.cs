@@ -23,20 +23,19 @@ namespace LASI.WebApp.Controllers.Controllers
             this.documentStore = documentStore;
         }
         [HttpGet]
-        public async Task<IEnumerable<dynamic>> Get() => await Task.FromResult(
-               from document in documentStore.GetAllForUser(Context.User.GetUserId())
-               let activeDoc = ActiveUserDocument.FromUserDocument(document)
-               let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
-               orderby dateUploaded descending
-               select new
-               {
-                   Id = activeDoc._id.ToString(),
-                   Name = activeDoc.Name,
-                   Progress = activeDoc.Progress
-               }
-           );
+        public IEnumerable<dynamic> Get() => from document in documentStore.GetAllForUser(Context.User.GetUserId())
+                                             let activeDoc = ActiveUserDocument.FromUserDocument(document)
+                                             let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
+                                             orderby dateUploaded descending
+                                             select new
+                                             {
+                                                 Id = activeDoc._id.ToString(),
+                                                 Name = activeDoc.Name,
+                                                 Progress = activeDoc.Progress
+                                             };
+
         [HttpGet("{limit}")]
-        public async Task<IEnumerable<dynamic>> Get(int limit) => (await Get()).Take(limit);
+        public IEnumerable<dynamic> Get(int limit) => this.Get().Take(limit);
 
         private readonly IDocumentProvider<UserDocument> documentStore;
     }

@@ -12,17 +12,14 @@ namespace LASI.WebApp.Controllers.Controllers
     [Route("api/Tasks")]
     public class TasksController : Controller
     {
-        public TasksController([Activate]IWorkItemsService userWorkItemsService)
+        public TasksController(IWorkItemsService userWorkItemsService)
         {
             this.userWorkItemsService = userWorkItemsService;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<WorkItem>> Get()
-        {
-            var userId = User.GetUserId();
-            return await Task.FromResult(userWorkItemsService.GetAllWorkItemsForUser(userId));
-        }
+        public IEnumerable<WorkItem> Get() => userWorkItemsService.GetAllWorkItemsForUser(User.GetUserId());
+
         private readonly IWorkItemsService userWorkItemsService;
     }
 }

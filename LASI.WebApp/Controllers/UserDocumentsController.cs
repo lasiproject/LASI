@@ -36,7 +36,6 @@ namespace LASI.WebApp.Controllers.Controllers
             HostingEnvironment = hostingEnvironment;
         }
 
-
         [HttpGet(Order = 1)]
         public IEnumerable<UserDocument> Get() => DocumentStore.GetAllForUser(Context.User.GetUserId());
 
@@ -46,15 +45,17 @@ namespace LASI.WebApp.Controllers.Controllers
         [HttpPost]
         public IActionResult Post()
         {
-            IEnumerable<IFormFile> files = Request.Form.Files;
+            var files = Request.Form.Files;
             if (!files.Any())
             {
                 return HttpBadRequest(new { Message = "Request must contain at least one file." });
             }
             if (files.Any(file => !file.ContentTypeIsValid()))
             {
-                return HttpBadRequest($@"One or more of your files was in an incorrect format.
-                    The accepted formats are {string.Join(", ", FileManager.AcceptedFileFormats)}");
+                return HttpBadRequest(
+                    $@"One or more of your files was in an incorrect format.
+                    The accepted formats are {string.Join(", ", FileManager.AcceptedFileFormats)}"
+                );
             }
             return Json(ProcessFormFiles(Request.Form.Files));
         }
@@ -63,10 +64,8 @@ namespace LASI.WebApp.Controllers.Controllers
         public void Delete(string documentId)
         {
             var userId = User.GetUserId();
-            //var user = await this.UserManager.FindByIdAsync(userId);
             var userDocument = DocumentStore.GetByIds(userId, documentId);
             DocumentStore.RemoveByIds(User.GetUserId(), documentId);
-            //user.Documents = user.Documents.Where(d => d._id.ToString() != documentId);
             DocumentStore.RemoveByIds(userId, documentId);
             //await UserManager.UpdateAsync(user);
             // TODO: Clean this up and make it follow a better pattern. Right now it is a hack.
@@ -127,9 +126,8 @@ namespace LASI.WebApp.Controllers.Controllers
         #region Properties
         private ExtensionWrapperMap WrapperFactory { get; } = new ExtensionWrapperMap();
         private IHostingEnvironment HostingEnvironment { get; }
-        //private UserManager<ApplicationUser> UserManager { get; }
         private IDocumentProvider<UserDocument> DocumentStore { get; }
-        public UserManager<ApplicationUser> UserManager { get; }
+        private UserManager<ApplicationUser> UserManager { get; }
         #endregion
     }
 }

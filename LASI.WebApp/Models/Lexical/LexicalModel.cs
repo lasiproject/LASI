@@ -17,7 +17,9 @@ namespace LASI.WebApp.Models.Lexical
         public int Id { get; }
         public string Text { get; }
         public Style Style { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public TLexical Element { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public TLexical ModelFor => Element;
         public abstract string ContextMenuJson { get; }
 

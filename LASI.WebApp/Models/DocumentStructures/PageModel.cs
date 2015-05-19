@@ -10,8 +10,7 @@ namespace LASI.WebApp.Models.DocumentStructures
     {
         public PageModel(Document.Page page) : base(page)
         {
-            this.page = page;
-            ParagraphModels = page.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
+             ParagraphModels = ModelFor.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             foreach (var model in ParagraphModels)
             {
                 model.PageModel = this;
@@ -27,7 +26,5 @@ namespace LASI.WebApp.Models.DocumentStructures
         public DocumentModel DocumentModel { get; internal set; }
 
         public override DocumentModel Parent => DocumentModel;
-
-        private Document.Page page;
     }
 }

@@ -12,9 +12,9 @@ namespace LASI.WebApp.Models.Lexical
     {
         public PhraseModel(Phrase phrase) : base(phrase)
         {
-            ContextMenuJson = phrase.GetJsonMenuData();
-            DetailText = phrase.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
-            WordViewModels = from word in phrase.Words
+            ContextMenuJson = ModelFor.GetJsonMenuData();
+            DetailText = ModelFor.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
+            WordViewModels = from word in ModelFor.Words
                              select new WordModel(word);
         }
         public ParagraphModel ParagraphModel { get; set; }

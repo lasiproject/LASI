@@ -44,7 +44,7 @@ namespace LASI.WebApp.Controllers
             return await Results();
         }
         [HttpGet("Results/{documentId}")]
-        public async Task<dynamic> Get(string documentId)
+        public async Task<DocumentModel> Get(string documentId)
         {
             var userDocument = documentStore.GetByIds(User.GetUserId(), documentId);
             var model = await this.LoadResultDocument(userDocument);
@@ -73,12 +73,13 @@ namespace LASI.WebApp.Controllers
         }
 
 
-        private async Task<IEnumerable<dynamic>> LoadResultDocument(params UserDocument[] userDocuments) =>
+        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments) =>
             from document in await ProcessUserDocuments(userDocuments)
             let topResultPointsPlot = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
             let chartData = from chartResult in topResultPointsPlot
                             select new object[] { chartResult.First, chartResult.Second }
-            select new { Content = document.Text, document.Name, userDocuments.First(d => d.Name == document.Name).Id };
+            select new DocumentModel(document, chartData);
+            //new { Content = document.Text, document.Name, userDocuments.First(d => d.Name == document.Name).Id };
 
         private UserDocument[] GetAllUserDocuments()
         {

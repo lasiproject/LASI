@@ -62,6 +62,7 @@ namespace LASI.WebApp
             services.AddMongoDB(new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory));
 
             services.AddIdentity<ApplicationUser, UserRole>(ConfigureIdentityOptions)
+                .AddDefaultTokenProviders()
                 .AddRoleManager<RoleManager<UserRole>>()
                 .AddRoleStore<CustomUserStore<UserRole>>()
                 .AddUserManager<UserManager<ApplicationUser>>()
@@ -152,7 +153,9 @@ namespace LASI.WebApp
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 NullValueHandling = NullValueHandling.Ignore,
-                Formatting = Formatting.Indented,
+                //#if DEBUG
+                //                Formatting = Formatting.Indented,
+                //#endif
                 Converters = new[]
                 {
                     new StringEnumConverter

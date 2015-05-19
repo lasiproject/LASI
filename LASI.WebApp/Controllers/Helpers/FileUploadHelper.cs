@@ -15,19 +15,17 @@ namespace LASI.WebApp.Controllers.Helpers
     {
         public static bool ContentTypeIsValid(this IFormFile formFile) => AcceptedContentTypes.Contains(formFile.ContentType);
 
-        public static string ExtractFileName(this IFormFile formFile) =>
-            formFile.ContentDisposition.SplitRemoveEmpty(';')
-                .Select(s => s.Trim())
-                .First(p => p.StartsWith("filename")).Substring(9).Trim('\"');
+        public static string ExtractFileName(this IFormFile formFile) => formFile.ContentDisposition.SplitRemoveEmpty(';')
+            .Select(s => s.Trim())
+            .First(p => p.StartsWith("filename", StringComparison.OrdinalIgnoreCase))
+            .Substring(9).Trim('\"');
 
 
-        private static readonly ISet<string> AcceptedContentTypes = new HashSet<string>(
-            collection: new[] {
-                "text/plain", // generally corresponds to .txt
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // generally corresponds to .docx
-                "application/msword", // generally corresponds to .doc
-                "application/pdf" // generally corresponds to .pdf
-            },
-            comparer: StringComparer.OrdinalIgnoreCase);
+        private static readonly ISet<string> AcceptedContentTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
+            "text/plain", // generally corresponds to .txt
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // generally corresponds to .docx
+            "application/msword", // generally corresponds to .doc
+            "application/pdf" // generally corresponds to .pdf
+        };
     }
 }
