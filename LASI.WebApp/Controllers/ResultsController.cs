@@ -44,7 +44,7 @@ namespace LASI.WebApp.Controllers
             return await Results();
         }
         [HttpGet("Results/{documentId}")]
-        public async Task<DocumentModel> Get(string documentId)
+        public async Task<dynamic> Get(string documentId)
         {
             var userDocument = documentStore.GetByIds(User.GetUserId(), documentId);
             var model = await this.LoadResultDocument(userDocument);
@@ -52,7 +52,7 @@ namespace LASI.WebApp.Controllers
         }
 
         [HttpGet("Results")]
-        public async Task<IEnumerable<DocumentModel>> Get()
+        public async Task<IEnumerable<dynamic>> Get()
         {
             var userDocuments = GetAllUserDocuments();
             var resultModels = await LoadResultDocument(userDocuments);
@@ -64,21 +64,21 @@ namespace LASI.WebApp.Controllers
 
         public async Task<ViewResult> Results()
         {
-            IEnumerable<DocumentModel> resultModels = await Get();
+            var resultModels = await Get();
 
             ViewBag.Charts = resultModels.DistinctBy(m => m.Title).ToDictionary(m => m.Title, m => m.ChartData);
             ViewBag.Title = "Results";
-            return await Task.FromResult(View(new DocumentSetModel(resultModels)));
+            return await Task.FromResult(View(new DocumentSetModel(resultModels as IEnumerable<Document>)));
 
         }
 
 
-        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments) =>
+        private async Task<IEnumerable<dynamic>> LoadResultDocument(params UserDocument[] userDocuments) =>
             from document in await ProcessUserDocuments(userDocuments)
             let topResultPointsPlot = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
             let chartData = from chartResult in topResultPointsPlot
                             select new object[] { chartResult.First, chartResult.Second }
-            select new DocumentModel(document, JArray.FromObject(chartData)) { };
+            select new { Content = document.Text, document.Name, userDocuments.First(d => d.Name == document.Name).Id };
 
         private UserDocument[] GetAllUserDocuments()
         {
@@ -95,28 +95,23 @@ namespace LASI.WebApp.Controllers
             var workItems = CreateWorkItemsForProcessingOperations(userDocuments).ToList();
             workItems.ForEach(item => userWorkItemsService.UpdateWorkItemForUser(User.GetUserId(), item));
             var results = new ConcurrentBag<Document>();
-            var tasks = from userDocument in userDocuments
-                        join workItem in workItems
-                        on userDocument.Id equals workItem.Id
-                        select new
-                        {
-                            WorkItem = workItem,
-                            Document = userDocument
-                        } into documentWithWorkItem
-                        select new Task(() =>
-{
-    var analyzer = new AnalysisOrchestrator(documentWithWorkItem.Document);
-    var workItem = documentWithWorkItem.WorkItem;
-    analyzer.ProgressChanged += CreateWorkItemUpdateEventHandler(workItem);
-    var processedDocument = analyzer.ProcessAsync().Result.First();
-    UpdateWorkItemToComplete(workItem);
-    results.Add(processedDocument);
-});
-            foreach (var task in tasks)
-            {
-                task.Start();
-            }
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(from userDocument in userDocuments
+                               join workItem in workItems
+                               on userDocument.Id equals workItem.Id
+                               select new
+                               {
+                                   WorkItem = workItem,
+                                   Document = userDocument
+                               } into documentWithWorkItem
+                               select Task.Run(() =>
+                               {
+                                   var analyzer = new AnalysisOrchestrator(documentWithWorkItem.Document);
+                                   var workItem = documentWithWorkItem.WorkItem;
+                                   analyzer.ProgressChanged += CreateWorkItemUpdateEventHandler(workItem);
+                                   var processedDocument = analyzer.ProcessAsync().Result.First();
+                                   UpdateWorkItemToComplete(workItem);
+                                   results.Add(processedDocument);
+                               }));
             ProcessedDocuments = ProcessedDocuments.Union(results);
             return results;
         }

@@ -10,6 +10,11 @@
         var that = this;
         this.processDocument = function (documentId, documentName) {
             that.tasks[documentId] = { percentComplete: 0 };
+            var deferred = $q.defer();
+            $http.get('Results/' + documentId)
+                .success(success)
+                .error(error);
+            return deferred.promise;
             function success(data) {
                 var markupHeader = $('<div class="panel panel-default">' +
                     '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
@@ -31,11 +36,6 @@
             function error(xhr, message, detail) {
                 deferred.reject(message);
             }
-            var deferred = $q.defer();
-            $http.get('Results/Single/' + documentId)
-                .success(success)
-                .error(error);
-            return deferred.promise;
         };
     }
 })(LASI);

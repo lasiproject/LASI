@@ -365,7 +365,7 @@ var LASI;
                 .find('.progress hidden')
                 .find('.progress-bar')
                 .removeClass('.hidden').css('width', '100');
-            var contentRequest = $.get('Results/Single/' + documentId).done(function (data, status, xhr) {
+            var contentRequest = $.get('Results/' + documentId).done(function (data, status, xhr) {
                 var headerMarkup = $(createHeaderMarkup(documentId, documentName));
                 var panelMarkup = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
                 if (!$('#' + documentId).length) {
@@ -490,6 +490,11 @@ var DocumentListServiceProvider = (function () {
         var that = this;
         this.processDocument = function (documentId, documentName) {
             that.tasks[documentId] = { percentComplete: 0 };
+            var deferred = $q.defer();
+            $http.get('Results/' + documentId)
+                .success(success)
+                .error(error);
+            return deferred.promise;
             function success(data) {
                 var markupHeader = $('<div class="panel panel-default">' +
                     '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
@@ -511,11 +516,6 @@ var DocumentListServiceProvider = (function () {
             function error(xhr, message, detail) {
                 deferred.reject(message);
             }
-            var deferred = $q.defer();
-            $http.get('Results/Single/' + documentId)
-                .success(success)
-                .error(error);
-            return deferred.promise;
         };
     }
 })(LASI);

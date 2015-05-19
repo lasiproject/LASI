@@ -39,7 +39,7 @@
                 .find('.progress hidden')
                 .find('.progress-bar')
                 .removeClass('.hidden').css('width', '100');
-            var contentRequest = $.get('Results/Single/' + documentId).done(function (data, status, xhr) {
+            var contentRequest = $.get('Results/' + documentId).done(function (data, status, xhr) {
                 var headerMarkup = $(createHeaderMarkup(documentId, documentName));
                 var panelMarkup = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
                 if (!$('#' + documentId).length) {

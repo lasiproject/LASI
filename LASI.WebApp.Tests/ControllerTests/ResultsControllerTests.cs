@@ -23,7 +23,7 @@ namespace LASI.WebApp.Tests.ControllerTests
             ResultsController controller = provider.GetService<ResultsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
 
-            IEnumerable<DocumentModel> allResults = await controller.Get();
+            IEnumerable<dynamic> allResults = await controller.Get();
             Assert.NotEmpty(allResults);
         }
     }
