@@ -77,7 +77,7 @@ namespace LASI.Core.Tests
         private static IEnumerable<Paragraph> BuildParagraphs()
         {
             IEnumerable<Paragraph> allParagrpahs = new[] {
-                new Paragraph(new[] {
+                new Paragraph(ParagraphKind.Default, new[] {
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] {
                             new NounPhrase(new Word[] {
@@ -106,8 +106,8 @@ namespace LASI.Core.Tests
                             new Adverb("quickly")
                         })
                     })}, SentenceEnding.ExclamationPoint)
-                }, ParagraphKind.Default),
-                new Paragraph(new[] {
+                }),
+                new Paragraph(ParagraphKind.Default, new[] {
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] {
                             new NounPhrase(new Word[] {
@@ -134,7 +134,7 @@ namespace LASI.Core.Tests
                                 new CommonPluralNoun("jerks")
                             })
                     })}, SentenceEnding.ExclamationPoint)
-                }, ParagraphKind.Default)
+                })
             };
             return allParagrpahs;
         }
@@ -294,7 +294,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
 
-            Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
+            Document target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
             for (var i = 0; i < actual.Count(); ++i)
@@ -329,10 +329,10 @@ namespace LASI.Core.Tests
         public void TitleTest()
         {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
-            Document target = new Document(allParagrpahs, "testname");
+            Document target = new Document("testname", allParagrpahs);
             string expected = "testname";
             string actual;
-            actual = target.Title;
+            actual = target.Name;
             Assert.AreEqual(expected, actual);
         }
 
@@ -373,7 +373,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
 
-            Document target = new Document(new[] { new Paragraph(firstParagraphSentences, ParagraphKind.Default) });
+            Document target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
 
             IEnumerable<Clause> expected = firstParagraphSentences.SelectMany(s => s.Clauses);
             IEnumerable<Clause> actual;
@@ -388,7 +388,7 @@ namespace LASI.Core.Tests
         public void ToStringTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
-            string expected = string.Join(string.Empty, target.GetType(), ": ", target.Title, "\nParagraphs:\n", target.Paragraphs.Format());
+            string expected = string.Join(string.Empty, target.GetType(), ": ", target.Name, "\nParagraphs:\n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

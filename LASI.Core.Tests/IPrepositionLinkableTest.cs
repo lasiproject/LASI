@@ -33,8 +33,6 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        private IPrepositionLinkable CreateILexical() {
-            return new CommonSingularNoun("bacon");
-        }
+        private IPrepositionLinkable CreateILexical() => new CommonSingularNoun("bacon");
     }
 }

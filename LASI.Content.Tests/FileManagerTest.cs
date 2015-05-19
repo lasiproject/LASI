@@ -406,41 +406,29 @@ namespace LASI.Content.Tests
         }
 
 
-        private static DocFile[] GetTestDocFiles()
-        {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private static DocFile[] GetTestDocFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(f => f.Extension == ".doc")
                 .Select(fi => new DocFile(fi.FullName))
                 .ToArray();
-        }
 
-        private static DocXFile[] GetTestDocXFiles()
-        {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private static DocXFile[] GetTestDocXFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".docx")
                 .Select(fi => new DocXFile(fi.FullName))
                 .ToArray();
-        }
 
-        private static PdfFile[] GetTestPdfFiles()
-        {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private static PdfFile[] GetTestPdfFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".pdf")
                 .Select(fi => new PdfFile(fi.FullName))
                 .ToArray();
-        }
 
-        private static TxtFile[] GetTestTxtFiles()
-        {
-            return new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private static TxtFile[] GetTestTxtFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".txt")
                 .Select(fi => new TxtFile(fi.FullName))
                 .ToArray();
-        }
 
         /// <summary>
         ///Gets or sets the test context which provides

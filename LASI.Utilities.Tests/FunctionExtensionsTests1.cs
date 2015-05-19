@@ -1,12 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
-using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
 namespace LASI.Utilities.Tests
 {
     using static System.Threading.Thread;
@@ -14,7 +8,7 @@ namespace LASI.Utilities.Tests
     [TestClass]
     public class FunctionExtensionsTests1
     {
-        [Test]
+        [TestMethod]
         public void ComposeTest()
         {
             Func<double, double> f = x => x * x;
@@ -27,8 +21,8 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void ComposeTest1()
+        [TestMethod]
+        public void ComposeCallsGBeforeFTest()
         {
             bool fCalled = false;
             bool gCalled = false;
@@ -49,14 +43,14 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(gCalled);
         }
 
-        [Test]
-        public void ComposeTest2()
+        [TestMethod]
+        public void ComposePropagatesExceptionsThrownByGAndDoesNotCallFTest()
         {
             bool fCalled = false;
             bool gCalled = false;
             Func<double, double> f;
             Func<double, double> g;
-            string failure = $"{nameof(f)} threw";
+            string failure = $"{nameof(g)} threw";
             f = x =>
             {
                 fCalled = true;
@@ -79,12 +73,12 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(gCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void ComposeTest4()
         {
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
         }
-        [Test]
+        [TestMethod]
         public void ComposeTest5()
         {
             ComposeTest1Helper<object, object, object>();
@@ -116,8 +110,8 @@ namespace LASI.Utilities.Tests
 
         }
 
-        [Test]
-        public void AndThenTest4()
+        [TestMethod]
+        public void AndThenCallsA1BeforeA2()
         {
             bool a1Called = false;
             bool a2Called = false;
@@ -140,7 +134,7 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [Test]
+        [TestMethod]
         public void AndThenTest5()
         {
             bool a1Called = false;
@@ -164,7 +158,7 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [Test]
+        [TestMethod]
         public void AndThenTest6()
         {
             bool a1Called = false;
@@ -188,193 +182,269 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(a2Called);
         }
 
-        [Test]
-        public void AndThenTest3()
+        [TestMethod]
+        public void CurryOfTwoArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, string> uncurried = (x, y) => $"{x} * {y} = {x * y}";
+            var curried = uncurried.Curry();
+            var arg1 = 4;
+            var arg2 = 5;
+            var expected = $"{arg1} * {arg2} = {arg1 * arg2}";
+            var uncurriedResult = uncurried(arg1, arg2);
+            Assert.AreEqual(expected, uncurriedResult);
+            var curriedResult = curried(arg1)(arg2);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void AndThenTest2()
+        [TestMethod]
+        public void CurryOfThreeArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, string> uncurried = (x, y, z) => $"{x} * {y} * {z} = {x * y * z}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var expected = $"{arg1} * {arg2} * {arg3} = {arg1 * arg2 * arg3}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void AndThenTest1()
+        [TestMethod]
+        public void CurryOfFourArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, string> uncurried = (x, y, z, a) => $"({x} * {y} * {z}) / {a} = {(x * y * z) / a}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var expected = $"({arg1} * {arg2} * {arg3}) / {arg4} = {(arg1 * arg2 * arg3) / arg4}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void AndThenTest()
+        [TestMethod]
+        public void CurryOfFiveArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, int, string> uncurried = (x, y, z, a, b) => $"({x} * {y} * {z}) / {a} - {b} = {(x * y * z) / a - b}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var arg5 = 2;
+            var expected = $"({arg1} * {arg2} * {arg3}) / {arg4} - {arg5} = {(arg1 * arg2 * arg3) / arg4 - arg5}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void CurryTest()
+        [TestMethod]
+        public void CurryOfSixArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c) => $"({x} * {y} * {z}) / ({a} - {b} + {c}) = {(x * y * z) / (a - b + c)}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var arg5 = 2;
+            var arg6 = 2;
+            var expected = $"({arg1} * {arg2} * {arg3}) / ({arg4} - {arg5} + {arg6}) = {(arg1 * arg2 * arg3) / (arg4 - arg5 + arg6)}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void CurryTest1()
+        [TestMethod]
+        public void CurryOfSevenArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d) => $"(({d})({x} + {y} + {z}) / ({a} - {b} + {c}) = {d * (x + y + z) / (a - b + c)}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var arg5 = 2;
+            var arg6 = 2;
+            var arg7 = 17;
+            var expected = $"(({arg7})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) = {arg7 * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6)}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void CurryTest2()
+        [TestMethod]
+        public void CurryOfEightArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d, e) => $"(({d} - {e})({x} + {y} + {z}) / ({a} - {b} + {c}) = {(d - e) * (x + y + z) / (a - b + c)}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var arg5 = 2;
+            var arg6 = 2;
+            var arg7 = 17;
+            var arg8 = 18;
+            var expected = $"(({arg7} - {arg8})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) = {(arg7 - arg8) * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6)}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void CurryTest3()
+        [TestMethod]
+        public void CurryOfNineArgumentFunctionTest()
         {
-            Assert.Fail();
+            Func<int, int, int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d, e, f) =>
+                $"(({d} - {e})({x} + {y} + {z}) / ({a} - {b} + {c}) + {f} = {(d - e) * (x + y + z) / (a - b + c) + f}";
+            var arg1 = 4;
+            var arg2 = 5;
+            var arg3 = 6;
+            var arg4 = 3;
+            var arg5 = 2;
+            var arg6 = 2;
+            var arg7 = 17;
+            var arg8 = 18;
+            var arg9 = 2;
+            var expected = $"(({arg7} - {arg8})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) + {arg9} = {(arg7 - arg8) * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6) + arg9}";
+            var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            Assert.AreEqual(expected, uncurriedResult);
+
+            var curried = uncurried.Curry();
+            var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9);
+            Assert.AreEqual(curriedResult, uncurriedResult);
         }
 
-        [Test]
-        public void CurryTest4()
-        {
-            Assert.Fail();
-        }
-
-        [Test]
-        public void CurryTest5()
-        {
-            Assert.Fail();
-        }
-
-        [Test]
-        public void CurryTest6()
-        {
-            Assert.Fail();
-        }
-
-        [Test]
-        public void CurryTest7()
-        {
-            Assert.Fail();
-        }
-
-        [Test]
+        [TestMethod]
         public void CurryTest8()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void CurryTest9()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void CurryTest10()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void CurryTest11()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void CurryTest12()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void CurryTest13()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest1()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest2()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest3()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest4()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest5()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest6()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest7()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest8()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest9()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest10()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest11()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void ApplyTest12()
         {
-            Assert.Fail();
+            Assert.Inconclusive("TODO: Implement code to verify target");
         }
 
-        [Test]
+        [TestMethod]
         public void IdentityTest()
         {
             IdentityTestHelper<object>();
@@ -391,14 +461,14 @@ namespace LASI.Utilities.Tests
             T actual = Identity(target);
             Assert.AreEqual(expected, actual);
         }
-        [Test]
+        [TestMethod]
         public void WithTimerTest()
         {
             int synthesizedWaitInMs = 0;
             Complex result = default(Complex);
             Func<Complex> compute = () =>
             {
-                System.Threading.Thread.Sleep(synthesizedWaitInMs);
+                Sleep(synthesizedWaitInMs);
                 return result;
             };
             System.Diagnostics.Stopwatch sw;
@@ -409,7 +479,7 @@ namespace LASI.Utilities.Tests
             Assert.IsFalse(sw.IsRunning);
         }
 
-        [Test]
+        [TestMethod]
         public void WithTimerTest1()
         {
             int synthesizedWaitInMs = 0;
@@ -426,7 +496,7 @@ namespace LASI.Utilities.Tests
             Assert.IsFalse(sw.IsRunning);
         }
 
-        [Test]
+        [TestMethod]
         public void WithTimerTest2()
         {
             int synthesizedWaitInMs = 0;

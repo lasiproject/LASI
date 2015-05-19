@@ -16,7 +16,8 @@
         /// <param name="mode">
         /// The ResourceMode which will be used to determine the maximum collective cache size
         /// </param>
-        public static void SetByPerformanceMode(Mode mode) {
+        public static void SetByPerformanceMode(Mode mode)
+        {
             MinRamThreshold = mode == Mode.High ? (MB)2048 : mode == Mode.Normal ? (MB)3072 : (MB)4096;
         }
 
@@ -25,14 +26,17 @@
         /// </summary>
         public static MB MinRamThreshold { get; private set; }
 
-        static Memory() {
+        static Memory()
+        {
             // Default to a medium or "normal" memory usage profile if none is specified.
             SetByPerformanceMode(Mode.Normal);
             var checkIntervalTimer = new System.Timers.Timer(10000);
             checkIntervalTimer.Start();
-            checkIntervalTimer.Elapsed += (s, e) => {
+            checkIntervalTimer.Elapsed += (s, e) =>
+            {
                 var available = GetAvailableMemory();
-                if (available < MinRamThreshold) {
+                if (available < MinRamThreshold)
+                {
                     MemoryCritical(null, new MemoryEventArgs
                     {
                         RemainingMemory = available,
@@ -59,13 +63,16 @@
         /// The function to be invoked when available memory is least 128 MegaBytes greater than the
         /// specified threshold.
         /// </param>
-        private static void ConfigureRamEvent(MB threshold, uint frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased) {
-            if (frequency < 1) { throw new ArgumentOutOfRangeException("frequency", "event frequency may not be 0"); }
+        private static void ConfigureRamEvent(MB threshold, uint frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased)
+        {
+            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "event frequency may not be 0"); }
             var increased = availableRamDecreased ?? delegate { };
             var backingTimer = new System.Timers.Timer(frequency);
-            backingTimer.Elapsed += (sender, e) => {
+            backingTimer.Elapsed += (sender, e) =>
+            {
                 var available = GetAvailableMemory();
-                if (available < threshold) {
+                if (available < threshold)
+                {
                     availableRamDecreased(
                         null,
                         new MemoryEventArgs
@@ -74,7 +81,9 @@
                             TriggeringThreshold = threshold
                         }
                     );
-                } else if (available >= threshold + 128) {
+                }
+                else if (available >= threshold + 128)
+                {
                     increased(null, new MemoryEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
                 }
             };

@@ -38,10 +38,10 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path)
         {
-            var logPath = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), path ?? $"./LasiLog{DateTime.Now}.txt");
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), path ?? $"LasiLog{DateTime.Now.Millisecond}.txt");
             OutputMode = Mode.File;
 
-            var fileStream = new FileStream(path: logPath, mode: FileMode.OpenOrCreate);
+            var fileStream = new FileStream(path: logPath, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.Write);
 
             // TODO: Fix race condition which sometimes occurs here. 
             // Possible fix 1: using async calls. to WriteLine -> WriteLineAsync in all methods overloads of Log.
@@ -190,7 +190,7 @@ namespace LASI.Utilities
             public override void WriteLine(string value) { Debug.WriteLine(value); }
             public override void WriteLine(uint value) { Debug.WriteLine(value); }
             public override void WriteLine(ulong value) { Debug.WriteLine(value); }
-            public override Encoding Encoding { get { return Encoding.ASCII; } }
+            public override Encoding Encoding => Encoding.ASCII;
             public override void Close() { }
         }
         #endregion

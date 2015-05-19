@@ -37,10 +37,8 @@ namespace LASI.Core
         /// }
         /// </code>
         /// </example>
-        public static bool Contains<TLexical>(this IEnumerable<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return elements.Contains(element, ComparerFactory.Create(comparison));
-        }
+        public static bool Contains<TLexical>(this IEnumerable<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => elements.Contains(element, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set difference of two sequences by using the specified comparison function
@@ -61,10 +59,8 @@ namespace LASI.Core
         /// A function to compare two instances of type TLexical and return true or false.
         /// </param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
-        public static IEnumerable<TLexical> Except<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Except(second, ComparerFactory.Create(comparison));
-        }
+        public static IEnumerable<TLexical> Except<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Except(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Returns distinct elements from a sequence of TLexical constructs by using a specified
@@ -84,10 +80,8 @@ namespace LASI.Core
         ///     .Distinct((np1, np2) =&gt; np1.Text == np2.Text || np1.IsAliasFor(np2));
         /// </code>
         /// </example>
-        public static IEnumerable<TLexical> Distinct<TLexical>(this IEnumerable<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return elements.Distinct(ComparerFactory.Create(comparison));
-        }
+        public static IEnumerable<TLexical> Distinct<TLexical>(this IEnumerable<TLexical> elements, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => elements.Distinct(ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set intersection of two sequences of TLexical constructs by using the
@@ -111,10 +105,8 @@ namespace LASI.Core
         /// var wordsInCommon = doc1.words.Intersect(doc2.words, (w1, w2) =&gt; w1.IsSynonymFor(w2));
         /// </code>
         /// </example>
-        public static IEnumerable<TLexical> Intersect<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Intersect(second, ComparerFactory.Create(comparison));
-        }
+        public static IEnumerable<TLexical> Intersect<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Intersect(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Determines whether two sequences of TLexical are equal by comparing their elements by
@@ -131,10 +123,8 @@ namespace LASI.Core
         /// <c>true</c> if the two source sequences are of equal length and their corresponding
         /// elements compare equal according to provided Lexical comparison function; otherwise, <c>false</c>.
         /// </returns>
-        public static bool SequenceEqual<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.SequenceEqual(second, ComparerFactory.Create(comparison));
-        }
+        public static bool SequenceEqual<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.SequenceEqual(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set union of two sequences of ILexical constructs by using the specified
@@ -156,35 +146,29 @@ namespace LASI.Core
         /// var distinctActionsAcross = doc1.GetActions().Union(doc2.GetActions(), (a1, a2) =&gt; a1.IsSimilarTo(A2));
         /// </code>
         /// </example>
-        public static IEnumerable<TLexical> Union<TLexical>(
-            this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Union(second, ComparerFactory.Create(comparison));
-        }
+        public static IEnumerable<TLexical> Union<TLexical>(this IEnumerable<TLexical> first, IEnumerable<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Union(second, ComparerFactory.Create(comparison));
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>all of the word instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements)
-        {
-            return elements.SelectMany(e =>
+        public static IEnumerable<Word> OfWord(this IEnumerable<ILexical> elements) =>
+            elements.SelectMany(e =>
                 e.Match()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
                     .Case((Word w) => w.Lift())
                 .Result().EmptyIfNull());
-        }
 
         /// <summary>Gets all of the Phrase instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements)
-        {
-            return elements.SelectMany(e => e.Match()
+        public static IEnumerable<Phrase> OfPhrase(this IEnumerable<ILexical> elements) =>
+            elements.SelectMany(e =>
+                e.Match()
                     .Case((Clause c) => c.Phrases)
                     .Case((Phrase p) => p.Lift())
                 .Result().EmptyIfNull());
-        }
 
         /// <summary>Gets all of the Clause instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
@@ -199,18 +183,12 @@ namespace LASI.Core
         /// <summary>Returns all Verbals in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Verbals in the sequence.</returns>
-        public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements)
-        {
-            return elements.AsRecursivelyEnumerable().OfType<IVerbal>();
-        }
+        public static IEnumerable<IVerbal> OfVerbal(this IEnumerable<ILexical> elements) => elements.AsRecursivelyEnumerable().OfType<IVerbal>();
 
         /// <summary>Returns all Descriptors in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Descriptors in the sequence.</returns>
-        public static IEnumerable<IDescriptor> OfDescriptor(this IEnumerable<ILexical> elements)
-        {
-            return elements.AsRecursivelyEnumerable().OfType<IDescriptor>();
-        }
+        public static IEnumerable<IDescriptor> OfDescriptor(this IEnumerable<ILexical> elements) => elements.AsRecursivelyEnumerable().OfType<IDescriptor>();
 
         #endregion Sequential Implementations
 
@@ -236,10 +214,8 @@ namespace LASI.Core
         /// }
         /// </code>
         /// </example>
-        public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return elements.Contains(element, ComparerFactory.Create(comparison));
-        }
+        public static bool Contains<TLexical>(this ParallelQuery<TLexical> elements, TLexical element, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => elements.Contains(element, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set difference of two sequences by using the specified comparison function
@@ -260,10 +236,8 @@ namespace LASI.Core
         /// A function to compare two instances of type TLexical and return true or false.
         /// </param>
         /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
-        public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Except(second, ComparerFactory.Create(comparison));
-        }
+        public static ParallelQuery<TLexical> Except<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Except(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Returns distinct elements from a sequence of TLexical constructs by using a specified
@@ -284,10 +258,8 @@ namespace LASI.Core
         ///     .Distinct((np1, np2) =&gt; np1.Text == np2.Text || np1.IsAliasFor(np2));
         /// </code>
         /// </example>
-        public static ParallelQuery<TLexical> Distinct<TLexical>(this ParallelQuery<TLexical> elements, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return elements.Distinct(ComparerFactory.Create(comparison));
-        }
+        public static ParallelQuery<TLexical> Distinct<TLexical>(this ParallelQuery<TLexical> elements, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => elements.Distinct(ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set intersection of two sequences of TLexical constructs by using the
@@ -311,10 +283,8 @@ namespace LASI.Core
         /// var wordsInCommon = doc1.words.Intersect(doc2.words, (w1, w2) =&gt; w1.IsSynonymFor(w2));
         /// </code>
         /// </example>
-        public static ParallelQuery<TLexical> Intersect<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Intersect(second, ComparerFactory.Create(comparison));
-        }
+        public static ParallelQuery<TLexical> Intersect<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Intersect(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Determines whether two sequences of TLexical are equal by comparing their elements by
@@ -331,10 +301,8 @@ namespace LASI.Core
         /// <c>true</c> if the two source sequences are of equal length and their corresponding
         /// elements compare equal according to provided Lexical comparison function; otherwise, <c>false</c>.
         /// </returns>
-        public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.SequenceEqual(second, ComparerFactory.Create(comparison));
-        }
+        public static bool SequenceEqual<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.SequenceEqual(second, ComparerFactory.Create(comparison));
 
         /// <summary>
         /// Produces the set union of two sequences of ILexical constructs by using the specified
@@ -357,67 +325,49 @@ namespace LASI.Core
         ///     .Union(doc2.Verbals, (a1, a2) =&gt; a1.IsSimilarTo(A2));
         /// </code>
         /// </example>
-        public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison) where TLexical : ILexical
-        {
-            return first.Union(second, ComparerFactory.Create(comparison));
-        }
+        public static ParallelQuery<TLexical> Union<TLexical>(this ParallelQuery<TLexical> first, ParallelQuery<TLexical> second, Func<TLexical, TLexical, bool> comparison)
+            where TLexical : ILexical => first.Union(second, ComparerFactory.Create(comparison));
 
         /// <summary>Gets all of the word instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements)
-        {
-            return elements.SelectMany(e =>
+        public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) =>
+            elements.SelectMany(e =>
                 e.Match()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
                     .Case((Word w) => new[] { w })
                 .Result(new Word[0]));
-        }
 
         /// <summary>Gets all of the Clause instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Clause instances in the sequence of ILexicals.</returns>
-        public static ParallelQuery<Clause> OfClause(this ParallelQuery<ILexical> elements)
-        {
-            return elements.OfType<Clause>();
-        }
+        public static ParallelQuery<Clause> OfClause(this ParallelQuery<ILexical> elements) => elements.OfType<Clause>();
 
         /// <summary>Returns all Entities in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter.</param>
         /// <returns>All Entities in the sequence.</returns>
-        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements)
-        {
-            return elements.OfType<IEntity>();
-        }
+        public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) => elements.OfType<IEntity>();
 
         /// <summary>Returns all Verbals in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Verbals in the sequence.</returns>
-        public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements)
-        {
-            return elements.AsRecursivelyEnumerable().OfType<IVerbal>().AsParallel();
-        }
+        public static ParallelQuery<IVerbal> OfVerbal(this ParallelQuery<ILexical> elements) => elements.AsRecursivelyEnumerable().OfType<IVerbal>().AsParallel();
 
         /// <summary>Returns all Descriptors in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
         /// <returns>All Descriptors in the sequence.</returns>
-        public static ParallelQuery<IDescriptor> OfDescriptor(this ParallelQuery<ILexical> elements)
-        {
-            return elements.AsRecursivelyEnumerable().OfType<IDescriptor>().AsParallel();
-        }
+        public static ParallelQuery<IDescriptor> OfDescriptor(this ParallelQuery<ILexical> elements) => elements.AsRecursivelyEnumerable().OfType<IDescriptor>().AsParallel();
 
         /// <summary>Gets all of the Phrase instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the Phrase instances in the sequence of ILexicals.</returns>
-        private static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements)
-        {
-            return elements.SelectMany(e =>
+        private static ParallelQuery<Phrase> OfPhrase(this ParallelQuery<ILexical> elements) =>
+            elements.SelectMany(e =>
                 e.Match()
                     .Case((Clause c) => c.Phrases)
                     .Case((Phrase p) => new[] { p })
                 .Result(new Phrase[0]));
-        }
 
         #endregion Parallel Implementations
     }

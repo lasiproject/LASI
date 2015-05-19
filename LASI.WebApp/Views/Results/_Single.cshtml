@@ -1,0 +1,32 @@
+﻿@using LASI.WebApp.Helpers
+@using LASI.Utilities
+
+@model LASI.WebApp.Models.DocumentStructures.DocumentModel
+
+<div id="main-content">
+    <div id=@(Model.Title.ToSafeHtmlDomId()) class="container">
+
+        <div class="document">
+            @{
+                var indexedPages = Model.PageModels.WithIndex();
+                <nav>
+
+                </nav>
+                <div>
+                    @foreach (var pageModel in indexedPages)
+                    {
+                        var index = pageModel.Index + 1;
+
+                        <div id="page@(index)">
+
+                            @foreach (var paragraphModel in pageModel.Element.ParagraphModels)
+                            {
+                                @Html.Partial("_Paragraph", paragraphModel)
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

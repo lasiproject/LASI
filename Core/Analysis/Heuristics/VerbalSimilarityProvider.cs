@@ -13,9 +13,8 @@ namespace LASI.Core
         /// <param name="first">The first IVerbal</param>
         /// <param name="second">The second IVerbal</param>
         /// <returns> <c>true</c> if the given IVerbal instances are similar; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this IVerbal first, IVerbal second)
-        {
-            return first.Match()
+        public static Similarity IsSimilarTo(this IVerbal first, IVerbal second) =>
+            first.Match()
                 .When(first.Text.EqualsIgnoreCase(second.Text))
                 .Then(Similarity.Similar)
                 .Case((Verb v1) =>
@@ -29,17 +28,13 @@ namespace LASI.Core
                         .Case((Verb v2) => vp1.IsSimilarTo(v2))
                 .Result())
             .Result();
-        }
         /// <summary>
         /// Determines if the two provided Verb instances are similar.
         /// </summary>
         /// <param name="first">The first Verb.</param>
         /// <param name="second">The second Verb.</param>
         /// <returns> <c>true</c> if the first Verb is similar to the second; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this Verb first, Verb second)
-        {
-            return Similarity.FromBoolean(first.IsSynonymFor(second));
-        }
+        public static Similarity IsSimilarTo(this Verb first, Verb second) => Similarity.FromBoolean(first.IsSynonymFor(second));
 
         /// <summary>
         /// Determines if two VerbPhrases are similar.
@@ -72,10 +67,7 @@ namespace LASI.Core
         /// <param name="first">The VerbPhrase.</param>
         /// <param name="second">The Verb.</param>
         /// <returns> <c>true</c> if the provided VerbPhrase is similar to the provided Verb; otherwise, <c>false</c>.</returns>
-        private static Similarity IsSimilarTo(this VerbPhrase first, Verb second)
-        {
-            return second.IsSimilarTo(first);
-        }
+        private static Similarity IsSimilarTo(this VerbPhrase first, Verb second) => second.IsSimilarTo(first);
 
         /// <summary>
         /// Determines if the provided Verb is similar to the provided VerbPhrase.

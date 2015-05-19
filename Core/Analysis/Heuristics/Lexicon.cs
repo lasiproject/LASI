@@ -10,8 +10,6 @@ using LASI.Utilities;
 
 namespace LASI.Core
 {
-
-
     /// <summary>
     /// Provides Comprehensive static facilities for Synonym Identification, Word and Phrase
     /// Comparison, Gender Stratification, and Named Entity Recognition.
@@ -40,8 +38,6 @@ namespace LASI.Core
         /// </summary>
         public static void ClearAdverbCache() => cachedAdverbData.Clear();
 
-
-
         /// <summary>
         /// Clears the cache of Noun synonym data.
         /// </summary>
@@ -51,8 +47,6 @@ namespace LASI.Core
         /// Clears the cache of Verb synonym data.
         /// </summary>
         public static void ClearVerbCache() => cachedVerbData.Clear();
-
-
 
         /// <summary>
         /// Returns the synonyms for the provided Noun.
@@ -177,7 +171,10 @@ namespace LASI.Core
             wordNetLookup.ProgressChanged += ResourceLoading;
             Action load = wordNetLookup.Load;
             load.WithTimer(out timer)();
-            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, 1 / 5f) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
+            ResourceLoaded(wordNetLookup, new ResourceLoadEventArgs(resourceName, 1 / 5f)
+            {
+                ElapsedMiliseconds = timer.ElapsedMilliseconds
+            });
             return wordNetLookup;
         }
 
@@ -224,26 +221,30 @@ namespace LASI.Core
         /// </summary>
         internal const double SimilarityThreshold = 0.6;
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdjectiveData = new ConcurrentDictionary<string, IImmutableSet<string>>(
-                   concurrencyLevel: Concurrency.Max,
-                   capacity: 40960
-               );
+        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdjectiveData =
+            new ConcurrentDictionary<string, IImmutableSet<string>>(
+                concurrencyLevel: Concurrency.Max,
+                capacity: 40960
+            );
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdverbData = new ConcurrentDictionary<string, IImmutableSet<string>>(
-                    concurrencyLevel: Concurrency.Max,
-                    capacity: 40960
-                );
+        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedAdverbData =
+            new ConcurrentDictionary<string, IImmutableSet<string>>(
+                concurrencyLevel: Concurrency.Max,
+                capacity: 40960
+            );
 
         // Synonym LexicalLookup Caches
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedNounData = new ConcurrentDictionary<string, IImmutableSet<string>>(
-            concurrencyLevel: Concurrency.Max,
-            capacity: 40960
-        );
+        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedNounData =
+            new ConcurrentDictionary<string, IImmutableSet<string>>(
+                concurrencyLevel: Concurrency.Max,
+                capacity: 40960
+            );
 
-        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedVerbData = new ConcurrentDictionary<string, IImmutableSet<string>>(
-                    concurrencyLevel: Concurrency.Max,
-                    capacity: 40960
-                );
+        private static ConcurrentDictionary<string, IImmutableSet<string>> cachedVerbData =
+            new ConcurrentDictionary<string, IImmutableSet<string>>(
+                concurrencyLevel: Concurrency.Max,
+                capacity: 40960
+            );
 
         private static Lazy<NameProvider> nameData = new Lazy<NameProvider>(() =>
         {
@@ -264,20 +265,16 @@ namespace LASI.Core
             var resourceName = "Scrabble Dictionary";
             ResourceLoading(null, new ResourceLoadEventArgs(resourceName, 0));
             System.Diagnostics.Stopwatch timer;
-            var loadWords = FunctionExtensions.WithTimer(() =>
-            {
-                using (var reader = new StreamReader(Paths.ScrabbleDict))
-                {
-                    return reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                             .Select(s => s.ToLower())
-                             .Except(NameData.AllNames, IgnoreCase)
-                             .ToImmutableHashSet(IgnoreCase);
-                }
-            }, out timer);
-            var words = loadWords();
+
+            Func<IImmutableSet<string>> loadWords = () => File.ReadAllText(Paths.ScrabbleDict)
+                .SplitRemoveEmpty('\r', '\n')
+                .Select(s => s.ToLower())
+                .Except(NameData.AllNames, OrdinalIgnoreCase)
+                .ToImmutableHashSet(OrdinalIgnoreCase);
+            var words = loadWords.WithTimer(out timer)();
             ResourceLoaded(null, new ResourceLoadEventArgs(resourceName, 0) { ElapsedMiliseconds = timer.ElapsedMilliseconds });
             return words;
-        }, true);
+        }, isThreadSafe: true);
 
         private static Lazy<WordNetLookup<Noun>> nounLookup =
             new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
@@ -291,12 +288,8 @@ namespace LASI.Core
         private static Lazy<WordNetLookup<Adverb>> adverbLookup =
             new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), isThreadSafe: true);
 
-
-        #region Name Lookup Methods
         #endregion
-
-        #endregion
-        private static StringComparer IgnoreCase => StringComparer.OrdinalIgnoreCase;
+        private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;
 
     }
 }

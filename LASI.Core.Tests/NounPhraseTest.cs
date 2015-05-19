@@ -283,7 +283,7 @@ namespace LASI.Core.Tests
             NounPhrase target = new NounPhrase(new Determiner("the"), new CommonSingularNoun("elephants"));
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.IsTrue(target.Descriptors.None());
+            Assert.IsFalse(target.Descriptors.Any());
             IDescriptor descriptor = new Adjective("large");
             target.BindDescriptor(descriptor);
             Assert.IsTrue(target.Descriptors.Contains(descriptor));

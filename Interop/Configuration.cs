@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LASI.Utilities;
 
 namespace LASI.Interop
@@ -19,20 +20,19 @@ namespace LASI.Interop
         /// Configures how components are initialized by specifying the locations of required
         /// resource files.
         /// </summary>
-        /// <param name="path">
+        /// <param name="configUrl">
         /// The location of an XML or JSON document containing configuration information.
         /// </param>
         /// <param name="format">
         /// Specifies the format of the document containing the configuration information.
         /// </param>
-        public static void Initialize(string path, ConfigFormat format) =>
-            Initialize(path, format, null);
+        public static void Initialize(string configUrl, ConfigFormat format) => Initialize(configUrl, format, null);
 
         /// <summary>
         /// Configures how components are initialized by specifying the locations of required
         /// resource files.
         /// </summary>
-        /// <param name="resourceConfigSourceLocation">
+        /// <param name="configUrl">
         /// The location of an XML or JSON document containing configuration information.
         /// </param>
         /// <param name="format">
@@ -44,10 +44,17 @@ namespace LASI.Interop
         /// App.config file, such as that used by the LASI.App WPF application, the value of this
         /// argument would be "AppSettings".
         /// </param>
-        public static void Initialize(string resourceConfigSourceLocation, ConfigFormat format, string subkey)
+        public static void Initialize(string configUrl, ConfigFormat format, string subkey)
         {
-            var rawConfigData = File.ReadAllText(Path.GetFullPath(resourceConfigSourceLocation));
-            InitializeImplementation(rawConfigData, format, subkey);
+            var isUrl = Uri.IsWellFormedUriString(configUrl, UriKind.Absolute);
+            var isFsPath = File.Exists(Path.GetFullPath(configUrl));
+            Validate.Either(isUrl, isFsPath, $"The specified url is neither an accessible file system location nor a valid Uri");
+            Initialize(
+                stream: isUrl ? System.Net.WebRequest.CreateHttp(configUrl).GetRequestStream() :
+                        isFsPath ? new System.IO.FileStream(Path.GetFullPath(configUrl), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read) : null,
+                format: format,
+                subkey: subkey
+            );
         }
 
         /// <summary>
@@ -74,13 +81,15 @@ namespace LASI.Interop
         /// </param>
         public static void Initialize(System.IO.Stream stream, ConfigFormat format, string subkey)
         {
-            var rawConfigData = new System.IO.StreamReader(stream).ReadToEnd();
-            InitializeImplementation(rawConfigData, format, subkey);
+            using (var reader = new System.IO.StreamReader(stream))
+            {
+                InitializeImplementation(reader.ReadToEnd(), format, subkey);
+            }
         }
 
         private static void InitializeImplementation(string raw, ConfigFormat format, string subkey)
         {
-            Validate.ExistsIn(format, nameof(format), ConfigFormat.Json, ConfigFormat.Xml);
+            Validate.ExistsIn(from ConfigFormat cf in Enum.GetValues(typeof(ConfigFormat)) select cf, format, nameof(format));
 
             lock (initializationLock)
             {

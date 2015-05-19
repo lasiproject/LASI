@@ -36,3 +36,7 @@ let result = async {
    do analyzed |> Seq.iter(fun e-> printf  "%A" (display(e.Lexicals)))
 }
 Async.StartImmediate result
+
+
+//let emptyset = Set.empty
+let emptyset<'a when 'a:comparison> : Set<'a> = Set.empty

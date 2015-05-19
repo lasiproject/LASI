@@ -10,13 +10,16 @@
         WindowStartupLocation="CenterOwner">
     <Grid Margin="0,0,-6,0">
         <Button x:Name="okButton"
-                Height="20"
+                Height="20" 
                 Margin="63,175,162,0"
                 VerticalAlignment="Top"
                 Click="okButton_Click"
                 Content="OK"
-                IsEnabled="False"
-                RenderTransformOrigin="-0.878,-0.2" />
+                 RenderTransformOrigin="-0.878,-0.2"  >
+            <FrameworkElement.IsEnabled>
+                False
+            </FrameworkElement.IsEnabled>
+        </Button>
         <Button x:Name="cancelButton"
                 Height="20"
                 Margin="160,175,67,0"

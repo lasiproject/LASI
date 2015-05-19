@@ -1,0 +1,11 @@
+﻿@model LASI.WebApp.Models.Lexical.PhraseModel
+
+<span id=@(Model.Id)
+      class="phrase @(Model.Style.CssClass)"
+      title="@(Model.DetailText.Trim())"
+      data-toggle="tooltip">
+    @(Model.Text.Trim())
+    <span id="context@(Model.Id)" hidden>
+        @(Model.ContextMenuJson)
+    </span>
+</span>

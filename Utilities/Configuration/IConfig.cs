@@ -1,5 +1,4 @@
-﻿
-namespace LASI.Utilities.Configuration
+﻿namespace LASI.Utilities.Configuration
 {
     /// <summary>
     /// Provides structures to support the exchange of simple, minimal configuration information between assemblies.

@@ -11,16 +11,17 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Initializes a new instance of the ExportResultsDialog class.
         /// </summary>
-        public ExportResultsDialog() {
+        public ExportResultsDialog()
+        {
             InitializeComponent();
         }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e) {
-            this.Close();
-        }
+        private void OkButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void ExportNotificationDialog_KeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Escape) {
+        private void ExportNotificationDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
                 this.DialogResult = false;
                 this.Close();
             }

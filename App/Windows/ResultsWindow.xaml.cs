@@ -84,7 +84,7 @@ namespace LASI.App
             grid.Children.Add(new ScrollViewer { Content = weightedListPanel });
             foreach (var label in nounPhraseLabels) { weightedListPanel.Children.Add(label); }
 
-            var tab = new TabItem { Header = document.Title, Content = grid };
+            var tab = new TabItem { Header = document.Name, Content = grid };
 
             weightedByDocumentTabControl.Items.Add(tab);
             weightedByDocumentTabControl.SelectedItem = tab;
@@ -171,7 +171,7 @@ namespace LASI.App
 
             var tab = new TabItem
             {
-                Header = document.Title,
+                Header = document.Name,
                 Content = new FlowDocumentPageViewer
                 {
                     Document = flowDocument,
@@ -291,17 +291,17 @@ namespace LASI.App
             }
         }
 
-        private async void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeToBarChartButton_Click(object sender, RoutedEventArgs e)
         {
-            await Visualizer.ToBarChartsAsync();
+            Visualizer.ToBarChartsAsync();
         }
-        private async void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeToColumnChartButton_Click(object sender, RoutedEventArgs e)
         {
-            await Visualizer.ToColumnChartsAsync();
+            Visualizer.ToColumnChartsAsync();
         }
-        private async void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeToPieChartButton_Click(object sender, RoutedEventArgs e)
         {
-            await Visualizer.ToPieChartsAsync();
+            Visualizer.ToPieChartsAsync();
         }
         private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e)
         {  //Hacky solution to make every option function. This makes new project restart LASI.
@@ -332,10 +332,10 @@ namespace LASI.App
             await Task.WhenAll(from document in documents
                                let outfilePath = System.IO.Path.Combine(
                                    FileManager.ResultsDirectory,
-                                   document.Title.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Title + '.' + Properties.Settings.Default.OutputFormat))
+                                   document.Name.SplitRemoveEmpty('.').LastOrDefault() ?? (document.Name + '.' + Properties.Settings.Default.OutputFormat))
                                let serializer = new SimpleXmlSerializer()
                                select Task.Run(() => serializer
-                                    .Serialize(document.Phrases, document.Title)
+                                    .Serialize(document.Phrases, document.Name)
                                     .Save(outfilePath)));
             var exportDialog = new ExportResultsDialog();
             exportDialog.ShowDialog();
@@ -358,7 +358,7 @@ namespace LASI.App
         {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = DocumentManager.FILE_FILTER,
+                Filter = DocumentManager.FileTypeFilter,
                 Multiselect = true,
             };
             openDialog.ShowDialog(this);

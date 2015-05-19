@@ -33,7 +33,10 @@ namespace LASI.Core.Analysis.Binding
         }
         internal void Bind(IEnumerable<Phrase> phrases)
         {
-            if (!phrases.OfVerbPhrase().Any()) { throw new VerblessPhrasalSequenceException(phrases); }
+            if (!phrases.OfVerbPhrase().Any())
+            {
+                throw new VerblessPhrasalSequenceException(phrases);
+            }
 
             var releventElements = from phrase in phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                                    let result = phrase.Match()

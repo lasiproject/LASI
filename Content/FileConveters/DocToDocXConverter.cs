@@ -74,23 +74,14 @@ namespace LASI.Content
         /// <returns>A Task&lt;InputFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public override async Task<DocXFile> ConvertFileAsync()
-        {
-            var result = await Task.Run(() => ConvertFile());
-            return result;
-        }
+        public override async Task<DocXFile> ConvertFileAsync() => await Task.Run(() => ConvertFile());
         internal static Utilities.Configuration.IConfig Config { get; set; }
 
         private static string doc2xPathField;
-        private static string doc2xPath
-        {
-            get
-            {
-                return doc2xPathField ?? (doc2xPathField = (Config != null ?
-                    Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
-                    ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["ConvertersDirectory"]) + "doc2x.exe");
-            }
-        }
+        private static string doc2xPath =>
+            doc2xPathField ?? (doc2xPathField = (Config != null ?
+            Config["ResourcesDirectory"] + Config["ConvertersDirectory"] :
+            ConfigurationManager.AppSettings["ResourcesDirectory"] + ConfigurationManager.AppSettings["ConvertersDirectory"]) + "doc2x.exe");
 
 
 

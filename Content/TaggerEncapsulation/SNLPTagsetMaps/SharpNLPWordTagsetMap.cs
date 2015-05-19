@@ -11,7 +11,7 @@ namespace LASI.Content.Tagging
     /// Represents a Word Level tagset-to-runtime-type-mapping context which translates between The SharpNLP Tagger's tagset and the classes whose instances provide 
     /// the runtime representations of the tag. 
     /// This class represents the tagset => runtime-type mapping for
-    /// the tagset used by SharpNLP, a derrivative of the Penn Tagset.
+    /// the tagset used by SharpNLP, a derivative of the Penn Tagset.
     /// This class is sealed and thus may not be extended.
     /// If a new tagset is to be implemented, extend the base class, TaggingContext.
     /// </summary>    
@@ -34,9 +34,9 @@ namespace LASI.Content.Tagging
             ["?"] = _ => SentenceEnding.QuestionMark, //? sentence ending
             ["``"] = _ => new SingleQuote(), //Single quote * should be remapped
             ["''"] = _ => new DoubleQuote(), //Double Quotation Mark punctuation
-            [","] = _ => new Punctuator(','),//Comma punctuation
-            [";"] = _ => new Punctuator(';'), //Semicolon punctuation
-            [":"] = _ => new Punctuator(':'), //Colon punctuation 
+            [","] = t => new Punctuator(t),//Comma punctuation
+            [";"] = t => new Punctuator(t), //Semicolon punctuation
+            [":"] = t => new Punctuator(t), //Colon punctuation 
             ["LS"] = t => new Punctuator(t), //List item marker
             ["-LRB-"] = t => new Punctuator(t), //Left Round Bracket
             ["-RRB-"] = t => new Punctuator(t),  //Right Round Bracket
@@ -129,5 +129,9 @@ namespace LASI.Content.Tagging
                 }
             }
         }
+
+        #region Helpers
+
+        #endregion Helpers
     }
 }

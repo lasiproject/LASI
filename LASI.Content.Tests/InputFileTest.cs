@@ -14,60 +14,9 @@ namespace LASI.Content.Tests
     [TestClass]
     public class InputFileTest
     {
-        const string TEXT_TEST_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
-        private TestContext testContextInstance;
+        const string TestTextFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        internal virtual InputFile CreateInputFile()
-        {
-            return new TxtFile(TEXT_TEST_FILE_PATH);
-        }
+        internal virtual InputFile CreateInputFile() => new TxtFile(TestTextFilePath);
 
         /// <summary>
         ///A test for Equals
@@ -164,7 +113,7 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void op_EqualityTest()
         {
-            InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
+            InputFile left = new TxtFile(TestTextFilePath);
             InputFile right = null;
             bool expected = false;
             bool actual;
@@ -175,7 +124,7 @@ namespace LASI.Content.Tests
             expected = false;
             actual = (left == right);
             Assert.AreEqual(expected, actual);
-            right = new TxtFile(TEXT_TEST_FILE_PATH);
+            right = new TxtFile(TestTextFilePath);
             expected = true;
             actual = (left == right);
             Assert.AreEqual(expected, actual);
@@ -187,7 +136,7 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void op_InequalityTest()
         {
-            InputFile left = new TxtFile(TEXT_TEST_FILE_PATH);
+            InputFile left = new TxtFile(TestTextFilePath);
             InputFile right = null;
             bool expected = true;
             bool actual;
@@ -198,7 +147,7 @@ namespace LASI.Content.Tests
             expected = true;
             actual = (left != right);
             Assert.AreEqual(expected, actual);
-            right = new TxtFile(TEXT_TEST_FILE_PATH);
+            right = new TxtFile(TestTextFilePath);
             expected = false;
             actual = (left != right);
             Assert.AreEqual(expected, actual);

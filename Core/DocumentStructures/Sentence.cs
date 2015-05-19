@@ -101,11 +101,21 @@ namespace LASI.Core
         /// Gets or sets a value indicating whether the Sentence is an inverted sentence. That is a
         /// sentence in which the Verbal precedes its subject. ex:
         /// <para>
-        /// inverted -&gt; "Vastly overblown were the rumors." standard -&gt; "The rumors were
-        /// vastly overblown."
+        /// inverted -&gt; "Vastly overblown were the rumors." </para><para>
+        /// standard -&gt; "The rumors were vastly overblown."
         /// </para>
         /// </summary>
         public bool IsInverted { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether or not the Sentence is exclamatory. Generally this indicates that it ends with an exclamation point.
+        /// </summary>
+        /// <seealso cref="SentenceEnding.ExclamationPoint"/>
+        public bool IsExclaramatory { get; }
+        /// <summary>
+        /// Gets a value indicating whether or not the Sentence is interrogative. Generally this indicates that it ends with a question mark.
+        /// </summary>
+        /// <seealso cref="SentenceEnding.QuestionMark"/>
+        public bool IsInterrogative { get; }
 
         /// <summary>Gets the Paragraph to which the Sentence belongs.</summary>
         public Paragraph Paragraph { get; private set; }

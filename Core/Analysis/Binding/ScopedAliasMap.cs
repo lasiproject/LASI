@@ -19,12 +19,15 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="paragraph">The Paragraph whose lexical scope over which the map will be defined.</param>
         private ScopedAliasMap(Paragraph paragraph)
-            : this(paragraph.Words, paragraph.Phrases) {
+            : this(paragraph.Words, paragraph.Phrases)
+        {
         }
 
-        private ScopedAliasMap(params IEnumerable<ILexical>[] scope) {
+        private ScopedAliasMap(params IEnumerable<ILexical>[] scope)
+        {
             domain = scope.SelectMany(s => s);
-            foreach (var e in domain.OfEntity()) {
+            foreach (var e in domain.OfEntity())
+            {
                 assumedAliases[e.Text] = new HashSet<string>(AliasLookup.GetLikelyAliases(e));
             }
         }
@@ -38,17 +41,13 @@ namespace LASI.Core.Binding
         /// </summary>
         /// <param name="key">The IEntity instance whose aliases will be retrieved.</param>
         /// <returns>The IEntity instances which have been so far identified as aliases of the indexing IEntity instance within the lexical scope of the ScopedAliasMap.</returns>
-        public IEnumerable<IEntity> this[IEntity key] {
-            get {
-                return domain.OfEntity()
-                    .ToDictionary(
-                        e => e,
-                        e => from aliasString in assumedAliases[e.Text]
-                             from i in domain.OfEntity()
-                             where i.Text == aliasString
-                             select i)[key];
-            }
-        }
+        public IEnumerable<IEntity> this[IEntity key] =>
+            domain.OfEntity().ToDictionary(e => e,
+                e => from aliasString in assumedAliases[e.Text]
+                     from i in domain.OfEntity()
+                     where i.Text == aliasString
+                     select i
+                    )[key];
 
         #endregion
 

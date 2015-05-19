@@ -120,11 +120,7 @@ namespace LASI.App
             }
         }
 
-        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer()
-        {
-            var format = Properties.Settings.Default.OutputFormat;
-            return SerializerFactory.Create(format);
-        }
+        internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() => SerializerFactory.Create(Properties.Settings.Default.OutputFormat);
         internal static void DisplayPreferencesWindow(Window source)
         {
             var preferences = new PreferencesWindow();
@@ -147,6 +143,6 @@ namespace LASI.App.Commands
     static class MyApplicationCommands
     {
         static MyApplicationCommands() { CommandManager.RegisterClassCommandBinding(typeof(MyApplicationCommands), new CommandBinding(exitCommand)); }
-        public static RoutedUICommand exitCommand { get { return new RoutedUICommand("Exit", "Exit", typeof(MyApplicationCommands)); } }
+        public static RoutedUICommand exitCommand => new RoutedUICommand("Exit", "Exit", typeof(MyApplicationCommands));
     }
 }

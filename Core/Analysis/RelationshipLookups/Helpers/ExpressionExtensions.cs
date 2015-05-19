@@ -43,10 +43,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="relatorSet">The object whose contents are to be searched. This parameter can be null. If it is null, false is returned.</param>
         /// <param name="relator">The IVerbal for which to search.</param>
         /// <returns> <c>true</c> if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
-        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator)
-        {
-            return relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
-        }
+        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) => relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
         /// <summary>
         /// Associates the given IEntity to the given IRelationshipLookup. All future searches involving the provided entity will be done in the context of the provided lookup.
         /// </summary>

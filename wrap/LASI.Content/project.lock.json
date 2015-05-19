@@ -1,0 +1,249 @@
+{
+  "locked": false,
+  "version": -9998,
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v4.6": [
+      "Newtonsoft.Json >= 6.0.8",
+      "System.Collections.Immutable >= 1.1.34-rc",
+      "LASI.Core >= 1.0.0-*",
+      "LASI.Utilities >= 1.0.0-*",
+      "itextsharp >= 1.0.0-*",
+      "OpenNLP >= 1.0.0-*",
+      "SharpEntropy >= 1.0.0-*",
+      "SharpWordNet >= 1.0.0-*"
+    ]
+  },
+  "libraries": {
+    "Newtonsoft.Json/6.0.8": {
+      "serviceable": false,
+      "sha": "nZX7xCBl3PXpxRCxVtVfUXn63gSzrT8aO0VB9Tp24q656IUup9EGE8SGlo0UJ9if48OacJU34ZEtKEGWIdNCzg==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/net45/Newtonsoft.Json.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/Newtonsoft.Json.dll"
+          ]
+        }
+      },
+      "files": [
+        "Newtonsoft.Json.6.0.8.nupkg",
+        "Newtonsoft.Json.6.0.8.nupkg.sha512",
+        "Newtonsoft.Json.nuspec",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netcore45/Newtonsoft.Json.dll",
+        "lib/netcore45/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "Rx-Core/2.2.5": {
+      "serviceable": false,
+      "sha": "DfWVTfW6tvRkkqpnRHKxPIvaRZyDJGADuqrE6J2nwejOQbLRWi0rNUwXkViDWz++25BGDy3iRE5OE6Dv8mJxYQ==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {
+            "Rx-Interfaces": "2.2.5"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/net45/System.Reactive.Core.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/System.Reactive.Core.dll"
+          ]
+        }
+      },
+      "files": [
+        "Rx-Core.2.2.5.nupkg",
+        "Rx-Core.2.2.5.nupkg.sha512",
+        "Rx-Core.nuspec",
+        "lib/net40/System.Reactive.Core.dll",
+        "lib/net40/System.Reactive.Core.XML",
+        "lib/net45/System.Reactive.Core.dll",
+        "lib/net45/System.Reactive.Core.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Core.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Core.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Core.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Core.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Core.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Core.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Core.XML",
+        "lib/sl5/System.Reactive.Core.dll",
+        "lib/sl5/System.Reactive.Core.XML",
+        "lib/windows8/System.Reactive.Core.dll",
+        "lib/windows8/System.Reactive.Core.XML",
+        "lib/windowsphone71/System.Reactive.Core.dll",
+        "lib/windowsphone71/System.Reactive.Core.XML",
+        "lib/windowsphone8/System.Reactive.Core.dll",
+        "lib/windowsphone8/System.Reactive.Core.XML"
+      ]
+    },
+    "Rx-Interfaces/2.2.5": {
+      "serviceable": false,
+      "sha": "FKtG2QfMIeUcfB7r3a89VoAiszX3DTvYETkpC6U0FzWpxRK/mcHyzYOsniDfag+NsDG0P1k1c8yNSefXKp3t2A==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {},
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/net45/System.Reactive.Interfaces.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/System.Reactive.Interfaces.dll"
+          ]
+        }
+      },
+      "files": [
+        "Rx-Interfaces.2.2.5.nupkg",
+        "Rx-Interfaces.2.2.5.nupkg.sha512",
+        "Rx-Interfaces.nuspec",
+        "lib/net40/System.Reactive.Interfaces.dll",
+        "lib/net40/System.Reactive.Interfaces.XML",
+        "lib/net45/System.Reactive.Interfaces.dll",
+        "lib/net45/System.Reactive.Interfaces.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Interfaces.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Interfaces.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Interfaces.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Interfaces.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Interfaces.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Interfaces.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Interfaces.XML",
+        "lib/sl5/System.Reactive.Interfaces.dll",
+        "lib/sl5/System.Reactive.Interfaces.XML",
+        "lib/windows8/System.Reactive.Interfaces.dll",
+        "lib/windows8/System.Reactive.Interfaces.XML",
+        "lib/windowsphone71/System.Reactive.Interfaces.dll",
+        "lib/windowsphone71/System.Reactive.Interfaces.XML",
+        "lib/windowsphone8/System.Reactive.Interfaces.dll",
+        "lib/windowsphone8/System.Reactive.Interfaces.XML"
+      ]
+    },
+    "Rx-Linq/2.2.5": {
+      "serviceable": false,
+      "sha": "UTeCIu3cWPExxmTzdiVq7SalqTBhUaomBTaAC9LpYPoAopjlFwA3hjVWXoLkGlDc/44wqJemJuEwFP00KphiFg==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {
+            "Rx-Interfaces": "2.2.5",
+            "Rx-Core": "2.2.5"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/net45/System.Reactive.Linq.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/System.Reactive.Linq.dll"
+          ]
+        }
+      },
+      "files": [
+        "Rx-Linq.2.2.5.nupkg",
+        "Rx-Linq.2.2.5.nupkg.sha512",
+        "Rx-Linq.nuspec",
+        "lib/net40/System.Reactive.Linq.dll",
+        "lib/net40/System.Reactive.Linq.XML",
+        "lib/net45/System.Reactive.Linq.dll",
+        "lib/net45/System.Reactive.Linq.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Linq.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.Linq.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.Linq.XML",
+        "lib/portable-win81+wpa81/System.Reactive.Linq.dll",
+        "lib/portable-win81+wpa81/System.Reactive.Linq.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Linq.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.Linq.XML",
+        "lib/sl5/System.Reactive.Linq.dll",
+        "lib/sl5/System.Reactive.Linq.XML",
+        "lib/windows8/System.Reactive.Linq.dll",
+        "lib/windows8/System.Reactive.Linq.XML",
+        "lib/windowsphone71/System.Reactive.Linq.dll",
+        "lib/windowsphone71/System.Reactive.Linq.XML",
+        "lib/windowsphone8/System.Reactive.Linq.dll",
+        "lib/windowsphone8/System.Reactive.Linq.XML"
+      ]
+    },
+    "Rx-Main/2.2.5": {
+      "serviceable": false,
+      "sha": "qdQ6qENEiLsp/LRdzZlLlodihWN8VDjwNfWa8c2ELjEHZgTdKzt1V4i61gkHVtFKZXe8Px6KupbMP3pZ+1tusQ==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {
+            "Rx-Interfaces": "2.2.5",
+            "Rx-Core": "2.2.5",
+            "Rx-Linq": "2.2.5",
+            "Rx-PlatformServices": "2.2.5"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [],
+          "compileAssemblies": []
+        }
+      },
+      "files": [
+        "Rx-Main.2.2.5.nupkg",
+        "Rx-Main.2.2.5.nupkg.sha512",
+        "Rx-Main.nuspec"
+      ]
+    },
+    "Rx-PlatformServices/2.2.5": {
+      "serviceable": false,
+      "sha": "pMnNEvJVjT+wuDib+W/bi5hhIYcre7dW5yxvKrJxnR4iKJ1VLA/dY2FTtjDriHGx7OeGn12lQewXlH2oHiWFPA==",
+      "frameworks": {
+        ".NETFramework,Version=v4.6": {
+          "dependencies": {
+            "Rx-Interfaces": "2.2.5",
+            "Rx-Core": "2.2.5"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/net45/System.Reactive.PlatformServices.dll"
+          ],
+          "compileAssemblies": [
+            "lib/net45/System.Reactive.PlatformServices.dll"
+          ]
+        }
+      },
+      "files": [
+        "Rx-PlatformServices.2.2.5.nupkg",
+        "Rx-PlatformServices.2.2.5.nupkg.sha512",
+        "Rx-PlatformServices.nuspec",
+        "lib/net40/System.Reactive.PlatformServices.dll",
+        "lib/net40/System.Reactive.PlatformServices.XML",
+        "lib/net45/System.Reactive.PlatformServices.dll",
+        "lib/net45/System.Reactive.PlatformServices.XML",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.dll",
+        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.XML",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll",
+        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.XML",
+        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.dll",
+        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.XML",
+        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.dll",
+        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.XML",
+        "lib/sl5/System.Reactive.PlatformServices.dll",
+        "lib/sl5/System.Reactive.PlatformServices.XML",
+        "lib/windows8/System.Reactive.PlatformServices.dll",
+        "lib/windows8/System.Reactive.PlatformServices.XML",
+        "lib/windowsphone71/System.Reactive.PlatformServices.dll",
+        "lib/windowsphone71/System.Reactive.PlatformServices.XML",
+        "lib/windowsphone8/System.Reactive.PlatformServices.dll",
+        "lib/windowsphone8/System.Reactive.PlatformServices.XML"
+      ]
+    }
+  }
+}

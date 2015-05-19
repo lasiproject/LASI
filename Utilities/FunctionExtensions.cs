@@ -7,7 +7,6 @@ namespace LASI.Utilities
     /// </summary>
     public static class FunctionExtensions
     {
-
         #region Compose
 
         /// <summary>
@@ -15,10 +14,10 @@ namespace LASI.Utilities
         /// first function to the result of the application of the second function. In other words
         /// f.Compose(g)(x) is equivalent to f(g(x)).
         /// </summary>
-        /// <typeparam name="T2">
+        /// <typeparam name="T1">
         /// The input type of the second function.
         /// </typeparam>
-        /// <typeparam name="T1">
+        /// <typeparam name="T2">
         /// The input type of the second function and the result type of the second function.
         /// </typeparam>
         /// <typeparam name="T3">
@@ -46,20 +45,15 @@ namespace LASI.Utilities
         /// </example>
         /// <remarks>
         /// </remarks>
-        public static Func<T1, T3> Compose<T2, T1, T3>(this Func<T2, T3> f, Func<T1, T2> g) => x => f(g(x));
-
-        //public static Func<T1, T2> Compose<T1, T2>(this Func<T1, T2> f, Func<T1, T1> g) => x => f(g(x));
-
-        //public static Func<T1, T1> Compose<T1, T2>(this Func<T2, T1> f, Func<T1, T2> g) => x => f(g(x));
-
-        //public static Func<T2, T1> Compose<T1, T2>(this Func<T1, T1> f, Func<T2, T1> g) => x => f(g(x));
+        public static Func<T2, T3> Compose<T1, T2, T3>(this Func<T1, T3> f, Func<T2, T1> g) => x => f(g(x));
 
         #endregion
+
         #region AndThen
         /// <summary>
         /// Composes two functions returning a new function which represents the application of the
         /// second function to the result of the application of the first function. In other words
-        /// f.Compose(g)(x) is equivalent to g(f(x)).
+        /// f.AndThen(g)(x) is equivalent to g(f(x)).
         /// </summary>
         /// <typeparam name="T2">
         /// The input type of the second function.
@@ -84,12 +78,6 @@ namespace LASI.Utilities
         /// <remarks>
         /// </remarks>
         public static Func<T1, T3> AndThen<T2, T1, T3>(this Func<T1, T2> f, Func<T2, T3> g) => x => g(f(x));
-
-        public static Func<T1, T2> AndThen<T1, T2>(this Func<T1, T1> f, Func<T1, T2> g) => x => g(f(x));
-
-        public static Func<T1, T1> AndThen<T1, T2>(this Func<T1, T2> f, Func<T2, T1> g) => x => g(f(x));
-
-        public static Func<T2, T1> AndThen<T1, T2>(this Func<T2, T1> f, Func<T1, T1> g) => x => g(f(x));
 
         #region Experimental
 
@@ -299,6 +287,46 @@ namespace LASI.Utilities
             (this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> fn) => a => b => c => d => e => f => g => h => fn(a, b, c, d, e, f, g, h);
 
         /// <summary>
+        /// Curries a function of the form (T1, T2, T3, T4, T5, T6, T7, T8, T9) => TResult, yielding a function of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => (T8) => (T9) => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T2">
+        /// The type of the second argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T3">
+        /// The type of the third argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T4">
+        /// The type of the fourth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T5">
+        /// The type of the fifth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T6">
+        /// The type of the sixth argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T7">
+        /// The type of the seventh argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T8">
+        /// The type of the eight argument of the function.
+        /// </typeparam>
+        /// <typeparam name="T9">
+        /// The type of the eight argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="fn">The function to curry.</param>
+        /// <returns>
+        /// A new function, of the form (T1) => (T2) => (T3) => (T4) => (T5) => (T6) => (T7) => (T8) => TResult.
+        /// </returns>
+        public static Func<T1, Func<T2, Func<T3, Func<T4, Func<T5, Func<T6, Func<T7, Func<T8, Func<T9, TResult>>>>>>>>> Curry<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+            (this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> fn) => a => b => c => d => e => f => g => h => i => fn(a, b, c, d, e, f, g, h, i);
+
+        /// <summary>
         /// Curries a function of the form (T1, T2) => void, yielding an action of the form (T1) => (T2) => void.
         /// </summary>
         /// <typeparam name="T1">
@@ -503,32 +531,6 @@ namespace LASI.Utilities
         public static Func<T2, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> fn, T1 value) => y => fn(value, y);
 
         /// <summary>
-        /// Partially applies a function taking 2 arguments, of the form (T1, T2) => TResult, by
-        /// binding the supplied value as the second argument and returning a new function of the
-        /// form (T1) => TResult.
-        /// </summary>
-        /// <typeparam name="T1">
-        /// The type of the first argument of the function.
-        /// </typeparam>
-        /// <typeparam name="T2">
-        /// The type of the second argument of the function.
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// The type of the result of the function.
-        /// </typeparam>
-        /// <param name="fn">
-        /// The function to partially apply.
-        /// </param>
-        /// <param name="value">
-        /// The value to bind as the second argument.
-        /// </param>
-        /// <returns>
-        /// A new function, of the form (T1) => TResult, produced by binding the supplied value
-        /// as the first argument.
-        /// </returns>
-        public static Func<T1, TResult> Apply<T1, T2, TResult>(this Func<T1, T2, TResult> fn, T2 value) => x => fn(x, value);
-
-        /// <summary>
         /// Partially applies a function taking 3 arguments, of the form (T1, T2, T3) => TResult,
         /// by binding the supplied value as the first argument and returning a new function of the
         /// form (T2, T3) => TResult.
@@ -603,7 +605,7 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="fn">
+        /// <param name="f">
         /// The function to partially apply.
         /// </param>
         /// <param name="value">
@@ -613,7 +615,7 @@ namespace LASI.Utilities
         /// A new function, of the form (T1, T2) => TResult, produced by binding the supplied
         /// value as the third argument.
         /// </returns>
-        public static Func<T1, T2, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> fn, T3 value) => (x, y) => fn(x, y, value);
+        public static Func<T1, T2, TResult> Apply<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> f, T3 value) => (x, y) => f(x, y, value);
 
         /// <summary>
         /// Partially applies a function taking 4 arguments, of the form (T1, T2, T3, T4) =>
@@ -635,7 +637,7 @@ namespace LASI.Utilities
         /// <typeparam name="TResult">
         /// The type of the result of the function.
         /// </typeparam>
-        /// <param name="fn">
+        /// <param name="f">
         /// The function to partially apply.
         /// </param>
         /// <param name="value">
@@ -645,10 +647,7 @@ namespace LASI.Utilities
         /// A new function, of the form (T2, T3, T4) => TResult, produced by binding the supplied
         /// value as the first argument.
         /// </returns>
-        public static Func<T2, T3, T4, TResult> Apply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> fn, T1 value)
-        {
-            return (x, y, z) => fn(value, x, y, z);
-        }
+        public static Func<T2, T3, T4, TResult> Apply<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> f, T1 value) => (x, y, z) => f(value, x, y, z);
 
         /// <summary>
         /// Partially applies a function taking 5 arguments, of the form (T1, T2, T3, T4, T5) =>

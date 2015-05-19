@@ -23,7 +23,8 @@ namespace LASI.Core.Analysis.Melding
         /// </summary>
         /// <param name="avatar">The Entity which represents the determined lexical form for the set of entities being lifted.</param>
         /// <param name="represented">The set of entities which have been merged into this single LiftedEntity.</param>
-        public LiftedEntity(IEntity avatar, IEnumerable<IEntity> represented) {
+        public LiftedEntity(IEntity avatar, IEnumerable<IEntity> represented)
+        {
             this.avatar = avatar;
             this.represented = represented.ToImmutableList();
 
@@ -35,17 +36,20 @@ namespace LASI.Core.Analysis.Melding
             descriptors = FlattenAbout(e => e.Descriptors);
             referencers = FlattenAbout(e => e.Referencers);
         }
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
 
-        public void BindReferencer(IReferencer referencer) {
+        public void BindReferencer(IReferencer referencer)
+        {
             referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
 
-        public void AddPossession(IPossessable possession) {
+        public void AddPossession(IPossessable possession)
+        {
             possessions.Add(possession);
             possession.Possesser = this;
         }
@@ -56,21 +60,24 @@ namespace LASI.Core.Analysis.Melding
 
         public EntityKind EntityKind => avatar.EntityKind;
 
-        public IVerbal SubjectOf {
+        public IVerbal SubjectOf
+        {
             get { return subjectsOfVerbals; }
             set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
         /// <summary>
         /// Gets the verbal of which the entity is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf {
+        public IVerbal DirectObjectOf
+        {
             get { return directObjectsOfVerbals; }
             set { directObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
         /// <summary>
         /// Gets the verbal of which the entity is the indirect object of.
         /// </summary>
-        public IVerbal IndirectObjectOf {
+        public IVerbal IndirectObjectOf
+        {
             get { return indirectObjectsOfVerbals; }
             set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
@@ -80,12 +87,14 @@ namespace LASI.Core.Analysis.Melding
 
         public string Text => avatar.Text;
 
-        public double Weight {
+        public double Weight
+        {
             get { return represented.Average(w => w.Weight); }
             set { represented.ForEach(entity => entity.Weight = value); }
         }
 
-        public double MetaWeight {
+        public double MetaWeight
+        {
             get { return represented.Average(w => w.MetaWeight); }
             set { represented.ForEach(entity => entity.MetaWeight = value); }
         }
@@ -93,15 +102,14 @@ namespace LASI.Core.Analysis.Melding
 
         #region Helper Methods
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) {
-            return from r in represented
-                   let result = selector(r)
-                   where result != null
-                   select result;
-        }
-        private IImmutableSet<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) {
-            return represented.SelectMany(collectionSelector).Where(r => r != null).ToImmutableHashSet();
-        }
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) =>
+            from r in represented
+            let result = selector(r)
+            where result != null
+            select result;
+
+        private IImmutableSet<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
+            represented.SelectMany(e => collectionSelector(e).Where(r => r != null)).ToImmutableHashSet();
 
         #endregion Private Helper Methods
 

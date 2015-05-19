@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using LASI.Core.Configuration;
 using LASI.Utilities;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-    using LASI.Core.Analysis.Heuristics.WordMorphing;
+    using Analysis.Heuristics.WordMorphing;
     using static Enumerable;
     using EventArgs = ResourceLoadEventArgs;
     using Link = NounLink;
@@ -145,44 +144,21 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        internal override IImmutableSet<string> this[string search]
-        {
-            get
-            {
-                var morpher = new NounMorpher();
-                try
-                {
-                    return SearchFor(morpher.FindRoot(search))
-                        .SelectMany(morpher.GetLexicalForms)
-                        .DefaultIfEmpty(search)
-                        .ToImmutableHashSet();
-                }
-                catch (Exception e) when (e is AggregateException || e is InvalidOperationException)
-                {
-                    e.Log();
-                }
-                return this[search];
-            }
-        }
-
-        internal override IImmutableSet<string> this[Noun search]
-        {
-            get { return this[search.Text]; }
-        }
+        private const double ProgressAmount = 100 / (211 * 100d);
 
         private const int TotalLines = 82114;
-        private const double ProgressAmount = 100 / (211 * 100d);
+
         private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
-             Link.MemberOfThisDomain_REGION,
-             Link.MemberOfThisDomain_TOPIC,
-             Link.MemberOfThisDomain_USAGE,
-             Link.DomainOfSynset_REGION,
-             Link.DomainOfSynset_TOPIC,
-             Link.DomainOfSynset_USAGE,
-             Link.HypOnym,
-             Link.InstanceHypOnym,
-             Link.InstanceHypERnym,
-             Link.HypERnym
+            Link.MemberOfThisDomain_REGION,
+            Link.MemberOfThisDomain_TOPIC,
+            Link.MemberOfThisDomain_USAGE,
+            Link.DomainOfSynset_REGION,
+            Link.DomainOfSynset_TOPIC,
+            Link.DomainOfSynset_USAGE,
+            Link.HypOnym,
+            Link.InstanceHypOnym,
+            Link.InstanceHypERnym,
+            Link.HypERnym
         );
 
         // Provides an indexed lookup between the values of the Noun enum and their corresponding
@@ -211,10 +187,35 @@ namespace LASI.Core.Heuristics.WordNet
         };
 
         private static readonly Regex PointerRegex = new Regex(@"\D{1,2}\s*\d{8}", RegexOptions.Compiled);
+
         private static readonly Regex WordRegex = new Regex(@"(?<word>[A-Za-z_\-\']{3,})", RegexOptions.Compiled);
+
         private string filePath;
+
         private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
+
         private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TotalLines);
 
+        internal override IImmutableSet<string> this[string search]
+        {
+            get
+            {
+                var morpher = new NounMorpher();
+                try
+                {
+                    return SearchFor(morpher.FindRoot(search))
+                        .SelectMany(morpher.GetLexicalForms)
+                        .DefaultIfEmpty(search)
+                        .ToImmutableHashSet();
+                }
+                catch (Exception e) when (e is AggregateException || e is InvalidOperationException)
+                {
+                    e.Log();
+                }
+                return this[search];
+            }
+        }
+
+        internal override IImmutableSet<string> this[Noun search] => this[search.Text];
     }
 }

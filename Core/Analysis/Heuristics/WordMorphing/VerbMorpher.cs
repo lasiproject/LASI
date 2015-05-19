@@ -26,7 +26,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var afterHyphen = hyphenIndex > -1 ? verb.Substring(hyphenIndex) : string.Empty;
             var root = FindRoots(beforeHyphen).FirstOrDefault() ?? beforeHyphen;
             IEnumerable<string> results = GetWithSpecialForms(root);
-            if (results.None())
+            if (!results.Any())
             {
                 results = from ending in sufficesByEnding.Keys
                           where ending.Length == 0 || beforeHyphen.EndsWith(ending, StringComparison.OrdinalIgnoreCase)
@@ -77,10 +77,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return verb;
         }
 
-        private static string GetRootIfSpecialForm(string verb)
-        {
-            return exceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
-        }
+        private static string GetRootIfSpecialForm(string verb) => exceptionMapping.FirstOrDefault(kv => kv.Value.Contains(verb) || kv.Key == verb).Key;
 
         private static IEnumerable<string> GetWithSpecialForms(string verb)
         {

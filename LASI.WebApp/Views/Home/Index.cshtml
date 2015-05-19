@@ -1,0 +1,43 @@
+﻿<div id="main-content" class="row">
+    <div class="col-md" id="col-left">
+        <div class="panel panel-collapse">
+            @*<div class="col-md-4" id="task-list-panel">*@
+            <div>
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    @await Html.PartialAsync("_DynamicTabs")
+                }
+                @*</div>*@
+                <div class="panel-group" id="accordion">
+                    <div class="lexical-content-block"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md pull-right" id="col-right">
+            <div class="col-md" id="col-main">
+                <div class="panel-collapse collapse" aria-hidden="true" id="free-editor">
+                    <textarea></textarea>
+                </div>
+
+
+                <div>
+                    @await Html.PartialAsync("_DocumentUpload", new DocumentUploadModel { UploadTarget = "fileuploadtarget" })
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+    </div>
+    <hr />
+
+</div>
+<div class="row">
+    <div class="panel panel-body">
+        @await Html.PartialAsync("_DebugPanel")
+    </div><div class="panel panel-body">
+        @await Html.PartialAsync("_LexicalContextMenus")
+    </div>
+</div>

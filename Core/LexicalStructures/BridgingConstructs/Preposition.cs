@@ -30,10 +30,7 @@ namespace LASI.Core
         /// Returns a string representation of the Preposition.
         /// </summary>
         /// <returns>A string representation of the Preposition.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + (Word.VerboseOutput ? " " + Role : string.Empty);
-        }
+        public override string ToString() => base.ToString() + (VerboseOutput ? " " + Role : string.Empty);
 
         #endregion
 

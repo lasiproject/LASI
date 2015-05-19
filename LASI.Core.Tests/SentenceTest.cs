@@ -141,7 +141,7 @@ namespace LASI.Core.Tests
         {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            Document actual = new Document(new[] { new Paragraph(new[] { target }, ParagraphKind.Default) });
+            Document actual = new Document(new[] { new Paragraph(ParagraphKind.Default, new[] { target }) });
 
             Assert.AreEqual(actual, target.Document);
             foreach (var p in phrases)
@@ -175,7 +175,7 @@ namespace LASI.Core.Tests
         {
             Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
             Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            Paragraph parent = new Paragraph(new[] { target }, ParagraphKind.Default);
+            Paragraph parent = new Paragraph(ParagraphKind.Default, new[] { target });
             target.EstablishTextualLinks(parent);
             Assert.AreEqual(parent, target.Paragraph);
             foreach (var p in phrases)

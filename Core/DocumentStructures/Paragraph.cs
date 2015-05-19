@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -14,13 +12,20 @@ namespace LASI.Core
         /// <summary>
         /// Initializes a new instance of the Paragraph class.
         /// </summary>
+        /// <param name="kind">Indicates the kind of Paragraph.</param>
         /// <param name="sentences">The sentences which comprise the Paragraph.</param>
-        /// <param name="kind">Indicates the kind of paragraph.</param>
-        public Paragraph(IEnumerable<Sentence> sentences, ParagraphKind kind)
+        public Paragraph(ParagraphKind kind, IEnumerable<Sentence> sentences)
         {
             ParagraphKind = kind;
             Sentences = sentences;
         }
+        /// <summary>
+        /// Initializes a new instance of the Paragraph class.
+        /// </summary>
+        /// <param name="kind">Indicates the kind of Paragraph.</param>
+        /// <param name="first">The first sentence of the Paragraph</param>
+        /// <param name="sentences">The rest of sentences which comprise the Paragraph.</param>
+        public Paragraph(ParagraphKind kind, Sentence first, params Sentence[] rest) : this(kind, rest.Prepend(first)) { }
 
         /// <summary>
         /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
@@ -39,7 +44,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="startAfter">The Phrase which bounds the sequence.</param>
         /// <returns>The sequence of Phrases which come after the given phrase through to the end of the Paragraph.</returns>
-        public IEnumerable<Phrase> GetPhrasesAfter(Phrase startAfter) => Phrases.SkipWhile(r => r != startAfter).Skip(1);
+        public IEnumerable<Phrase> GetPhrasesAfter(Phrase startAfter) => Phrases.SkipWhile(p => p != startAfter).Skip(1);
 
 
         /// <summary>
@@ -57,15 +62,15 @@ namespace LASI.Core
         /// <summary>
         /// Gets the collection of Words which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Word> Words => Sentences.SelectMany(sentence => sentence.Words);
+        public IEnumerable<Word> Words => Sentences.SelectMany(s => s.Words);
         /// <summary>
         /// Gets the collection of Phrases which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Phrase> Phrases => Sentences.SelectMany(sentence => sentence.Phrases);
+        public IEnumerable<Phrase> Phrases => Sentences.SelectMany(s => s.Phrases);
         /// <summary>
         /// Gets the collection of Clauses which comprise the Paragraph.
         /// </summary>
-        public IEnumerable<Clause> Clauses => Sentences.SelectMany(sentence => sentence.Clauses);
+        public IEnumerable<Clause> Clauses => Sentences.SelectMany(s => s.Clauses);
 
         /// <summary>
         /// Gets the Document the Paragraph belongs to.
@@ -79,7 +84,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the textual content of the Paragraph.
         /// </summary>
-        public string Text => text = text ?? string.Join(" ", Sentences.Select(sentence => sentence.Text));
+        public string Text => text ?? (text = string.Join(" ", Sentences.Select(s => s.Text)));
 
         /// <summary>
         /// Returns an enumeration of all constituent Lexical structures of the Paragraph.

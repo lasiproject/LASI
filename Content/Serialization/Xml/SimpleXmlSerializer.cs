@@ -21,7 +21,7 @@
         public XElement Serialize(IEnumerable<Core.ILexical> source, string parentElementTitle) =>
             new XElement("Root",
                 new XElement("Results",
-                    new XAttribute("Title", parentElementTitle),
+                    new XAttribute("Name", parentElementTitle),
                     from e in source.WithIndex()
                     select new XElement(e.Element.GetType().Name,
                         new XAttribute("Id", e.Index),

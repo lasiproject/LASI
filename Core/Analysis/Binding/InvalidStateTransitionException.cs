@@ -19,13 +19,11 @@ namespace LASI.Core.Analysis.Binding
         /// <param name="stateName">The number representing the State where the error occurred.</param>
         /// <param name="errorOn">The ILeixcal instance which caused the error.</param>
         public InvalidStateTransitionException(string stateName, ILexical errorOn)
-            : base(string.Format("Invalid Transition\nAt State {0}\nOn {1}", stateName, errorOn))
-        {
-        }
+            : base($"Invalid Transition\nAt State {stateName}\nOn {errorOn}")
+        { }
         protected InvalidStateTransitionException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
-        {
-        }
+        { }
     }
-  
+
 }

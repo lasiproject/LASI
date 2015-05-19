@@ -3,7 +3,6 @@
     using Lexicon = Core.Lexicon;
     using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
     using DateTime = System.DateTime;
-    using System;
 
     /// <summary>
     /// Controls global performance and resource usage settings.
@@ -31,15 +30,11 @@
         /// A ResourceInfo instance containing the current resource usage percentages for the
         /// machine hosting the application.
         /// </returns>
-        /// w
-        public static ResourceUsageSample GetCurrentUsage()
-        {
-            return new ResourceUsageSample
-            (
-                memoryUsage: new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
-                cpuUsage: new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue()
-            );
-        }
+        public static ResourceUsageSample GetCurrentUsage() => new ResourceUsageSample
+        (
+            memoryUsage: new System.Diagnostics.PerformanceCounter("Memory", "% Committed Bytes In Use").NextValue(),
+            cpuUsage: new System.Diagnostics.PerformanceCounter("Processor", "% Processor Time", "_Total").NextValue()
+        );
 
         /// <summary>
         /// Raised when less than the minimum amount of available RAM, in MB, remains.
@@ -61,23 +56,15 @@
         /// </summary>
         private static void BindDefaultHandlers()
         {
-            MemoryThresholdExceeded += (s, e) =>
+            MemoryThresholdExceeded += delegate
             {
-                Lexicon.ClearNounCache();
-                Lexicon.ClearVerbCache();
-                Lexicon.ClearAdjectiveCache();
-                Lexicon.ClearAdverbCache();
+                Lexicon.ClearAllCachedSynonymData();
 
                 // Experimental: Invoke an explicit garbage collection to free up memory. This may
                 // be advantageous to performance in this situation, but it remains to be seen. See
                 // the second paragraph of http://msdn.microsoft.com/en-us/library/bb384155
                 System.GC.Collect();
             };
-        }
-
-        public static void SetPerformanceLevel(object high)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -102,7 +89,7 @@
         /// High resource usage indicates a conservative allocation and consumption of available
         /// system resources.
         /// </summary>
-        Low,
+        Low
     }
     /// <summary>
     /// Represents a resource usage sample.

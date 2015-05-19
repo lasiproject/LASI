@@ -1,10 +1,13 @@
 {
     "projects": [
         "wrap",
-        "AspSixApp",
-        "LASI.Core",
-        "LASI.Content",
-        "LASI.Utilities",
-        "LASI.Interop"
-    ]
+        "Core",
+        "Content",
+        "Utilities",
+        "Interop",
+        "LASI.WebApp",
+        "LASI.WebApp.Tests",
+        "."
+    ],
+    "apiVersion": "1.0.0-beta4"
 }

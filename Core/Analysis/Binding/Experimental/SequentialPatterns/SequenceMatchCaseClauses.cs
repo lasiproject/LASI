@@ -227,9 +227,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T8 : class, ILexical
         where T9 : class, ILexical
         where T10 : class, ILexical
-        where T11 : class, ILexical
-        {
-            return CheckGuard(() =>
+        where T11 : class, ILexical =>
+            CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -240,7 +239,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(11);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -360,9 +358,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T11 : class, ILexical
             where T12 : class, ILexical
             where T13 : class, ILexical
-            where T14 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T14 : class, ILexical =>
+            CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -373,7 +370,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(14);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -410,9 +406,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T12 : class, ILexical
             where T13 : class, ILexical
             where T14 : class, ILexical
-            where T15 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T15 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -435,7 +429,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(15);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -474,9 +467,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T13 : class, ILexical
             where T14 : class, ILexical
             where T15 : class, ILexical
-            where T16 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T16 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -487,7 +478,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(16);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -512,25 +502,23 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> pattern)
-        where T1 : class, ILexical
-        where T2 : class, ILexical
-        where T3 : class, ILexical
-        where T4 : class, ILexical
-        where T5 : class, ILexical
-        where T6 : class, ILexical
-        where T7 : class, ILexical
-        where T8 : class, ILexical
-        where T9 : class, ILexical
-        where T10 : class, ILexical
-        where T11 : class, ILexical
-        where T12 : class, ILexical
-        where T13 : class, ILexical
-        where T14 : class, ILexical
-        where T15 : class, ILexical
-        where T16 : class, ILexical
-        where T17 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical
+            where T8 : class, ILexical
+            where T9 : class, ILexical
+            where T10 : class, ILexical
+            where T11 : class, ILexical
+            where T12 : class, ILexical
+            where T13 : class, ILexical
+            where T14 : class, ILexical
+            where T15 : class, ILexical
+            where T16 : class, ILexical
+            where T17 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -542,7 +530,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(17);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -586,18 +573,18 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T16 : class, ILexical
             where T17 : class, ILexical
             where T18 : class, ILexical =>
-                CheckGuard(() =>
+            CheckGuard(() =>
+            {
+                Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
+                if (Accepted)
                 {
-                    Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
-                    if (Accepted)
-                    {
-                        pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                                Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                                Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
-                                Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18);
-                        Sequence = Sequence.Skip(18);
-                    }
-                });
+                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15,
+                            Sequence[15] as T16, Sequence[16] as T17, Sequence[17] as T18);
+                    Sequence = Sequence.Skip(18);
+                }
+            });
 
 
         /// <summary>
@@ -643,9 +630,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T16 : class, ILexical
             where T17 : class, ILexical
             where T18 : class, ILexical
-            where T19 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T19 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -657,7 +642,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(19);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -704,9 +688,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T17 : class, ILexical
             where T18 : class, ILexical
             where T19 : class, ILexical
-            where T20 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T20 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -720,7 +702,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     }
                 }
             });
-        }
 
         #endregion Case Clauses
 
@@ -735,9 +716,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, TResult>(Func<T1, T2, TResult> pattern)
             where T1 : class, ILexical
-            where T2 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T2 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -746,7 +725,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(2);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -992,19 +970,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> pattern)
-        where T1 : class, ILexical
-        where T2 : class, ILexical
-        where T3 : class, ILexical
-        where T4 : class, ILexical
-        where T5 : class, ILexical
-        where T6 : class, ILexical
-        where T7 : class, ILexical
-        where T8 : class, ILexical
-        where T9 : class, ILexical
-        where T10 : class, ILexical
-        where T11 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical
+            where T8 : class, ILexical
+            where T9 : class, ILexical
+            where T10 : class, ILexical
+            where T11 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1015,7 +991,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(11);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1135,9 +1110,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T11 : class, ILexical
             where T12 : class, ILexical
             where T13 : class, ILexical
-            where T14 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T14 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1148,7 +1121,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(14);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1185,9 +1157,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T12 : class, ILexical
             where T13 : class, ILexical
             where T14 : class, ILexical
-            where T15 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T15 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1210,7 +1180,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(15);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1249,20 +1218,17 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         where T13 : class, ILexical
         where T14 : class, ILexical
         where T15 : class, ILexical
-        where T16 : class, ILexical
+        where T16 : class, ILexical => CheckGuard(() =>
         {
-            return CheckGuard(() =>
+            Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
+            if (Accepted)
             {
-                Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
-                if (Accepted)
-                {
-                    pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
-                            Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
-                            Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15, Sequence[15] as T16);
-                    Sequence = Sequence.Skip(16);
-                }
-            });
-        }
+                pattern(Sequence[0] as T1, Sequence[1] as T2, Sequence[2] as T3, Sequence[3] as T4, Sequence[4] as T5,
+                        Sequence[5] as T6, Sequence[6] as T7, Sequence[7] as T8, Sequence[8] as T9, Sequence[9] as T10,
+                        Sequence[10] as T11, Sequence[11] as T12, Sequence[12] as T13, Sequence[13] as T14, Sequence[14] as T15, Sequence[15] as T16);
+                Sequence = Sequence.Skip(16);
+            }
+        });
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1287,25 +1253,23 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult> pattern)
-        where T1 : class, ILexical
-        where T2 : class, ILexical
-        where T3 : class, ILexical
-        where T4 : class, ILexical
-        where T5 : class, ILexical
-        where T6 : class, ILexical
-        where T7 : class, ILexical
-        where T8 : class, ILexical
-        where T9 : class, ILexical
-        where T10 : class, ILexical
-        where T11 : class, ILexical
-        where T12 : class, ILexical
-        where T13 : class, ILexical
-        where T14 : class, ILexical
-        where T15 : class, ILexical
-        where T16 : class, ILexical
-        where T17 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T1 : class, ILexical
+            where T2 : class, ILexical
+            where T3 : class, ILexical
+            where T4 : class, ILexical
+            where T5 : class, ILexical
+            where T6 : class, ILexical
+            where T7 : class, ILexical
+            where T8 : class, ILexical
+            where T9 : class, ILexical
+            where T10 : class, ILexical
+            where T11 : class, ILexical
+            where T12 : class, ILexical
+            where T13 : class, ILexical
+            where T14 : class, ILexical
+            where T15 : class, ILexical
+            where T16 : class, ILexical
+            where T17 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1317,7 +1281,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(17);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1417,9 +1380,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T16 : class, ILexical
             where T17 : class, ILexical
             where T18 : class, ILexical
-            where T19 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T19 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1431,7 +1392,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     Sequence = Sequence.Skip(19);
                 }
             });
-        }
 
         /// <summary>
         /// Applies the specified binding function to the sequence when its pattern is matched.
@@ -1478,9 +1438,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             where T17 : class, ILexical
             where T18 : class, ILexical
             where T19 : class, ILexical
-            where T20 : class, ILexical
-        {
-            return CheckGuard(() =>
+            where T20 : class, ILexical => CheckGuard(() =>
             {
                 Accepted = pattern.Applicable(SequenceFilteredByCurrentPredicates);
                 if (Accepted)
@@ -1494,7 +1452,6 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
                     }
                 }
             });
-        }
 
         #endregion Case Clauses
     }

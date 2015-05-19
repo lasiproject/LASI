@@ -113,7 +113,7 @@ namespace LASI.Core.Tests
             Adjective target = new Adjective(text);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
-            Assert.IsTrue(target.AdverbialModifiers.None());
+            Assert.IsFalse(target.AdverbialModifiers.Any());
         }
 
 

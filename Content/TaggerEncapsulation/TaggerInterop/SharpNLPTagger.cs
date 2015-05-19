@@ -591,15 +591,15 @@ namespace TaggerInterop
         /// </summary>
         TagAndAggregate,
         /// <summary>
-        /// Parses and nests arbitarily
+        /// Parses and nests arbitrarily
         /// </summary>
         FullyNestingParse,
         /// <summary>
-        /// Embeds gender liklihood information with nouns
+        /// Embeds gender likelihood information with nouns
         /// </summary>
         GenderFind,
         /// <summary>
-        /// Embeds enity recognition with nouns for broad categories such as location, organization, etc.
+        /// Embeds entity recognition with nouns for broad categories such as location, organization, etc.
         /// </summary>
         NameFind,
     }

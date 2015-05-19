@@ -127,38 +127,6 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void ToHashSetTest()
-        {
-            var target = Range(1, 100).ToHashSet();
-            Assert.AreEqual(target.Count, 100);
-            Assert.IsTrue(!target.Select(x => x % 2).ToHashSet().Except(new[] { 1, 0 }).Any());
-        }
-
-        [TestMethod]
-        public void ToHashSetTest1()
-        {
-            var target = new[] { 'A', 'B', 'C', 'a', 'b', 'c' };
-            var expected = new HashSet<char> { 'A', 'B', 'C', 'a', 'b', 'c' };
-            var actual = target.ToHashSet();
-            EnumerableAssert.AreSetEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void ToHashSetTest2()
-        {
-            var caseInsensitiveComparer = ComparerFactory.Create<char>((a, b) => a.EqualsIgnoreCase(b), c => c.ToUpper().GetHashCode());
-            var target = new char[6] { 'A', 'B', 'C', 'a', 'b', 'c' };
-            var expected = new HashSet<char>(caseInsensitiveComparer) { 'A', 'B', 'C', 'a', 'b', 'c' };
-            var actual = target.ToHashSet(caseInsensitiveComparer);
-            Assert.IsTrue(3 == expected.Count && 3 == actual.Count);
-            EnumerableAssert.AreSetEqual(expected, actual);
-            foreach (var c in target)
-            {
-                Assert.IsTrue(expected.Contains(c));
-            }
-        }
-
-        [TestMethod]
         public void PairWiseTest()
         {
             var target = Range(0, 5);

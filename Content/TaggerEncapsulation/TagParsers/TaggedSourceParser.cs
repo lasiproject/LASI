@@ -13,7 +13,7 @@ using LASI.Utilities;
 
 namespace LASI.Content
 {
-    internal class TaggedSourceParser : LASI.Content.Tagging.TagParser
+    internal class TaggedSourceParser : TagParser
     {
         #region Constructors
 
@@ -40,10 +40,7 @@ namespace LASI.Content
         /// <returns>
         /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
         /// </returns>
-        public override Document LoadDocument()
-        {
-            return LoadDocument(null);
-        }
+        public override Document LoadDocument() => LoadDocument(null);
         /// <summary>
         /// Builds a <see cref="LASI.Core.Document"/> instance from of all of
         /// the textual constructs in the tagged source.
@@ -52,12 +49,10 @@ namespace LASI.Content
         /// <returns>
         /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
         /// </returns>
-        public virtual Document LoadDocument(string title)
-        {
-            return new Document(
-                paragraphs: LoadParagraphs(),
-                title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled");
-        }
+        public virtual Document LoadDocument(string title) => new Document(
+            title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled",
+            paragraphs: LoadParagraphs()
+        );
 
         public virtual async Task<Document> LoadDocumentAsync(string title) => await Task.Run(() => LoadDocument(title));
 
@@ -68,8 +63,7 @@ namespace LASI.Content
         /// <returns>
         /// The strongly typed constructs which represent the text of the document, aggregated into paragraphs.
         /// </returns>
-        public override IEnumerable<Paragraph> LoadParagraphs() =>
-            ParseParagraphs(PreProcessText(TaggedInputData.Trim())).Select(BuildParagraph);
+        public override IEnumerable<Paragraph> LoadParagraphs() => ParseParagraphs(PreProcessText(TaggedInputData.Trim())).Select(BuildParagraph);
 
         /// <summary>
         /// Pre-processes the line read from the file by replacing some instances of problematic
@@ -77,12 +71,9 @@ namespace LASI.Content
         /// </summary>
         /// <param name="text">The string containing raw SharpNLP tagged-text to process.</param>
         /// <returns>The string containing the processed text.</returns>
-        protected virtual string PreProcessText(string text)
-        {
-            return text.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-")
-                .Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ")
-                .RemoveSubstrings("<enumeration>", "</enumeration>");
-        }
+        protected virtual string PreProcessText(string text) => text.Replace(" [/-LRB-", " LEFT_SQUARE_BRACKET/-LRB-")
+                                                                    .Replace("]/-RRB- ", "RIGHT_SQUARE_BRACKET/-RRB- ")
+                                                                    .RemoveSubstrings("<enumeration>", "</enumeration>");
 
         /// <summary>
         /// Asynchronously Pre-processes the line read from the file by replacing some instances of
@@ -207,7 +198,7 @@ namespace LASI.Content
                 var parsedSentence = BuildSentence(sentence);
                 parsedSentences.Add(parsedSentence);
             }
-            return new Paragraph(parsedSentences, hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default);
+            return new Paragraph(hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default, parsedSentences);
         }
 
 

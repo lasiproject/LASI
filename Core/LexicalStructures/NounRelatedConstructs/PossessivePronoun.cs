@@ -15,7 +15,7 @@ namespace LASI.Core
     public class PossessivePronoun : Word, IWeakPossessor
     {
         /// <summary>
-        /// Initialiazes entity new instance of the PossessivePronoun class.
+        /// Initializes entity new instance of the PossessivePronoun class.
         /// </summary>
         /// <param name="text">The text content of the PossessivePronoun.</param>
         public PossessivePronoun(string text) : base(text) { }
@@ -32,27 +32,18 @@ namespace LASI.Core
             {
                 PossessesFor.AddPossession(possession);
             }
-            possessed = possessed.Add(possession);
+            possessions = possessions.Add(possession);
         }
         /// <summary>
         /// Returns a string representation of the PossessivePronoun.
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + $"\nSignifying {PossessesFor.Text} as owner of {Possessions.Format(e => e.Text)}";
-        }
+        public override string ToString() => base.ToString() + $"\nSignifying {PossessesFor.Text} as owner of {Possessions.Format(e => e.Text)}";
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
         /// </summary>
-        public virtual IEnumerable<IPossessable> Possessions
-        {
-            get
-            {
-                return possessed;
-            }
-        }
+        public virtual IEnumerable<IPossessable> Possessions => possessions;
         /// <summary>
         /// Gets or sets the possessor which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
@@ -68,7 +59,7 @@ namespace LASI.Core
                 possessesFor = value;
                 if (value != null)
                 {
-                    foreach (var possession in possessed)
+                    foreach (var possession in possessions)
                     {
                         possessesFor.AddPossession(possession);
                     }
@@ -77,7 +68,7 @@ namespace LASI.Core
         }
 
         #region Fields
-        private IImmutableSet<IPossessable> possessed = ImmutableHashSet.Create<IPossessable>();
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet.Create<IPossessable>();
         private IPossesser possessesFor;
         #endregion Fields
     }

@@ -17,16 +17,8 @@ namespace LASI.Core.Tests
     [TestClass]
     public class VerbPhraseTest
     {
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext { get; set; }
 
-        private static VerbPhrase CreateVerbPhrase1()
-        {
-            return new VerbPhrase(new BaseVerb("help"));
-        }
+        private static VerbPhrase CreateVerbPhrase1() => new VerbPhrase(new BaseVerb("help"));
 
         /// <summary>
         ///A test for VerbPhrase Constructor
@@ -37,6 +29,21 @@ namespace LASI.Core.Tests
             IEnumerable<Word> composedWords = new Word[] { new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
             Assert.IsTrue(composedWords == target.Words);
+        }
+        /// <summary>
+        ///A test for VerbPhrase Constructor
+        /// </summary>
+        [TestMethod]
+        public void VerbPhraseConstructorTest1()
+        {
+            VerbPhrase target = new VerbPhrase(new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through"));
+            var words = target.Words.ToList();
+            Assert.AreEqual(words[0].Text, "run");
+            Assert.AreEqual(words[0].GetType(), typeof(BaseVerb));
+            Assert.AreEqual(words[1].Text, "swiftly");
+            Assert.AreEqual(words[1].GetType(), typeof(Adverb));
+            Assert.AreEqual(words[2].Text, "through");
+            Assert.AreEqual(words[2].GetType(), typeof(Preposition));
         }
         /// <summary>
         ///A test for ModifyWith
@@ -78,12 +85,7 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        private static VerbPhrase CreateVerbPhrase()
-        {
-            IEnumerable<Word> composedWords = new Word[] { new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
-            VerbPhrase target = new VerbPhrase(composedWords);
-            return target;
-        }
+        private static VerbPhrase CreateVerbPhrase() => new VerbPhrase(new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through"));
 
 
 
@@ -93,10 +95,11 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void IsPossessiveTest()
         {
-            VerbPhrase target = new VerbPhrase(new Word[] {
+            VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
                 new PastTenseVerb("had"),
-                new Quantifier("many")});
+                new Quantifier("many")
+            );
             bool actual;
             actual = target.IsPossessive;
             Assert.IsTrue(actual);
@@ -154,7 +157,7 @@ namespace LASI.Core.Tests
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
-            Assert.IsTrue(target.IndirectObjects.None());
+            Assert.IsFalse(target.IndirectObjects.Any());
             IEntity indirectObject = new PersonalPronoun("them");
             target.BindIndirectObject(indirectObject);
             Assert.IsTrue(target.IndirectObjects.Contains(indirectObject));
@@ -169,7 +172,7 @@ namespace LASI.Core.Tests
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
-            Assert.IsTrue(target.DirectObjects.None());
+            Assert.IsFalse(target.DirectObjects.Any());
             IEntity directObject = new NounPhrase(
                 new Determiner("the"),
                 new CommonSingularNoun("book")
@@ -381,7 +384,6 @@ namespace LASI.Core.Tests
             IEntity subject = new CommonPluralNoun("cats");
             target.BindSubject(subject);
             Assert.IsTrue(target.HasSubject(e => e == subject));
-
         }
 
         /// <summary>

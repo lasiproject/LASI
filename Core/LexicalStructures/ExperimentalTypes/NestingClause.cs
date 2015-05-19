@@ -9,8 +9,10 @@ namespace LASI.Core.Binding.Experimental
 {
     class NestableClause : Clause, INestableLexical<NestableClause>
     {
-        public NestableClause(IEnumerable<INestableLexical<NestableClause>> constituentClauses, NestableClause parent = null)
-            : base(from clause in constituentClauses from phrase in clause.Self.Phrases select phrase)
+        public NestableClause(IEnumerable<INestableLexical<NestableClause>> constituentClauses, NestableClause parent = null) :
+            base(from clause in constituentClauses
+                 from phrase in clause.Self.Phrases
+                 select phrase)
         {
             Parent = parent;
             Children = constituentClauses;
@@ -28,7 +30,7 @@ namespace LASI.Core.Binding.Experimental
 
         public NestableClause Parent { get; set; }
         public IEnumerable<INestableLexical<NestableClause>> Children { get; set; }
-        public NestableClause Self { get { return this; } }
+        public NestableClause Self => this;
 
         #endregion
 

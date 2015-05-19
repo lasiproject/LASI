@@ -40,15 +40,11 @@ namespace LASI.Content.Tests
                 }
             }
 
-            public override string this[Phrase phrase]
-            {
-                get
-                {
-                    return (from mapping in mappings
-                            where mapping.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
-                            select mapping.Key).Single();
-                }
-            }
+            public override string this[Phrase phrase] =>
+                (from mapping in mappings
+                 where mapping.Value.Invoke(new Word[] { }).GetType() == phrase.GetType()
+                 select mapping.Key).Single();
+
             private readonly IDictionary<string, Func<IEnumerable<Word>, Phrase>> mappings = new Dictionary<string, Func<IEnumerable<Word>, Phrase>>
             {
                 ["NP"] = ws => new NounPhrase(ws),

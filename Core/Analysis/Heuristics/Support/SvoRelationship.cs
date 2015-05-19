@@ -23,30 +23,73 @@ namespace LASI.Core.Analysis.Heuristics.Support
         /// <param name="indirect">The indirect object component of the relationship.</param>
         public SvoRelationship(IEntity subject, IVerbal verbal, IEntity direct, IEntity indirect)
         {
-            Verbal = verbal; Subject = subject; Direct = direct; Indirect = indirect;
+            Verbal = verbal;
+            Subject = subject;
+            Direct = direct;
+            Indirect = indirect;
         }
         /// <summary>
-        /// Gets or sets the Subject component of the SvoRelationship.
+        /// Determines if two SvoRelationship instances are considered unequal.
         /// </summary>
-        public IEntity Subject { get; private set; }
+        /// <param name="left">The first SvoRelationship instance.</param>
+        /// <param name="right">The second SvoRelationship instance.</param>
+        /// <returns> <c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(SvoRelationship left, SvoRelationship right) => !(left == right);
 
         /// <summary>
-        /// Gets or sets the Verbal component of the SvoRelationship.
+        /// Determines if two SvoRelationship instances are considered equal.
         /// </summary>
-        public IVerbal Verbal { get; private set; }
+        /// <param name="left">The first SvoRelationship instance.</param>
+        /// <param name="right">The second SvoRelationship instance.</param>
+        /// <returns> <c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(SvoRelationship left, SvoRelationship right)
+        {
+            if (ReferenceEquals(left, null))
+            {
+                return ReferenceEquals(right, null);
+            }
+            if (ReferenceEquals(right, null))
+            {
+                return ReferenceEquals(left, null);
+            }
+            return left.Verbal.IsSimilarTo(right.Verbal) && (ReferenceEquals(left.Subject, right.Subject) ||
+                left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
+                (ReferenceEquals(left.Direct, right.Direct) || left.Direct.IsAliasFor(right.Direct) ||
+                left.Direct.IsSimilarTo(right.Direct)) && (ReferenceEquals(left.Indirect, right.Indirect) ||
+                left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
+        }
+
+        /// <summary>   
+        /// Determines if the current SvoRelationship instance is equal to another SvoRelationship instance.
+        /// </summary>
+        /// <param name="other">The SvoRelationship to compare to.</param>
+        /// <returns> <c>true</c> if the current Relationship is equal to the supplied SvoRelationship.</returns>
+        public bool Equals(SvoRelationship other) => other != null && this == other;
+
+        /// <summary>
+        /// Determines if the current SvoRelationship instance is equal to the specified System.Object.
+        /// </summary>
+        /// <param name="obj">The System.Object to compare to.</param>
+        /// <returns> <c>true</c> if the current SvoRelationship is equal to the specified System.Object.</returns>
+        public override bool Equals(object obj) => this == obj as SvoRelationship;
+
+        /// <summary>
+        /// Gets a hash code for the current Relationship instance.
+        /// </summary>
+        /// <returns>A hash code of the current Relationship instance.</returns>
+        public override int GetHashCode() => Elements.Count();
+
+        /// <summary>
+        /// Returns a string representation of the Relationship.
+        /// </summary>
+        /// <returns>A string representation of the Relationship.</returns>
+        public override string ToString() => Subject.Text + Verbal.Text + Direct?.Text + Indirect?.Text;
 
         /// <summary>
         /// Gets or sets the Direct Object component of the SvoRelationship.
         /// </summary>
-        public IEntity Direct { get; private set; }
-        /// <summary>
-        /// Gets or sets the Indirect Object component of the SvoRelationship.
-        /// </summary>
-        public IEntity Indirect { get; private set; }
-        /// <summary>
-        /// Gets or sets the Prepositional component of the SvoRelationship.
-        /// </summary>
-        public ILexical Prepositional { get { return Verbal.ObjectOfThePreposition; } }
+        public IEntity Direct { get; }
+
         /// <summary>
         /// Gets all of the Lexical elements participating in SvoRelationship.
         /// </summary>
@@ -61,68 +104,30 @@ namespace LASI.Core.Analysis.Heuristics.Support
                 yield return Prepositional;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the Indirect Object component of the SvoRelationship.
+        /// </summary>
+        public IEntity Indirect { get; }
+
+        /// <summary>
+        /// Gets or sets the Prepositional component of the SvoRelationship.
+        /// </summary>
+        public ILexical Prepositional => Verbal.ObjectOfThePreposition;
+
+        /// <summary>
+        /// Gets or sets the Subject component of the SvoRelationship.
+        /// </summary>
+        public IEntity Subject { get; }
+
+        /// <summary>
+        /// Gets or sets the Verbal component of the SvoRelationship.
+        /// </summary>
+        public IVerbal Verbal { get; }
         /// <summary>
         /// Gets the weight of the Relationship.
         /// </summary>
-        public double Weight { get { return Elements.Where(e => e != null).Sum(e => e.Weight); } }
-        /// <summary>
-        /// Returns a string representation of the Relationship.
-        /// </summary>
-        /// <returns>A string representation of the Relationship.</returns>
-        public override string ToString()
-        {
-            var result = Subject.Text + Verbal.Text;
-            if (Direct != null) { result += Direct.Text; }
-            if (Indirect != null) { result += Indirect.Text; }
-            return result;
-        }
-        /// <summary>   
-        /// Determines if the current SvoRelationship instance is equal to another SvoRelationship instance.
-        /// </summary>
-        /// <param name="other">The SvoRelationship to compare to.</param>
-        /// <returns> <c>true</c> if the current Relationship is equal to the supplied SvoRelationship.</returns>
-        public bool Equals(SvoRelationship other) { return other != null && this == other; }
-        /// <summary>
-        /// Determines if the current SvoRelationship instance is equal to the specified System.Object.
-        /// </summary>
-        /// <param name="obj">The System.Object to compare to.</param>
-        /// <returns> <c>true</c> if the current SvoRelationship is equal to the specified System.Object.</returns>
-        public override bool Equals(object obj) { return this == obj as SvoRelationship; }
-        /// <summary>
-        /// Gets a hash code for the current Relationship instance.
-        /// </summary>
-        /// <returns>A hash code of the current Relationship instance.</returns>
-        public override int GetHashCode() { return Elements.Count(); }
-        /// <summary>
-        /// Determines if two SvoRelationship instances are considered equal.
-        /// </summary>
-        /// <param name="left">The first SvoRelationship instance.</param>
-        /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns> <c>true</c> if the SvoRelationship instances are considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(SvoRelationship left, SvoRelationship right)
-        {
-            if (ReferenceEquals(left, null))
-            {
-                return ReferenceEquals(right, null);
-            }
-            if (ReferenceEquals(right, null)) { return ReferenceEquals(left, null); }
-
-            return left.Verbal.IsSimilarTo(right.Verbal) && (ReferenceEquals(left.Subject, right.Subject) ||
-                left.Subject.IsAliasFor(right.Subject) || left.Subject.IsSimilarTo(right.Subject)) &&
-                (ReferenceEquals(left.Direct, right.Direct) || left.Direct.IsAliasFor(right.Direct) ||
-                left.Direct.IsSimilarTo(right.Direct)) && (ReferenceEquals(left.Indirect, right.Indirect) ||
-                left.Indirect.IsAliasFor(right.Indirect) || left.Indirect.IsSimilarTo(right.Indirect));
-        }
-        /// <summary>
-        /// Determines if two SvoRelationship instances are considered unequal.
-        /// </summary>
-        /// <param name="left">The first SvoRelationship instance.</param>
-        /// <param name="right">The second SvoRelationship instance.</param>
-        /// <returns> <c>true</c> if the SvoRelationship instances are considered unequal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(SvoRelationship left, SvoRelationship right)
-        {
-            return !(left == right);
-        }
+        public double Weight => Elements.Sum(e => e?.Weight) ?? 0;
     }
 
 }

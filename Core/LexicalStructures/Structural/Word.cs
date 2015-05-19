@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-
+using LASI.Utilities.Validation;
 
 namespace LASI.Core
 {
@@ -21,8 +21,10 @@ namespace LASI.Core
         /// <param name="text">The text content of the word.</param>
         protected Word(string text)
         {
-            if (text.Contains(' '))
-                throw new ArgumentException("The text of a word may not contain white space");
+            Validate.DoesNotExistIn(text, ' ', "The text of a word may not contain white space");
+#if ENSURENOEMPTYWORDS
+            Validate.NotEmpty(text, nameof(text), "A word cannot be created from empty text");
+#endif
             Text = text;
             Weight = 1;
             MetaWeight = 1;
@@ -37,12 +39,12 @@ namespace LASI.Core
         /// Establishes the linkage between the word and its parent Phrase.
         /// </summary>
         /// <param name="parent">The Phrase to which the word belongs.</param>
-        internal void EstablishTextualLinks(Phrase parent) { Phrase = parent; }
+        internal void EstablishTextualLinks(Phrase parent) => Phrase = parent;
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying Noun and its text content.</returns>
-        public override string ToString() => $"{this.GetType().Name } \"{Text}\"";
+        public override string ToString() => $"{GetType().Name } \"{Text}\"";
 
         #endregion
 
@@ -80,7 +82,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Sentence the word belongs to.
         /// </summary>
-        public Sentence Sentence { get { return Phrase?.Sentence; } }
+        public Sentence Sentence => Phrase?.Sentence;
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>

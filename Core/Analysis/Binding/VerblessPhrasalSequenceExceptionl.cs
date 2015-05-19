@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LASI.Utilities;
+using LASI.Utilities.Validation;
 
 namespace LASI.Core.Analysis.Binding
 {
@@ -13,7 +14,7 @@ namespace LASI.Core.Analysis.Binding
     [Serializable]
     public class VerblessPhrasalSequenceException : Exception
     {
-        public IEnumerable<ILexical> Sequence { get; protected set; }
+        public IEnumerable<ILexical> Sequence { get; }
 
         /// <summary>
         /// Gets each element in the Lexical sequence which caused the caused the exception. Elements are keyed by index.
@@ -34,7 +35,24 @@ namespace LASI.Core.Analysis.Binding
         [Obsolete("Do not instantiate with this constructor.\nPlease use: new VerblessPhrasalSequenceException(IEnumerable<Phrase>)", true)]
         public VerblessPhrasalSequenceException(string message, Exception innerException) : base(message, innerException) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VerblessPhrasalSequenceException"/> class with serialized data.
+        /// </summary>
+        /// <param name="info">
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.
+        /// </param>
         protected VerblessPhrasalSequenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
-        { }
+        {
+            Sequence = (IEnumerable<ILexical>)info.GetValue(nameof(Sequence), typeof(IEnumerable<ILexical>));
+        }
+        public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            Validate.NotNull(info, nameof(info));
+            info.AddValue(nameof(Sequence), Sequence);
+        }
     }
 }

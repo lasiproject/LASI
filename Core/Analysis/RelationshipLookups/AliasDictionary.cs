@@ -16,10 +16,7 @@ namespace LASI.Core.Heuristics
         /// <param name="possibleAlias">The first Entity</param>
         /// <param name="other">The second Entity</param>
         /// <returns> <c>true</c> if the Entities are aliases for one another, false otherwise</returns>
-        public static bool IsAliasFor(this IEntity possibleAlias, IEntity other)
-        {
-            return possibleAlias != null && other != null && LookupAlias(other, possibleAlias);
-        }
+        public static bool IsAliasFor(this IEntity possibleAlias, IEntity other) => possibleAlias != null && other != null && LookupAlias(other, possibleAlias);
 
         private static bool LookupAlias(IEntity possibleAlias, IEntity possiblyAliasedBy)
         {
@@ -66,21 +63,18 @@ namespace LASI.Core.Heuristics
         private static void DefineAliasesImpl(string entityText, params string[] textualAliases)
         {
             aliasDictionary.AddOrUpdate(
-                   entityText, textualAliases.ToHashSet(),
-                   (key, value) => value.Concat(textualAliases).ToHashSet()
-                   );
+                   entityText, new HashSet<string>(textualAliases),
+                   (key, value) => new HashSet<string>(value.Concat(textualAliases)));
         }
         private static void DefineAliasesImpl(IEntity entity, IEntity alias, params IEntity[] aliases)
         {
             aliasDictionary.AddOrUpdate(
                 entity.Text,
-                key => aliases.Select(a => a.Text).ToHashSet(),
-                (key, value) => value.Union(aliases.Select(a => a.Text)).ToHashSet());
+                key => new HashSet<string>(aliases.Select(a => a.Text)),
+                (key, value) => new HashSet<string>(value.Union(aliases.Select(a => a.Text))));
             aliasedEntityReferenceMap.AddOrUpdate(
-                entity,
-                aliases.ToHashSet(),
-                (key, value) => value.Union(aliases).ToHashSet()
-                );
+                entity, new HashSet<IEntity>(aliases),
+                (key, value) => new HashSet<IEntity>(value.Union(aliases)));
 
         }
         /// <summary>
@@ -100,25 +94,20 @@ namespace LASI.Core.Heuristics
         }
 
 
-        internal static IEnumerable<string> GetLikelyAliases(IEntity entity)
-        {
-            return entity.Match()
-                .Case((NounPhrase n) => DefineAliases(n))
-                .When(e => e.SubjectOf.IsClassifier)
-                .Then(e => e.SubjectOf.DirectObjects.SelectMany(o => o.Match()
-                       .When((IReferencer p) => p.RefersTo.Any())
-                       .Then((IReferencer p) => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
-                       .Case((Noun n) => n.GetSynonyms())
-                   .Result()))
-                .Result(Enumerable.Empty<string>());
-        }
+        internal static IEnumerable<string> GetLikelyAliases(IEntity entity) => entity.Match()
+            .Case((NounPhrase n) => DefineAliases(n))
+            .When(e => e.SubjectOf.IsClassifier)
+            .Then(e => e.SubjectOf.DirectObjects.SelectMany(o => o.Match()
+                    .When((IReferencer p) => p.RefersTo.Any())
+                    .Then((IReferencer p) => p.RefersTo.SelectMany(r => GetLikelyAliases(r)))
+                    .Case((Noun n) => n.GetSynonyms())
+                .Result()))
+            .Result(Enumerable.Empty<string>());
 
-        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase)
-        {
-            return nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
-                Lexicon.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
-                Enumerable.Empty<string>();
-        }
+        private static IEnumerable<string> DefineAliases(NounPhrase nounPhrase) =>
+            nounPhrase.Words.OfNoun().Count() == 1 && !nounPhrase.Words.Any(w => w is ProperNoun) ?
+            Lexicon.GetSynonyms(nounPhrase.Words.OfNoun().First()) :
+            Enumerable.Empty<string>();
 
         private static ConcurrentDictionary<IEntity, ISet<IEntity>> aliasedEntityReferenceMap = new ConcurrentDictionary<IEntity, ISet<IEntity>>();
         private static ConcurrentDictionary<string, ISet<string>> aliasDictionary = new ConcurrentDictionary<string, ISet<string>>();

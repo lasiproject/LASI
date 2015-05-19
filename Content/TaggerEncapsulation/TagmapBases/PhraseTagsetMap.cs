@@ -19,7 +19,7 @@ namespace LASI.Content.Tagging
     /// </code>
     /// </example>
     /// <seealso cref="WordTagsetMap"/>
-    public abstract class PhraseTagsetMap
+    public abstract class PhraseTagsetMap : ITagsetMap<IEnumerable<Word>, Phrase>
     {
         /// <summary>
         /// When overridden in a derived class, Provides POS-Tag indexed access to a constructor
@@ -41,9 +41,9 @@ namespace LASI.Content.Tagging
         /// System.Type of the given LASI.Algorithm.Phrase.
         /// </summary>
         /// <param name="phrase">
-        /// The LASI.Algorithm.Phrase for which to get the corresponding tag.
+        /// The <see cref="Phrase"/> for which to get the corresponding tag.
         /// </param>
-        /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="LASI.Core.Phrase" />.</returns>
+        /// <returns>The PosTag string corresponding to the System.Type of the given <see cref="Phrase" />.</returns>
         public abstract string this[Phrase phrase] { get; }
     }
 }

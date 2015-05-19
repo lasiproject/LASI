@@ -20,7 +20,7 @@ namespace LASI.Content.Tagging
     /// <seealso cref="WordTagsetMap"/>
     /// <seealso cref="PhraseTagsetMap"/>
     /// <seealso cref="Content.WordFactory"/>
-    public abstract class WordTagsetMap
+    public abstract class WordTagsetMap : ITagsetMap<string, Word>
     {
         /// <summary>
         /// When overridden in a derived class, Provides POS-Tag indexed access to a constructor
@@ -32,9 +32,9 @@ namespace LASI.Content.Tagging
         /// A function which creates an instance of the run-time type associated with the textual tag.
         /// </returns>
         /// <exception cref="UnknownWordTagException">
-        /// Implementors should Throw this exception if and only if when the index string is not a
+        /// Implementors should throw this exception if and only if the indexing string is not a
         /// tag defined by the tagset being provided.
-        /// </exception>
+        /// </exception> 
         public abstract WordFactory this[string tag] { get; }
 
         /// <summary>Gets the PosTag string corresponding to the System.Type of the given <see cref="Word" />.</summary>

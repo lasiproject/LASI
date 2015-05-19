@@ -19,7 +19,7 @@ namespace LASI.Core.Analysis.Binding
         {
 
             //Handle case of verbless sentence. Needs to be included for the sake of security of the code. 
-            if (s.Phrases.OfVerbPhrase().None())
+            if (!s.Phrases.OfVerbPhrase().Any())
             {
                 throw new VerblessPhrasalSequenceException(s.Phrases);
             }
@@ -77,7 +77,7 @@ namespace LASI.Core.Analysis.Binding
 
                     }
                     //if the last word, you can't find any more subjects
-                    if (s.GetPhrasesAfter(i).OfVerbPhrase().None())
+                    if (!s.GetPhrasesAfter(i).OfVerbPhrase().Any())
                         break;
                 }
 
@@ -145,12 +145,7 @@ namespace LASI.Core.Analysis.Binding
             {
                 get;
                 set;
-            }
-            public int count
-            {
-                get;
-                private set;
-            }
+            } 
             public Phrase StatePhrase
             {
                 get;
@@ -176,12 +171,9 @@ namespace LASI.Core.Analysis.Binding
         /// </summary>
         /// <param name="p">Any phrase</param>
         /// <returns>Returns true of false if a phrase has a pronoun in it that can only be in the subject of a sentence</returns>
-        public static bool HasSubjectPronoun(this Phrase p)
-        {
-            return p.Words
+        public static bool HasSubjectPronoun(this Phrase p) => p.Words
                 .OfPronoun()
                 .Any(w => subjectPronounStrings.Contains(w.Text));
-        }
         private static readonly HashSet<string> subjectPronounStrings = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "he", "she", "it", "they" };
     }
 }

@@ -20,11 +20,13 @@ namespace LASI.Core
     /// (from e in ...)
     /// </para>
     /// </summary>
-    /// <see cref="IAggregateVerbal" />
-    /// <seealso cref="IVerbal" />
+    /// <see cref="IAggregateVerbal"/>
+    /// <seealso cref="IVerbal"/>
     public class AggregateVerbal : IAggregateVerbal
     {
-        /// <summary>Initializes a new instance of the AggregateVerbal class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the AggregateVerbal class.
+        /// </summary>
         /// <param name="constituents">The collection of verbals which form the aggregate.</param>
         public AggregateVerbal(IEnumerable<IVerbal> constituents)
         {
@@ -34,12 +36,19 @@ namespace LASI.Core
                          .Average();
         }
 
-        /// <summary>Initializes a new instance of the AggregateVerbal class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the AggregateVerbal class.
+        /// </summary>
         /// <param name="first">The first verbal of the aggregate.</param>
         /// <param name="rest">The remaining verbals which form the aggregate.</param>
-        public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first)) { }
+        public AggregateVerbal(IVerbal first, params IVerbal[] rest) : this(rest.Prepend(first))
+        {
+        }
 
-        public void AttachObjectViaPreposition(IPrepositional prepositional) { throw new NotImplementedException(); }
+        public void AttachObjectViaPreposition(IPrepositional prepositional)
+        {
+            throw new NotImplementedException();
+        }
 
         public void BindDirectObject(IEntity directObject) => directObjects = directObjects.Add(directObject);
 
@@ -47,31 +56,52 @@ namespace LASI.Core
 
         public void BindSubject(IEntity subject) => subjects = subjects.Add(subject);
 
-        public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
         public IEnumerator<IVerbal> GetEnumerator() => constituents.GetEnumerator();
 
-        /// <summary>Gets all of the adverbial modifiers of the AggregateVerbal.</summary>
-        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
-        public IVerbal AttributedTo => AdverbialModifiers as IVerbal;
-        /// <summary>Gets all of the adverbial modifiers of the AggregateVerbal.</summary>
+        public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
+
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout) => this.SelectMany(flattenAbout).Where(result => result != null);
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <summary>
+        /// Gets all of the adverbial modifiers of the AggregateVerbal.
+        /// </summary>
         public IEnumerable<IAdverbial> AdverbialModifiers => FlattenAbout(v => v.AdverbialModifiers);
-        /// <summary>Gets the aggregate of all Direct objects of the AggregateVerbal.</summary>
+
+        /// <summary>
+        /// Gets the aggregate of all Direct objects of the AggregateVerbal.
+        /// </summary>
         public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects).ToAggregate();
 
         public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects).ToAggregate();
-        /// <summary>Gets the aggregate of all Subjects of the AggregateVerbal.</summary>
+
+        /// <summary>
+        /// Gets the aggregate of all Subjects of the AggregateVerbal.
+        /// </summary>
         public IAggregateEntity AggregateSubject => FlattenAbout(v => v.Subjects).ToAggregate();
 
-        /// <summary>Gets all of the Direct objects of the AggregateVerbal.</summary>
-        public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects).Union(directObjects);
+        /// <summary>
+        /// Gets all of the adverbial modifiers of the AggregateVerbal.
+        /// </summary>
+        public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
-        /// <summary>Gets all of the Indirect objects of the AggregateVerbal.</summary>
-        public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
+        public IVerbal AttributedTo => AdverbialModifiers as IVerbal;
 
-        /// <summary>Gets all of the Direct and Indirect objects of the AggregateVerbal.</summary>
+        /// <summary>
+        /// Gets all of the Direct and Indirect objects of the AggregateVerbal.
+        /// </summary>
         public IEnumerable<IEntity> DirectAndIndirectObjects => FlattenAbout(v => v.DirectAndIndirectObjects);
 
-        public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects).Union(subjects);
+        /// <summary>
+        /// Gets all of the Direct objects of the AggregateVerbal.
+        /// </summary>
+        public IEnumerable<IEntity> DirectObjects => FlattenAbout(v => v.DirectObjects).Union(directObjects);
+
+        /// <summary>
+        /// Gets all of the Indirect objects of the AggregateVerbal.
+        /// </summary>
+        public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
 
         public bool IsClassifier => this.All(e => e.IsClassifier);
 
@@ -95,26 +125,21 @@ namespace LASI.Core
 
         public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
 
+        public ILexical SubjectComplement { get; set; }
+
+        public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects).Union(subjects);
+
         public string Text => string.Join(", ", this.Select(c => c.Text));
 
         public double Weight { get; set; }
 
-        public ILexical SubjectComplement { get; set; }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IVerbal, IEnumerable<TResult>> flattenAbout)
-        {
-            return this.SelectMany(flattenAbout).Where(result => result != null);
-        }
-
         #region Fields
 
         private readonly IImmutableList<IVerbal> constituents;
-        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IAdverbial> adverbialModifiers = ImmutableHashSet<IAdverbial>.Empty;
         private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
-        private IImmutableSet<IAdverbial> adverbialModifiers = ImmutableHashSet<IAdverbial>.Empty;
+        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
 
         #endregion Fields
     }

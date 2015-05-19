@@ -20,7 +20,8 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
-            Interop.Configuration.Initialize(format: Interop.ConfigFormat.Xml,
+            Interop.Configuration.Initialize(
+                format: Interop.ConfigFormat.Xml,
                 stream: new MemoryStream(
                     Encoding.Default.GetBytes(
                         new XElement(

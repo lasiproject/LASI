@@ -33,10 +33,8 @@ namespace LASI.Core.Analysis.Relationships.Tests
             verb.BindDirectObject(entity2);
         }
 
-        private static RelationshipLookup<IEntity, IVerbal> CreateRelationshipLookup(IEnumerable<IVerbal> domain)
-        {
-            return new RelationshipLookup<IEntity, IVerbal>(domain, Equals, Equals, Equals);
-        }
+        private static RelationshipLookup<IEntity, IVerbal> CreateRelationshipLookup(IEnumerable<IVerbal> domain) =>
+            new RelationshipLookup<IEntity, IVerbal>(domain, Equals, Equals, Equals);
 
         /// <summary>
         ///A test for SetRelationshipLookup

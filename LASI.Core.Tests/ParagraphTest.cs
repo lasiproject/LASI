@@ -65,7 +65,7 @@ namespace LASI.Core.Tests
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
-            Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
+            Paragraph target = new Paragraph(ParagraphKind.Default, sentences);
 
             string expected = string.Format("LASI.Core.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
             string actual;
@@ -99,7 +99,7 @@ namespace LASI.Core.Tests
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
-            Paragraph target = new Paragraph(sentences, ParagraphKind.Default);
+            Paragraph target = new Paragraph(ParagraphKind.Default, sentences);
 
             string expected = "LASI found TIMIS. LASI SNIFd them. Richard did awesome.";
             string actual;
@@ -133,7 +133,7 @@ namespace LASI.Core.Tests
                };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
-            Paragraph[] target = { new Paragraph(sentences, ParagraphKind.Default) };
+            Paragraph[] target = { new Paragraph(ParagraphKind.Default, sentences) };
             Document parentDoc = new Document(target);
             target[0].EstablishTextualLinks(parentDoc);
             Assert.AreEqual(target[0].Document, parentDoc);
@@ -176,7 +176,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(sentences, paragraphKind);
+            Paragraph target = new Paragraph(paragraphKind, sentences);
             IEnumerable<Word> actual;
             actual = target.Words;
             EnumerableAssert.AreSequenceEqual(sentences.Words(), actual);
@@ -220,7 +220,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(sentences, paragraphKind);
+            Paragraph target = new Paragraph(paragraphKind, sentences);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             EnumerableAssert.AreSequenceEqual(sentences.Phrases(), actual);
@@ -265,7 +265,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(sentences, paragraphKind);
+            Paragraph target = new Paragraph(paragraphKind, sentences);
             IEnumerable<Phrase> expected = sentences.Phrases().SkipWhile(p => p != startAfter).Skip(1);
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
@@ -309,7 +309,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
             ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(sentences, paragraphKind);
+            Paragraph target = new Paragraph(paragraphKind, sentences);
             Assert.AreEqual(paragraphKind, target.ParagraphKind);
             EnumerableAssert.AreSequenceEqual(sentences, target.Sentences);
         }

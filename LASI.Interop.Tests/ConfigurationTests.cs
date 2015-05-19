@@ -1,10 +1,5 @@
-﻿using LASI.Interop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
-using Shared.Test.Helpers;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -63,7 +58,7 @@ namespace LASI.Interop.Tests
             Configuration.Initialize(path, format, subkey);
         }
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(System.IO.Stream, ConfigFormat)"/>
+        /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat)"/>
         /// </summary>
         public void Initialize_With_Simple_JSON_Config_From_Stream_Test()
         {
@@ -72,7 +67,7 @@ namespace LASI.Interop.Tests
             Configuration.Initialize(new MemoryStream(Encoding.Default.GetBytes(File.ReadAllText(path))), format);
         }
         /// <summary>
-        /// A test for <see cref="Configuration.Initialize(System.IO.Stream, ConfigFormat, string)"/>
+        /// A test for <see cref="Configuration.Initialize(Stream, ConfigFormat, string)"/>
         /// </summary>
         public void Initialize_With_Simple_JSON_Subkey_Config_From_Stream_Test()
         {

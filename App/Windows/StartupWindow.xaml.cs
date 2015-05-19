@@ -172,7 +172,7 @@ namespace LASI.App
             {
                 var openDialog = new Microsoft.Win32.OpenFileDialog
                 {
-                    Filter = DocumentManager.FILE_FILTER,
+                    Filter = DocumentManager.FileTypeFilter,
                     Multiselect = true
                 };
                 openDialog.ShowDialog(this);

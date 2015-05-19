@@ -1,0 +1,12 @@
+{
+  "locked": false,
+  "version": -9998,
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v4.6": [
+      "SharpEntropy >= 1.0.0-*",
+      "SharpWordNet >= 1.0.0-*"
+    ]
+  },
+  "libraries": {}
+}

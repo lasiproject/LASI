@@ -53,7 +53,6 @@ namespace LASI.Core.Heuristics.WordNet
                 }
             }
             OnReport(new EventArgs("Mapped Verb Sets", 1));
-            //}
         }
 
         private IEnumerable<Tuple<string, int>> LoadData()
@@ -128,26 +127,14 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         /// <param name="search">The text of the verb to look for.</param>
         /// <returns>A collection of strings containing all of the synonyms of the given verb.</returns>
-        internal override IImmutableSet<string> this[string search]
-        {
-            get
-            {
-                return SearchFor(search);
-            }
-        }
+        internal override IImmutableSet<string> this[string search] => SearchFor(search);
 
         /// <summary>
         /// Retrieves the synonyms of the given Verb as an ISet of strings.
         /// </summary>
         /// <param name="search">An instance of Verb</param>
         /// <returns>A collection of strings containing all of the synonyms of the given Verb.</returns>
-        internal override IImmutableSet<string> this[Verb search]
-        {
-            get
-            {
-                return this[search.Text];
-            }
-        }
+        internal override IImmutableSet<string> this[Verb search] => this[search.Text];
         private const int TOTAL_LINES = 13766;
         /// <summary>
         /// A report will be propagated for every 1 in 138 sets roughly 100 updates will take place.

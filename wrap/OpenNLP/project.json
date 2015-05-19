@@ -4,6 +4,10 @@
     "net46": {
       "bin": {
         "assembly": "../../ThirdPartyComponents/SharpNLPDLLs/OpenNLP.dll"
+      },
+      "dependencies": {
+        "SharpEntropy": "1.0.0-*",
+        "SharpWordNet": "1.0.0-*"
       }
     }
   }

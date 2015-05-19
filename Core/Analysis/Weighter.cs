@@ -26,7 +26,7 @@ namespace LASI.Core
         /// </remarks>
         public static IEnumerable<ProcessingTask> GetWeightingTasks(this Document document)
         {
-            var name = document.Title;
+            var name = document.Name;
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Words),
                 name + ": Aggregating Literals", name + ": Aggregated Literals", 23);
             yield return new ProcessingTask(() => WeightByLiteralFrequency(document.Phrases),

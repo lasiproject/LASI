@@ -157,6 +157,10 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             {
                 return new List<T>();
             }
+            else if (count < 1)
+            {
+                return list.GetRange(0, list.Count);
+            }
             else
             {
                 return list.GetRange(count < 0 ? 0 : count, list.Count - count);

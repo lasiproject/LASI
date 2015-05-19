@@ -77,10 +77,10 @@ namespace LASI.Core.Tests
             DoubleQuote target = new DoubleQuote();
             DoubleQuote complement = new DoubleQuote();
             target.PairWith(complement);
-            Assert.AreEqual(target.PairedWith, complement);
-            Assert.AreEqual(target, target.PairedWith.PairedWith);
+            Assert.AreSame(target.PairedWith, complement);
+            Assert.AreSame(target, target.PairedWith.PairedWith);
             target.PairWith(target);
-            Assert.AreNotEqual(target.PairedWith, target);
+            Assert.AreNotSame(target.PairedWith, target);
         }
 
     }

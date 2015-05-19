@@ -81,10 +81,7 @@ namespace LASI.Core
         /// <returns>An enumerator that iterates through the members of the aggregate entity.</returns>
         public IEnumerator<IEntity> GetEnumerator() => constituents.GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
         /// <summary>
         /// Returns a string representation of the aggregate entity.
         /// </summary>
@@ -139,16 +136,10 @@ namespace LASI.Core
         /// <summary>
         /// Gets a textual representation of the aggregate entity.
         /// </summary>
-        public string Text
-        {
-            get
-            {
-                return string.Join(" , ",
+        public string Text => string.Join(" , ",
                     from member in constituents.AsRecursivelyEnumerable()
                     let prepositionText = member.Match().Case((IPrepositionLinkable i) => i.PrepositionOnRight?.Text ?? string.Empty).Result()
                     select member.Text + (prepositionText.IsNullOrWhiteSpace() ? string.Empty : " " + prepositionText));
-            }
-        }
 
         /// <summary>
         /// Gets or sets the numeric Weight of the aggregate entity within the context of its document.

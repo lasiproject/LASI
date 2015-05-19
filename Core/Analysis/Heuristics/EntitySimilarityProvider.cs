@@ -10,9 +10,8 @@ namespace LASI.Core
         /// <param name="first">The first IEntity</param>
         /// <param name="second">The second IEntity</param>
         /// <returns><c>true</c> if the given IEntity instances are similar; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this IEntity first, IEntity second)
-        {
-            return first.Match()
+        public static Similarity IsSimilarTo(this IEntity first, IEntity second) =>
+            first.Match()
                 .When(Equals(first, second) || first.Text.EqualsIgnoreCase(second.Text))
                 .Then(Similarity.Similar)
                 .Case((IAggregateEntity ae1) => second.Match()
@@ -28,7 +27,6 @@ namespace LASI.Core
                         .Case((Noun n2) => np1.IsSimilarTo(n2))
                     .Result())
                 .Result();
-        }
 
         /// <summary>Determines if two IAggregateEntity instances are similar.</summary>
         /// <param name="first">The first IAggregateEntity</param>

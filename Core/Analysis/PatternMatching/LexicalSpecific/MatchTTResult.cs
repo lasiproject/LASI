@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using LASI.Utilities;
-using LASI.Utilities.Specialized;
-using LASI.Utilities.Specialized.Option;
 using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.Analysis.PatternMatching
@@ -15,7 +12,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// matched, the result will be the default value for the Type TResult.
     /// </summary>
     /// <typeparam name="T">
-    /// The Type of the value which the the Pattern Matching expression will match with. 
+    /// The Type of the value which the Pattern Matching expression will match with. 
     /// </typeparam>
     /// <typeparam name="TResult">
     /// The Type of the result to be yielded by the Pattern Matching expression. 
@@ -29,7 +26,7 @@ namespace LASI.Core.Analysis.PatternMatching
     /// . Secondly different binding operations must be chosen based on a variety of information
     /// gathered from contexts which are often external to the single instance of the type
     /// representing a lexical construct. Different numbers and types of arguments that depend on
-    /// the surrounding context of the lexical instnace cannot be specified in a manner compatible
+    /// the surrounding context of the lexical instance cannot be specified in a manner compatible
     /// with virtual method signatures. However, a linear storage and traversal mechanism for
     /// lexical elements of differing syntactic types, as well as the need to define types
     /// representing elements having overlapping syntactic roles, remains a necessity which prevents
@@ -41,7 +38,7 @@ namespace LASI.Core.Analysis.PatternMatching
     ///    lexical elements would be passed in turn to each, and by carrying with it sufficient and
     ///    arbitrary context and by providing an overload for every syntactic type, could provide
     ///    functionality to implement operations between elements. There are several drawbacks
-    ///    involved including increased state disperal, increased class coupling, the maintenance
+    ///    involved including increased state dispersal, increased class coupling, the maintenance
     ///    cost of re factoring types, the need to define new classes, which carry arbitrary
     ///    algorithm state with them but must exist in their own hierarchy, and other factors
     ///    generally increasing complexity.
@@ -130,7 +127,7 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Constructors
 
         /// <summary>
-        /// Initailizes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching
+        /// Initializes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching
         /// with the provided value.
         /// </summary>
         /// <param name="value">
@@ -323,7 +320,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>
         /// The result of the Pattern Matching expression. 
         /// </returns>
-        public TResult Result() { return result; }
+        public TResult Result() => result;
 
         /// <summary>
         /// Appends a Result Expression to the current pattern, thus specifying the default result

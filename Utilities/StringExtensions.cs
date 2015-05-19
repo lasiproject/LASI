@@ -81,7 +81,7 @@ namespace LASI.Utilities
             Validate.NotNull(value, "value");
             if (remove.Contains(string.Empty))
             {
-                throw new ArgumentException($"The string[] {nameof(remove)} contained an empty string", "remove");
+                throw new ArgumentException($"The string[] {nameof(remove)} contained an empty string", nameof(remove));
             }
             foreach (var r in remove)
             {
@@ -114,10 +114,7 @@ namespace LASI.Utilities
         /// <param name="other">The second string to compare</param>
         /// <returns><c>true</c> if the given strings are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
-        public static bool EqualsIgnoreCase(this string value, string other)
-        {
-            return string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
-        }
+        public static bool EqualsIgnoreCase(this string value, string other) => string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
 
         public static string CollapseSpaces(this string value) => string.Join(" ", value.SplitRemoveEmpty(' ', '\t').Select(s => s.Trim()));
 
@@ -126,8 +123,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="value">The string to transform.</param>
         /// <returns>A new string with a space inserted before each capital letter but the first.s</returns>
-        public static string SpaceByCase(this string value) =>
-            value?.Aggregate(
+        public static string SpaceByCase(this string value) => value?.Aggregate(
                 new StringBuilder(),
                 (builder, c, index) =>
                     index > 0 && c.IsUpper() ?

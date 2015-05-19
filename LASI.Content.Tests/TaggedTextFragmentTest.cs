@@ -41,10 +41,7 @@ namespace LASI.Content.Tests
         #endregion
 
 
-        private LASI.Content.Tagging.Tagger Tagger
-        {
-            get { return new LASI.Content.Tagging.Tagger(); }
-        }
+        private Tagger Tagger => new Tagger();
 
         /// <summary>
         ///A test for TaggedTextFragment Constructor

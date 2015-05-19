@@ -48,6 +48,9 @@
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
+    <OutputPath>bin\test\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp">
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
@@ -100,6 +103,7 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="FileTypes\FileConverter.cs" />
     <Compile Include="Exceptions\FileManagerExceptions.cs" />
+    <Compile Include="TaggerEncapsulation\TagmapBases\ITagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\Experimental\ExperimentalTagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\Basis\TagParser.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
@@ -121,7 +125,7 @@
     <Compile Include="Exceptions\PartOfSpeechTagExceptions.cs" />
     <Compile Include="FileTypes\DocFile.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedText.cs" />
-    <Compile Include="TaggerEncapsulation\TaggerImpl.cs" />
+    <Compile Include="TaggerEncapsulation\Tagger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ic_launcher-web.ico" />
@@ -129,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

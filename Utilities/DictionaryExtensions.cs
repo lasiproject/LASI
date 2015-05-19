@@ -132,7 +132,6 @@ namespace LASI.Utilities
                 .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
                 .ToDictionary();
 
-        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
         #endregion IDictionary Extensions
     }
 }

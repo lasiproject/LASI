@@ -51,7 +51,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// <returns>
         /// The root of the given Noun. If no root can be found, the Noun's original text is returned.
         /// </returns>
-        public string FindRoot(Noun noun) { return FindRoot(noun.Text); }
+        public string FindRoot(Noun noun) => FindRoot(noun.Text);
 
         private IEnumerable<string> ComputeForms(string noun)
         {

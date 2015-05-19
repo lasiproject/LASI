@@ -208,7 +208,7 @@ namespace LASI.Core.Tests
 
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.IsTrue(actual.None());
+            Assert.IsFalse(actual.Any());
             IEnumerable<IDescriptor> descriptors = new[] { new Adjective("red"), new Adjective("slow") };
 
             foreach (var d in descriptors) { target.BindDescriptor(d); }

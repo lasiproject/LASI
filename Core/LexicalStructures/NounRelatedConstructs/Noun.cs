@@ -157,5 +157,9 @@ namespace LASI.Core
         private IPossesser possessor;
 
         #endregion Fields
+
+        #region Factory Methods
+
+        #endregion Factory Methods
     }
 }

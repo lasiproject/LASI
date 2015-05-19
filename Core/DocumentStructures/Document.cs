@@ -23,27 +23,44 @@ namespace LASI.Core
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided name.
+        /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided title.
         /// </summary>
+        /// <param name="title">The title of the document.</param>
         /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
-        /// <param name="title">The name for the document.</param>
-        public Document(IEnumerable<Paragraph> paragraphs, string title)
+        public Document(string title, IEnumerable<Paragraph> paragraphs)
         {
-            Title = title;
+            Name = title;
             this.paragraphs = paragraphs
                 .Where(p => p.ParagraphKind == ParagraphKind.Default)
                 .ToList();
             this.listOrBulletParagraphs = paragraphs
                 .Where(p => p.ParagraphKind == ParagraphKind.Heading || p.ParagraphKind == ParagraphKind.Enumeration)
                 .ToList();
-            new DocumentReifier(this).Reifiy();
+            Reifier.Reifiy(this);
         }
 
         /// <summary>
         /// Initializes a new instance of the Document class comprised from the provided paragraphs.
         /// </summary>
         /// <param name="paragraphs">The collection of paragraphs which contain all text in the document.</param>
-        public Document(IEnumerable<Paragraph> paragraphs) : this(paragraphs, "Unititled") { }
+        public Document(IEnumerable<Paragraph> paragraphs) : this(DefaultTitle, paragraphs) { }
+
+        /// <summary>
+        /// Initializes a new instance of the Document class comprised from the provided paragraphs.
+        /// </summary>
+        /// <param name="first">The first <see cref="Paragraph"/> of the Document.</param>
+        /// <param name="rest">The rest of the paragraphs of the document.</param>
+        public Document(Paragraph first, params Paragraph[] rest) : this(DefaultTitle, rest.Prepend(first)) { }
+
+        /// <summary>
+        /// Initializes a new instance of the Document class comprised from the provided paragraphs and having the provided title.
+        /// </summary>
+        /// <param name="title">The title of the document.</param>
+        /// <param name="first">The first <see cref="Paragraph"/> of the Document.</param>
+        /// <param name="rest">The rest of the paragraphs of the document.</param>
+        public Document(string title, Paragraph first, params Paragraph[] rest) : this(title, rest.Prepend(first)) { }
+
+        private const string DefaultTitle = "Untitled";
 
         #endregion Constructors
 
@@ -111,7 +128,7 @@ namespace LASI.Core
         /// A string representation of the current document. The result contains the entire textual contents of the Document, thus resulting
         /// in the instance's full materialization and reification.
         /// </returns>
-        public override string ToString() => $"{GetType()}: {Title}\nParagraphs:\n{Paragraphs.Format()}";
+        public override string ToString() => $"{GetType()}: {Name}\nParagraphs:\n{Paragraphs.Format()}";
 
         /// <summary>
         /// Returns all of the verbals identified within the document.
@@ -130,7 +147,6 @@ namespace LASI.Core
         /// </summary>
         /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
         public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = EnumerateAllLexicals().ToList());
-
         private IEnumerable<ILexical> EnumerateAllLexicals()
         {
             foreach (var lexical in words)
@@ -171,10 +187,10 @@ namespace LASI.Core
         public IEnumerable<Word> Words => words;
 
         /// <summary>
-        /// Gets The Title of the Document.
+        /// Gets The Name of the Document.
         /// </summary>
         /// <remarks></remarks>
-        public string Title { get; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the text content of the Document.
@@ -186,6 +202,7 @@ namespace LASI.Core
         #region Fields
 
         private List<Word> words;
+
         private List<Phrase> phrases;
 
         private List<ILexical> lexicals;
@@ -193,14 +210,17 @@ namespace LASI.Core
         private List<Sentence> sentences;
 
         private List<Paragraph> paragraphs;
+
         private List<Paragraph> listOrBulletParagraphs;
 
         #endregion Fields
+
         #region Classes 
-        #region Document.Page
+
+        #region Page
 
         /// <summary>
-        /// Represents a page of a document. Pages are somewhat arbitrary segments of a Document, that contain some subset of its content.
+        /// Represents a page of a document. Pages are somewhat arbitrary segments of a <see cref="Document"/> that contain some contiguous subset of its content.
         /// </summary>
         public sealed class Page : IReifiedTextual
         {
@@ -223,6 +243,11 @@ namespace LASI.Core
                 orderby rank
                 select sentence.Paragraph;
 
+            /// <summary>
+            /// Returns a string representation of the <see cref="Page"/>.
+            /// </summary>
+            /// <returns></returns>
+            public override string ToString() => Paragraphs.Format(120, p => p.Text + Environment.NewLine);
 
             /// <summary>
             /// Gets the Document to which the Page belongs.
@@ -263,28 +288,26 @@ namespace LASI.Core
 
         }
 
-        #endregion Document.Page
+        #endregion Page
 
-        #region Private Classes
+        #region Reifier
 
         /// <summary>
         /// Handles the setup and management of the interdependent links between elements within the Document.
         /// </summary>
-        private class DocumentReifier
+        private static class Reifier
         {
-            public DocumentReifier(Document source) { this.document = source; }
-
-            public void Reifiy()
+            public static void Reifiy(Document document)
             {
-                AssignMembers();
+                AssignMembers(document);
                 foreach (var paragraph in document.paragraphs)
                 {
                     paragraph.EstablishTextualLinks(document);
                 }
-                LinksAdjacentElements();
+                LinksAdjacentElements(document);
             }
 
-            private void AssignMembers()
+            private static void AssignMembers(Document document)
             {
                 document.sentences = document.paragraphs
                     .Sentences()
@@ -300,13 +323,13 @@ namespace LASI.Core
             /// <summary>
             /// Establishes the linear linkages between all adjacent words and phrases in the Document.
             /// </summary>
-            private void LinksAdjacentElements()
+            private static void LinksAdjacentElements(Document document)
             {
-                LinksAdjacentWords();
-                LinksAdjacentPhrases();
+                LinksAdjacentWords(document);
+                LinksAdjacentPhrases(document);
             }
 
-            private void LinksAdjacentWords()
+            private static void LinksAdjacentWords(Document document)
             {
                 var words = document.words;
                 if (words.Count > 1)
@@ -326,7 +349,7 @@ namespace LASI.Core
                 }
             }
 
-            private void LinksAdjacentPhrases()
+            private static void LinksAdjacentPhrases(Document document)
             {
                 var phrases = document.phrases;
                 if (phrases.Count > 1)
@@ -338,10 +361,9 @@ namespace LASI.Core
                     }
                 }
             }
-            private readonly Document document;
         }
 
-        #endregion Private Classes
+        #endregion Reifier
 
         #endregion Classes 
     }

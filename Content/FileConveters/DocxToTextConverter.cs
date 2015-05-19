@@ -146,10 +146,7 @@ namespace LASI.Content
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<TxtFile> ConvertFileAsync()
-        {
-            return await Task.Run(() => ConvertFile());
-        }
+        public async override Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile());
 
         #endregion
 
@@ -158,7 +155,7 @@ namespace LASI.Content
         /// <summary>
         /// Utility object containing information specifying details about the converted file before it is created.
         /// </summary>
-        private FileData DestinationInfo { get; set; }
+        private FileData DestinationInfo { get; }
 
         /// <summary>
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.

@@ -10,5 +10,4 @@ namespace LASI.Core.LexicalStructures.Structural
     {
         IEnumerable<TLexical> Components { get; }
     }
- 
 }

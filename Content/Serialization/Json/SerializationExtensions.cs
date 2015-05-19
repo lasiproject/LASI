@@ -34,17 +34,14 @@ namespace LASI.Content.Serialization.Json
         /// </summary>
         /// <param name="entity">The source Entity.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the Entity.</returns>
-        public static JObject ToJObject(this IEntity entity)
+        public static JObject ToJObject(this IEntity entity) => new JObject(GetRoleIndependentProperties(entity))
         {
-            return new JObject(GetRoleIndependentProperties(entity))
-            {
-                ["subjectOf"] = ElementNameMappingProvider[entity.SubjectOf],
-                ["directObjectOf"] = ElementNameMappingProvider[entity.DirectObjectOf],
-                ["referees"] = new JArray(from referencedBy in entity.Referencers select ElementNameMappingProvider[referencedBy]),
-                ["descriptors"] = new JArray(from descriptor in entity.Descriptors select ElementNameMappingProvider[descriptor]),
-                ["possessed"] = new JArray(from possession in entity.Possessions select ElementNameMappingProvider[possession])
-            };
-        }
+            ["subjectOf"] = ElementNameMappingProvider[entity.SubjectOf],
+            ["directObjectOf"] = ElementNameMappingProvider[entity.DirectObjectOf],
+            ["referees"] = new JArray(from referencedBy in entity.Referencers select ElementNameMappingProvider[referencedBy]),
+            ["descriptors"] = new JArray(from descriptor in entity.Descriptors select ElementNameMappingProvider[descriptor]),
+            ["possessed"] = new JArray(from possession in entity.Possessions select ElementNameMappingProvider[possession])
+        };
 
         private static IEnumerable<JProperty> GetRoleIndependentProperties(ILexical element)
         {
@@ -65,29 +62,23 @@ namespace LASI.Content.Serialization.Json
         /// </summary>
         /// <param name="verbal">The source verbal.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the Verbal.</returns>
-        public static JObject ToJObject(this IVerbal verbal)
+        public static JObject ToJObject(this IVerbal verbal) => new JObject(GetRoleIndependentProperties(verbal))
         {
-            return new JObject(GetRoleIndependentProperties(verbal))
-            {
-                ["subjects"] = verbal.Subjects.ToJArray(),
-                ["directObjects"] = verbal.DirectObjects.ToJArray(),
-                ["indirectObjects"] = verbal.IndirectObjects.ToJArray(),
-                ["modality"] = verbal.Modality?.ToJObject(),
-                ["adverbialModifiers"] = verbal.AdverbialModifiers.EmptyIfNull().ToJArray()
-            };
-        }
+            ["subjects"] = verbal.Subjects.ToJArray(),
+            ["directObjects"] = verbal.DirectObjects.ToJArray(),
+            ["indirectObjects"] = verbal.IndirectObjects.ToJArray(),
+            ["modality"] = verbal.Modality?.ToJObject(),
+            ["adverbialModifiers"] = verbal.AdverbialModifiers.EmptyIfNull().ToJArray()
+        };
         /// <summary>
         /// Creates a Newtonsoft.Linq.JObject representation of the Adverbial.
         /// </summary>
         /// <param name="adverbial">The source Adverbial.</param>
         /// <returns>A Newtonsoft.Linq.JObject representation of the Adverbial.</returns>
-        public static JObject ToJObject(this IAdverbial adverbial)
+        public static JObject ToJObject(this IAdverbial adverbial) => new JObject(GetRoleIndependentProperties(adverbial))
         {
-            return new JObject(GetRoleIndependentProperties(adverbial))
-            {
-                new JProperty("modifies", adverbial.Modifies)
-            };
-        }
+            new JProperty("modifies", adverbial.Modifies)
+        };
         /// <summary>
         /// Gets common properties serialized for all lexical types.
         /// </summary>

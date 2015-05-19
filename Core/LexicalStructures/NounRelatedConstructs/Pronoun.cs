@@ -14,8 +14,8 @@ namespace LASI.Core
         /// Initializes a new instance of the Pronoun class.
         /// </summary>
         /// <param name="text">The text content of the pronoun.</param>
-        protected Pronoun(string text)
-            : base(text) {
+        protected Pronoun(string text) : base(text)
+        {
             PronounKind = DetermineKind(this);
         }
 
@@ -26,10 +26,14 @@ namespace LASI.Core
         /// Binds the Pronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReferringTo(IEntity target) {
-            if (RefersTo == null) {
+        public void BindAsReferringTo(IEntity target)
+        {
+            if (RefersTo == null)
+            {
                 RefersTo = new AggregateEntity(target);
-            } else {
+            }
+            else
+            {
                 RefersTo = new AggregateEntity(RefersTo, target);
             }
             EntityKind = RefersTo.EntityKind;
@@ -38,23 +42,21 @@ namespace LASI.Core
         /// Returns a string representation of the Pronoun.
         /// </summary>
         /// <returns>A string representation of the Pronoun.</returns>
-        public override string ToString() {
-            return this.GetType().Name + " \"" + Text + "\"" +
-                (
-                    VerboseOutput ?
-                    " " + PronounKind + (
-                        RefersTo != null ?
-                        " referring to -> " + RefersTo.Text :
-                        string.Empty
-                    ) : string.Empty
-                );
-        }
+        public override string ToString() => GetType().Name + " \"" + Text + "\"" +
+        (
+            VerboseOutput ? " " + PronounKind + (
+                RefersTo != null ?
+                " referring to -> " + RefersTo.Text :
+                string.Empty
+            ) : string.Empty
+        );
 
         /// <summary>
         /// Binds another IReferencer, generally another Pronoun but possibly a PronounPhrase, to refer to the Pronoun.
         /// </summary>
         /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
-        public virtual void BindReferencer(IReferencer pro) {
+        public virtual void BindReferencer(IReferencer pro)
+        {
             boundPronouns.Add(pro);
             pro.BindAsReferringTo(this);
         }
@@ -62,7 +64,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Pronoun's descriptors.</param>
-        public virtual void BindDescriptor(IDescriptor descriptor) {
+        public virtual void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -72,11 +75,15 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IPossessable possession) {
-            if (RefersTo != null) {
+        public virtual void AddPossession(IPossessable possession)
+        {
+            if (RefersTo != null)
+            {
                 RefersTo.AddPossession(possession);
-            } else {
-                possessed.Add(possession);
+            }
+            else
+            {
+                possessions.Add(possession);
                 possession.Possesser = this;
             }
         }
@@ -89,11 +96,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the Pronoun.
         /// </summary>
-        public IEnumerable<IDescriptor> Descriptors { get { return descriptors; } }
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
         /// <summary>
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
-        public IEnumerable<IPossessable> Possessions { get { return possessed; } }
+        public IEnumerable<IPossessable> Possessions => possessions;
 
         /// <summary>
         /// Gets or sets the Entity which the Pronoun references.
@@ -111,7 +118,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers { get { return boundPronouns; } }
+        public IEnumerable<IReferencer> Referencers => boundPronouns;
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
@@ -133,21 +140,16 @@ namespace LASI.Core
         /// <summary>
         /// Gets the gender of the Pronoun.
         /// </summary>
-        public virtual Gender Gender {
-            get {
-                return
-                    this.IsFemale() ? Gender.Female :
+        public virtual Gender Gender => this.IsFemale() ? Gender.Female :
                     this.IsMale() ? Gender.Male :
                     this.IsNeutral() ? Gender.Neutral :
                     Gender.Undetermined;
-            }
-        }
 
         #endregion
 
         #region Fields
         private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessed = new HashSet<IPossessable>();
+        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
         private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
         #endregion
 
@@ -160,7 +162,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
         /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
-        private static PronounKind DetermineKind(Pronoun pronoun) {
+        private static PronounKind DetermineKind(Pronoun pronoun)
+        {
             var text = pronoun.Text.ToLower();
             return
                 males.Contains(text) ? PronounKind.Male :

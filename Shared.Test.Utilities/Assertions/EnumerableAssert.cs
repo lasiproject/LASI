@@ -6,8 +6,7 @@ namespace Shared.Test.Assertions
 {
     public static class EnumerableAssert
     {
-        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) =>
-            AreSequenceEqual(expected, actual, string.Empty);
+        public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) => AreSequenceEqual(expected, actual, string.Empty);
 
         public static void AreSequenceEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, string message) =>
             AreSequenceEqual(expected, actual, EqualityComparer<T>.Default, message);
@@ -19,17 +18,15 @@ namespace Shared.Test.Assertions
             {
                 Assert.IsTrue(expected.SequenceEqual(actual, comparer));
             }
-            catch (AssertFailedException e)
+            catch (AssertFailedException ex)
             {
                 var m = FormatMessage(message);
-                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(AreSequenceEqual)} failed.\nExpected: {string.Join(", ", expected)}\nActual: {string.Join(", ", actual)}", e);
+                throw new AssertFailedException(m + $"{nameof(EnumerableAssert)}.{nameof(AreSequenceEqual)} failed.\nExpected: {string.Join(", ", expected)}\nActual: {string.Join(", ", actual)}", ex);
             }
         }
-        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) =>
-            AreSetEqual(expected, actual, string.Empty);
+        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual) => AreSetEqual(expected, actual, string.Empty);
 
-        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, string message) =>
-            AreSetEqual(expected, actual, EqualityComparer<T>.Default, message);
+        public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, string message) => AreSetEqual(expected, actual, EqualityComparer<T>.Default, message);
 
         public static void AreSetEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) =>
             AreSetEqual(expected, actual, comparer, string.Empty);
@@ -94,9 +91,6 @@ namespace Shared.Test.Assertions
             }
         }
 
-        private static string FormatMessage(string message)
-        {
-            return string.IsNullOrWhiteSpace(message) ? null : message + "\nAdditional Messages: ";
-        }
+        private static string FormatMessage(string message) => string.IsNullOrWhiteSpace(message) ? null : $"{message}\nAdditional Messages: ";
     }
 }

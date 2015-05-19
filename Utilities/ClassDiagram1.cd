@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LASI.Utilities.Configuration.ConfigBase">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ConfigBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LASI.Utilities.Configuration.JsonConfig">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Configuration\JsonConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LASI.Utilities.Configuration.XmlConfig">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Configuration\XmlConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="LASI.Utilities.Configuration.IConfig">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IConfig.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LASI.Utilities.Configuration.IMutableConfig">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IMutableConfig.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

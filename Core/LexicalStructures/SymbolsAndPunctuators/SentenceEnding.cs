@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace LASI.Core
 {
     /// <summary>
-    /// A specialization of Punctuation which represents character which demarcate the end of a sentence.
+    /// A Punctuator which acts as a sentence terminator.
     /// </summary>
+    /// <seealso cref="Sentence"/>
     public sealed class SentenceEnding : Punctuator, IEquatable<SentenceEnding>
     {
         /// <summary>
@@ -30,13 +31,18 @@ namespace LASI.Core
         /// <returns>A hashcode for the SetenceEnding</returns>
         public override int GetHashCode() => LiteralCharacter;
         /// <summary>
-        /// Determines if the given SentenceEnding is equal to the current instance.
+        /// Determines if the given <see cref="SentenceEnding"/> is equal to the current instance.
         /// </summary>
-        /// <param name="obj">A SentenceEnding to compare with the current instance.</param>
-        /// <returns> <c>true</c> if the given SentenceEnding is equal to the current instance; false otherwise.</returns>
-        public override bool Equals(object obj) => this.Equals(obj as SentenceEnding);
-
+        /// <param name="other">A <see cref="SentenceEnding"/> to compare with the current instance.</param>
+        /// <returns><c>true</c> if the given <see cref="SentenceEnding"/> is equal to the current instance; <c>false</c> otherwise.</returns>
         public bool Equals(SentenceEnding other) => this.LiteralCharacter == other?.LiteralCharacter;
+
+        /// <summary>
+        /// Determines if the given <see cref="object"/> is equal to the current instance.
+        /// </summary>
+        /// <param name="obj">An <see cref="object"/> to compare with the current instance.</param>
+        /// <returns><c>true</c> if the given <see cref="object"/> is equal to the current instance; <c>false</c> otherwise.</returns>
+        public override bool Equals(object obj) => this.Equals(obj as SentenceEnding);
 
         /// <summary>
         /// Determines if two Sentence Endings are equal.

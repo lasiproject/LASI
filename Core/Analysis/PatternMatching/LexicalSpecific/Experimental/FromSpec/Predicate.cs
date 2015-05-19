@@ -28,10 +28,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.FromSp
         /// <typeparam name="TOther">The Type stipulation of the other Predicate</typeparam>
         /// <param name="other">The <see cref="Predicate{T}"/> to combine with the current instance. </param>
         /// <returns> A new <see cref="Predicate{T}"/> stipulating the conditions of both. </returns>
-        public virtual Predicate<TOther> Combine<TOther>(Predicate<TOther> other) where TOther : class, ILexical
-        {
-            return new LiftedPredicate<TOther>(e => this.ToFunc(e)() && other.ToFunc(e)());
-        }
+        public virtual Predicate<TOther> Combine<TOther>(Predicate<TOther> other) where TOther : class, ILexical => new LiftedPredicate<TOther>(e => this.ToFunc(e)() && other.ToFunc(e)());
 
         //public virtual Predicate<TCase> Combine<TCase>(CaseTypePredicate<TCase, T> other) where TCase : class, T, ILexical {
         //    return new LiftedPredicate<TCase>(e => this.ToFunc(e)() && other.ToFunc(e)());

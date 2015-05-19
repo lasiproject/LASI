@@ -4,9 +4,7 @@ using System.Linq;
 
 namespace LASI.Utilities
 {
-    using System.Collections.Immutable;
     using System.Numerics;
-    using LASI.Utilities;
     using LASI.Utilities.SpecializedResultTypes;
     using Utilities.Validation;
 
@@ -28,9 +26,8 @@ namespace LASI.Utilities
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException">Source contains no elements.</exception>
-        public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func)
-        {
-            return source.Select((e, i) => new
+        public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) =>
+            source.Select((e, i) => new
             {
                 Element = e,
                 Index = i
@@ -39,7 +36,6 @@ namespace LASI.Utilities
                 Element = func(z.Element, e.Element, e.Index),
                 e.Index // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
             }).Element;
-        }
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -57,14 +53,12 @@ namespace LASI.Utilities
         /// </param>
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
-        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func)
-        {
-            return source.Select((e, i) => new
+        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) =>
+            source.Select((e, i) => new
             {
                 Element = e,
                 Index = i
             }).Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
-        }
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -232,7 +226,7 @@ namespace LASI.Utilities
         }
 
         /// <summary>
-        /// Transforms a possibly <c>null</c><see cref="IEnumerable{T}" /> into an empty enumerable.
+        /// Transforms a possibly <c>null</c> <see cref="IEnumerable{T}" /> into an empty enumerable.
         /// Return an empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is
         /// <c>null</c>; otherwise <paramref name="source" />.
         /// </summary>
@@ -340,20 +334,6 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
-        /// <summary>Determines whether no element of a sequence satisfy a condition.</summary>
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
-        /// <param name="source">
-        /// An System.Collections.Generic.IEnumerable&lt;T&gt; whose elements to apply the predicate to.
-        /// </param>
-        /// <returns>False if the source sequence contains any elements; otherwise, true.</returns>
-        public static bool None<TSource>(this IEnumerable<TSource> source) => !source.Any();
-
-        /// <summary>Determines whether a parallel sequence is empty.</summary>
-        /// <typeparam name="T">The type of the elements of source.</typeparam>
-        /// <param name="source">The sequence to check for emptiness.</param>
-        /// <returns><c>false</c> if the source sequence contains any elements; otherwise, <c>true</c>.</returns>
-        public static bool None<T>(this ParallelQuery<T> source) => !source.Any();
-
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
@@ -423,14 +403,10 @@ namespace LASI.Utilities
         /// <param name="source">The sequence of values to representing all elements in question.</param>
         /// <param name="predicate">The predicate used to delineate elements.</param>
         /// <returns>The percentage of values in the sequence which match the specified predicate.</returns>
-        public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate)
-        {
-            return source
-                .Aggregate(new { Length = 0, Matched = 0 },
+        public static double PercentWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
+            source.Aggregate(new { Length = 0, Matched = 0 },
                     (s, e) => new { Length = s.Length + 1, Matched = s.Matched + (predicate(e) ? 1 : 0) },
-                    tally => (double)tally.Matched / tally.Length
-                ) * 100;
-        }
+                    tally => (double)tally.Matched / tally.Length) * 100;
 
         /// <summary>Calculates the percentage of true values in the collection of Boolean values.</summary>
         /// <param name="delineated">
@@ -564,41 +540,7 @@ namespace LASI.Utilities
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Select(selector).SetEqual(second.Select(selector));
 
-        /// <summary>
-        /// Returns a HashSet representation of the given sequence using the default
-        /// IEqualityComparer for the given element type.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source">
-        /// The sequence whose distinct elements will comprise the resulting set.
-        /// </param>
-        /// <returns>
-        /// A HashSet representation of the given sequence using the default
-        /// System.Collections.Generic.IEqualityComparer for the given element type.
-        /// </returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) => source.ToHashSet(EqualityComparer<T>.Default);
-
-        /// <summary>
-        /// Returns a HashSet representation of the given sequence using the specified
-        /// IEqualityComparer to determine element uniqueness.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
-        /// <param name="source">
-        /// The sequence whose distinct elements will comprise the resulting set.
-        /// </param>
-        /// <param name="comparer">
-        /// The System.Collections.Generic.IEqualityComparer implementation which will determine the
-        /// distinctness of elements.
-        /// </param>
-        /// <returns>
-        /// A HashSet representation of the given sequence using the default IEqualityComparer for
-        /// the given element type.
-        /// </returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer)
-        {
-            Validate.NotNull(source, nameof(source), comparer, nameof(comparer));
-            return new HashSet<T>(source, comparer);
-        }
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
 
         /// <summary>Produces the set union of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -609,14 +551,8 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence that contains the set union of the elements of two sequences under the given projection.
         /// </returns>
-        public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector)
-        {
-            return first.Union(second,
-                ComparerFactory.Create<TSource>(
-                    (x, y) => selector(x).Equals(selector(y)),
-                    x => selector(x).GetHashCode())
-            );
-        }
+        public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
+            first.Union(second, ComparerFactory.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
 
         /// <summary>Merges three sequences by using the specified function to select elements.</summary>
         /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
@@ -661,12 +597,9 @@ namespace LASI.Utilities
                 IEnumerable<T2> second,
                 IEnumerable<T3> third,
                 IEnumerable<T4> fourth,
-                Func<T1, T2, T3, T4, TResult> selector)
-        {
-            return first
+                Func<T1, T2, T3, T4, TResult> selector) => first
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
-        }
 
         /// <summary>
         /// Projects each element of the sequence into a new form incorporating its index.
@@ -678,7 +611,8 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<Indexed<T>> WithIndex<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
 
-        public static void InvokeAll(this IEnumerable<Action> actions) {
+        public static void InvokeAll(this IEnumerable<Action> actions)
+        {
             foreach (var action in actions)
             {
                 action();

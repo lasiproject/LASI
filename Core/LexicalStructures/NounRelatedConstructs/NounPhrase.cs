@@ -91,7 +91,7 @@ namespace LASI.Core
                 this.SubjectOf != null ? "\nSubject Of: " + this.SubjectOf.Text : empty,
                 this.DirectObjectOf != null ? "\nDirect Object Of: " + this.DirectObjectOf.Text : empty,
                 this.IndirectObjectOf != null ? "\nIndirect Object Of: " + this.IndirectObjectOf.Text : empty,
-                gender.IsDefined() ? "\nPrevailing Gender: " + gender : empty
+                gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
 
         }

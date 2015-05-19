@@ -1,0 +1,8 @@
+﻿@model LASI.WebApp.ViewComponents.DynamicTextEditorViewComponent.DynamicallyEnteredTextFragment
+<form>
+    <input asp-for="Text " />
+    @{
+    @Html.EditorFor(m => m.Text)
+
+    }
+</form>

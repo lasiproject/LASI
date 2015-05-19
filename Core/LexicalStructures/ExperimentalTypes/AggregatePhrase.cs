@@ -1,26 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Utilities;
 
 namespace LASI.Core.Binding.Experimental
 {
-    interface IAggregateLexical<TPrimary, TBase> : ILexical
+    internal interface IAggregateLexical<TPrimary, TBase> : ILexical
         where TPrimary : TBase, ILexical
         where TBase : ILexical
     {
         IEnumerable<TBase> Constituents { get; }
+
         IEnumerable<TPrimary> PrimaryConstituents { get; }
     }
-    class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>, IEntity
+
+    internal class AggregateNounPhrase : IAggregateLexical<NounPhrase, IEntity>, IEntity
     {
-        protected AggregateNounPhrase(IEnumerable<IEntity> constituents) {
+        protected AggregateNounPhrase(IEnumerable<IEntity> constituents)
+        {
             this.constituents = constituents.ToList();
         }
-        public EntityKind EntityKind {
-            get {
+
+        public void AddPossession(IPossessable possession)
+        {
+            possessions.Add(possession);
+        }
+
+        public void BindDescriptor(IDescriptor descriptor)
+        {
+            foreach (var constituent in PrimaryConstituents) { constituent.BindDescriptor(descriptor); }
+        }
+
+        public void BindReferencer(IReferencer referencer)
+        {
+            boundPronouns.Add(referencer);
+        }
+
+        public IEnumerable<IEntity> Constituents => constituents;
+
+        public IEnumerable<IDescriptor> Descriptors => descriptors;
+
+        public IVerbal DirectObjectOf { get; set; }
+
+        public EntityKind EntityKind
+        {
+            get
+            {
                 var kinds = from EntityKind kind in Enum.GetValues(EntityKind.GetType())
                             where PrimaryConstituents.All(np => np.EntityKind == kind ||
                                     np.EntityKind == EntityKind.Person && kind == EntityKind.PersonMultiple ||
@@ -36,59 +61,34 @@ namespace LASI.Core.Binding.Experimental
                     matchedKind;
             }
         }
-        /// <summary>
-        ///Gets or sets the IVerbal instance the AggregateNounPhrase is the subject of.
-        /// </summary>
-        public IVerbal SubjectOf { get; set; }
-
-        public IVerbal DirectObjectOf { get; set; }
 
         public IVerbal IndirectObjectOf { get; set; }
 
-        public void BindReferencer(IReferencer referencer) {
-            boundPronouns.Add(referencer);
-        }
+        public double MetaWeight { get; set; }
 
-        public IEnumerable<IReferencer> Referencers => boundPronouns;
-
-        public void BindDescriptor(IDescriptor descriptor) {
-            foreach (var constituent in PrimaryConstituents) { constituent.BindDescriptor(descriptor); }
-        }
-
-        public IEnumerable<IDescriptor> Descriptors {
-            get { return descriptors; }
-        }
-
-        public IEnumerable<IPossessable> Possessions {
-            get { return possessions; }
-        }
-
-        public void AddPossession(IPossessable possession) {
-            possessions.Add(possession);
-        }
         /// <summary>
         /// Gets or sets the possessor of the AggregateNounPhrase.
         /// </summary>
         public IPossesser Possesser { get; set; }
 
-        public IEnumerable<IEntity> Constituents { get { return constituents; } }
-        public IEnumerable<NounPhrase> PrimaryConstituents { get { return constituents.OfType<NounPhrase>(); } }
+        public IEnumerable<IPossessable> Possessions => possessions;
 
-        public string Text {
-            get {
-                return string.Format("{0} with constituents\n{1}", this.GetType(), PrimaryConstituents.Format(p => p.GetType() + ": " + p.Text));
-            }
-        }
+        public IEnumerable<NounPhrase> PrimaryConstituents => constituents.OfType<NounPhrase>();
+
+        public IEnumerable<IReferencer> Referencers => boundPronouns;
+
+        /// <summary>
+        ///Gets or sets the IVerbal instance the AggregateNounPhrase is the subject of.
+        /// </summary>
+        public IVerbal SubjectOf { get; set; }
+
+        public string Text => $"{GetType()} with constituents\n{PrimaryConstituents.Format(p => p.GetType() + ": " + p.Text)}";
+
         public double Weight { get; set; }
 
-        public double MetaWeight { get; set; }
-
-        HashSet<IPossessable> possessions = new HashSet<IPossessable>();
-        HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
         private IList<IEntity> constituents;
-
-
-
+        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
     }
 }

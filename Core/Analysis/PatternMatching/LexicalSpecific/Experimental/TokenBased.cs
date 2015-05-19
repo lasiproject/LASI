@@ -26,18 +26,8 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
         {
             token.guardFailed = !guard(default(TLexical)); return token;
         }
-        public static Pattern<object>.TokenTestResult<TLexical> operator |(Pattern<object> tokenTestResult, LexicalToken<TLexical> token)
-        {
-            //if (tokenTestResult.matched) {
-            //    tokenTestResult.matched = true;
-            //    tokenTestResult.pattern.result = f();
-            //}
-            return new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
-        }
-        public static Pattern<object>.TokenTestResult<TLexical> operator |(LexicalToken<TLexical> token, Pattern<object> tokenTestResult)
-        {
-            return new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
-        }
+        public static Pattern<object>.TokenTestResult<TLexical> operator |(Pattern<object> tokenTestResult, LexicalToken<TLexical> token) => new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
+        public static Pattern<object>.TokenTestResult<TLexical> operator |(LexicalToken<TLexical> token, Pattern<object> tokenTestResult) => new Pattern<dynamic>.TokenTestResult<TLexical>(true, tokenTestResult);
 
         abstract class ValueToken<TValue> : Token
         {
@@ -48,10 +38,7 @@ namespace LASI.Core.Analysis.PatternMatching.LexicalSpecific.Experimental.TermBa
                 this.value = value;
             }
             public override bool AppliesTo<TCase>(TCase value) => this.value.Equals(value);
-            public static Pattern<object>.TokenTestResult<ILexical> operator |(Pattern<object> pattern, ValueToken<TValue> token)
-            {
-                return new Pattern<object>.TokenTestResult<ILexical>(false, pattern);
-            }
+            public static Pattern<object>.TokenTestResult<ILexical> operator |(Pattern<object> pattern, ValueToken<TValue> token) => new Pattern<object>.TokenTestResult<ILexical>(false, pattern);
         }
 
         class TextToken : ValueToken<string>

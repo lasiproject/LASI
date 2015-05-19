@@ -105,15 +105,9 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="actionReceiver">The action Receiving Entity</param>
         /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         /// <returns>The Verbals which are known to link the given action Performing Entity and action Receiving Entity.</returns>
-        public IEnumerable<TVerbal> this[TEntity actionPerformer, Func<TEntity, TEntity, bool> performerComparer, TEntity actionReceiver, Func<TEntity, TEntity, bool> receiverComparer]
-        {
-            get
-            {
-                return verbalRelationshipDomain
-                    .WithSubject(s => s.Match().Case((TEntity e) => performerComparer(actionPerformer, e)).Result())
-                    .WithObject(o => o.Match().Case((TEntity e) => receiverComparer(actionReceiver, e)).Result());
-            }
-        }
+        public IEnumerable<TVerbal> this[TEntity actionPerformer, Func<TEntity, TEntity, bool> performerComparer, TEntity actionReceiver, Func<TEntity, TEntity, bool> receiverComparer] => verbalRelationshipDomain
+                .WithSubject(s => s.Match((TEntity e) => performerComparer(actionPerformer, e)))
+                .WithObject(o => o.Match((TEntity e) => receiverComparer(actionReceiver, e)));
         /// <summary>
         /// Gets the collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.
         /// </summary>
