@@ -14,13 +14,13 @@ namespace LASI.WebApp.Models.Lexical
         {
             ContextMenuJson = ModelFor.GetJsonMenuData();
             DetailText = ModelFor.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
-            WordViewModels = from word in ModelFor.Words
-                             select new WordModel(word);
+            Words = from word in ModelFor.Words
+                    select new WordModel(word);
         }
-        public ParagraphModel ParagraphModel { get; set; }
+        public ParagraphModel Paragraph { get; set; }
         public override string ContextMenuJson { get; }
         public string DetailText { get; }
-        public IEnumerable<ILexicalModel<Word>> WordViewModels { get; }
-        public SentenceModel SentenceModel { get; internal set; }
+        public IEnumerable<ILexicalModel<Word>> Words { get; }
+        public SentenceModel Sentence { get; internal set; }
     }
 }

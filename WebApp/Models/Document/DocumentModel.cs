@@ -8,22 +8,23 @@ namespace LASI.WebApp.Models
 {
     public class DocumentModel : TextualModel<Core.Document>
     {
-        public DocumentModel(Core.Document document) : base(document) {
+        public DocumentModel(Core.Document document) : base(document)
+        {
             Document = document;
-            Title = document.Title;
+            Title = document.Name;
             ParagraphModels = document.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
             PageModels = document.Paginate(80, 30).Select(page => new PageModel(page));
             foreach (var model in PageModels) { model.DocumentModel = this; }
 
         }
 
-        public override string Text { get { return ModelFor.Text; } }
-        public string Title { get; private set; }
-        public IEnumerable<ParagraphModel> ParagraphModels { get; private set; }
-        public IEnumerable<PhraseModel> PhraseModels { get { return ParagraphModels.SelectMany(paragraph => paragraph.PhraseModels); } }
-        public IEnumerable<PageModel> PageModels { get; private set; }
-        public override Style Style { get { return new Style { CssClass = "document" }; } }
+        public override string Text => ModelFor.Text;
+        public string Title { get; }
+        public IEnumerable<ParagraphModel> ParagraphModels { get; }
+        public IEnumerable<PhraseModel> PhraseModels => ParagraphModels.SelectMany(paragraph => paragraph.PhraseModels);
+        public IEnumerable<PageModel> PageModels { get; }
+        public override Style Style => new Style { CssClass = "document" };
         public DocumentSetModel DocumentSetModel { get; internal set; }
-        public Core.Document Document { get; private set; }
+        public Core.Document Document { get; }
     }
 }

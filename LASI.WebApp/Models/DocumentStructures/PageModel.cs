@@ -10,21 +10,18 @@ namespace LASI.WebApp.Models.DocumentStructures
     {
         public PageModel(Document.Page page) : base(page)
         {
-             ParagraphModels = ModelFor.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
-            foreach (var model in ParagraphModels)
+            Paragraphs = ModelFor.Paragraphs.Select(paragraph => new ParagraphModel(paragraph));
+            foreach (var model in Paragraphs)
             {
-                model.PageModel = this;
+                model.Page = this;
             }
         }
-        public override string Text =>
-            string.Join("", Enumerable.Repeat(TextHelper.HtmlSpace, 4)) +
-            string.Join("", ParagraphModels.Select(m => m.Text));
+        public override string Text => string.Join("", Enumerable.Repeat(TextHelper.HtmlSpace, 4)) + string.Join("", Paragraphs.Select(m => m.Text));
         public override Style Style => new Style { CssClass = "page" };
-        public IEnumerable<ParagraphModel> ParagraphModels { get; }
-        public IEnumerable<SentenceModel> SentenceModels => ParagraphModels.SelectMany(paragraph => paragraph.SentenceModels);
+        public IEnumerable<ParagraphModel> Paragraphs { get; }
+        public IEnumerable<SentenceModel> Sentences => Paragraphs.SelectMany(paragraph => paragraph.Sentences);
+        public DocumentModel Document { get; internal set; }
 
-        public DocumentModel DocumentModel { get; internal set; }
-
-        public override DocumentModel Parent => DocumentModel;
+        public override DocumentModel Parent => Document;
     }
 }

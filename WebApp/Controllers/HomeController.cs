@@ -55,7 +55,7 @@ namespace LASI.WebApp.Controllers
                          let topResults = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(CHART_ITEM_MAX)
                          let rowData = from result in topResults
                                        select new object[] { result.First, result.Second }
-                         select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Title };
+                         select new { Rows = Newtonsoft.Json.Linq.JArray.FromObject(rowData), Title = document.Name };
 
             ViewBag.Charts = charts.ToDictionary(chart => chart.Title, chart => chart.Rows);
             ViewBag.Title = "Results";
@@ -107,7 +107,7 @@ namespace LASI.WebApp.Controllers
                     }
                     catch (ArgumentException) { return null; }
                 })
-                .Where(file => file != null && !processedDocuments.Any(d => d.Title == file.NameSansExt));
+                .Where(file => file != null && !processedDocuments.Any(d => d.Name == file.NameSansExt));
             var analyzer = new AnalysisOrchestrator(files);
             analyzer.ProgressChanged += (s, e) =>
             {
@@ -133,7 +133,7 @@ namespace LASI.WebApp.Controllers
         private const string USER_UPLOADED_DOCUMENTS_DIR = "~/App_Data/SourceFiles/";
 
         private static IImmutableSet<Document> processedDocuments = ImmutableHashSet.Create(
-                    ComparerFactory.Create<Document>((dx, dy) => dx.Title == dy.Title, d => d.Title.GetHashCode()));
+                    ComparerFactory.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
         private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {

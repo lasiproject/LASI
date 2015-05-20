@@ -12,27 +12,26 @@ namespace LASI.WebApp.Models.DocumentStructures
     {
         public SentenceModel(Sentence sentence) : base(sentence)
         {
-            PhraseModels = ModelFor.Phrases
+            Phrases = ModelFor.Phrases
                .Select(phrase => new PhraseModel(phrase))
                .Append(new PhraseModel(new SymbolPhrase(sentence.Ending)));
-            foreach (var model in PhraseModels)
-            {
-                model.SentenceModel = this;
-            }
+            Phrases.ForEach(m => m.Sentence = this);
+            #region
             //ClauseModels = sentence.Clauses.Select(clause => new ClauseModel(clause));
             //foreach (var model in ClauseModels)
             //{
             //    model.SentenceModel = this;
             //}
+            #endregion
         }
         [JsonIgnore]
         public override string Text => ModelFor.Text;
         public override Style Style => new Style { CssClass = "sentence" };
-        public IEnumerable<PhraseModel> PhraseModels { get; }
+        public IEnumerable<PhraseModel> Phrases { get; }
 
         //public IEnumerable<ClauseModel> ClauseModels { get; }
 
-        public ParagraphModel ParagraphModel { get; internal set; }
-        public override ParagraphModel Parent => ParagraphModel;
+        public ParagraphModel Paragraph { get; internal set; }
+        public override ParagraphModel Parent => Paragraph;
     }
 }

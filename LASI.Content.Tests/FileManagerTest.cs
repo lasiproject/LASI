@@ -170,10 +170,19 @@ namespace LASI.Content.Tests
         {
             DocFile[] files = GetTestDocFiles();
             Assert.IsTrue(files.Any());
+            try
+            {
+                FileManager.ConvertDocToText(files);
+                foreach (var file in files)
+                {
+                    Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+                }
+            }
+            catch (IOException e) when (e.Message.StartsWith("The process cannot access the file '") && e.Message.EndsWith("' because it is being used by another process."))
+            {
+                Assert.Inconclusive(e.Message);
+            }
 
-            FileManager.ConvertDocToText(files);
-            foreach (var file in files)
-                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
         }
 
         /// <summary>

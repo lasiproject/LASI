@@ -15,7 +15,8 @@ namespace LASI.WebApp
 
     public class MvcApplication : HttpApplication
     {
-        protected void Application_Start() {
+        protected void Application_Start()
+        {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -28,21 +29,24 @@ namespace LASI.WebApp
         /// <summary>
         /// Application specific initialization for concurrency management, memory management, data sources, and logging.
         /// </summary>
-        private void PerformCustomInitialization() {
+        private void PerformCustomInitialization()
+        {
             ConfigurationManager.AppSettings["ResourcesDirectory"] = Server.MapPath(ConfigurationManager.AppSettings["ResourcesDirectory"]);
-            Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceLevel.High);
+            Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceProfile.High);
             AccountProvider = SetupUserAccounts(this);
-            Output.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
+            Logger.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "WebApp_log"));
         }
 
-        private static IAccountProvider SetupUserAccounts(HttpApplication app) {
-            switch (ConfigurationManager.AppSettings["AccountSource"]) {
+        private static IAccountProvider SetupUserAccounts(HttpApplication app)
+        {
+            switch (ConfigurationManager.AppSettings["AccountSource"])
+            {
                 case "LocalFileSystem":
-                return new FileSystemAccountProvider(app);
+                    return new FileSystemAccountProvider(app);
                 case "MongoDb":
-                return new MongoDbAccountProvider(app);
+                    return new MongoDbAccountProvider(app);
                 default:
-                return new MongoDbAccountProvider(app);
+                    return new MongoDbAccountProvider(app);
             }
         }
 

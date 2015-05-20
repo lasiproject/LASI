@@ -36,9 +36,10 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
             TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : default(TValue);
+            dictionary.TryGetValue(key, out value);
+            return value;
         }
 
         /// <summary>

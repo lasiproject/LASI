@@ -23,10 +23,11 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual("str".ToOption(), target);
         }
         [TestMethod]
-        public void CoalescenseTest2()
+        public void CoalescenseTest()
         {
             Option<string> target = "str".ToOption();
-            for (var i = 0; i < new Random().Next(0, 100); ++i)
+            var iterations = new Random().Next(0, 100);
+            for (var i = 0; i < iterations; ++i)
             {
                 target = target.ToOption();
             }
@@ -77,8 +78,8 @@ namespace LASI.Utilities.Tests
         {
             const string source = "str";
             Option<string> target = source.ToOption();
-            Option<string> projected = from vx in target
-                                       select vx.ToUpper();
+            Option<string> projected = from v in target
+                                       select v.ToUpper();
             Assert.IsTrue(projected.HasValue);
             string value = projected.Value;
             Assert.AreEqual(value, source.ToUpper());
@@ -86,7 +87,8 @@ namespace LASI.Utilities.Tests
         [TestMethod]
         public void OptionFromNullTestWhereTest1()
         {
-            Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);     // Should always return None, never applying the predicate.
+            // Should always return None, never applying the predicate.
+            Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
             Assert.IsFalse(filtered.HasValue);
         }
 

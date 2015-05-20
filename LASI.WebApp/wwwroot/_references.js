@@ -50,3 +50,5 @@
 /// <reference path="app/results/results-app/contextMenuService.js" />
 /// <reference path="app/results/results-app/ContextMenusController.js" />
 /// <reference path="app/results/results-app/contextMenu.js" />
+/// <reference path="app/widgets/document-list-app/interactive-representations/document.js" />
+/// <reference path="app/widgets/document-list-app/interactive-representations/idocumentmodel.js" />

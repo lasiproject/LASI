@@ -79,7 +79,7 @@ namespace LASI.Utilities
         {
             Validate.NotNull(equals, nameof(equals));
             Validate.NotNull(getHashCode, nameof(getHashCode));
-            return new ComparerWithCutomEqualsAndHashing<T>(equals, getHashCode);
+            return new ComparerWithCutomEqualsAndGetHashCode<T>(equals, getHashCode);
         }
 
         private sealed class ComparerWithCutomEqualsAndNullityBasedHashing<T> : EqualityComparer<T>
@@ -150,7 +150,7 @@ namespace LASI.Utilities
         /// var fuzzilyDistinctNps = nps.Distinct(new CustomComparer&lt;Phrase&gt;((x, y) =&gt; x.IsSimilarTo(y), x =&gt; x == null? 0 : 1);
         /// </code>
         /// </example>
-        private sealed class ComparerWithCutomEqualsAndHashing<T> : EqualityComparer<T>
+        private sealed class ComparerWithCutomEqualsAndGetHashCode<T> : EqualityComparer<T>
         {
             /// <summary>
             /// Initializes a new instance of the CustomComparer class which will use the provided
@@ -170,7 +170,7 @@ namespace LASI.Utilities
             /// equals function will also produce identical hashcodes. Elements may yield identical
             /// hash codes, without being considered equal.
             /// </remarks>
-            public ComparerWithCutomEqualsAndHashing(Func<T, T, bool> equals, Func<T, int> getHashCode)
+            public ComparerWithCutomEqualsAndGetHashCode(Func<T, T, bool> equals, Func<T, int> getHashCode)
             {
                 this.equals = equals;
                 this.getHashCode = getHashCode;
@@ -180,7 +180,7 @@ namespace LASI.Utilities
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public override bool Equals(T x, T y) => y == null ? y == null : y == null ? x == null : equals(x, y);
+            public override bool Equals(T x, T y) => x == null ? y == null : equals(x, y);
 
             /// <summary>
             /// Serves as a hash function for the specified object for hashing algorithms and data

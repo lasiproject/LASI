@@ -6,7 +6,7 @@ namespace LASI.WebApp.Models.Lexical
     {
         public WordModel(Word word) : base(word) { }
 
-        public PhraseModel PhraseModel { get; set; }
+        public PhraseModel Phrase { get; set; }
         public override string ContextMenuJson { get; }
     }
 }

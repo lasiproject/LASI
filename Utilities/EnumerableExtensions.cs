@@ -7,6 +7,7 @@ namespace LASI.Utilities
     using System.Numerics;
     using LASI.Utilities.SpecializedResultTypes;
     using Utilities.Validation;
+    using static Enumerable;
 
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
@@ -54,11 +55,7 @@ namespace LASI.Utilities
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) =>
-            source.Select((e, i) => new
-            {
-                Element = e,
-                Index = i
-            }).Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
+            source.WithIndex().Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -126,7 +123,8 @@ namespace LASI.Utilities
         /// </param>
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
-        public static TAccumulate AggregateRight<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) => source.Reverse().Aggregate(seed, func);
+        public static TAccumulate AggregateRight<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) =>
+            source.Reverse().Aggregate(seed, func);
 
         /// <summary>
         /// Enumerates a sequence from right to left, applying an accumulator function over a
@@ -148,11 +146,8 @@ namespace LASI.Utilities
         /// </param>
         /// <returns>The transformed final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
-        public static TResult AggregateRight<TSource, TAccumulate, TResult>(
-            this IEnumerable<TSource> source,
-            TAccumulate seed,
-            Func<TAccumulate, TSource, int, TAccumulate> func,
-            Func<TAccumulate, TResult> resultSelector) => resultSelector(source.AggregateRight(seed, func));
+        public static TResult AggregateRight<TSource, TAccumulate, TResult>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func, Func<TAccumulate, TResult> resultSelector) =>
+            resultSelector(source.AggregateRight(seed, func));
 
         /// <summary>
         /// Appends the given element to the sequence, yielding a new sequence consisting of the
@@ -174,13 +169,12 @@ namespace LASI.Utilities
             yield return tail;
         }
 
-
         public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<IEnumerable<T>>> forGroups) where TKey : IComparable
         {
             var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
             foreach (var groupAction in forGroups)
             {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Enumerable.Empty<T>);
+                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
                 groupAction.Value(enumerable);
             }
         }
@@ -189,7 +183,7 @@ namespace LASI.Utilities
             var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
             foreach (var groupAction in forGrouped)
             {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Enumerable.Empty<T>);
+                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
                 foreach (var element in enumerable)
                 {
                     groupAction.Value(element);
@@ -236,7 +230,7 @@ namespace LASI.Utilities
         /// An empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is <c>null</c>;
         /// otherwise <paramref name="source" />.
         /// </returns>
-        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Enumerable.Empty<T>();
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source) => source ?? Empty<T>();
 
         /// <summary>Produces the set difference of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -249,12 +243,17 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Except(second,
-                ComparerFactory.Create<TSource>(
-                    (x, y) => selector(x).Equals(selector(y)),
-                    x => selector(x).GetHashCode())
+            first.Except(second, ComparerFactory.Create<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode())
             );
-
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
+        {
+            foreach (var item in source)
+                action(item);
+        }
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action) =>
+            source.WithIndex().ForEach(e => action(e.Element, e.Index));
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -267,11 +266,10 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Intersect(second,
-                ComparerFactory.Create<TSource>(
-                    (x, y) => selector(x).Equals(selector(y)),
-                    x => selector(x).GetHashCode())
-                );
+            first.Intersect(second, ComparerFactory.Create<TSource>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode())
+            );
 
         /// <summary>Returns the maximal element of the given sequence, based on the given projection.</summary>
         /// <typeparam name="TSource">Type of the source sequence</typeparam>
