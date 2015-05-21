@@ -5,7 +5,7 @@ using Owin;
 using Microsoft.Owin.Builder;
 using Microsoft.Owin.Extensions;
 
-[assembly: OwinStartup(typeof(LASI.WebApp.Startup))]
+[assembly: OwinStartup(typeof(LASI.WebApp.Old.Startup))]
 
 namespace LASI.WebApp.Old
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LASI.WebApp.Old.Old.Models;
+using LASI.WebApp.Old.Models;
 
 namespace LASI.WebApp.Old
 {

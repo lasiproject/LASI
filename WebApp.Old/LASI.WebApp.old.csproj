@@ -25,7 +25,7 @@
     <TargetFrameworkProfile />
     <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptModuleKind>amd</TypeScriptModuleKind>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -461,7 +461,6 @@
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.fileupload\jquery.fileupload.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\require\require.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -494,7 +493,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
