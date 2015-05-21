@@ -15,7 +15,7 @@
         "NameDataDirectory": "LASICustom\\NameData\\",
         "OrganizationCollectionName": "organizations",
         "ProjectWebsite": "http://lasi-project.org",
-        "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp\\Resources\\",
+        "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp.Old\\Resources\\",
         "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
         "UserCollectionName": "users",
         "UserDocumentCollectionName": "documents",
