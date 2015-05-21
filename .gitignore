@@ -188,3 +188,7 @@ AspSixApp/App_Data/Temp/11060268vadoc.txt
 /AspSixApp
 /LASI.WebApp/node_modules
 /LASI.WebApp/bower_components
+/.vs/config
+/LASI.WebApp/App_Data/Mongo
+/LASI.WebApp/App_Data/SourceFiles
+/LASI.WebApp/App_Data/Temp
