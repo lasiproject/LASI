@@ -1,9 +1,6 @@
-﻿/// <reference path = "../../typings/angularjs/angular.d.ts" />
-/// <reference path = "../../typings/angularjs/angular-resource.d.ts" />
+﻿(function() {
+    'use strict';
 
-'use strict';
-(function() {
-    
     angular
         .module(LASI.documentList.ngName)
         .service('DocumentsService', DocumentsService);

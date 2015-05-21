@@ -1,10 +1,13 @@
-(function () {
+﻿(function () {
     'use strict';
     angular
         .module(LASI.documentList.ngName)
         .directive('documentListMenuItem', documentListMenuItem);
+
     documentListMenuItem.$inject = ['$window', 'resultsService'];
+
     function documentListMenuItem($window, resultsService) {
+
         return {
             transclude: true,
             replace: true,
@@ -25,6 +28,7 @@
                         scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
                     });
                 });
+
             }
         };
     }

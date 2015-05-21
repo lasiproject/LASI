@@ -459,10 +459,8 @@ var DocumentListServiceProvider = (function () {
         .provider('documentListService', DocumentListServiceProvider);
 })();
 
-/// <reference path = "../../typings/angularjs/angular.d.ts" />
-/// <reference path = "../../typings/angularjs/angular-resource.d.ts" />
-'use strict';
 (function () {
+    'use strict';
     angular
         .module(LASI.documentList.ngName)
         .service('DocumentsService', DocumentsService);
@@ -520,16 +518,13 @@ var DocumentListServiceProvider = (function () {
     }
 })(LASI);
 
-(function (log) {
+(function () {
     'use strict';
     angular
-       .module(LASI.documentList.ngName)
-       .directive('documentListMenuItem', documentListMenuItem);
-
+        .module(LASI.documentList.ngName)
+        .directive('documentListMenuItem', documentListMenuItem);
     documentListMenuItem.$inject = ['$window', 'resultsService'];
-
     function documentListMenuItem($window, resultsService) {
-
         return {
             transclude: true,
             replace: true,
@@ -550,22 +545,18 @@ var DocumentListServiceProvider = (function () {
                         scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
                     });
                 });
-
             }
         };
     }
-})(LASI.log);
+})();
+
 (function () {
     'use strict';
-
     angular
         .module(LASI.documentList.ngName)
         .directive('documentListTabsetItem', documentListTabsetItem);
-
     documentListTabsetItem.$inject = [];
-
     function documentListTabsetItem() {
-
         var directive = {
             transclude: true,
             replace: true,
@@ -579,12 +570,12 @@ var DocumentListServiceProvider = (function () {
             templateUrl: '/app/widgets/document-list-app/document-list-tabset-item.html',
         };
         return directive;
-
         function link(scope, element, attrs) {
             console.log(attrs);
         }
     }
 })();
+
 var tasksListServiceProvider = function () {
     var updateInterval = 200;
     var tasksListUrl = 'api/Tasks';
