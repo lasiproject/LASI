@@ -61,6 +61,9 @@ namespace LASI.Core
         /// <param name="document">The Document whose elements are to be assigned numeric weights.</param>
         public static async Task WeightAsync(Document document)
         {
+            await new ProcessingTask(() => { Console.Write("X"); },
+               $"{document.Name}: Abstracting References",
+               $"{document.Name}: Abstracted References", 5);
             await Task.WhenAll(document.GetWeightingTasks().Select(t => t.Task).ToArray());
         }
         private static void NormalizeWeights(IReifiedTextual source)
@@ -86,7 +89,7 @@ namespace LASI.Core
         {
             var toConsider = from e in source.Words
                                  //.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                                 .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IPronoun.
+                                 .OfEntity().InSubjectOrObjectRole() //Currently, include only those nouns which exist in relationships with some IVerbal or IReferencer.
                              select e.Match()
                                   .When((IReferencer r) => r.RefersTo != null)
                                   .Then((IReferencer r) => r.RefersTo)
@@ -151,9 +154,9 @@ namespace LASI.Core
                 from outer in toConsider/*.ToList()*/.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/
                 where !ReferenceEquals(inner, outer) || correlateWhen(inner, outer)
-                group inner by outer;
-            groups.Select(Enumerable.ToList)
-                .ForAll(elements => elements.ForEach(e => e.Weight += scaleBy * elements.Count));
+                group inner by outer into grouped
+                select grouped.ToList();
+            groups.ForAll(elements => elements.ForEach(e => e.Weight += scaleBy * elements.Count));
         }
 
 

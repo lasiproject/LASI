@@ -218,7 +218,11 @@ namespace LASI.Core
             where TEntity : IEntity => from e in entities.InSubjectRole()
                                        where predicate(e.SubjectOf)
                                        select e;
-
+        /// <summary>
+        /// Returns all entities of type <see cref="IReferencer"/> in the sequence of entities.
+        /// </summary>
+        /// <param name="entities">The sequence of entities to filter.</param>
+        /// <returns>All entities of type <see cref="IReferencer"/> in the sequence of entities.</returns>
         public static IEnumerable<IReferencer> OfReferencer(this IEnumerable<IEntity> entities) => entities.OfType<IReferencer>();
 
         /// <summary>
@@ -455,7 +459,11 @@ namespace LASI.Core
             where TEntity : IEntity => from e in entities.InSubjectRole()
                                        where predicate(e.SubjectOf)
                                        select e;
-
+        /// <summary>
+        /// Returns all entities of type <see cref="IReferencer"/> in the parallel sequence of entities.
+        /// </summary>
+        /// <param name="entities">The parallel sequence of entities to filter.</param>
+        /// <returns>All entities of type <see cref="IReferencer"/> in the parallel sequence of entities.</returns>
         public static ParallelQuery<IReferencer> OfReferencer(this ParallelQuery<IEntity> entities) => entities.OfType<IReferencer>();
 
         /// <summary>

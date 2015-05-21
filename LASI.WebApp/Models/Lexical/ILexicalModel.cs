@@ -2,7 +2,7 @@ using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
-    public interface ILexicalModel<out TLexical> where TLexical : class, ILexical
+    public interface ILexicalModel<out TLexical> where TLexical :  ILexical
     {
         [Newtonsoft.Json.JsonIgnore]
         TLexical Element { get; }

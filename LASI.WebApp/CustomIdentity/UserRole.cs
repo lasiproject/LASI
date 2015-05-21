@@ -19,9 +19,5 @@ namespace LASI.WebApp.CustomIdentity
         public bool Equals(UserRole other) => RoleName?.Equals(other?.RoleName) ?? false;
         public override bool Equals(object obj) => Equals(obj as UserRole);
         public override int GetHashCode() => RoleName?.GetHashCode() ?? 0;
-
-        [Activate]
-        private static ILookupNormalizer LookupNormalizer { get; set; }
-
     }
 }

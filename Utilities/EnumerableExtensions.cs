@@ -250,8 +250,11 @@ namespace LASI.Utilities
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
         {
             foreach (var item in source)
+            {
                 action(item);
+            }
         }
+
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action) =>
             source.WithIndex().ForEach(e => action(e.Element, e.Index));
 
@@ -460,7 +463,15 @@ namespace LASI.Utilities
         public static bool All(this IEnumerable<bool> source) => source.All(b => b);
 
         #endregion Product
-
+        /// <summary> Applies an accumulator over the sequence yielding each intermediate value.
+        /// </summary> 
+        /// <typeparam name="T">
+        /// The type of the elements in the sequence.
+        /// </typeparam>
+        /// <param name="source">A sequence to scan.</param>  
+        /// <param name="func">A function to invoke on each element in source and the
+        /// accumulator value.</param>
+        ///  <returns>The sequence starting with the first element in <paramref name="source"/> and ending with the final accumulation.</returns>
         public static IEnumerable<T> Scan<T>(this IEnumerable<T> source, Func<T, T, T> func)
         {
             Validate.NotNull(source, nameof(source), func, nameof(func));
@@ -474,11 +485,15 @@ namespace LASI.Utilities
 
         /// <summary> Applies an accumulator over the sequence yielding each intermediate value. The
         /// resulting sequence begins with the specified seed and ends with the final aggregate.
-        /// </summary> <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam> <param
-        /// name="source">A sequence to scan.</param> <param name="seed">A an initial seed
-        /// value.</param> <param name="func">A function to invoke on each element in source and the
-        /// accumulator value.</param> <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
+        /// </summary> 
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam> 
+        /// <param name="source">A sequence to scan.</param> <param name="seed">A an initial seed
+        /// value.</param>
+        /// <param name="func">A function to invoke on each element in source and the
+        /// accumulator value.
+        /// </param> 
+        /// <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
             Validate.NotNull(source, nameof(source), func, nameof(func));
@@ -537,7 +552,13 @@ namespace LASI.Utilities
         /// </returns>
         public static bool SetEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
             first.Select(selector).SetEqual(second.Select(selector));
-
+        /// <summary>
+        /// Creates a <see cref="System.Collections.Generic.Dictionary{Key,Value}"/> from the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys.</typeparam>
+        /// <typeparam name="TValue">The type of the values.</typeparam>
+        /// <param name="source">The IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt; from which to construct the dictionary.</param>
+        /// <returns>A dictionary comprised of the contents of the IEnumerable&lt;<see cref="KeyValuePair{TKey,TValue}"/>&gt;.</returns>
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source) => source.ToDictionary(e => e.Key, e => e.Value);
 
         /// <summary>Produces the set union of two sequences under the given projection.</summary>
@@ -608,7 +629,10 @@ namespace LASI.Utilities
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
         public static IEnumerable<Indexed<T>> WithIndex<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
-
+        /// <summary>
+        /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.
+        /// </summary>
+        /// <param name="actions">The sequence of actions to invoke.</param>
         public static void InvokeAll(this IEnumerable<Action> actions)
         {
             foreach (var action in actions)

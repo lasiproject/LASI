@@ -1,15 +1,14 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using LASI.Utilities;
 
 namespace LASI.Content
 {
+    using static System.Linq.Enumerable;
     /// <summary>
     /// An input file converter specialized to extract the non optical textual content from a .pdf (Adobe Acrobat) document
     /// and create a text file containing this content as raw text.
@@ -110,7 +109,7 @@ namespace LASI.Content
                 int bracketDepth = 0;
 
                 // Keep previous chars to get extract numbers etc.: 
-                char[] previousCharacters = Enumerable.Repeat(' ', CHARS_TO_KEEP).ToArray();
+                char[] previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
                 for (int i = 0; i < input.Length; i++)

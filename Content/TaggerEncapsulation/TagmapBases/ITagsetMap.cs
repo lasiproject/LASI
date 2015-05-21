@@ -8,7 +8,7 @@ namespace LASI.Content.Tagging
         /// Gets the PosTag string corresponding to the <see cref="Type"/> of the given
         /// <typeparamref name="TLexical"/>.
         /// </summary>
-        /// <param name="word">The <see cref="TLexical"/> for which to get the corresponding tag.</param>
+        /// <param name="word">The <typeparamref name="TLexical"/> for which to get the corresponding tag.</param>
         /// <returns>
         /// The PosTag string corresponding to the <see cref="Type"/> of the given <typeparamref name="TLexical"/>.
         /// </returns>

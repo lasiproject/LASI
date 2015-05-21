@@ -23,7 +23,9 @@ namespace LASI.Core.Analysis.BinderImplementations
                     .Select(e => e.Phrase);
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Gets the paragraph the binder operates over.
+        /// </summary>
         public Paragraph Paragraph { get; }
     }
 }

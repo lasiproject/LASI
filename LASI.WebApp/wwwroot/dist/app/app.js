@@ -500,7 +500,7 @@ var DocumentListServiceProvider = (function () {
                     '<div class="panel-heading"><h4 class="panel-title"><a href="#' + documentId + '" data-toggle="collapse" data-parent="#accordion">' +
                     documentName +
                     '</a></h4></div></div>');
-                var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
+                var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + JSON.stringify(data) + '</div>' + '</div>');
                 if (!$('#' + documentId).length) {
                     $('#accordion').append(markupHeader).append(markupPanel);
                 }

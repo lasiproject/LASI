@@ -17,6 +17,9 @@ namespace LASI.Core
         IVerbal IAttributive<IVerbal>.AttributedTo { get { throw new NotImplementedException(); } }
 
         IDescriptor IAttributive<IDescriptor>.AttributedTo { get { throw new NotImplementedException(); } }
+        /// <summary>
+        /// Gets the entity to which the <see cref="SubordinateClause"/> is attributed and or describes.
+        /// </summary>
         public IEntity AttributedTo => Describes;
 
         #region Constructors

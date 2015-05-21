@@ -17,7 +17,6 @@ namespace LASI.Core
         /// Initializes a new instance of the Verb class which represents the base tense form of a verb.
         /// </summary>
         /// <param name="text">The text content of the verb.</param>
-        /// <param name="verbForm">The tense of the verb</param>
         protected Verb(string text) : base(text) { }
 
         #endregion Constructors
@@ -153,9 +152,9 @@ namespace LASI.Core
         /// </summary>
         public ModalAuxilary Modality { get; set; }
 
-        /// <summary>
-        /// Gets the VerbTense of the Verb.
-        /// </summary>
+        ///// <summary>
+        ///// Gets the VerbTense of the Verb.
+        ///// </summary>
         //public VerbForm VerbForm { get; }
 
         /// <summary>
@@ -167,6 +166,9 @@ namespace LASI.Core
         /// Gets the IPrepositional object which links the Verb to the ObjectOfThePreoposition.
         /// </summary>
         public IPrepositional PrepositionalToObject { get; protected set; }
+        /// <summary>
+        /// Gets or sets the subject complement of the <see cref="Verb"/>.
+        /// </summary>
         public ILexical SubjectComplement { get; set; }
 
         /// <summary>

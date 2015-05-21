@@ -6,6 +6,10 @@ namespace LASI.Core.Configuration
     /// <summary>Provides access to resource and performance configuration options.</summary>
     public static class Configuration
     {
+        /// <summary>
+        /// Initializes Configuration uses the supplied settings.
+        /// </summary>
+        /// <param name="settings">The <see cref="Utilities.Configuration.IConfig"/> object holding the settings from which configuration will be initialized.</param>
         public static void Initialize(Utilities.Configuration.IConfig settings)
         {
             Settings = settings;
@@ -18,9 +22,13 @@ namespace LASI.Core.Configuration
         {
             MaxConcurrency = concurrencyLevelFactory();
         }
-
+        /// <summary>
+        /// Gets or sets the <see cref="Utilities.Configuration.IConfig"/> which specifies configuration settings.
+        /// </summary>
         internal static Utilities.Configuration.IConfig Settings { get; private set; }
-
+        /// <summary>
+        /// Gets or sets the max concurrency level, number of CPU cores used, by algorithms.
+        /// </summary>
         internal static int MaxConcurrency { get; private set; }
 
         /// <summary>

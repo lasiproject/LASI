@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using LASI.Utilities;
 using LASI.WebApp.CustomIdentity;
-using LASI.WebApp.CustomIdentity.MongoDB;
 using LASI.WebApp.CustomIdentity.MongoDB.Extensions;
+using LASI.WebApp.Helpers;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
@@ -17,6 +18,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
+using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -45,8 +47,12 @@ namespace LASI.WebApp
         public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole().AddLASIOutput();
+            var consoleLogger = loggerFactory.CreateLogger<ConsoleLogger>();
+            var lasiLogger = loggerFactory.AddLASIOutput().CreateLogger<ConsoleLogger>();
+            var log = ((Action<string>)consoleLogger.LogCritical).AndThen(lasiLogger.LogCritical);
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"));
 
             services
@@ -59,9 +65,47 @@ namespace LASI.WebApp
                     )
                 );
 
-            services.AddMongoDB(new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory));
+            services.AddMongoDB(options =>
+            {
+                options.UserCollectionName = "users";
+                options.UserDocumentCollectionName = "documents";
+                options.OrganizationCollectionName = "organizations";
+                options.UserRoleCollectionName = "roles";
+                options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
+                options.ApplicationDatabaseName = "accounts";
+                options.MongodExePath = Configuration["MongodExecutableLocation"];
+                options.CreateProcess = true;
+                options.DataDbPath = Configuration["MongoDataDbPath"];
+                options.InstanceUrl = Configuration["MongoDbInstanceUrl"];
+            });
 
-            services.AddIdentity<ApplicationUser, UserRole>(ConfigureIdentityOptions)
+            services
+                .AddIdentity<ApplicationUser, UserRole>(options =>
+                {
+                    options.Lockout = new LockoutOptions
+                    {
+                        EnabledByDefault = true,
+                        DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                        MaxFailedAccessAttempts = 10
+                    };
+                    options.User = new UserOptions
+                    {
+                        RequireUniqueEmail = true
+                    };
+                    options.SignIn = new SignInOptions
+                    {
+                        RequireConfirmedEmail = false,
+                        RequireConfirmedPhoneNumber = false
+                    };
+                    options.Password = new PasswordOptions
+                    {
+                        RequireLowercase = true,
+                        RequireUppercase = true,
+                        RequireNonLetterOrDigit = true,
+                        RequireDigit = true,
+                        RequiredLength = 8
+                    };
+                })
                 .AddDefaultTokenProviders()
                 .AddRoleManager<RoleManager<UserRole>>()
                 .AddRoleStore<CustomUserStore<UserRole>>()
@@ -71,14 +115,44 @@ namespace LASI.WebApp
 
             services
                 .AddMvc()
-                .ConfigureMvc(ConfigureMvcOptions);
+                .ConfigureMvc(options =>
+                {
+                    var serializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore,
+#if DEBUG // For release builds we prefer the more performant, small payload.
+                        Formatting = Formatting.Indented,
+#endif
+                        Error = (s, e) =>
+                        {
+                            var x = e.ErrorContext.Error;
+                            log($"{x.Message}\n{x.StackTrace}");
+#if DEBUG // Fail in debug builds
+                            throw x;
+#endif
+                        },
+                        Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } }
+                    };
+                    options.InputFormatters.FirstDescribing<JsonInputFormatter>().SerializerSettings = serializerSettings;
+                    options.OutputFormatters.FirstDescribing<JsonOutputFormatter>().SerializerSettings = serializerSettings;
+                });
 
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
             services
-                .ConfigureFacebookAuthentication(ConfigureFacebookAuthenticationOptions)
-                .ConfigureMicrosoftAccountAuthentication(ConfigureMicrosoftAccountAuthentication);
+                .ConfigureFacebookAuthentication(options =>
+                {
+                    options.AppId = Configuration["Authentication:Facebook:AppId"];
+                    options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                })
+                .ConfigureMicrosoftAccountAuthentication(options =>
+                {
+                    options.ClientId = Configuration["Authentication:MicrosoftAccount:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:MicrosoftAccount:ClientSecret"];
+                });
         }
 
         // Configure is called after ConfigureServices is called.
@@ -88,9 +162,9 @@ namespace LASI.WebApp
             // Configure the HTTP request pipeline.
 
             // Add the console logger.
-            loggerfactory
-                .AddConsole(LogLevel.Warning)
-                .AddLASIOutput();
+            //loggerfactory
+            //    .AddConsole(LogLevel.Debug)
+            //    .AddLASIOutput(LogLevel.Debug);
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
@@ -135,66 +209,6 @@ namespace LASI.WebApp
             });
         }
 
-        private void ConfigureFacebookAuthenticationOptions(FacebookAuthenticationOptions options)
-        {
-            options.AppId = Configuration["Authentication:Facebook:AppId"];
-            options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-        }
-        private void ConfigureMicrosoftAccountAuthentication(MicrosoftAccountAuthenticationOptions options)
-        {
-            options.ClientId = Configuration["Authentication:MicrosoftAccount:ClientId"];
-            options.ClientSecret = Configuration["Authentication:MicrosoftAccount:ClientSecret"];
-        }
-        private void ConfigureMvcOptions(MvcOptions options)
-        {
-            var serializerSettings = new JsonSerializerSettings
-            {
-                Error = (s, e) => { throw e.ErrorContext.Error; },
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                NullValueHandling = NullValueHandling.Ignore,
-                //#if DEBUG
-                //                Formatting = Formatting.Indented,
-                //#endif
-                Converters = new[]
-                {
-                    new StringEnumConverter
-                    {
-                        AllowIntegerValues = false,
-                        CamelCaseText = true
-                    }
-                }
-            };
-
-            options.InputFormatters.Select(f => f.Instance).OfType<JsonInputFormatter>().First().SerializerSettings = serializerSettings;
-            options.OutputFormatters.Select(f => f.Instance).OfType<JsonOutputFormatter>().First().SerializerSettings = serializerSettings;
-        }
-        private void ConfigureIdentityOptions(IdentityOptions options)
-        {
-            options.Lockout = new LockoutOptions
-            {
-                EnabledByDefault = true,
-                DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                MaxFailedAccessAttempts = 10
-            };
-            options.User = new UserOptions
-            {
-                RequireUniqueEmail = true
-            };
-            options.SignIn = new SignInOptions
-            {
-                RequireConfirmedEmail = false,
-                RequireConfirmedPhoneNumber = false
-            };
-            options.Password = new PasswordOptions
-            {
-                RequireLowercase = true,
-                RequireUppercase = true,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequiredLength = 8
-            };
-        }
         private void ConfigureLASIComponents(string fileName, string subkey)
         {
             Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceProfile.High);

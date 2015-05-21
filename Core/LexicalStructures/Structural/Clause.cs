@@ -90,7 +90,9 @@ namespace LASI.Core
         /// Gets or sets the numeric Weight of the Phrase over the context of all extant documents.
         /// </summary>
         public double MetaWeight { get; set; }
-
+        /// <summary>
+        /// Gets the components which comprise the <see cref="Clause"/>, an ICompositeLexical&lt;<see cref="Phrase"/>&gt;.
+        /// </summary>
         public IEnumerable<Phrase> Components => Phrases;
 
         /// <summary>

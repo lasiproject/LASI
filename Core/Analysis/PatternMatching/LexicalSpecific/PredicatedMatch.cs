@@ -63,6 +63,9 @@ namespace LASI.Core.Analysis.PatternMatching
         /// invoked, if and only if the predicate has been satisfied and the value being matched
         /// over is of this type.
         /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The Type of the result to be yielded by the Pattern Matching expression. 
+        /// </typeparam>
         /// <param name="f">The Action which, if this Case expression is Matched, will be invoked.</param>
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Accepted ? expression.Yield<TResult>().Case(f) : expression.Yield<TResult>();

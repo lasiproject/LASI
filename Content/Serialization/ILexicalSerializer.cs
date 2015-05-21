@@ -23,7 +23,6 @@ namespace LASI.Content.Serialization
         /// </summary>
         /// <param name="elements">The sequence S&lt;T&gt; containing the values to serialize.</param>
         /// <param name="resultSetTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
-        /// <param name="degreeOfOutput">Controls the level of output detail to which elements will be serialized.</param>
         TResult Serialize(IEnumerable<T> elements, string resultSetTitle);
     }
 }

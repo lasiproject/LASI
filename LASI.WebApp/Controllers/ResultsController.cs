@@ -36,13 +36,6 @@ namespace LASI.WebApp.Controllers
             this.userWorkItemsService = userWorkItemsService;
             this.hostingEnvironment = hostingEnvironment;
         }
-        public async Task<ActionResult> Index()
-        {
-            TrackedJobs.Clear();
-            CurrentOperation = string.Empty;
-            PercentComplete = 0;
-            return await Results();
-        }
         [HttpGet("Results/{documentId}")]
         public async Task<DocumentModel> Get(string documentId)
         {
@@ -59,9 +52,13 @@ namespace LASI.WebApp.Controllers
             return resultModels;
         }
 
-        [HttpGet("Results/Single/{documentId}")]
-        public async Task<PartialViewResult> Single(string documentId) => PartialView("_Single", await Get(documentId));
-
+        public async Task<ActionResult> Index()
+        {
+            TrackedJobs.Clear();
+            CurrentOperation = string.Empty;
+            PercentComplete = 0;
+            return await Results();
+        }
         public async Task<ViewResult> Results()
         {
             var resultModels = await Get();
@@ -72,15 +69,8 @@ namespace LASI.WebApp.Controllers
 
         }
 
-
-        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments) =>
-            from document in await ProcessUserDocuments(userDocuments)
-            let topResultPointsPlot = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
-            let chartData = from chartResult in topResultPointsPlot
-                            select new object[] { chartResult.First, chartResult.Second }
-            select new DocumentModel(document, chartData);
-            //new { Content = document.Text, document.Name, userDocuments.First(d => d.Name == document.Name).Id };
-
+        [HttpGet("Results/Single/{documentId}")]
+        public async Task<PartialViewResult> Single(string documentId) => PartialView("_Single", await Get(documentId));
         private UserDocument[] GetAllUserDocuments()
         {
 
@@ -90,6 +80,13 @@ namespace LASI.WebApp.Controllers
             return files;
         }
 
+        private async Task<IEnumerable<DocumentModel>> LoadResultDocument(params UserDocument[] userDocuments) =>
+            from document in await ProcessUserDocuments(userDocuments)
+            let topResultPointsPlot = NaiveTopResultSelector.GetTopResultsByEntity(document).Take(ChartItemLimit)
+            let chartData = from chartResult in topResultPointsPlot
+                            select new object[] { chartResult.First, chartResult.Second }
+            select new DocumentModel(document, chartData);
+        //new { Content = document.Text, document.Name, userDocuments.First(d => d.Name == document.Name).Id };
         private async Task<IEnumerable<Document>> ProcessUserDocuments(params UserDocument[] userDocuments)
         {
             //processedDocuments = processedDocuments.Clear();
@@ -116,6 +113,7 @@ namespace LASI.WebApp.Controllers
             ProcessedDocuments = ProcessedDocuments.Union(results);
             return results;
         }
+
         #region ProcessUserDocuments Helpers
 
         private static UpdateEventHandler CreateWorkItemUpdateEventHandler(WorkItem workItem) => (sender, e) =>
@@ -152,6 +150,7 @@ namespace LASI.WebApp.Controllers
 
         #endregion
 
+        #region Properties
 
         // These properties should be removed and replaced with a better solution to sharing
         // progress This was a hack to initially test the functionality
@@ -159,17 +158,18 @@ namespace LASI.WebApp.Controllers
 
         public static double PercentComplete { get; internal set; }
 
-        public static JobStatusMap TrackedJobs { get; } = new JobStatusMap();
-        private string ServerPath => System.IO.Directory.GetParent(hostingEnvironment.WebRootPath).FullName;
-
-        private readonly IHostingEnvironment hostingEnvironment;
-        private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
-        private const int ChartItemLimit = 5;
-
         public static IImmutableSet<Document> ProcessedDocuments { get; internal set; } = ImmutableHashSet.Create(ComparerFactory.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
 
+        public static JobStatusMap TrackedJobs { get; } = new JobStatusMap();
+        private string ServerPath => System.IO.Directory.GetParent(hostingEnvironment.WebRootPath).FullName;
+        private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
+        #endregion Properties
 
+        #region Fields
+        private const int ChartItemLimit = 5;
         private readonly IDocumentProvider<UserDocument> documentStore;
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IWorkItemsService userWorkItemsService;
+        #endregion Fields
     }
 }

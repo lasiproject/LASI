@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.WebApp.Models.User;
+
 namespace LASI.WebApp.Models
 {
     using System.Security.Claims;
@@ -103,9 +104,9 @@ namespace LASI.WebApp.Models
         /// </summary>
         public virtual string SecurityStamp { get; set; }
         /// <summary>
-        /// Gets or sets the user's <see cref="Project"/>s.
+        /// Gets or sets the user's <see cref="UserProject"/>s.
         /// </summary>
-        public virtual IEnumerable<Project> Projects { get; set; } = Empty<Project>();
+        public virtual IEnumerable<UserProject> Projects { get; set; } = Empty<UserProject>();
         /// <summary>
         /// Gets or sets the user's <see cref="UserDocument"/>s.
         /// </summary>
@@ -113,7 +114,7 @@ namespace LASI.WebApp.Models
         /// <summary>
         /// Gets or sets the <see cref="Organization"/>s to which the user belongs.
         /// </summary>
-        public virtual IEnumerable<Organization> Organizations { get; set; } = Empty<Organization>();
+        public virtual IEnumerable<Organization.ApplicationOrganization> Organizations { get; set; } = Empty<Organization.ApplicationOrganization>();
         /// <summary>
         /// Gets or sets the user's outstanding <see cref="WorkItem"/>s.
         /// </summary>

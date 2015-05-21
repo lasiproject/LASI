@@ -712,6 +712,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
         /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, TResult>(Func<T1, T2, TResult> pattern)
@@ -731,7 +732,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// </summary>
         /// <typeparam name="T1">The type of the first element in the pattern</typeparam>
         /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
-        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
+        /// <typeparam name="T3">The type of the third element in the pattern</typeparam>     
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> pattern)
@@ -754,6 +756,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T2">The type of the second element in the pattern</typeparam>
         /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
         /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult> pattern)
@@ -778,6 +781,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
         /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
         /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult> pattern)
@@ -802,7 +806,8 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T3">The type of the third element in the pattern</typeparam>
         /// <typeparam name="T4">The type of the fourth element in the pattern</typeparam>
         /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
-        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
+        /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>        
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, TResult> pattern)
@@ -831,6 +836,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T5">The type of the fifth element in the pattern</typeparam>
         /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
         /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, TResult> pattern)
@@ -862,6 +868,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T6">The type of the sixth element in the pattern</typeparam>
         /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
         /// <typeparam name="T8">The type of the eighth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> pattern)
@@ -895,6 +902,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T7">The type of the seventh element in the pattern</typeparam>
         /// <typeparam name="T8">The type of the eighth element in the pattern</typeparam>
         /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> pattern)
@@ -930,6 +938,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T8">The type of the eighth element in the pattern</typeparam>
         /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
         /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> pattern)
@@ -967,6 +976,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T9">The type of the ninth element in the pattern</typeparam>
         /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
         /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> pattern)
@@ -1007,6 +1017,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T10">The type of the tenth element in the pattern</typeparam>
         /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
         /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> pattern)
@@ -1049,6 +1060,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T11">The type of the eleventh element in the pattern</typeparam>
         /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
         /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> pattern)
@@ -1094,6 +1106,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T12">The type of the twelfth element in the pattern</typeparam>
         /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
         /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> pattern)
@@ -1140,6 +1153,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T13">The type of the thirteenth element in the pattern</typeparam>
         /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
         /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> pattern)
@@ -1200,6 +1214,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T14">The type of the fourteenth element in the pattern</typeparam>
         /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
         /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> pattern)
@@ -1250,6 +1265,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T15">The type of the fifteenth element in the pattern</typeparam>
         /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
         /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, TResult> pattern)
@@ -1303,6 +1319,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T16">The type of the sixteenth element in the pattern</typeparam>
         /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
         /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, TResult> pattern)
@@ -1359,6 +1376,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T17">The type of the seventeenth element in the pattern</typeparam>
         /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
         /// <typeparam name="T19">The type of the nineteenth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, TResult> pattern)
@@ -1416,6 +1434,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// <typeparam name="T18">The type of the eighteenth element in the pattern</typeparam>
         /// <typeparam name="T19">The type of the nineteenth element in the pattern</typeparam>
         /// <typeparam name="T20">The type of the twentieth element in the pattern</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="pattern">The binding pattern to apply.</param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
         public SequenceMatch Case<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, TResult> pattern)

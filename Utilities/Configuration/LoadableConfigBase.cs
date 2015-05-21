@@ -11,8 +11,16 @@ using Newtonsoft.Json.Linq;
 
 namespace LASI.Utilities.Configuration
 {
+    /// <summary>
+    /// Base class for configuration objects which can be loaded from a persistent backing store.
+    /// </summary>
     public abstract class LoadableConfigBase
     {
+        /// <summary>
+        /// Reads the contents of the file indicated by the given path returning a single string containing the entire file's contents.
+        /// </summary>
+        /// <param name="filePath">The path of the fle to read.</param>
+        /// <returns></returns>
         protected string ReadConfigDataFromFile(string filePath)
         {
             ValidateFileExistence(filePath);
@@ -32,6 +40,12 @@ namespace LASI.Utilities.Configuration
             }
             return Encoding.GetEncoding(response.ContentEncoding).GetString(EnumerateResponseStreamBytes(response).ToArray());
         }
+        /// <summary>
+        /// Serializes and uploads the config dictionary to the remove location.
+        /// </summary>
+        /// <param name="uri">The location to upload.</param>
+        /// <param name="contentType">The content type of to upload the serialized data as.</param>
+        /// <param name="content">The collection of key value pairs to upload</param>
         protected void UploadRemoteConfigData(Uri uri, System.Net.Mime.ContentType contentType, IDictionary<string, string> content)
         {
             var request = WebRequest.CreateHttp(uri);

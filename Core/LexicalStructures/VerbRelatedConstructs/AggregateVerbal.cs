@@ -55,7 +55,10 @@ namespace LASI.Core
         public void BindIndirectObject(IEntity indirectObject) => indirectObjects = indirectObjects.Add(indirectObject);
 
         public void BindSubject(IEntity subject) => subjects = subjects.Add(subject);
-
+        /// <summary>
+        /// Gets an enumerator which enumerates the <see cref="AggregateVerbal"/>.
+        /// </summary>
+        /// <returns>An enumerator which enumerates the <see cref="AggregateVerbal"/>.</returns>
         public IEnumerator<IVerbal> GetEnumerator() => constituents.GetEnumerator();
 
         public void ModifyWith(IAdverbial modifier) => adverbialModifiers = adverbialModifiers.Add(modifier);
@@ -73,7 +76,9 @@ namespace LASI.Core
         /// Gets the aggregate of all Direct objects of the AggregateVerbal.
         /// </summary>
         public IAggregateEntity AggregateDirectObject => FlattenAbout(v => v.DirectObjects).ToAggregate();
-
+        /// <summary>
+        /// Gets the aggregate of all Indirect objects of the AggregateVerbal.
+        /// </summary>
         public IAggregateEntity AggregateIndirectObject => FlattenAbout(v => v.IndirectObjects).ToAggregate();
 
         /// <summary>
@@ -102,12 +107,23 @@ namespace LASI.Core
         /// Gets all of the Indirect objects of the AggregateVerbal.
         /// </summary>
         public IEnumerable<IEntity> IndirectObjects => FlattenAbout(v => v.IndirectObjects).Union(indirectObjects);
-
+        /// <summary>
+        /// Gets a value indicating if the <see cref="AggregateVerbal"/> is a classifier.
+        /// </summary>
         public bool IsClassifier => this.All(e => e.IsClassifier);
-
+        /// <summary>
+        /// Gets a value indicating if the <see cref="AggregateVerbal"/> is possessive.
+        /// </summary>
         public bool IsPossessive => this.All(e => e.IsPossessive);
-
+        /// <summary>
+        /// Gets the meta-weight of the <see cref="AggregateVerbal"/>
+        /// </summary>
         public double MetaWeight { get; set; }
+
+        /// <summary>
+        /// Gets the weight of the <see cref="AggregateVerbal"/>
+        /// </summary>
+        public double Weight { get; set; }
 
         public ModalAuxilary Modality
         {
@@ -125,13 +141,19 @@ namespace LASI.Core
 
         public IPrepositional PrepositionalToObject { get { throw new NotImplementedException(); } }
 
+        /// <summary>
+        /// Gets or sets the subject complement of the <see cref="AggregateVerbal"/>
+        /// </summary>
         public ILexical SubjectComplement { get; set; }
-
+        /// <summary>
+        /// Gets the subjects of the <see cref="AggregateVerbal"/>
+        /// </summary>
         public IEnumerable<IEntity> Subjects => FlattenAbout(member => member.Subjects).Union(subjects);
-
+        /// <summary>
+        /// Gets the text of the <see cref="AggregateVerbal"/>
+        /// </summary>
         public string Text => string.Join(", ", this.Select(c => c.Text));
 
-        public double Weight { get; set; }
 
         #region Fields
 

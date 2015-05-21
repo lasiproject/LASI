@@ -22,7 +22,7 @@ namespace LASI.Core
         {
             if (ending != '.' && ending != '!' && ending != '?')
             {
-                throw new ArgumentException(string.Format("A sentence cannot end with the character {0}", ending));
+                throw new ArgumentException($"A sentence cannot end with the character {ending}");
             }
         }
         /// <summary>

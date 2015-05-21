@@ -8,7 +8,7 @@ namespace LASI.Interop
     /// <summary>
     /// The event data which is accessible to a function which handles a memory threshold exceeded event.
     /// </summary>
-    /// <see cref="ResourceManagement.UsageManager">Provides access to memory usage events</see> 
+    /// <seealso cref="ResourceManagement.ResourceUsageManager">Provides access to memory usage events</seealso> 
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
     public class MemoryThresholdExceededEventArgs : EventArgs

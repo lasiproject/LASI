@@ -8,7 +8,7 @@ namespace LASI.Core
     /// <summary>
     /// Contains values corresponding to distinct genders.
     /// </summary> 
-    /// <seealso cref="PronounKind">Defines the various kinds of Personal Pronouns.</see>
+    /// <seealso cref="PronounKind">Defines the various kinds of Personal Pronouns.</seealso>
     /// <seealso cref="EntityKind">Defines the various kinds of Entities.</seealso>
     public enum Gender : byte
     {

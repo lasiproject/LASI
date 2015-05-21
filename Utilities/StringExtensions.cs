@@ -115,7 +115,11 @@ namespace LASI.Utilities
         /// <returns><c>true</c> if the given strings are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>Implemented using an Ordinal Case Insensitive Comparison.</remarks>
         public static bool EqualsIgnoreCase(this string value, string other) => string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
-
+        /// <summary>
+        /// Returns a new string in which any adjacent spaces have been collapsed into a single space.
+        /// </summary>
+        /// <param name="value">The string to transform.</param>
+        /// <returns>a new string in which any adjacent spaces have been collapsed into a single space.</returns>
         public static string CollapseSpaces(this string value) => string.Join(" ", value.SplitRemoveEmpty(' ', '\t').Select(s => s.Trim()));
 
         /// <summary>
@@ -130,6 +134,12 @@ namespace LASI.Utilities
                     builder.Append(' ').Append(c) :
                     builder.Append(c)
             ).ToString() ?? "";
+
+        /// <summary>
+        /// Combines a sequence of strings into a file system path.
+        /// </summary>
+        /// <param name="pathSegements">The sequence of strings to combine.</param>
+        /// <returns>A file system path formed from the sequence of strings.</returns>
         public static string ToPath(this IEnumerable<string> pathSegements) => System.IO.Path.Combine(pathSegements.ToArray());
     }
 }

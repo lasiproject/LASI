@@ -6,6 +6,9 @@ namespace LASI.Utilities.Configuration.Mutable
 {
     using System.Collections.Generic;
     using JObject = Newtonsoft.Json.Linq.JObject;
+    /// <summary>
+    /// A configuration object defined by the JSON standard.
+    /// </summary>
     public class JsonConfig : MutableConfigBase, IMutableConfig
     {
         private readonly  IDictionary<string, string> data;
@@ -39,12 +42,11 @@ namespace LASI.Utilities.Configuration.Mutable
         }
 
         private IDictionary<string, string> MakeDictionary(JObject configSource) => configSource.Properties().ToDictionary(e => e.Name, e => (string)e.Value);
-
-        public override void Persist()
-        {
-            throw new NotImplementedException();
-        }
-
+         
+        /// <summary>
+        /// Gets or sets the config value with the given name.
+        /// </summary>
+        /// <param name="name">The name of the value.</param>
         public override string this[string name]
         {
             get { return data[name]; }

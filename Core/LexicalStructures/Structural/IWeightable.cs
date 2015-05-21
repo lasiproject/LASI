@@ -1,5 +1,8 @@
 ﻿namespace LASI.Core
 {
+    /// <summary>
+    /// Defines an element which can be assigned arbitrary numeric weights.
+    /// </summary>
     public interface IWeightable
     {
         /// <summary>

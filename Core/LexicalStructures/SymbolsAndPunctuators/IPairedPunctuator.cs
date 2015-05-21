@@ -13,7 +13,7 @@ namespace LASI.Core
     /// IPairedPunctuator&lt;TPunctuator&gt; interface.</typeparam>
     /// <remarks>Because The Type Parameter, TPunctuator is invariant and must itself implement IPairedPunctuator&lt;TPunctuator&gt; this interface defines a reflexive, recursive Type.
     /// </remarks>
-    /// <seealso cref="DoubleQuote">An useful, and illustrative implementation.</see>
+    /// <seealso cref="DoubleQuote">An useful, and illustrative implementation.</seealso>
     /// <seealso cref="SingleQuote">An useful, and illustrative implementation.</seealso>
     public interface IPairedPunctuator<TPunctuator> where TPunctuator : IPairedPunctuator<TPunctuator>
     {

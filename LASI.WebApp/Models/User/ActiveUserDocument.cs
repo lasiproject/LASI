@@ -18,7 +18,7 @@ namespace LASI.WebApp.Models.User
         /// Gets the progress, represented as the percentage of completion of the <see cref="ActiveUserDocument"/>.
         /// </summary>
         [BsonIgnore]
-        public double Progress { get; private set; }
+        public double Progress { get; }
         public static ActiveUserDocument FromUserDocument(UserDocument document) => new ActiveUserDocument
         {
             Content = document.Content,

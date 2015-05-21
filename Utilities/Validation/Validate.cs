@@ -355,9 +355,9 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <param name="name">The name of the argument which caused the exception.</param>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithArgumentNullException(string argumentName, string message)
+        private static void FailWithArgumentNullException(string name, string message)
         {
-            throw new ArgumentNullException(argumentName, message);
+            throw new ArgumentNullException(name, message);
         }
         /// <summary>
         /// Throws an <see cref="ArgumentException"/>.

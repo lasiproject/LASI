@@ -10,8 +10,8 @@
         /// <summary>
         /// Sets the maximum allowed Concurrency level based on the supplied ResourceUsageMode.
         /// </summary>
-        /// <param name = "mode">
-        /// The ResourceUsageMode value from which to determine concurrency settings.
+        /// <param name = "profile">
+        /// The <see cref="PerformanceProfile"/> value from which to determine concurrency settings.
         /// </param>
         public static void SetByPerformanceMode(PerformanceProfile profile)
         {

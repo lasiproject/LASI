@@ -13,7 +13,9 @@ namespace LASI.Interop
     using Validate = Utilities.Validation.Validate;
     using XElement = System.Xml.Linq.XElement;
     using XmlConfig = Utilities.Configuration.XmlConfig;
-
+    /// <summary>
+    /// Provides clients with the ability to configure LASI analytical components.
+    /// </summary>
     public static class Configuration
     {
         /// <summary>
@@ -64,6 +66,9 @@ namespace LASI.Interop
         /// <param name="stream">
         /// A stream containing a JSON or XML document holding the desired configuration information.
         /// </param>
+        /// <param name="format">
+        /// Specifies the format of the document containing the configuration information.
+        /// </param>
         public static void Initialize(System.IO.Stream stream, ConfigFormat format) => Initialize(stream, format, null);
 
         /// <summary>
@@ -72,6 +77,9 @@ namespace LASI.Interop
         /// </summary>
         /// <param name="stream">
         /// A stream containing a JSON or XML document holding the desired configuration information.
+        /// </param>
+        /// <param name="format">
+        /// Specifies the format of the document containing the configuration information.
         /// </param>
         /// <param name="subkey">
         /// Specifies the format of the stream containing the configuration information. Specifies
@@ -117,10 +125,18 @@ namespace LASI.Interop
         private static bool configured;
         private static readonly object initializationLock = new object();
     }
-
+    /// <summary>
+    /// Defines the valid formats for configuration sources.
+    /// </summary>
     public enum ConfigFormat
     {
+        /// <summary>
+        /// JSON
+        /// </summary>
         Json,
+        /// <summary>
+        /// XML
+        /// </summary>
         Xml
     }
 }

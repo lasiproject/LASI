@@ -4,11 +4,11 @@
     interface IDocument extends ng.IDirective {
     }
 
-    interface IDocumenScope extends ng.IScope {
+    interface IDocumentScope extends ng.IScope {
         document: IDocumentModel
     }
 
-    interface IDocumenAttributes extends ng.IAttributes {
+    interface IDocumentAttributes extends ng.IAttributes {
         document: IDocumentModel
     }
 
@@ -19,10 +19,12 @@
             templateUrl: '/app/widgets/document-list-app/interactive-representations/document.html',
             link: link,
             replace: true,
-            scope: { document: '=' }
-        }
+            scope: {
+                document: '='
+            }
+        };
 
-        function link(scope: IDocumenScope, element: ng.IAugmentedJQuery, attrs: IDocumenAttributes) {
+        function link(scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
 
         }
     }

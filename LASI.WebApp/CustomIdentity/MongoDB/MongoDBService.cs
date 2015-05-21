@@ -37,7 +37,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         {
             try
             {
-                var name = config.CollectionNamesByType[typeof(TDocument)];
+                var name = config[typeof(TDocument)];
                 return GetDatabase().GetCollection<TDocument>(name);
             }
             catch (MongoConnectionException e) when (e.InnerException is SocketException)

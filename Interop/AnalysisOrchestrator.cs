@@ -105,14 +105,14 @@ namespace LASI.Interop
             foreach (var bindingTask in document.GetBindingTasks())
             {
                 Progress(bindingTask.InitializationMessage, 0);
-                await bindingTask.Task;
+                await bindingTask;
                 Progress(bindingTask.CompletionMessage, bindingTask.PercentCompleted * 0.71 / sourceCount);
             }
             Progress($"{name}: Correlating Relationships...", 0);
             foreach (var task in document.GetWeightingTasks())
             {
                 Progress(task.InitializationMessage, 1 / sourceCount);
-                await task.Task;
+                await task;
                 Progress(task.CompletionMessage, task.PercentCompleted * 0.59 / sourceCount);
             }
             Progress($"{name}: Coalescing Results...", stepMagnitude);

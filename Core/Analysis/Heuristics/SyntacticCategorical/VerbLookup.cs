@@ -47,9 +47,9 @@ namespace LASI.Core.Heuristics.WordNet
             {
                 var set = CreateSet(indexed.Item1);
                 LinkSynset(set);
-                if (indexed.Item2 % PROGRESS_MODULUS == 0)
+                if (indexed.Item2 % ProgressModulus == 0)
                 {
-                    OnReport(new EventArgs(string.Format(PROGRESS_FORMAT, indexed.Item2), PROGRESS_AMOUNT));
+                    OnReport(new EventArgs(string.Format(ProgressFormat, indexed.Item2), ProgressAmmount));
                 }
             }
             OnReport(new EventArgs("Mapped Verb Sets", 1));
@@ -139,9 +139,9 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// A report will be propagated for every 1 in 138 sets roughly 100 updates will take place.
         /// </summary>
-        private const int PROGRESS_MODULUS = 138;
-        private const double PROGRESS_AMOUNT = 100 / (100d * PROGRESS_MODULUS);
-        private const string PROGRESS_FORMAT = "Mapping Verb Set {0} / 13766";
+        private const int ProgressModulus = 138;
+        private const double ProgressAmmount = 100 / (100d * ProgressModulus);
+        private const string ProgressFormat = "Mapping Verb Set {0} / 13766";
 
         private string filePath;
         private ConcurrentDictionary<int, VerbSynSet> setsById = new ConcurrentDictionary<int, VerbSynSet>(

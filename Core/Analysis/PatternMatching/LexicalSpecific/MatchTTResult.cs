@@ -263,8 +263,6 @@ namespace LASI.Core.Analysis.PatternMatching
             return this;
         }
 
-        public Match<T, TResult> Case<TPattern>(Func<TPattern, TResult> func, bool when) where TPattern : class, ILexical => When(when).Then(func);
-
         /// <summary>
         /// Appends a Case of Type expression to the current PatternMatching Expression.
         /// </summary>

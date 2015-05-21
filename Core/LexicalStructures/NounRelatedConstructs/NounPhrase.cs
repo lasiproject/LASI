@@ -21,7 +21,8 @@ namespace LASI.Core
         /// <param name="words">The words which compose to form the NounPhrase.</param>
         public NounPhrase(IEnumerable<Word> words) : base(words)
         {
-            EntityKind = words.OfEntity()
+            EntityKind = words
+                .OfEntity()
                 .Select(e => e.EntityKind)
                 .DefaultIfEmpty()
                 .GroupBy(e => e)
@@ -83,14 +84,14 @@ namespace LASI.Core
             var aliases = this.GetDefinedAliases();
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
-                this.Possessions.Any() ? "\nPossessions: " + this.Possessions.Format(p => p.Text + '\n') : empty,
-                this.Possesser != null ? "\nPossessed By: " + this.Possesser.Text : empty,
-                this.OuterAttributive != null ? "\nDefinedby: " + this.OuterAttributive.Text : empty,
-                this.InnerAttributive != null ? "\nDefines: " + this.InnerAttributive.Text : empty,
+                Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
+                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
+                OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
+                InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
-                this.SubjectOf != null ? "\nSubject Of: " + this.SubjectOf.Text : empty,
-                this.DirectObjectOf != null ? "\nDirect Object Of: " + this.DirectObjectOf.Text : empty,
-                this.IndirectObjectOf != null ? "\nIndirect Object Of: " + this.IndirectObjectOf.Text : empty,
+                SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : empty,
+                DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : empty,
+                IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
                 gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
 
@@ -201,7 +202,7 @@ namespace LASI.Core
             }
         }
 
-        public virtual IEnumerable<Noun> RoleWords => roleComponents ?? (roleComponents = Words.OfNoun());
+        public virtual IEnumerable<Noun> RoleComponents => roleComponents ?? (roleComponents = Words.OfNoun());
         #endregion
 
         #region Fields

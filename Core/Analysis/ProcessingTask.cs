@@ -54,7 +54,19 @@ namespace LASI.Core
             completionMessage,
             percentWorkRepresented)
         { }
-
+        /// <summary>
+        /// Gets an awaiter used to await the underlying <see cref="System.Threading.Tasks.Task"/>.
+        /// </summary>
+        /// <returns>An awaiter instance.</returns>
+        public System.Runtime.CompilerServices.TaskAwaiter GetAwaiter() => this.Task.GetAwaiter();
+        /// <summary>
+        ///  Releases all resources used by the current instance of the underlying <see cref="System.Threading.Tasks.Task"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// The exception that is thrown if the System.Threading.Tasks.Task is not in one
+        /// of the final states: <see cref="TaskStatus.RanToCompletion"/>, <see cref="TaskStatus.Faulted"/>,
+        /// or <see cref="TaskStatus.Canceled"/>.
+        /// </exception>
         public void Dispose()
         {
             ((IDisposable)this.Task).Dispose();

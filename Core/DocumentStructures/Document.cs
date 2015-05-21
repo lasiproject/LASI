@@ -146,15 +146,16 @@ namespace LASI.Core
         /// Returns all of lexical constructs in the document, including all words, phrases, and clauses.
         /// </summary>
         /// <returns>All of lexical constructs in the document, including all words, phrases, and clauses.</returns>
-        public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = EnumerateAllLexicals().ToList());
-        private IEnumerable<ILexical> EnumerateAllLexicals()
+        public IEnumerable<ILexical> Lexicals => lexicals ?? (lexicals = LexicalConstituentEnumerator.ToList());
+        private IEnumerable<ILexical> LexicalConstituentEnumerator =>
+            ListConsituent(words).Concat(ListConsituent(phrases)).Concat(ListConsituent(clauses.ToList()));
+
+        private IEnumerable<ILexical> ListConsituent(IReadOnlyList<ILexical> constituentList)
         {
-            foreach (var lexical in words)
-                yield return lexical;
-            foreach (var lexical in phrases)
-                yield return lexical;
-            foreach (var lexical in Clauses)
-                yield return lexical;
+            for (var i = 0; i < constituentList.Count; ++i)
+            {
+                yield return constituentList[i];
+            }
         }
 
         #endregion Methods
@@ -205,6 +206,8 @@ namespace LASI.Core
 
         private List<Phrase> phrases;
 
+        private List<Clause> clauses;
+
         private List<ILexical> lexicals;
 
         private List<Sentence> sentences;
@@ -237,11 +240,10 @@ namespace LASI.Core
             /// <summary>
             /// Gets the Paragraphs which comprise the Page.
             /// </summary>
-            public IEnumerable<Paragraph> Paragraphs =>
-                from sentence in Sentences.DistinctBy(s => s.Paragraph)
-                let rank = Document.paragraphs.IndexOf(sentence.Paragraph)
-                orderby rank
-                select sentence.Paragraph;
+            public IEnumerable<Paragraph> Paragraphs => from sentence in Sentences.DistinctBy(s => s.Paragraph)
+                                                        let rank = Document.paragraphs.IndexOf(sentence.Paragraph)
+                                                        orderby rank
+                                                        select sentence.Paragraph;
 
             /// <summary>
             /// Returns a string representation of the <see cref="Page"/>.
@@ -310,9 +312,9 @@ namespace LASI.Core
             private static void AssignMembers(Document document)
             {
                 document.sentences = document.paragraphs
-                    .Sentences()
-                    .Where(sentence => sentence.Words.OfVerb().Any())
+                    .Sentences().Where(s => s.Words.OfVerb().Any())
                     .ToList();
+                document.clauses = document.sentences.Clauses().ToList();
                 document.phrases = document.sentences.Phrases()
                     .ToList();
                 document.words = document.sentences

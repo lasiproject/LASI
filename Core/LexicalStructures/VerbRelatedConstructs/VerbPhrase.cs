@@ -25,7 +25,7 @@ namespace LASI.Core
                                        let count = byform.Count()
                                        let name = byform.Key
                                        select new { Name = name, Count = count };
-            prevailingForm = constituentVerbForms
+            PrevailingForm = constituentVerbForms
                 .DefaultIfEmpty(new { Name = "Undetermined", Count = 1 })
                 .MaxBy(form => form.Count).Name;
 
@@ -139,19 +139,20 @@ namespace LASI.Core
         public override string ToString()
         {
             var empty = string.Empty;
-            return !VerboseOutput ? base.ToString() :
-            string.Join("\n", base.ToString(),
-                Subjects.Any() ? $"Subjects: {Subjects.Format(s => s.Text)}" : empty,
-                SubjectComplement != null ? $"\nAttached Subject Complement{SubjectComplement.Text}" : empty,
-                DirectObjects.Any() ? $"Direct Objects: {DirectObjects.Format(o => o.Text)}" : empty,
-                IndirectObjects.Any() ? $"Indirect Objects: {IndirectObjects.Format(o => o.Text)}" : empty,
-                ObjectOfThePreposition != null ? $"Via Preposition Object: {ObjectOfThePreposition.Text}" : empty,
-                Modality != null ? $"Modality: {Modality.Text}" : empty,
-                AdverbialModifiers.Any() ? $"Modifiers: {AdverbialModifiers.Format(m => m.Text)}" : empty,
-                $"\nPossessive: [{(IsPossessive ? "Yes" : "No")}]",
-                $"\nClassifier: [{(IsClassifier ? "Yes" : "No")}]",
-                $"\nPrevailing Form: [{prevailingForm.SpaceByCase().RemoveSubstrings(StringComparison.OrdinalIgnoreCase, "Verb").Trim()}]"
-            );
+            return !VerboseOutput ?
+                base.ToString() :
+                string.Join("\n", base.ToString(),
+                    Subjects.Any() ? $"Subjects: {Subjects.Format(s => s.Text)}" : empty,
+                    SubjectComplement != null ? $"\nAttached Subject Complement{SubjectComplement.Text}" : empty,
+                    DirectObjects.Any() ? $"Direct Objects: {DirectObjects.Format(o => o.Text)}" : empty,
+                    IndirectObjects.Any() ? $"Indirect Objects: {IndirectObjects.Format(o => o.Text)}" : empty,
+                    ObjectOfThePreposition != null ? $"Via Preposition Object: {ObjectOfThePreposition.Text}" : empty,
+                    Modality != null ? $"Modality: {Modality.Text}" : empty,
+                    AdverbialModifiers.Any() ? $"Modifiers: {AdverbialModifiers.Format(m => m.Text)}" : empty,
+                    $"\nPossessive: [{(IsPossessive ? "Yes" : "No")}]",
+                    $"\nClassifier: [{(IsClassifier ? "Yes" : "No")}]",
+                    $"\nPrevailing Form: [{PrevailingForm.SpaceByCase().RemoveSubstrings(StringComparison.OrdinalIgnoreCase, "Verb").Trim()}]"
+                );
         }
 
         /// <summary>
@@ -207,7 +208,7 @@ namespace LASI.Core
                 foreach (var described in Subjects) { described.BindDescriptor(value); }
             }
         }
-        public virtual IEnumerable<Verb> RoleWords => Words.OfVerb();
+        public virtual IEnumerable<Verb> RoleComponents => Words.OfVerb();
 
         /// <summary>
         /// Gets or sets the ModalAuxilary word which modifies the VerbPhrase.
@@ -251,7 +252,13 @@ namespace LASI.Core
         public IPrepositional PrepositionalToObject { get; protected set; }
         /// <summary>Gets all of the Direct and Indirect objects of the VerbPhrase.</summary>
         public IEnumerable<IEntity> DirectAndIndirectObjects => DirectObjects.Concat(IndirectObjects);
-        public string prevailingForm { get; }
+        /// <summary>
+        /// Gets the string representation of the <see cref="VerbPhrase"/>'s prevalent form.
+        /// </summary>
+        public string PrevailingForm { get; }
+        /// <summary>
+        /// Gets or sets the subject complement of the <see cref="VerbPhrase"/>.
+        /// </summary>
         public ILexical SubjectComplement { get; set; }
 
         #endregion Properties

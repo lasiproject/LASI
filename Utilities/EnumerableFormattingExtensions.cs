@@ -6,6 +6,9 @@ using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
 {
+    /// <summary>
+    /// Provides extension methods which assist in formatting <see cref="IEnumerable{T}"/>s for textual display.
+    /// </summary>
     public static class EnumerableFormattingExtensions
     {
         /// <summary>

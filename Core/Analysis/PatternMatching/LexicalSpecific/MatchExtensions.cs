@@ -139,7 +139,23 @@ namespace LASI.Core
             where TValue : class, ILexical
             where TCase : class, ILexical
             where TResult : TRBase => Match<TValue, TResult>.FromLowerToHigherResultType<TRBase, TResult>(match).Case(func);
-
+        /// <summary>
+        /// This externalized Case expression function allows for some slight additional flexibility.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <typeparam name="TResultEnumerable">The result type of the pattern function.</typeparam>
+        /// <param name="match">The match expression to which to append the Case clause.</param>
+        /// <param name="func">The function which describes the case.</param>
+        /// <returns>A match expression which now yields</returns>
+        /// <remarks>
+        /// This externalized Case expression function allows for some slight additional
+        /// flexibility. Specifically it allows a Match&lt;T<see cref="System.Collections.Generic.IEnumerable{T}"/>&gt; expression to be
+        /// transformed into one where element type of the resulting enumerable is less derived in the case where a cause clause
+        /// yields a result which is a of a base type of TResult. This will transform the match into
+        /// a more general form which yields a <see cref="IEnumerator{TBase}"/>.
+        /// </remarks>
         public static Match<TValue, IEnumerable<TResult>> Case<TValue, TCase, TResultEnumerable, TResult>(this Match<TValue, TResultEnumerable> match, Func<TCase, IEnumerable<TResult>> func)
                    where TResultEnumerable : IEnumerable<TResult>
                    where TValue : class, ILexical
@@ -155,29 +171,91 @@ namespace LASI.Core
         /// specified ILexical value.
         /// </returns>
         public static Match<TValue> Match<TValue>(this TValue value) where TValue : class, ILexical => new Match<TValue>(value);
-
+        /// <summary>
+        /// Matches a value against a single case and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="pattern">The single pattern case to try.</param>
+        /// <returns>The result of matching the value against the specified pattern.</returns>
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TCase, TResult> pattern)
             where TValue : class, ILexical
             where TCase : class, ILexical => value.Match().Case(pattern).Result();
-
+        /// <summary>
+        /// Matches a value against two case patterns and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="T1">The type of the first Case pattern.</typeparam>
+        /// <typeparam name="T2">The type of the second Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="p1">The first pattern case to try.</param>
+        /// <param name="p2">The second pattern case to try.</param>
+        /// <returns>The result of matching the value against the two specified patterns.</returns>
         public static TResult Match<TValue, T1, T2, TResult>(this TValue value, Func<T1, TResult> p1, Func<T2, TResult> p2)
             where TValue : class, ILexical
             where T1 : class, ILexical
             where T2 : class, ILexical => value.Match().Case(p1).Case(p2).Result();
-
+        /// <summary>
+        /// Matches a value against three case patterns and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="T1">The type of the first Case pattern.</typeparam>
+        /// <typeparam name="T2">The type of the second Case pattern.</typeparam>
+        /// <typeparam name="T3">The type of the third Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="p1">The first pattern case to try.</param>
+        /// <param name="p2">The second pattern case to try.</param>
+        /// <param name="p3">The third pattern case to try.</param>
+        /// <returns>The result of matching the value against the three specified patterns.</returns>
         public static TResult Match<TValue, T1, T2, T3, TResult>(this TValue value, Func<T1, TResult> p1, Func<T2, TResult> p2, Func<T3, TResult> p3)
             where TValue : class, ILexical
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical => value.Match().Case(p1).Case(p2).Case(p3).Result();
+        /// <summary>
+        /// Matches a value against four case patterns and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="T1">The type of the first Case pattern.</typeparam>
+        /// <typeparam name="T2">The type of the second Case pattern.</typeparam>
+        /// <typeparam name="T3">The type of the third Case pattern.</typeparam>
+        /// <typeparam name="T4">The type of the fourth Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="p1">The first pattern case to try.</param>
+        /// <param name="p2">The second pattern case to try.</param>
+        /// <param name="p3">The third pattern case to try.</param>
+        /// <param name="p4">The fourth pattern case to try.</param>
+        /// <returns>The result of matching the value against the four specified patterns.</returns>
         public static TResult Match<TValue, T1, T2, T3, T4, TResult>(this TValue value, Func<T1, TResult> p1, Func<T2, TResult> p2, Func<T3, TResult> p3, Func<T4, TResult> p4)
             where TValue : class, ILexical
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical
             where T4 : class, ILexical => value.Match().Case(p1).Case(p2).Case(p3).Case(p4).Result();
+        /// <summary>
+        /// Matches a value against five case patterns and immediately returns the result.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
+        /// <typeparam name="T1">The type of the first Case pattern.</typeparam>
+        /// <typeparam name="T2">The type of the second Case pattern.</typeparam>
+        /// <typeparam name="T3">The type of the third Case pattern.</typeparam>
+        /// <typeparam name="T4">The type of the fourth Case pattern.</typeparam>
+        /// <typeparam name="T5">The type of the fifth Case pattern.</typeparam>
+        /// <typeparam name="TResult">The result type of the match expression.</typeparam>
+        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="p1">The first pattern case to try.</param>
+        /// <param name="p2">The second pattern case to try.</param>
+        /// <param name="p3">The third pattern case to try.</param>
+        /// <param name="p4">The fourth pattern case to try.</param>
+        /// <param name="p5">The fifth pattern case to try.</param>
+        /// <returns>The result of matching the value against the five specified patterns.</returns>
         public static TResult Match<TValue, T1, T2, T3, T4, T5, TResult>(this TValue value, Func<T1, TResult> p1, Func<T2, TResult> p2, Func<T3, TResult> p3, Func<T4, TResult> p4, Func<T5, TResult> p5)
-            where TValue : class, ILexical
+        where TValue : class, ILexical
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical

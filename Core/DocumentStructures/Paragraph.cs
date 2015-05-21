@@ -24,7 +24,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="kind">Indicates the kind of Paragraph.</param>
         /// <param name="first">The first sentence of the Paragraph</param>
-        /// <param name="sentences">The rest of sentences which comprise the Paragraph.</param>
+        /// <param name="rest">The rest of sentences which comprise the Paragraph.</param>
         public Paragraph(ParagraphKind kind, Sentence first, params Sentence[] rest) : this(kind, rest.Prepend(first)) { }
 
         /// <summary>

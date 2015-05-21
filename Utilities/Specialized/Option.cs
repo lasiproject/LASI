@@ -247,10 +247,10 @@ namespace LASI.Utilities.Specialized.Option
         /// </summary>
         /// <param name="option">The option undergoing the conversion.</param>
         public static implicit operator Option<Option<T>>(Option<T> option) => option.ToOption();
-        ///// <summary>
-        ///// Defines an implicit conversion from an <see cref="Option{T}"/> to an Option&lt;<see cref="Option{T}"/>Option&gt;.
-        ///// </summary>
-        ///// <param name="option">The option undergoing the conversion.</param>
+        /// <summary>
+        /// Defines an implicit conversion from an <see cref="Option{T}"/> to an Option&lt;<see cref="Option{T}"/>Option&gt;.
+        /// </summary>
+        /// <param name="option">The option undergoing the conversion.</param>
         public static implicit operator Option<T>(Option<Option<T>> option) => option.Value;
 
         /// <summary>Defines <see cref="Option{T}"/> s that do not have a value.</summary>

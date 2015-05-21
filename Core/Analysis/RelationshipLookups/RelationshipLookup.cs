@@ -18,6 +18,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="domain">The sequence of TVerbal instances which provide the relevant relationships.</param>
         /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>
         /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
+        /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>
         public RelationshipLookup(IEnumerable<TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
         {
             verbalRelationshipDomain = domain.WithSubject().WithObject();

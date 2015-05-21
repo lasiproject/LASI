@@ -16,7 +16,6 @@
         /// </summary>
         /// <param name="source">The sequence of ILexical instances to serialize into a single XElement .</param>
         /// <param name="parentElementTitle">The desired name for the resulting XElement .</param>
-        /// <param name="degreeOfOutput">The DegreeOfOutput value specifying the per element amount of detail the serialization will retain.</param>
         /// <returns>A single XElement  containing the serialized representation of the given sequence of elements.</returns>
         public XElement Serialize(IEnumerable<Core.ILexical> source, string parentElementTitle) =>
             new XElement("Root",

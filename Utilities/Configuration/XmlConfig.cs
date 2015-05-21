@@ -34,7 +34,7 @@ namespace LASI.Utilities.Configuration
             data = MakeDictionary(xElement);
         }
         /// <summary>
-        /// Initializes a new instance of the XmlConfig class from the specified <see cref="xElement"/>.
+        /// Initializes a new instance of the XmlConfig class from the specified <see cref="XElement"/>.
         /// </summary>
         /// <param name="xElement">The XElement from which to construct the XmlConfig instance.</param>
         public XmlConfig(XElement xElement)
@@ -42,11 +42,10 @@ namespace LASI.Utilities.Configuration
             data = MakeDictionary(xElement);
         }
         /// <summary>
-        /// Gets the value with the specified name, matching based on the specified <see cref="System.StringComparison" />.
+        /// Gets the value with the specified name.
         /// </summary>
         /// <param name="name">The name of the value to retrieve.</param>
-        /// <param name="stringComparison">The string comparison to use for matching the name.</param>
-        /// <returns>The value with the specified name, in the context of the <see cref="System.StringComparison" />.</returns>
+        /// <returns>The value with the specified name.</returns>
         public override string this[string name] => data.GetValueOrDefault(name);
 
     }

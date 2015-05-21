@@ -271,7 +271,11 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
             continuationMode = mode;
             return this;
         }
-
+        /// <summary>
+        /// Appends a log action to the <see cref="SequenceMatch"/>.
+        /// </summary>
+        /// <param name="log">The log action.</param>
+        /// <returns>The <see cref="SequenceMatch"/>.</returns>
         public SequenceMatch AddLogger(Action<object> log)
         {
             this.log += message => log(message);

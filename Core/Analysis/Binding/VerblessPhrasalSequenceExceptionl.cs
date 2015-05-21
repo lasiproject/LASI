@@ -14,6 +14,9 @@ namespace LASI.Core.Analysis.Binding
     [Serializable]
     public class VerblessPhrasalSequenceException : Exception
     {
+        /// <summary>
+        /// Gets the verbless sequence which caused the exception. 
+        /// </summary>
         public IEnumerable<ILexical> Sequence { get; }
 
         /// <summary>
@@ -29,9 +32,17 @@ namespace LASI.Core.Analysis.Binding
         /// Initializes a new instance of the VerblessPhrasalSequenceException with the problematic sequence and a message indicating that the sequence contained no Verb Phrases.
         /// </summary>
         public VerblessPhrasalSequenceException(IEnumerable<Phrase> sequence, string message) : base(message) { Sequence = sequence; }
-
+        /// <summary>
+        /// Do not use this constructor
+        /// </summary>
+        /// <param name="message">Do not use this constructor.</param>
         [Obsolete("Do not instantiate with this constructor.\nPlease use: new VerblessPhrasalSequenceException(IEnumerable<Phrase>)", true)]
         public VerblessPhrasalSequenceException(string message) : base(message) { }
+        /// <summary>
+        /// Do not use this constructor.
+        /// </summary>
+        /// <param name="message">Do not use this constructor.</param>  
+        /// <param name="innerException">Do not use this constructor.</param>  
         [Obsolete("Do not instantiate with this constructor.\nPlease use: new VerblessPhrasalSequenceException(IEnumerable<Phrase>)", true)]
         public VerblessPhrasalSequenceException(string message, Exception innerException) : base(message, innerException) { }
 
@@ -48,6 +59,12 @@ namespace LASI.Core.Analysis.Binding
         {
             Sequence = (IEnumerable<ILexical>)info.GetValue(nameof(Sequence), typeof(IEnumerable<ILexical>));
         }
+        /// <summary>
+        /// Sets the System.Runtime.Serialization.SerializationInfo with information about the exception.
+        /// </summary>
+        /// <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
+        /// <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
+        /// <exception cref="ArgumentNullException">Info is null.</exception>
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
         {
             base.GetObjectData(info, context);

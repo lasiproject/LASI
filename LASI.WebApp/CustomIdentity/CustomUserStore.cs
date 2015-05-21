@@ -20,9 +20,6 @@ namespace LASI.WebApp.CustomIdentity
         IUserPhoneNumberStore<User>
         where TRole : UserRole, new()
     {
-        [Activate]
-        private ILookupNormalizer LookupNormalizer { get; set; }
-
         public CustomUserStore(IUserProvider<User> userProvider, IRoleProvider<TRole> roleProvider)
         {
             this.userProvider = userProvider;
@@ -160,9 +157,10 @@ namespace LASI.WebApp.CustomIdentity
         public async Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumberConfirmed, cancellationToken);
 
         public async Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumberConfirmed = confirmed, cancellationToken);
-        private IRoleProvider<TRole> roleProvider;
 
-        private IUserProvider<User> userProvider;
+        private readonly IRoleProvider<TRole> roleProvider;
+
+        private readonly IUserProvider<User> userProvider;
 
         #region Helpers
 

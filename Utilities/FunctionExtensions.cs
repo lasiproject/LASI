@@ -74,15 +74,17 @@ namespace LASI.Utilities
         /// a new function which when invoked is equivalent to invoking the second function on the
         /// result of invoking the first.
         /// </returns>
-        /// </example>
-        /// <remarks>
-        /// </remarks>
         public static Func<T1, T3> AndThen<T2, T1, T3>(this Func<T1, T2> f, Func<T2, T3> g) => x => g(f(x));
 
         #region Experimental
 
-        public static Action<T1> AndThen<T1, T2>(this Action<T1> a1, Action<T2> a2) where T1 : T2 => x => { a1(x); a2(x); };
+        public static Action<T> AndThen<T>(this Action<T> a1, Action<T> a2) => x => { a1(x); a2(x); };
         public static Action<T> AndThen<T>(this Action<T> a1, Action a2) => x => { a1(x); a2(); };
+        public static Action<T> AndThen<T>(this Action a2, Action<T> a1) => x => { a1(x); a2(); };
+        public static Action<T1, T2, T3, T4> AndThen<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> a1, Action<T1, T2, T3, T4> a2) =>
+            (a, b, c, d) => { a1(a, b, c, d); a2(a, b, c, d); };
+        public static Action<T1, T2, T3, T4, T5> AndThen<T1, T2, T3, T4, T5>(this Action<T1, T2, T3, T4, T5> a1, Action<T1, T2, T3, T4, T5> a2) =>
+             (a, b, c, d, e) => { a1(a, b, c, d, e); a2(a, b, c, d, e); };
         public static Action AndThen(this Action a1, Action a2) => a1 + a2;
 
         #endregion
@@ -817,6 +819,8 @@ namespace LASI.Utilities
         /// A new action of the form (T1, T2) => void, produced by binding the supplied value as the third argument.
         /// </returns>
         public static Action<T1, T2> Apply<T1, T2, T3>(this Action<T1, T2, T3> a, T3 value) => (x, y) => a(x, y, value);
+        public static Action<T2, T3, T4> Apply<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> a, T1 value) => (x, y, z) => a(value, x, y, z);
+        public static Action<T2, T3, T4, T5> Apply<T1, T2, T3, T4, T5>(this Action<T1, T2, T3, T4, T5> a, T1 value) => (b, c, d, e) => a(value, b, c, d, e);
 
         #endregion Partial Application
 

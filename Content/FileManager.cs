@@ -621,7 +621,9 @@ namespace LASI.Content
         {
             unsupportedHandler = unsupportedFileHandler;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the ExtensionWrapperMap class that will throw for unknown extensions.
+        /// </summary>
         public ExtensionWrapperMap() : this(extension => { throw new UnsupportedFileTypeAddedException(extension); }) { }
 
         /// <summary>
