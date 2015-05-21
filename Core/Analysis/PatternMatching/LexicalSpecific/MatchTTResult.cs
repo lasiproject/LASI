@@ -267,16 +267,21 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Appends a Case of Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">The type to match.</typeparam>
-        /// <param name="func">The function to apply if the case matched.</param>
+        /// <param name="then">The function to apply if the case matched.</param>
         /// <param name="when">The predicate to match.</param>
         /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func, Func<bool> when) where TCase : class, ILexical => When(when).Then(func);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<bool> when) where TCase : class, ILexical => When(when).Then(then);
 
-        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func, Func<TCase, bool> when) where TCase : class, ILexical => When(when).Then(func);
+        public Match<T, TResult> Case<TCase>(Func<TCase, TResult> then, Func<TCase, bool> when) where TCase : class, ILexical =>
+            When(when).Then(then); public Match<T, TResult> Case<TCase>(TResult then, Func<TCase, bool> when) where TCase : class, ILexical =>
+             When(when).Then(then);
 
-        public Match<T, TResult> Case(Func<T, TResult> func, Func<T, bool> when) => When(when).Then(func);
+        public Match<T, TResult> Case(Func<T, TResult> then, Func<T, bool> when) => When(when).Then(then);
 
-        public Match<T, TResult> Case(Func<TResult> func, Func<T, bool> when) => When(when).Then(func);
+        public Match<T, TResult> Case<TCase>(Func<TResult> then, Func<TCase, bool> when) where TCase : class, ILexical =>
+            When(when).Then(then);
+        public Match<T, TResult> Case(Func<TResult> then, Func<T, bool> when) => When(when).Then(then);
+        public Match<T, TResult> Case(TResult then, Func<T, bool> when) => When(when).Then(then);
 
         /// <summary>
         /// Appends a Match with Type expression to the current PatternMatching Expression. 

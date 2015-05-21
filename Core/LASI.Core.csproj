@@ -153,6 +153,7 @@
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\AggregatePhrase.cs" />
     <Compile Include="LexicalStructures\ExperimentalTypes\INestableLexical.cs" />
+    <Compile Include="LexicalStructures\NounRelatedConstructs\NounPhraseExtensions.cs" />
     <Compile Include="LexicalStructures\Structural\ICompositeLexical.cs" />
     <Compile Include="LexicalStructures\Structural\ILinkedUnitLexical.cs" />
     <Compile Include="LexicalStructures\Structural\IPrepositionLinkable.cs" />

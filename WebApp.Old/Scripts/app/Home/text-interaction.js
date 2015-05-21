@@ -78,3 +78,4 @@ var LASI;
     })(results = LASI.results || (LASI.results = {}));
 })(LASI || (LASI = {}));
 ;
+//# sourceMappingURL=text-interaction.js.map

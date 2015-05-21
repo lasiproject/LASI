@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using LASI.Utilities;
+using Shared.Test.Assertions;
 
 namespace LASI.Content.Tests
 {
@@ -109,10 +110,25 @@ namespace LASI.Content.Tests
         ///A test for ConvertAsNeededAsync
         /// </summary>
         [TestMethod]
-        public void
+        public async Task
         ConvertAsNeededAsyncTest()
         {
-            ConvertAsNeededAsyncTestHelper().Wait();
+            var files = from fileInfo in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
+                        where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase)
+                        select fileInfo;
+            Assert.IsTrue(files.Any());
+            foreach (var fi in files)
+            {
+                File.Copy(fi.FullName,
+                    testProjectDirectory + "\\input" + mapExtToDir(fi.Extension) + fi.FullName.Substring(fi.FullName.LastIndexOf('\\') + 1),
+                    overwrite: true);
+            }
+            await FileManager.ConvertAsNeededAsync();
+            IEnumerable<InputFile> filesUnconverted =
+                from file in FileManager.AllFiles.Except(FileManager.TxtFiles).Except(FileManager.TaggedFiles)
+                where !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
+                select file;
+            Assert.IsFalse(filesUnconverted.Any());
         }
 
         /// <summary>
@@ -144,63 +160,55 @@ namespace LASI.Content.Tests
         ///A test for ConvertDocFilesAsync
         /// </summary>
         [TestMethod]
-        public void ConvertDocFilesAsyncTest()
-        {
-            ConvertDocFilesAsyncTestHelper().Wait();
-        }
-
-        private static async Task ConvertDocFilesAsyncTestHelper()
+        public async Task ConvertDocFilesAsyncTest()
         {
             DocFile[] files = GetTestDocFiles();
             Assert.IsTrue(files.Any());
             await FileManager.ConvertDocToTextAsync(files);
 
-            foreach (var file in files)
+            files.ForEach(file =>
             {
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
-            }
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
 
-        /// <summary>
-        ///A test for ConvertDocFiles
-        /// </summary>
-        [TestMethod]
-        public void ConvertDocFilesTest()
-        {
-            DocFile[] files = GetTestDocFiles();
-            Assert.IsTrue(files.Any());
-            try
-            {
-                FileManager.ConvertDocToText(files);
-                foreach (var file in files)
-                {
-                    Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-                }
-            }
-            catch (IOException e) when (e.Message.StartsWith("The process cannot access the file '") && e.Message.EndsWith("' because it is being used by another process."))
-            {
-                Assert.Inconclusive(e.Message);
-            }
+        ///// <summary>
+        /////A test for ConvertDocFiles
+        ///// </summary>
+        //[TestMethod]
+        //public void ConvertDocFilesTest()
+        //{
+        //    DocFile[] files = GetTestDocFiles();
+        //    Assert.IsTrue(files.Any());
+        //    try
+        //    {
+        //        FileManager.ConvertDocToText(files);
+        //        foreach (var file in files)
+        //        {
+        //            Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+        //        }
+        //    }
+        //    catch (IOException e) when (e.Message.StartsWith("The process cannot access the file '") && e.Message.EndsWith("' because it is being used by another process."))
+        //    {
+        //        Assert.Inconclusive(e.Message);
+        //    }
 
-        }
+        //}
 
         /// <summary>
         ///A test for ConvertDocToTextAsync
         /// </summary>
         [TestMethod]
-        public void ConvertDocToTextAsyncTest()
+        public async Task ConvertDocToTextAsyncTest()
         {
             DocFile[] files = GetTestDocFiles();
-
-            files = (from file in files
-                     let coppied = new FileInfo(file.FullPath).CopyTo(Path.Combine(Directory.GetCurrentDirectory(), "ConvertDocToTextAsyncTest", file.FileName))
-                     select new DocFile(coppied.FullName)).ToArray();
-
-            FileManager.ConvertDocToTextAsync(files).Wait();
             Assert.IsTrue(files.Any());
-            foreach (var file in files)
+            await FileManager.ConvertDocToTextAsync(files);
+            files.ForEach(file =>
+            {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
         /// <summary>
@@ -210,21 +218,34 @@ namespace LASI.Content.Tests
         public void ConvertDocToTextTest()
         {
             DocFile[] files = GetTestDocFiles();
-            if (!files.Any())
-                Assert.Inconclusive();
-            FileManager.ConvertDocToText(files);
+            Assert.IsTrue(files.Any());
 
-            foreach (var file in files)
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            FileManager.ConvertDocToText(files);
+            files.ForEach(file =>
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
         /// <summary>
         ///A test for ConvertDocxToTextAsync
         /// </summary>
         [TestMethod]
-        public void ConvertDocxToTextAsyncTest()
+        public async Task ConvertDocxToTextAsyncTest()
         {
-            ConvertDocxToTextAsyncTestHelper().Wait();
+            DocXFile[] files = GetTestDocXFiles();
+            Assert.IsTrue(files.Any());
+
+            files.Select(f => f.FullPath).ForEach(p => FileManager.AddFile(p));
+            EnumerableAssert.AreSetEqual(files.Select(f => f.FileName), from file in Directory.EnumerateFiles(FileManager.DocxFilesDirectory)
+                                                                        select new DocXFile(file).FileName, StringComparer.OrdinalIgnoreCase);
+
+            await FileManager.ConvertDocxToTextAsync(files);
+
+            files.ForEach(file =>
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
         /// <summary>
@@ -236,8 +257,10 @@ namespace LASI.Content.Tests
             DocXFile[] files = GetTestDocXFiles();
 
             FileManager.ConvertDocxToText(files);
-            foreach (var file in files)
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            files.ForEach(file =>
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
 
         }
 
@@ -245,15 +268,17 @@ namespace LASI.Content.Tests
         ///A test for ConvertPdfFilesAsync
         /// </summary>
         [TestMethod]
-        public void ConvertPdfToTextAsyncTest()
+        public async Task ConvertPdfToTextAsyncTest()
         {
             PdfFile[] files = GetTestPdfFiles();
             if (!files.Any())
                 Assert.Inconclusive();
-            FileManager.ConvertPdfToTextAsync(files).Wait();
+            await FileManager.ConvertPdfToTextAsync(files);
             Assert.IsTrue(files.Any());
-            foreach (var file in files)
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            files.ForEach(file =>
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
         /// <summary>
@@ -266,9 +291,10 @@ namespace LASI.Content.Tests
             if (!files.Any())
                 Assert.Inconclusive();
             FileManager.ConvertPdfToText(files);
-
-            foreach (var file in files)
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            files.ForEach(file =>
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
+            });
         }
 
         /// <summary>
@@ -277,9 +303,10 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void DecimateProjectTest()
         {
-            FileManager.Initialize(testProjectDirectory + "decimate_test");
+            var testProjectPath = testProjectDirectory + "\\decimate_test";
+            FileManager.Initialize(testProjectPath);
             FileManager.DecimateProject();
-            Assert.IsFalse(Directory.Exists(testProjectDirectory + "decimate_test"));
+            Assert.IsFalse(Directory.Exists(testProjectPath));
         }
 
         /// <summary>
@@ -344,29 +371,6 @@ namespace LASI.Content.Tests
             FileManager.RemoveFile(file);
             Assert.IsFalse(FileManager.HasSimilarFile(file));
         }
-
-        /// <summary>
-        ///A test for TagTextFilesAsync
-        /// </summary>
-        [TestMethod]
-        public void TagTextFilesAsyncTest()
-        {
-            TagTextFilesAsyncTestHelper().Wait();
-        }
-
-        private static async Task TagTextFilesAsyncTestHelper()
-        {
-            var files = GetTestTxtFiles();
-            Assert.IsTrue(files.Any());
-
-            await FileManager.TagTextFilesAsync(files);
-            foreach (var file in files)
-            {
-                Assert.IsTrue(File.Exists(FileManager.TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged"));
-            }
-        }
-
-
         /// <summary>
         ///A test for TagTextFile
         /// </summary>
@@ -378,41 +382,27 @@ namespace LASI.Content.Tests
             Assert.IsTrue(files.Any());
             FileManager.TagTextFiles(files);
             foreach (var file in files)
-                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")));
-        }
-
-        private static async Task ConvertAsNeededAsyncTestHelper()
-        {
-            var files = from fileInfo in new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH).EnumerateFiles()
-                        where new[] { ".doc", ".docx", ".pdf", ".txt" }.Contains(fileInfo.Extension, StringComparer.OrdinalIgnoreCase)
-                        select fileInfo;
-            Assert.IsTrue(files.Any());
-            foreach (var fi in files)
             {
-                File.Copy(fi.FullName,
-                    testProjectDirectory + "\\input" + mapExtToDir(fi.Extension) + fi.FullName.Substring(fi.FullName.LastIndexOf('\\') + 1),
-                    overwrite: true);
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")));
             }
-            await FileManager.ConvertAsNeededAsync();
-            IEnumerable<InputFile> filesUnconverted =
-                from file in FileManager.AllFiles.Except(FileManager.TxtFiles).Except(FileManager.TaggedFiles)
-                where !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
-                select file;
-            Assert.IsFalse(filesUnconverted.Any());
         }
-
-        private static async Task ConvertDocxToTextAsyncTestHelper()
+        /// <summary>
+        ///A test for TagTextFilesAsync
+        /// </summary>
+        [TestMethod]
+        public async Task TagTextFilesAsyncTest()
         {
-            DocXFile[] files = (from file in Directory.EnumerateFiles(FileManager.DocxFilesDirectory)
-                                select new DocXFile(file)).ToArray();
-            files.ToList().ForEach(f => FileManager.AddFile(f.FullPath));
-
+            var files = GetTestTxtFiles();
             Assert.IsTrue(files.Any());
-            await FileManager.ConvertDocxToTextAsync(files);
 
+            await FileManager.TagTextFilesAsync(files);
             foreach (var file in files)
-                Assert.IsTrue(File.Exists(FileManager.TxtFilesDirectory + "\\" + file.NameSansExt + ".txt"));
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")));
+            }
         }
+
+
 
 
         private static DocFile[] GetTestDocFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
@@ -465,35 +455,17 @@ namespace LASI.Content.Tests
         static Func<string, string> mapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
         private TestContext testContextInstance;
         #region Additional test attributes
-        ////  Use ClassCleanup to run code after all tests in A class have run
-        [ClassCleanup()]
-        public static void MyClassCleanup()
-        {
-            FileManager.DecimateProject();
-        }
+        
         [TestCleanup]
         public void MyTestCleanup()
         {
-            FileManager.DecimateProject();
-        }
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
-        {
-            if (Directory.Exists(testProjectDirectory))
+            if (TestContext.TestName != nameof(DecimateProjectTest))
             {
-                Directory.Delete(testProjectDirectory, recursive: true);
+                FileManager.DecimateProject();
             }
-            FileManager.Initialize(testProjectDirectory);
-            GetAllTestFiles().ToList().ForEach(file => FileManager.AddFile(file.FullPath));
-
-
         }
-        //Use TestInitialize to run code before running each test
-        [TestInitialize()]
+       
+        [TestInitialize]
         public void MyTestInitialize()
         {
             if (Directory.Exists(testProjectDirectory))

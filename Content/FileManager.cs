@@ -316,13 +316,15 @@ namespace LASI.Content
         public static IEnumerable<TxtFile> ConvertDocxToText(params DocXFile[] files)
         {
             ThrowIfUninitialized();
-            foreach (var doc in files.ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
+            var convertedFiles = new List<TxtFile>();
+            foreach (var docx in (files.Length > 0 ? files.AsEnumerable() : docXFiles).ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
             {
-                var converted = new DocxToTextConverter(doc as DocXFile).ConvertFile();
+                var converted = new DocxToTextConverter(docx as DocXFile).ConvertFile();
+                convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
-                yield return converted;
             }
+            return convertedFiles;
         }
 
         /// <summary>
@@ -335,9 +337,9 @@ namespace LASI.Content
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : docXFiles).Except<InputFile>(taggedFiles))
+            foreach (var docx in (files.Length > 0 ? files.AsEnumerable() : docXFiles).ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
             {
-                var converted = await new DocxToTextConverter(doc as DocXFile).ConvertFileAsync();
+                var converted = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
@@ -354,12 +356,15 @@ namespace LASI.Content
         public static IEnumerable<TxtFile> ConvertPdfToText(params PdfFile[] files)
         {
             ThrowIfUninitialized();
+            var convertedFiles = new List<TxtFile>();
             foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
             {
                 var converted = new PdfToTextConverter(pdf as PdfFile).ConvertFile();
+                convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
-                File.Delete(converted.FullPath); yield return converted;
+                File.Delete(converted.FullPath);
             }
+            return convertedFiles;
         }
 
         /// <summary>
@@ -421,8 +426,6 @@ namespace LASI.Content
                 taggedFiles.Add(new TaggedFile(taggedFile));
                 tasks.Remove(tagged);
             }
-
-
         }
 
         private static void RecordConversionFailure(InputFile doc, Exception e)

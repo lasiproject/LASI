@@ -4,7 +4,8 @@ using System.Windows.Media;
 
 namespace LASI.App.Visualization
 {
-    class SyntacticColorMap : LASI.Interop.Visualization.IStyleProvider<ILexical, Brush>
+    using static Brushes;
+    class SyntacticColorMap : Interop.Visualization.IStyleProvider<ILexical, Brush>
     {
         /// <summary>
         /// Maps a Lexical element to a syntax highlighting color. The returned value is a System.Windows.Media.Brush enumeration member.
@@ -12,25 +13,26 @@ namespace LASI.App.Visualization
         /// <param name="element">The Lexical for which to get a color based on its syntactic role.</param>
         /// <returns>A System.Windows.Media.Brush enumeration value mapped to the syntactic role of the element.</returns>
         public Brush this[ILexical element] =>
-            element.Match()
-                .Case((Phrase p) => p.Match()
-                    .Case((PronounPhrase e) => Brushes.HotPink)
-                    .When((NounPhrase n) => n.Words.OfProperNoun().Any())
-                    .Then(Brushes.DarkBlue)
-                    .Case((NounPhrase e) => Brushes.MediumTurquoise)
-                    .Case((InfinitivePhrase e) => Brushes.Teal)
-                    .Case((IReferencer e) => Brushes.DarkCyan)
-                    .Case((IEntity e) => Brushes.DeepSkyBlue)
-                    .Case((IVerbal e) => Brushes.Green)
-                    .Case((IPrepositional e) => Brushes.DarkOrange)
-                    .Case((IDescriptor e) => Brushes.Indigo)
-                    .Case((IAdverbial e) => Brushes.Orange)
-                    .Result(Brushes.Black))
-                .Case((Word w) => w.Match()
-                    .Case((Adjective e) => Brushes.Indigo)
-                    .Case((PresentParticiple e) => Brushes.DarkGreen)
-                    .Case((Verb e) => Brushes.Green)
-                    .Result(Brushes.Black))
-                .Result();
+            (from value in element.Match()
+                .Case((Phrase p) =>
+                    from color in p.Match()
+                        .Case((PronounPhrase e) => HotPink)
+                        .Case((NounPhrase n) => n.Words.OfProperNoun().Any() ? DarkBlue : MediumTurquoise)
+                        .Case((InfinitivePhrase e) => Teal)
+                        .Case((IReferencer e) => DarkCyan)
+                        .Case((IEntity e) => DeepSkyBlue)
+                        .Case((IVerbal e) => Green)
+                        .Case((IPrepositional e) => DarkOrange)
+                        .Case((IDescriptor e) => Indigo)
+                        .Case((IAdverbial e) => Orange)
+                    select color)
+                .Case((Word w) =>
+                    from color in w.Match()
+                        .Case((Adjective e) => Indigo)
+                        .Case((PresentParticiple e) => DarkGreen)
+                        .Case((Verb e) => Green)
+                    select color)
+             from color in value
+             select color).DefaultIfEmpty(Black).First();
     }
 }

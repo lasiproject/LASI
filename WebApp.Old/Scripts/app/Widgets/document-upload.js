@@ -42,3 +42,4 @@ var LASI;
         })(DocumentUpload = Widgets.DocumentUpload || (Widgets.DocumentUpload = {}));
     })(Widgets = LASI.Widgets || (LASI.Widgets = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document-upload.js.map

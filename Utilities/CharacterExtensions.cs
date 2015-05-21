@@ -9,13 +9,13 @@ namespace LASI.Utilities
     public static class CharacterExtensions
     {
         /// <summary>
-        /// Returns a value indicating whether the character is a letter of the english alphabet.
+        /// Returns a value indicating whether the character is a letter of the English alphabet.
         /// </summary>
         /// <param name="c">
         /// The character to test.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the character is a letter in of english alphabet; otherwise, <c>false</c>.
+        /// <c>true</c> if the character is a letter in of English alphabet; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsEnglishLetter(this char c) => c > 96 && c < 123 || c > 64 && c < 91;
 
@@ -61,7 +61,7 @@ namespace LASI.Utilities
         /// <returns>
         /// <c>true</c> if the character is a vowel; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsVowel(this char c) => VOWELS.IndexOf(c.ToUpper()) >= 0;
+        public static bool IsVowel(this char c) => Vowels.IndexOf(c.ToUpper()) >= 0;
 
         /// <summary>
         /// Converts the value of the Unicode character to its lowercase equivalent.
@@ -94,8 +94,11 @@ namespace LASI.Utilities
         /// <param name="other">The second character to compare</param>
         /// <returns> <c>true</c> if the given characters considered are equal; otherwise, <c>false</c>.</returns>
         /// <remarks>This comparison uses the default culture.</remarks>
-        public static bool EqualsIgnoreCase(this char c, char other) => c < 65 || c > 122 ? c == other : (c >= 96 ? c - 32 : c) == (other >= 96 ? other - 32 : other);
+        public static bool EqualsIgnoreCase(this char c, char other) =>
+            c < 65 || c > 122 ?
+            c == other :
+            (c >= 96 ? c - 32 : c) == (other >= 96 ? other - 32 : other);
 
-        private const string VOWELS = "AEIOUY";
+        private const string Vowels = "AEIOUY";
     }
 }

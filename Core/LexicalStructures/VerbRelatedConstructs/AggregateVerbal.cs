@@ -91,8 +91,6 @@ namespace LASI.Core
         /// </summary>
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
-        public IVerbal AttributedTo => AdverbialModifiers as IVerbal;
-
         /// <summary>
         /// Gets all of the Direct and Indirect objects of the AggregateVerbal.
         /// </summary>

@@ -247,6 +247,7 @@ namespace LASI.Utilities
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
+        [System.Diagnostics.DebuggerStepThrough]
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
         {
             foreach (var item in source)
@@ -254,7 +255,7 @@ namespace LASI.Utilities
                 action(item);
             }
         }
-
+        [System.Diagnostics.DebuggerStepThrough]
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action) =>
             source.WithIndex().ForEach(e => action(e.Element, e.Index));
 

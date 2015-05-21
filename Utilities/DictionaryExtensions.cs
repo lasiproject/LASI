@@ -120,6 +120,7 @@ namespace LASI.Utilities
         /// The action to perform on each
         /// <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}" /> in the <see cref="IDictionary{TKey, TValue}" />.
         /// </param>
+        [System.Diagnostics.DebuggerStepThrough]
         public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
             foreach (var keyValuePair in dictionary)

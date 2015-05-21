@@ -11,6 +11,7 @@ namespace LASI.Utilities
         /// Logs the Exception to the output channel.
         /// </summary>
         /// <param name="exception">The exception to log.</param>
+        [System.Diagnostics.DebuggerStepThrough]
         public static void Log(this Exception exception)
         {
             Logger.Log($"{exception.Message}\n{exception.StackTrace}");
