@@ -65,7 +65,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(false) // this guard is impossible to satisfy, thus the following match must fail even though the pattern is applicable.
+                .When(false) // this guard is impossible to satisfy, thus the following match must fail even though the pattern is applicable.
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) =>
                 {
                     actual = true;
@@ -78,7 +78,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(() => false) // this guard is impossible to satisfy
+                .When(() => false) // this guard is impossible to satisfy
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) =>
                 {
                     actual = true;
@@ -91,7 +91,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(true) // this guard is always satisfied
+                .When(true) // this guard is always satisfied
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) =>
                 {
                     actual = true;
@@ -104,7 +104,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(() => true) // this guard is always satisfied
+                .When(() => true) // this guard is always satisfied
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) =>
                 {
                     actual = true;
@@ -183,7 +183,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(false) // this guard is impossible to satisfy, thus the following match must fail even though the pattern is applicable.
+                .When(false) // this guard is impossible to satisfy, thus the following match must fail even though the pattern is applicable.
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
             bool expected = false;
             Assert.AreEqual(expected, actual);
@@ -193,7 +193,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(() => false) // this guard is impossible to satisfy
+                .When(() => false) // this guard is impossible to satisfy
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
             bool expected = false;
             Assert.AreEqual(expected, actual);
@@ -203,7 +203,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(true) // this guard is always satisfied
+                .When(true) // this guard is always satisfied
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);
@@ -213,7 +213,7 @@ namespace LASI.Core.PatternMatching.Tests
         {
             bool actual = false;
             TestTarget.Match()
-                .Guard(() => true) // this guard is always satisfied
+                .When(() => true) // this guard is always satisfied
                 .Case((IEntity n1, IConjunctive c, IEntity n2, IPrepositional p, IAttributive<IVerbal> a, IEntity e) => actual = true);
             bool expected = true;
             Assert.AreEqual(expected, actual);

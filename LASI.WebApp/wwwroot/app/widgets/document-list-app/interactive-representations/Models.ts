@@ -3,6 +3,11 @@
         text: string
         detailText: string
         id: number
+        style: { cssClass: string }
+        contextMenuJson: any 
+        // this needs to be revised as this was copied verbatim from the 
+        // old server side view model for use in the razor template and 
+        // there should be a simple way to deserialize it as a proper object.
     }
     export interface IReifiedTextualModel extends ITextualModel {
         paragraphs: IParagraphModel[]

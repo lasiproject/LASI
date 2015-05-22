@@ -7,24 +7,24 @@ var __extends = this.__extends || function (d, b) {
 // Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var App;
 (function (App) {
-    'use strict';
-    var Paragraph = (function (_super) {
-        __extends(Paragraph, _super);
-        function Paragraph(templateUrl, link, scope) {
+    "use strict";
+    var Sentence = (function (_super) {
+        __extends(Sentence, _super);
+        function Sentence(templateUrl, link, scope) {
             _super.call(this, templateUrl, link, undefined, scope);
             this.scope = scope;
         }
-        return Paragraph;
+        return Sentence;
     })(App.TextualDirective);
-    paragraph.$inject = ['$window'];
-    function paragraph($window) {
+    sentence.$inject = ["$window"];
+    function sentence($window) {
         var scope = {
-            paragraph: '=',
+            sentence: '=',
             parentId: '='
         };
         var link = function (scope, element, attrs) {
         };
-        return new Paragraph('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
+        return new Sentence('/app/widgets/document-list-app/interactive-representations/sentence.html', link, scope);
     }
-    angular.module('app').directive('paragraph', paragraph);
+    angular.module("app").directive("sentence", sentence);
 })(App || (App = {}));

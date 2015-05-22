@@ -231,7 +231,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// The condition which must be met for the next binding function to be attempted.
         /// </param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
-        public SequenceMatch Guard(bool condition)
+        public SequenceMatch When(bool condition)
         {
             guardSatisfied = condition;
             guarded = true;
@@ -243,7 +243,7 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         /// The condition which must be met for the next binding function to be attempted.
         /// </param>
         /// <returns>The SequenceMatch instance representing the binding so far.</returns>
-        public SequenceMatch Guard(Func<bool> condition)
+        public SequenceMatch When(Func<bool> condition)
         {
             guardSatisfied = condition();
             guarded = true;

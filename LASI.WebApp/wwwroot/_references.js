@@ -53,3 +53,5 @@
 /// <reference path="lib/requirejs/require.js" />
 /// <reference path="lib/qunit/qunit.js" />
 /// <reference path="lib/angular/angular.js" />
+/// <reference path="app/widgets/document-list-app/interactive-representations/sentence.js" />
+/// <reference path="app/widgets/document-list-app/interactive-representations/lexical/phrase.js" />

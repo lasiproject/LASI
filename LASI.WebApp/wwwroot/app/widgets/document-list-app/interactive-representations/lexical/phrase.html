@@ -1,0 +1,11 @@
+﻿<span id="{{phrase.id}}"
+      class="phrase {{phrase.style.cssClass}}"
+      title="{{phrase.detailText.trim()}}"
+      data-toggle="tooltip">
+    {{phrase.text.trim()}}
+    <!--this needs to be revised as this was copied verbatim from the server model for use in the razor template and there should be a simple way to deserialize it as a proper object.
+        and remove the hidden embedded json text-->
+    <span id="context{{phrase.id}}" hidden>
+        {{phrase.contextMenuJson}}
+    </span>
+</span>

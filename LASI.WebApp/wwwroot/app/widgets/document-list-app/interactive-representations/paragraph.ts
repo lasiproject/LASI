@@ -1,7 +1,6 @@
 ﻿// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 module App {
     'use strict';
-    type IDirectiveScope = ITextualDirectiveScope
 
     interface IParagraph extends ng.IDirective {
     }
@@ -12,7 +11,7 @@ module App {
     }
 
     interface IParagraphScope extends ng.IScope {
-        paragraph: IParagraphModel,
+        paragraph: IParagraphModel
         parentId: string|number
     }
 
@@ -27,10 +26,13 @@ module App {
             paragraph: '=',
             parentId: '='
         };
-        return new Paragraph('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
+
         var link: ng.IDirectiveLinkFn = function (scope: IParagraphScope, element: ng.IAugmentedJQuery, attrs: IParagraphAttributes) {
 
         };
+
+        return new Paragraph('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
+
     }
 
 

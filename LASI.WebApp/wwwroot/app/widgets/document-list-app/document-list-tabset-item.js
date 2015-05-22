@@ -13,7 +13,8 @@
             scope: {
                 documentId: '=',
                 name: '=',
-                percentComplete: '='
+                percentComplete: '=',
+                documentModel: '='
             },
             templateUrl: '/app/widgets/document-list-app/document-list-tabset-item.html',
         };

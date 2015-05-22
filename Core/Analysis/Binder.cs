@@ -51,14 +51,14 @@ namespace LASI.Core
         {
             sentences.AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => AdjectivePhraseBinder.Bind(sentence));
+                .ForAll(AdjectivePhraseBinder.Bind);
         }
 
         private static void BindAttributives(IEnumerable<Sentence> sentences)
         {
             sentences.AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => AttributivePhraseBinder.Bind(sentence));
+                .ForAll(AttributivePhraseBinder.Bind);
         }
 
         private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences)
@@ -96,25 +96,33 @@ namespace LASI.Core
 
         private static void MatchSentences(IEnumerable<Sentence> sentences)
         {
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => new DeclarativeBinder().Bind(sentence));
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(DeclarativeBinder.Bind);
         }
 
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases)
         {
-            phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfNounPhrase().ForAll(np => IntraPhraseWordBinder.Bind(np));
-            phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .OfVerbPhrase().ForAll(vp => IntraPhraseWordBinder.Bind(vp));
+            phrases.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .OfNounPhrase()
+                .ForAll(IntraPhraseWordBinder.Bind);
+            phrases.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .OfVerbPhrase()
+                .ForAll(IntraPhraseWordBinder.Bind);
         }
 
         private static void BindPronouns(IEnumerable<Sentence> sentences)
         {
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => PronounBinder.Bind(sentence));
-            sentences.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(sentence => AdaptivePronounBinder.Bind(sentence.Words));
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .ForAll(PronounBinder.Bind);
+            sentences.AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .Select(sentence => sentence.Words)
+                .ForAll(AdaptivePronounBinder.Bind);
         }
 
         #endregion
