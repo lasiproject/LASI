@@ -15,7 +15,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB.Extensions
                 .AddSingleton<IUserProvider<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()))
                 .AddSingleton<IDocumentProvider<UserDocument>>(provider => new MongoDBDocumentProvider(provider.GetService<MongoDBService>()));
         public static IServiceCollection AddMongoDB(this IServiceCollection services, Action<MongoDBOptions> setupAction) => services
-            .AddSingleton<MongoDBOptions>().Configure(setupAction)
+            .AddSingleton(provider => new MongoDBOptions()).Configure(setupAction)
             .AddMongoDB(() => new MongoDBConfiguration((MongoDBOptions)services.Where(s => s.Lifetime == ServiceLifetime.Singleton).First(s => s.ServiceType == typeof(MongoDBOptions)).ImplementationInstance));
         public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoDBConfiguration config) => AddMongoDB(services, () => config);
     }

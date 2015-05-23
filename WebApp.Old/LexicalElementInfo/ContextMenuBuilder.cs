@@ -17,10 +17,7 @@ namespace LASI.WebApp.Old
     /// </summary>
     public static class ContextMenuBuilder
     {
-        public static int GetSerializationId(this ILexical element)
-        {
-            return idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
-        }
+        public static int GetSerializationId(this ILexical element) => idCache.GetOrAdd(element, System.Threading.Interlocked.Increment(ref idGenerator));
 
         public static string GetJsonMenuData(this ILexical lexical) => lexical.Match()
                 .Case((IReferencer r) => r.GetJsonMenuData())

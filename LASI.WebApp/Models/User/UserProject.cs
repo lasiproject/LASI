@@ -7,7 +7,7 @@ namespace LASI.WebApp.Models
 
     public class UserProject : IProject
     {
-        [MongoDB.Bson.Serialization.Attributes.BsonConstructor("_id", "documents")]
+        //[MongoDB.Bson.Serialization.Attributes.BsonConstructor("_id", "documents")]
         public UserProject(ObjectId id, IEnumerable<UserDocument> documents)
         {
             this._id = id;

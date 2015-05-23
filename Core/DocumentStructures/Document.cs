@@ -90,13 +90,13 @@ namespace LASI.Core
                    Paragraph = paragraph,
                    LinesUsed = actualLines
                };
-
-            var skip = 0;
-            while (skip < measuredParagraphs.Count())
+            var pagesCreated = 0;
+            var paragraphsToSkip = 0;
+            while (paragraphsToSkip < measuredParagraphs.Count())
             {
                 var totalLines = 0;
                 var pragraphs = measuredParagraphs
-                    .Skip(skip)
+                    .Skip(paragraphsToSkip)
                     .TakeWhile((paragraph, index) =>
                     {
                         bool forceOutput = totalLines == 0 && paragraph.LinesUsed > linesPerPage;
@@ -104,8 +104,9 @@ namespace LASI.Core
                         return totalLines <= linesPerPage || forceOutput;
                     })
                     .Select(measured => measured.Paragraph);
-                yield return new Page(pragraphs, this);
-                skip += pragraphs.Count() + 1;
+                yield return new Page(pragraphs, this, pagesCreated);
+                paragraphsToSkip += pragraphs.Count() + 1;
+                ++pagesCreated;
             }
         }
 
@@ -232,10 +233,12 @@ namespace LASI.Core
             /// </summary>
             /// <param name="paragraphs">The Paragraphs which comprise the Page.</param>
             /// <param name="document">The Document to which the Page belongs.</param>
-            internal Page(IEnumerable<Paragraph> paragraphs, Document document)
+            /// <param name="pageNumber">The page number of the Page within its document.</param>
+            internal Page(IEnumerable<Paragraph> paragraphs, Document document, int pageNumber)
             {
                 Document = document;
                 Sentences = paragraphs.Sentences();
+                PageNumber = pageNumber;
             }
             /// <summary>
             /// Gets the Paragraphs which comprise the Page.
@@ -287,7 +290,10 @@ namespace LASI.Core
             /// Gets all verbals spanned by the page.
             /// </summary>
             public IEnumerable<IVerbal> Verbals => Sentences.SelectMany(s => s.Verbals);
-
+            /// <summary>
+            /// Gets the page number of the Page, that is its index relative to other pages across the document it belongs to.
+            /// </summary>
+            public int PageNumber { get; }
         }
 
         #endregion Page

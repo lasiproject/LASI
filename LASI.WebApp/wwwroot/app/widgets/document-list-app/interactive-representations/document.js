@@ -3,17 +3,21 @@ var App;
     'use strict';
     document.$inject = ['$window'];
     function document($window) {
+        var link = function (scope, element, attrs) {
+            console.log(scope);
+        };
         return {
             restrict: 'E',
             templateUrl: '/app/widgets/document-list-app/interactive-representations/document.html',
-            link: link,
             replace: true,
-            scope: { document: '=' }
+            scope: {
+                document: '='
+            },
+            link: link
         };
-        function link(scope, element, attrs) {
-        }
+        //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
     }
     angular
-        .module(LASI.documentList.ngName)
+        .module('interactiveRepresentations')
         .directive('document', document);
 })(App || (App = {}));

@@ -4,32 +4,34 @@
     interface IDocument extends ng.IDirective {
     }
 
+
     interface IDocumentScope extends ng.IScope {
-        document: IDocumentModel
     }
 
     interface IDocumentAttributes extends ng.IAttributes {
-        document: IDocumentModel
     }
 
     document.$inject = ['$window'];
     function document($window: ng.IWindowService): IDocument {
+
+        var link: ng.IDirectiveLinkFn = function (scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
+            console.log(scope); 
+        }
         return {
             restrict: 'E',
             templateUrl: '/app/widgets/document-list-app/interactive-representations/document.html',
-            link: link,
             replace: true,
             scope: {
                 document: '='
-            }
+            },
+            link: link
         };
+       
+        //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
 
-        function link(scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
-
-        }
     }
 
     angular
-        .module(LASI.documentList.ngName)
+        .module('interactiveRepresentations')
         .directive('document', document);
 }

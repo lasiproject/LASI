@@ -12,18 +12,17 @@ namespace LASI.WebApp.Models.DocumentStructures
         public ParagraphModel(Paragraph paragraph) : base(paragraph)
         {
             Sentences = ModelFor.Sentences.Select(sentence => new SentenceModel(sentence));
-            foreach (var model in Sentences) { model.Paragraph = this; }
             Phrases = ModelFor.Phrases.Select(phrase => new PhraseModel(phrase));
-            foreach (var model in Phrases) { model.Paragraph = this; }
         }
+        [JsonIgnore]
         public PageModel Page { get; set; }
         [JsonIgnore]
         public override string Text => ModelFor.Text;
         public override Style Style => new Style { CssClass = "paragraph" };
         public IEnumerable<SentenceModel> Sentences { get; }
+        [JsonIgnore]
         public IEnumerable<PhraseModel> Phrases { get; }
+        [JsonIgnore]
         public override PageModel Parent => Page;
-
-        public new string ContextmenuId { get; set; }
     }
 }

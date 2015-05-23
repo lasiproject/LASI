@@ -7,8 +7,9 @@ namespace LASI.WebApp.Models.Lexical
         [Newtonsoft.Json.JsonIgnore]
         TLexical Element { get; }
         string Text { get; }
+        string DetailText { get; }
         Style Style { get; }
         int Id { get; }
-        string ContextMenuJson { get; }
+        ILexicalContextmenu Contextmenu { get; }
     }
 }

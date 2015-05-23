@@ -177,9 +177,7 @@ namespace LASI.WebApp.Old.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl) {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-        }
+        public ActionResult ExternalLogin(string provider, string returnUrl) => new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
 
         //
         // GET: /Account/ExternalLoginCallback

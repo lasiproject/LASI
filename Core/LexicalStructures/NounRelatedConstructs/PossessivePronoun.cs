@@ -38,7 +38,8 @@ namespace LASI.Core
         /// Returns a string representation of the PossessivePronoun.
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
-        public override string ToString() => base.ToString() + $"\nSignifying {PossessesFor.Text} as owner of {Possessions.Format(e => e.Text)}";
+        public override string ToString() =>
+            base.ToString() + (VerboseOutput && possessesFor != null ? $"\nSignifying {PossessesFor.Text} as possessing {Possessions.Format(e => e.Text)}" : string.Empty);
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".

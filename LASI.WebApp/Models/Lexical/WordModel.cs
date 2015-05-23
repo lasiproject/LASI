@@ -1,12 +1,13 @@
-﻿using LASI.Core;
+﻿using System;
+using LASI.Core;
 
 namespace LASI.WebApp.Models.Lexical
 {
     class WordModel : LexicalModel<Word>
     {
         public WordModel(Word word) : base(word) { }
-
         public PhraseModel Phrase { get; set; }
-        public override string ContextMenuJson { get; }
+        public override ILexicalContextmenu Contextmenu { get; }
+        public override string DetailText => ModelFor.ToString();
     }
 }

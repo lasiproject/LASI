@@ -36,7 +36,7 @@
         "gen": "Microsoft.Framework.CodeGeneration"
     },
     "frameworks": {
-        "dnx451": {}
+        "dnx451": { }
     },
     "exclude": [
         "wwwroot",
@@ -58,5 +58,6 @@
         "prepare": [
             "grunt bower:install"
         ]
-    }
+    },
+    "compilationOptions": { "define": [ ] }
 }

@@ -1,7 +1,6 @@
-using System;
-using LASI.WebApp.LexicalElementInfo;
 using LASI.WebApp.LexicalElementStyling;
 using LASI.Core;
+using Newtonsoft.Json;
 
 namespace LASI.WebApp.Models.Lexical
 {
@@ -16,15 +15,16 @@ namespace LASI.WebApp.Models.Lexical
         }
         public int Id { get; }
         public string Text { get; }
+        public abstract string DetailText { get; }
         public Style Style { get; }
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public TLexical Element { get; }
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public TLexical ModelFor => Element;
-        public abstract string ContextMenuJson { get; }
+        public abstract ILexicalContextmenu Contextmenu { get; }
 
         public string ContextmenuId { get; }
 
-        protected static readonly SyntacticStyleMap SyntacticStyleMap = new SyntacticStyleMap();
+        private static readonly SyntacticStyleMap SyntacticStyleMap = new SyntacticStyleMap();
     }
 }

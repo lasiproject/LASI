@@ -22,6 +22,7 @@ using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using LASI.WebApp.CustomIdentity.MongoDB;
 
 namespace LASI.WebApp
 {
@@ -47,12 +48,12 @@ namespace LASI.WebApp
         public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services, ILoggerFactory loggerFactory)
+        public void ConfigureServices(IServiceCollection services)
         {
-            loggerFactory.AddConsole().AddLASIOutput();
-            var consoleLogger = loggerFactory.CreateLogger<ConsoleLogger>();
-            var lasiLogger = loggerFactory.AddLASIOutput().CreateLogger<ConsoleLogger>();
-            var log = ((Action<string>)consoleLogger.LogCritical).AndThen(lasiLogger.LogCritical);
+            //loggerFactory.AddConsole().AddLASIOutput();
+            //var consoleLogger = loggerFactory.CreateLogger<ConsoleLogger>();
+            //var lasiLogger = loggerFactory.AddLASIOutput().CreateLogger<ConsoleLogger>();
+            //var log = ((Action<string>)consoleLogger.LogCritical).AndThen(lasiLogger.LogCritical);
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"));
 
             services
@@ -65,19 +66,22 @@ namespace LASI.WebApp
                     )
                 );
 
-            services.AddMongoDB(options =>
-            {
-                options.UserCollectionName = "users";
-                options.UserDocumentCollectionName = "documents";
-                options.OrganizationCollectionName = "organizations";
-                options.UserRoleCollectionName = "roles";
-                options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
-                options.ApplicationDatabaseName = "accounts";
-                options.MongodExePath = Configuration["MongodExecutableLocation"];
-                options.CreateProcess = true;
-                options.DataDbPath = Configuration["MongoDataDbPath"];
-                options.InstanceUrl = Configuration["MongoDbInstanceUrl"];
-            });
+            services
+                .AddMongoDB(new MongoDBConfiguration(Configuration.GetSubKey("Data"), AppDomain.CurrentDomain.BaseDirectory));
+
+            //.AddMongoDB(options =>
+            //{
+            //    options.UserCollectionName = "users";
+            //    options.UserDocumentCollectionName = "documents";
+            //    options.OrganizationCollectionName = "organizations";
+            //    options.UserRoleCollectionName = "roles";
+            //    options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
+            //    options.ApplicationDatabaseName = "accounts";
+            //    options.MongodExePath = Configuration["MongodExecutableLocation"];
+            //    options.CreateProcess = true;
+            //    options.DataDbPath = Configuration["MongoDataDbPath"];
+            //    options.InstanceUrl = Configuration["MongoDbInstanceUrl"];
+            //});
 
             services
                 .AddIdentity<ApplicationUser, UserRole>(options =>
@@ -122,13 +126,13 @@ namespace LASI.WebApp
                         ContractResolver = new CamelCasePropertyNamesContractResolver(),
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                         NullValueHandling = NullValueHandling.Ignore,
-#if DEBUG // For release builds we prefer the more performant, small payload.
+#if OPTIMIZE // For release builds we prefer the more performant, small payload.
                         Formatting = Formatting.Indented,
 #endif
                         Error = (s, e) =>
                         {
                             var x = e.ErrorContext.Error;
-                            log($"{x.Message}\n{x.StackTrace}");
+                            //log($"{x.Message}\n{x.StackTrace}");
 #if DEBUG // Fail in debug builds
                             throw x;
 #endif
@@ -167,7 +171,8 @@ namespace LASI.WebApp
             //    .AddLASIOutput(LogLevel.Debug);
 
             // Add static files to the request pipeline.
-            app.UseStaticFiles();
+            app.UseStaticFiles()
+                .UseStaticFiles("/app/widgets");
 
             // Add cookie-based authentication to the request pipeline.
             app.UseIdentity();
