@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using LASI.Content;
-using LASI.Content.Tagging;
 using LASI.WebApp.CustomIdentity;
 using LASI.WebApp.Models;
 using Microsoft.AspNet.Mvc;
@@ -9,14 +8,15 @@ namespace LASI.WebApp.ViewComponents
 {
     public class DynamicTextEditorViewComponent : ViewComponent
     {
-        [Activate]
-        private IDocumentProvider<UserDocument> DocumentStore { get; set; }
-        [Activate]
-        private Tagger Tagger { get; set; }
-
+        private readonly IDocumentProvider<UserDocument> documentProvider;
+        private readonly Content.Tagging.Tagger tagger = new Content.Tagging.Tagger(TaggerInterop.TaggerMode.TagAndAggregate);
+        public DynamicTextEditorViewComponent(IDocumentProvider<UserDocument> documentProvider)
+        {
+            this.documentProvider = documentProvider;
+        }
         public async Task<IViewComponentResult> InvokeAsync() => await Task.FromResult(View(new DynamicallyEnteredTextFragment()));
 
-        public async Task<ITaggedTextSource> TagTextAsync(DynamicallyEnteredTextFragment text) => await Tagger.TaggedFromRawAsync(text);
+        public async Task<ITaggedTextSource> TagTextAsync(DynamicallyEnteredTextFragment text) => await tagger.TaggedFromRawAsync(text);
 
         public class DynamicallyEnteredTextFragment : IRawTextSource
         {

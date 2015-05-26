@@ -67,7 +67,6 @@ namespace LASI.WebApp.Models.User
 
         public void UpdateWorkItemForUser(string userId, WorkItem item) => workItems.AddOrUpdate("x", new[] { item }, (key, value) => from i in value select i.Id == item.Id ? item : i);
 
-
         private readonly int itemCount;
 
         private readonly Timer timer;

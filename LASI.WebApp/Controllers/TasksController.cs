@@ -14,12 +14,21 @@ namespace LASI.WebApp.Controllers.Controllers
     {
         public TasksController(IWorkItemsService userWorkItemsService)
         {
-            this.userWorkItemsService = userWorkItemsService;
+            this.workItemsService = userWorkItemsService;
         }
 
         [HttpGet]
-        public IEnumerable<WorkItem> Get() => userWorkItemsService.GetAllWorkItemsForUser(User.GetUserId());
+        public IEnumerable<WorkItem> Get() => workItemsService.GetAllWorkItemsForUser(User.GetUserId());
 
-        private readonly IWorkItemsService userWorkItemsService;
+        [HttpPost("api/Tasks/Reset/{userId}")]
+        public void Reset(string userId)
+        {
+            if (workItemsService is UserWorkItemsService) { ((UserWorkItemsService)workItemsService).RemoveAllForUser(userId); }
+            else if (workItemsService is DummyUserWorkItemService)
+            {
+                ((DummyUserWorkItemService)workItemsService).Reset();
+            }
+        }
+        private readonly IWorkItemsService workItemsService;
     }
 }

@@ -57,7 +57,6 @@ namespace LASI.WebApp
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"));
 
             services
-                .AddTransient(provider => new Content.Tagging.Tagger(TaggerInterop.TaggerMode.TagAndAggregate))
                 .AddTransient<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                 .AddSingleton<IWorkItemsService>(provider => new DummyUserWorkItemService(
                         itemCount: 5,

@@ -1,0 +1,36 @@
+﻿<tab>
+    <!--<tab-heading>
+        {{name}}
+        <div class="progress" ng-show="document.showProgress">
+            <div class="progress-bar progress-bar-striped active progress-bar-{{percentComplete}}"
+                 role="progressbar"
+                 aria-valuenow={{percentComplete}}
+                 aria-valuemin="0"
+                 aria-valuemax="100">{{percentComplete}}%</div>
+        </div>
+        <progress-bar value="percentComplete"></progress-bar>
+    </tab-heading>
+    <div id="{{documentId}}-tab-content">
+        <document document="documentModel"></document>
+    </div>-->
+
+    <tab-heading>
+        <div class="col-sm-4">
+            <progress-bar value="{{document.percentComplete}}"></progress-bar>
+        </div>
+        {{document.name}}
+
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active progress-bar-{{document.percentComplete}}"
+                 role="progressbar"
+                 aria-valuenow={{document.percentComplete}}
+                 aria-valuemin="0"
+                 aria-valuemax="100">{{document.percentComplete}}%</div>
+        </div>
+    </tab-heading>
+    <div class="panel-group" id="{{document.id}}-tab-content">
+        <div class="lexical-content-block"></div>
+    </div>
+</tab>
+

@@ -10,10 +10,14 @@
                    role="button"
                    aria-expanded="false">
                     <span class="glyphicon"
-                          ng-class="{ 'glyphicon-folder-close': controller.expanded, 'glyphicon-folder-open': !controller.expanded }">&nbsp;<span class="badge small">{{controller.documentCount}}</span></span>&nbsp;&nbsp;<b class="caret"></b>
+                          ng-class="{ 'glyphicon-folder-close': controller.expanded, 'glyphicon-folder-open': !controller.expanded }">
+                        &nbsp;<span class="badge small">{{controller.documentCount}}</span>
+                    </span>&nbsp;&nbsp;<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu" role="menu" ng-model="controller.documents">
-                    <li class="dropdown" id="document-list-item-manage"><a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a></li>
+                    <li class="dropdown" id="document-list-item-manage">
+                        <a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>
+                    </li>
                     <document-list-menu-item ng-repeat="document in controller.documents"
                                              ng-model="document"
                                              document-id="document.id"

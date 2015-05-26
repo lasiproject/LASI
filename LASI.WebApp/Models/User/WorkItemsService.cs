@@ -32,6 +32,17 @@ namespace LASI.WebApp.Models.User
                 return items;
             });
         }
+
+        public void RemoveAllForUser(string userId)
+        {
+            IEnumerable<WorkItem> removed;
+            workItems.TryRemove(userId, out removed);
+            if (removed == null)
+            {
+                throw new InvalidOperationException($"Unable to remove work items for user with id: {userId}");
+            }
+        }
+
         private readonly ConcurrentDictionary<string, IEnumerable<WorkItem>> workItems = new ConcurrentDictionary<string, IEnumerable<WorkItem>>();
     }
 }

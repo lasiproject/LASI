@@ -1,7 +1,7 @@
 /**!
  * AngularJS file upload/drop directive and service with progress and abort
  * @author  Danial  <danial.farid@gmail.com>
- * @version 4.2.1
+ * @version 4.2.4
  */
 (function () {
 
@@ -28,7 +28,7 @@ if (window.XMLHttpRequest && !window.XMLHttpRequest.__isFileAPIShim) {
 
 var ngFileUpload = angular.module('ngFileUpload', []);
 
-ngFileUpload.version = '4.2.1';
+ngFileUpload.version = '4.2.4';
 ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
     function sendHttp(config) {
         config.method = config.method || 'POST';
@@ -274,34 +274,45 @@ function linkFileSelect(scope, elem, attr, ngModel, $parse, $timeout, $compile) 
     }
 
     function clickHandler(evt) {
-    	evt.preventDefault();
+    	if (evt != null) {
+    		evt.preventDefault();
+    		evt.stopPropagation();
+    	}
         var fileElem = createFileInput(evt);
         if (fileElem) {
         	fileElem.bind('change', changeFn);
-        	resetModel(evt);
+        	if (evt) {
+        		resetModel(evt);
+        	}
 
-        	function clickAndAssign() {
-            	fileElem[0].click();
+        	function clickAndAssign(evt) {
+        		if (evt != null) {
+        			fileElem[0].click();
+        		}
     	        if (isInputTypeFile()) {
     	            elem.bind('click touchend', clickHandler);
-    	            evt.preventDefault()
     	        }
         	}
         	
         	// fix for android native browser
         	if (navigator.userAgent.toLowerCase().match(/android/)) {
                 setTimeout(function() {
-                	clickAndAssign();
+                	clickAndAssign(evt);
                 }, 0);        		
         	} else {
-        		clickAndAssign();
+        		clickAndAssign(evt);
         	}
         }
+        return false;
     }
+    
     if (window.FileAPI && window.FileAPI.ngfFixIE) {
         window.FileAPI.ngfFixIE(elem, createFileInput, bindAttrToFileInput, changeFn, resetModel);
     } else {
-        elem.bind('click touchend', clickHandler);
+        clickHandler();
+        if (!isInputTypeFile()) {
+        	elem.bind('click touchend', clickHandler);
+        }
     }
 }
 
@@ -525,12 +536,19 @@ ngFileUpload.directive('ngfSrc', ['$parse', '$timeout', function ($parse, $timeo
 							(!window.FileAPI || navigator.userAgent.indexOf('MSIE 8') === -1 || file.size < 20000) && 
 							(!window.FileAPI || navigator.userAgent.indexOf('MSIE 9') === -1 || file.size < 4000000)) {
 						$timeout(function() {
-							var fileReader = new FileReader();
-							fileReader.readAsDataURL(file);
-							fileReader.onload = function(e) {
-								$timeout(function() {
-									elem.attr('src', e.target.result);										
-								});
+							//prefer URL.createObjectURL for handling refrences to files of all sizes
+							//since it doesn´t build a large string in memory
+							var URL = window.URL || window.webkitURL;
+							if (URL && URL.createObjectURL){
+								elem.attr('src', URL.createObjectURL(file));
+							} else {
+								var fileReader = new FileReader();
+								fileReader.readAsDataURL(file);
+								fileReader.onload = function(e) {
+									$timeout(function() {
+										elem.attr('src', e.target.result);										
+									});
+								}
 							}
 						});
 					} else {

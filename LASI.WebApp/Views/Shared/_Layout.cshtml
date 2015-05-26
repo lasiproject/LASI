@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/results/results.css" />
 
 </head>
-<body ng-app="documentListApp" ng-cloak ng-controller="ListController as controller">
+<body ng-app="documentList" ng-cloak ng-controller="ListController as controller">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -36,9 +36,7 @@
                     </li>
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a href="#" class="glyphicon glyphicon-upload"></a></li>
-                    <li><a asp-controller="Results" asp-action="Index"></a></li>
-                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-controller="Results" asp-action="Index">Results</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -60,7 +58,11 @@
             <li ng-repeat="f in files" style="font:smaller">{{f.name}}</li>
         </ul>
         Upload Log:
-        <pre>{{log}}</pre>                <hr />
+        <pre>{{log}}</pre>
+        <hr /><div class="panel panel-body">
+            @await Html.PartialAsync("_DebugPanel")
+        </div>
+        <hr />
         <footer>
             <p>&copy; 2015 - @AppSettings.Options.SiteTitle</p>
         </footer>

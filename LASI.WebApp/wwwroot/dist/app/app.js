@@ -2,34 +2,37 @@ var LASI;
 (function () {
     LASI = LASI || function () {
         'use strict';
-        var log = console.log.bind(console), editor = $('#free-editor').change(log);
+        var log = console.log.bind(console);
         return {
             log: log,
-            editor: editor
+            editor: $('#free-editor').change(log)
         };
     }();
 })();
 
+(function (log) {
+    $(function () {
+        var debugPanel = $('#debug-panel');
+        var visible = true;
+        var toggleButton = $('#toggle-debug-panel');
+        toggleButton.click(function () {
+            toggleButton.text(visible ? 'hide' : 'show').toggleClass('btn-danger').toggleClass('btn-info');
+            visible = !visible;
+            debugPanel.toggle();
 
-//(function (log) {
-//    $(function () {
-//        var debugPanel = $('#debug-panel');
-//        window.setInterval(function () {
-//            $.getJSON('api/Tasks', { cache: false })
-//               .then(function (tasks) {
-//                   debugPanel.html(tasks.map(function (task) {
-//                       return "<div>" + Object.keys(task).map(function (key) {
-//                           return "<span>&nbsp&nbsp" + task[key] + "</span>";
-//                       }) + "</div>";
-//                   }).join());
-//               });
-//        }, 800);
-//    });
-//}(LASI.log));
-/**
- * Augments Array with the additional methods, if and only if a member with the same name as the method has not already been defined.
- */
-
+        })
+        window.setInterval(function () {
+            $.getJSON('api/Tasks', { cache: false })
+               .then(function (tasks) {
+                   debugPanel.html(tasks.map(function (task) {
+                       return "<div>" + Object.keys(task).map(function (key) {
+                           return "<span>&nbsp&nbsp" + task[key] + "</span>";
+                       }) + "</div>";
+                   }).join());
+               });
+        }, 800);
+    });
+}(LASI.log));
 (function () {
     'use strict';
     /** Adds the flatMap function to  Array.prototype, endowing all Arrays instances with it.
@@ -270,7 +273,6 @@ var LASI;
 //}());
 
 
-/* global: LASI: true */
 (function (app) {
     'use strict';
     app.validateFileExtension = (function () {
@@ -324,7 +326,6 @@ var LASI;
            });
     });
 }(LASI));
-/* global: draggable, enableDragging */
 (function (app) {
     'use strict';
     var log = app.log;
@@ -337,53 +338,63 @@ var LASI;
             '</a></h4></div></div>';
     };
     $(function () {
-        app.setupDraggableDialogs = function () {
-            var enableDragging = function (e) {
-                var handle = $(e).find('.handle')[0];
-                draggable(e, handle);
-                e.style.position = '';
+        window.setTimeout(function () {
+            app.setupDraggableDialogs = function () {
+                var enableDragging = function (e) {
+                    var handle = $(e).find('.handle')[0];
+                    draggable(e, handle);
+                    e.style.position = '';
+                };
+                // Make all confirm delete modals draggable.
+                $("[id^=confirm-delete-modal]").toArray().forEach(enableDragging);
+                // Make the manage documents modal draggable.
+                var draggableDialog = $('#manage-documents-modal');
+                var dragHandle = draggableDialog.find('.handle')[0];
+                if (draggableDialog[0] || dragHandle) {
+                    enableDragging(draggableDialog[0], dragHandle);
+                }
             };
-            // Make all confirm delete modals draggable.
-            $("[id^=confirm-delete-modal]").toArray().forEach(enableDragging);
-            // Make the manage documents modal draggable.
-            var draggableDialog = $('#manage-documents-modal');
-            var dragHandle = draggableDialog.find('.handle')[0];
-            if (draggableDialog[0] || dragHandle) {
-                enableDragging(draggableDialog[0], dragHandle);
-            }
-        };
-        app.setupDraggableDialogs();
-        $('.document-list-item > a').click(function (event) {
-            event.preventDefault();
-            var $listItem = $(this);
-            var $element = $(event.target);
-            var documentName = $element[0].text;
-            var documentId = $element.next()[0].textContent.trim();
-            log('clicked Name: ' + documentName + ', Id: ' + documentId);
-            var $parentListItem = $($(event.target).parent());
-            var $progress = $parentListItem
-                .find('.progress hidden')
-                .find('.progress-bar')
-                .removeClass('.hidden').css('width', '100');
-            var contentRequest = $.get('Results/' + documentId).done(function (data, status, xhr) {
-                var headerMarkup = $(createHeaderMarkup(documentId, documentName));
-                var panelMarkup = $('<div id="' + documentId + '" class="panel-collapse collapse in">' + data + '</div>' + '</div>');
-                if (!$('#' + documentId).length) {
-                    $('#accordion').append(headerMarkup).append(panelMarkup);
-                }
-                else {
-                    $('#' + documentId).remove();
-                    $('#accordion').append(panelMarkup);
-                }
-                xhr.progress('100%');
-                app.buildMenus();
-                app.enableActiveHighlighting();
-            }).fail(function (xhr, message, detail) {
-                log(message);
-            }).progress(function (data) {
-                $progress.css('width', data);
-            });
-        });
+            app.setupDraggableDialogs();
+            var $tabs = $('.document-viewer-tab-heading');
+            var $listItemRefs = $('.document-list-item > a');
+            var click = function (event) {
+                event.preventDefault();
+                var $listItem = $(this);
+                var $element = $(event.target);
+                var documentName = $element[0].text;
+                var documentId = $element.find('span.hidden')[0].textContent.trim();
+                log('clicked Name: ' + documentName + ', Id: ' + documentId);
+                var $parentListItem = $($(event.target).parent());
+                var $progress = $parentListItem
+                    .find('.progress hidden')
+                    .find('.progress-bar')
+                    .removeClass('.hidden').css('width', '100');
+                $.get('Results/' + documentId)
+                   .done(function (data, status, xhr) {
+                       var headerMarkup = $(createHeaderMarkup(documentId, documentName));
+                       var panelMarkup = $(`<div id="${documentId}" class="panel-collapse collapse in"><document document="document"></document></div></div>`);
+                       if (!$('#' + documentId).length) {
+                           $('#accordion').append(headerMarkup).append(panelMarkup);
+                           
+                       }
+                       else {
+                           $('#' + documentId).remove();
+                           $('#accordion').append(panelMarkup);
+                       }
+                       xhr.progress('100%');
+                       app.buildMenus();
+                       app.enableActiveHighlighting();
+                   })
+                   .fail(function (xhr, message, detail) {
+                       log(message);
+                   })
+                   .progress(function (data) {
+                       $progress.css('width', data);
+                   });
+            };
+            $listItemRefs.click(click);
+            $tabs.click(click);
+        }, 1000);
     });
 }(LASI));
 
@@ -393,19 +404,22 @@ var LASI;
         return;
     }
     else {
-        LASI.documentList = LASI.documentList || { ngName: 'documentListApp' };
+        LASI.documentList = LASI.documentList || { ngName: 'documentList' };
     }
 })();
 
-'use strict';
 (function () {
-    angular
-        .module(LASI.documentList.ngName, ['ngResource', 'ui.bootstrap', 'ngFileUpload'])
-        .config(configure);
+    'use strict';
+    angular.module(LASI.documentList.ngName, [
+        'ngResource',
+        'ui.bootstrap',
+        'ui.bootstrap.contextMenu',
+        'ngFileUpload'
+    ]).config(configure);
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
     function configure(tasksListServiceProvider, documentListServiceProvider) {
         tasksListServiceProvider
-            .setUpdateInterval(5000)
+            .setUpdateInterval(2000)
             .setTasksListUrl('api/Tasks');
         documentListServiceProvider
             .setRecentDocumentCount(3)
@@ -413,7 +427,6 @@ var LASI;
     }
 })();
 
-/// <reference path = "IDocumentListItem.d.ts" />
 var DocumentListServiceProvider = (function () {
     function DocumentListServiceProvider() {
         this.$inject = ['$resource'];
@@ -481,8 +494,8 @@ var DocumentListServiceProvider = (function () {
     angular
         .module(LASI.documentList.ngName)
         .service('resultsService', resultsService);
-    resultsService.$inject = ['$http', '$q', '$log'];
-    function resultsService($http, $q, $log) {
+    resultsService.$inject = ['$http', '$q'];
+    function resultsService($http, $q) {
         /* jshint validthis:true */
         this.tasks = [];
         var that = this;
@@ -529,7 +542,7 @@ var DocumentListServiceProvider = (function () {
             transclude: true,
             replace: true,
             restrict: 'E',
-            templateUrl: '/app/widgets/document-list-app/document-list-menu-item.html',
+            templateUrl: '/app/widgets/document-list/document-list-menu-item.html',
             scope: {
                 name: '=',
                 documentId: '='
@@ -555,25 +568,31 @@ var DocumentListServiceProvider = (function () {
     angular
         .module(LASI.documentList.ngName)
         .directive('documentListTabsetItem', documentListTabsetItem);
-    documentListTabsetItem.$inject = [];
-    function documentListTabsetItem() {
-        var directive = {
-            transclude: true,
-            replace: true,
+    documentListTabsetItem.$inject = ['resultsService'];
+    function documentListTabsetItem(resultsService) {
+        return {
             restrict: 'E',
-            link: link,
+            link: function (scope, element, attrs) {
+                element.click(function (event) {
+                    event.stopPropagation();
+                    resultsService.processDocument(scope.documentId, scope.name);
+                    event.preventDefault();
+                    var promise = resultsService.processDocument(scope.documentId, scope.name);
+                    scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
+                    scope.showProgress = true;
+                    promise.then(function () {
+                        scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
+                    });
+                });
+                console.log(attrs);
+            },
             scope: {
                 documentId: '=',
                 name: '=',
-                percentComplete: '=',
-                documentModel: '='
+                percentComplete: '='
             },
-            templateUrl: '/app/widgets/document-list-app/document-list-tabset-item.html',
+            templateUrl: '/app/widgets/document-list/document-list-tabset-item.html',
         };
-        return directive;
-        function link(scope, element, attrs) {
-            console.log(attrs);
-        }
     }
 })();
 
@@ -690,5 +709,151 @@ var tasksListServiceProvider = function () {
         }
     }
 })();
+
+(function () {
+    'use strict';
+    if (!LASI) {
+        return;
+    }
+    else {
+        LASI.documentViewer = LASI.documentViewer || { ngName: 'documentViewer' };
+    }
+})();
+
+var App;
+(function (App) {
+    'use strict';
+    angular.module(LASI.documentViewer.ngName, [
+        'ngResource', 'ui.bootstrap', 'ui.bootstrap.contextMenu'
+    ]);
+})(App || (App = {}));
+
+var App;
+(function (App) {
+    'use strict';
+    var DocumentController = (function () {
+        function DocumentController(documentModelService, $location) {
+            this.documentModelService = documentModelService;
+            this.$location = $location;
+            this.title = 'DocumentController';
+            this.activate();
+        }
+        DocumentController.prototype.activate = function () {
+            this.documentModel = this.documentModelService.getData();
+        };
+        DocumentController.$inject = ['DocumentModelService', '$location'];
+        return DocumentController;
+    })();
+    angular
+        .module(LASI.documentViewer.ngName)
+        .controller('DocumentController', DocumentController);
+})(App || (App = {}));
+
+var App;
+(function (App) {
+    'use strict';
+    var DocumentModelService = (function () {
+        function DocumentModelService($resource) {
+            this.$resource = $resource;
+            this.documentSource = $resource('Results/:documentId');
+        }
+        DocumentModelService.prototype.getData = function () {
+            return this.$resource('tests/dummy-data/doc.json').get();
+        };
+        DocumentModelService.prototype.processDocument = function (documentId) {
+            return this.documentSource.get({ documentId: documentId });
+        };
+        DocumentModelService.$inject = ['$resource'];
+        return DocumentModelService;
+    })();
+    angular
+        .module(LASI.documentViewer.ngName)
+        .service('DocumentModelService', DocumentModelService);
+})(App || (App = {}));
+
+var App;
+(function (App) {
+    'use strict';
+    document.$inject = ['$window'];
+    function document($window) {
+        var link = function (scope, element, attrs) {
+            console.log(scope);
+        };
+        return {
+            restrict: 'E',
+            templateUrl: '/app/document-viewer/document.html',
+            replace: true,
+            scope: {
+                document: '='
+            },
+            link: link
+        };
+        //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
+    }
+    angular
+        .module(LASI.documentViewer.ngName)
+        .directive('document', document);
+})(App || (App = {}));
+
+var App;
+(function (App) {
+    'use strict';
+    function phrase() {
+        return {
+            restrict: 'E',
+            templateUrl: '/app/widgets/document-list-app/interactive-representations/lexical/phrase.html',
+            link: function (scope, element, attrs) {
+                console.log(attrs);
+                var menu = scope.phrase.contextmenu;
+            },
+            scope: {
+                phrase: '=',
+                parentId: '='
+            }
+        };
+    }
+    angular.module(LASI.documentViewer.ngName).directive('phrase', phrase);
+})(App || (App = {}));
+
+
+var App;
+(function (App) {
+    'use strict';
+    paragraph.$inject = ['$window'];
+    function paragraph($window) {
+        var link = function (scope, element, attrs) {
+            //console.log(scope.parentId);
+        };
+        return {
+            restrict: 'E',
+            templateUrl: '/app/document-viewer/paragraph.html',
+            link: link,
+            scope: {
+                paragraph: '=',
+                parentId: '='
+            }
+        };
+    }
+    angular.module(LASI.documentViewer.ngName).directive('paragraph', paragraph);
+})(App || (App = {}));
+
+var App;
+(function (App) {
+    'use strict';
+    function sentence() {
+        return {
+            restrict: 'E',
+            templateUrl: '/app/document-viewer/sentence.html',
+            link: function (scope, element, attrs) {
+                console.log(attrs);
+            },
+            scope: {
+                sentence: '=',
+                parentId: '='
+            }
+        };
+    }
+    angular.module(LASI.documentViewer.ngName).directive('sentence', sentence);
+})(App || (App = {}));
 
 //# sourceMappingURL=app.js.map

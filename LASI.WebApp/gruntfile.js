@@ -3,11 +3,12 @@
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
 module.exports = function (grunt) {
+    'use strict';
     /**
      * prefixor factory
      * @param {string} pathPrefix - the prefix
      */
-    function prefix(pathPrefix ) {
+    function prefix(pathPrefix) {
         return function (path) {
             return pathPrefix + path;
         };
@@ -57,7 +58,6 @@ module.exports = function (grunt) {
             dist: {
                 src: [
                     'LASI.js',
-                    'utilities/log.js',
                     'debug-panel/debug-panel.js',
                     'utilities/augmentations.js',
                     'account/manage.js',
@@ -65,19 +65,23 @@ module.exports = function (grunt) {
                     'results/result-chart-provider.js',
                     'widgets/document-upload.js',
                     'widgets/document-list.js',
-                    'widgets/document-list-app/section.js',
-                    'widgets/document-list-app/app.js',
-                    'widgets/document-list-app/document-list-service-provider.js',
-                    'widgets/document-list-app/documents-service.js',
-                    'widgets/document-list-app/delete-document-modal-controller.js',
-                    'widgets/document-list-app/results-service.js',
-                    'widgets/document-list-app/document-list-menu-item.js',
-                    'widgets/document-list-app/document-list-tabset-item.js',
-                    'widgets/document-list-app/tasks-list-service-provider.js',
-                    'widgets/document-list-app/list-controller.js'
+                    'widgets/document-list/section.js',
+                    'widgets/document-list/app.js',
+                    'widgets/document-list/document-list-service-provider.js',
+                    'widgets/document-list/documents-service.js',
+                    'widgets/document-list/delete-document-modal-controller.js',
+                    'widgets/document-list/results-service.js',
+                    'widgets/document-list/document-list-menu-item.js',
+                    'widgets/document-list/document-list-tabset-item.js',
+                    'widgets/document-list/tasks-list-service-provider.js',
+                    'widgets/document-list/list-controller.js',
+                    'document-viewer/section.js',
+                    'document-viewer/**/*.js'
                 ].map(prefix('wwwroot/app/')),
                 dest: 'wwwroot/dist/app/app.js',
-            }, options: { sourceMap: true }
+            }, options: {
+                sourceMap: true, stripBanners: { block: true, line: true }
+            }
         },
         cssmin: {
             options: {

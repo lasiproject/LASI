@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html ng-app="documentViewer">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Representations Module Test</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="../../css/widgets/document-upload.css" />
+    <link rel="stylesheet" href="../../css/vertical-tab-support-for-angular-ui-bootstrap.css" />
+    <link rel="stylesheet" href="../../css/results/results.css" />
+    <link rel="stylesheet" href="../../css/site.css" />
+</head>
+<body ng-controller="DocumentController as data">
+    <div class="row">
+        <div class="col-md-7 panel-title">
+            Interactive Representations Module Test
+        </div>
+
+        <div class="document col-md-7">
+            <document document="data.documentModel">
+            </document>
+
+        </div>
+    </div>
+    <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/angular/angular.js"></script>
+    <script src="../../lib/angular-resource/angular-resource.js"></script>
+    <script src="../../lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="../../lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
+
+    <script src="app.js"></script>
+    <script src="models.js"></script>
+
+    <script src="document-controller.js"></script>
+    <script src="document-model-service.js"></script>
+    <script src="document.js"></script>
+    <script src="paragraph.js"></script>
+    <script src="sentence.js"></script>
+    <script src="lexical/phrase.js"></script>
+</body>
+</html>

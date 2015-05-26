@@ -132,7 +132,7 @@ namespace LASI.Interop
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IRawTextSource> rawTextSources;
-        private Tagger tagger = new Tagger();
+        private readonly Tagger tagger = new Tagger();
         public IEnumerable<Document> Results { get; private set; }
         #endregion Fields
     }
