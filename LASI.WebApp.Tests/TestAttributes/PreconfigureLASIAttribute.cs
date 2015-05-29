@@ -10,7 +10,7 @@ namespace LASI.WebApp.Tests.TestAttributes
     {
         public override void Before(MethodInfo methodUnderTest)
         {
-            ConfigureLASIComponents(Path.Combine(Directory.GetCurrentDirectory(), "config.json"), "Data");
+            ConfigureLASIComponents(Path.Combine(Directory.GetCurrentDirectory(), "config.json"), "Resources");
             base.Before(methodUnderTest);
         }
         private static void ConfigureLASIComponents(string fileName, string subkey)

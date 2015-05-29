@@ -34,14 +34,14 @@ namespace LASI.Content.Tests
             string name = "test fragment";
             RawTextFragment target = new RawTextFragment(text, name);
             Assert.AreEqual(target.Name, name);
-            Assert.AreEqual(target.GetText(), string.Join("\n", text));
+            Assert.AreEqual(target.LoadText(), string.Join("\n", text));
         }
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
@@ -49,15 +49,15 @@ namespace LASI.Content.Tests
             string name = "test fragment";
             RawTextFragment target = new RawTextFragment(text, name);
             string expected = string.Join("\n", text);
-            string actual = target.GetText();
+            string actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
             IEnumerable<string> text = new[] {
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
@@ -66,7 +66,7 @@ namespace LASI.Content.Tests
             string name = "test fragment";
             RawTextFragment target = new RawTextFragment(text, name);
             string expected = string.Join("\n", text);
-            string actual = target.GetTextAsync().Result;
+            string actual = target.LoadTextAsync().Result;
             Assert.AreEqual(expected, actual);
         }
 

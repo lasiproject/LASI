@@ -66,32 +66,32 @@ namespace LASI.Content.Tests
             TaggedFile target = new TaggedFile(invalidPath);
         }
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             string expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
-            GetTextAsyncTestHelper().Wait();
+            LoadTextAsyncTestHelper().Wait();
         }
 
-        private static async Task GetTextAsyncTestHelper()
+        private static async Task LoadTextAsyncTestHelper()
         {
             TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             Task<string> expected = Task.FromResult(File.ReadAllText(VALID_TAGGED_FILE_PATH));
-            Task<string> actual = target.GetTextAsync();
+            Task<string> actual = target.LoadTextAsync();
             Assert.AreEqual(await expected, await actual);
         }
     }

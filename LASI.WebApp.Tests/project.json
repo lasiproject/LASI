@@ -1,9 +1,9 @@
 {
     "version": "1.0.0-*",
-    "description": "",
+    "description": "Contains unit tests for the LASI.WebApp project.",
     "authors": [ "" ],
     "tags": [ "" ],
-    "projectUrl": "",
+    "projectUrl": "http://lasi-project.org",
     "licenseUrl": "",
     "dependencies": {
         "xunit": "2.1.0-beta2-*",

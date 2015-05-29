@@ -60,10 +60,10 @@ namespace LASI.Content.Tests
         }
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
@@ -74,15 +74,15 @@ namespace LASI.Content.Tests
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
             string expected = string.Join("\n", lines);
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
@@ -93,7 +93,7 @@ namespace LASI.Content.Tests
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
             string expected = string.Join("\n", lines);
             string actual = null;
-            Task.WaitAll(Task.Run(async () => actual = await target.GetTextAsync()));
+            Task.WaitAll(Task.Run(async () => actual = await target.LoadTextAsync()));
             Assert.AreEqual(expected, actual);
         }
     }

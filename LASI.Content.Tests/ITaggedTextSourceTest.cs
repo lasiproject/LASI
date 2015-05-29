@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
     public class ITaggedTextSourceTest
     {
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
         public void GetTextAsyncTest()
@@ -18,12 +18,12 @@ namespace LASI.Content.Tests
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = ExpectedText;
             string actual;
-            actual = target.GetTextAsync().Result;
+            actual = target.LoadTextAsync().Result;
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
         public void GetTextTest()
@@ -31,7 +31,7 @@ namespace LASI.Content.Tests
             ITaggedTextSource target = CreateITaggedTextSource();
             string expected = ExpectedText;
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 

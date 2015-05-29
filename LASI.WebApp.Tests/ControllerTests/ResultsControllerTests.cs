@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.WebApp.Controllers;
-using LASI.WebApp.Models.DocumentStructures;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
 using LASI.WebApp.Tests.TestAttributes;
 using LASI.WebApp.Tests.TestSetup;
@@ -15,7 +14,7 @@ namespace LASI.WebApp.Tests.ControllerTests
     {
         [Fact]
         [PreconfigureLASI]
-        public async Task GetWithNoParamsTest1()
+        public void GetWithNoParamsTest1()
         {
             var provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
                 .AddMockWorkItemsService(User)
@@ -23,7 +22,7 @@ namespace LASI.WebApp.Tests.ControllerTests
             ResultsController controller = provider.GetService<ResultsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
 
-            IEnumerable<dynamic> allResults = await controller.Get();
+            IEnumerable<dynamic> allResults = controller.Get().Result;
             Assert.NotEmpty(allResults);
         }
     }

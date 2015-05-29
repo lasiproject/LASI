@@ -78,7 +78,6 @@
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
-    <Compile Include="FileConverterTest.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="InputFileTest.cs" />
     <Compile Include="IRawTextSourceTest.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="Serialization\Json\SerializationExtensionsTest.cs" />
     <Compile Include="TaggedFileTest.cs" />
     <Compile Include="TaggedTextFragmentTest.cs" />
-    <Compile Include="TaggerTest.cs" />
     <Compile Include="TxtFileTest.cs" />
   </ItemGroup>
   <ItemGroup>

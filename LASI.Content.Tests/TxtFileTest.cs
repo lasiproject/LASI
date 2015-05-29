@@ -61,35 +61,35 @@ namespace LASI.Content.Tests
         }
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(path).ReadToEnd();
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
-            GetTextAsyncTestHelper().Wait();
+            LoadTextAsyncTestHelper().Wait();
         }
 
-        private async Task GetTextAsyncTestHelper()
+        private async Task LoadTextAsyncTestHelper()
         {
             string path = VALID_TXT_FILE_PATH;
             TxtFile target = new TxtFile(path);
             string expected = new System.IO.StreamReader(target.FullPath).ReadToEndAsync().Result;
             string actual = null;
-            actual = await target.GetTextAsync();
+            actual = await target.LoadTextAsync();
             Assert.AreEqual(expected, actual);
         }
     }

@@ -73,30 +73,30 @@ namespace LASI.Content.Tests
 
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
             string text = string.Join("\n", lines);
             IRawTextSource target = new RawTextFragment(text, "test fragment");
             string expected = text;
             string actual;
-            actual = target.GetTextAsync().Result;
+            actual = target.LoadTextAsync().Result;
             Assert.AreEqual(expected, actual);
         }
 

@@ -24,7 +24,6 @@ namespace LASI.Content.Tests
         #endregion
         class TestPhraseTagsetMap : PhraseTagsetMap
         {
-
             public override Func<IEnumerable<Word>, Phrase> this[string tag]
             {
                 get

@@ -35,9 +35,9 @@ namespace LASI.Content.Tests
         {
             PdfFile infile = new PdfFile(TestPdfFilePath);
             PdfToTextConverter target = new PdfToTextConverter(infile);
-            string expected = infile.GetText();
+            string expected = infile.LoadText();
             string actual;
-            actual = target.ConvertFile().GetText();
+            actual = target.ConvertFile().LoadText();
             Assert.AreEqual(expected, actual);
         }
 
@@ -49,9 +49,9 @@ namespace LASI.Content.Tests
         {
             PdfFile infile = new PdfFile(TestPdfFilePath);
             PdfToTextConverter target = new PdfToTextConverter(infile);
-            string expected = infile.GetText();
+            string expected = infile.LoadText();
             string actual;
-            actual = target.ConvertFileAsync().Result.GetText();
+            actual = target.ConvertFileAsync().Result.LoadText();
             Assert.AreEqual(expected, actual);
         }
     }

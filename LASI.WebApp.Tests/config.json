@@ -2,28 +2,24 @@
     "AppSettings": {
         "SiteTitle": "LASI.WebApp"
     },
-    "Data": {
-        "DefaultConnection": {
-            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-LASI.WebApp-ae8b8650-205e-421b-9590-c2a6617e061d;Trusted_Connection=True;MultipleActiveResultSets=true"
-        },
-        "ProjectWebsite": "http://lasi-project.org",
-        "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp\\Resources\\",
-        "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
-        "WordnetSearchDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\",
-        "WordnetFileDirectory": "WordNetThesaurusData\\",
-        "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
-        "NameDataDirectory": "LASICustom\\NameData\\",
+    "Resources": {
         "ConvertersDirectory": "StandaloneFileConverters\\",
-        "AutoDebugCleanupOn": "true",
-        "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
+        "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+        "NameDataDirectory": "LASICustom\\NameData\\",
+        "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp.Old\\Resources\\",
+        "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
+        "WordnetFileDirectory": "WordNetThesaurusData\\",
+        "WordnetSearchDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\"
+    },
+    "MongoDB": {
         "CreateMongoDbProcess": true,
-        "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",
-        "AccountStorageMedium": "MongoDb",
-        "MongoDbInstanceUrl": "mongodb://localhost:27017",
         "ApplicationDatabaseName": "accounts",
+        "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",
+        "MongoDbInstanceUrl": "mongodb://localhost:27017",
+        "MongodExePath": "C:/Program Files/MongoDB 2.6 Standard/bin/mongod.exe",
         "UserCollectionName": "users",
         "UserDocumentCollectionName": "documents",
-        "UserRoleCollectionName": "roles",
-        "OrganizationCollectionName": "organizations"
+        "OrganizationCollectionName": "organizations",
+        "UserRoleCollectionName": "roles"
     }
 }

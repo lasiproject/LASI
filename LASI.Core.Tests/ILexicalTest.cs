@@ -70,11 +70,11 @@ namespace LASI.Core.Tests
 
         internal virtual ILexical CreateILexical()
         {
-            ILexical target = new AggregateEntity(new IEntity[] {
-                    new PersonalPronoun("him"),
-                    new ProperSingularNoun("Patrick"),
-                    new NounPhrase(new Word[] { new ProperSingularNoun("Brittany") })
-                });
+            ILexical target = new AggregateEntity(
+                new PersonalPronoun("him"),
+                new ProperSingularNoun("Patrick"),
+                new NounPhrase(new ProperSingularNoun("Brittany"))
+            );
             return target;
         }
 

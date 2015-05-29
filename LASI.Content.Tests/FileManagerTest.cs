@@ -166,10 +166,10 @@ namespace LASI.Content.Tests
             Assert.IsTrue(files.Any());
             await FileManager.ConvertDocToTextAsync(files);
 
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
 
@@ -205,10 +205,10 @@ namespace LASI.Content.Tests
             DocFile[] files = GetTestDocFiles();
             Assert.IsTrue(files.Any());
             await FileManager.ConvertDocToTextAsync(files);
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
         /// <summary>
@@ -221,10 +221,10 @@ namespace LASI.Content.Tests
             Assert.IsTrue(files.Any());
 
             FileManager.ConvertDocToText(files);
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
         /// <summary>
@@ -235,17 +235,22 @@ namespace LASI.Content.Tests
         {
             DocXFile[] files = GetTestDocXFiles();
             Assert.IsTrue(files.Any());
-
-            files.Select(f => f.FullPath).ForEach(p => FileManager.AddFile(p));
-            EnumerableAssert.AreSetEqual(files.Select(f => f.FileName), from file in Directory.EnumerateFiles(FileManager.DocxFilesDirectory)
-                                                                        select new DocXFile(file).FileName, StringComparer.OrdinalIgnoreCase);
+            foreach (var path in from file in files select file.FullPath)
+            {
+                FileManager.AddFile(path);
+            }
+            EnumerableAssert.AreSetEqual(
+                files.Select(f => f.FileName),
+                from file in Directory.EnumerateFiles(FileManager.DocxFilesDirectory)
+                select new DocXFile(file).FileName, StringComparer.OrdinalIgnoreCase
+            );
 
             await FileManager.ConvertDocxToTextAsync(files);
 
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
         /// <summary>
@@ -257,10 +262,10 @@ namespace LASI.Content.Tests
             DocXFile[] files = GetTestDocXFiles();
 
             FileManager.ConvertDocxToText(files);
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
 
         }
 
@@ -275,10 +280,10 @@ namespace LASI.Content.Tests
                 Assert.Inconclusive();
             await FileManager.ConvertPdfToTextAsync(files);
             Assert.IsTrue(files.Any());
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
         /// <summary>
@@ -291,10 +296,10 @@ namespace LASI.Content.Tests
             if (!files.Any())
                 Assert.Inconclusive();
             FileManager.ConvertPdfToText(files);
-            files.ForEach(file =>
+            foreach (var file in files)
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
-            });
+            }
         }
 
         /// <summary>
@@ -455,7 +460,7 @@ namespace LASI.Content.Tests
         static Func<string, string> mapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
         private TestContext testContextInstance;
         #region Additional test attributes
-        
+
         [TestCleanup]
         public void MyTestCleanup()
         {
@@ -464,7 +469,7 @@ namespace LASI.Content.Tests
                 FileManager.DecimateProject();
             }
         }
-       
+
         [TestInitialize]
         public void MyTestInitialize()
         {

@@ -43,29 +43,29 @@ namespace LASI.Content.Tests
             PdfFile target = new PdfFile(pathToNonPdfFile);
         }
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             PdfFile target = new PdfFile(TestPdfFilePath);
-            string expected = new PdfToTextConverter(target).ConvertFile().GetText();
+            string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
             string path = TestPdfFilePath;
             PdfFile target = new PdfFile(path);
-            string expected = new PdfToTextConverter(target).ConvertFile().GetText();
+            string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
-            actual = target.GetTextAsync().Result;
+            actual = target.LoadTextAsync().Result;
             Assert.AreEqual(expected, actual);
         }
     }

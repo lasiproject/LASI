@@ -16,36 +16,12 @@ namespace LASI.Content.Tests
     public class DocxToTextConverterTest
     {
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-
-        #endregion
-
-        private static DocXFile InitDocFile()
+        private static DocXFile CreateDocXFile()
         {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             DocXFile infile = new DocXFile(path);
             return infile;
         }
-
-
 
         /// <summary>
         ///A test for ConvertFileAsync
@@ -53,7 +29,7 @@ namespace LASI.Content.Tests
         [TestMethod]
         public async Task ConvertFileAsyncTest()
         {
-            DocXFile infile = InitDocFile();
+            DocXFile infile = CreateDocXFile();
             DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = await target.ConvertFileAsync();
@@ -65,8 +41,8 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void ConvertFileTest()
         {
-            DocXFile infile = InitDocFile();
-            DocxToTextConverter target = new DocxToTextConverter(infile); // TODO: Initialize to an appropriate value
+            DocXFile infile = CreateDocXFile();
+            DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = target.ConvertFile();
             Assert.IsTrue(File.Exists(actual.FullPath));
@@ -77,7 +53,7 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void DocxToTextConverterConstructorTest()
         {
-            DocXFile infile = InitDocFile(); // TODO: Initialize to an appropriate value
+            DocXFile infile = CreateDocXFile();
             DocxToTextConverter target = new DocxToTextConverter(infile);
             Assert.AreEqual(target.Original.FullPath, infile.FullPath);
         }

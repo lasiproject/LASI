@@ -1,5 +1,4 @@
 ﻿using LASI.WebApp.Controllers.Controllers;
-using LASI.WebApp.Models;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
 using Xunit;
@@ -34,7 +33,7 @@ namespace LASI.WebApp.Tests.ControllerTests
             var provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
                 .BuildServiceProvider();
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
-            controller.ActionContext = provider.GetService<ActionContext>(); 
+            controller.ActionContext = provider.GetService<ActionContext>();
         }
     }
 }

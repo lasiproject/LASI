@@ -62,10 +62,10 @@ namespace LASI.Content.Tests
         }
 
         /// <summary>
-        ///A test for GetText
+        ///A test for LoadText
         /// </summary>
         [TestMethod]
-        public void GetTextTest()
+        public void LoadTextTest()
         {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
@@ -74,22 +74,22 @@ namespace LASI.Content.Tests
                 expected = reader.ReadToEnd();
             }
             string actual;
-            actual = target.GetText();
+            actual = target.LoadText();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetTextAsync
+        ///A test for LoadTextAsync
         /// </summary>
         [TestMethod]
-        public void GetTextAsyncTest()
+        public void LoadTextAsyncTest()
         {
             InputFile target = CreateInputFile();
             string expected = string.Empty;
             string actual = null;
             Task.WaitAll(Task.Run(
                 async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
-                Task.Run(async () => actual = await target.GetTextAsync())
+                Task.Run(async () => actual = await target.LoadTextAsync())
             );
             Assert.AreEqual(expected, actual);
         }

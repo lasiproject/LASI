@@ -4,17 +4,14 @@ using Shared.Test.Attributes;
 
 namespace LASI.Content.Tests
 {
-
-
     /// <summary>
-    ///This is a test class for DocXFileTest and is intended
-    ///to contain all DocXFileTest Unit Tests
+    /// This is a test class for DocXFileTest and is intended to contain all DocXFileTest Unit Tests
     /// </summary>
     [TestClass]
     public class DocXFileTest
     {
         /// <summary>
-        ///A test for DocXFile Constructor
+        /// A test for DocXFile Constructor
         /// </summary>
         [TestMethod]
         public void DocXFileConstructorTest()
@@ -24,8 +21,9 @@ namespace LASI.Content.Tests
             Assert.IsTrue(System.IO.File.Exists(path));
             Assert.AreEqual(System.IO.Path.GetFullPath(path), target.FullPath);
         }
+
         /// <summary>
-        ///A test for DocXFile Constructor
+        /// A test for DocXFile Constructor
         /// </summary>
         [TestMethod]
         [ExpectedFileTypeWrapperMismatchException]
@@ -34,8 +32,9 @@ namespace LASI.Content.Tests
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
             DocXFile target = new DocXFile(path);
         }
+
         /// <summary>
-        ///A test for DocXFile Constructor
+        /// A test for DocXFile Constructor
         /// </summary>
         [TestMethod]
         [ExpectedFileNotFoundException]

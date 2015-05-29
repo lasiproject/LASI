@@ -11,8 +11,9 @@ namespace LASI.Core.Tests
         ///A test for PrepositionOnLeft
         /// </summary>
         [TestMethod]
-        public void PrepositionOnLeftTest() {
-            IPrepositionLinkable target = CreateILexical();
+        public void PrepositionOnLeftTest()
+        {
+            IPrepositionLinkable target = CreatePrepositionLinkable();
             IPrepositional expected = new Preposition("with");
             IPrepositional actual;
             target.PrepositionOnLeft = expected;
@@ -24,8 +25,9 @@ namespace LASI.Core.Tests
         ///A test for PrepositionOnRight
         /// </summary>
         [TestMethod]
-        public void PrepositionOnRightTest() {
-            IPrepositionLinkable target = CreateILexical();
+        public void PrepositionOnRightTest()
+        {
+            IPrepositionLinkable target = CreatePrepositionLinkable();
             IPrepositional expected = new Preposition("with");
             IPrepositional actual;
             target.PrepositionOnRight = expected;
@@ -33,6 +35,6 @@ namespace LASI.Core.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        private IPrepositionLinkable CreateILexical() => new CommonSingularNoun("bacon");
+        private static IPrepositionLinkable CreatePrepositionLinkable() => new CommonSingularNoun("bacon");
     }
 }
