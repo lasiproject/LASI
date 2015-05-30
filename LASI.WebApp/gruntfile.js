@@ -8,9 +8,9 @@ module.exports = function (grunt) {
      * prefixor factory
      * @param {string} pathPrefix - the prefix
      */
-    function prefix(pathPrefix) {
+    function prefix(prefix) {
         return function (path) {
-            return pathPrefix + path;
+            return prefix + path;
         };
     };
     grunt.initConfig({
@@ -24,13 +24,6 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            app: {
-                src: 'wwwroot/app/**/*.js',
-                verbose: true,
-                maxparams: 4,
-                undef: true,
-                unused: true
-            },
             test: {
                 src: 'wwwroot/test/**/*.js',
                 verbose: true,
@@ -39,21 +32,20 @@ module.exports = function (grunt) {
                 unused: true
             },
         },
-        qunit: {
-            all: ['wwwroot/test/**/*.html']
-        },
-        'jsmin-sourcemap': {
-            lib: {
+        tslint: {
+            options: {
+                configuration: grunt.file.readJSON('tslint.json')
+            },
+            app: {
                 src: [
-                    'jquery/**/*.js',
-                    'jquery-validation/**/*.js',
-                    'jquery-validation-unobtrusive/**/*.js',
-                    'bootstrap/js/bootstrap.js',
-                    'bootstrap-contextmenu/bootstrap-contextmenu.js'
-                ].map(prefix('wwwroot/lib/')),
-                dest: 'wwwroot/dist/lib/lib.min.js'
+                    'wwwroot/app/widgets/**/*.ts',
+                    'wwwroot/app/document-viewer/**/*.ts',
+                    'wwwroot/app/*.ts',
+                ]
             }
         },
+        qunit: { all: ['wwwroot/test/**/*.html'] },
+
         concat: {
             dist: {
                 src: [
@@ -63,6 +55,7 @@ module.exports = function (grunt) {
                     'account/manage.js',
                     'results/context-menu-provider.js',
                     'results/result-chart-provider.js',
+                    'document-viewer/**/*.js',
                     'widgets/document-upload.js',
                     'widgets/document-list.js',
                     'widgets/document-list/section.js',
@@ -75,12 +68,15 @@ module.exports = function (grunt) {
                     'widgets/document-list/document-list-tabset-item.js',
                     'widgets/document-list/tasks-list-service-provider.js',
                     'widgets/document-list/list-controller.js',
-                    'document-viewer/section.js',
-                    'document-viewer/**/*.js'
+                    'document-viewer/section.js'
                 ].map(prefix('wwwroot/app/')),
                 dest: 'wwwroot/dist/app/app.js',
             }, options: {
-                sourceMap: true, stripBanners: { block: true, line: true }
+                sourceMap: true,
+                stripBanners: {
+                    block: true,
+                    line: true
+                }
             }
         },
         cssmin: {
@@ -102,6 +98,10 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            appts: {
+                files: ['wwwroot/app/**/*ts'],
+                tasks: ['tslint:app']
+            },
             appjs: {
                 files: ['wwwroot/app/**/*.js'],
                 tasks: ['qunit:all', 'concat']
@@ -122,7 +122,6 @@ module.exports = function (grunt) {
                 files: ['wwwroot/lib/**/*.css'],
                 tasks: ['cssmin:lib']
             }
-
         }
     });
 
@@ -141,7 +140,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-jsmin-sourcemap');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-tslint');
 };
