@@ -46,27 +46,7 @@ namespace LASI.Core.Heuristics.WordNet
                         OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2));
                     }
                 }
-            }
-            //    indexedSynsets.ToObservable()
-            //        .Do(set =>
-            //        {
-            //            ++setsEnumerated;
-            //            setsById[set.Set.Id] = set.Set;
-            //        })
-            //        .Sample(TimeSpan.FromMilliseconds(20))
-            //        //.Where(e => e.LineNumber % 821 == 0)
-            //        .Subscribe(
-            //            onNext: e =>
-            //            {
-            //                ++setsSampled;
-            //                OnReport(new EventArgs($"Loaded Noun Data - Set: {e.LineNumber} / {TotalLines}", ProgressAmount * 2));
-            //            },
-            //            onCompleted: () => OnReport(new EventArgs("Noun Data Loaded", 1)),
-            //            onError: e =>
-            //            {
-            //                e.Log();
-            //            });
-            //}
+            } 
             catch (Exception e)
             {
                 e.Log();
@@ -74,9 +54,9 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        private static NounSynSet CreateSet(string fileLine)
+        private static NounSynset CreateSet(string rawSynset)
         {
-            var line = fileLine.Substring(0, fileLine.IndexOf('|')).Replace('_', '-');
+            var line = rawSynset.Substring(0, rawSynset.IndexOf('|'));
 
             var referencedSets = from Match match in PointerRegex.Matches(line)
                                  let split = match.Value.SplitRemoveEmpty(' ')
@@ -85,9 +65,9 @@ namespace LASI.Core.Heuristics.WordNet
                                  where consideredSetLinks.Contains(linkKind)
                                  let referenced = int.Parse(split[1])
                                  select new SetReference(linkKind, referenced);
-            return new NounSynSet(
+            return new NounSynset(
                 id: int.Parse(line.Substring(0, 8)),
-                words: from Match m in WordRegex.Matches(line) select m.Value,
+                words: from Match m in WordRegex.Matches(line) select m.Value.Replace('_', ' '),
                 category: (NounCategory)int.Parse(line.Substring(9, 2)),
                 pointerRelationships: referencedSets
             );
@@ -97,7 +77,7 @@ namespace LASI.Core.Heuristics.WordNet
         {
             using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read)))
             {
-                for (int i = 0; i < FILE_HEADER_LINE_COUNT; ++i)
+                for (int i = 0; i < LinesInHeader; ++i)
                 {
                     reader.ReadLine();
                 }
@@ -110,24 +90,27 @@ namespace LASI.Core.Heuristics.WordNet
 
         private IImmutableSet<string> SearchFor(string word)
         {
-            var containingSet = setsById.Values.FirstOrDefault(set => set.ContainsWord(word));
-            if (containingSet != null)
+            var containingSets = setsById.Values.Where(set => set.ContainsWord(word));
+            if (containingSets != null)
             {
                 try
                 {
                     var results = new List<string>();
-                    SearchSubsets(containingSet, results, new HashSet<NounSynSet>());
-                    return results.ToImmutableHashSet(IgnoreCase);
+                    foreach (var set in containingSets)
+                    {
+                        SearchSubsets(set, results, new HashSet<NounSynset>());
+                    }
+                    return results.ToImmutableHashSet(StringComparer);
                 }
                 catch (InvalidOperationException e)
                 {
-                    Logger.Log($"{e.Message} was thrown when attempting to get synonyms for word {word}: , containing set: {containingSet}");
+                    Logger.Log($"{e.Message} was thrown when attempting to get synonyms for word {word}: , containing set: {containingSets}");
                 }
             }
             return ImmutableHashSet<string>.Empty;
         }
 
-        private void SearchSubsets(NounSynSet containingSet, List<string> results, HashSet<NounSynSet> setsSearched)
+        private void SearchSubsets(NounSynset containingSet, List<string> results, HashSet<NounSynset> setsSearched)
         {
             results.AddRange(containingSet.Words);
             results.AddRange(containingSet[Link.HypERnym].Where(set => setsById.ContainsKey(set)).SelectMany(set => setsById[set].Words));
@@ -192,9 +175,7 @@ namespace LASI.Core.Heuristics.WordNet
 
         private string filePath;
 
-        private ConcurrentDictionary<NounCategory, List<NounSynSet>> lexicalGoups = new ConcurrentDictionary<NounCategory, List<NounSynSet>>();
-
-        private ConcurrentDictionary<int, NounSynSet> setsById = new ConcurrentDictionary<int, NounSynSet>(Concurrency.Max, TotalLines);
+        private ConcurrentDictionary<int, NounSynset> setsById = new ConcurrentDictionary<int, NounSynset>(Concurrency.Max, TotalLines);
 
         internal override IImmutableSet<string> this[string search]
         {

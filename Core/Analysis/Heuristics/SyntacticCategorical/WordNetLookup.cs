@@ -35,10 +35,11 @@ namespace LASI.Core.Heuristics.WordNet
         {
             get;
         }
-        protected System.Collections.Generic.IEqualityComparer<string> IgnoreCase => StringComparer.OrdinalIgnoreCase;
+        protected static System.Collections.Generic.IEqualityComparer<string> StringComparer => System.StringComparer.OrdinalIgnoreCase;
         /// <summary>
         /// Constant value which specifies how the number of lines the header of a WordNet file.
         /// </summary>
-        protected const int FILE_HEADER_LINE_COUNT = 29;
+        protected const int LinesInHeader = 29;
+
     }
 }

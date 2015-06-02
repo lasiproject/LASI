@@ -202,13 +202,13 @@ namespace LASI.Core
 
         private static NameProvider NameData => nameData.Value;
 
-        private static WordNetLookup<Adjective> AdjectiveLookup => adjectiveLookup.Value;
+        private static WordNetLookup<Adjective> AdjectiveLookup => lazyAdjectiveLookup.Value;
 
-        private static WordNetLookup<Adverb> AdverbLookup => adverbLookup.Value;
+        private static WordNetLookup<Adverb> AdverbLookup => lazyAdverbLookup.Value;
 
-        private static WordNetLookup<Noun> NounLookup => nounLookup.Value;
+        private static WordNetLookup<Noun> NounLookup => lazyNounLookup.Value;
 
-        private static WordNetLookup<Verb> VerbLookup => verbLookup.Value;
+        private static WordNetLookup<Verb> VerbLookup => lazyVerbLookup.Value;
 
         #region Private Fields
 
@@ -276,17 +276,17 @@ namespace LASI.Core
             return words;
         }, isThreadSafe: true);
 
-        private static Lazy<WordNetLookup<Noun>> nounLookup =
+        private static Lazy<WordNetLookup<Noun>> lazyNounLookup =
             new Lazy<WordNetLookup<Noun>>(() => LazyLoad(new NounLookup(Paths.WordNet.Noun)), isThreadSafe: true);
 
-        private static Lazy<WordNetLookup<Verb>> verbLookup =
+        private static Lazy<WordNetLookup<Verb>> lazyVerbLookup =
             new Lazy<WordNetLookup<Verb>>(() => LazyLoad(new VerbLookup(Paths.WordNet.Verb)), isThreadSafe: true);
 
-        private static Lazy<WordNetLookup<Adjective>> adjectiveLookup =
+        private static Lazy<WordNetLookup<Adjective>> lazyAdjectiveLookup =
             new Lazy<WordNetLookup<Adjective>>(() => LazyLoad(new AdjectiveLookup(Paths.WordNet.Adjective)), isThreadSafe: true);
 
-        private static Lazy<WordNetLookup<Adverb>> adverbLookup =
-            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb)), isThreadSafe: true);
+        private static Lazy<WordNetLookup<Adverb>> lazyAdverbLookup =
+            new Lazy<WordNetLookup<Adverb>>(() => LazyLoad(new AdverbLookup(Paths.WordNet.Adverb, AdjectiveLookup)), isThreadSafe: true);
 
         #endregion
         private static readonly StringComparer OrdinalIgnoreCase = StringComparer.OrdinalIgnoreCase;

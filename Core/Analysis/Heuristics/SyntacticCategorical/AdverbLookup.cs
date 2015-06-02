@@ -18,13 +18,14 @@ namespace LASI.Core.Heuristics.WordNet
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for adverbs.</param>
-        public AdverbLookup(string path)
+        public AdverbLookup(string path, WordNetLookup<Adjective> adjectiveLookup)
         {
             filePath = path;
+            this.adjectiveLookup = adjectiveLookup;
         }
 
-        HashSet<AdverbSynSet> allSets = new HashSet<AdverbSynSet>();
-
+        HashSet<AdverbSynset> allSets = new HashSet<AdverbSynset>();
+        System.Collections.Concurrent.ConcurrentDictionary<int, AdverbSynset> setsById = new System.Collections.Concurrent.ConcurrentDictionary<int, WordNet.AdverbSynset>(8, 100000);
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
         /// </summary>
@@ -32,9 +33,12 @@ namespace LASI.Core.Heuristics.WordNet
         {
             using (var reader = new StreamReader(filePath))
             {
-                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(FILE_HEADER_LINE_COUNT))
+                foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(LinesInHeader))
                 {
-                    try { allSets.Add(CreateSet(line)); }
+                    try
+                    {
+                        var set = CreateSet(line); setsById[set.Id] = set;
+                    }
                     catch (KeyNotFoundException e)
                     {
                         Logger.Log($"An error occured when Loading the {GetType().Name}: {e.Message}\r\n{e.StackTrace}");
@@ -45,7 +49,7 @@ namespace LASI.Core.Heuristics.WordNet
         }
 
 
-        private static AdverbSynSet CreateSet(string fileLine)
+        private static AdverbSynset CreateSet(string fileLine)
         {
 
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
@@ -56,22 +60,25 @@ namespace LASI.Core.Heuristics.WordNet
                                  select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
             var words = from Match match in Regex.Matches(line, wordRegex)
-                        select match.Value.Replace('_', '-');
+                        select match.Value.Replace('_', ' ');
 
             var id = int.Parse(line.Substring(0, 8));
 
-            return new AdverbSynSet(id, words, referencedSets, AdverbCategory.All);
+            return new AdverbSynset(id, words, referencedSets, AdverbCategory.All);
         }
 
-        private IImmutableSet<string> SearchFor(string search) =>
-            ImmutableHashSet.CreateRange(IgnoreCase,
-                from wordForm in conjugator.GetLexicalForms(search)
-                from set in allSets
-                where set.ContainsWord(wordForm)
-                from linkedSet in allSets
-                where set.DirectlyReferences(linkedSet)
-                from word in linkedSet.Words
-                select word);
+        private IImmutableSet<string> SearchFor(string search)
+        {
+            var containingSet = setsById.First(entry => entry.Value.ContainsWord(search));
+            //var root = conjugator.FindRoot(search);
+            return ImmutableHashSet.CreateRange(StringComparer,
+                from setId in containingSet.Value.ReferencedSets
+                let relatedAdjectives = (adjectiveLookup as AdjectiveLookup).SearchByAdverbId(setId)
+
+                from word in relatedAdjectives
+                from form in conjugator.GetLexicalForms(word)
+                select form).Add(search);
+        }
 
         internal override IImmutableSet<string> this[string search] => SearchFor(search);
 
@@ -93,6 +100,7 @@ namespace LASI.Core.Heuristics.WordNet
             [";r"] = Link.DomainOfSynset_REGION,
             [";u"] = Link.DomainOfSynset_USAGE
         };
+        private readonly WordNetLookup<Adjective> adjectiveLookup;
     }
 
 }
