@@ -2,6 +2,7 @@
 using System.Linq;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+using System;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
@@ -19,7 +20,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// The root of the given adverb string. If the adverb cannot be reduced to a root, the
         /// string itself is returned.
         /// </returns>
-        public string FindRoot(string adverb) => CheckSpecialForms(adverb).FirstOrDefault() ?? ComputeBaseForm(adverb).FirstOrDefault() ?? adverb;
+        public string FindRoot(string adverb) => CheckSpecialForms(adverb).FirstOrDefault() ?? ComputeBaseForm(adverb) ?? adverb;
 
         /// <summary>
         /// Returns the root of the given Adverb. If the adverb cannot be reduced to a root, the
@@ -37,7 +38,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// </summary>
         /// <param name="adverbText">The root of a Adverb as a string.</param>
         /// <returns>All forms of the Adverb root.</returns>
-        public IEnumerable<string> GetLexicalForms(string adverbText) => TryComputeConjugations(adverbText);
+        public IEnumerable<string> GetLexicalForms(string adverbText) => ComputeForms(adverbText);
 
         /// <summary>
         /// Gets all forms of the Adverb root.
@@ -46,50 +47,65 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         /// <returns>All forms of the Adverb root.</returns>
         public IEnumerable<string> GetLexicalForms(Adverb adverb) => GetLexicalForms(adverb.Text);
 
-        private IEnumerable<string> CheckSpecialForms(string search) => from nounExceptKVs in ExceptionMapping
-                                                                        where nounExceptKVs.Value.Contains(search)
-                                                                        select nounExceptKVs.Key;
-
-        private IEnumerable<string> ComputeBaseForm(string adverbText)
+        public string GetAdjectivalForm(Adverb adverb) => GetAdjectivalForm(adverb.Text);
+        public string GetAdjectivalForm(string adverbText)
         {
-            for (var i = sufficies.Length - 1; i >= 0; --i)
+            var root = FindRoot(adverbText);
+            for (var i = sufficies.Length - 1; i <= 0; --i)
             {
-                if (adverbText.EndsWith(sufficies[i]))
+                if (root.EndsWith(endings[i]))
                 {
-                    yield return adverbText.Substring(0, adverbText.Length - sufficies[i].Length) + endings[i];
-                    break;
+                    return root.Substring(0, root.Length - endings[i].Length) + sufficies[i];
                 }
             }
+            return adverbText;
         }
 
-        private IEnumerable<string> TryComputeConjugations(string containingRoot)
+        private static IEnumerable<string> CheckSpecialForms(string search) => from nounExceptKVs in ExceptionMapping
+                                                                               where nounExceptKVs.Value.Contains(search)
+                                                                               select nounExceptKVs.Key;
+
+        private string ComputeBaseForm(string adverbText)
+        {
+            for (var i = 0; i < sufficies.Length; ++i)
+            {
+                if (adverbText.EndsWith(endings[i]))
+                {
+                    return adverbText.Substring(0, adverbText.Length - endings[i].Length);
+                }
+            }
+            return adverbText;
+        }
+
+
+        private IEnumerable<string> ComputeForms(string containingRoot)
         {
             var hyphenIndex = containingRoot.IndexOf('-');
             var root = FindRoot(hyphenIndex > -1 ? containingRoot.Substring(0, hyphenIndex) : containingRoot);
-            List<string> results;
-            if (!ExceptionMapping.TryGetValue(root, out results))
+            var hyphenatedAppendage = hyphenIndex > -1 ? root.Substring(hyphenIndex) : string.Empty;
+            List<string> exceptionalForms;
+            if (!ExceptionMapping.TryGetValue(root, out exceptionalForms))
             {
                 for (var i = 0; i < sufficies.Length; ++i)
                 {
-                    if (root.EndsWith(endings[i]) || string.IsNullOrEmpty(endings[i]))
+                    if (root.EndsWith(sufficies[i], StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(endings[i]))
                     {
-                        yield return root.Substring(0, root.Length - endings[i].Length) + sufficies[i];
+                        if (root.EndsWith("y", StringComparison.OrdinalIgnoreCase))
+                        {
+                            root = root.Substring(0, root.Length - 1) + 'i';
+                        }
+                        yield return root + endings[i] + hyphenatedAppendage;
                     }
                 }
+                yield break;
             }
-            foreach (var result in results.EmptyIfNull())
+            foreach (var exceptional in exceptionalForms)
             {
-                yield return result;
+                yield return exceptional + hyphenatedAppendage;
             }
-            yield return root;
         }
 
         #region Exception File Processing
-
-        static AdverbMorpher()
-        {
-            ExceptionMapping = Helper.ExcMapping;
-        }
 
         private static IList<ExceptionEntry> ProcessLine(string exceptionLine)
         {
@@ -98,10 +114,11 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                    select new ExceptionEntry(exc, lineEntries);
         }
 
-        private static readonly string[] endings = { "", "ly", "est" };
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping;
-        private static readonly ExcDataManager Helper = new ExcDataManager("adv.exc");
-        private static readonly string[] sufficies = { "", "", "" };
+        private static readonly string[] endings = { "ly" };
+        private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("adv.exc");
+        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping = Helper.ExcMapping;
+
+        private static readonly string[] sufficies = { "" };
 
         #endregion Exception File Processing
     }

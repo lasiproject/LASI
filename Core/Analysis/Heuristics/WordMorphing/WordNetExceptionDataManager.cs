@@ -8,14 +8,14 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 {
     using System;
     using static System.Configuration.ConfigurationManager;
-    using ExceptionsInfoMapping = System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.List<string>>;
-    internal class ExcDataManager
+    using ExceptionsInfoMapping = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<string>>;
+    internal class WordNetExceptionDataManager
     {
         /// <summary>
-        /// Intiailizes a new instance of the WordMorpher class.
+        /// Initializes a new instance of the WordMorpher class.
         /// </summary>
         /// <param name="exceptionFileRelativePath">The path of the file containing WordNet exception information to be loaded by the WordMorpherHelper. This path must be relative to the WordNet Resources Directory.</param>
-        internal ExcDataManager(string exceptionFileRelativePath)
+        internal WordNetExceptionDataManager(string exceptionFileRelativePath)
         {
             this.exceptionsFileRelativePath = exceptionFileRelativePath;
             excMapping = new Lazy<ExceptionsInfoMapping>(LoadExceptionFile);
@@ -40,11 +40,13 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             {
                 Logger.Log($"Loading Exception Information from : {exceptionsFileRelativePath}\n");
                 var exceptionFileLines = from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                                         select line.SplitRemoveEmpty(' ').Select(r => r.Replace('_', '-')).ToList();
+                                         select line.SplitRemoveEmpty(' ').Select(word => word.Replace('_', ' ')).ToList();
                 var results = exceptionFileLines
-                                        .SelectMany(line => line.Select(e => Pair.Create(line[line.Count - 1], line.Take(line.Count - 1))))
-                                        .GroupBy(e => e.First, g => g.Second)
-                                        .ToDictionary(e => e.Key, e => e.SelectMany(excs => excs).ToList());
+                                        //.SelectMany(list => list.Select((item) => Pair.Create(item, list)))
+                                        //.ToLookup(line => line.Select(e => Pair.Create(line[line.Count - 1], line.GetRange(0, line.Count - 1))))
+                                        .GroupBy(e => e.Last())
+                                        .ToDictionary(e => e.Key, e => e.SelectMany(x => x).ToList());
+                //.ToDictionary(e => e.Key, e => e.Select(excs => excs).ToList());
 
                 var mostComplex = results.MaxBy(r => r.Value.Count);
                 Logger.Log($"Loaded Exception Information from : {exceptionsFileRelativePath}\nMax most complex line parsed: \"{mostComplex.Value} {mostComplex.Key} -> {mostComplex.Value.Count} entries.\"");
@@ -52,7 +54,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
         }
 
-        private static Utilities.Configuration.IConfig Config => Core.Configuration.Paths.Settings;
+        private static Utilities.Configuration.IConfig Config => Configuration.Paths.Settings;
 
         static string ResourcesDirectory =>
             Config != null ?

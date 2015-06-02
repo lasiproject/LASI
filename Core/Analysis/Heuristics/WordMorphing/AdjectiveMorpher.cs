@@ -60,7 +60,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return adjective;
         }
 
-        private string CheckExceptionMapping(string adjective)
+        private static string CheckExceptionMapping(string adjective)
         {
             if (ExceptionMapping.ContainsKey(adjective))
             {
@@ -127,12 +127,6 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             }
         }
 
-        static AdjectiveMorpher()
-        {
-            Helper = new ExcDataManager("adj.exc");
-            ExceptionMapping = Helper.ExcMapping;
-        }
-
         private static readonly SuffixEndingPair[] SuffixEndingPairs =
         {
             new SuffixEndingPair { Ending = "e", Suffix = "er" },
@@ -141,14 +135,12 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             new SuffixEndingPair { Ending = "", Suffix = "est" },
         };
 
-        private static readonly ExcDataManager Helper;
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping;
+        private static readonly WordNetExceptionDataManager Helper= new WordNetExceptionDataManager("adj.exc");
+        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping= Helper.ExcMapping;
 
         private struct SuffixEndingPair
         {
             public string RemoveEnding(string word) => word.Substring(0, word.Length - SuffixLength);
-
-            public string ApplySuffix(string word) => $"{word}{Suffix}";
 
             public string RemoveEndingAndApplySuffix(string word) => $"{word.Substring(0, word.Length - EndingLength)}{Suffix}";
 

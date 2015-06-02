@@ -17,11 +17,6 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         static NounMorpher()
         {
             ExceptionMapping = Helper.ExcMapping;
-            //exceptionMapping = File.ReadAllLines(ExceptionsFilePath)
-            //    .Select(ProcessLine)
-            //    .GroupBy(entry => entry.Key, entry => entry.Value)
-            //    .DistinctBy(group => group.Key)
-            //    .ToDictionary(group => group.Key, group => group.SelectMany(values => values).ToList());
         }
 
         /// <summary>Gets all forms of the noun root.</summary>
@@ -55,9 +50,15 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
 
         private IEnumerable<string> ComputeForms(string noun)
         {
+            var exceptionals = ExceptionMapping.GetValueOrDefault(noun);
+            if (exceptionals != null)
+            {
+                return exceptionals;
+            }
             var hyphenIndex = noun.LastIndexOf('-');
-            var root = FindRoot(hyphenIndex > -1 ? noun.Substring(0, hyphenIndex) : noun);
-            var afterHyphen = noun.Substring(hyphenIndex + 1);
+
+            var root = FindRoot(hyphenIndex > -1 ? noun.Substring(hyphenIndex + 1) : noun);
+            var hyphenatadAppendage = hyphenIndex > -1 ? noun.Substring(0, hyphenIndex + 1) : string.Empty;
             List<string> results;
             if (!ExceptionMapping.TryGetValue(root, out results))
             {
@@ -66,12 +67,13 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
                 {
                     if (root.EndsWith(endings[i]) || endings[i].Length == 0)
                     {
-                        results.Add(root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
+                        results.Add(hyphenatadAppendage + root.Substring(0, root.Length - endings[i].Length) + sufficies[i]);
                         break;
                     }
                 }
             }
-            results.Add(root);
+            else { results = results.Select(r => hyphenatadAppendage + r); }
+            results.Add(hyphenatadAppendage + root);
             return results;
         }
 
@@ -89,17 +91,23 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             return result;
         }
 
-        private IEnumerable<string> CheckSpecialForms(string noun) => from nounExceptKVs in ExceptionMapping
-                                                                      where nounExceptKVs.Value.Contains(noun)
-                                                                      select nounExceptKVs.Key;
+        private IEnumerable<string> CheckSpecialForms(string noun)
+        {
+            var hyphenIndex = noun.LastIndexOf('-');
+            var match = hyphenIndex > -1 ? noun.Substring(hyphenIndex + 1) : noun;
+            return from exception in ExceptionMapping
+                   let keyHyphenated = exception.Key.Contains('-')
+                   where exception.Key == match || exception.Value.Contains(match) || (keyHyphenated && exception.Key == noun)
+                   select keyHyphenated ? exception.Key : hyphenIndex > -1 ? noun.Substring(0, hyphenIndex) + exception.Key : exception.Key;
+        }
 
-        private static readonly ExcDataManager Helper = new ExcDataManager("noun.exc");
+        private static readonly WordNetExceptionDataManager Helper = new WordNetExceptionDataManager("noun.exc");
 
         #region Exception File Processing
 
         private static ExceptionEntry ProcessLine(string exceptionLine)
         {
-            var exceptionData = exceptionLine.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim().Replace('_', '-')).ToList();
+            var exceptionData = exceptionLine.SplitRemoveEmpty('\r', '\n').Select(s => s.Trim().Replace('_', ' ')).ToList();
             return new ExceptionEntry(
                 key: exceptionData[exceptionData.Count - 1],
                 value: exceptionData
@@ -107,7 +115,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         }
 
 
-        private static readonly IReadOnlyDictionary<string, List<string>> ExceptionMapping;
+        private static readonly Dictionary<string, List<string>> ExceptionMapping;
 
         private static readonly string[] endings = { "", "s", "x", "z", "ch", "sh", "man", "y", };
         private static readonly string[] sufficies = { "s", "ses", "xes", "zes", "ches", "shes", "men", "ies" };

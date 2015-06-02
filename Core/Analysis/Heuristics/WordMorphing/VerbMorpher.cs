@@ -108,7 +108,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             ["y"] = new[] { "ies" },
         };
 
-        private static readonly ExcDataManager ExcManager = new ExcDataManager("verb.exc");
+        private static readonly WordNetExceptionDataManager ExcManager = new WordNetExceptionDataManager("verb.exc");
         private static IReadOnlyDictionary<string, List<string>> exceptionMapping;
 
         #endregion Exception File Processing
