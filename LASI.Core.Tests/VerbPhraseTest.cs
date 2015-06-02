@@ -140,7 +140,7 @@ namespace LASI.Core.Tests
         {
             VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
-                new PastTenseVerb("had"),
+                new PastTenseVerb("owned"),
                 new Quantifier("many")
             );
             bool actual;

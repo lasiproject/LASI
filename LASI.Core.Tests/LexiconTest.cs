@@ -19,40 +19,40 @@ namespace LASI.Core.Heuristics.Tests
         [TestMethod]
         public void GetGenderTest()
         {
-            var n = new ProperSingularNoun("Patrick");
+            var firstName = new ProperSingularNoun("Patrick");
 
-            Assert.AreEqual(n.GetGender(), n.Gender);
-            Assert.AreEqual(n.GetGender(), Gender.Male);
-            Assert.AreEqual((n as IEntity).GetGender(), Gender.Male);
-            Assert.AreEqual((n as ProperNoun).GetGender(), Gender.Male);
-            Assert.AreEqual((n as Noun).GetGender(), Gender.Male);
-            var np = new NounPhrase(new Word[] { n, new ProperPluralNoun("Roberts") });
-            Assert.AreEqual(np.GetGender(), n.Gender);
-            Assert.AreEqual((np as IEntity).GetGender(), n.Gender);
-            var np1 = new NounPhrase(new Word[] { new ProperSingularNoun("Dr."), n, new ProperPluralNoun("Rachels") });
-            Assert.AreEqual(np1.GetGender(), n.Gender);
+            Assert.AreEqual(firstName.GetGender(), firstName.Gender);
+            Assert.AreEqual(firstName.GetGender(), Gender.Male);
+            Assert.AreEqual((firstName as IEntity).GetGender(), Gender.Male);
+            Assert.AreEqual((firstName as ProperNoun).GetGender(), Gender.Male);
+            Assert.AreEqual((firstName as Noun).GetGender(), Gender.Male);
+            var fullName = new NounPhrase(firstName, new ProperPluralNoun("Roberts"));
+            Assert.AreEqual(fullName.GetGender(), firstName.Gender);
+            Assert.AreEqual((fullName as IEntity).GetGender(), firstName.Gender);
+            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), firstName, new ProperPluralNoun("Rachels"));
+            Assert.AreEqual(np1.GetGender(), firstName.Gender);
         }
 
         [TestMethod]
         public void IsFemaleFullTest()
         {
-            var np = new NounPhrase(new Word[] { new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts") });
-            Assert.IsTrue(np.IsFemaleFull());
-            Assert.IsFalse(np.IsMaleFull());
-            var np1 = new NounPhrase(new Word[] { new ProperSingularNoun("Dr."), new ProperSingularNoun("Julia"), new ProperPluralNoun("Rachels") });
-            Assert.IsTrue(np1.IsFemaleFull());
-            Assert.IsFalse(np1.IsMaleFull());
+            var np = new NounPhrase(new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts"));
+            Assert.IsTrue(np.IsFullFemaleName());
+            Assert.IsFalse(np.IsFullMaleName());
+            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Julia"), new ProperPluralNoun("Rachels"));
+            Assert.IsTrue(np1.IsFullFemaleName());
+            Assert.IsFalse(np1.IsFullMaleName());
         }
 
         [TestMethod]
         public void IsMaleFullTest()
         {
-            var np = new NounPhrase(new Word[] { new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts") });
-            Assert.IsTrue(np.IsMaleFull());
-            Assert.IsFalse(np.IsFemaleFull());
-            var np1 = new NounPhrase(new Word[] { new ProperSingularNoun("Dr."), new ProperSingularNoun("Patrick"), new ProperPluralNoun("Rachels") });
-            Assert.IsTrue(np1.IsMaleFull());
-            Assert.IsFalse(np1.IsFemaleFull());
+            var np = new NounPhrase(new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts"));
+            Assert.IsTrue(np.IsFullMaleName());
+            Assert.IsFalse(np.IsFullFemaleName());
+            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Patrick"), new ProperPluralNoun("Rachels"));
+            Assert.IsTrue(np1.IsFullMaleName());
+            Assert.IsFalse(np1.IsFullFemaleName());
         }
 
         [TestMethod]
@@ -75,10 +75,10 @@ namespace LASI.Core.Heuristics.Tests
         public void IsFemaleFirstTest()
         {
             var n = new ProperSingularNoun("Rachel");
-            Assert.IsTrue(n.IsFemaleFirst());
-            Assert.IsFalse(n.IsMaleFirst());
+            Assert.IsTrue(n.IsFemaleFirstName());
+            Assert.IsFalse(n.IsMaleFirstName());
             var n2 = new ProperSingularNoun("Jamie");
-            Assert.IsTrue(n.IsFemaleFirst());
+            Assert.IsTrue(n.IsFemaleFirstName());
         }
 
         [TestMethod]
@@ -87,9 +87,9 @@ namespace LASI.Core.Heuristics.Tests
             var n = new ProperSingularNoun("Patrick");
             var n1 = new ProperSingularNoun("James");
 
-            Assert.IsTrue(n.IsMaleFirst());
-            Assert.IsTrue(n1.IsMaleFirst());
-            Assert.IsFalse(n.IsFemaleFirst());
+            Assert.IsTrue(n.IsMaleFirstName());
+            Assert.IsTrue(n1.IsMaleFirstName());
+            Assert.IsFalse(n.IsFemaleFirstName());
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace LASI.Core.Heuristics.Tests
         public void IsSynonymForTest()
         {
             Noun noun1 = new CommonSingularNoun("hobby");
-            Noun noun2 = new CommonSingularNoun("passtime");
+            Noun noun2 = new CommonSingularNoun("pastime");
 
             Assert.IsTrue(noun1.IsSynonymFor(noun2));
             Assert.IsTrue(noun2.IsSynonymFor(noun1));
@@ -136,7 +136,7 @@ namespace LASI.Core.Heuristics.Tests
         [TestMethod]
         public void IsSynonymForTest2()
         {
-            Adverb adverb1 = new Adverb("fertively");
+            Adverb adverb1 = new Adverb("furtively");
             Adverb adverb2 = new Adverb("stealthily");
             Assert.IsTrue(adverb1.IsSynonymFor(adverb2));
             Assert.IsTrue(adverb2.IsSynonymFor(adverb1));
@@ -146,7 +146,7 @@ namespace LASI.Core.Heuristics.Tests
         public void IsSynonymForTest3()
         {
             Adjective adjective1 = new Adjective("pale");
-            Adjective adjective2 = new Adjective("palid");
+            Adjective adjective2 = new Adjective("pallid");
             Assert.IsTrue(adjective1.IsSynonymFor(adjective2));
             Assert.IsTrue(adjective2.IsSynonymFor(adjective1));
         }

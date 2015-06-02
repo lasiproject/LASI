@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
-using LASI.Core.Heuristics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
-    using LASI.Utilities;
-    using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+    using Utilities;
+    using Utilities.Specialized.Enhanced.IList.Linq;
     using Shared.Test.Assertions;
 
     /// <summary>
@@ -46,7 +43,6 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             actual = target.FindRoot(nounForm);
             Assert.AreEqual(expected, actual);
         }
-
         /// <summary>
         ///A test for FindRoot
         /// </summary>
@@ -54,20 +50,35 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         public void FindRootTest2()
         {
             NounMorpher target = new NounMorpher();
-            Noun noun = new CommonSingularNoun("octopi");
-            string expected = "octopus";
+            string nounForm = "pass-throughs";
+            string expected = "pass-through";
             string actual;
-            actual = target.FindRoot(noun);
+            actual = target.FindRoot(nounForm);
             Assert.AreEqual(expected, actual);
-        }  /// <summary>
-           ///A test for FindRoot
-           /// </summary>
+        }
+
+        /// <summary>
+        ///A test for FindRoot
+        /// </summary>
         [TestMethod]
         public void FindRootTest3()
         {
             NounMorpher target = new NounMorpher();
-            string nounForm = "octopi-hunter";
-            string expected = "octopus-hunter";
+            Noun noun = new CommonPluralNoun("octopi");
+            string expected = "octopus";
+            string actual;
+            actual = target.FindRoot(noun);
+            Assert.AreEqual(expected, actual);
+        }
+        /// <summary>
+        ///A test for FindRoot
+        /// </summary>
+        [TestMethod]
+        public void FindRootTest4()
+        {
+            NounMorpher target = new NounMorpher();
+            string nounForm = "octopi-hunters";
+            string expected = "octopi-hunter";
             string actual;
             actual = target.FindRoot(nounForm);
             Assert.AreEqual(expected, actual);
@@ -97,65 +108,14 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             var tested = 0;
             NounExcFileLines.ForEach(line =>
             {
-                var entries = line.Replace('_', '-').SplitRemoveEmpty(' ', '\t').Select(exc => exc.Trim());
+                var entries = line.Replace('_', ' ').SplitRemoveEmpty(' ', '\t').Select(exc => exc.Trim());
                 entries.ForEach(exc =>
                 {
-                    EnumerableAssert.AreSetEqual(entries, target.GetLexicalForms(exc), $"tested {tested} exceptions");
+                    EnumerableAssert.Contains(target.GetLexicalForms(exc), exc, $"tested {tested} exceptions; failed on {exc}\n");
                     ++tested;
                 });
             });
         }
-
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        private TestContext testContextInstance;
-
-        #region Additional test attributes
-
-        //
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-
-        #endregion Additional test attributes
 
         #region Fields
 
