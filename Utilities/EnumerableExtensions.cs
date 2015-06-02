@@ -247,17 +247,6 @@ namespace LASI.Utilities
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
-        [System.Diagnostics.DebuggerStepThrough]
-        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
-        {
-            foreach (var item in source)
-            {
-                action(item);
-            }
-        }
-        [System.Diagnostics.DebuggerStepThrough]
-        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action) =>
-            source.WithIndex().ForEach(e => action(e.Element, e.Index));
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>

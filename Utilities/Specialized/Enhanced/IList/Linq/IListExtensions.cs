@@ -4,6 +4,7 @@ using System.Linq;
 using LASI.Utilities.SpecializedResultTypes;
 using LASI.Utilities.Validation;
 using System.Diagnostics.Contracts;
+using System.Diagnostics;
 
 namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 {
@@ -26,11 +27,17 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <returns>
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the transform
         /// function on each element of source.
-        /// </returns>
+        /// </returns> 
+        [DebuggerHidden]
         public static IList<R> Select<T, R>(this IList<T> list, Func<T, R> selector) => list.Select((e, i) => selector(e));
 
+        [DebuggerHidden]
         public static List<R> Select<T, R>(this List<T> list, Func<T, R> selector) => Select(list, (e, i) => selector(e));
+
+        [DebuggerHidden]
         public static List<R> Select<T, R>(this List<T> list, Func<T, int, R> selector) => Select(list as IList<T>, selector) as List<R>;
+
+        [DebuggerHidden]
         public static IList<R> Select<T, R>(this IList<T> list, Func<T, int, R> selector)
         {
             var results = new List<R>(list.Count);
@@ -50,7 +57,10 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <returns>
         /// A <see cref="IList{T}"/> that contains elements from the input list that satisfy the condition.
         /// </returns>
+        [DebuggerHidden]
         public static IList<T> Where<T>(this IList<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+
+        [DebuggerHidden]
         public static List<T> Where<T>(this List<T> list, Func<T, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
         /// <summary>Filters a list of values based on a predicate.</summary>
         /// <typeparam name="T">The type of the elements of source.</typeparam>
@@ -59,7 +69,10 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <returns>
         /// A <see cref="IList{T}"/> that contains elements from the input list that satisfy the condition.
         /// </returns>
+        [DebuggerHidden]
         public static IList<T> Where<T>(this IList<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
+
+        [DebuggerHidden]
         public static List<T> Where<T>(this List<T> list, Func<T, int, bool> predicate) => list.AsEnumerable().Where(predicate).ToList();
 
         #endregion Where
@@ -78,6 +91,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// A <see cref="IList{R}"/> whose elements are the result of invoking the one-to-many
         /// transform function on each element of the input list.
         /// </returns>
+        [DebuggerHidden]
         public static IList<R> SelectMany<T, R>(this IList<T> list, Func<T, IEnumerable<R>> selector) =>
             list.AsEnumerable().SelectMany(selector).ToList();
 
@@ -103,6 +117,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// transform function collectionSelector on each element of source and then mapping each of
         /// those sequence elements and their corresponding source element to a result element.
         /// </returns>
+        [DebuggerHidden]
         public static IList<R> SelectMany<T, TCollection, R>(this IList<T> list, Func<T, IEnumerable<TCollection>> collectionSelector, Func<T, TCollection, R> resultSelector) =>
             list.AsEnumerable().SelectMany(collectionSelector, resultSelector).ToList();
 
@@ -118,6 +133,8 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// A <see cref="List{T}"/> that contains the specified number of elements from the start of
         /// the input sequence.
         /// </returns>
+
+        [DebuggerHidden]
         public static List<T> Take<T>(this List<T> list, int count)
         {
             Validate.NotNull(list, nameof(list));
@@ -125,6 +142,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             if (count > list.Count) { return list.GetRange(0, list.Count); }
             return list.GetRange(0, count);
         }
+        [DebuggerStepThrough]
         public static List<T> TakeWhile<T>(this List<T> list, Func<T, bool> predicate)
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
@@ -151,6 +169,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// A <see cref="List{T}"/> that contains the elements that occur after the specified index
         /// in the input list.
         /// </returns>
+        [DebuggerHidden]
         public static List<T> Skip<T>(this List<T> list, int count)
         {
             if (count > list.Count)
@@ -173,6 +192,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <param name="list">The <see cref="List{T}"/> to return elements from.</param>
         /// <param name="predicate">The predicate to test elements.</param>
         /// <returns>All elements in the list including and following the first that does not satisfy the predicate.</returns>
+        [DebuggerHidden]
         public static List<T> SkipWhile<T>(this List<T> list, Func<T, bool> predicate)
         {
             Validate.NotNull(list, nameof(list), predicate, nameof(predicate));
@@ -186,6 +206,8 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 
         #endregion Skips
         #region Concat
+
+        [DebuggerHidden]
         public static IEnumerable<T> Concat<T>(this IList<T> first, IList<T> second)
         {
             for (var i = 0; i < first.Count; ++i)
@@ -206,7 +228,9 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         /// <param name="action">
         /// The <see cref="System.Action{T}"/> delegate to perform on each element of the <see cref="System.Collections.Generic.IList{T}"/>.
         /// </param>
+        [DebuggerHidden]
         public static void ForEach<T>(this IList<T> list, Action<T> action) => ForEach(list, (e, i) => action(e));
+        [DebuggerHidden]
         public static void ForEach<T>(this IList<T> list, Action<T, int> action)
         {
             for (var i = 0; i < list.Count; ++i)
@@ -217,9 +241,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 
         #endregion ForEach
 
-
-
-        #region WithIndex
+        [DebuggerHidden]
         public static IList<Indexed<T>> WithIndex<T>(this IList<T> list)
         {
             var results = new List<Indexed<T>>(list.Count);
@@ -229,6 +251,5 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             }
             return results;
         }
-        #endregion
     }
 }

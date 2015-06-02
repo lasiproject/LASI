@@ -32,6 +32,7 @@
     </DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,9 +44,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>bin\Release\LASI.Utilities.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
     <OutputPath>bin\test\</OutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

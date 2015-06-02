@@ -32,16 +32,16 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The value to validate.</param>
-        /// <param name="argumentName">The name of the value.</param>
+        /// <param name="name">The name of the value.</param>
         /// <param name="message">
         /// A message that provides additional detail as to why the value may not be null.
         /// </param>
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
-        public static void NotNull<T>(T value, string argumentName, string message) where T : class
+        public static void NotNull<T>(T value, string name, string message) where T : class
         {
             if (value == null)
             {
-                FailWithArgumentNullException(argumentName, message);
+                FailWithArgumentNullException(name, message);
             }
         }
 
