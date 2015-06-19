@@ -7,7 +7,7 @@ using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace LASI.WebApp.Controllers.Controllers
+namespace LASI.WebApp.Controllers
 {
     [Route("api/Tasks")]
     public class TasksController : Controller
@@ -23,7 +23,7 @@ namespace LASI.WebApp.Controllers.Controllers
         [HttpPost("api/Tasks/Reset/{userId}")]
         public void Reset(string userId)
         {
-            if (workItemsService is UserWorkItemsService) { ((UserWorkItemsService)workItemsService).RemoveAllForUser(userId); }
+            if (workItemsService is WorkItemsService) { ((WorkItemsService)workItemsService).RemoveAllForUser(userId); }
             else if (workItemsService is DummyUserWorkItemService)
             {
                 ((DummyUserWorkItemService)workItemsService).Reset();

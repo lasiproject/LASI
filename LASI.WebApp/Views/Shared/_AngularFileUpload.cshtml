@@ -1,0 +1,18 @@
+﻿<div ng-controller="UploadController as controller">
+    <div class="button" ngf-select ng-model="files" ngf-multiple="multiple">Select File</div>
+    on file change:
+    <div class="button" ngf-select ngf-change="uploadFiles(files)" ngf-multiple="multiple">Select File</div>
+    Drop File:
+    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+         ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+         accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/pdf,text/plain">
+        Drop pdfs or images here or click to upload
+    </div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+    Files:
+    <ul>
+        <li ng-repeat="file in files" style="font:smaller">{{file.name}}</li>
+    </ul>
+    Upload Log:
+<pre>{{log}}</pre>
+</div>

@@ -9,8 +9,8 @@ namespace LASI.WebApp.Models
         [BsonIgnore]
         public string Id => _id.ToString();
         public string UserId { get; set; }
-        public string GetText() => Content;
-        public async Task<string> GetTextAsync() => await Task.FromResult(Content);
+        public string LoadText() => Content;
+        public async Task<string> LoadTextAsync() => await Task.FromResult(Content);
         public string Name { get; set; }
         /// <summary>
         /// A string representation of the Date and Time when the document was uploaded. The format is the ISO JSON date format.

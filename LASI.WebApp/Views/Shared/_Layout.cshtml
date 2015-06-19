@@ -36,36 +36,71 @@
                     </li>
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a href="#" class="glyphicon glyphicon-upload"></a></li>
-                    <li><a asp-controller="Results" asp-action="Index">Results</a></li>
+                    <li><a asp-controller="Results" asp-action="Results">Results</a></li>
+                    <li><a asp-controller="Account" asp-action="Manage">Manage</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
-    </div>
+    </div> 
+
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <div class="button" ngf-select ng-model="files" ngf-multiple="multiple">Select File</div>
-        on file change:
-        <div class="button" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Select File</div>
-        Drop File:
-        <div ngf-drop ngf-select ng-model="files" class="drop-box"
-             ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-             accept="image/*,application/pdf,text/plain">Drop pdfs or images here or click to upload</div>
-        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-        Files:
-        <ul>
-            <li ng-repeat="f in files" style="font:smaller">{{f.name}}</li>
-        </ul>
-        Upload Log:
-        <pre>{{log}}</pre>
-        <hr /><div class="panel panel-body">
-            @await Html.PartialAsync("_DebugPanel")
-        </div>
+        @await Html.PartialAsync("_AngularFileUpload");
+        
+
         <hr />
         <footer>
             <p>&copy; 2015 - @AppSettings.Options.SiteTitle</p>
         </footer>
+         <div id="manage-documents-modal"
+         class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="#myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header handle modal-drag-handle">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Manage Documents</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li ng-repeat="document in controller.documents" class="list-group-item">
+                            <div>
+                                {{document.name}}<a href="#" data-toggle="modal" data-target="#confirm-delete-modal{{document.id}}">
+                                    <span class="glyphicon glyphicon-remove pull-right"></span>
+                                </a>
+                            </div>
+                            <div id="confirm-delete-modal{{document.id}}"
+                                 class="modal fade"
+                                 role="dialog"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header handle modal-drag-handle">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <div class="modal-title">Are you sure you want to delete <em>{{document.name}}</em>?</div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <button type="button" role="button" class="btn btn-block" data-dismiss="modal" value="OK" ng-click="controller.deleteById(document.id)">OK<span hidden></span></button>
+                                            <button type="button" role="button" class="btn btn-block" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+
     </div>
 
     <script src="http://www.google.com/jsapi"></script>

@@ -95,18 +95,18 @@ namespace LASI.WebApp.Controllers
                     {
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                         // Send an email with this link
-                        //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
-                        //await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
-                        //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
+                        await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
+                            "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                         await SignInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Index", "Home");
                     }
                     AddErrors(result);
                 }
-                catch (MongoDB.Driver.MongoDuplicateKeyException e) when (e.Code == 11000)
+                catch (MongoDB.Driver.MongoDuplicateKeyException e) when (e?.Code == 11000)
                 {
-                    ModelState.AddModelError("email", e.ErrorMessage);
+                    ModelState.AddModelError("email", "Email in use");
                     return View(model);
                 }
 
@@ -237,34 +237,34 @@ namespace LASI.WebApp.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword() => View();
 
-        ////
-        //// POST: /Account/ForgotPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await UserManager.FindByNameAsync(model.Email);
-        //        if (user == null || !(await UserManager.IsEmailConfirmedAsync(user)))
-        //        {
-        //            // Don't reveal that the user does not exist or is not confirmed
-        //            return View("ForgotPasswordConfirmation");
-        //        }
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
 
-        //        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-        //        // Send an email with this link
-        //        // var code = await UserManager.GeneratePasswordResetTokenAsync(user);
-        //        // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
-        //        // await MessageServices.SendEmailAsync(model.Email, "Reset Password",
-        //        //    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
-        //        // return View("ForgotPasswordConfirmation");
-        //    }
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                // Send an email with this link
+                // var code = await UserManager.GeneratePasswordResetTokenAsync(user);
+                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
+                // await MessageServices.SendEmailAsync(model.Email, "Reset Password",
+                //    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                // return View("ForgotPasswordConfirmation");
+            }
 
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
 
         ////
         //// GET: /Account/ForgotPasswordConfirmation

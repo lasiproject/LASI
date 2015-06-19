@@ -67,7 +67,7 @@
 
 
 .paragraph {
-    clear: both;
+    /*clear: both;*/
     text-indent: each-line !important;
 }
 
@@ -136,6 +136,10 @@
 
 .indirect-object-of-current {
     outline: solid thin #b200ff;
+}
+
+.referred-to-by-current {
+    outline: solid thin hotpink;
 }
 
 .view-subjects-menu-item {

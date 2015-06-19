@@ -25,7 +25,7 @@
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties wwwroot_2tsd_1json__JSONSchema="http://json.schemastore.org/tsd" />
+      <UserProperties tsd_1json__JSONSchema="http://json.schemastore.org/tsdrc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

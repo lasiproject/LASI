@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
-namespace LASI.WebApp.CustomIdentity
+namespace LASI.WebApp.Persistence
 {
     public abstract class IdentityStore
     {

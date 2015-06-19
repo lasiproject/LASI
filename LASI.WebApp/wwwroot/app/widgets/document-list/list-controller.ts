@@ -1,13 +1,23 @@
-﻿(function () {
+﻿module LASI.documentList {
     'use strict';
 
     angular
-        .module(LASI.documentList.ngName)
+        .module(LASI.documentList.moduleName)
         .controller('ListController', ListController);
 
-    ListController.$inject = ['$q', '$log', '$rootScope', 'Upload', 'documentListService', 'tasksListService', 'DocumentsService'];
+    ListController.$inject = [
+        '$q', '$log', '$rootScope', 'documentListService',
+        'tasksListService', 'documentsService', 'DocumentModelService'
+    ];
 
-    function ListController($q, $log, $rootScope, Upload: ng.angularFileUpload.IUploadService, documentListService, tasksListService, DocumentsService) {
+    function ListController(
+        $q: ng.IQService,
+        $log: ng.ILogService,
+        $rootScope: ng.IRootScopeService,
+        documentListService: IDocumentListService,
+        tasksListService: ITasksListService,
+        documentsService: IDocumentsService,
+        documentModelService: LASI.documentViewer.IDocumentModelService) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'ListController';
@@ -20,56 +30,48 @@
         vm.expanded = false;
 
 
-
         activate();
 
         function activate() {
 
-            $rootScope.upload = function (files) {
-                if (files && files.length) {
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-                        Upload.upload({
-                            url: 'api/UserDocuments',
-                            file: file,
-                            method: 'POST',
-                            fileName:file.name
-                        }).progress(progress)
-                            .success(success);
-                    }
-                }
-            };
-            vm.deleteById = (id: number | string) => {
-                var deleteResult = DocumentsService.deleteById(id);
+            vm.deleteById = (id: string) => {
+                var deleteResult = documentsService.deleteById(id);
                 $log.info(deleteResult);
                 vm.documents = documentListService.getDocumentList();
             };
 
-            $q.all({
-                deferredDocumentList: documentListService.getDocumentList(),
-                deferredTaskStatusList: tasksListService.getActiveTasks()
-            }).then(function (promises) {
-                vm.documents = promises.deferredDocumentList;
-                vm.documents.correlate(promises.deferredTaskStatusList, document => document.id, task=> task.id)
+            vm.processDocument = (documentId: string) => {
+                var deferred = $q.defer();
+                $q.when(documentModelService.processDocument(documentId)).then((data) => {
+                    $q.when(data).then(d => {
+                        vm.documents.filter(d => d.id === documentId)[0].documentModel = d;
+                        if (!$rootScope.$$phase) {
+                            $rootScope.$apply();
+                        }
+                    });
+                });
+
+            };
+
+            $q.all([
+                $q.when(documentListService.getDocumentList()),
+                $q.when(tasksListService.getActiveTasks(tasks => tasks.forEach(task => {
+                    vm.tasks[task.id] = task;
+                    vm.documents.filter(d => d.name === task.name)[0].task = task;
+                })))
+            ]).then(function (promises) {
+                vm.documents = promises[0];
+                vm.documents.correlate(promises[1], document => document.id, task => task.id)
                     .forEach(documentWithTask => {
                     var document = documentWithTask.first,
                         task = documentWithTask.second;
-                    document.showProgress = task.state === "Ongoing" || task.state === "Complete";
+                    document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                     document.progress = Math.round(task.percentComplete);
                     document.statusMessage = task.statusMessage;
                 });
                 vm.tasks = {};
-                promises.deferredTaskStatusList.forEach(task => { vm.tasks[task.id] = task; });
+                promises[1].forEach(task => { vm.tasks[task.id] = task; });
             });
-
-            function progress(evt) {
-                var progressPercentage = 100.0 * evt.loaded / evt.total;
-                $rootScope.log = 'progress: ' + progressPercentage + '% ' + evt.config.file.name + '\n' + $rootScope.log;
-            }
-            function success(data, status, headers, config) {
-                $rootScope.log = 'file ' + config.file.name + 'uploaded. Response: ' + JSON.stringify(data) + '\n' + $rootScope.log;
-                $rootScope.$apply();
-            }
         }
     }
-})();
+}

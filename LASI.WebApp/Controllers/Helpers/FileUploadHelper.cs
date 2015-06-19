@@ -13,7 +13,7 @@ namespace LASI.WebApp.Controllers.Helpers
 {
     public static class FileUploadHelper
     {
-        public static bool ContentTypeIsValid(this IFormFile formFile) => AcceptedContentTypes.Contains(formFile.ContentType);
+        public static bool IsAcceptedContentType(this IFormFile formFile) => AcceptedContentTypes.Contains(formFile.ContentType);
 
         public static string ExtractFileName(this IFormFile formFile) => formFile.ContentDisposition.SplitRemoveEmpty(';')
             .Select(s => s.Trim())

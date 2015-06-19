@@ -1,17 +1,17 @@
-﻿module App {
+﻿module LASI.documentViewer  {
     'use strict';
 
     interface IParagraph extends ng.IDirective {
     }
 
     interface IParagraphScope extends ng.IScope {
-        paragraph: IParagraphModel
-        parentId: string|number
+        paragraph: IParagraphModel;
+        parentId: string|number;
     }
 
     interface IParagraphAttributes extends ng.IAttributes {
-        paragraph: IParagraphModel
-        parentId: string|number
+        paragraph: IParagraphModel;
+        parentId: string|number;
     }
 
     paragraph.$inject = ['$window'];
@@ -31,5 +31,7 @@
         };
 
     }
-    angular.module(LASI.documentViewer.ngName).directive('paragraph', paragraph);
+    angular
+        .module(LASI.documentViewer.moduleName)
+        .directive('paragraph', paragraph);
 }

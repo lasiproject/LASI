@@ -1,21 +1,15 @@
 ﻿@model DocumentUploadModel
-@using (Html.BeginForm(actionName: "Post", controllerName: "Tasks", method: FormMethod.Post, htmlAttributes: new
-{
-    action = "api/UserDocuments",
-    method = "post",
-    enctype = "multipart/form-data",
-    target = "output_frame",
-    @class = "form-inline",
-    id = "fileuploadform"
-}))
-{
+<form asp-controller="UserDocuments" class="form-inline" asp-action="Post" method="post" enctype="multipart/form-data" target="output-frame" id="fileuploadform">
     <div class="row">
         <div class="col-md-6">
-
             <div class="progress">
                 <div id="progress-bar"
-                     class="progress-bar text-aligned-progress-bar" style="max-width: 100%; width:@Model.Percentage"
-                     role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                     class="progress-bar text-aligned-progress-bar"
+                     style="max-width: 100%; width:@Model.Percentage"
+                     role="progressbar"
+                     aria-valuenow="60"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
                 </div>
             </div>
 
@@ -31,8 +25,8 @@
                                        accept=".txt,.pdf,.docx,.doc" />
             </span>
             <input type="submit" name="Submit" value="Upload" class="btn btn-default" form="fileuploadform" />
-            <iframe class="hidden" id="output_frame" name="output_frame" src=""></iframe>
+            <iframe class="hidden" id="output-frame" name="output-frame" src=""></iframe>
         </div>
 
     </div>
-}
+</form>

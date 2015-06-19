@@ -1,19 +1,7 @@
-﻿<div class="{{document.style.cssClass}}">
-    <ul class="list-group">
-        <li class="list-group-item">id: {{document.id}}</li>
-        <li class="list-group-item">title: {{document.title}}</li>
-        <li class="list-group-item">
-            <div>
-                style
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="(name, value) in document.style">{{name}}: {{value}}</li>
-                </ul>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <paragraph paragraph="paragraph" parent-id="document.id" ng-repeat="paragraph in document.paragraphs"></paragraph>
-        </li>
-
-    </ul>
-
+﻿<div class="{{document.style.cssClass}}"> 
+    
+    <div>title: {{document.title}}</div>
+    <div>
+        <paragraph paragraph="paragraph" parent-id="document.id" ng-repeat="paragraph in document.paragraphs"></paragraph>
+    </div>
 </div>

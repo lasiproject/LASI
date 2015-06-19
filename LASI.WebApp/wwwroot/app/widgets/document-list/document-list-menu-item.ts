@@ -1,7 +1,7 @@
-﻿(function () {
+﻿module LASI.documentList {
     'use strict';
     angular
-        .module(LASI.documentList.ngName)
+        .module(LASI.documentList.moduleName)
         .directive('documentListMenuItem', documentListMenuItem);
 
     documentListMenuItem.$inject = ['$window', 'resultsService'];
@@ -32,4 +32,4 @@
             }
         };
     }
-})();
+}

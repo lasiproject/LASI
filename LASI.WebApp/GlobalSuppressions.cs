@@ -4,16 +4,6 @@
 // Project-level suppressions either have no target or are given 
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
-    category: "Language",
-    checkId: "CSE0002:Use getter-only auto properties",
-    Justification = "Property is set via DI by the IOC container, necessitating a setter",
-    Scope = "member",
-    Target = "~P:LASI.WebApp.ViewComponents.DynamicTextEditorViewComponent.Tagger")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
-    category:"Language",
-    checkId: "CSE0002:Use getter-only auto properties",
-    Justification = "Property is set via DI by the IOC container, necessitating a setter",
-    Scope = "member", 
-    Target = "~P:LASI.WebApp.ViewComponents.DynamicTextEditorViewComponent.DocumentStore")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Language", "CSE0003:Use expression-bodied members", Justification = "Retaining inline comment.", Scope = "member", Target = "~M:LASI.WebApp.MessageServices.SendEmailAsync(System.String,System.String,System.String)~System.Threading.Tasks.Task")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Language", "CSE0003:Use expression-bodied members", Justification = "Retaining inline comment.", Scope = "member", Target = "~M:LASI.WebApp.MessageServices.SendSmsAsync(System.String,System.String)~System.Threading.Tasks.Task")]
 

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LASI.WebApp.CustomIdentity
+namespace LASI.WebApp.Persistence
 {
     public static class SynchronizationHelper
     {

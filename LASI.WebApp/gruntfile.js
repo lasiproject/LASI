@@ -1,18 +1,15 @@
-/// <binding ProjectOpened='watch' />
+﻿/// <binding ProjectOpened='watch' />
 // This file in the main entry point for defining grunt tasks and using grunt plugins.
 // Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
 
 module.exports = function (grunt) {
     'use strict';
-    /**
-     * prefixor factory
-     * @param {string} pathPrefix - the prefix
-     */
-    function prefix(prefix) {
+
+    function prefix(paths) {
         return function (path) {
             return prefix + path;
         };
-    };
+    }
     grunt.initConfig({
         bower: {
             install: {
@@ -23,17 +20,10 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jshint: {
-            test: {
-                src: 'wwwroot/test/**/*.js',
-                verbose: true,
-                maxparams: 4,
-                undef: true,
-                unused: true
-            },
-        },
         tslint: {
             options: {
+                // Load the tslint rules from ./tslint.json. 
+                // Keep this file checked in adhering to all defined rules and conventions.
                 configuration: grunt.file.readJSON('tslint.json')
             },
             app: {
@@ -44,8 +34,9 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        qunit: { all: ['wwwroot/test/**/*.html'] },
-
+        qunit: {
+            all: ['wwwroot/test/**/*.html']
+        },
         concat: {
             dist: {
                 src: [
@@ -58,9 +49,9 @@ module.exports = function (grunt) {
                     'document-viewer/**/*.js',
                     'widgets/document-upload.js',
                     'widgets/document-list.js',
-                    'widgets/document-list/section.js',
                     'widgets/document-list/app.js',
                     'widgets/document-list/document-list-service-provider.js',
+                    'widgets/document-list/upload-controller.js',
                     'widgets/document-list/documents-service.js',
                     'widgets/document-list/delete-document-modal-controller.js',
                     'widgets/document-list/results-service.js',
@@ -68,7 +59,6 @@ module.exports = function (grunt) {
                     'widgets/document-list/document-list-tabset-item.js',
                     'widgets/document-list/tasks-list-service-provider.js',
                     'widgets/document-list/list-controller.js',
-                    'document-viewer/section.js'
                 ].map(prefix('wwwroot/app/')),
                 dest: 'wwwroot/dist/app/app.js',
             }, options: {
@@ -83,7 +73,7 @@ module.exports = function (grunt) {
             options: {
                 shorthandCompacting: false,
                 roundingPrecision: -1,
-                sourceMap: true,//want this to be on but it causes an error
+                sourceMap: true,
                 verbose: true
             },
             app: {
@@ -124,13 +114,10 @@ module.exports = function (grunt) {
             }
         }
     });
-
     // This command registers the default task which installs bower packages into wwwroot/lib.
     grunt.registerTask('default', ['bower:install']);
-
     // register an alias for qunit tests called 'test'.
     grunt.registerTask('test', ['qunit:all']);
-
     // The following lines loads the grunt plugins.
     // these lines needs to be at the end of this file.
     // cannot use an array or varargs to load tasks from multiple plugins here. 
@@ -141,6 +128,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-tslint');
 };

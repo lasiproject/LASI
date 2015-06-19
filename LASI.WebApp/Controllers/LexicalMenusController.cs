@@ -3,7 +3,7 @@ using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace LASI.WebApp.Controllers.Controllers
+namespace LASI.WebApp.Controllers
 {
     // TODO: Create injectable transient (or singleton) which holds all IReifiedTextual sources across a sesson and 
     // inject it into this controller and results controller.

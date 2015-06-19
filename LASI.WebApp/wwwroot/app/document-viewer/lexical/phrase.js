@@ -1,20 +1,27 @@
 // Install the angularjs.TypeScript.DefinitelyTyped NuGet package
-var App;
-(function (App) {
-    'use strict';
-    function phrase() {
-        return {
-            restrict: 'E',
-            templateUrl: '/app/widgets/document-list-app/interactive-representations/lexical/phrase.html',
-            link: function (scope, element, attrs) {
-                console.log(attrs);
-                var menu = scope.phrase.contextmenu;
-            },
-            scope: {
-                phrase: '=',
-                parentId: '='
-            }
-        };
-    }
-    angular.module(LASI.documentViewer.ngName).directive('phrase', phrase);
-})(App || (App = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        'use strict';
+        phrase.$inject = ['lexicalMenuBuilder'];
+        function phrase(lexicalMenuBuilder) {
+            return {
+                restrict: 'E',
+                templateUrl: '/app/document-viewer/lexical/phrase.html',
+                link: function (scope, element, attrs) {
+                    var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
+                    scope.phrase.hasContextmenu = !!contextmenu;
+                    if (scope.phrase.hasContextmenu) {
+                        scope.phrase.contextmenu = contextmenu;
+                    }
+                },
+                scope: {
+                    phrase: '=',
+                    parentId: '='
+                }
+            };
+        }
+        angular.module(LASI.documentViewer.ngName).directive('phrase', phrase);
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));

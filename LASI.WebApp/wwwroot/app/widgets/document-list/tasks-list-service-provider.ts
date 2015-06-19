@@ -1,28 +1,40 @@
-﻿interface ITasksListServiceConfig {
-    setTasksListUrl(url: string): ITasksListServiceConfig
-    setUpdateInterval(milliconds: number): ITasksListServiceConfig
-}
-interface ITask {
-    id: string
-    name: string
-    state: string
-    percentComplete: number
-    statusMessage: string
-}
-var tasksListServiceProvider = function () {
-    var updateInterval = 200;
-    var tasksListUrl = 'api/Tasks';
-    var provider = {
-        setUpdateInterval: function (milliseconds: number) {
-            updateInterval = milliseconds;
-            return this;
-        }, setTasksListUrl: function (url: string) {
-            tasksListUrl = url;
-            return this;
-        },
-        $get: ($resource: ng.resource.IResourceService, $window: ng.IWindowService) => {
+﻿module LASI.documentList {
+    export interface ITask {
+        id: string;
+        name: string;
+        state: string;
+        percentComplete: number;
+        statusMessage: string;
+    }
+    export interface ITasksListServiceConfig {
+        $get: ($resource: ng.resource.IResourceService, $window: ng.IWindowService) => ITasksListService;
+        setTasksListUrl(url: string): ITasksListServiceConfig;
+        setUpdateInterval(milliconds: number): ITasksListServiceConfig;
+    }
+
+    export interface ITasksListService {
+        getActiveTasks(callback: (tasks: ITask[]) => any): ITask[];
+    }
+    var tasksListServiceProvider = function (): ITasksListServiceConfig {
+        var updateInterval = 200;
+        var tasksListUrl = 'api/Tasks';
+
+        $get.$inject = ['$resource', '$window'];
+
+        return {
+            $get: $get,
+            setUpdateInterval: function (milliseconds: number) {
+                updateInterval = milliseconds;
+                return this;
+            }, setTasksListUrl: function (url: string) {
+                tasksListUrl = url;
+                return this;
+            }
+
+        };
+        function $get($resource: ng.resource.IResourceService, $window: ng.IWindowService): ITasksListService {
             var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
-            var Tasks = $resource<ITask[]>(tasksListUrl, {}, {
+            var Tasks = $resource<ITask[]>(tasksListUrl, { cache: false }, {
                 'get': {
                     method: 'GET', isArray: true
                 }
@@ -32,27 +44,29 @@ var tasksListServiceProvider = function () {
                 tasks = Tasks.get();
                 updateDebugInfo(tasks);
             };
-            var getActiveTasks = function () {
-                $window.setInterval(update, updateInterval);
+            var getActiveTasks = function (callback: (tasks: ITask[]) => any) {
+                $window.setInterval(() => {
+                    callback(tasks);
+                    update();
+                }, updateInterval);
                 return tasks;
             };
             return {
-                getActiveTasks: getActiveTasks
+                getActiveTasks
             };
         }
-    }; provider.$get.$inject = ['$resource', '$window'];
-    return provider;
-    function createDebugInfoUpdator(element: JQuery) {
-        return (tasks: ITask[]) => element.html(tasks
-            .map(task => "<div>" +
-            Object.keys(task).map(key => "<span>&nbsp&nbsp" + task[key] + "</span>") +
-            "</div>")
-            .join());
-    }
-} ();
-(function () {
-    'use strict';
-    angular
-        .module(LASI.documentList.ngName)
-        .provider('tasksListService', tasksListServiceProvider);
-})();
+        function createDebugInfoUpdator(element: JQuery) {
+            return (tasks: ITask[]) => element.html(tasks
+                .map(task => '<div>' +
+                Object.keys(task).map(key => '<span>&nbsp&nbsp' + task[key] + '</span>') +
+                '</div>')
+                .join());
+        }
+    } ();
+    (function () {
+        'use strict';
+        angular
+            .module(moduleName)
+            .provider('tasksListService', tasksListServiceProvider);
+    })();
+}

@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using MongoDB.Driver;
 
-namespace LASI.WebApp.CustomIdentity.MongoDB
+namespace LASI.WebApp.Persistence.MongoDB
 {
     using Process = System.Diagnostics.Process;
     using Directory = System.IO.Directory;
@@ -29,7 +29,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
                  arguments: $"--dbpath {config.DataDbPath}"
              );
         }
-        private MongoDatabase GetDatabase() =>
+        private MongoDatabase GetDatabase() => 
             new MongoClient(new MongoUrl(config.InstanceUrl))
             .GetServer()
             .GetDatabase(config.ApplicationDatabaseName);
@@ -42,17 +42,17 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
             }
             catch (MongoConnectionException e) when (e.InnerException is SocketException)
             {
-                StartDatabaseProcess();
+                mongoDbProcess = StartDatabaseProcess();
                 return GetCollection<TDocument>();
             }
         }
 
-        private MongoDBConfiguration config;
+        private readonly MongoDBConfiguration config;
 
         private Process mongoDbProcess;
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -60,10 +60,9 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).          
+                    mongoDbProcess?.Dispose();
+                    mongoDbProcess = null;
                 }
-                mongoDbProcess?.Dispose();
-                config = null;
                 disposedValue = true;
             }
         }
@@ -72,14 +71,14 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         /// </summary>
         ~MongoDBService()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);
         }
 
-        // This code added to correctly implement the disposable pattern.
+        /// <summary>
+        /// Disposes the <see cref="MongoDBService"/> instance.
+        /// </summary>
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
             GC.SuppressFinalize(this);
         }

@@ -1,10 +1,11 @@
-﻿module App {
+﻿module LASI.documentViewer  {
     export interface ILexicalModel {
         text: string;
         detailText: string;
         id: number;
         style: { cssClass: string };
         contextmenu?: IVerbalContextmenu | IReferencerContextmenu;
+        hasContextmenu: boolean;
         // this needs to be revised as this was copied verbatim from the 
         // old server side view model for use in the razor template and 
         // there should be a simple way to deserialize it as a proper object.
@@ -16,6 +17,7 @@
         id: number;
         style: { cssClass: string };
         paragraphs: IParagraphModel[];
+        prgress: number | string;
     }
 
     export interface IParagraphModel {
@@ -67,4 +69,7 @@
          */
         refersToIds: number[];
     }
+    //export function createAngularContextMenu(menu: IVerbalContextmenu): {
+    //    return {}
+    //}
 }

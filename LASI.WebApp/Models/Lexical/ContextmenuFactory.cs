@@ -47,24 +47,27 @@ namespace LASI.WebApp.Models.Lexical
                 RefersToIds = referencer.RefersTo.Any() ? referencer.RefersTo.OfPhrase().Select(e => e.GetSerializationId()).ToArray() : null
             };
         }
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            ObjectCreationHandling = ObjectCreationHandling.Reuse,
-            NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
+
         private static int idGenerator = 0;
         private static readonly ConcurrentDictionary<ILexical, int> IdCache = new ConcurrentDictionary<ILexical, int>();
 
         private class LexicalContextmenu : ILexicalContextmenu
         {
             public int LexicalId { get; set; }
-
             public IEnumerable<int> DirectObjectIds { get; set; }
             public IEnumerable<int> IndirectObjectIds { get; set; }
             public IEnumerable<int> SubjectIds { get; set; }
             public IEnumerable<int> RefersToIds { get; set; }
+            public override int GetHashCode() => LexicalId;
+            public override string ToString() => JsonConvert.SerializeObject(this);
+
+            private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ObjectCreationHandling = ObjectCreationHandling.Reuse,
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
     }
 }

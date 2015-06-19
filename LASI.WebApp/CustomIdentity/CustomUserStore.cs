@@ -1,15 +1,15 @@
-﻿using LASI.WebApp.Models;
-namespace LASI.WebApp.CustomIdentity
+﻿namespace LASI.WebApp.Persistence
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using User = ApplicationUser;
+    using User = Models.ApplicationUser;
     using CancellationToken = System.Threading.CancellationToken;
     using System.Linq;
     using Utilities.Specialized.Enhanced.IList.Linq;
-    using Microsoft.AspNet.Mvc;
     using Microsoft.AspNet.Identity;
+    using LASI.WebApp.Models;
+    using System.Threading;
 
     public class CustomUserStore<TRole> :
         IUserStore<User>,
@@ -17,10 +17,12 @@ namespace LASI.WebApp.CustomIdentity
         IRoleStore<TRole>,
         IUserPasswordStore<User>,
         IUserEmailStore<User>,
-        IUserPhoneNumberStore<User>
+        IUserPhoneNumberStore<User>,
+        IUserTwoFactorStore<User>,
+        IUserLoginStore<User>
         where TRole : UserRole, new()
     {
-        public CustomUserStore(IUserProvider<User> userProvider, IRoleProvider<TRole> roleProvider)
+        public CustomUserStore(IUserAccessor<User> userProvider, IRoleAccessor<TRole> roleProvider)
         {
             this.userProvider = userProvider;
             this.roleProvider = roleProvider;
@@ -150,21 +152,50 @@ namespace LASI.WebApp.CustomIdentity
 
         public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default(CancellationToken)) =>
             await cancellationToken.IfNotCancelled(() => user.NormalizedEmail = normalizedEmail);
-        public async Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumber = phoneNumber, cancellationToken);
+        public async Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.PhoneNumber = phoneNumber, cancellationToken);
 
-        public async Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumber, cancellationToken);
+        public async Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.PhoneNumber, cancellationToken);
 
-        public async Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumberConfirmed, cancellationToken);
+        public async Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.PhoneNumberConfirmed, cancellationToken);
 
-        public async Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.PhoneNumberConfirmed = confirmed, cancellationToken);
+        public async Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.PhoneNumberConfirmed = confirmed, cancellationToken);
 
-        private readonly IRoleProvider<TRole> roleProvider;
+        public async Task SetTwoFactorEnabledAsync(User user, bool enabled, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.TwoFactorEnabled = enabled, cancellationToken);
 
-        private readonly IUserProvider<User> userProvider;
+        public async Task<bool> GetTwoFactorEnabledAsync(User user, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.TwoFactorEnabled, cancellationToken);
+
+        public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
+        {
+            await cancellationToken.IfNotCancelled(() => user.Logins.Add(login));
+        }
+
+        public async Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancellationToken) =>
+            await ExecuteAsync(() => user.Logins.Remove(user.Logins.First(login => login.LoginProvider == loginProvider && login.ProviderKey == providerKey)), cancellationToken);
+
+
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => user.Logins.ToList(), cancellationToken);
+
+        public async Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => userProvider.Get(u => u.Logins.Any(login => login.LoginProvider == loginProvider && login.ProviderKey == providerKey)), cancellationToken);
+
+
+
+
+
+        private readonly IRoleAccessor<TRole> roleProvider;
+
+        private readonly IUserAccessor<User> userProvider;
 
         #region Helpers
 
-        private async Task<T> ExecuteAsnyc<T>(Func<T> function, CancellationToken cancellationToken) => await cancellationToken.IfNotCancelled(function);
+        private static async Task<T> ExecuteAsnyc<T>(Func<T> function, CancellationToken cancellationToken) => await cancellationToken.IfNotCancelled(function);
         private static async Task ExecuteAsync(Action function, CancellationToken cancellationToken) => await cancellationToken.IfNotCancelled(function);
 
         #endregion Helpers
@@ -184,7 +215,6 @@ namespace LASI.WebApp.CustomIdentity
             }
         }
         public void Dispose() { Dispose(true); }
-
 
 
         #endregion IDisposable Support

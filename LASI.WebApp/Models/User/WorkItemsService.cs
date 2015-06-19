@@ -7,11 +7,12 @@ using LASI.Utilities;
 namespace LASI.WebApp.Models.User
 {
     using static Enumerable;
-    public class UserWorkItemsService : IWorkItemsService
+    public class WorkItemsService : IWorkItemsService
     {
         public IEnumerable<WorkItem> GetAllWorkItemsForUser(string userId) => workItems.GetValueOrDefault(userId, Empty<WorkItem>());
 
-        public WorkItem GetWorkItemForUserDocument(string userId, string documentId) => workItems.GetValueOrDefault(userId, Empty<WorkItem>()).FirstOrDefault(w => w.Id == documentId);
+        public WorkItem GetWorkItemForUserDocument(string userId, string documentId) =>
+            workItems.GetValueOrDefault(userId, Empty<WorkItem>()).FirstOrDefault(w => w.Id == documentId);
         public void UpdateWorkItemForUser(string userId, WorkItem item)
         {
             workItems.AddOrUpdate(key: userId, addValue: new[] { item }, updateValueFactory: (id, items) =>

@@ -4,7 +4,7 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Models.Organization;
 using Microsoft.Framework.ConfigurationModel;
 
-namespace LASI.WebApp.CustomIdentity.MongoDB
+namespace LASI.WebApp.Persistence.MongoDB
 {
     public class MongoDBConfiguration
     {
@@ -17,28 +17,6 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
                 [typeof(UserRole)] = options.UserRoleCollectionName,
                 [typeof(UserDocument)] = options.UserDocumentCollectionName,
                 [typeof(ApplicationOrganization)] = options.OrganizationCollectionName
-            };
-        }
-        public MongoDBConfiguration(IConfiguration config, string applicationBasePath)
-        {
-            this.Options = new MongoDBOptions
-            {
-                UserCollectionName = "UserCollectionName",
-                UserRoleCollectionName = "UserRoleCollectionName",
-                UserDocumentCollectionName = "UserDocumentCollectionName",
-                OrganizationCollectionName = "OrganizationCollectionName",
-                MongodExePath = config["MongodExecutableLocation"],
-                DataDbPath = applicationBasePath + config["MongoDataDbPath"],
-                InstanceUrl = config["MongoDbInstanceUrl"],
-                ApplicationDatabaseName = config["ApplicationDatabaseName"],
-                CreateProcess = Convert.ToBoolean(config["CreateMongoDbProcess"])
-            };
-            collectionNamesByType = new Dictionary<Type, string>
-            {
-                [typeof(ApplicationUser)] = config["UserCollectionName"],
-                [typeof(UserRole)] = config["UserRoleCollectionName"],
-                [typeof(UserDocument)] = config["UserDocumentCollectionName"],
-                [typeof(ApplicationOrganization)] = config["OrganizationCollectionName"]
             };
         }
         /// <summary>

@@ -1,27 +1,29 @@
-// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
-module App {
+module LASI.documentViewer {
     'use strict';
 
     interface IDocumentController {
         title: string;
+        processDocument: (documentId: string) => IDocumentModel;
         activate: () => void;
     }
 
     class DocumentController implements IDocumentController {
         title: string = 'DocumentController';
-        private documentModel: App.IDocumentModel;
-        static $inject: string[] = ['DocumentModelService', '$location'];
+        private documentModel: IDocumentModel;
+        static $inject = ['DocumentModelService', '$location'];
 
-        constructor(private documentModelService: App.IDocumentModelService, private $location: ng.ILocationService) {
+        constructor(private documentModelService: IDocumentModelService, private $location: ng.ILocationService) {
             this.activate();
         }
-
+        processDocument(documentId: string) {
+            return this.documentModelService.processDocument(documentId);
+        }
         activate() {
-            this.documentModel = this.documentModelService.getData();
+            //this.documentModel = this.documentModelService.getData();
         }
     }
 
     angular
-        .module(LASI.documentViewer.ngName)
+        .module(LASI.documentViewer.moduleName)
         .controller('DocumentController', DocumentController);
 }

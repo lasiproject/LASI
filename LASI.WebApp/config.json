@@ -1,26 +1,32 @@
 {
     "AppSettings": {
-        "SiteTitle": "LASI.WebApp"
-    },
-    "Data": {
-        "AccountStorageMedium": "MongoDb",
-        "ApplicationDatabaseName": "accounts",
-        "AutoDebugCleanupOn": "true",
-        "ConvertersDirectory": "StandaloneFileConverters\\",
-        "CreateMongoDbProcess": true,
-        "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
-        "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",
-        "MongoDbInstanceUrl": "mongodb://localhost:27017",
-        "MongodExecutableLocation": "C:\\Program Files\\MongoDB 2.6 Standard\\bin\\mongod.exe",
-        "NameDataDirectory": "LASICustom\\NameData\\",
-        "OrganizationCollectionName": "organizations",
+        "SiteTitle": "LASI",
         "ProjectWebsite": "http://lasi-project.org",
+        "AutoDebugCleanupOn": true,
+        "vs": { "EnableBrowserLink": true },
+        "debug": true
+    },
+    "Resources": {
+        "ConvertersDirectory": "StandaloneFileConverters\\",
+        "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
+        "NameDataDirectory": "LASICustom\\NameData\\",
         "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp.Old\\Resources\\",
         "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
-        "UserCollectionName": "users",
-        "UserDocumentCollectionName": "documents",
-        "UserRoleCollectionName": "roles",
         "WordnetFileDirectory": "WordNetThesaurusData\\",
         "WordnetSearchDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\"
+    },
+    "MongoDB": {
+        "CreateMongoDbProcess": true,
+        "ApplicationDatabaseName": "accounts",
+        "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",
+        "MongoDbInstanceUrl": "mongodb://localhost:27017",
+        "MongodExePath": "C:/Program Files/MongoDB 2.6 Standard/bin/mongod.exe",
+        "UserCollectionName": "users",
+        "UserDocumentCollectionName": "documents",
+        "OrganizationCollectionName": "organizations",
+        "UserRoleCollectionName": "roles"
+    },
+    "Data": {
+        "AccountStorageMedium": "MongoDb"
     }
 }

@@ -7,11 +7,11 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using System.Linq;
-using LASI.WebApp.CustomIdentity.MongoDB.Extensions;
+using LASI.WebApp.Persistence.MongoDB.Extensions;
 
-namespace LASI.WebApp.CustomIdentity.MongoDB
+namespace LASI.WebApp.Persistence.MongoDB
 {
-    public class MongoDBRoleProvider : IRoleProvider<UserRole>
+    public class MongoDBRoleProvider : IRoleAccessor<UserRole>
     {
         public MongoDBRoleProvider(MongoDBService dbService)
         {

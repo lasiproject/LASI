@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using MongoDB.Bson;
 
-namespace LASI.WebApp.CustomIdentity
+namespace LASI.WebApp.Persistence
 {
     public class UserRole : IEquatable<UserRole>
     {

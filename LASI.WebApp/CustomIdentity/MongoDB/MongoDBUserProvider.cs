@@ -7,18 +7,20 @@ using Microsoft.Framework.ConfigurationModel;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver.Builders;
 using System.Linq;
+using System.Net.Sockets;
 
-namespace LASI.WebApp.CustomIdentity.MongoDB
+namespace LASI.WebApp.Persistence.MongoDB
 {
-    public class MongoDBUserProvider : IUserProvider<ApplicationUser>
+    public class MongoDBUserProvider : IUserAccessor<ApplicationUser>
     {
 
         public MongoDBUserProvider(MongoDBService dbService)
         {
+            this.dbService = dbService;
             users = new Lazy<MongoCollection<ApplicationUser>>(dbService.GetCollection<ApplicationUser>);
         }
 
-        public IEnumerator<ApplicationUser> GetEnumerator() => Users.AsQueryable().GetEnumerator();
+        public IEnumerator<ApplicationUser> GetEnumerator() => Users.FindAll().GetEnumerator();
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -79,6 +81,8 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         private Lazy<MongoCollection<ApplicationUser>> users;
 
         private object lockon = new object();
+        private readonly MongoDBService dbService;
+
         /// <summary>
         /// Invokes the given function after wrapping it in an instance lock.
         /// The <see cref="MongoCollection{T}"/> type is thread safe, making explicit synchronization necessary 

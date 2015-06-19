@@ -1,4 +1,4 @@
-﻿namespace LASI.WebApp.CustomIdentity.MongoDB
+﻿namespace LASI.WebApp.Persistence.MongoDB
 {
     public class MongoDBOptions
     {

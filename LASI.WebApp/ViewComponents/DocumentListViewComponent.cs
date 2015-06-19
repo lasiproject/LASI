@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
-using LASI.WebApp.CustomIdentity;
+using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
 using Microsoft.AspNet.Mvc;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace LASI.WebApp.ViewComponents
 {
     public class DocumentListViewComponent : ViewComponent
     {
-        public DocumentListViewComponent(IDocumentProvider<UserDocument> documentStore, UserManager<ApplicationUser> userManager)
+        public DocumentListViewComponent(IDocumentAccessor<UserDocument> documentStore, UserManager<ApplicationUser> userManager)
         {
             this.documentStore = documentStore;
             this.userManager = userManager;
@@ -35,7 +35,7 @@ namespace LASI.WebApp.ViewComponents
             return await Task.FromResult(View(userDocuments.Take(maxResults).Reverse()));
         }
 
-        private readonly IDocumentProvider<UserDocument> documentStore;
+        private readonly IDocumentAccessor<UserDocument> documentStore;
         private readonly UserManager<ApplicationUser> userManager;
     }
 }

@@ -8,7 +8,7 @@
 
         <div class="document">
             @{
-                var indexedPages = Model.PageModels.WithIndex();
+                var indexedPages = Model.Pages.WithIndex();
                 <nav>
 
                 </nav>
@@ -19,7 +19,7 @@
 
                         <div id="page@(index)">
 
-                            @foreach (var paragraphModel in pageModel.Element.ParagraphModels)
+                            @foreach (var paragraphModel in pageModel.Element.Paragraphs)
                             {
                                 @Html.Partial("_Paragraph", paragraphModel)
                             }

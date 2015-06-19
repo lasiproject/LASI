@@ -8,13 +8,14 @@ using MongoDB.Driver.Linq;
 using System.Linq;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
-using LASI.WebApp.CustomIdentity.MongoDB;
-using LASI.WebApp.CustomIdentity.MongoDB.Extensions;
+using LASI.WebApp.Persistence.MongoDB;
+using LASI.WebApp.Persistence.MongoDB.Extensions;
 using LASI.Utilities.Validation;
+using System.Diagnostics;
 
-namespace LASI.WebApp.CustomIdentity.MongoDB
+namespace LASI.WebApp.Persistence.MongoDB
 {
-    public class MongoDBDocumentProvider : IDocumentProvider<UserDocument>
+    public class MongoDBDocumentProvider : IDocumentAccessor<UserDocument>
     {
         public MongoDBDocumentProvider(MongoDBService dbService)
         {
@@ -22,7 +23,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
         }
 
 
-        public UserDocument GetByIds(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d.Id == documentId);
+        public UserDocument GetById(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d.Id == documentId);
         public IEnumerable<UserDocument> GetAllForUser(string userId) => Documents.Find(Query.EQ("UserId", userId));
 
 
@@ -45,7 +46,7 @@ namespace LASI.WebApp.CustomIdentity.MongoDB
             return AddForUser(document.UserId, document);
         }
 
-        public void RemoveByIds(string userId, string documentId)
+        public void RemoveById(string userId, string documentId)
         {
             var result = Documents.Remove(Query.EQ("UserId", userId).And(Query.EQ("_id", ObjectId.Parse(documentId))));
             if (result?.ErrorMessage != null)

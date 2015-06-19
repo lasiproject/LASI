@@ -7,7 +7,7 @@ namespace LASI.WebApp.Models
 {
     using System.Security.Claims;
     using System.Security.Principal;
-    using LASI.WebApp.CustomIdentity;
+    using LASI.WebApp.Persistence;
     using Microsoft.AspNet.Identity;
     using static Enumerable;
     using ObjectId = MongoDB.Bson.ObjectId;
@@ -24,6 +24,7 @@ namespace LASI.WebApp.Models
         /// <summary>
         /// Gets or sets the user's <see cref="ObjectId"/>.
         /// </summary>
+        [MongoDB.Bson.Serialization.Attributes.BsonId]
         public virtual ObjectId _id { get; set; }
         /// <summary>
         /// Gets a string representation of the <see cref="_id"/> property.

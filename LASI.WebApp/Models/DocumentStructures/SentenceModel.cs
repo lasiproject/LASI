@@ -15,14 +15,6 @@ namespace LASI.WebApp.Models.DocumentStructures
             Phrases = ModelFor.Phrases
                .Select(phrase => new PhraseModel(phrase))
                .Append(new PhraseModel(new SymbolPhrase(sentence.Ending)));
-            //Phrases.ForEach(m => m.Sentence = this);
-            #region
-            //ClauseModels = sentence.Clauses.Select(clause => new ClauseModel(clause));
-            //foreach (var model in ClauseModels)
-            //{
-            //    model.SentenceModel = this;
-            //}
-            #endregion
         }
         [JsonIgnore]
         public override string Text => ModelFor.Text;
