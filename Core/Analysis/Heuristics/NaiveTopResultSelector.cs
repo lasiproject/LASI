@@ -21,7 +21,7 @@ namespace LASI.Core.Analysis.Heuristics
             return from svs in data
                    let dataPoint = new
                    {
-                       Key = $"{svs.Subject.Text} -> {svs.Verbal.Text}\n" + 
+                       Key = $"{svs.Subject.Text} -> {svs.Verbal.Text}\n" +
                                 ((svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
                                 (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)),
                        Value = (float)Math.Round(svs.Weight, 2)
@@ -36,10 +36,10 @@ namespace LASI.Core.Analysis.Heuristics
             var data = from verbal in source.Phrases.OfVerbPhrase().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                          .WithSubject(s => (s as IReferencer) == null || (s as IReferencer).RefersTo != null).Distinct((x, y) => x.IsSimilarTo(y))
                        from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                       let subject = entity.Match()/*.Yield<IEntity>()*/
-                            .When((IReferencer r) => r.RefersTo != null && r.RefersTo.Any())
+                       let subject = entity.Match()
+                            .When((IReferencer r) => r.RefersTo?.Any() ?? false)
                             .Then((IReferencer r) => r.RefersTo)
-                            .Result() ?? entity
+                            .Result(entity)
                        from direct in verbal.DirectObjects.DefaultIfEmpty()
                        from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                        let relationship = new SvoRelationship(verbal.AggregateSubject, verbal, verbal.AggregateDirectObject, verbal.AggregateIndirectObject)
@@ -63,9 +63,10 @@ namespace LASI.Core.Analysis.Heuristics
             var results = from entity in source.Phrases.OfEntity()
                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                           orderby entity.Weight descending
-                          let e = entity.Match()/*.Yield<IEntity>()*/
-                              .Case((IReferencer r) => r.RefersTo != null && r.RefersTo.Any() ? r.RefersTo : entity)
-                          .Result(entity)
+                          let e = entity.Match()
+                            .When((IReferencer r) => r.RefersTo?.Any() ?? false)
+                            .Then((IReferencer r) => r.RefersTo)
+                            .Result(entity)
                           where e != null
                           group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
                           where g.Any()

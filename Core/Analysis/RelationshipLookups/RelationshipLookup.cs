@@ -21,7 +21,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>
         public RelationshipLookup(IEnumerable<TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
         {
-            verbalRelationshipDomain = domain.WithSubject().WithObject();
+            VerbalRelationshipDomain = domain.WithSubject().WithObject();
             this.
                 actionComparer = actionComparer;
             this.performerComparer = performerComparer;
@@ -66,7 +66,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="domain">The RelationshipLookup instance which contains the relevant lexical data set.</param>
         /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>       
         public RelationshipLookup(RelationshipLookup<TEntity, TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer)
-           : this(domain.verbalRelationshipDomain, actionComparer, domain.performerComparer, domain.receiverComparer)
+           : this(domain.VerbalRelationshipDomain, actionComparer, domain.performerComparer, domain.receiverComparer)
         {
         }
 
@@ -77,7 +77,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>       
         /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         public RelationshipLookup(IRelationshipLookup<TEntity, TVerbal> domain, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
-            : this(domain, EqualityComparer<TVerbal>.Default.Equals, performerComparer, receiverComparer)
+            : this(domain.VerbalRelationshipDomain, EqualityComparer<TVerbal>.Default.Equals, performerComparer, receiverComparer)
         {
         }
 
@@ -85,8 +85,8 @@ namespace LASI.Core.Analysis.Relationships
         #endregion
         #region Methods
 
-        System.Collections.Generic.IEnumerator<TVerbal> System.Collections.Generic.IEnumerable<TVerbal>.GetEnumerator() => verbalRelationshipDomain.GetEnumerator();
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => verbalRelationshipDomain.GetEnumerator();
+        //System.Collections.Generic.IEnumerator<TVerbal> System.Collections.Generic.IEnumerable<TVerbal>.GetEnumerator() => verbalRelationshipDomain.GetEnumerator();
+        //System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => verbalRelationshipDomain.GetEnumerator();
         #endregion
         #region Indexers
         /// <summary>
@@ -106,7 +106,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="actionReceiver">The action Receiving Entity</param>
         /// <param name="receiverComparer">A predicate function which determines how to find matches for action Receiver.</param>
         /// <returns>The Verbals which are known to link the given action Performing Entity and action Receiving Entity.</returns>
-        public IEnumerable<TVerbal> this[TEntity actionPerformer, Func<TEntity, TEntity, bool> performerComparer, TEntity actionReceiver, Func<TEntity, TEntity, bool> receiverComparer] => verbalRelationshipDomain
+        public IEnumerable<TVerbal> this[TEntity actionPerformer, Func<TEntity, TEntity, bool> performerComparer, TEntity actionReceiver, Func<TEntity, TEntity, bool> receiverComparer] => VerbalRelationshipDomain
                 .WithSubject(s => s.Match((TEntity e) => performerComparer(actionPerformer, e)))
                 .WithObject(o => o.Match((TEntity e) => receiverComparer(actionReceiver, e)));
         /// <summary>
@@ -130,7 +130,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>
         /// <returns>The collection of Action - Receiver ActionReceiverPairs which consists of all pairings of Actions and Receivers which for all received Actions the given Entity performs.</returns>
         public IEnumerable<ActionReceiverPair<TVerbal, TEntity>> this[TEntity performer, Func<TEntity, TEntity, bool> performerComparer] =>
-            from action in verbalRelationshipDomain
+            from action in VerbalRelationshipDomain
             from doer in action.Subjects.OfType<TEntity>()
             where performerComparer(doer, performer)
             from receiver in action.DirectObjects.Concat(action.IndirectObjects).OfType<TEntity>()
@@ -144,7 +144,7 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="actionComparer">A predicate function which determines how to find matches for the given Verbal.</param>
         /// <returns>The collection of Performer - Receiver EntityPairs which consists of all pairing of Entities which are related by the given Verbal.</returns>
         public IEnumerable<PerformerReceiverPair<TEntity, TEntity>> this[TVerbal action, Func<TVerbal, TVerbal, bool> actionComparer] =>
-            from a in verbalRelationshipDomain
+            from a in VerbalRelationshipDomain
             where actionComparer(a, action)
             from performer in action.Subjects.OfType<TEntity>()
             from receiver in action.DirectObjects.Concat(action.IndirectObjects).OfType<TEntity>()
@@ -171,7 +171,7 @@ namespace LASI.Core.Analysis.Relationships
             TEntity actionPerformer,
             Func<TEntity, TEntity, bool> performerComparer,
             TVerbal action,
-            Func<TVerbal, TVerbal, bool> actionComparer] => from verbal in verbalRelationshipDomain
+            Func<TVerbal, TVerbal, bool> actionComparer] => from verbal in VerbalRelationshipDomain
                                                             where actionComparer(verbal, action)
                                                             where verbal.HasSubject(s => s.Match().Case((TEntity e) => performerComparer(e, actionPerformer)).Result())
                                                             from receiver in verbal.DirectObjects.Concat(verbal.IndirectObjects).OfType<TEntity>()
@@ -181,10 +181,11 @@ namespace LASI.Core.Analysis.Relationships
 
         #region Fields
 
-        private IEnumerable<TVerbal> verbalRelationshipDomain;
         private readonly Func<TEntity, TEntity, bool> receiverComparer;
         private readonly Func<TEntity, TEntity, bool> performerComparer;
         private readonly Func<TVerbal, TVerbal, bool> actionComparer;
+
+        public IEnumerable<TVerbal> VerbalRelationshipDomain { get; }
 
         #endregion
 

@@ -35,12 +35,12 @@ namespace LASI.Content
         /// Returns a single string containing all of the Raw Text in the RawTextFragment.
         /// </summary>
         /// <returns>A single string containing all of the Raw Text in the RawTextFragment.</returns>
-        public string GetText() => content;
+        public string LoadText() => content;
         /// <summary>
         /// Returns a system.Threading.Task.Task which, when awaited, yields a single string containing all of the Raw Text in the RawTextFragment.
         /// </summary>
         /// <returns>A System.Threading.Task.Task which, when awaited, yields a single string containing all of the Raw Text in the RawTextFragment.</returns>
-        public Task<string> GetTextAsync() => Task.FromResult(content);
+        public Task<string> LoadTextAsync() => Task.FromResult(content);
 
         /// <summary>
         /// Gets the name associated with the RawTextFragment.
@@ -51,8 +51,9 @@ namespace LASI.Content
         /// </summary>
         /// <param name="fragment">The RawTextFragment to convert.</param>
         /// <returns>A string containing the content of the RawTextFragment.</returns>
-        public static implicit operator string (RawTextFragment fragment) => fragment.GetText();
+        public static implicit operator string (RawTextFragment fragment) => fragment.LoadText();
 
+        public override string ToString() => LoadText();
         private string content;
 
     }

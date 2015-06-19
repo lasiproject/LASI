@@ -233,13 +233,13 @@
                        Canvas.Top="165"
                        Width="20"
                        Margin="615,111,21,40" />
-            <Button x:Name="createButton"
+            <Button x:Name="CreateButton"
                     Canvas.Left="385"
                     Canvas.Top="224"
                     Height="27"
                     Margin="200,225,404,0"
                     VerticalAlignment="Top"
-                    Click="completeSetupAndContinueButton_Click"
+                    Click="CompleteSetupAndContinueButton_Click"
                     Content="Create"
                     Style="{DynamicResource lowerCreateButton}" />
             <Label x:Name="ProjCreateErrorLabel"

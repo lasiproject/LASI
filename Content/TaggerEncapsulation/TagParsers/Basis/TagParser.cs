@@ -10,13 +10,7 @@ namespace LASI.Content.Tagging
     {
         public abstract Document LoadDocument();
         public abstract IEnumerable<Paragraph> LoadParagraphs();
-
-
-        public TaggedFile TaggedDocumentFile
-        {
-            get;
-            protected set;
-        }
+         
         /// <summary>
         /// Breaks a string of text containing multiple paragraphs into a collection of strings each representing an individual parent.
         /// Paragraphs are delimited using the default regular expression pattern "[\r\n]+[^]*[\r\n]+"

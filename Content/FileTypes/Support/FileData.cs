@@ -10,42 +10,7 @@ namespace LASI.Content
     {
         #region Constructors
 
-        /// <summary>
-        /// Constructs a new instance from the given parameters.
-        /// </summary>
-        /// <param name="directory">The full path to a file, not including the file name itself.</param>
-        /// <param name="fileName">The name of the file, not including the file extension.</param>
-        /// <param name="fileExt">The extension of the file.</param>
-        public FileData(string directory, string fileName, string fileExt)
-            : this() {
-            Directory = directory;
-            FileNameSansExt = fileName;
-            Extension = fileExt;
-            FileName = fileName + fileExt;
-            FullPathAndExt = directory + fileName + fileExt;
-            FullPathSansExt = directory + fileName;
-        }
-        /// <summary>
-        /// Constructs a new instance from the given parameters.
-        /// </summary>
-        /// <param name="directory">The full newPath to the file, not including the file name itself.</param>
-        /// <param name="fileNameWithExt">The name of the file, including the file extension.</param>
-        public FileData(string directory, string fileNameWithExt)
-            : this() {
-            Directory = directory;
-            FileName = fileNameWithExt;
-            try {
-                Extension = FileName.Substring(FileName.LastIndexOf('.'));
-                FileNameSansExt = FileName.Substring(0, FileName.LastIndexOf('.'));
-                FullPathAndExt = directory + fileNameWithExt;
-            } catch (ArgumentOutOfRangeException) {
-                Extension = string.Empty;
-                FileNameSansExt = FileName;
-
-            }
-            FullPathAndExt = Directory + FileNameSansExt + Extension;
-            FullPathSansExt = Directory + FileNameSansExt;
-        }
+       
         /// <summary>
         /// Constructs a new instance from the given parameters.
         /// </summary>

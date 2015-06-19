@@ -93,13 +93,13 @@ namespace LASI.App.Visualization
                 visitSubjectMI.Click += delegate
                 {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
-                    var labels = from label in neighboringElements
-                                 where label.Tag.Equals(verbal.ObjectOfThePreposition)
-                                 select new { label, brush = colorMapping[label.Tag as ILexical] };
-                    foreach (var l in labels)
+                    var associatedElements = from element in neighboringElements
+                                             where element.Tag.Equals(verbal.ObjectOfThePreposition)
+                                             select new { Element = element, Brush = colorMapping[element.Tag as ILexical] };
+                    foreach (var a in associatedElements)
                     {
-                        l.label.Foreground = l.brush;
-                        l.label.Background = Brushes.Red;
+                        a.Element.Foreground = a.Brush;
+                        a.Element.Background = Brushes.Red;
                     }
                 };
                 return visitSubjectMI;
@@ -140,13 +140,13 @@ namespace LASI.App.Visualization
 
             private static void BuildAndExecuteLabelTransformations(IReadOnlyList<WpfDocuments.TextElement> neighboringElements, IEnumerable<ILexical> associatedLexicalElements)
             {
-                var transformations = from r in associatedLexicalElements
-                                      join label in neighboringElements on r equals label.Tag
-                                      select new { Label = label, NewForegroundColor = colorMapping[label.Tag as ILexical] };
-                foreach (var l in transformations)
+                var associatedElements = from lexical in associatedLexicalElements
+                                         join element in neighboringElements on lexical equals element.Tag
+                                         select new { Element = element, NewForegroundColor = colorMapping[element.Tag as ILexical] };
+                foreach (var a in associatedElements)
                 {
-                    l.Label.Foreground = l.NewForegroundColor;
-                    l.Label.Background = Brushes.Red;
+                    a.Element.Foreground = a.NewForegroundColor;
+                    a.Element.Background = Brushes.Red;
                 }
             }
             private static class Text
@@ -166,14 +166,14 @@ namespace LASI.App.Visualization
                 visitBoundEntity.Click += delegate
                 {
                     ResetLabelBrushes(neighboringElements);
-                    var labels = from l in neighboringElements
-                                 where pro.RefersTo == l.Tag || l.Tag is NounPhrase &&
-                                 pro.RefersTo.Intersect((l.Tag as NounPhrase).Words.OfEntity()).Any()
-                                 select l;
-                    foreach (var label in labels)
+                    var associatedElements = from element in neighboringElements
+                                             where pro.RefersTo == element.Tag || element.Tag is NounPhrase &&
+                                             pro.RefersTo.Intersect((element.Tag as NounPhrase).Words.OfEntity()).Any()
+                                             select element;
+                    foreach (var a in associatedElements)
                     {
-                        label.Foreground = Brushes.White;
-                        label.Background = Brushes.Black;
+                        a.Foreground = Brushes.White;
+                        a.Background = Brushes.Black;
                     }
                 };
                 return visitBoundEntity;
@@ -196,8 +196,7 @@ namespace LASI.App.Visualization
         private static void ResetUnassociatedLabelBrushes(IReadOnlyList<WpfDocuments.TextElement> neighboringElements, IVerbal verbal)
         {
             foreach (var element in from element in neighboringElements
-                                    let entity = element.Tag as IEntity
-                                    where entity != null && !verbal.HasSubjectOrObject(i => i == entity)
+                                    where !verbal.HasSubjectOrObject(i => i == element.Tag)
                                     select element)
             {
                 element.Foreground = MapToColor(element.Tag);

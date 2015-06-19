@@ -20,11 +20,9 @@ namespace LASI.Content.Serialization
         /// <returns>A new <see cref="ILexicalSerializer{T, TResult}"/> which map ILexical instances to the specified format. </returns>
         public static ILexicalSerializer<ILexical, object> Create(string targetFormat)
         {
-            Format format;
-            Enum.TryParse(
+            var format = (Format)Enum.Parse(enumType: typeof(Format),
                 value: targetFormat,
-                ignoreCase: true,
-                result: out format
+                ignoreCase: true
             );
             switch (format)
             {

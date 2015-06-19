@@ -25,17 +25,17 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the DocXFile.
         /// </summary>
         /// <returns>A string containing all of the text in the DocXFile.</returns>
-        public override string GetText() {
+        public override string LoadText() {
             var converter = new DocxToTextConverter(this);
-            return (converter.ConvertFile() as TxtFile).GetText();
+            return (converter.ConvertFile() as TxtFile).LoadText();
         }
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.</returns>
-        public override async Task<string> GetTextAsync() {
+        public override async Task<string> LoadTextAsync() {
             var converter = new DocxToTextConverter(this);
-            return await (await converter.ConvertFileAsync() as TxtFile).GetTextAsync();
+            return await (await converter.ConvertFileAsync() as TxtFile).LoadTextAsync();
         } 
     }
 }

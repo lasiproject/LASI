@@ -26,23 +26,19 @@ namespace LASI.Core
         /// <param name="first">The first Word of the SubordinateClauseBeginPhrase.</param>
         /// <param name="rest">The rest of the Words comprise the SubordinateClauseBeginPhrase.</param>
         /// <remarks>This constructor overload reduces the syntactic overhead associated with the manual construction of SubordinateClauseBeginPhrases. 
-        /// Thus, its purpose is to simplifiy test code.</remarks>
+        /// Thus, its purpose is to simplify test code.</remarks>
         public SubordinateClauseBeginPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
-        private void deterimineEndOfClause()
-        {
-            EndOfClause = Sentence.Words
+        private Punctuator deterimineEndOfClause() => Sentence.Words
                 .SkipWhile(w => w != Words.Last())
                 .First(w => w is Punctuator) as Punctuator;
-        }
+
         /// <summary>
         /// Gets or sets the Punctuation which terminates the Clause.
         /// </summary>
-        public Punctuator EndOfClause
-        {
-            get;
-            protected set;
-        }
+        public Punctuator EndOfClause => terminalPunctuator ?? (terminalPunctuator = deterimineEndOfClause());
+
+        private Punctuator terminalPunctuator;
         /// <summary>
         /// Gets or sets the Lexical construct which is subordinated by the SubordinateClauseBeginPhrase.
         /// </summary>

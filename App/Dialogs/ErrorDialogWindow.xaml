@@ -1,0 +1,35 @@
+﻿<Window x:Class="LASI.App.Dialogs.ErrorDialogWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LASI.App.Dialogs"
+             mc:Ignorable="d"
+             Width="auto"
+             Height="auto"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid>
+
+        <TextBlock TextAlignment="Center"
+                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Stretch"
+                   Margin="10,10,10,90"
+                   Height="200"
+                   Width="280"
+                   Text="{Binding Path=Message, Mode=OneTime}">
+        </TextBlock>
+        <Button x:Name="CopyMessageButton"
+                Content="Copy Message"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,215,194,0" Width="92" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+        <Button x:Name="ProceedButton"
+                Content="OK"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,10"
+                Width="75" IsDefault="True" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+    </Grid>
+</Window>

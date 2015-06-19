@@ -18,12 +18,14 @@
                Cursor="Hand"
                FontWeight="Bold"
                Foreground="DarkRed"
-               MouseLeftButtonDown="label_MouseLeftButtonDown"
+               KeyDown="LicenseLabel_KeyDown"
+               MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
                Tag="Resources\Licenses\b2xtranslatorLicense.txt"
-               ToolTip="LASI uses the b2x translator libracry to parse legacy Microsoft Word documents (.doc)">
+               ToolTip="LASI uses the b2x translator library to parse legacy Microsoft Word documents (.doc)">
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="MenuItem_Click_1" Header="View License" />
+                    <MenuItem Click="MenuItem_Click_1"
+                              Header="View License" />
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Label>
@@ -36,12 +38,14 @@
                Cursor="Hand"
                FontWeight="Bold"
                Foreground="DarkRed"
-               MouseLeftButtonDown="label_MouseLeftButtonDown"
+               MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
+               KeyDown="LicenseLabel_KeyDown"
                Tag="Resources\Licenses\iTextSharpLicense.txt"
                ToolTip="LASI uses the iTextSharp v4.16 library to parse Adobe Acrobat documents (.pdf)">
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="MenuItem_Click_2" Header="View License" />
+                    <MenuItem Click="MenuItem_Click_2"
+                              Header="View License" />
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Label>
@@ -54,12 +58,14 @@
                Cursor="Hand"
                FontWeight="Bold"
                Foreground="DarkRed"
-               MouseLeftButtonDown="label_MouseLeftButtonDown"
+               MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
+               KeyDown="LicenseLabel_KeyDown"
                Tag="Resources\Licenses\SharpNLPLicense.txt"
-               ToolTip="LASI uses the SharpNLP part of speach tagging library to identify the syntactic roles of lexical tokens and aggregates">
+               ToolTip="LASI uses the SharpNLP part of speech tagging library to identify the syntactic roles of lexical tokens and aggregates">
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="MenuItem_Click_3" Header="View License" />
+                    <MenuItem Click="MenuItem_Click_3"
+                              Header="View License" />
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Label>
@@ -72,12 +78,14 @@
                Cursor="Hand"
                FontWeight="Bold"
                Foreground="DarkRed"
-               MouseLeftButtonDown="label_MouseLeftButtonDown"
+               MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
+               KeyDown="LicenseLabel_KeyDown"
                Tag="Resources\Licenses\WordNetLicense.txt"
-               ToolTip="LASI uses the Princton WordNet 3.0 data files to provide synonymic, attributive, and categorical context">
+               ToolTip="LASI uses the Princeton WordNet 3.0 data files to provide synonymic, attributive, and categorical context">
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="MenuItem_Click_4" Header="View License" />
+                    <MenuItem Click="MenuItem_Click_4"
+                              Header="View License" />
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Label>
@@ -90,18 +98,20 @@
                Cursor="Hand"
                FontWeight="Bold"
                Foreground="DarkRed"
-               MouseLeftButtonDown="label_MouseLeftButtonDown"
+               MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
+               KeyDown="LicenseLabel_KeyDown"
                Tag="Resources\Licenses\WPFToolkitLicense.txt"
                ToolTip="LASI uses the WPF Toolkit library to provide enhanced data visualization">
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Click="MenuItem_Click_5" Header="View License" />
+                    <MenuItem Click="MenuItem_Click_5"
+                              Header="View License" />
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Label>
-        <Button x:Name="oKButton"
+        <Button x:Name="OkButton"
                 Margin="118,228,118,24"
-                Click="okButton_Click"
+                Click="OkButton_Click"
                 Content="OK"
                 Foreground="DarkRed" />
     </Grid>

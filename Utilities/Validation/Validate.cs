@@ -19,7 +19,7 @@ namespace LASI.Utilities.Validation
         /// The name of the value being validated in the context of the calling method.
         /// </param>
         /// <exception cref="ArgumentNullException">The value was null.</exception>
-        public static void NotNull<T>(T value, string name = "value")
+        public static void NotNull<T>(T value, string name = "value")  
         {
             if (value == null)
             {
@@ -37,7 +37,7 @@ namespace LASI.Utilities.Validation
         /// A message that provides additional detail as to why the value may not be null.
         /// </param>
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
-        public static void NotNull<T>(T value, string name, string message) where T : class
+        public static void NotNull<T>(T value, string name, string message)
         {
             if (value == null)
             {
@@ -230,7 +230,7 @@ namespace LASI.Utilities.Validation
                 var argumentName = name ?? nameof(value);
                 FailWithOutOfRangeException(
                     actualValue: value,
-                    name: argumentName,
+                    paramName: argumentName,
                     message: message ?? $"The argument, {argumentName}, was less than the required minimum\n. Required: {argumentName} >= {minimum}; Recieved: {value}"
                 );
             }
@@ -255,7 +255,7 @@ namespace LASI.Utilities.Validation
                 var argumentName = name ?? "value";
                 FailWithOutOfRangeException(
                     actualValue: value,
-                    name: argumentName,
+                    paramName: argumentName,
                     message: message ?? $"The argument, {argumentName}, was greater than the required maximum\n. Required: {argumentName} <= {maximum}; Recieved: {value}"
                 );
             }
@@ -363,11 +363,11 @@ namespace LASI.Utilities.Validation
         /// Throws an <see cref="ArgumentException"/>.
         /// </summary>
         /// <param name="actualValue">The value which caused the exception.</param>
-        /// <param name="name">The name of the argument which caused the exception.</param>
+        /// <param name="paramName">The name of the argument which caused the exception.</param>
         /// <param name="message">A message describing the error.</param>
-        private static void FailWithOutOfRangeException<T>(T actualValue, string name, string message) where T : IComparable<T>, IEquatable<T>
+        private static void FailWithOutOfRangeException<T>(T actualValue, string paramName, string message) where T : IComparable<T>, IEquatable<T>
         {
-            throw new ArgumentOutOfRangeException(name, actualValue, message);
+            throw new ArgumentOutOfRangeException(paramName, actualValue, message);
         }
         /// <summary>
         /// Throws an <see cref="ArgumentException"/>.

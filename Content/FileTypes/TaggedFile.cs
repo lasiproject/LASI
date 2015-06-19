@@ -26,7 +26,7 @@ namespace LASI.Content
         /// Gets a single string containing all of the text in the TaggedFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
-        public override string GetText() {
+        public override string LoadText() {
             using (var reader = new StreamReader(
                 new FileStream(FullPath,
                     FileMode.Open,
@@ -40,7 +40,7 @@ namespace LASI.Content
         /// Asynchronously gets a single string containing all of the text in the TaggedFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TaggedFile.</returns>
-        public override async Task<string> GetTextAsync() {
+        public override async Task<string> LoadTextAsync() {
             using (var reader = new StreamReader(
                   new FileStream(FullPath,
                       FileMode.Open,

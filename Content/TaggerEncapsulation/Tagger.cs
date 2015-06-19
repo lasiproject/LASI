@@ -95,7 +95,7 @@ namespace LASI.Content.Tagging
         /// The contents of the TextFile composed into a fully reified
         /// <see cref="Document"/> instance.
         /// </returns>
-        public Document DocumentFromRaw(IRawTextSource raw) => DocumentFromTagged(new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(raw.GetText()), raw.Name));
+        public Document DocumentFromRaw(IRawTextSource raw) => DocumentFromTagged(new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(raw.LoadText()), raw.Name));
 
         /// <summary>
         /// Asynchronously parses the contents of an IRawTextSource containing raw, untagged text
@@ -108,7 +108,7 @@ namespace LASI.Content.Tagging
         /// </returns>
         public async Task<Document> DocumentFromRawAsync(IRawTextSource raw)
         {
-            var rawText = await raw.GetTextAsync();
+            var rawText = await raw.LoadTextAsync();
             var taggedText = await new QuickTagger(TaggerMode).TagTextSourceAsync(rawText);
             return await new TaggedSourceParser(new TaggedTextFragment(taggedText, raw.Name)).LoadDocumentAsync(raw.Name);
         }
@@ -167,7 +167,7 @@ namespace LASI.Content.Tagging
         /// An ITaggedTextSource containing the result. The form is identical to what it would be
         /// appear in a tagged file.
         /// </returns>
-        public ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) => new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.GetText()), textSource.Name);
+        public ITaggedTextSource TaggedFromRaw(IRawTextSource textSource) => new TaggedTextFragment(new QuickTagger(TaggerMode).TagTextSource(textSource.LoadText()), textSource.Name);
 
         /// <summary>
         /// Asynchronously parses the contents of an IRawTextSource with the tagger and returns a
@@ -178,7 +178,7 @@ namespace LASI.Content.Tagging
         /// A Task&lt;ITaggedTextSource&gt; which will contain the result. The form is identical to
         /// what it would be appear in a tagged file.
         /// </returns>
-        public async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) => new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.GetText()), textSource.Name);
+        public async Task<ITaggedTextSource> TaggedFromRawAsync(IRawTextSource textSource) => new TaggedTextFragment(await new QuickTagger(TaggerMode).TagTextSourceAsync(textSource.LoadText()), textSource.Name);
 
         /// <summary>
         /// Gets or sets the default mode the tagger will operate under. The default value is set to TagAndAggregate

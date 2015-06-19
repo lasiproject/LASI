@@ -1,4 +1,5 @@
-﻿using LASI.WebApp.CustomIdentity;
+﻿using LASI.Utilities.Specialized.Enhanced.Universal;
+using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
 using LASI.WebApp.Tests.MvcHelpers;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
@@ -20,43 +21,41 @@ namespace LASI.WebApp.Tests.TestSetup
                     .AddMvc()
                     .ConfigureMvc(MvcConfigurationHelper.ConfigureMvcJsonFormatters);
 
-            services
-                .AddIdentity<ApplicationUser, UserRole>()
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddUserStore<CustomUserStore<UserRole>>()
-                .AddRoleManager<RoleManager<UserRole>>()
-                .AddRoleStore<CustomUserStore<UserRole>>();
-            return services
-                .AddTransient(provider =>
+            services.AddIdentity<ApplicationUser, UserRole>()
+                    .AddUserManager<UserManager<ApplicationUser>>()
+                    .AddUserStore<CustomUserStore<UserRole>>()
+                    .AddRoleManager<RoleManager<UserRole>>()
+                    .AddRoleStore<CustomUserStore<UserRole>>();
+            services.AddTransient(provider =>
+            {
+                var user = provider.GetService<ApplicationUser>();
+                var httpContext = new Microsoft.AspNet.Http.Core.DefaultHttpContext();
+                var contextAccessor = new HttpContextAccessor
                 {
-                    var user = provider.GetService<ApplicationUser>();
-                    var httpContext = new Microsoft.AspNet.Http.Core.DefaultHttpContext();
-                    var contextAccessor = new HttpContextAccessor
-                    {
-                        HttpContext = httpContext
-                    };
-                    var identityOptions = provider.GetService<IOptions<IdentityOptions>>();
-                    var userManager = provider.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = provider.GetService<RoleManager<UserRole>>();
-                    var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<ApplicationUser, UserRole>(
-                        userManager,
-                        roleManager,
-                        identityOptions
-                    );
-                    var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(user);
-                    var signInManager = new SignInManager<ApplicationUser>(
-                        userManager,
-                        contextAccessor,
-                        userClaimsPrincipalFactory
-                    );
-                    httpContext.User = userClaimsPrincipal.Result;
-                    signInManager.SignInAsync(user, true);
-                    return new ActionContext
-                    {
-                        HttpContext = httpContext
-                    };
-                })
-                .WithControllersAsServices(new[] { typeof(LASI.WebApp.Startup).Assembly });
+                    HttpContext = httpContext
+                };
+                var identityOptions = provider.GetService<IOptions<IdentityOptions>>();
+                var userManager = provider.GetService<UserManager<ApplicationUser>>();
+                var roleManager = provider.GetService<RoleManager<UserRole>>();
+                var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<ApplicationUser, UserRole>(
+                    userManager,
+                    roleManager,
+                    identityOptions
+                );
+                var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(user);
+                var signInManager = new SignInManager<ApplicationUser>(
+                    userManager,
+                    contextAccessor,
+                    userClaimsPrincipalFactory
+                );
+                httpContext.User = userClaimsPrincipal.Result;
+                signInManager.SignInAsync(user, true);
+                return new ActionContext
+                {
+                    HttpContext = httpContext
+                };
+            });
+            return services.WithControllersAsServices(new[] { typeof(LASI.WebApp.Startup).Assembly });
         }
     }
 }

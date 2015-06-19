@@ -7,86 +7,106 @@
     enum NounLink : byte
     {
         /// <summary>
-        /// UNDEFINED. The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
+        /// The presence of this value indicates that an inter set relationship was improperly mapped from a WordNet data file.
         /// </summary>
         Undefined = 0,
         /// <summary>
         /// Antonym
         /// </summary>
-        Antonym,// !  
+        Antonym,
+        // !
         /// <summary>
         /// HypERnym
         /// </summary>
-        HypERnym,// @  
+        Hypernym,
+        // @
         /// <summary>
         /// InstanceHypERnym
         /// </summary>
-        InstanceHypERnym,// @i 
+        InstanceHypernym,
+        // @i
         /// <summary>
         /// HypOnym
         /// </summary>
-        HypOnym,//~ 
+        Hyponym,
+        //~
         /// <summary>
         /// InstanceHypOnym
         /// </summary>
-        InstanceHypOnym,// ~i
+        InstanceHyponym,
+        // ~i
         /// <summary>
         /// MemberHolonym
         /// </summary>
-        MemberHolonym,// #m 
+        MemberHolonym,
+        // #m
         /// <summary>
         /// SubstanceHolonym
         /// </summary>
-        SubstanceHolonym,// #s
+        SubstanceHolonym,
+        // #s
         /// <summary>
         /// PartHolonym
         /// </summary>
-        PartHolonym,// #v
+        PartHolonym,
+        // #v
         /// <summary>
         /// MemberMeronym
         /// </summary>
-        MemberMeronym,// %m 
+        MemberMeronym,
+        // %m
         /// <summary>
         /// SubstanceMeronym
         /// </summary>
-        SubstanceMeronym,// %s
+        SubstanceMeronym,
+        // %s
         /// <summary>
         /// PartMeronym
         /// </summary>
-        PartMeronym,// %v
+        PartMeronym,
+        // %v
         /// <summary>
         /// Attribute
         /// </summary>
-        Attribute,// =  
+        Attribute,
+        // =
         /// <summary>
         /// DerivationallyRelatedForm
         /// </summary>
-        DerivationallyRelatedForm,// +  
+        DerivationallyRelatedForm,
+        // +
         /// <summary>
         /// DomainOfSynset_TOPIC
         /// </summary>
-        DomainOfSynset_TOPIC,// ;c 
+        DomainOfSynset_TOPIC,
+        // ;c
         /// <summary>
         /// MemberOfThisDomain_TOPIC
         /// </summary>
-        MemberOfThisDomain_TOPIC,// -c 
+        MemberOfThisDomain_TOPIC,
+        // -c
         /// <summary>
         /// DomainOfSynset_REGION
         /// </summary>
-        DomainOfSynset_REGION,//;r 
+        DomainOfSynset_REGION,
+        //;r
         /// <summary>
         /// MemberOfThisDomain_REGION
         /// </summary>
-        MemberOfThisDomain_REGION,// -r 
+        MemberOfThisDomain_REGION,
+        // -r
         /// <summary>
         /// DomainOfSynset_USAGE
         /// </summary>
-        DomainOfSynset_USAGE,// ;u 
+        DomainOfSynset_USAGE,
+        // ;u
         /// <summary>
         /// MemberOfThisDomain_USAGE
         /// </summary>
-        MemberOfThisDomain_USAGE,// -u  
+        MemberOfThisDomain_USAGE,
+        // -u
     }
+
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Verb Synsets can relate to one another.
     /// </summary>
@@ -99,48 +119,60 @@
         /// <summary>
         /// Antonym
         /// </summary>
-        Antonym,// !
+        Antonym,
+        // !
         /// <summary>
         /// Hypernym
         /// </summary>
-        Hypernym,// @
+        Hypernym,
+        // @
         /// <summary>
         /// Hyponym
         /// </summary>
-        Hyponym,// ~ 
+        Hyponym,
+        // ~
         /// <summary>
         /// Entailment
         /// </summary>
-        Entailment,// *
+        Entailment,
+        // *
         /// <summary>
         /// Cause
         /// </summary>
-        Cause,// >
+        Cause,
+        // >
         /// <summary>
         /// AlsoSee
         /// </summary>
-        AlsoSee,// ^
+        AlsoSee,
+        // ^
         /// <summary>
         /// Verb_Group
         /// </summary>
-        Verb_Group,// $    
+        Verb_Group,
+        // $
         /// <summary>
         /// DerivationallyRelatedForm
         /// </summary>
-        DerivationallyRelatedForm,// +    
+        DerivationallyRelatedForm,
+        // +
         /// <summary>
         /// DomainOfSynset_TOPIC
         /// </summary>
-        DomainOfSynset_TOPIC,// ;c  
+        DomainOfSynset_TOPIC,
+        // ;c
         /// <summary>
         /// DomainOfSynset_REGION
         /// </summary>
-        DomainOfSynset_REGION,// ;r
+        DomainOfSynset_REGION,
+        // ;r
         /// <summary>
         /// DomainOfSynset_USAGE
         /// </summary>
-        DomainOfSynset_USAGE,// ;u 
+        DomainOfSynset_USAGE,
+        // ;u
     }
+
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adjective Synsets can relate to one another.
     /// </summary>
@@ -153,40 +185,50 @@
         /// <summary>
         /// Antonym
         /// </summary>
-        Antonym,// !
+        Antonym,
+        // !
         /// <summary>
         /// SimilarTo
         /// </summary>
-        SimilarTo,// &
+        SimilarTo,
+        // &
         /// <summary>
         /// ParticipleOfVerb
         /// </summary>
-        ParticipleOfVerb,// <
+        ParticipleOfVerb,
+        // <
         /// <summary>
         /// Pertainym_pertains_to_noun
         /// </summary>
-        Pertainym_pertains_to_noun,// \                 Yes that really is a backslash
+        Pertainym_pertains_to_noun,
+        // \                 Yes that really is a backslash
         /// <summary>
         /// Attribute
         /// </summary>
-        Attribute,// =
+        Attribute,
+        // =
         /// <summary>
         /// AlsoSee
         /// </summary>
-        AlsoSee,// ^
+        AlsoSee,
+        // ^
         /// <summary>
         /// DomainOfSynset_TOPIC
         /// </summary>
-        DomainOfSynset_TOPIC,// ;c
+        DomainOfSynset_TOPIC,
+        // ;c
         /// <summary>
         /// DomainOfSynset_REGION
         /// </summary>
-        DomainOfSynset_REGION,// ;r
+        DomainOfSynset_REGION,
+        // ;r
         /// <summary>
         /// DomainOfSynset_USAGE
         /// </summary>
-        DomainOfSynset_USAGE,// ;u 
+        DomainOfSynset_USAGE,
+        // ;u
     }
+
     /// <summary>
     /// Defines the different kinds of pointer relationships on which Adverb Synsets can relate to one another.
     /// </summary>
@@ -199,22 +241,27 @@
         /// <summary>
         /// Antonym
         /// </summary>
-        Antonym,// !    
+        Antonym,
+        // !
         /// <summary>
         /// DerivedFromAdjective
         /// </summary>
-        DerivedFromAdjective,// \                       Yes that really is a backslash
+        DerivedFromAdjective,
+        // \                       Yes that really is a backslash
         /// <summary>
         /// DomainOfSynset_TOPIC
         /// </summary>
-        DomainOfSynset_TOPIC,// ;c
+        DomainOfSynset_TOPIC,
+        // ;c
         /// <summary>
         /// DomainOfSynset_REGION
         /// </summary>
-        DomainOfSynset_REGION,// ;r
+        DomainOfSynset_REGION,
+        // ;r
         /// <summary>
         /// DomainOfSynset_USAGE
         /// </summary>
-        DomainOfSynset_USAGE,// ;u
+        DomainOfSynset_USAGE,
+        // ;u
     }
 }

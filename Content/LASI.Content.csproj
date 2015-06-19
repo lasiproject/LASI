@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,8 +11,6 @@
     <AssemblyName>LASI.Content</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
@@ -28,9 +26,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DocumentationFile>
-    </DocumentationFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +38,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>bin\Release\LASI.Content.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ic_launcher-web.ico</ApplicationIcon>
@@ -48,22 +46,14 @@
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
-    <OutputPath>bin\test\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp">
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -80,6 +70,9 @@
     <Reference Include="SharpWordNet">
       <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpWordNet.dll</HintPath>
     </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Content\InteropBindings.cs" />
@@ -91,6 +84,7 @@
     <Compile Include="FileTypes\ContentInterfaces\IRawTextSource.cs" />
     <Compile Include="FileTypes\ContentInterfaces\RawTextFragment.cs" />
     <Compile Include="FileTypes\ContentInterfaces\TaggedTextFragment.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Serialization\Json\SerializationExtensions.cs" />
     <Compile Include="Serialization\Json\SimpleJsonSerializer.cs" />
     <Compile Include="Serialization\SerializerFactory.cs" />
@@ -132,18 +126,16 @@
     <Content Include="LasiLogo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
       <Name>LASI.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>

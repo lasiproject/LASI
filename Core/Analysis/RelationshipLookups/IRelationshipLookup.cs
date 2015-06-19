@@ -11,8 +11,10 @@ namespace LASI.Core.Analysis.Relationships
     /// </summary>
     /// <typeparam name="TEntity">Any type which implements the IEntity interface.</typeparam>
     /// <typeparam name="TVerbal">Any type which implements the IVerbal interface.</typeparam>
-    public interface IRelationshipLookup<TEntity, TVerbal> : IEnumerable<TVerbal> where TEntity : class, IEntity where TVerbal : class, IVerbal
+    public interface IRelationshipLookup<TEntity, TVerbal> /*: IEnumerable<TVerbal> */where TEntity : class, IEntity where TVerbal : class, IVerbal
     {
+        IEnumerable<TVerbal> VerbalRelationshipDomain { get; }
+
         /// <summary>
         /// Gets the Verbals which are known to link the given action Performing Entity and action Receiving Entity.
         /// </summary>
@@ -22,7 +24,7 @@ namespace LASI.Core.Analysis.Relationships
         IEnumerable<TVerbal> this[TEntity actionPerformer, TEntity actionReceiver] { get; }
         /// <summary>
         /// Gets the Verbals which are known to link the given action Performing Entity and action Receiving Entity.
-        /// The extant performers and recevers within the data set are matched based on the logic of the supplied predicate functions.
+        /// The extant performers and receivers within the data set are matched based on the logic of the supplied predicate functions.
         /// </summary>
         /// <param name="actionPerformer">The action Performing Entity.</param>
         /// <param name="performerComparer">A predicate function which determines how to find matches for action Performer.</param>

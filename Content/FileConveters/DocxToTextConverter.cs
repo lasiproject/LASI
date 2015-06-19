@@ -26,7 +26,7 @@ namespace LASI.Content
         public DocxToTextConverter(DocXFile infile) :
             base(infile)
         {
-            DestinationInfo = new FileData(destinationDir + infile.FileName);
+            DestinationInfo = new FileData(DestinationDir + infile.FileName);
         }
 
         #endregion
@@ -49,7 +49,8 @@ namespace LASI.Content
                 }
                 catch (IOException e)
                 {
-                    Logger.Log(e.Message); throw;
+                    Logger.Log(e.Message);
+                    throw;
                 }
             }
             using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false))
@@ -61,7 +62,11 @@ namespace LASI.Content
                     {
                         Directory.Delete(zipName, recursive: true);
                     }
-                    catch (IOException e) { Logger.Log(e.Message); throw; }
+                    catch (IOException e)
+                    {
+                        Logger.Log(e.Message);
+                        throw;
+                    }
                 }
                 ZipArch.ExtractToDirectory(zipName);
                 XmlFile = GetRelevantXMLFile(ZipArch);
@@ -140,8 +145,9 @@ namespace LASI.Content
             return new XmlFile(absolutePath);
         }
         /// <summary>
-        /// <para>This method invokes the file conversion routine asynchronously, generally in a separate thread.
-        /// Use with the await operator in an async method to retrieve the new file object </para> <para>and specify a continuation function to be executed when the conversion is complete.</para> 
+        /// This method invokes the file conversion routine asynchronously, generally in a separate thread.
+        /// Use with the await operator in an async method to retrieve the new file object and specify a
+        /// continuation function to be executed when the conversion is complete. 
         /// </summary>
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()

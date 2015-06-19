@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
 
 namespace LASI.WebApp.Tests.MvcHelpers
@@ -19,15 +15,9 @@ namespace LASI.WebApp.Tests.MvcHelpers
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = Formatting.Indented
             };
-            options.InputFormatters
-                .Select(formatter => formatter.Instance)
-                .OfType<JsonInputFormatter>()
-                .First().SerializerSettings = jsonSerializerSettings;
+            options.InputFormatters.InstanceOf<JsonInputFormatter>().SerializerSettings = jsonSerializerSettings;
 
-            options.OutputFormatters
-                .Select(formatter => formatter.Instance)
-                .OfType<JsonOutputFormatter>()
-                .First().SerializerSettings = jsonSerializerSettings;
+            options.OutputFormatters.InstanceOf<JsonOutputFormatter>().SerializerSettings = jsonSerializerSettings;
         }
     }
 }

@@ -92,14 +92,14 @@ namespace LASI.Core
         /// <c>true</c> if the ProperNoun's text corresponds to a female first name in the English
         /// language; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsFemaleFirst(this ProperNoun proper) => NameData.IsFemaleFirst(proper.Text);
+        public static bool IsFemaleFirstName(this ProperNoun proper) => NameData.IsFemaleFirst(proper.Text);
 
         /// <summary>Determines if the provided NounPhrase is a known Full Female Name.</summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>
         /// <c>true</c> if the provided NounPhrase is a known Full Female Name; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsFemaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsFemale();
+        public static bool IsFullFemaleName(this NounPhrase name) => DetermineNounPhraseGender(name).IsFemale();
 
         /// <summary>Determines whether the provided ProperNoun is a FirstName.</summary>
         /// <param name="proper">The ProperNoun to check.</param>
@@ -128,14 +128,14 @@ namespace LASI.Core
         /// <c>true</c> if the ProperNoun's text corresponds to a male first name in the English
         /// language; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsMaleFirst(this ProperNoun proper) => NameData.IsMaleFirst(proper.Text);
+        public static bool IsMaleFirstName(this ProperNoun proper) => NameData.IsMaleFirst(proper.Text);
 
         /// <summary>Determines if the provided NounPhrase is a known Full Male Name.</summary>
         /// <param name="name">The NounPhrase to check.</param>
         /// <returns>
         /// <c>true</c> if the provided NounPhrase is a known Full Male Name; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsMaleFull(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
+        public static bool IsFullMaleName(this NounPhrase name) => DetermineNounPhraseGender(name).IsMale();
 
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the entity.
@@ -151,13 +151,12 @@ namespace LASI.Core
             .Case((IReferencer p) => GetGender(p))
             .Case((NounPhrase n) => DetermineNounPhraseGender(n))
             .Case((CommonNoun n) => Gender.Neutral)
-            .Case((IEntity e) => (
-                from referener in e.Referencers
-                let gendered = referener as ISimpleGendered
-                let gender = gendered != null ? gendered.Gender : default(Gender)
-                group gender by gender into byGender
-                orderby byGender.Count() descending
-                select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
+            .Case((IEntity e) => (from referener in e.Referencers
+                                  let gendered = referener as ISimpleGendered
+                                  let gender = gendered != null ? gendered.Gender : default(Gender)
+                                  group gender by gender into byGender
+                                  orderby byGender.Count() descending
+                                  select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
             .Result();
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the Pronoun based on its

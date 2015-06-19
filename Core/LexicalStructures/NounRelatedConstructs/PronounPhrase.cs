@@ -21,7 +21,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="words">The words which compose to form the PronounPhrase.</param>
         public PronounPhrase(IEnumerable<Word> words)
-            : base(words) {
+            : base(words)
+        {
             referredTo = new AggregateEntity(words.OfType<IReferencer>());
         }
         /// <summary>
@@ -36,8 +37,9 @@ namespace LASI.Core
         /// Returns a string representation of the PronounPhrase
         /// </summary>
         /// <returns>A string representation of the PronounPhrase</returns>
-        public override string ToString() {
-            var result = base.ToString() + (RefersTo != null && RefersTo.Any() ? "\nreferring to -> " + RefersTo.Text : string.Empty);
+        public override string ToString()
+        {
+            var result = base.ToString() + (RefersTo.EmptyIfNull().Any() ? "\nreferring to -> " + RefersTo.Text : string.Empty);
             result += AliasLookup.GetDefinedAliases(RefersTo ?? this as IEntity).Any() ? "\nClassified as: " + AliasLookup.GetDefinedAliases(RefersTo as IEntity ?? this).Format() : string.Empty;
             return result;
         }
@@ -52,10 +54,14 @@ namespace LASI.Core
         /// Binds the PronounPhrase to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReferringTo(IEntity target) {
-            if (referredTo == null) {
+        public void BindAsReferringTo(IEntity target)
+        {
+            if (referredTo == null)
+            {
                 referredTo = new AggregateEntity(new[] { target });
-            } else {
+            }
+            else
+            {
                 referredTo = new AggregateEntity(referredTo.Append(target));
             }
             EntityKind = referredTo.EntityKind;

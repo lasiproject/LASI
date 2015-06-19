@@ -10,7 +10,7 @@ namespace LASI.App
 {
     using Core.Analysis.Heuristics.Support;
     using Interop.ResourceManagement;
-    using LASI.Utilities;
+    using Utilities;
     using ChartItem = KeyValuePair<string, float>;
     using ChartItemCollection = IEnumerable<KeyValuePair<string, float>>;
 
@@ -135,7 +135,7 @@ namespace LASI.App
                 ChartKind == ChartKind.SubjectVerbObject ?
                 await GetVerbWiseDataAsync(document) :
                 await GetVerbWiseDataAsync(document);
-            // Materialize item source so that changing chart types is less expensive.s
+            // Materialize item source so that changing chart types is less expensive.
             var topPoints = dataPointSource
                 .OrderByDescending(point => point.Value)
                 .Take(ChartItemLimit).ToList();
@@ -273,22 +273,18 @@ namespace LASI.App
             var consideredVerbals = document.Phrases
                                     .OfVerbPhrase()
                                     .WithSubject(subject => subject.Match()
-                                            .Case((IReferencer r) => r.RefersTo != null)
-                                            .Case((IEntity e) => e != null)
+                                        .Case((IReferencer r) => r.RefersTo != null)
+                                        .Case((IEntity e) => e != null)
                                         .Result())
                                     .Distinct((x, y) => x.IsSimilarTo(y));
+
             return from verbal in consideredVerbals.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    select verbal into verbal
-                   from entity in verbal.Subjects
-                       .AsParallel()
-                       .WithDegreeOfParallelism(Concurrency.Max)
-                   let subjectified = from s in entity.Match()
+                   from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                   let subject = entity.Match()
                                       .When((IReferencer r) => r.RefersTo.EmptyIfNull().Any())
                                       .Then((IReferencer r) => r.RefersTo)
-                                      .Case((IEntity e) => e)
-                                      select s
-                   from subject in subjectified
-                   where subject != null
+                                      .Result(entity)
                    from direct in verbal.DirectObjects.DefaultIfEmpty()
                    from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                    where direct != null || indirect != null

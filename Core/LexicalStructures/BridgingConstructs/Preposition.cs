@@ -22,7 +22,7 @@ namespace LASI.Core
         public Preposition(string text)
             : base(text)
         {
-            Role = knownSubordinators.Contains(text) ?
+            Role = KnownSubordinators.Contains(text) ?
                 PrepositionRole.SubordinatingConjunction : PrepositionRole.Undetermined;
         }
 
@@ -70,22 +70,18 @@ namespace LASI.Core
 
         #endregion
 
-        /// <summary>
-        /// Static constructor which loads preposition identification and categorization information.
-        /// </summary>
-        static Preposition()
+        private static readonly ISet<string> KnownSubordinators = ((Func<ISet<string>>)(() =>
         {
             using (var reader = new System.IO.StreamReader(PrepositionaInfoFilePath))
             {
-                knownSubordinators = new HashSet<string>(
-                        from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
-                        let len = line.IndexOf('/')
-                        let value = line.Substring(0, len > 0 ? len : line.Length)
-                        select value.Trim()
-                    , StringComparer.OrdinalIgnoreCase);
+                return new HashSet<string>(
+                    collection: from line in reader.ReadToEnd().SplitRemoveEmpty('\r', '\n')
+                                let len = line.IndexOf('/')
+                                let value = line.Substring(0, len > 0 ? len : line.Length)
+                                select value.Trim(),
+                    comparer: StringComparer.OrdinalIgnoreCase);
             }
-        }
-        private static readonly ISet<string> knownSubordinators;
+        }))();
         private static LASI.Utilities.Configuration.IConfig Config => Configuration.Paths.Settings;
 
         private static string PrepositionaInfoFilePath =>

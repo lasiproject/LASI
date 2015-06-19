@@ -22,7 +22,7 @@ namespace LASI.Core
         /// <param name="punctuation">The single character string which comprises the Punctuator"</param>
         public Punctuator(string punctuation) : base(punctuation)
         {
-            AliasString = PunctuationAliasMap.GetAliasStringForChar(LiteralCharacter);
+            AliasString = SymbolAliasMap.ToAlias(LiteralCharacter);
         }
 
         /// <summary>
@@ -30,25 +30,6 @@ namespace LASI.Core
         /// </summary>
         public string AliasString { get; }
 
-        /// <summary>
-        /// Maps between certain punctuation characters and alias text.
-        /// </summary>
-        private static class PunctuationAliasMap
-        {
-            private static readonly IDictionary<string, char> aliasMap = new Dictionary<string, char>
-            {
-                ["COMMA"] = ',',
-                ["LEFT_SQUARE_BRACKET"] = '[',
-                ["RIGHT_SQUARE_BRACKET"] = ']',
-                ["PERIOD_CHARACTER_SYMBOL"] = '.',
-                ["END_OF_PARAGRAPH"] = '\n'
-            };
-
-            public static char GetCharForAliasString(string alias) => aliasMap[alias];
-
-            public static string GetAliasStringForChar(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
-
-        }
 
     }
 }

@@ -54,7 +54,7 @@ namespace LASI.Core.Analysis.Binding
                 if (remainingPhrases.Any())
                 {
                     source = new Stack<Phrase>(remainingPhrases);
-                    inputStream = new PhraseStackWrapper(source, this);
+                    inputStream = new PhraseStackWrapper(source);
                     foreach (var state in States)
                     {
                         state.Stream = inputStream;
@@ -334,7 +334,7 @@ namespace LASI.Core.Analysis.Binding
                         }
                         else
                         {
-                            Machine.state0.Transition(Stream.Get());
+                            ToState0();
                         }
                     })
                    .Case((SymbolPhrase s) => WhenSbar())
@@ -520,12 +520,10 @@ namespace LASI.Core.Analysis.Binding
         #region Helper Classes
         private class PhraseStackWrapper
         {
-            public PhraseStackWrapper(Stack<Phrase> source, ObjectBinder machine)
+            public PhraseStackWrapper(Stack<Phrase> source)
             {
-                Machine = machine;
                 stream = new Stack<Phrase>(source);
             }
-            public ObjectBinder Machine { get; }
             public Phrase Get() => stream.Pop();
             public bool Any => stream.Any();
             public bool None => !Any;

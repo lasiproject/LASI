@@ -28,7 +28,7 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the DocFile.
         /// </summary>
         /// <returns>A string containing all of the text in the DocFile.</returns>
-        public override string GetText()
+        public override string LoadText()
         {
             DocXFile docx;
             var todocXConverter = new DocToDocXConverter(this);
@@ -37,13 +37,13 @@ namespace LASI.Content
                 docx = todocXConverter.ConvertFile() as DocXFile;
             }
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
-            return docx.GetText();
+            return docx.LoadText();
         }
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocFile.</returns>
-        public override async Task<string> GetTextAsync()
+        public override async Task<string> LoadTextAsync()
         {
             DocXFile docx;
             var toDocXConverter = new DocToDocXConverter(this);
@@ -52,7 +52,7 @@ namespace LASI.Content
                 docx = await toDocXConverter.ConvertFileAsync() as DocXFile;
             }
             catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
-            return await docx.GetTextAsync();
+            return await docx.LoadTextAsync();
         }
     }
 

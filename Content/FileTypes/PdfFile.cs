@@ -27,17 +27,17 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the PdfFile.
         /// </summary>
         /// <returns>A string containing all of the text in the PdfFile.</returns>
-        public override string GetText() => new PdfToTextConverter(this).ConvertFile().GetText();
+        public override string LoadText() => new PdfToTextConverter(this).ConvertFile().LoadText();
 
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
-        public override async Task<string> GetTextAsync()
+        public override async Task<string> LoadTextAsync()
         {
             var converter = new PdfToTextConverter(this);
             var converted = await converter.ConvertFileAsync();
-            return await converted.GetTextAsync();
+            return await converted.LoadTextAsync();
         }
     }
 }

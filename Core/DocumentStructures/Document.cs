@@ -84,7 +84,7 @@ namespace LASI.Core
             var measuredParagraphs =
                from paragraph in Paragraphs
                let lines = (int)Math.Floor(measureText(paragraph.Text) / lineLength)
-               let actualLines = lines + Math.Round(measureText(paragraph.Text), 1, MidpointRounding.AwayFromZero) % lineLength != 0 ? 1 : 0
+               let actualLines = Math.Abs(lines + Math.Round(measureText(paragraph.Text), 1, MidpointRounding.AwayFromZero) % lineLength) > double.Epsilon ? 1 : 0
                select new
                {
                    Paragraph = paragraph,

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace LASI.Content
 {
     /// <summary>
-    /// Encapsulates a string containing Tagged Text and an associated name. Provides synchronous and asynchronous acess to it contents.
+    /// Encapsulates a string containing Tagged Text and an associated name. Provides synchronous and asynchronous access to it contents.
     /// </summary>
     public class TaggedTextFragment : ITaggedTextSource
     {
@@ -37,12 +37,12 @@ namespace LASI.Content
         /// Returns a single string containing all of the Tagged Text in the TaggedTextFragment.
         /// </summary>
         /// <returns>A single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
-        public string GetText() => taggedText;
+        public string LoadText() => taggedText;
         /// <summary>
         /// Returns a system.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.
         /// </summary>
         /// <returns>A System.Threading.Task.Task which, when awaited, yields a single string containing all of the Tagged Text in the TaggedTextFragment.</returns>
-        public async Task<string> GetTextAsync() => await Task.FromResult(taggedText);
+        public async Task<string> LoadTextAsync() => await Task.FromResult(taggedText);
         /// <summary>
         /// Gets the name associated with the TaggedTextFragment.
         /// </summary>

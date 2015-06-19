@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using LASI.Utilities;
 
-namespace LASI.App.UIElementHelpers
+namespace LASI.App.Helpers
 {
     internal static class UiElementExtensions
     {
@@ -16,11 +16,14 @@ namespace LASI.App.UIElementHelpers
         public static void Hide(this IEnumerable<UIElement> elements) => SetVisibility(elements, Visibility.Hidden);
         public static void Show(this IEnumerable<UIElement> elements) => SetVisibility(elements, Visibility.Visible);
 
-        private static Action<UIElement, Visibility> setVisibility = (element, visibility) => element.Visibility = visibility;
-        private static void SetVisibility(IEnumerable<UIElement> elements, Visibility visibility) => elements.ForEach(setVisibility.Apply(visibility));
-        private static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        private static readonly Action<UIElement, Visibility> setVisibility = (element, visibility) => element.Visibility = visibility;
+        private static void SetVisibility(IEnumerable<UIElement> elements, Visibility visibility)
         {
-            foreach (var e in source) action(e);
+            var changeVisibility = setVisibility.Apply(visibility);
+            foreach (var element in elements)
+            {
+                changeVisibility(element);
+            }
         }
     }
 }

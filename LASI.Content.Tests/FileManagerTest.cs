@@ -10,8 +10,6 @@ using Shared.Test.Assertions;
 
 namespace LASI.Content.Tests
 {
-
-
     /// <summary>
     ///This is A test class for FileManagerTest and is intended
     ///to contain all FileManagerTest Unit Tests
@@ -20,9 +18,11 @@ namespace LASI.Content.Tests
     public class FileManagerTest
     {
         #region Directory Path Settings
+
         private const string TEST_MOCK_FILES_RELATIVE_PATH = @"..\..\MockUserFiles";
         private static string testProjectDirectory = @"..\..\NewProject";
-        #endregion
+
+        #endregion Directory Path Settings
 
         /// <summary>
         ///A test for AddDocFile
@@ -172,7 +172,6 @@ namespace LASI.Content.Tests
             }
         }
 
-
         ///// <summary>
         /////A test for ConvertDocFiles
         ///// </summary>
@@ -228,7 +227,7 @@ namespace LASI.Content.Tests
         }
 
         /// <summary>
-        ///A test for ConvertDocxToTextAsync
+        /// A test for ConvertDocxToTextAsync 
         /// </summary>
         [TestMethod]
         public async Task ConvertDocxToTextAsyncTest()
@@ -266,7 +265,6 @@ namespace LASI.Content.Tests
             {
                 Assert.IsTrue(File.Exists(Path.Combine(FileManager.TxtFilesDirectory, file.NameSansExt + ".txt")));
             }
-
         }
 
         /// <summary>
@@ -376,21 +374,7 @@ namespace LASI.Content.Tests
             FileManager.RemoveFile(file);
             Assert.IsFalse(FileManager.HasSimilarFile(file));
         }
-        /// <summary>
-        ///A test for TagTextFile
-        /// </summary>
-        [TestMethod]
-        public void TagTextFilesTest()
-        {
-            TxtFile[] files = GetTestTxtFiles();
 
-            Assert.IsTrue(files.Any());
-            FileManager.TagTextFiles(files);
-            foreach (var file in files)
-            {
-                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")));
-            }
-        }
         /// <summary>
         ///A test for TagTextFilesAsync
         /// </summary>
@@ -407,11 +391,32 @@ namespace LASI.Content.Tests
             }
         }
 
+        /// <summary>
+        ///A test for TagTextFile
+        /// </summary>
+        [TestMethod]
+        public void TagTextFilesTest()
+        {
+            TxtFile[] files = GetTestTxtFiles();
 
+            Assert.IsTrue(files.Any());
+            FileManager.TagTextFiles(files);
+            foreach (var file in files)
+            {
+                Assert.IsTrue(File.Exists(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")));
+            }
+        }
 
+        private static IEnumerable<InputFile> GetAllTestFiles()
+        {
+            foreach (var file in GetTestDocFiles()) yield return file;
+            foreach (var file in GetTestDocXFiles()) yield return file;
+            foreach (var file in GetTestPdfFiles()) yield return file;
+            foreach (var file in GetTestTxtFiles()) yield return file;
+        }
 
         private static DocFile[] GetTestDocFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
-                .EnumerateFiles()
+                        .EnumerateFiles()
                 .Where(f => f.Extension == ".doc")
                 .Select(fi => new DocFile(fi.FullName))
                 .ToArray();
@@ -450,15 +455,9 @@ namespace LASI.Content.Tests
             }
         }
 
-        private static IEnumerable<InputFile> GetAllTestFiles()
-        {
-            foreach (var file in GetTestDocFiles()) yield return file;
-            foreach (var file in GetTestDocXFiles()) yield return file;
-            foreach (var file in GetTestPdfFiles()) yield return file;
-            foreach (var file in GetTestTxtFiles()) yield return file;
-        }
-        static Func<string, string> mapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
+        private static Func<string, string> mapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
         private TestContext testContextInstance;
+
         #region Additional test attributes
 
         [TestCleanup]
@@ -486,6 +485,7 @@ namespace LASI.Content.Tests
             }
             FileManager.Initialize(testProjectDirectory);
         }
-        #endregion
+
+        #endregion Additional test attributes
     }
 }

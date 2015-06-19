@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.1.0.0-rc1\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -27,8 +27,6 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -47,6 +45,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,23 +58,13 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
-    <OutputPath>bin\test\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
@@ -90,6 +80,12 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Ambiance\IAmbiantContext.cs" />
@@ -118,7 +114,7 @@
     <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpher.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\ExceptionEntry.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\IWordMorpher.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\ExcDataManager.cs" />
+    <Compile Include="Analysis\Heuristics\WordMorphing\WordNetExceptionDataManager.cs" />
     <Compile Include="Analysis\Melding\LiftedEntity.cs" />
     <Compile Include="Analysis\Melding\MeldingExtensions.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\Experimental\FromSpec\Applicator.cs" />
@@ -148,6 +144,7 @@
     <Compile Include="Configuration\Concurrency.cs" />
     <Compile Include="Configuration\Configuation.cs" />
     <Compile Include="Analysis\Binding\Experimental\SequentialPatterns\MatchLoggingFailureException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LexicalStructures\AttributiveConstructs\IAttributive.cs" />
     <Compile Include="LexicalStructures\BehavioralConstructs\IObjectTaker.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\ISubordinator.cs" />
@@ -227,7 +224,6 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\PossessivePronoun.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePossessivePronoun.cs" />
     <Compile Include="LexicalStructures\Structural\ILexical.cs" />
-    <Compile Include="DocumentStructures\EnumerableOfDocumentStructureExtensions.cs" />
     <Compile Include="DocumentStructures\Paragraph.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfPhraseExtensions.cs" />
     <Compile Include="DocumentStructures\Sentence.cs" />
@@ -256,7 +252,7 @@
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\SuperlativeAdjective .cs" />
     <Compile Include="LexicalStructures\MiscLanguageConstructs\PossessiveEnding.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\NounLookup.cs" />
-    <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\SynSet.cs" />
+    <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\Synset.cs" />
     <Compile Include="Analysis\Heuristics\Lexicon.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\Adjective.cs" />
     <Compile Include="LexicalStructures\AdjectiveRelatedConstructs\AdjectivePhrase.cs" />
@@ -314,8 +310,8 @@
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
-    <None Include="ClassDiagram5.cd" />
     <None Include="packages.config" />
+    <Compile Include="DocumentStructures\TextualEnumerable.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -341,7 +337,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
@@ -361,4 +357,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy EolMarker="Windows" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" IndentBlocksInsideExpressions="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" NewLineBeforeConstructorInitializerColon="NewLine" NewLineAfterConstructorInitializerColon="SameLine" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" MethodCallArgumentWrapping="WrapIfTooLong" NewLineAferMethodCallOpenParentheses="NewLine" MethodCallClosingParenthesesOnNewLine="NewLine" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

@@ -1,4 +1,4 @@
-﻿using LASI.App.UIElementHelpers;
+﻿using LASI.App.Helpers;
 using LASI.Content;
 using LASI.Utilities;
 using System;
@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Newtonsoft.Json.Linq;
 
 namespace LASI.App
 {
@@ -68,7 +69,10 @@ namespace LASI.App
             {
                 DocumentManager.AddDocument(f.Name, f.FullName);
             }
-            if (!DocumentManager.IsEmpty) { expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs()); }
+            if (!DocumentManager.IsEmpty)
+            {
+                expandCreatePanelButton_Click(expandCreatePanelButton, new RoutedEventArgs());
+            }
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         }
 
@@ -76,7 +80,11 @@ namespace LASI.App
         {
             locationTextBox.Text = await Task.Run(() =>
             {
-                var location = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "LASI", "Projects");
+                var location = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create),
+                    "LASI",
+                    "Projects"
+                );
                 if (!Directory.Exists(location))
                 {
                     Directory.CreateDirectory(location);
@@ -90,15 +98,16 @@ namespace LASI.App
         private async Task InitializeFileManager()
         {
             var initPath = Path.Combine(locationTextBox.Text, ProjectNameTextBox.Text);
+            var availablePath = initPath;
             for (var i = 0; i < int.MaxValue; ++i)
             {
-                if (Directory.Exists(initPath))
+                if (Directory.Exists(availablePath))
                 {
-                    initPath = initPath + i;
+                    availablePath = initPath + i.ToString();
                 }
                 else { break; }
             }
-            FileManager.Initialize(initPath);
+            FileManager.Initialize(availablePath);
             foreach (var file in documentsAddedListBox.Items)
             {
                 try
@@ -195,7 +204,7 @@ namespace LASI.App
             }
         }
 
-        private async void completeSetupAndContinueButton_Click(object sender, RoutedEventArgs e)
+        private async void CompleteSetupAndContinueButton_Click(object sender, RoutedEventArgs e)
         {
             if (!Directory.Exists(locationTextBox.Text))
             {
@@ -210,11 +219,25 @@ namespace LASI.App
             }
             if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectHasADocument())
             {
-                createButton.Click -= completeSetupAndContinueButton_Click;
+                CreateButton.Click -= CompleteSetupAndContinueButton_Click;
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text;
                 var previewWindow = WindowManager.ProjectPreviewScreen;
                 previewWindow.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 await InitializeFileManager();
+                JObject lasiFile = new JObject
+                {
+                    ["name"] = ProjectNameTextBox.Text,
+                    ["files"] = JArray.FromObject(from file in FileManager.TxtFiles
+                                                  select new JObject
+                                                  {
+                                                      ["name"] = file.FileName,
+                                                      ["path"] = file.FullPath.Replace("\\", "/")
+                                                  })
+                };
+                using (var writer = File.CreateText($"{FileManager.ProjectDirectory}{Path.DirectorySeparatorChar}project.lasi"))
+                {
+                    writer.WriteLine(lasiFile.ToString());
+                }
                 this.SwapWith(WindowManager.ProjectPreviewScreen);
                 WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
             }
@@ -230,7 +253,7 @@ namespace LASI.App
             System.Windows.Forms.DialogResult locationDialogResult = locationSelectDialog.ShowDialog();
             if (locationDialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                locationTextBox.Text = locationSelectDialog.SelectedPath + @"\";
+                locationTextBox.Text = locationSelectDialog.SelectedPath + Path.DirectorySeparatorChar;
             }
         }
         private void loadProjectButton_Click(object sender, RoutedEventArgs e)
@@ -240,7 +263,18 @@ namespace LASI.App
                 Filter = "LASI Project Files|*.lasi",
                 Multiselect = false
             };
+
             System.Windows.Forms.DialogResult locationDialogResult = locationSelectDialog.ShowDialog();
+            if (locationDialogResult == System.Windows.Forms.DialogResult.OK && locationSelectDialog.FileName != null)
+            {
+                var lasiFile = JObject.Parse(File.ReadAllText(locationSelectDialog.FileName));
+
+                Resources["CurrentProjectName"] = ProjectNameTextBox.Text = (string)lasiFile["name"];
+                foreach (dynamic file in lasiFile["files"])
+                {
+                    DocumentManager.AddDocument((string)file.name, (string)file.path);
+                }
+            }
         }
         private void Grid_Drop(object sender, DragEventArgs e)
         {

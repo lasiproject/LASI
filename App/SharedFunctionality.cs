@@ -26,6 +26,7 @@ namespace LASI.App
                 Logger.Log(x);
             }
         }
+
         internal static void OpenManualWithInstalledViewer(Window source)
         {
             try
@@ -43,15 +44,14 @@ namespace LASI.App
                 Logger.Log(x);
             }
         }
-        public static void DisplayMessage(this Window window, string message)
+        private static void DisplayMessage(Window window, string message)
         {
             MessageBox.Show(window, message);
         }
-
-        public static void DisplayMessageWhen(this Window window, Func<bool> condition, string message) => window.DisplayMessageWhen(condition(), message);
-        public static void DisplayMessageWhen(this Window window, bool condition, string message)
+        private static void DisplayMessageIf(Window window, Func<bool> condition, string message) => DisplayMessageIf(window, condition(), message);
+        private static void DisplayMessageIf(Window window, bool condition, string message)
         {
-            if (condition) { window.DisplayMessage(message); }
+            if (condition) { DisplayMessage(window, message); }
         }
         internal static async Task HandleDropAddAsync(Window window, DragEventArgs e, Func<FileInfo, Task> processValid)
         {
@@ -69,10 +69,10 @@ namespace LASI.App
                     foreach (var file in validFiles)
                     {
                         var fileNamePresent = DocumentManager.HasFileWithName(file.Name);
-                        window.DisplayMessageWhen(fileNamePresent, $"A document named {file} is already part of the current project.");
+                        DisplayMessageIf(window, fileNamePresent, $"A document named {file} is already part of the current project.");
                         if (!fileNamePresent)
                         {
-                            window.DisplayMessageWhen(file.UnableToOpen(), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            DisplayMessageIf(window, file.UnableToOpen(), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
                             if (!file.UnableToOpen())
                             {
                                 await processValid(file);
@@ -80,7 +80,7 @@ namespace LASI.App
                         }
                     }
                 }
-                window.DisplayMessageWhen(!validFiles.Any(), $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
+                DisplayMessageIf(window, !validFiles.Any(), $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
 
             }
         }
@@ -105,11 +105,11 @@ namespace LASI.App
                     {
                         if (DocumentManager.HasFileWithName(file.Name))
                         {
-                            source.DisplayMessage($"A document named {file} is already part of the current project.");
+                            DisplayMessage(source, $"A document named {file} is already part of the current project.");
                         }
                         else if (file.UnableToOpen())
                         {
-                            source.DisplayMessage($"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            DisplayMessage(source, $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
                         }
                         else
                         {
@@ -119,7 +119,6 @@ namespace LASI.App
                 }
             }
         }
-
         internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() => SerializerFactory.Create(Properties.Settings.Default.OutputFormat);
         internal static void DisplayPreferencesWindow(Window source)
         {

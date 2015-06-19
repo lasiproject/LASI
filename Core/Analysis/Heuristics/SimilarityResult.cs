@@ -21,7 +21,7 @@ namespace LASI.Core
     /// </remarks>
     public struct Similarity : IEquatable<Similarity>, IComparable<Similarity>
     {
-        #region Constructors
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the SimilarityResult structure from the provided values.
@@ -37,19 +37,6 @@ namespace LASI.Core
             Boolean = similar;
             Ratio = Math.Round(similarityRatio, 5, MidpointRounding.AwayFromZero);
         }
-
-        /// <summary>
-        /// Initializes a new instance of the SimilarityResult structure from the provided bool value.
-        /// </summary>
-        /// <param name="similar">
-        /// Indicates the result the true of false result of an IsSimilarTo test.
-        /// </param>
-        /// <remarks>
-        /// Use this constructor when the ratio itself is not specified or not provided. In such
-        /// cases, the RatioResult property will be automatically set to 1 or 0 based on the
-        /// truthfulness of the provided similar argument.
-        /// </remarks>
-        private Similarity(bool similar) : this(similar, similar ? 1 : 0) { }
 
         #endregion Constructors
 

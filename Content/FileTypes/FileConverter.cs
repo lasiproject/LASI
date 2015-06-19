@@ -18,10 +18,6 @@ namespace LASI.Content
         where TDestination : InputFile
     {
         /// <summary>
-        /// The location where the converted file will be saved.
-        /// </summary>
-        protected string destinationDir;
-        /// <summary>
         /// The location of the source file.
         /// </summary>
         protected string sourcePath;
@@ -29,19 +25,21 @@ namespace LASI.Content
         /// Initializes a new instance of the FileConverter class.
         /// </summary>
         /// <param name="infile">The file to convert.</param>
-        protected FileConverter(TSource infile) {
+        protected FileConverter(TSource infile)
+        {
             Original = infile;
             sourcePath = infile.FullPath;
-            destinationDir = infile.Directory;
+            DestinationDir = infile.Directory;
         }
         /// <summary>
         /// Initializes a new instance of the FileConverter class.
         /// </summary>
         /// <param name="infile">The file to convert.</param>
         /// <param name="targetDir">The location in which to save the converted file.</param>
-        protected FileConverter(TSource infile, string targetDir) {
+        protected FileConverter(TSource infile, string targetDir)
+        {
             sourcePath = infile.FullPath;
-            destinationDir = targetDir;
+            DestinationDir = targetDir;
             Original = infile;
         }
 
@@ -71,5 +69,10 @@ namespace LASI.Content
         /// and any access attempts before the conversion is complete will raise a NullReferenceException.
         /// </summary>
         public TDestination Converted { get; protected set; }
+
+        /// <summary>
+        /// The location where the converted file will be saved.
+        /// </summary>
+        protected string DestinationDir { get; }
     }
 }

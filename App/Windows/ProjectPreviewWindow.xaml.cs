@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LASI.Interop;
+using LASI.App.Helpers;
 
 namespace LASI.App
 {
@@ -52,7 +53,7 @@ namespace LASI.App
         /// <returns>A System.Threading.Tasks.Task representing the ongoing asynchronous operation.</returns>
         private async Task LoadTextandTabAsync(TxtFile textfile)
         {
-            var text = await textfile.GetTextAsync();
+            var text = await textfile.LoadTextAsync();
             var processedText = string.Join("\t", from displayChunk in text.SplitRemoveEmpty("\r\n\r\n", "\r\n", "\n\",", "<paragraph>", "</paragraph>")
                                                   select displayChunk.Trim());
 
@@ -125,7 +126,7 @@ namespace LASI.App
 
         private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            WindowManager.InProgressScreen.PositionAt(this);
+            WindowManager.InProgressScreen.Reposition(this);
             this.Hide();
             WindowManager.InProgressScreen.Show();
             await WindowManager.InProgressScreen.ParseDocuments();
@@ -235,6 +236,11 @@ namespace LASI.App
         private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
             DisplayAddNewDocumentDialog();
+        }
+        private void NewProjectMenuItem_Click(object sender, RoutedEventArgs e)
+        {  //Hacky solution to make every option function. This makes new project restart LASI.
+            App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
+            App.Current.Shutdown();
         }
 
         #endregion

@@ -19,6 +19,7 @@
     "commands": {
         "test": "xunit.runner.dnx"
     },
+    "compilationOptions": { "warningsAsErrors": true },
     "frameworks": {
         "dnx451": { }
     }

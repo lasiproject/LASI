@@ -39,17 +39,17 @@ namespace LASI.Core.Analysis.Heuristics
         private async Task<IEnumerable<SvoRelationship>> GetCommonalitiesByEntities(IEnumerable<IReifiedTextual> sources)
         {
             //await Task.Yield();
-            var topNPsByDoc = from document in sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                              select new
-                              {
-                                  TopNounPhrases = GetTopNounPhrases(document),
-                                  Document = document
-                              };
+            var topNounPhrasesByDocument = from document in sources.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                                           select new
+                                           {
+                                               TopNounPhrases = GetTopNounPhrases(document),
+                                               Document = document
+                                           };
 
             //await Task.Yield();
             var crossReferenced =
-                from outer in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                from inner in topNPsByDoc.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from outer in topNounPhrasesByDocument
+                from inner in topNounPhrasesByDocument
                 where inner.Document != outer.Document
                 from nounPhrase in outer.TopNounPhrases
                 where inner.TopNounPhrases.Contains(nounPhrase, CompareNounPhrases)
@@ -79,7 +79,7 @@ namespace LASI.Core.Analysis.Heuristics
                 from verbal in verbals
                 where topVerbalsByDoc.ToList()
                    .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                   .All(verbs => verbs.Contains(verbal, (x, y) => x.Text == y.Text || x.IsSimilarTo(y)))
+                   .All(vps => vps.Contains(verbal, (x, y) => x.Text == y.Text || x.IsSimilarTo(y)))
                 select verbal;
 
             var relationships =

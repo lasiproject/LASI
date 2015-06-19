@@ -7,7 +7,7 @@ namespace LASI.Core
     /// Associates a Task, the Document to which it applies, and initialization and completion
     /// feedback properties.
     /// </summary>
-    public class ProcessingTask : IDisposable
+    public sealed class ProcessingTask : IDisposable
     {
         /// <summary>
         /// Initializes a new Instance of the Processing Task class with the given Task,
@@ -70,6 +70,7 @@ namespace LASI.Core
         public void Dispose()
         {
             ((IDisposable)this.Task).Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

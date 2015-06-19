@@ -33,16 +33,19 @@ namespace LASI.Core
         {
             yield return new ProcessingTask(() => BindAttributives(document.Sentences),
                 $"{document.Name}: Binding Attributives",
-                $"{document.Name}: Bound Attributives", 5);
+                $"{document.Name}: Bound Attributives", 4);
             yield return new ProcessingTask(() => BindIntraPhrase(document.Phrases),
                 $"{document.Name}: Decomposing Phrasals",
-                $"{document.Name}: Decomposed Phrasals", 5);
+                $"{document.Name}: Decomposed Phrasals", 4);
             yield return new ProcessingTask(() => BindSubjectsAndObjects(document.Sentences),
                 $"{document.Name}: Analyzing Verbal Relationships",
-                $"{document.Name}: Analyzed Verbal Relationships", 5);
+                $"{document.Name}: Analyzed Verbal Relationships", 4);
+            yield return new ProcessingTask(() => BindAdjectivePhrases(document.Sentences),
+                $"{document.Name}: Analyzing Verbal Relationships",
+                $"{document.Name}: Analyzed Adjectival Relationships", 4);
             yield return new ProcessingTask(() => BindPronouns(document.Sentences),
                 $"{document.Name}: Abstracting References",
-                $"{document.Name}: Abstracted References", 5);
+                $"{document.Name}: Abstracted References", 4);
         }
 
         #region Private Static Methods
@@ -63,43 +66,36 @@ namespace LASI.Core
 
         private static void BindSubjectsAndObjects(IEnumerable<Sentence> sentences)
         {
-            try
-            {
-                sentences.AsParallel()
-                    .WithDegreeOfParallelism(Concurrency.Max)
-                    .ForAll(sentence =>
-                    {
-                        try
-                        {
-                            new SubjectBinder().Bind(sentence);
-                        }
-                        catch (Exception e) when (e is NullReferenceException || e is VerblessPhrasalSequenceException)
-                        {
-                            e.Log();
-                        }
-                        try
-                        {
-                            new ObjectBinder().Bind(sentence);
-                        }
-                        catch (Exception e) when (e is InvalidStateTransitionException || e is VerblessPhrasalSequenceException || e is InvalidOperationException)
-                        {
-                            e.Log();
-                        }
-                        new IntraSentenceIDescriptorToVerbalSubjectBinder().Bind(sentence);
-                    });
-            }
-            catch (Exception e)
-            {
-                e.Log();
-            }
-        }
-
-        private static void MatchSentences(IEnumerable<Sentence> sentences)
-        {
             sentences.AsParallel()
                 .WithDegreeOfParallelism(Concurrency.Max)
-                .ForAll(DeclarativeBinder.Bind);
+                .ForAll(sentence =>
+                {
+                    try
+                    {
+                        new SubjectBinder().Bind(sentence);
+                    }
+                    catch (Exception e) when (e is NullReferenceException || e is VerblessPhrasalSequenceException)
+                    {
+                        e.Log();
+                    }
+                    try
+                    {
+                        new ObjectBinder().Bind(sentence);
+                    }
+                    catch (Exception e) when (e is InvalidStateTransitionException || e is VerblessPhrasalSequenceException || e is InvalidOperationException)
+                    {
+                        e.Log();
+                    }
+                    new IntraSentenceIDescriptorToVerbalSubjectBinder().Bind(sentence);
+                });
         }
+
+        //private static void MatchSentences(IEnumerable<Sentence> sentences)
+        //{
+        //    sentences.AsParallel()
+        //        .WithDegreeOfParallelism(Concurrency.Max)
+        //        .ForAll(DeclarativeBinder.Bind);
+        //}
 
 
         private static void BindIntraPhrase(IEnumerable<Phrase> phrases)

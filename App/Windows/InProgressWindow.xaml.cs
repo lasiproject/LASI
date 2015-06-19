@@ -13,7 +13,9 @@ using System.ComponentModel;
 
 namespace LASI.App
 {
+    using LASI.App.Helpers;
     using ReportEventArgs = Core.Configuration.ReportEventArgs;
+    using static WindowManager;
     /// <summary>
     /// Interaction logic for DialogToProceedToResults.xaml
     /// </summary>
@@ -79,14 +81,14 @@ namespace LASI.App
                     }
                 });
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            WindowManager.ResultsScreen.Documents = await analysisOrchestrator.ProcessAsync();
+            ResultsScreen.Documents = await analysisOrchestrator.ProcessAsync();
             progressBar.Value = 100;
             var completetionMessage = $"Processing Complete. Time: {timer.ElapsedMilliseconds / 1000f} seconds";
             progressLabel.Content = completetionMessage;
             progressBar.ToolTip = completetionMessage;
             proceedtoResultsButton.Visibility = Visibility.Visible;
             NativeMethods.StartFlashing(this);
-            await Task.WhenAll(WindowManager.ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), WindowManager.ResultsScreen.BuildTextViewsForAllDocumentsAsync());
+            await Task.WhenAll(ResultsScreen.CreateWeightViewsForAllDocumentsAsync(), ResultsScreen.BuildTextViewsForAllDocumentsAsync());
             ProcessingCompleted(this, new EventArgs());
         }
         #region Observable Event Adapters

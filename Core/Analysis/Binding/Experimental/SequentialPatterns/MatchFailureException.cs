@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.Serialization;
+
 namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns
 {
     /// <summary>
@@ -7,12 +9,18 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
     [Serializable]
     public class MatchFailureException : Exception
     {
+        public Delegate FailedCase { get; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatchFailureException"/> class.
+        /// </summary>
+        public MatchFailureException() { }
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchFailureException"/> class.
         /// </summary>
         /// <param name="failedCase">The pattern which caused the error.</param>
         /// <param name="message">A message describing why or how the match failed.</param>
-        public MatchFailureException(Delegate failedCase, string message) { }
+        public MatchFailureException(Delegate failedCase, string message) : base(message) { FailedCase = failedCase; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MatchFailureException"/> class with the given message.
         /// </summary>
@@ -28,16 +36,22 @@ namespace LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatter
         ///  Initializes a new instance of the <see cref="MatchFailureException"/> class with serialized data.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the serialized
+        /// The <see cref="SerializationInfo"/> that holds the serialized
         /// object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="System.Runtime.Serialization.StreamingContext"/>  that contains contextual information
+        /// The <see cref="StreamingContext"/>  that contains contextual information
         /// about the source or destination.
         /// </param>
         protected MatchFailureException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+          SerializationInfo info,
+          StreamingContext context) : base(info, context)
         { }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue(nameof(FailedCase), FailedCase, typeof(Delegate));
+        }
     }
 }

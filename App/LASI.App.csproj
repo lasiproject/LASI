@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,11 +40,12 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>
     </DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -54,11 +55,12 @@
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\LASI.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>LasiLogo.ico</ApplicationIcon>
@@ -68,6 +70,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
     <OutputPath>bin\test\</OutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -120,14 +124,23 @@
     <Compile Include="Dialogs\ComponentInfoDialogWindow.xaml.cs">
       <DependentUpon>ComponentInfoDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ErrorDialogWindow.xaml.cs">
+      <DependentUpon>ErrorDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ErrorKind.cs" />
     <Compile Include="Dialogs\FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\LicenseDisplayDialogWindow.xaml.cs">
+      <DependentUpon>LicenseDisplayDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\WindowExtensions.cs" />
     <Compile Include="Visualization\ContextMenuBuilder.cs" />
     <Compile Include="Visualization\SyntacticColorMapping.cs" />
     <Compile Include="ResultSelection\Visualizer.cs" />
-    <Compile Include="Dialogs\CrossJoinSelectDialog.xaml.cs">
-      <DependentUpon>CrossJoinSelectDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\CrossJoinSelectDialogWindow.xaml.cs">
+      <DependentUpon>CrossJoinSelectDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ExportResultsDialog.xaml.cs">
       <DependentUpon>ExportResultsDialog.xaml</DependentUpon>
@@ -135,7 +148,7 @@
     <Compile Include="ResultSelection\ChartKind.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="TrayIconManager.cs" />
-    <Compile Include="UiElementHelpers\UiElementExtensions.cs" />
+    <Compile Include="Helpers\UiElementExtensions.cs" />
     <Compile Include="Windows\InProgressWindow.xaml.cs">
       <DependentUpon>InProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -152,7 +165,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\CrossJoinSelectDialog.xaml">
+    <Page Include="Dialogs\CrossJoinSelectDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ErrorDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\FindWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\LicenseDisplayDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,23 +393,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MiscImages\collie1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Button Images\printButton.png">

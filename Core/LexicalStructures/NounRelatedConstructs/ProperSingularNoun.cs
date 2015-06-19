@@ -25,8 +25,8 @@ namespace LASI.Core
         /// </summary>
         public virtual Gender Gender {
             get {
-                gender = gender ?? (this.IsFemaleFirst() ? Gender.Female :
-                                    this.IsMaleFirst() ? Gender.Male :
+                gender = gender ?? (this.IsFemaleFirstName() ? Gender.Female :
+                                    this.IsMaleFirstName() ? Gender.Male :
                                     IsLastName || EntityKind == EntityKind.Organization ||
                                     EntityKind == EntityKind.Location ||
                                     EntityKind == EntityKind.Activity ? Gender.Neutral : Gender.Undetermined);

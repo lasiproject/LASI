@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Linq;
 
 namespace LASI.App
 {
@@ -13,46 +11,23 @@ namespace LASI.App
         #region Methods
         internal static void Intialize()
         {
-            startupScreen = App.Current.Windows.OfType<StartupWindow>().First();
+            startupScreen = App.Windows.OfType<StartupWindow>().First();
         }
         #endregion
 
         #region Fields
         private static StartupWindow startupScreen;
-        private static ResultsWindow resultsScreen = new ResultsWindow();
-        private static ProjectPreviewWindow projectPreviewScreen = new ProjectPreviewWindow();
-        private static InProgressWindow inProgressScreen = new InProgressWindow();
+        private static ResultsWindow resultsScreen;
+        private static ProjectPreviewWindow projectPreviewScreen;
+        private static InProgressWindow inProgressScreen;
         #endregion
 
         #region Properties
+        private static System.Windows.Application App => System.Windows.Application.Current;
         public static StartupWindow StartupScreen => startupScreen;
-        public static InProgressWindow InProgressScreen => inProgressScreen;
-        public static ResultsWindow ResultsScreen => resultsScreen;
-        public static ProjectPreviewWindow ProjectPreviewScreen => projectPreviewScreen;
-        #endregion
-
-        #region Extension Methods
-
-        public static void PositionAt(this Window window, Window other)
-        {
-            window.PositionAt(other.Left, other.Top);
-        }
-        public static void PositionAt(this Window window, double left, double top)
-        {
-            window.Left = left;
-            window.Top = top;
-        }
-        public static void SetTitle(this Window window, string title)
-        {
-            window.Title = title;
-        }
-        public static void SwapWith(this Window window, Window other)
-        {
-            other.PositionAt(window);
-            other.Show();
-            window.Hide();
-        }
-
+        public static InProgressWindow InProgressScreen => inProgressScreen ?? (inProgressScreen = new InProgressWindow());
+        public static ResultsWindow ResultsScreen => resultsScreen ?? (resultsScreen = new ResultsWindow());
+        public static ProjectPreviewWindow ProjectPreviewScreen => projectPreviewScreen ?? (projectPreviewScreen = new ProjectPreviewWindow());
         #endregion
     }
 }

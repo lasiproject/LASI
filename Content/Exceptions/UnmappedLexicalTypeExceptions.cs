@@ -185,5 +185,12 @@ namespace LASI.Content.Tagging
         protected UnmappedLexicalTypeException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue(nameof(UnmappedType), UnmappedType,typeof(Type));
+            info.AddValue(nameof(TagsetType), TagsetType, typeof(Type));
+        }
     }
 }

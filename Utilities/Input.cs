@@ -42,7 +42,7 @@ namespace LASI.Utilities
         public static void WaitForString(string waitFor, bool ignoreCase = true) {
             Console.WriteLine("Enter {0} to continue", waitFor);
             var input = Console.ReadLine();
-            bool valid = string.Compare(input, waitFor, ignoreCase) == 0;
+            bool valid = string.Compare(input, waitFor, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0;
             if (!valid) {
                 WaitForString(waitFor, ignoreCase);
             }

@@ -128,10 +128,10 @@ namespace LASI.Core
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
 
-        private static void WeightSimilarEntities(IReifiedTextual source)
-        {
-            GroupAndWeight(source.Entities, Lexicon.IsSimilarTo, 0.5);
-        }
+        //private static void WeightSimilarEntities(IReifiedTextual source)
+        //{
+        //    GroupAndWeight(source.Entities, Lexicon.IsSimilarTo, 0.5);
+        //}
 
         private static void HackSubjectPropernounImportance(IReifiedTextual source)
         {

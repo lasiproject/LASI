@@ -82,12 +82,14 @@ namespace LASI.Core
         /// <param name="documents">A sequence of Document instances.</param>
         /// <returns>The parallel aggregation of all Paragraph instances contained within the parallel sequence of Document instances.</returns>
         public static ParallelQuery<Paragraph> Paragraphs(this ParallelQuery<Document> documents) => documents.SelectMany(d => d.Paragraphs);
+
         /// <summary>
         /// Gets a parallel aggregation of all Paragraph instances contained within the parallel sequence of Document.Page instances.
         /// </summary>
         /// <param name="documents">A parallel sequence of Document.Page instances.</param>
         /// <returns>The parallel aggregation of all Paragraph instances contained within the parallel sequence of Document.Page instances.</returns>
         public static ParallelQuery<Paragraph> Paragraphs(this ParallelQuery<Document.Page> documents) => documents.SelectMany(p => p.Paragraphs);
+
         /// <summary>
         /// Gets a parallel aggregation of all Sentence instances contained within the parallel sequence of Document instances.
         /// </summary>
@@ -103,6 +105,7 @@ namespace LASI.Core
         /// <param name="paragraphs">A parallel sequence of Paragraph instances.</param>
         /// <returns>The parallel aggregation of all Sentence instances contained within the parallel sequence of Paragraph instances.</returns>
         public static ParallelQuery<Sentence> Sentences(this ParallelQuery<Paragraph> paragraphs) => paragraphs.SelectMany(p => p.Sentences);
+
         /// <summary>
         /// Gets a parallel aggregation of all Paragraph instances contained within the parallel sequence of Sentence instances.
         /// </summary>

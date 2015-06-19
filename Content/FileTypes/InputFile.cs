@@ -76,13 +76,13 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the InputFile.
         /// </summary>
         /// <returns>A string containing all of the text in the InputFile.</returns>
-        public abstract string GetText();
+        public abstract string LoadText();
 
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the InputFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the InputFile.</returns>
-        public abstract Task<string> GetTextAsync();
+        public abstract Task<string> LoadTextAsync();
         /// <summary>
         /// Gets the simple file name of the InputFile. This does not include its extension.
         /// </summary>
@@ -93,9 +93,9 @@ namespace LASI.Content
         /// </summary>
         private FileData fileData;
 
-
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
+        /// Equality is defined by the <see cref="Type"/> and full paths of the operands.
         /// </summary>
         /// <param name="left">The InputFile on the left.</param>
         /// <param name="right">The InputFile on the right.</param>
@@ -104,13 +104,12 @@ namespace LASI.Content
 
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is not equal to the InputFile on the right.
+        /// Equality is defined by the full <see cref="Type"/>s and paths of the operands.
         /// </summary>
         /// <param name="left">The InputFile on the left.</param>
         /// <param name="right">The InputFile on the right.</param>
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
-
-
 
     }
 }

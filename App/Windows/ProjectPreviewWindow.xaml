@@ -11,27 +11,34 @@
         WindowStartupLocation="Manual"
         WindowState="Normal">
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static ApplicationCommands.Close}" Executed="CloseApp_CommandBinding_Executed" />
-        <CommandBinding Command="{x:Static ApplicationCommands.Open}" Executed="AddDocument_CommandBinding_Executed" />
-        <CommandBinding Command="{x:Static ApplicationCommands.Properties}" Executed="OpenPreferences_CommandBinding_Executed" />
-        <CommandBinding Command="{x:Static ApplicationCommands.Help}" Executed="OpenManual_CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static ApplicationCommands.Close}"
+                        Executed="CloseApp_CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static ApplicationCommands.Open}"
+                        Executed="AddDocument_CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static ApplicationCommands.Properties}"
+                        Executed="OpenPreferences_CommandBinding_Executed" />
+        <CommandBinding Command="{x:Static ApplicationCommands.Help}"
+                        Executed="OpenManual_CommandBinding_Executed" />
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Key="F4" Modifiers="Alt" 
-                    Command="{x:Static ApplicationCommands.Close}"
-                   />
-        <KeyBinding Key="O" Modifiers="Ctrl"
-                    Command="{x:Static ApplicationCommands.Open}"
-                    />
-        <KeyBinding Key="I" Modifiers="Ctrl"
-                    Command="{x:Static ApplicationCommands.Properties}"
-                    />
+        <KeyBinding Key="F4"
+                    Modifiers="Alt"
+                    Command="{x:Static ApplicationCommands.Close}" />
+        <KeyBinding Key="O"
+                    Modifiers="Ctrl"
+                    Command="{x:Static ApplicationCommands.Open}" />
+        <KeyBinding Key="I"
+                    Modifiers="Ctrl"
+                    Command="{x:Static ApplicationCommands.Properties}" />
         <KeyBinding Key="F1"
                     Command="{x:Static ApplicationCommands.Help}" />
-        <KeyBinding Key="M" Modifiers="Ctrl"  />
+        <KeyBinding Key="M"
+                    Modifiers="Ctrl" />
     </Window.InputBindings>
-    <Grid Name="mainGrid" AllowDrop="True">
-        <Canvas Margin="0,56,0,0" Background="#FFF6F6F6">
+    <Grid Name="mainGrid"
+          AllowDrop="True">
+        <Canvas Margin="0,56,0,0"
+                Background="#FFF6F6F6">
         </Canvas>
         <Grid>
             <Canvas Canvas.Left="44"
@@ -74,10 +81,18 @@
                         IsEnabled="True"
                         OpacityMask="#FFDDDDDD"
                         Style="{DynamicResource AddDocumentStyle}" />
-                <DockPanel Height="138" LastChildFill="False" Canvas.Left="15" Canvas.Top="89" Width="711">
-                    <Grid Height="138" VerticalAlignment="Top" Width="100"/>
+                <DockPanel Height="138"
+                           LastChildFill="False"
+                           Canvas.Left="15"
+                           Canvas.Top="89"
+                           Width="711">
+                    <Grid Height="138"
+                          VerticalAlignment="Top"
+                          Width="100" />
                 </DockPanel>
-                <TextBlock x:Name="FreeWriter" TextWrapping="Wrap" KeyDown="FreeWriter_KeyDown"/>
+                <TextBlock x:Name="FreeWriter"
+                           TextWrapping="Wrap"
+                           KeyDown="FreeWriter_KeyDown" />
             </Canvas>
         </Grid>
         <Menu Height="35"
@@ -97,9 +112,14 @@
                     Margin="158,61,10,10"
                     AllowDrop="True"
                     Drop="Grid_Drop" />
-        <Menu Height="26" VerticalAlignment="Top">
+        <Menu Height="26"
+              VerticalAlignment="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Free _Write" Click="FreeWriterMenuItem_Click"></MenuItem>
+                <MenuItem Click="NewProjectMenuItem_Click"                                                 
+                          Header="_New Project"
+                          InputGestureText="Ctrl+N" />
+                <MenuItem Header="Free _Write"
+                          Click="FreeWriterMenuItem_Click" />
 
                 <MenuItem x:Name="FileMenuAdd"
                           Command="{x:Static ApplicationCommands.Open}"
@@ -110,7 +130,7 @@
                           InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Build">
-                <MenuItem Name="StartProcessMenuItem" 
+                <MenuItem Name="StartProcessMenuItem"
                           Click="StartButton_Click"
                           InputGestureText="Ctrl+M"
                           Header="_Start" />
@@ -125,8 +145,10 @@
                 <MenuItem Command="{x:Static ApplicationCommands.Help}"
                           Header="View Manual"
                           InputGestureText="F1" />
-                <MenuItem Click="MenuItem_Click" Header="About LASI" />
-                <MenuItem Click="OpenLicensesMenuItem_Click_1" Header="Component Info" />
+                <MenuItem Click="MenuItem_Click"
+                          Header="About LASI" />
+                <MenuItem Click="OpenLicensesMenuItem_Click_1"
+                          Header="Component Info" />
             </MenuItem>
         </Menu>
     </Grid>

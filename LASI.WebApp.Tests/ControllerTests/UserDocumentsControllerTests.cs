@@ -1,10 +1,10 @@
-﻿using LASI.WebApp.Controllers.Controllers;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
 using Xunit;
 using MongoDB.Bson;
 using LASI.WebApp.Tests.TestAttributes;
 using LASI.WebApp.Tests.TestSetup;
+using LASI.WebApp.Controllers;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {
@@ -32,6 +32,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         {
             var provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
                 .BuildServiceProvider();
+
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
         }

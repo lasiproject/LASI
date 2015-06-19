@@ -26,7 +26,7 @@ namespace LASI.Content
         /// </param>
         public TaggedSourceParser(ITaggedTextSource file)
         {
-            TaggedInputData = file.GetText().Trim();
+            TaggedInputData = file.LoadText().Trim();
         }
 
         #endregion Construtors
@@ -50,7 +50,7 @@ namespace LASI.Content
         /// A <see cref="LASI.Core.Document"/> instance representing the textual constructs of the tagged file parsed by the TaggedSourceParser.
         /// </returns>
         public virtual Document LoadDocument(string title) => new Document(
-            title: title ?? TaggedDocumentFile?.NameSansExt ?? "Untitled",
+            title: title ?? "Untitled",
             paragraphs: LoadParagraphs()
         );
 

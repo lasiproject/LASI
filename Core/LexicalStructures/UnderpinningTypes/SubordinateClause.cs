@@ -50,7 +50,7 @@ namespace LASI.Core
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Verbial construct which the subordinate clause modifies.
+        /// Gets or sets the Verbal construct which the subordinate clause modifies.
         /// </summary>
         public IAdverbialModifiable Modifies { get; set; }
         /// <summary>

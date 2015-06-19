@@ -14,7 +14,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
         /// <returns><c>true</c> if the Verbal has any Subjects bound to it; otherwise, <c>false</c>.</returns>
-        public static bool HasSubject(this IVerbal verbal) => verbal.Subjects.Any();
+        public static bool HasSubject(this ISubjectTaker verbal) => verbal.Subjects.Any();
 
         /// <summary>
         /// Return a value indicating if the Verbal has any subjects bound to it which match the given predicate function.
@@ -22,27 +22,27 @@ namespace LASI.Core
         /// <param name="verbal">The verbal to test.</param>
         /// <param name="predicate">The predicate to match subjects. </param>
         /// <returns><c>true</c> if the Verbal has any subjects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
-        public static bool HasSubject(this IVerbal verbal, Func<IEntity, bool> predicate) => HasBoundEntity(verbal.Subjects, predicate);
+        public static bool HasSubject(this ISubjectTaker verbal, Func<IEntity, bool> predicate) => AnyOrAnyReferredTo(verbal.Subjects, predicate);
 
         /// <summary>
         /// Return a value indicating if the Verbal has any direct objects bound to it.
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
         /// <returns><c>true</c> if the Verbal has any direct objects bound to it; otherwise, <c>false</c>.</returns>
-        public static bool HasDirectObject(this IVerbal verbal) => verbal.DirectObjects.Any();
+        public static bool HasDirectObject(this IDirectObjectTaker verbal) => verbal.DirectObjects.Any();
 
         /// <summary>
         /// Return a value indicating if the Verbal has any direct objects bound to it which match the given predicate function.
         /// </summary>
         /// <returns><c>true</c> if the Verbal has any direct objects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
-        public static bool HasDirectObject(this IVerbal verbal, Func<IEntity, bool> predicate) => HasBoundEntity(verbal.DirectObjects, predicate);
+        public static bool HasDirectObject(this IDirectObjectTaker verbal, Func<IEntity, bool> predicate) => AnyOrAnyReferredTo(verbal.DirectObjects, predicate);
 
         /// <summary>
         /// Return a value indicating if the Verbal has any indirect objects bound to it.
         /// </summary>
         /// <param name="verbal">The verbal to test.</param>
         /// <returns><c>true</c> if the Verbal has any direct objects bound to it; otherwise, <c>false</c>.</returns>
-        public static bool HasIndirectObject(this IVerbal verbal) => verbal.IndirectObjects.Any();
+        public static bool HasIndirectObject(this IInderectObjectTaker verbal) => verbal.IndirectObjects.Any();
 
         /// <summary>
         /// Return a value indicating if the Verbal has any indirect objects bound to it which match the given predicate function.
@@ -50,7 +50,7 @@ namespace LASI.Core
         /// <param name="verbal">The verbal to test.</param>
         /// <param name="predicate">The predicate to match indirect objects. </param>
         /// <returns><c>true</c> if the Verbal has any indirect objects bound to it which match the given predicate function; otherwise, <c>false</c>.</returns>
-        public static bool HasIndirectObject(this IVerbal verbal, Func<IEntity, bool> predicate) => HasBoundEntity(verbal.IndirectObjects, predicate);
+        public static bool HasIndirectObject(this IInderectObjectTaker verbal, Func<IEntity, bool> predicate) => AnyOrAnyReferredTo(verbal.IndirectObjects, predicate);
 
         /// <summary>
         /// Return a value indicating if the Verbal has any direct OR indirect objects bound to it.
@@ -84,7 +84,7 @@ namespace LASI.Core
              verbal.HasObject(predicate) || verbal.HasSubject(predicate);
 
 
-        private static bool HasBoundEntity(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) =>
-            entities.Any(predicate) || entities.OfReferencer().Any(r => r.RefersTo != null && predicate(r.RefersTo));
+        private static bool AnyOrAnyReferredTo(IEnumerable<IEntity> entities, Func<IEntity, bool> predicate) =>
+            entities.Any(e => predicate(e) || ((e as IReferencer)?.RefersTo?.Any(predicate) ?? false));
     }
 }

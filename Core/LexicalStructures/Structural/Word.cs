@@ -22,9 +22,8 @@ namespace LASI.Core
         protected Word(string text)
         {
             Validate.DoesNotExistIn(text, ' ', "The text of a word may not contain white space");
-#if ENSURENOEMPTYWORDS
-            Validate.NotEmpty(text, nameof(text), "A word cannot be created from empty text");
-#endif
+            Validate.NeitherNullNorEmpty(text, nameof(text));
+
             Text = text;
             Weight = 1;
             MetaWeight = 1;

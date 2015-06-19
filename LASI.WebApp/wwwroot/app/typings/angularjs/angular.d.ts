@@ -643,7 +643,7 @@ declare module angular {
          */
         $odd: boolean;
 
-	}
+    }
 
     interface IAngularEvent {
         /**
@@ -919,7 +919,7 @@ declare module angular {
     // DocumentService
     // see http://docs.angularjs.org/api/ng.$document
     ///////////////////////////////////////////////////////////////////////////
-    interface IDocumentService extends IAugmentedJQuery {}
+    interface IDocumentService extends IAugmentedJQuery { }
 
     ///////////////////////////////////////////////////////////////////////////
     // ExceptionHandlerService
@@ -933,7 +933,7 @@ declare module angular {
     // RootElementService
     // see http://docs.angularjs.org/api/ng.$rootElement
     ///////////////////////////////////////////////////////////////////////////
-    interface IRootElementService extends JQuery {}
+    interface IRootElementService extends JQuery { }
 
     interface IQResolveReject<T> {
         (): void;
@@ -965,6 +965,7 @@ declare module angular {
          * @param promises A hash of promises.
          */
         all(promises: { [id: string]: IPromise<any>; }): IPromise<{ [id: string]: any; }>;
+        //all<T>(promises: { [id: string]: T; }): IPromise<{[id:string]: T; }>;
         /**
          * Creates a Deferred object which represents a task which will finish in the future.
          */
@@ -1368,7 +1369,7 @@ declare module angular {
     // TemplateCacheService
     // see http://docs.angularjs.org/api/ng.$templateCache
     ///////////////////////////////////////////////////////////////////////////
-    interface ITemplateCacheService extends ICacheObject {}
+    interface ITemplateCacheService extends ICacheObject { }
 
     ///////////////////////////////////////////////////////////////////////////
     // SCEService
@@ -1468,7 +1469,7 @@ declare module angular {
             instanceAttributes: IAttributes,
             controller: any,
             transclude: ITranscludeFunction
-        ): void;
+            ): void;
     }
 
     interface IDirectivePrePost {
@@ -1481,7 +1482,7 @@ declare module angular {
             templateElement: IAugmentedJQuery,
             templateAttributes: IAttributes,
             transclude: ITranscludeFunction
-        ): IDirectivePrePost;
+            ): IDirectivePrePost;
     }
 
     interface IDirective {

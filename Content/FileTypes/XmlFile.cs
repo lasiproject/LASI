@@ -25,7 +25,7 @@ namespace LASI.Content
         /// Returns a single string containing all of the text in the PdfFile.
         /// </summary>
         /// <returns>A string containing all of the text in the PdfFile.</returns>
-        public override string GetText() {
+        public override string LoadText() {
             using (var reader = XmlReader.Create(new System.IO.StreamReader(new System.IO.FileStream(
                 FullPath,
                 System.IO.FileMode.Open,
@@ -38,7 +38,7 @@ namespace LASI.Content
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the PdfFile.</returns>
-        public override async Task<string> GetTextAsync() {
+        public override async Task<string> LoadTextAsync() {
             using (var reader = XmlReader.Create(new System.IO.StreamReader(new System.IO.FileStream(
                   FullPath,
                   System.IO.FileMode.Open,

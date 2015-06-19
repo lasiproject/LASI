@@ -45,8 +45,7 @@ namespace LASI.Core
         public static Similarity IsSimilarTo(this VerbPhrase first, VerbPhrase second)
         {
             //Look into refining this
-            var leftHandVerbs = first.Words.OfVerb().ToList();
-            var rightHandVerbs = second.Words.OfVerb().ToList();
+             
             var results = from v1 in first.Words.OfVerb()
                           from v2 in second.Words.OfVerb()
                           select v1.IsSynonymFor(v2);

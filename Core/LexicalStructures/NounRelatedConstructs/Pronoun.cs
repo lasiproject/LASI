@@ -1,4 +1,5 @@
 ﻿using LASI.Core.Heuristics;
+using LASI.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 namespace LASI.Core
@@ -45,7 +46,7 @@ namespace LASI.Core
         public override string ToString() => GetType().Name + " \"" + Text + "\"" +
         (
             VerboseOutput ? " " + PronounKind + (
-                RefersTo != null ?
+                RefersTo.EmptyIfNull().Any() ?
                 " referring to -> " + RefersTo.Text :
                 string.Empty
             ) : string.Empty
@@ -193,7 +194,7 @@ namespace LASI.Core
         private static readonly string[] maleReflexives = { "himself", "hisself", };
         private static readonly string[] females = { "she", "her", "hers" };
         private static readonly string[] femaleReflexives = { "herself" };
-        private static readonly string[] neutrals = { "it", "itself", "its" };
+        private static readonly string[] neutrals = { "one", "it", "itself", "its" };
         private static readonly string[] neutralReflexives = { "itself" };
         private static readonly string[] firstPersonSingulars = { "i", "me", "mine" };
         private static readonly string[] firstPersonSingularReflexives = { "myself" };

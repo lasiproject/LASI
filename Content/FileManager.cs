@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TaggerInterop;
 using System.Collections.Immutable;
-using System.Collections;
 
 namespace LASI.Content
 {
@@ -462,7 +461,7 @@ namespace LASI.Content
             ThrowIfUninitialized();
             try
             {
-                Directory.Delete(ProjectDirectory, true);
+                Directory.Delete(ProjectDirectory, recursive: true);
                 docFiles.Clear();
                 docXFiles.Clear();
                 pdfFiles.Clear();

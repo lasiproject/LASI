@@ -16,6 +16,7 @@ namespace LASI.Content
     [Serializable]
     public class FileConversionFailureException : FileManagerException
     {
+        public FileConversionFailureException() : base("File conversion failed.") { }
         /// <summary>
         /// Initializes a new instance of the FileConversionFailureException with a message based on the supplied fileName, source type, and target type
         /// </summary>
@@ -67,10 +68,11 @@ namespace LASI.Content
         /// <summary>
         /// Initializes a new instance of the FileManagerNotInitializedException class with its message string set to message.
         /// </summary> 
-        internal FileManagerNotInitializedException()
+        public FileManagerNotInitializedException()
             : base("File Manager has not been initialized. No directory context in which to operate.")
         {
         }
+        public FileManagerNotInitializedException(string message, Exception inner) : base(message, inner) { }
         /// <summary>
         /// Initializes a new instance of the <see cref="FileManagerNotInitializedException"/> class with serialized data.
         /// </summary>
@@ -152,7 +154,7 @@ namespace LASI.Content
             CollectDirInfo();
         }
         /// <summary>
-        /// Initializes a new instance of the FileManagerException class with its message string set to message.
+        /// Initializes a new instance of the FileManagerException class with its message string set to message and containing the provided inner exception.
         /// </summary>
         /// <param name="message">A description of the error. The content of message is intended to be understood</param>
         /// <param name="inner">

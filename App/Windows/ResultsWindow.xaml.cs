@@ -16,12 +16,17 @@ using LASI.Content.Serialization;
 
 namespace LASI.App
 {
-    using LASI.App.Visualization;
-    using LASI.Core.Analysis.Heuristics;
-    using LASI.Interop.ResourceManagement;
-    using LASI.Utilities;
-    using LASI.Utilities.Specialized.Enhanced.Universal;
+    using Visualization;
+    using Core.Analysis.Heuristics;
+    using Interop.ResourceManagement;
+    using Utilities;
+    using Utilities.Specialized.Enhanced.Universal;
+    using FlowDocument = System.Windows.Documents.FlowDocument;
+    using DocumentRun = System.Windows.Documents.Run;
+    using FlowDocumentPageViewer = FlowDocumentPageViewer;
     using FileInfo = System.IO.FileInfo;
+    using LASI.App.Helpers;
+
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
     /// </summary>
@@ -142,10 +147,10 @@ namespace LASI.App
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sentence => sentence.Phrases());
             var colorizer = new SyntacticColorMap();
-            var flowDocument = new System.Windows.Documents.FlowDocument();
+            var flowDocument = new FlowDocument();
 
             var documentContents = (from phrase in phrases
-                                    select new System.Windows.Documents.Run
+                                    select new DocumentRun
                                     {
                                         Text = phrase.Text,
                                         Tag = phrase,
@@ -165,7 +170,7 @@ namespace LASI.App
                 }
             }
             var flowDocumentParagraph = new System.Windows.Documents.Paragraph();
-            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(run => new[] { new System.Windows.Documents.Run((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " "), run }));
+            flowDocumentParagraph.Inlines.AddRange(documentContents.SelectMany(run => new[] { RebuildRun(run), run }));
             flowDocument.Blocks.Add(flowDocumentParagraph);
             //flowDocument.GotFocus += (s, e) => MessageBox.Show((s as System.Windows.Documents.Run).Text);
 
@@ -184,6 +189,8 @@ namespace LASI.App
             recomposedDocumentsTabControl.SelectedItem = tab;
             await Task.Yield();
         }
+
+        private static DocumentRun RebuildRun(DocumentRun run) => new DocumentRun((run.Tag as Phrase).Words.FirstOrDefault() is Symbol ? string.Empty : " ");
 
         #endregion
 
@@ -317,11 +324,10 @@ namespace LASI.App
         {
             var componentsDisplay = new ComponentInfoDialogWindow
             {
-                Left = this.Left,
-                Top = this.Top,
+
                 Owner = this
             };
-            componentsDisplay.ShowDialog();
+            componentsDisplay.Reposition(this.Top / 2, this.Left / 2).ShowDialog();
         }
         private void HelpAbout_MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -342,7 +348,7 @@ namespace LASI.App
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CrossJoinSelectDialog(this)
+            var dialog = new CrossJoinSelectDialogWindow(this)
             {
                 Left = this.Left,
                 Top = this.Top,

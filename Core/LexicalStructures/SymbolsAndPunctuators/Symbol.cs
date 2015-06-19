@@ -43,5 +43,26 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A hashcode for the Symbol</returns>
         public override int GetHashCode() => LiteralCharacter;
+
+        /// <summary>
+        /// Maps between certain punctuation characters and alias text.
+        /// </summary>
+        protected static class SymbolAliasMap
+        {
+            private static readonly IDictionary<string, char> aliasMap = new Dictionary<string, char>
+            {
+                ["COMMA"] = ',',
+                ["LEFT_SQUARE_BRACKET"] = '[',
+                ["RIGHT_SQUARE_BRACKET"] = ']',
+                ["PERIOD_CHARACTER_SYMBOL"] = '.',
+                ["END_OF_PARAGRAPH"] = '\n'
+            };
+
+            public static char FromAlias(string alias) => aliasMap[alias];
+
+            public static string ToAlias(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
+
+        }
+
     }
 }

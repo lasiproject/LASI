@@ -15,12 +15,12 @@ namespace LASI.Content
         /// Returns a string containing all of the tagged text in the ITaggedTextSource.
         /// </summary>
         /// <returns>A string containing all of the tagged text in the ITaggedTextSource.</returns>
-        string GetText();
+        string LoadText();
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the tagged text in the ITaggedTextSource.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the tagged text in the ITaggedTextSource.</returns>
-        Task<string> GetTextAsync();
+        Task<string> LoadTextAsync();
         /// <summary>
         /// Gets the name associated with the ITaggedTextSource.
         /// </summary>
