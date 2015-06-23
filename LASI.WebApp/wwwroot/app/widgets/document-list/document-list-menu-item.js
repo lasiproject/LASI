@@ -4,7 +4,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.ngName)
+            .module(LASI.documentList.moduleName)
             .directive('documentListMenuItem', documentListMenuItem);
         documentListMenuItem.$inject = ['$window', 'resultsService'];
         function documentListMenuItem($window, resultsService) {
@@ -33,3 +33,4 @@ var LASI;
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document-list-menu-item.js.map

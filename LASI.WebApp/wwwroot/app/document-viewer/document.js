@@ -26,3 +26,4 @@ var LASI;
             .directive('document', document);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document.js.map

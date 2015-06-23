@@ -24,3 +24,4 @@ var LASI;
             .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document-controller.js.map

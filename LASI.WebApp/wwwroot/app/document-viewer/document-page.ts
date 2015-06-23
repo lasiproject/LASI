@@ -1,4 +1,4 @@
-﻿module LASI.documentViewer  {
+﻿module LASI.documentViewer {
     'use strict';
 
     interface IDirective extends ng.IDirective {
@@ -12,17 +12,24 @@
 
     directive.$inject = ['$window'];
     function directive($window: ng.IWindowService): IDirective {
-        return {
-            restrict: 'E',
-            link: link
-        };
-
         function link(scope: IDirectiveScope, element: ng.IAugmentedJQuery, attrs: IDirectiveAttributes) {
 
         }
+        return {
+            restrict: 'E',
+            link: link,
+            templateUrl: '/app/document-viewer/document-page.html',
+            replace: true,
+            scope: {
+                page: '=',
+                document: '='
+            }
+        };
+
+
     }
 
     angular
-        .module(LASI.documentViewer.moduleName)
+        .module(moduleName)
         .directive('Directive', directive);
 }

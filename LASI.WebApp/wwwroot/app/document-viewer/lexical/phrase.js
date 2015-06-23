@@ -22,6 +22,7 @@ var LASI;
                 }
             };
         }
-        angular.module(LASI.documentViewer.ngName).directive('phrase', phrase);
+        angular.module('documentViewer').directive('phrase', phrase);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=phrase.js.map

@@ -34,5 +34,5 @@ module LASI.documentViewer {
 
     }
 
-    angular.module(LASI.documentViewer.moduleName).directive('phrase', phrase);
+    angular.module('documentViewer').directive('phrase', phrase);
 }

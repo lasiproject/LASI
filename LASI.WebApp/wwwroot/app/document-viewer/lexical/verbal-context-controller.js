@@ -1,6 +1,6 @@
 // Install the angularjs.TypeScript.DefinitelyTyped NuGet package
-var App;
-(function (App) {
+var LASI;
+(function (LASI) {
     'use strict';
     var VerbalContextController = (function () {
         function VerbalContextController() {
@@ -16,6 +16,7 @@ var App;
         return VerbalContextController;
     })();
     angular
-        .module(LASI.documentViewer.ngName)
+        .module(LASI.documentViewer.moduleName)
         .controller('VerbalContextController', VerbalContextController);
-})(App || (App = {}));
+})(LASI || (LASI = {}));
+//# sourceMappingURL=verbal-context-controller.js.map

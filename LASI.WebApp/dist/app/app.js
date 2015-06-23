@@ -38,6 +38,8 @@
                             }
                         }
                     }
+                    // If a function was supplied, map it over the array of result pairs and return the result.
+                    // otherwise, just return the array of result pairs.
                     return resultSelector ? results.map(function (e) {
                         return resultSelector(e.first, e.second);
                     }) : results;
@@ -50,6 +52,8 @@
                 enumerable: false,
                 configurable: false,
                 value: function (valueSelector) {
+                    // If the a valueSelector was not provided, define a function which will attempt 
+                    // to convert its argument to a number.
                     var projection = valueSelector || (function (x) { return Number(x); });
                     return this.length === 0 ? 0 : this.reduce(function (total, element) { return total + projection(element); }, 0);
                 }
@@ -190,6 +194,7 @@ var LASI;
                 return this.documentModelService.processDocument(documentId);
             };
             DocumentController.prototype.activate = function () {
+                //this.documentModel = this.documentModelService.getData();
             };
             DocumentController.$inject = ['DocumentModelService', '$location'];
             return DocumentController;
@@ -269,6 +274,7 @@ var LASI;
                 },
                 link: link
             };
+            //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
         }
         angular
             .module(LASI.documentViewer.moduleName)
@@ -379,6 +385,7 @@ var LASI;
             .factory('lexicalMenuBuilder', lexicalMenuBuilder);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var LASI;
 (function (LASI) {
     var documentViewer;
@@ -405,6 +412,7 @@ var LASI;
         angular.module('documentViewer').directive('phrase', phrase);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var LASI;
 (function (LASI) {
     'use strict';
@@ -412,6 +420,10 @@ var LASI;
         function VerbalContextController() {
             this.title = 'VerbalContextController';
         }
+        //constructor(private $state: ng.ui.IStateService) {
+        //    console.log($state);
+        //    this.activate();
+        //}
         VerbalContextController.prototype.activate = function () {
         };
         VerbalContextController.$inject = ['$state'];
@@ -429,6 +441,7 @@ var LASI;
         paragraph.$inject = ['$window'];
         function paragraph($window) {
             var link = function (scope, element, attrs) {
+                //console.log(scope.parentId);
             };
             return {
                 restrict: 'E',
@@ -445,6 +458,7 @@ var LASI;
             .directive('paragraph', paragraph);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var LASI;
 (function (LASI) {
     var documentViewer;
@@ -454,6 +468,7 @@ var LASI;
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
                 link: function (scope, element, attrs) {
+                    //console.log(attrs);
                 },
                 scope: {
                     sentence: '=',
@@ -464,6 +479,7 @@ var LASI;
         angular.module(LASI.documentViewer.moduleName).directive('sentence', sentence);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+/* global:draggable */
 var LASI;
 (function (LASI) {
     var documentList;
@@ -486,7 +502,9 @@ var LASI;
                         draggable(e, handle);
                         e.style.position = '';
                     };
+                    // Make all confirm delete modals draggable.
                     $('[id^=confirm-delete-modal]').toArray().forEach(enableDragging);
+                    // Make the manage documents modal draggable.
                     var draggableDialog = $('#manage-documents-modal');
                     var dragHandle = draggableDialog.find('.handle')[0];
                     if (draggableDialog[0] || dragHandle) {
@@ -500,6 +518,7 @@ var LASI;
                     event.preventDefault();
                     var $listItem = $(this);
                     var $element = $(event.target);
+                    //var documentName = $element[0].text;
                     var documentName = $element[0].innerText;
                     var documentId = $element.find('span.hidden')[0].textContent.trim();
                     log('clicked Name: ' + documentName + ', Id: ' + documentId);
@@ -527,6 +546,7 @@ var LASI;
                     });
                 };
                 $listItemRefs.click(click);
+                //$tabs.click(click);
             }, 1000);
         });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
@@ -584,6 +604,9 @@ var LASI;
                 this.recentDocumentCount = count;
                 return this;
             };
+            /**
+             * @param $resource an instance of the Resource Service supplied by the angular-resource module.
+             */
             DocumentListServiceProvider.prototype.$get = function ($resource) {
                 var resource = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
                     get: {
@@ -681,6 +704,7 @@ var LASI;
             'tasksListService', 'documentsService', 'DocumentModelService'
         ];
         function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
+            /* jshint validthis:true */
             var vm = this;
             vm.title = 'ListController';
             vm.documents = [];
@@ -859,6 +883,7 @@ var LASI;
                 }
                 function success(data, status, headers, config) {
                     $log.info("File '" + config.file.name + " 'uploaded. Response: " + JSON.stringify(data));
+                    //$rootScope.$apply();
                 }
             }
             UploadController.$inject = ['$scope', '$log', 'Upload'];

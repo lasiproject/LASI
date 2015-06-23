@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/jquery/jquery.d.ts" />
+﻿/// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function (log) {
     $(function () {
         var debugPanel = $('#debug-panel');
@@ -10,17 +10,16 @@
             toggleButton.text(visible ? 'hide' : 'show')
                 .toggleClass('btn-danger')
                 .toggleClass('btn-info');
-        });
+        })
         window.setInterval(function () {
             $.getJSON('api/Tasks', { cache: false })
-                .then(function (tasks) {
-                debugPanel.html(tasks.map(function (task) {
-                    return "<div>" + Object.keys(task).map(function (key) {
-                        return "<span>&nbsp&nbsp" + task[key] + "</span>";
-                    }) + "</div>";
-                }).join());
-            });
+               .then(function (tasks) {
+                   debugPanel.html(tasks.map(function (task) {
+                       return "<div>" + Object.keys(task).map(function (key) {
+                           return "<span>&nbsp&nbsp" + task[key] + "</span>";
+                       }) + "</div>";
+                   }).join());
+               });
         }, 800);
     });
 }(console.log.bind(console)));
-//# sourceMappingURL=debug-panel.js.map

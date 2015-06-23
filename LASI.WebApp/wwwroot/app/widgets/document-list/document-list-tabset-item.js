@@ -28,7 +28,8 @@ var LASI;
             };
         }
         angular
-            .module(moduleName)
+            .module(documentList.moduleName)
             .directive('documentListTabsetItem', documentListTabsetItem);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document-list-tabset-item.js.map

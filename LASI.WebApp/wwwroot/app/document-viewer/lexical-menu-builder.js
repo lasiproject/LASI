@@ -11,23 +11,25 @@ var LASI;
             function referencerMenuIsViable(m) {
                 return !!(m && m.refersToIds);
             }
-            var buildAngularMenuForReferencer = (function (menuItemActionTargets) {
-                var resetCssClasses = function () { return Object.keys(menuItemActionTargets).map(function (key) { return menuItemActionTargets[key]; }).forEach(function ($e) {
-                    $e.removeClass('referred-to-by-current');
-                }); };
+            var buildAngularMenuForReferencer = (function (menuActionTargets) {
+                var resetCssClasses = function () { return Object.keys(menuActionTargets)
+                    .map(function (key) { return menuActionTargets[key]; })
+                    .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); }); };
                 return function (source) {
                     return [
                         [
                             'View Referred To',
                             function (s, e) {
                                 resetCssClasses();
-                                source.refersToIds.forEach(function (id) { return menuItemActionTargets[id] = $("#" + id).addClass('referred-to-by-current'); });
+                                source.refersToIds.forEach(function (id) {
+                                    menuActionTargets[id] = $("#" + id).addClass('referred-to-by-current');
+                                });
                             }
                         ]
                     ];
                 };
             })({});
-            var buildAngularMenuForVerbal = (function (menuItemActionTargets) {
+            var buildAngularMenuForVerbal = (function (menuActionTargets) {
                 var verbalMenuTextToElementsMap = {
                     'View Subjects': 'subjects',
                     'View Direct Objects': 'directObjects',
@@ -38,50 +40,49 @@ var LASI;
                     'View Direct Objects': 'direct-object-of-current',
                     'View Indirect Objects': 'indirect-object-of-current'
                 };
-                var resetCssClasses = function () { return Object.keys(menuItemActionTargets)
-                    .map(function (key) { return menuItemActionTargets[key]; })
+                var resetCssClasses = function () { return Object.keys(menuActionTargets)
+                    .map(function (key) { return menuActionTargets[key]; })
                     .forEach(function ($e) {
                     Object.keys(verbalMenuCssClassMap)
                         .map(function (k) { return verbalMenuCssClassMap[k]; })
                         .forEach(function (cssClass) { return $e.removeClass(cssClass); });
                 }); };
                 return function (source) {
-                    var result = [];
+                    var menuItems = [];
                     if (source.subjectIds) {
-                        result.push([
+                        menuItems.push([
                             'View Subjects',
                             function (s, e) {
                                 resetCssClasses();
                                 source.subjectIds
                                     .forEach(function (id) {
-                                    menuItemActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Subjects']);
+                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Subjects']);
                                 });
                             }
                         ]);
                     }
                     if (source.directObjectIds) {
-                        result.push([
+                        menuItems.push([
                             'View Direct Objects',
                             function (s, e) {
                                 resetCssClasses();
-                                source.directObjectIds.forEach(function (id) {
-                                    menuItemActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Direct Objects']);
-                                });
+                                source.directObjectIds
+                                    .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
                             }
                         ]);
                     }
                     if (source.indirectObjectIds) {
-                        result.push([
+                        menuItems.push([
                             'View Indirect Objects',
                             function (s, e) {
                                 resetCssClasses();
                                 source.indirectObjectIds.forEach(function (id) {
-                                    menuItemActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
+                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
                                 });
                             }
                         ]);
                     }
-                    return result;
+                    return menuItems;
                 };
             })({});
             var buildAngularMenu = function (m) {
@@ -97,7 +98,7 @@ var LASI;
             };
         }
         angular
-            .module(LASI.documentViewer.ngName)
+            .module(documentViewer.moduleName)
             .factory('lexicalMenuBuilder', lexicalMenuBuilder);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

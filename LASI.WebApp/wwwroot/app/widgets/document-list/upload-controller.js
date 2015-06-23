@@ -27,7 +27,8 @@ var LASI;
             return UploadController;
         })();
         angular
-            .module(documentList.ngName)
+            .module(documentList.moduleName)
             .controller('UploadController', UploadController);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=upload-controller.js.map

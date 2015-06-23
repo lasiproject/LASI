@@ -1,6 +1,6 @@
 ﻿// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 module LASI.documentViewer  {
-    'use strict';
+    //'use strict';
 
     interface ISentence extends ng.IDirective {
     }

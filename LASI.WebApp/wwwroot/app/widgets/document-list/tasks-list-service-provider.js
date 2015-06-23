@@ -50,8 +50,9 @@ var LASI;
         (function () {
             'use strict';
             angular
-                .module(moduleName)
+                .module(documentList.moduleName)
                 .provider('tasksListService', tasksListServiceProvider);
         })();
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=tasks-list-service-provider.js.map

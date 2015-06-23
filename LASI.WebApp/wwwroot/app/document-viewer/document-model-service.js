@@ -22,3 +22,4 @@ var LASI;
             .service('DocumentModelService', DocumentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=document-model-service.js.map

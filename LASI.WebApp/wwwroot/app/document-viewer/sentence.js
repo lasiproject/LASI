@@ -3,7 +3,6 @@ var LASI;
 (function (LASI) {
     var documentViewer;
     (function (documentViewer) {
-        'use strict';
         function sentence() {
             return {
                 restrict: 'E',
@@ -17,6 +16,7 @@ var LASI;
                 }
             };
         }
-        angular.module(LASI.documentViewer.ngName).directive('sentence', sentence);
+        angular.module(LASI.documentViewer.moduleName).directive('sentence', sentence);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+//# sourceMappingURL=sentence.js.map

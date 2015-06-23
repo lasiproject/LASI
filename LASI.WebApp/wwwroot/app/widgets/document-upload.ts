@@ -16,7 +16,9 @@
         app.$uploadList = $uploadList;
         $(document).find('.btn-file :file')
             .change(function () {
-            var $input = $(this), fileCount = $uploadList.find('span.file-index').length, files = $input[0].files;
+            var $input = $(this),
+                fileCount = $uploadList.find('span.file-index').length,
+                files = (<HTMLInputElement>$input[0]).files;
             app.files = files;
             app.fileCount = fileCount;
             var generateUploadListItemMarkup = function (file, index) {
@@ -26,8 +28,9 @@
                     [fileCount, index, 1].sum() +
                     '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' +
                     file.name + '</span></div>';
-            }, label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
-            $(files).filter(function (index, element) { return app.validateFileExtension(element.name); })
+            },
+                label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
+            $(files).filter(function (index, element) { return app.validateFileExtension((<HTMLInputElement>element).name); })
                 .toArray()
                 .filter(function (file) {
                 return !($uploadList.children('span').toArray().some(function () {
@@ -50,4 +53,3 @@
         });
     });
 })(LASI);
-//# sourceMappingURL=document-upload.js.map
