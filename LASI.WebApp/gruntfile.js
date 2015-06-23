@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='watch' />
 /// <reference path = "typings/gruntjs/gruntjs.d.ts" />
 /// <binding ProjectOpened='watch' />
 // This file in the main entry point for defining grunt tasks and using grunt plugins.

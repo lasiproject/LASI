@@ -196,6 +196,6 @@ AspSixApp/App_Data/Temp/11060268vadoc.txt
 /WebApp.Old/App_Data/Users
 /WebApp.Old/App_Data/SourceFiles
 /WebApp.Old
-
+/LASI.WebApp/typings/
 *.map
 *.min.*

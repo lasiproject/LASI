@@ -6,3 +6,4 @@
 /// <reference path="jquery/jquery.d.ts" />
 /// <reference path="node/node.d.ts" />
 /// <reference path="qunit/qunit.d.ts" />
+/// <reference path="angular-bootstrap-contextmenu/angular-bootstrap-contextMenu.d.ts" />
