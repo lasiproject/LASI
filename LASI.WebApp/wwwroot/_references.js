@@ -46,3 +46,4 @@
 /// <reference path="lib/bootstrap/js/npm.js" />
 /// <reference path="app/document-viewer/document-controller.js" />
 /// <reference path="dist/app/app.js" />
+/// <reference path="app/account/manage.js" />

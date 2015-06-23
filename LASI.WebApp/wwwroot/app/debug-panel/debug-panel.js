@@ -23,4 +23,3 @@
         }, 800);
     });
 }(console.log.bind(console)));
-//# sourceMappingURL=debug-panel.js.map
