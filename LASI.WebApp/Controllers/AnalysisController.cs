@@ -9,17 +9,14 @@ using LASI.Interop;
 using LASI.Utilities;
 using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, LASI.WebApp.Models.Results.WorkItemStatus>;
 using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
-using UpdateEventHandler = System.EventHandler<LASI.Core.Configuration.ReportEventArgs>;
 using LASI.WebApp.Persistence;
 using System.Collections.Immutable;
 using LASI.WebApp.Models.User;
-using System.Collections.Concurrent;
 using System;
 using Microsoft.AspNet.Authorization;
 using LASI.WebApp.Models;
 using System.Security.Claims;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using LASI.WebApp.Controllers.Helpers;
 
 namespace LASI.WebApp.Controllers
@@ -76,9 +73,13 @@ namespace LASI.WebApp.Controllers
         private async Task<Document> ProcessUserDocument(UserDocument source, WorkItem workItem)
         {
             var analyzer = new AnalysisOrchestrator(source);
-            analyzer.ProgressChanged += (sender, e) =>
+            analyzer.ProgressChanged += (s, e) =>
             {
-                workItem.PercentComplete = Math.Round(Math.Min(workItem.PercentComplete + e.PercentWorkRepresented, 100), 4);
+                workItem.PercentComplete = Math.Round(
+                    value: Math.Min(workItem.PercentComplete + e.PercentWorkRepresented, 100), 
+                    digits: 0, 
+                    mode: MidpointRounding.AwayFromZero
+                );
                 workItem.StatusMessage = e.Message;
                 workItem.State = TaskState.Ongoing;
             };

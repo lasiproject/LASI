@@ -95,7 +95,7 @@ namespace LASI.WebApp
                         };
                         options.SignIn = new SignInOptions
                         {
-                            RequireConfirmedEmail = true,
+                            RequireConfirmedEmail = false,
                             RequireConfirmedPhoneNumber = false
                         };
                         options.Password = new PasswordOptions

@@ -39,16 +39,13 @@ namespace LASI.Interop
              /// Initializes a new instance of the AnalysisController class.
              /// </summary>
              /// <param name="rawTextSource">An untagged English language written work.</param>
-        public AnalysisOrchestrator(IRawTextSource rawTextSource)
-            : this(new[] { rawTextSource })
-        { }
+        public AnalysisOrchestrator(IRawTextSource rawTextSource) : this(new[] { rawTextSource }) { }
 
         /// <summary>
         /// Initializes a new instance of the AnalysisController class.
         /// </summary>
         /// <param name="rawTextSources">A collection of untagged English language written works.</param>
-        public AnalysisOrchestrator(IEnumerable<IRawTextSource> rawTextSources)
-            : base(delegate { })
+        public AnalysisOrchestrator(IEnumerable<IRawTextSource> rawTextSources) : base(delegate { })
         {
             this.rawTextSources = rawTextSources;
             sourceCount = rawTextSources.Count();
@@ -75,7 +72,7 @@ namespace LASI.Interop
         private async Task<IEnumerable<ITaggedTextSource>> TagFilesAsync<TRaw>(IEnumerable<TRaw> rawTextDocuments) where TRaw : IRawTextSource
         {
             Progress("Tagging Documents", 0);
-            var tasks = rawTextDocuments.Select(raw => TagRawAsync(raw)).ToList();
+            var tasks = rawTextDocuments.Select(TagRawAsync).ToList();
             var taggedFiles = new ConcurrentBag<ITaggedTextSource>();
             while (tasks.Count > 0)
             {
@@ -119,21 +116,19 @@ namespace LASI.Interop
             return document;
         }
 
-        private async Task<ITaggedTextSource> TagRawAsync<TRaw>(TRaw raw) where TRaw : IRawTextSource =>
-            await tagger.TaggedFromRawAsync(raw);
+        private async Task<ITaggedTextSource> TagRawAsync<TRaw>(TRaw raw) where TRaw : IRawTextSource => await tagger.TaggedFromRawAsync(raw);
 
         private void Progress(string message, double percentCompleted)
         {
             OnReport(new AnalysisUpdateEventArgs(message, percentCompleted));
         }
 
-        #region Fields
 
         private double sourceCount;
         private double stepMagnitude;
         private IEnumerable<IRawTextSource> rawTextSources;
-        private readonly Tagger tagger = new Tagger();
-        public IEnumerable<Document> Results { get; private set; }
-        #endregion Fields
+        private IEnumerable<Document> Results { get; set; }
+
+        private static readonly Tagger tagger = new Tagger();
     }
 }

@@ -6,14 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		XMLSchemas\documentStructure.xsd = XMLSchemas\documentStructure.xsd
-		XMLSchemas\dotLasiFile.xsd = XMLSchemas\dotLasiFile.xsd
 		failingtests.playlist = failingtests.playlist
 		Icons\favicon.ico = Icons\favicon.ico
 		global.json = global.json
 		README.md = README.md
 		RuleSet1.ruleset = RuleSet1.ruleset
 		Script1.fsx = Script1.fsx
+		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
 		tslint_1json__JSONSchema = http://json.schemastore.org/tslint

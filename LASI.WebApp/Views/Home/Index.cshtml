@@ -1,22 +1,12 @@
 ﻿<div id="main-content" class="row">
-    
-            <div>
-                @if (User?.Identity?.IsAuthenticated ?? false)
-                {
-                    @await Html.PartialAsync("_DynamicTabs")
-                }
-                 
-            </div>
-        
-        <hr />
-        <div class="panel panel-body">
-            @await Html.PartialAsync("_DebugPanel")
-        </div>
-    </div>
-
-    <div class="row">
-    <div class="panel panel-body">
+    <div>
+        @if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            @await Html.PartialAsync("_DynamicTabs")
+        }
         @await Html.PartialAsync("_LexicalContextMenus")
     </div>
+    <hr />
+    @await Html.PartialAsync("_DebugPanel")
 </div>
 
