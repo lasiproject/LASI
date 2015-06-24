@@ -1,14 +1,13 @@
-// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 module LASI {
     'use strict';
 
-    interface IVerbalContextController {
-        title: string;
-        activate: () => void;
-    }
+    angular
+        .module('documentViewer')
+        .controller('VerbalContextController', VerbalContextController);
 
-    class VerbalContextController implements IVerbalContextController {
-        title: string = 'VerbalContextController';
+
+    class VerbalContextController {
+        title = 'VerbalContextController';
 
         static $inject = ['$state'];
 
@@ -22,7 +21,4 @@ module LASI {
         }
     }
 
-    angular
-        .module(LASI.documentViewer.moduleName)
-        .controller('VerbalContextController', VerbalContextController);
 }

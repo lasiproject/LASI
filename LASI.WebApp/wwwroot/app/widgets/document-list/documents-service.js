@@ -4,7 +4,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.moduleName)
+            .module('documentList')
             .factory('documentsService', documentsService);
         documentsService.$inject = ['$resource'];
         function documentsService($resource) {
@@ -22,4 +22,3 @@ var LASI;
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=documents-service.js.map

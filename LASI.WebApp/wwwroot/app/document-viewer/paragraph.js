@@ -19,8 +19,7 @@ var LASI;
             };
         }
         angular
-            .module(LASI.documentViewer.moduleName)
+            .module('documentViewer')
             .directive('paragraph', paragraph);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=paragraph.js.map

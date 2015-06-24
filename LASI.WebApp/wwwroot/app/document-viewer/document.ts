@@ -1,22 +1,19 @@
 ﻿module LASI.documentViewer {
     'use strict';
-    interface IDocument extends ng.IDirective {
-    }
+
+    angular
+        .module('documentViewer')
+        .directive('document', document);
 
 
-    interface IDocumentScope extends ng.IScope {
-    }
+    document.$inject = [];
 
-    interface IDocumentAttributes extends ng.IAttributes {
-    }
-
-    document.$inject = ['$window'];
-    function document($window: ng.IWindowService): IDocument {
+    function document(): IDocument {
 
         var link: ng.IDirectiveLinkFn = function (scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
-            console.log(scope);
-            console.log(element);
-            console.log(attrs);
+            log(scope);
+            log(element);
+            log(attrs);
         };
         return {
             restrict: 'E',
@@ -25,13 +22,15 @@
             scope: {
                 document: '='
             },
-            link: link
+            link
         };
-        //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
-
+    }
+    interface IDocument extends ng.IDirective {
     }
 
-    angular
-        .module(LASI.documentViewer.moduleName)
-        .directive('document', document);
+    interface IDocumentScope extends ng.IScope {
+    }
+
+    interface IDocumentAttributes extends ng.IAttributes {
+    }
 }

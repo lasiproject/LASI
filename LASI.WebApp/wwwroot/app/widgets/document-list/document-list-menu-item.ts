@@ -1,7 +1,7 @@
 ﻿module LASI.documentList {
     'use strict';
     angular
-        .module(LASI.documentList.moduleName)
+        .module('documentList')
         .directive('documentListMenuItem', documentListMenuItem);
 
     documentListMenuItem.$inject = ['$window', 'resultsService'];

@@ -2,37 +2,42 @@
 module LASI.documentViewer {
     'use strict';
 
-    interface IPhrase extends ng.IDirective {
-    }
-
-    interface IPhraseScope extends ng.IScope {
-        phrase: IPhraseModel;
-        menuIsViable(menu: IVerbalContextmenu): boolean;
-    }
-
-    interface IPhraseAttributes extends ng.IAttributes {
-    }
+    angular
+        .module('documentViewer')
+        .directive('phrase', phrase);
 
     phrase.$inject = ['lexicalMenuBuilder'];
+
     function phrase(lexicalMenuBuilder: ILexicalMenuBuilderFactory): IPhrase {
 
         return {
             restrict: 'E',
             templateUrl: '/app/document-viewer/lexical/phrase.html',
-            link: function (scope: IPhraseScope, element: ng.IAugmentedJQuery, attrs: IPhraseAttributes) {
-                var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
-                scope.phrase.hasContextmenu = !!contextmenu;
-                if (scope.phrase.hasContextmenu) {
-                    (<any>scope.phrase).contextmenu = contextmenu;
-                }
-            },
+            link,
             scope: {
                 phrase: '=',
                 parentId: '='
             }
         };
 
+        function link(scope: IPhraseScope, element: ng.IAugmentedJQuery, attrs: IPhraseAttributes) {
+            var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
+            scope.phrase.hasContextmenu = !!contextmenu;
+            if (scope.phrase.hasContextmenu) {
+                (<any>scope.phrase).contextmenu = contextmenu;
+            }
+        }
+
+    }
+    interface IPhrase extends ng.IDirective {
     }
 
-    angular.module('documentViewer').directive('phrase', phrase);
+    interface IPhraseScope extends ng.IScope {
+        phrase: IPhraseModel;
+        menuIsViable(menu: IVerbalContextmenuDataSource): boolean;
+    }
+
+    interface IPhraseAttributes extends ng.IAttributes {
+    }
+
 }

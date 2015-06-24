@@ -1,42 +1,37 @@
 ﻿module LASI.documentList {
     'use strict';
+    angular
+        .module('documentList')
+        .controller('UploadController', UploadController);
 
-    interface IUploadController {
 
-    }
     interface IUploadControllerScope extends ng.IScope {
         uploadFiles(files: File[]): ng.IHttpPromise<IDocumentListItemModel>[];
         uploadFile(file: File): ng.IHttpPromise<IDocumentListItemModel>;
         files: File[];
     }
-    class UploadController implements IUploadController {
-        static $inject: string[] = ['$scope', '$log', 'Upload'];
+    UploadController.$inject = ['$scope', '$log', 'Upload'];
 
-        constructor($scope: IUploadControllerScope, $log: ng.ILogService, uploadService: ng.angularFileUpload.IUploadService) {
-            $scope.files = [];
-            $scope.uploadFile = (file) => uploadService.upload<IDocumentListItemModel>({
-                url: 'api/UserDocuments',
-                file: file,
-                method: 'POST',
-                fileName: file.name
-            }).progress(progress).success(success);
-            $scope.uploadFiles = (files) => (files || []).map($scope.uploadFile);
+    function UploadController($scope: IUploadControllerScope, $log: ng.ILogService, uploadService: ng.angularFileUpload.IUploadService) {
+        $scope.files = [];
+        $scope.uploadFile = file => uploadService.upload<IDocumentListItemModel>({
+            file,
+            url: 'api/UserDocuments',
+            method: 'POST',
+            fileName: file.name
+        }).progress(progress).success(success);
 
-            $scope.$watch('files', $scope.uploadFiles);
+        $scope.uploadFiles = files => (files || []).map($scope.uploadFile);
 
-            function progress(evt) {
-                var progressPercentage = 100.0 * evt.loaded / evt.total;
-                $log.info(`Progress: ${progressPercentage}% ${evt.config.file.name}`);
-            }
-            function success(data, status, headers, config) {
-                $log.info(`File '${config.file.name} 'uploaded. Response: ${JSON.stringify(data) }`);
-                //$rootScope.$apply();
-            }
+        $scope.$watch('files', $scope.uploadFiles);
+
+        function progress(event) {
+            var progressPercentage = 100.0 * event.loaded / event.total;
+            $log.info(`Progress: ${progressPercentage}% ${event.config.file.name}`);
         }
-
+        function success(data, status, headers, config) {
+            $log.info(`File ${config.file.name} uploaded. Response: ${JSON.stringify(data) }`);
+            //$rootScope.$apply();
+        }
     }
-
-    angular
-        .module(moduleName)
-        .controller('UploadController', UploadController);
 }

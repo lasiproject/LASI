@@ -1,110 +1,93 @@
 ﻿module LASI.documentViewer {
     'use strict';
-    export interface ILexicalMenuBuilderFactory {
-        buildAngularMenu: (source: IVerbalContextmenu | IReferencerContextmenu) => ui.bootstrap.contextMenu.IContextMenuItem[];
-    }
+
+    angular
+        .module('documentViewer')
+        .factory('lexicalMenuBuilder', lexicalMenuBuilder);
+
 
     lexicalMenuBuilder.$inject = [];
-
+    import contextMenu = ui.bootstrap.contextMenu;
+    export interface ILexicalMenuBuilderFactory {
+        buildAngularMenu: (source: IVerbalContextmenuDataSource | IReferencerContextmenuDataSource) => contextMenu.ContextMenu;
+    }
     function lexicalMenuBuilder(): ILexicalMenuBuilderFactory {
+        var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
-        function verbalMenuIsViable(m: IVerbalContextmenu) {
-            return !!(m && (m.directObjectIds || m.indirectObjectIds || m.subjectIds));
+        return {
+            buildAngularMenu: source =>
+                referencerMenuIsViable(<IReferencerContextmenuDataSource>source) ?
+                    buildForReferencer(<IReferencerContextmenuDataSource>source) :
+                    verbalMenuIsViable(<IVerbalContextmenuDataSource>source) ?
+                        buildForVerbal(<IVerbalContextmenuDataSource>source) :
+                        undefined
+        };
+
+        function verbalMenuIsViable(menu: IVerbalContextmenuDataSource) {
+            return !!(menu && (menu.directObjectIds || menu.indirectObjectIds || menu.subjectIds));
         }
-        function referencerMenuIsViable(m: IReferencerContextmenu) {
-            return !!(m && m.refersToIds);
+        function referencerMenuIsViable(menu: IReferencerContextmenuDataSource) {
+            return !!(menu && menu.refersToIds);
         }
 
-        var buildAngularMenuForReferencer = ((menuActionTargets: { [id: string]: JQuery }) => {
-            var resetCssClasses = () => Object.keys(menuActionTargets)
+    } function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
+        return (source: IReferencerContextmenuDataSource): contextMenu.ContextMenu => {
+            return [
+                ['View Referred To', (itemScope, event) => {
+                    resetReferencerAsssotionCssClasses();
+                    source.refersToIds
+                        .forEach(id => menuActionTargets[id] = $(`#${id}`).addClass('referred-to-by-current'));
+                }]
+            ];
+        };
+        function resetReferencerAsssotionCssClasses() {
+            Object.keys(menuActionTargets)
                 .map(key => menuActionTargets[key])
                 .forEach($e => $e.removeClass('referred-to-by-current'));
-
-            return (source: IReferencerContextmenu): ui.bootstrap.contextMenu.IContextMenuItem[] => {
-                return [
-                    [
-                        'View Referred To',
-                        (s, e) => {
-                            resetCssClasses();
-                            source.refersToIds.forEach(id => {
-                                menuActionTargets[id] = $(`#${id}`).addClass('referred-to-by-current');
-                            });
-                        }
-                    ]
-                ];
-            };
-        })({});
-
-        var buildAngularMenuForVerbal = (function (menuActionTargets: { [id: string]: JQuery }) {
-            var verbalMenuTextToElementsMap = {
-                'View Subjects': 'subjects',
-                'View Direct Objects': 'directObjects',
-                'View Indirect Objects': 'indirectObjects'
-            };
-            var verbalMenuCssClassMap = {
-                'View Subjects': 'subject-of-current',
-                'View Direct Objects': 'direct-object-of-current',
-                'View Indirect Objects': 'indirect-object-of-current'
-            };
-            var resetCssClasses = () => Object.keys(menuActionTargets)
-                .map(key => menuActionTargets[key])
-                .forEach($e => {
-                Object.keys(verbalMenuCssClassMap)
-                    .map(k => verbalMenuCssClassMap[k])
-                    .forEach((cssClass: string) => $e.removeClass(cssClass));
-            });
-            return (source: IVerbalContextmenu): ui.bootstrap.contextMenu.IContextMenuItem[] => {
-                var menuItems: ui.bootstrap.contextMenu.IContextMenuItem[] = [];
+        }
+    }
+    function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
+        return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
+            return (source: IVerbalContextmenuDataSource) => {
+                var menuItems: contextMenu.ContextMenu = [];
                 if (source.subjectIds) {
-                    menuItems.push([
-                        'View Subjects',
-                        (s, e) => {
-                            resetCssClasses();
-                            source.subjectIds
-                                .forEach(id => {
-                                menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Subjects']);
-                            });
-                        }
-                    ]);
+                    menuItems.push(['View Subjects', (itemScope, event) => {
+                        resetVerbalAssociationCssClasses();
+                        source.subjectIds
+                            .forEach(id => {
+                            menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Subjects']);
+                        });
+                    }]);
                 }
                 if (source.directObjectIds) {
-                    menuItems.push([
-                        'View Direct Objects',
-                        (s, e) => {
-                            resetCssClasses();
-                            source.directObjectIds
-                                .forEach(id => menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Direct Objects']));
-                        }
-                    ]);
+                    menuItems.push(['View Direct Objects', (itemScope, event) => {
+                        resetVerbalAssociationCssClasses();
+                        source.directObjectIds
+                            .forEach(id => menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Direct Objects']));
+                    }]);
                 }
                 if (source.indirectObjectIds) {
-                    menuItems.push([
-                        'View Indirect Objects',
-                        (s, e) => {
-                            resetCssClasses();
-                            source.indirectObjectIds.forEach(id => {
-                                menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Indirect Objects']);
-                            });
-                        }
-                    ]);
+                    menuItems.push(['View Indirect Objects', (itemScope, event) => {
+                        resetVerbalAssociationCssClasses();
+                        source.indirectObjectIds.forEach(id => {
+                            menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Indirect Objects']);
+                        });
+                    }]);
                 }
                 return menuItems;
             };
-        })({});
-        var buildAngularMenu = function (m: IVerbalContextmenu | IReferencerContextmenu): ui.bootstrap.contextMenu.IContextMenuItem[] {
-            if (referencerMenuIsViable(<IReferencerContextmenu>m)) {
-                return buildAngularMenuForReferencer(<IReferencerContextmenu>m);
-            } else if (verbalMenuIsViable(<IVerbalContextmenu>m)) {
-                return buildAngularMenuForVerbal(<IVerbalContextmenu>m);
+            function resetVerbalAssociationCssClasses() {
+                Object.keys(menuActionTargets)
+                    .map(key => menuActionTargets[key])
+                    .forEach($e =>
+                    Object.keys(verbalMenuCssClassMap)
+                        .map((k: string): string => verbalMenuCssClassMap[k])
+                        .forEach(cssClass => $e.removeClass(cssClass)));
             }
-        };
-        return {
-            buildAngularMenu
-        };
+        })({
+            'View Subjects': 'subject-of-current',
+            'View Direct Objects': 'direct-object-of-current',
+            'View Indirect Objects': 'indirect-object-of-current'
+        });
     }
-
-
-    angular
-        .module(moduleName)
-        .factory('lexicalMenuBuilder', lexicalMenuBuilder);
 }

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module(moduleName)
+        .module('documentList')
         .factory('resultsService', resultsService);
 
     resultsService.$inject = ['$http', '$q'];

@@ -20,8 +20,7 @@ var LASI;
             return DocumentController;
         })();
         angular
-            .module(LASI.documentViewer.moduleName)
+            .module('documentViewer')
             .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-controller.js.map

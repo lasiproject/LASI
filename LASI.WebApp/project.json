@@ -61,8 +61,7 @@
         "postrestore": [
             "npm install",
             "bower install",
-            "tsd update -s -o",
-            "tsd install angular --date \"2014-11-30-2014-12-31\" -s -o"
+            "tsd update -s -o"
         ],
         "prepare": [
             "grunt bower:install"

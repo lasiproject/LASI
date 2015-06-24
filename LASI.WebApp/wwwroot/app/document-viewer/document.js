@@ -3,12 +3,15 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        document.$inject = ['$window'];
-        function document($window) {
+        angular
+            .module('documentViewer')
+            .directive('document', document);
+        document.$inject = [];
+        function document() {
             var link = function (scope, element, attrs) {
-                console.log(scope);
-                console.log(element);
-                console.log(attrs);
+                LASI.log(scope);
+                LASI.log(element);
+                LASI.log(attrs);
             };
             return {
                 restrict: 'E',
@@ -19,11 +22,6 @@ var LASI;
                 },
                 link: link
             };
-            //return new Document('/app/widgets/document-list-app/interactive-representations/document.html', link, scope);
         }
-        angular
-            .module(LASI.documentViewer.moduleName)
-            .directive('document', document);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document.js.map

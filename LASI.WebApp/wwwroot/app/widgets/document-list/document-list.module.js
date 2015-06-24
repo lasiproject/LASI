@@ -3,12 +3,12 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular.module(LASI.documentList.moduleName, [
+        angular.module('documentList', [
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
             'ngFileUpload',
-            LASI.documentViewer.moduleName
+            'documentViewer'
         ]).config(configure);
         configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
         function configure(tasksListServiceProvider, documentListServiceProvider) {
@@ -21,4 +21,3 @@ var LASI;
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-list.module.js.map

@@ -4,7 +4,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.moduleName)
+            .module('documentList')
             .controller('ListController', ListController);
         ListController.$inject = [
             '$q', '$log', '$rootScope', 'documentListService',
@@ -61,4 +61,3 @@ var LASI;
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=list-controller.js.map

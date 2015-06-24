@@ -3,102 +3,88 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
+        angular
+            .module('documentViewer')
+            .factory('lexicalMenuBuilder', lexicalMenuBuilder);
         lexicalMenuBuilder.$inject = [];
         function lexicalMenuBuilder() {
-            function verbalMenuIsViable(m) {
-                return !!(m && (m.directObjectIds || m.indirectObjectIds || m.subjectIds));
+            var _a = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})], buildForVerbal = _a[0], buildForReferencer = _a[1];
+            return {
+                buildAngularMenu: function (source) {
+                    return referencerMenuIsViable(source) ?
+                        buildForReferencer(source) :
+                        verbalMenuIsViable(source) ?
+                            buildForVerbal(source) :
+                            undefined;
+                }
+            };
+            function verbalMenuIsViable(menu) {
+                return !!(menu && (menu.directObjectIds || menu.indirectObjectIds || menu.subjectIds));
             }
-            function referencerMenuIsViable(m) {
-                return !!(m && m.refersToIds);
+            function referencerMenuIsViable(menu) {
+                return !!(menu && menu.refersToIds);
             }
-            var buildAngularMenuForReferencer = (function (menuActionTargets) {
-                var resetCssClasses = function () { return Object.keys(menuActionTargets)
+        }
+        function createForReferencerMenuBuilder(menuActionTargets) {
+            return function (source) {
+                return [
+                    ['View Referred To', function (itemScope, event) {
+                            resetReferencerAsssotionCssClasses();
+                            source.refersToIds
+                                .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass('referred-to-by-current'); });
+                        }]
+                ];
+            };
+            function resetReferencerAsssotionCssClasses() {
+                Object.keys(menuActionTargets)
                     .map(function (key) { return menuActionTargets[key]; })
-                    .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); }); };
-                return function (source) {
-                    return [
-                        [
-                            'View Referred To',
-                            function (s, e) {
-                                resetCssClasses();
-                                source.refersToIds.forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass('referred-to-by-current');
-                                });
-                            }
-                        ]
-                    ];
-                };
-            })({});
-            var buildAngularMenuForVerbal = (function (menuActionTargets) {
-                var verbalMenuTextToElementsMap = {
-                    'View Subjects': 'subjects',
-                    'View Direct Objects': 'directObjects',
-                    'View Indirect Objects': 'indirectObjects'
-                };
-                var verbalMenuCssClassMap = {
-                    'View Subjects': 'subject-of-current',
-                    'View Direct Objects': 'direct-object-of-current',
-                    'View Indirect Objects': 'indirect-object-of-current'
-                };
-                var resetCssClasses = function () { return Object.keys(menuActionTargets)
-                    .map(function (key) { return menuActionTargets[key]; })
-                    .forEach(function ($e) {
-                    Object.keys(verbalMenuCssClassMap)
-                        .map(function (k) { return verbalMenuCssClassMap[k]; })
-                        .forEach(function (cssClass) { return $e.removeClass(cssClass); });
-                }); };
+                    .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); });
+            }
+        }
+        function createForVerbalMenuBuilder(menuActionTargets) {
+            return (function (verbalMenuCssClassMap) {
                 return function (source) {
                     var menuItems = [];
                     if (source.subjectIds) {
-                        menuItems.push([
-                            'View Subjects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Subjects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.subjectIds
                                     .forEach(function (id) {
                                     menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Subjects']);
                                 });
-                            }
-                        ]);
+                            }]);
                     }
                     if (source.directObjectIds) {
-                        menuItems.push([
-                            'View Direct Objects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Direct Objects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.directObjectIds
                                     .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
-                            }
-                        ]);
+                            }]);
                     }
                     if (source.indirectObjectIds) {
-                        menuItems.push([
-                            'View Indirect Objects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Indirect Objects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.indirectObjectIds.forEach(function (id) {
                                     menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
                                 });
-                            }
-                        ]);
+                            }]);
                     }
                     return menuItems;
                 };
-            })({});
-            var buildAngularMenu = function (m) {
-                if (referencerMenuIsViable(m)) {
-                    return buildAngularMenuForReferencer(m);
+                function resetVerbalAssociationCssClasses() {
+                    Object.keys(menuActionTargets)
+                        .map(function (key) { return menuActionTargets[key]; })
+                        .forEach(function ($e) {
+                        return Object.keys(verbalMenuCssClassMap)
+                            .map(function (k) { return verbalMenuCssClassMap[k]; })
+                            .forEach(function (cssClass) { return $e.removeClass(cssClass); });
+                    });
                 }
-                else if (verbalMenuIsViable(m)) {
-                    return buildAngularMenuForVerbal(m);
-                }
-            };
-            return {
-                buildAngularMenu: buildAngularMenu
-            };
+            })({
+                'View Subjects': 'subject-of-current',
+                'View Direct Objects': 'direct-object-of-current',
+                'View Indirect Objects': 'indirect-object-of-current'
+            });
         }
-        angular
-            .module(documentViewer.moduleName)
-            .factory('lexicalMenuBuilder', lexicalMenuBuilder);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

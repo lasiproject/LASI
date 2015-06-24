@@ -4,7 +4,7 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         angular
-            .module(LASI.documentViewer.moduleName, [
+            .module('documentViewer', [
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu'
@@ -15,4 +15,3 @@ var LASI;
         ;
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-viewer.module.js.map

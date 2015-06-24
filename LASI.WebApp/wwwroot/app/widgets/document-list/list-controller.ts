@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module(LASI.documentList.moduleName)
+        .module('documentList')
         .controller('ListController', ListController);
 
     ListController.$inject = [

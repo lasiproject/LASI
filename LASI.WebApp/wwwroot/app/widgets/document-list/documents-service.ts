@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module(LASI.documentList.moduleName)
+        .module('documentList')
         .factory('documentsService', documentsService);
 
     documentsService.$inject = ['$resource'];

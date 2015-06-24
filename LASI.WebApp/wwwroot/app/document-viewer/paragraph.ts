@@ -32,6 +32,6 @@
 
     }
     angular
-        .module(LASI.documentViewer.moduleName)
+        .module('documentViewer')
         .directive('paragraph', paragraph);
 }

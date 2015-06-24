@@ -3,32 +3,28 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        var UploadController = (function () {
-            function UploadController($scope, $log, uploadService) {
-                $scope.files = [];
-                $scope.uploadFile = function (file) { return uploadService.upload({
-                    url: 'api/UserDocuments',
-                    file: file,
-                    method: 'POST',
-                    fileName: file.name
-                }).progress(progress).success(success); };
-                $scope.uploadFiles = function (files) { return (files || []).map($scope.uploadFile); };
-                $scope.$watch('files', $scope.uploadFiles);
-                function progress(evt) {
-                    var progressPercentage = 100.0 * evt.loaded / evt.total;
-                    $log.info("Progress: " + progressPercentage + "% " + evt.config.file.name);
-                }
-                function success(data, status, headers, config) {
-                    $log.info("File '" + config.file.name + " 'uploaded. Response: " + JSON.stringify(data));
-                    //$rootScope.$apply();
-                }
-            }
-            UploadController.$inject = ['$scope', '$log', 'Upload'];
-            return UploadController;
-        })();
         angular
-            .module(documentList.moduleName)
+            .module('documentList')
             .controller('UploadController', UploadController);
+        UploadController.$inject = ['$scope', '$log', 'Upload'];
+        function UploadController($scope, $log, uploadService) {
+            $scope.files = [];
+            $scope.uploadFile = function (file) { return uploadService.upload({
+                file: file,
+                url: 'api/UserDocuments',
+                method: 'POST',
+                fileName: file.name
+            }).progress(progress).success(success); };
+            $scope.uploadFiles = function (files) { return (files || []).map($scope.uploadFile); };
+            $scope.$watch('files', $scope.uploadFiles);
+            function progress(event) {
+                var progressPercentage = 100.0 * event.loaded / event.total;
+                $log.info("Progress: " + progressPercentage + "% " + event.config.file.name);
+            }
+            function success(data, status, headers, config) {
+                $log.info("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+                //$rootScope.$apply();
+            }
+        }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=upload-controller.js.map

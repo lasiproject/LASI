@@ -1,12 +1,10 @@
 ﻿module LASI.documentList {
     'use strict';
 
-    interface IDocumentListTabsetItemScope extends ng.IScope {
-        documentId: string;
-        name: string;
-        analysisProgress: any;
-        showProgress: boolean;
-    }
+    angular
+        .module('documentList')
+        .directive('documentListTabsetItem', documentListTabsetItem);
+
 
     documentListTabsetItem.$inject = ['resultsService'];
 
@@ -33,7 +31,12 @@
             templateUrl: '/app/widgets/document-list/document-list-tabset-item.html'
         };
     }
-    angular
-        .module(moduleName)
-        .directive('documentListTabsetItem', documentListTabsetItem);
+
+    interface IDocumentListTabsetItemScope extends ng.IScope {
+        documentId: string;
+        name: string;
+        analysisProgress: any;
+        showProgress: boolean;
+    }
+
 }

@@ -5,7 +5,6 @@ var LASI;
     (function (documentList) {
         'use strict';
         var draggable = window.draggable;
-        var log = LASI.log;
         var createHeaderMarkup = function (documentId, documentName) {
             return '<div>' +
                 '<div class="panel-heading">' +
@@ -40,7 +39,7 @@ var LASI;
                     //var documentName = $element[0].text;
                     var documentName = $element[0].innerText;
                     var documentId = $element.find('span.hidden')[0].textContent.trim();
-                    log('clicked Name: ' + documentName + ', Id: ' + documentId);
+                    LASI.log('clicked Name: ' + documentName + ', Id: ' + documentId);
                     var $parentListItem = $($(event.target).parent());
                     var $progress = $parentListItem.find('.progress hidden')
                         .find('.progress-bar')
@@ -59,7 +58,7 @@ var LASI;
                         LASI.buildMenus();
                         LASI.enableActiveHighlighting();
                     }).fail(function (xhr, message, detail) {
-                        log(message);
+                        LASI.log(message);
                     }).progress(function (data) {
                         $progress.css('width', data);
                     });
@@ -70,4 +69,3 @@ var LASI;
         });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-list.js.map

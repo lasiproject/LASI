@@ -3,9 +3,12 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        directive.$inject = ['$window'];
-        function directive($window) {
+        directive.$inject = [];
+        function directive() {
             function link(scope, element, attrs) {
+                LASI.log(scope);
+                LASI.log(element);
+                LASI.log(attrs);
             }
             return {
                 restrict: 'E',
@@ -19,8 +22,7 @@ var LASI;
             };
         }
         angular
-            .module(documentViewer.moduleName)
+            .module('documentViewer')
             .directive('Directive', directive);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-page.js.map

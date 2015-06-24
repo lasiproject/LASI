@@ -22,6 +22,6 @@
     }
 
     angular
-        .module(moduleName)
+        .module('documentViewer')
         .service('DocumentModelService', DocumentModelService);
 }

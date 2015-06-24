@@ -110,7 +110,7 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular.module(LASI.documentList.moduleName, [
+        angular.module('documentList', [
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
@@ -133,13 +133,13 @@ var LASI;
     'use strict';
     $(function () {
         $('#cancel-profile-edits').click(function () {
-            document.location.href = 'http://' + document.domain + ':' + document.location.port;
+            document.location.href = "http://" + document.domain + ":" + document.location.port;
         });
     });
 }());
 /// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextMenu.d.ts'/>
-var ContextMenuTests;
-(function (ContextMenuTests) {
+var contextmenuTests;
+(function (contextmenuTests) {
     var item1 = [
         function (s, e) { return 'item1'; },
         function (s, e) { return console.log('item1 clicked'); },
@@ -157,7 +157,7 @@ var ContextMenuTests;
     var menu = [
         item1, item2
     ];
-})(ContextMenuTests || (ContextMenuTests = {}));
+})(contextmenuTests || (contextmenuTests = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function (log) {
     $(function () {
@@ -546,7 +546,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.moduleName)
+            .module('documentList')
             .directive('documentListMenuItem', documentListMenuItem);
         documentListMenuItem.$inject = ['$window', 'resultsService'];
         function documentListMenuItem($window, resultsService) {
@@ -615,7 +615,7 @@ var LASI;
             return DocumentListServiceProvider;
         })();
         angular
-            .module(documentList.moduleName)
+            .module('documentList')
             .provider('documentListService', DocumentListServiceProvider);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
@@ -624,6 +624,9 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
+        angular
+            .module('documentList')
+            .directive('documentListTabsetItem', documentListTabsetItem);
         documentListTabsetItem.$inject = ['resultsService'];
         function documentListTabsetItem(resultsService) {
             return {
@@ -648,9 +651,6 @@ var LASI;
                 templateUrl: '/app/widgets/document-list/document-list-tabset-item.html'
             };
         }
-        angular
-            .module(documentList.moduleName)
-            .directive('documentListTabsetItem', documentListTabsetItem);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -745,7 +745,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(documentList.moduleName)
+            .module('documentList')
             .factory('resultsService', resultsService);
         resultsService.$inject = ['$http', '$q'];
         function resultsService($http, $q) {
@@ -793,36 +793,36 @@ var LASI;
 (function (LASI) {
     var documentList;
     (function (documentList) {
-        var tasksListServiceProvider = function () {
+        'use strict';
+        angular
+            .module('documentList')
+            .provider('tasksListService', tasksListServiceProvider);
+        function tasksListServiceProvider() {
             var updateInterval = 200;
             var tasksListUrl = 'api/Tasks';
             $get.$inject = ['$resource', '$window'];
-            return {
-                $get: $get,
-                setUpdateInterval: function (milliseconds) {
-                    updateInterval = milliseconds;
-                    return this;
-                }, setTasksListUrl: function (url) {
-                    tasksListUrl = url;
-                    return this;
-                }
-            };
+            return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
+            function setUpdateInterval(milliseconds) {
+                updateInterval = milliseconds;
+                return this;
+            }
+            function setTasksListUrl(url) {
+                tasksListUrl = url;
+                return this;
+            }
             function $get($resource, $window) {
                 var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
                 var Tasks = $resource(tasksListUrl, { cache: false }, {
-                    'get': {
+                    get: {
                         method: 'GET', isArray: true
                     }
                 });
                 var tasks = [];
-                var update = function () {
-                    tasks = Tasks.get();
-                    updateDebugInfo(tasks);
-                };
                 var getActiveTasks = function (callback) {
                     $window.setInterval(function () {
                         callback(tasks);
-                        update();
+                        tasks = Tasks.get();
+                        updateDebugInfo(tasks);
                     }, updateInterval);
                     return tasks;
                 };
@@ -832,18 +832,10 @@ var LASI;
             }
             function createDebugInfoUpdator(element) {
                 return function (tasks) { return element.html(tasks
-                    .map(function (task) { return '<div>' +
-                    Object.keys(task).map(function (key) { return '<span>&nbsp&nbsp' + task[key] + '</span>'; }) +
-                    '</div>'; })
+                    .map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); })
                     .join()); };
             }
-        }();
-        (function () {
-            'use strict';
-            angular
-                .module(documentList.moduleName)
-                .provider('tasksListService', tasksListServiceProvider);
-        })();
+        }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
 var LASI;

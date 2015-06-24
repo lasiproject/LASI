@@ -2,12 +2,13 @@
     'use strict';
 
 
-    angular.module(LASI.documentList.moduleName, [
+    angular.module('documentList', [
         'ngResource',
         'ui.bootstrap',
         'ui.bootstrap.contextMenu',
         'ngFileUpload',
-        LASI.documentViewer.moduleName
+
+        'documentViewer'
     ]).config(configure);
 
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];

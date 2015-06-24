@@ -58,7 +58,7 @@
 
 
     angular
-        .module(moduleName)
+        .module('documentList')
         .provider('documentListService', DocumentListServiceProvider);
 
 

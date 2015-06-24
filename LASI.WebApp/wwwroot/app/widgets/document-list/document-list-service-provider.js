@@ -41,8 +41,7 @@ var LASI;
             return DocumentListServiceProvider;
         })();
         angular
-            .module(documentList.moduleName)
+            .module('documentList')
             .provider('documentListService', DocumentListServiceProvider);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-list-service-provider.js.map

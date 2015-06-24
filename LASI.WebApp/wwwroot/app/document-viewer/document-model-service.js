@@ -18,8 +18,7 @@ var LASI;
             return DocumentModelService;
         })();
         angular
-            .module(documentViewer.moduleName)
+            .module('documentViewer')
             .service('DocumentModelService', DocumentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-//# sourceMappingURL=document-model-service.js.map

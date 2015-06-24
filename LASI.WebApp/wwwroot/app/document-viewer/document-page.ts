@@ -10,10 +10,12 @@
     interface IDirectiveAttributes extends ng.IAttributes {
     }
 
-    directive.$inject = ['$window'];
-    function directive($window: ng.IWindowService): IDirective {
+    directive.$inject = [];
+    function directive(): IDirective {
         function link(scope: IDirectiveScope, element: ng.IAugmentedJQuery, attrs: IDirectiveAttributes) {
-
+            log(scope);
+            log(element);
+            log(attrs);
         }
         return {
             restrict: 'E',
@@ -30,6 +32,6 @@
     }
 
     angular
-        .module(moduleName)
+        .module('documentViewer')
         .directive('Directive', directive);
 }

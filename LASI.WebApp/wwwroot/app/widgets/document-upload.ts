@@ -14,7 +14,8 @@
     $(function () {
         var $uploadList = $('#document-upload-list');
         app.$uploadList = $uploadList;
-        $(document).find('.btn-file :file')
+        $(document)
+            .find('.btn-file :file')
             .change(function () {
             var $input = $(this),
                 fileCount = $uploadList.find('span.file-index').length,
@@ -30,19 +31,20 @@
                     file.name + '</span></div>';
             },
                 label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
-            $(files).filter(function (index, element) { return app.validateFileExtension((<HTMLInputElement>element).name); })
+            $(files).filter((index, element) => app.validateFileExtension((<HTMLInputElement>element).name))
                 .toArray()
                 .filter(function (file) {
                 return !($uploadList.children('span').toArray().some(function () {
                     return $(this).text() === file.name;
                 }));
-            })
-                .forEach(function (file, index) {
+            }).forEach(function (file, index) {
                 $uploadList.append(generateUploadListItemMarkup(file, index));
                 $('span.glyphicon.glyphicon-remove.remove-file')
                     .click(function () {
-                    $(this).removeData(file.name);
-                    $(this).parent().parent().find('span.file-name')
+                    $(this).removeData(file.name)
+                        .parent()
+                        .parent()
+                        .find('span.file-name')
                         .filter(function () { return $(this).text() === file.name; })
                         .each(function () { return $(this).parent('div').remove(); });
                     $uploadList.find('span.file-index')

@@ -2,7 +2,6 @@
 module LASI.documentList {
     'use strict';
     var draggable = (<any>window).draggable;
-    var log = LASI.log;
     var createHeaderMarkup = function (documentId, documentName) {
         return '<div>' +
             '<div class="panel-heading">' +
@@ -12,7 +11,7 @@ module LASI.documentList {
     };
     $(function () {
         window.setTimeout(function () {
-            LASI.setupDraggableDialogs = function () {
+            setupDraggableDialogs = function () {
                 var enableDragging = function (e, h?) {
                     var handle = $(e).find('.handle')[0];
                     draggable(e, handle);
@@ -27,7 +26,7 @@ module LASI.documentList {
                     enableDragging(draggableDialog[0], dragHandle);
                 }
             };
-            LASI.setupDraggableDialogs();
+            setupDraggableDialogs();
             var $tabs = $('.document-viewer-tab-heading');
             var $listItemRefs = $('.document-list-item > a');
             var click = function (event) {
@@ -55,8 +54,8 @@ module LASI.documentList {
                         $('#accordion').append(panelMarkup);
                     }
                     xhr.progress('100%');
-                    LASI.buildMenus();
-                    LASI.enableActiveHighlighting();
+                    buildMenus();
+                    enableActiveHighlighting();
                 }).fail(function (xhr, message, detail) {
                     log(message);
                 }).progress(function (data) {

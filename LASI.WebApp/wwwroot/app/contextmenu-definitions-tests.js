@@ -1,6 +1,7 @@
-/// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextMenu.d.ts'/>
-var ContextMenuTests;
-(function (ContextMenuTests) {
+/// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextmenu.d.ts'/>
+var contextmenuTests;
+(function (contextmenuTests) {
+    'use strict';
     var item1 = [
         function (s, e) { return 'item1'; },
         function (s, e) { return console.log('item1 clicked'); },
@@ -18,5 +19,4 @@ var ContextMenuTests;
     var menu = [
         item1, item2
     ];
-})(ContextMenuTests || (ContextMenuTests = {}));
-//# sourceMappingURL=context-menu-tests-definitions.js.map
+})(contextmenuTests || (contextmenuTests = {}));

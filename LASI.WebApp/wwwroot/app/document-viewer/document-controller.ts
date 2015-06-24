@@ -24,6 +24,6 @@ module LASI.documentViewer {
     }
 
     angular
-        .module(LASI.documentViewer.moduleName)
+        .module('documentViewer')
         .controller('DocumentController', DocumentController);
 }

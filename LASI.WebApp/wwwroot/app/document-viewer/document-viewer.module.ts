@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module(LASI.documentViewer.moduleName, [
+        .module('documentViewer', [
         'ngResource',
         'ui.bootstrap',
         'ui.bootstrap.contextMenu'
