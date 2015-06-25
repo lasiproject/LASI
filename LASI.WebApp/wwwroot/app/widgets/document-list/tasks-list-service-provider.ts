@@ -45,7 +45,9 @@
             };
         }
         function createDebugInfoUpdator(element: JQuery) {
-            return (tasks: ITask[]) => element.html(tasks.map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
+            return (tasks: ITask[]) => element
+                .html(tasks
+                .map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
                 .join());
         }
     }

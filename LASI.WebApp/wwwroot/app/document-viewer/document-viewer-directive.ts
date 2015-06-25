@@ -1,14 +1,9 @@
 ﻿module LASI.documentViewer {
     'use strict';
 
-    angular
-        .module('documentViewer')
-        .directive('document', document);
+    documentViewerDirective.$inject = [];
 
-
-    document.$inject = [];
-
-    function document(): IDocument {
+    function documentViewerDirective(): IDocument {
 
         var link: ng.IDirectiveLinkFn = function (scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
             log(scope);
@@ -17,7 +12,7 @@
         };
         return {
             restrict: 'E',
-            templateUrl: '/app/document-viewer/document.html',
+            templateUrl: '/app/document-viewer/document-viewer-directive.html',
             replace: true,
             scope: {
                 document: '='
@@ -33,4 +28,9 @@
 
     interface IDocumentAttributes extends ng.IAttributes {
     }
+    angular
+        .module('documentViewer')
+        .directive('documentViewerDirective', documentViewerDirective);
+
+
 }

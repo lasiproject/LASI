@@ -33,5 +33,5 @@
 
     angular
         .module('documentViewer')
-        .directive('Directive', directive);
+        .directive('documentPage', directive);
 }

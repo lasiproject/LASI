@@ -3,6 +3,9 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
+        angular
+            .module('documentViewer')
+            .controller('DocumentController', DocumentController);
         var DocumentController = (function () {
             function DocumentController(documentModelService, $location) {
                 this.documentModelService = documentModelService;
@@ -19,8 +22,5 @@ var LASI;
             DocumentController.$inject = ['DocumentModelService', '$location'];
             return DocumentController;
         })();
-        angular
-            .module('documentViewer')
-            .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

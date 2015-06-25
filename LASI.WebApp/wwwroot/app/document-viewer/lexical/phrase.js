@@ -12,16 +12,16 @@ var LASI;
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/lexical/phrase.html',
-                link: link,
                 scope: {
                     phrase: '=',
                     parentId: '='
-                }
+                },
+                link: link
             };
             function link(scope, element, attrs) {
                 var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
-                scope.phrase.hasContextmenu = !!contextmenu;
-                if (scope.phrase.hasContextmenu) {
+                scope.phrase.hasContextmenuData = !!contextmenu;
+                if (scope.phrase.hasContextmenuData) {
                     scope.phrase.contextmenu = contextmenu;
                 }
             }

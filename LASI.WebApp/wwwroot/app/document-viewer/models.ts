@@ -1,15 +1,4 @@
-﻿module LASI.documentViewer {
-    export interface ILexicalModel {
-        text: string;
-        detailText: string;
-        id: number;
-        style: { cssClass: string };
-        contextmenu?: IVerbalContextmenuDataSource | IReferencerContextmenuDataSource;
-        hasContextmenu: boolean;
-        // this needs to be revised as this was copied verbatim from the 
-        // old server side view model for use in the razor template and 
-        // there should be a simple way to deserialize it as a proper object.
-    }
+﻿module LASI.models {
 
     export interface IDocumentModel {
         title: string;
@@ -26,52 +15,18 @@
     export interface ISentenceModel {
         phrases: IPhraseModel[];
     }
+    export interface ILexicalModel {
+        text: string;
+        detailText: string;
+        id: number;
+        style: { cssClass: string };
+        hasContextmenuData: boolean;
+        contextmenu: documentViewer.IVerbalContextmenuDataSource | documentViewer.IReferencerContextmenuDataSource;
+    }
 
     export interface IPhraseModel extends ILexicalModel {
         words: IWordModel[];
     }
 
-    export interface IWordModel extends ILexicalModel {
-    }
-
-    export interface ITextualDirectiveScope {
-        document?: string;
-        paragraph?: string;
-        sentence?: string;
-        clause?: string;
-        phrase?: string;
-        word?: string;
-        contextmenuId?: string;
-        parentId?: string|number;
-    }
-
-    export interface IVerbalContextmenuDataSource {
-        /**
-         * The id of the verbal for which the menu is defined.
-         */
-        lexicalId: number;
-        /**
-         * The ids of any subjects.
-         */
-        subjectIds: number[];
-        /**
-         * The ids of any direct objects.
-         */
-        directObjectIds: number[];
-        /**
-         * The ids of any direct objects.
-         */
-        indirectObjectIds: number[];
-    }
-
-    export interface IReferencerContextmenuDataSource {
-        /**
-         * The id of the referencer for which the menu is defined.
-         */
-        lexicalId: number;
-        /**
-         * The ids of any entities the referred to.
-         */
-        refersToIds: number[];
-    }
+    export interface IWordModel extends ILexicalModel { }
 }

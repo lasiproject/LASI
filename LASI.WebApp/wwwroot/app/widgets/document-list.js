@@ -46,7 +46,7 @@ var LASI;
                         .removeClass('.hidden').css('width', '100');
                     $.get('Analysis/' + documentId).done(function (data, status, xhr) {
                         var headerMarkup = $(createHeaderMarkup(documentId, documentName));
-                        var panelMarkup = $("<div id=\"" + documentId + "\">\n                           <document document=\"document\"></document></div></div>");
+                        var panelMarkup = $("<div id=\"" + documentId + "\">\n                           <document-viewer-directive document=\"document\"></document-viewer-directive></div></div>");
                         if (!$('#' + documentId).length) {
                             $('#accordion').append(headerMarkup).append(panelMarkup);
                         }

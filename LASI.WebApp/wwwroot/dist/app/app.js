@@ -79,14 +79,6 @@ var LASI;
     LASI.setupDraggableDialogs;
     LASI.log = console.log.bind(console);
     LASI.editor = $('#free-editor').change(LASI.log);
-    var documentList;
-    (function (documentList) {
-        documentList.moduleName = 'documentList';
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-    var documentViewer;
-    (function (documentViewer) {
-        documentViewer.moduleName = 'documentViewer';
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
@@ -94,7 +86,7 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         angular
-            .module(LASI.documentViewer.moduleName, [
+            .module('documentViewer', [
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu'
@@ -115,7 +107,7 @@ var LASI;
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
             'ngFileUpload',
-            LASI.documentViewer.moduleName
+            'documentViewer'
         ]).config(configure);
         configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
         function configure(tasksListServiceProvider, documentListServiceProvider) {
@@ -137,9 +129,10 @@ var LASI;
         });
     });
 }());
-/// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextMenu.d.ts'/>
+/// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextmenu.d.ts'/>
 var contextmenuTests;
 (function (contextmenuTests) {
+    'use strict';
     var item1 = [
         function (s, e) { return 'item1'; },
         function (s, e) { return console.log('item1 clicked'); },
@@ -188,6 +181,9 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
+        angular
+            .module('documentViewer')
+            .controller('DocumentController', DocumentController);
         var DocumentController = (function () {
             function DocumentController(documentModelService, $location) {
                 this.documentModelService = documentModelService;
@@ -203,9 +199,6 @@ var LASI;
             DocumentController.$inject = ['DocumentModelService', '$location'];
             return DocumentController;
         })();
-        angular
-            .module(LASI.documentViewer.moduleName)
-            .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -228,7 +221,7 @@ var LASI;
             return DocumentModelService;
         })();
         angular
-            .module(documentViewer.moduleName)
+            .module('documentViewer')
             .service('DocumentModelService', DocumentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
@@ -237,9 +230,12 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        directive.$inject = ['$window'];
-        function directive($window) {
+        directive.$inject = [];
+        function directive() {
             function link(scope, element, attrs) {
+                LASI.log(scope);
+                LASI.log(element);
+                LASI.log(attrs);
             }
             return {
                 restrict: 'E',
@@ -253,8 +249,8 @@ var LASI;
             };
         }
         angular
-            .module(documentViewer.moduleName)
-            .directive('Directive', directive);
+            .module('documentViewer')
+            .directive('documentPage', directive);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -262,16 +258,16 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        document.$inject = ['$window'];
-        function document($window) {
+        documentViewerDirective.$inject = [];
+        function documentViewerDirective() {
             var link = function (scope, element, attrs) {
-                console.log(scope);
-                console.log(element);
-                console.log(attrs);
+                LASI.log(scope);
+                LASI.log(element);
+                LASI.log(attrs);
             };
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/document.html',
+                templateUrl: '/app/document-viewer/document-viewer-directive.html',
                 replace: true,
                 scope: {
                     document: '='
@@ -280,8 +276,8 @@ var LASI;
             };
         }
         angular
-            .module(LASI.documentViewer.moduleName)
-            .directive('document', document);
+            .module('documentViewer')
+            .directive('documentViewerDirective', documentViewerDirective);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -289,103 +285,87 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
+        angular
+            .module('documentViewer')
+            .factory('lexicalMenuBuilder', lexicalMenuBuilder);
         lexicalMenuBuilder.$inject = [];
         function lexicalMenuBuilder() {
-            function verbalMenuIsViable(m) {
-                return !!(m && (m.directObjectIds || m.indirectObjectIds || m.subjectIds));
+            var _a = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})], buildForVerbal = _a[0], buildForReferencer = _a[1];
+            return {
+                buildAngularMenu: function (source) {
+                    return referencerMenuIsViable(source) ?
+                        buildForReferencer(source) :
+                        verbalMenuIsViable(source) ?
+                            buildForVerbal(source) :
+                            undefined;
+                }
+            };
+            function verbalMenuIsViable(menu) {
+                return !!(menu && (menu.directObjectIds || menu.indirectObjectIds || menu.subjectIds));
             }
-            function referencerMenuIsViable(m) {
-                return !!(m && m.refersToIds);
+            function referencerMenuIsViable(menu) {
+                return !!(menu && menu.refersToIds);
             }
-            var buildAngularMenuForReferencer = (function (menuActionTargets) {
-                var resetCssClasses = function () { return Object.keys(menuActionTargets)
+        }
+        function createForReferencerMenuBuilder(menuActionTargets) {
+            var resetReferencerAsssotionCssClasses = function () {
+                return Object.keys(menuActionTargets)
                     .map(function (key) { return menuActionTargets[key]; })
-                    .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); }); };
-                return function (source) {
-                    return [
-                        [
-                            'View Referred To',
-                            function (s, e) {
-                                resetCssClasses();
-                                source.refersToIds.forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass('referred-to-by-current');
-                                });
-                            }
-                        ]
-                    ];
-                };
-            })({});
-            var buildAngularMenuForVerbal = (function (menuActionTargets) {
-                var verbalMenuTextToElementsMap = {
-                    'View Subjects': 'subjects',
-                    'View Direct Objects': 'directObjects',
-                    'View Indirect Objects': 'indirectObjects'
-                };
-                var verbalMenuCssClassMap = {
-                    'View Subjects': 'subject-of-current',
-                    'View Direct Objects': 'direct-object-of-current',
-                    'View Indirect Objects': 'indirect-object-of-current'
-                };
-                var resetCssClasses = function () { return Object.keys(menuActionTargets)
-                    .map(function (key) { return menuActionTargets[key]; })
-                    .forEach(function ($e) {
-                    Object.keys(verbalMenuCssClassMap)
-                        .map(function (k) { return verbalMenuCssClassMap[k]; })
-                        .forEach(function (cssClass) { return $e.removeClass(cssClass); });
-                }); };
+                    .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); });
+            };
+            return function (source) { return [
+                ['View Referred To', function (itemScope, event) {
+                        resetReferencerAsssotionCssClasses();
+                        source.refersToIds
+                            .forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'); });
+                    }]
+            ]; };
+        }
+        function createForVerbalMenuBuilder(menuActionTargets) {
+            return (function (verbalMenuCssClassMap) {
                 return function (source) {
                     var menuItems = [];
                     if (source.subjectIds) {
-                        menuItems.push([
-                            'View Subjects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Subjects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.subjectIds
                                     .forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Subjects']);
+                                    menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Subjects']);
                                 });
-                            }
-                        ]);
+                            }]);
                     }
                     if (source.directObjectIds) {
-                        menuItems.push([
-                            'View Direct Objects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Direct Objects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.directObjectIds
-                                    .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
-                            }
-                        ]);
+                                    .forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
+                            }]);
                     }
                     if (source.indirectObjectIds) {
-                        menuItems.push([
-                            'View Indirect Objects',
-                            function (s, e) {
-                                resetCssClasses();
+                        menuItems.push(['View Indirect Objects', function (itemScope, event) {
+                                resetVerbalAssociationCssClasses();
                                 source.indirectObjectIds.forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
+                                    menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
                                 });
-                            }
-                        ]);
+                            }]);
                     }
                     return menuItems;
                 };
-            })({});
-            var buildAngularMenu = function (m) {
-                if (referencerMenuIsViable(m)) {
-                    return buildAngularMenuForReferencer(m);
+                function resetVerbalAssociationCssClasses() {
+                    Object.keys(menuActionTargets)
+                        .map(function (key) { return menuActionTargets[key]; })
+                        .forEach(function ($e) {
+                        return Object.keys(verbalMenuCssClassMap)
+                            .map(function (k) { return verbalMenuCssClassMap[k]; })
+                            .forEach(function (cssClass) { return $e.removeClass(cssClass); });
+                    });
                 }
-                else if (verbalMenuIsViable(m)) {
-                    return buildAngularMenuForVerbal(m);
-                }
-            };
-            return {
-                buildAngularMenu: buildAngularMenu
-            };
+            })({
+                'View Subjects': 'subject-of-current',
+                'View Direct Objects': 'direct-object-of-current',
+                'View Indirect Objects': 'indirect-object-of-current'
+            });
         }
-        angular
-            .module(documentViewer.moduleName)
-            .factory('lexicalMenuBuilder', lexicalMenuBuilder);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -393,30 +373,36 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
+        angular
+            .module('documentViewer')
+            .directive('phrase', phrase);
         phrase.$inject = ['lexicalMenuBuilder'];
         function phrase(lexicalMenuBuilder) {
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/lexical/phrase.html',
-                link: function (scope, element, attrs) {
-                    var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
-                    scope.phrase.hasContextmenu = !!contextmenu;
-                    if (scope.phrase.hasContextmenu) {
-                        scope.phrase.contextmenu = contextmenu;
-                    }
-                },
                 scope: {
                     phrase: '=',
                     parentId: '='
-                }
+                },
+                link: link
             };
+            function link(scope, element, attrs) {
+                var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
+                scope.phrase.hasContextmenuData = !!contextmenu;
+                if (scope.phrase.hasContextmenuData) {
+                    scope.phrase.contextmenu = contextmenu;
+                }
+            }
         }
-        angular.module('documentViewer').directive('phrase', phrase);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
     'use strict';
+    angular
+        .module('documentViewer')
+        .controller('VerbalContextController', VerbalContextController);
     var VerbalContextController = (function () {
         function VerbalContextController() {
             this.title = 'VerbalContextController';
@@ -426,9 +412,6 @@ var LASI;
         VerbalContextController.$inject = ['$state'];
         return VerbalContextController;
     })();
-    angular
-        .module(LASI.documentViewer.moduleName)
-        .controller('VerbalContextController', VerbalContextController);
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
@@ -450,7 +433,7 @@ var LASI;
             };
         }
         angular
-            .module(LASI.documentViewer.moduleName)
+            .module('documentViewer')
             .directive('paragraph', paragraph);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
@@ -458,19 +441,21 @@ var LASI;
 (function (LASI) {
     var documentViewer;
     (function (documentViewer) {
+        'use strict';
+        angular
+            .module('documentViewer')
+            .directive('sentence', sentence);
         function sentence() {
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
-                link: function (scope, element, attrs) {
-                },
+                link: function (scope, element, attrs) { },
                 scope: {
                     sentence: '=',
                     parentId: '='
                 }
             };
         }
-        angular.module(LASI.documentViewer.moduleName).directive('sentence', sentence);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -479,7 +464,6 @@ var LASI;
     (function (documentList) {
         'use strict';
         var draggable = window.draggable;
-        var log = LASI.log;
         var createHeaderMarkup = function (documentId, documentName) {
             return '<div>' +
                 '<div class="panel-heading">' +
@@ -511,14 +495,14 @@ var LASI;
                     var $element = $(event.target);
                     var documentName = $element[0].innerText;
                     var documentId = $element.find('span.hidden')[0].textContent.trim();
-                    log('clicked Name: ' + documentName + ', Id: ' + documentId);
+                    LASI.log('clicked Name: ' + documentName + ', Id: ' + documentId);
                     var $parentListItem = $($(event.target).parent());
                     var $progress = $parentListItem.find('.progress hidden')
                         .find('.progress-bar')
                         .removeClass('.hidden').css('width', '100');
                     $.get('Analysis/' + documentId).done(function (data, status, xhr) {
                         var headerMarkup = $(createHeaderMarkup(documentId, documentName));
-                        var panelMarkup = $("<div id=\"" + documentId + "\">\n                           <document document=\"document\"></document></div></div>");
+                        var panelMarkup = $("<div id=\"" + documentId + "\">\n                           <document-viewer-directive document=\"document\"></document-viewer-directive></div></div>");
                         if (!$('#' + documentId).length) {
                             $('#accordion').append(headerMarkup).append(panelMarkup);
                         }
@@ -530,7 +514,7 @@ var LASI;
                         LASI.buildMenus();
                         LASI.enableActiveHighlighting();
                     }).fail(function (xhr, message, detail) {
-                        log(message);
+                        LASI.log(message);
                     }).progress(function (data) {
                         $progress.css('width', data);
                     });
@@ -659,7 +643,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.moduleName)
+            .module('documentList')
             .factory('documentsService', documentsService);
         documentsService.$inject = ['$resource'];
         function documentsService($resource) {
@@ -683,7 +667,7 @@ var LASI;
     (function (documentList) {
         'use strict';
         angular
-            .module(LASI.documentList.moduleName)
+            .module('documentList')
             .controller('ListController', ListController);
         ListController.$inject = [
             '$q', '$log', '$rootScope', 'documentListService',
@@ -831,7 +815,8 @@ var LASI;
                 };
             }
             function createDebugInfoUpdator(element) {
-                return function (tasks) { return element.html(tasks
+                return function (tasks) { return element
+                    .html(tasks
                     .map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); })
                     .join()); };
             }
@@ -843,31 +828,39 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        var UploadController = (function () {
-            function UploadController($scope, $log, uploadService) {
-                $scope.files = [];
-                $scope.uploadFile = function (file) { return uploadService.upload({
-                    url: 'api/UserDocuments',
-                    file: file,
-                    method: 'POST',
-                    fileName: file.name
-                }).progress(progress).success(success); };
-                $scope.uploadFiles = function (files) { return (files || []).map($scope.uploadFile); };
-                $scope.$watch('files', $scope.uploadFiles);
-                function progress(evt) {
-                    var progressPercentage = 100.0 * evt.loaded / evt.total;
-                    $log.info("Progress: " + progressPercentage + "% " + evt.config.file.name);
-                }
-                function success(data, status, headers, config) {
-                    $log.info("File '" + config.file.name + " 'uploaded. Response: " + JSON.stringify(data));
-                }
-            }
-            UploadController.$inject = ['$scope', '$log', 'Upload'];
-            return UploadController;
-        })();
         angular
-            .module(documentList.moduleName)
+            .module('documentList')
             .controller('UploadController', UploadController);
+        UploadController.$inject = ['$scope', 'Upload'];
+        function UploadController($scope, uploadService) {
+            var vm = this;
+            activate();
+            vm.files = [];
+            vm.uploadFile = function (file) { return uploadService.upload({
+                file: file,
+                url: 'api/UserDocuments',
+                method: 'POST',
+                fileName: file.name
+            }).progress(progress).success(success); };
+            vm.uploadFiles = function (files) { return (files || []).map(vm.uploadFile); };
+            $scope.$watch('files', vm.uploadFiles);
+            function progress(event) {
+                var progressPercentage = 100.0 * event.loaded / event.total;
+                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
+            }
+            function success(data, status, headers, config) {
+                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+            }
+            function activate() {
+                vm.formats = [
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/msword',
+                    'application/pdf',
+                    'text/plain'
+                ];
+                vm.fileInputAcceptText = vm.formats.join(',');
+            }
+        }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
@@ -886,7 +879,8 @@ var LASI;
     $(function () {
         var $uploadList = $('#document-upload-list');
         app.$uploadList = $uploadList;
-        $(document).find('.btn-file :file')
+        $(document)
+            .find('.btn-file :file')
             .change(function () {
             var $input = $(this), fileCount = $uploadList.find('span.file-index').length, files = $input[0].files;
             app.files = files;
@@ -905,13 +899,14 @@ var LASI;
                 return !($uploadList.children('span').toArray().some(function () {
                     return $(this).text() === file.name;
                 }));
-            })
-                .forEach(function (file, index) {
+            }).forEach(function (file, index) {
                 $uploadList.append(generateUploadListItemMarkup(file, index));
                 $('span.glyphicon.glyphicon-remove.remove-file')
                     .click(function () {
-                    $(this).removeData(file.name);
-                    $(this).parent().parent().find('span.file-name')
+                    $(this).removeData(file.name)
+                        .parent()
+                        .parent()
+                        .find('span.file-name')
                         .filter(function () { return $(this).text() === file.name; })
                         .each(function () { return $(this).parent('div').remove(); });
                     $uploadList.find('span.file-index')

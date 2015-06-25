@@ -1,3 +1,5 @@
 ﻿<div class="{{sentence.style.cssClass}}">
-    <phrase phrase="phrase" parent-id="sentence.id" ng-repeat="phrase in sentence.phrases"></phrase>
+    <phrase phrase="phrase" ng-init="phrase.contextmenuDataSource = phrase.contextmenu"
+            parent-id="sentence.id"
+            ng-repeat="phrase in sentence.phrases" />
 </div>

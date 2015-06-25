@@ -10,7 +10,7 @@ declare module ui.bootstrap.contextMenu {
         (scope: IItemScope<T>, element: ng.IAugmentedJQuery, attrs: IContextMenuDirectiveAttributes)
     }
     interface IContextMenuDirectiveAttributes extends ng.IAttributes {
-        contextMenu: Array<MenuItemList>;
+        contextMenu: Array<MenuItem>;
     }
     interface IContextMenuDirectiveFactory<T> extends ng.IDirectiveFactory {
         ($parse: ng.IParseService): IContextMenuDirectiveLinkFn<T>;
@@ -41,7 +41,7 @@ declare module ui.bootstrap.contextMenu {
         (s: ItemScope, e: ItemEvent): boolean;
     }
 
-    type MenuItemList =
+    type MenuItem =
     [
         string | ComputeName,
         ItemAction
@@ -51,5 +51,5 @@ declare module ui.bootstrap.contextMenu {
         ToggleItem
     ];
 
-    type ContextMenu = MenuItemList[];
+    type ContextMenu = MenuItem[];
 }

@@ -3,11 +3,8 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        angular
-            .module('documentViewer')
-            .directive('document', document);
-        document.$inject = [];
-        function document() {
+        documentViewerDirective.$inject = [];
+        function documentViewerDirective() {
             var link = function (scope, element, attrs) {
                 LASI.log(scope);
                 LASI.log(element);
@@ -15,7 +12,7 @@ var LASI;
             };
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/document.html',
+                templateUrl: '/app/document-viewer/document-viewer-directive.html',
                 replace: true,
                 scope: {
                     document: '='
@@ -23,5 +20,8 @@ var LASI;
                 link: link
             };
         }
+        angular
+            .module('documentViewer')
+            .directive('documentViewerDirective', documentViewerDirective);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

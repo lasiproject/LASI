@@ -9,15 +9,15 @@
 
     interface IResultsService {
         tasks: ITask[];
-        processDocument(documentId: string, documentName: string): ng.IPromise<documentViewer.IDocumentModel>;
+        processDocument(documentId: string, documentName: string): ng.IPromise<models.IDocumentModel>;
     }
     function resultsService($http: ng.IHttpService, $q: ng.IQService): IResultsService {
         var tasks = [];
-        var processDocument = function (documentId, documentName): ng.IPromise<documentViewer.IDocumentModel> {
+        var processDocument = function (documentId, documentName): ng.IPromise<models.IDocumentModel> {
             tasks[documentId] = { percentComplete: 0 };
 
-            var deferred = $q.defer<documentViewer.IDocumentModel>();
-            $http.get<documentViewer.IDocumentModel>('Analysis/' + documentId)
+            var deferred = $q.defer<models.IDocumentModel>();
+            $http.get<models.IDocumentModel>('Analysis/' + documentId)
                 .success(success)
                 .error(error);
             return deferred.promise;

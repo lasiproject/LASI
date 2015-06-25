@@ -2,7 +2,7 @@
 module contextmenuTests {
     'use strict';
 
-    type Item = ui.bootstrap.contextMenu.MenuItemList;
+    type Item = ui.bootstrap.contextMenu.MenuItem;
     import ItemEvent = ui.bootstrap.contextMenu.ItemEvent;
 
     type T = string;

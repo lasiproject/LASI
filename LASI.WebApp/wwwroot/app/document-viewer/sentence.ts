@@ -1,34 +1,30 @@
-﻿// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
-module LASI.documentViewer {
+﻿module LASI.documentViewer {
     'use strict';
 
     angular
         .module('documentViewer')
         .directive('sentence', sentence);
 
-    interface ISentence extends ng.IDirective {
-    }
-
-    interface ISentenceScope extends ng.IScope {
-        sentence: ISentenceModel;
-        parentId: string|number;
-    }
-
-    interface ISentenceAttributes extends ng.IAttributes {
-    }
-
     function sentence(): ISentence {
         return {
             restrict: 'E',
             templateUrl: '/app/document-viewer/sentence.html',
-            link: function (scope: ISentenceScope, element: ng.IAugmentedJQuery, attrs: ISentenceAttributes) {
-                //console.log(attrs);
-            },
+            link: (scope: ISentenceScope, element: ng.IAugmentedJQuery, attrs: ISentenceAttributes) => { },
             scope: {
                 sentence: '=',
                 parentId: '='
             }
         };
+    }
+    interface ISentence extends ng.IDirective {
+    }
+
+    interface ISentenceScope extends ng.IScope {
+        sentence: models.ISentenceModel;
+        parentId: string | number;
+    }
+
+    interface ISentenceAttributes extends ng.IAttributes {
     }
 
 }

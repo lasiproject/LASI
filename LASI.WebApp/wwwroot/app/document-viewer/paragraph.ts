@@ -1,16 +1,17 @@
-﻿module LASI.documentViewer  {
+﻿module LASI.documentViewer {
     'use strict';
+
 
     interface IParagraph extends ng.IDirective {
     }
 
     interface IParagraphScope extends ng.IScope {
-        paragraph: IParagraphModel;
+        paragraph: models.IParagraphModel;
         parentId: string|number;
     }
 
     interface IParagraphAttributes extends ng.IAttributes {
-        paragraph: IParagraphModel;
+        paragraph: models.IParagraphModel;
         parentId: string|number;
     }
 

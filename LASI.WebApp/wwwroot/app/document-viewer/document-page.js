@@ -23,6 +23,6 @@ var LASI;
         }
         angular
             .module('documentViewer')
-            .directive('Directive', directive);
+            .directive('documentPage', directive);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

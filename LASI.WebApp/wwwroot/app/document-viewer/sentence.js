@@ -1,4 +1,3 @@
-// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var LASI;
 (function (LASI) {
     var documentViewer;
@@ -11,9 +10,7 @@ var LASI;
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
-                link: function (scope, element, attrs) {
-                    //console.log(attrs);
-                },
+                link: function (scope, element, attrs) { },
                 scope: {
                     sentence: '=',
                     parentId: '='

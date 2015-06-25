@@ -45,7 +45,7 @@ module LASI.documentList {
                     var headerMarkup = $(createHeaderMarkup(documentId, documentName));
                     var panelMarkup =
                         $(`<div id="${documentId}">
-                           <document document="document"></document></div></div>`);
+                           <document-viewer-directive document="document"></document-viewer-directive></div></div>`);
                     if (!$('#' + documentId).length) {
                         $('#accordion').append(headerMarkup).append(panelMarkup);
 

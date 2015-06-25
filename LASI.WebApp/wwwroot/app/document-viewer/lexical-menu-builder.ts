@@ -7,10 +7,11 @@
 
 
     lexicalMenuBuilder.$inject = [];
+
     import contextMenu = ui.bootstrap.contextMenu;
     export interface ILexicalMenuBuilderFactory {
         buildAngularMenu: (source: IVerbalContextmenuDataSource | IReferencerContextmenuDataSource) => contextMenu.ContextMenu;
-    }
+    }   
     function lexicalMenuBuilder(): ILexicalMenuBuilderFactory {
         var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
@@ -30,21 +31,19 @@
             return !!(menu && menu.refersToIds);
         }
 
-    } function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
-        return (source: IReferencerContextmenuDataSource): contextMenu.ContextMenu => {
-            return [
-                ['View Referred To', (itemScope, event) => {
-                    resetReferencerAsssotionCssClasses();
-                    source.refersToIds
-                        .forEach(id => menuActionTargets[id] = $(`#${id}`).addClass('referred-to-by-current'));
-                }]
-            ];
-        };
-        function resetReferencerAsssotionCssClasses() {
+    }
+    function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
+        var resetReferencerAsssotionCssClasses = () =>
             Object.keys(menuActionTargets)
                 .map(key => menuActionTargets[key])
                 .forEach($e => $e.removeClass('referred-to-by-current'));
-        }
+        return (source: IReferencerContextmenuDataSource): contextMenu.ContextMenu => [
+            ['View Referred To', (itemScope, event) => {
+                resetReferencerAsssotionCssClasses();
+                source.refersToIds
+                    .forEach(id => menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'));
+            }]
+        ];
     }
     function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
         return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
@@ -55,7 +54,7 @@
                         resetVerbalAssociationCssClasses();
                         source.subjectIds
                             .forEach(id => {
-                            menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Subjects']);
+                            menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Subjects']);
                         });
                     }]);
                 }
@@ -63,14 +62,14 @@
                     menuItems.push(['View Direct Objects', (itemScope, event) => {
                         resetVerbalAssociationCssClasses();
                         source.directObjectIds
-                            .forEach(id => menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Direct Objects']));
+                            .forEach(id => menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Direct Objects']));
                     }]);
                 }
                 if (source.indirectObjectIds) {
                     menuItems.push(['View Indirect Objects', (itemScope, event) => {
                         resetVerbalAssociationCssClasses();
                         source.indirectObjectIds.forEach(id => {
-                            menuActionTargets[id] = $(`#${id}`).addClass(verbalMenuCssClassMap['View Indirect Objects']);
+                            menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
                         });
                     }]);
                 }
@@ -89,5 +88,34 @@
             'View Direct Objects': 'direct-object-of-current',
             'View Indirect Objects': 'indirect-object-of-current'
         });
+    }
+    export interface IVerbalContextmenuDataSource {
+        /**
+         * The id of the verbal for which the menu is defined.
+         */
+        lexicalId: number;
+        /**
+         * The ids of any subjects.
+         */
+        subjectIds: number[];
+        /**
+         * The ids of any direct objects.
+         */
+        directObjectIds: number[];
+        /**
+         * The ids of any direct objects.
+         */
+        indirectObjectIds: number[];
+    }
+
+    export interface IReferencerContextmenuDataSource {
+        /**
+         * The id of the referencer for which the menu is defined.
+         */
+        lexicalId: number;
+        /**
+         * The ids of any entities the referred to.
+         */
+        refersToIds: number[];
     }
 }

@@ -1,10 +1,10 @@
-﻿<span ng-if="phrase.hasContextmenu" id="{{phrase.id}}"
+﻿<span ng-if="phrase.hasContextmenuData" id="{{phrase.id}}"
       class="phrase {{phrase.style.cssClass}}"
       title="{{phrase.detailText.trim()}}"
       data-toggle="tooltip" context-menu="phrase.contextmenu">
     {{phrase.text.trim()}}
 </span>
-<span ng-if="!phrase.hasContextmenu" id="{{phrase.id}}"
+<span ng-if="!phrase.hasContextmenuData" id="{{phrase.id}}"
       class="phrase {{phrase.style.cssClass}}"
       title="{{phrase.detailText.trim()}}"
       data-toggle="tooltip">

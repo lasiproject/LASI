@@ -26,20 +26,18 @@ var LASI;
             }
         }
         function createForReferencerMenuBuilder(menuActionTargets) {
-            return function (source) {
-                return [
-                    ['View Referred To', function (itemScope, event) {
-                            resetReferencerAsssotionCssClasses();
-                            source.refersToIds
-                                .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass('referred-to-by-current'); });
-                        }]
-                ];
-            };
-            function resetReferencerAsssotionCssClasses() {
-                Object.keys(menuActionTargets)
+            var resetReferencerAsssotionCssClasses = function () {
+                return Object.keys(menuActionTargets)
                     .map(function (key) { return menuActionTargets[key]; })
                     .forEach(function ($e) { return $e.removeClass('referred-to-by-current'); });
-            }
+            };
+            return function (source) { return [
+                ['View Referred To', function (itemScope, event) {
+                        resetReferencerAsssotionCssClasses();
+                        source.refersToIds
+                            .forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'); });
+                    }]
+            ]; };
         }
         function createForVerbalMenuBuilder(menuActionTargets) {
             return (function (verbalMenuCssClassMap) {
@@ -50,7 +48,7 @@ var LASI;
                                 resetVerbalAssociationCssClasses();
                                 source.subjectIds
                                     .forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Subjects']);
+                                    menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Subjects']);
                                 });
                             }]);
                     }
@@ -58,14 +56,14 @@ var LASI;
                         menuItems.push(['View Direct Objects', function (itemScope, event) {
                                 resetVerbalAssociationCssClasses();
                                 source.directObjectIds
-                                    .forEach(function (id) { return menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
+                                    .forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Direct Objects']); });
                             }]);
                     }
                     if (source.indirectObjectIds) {
                         menuItems.push(['View Indirect Objects', function (itemScope, event) {
                                 resetVerbalAssociationCssClasses();
                                 source.indirectObjectIds.forEach(function (id) {
-                                    menuActionTargets[id] = $("#" + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
+                                    menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
                                 });
                             }]);
                     }
