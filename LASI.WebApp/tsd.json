@@ -6,22 +6,22 @@
     "bundle": "typings/tsd.d.ts",
     "installed": {
         "angularjs/angular.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         },
         "angularjs/angular-resource.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         },
         "angular-ui-bootstrap/angular-ui-bootstrap.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         },
         "angular-file-upload/angular-file-upload.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         },
         "jquery/jquery.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         },
         "qunit/qunit.d.ts": {
-            "commit": "85808bc005818450b16dd77952fc2e9128d15fcb"
+            "commit": "448c3509f1ae76930ebd2d79df23e288172f5a0a"
         }
     }
 }

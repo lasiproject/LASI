@@ -95,7 +95,11 @@ namespace LASI.Content
             }
             catch (PartOfSpeechTagException e) when (e is UnknownPhraseTagException || e is EmptyPhraseTagException)
             {
-                Logger.Log($"\n{e.Message}\nPhrase Words: {lazyWords.Format(lazy => lazy.Value.ToString())}\nInstantiating new System.Func<LASI.Algorithm.UnknownPhrase> to compensate");
+                Logger.Log(
+                    $@"{e.Message}
+                    Phrase Words: {lazyWords.Format(lazy => lazy.Value.ToString())}
+                    Instantiating new {nameof(Func<UnknownPhrase>)} to compensate."
+                );
                 return () => new UnknownPhrase(lazyWords.Select(lazy => lazy.Value));
             }
         }
@@ -106,10 +110,10 @@ namespace LASI.Content
         /// instances which represent them.
         /// </summary>
         /// <param name="text">
-        /// A string containing tagged words from which to instantiate LASI.Algorithm.Word instances.
+        /// A string containing tagged words from which to instantiate <see cref="Word"/> instances.
         /// </param>
         /// <returns>
-        /// The collection of Part of Speech subtyped LASI.Algorithm.Word instances each
+        /// The collection of Part of Speech subtyped <see cref="Word"/> instances each
         /// corresponding to a tagged word element.
         /// </returns>
         protected virtual List<Word> CreateWords(string text)
@@ -130,12 +134,17 @@ namespace LASI.Content
                     }
                     catch (PartOfSpeechTagException e) when (e is EmptyWordTagException || e is UnknownWordTagException)
                     {
-                        Logger.Log($"\n{e.Message}\nText: {pair.Text}\nInstantiating new LASI.Algorithm.UnknownWord to compensate\nAttempting to parse data: {taggedToken}");
+                        Logger.Log(
+                            $@"{e.Message}
+                            Text: {pair.Text}
+                            Instantiating new {nameof(UnknownWord)} to compensate.
+                            Attempting to parse data: {taggedToken}"
+                        );
                         parsedWords.Add(new UnknownWord(pair.Text));
                     }
                     catch (EmptyOrWhiteSpaceStringTaggedAsWordException x)
                     {
-                        Logger.Log("\n" + x.Message + "\nDiscarding");
+                        Logger.Log($"\n{x.Message} + \nDiscarding");
                     }
                 }
             }
@@ -145,12 +154,12 @@ namespace LASI.Content
         /// <summary>
         /// Parses a string of text containing tagged words, e.g. "LASI/NNP can/MD sniff-out/VBP
         /// the/DT problem/NN", and returns of the collection containing, for each word, the
-        /// function which will create the Part of Speech subtyped word instance representing that word.
+        /// function which will create the Part of Speech subtyped <see cref="Word"/> instance representing that word.
         /// </summary>
         /// <param name="text">A string containing tagged words.</param>
         /// <returns>
         /// The List of constructor function instances which, when invoked, create the instances
-        /// LASI.Algorithm.Word which represent each word in the source
+        /// <see cref="Word"/> which represent each word in the source
         /// </returns>
         protected virtual List<Lazy<Word>> CreateWordExpressions(string text)
         {
@@ -170,7 +179,11 @@ namespace LASI.Content
                     }
                     catch (UnknownWordTagException e)
                     {
-                        Logger.Log("\n{0}\nText: {1}\nInstantiating new System.Lazy<LASI.Algorithm.UnknownWord> to compensate\nAttempting to parse data: {2}", e.Message, pair.Text, element);
+                        Logger.Log(
+                            $@"{e.Message}
+                            Text: {pair.Text}
+                            Instantiating new {nameof(Lazy<UnknownWord>)} holding the literal content, {element},  to compensate."
+                        );
                         wordExpressions.Add(new Lazy<Word>(() => new UnknownWord(pair.Text)));
                     }
                 }
@@ -178,7 +191,7 @@ namespace LASI.Content
             return wordExpressions;
         }
 
-        private static IEnumerable<string> SplitIntoSentences(string paragraph, out bool hasBulletOrHeading)
+        private static IEnumerable<string> SplitIntoRawSentenceChunks(string paragraph, out bool hasBulletOrHeading)
         {
             hasBulletOrHeading = paragraph.Contains("<enumeration>");
             return paragraph
@@ -190,15 +203,9 @@ namespace LASI.Content
 
         private Paragraph BuildParagraph(string paragraph)
         {
-            var parsedSentences = new List<Sentence>();
             bool hasBulletOrHeading;
-            var sentences = SplitIntoSentences(paragraph, out hasBulletOrHeading).Select(sentence => sentence.Trim());
-            foreach (var sentence in sentences/*.Where(sentence => !sentence.IsNullOrWhiteSpace())*/)
-            {
-                var parsedSentence = BuildSentence(sentence);
-                parsedSentences.Add(parsedSentence);
-            }
-            return new Paragraph(hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default, parsedSentences);
+            var sentenceChunks = SplitIntoRawSentenceChunks(paragraph, out hasBulletOrHeading).Select(sentence => sentence.Trim());
+            return new Paragraph(hasBulletOrHeading ? ParagraphKind.Enumeration : ParagraphKind.Default, sentenceChunks.Select(BuildSentence).ToList());
         }
 
 
@@ -206,64 +213,75 @@ namespace LASI.Content
         {
             var accumulatedClauses = new List<Clause>();
             var accumulatedPhrases = new List<Phrase>();
-            var chunks = from chunk in sentence.SplitRemoveEmpty('[', ']')
-                         where chunk.Contains('/')
-                         select chunk.Trim();
             SentenceEnding sentenceEnding = null;
-            foreach (var chunk in chunks)
+            foreach (var chunk in from chunk in sentence.SplitRemoveEmpty('[', ']')
+                                  where chunk.Contains('/')
+                                  select chunk.Trim())
             {
-                char? token = SkipToNextToken(chunk);
-                if (token == ' ')
+                var tokenDelimiter = FindNextTokenDelimiter(chunk);
+                switch (tokenDelimiter)
                 {
-                    var phraseTag = chunk.Substring(0, chunk.IndexOf(' '));
-                    var phraseText = chunk.Substring(chunk.IndexOf(' '));
-                    var currentPhrase = CreatePhrase(phraseTag, phraseText);
+                    case TokenDelimiter.PhraseContent:
+                        var phraseTag = chunk.Substring(0, chunk.IndexOf(' '));
+                        var phraseText = chunk.Substring(chunk.IndexOf(' '));
+                        var currentPhrase = CreatePhrase(phraseTag, phraseText);
 
-                    if (currentPhrase.Words.Any(word => !word.Text.IsNullOrWhiteSpace()))
-                    {
-                        accumulatedPhrases.Add(currentPhrase);
-                    }
-                    if (currentPhrase is SubordinateClauseBeginPhrase)
-                    {
-                        // Create a new clause comprised of the previously accumulated phrases and add it to the accumulated clauses.
-                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count - 1)));
-                        // Reset the accumulated phrase list initializing it with the subordinate clause begin phrase.
-                        accumulatedPhrases = new List<Phrase> { currentPhrase };
-                    }
-                }
-                else if (token == '/')
-                {
-                    var words = CreateWords(chunk);
+                        if (currentPhrase.Words.Any(word => !word.Text.IsNullOrWhiteSpace()))
+                        {
+                            accumulatedPhrases.Add(currentPhrase);
+                        }
+                        if (currentPhrase is SubordinateClauseBeginPhrase)
+                        {
+                            // Create a new clause comprised of the previously accumulated phrases and add it to the accumulated clauses.
+                            accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count - 1)));
+                            // Reset the accumulated phrase list initializing it with the subordinate clause begin phrase.
+                            accumulatedPhrases = new List<Phrase> { currentPhrase };
+                        }
+                        break;
+                    case TokenDelimiter.WordContent:
+                        var words = CreateWords(chunk);
 
-                    if (words.Any(w => w is SingleQuote || w is DoubleQuote))
-                    {
-                        accumulatedPhrases.Add(new SymbolPhrase(words));
-                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
-                        accumulatedPhrases = new List<Phrase>();
-                    }
-                    else if (words.All(word => word is Conjunction) || words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)
-                    {
-                        accumulatedPhrases.Add(new ConjunctionPhrase(words));
-                    }
-                    else if (words.Count == 1 && words[0] is SentenceEnding)
-                    {
-                        sentenceEnding = words[0] as SentenceEnding;
-                        accumulatedClauses.Add(new Clause(accumulatedPhrases.Take(accumulatedPhrases.Count)));
-                        accumulatedPhrases = new List<Phrase>();
-                    }
-                    else if (words.All(w => w is Punctuator || w is Conjunction))
-                    {
-                        accumulatedPhrases.Add(new SymbolPhrase(words));
-                    }
-                    else
-                    {
-                        accumulatedPhrases.Add(new UnknownPhrase(words));
-                    }
+                        if (words.Any(word => word is SingleQuote || word is DoubleQuote))
+                        {
+                            accumulatedPhrases.Add(new SymbolPhrase(words));
+                            accumulatedClauses.Add(new Clause(accumulatedPhrases));
+                            accumulatedPhrases = new List<Phrase>();
+                        }
+                        else if (words.All(word => word is Conjunction) || words.Count == 2 && words[0] is Punctuator && words[1] is Conjunction)
+                        {
+                            accumulatedPhrases.Add(new ConjunctionPhrase(words));
+                        }
+                        else if (words.Count == 1 && words[0] is SentenceEnding)
+                        {
+                            sentenceEnding = words[0] as SentenceEnding;
+                            accumulatedClauses.Add(new Clause(accumulatedPhrases));
+                            accumulatedPhrases = new List<Phrase>();
+                        }
+                        else if (words.All(w => w is Punctuator || w is Conjunction))
+                        {
+                            accumulatedPhrases.Add(new SymbolPhrase(words));
+                        }
+                        else
+                        {
+                            accumulatedPhrases.Add(new UnknownPhrase(words));
+                        }
+                        break;
+                    default: break;
                 }
             }
             return new Sentence(accumulatedClauses, sentenceEnding);
         }
-        char? SkipToNextToken(string chunk) => chunk.Cast<char?>().SkipWhile(c => c != ' ' && c != '/').FirstOrDefault();
+        TokenDelimiter FindNextTokenDelimiter(string chunk)
+        {
+            var c = chunk.Cast<char?>().SkipWhile(k => k != ' ' && k != '/').FirstOrDefault();
+            return c == ' ' ? TokenDelimiter.PhraseContent : c == '/' ? TokenDelimiter.WordContent : TokenDelimiter.NoContent;
+        }
+        private enum TokenDelimiter
+        {
+            NoContent = 0,
+            WordContent,
+            PhraseContent
+        }
 
         private Phrase CreatePhrase(string phraseTag, string phraseText)
         {
@@ -274,7 +292,11 @@ namespace LASI.Content
             }
             catch (Exception e) when (e is UnknownPhraseTagException || e is EmptyPhraseTagException)
             {
-                Logger.Log($"\n{e.Message}\nPhrase Words: {words.Format()}\nInstantiating new LASI.Algorithm.UnknownPhrase to compensate");
+                Logger.Log(
+                    $@"{e.Message}
+                    Phrase Words: {words.Format()}
+                    Creating a new {nameof(UnknownPhrase)} holding the literal content to compensate"
+                );
                 return new UnknownPhrase(words);
             }
         }

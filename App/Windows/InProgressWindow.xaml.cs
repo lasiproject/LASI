@@ -57,13 +57,12 @@ namespace LASI.App
             var loadedEvents = ConfigureLoadedEventStream(resourceLoadingNotifier);
             var analysisUpdateEvents = ConfigureAnalysisUpdateEvents(analysisOrchestrator);
 
-
-            var events = (
-                from pattern in Observable.Merge(
-                    from ex in loadingEvents select ex.EventArgs,
-                    from ex in loadedEvents select ex.EventArgs,
-                    from ex in analysisUpdateEvents select ex.EventArgs)
-                select new
+            Observable.Merge(
+                    loadingEvents.Select(pattern => pattern.EventArgs),
+                    loadedEvents.Select(pattern => pattern.EventArgs),
+                    analysisUpdateEvents.Select(pattern => pattern.EventArgs)
+                )
+                .Select(pattern => new
                 {
                     pattern.Message,
                     Progress = pattern.PercentWorkRepresented
