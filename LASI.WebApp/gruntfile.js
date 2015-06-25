@@ -4,6 +4,15 @@
 module.exports = function (grunt) {
     'use strict';
     grunt.initConfig({
+        bower: {
+            install: {
+                options: {
+                    targetDir: "wwwroot/lib",
+                    layout: "byComponent",
+                    cleanTargetDir: true
+                }
+            }
+        },
         typescript: {
             base: {
                 src: [
@@ -28,15 +37,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        bower: {
-            install: {
-                options: {
-                    targetDir: "wwwroot/lib",
-                    layout: "byComponent",
-                    cleanTargetDir: true
-                }
-            }
-        },
         tslint: {
             options: {
                 // Load the tslint rules from ./tslint.json. 
@@ -44,18 +44,11 @@ module.exports = function (grunt) {
                 configuration: grunt.file.readJSON('tslint.json')
             },
             app: {
-                src: [
-                    'wwwroot/app/widgets/**/*.ts',
-                    'wwwroot/app/document-viewer/**/*.ts',
-                    'wwwroot/app/*.ts',
-                ]
+                src: ['wwwroot/app/**/*.ts']
             },
             test: {
                 src: ['wwwroot/test/**/*.ts']
             }
-        },
-        qunit: {
-            all: ['wwwroot/test/**/*.html']
         },
         cssmin: {
             options: {
@@ -74,6 +67,9 @@ module.exports = function (grunt) {
                     'wwwroot/dist/lib/lib.min.css': ['wwwroot/lib/**/*.css']
                 }
             }
+        },
+        qunit: {
+            all: ['wwwroot/test/**/*.html']
         },
         watch: {
             appts: {

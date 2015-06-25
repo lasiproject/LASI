@@ -82,23 +82,6 @@ var LASI;
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        'use strict';
-        angular
-            .module('documentViewer', [
-            'ngResource',
-            'ui.bootstrap',
-            'ui.bootstrap.contextMenu'
-        ]).config(configure);
-        configure.$inject = [];
-        function configure() {
-        }
-        ;
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
     var documentList;
     (function (documentList) {
         'use strict';
@@ -119,6 +102,23 @@ var LASI;
                 .setDocumentListUrl('api/UserDocuments/List');
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        'use strict';
+        angular
+            .module('documentViewer', [
+            'ngResource',
+            'ui.bootstrap',
+            'ui.bootstrap.contextMenu'
+        ]).config(configure);
+        configure.$inject = [];
+        function configure() {
+        }
+        ;
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function () {
@@ -168,7 +168,7 @@ var contextmenuTests;
             $.getJSON('api/Tasks', { cache: false })
                 .then(function (tasks) {
                 debugPanel.html(tasks.map(function (task) {
-                    return "<div>" + Object.keys(task).map(function (key) {
+                    return "<div> + " + Object.keys(task).map(function (key) {
                         return "<span>&nbsp&nbsp" + task[key] + "</span>";
                     }) + "</div>";
                 }).join());
@@ -176,6 +176,345 @@ var contextmenuTests;
         }, 800);
     });
 }(console.log.bind(console)));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .directive('documentListMenuItem', documentListMenuItem);
+        documentListMenuItem.$inject = ['$window', 'resultsService'];
+        function documentListMenuItem($window, resultsService) {
+            return {
+                transclude: true,
+                replace: true,
+                restrict: 'E',
+                templateUrl: '/app/document-list/document-list-menu-item.html',
+                scope: {
+                    name: '=',
+                    documentId: '='
+                },
+                link: function (scope, element, attrs, ctrl) {
+                    element.click(function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        var promise = resultsService.processDocument(scope.documentId, scope.name);
+                        scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
+                        scope.showProgress = true;
+                        promise.then(function () {
+                            scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
+                        });
+                    });
+                }
+            };
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        var DocumentListServiceProvider = (function () {
+            function DocumentListServiceProvider() {
+                this.$inject = ['$resource'];
+                this.$get.$inject = ['$resource'];
+            }
+            DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
+                this.documentListUrl = url;
+                return this;
+            };
+            DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
+                this.recentDocumentCount = count;
+                return this;
+            };
+            DocumentListServiceProvider.prototype.$get = function ($resource) {
+                var resource = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
+                    get: {
+                        method: 'GET',
+                        isArray: true
+                    },
+                    delete: {
+                        method: 'DELETE',
+                        isArray: false
+                    }
+                });
+                return {
+                    deleteDocument: function (documentId) {
+                        return resource.delete({ documentId: documentId })[0];
+                    },
+                    getDocumentList: resource.get
+                };
+            };
+            ;
+            return DocumentListServiceProvider;
+        })();
+        angular
+            .module('documentList')
+            .provider('documentListService', DocumentListServiceProvider);
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .directive('documentListTabsetItem', documentListTabsetItem);
+        documentListTabsetItem.$inject = ['resultsService'];
+        function documentListTabsetItem(resultsService) {
+            return {
+                restrict: 'E',
+                link: function (scope, element, attrs) {
+                    element.click(function (event) {
+                        event.stopPropagation();
+                        resultsService.processDocument(scope.documentId, scope.name);
+                        event.preventDefault();
+                        var promise = resultsService.processDocument(scope.documentId, scope.name);
+                        scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
+                        scope.showProgress = true;
+                        promise.then(function () { return scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete; });
+                    });
+                    console.log(attrs);
+                },
+                scope: {
+                    documentId: '=',
+                    name: '=',
+                    percentComplete: '='
+                },
+                templateUrl: '/app/document-list/document-list-tabset-item.html'
+            };
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .factory('documentsService', documentsService);
+        documentsService.$inject = ['$resource'];
+        function documentsService($resource) {
+            var userDocouments = $resource('api/UserDocuments/:documentId');
+            function getbyId(documentId) {
+                return userDocouments.get({ documentId: documentId });
+            }
+            function deleteById(documentId) {
+                return userDocouments.delete({ documentId: documentId });
+            }
+            return {
+                deleteById: deleteById,
+                getbyId: getbyId
+            };
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .controller('ListController', ListController);
+        ListController.$inject = [
+            '$q', '$log', '$rootScope', 'documentListService',
+            'tasksListService', 'documentsService', 'DocumentModelService'
+        ];
+        function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
+            var vm = this;
+            vm.title = 'ListController';
+            vm.documents = [];
+            Object.defineProperty(vm, 'documentCount', {
+                get: function () { return vm.documents.length; },
+                enumerable: true,
+                configurable: false
+            });
+            vm.expanded = false;
+            activate();
+            function activate() {
+                vm.deleteById = function (id) {
+                    var deleteResult = documentsService.deleteById(id);
+                    $log.info(deleteResult);
+                    vm.documents = documentListService.getDocumentList();
+                };
+                vm.processDocument = function (documentId) {
+                    var deferred = $q.defer();
+                    $q.when(documentModelService.processDocument(documentId)).then(function (data) {
+                        $q.when(data).then(function (d) {
+                            vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
+                            if (!$rootScope.$$phase) {
+                                $rootScope.$apply();
+                            }
+                        });
+                    });
+                };
+                $q.all([
+                    $q.when(documentListService.getDocumentList()),
+                    $q.when(tasksListService.getActiveTasks(function (tasks) { return tasks.forEach(function (task) {
+                        vm.tasks[task.id] = task;
+                        vm.documents.filter(function (d) { return d.name === task.name; })[0].task = task;
+                    }); }))
+                ]).then(function (promises) {
+                    vm.documents = promises[0];
+                    vm.documents.correlate(promises[1], function (document) { return document.id; }, function (task) { return task.id; })
+                        .forEach(function (documentWithTask) {
+                        var document = documentWithTask.first, task = documentWithTask.second;
+                        document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
+                        document.progress = Math.round(task.percentComplete);
+                        document.statusMessage = task.statusMessage;
+                    });
+                    vm.tasks = {};
+                    promises[1].forEach(function (task) { vm.tasks[task.id] = task; });
+                });
+            }
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .factory('resultsService', resultsService);
+        resultsService.$inject = ['$http', '$q'];
+        function resultsService($http, $q) {
+            var tasks = [];
+            var processDocument = function (documentId, documentName) {
+                tasks[documentId] = { percentComplete: 0 };
+                var deferred = $q.defer();
+                $http.get('Analysis/' + documentId)
+                    .success(success)
+                    .error(error);
+                return deferred.promise;
+                function success(data) {
+                    var markupHeader = $('<div class="panel panel-default">' +
+                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' +
+                        documentId +
+                        '" data-toggle="collapse" data-parent="#accordion">' +
+                        documentName +
+                        '</a></h4></div></div>');
+                    var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' +
+                        JSON.stringify(data) + '</div>' + '</div>');
+                    if (!$('#' + documentId).length) {
+                        $('#accordion').append(markupHeader).append(markupPanel);
+                    }
+                    else {
+                        $('#' + documentId).remove();
+                        $('#accordion').append(markupPanel);
+                    }
+                    LASI.buildMenus();
+                    LASI.enableActiveHighlighting();
+                    tasks[documentId].percentComplete = 100;
+                    deferred.resolve(data);
+                }
+                function error(xhr, message, detail) {
+                    deferred.reject(message);
+                }
+            };
+            return {
+                tasks: tasks,
+                processDocument: processDocument
+            };
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .provider('tasksListService', tasksListServiceProvider);
+        function tasksListServiceProvider() {
+            var updateInterval = 200;
+            var tasksListUrl = 'api/Tasks';
+            $get.$inject = ['$resource', '$window'];
+            return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
+            function setUpdateInterval(milliseconds) {
+                updateInterval = milliseconds;
+                return this;
+            }
+            function setTasksListUrl(url) {
+                tasksListUrl = url;
+                return this;
+            }
+            function $get($resource, $window) {
+                var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
+                var Tasks = $resource(tasksListUrl, { cache: false }, {
+                    get: {
+                        method: 'GET', isArray: true
+                    }
+                });
+                var tasks = [];
+                var getActiveTasks = function (callback) {
+                    $window.setInterval(function () {
+                        callback(tasks);
+                        tasks = Tasks.get();
+                        updateDebugInfo(tasks);
+                    }, updateInterval);
+                    return tasks;
+                };
+                return {
+                    getActiveTasks: getActiveTasks
+                };
+            }
+            function createDebugInfoUpdator(element) {
+                return function (tasks) { return element
+                    .html(tasks
+                    .map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); })
+                    .join()); };
+            }
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentList;
+    (function (documentList) {
+        'use strict';
+        angular
+            .module('documentList')
+            .controller('UploadController', UploadController);
+        UploadController.$inject = ['$scope', 'Upload'];
+        function UploadController($scope, uploadService) {
+            var vm = this;
+            activate();
+            vm.files = [];
+            vm.uploadFile = function (file) { return uploadService.upload({
+                file: file,
+                url: 'api/UserDocuments',
+                method: 'POST',
+                fileName: file.name
+            }).progress(progress).success(success); };
+            vm.uploadFiles = function (files) { return (files || []).map(vm.uploadFile); };
+            $scope.$watch('files', vm.uploadFiles);
+            function progress(event) {
+                var progressPercentage = 100.0 * event.loaded / event.total;
+                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
+            }
+            function success(data, status, headers, config) {
+                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+            }
+            function activate() {
+                vm.formats = [
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/msword',
+                    'application/pdf',
+                    'text/plain'
+                ];
+                vm.fileInputAcceptText = vm.formats.join(',');
+            }
+        }
+    })(documentList = LASI.documentList || (LASI.documentList = {}));
+})(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
     var documentViewer;
@@ -522,345 +861,6 @@ var LASI;
                 $listItemRefs.click(click);
             }, 1000);
         });
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .directive('documentListMenuItem', documentListMenuItem);
-        documentListMenuItem.$inject = ['$window', 'resultsService'];
-        function documentListMenuItem($window, resultsService) {
-            return {
-                transclude: true,
-                replace: true,
-                restrict: 'E',
-                templateUrl: '/app/widgets/document-list/document-list-menu-item.html',
-                scope: {
-                    name: '=',
-                    documentId: '='
-                },
-                link: function (scope, element, attrs, ctrl) {
-                    element.click(function (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        var promise = resultsService.processDocument(scope.documentId, scope.name);
-                        scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
-                        scope.showProgress = true;
-                        promise.then(function () {
-                            scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
-                        });
-                    });
-                }
-            };
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        var DocumentListServiceProvider = (function () {
-            function DocumentListServiceProvider() {
-                this.$inject = ['$resource'];
-                this.$get.$inject = ['$resource'];
-            }
-            DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
-                this.documentListUrl = url;
-                return this;
-            };
-            DocumentListServiceProvider.prototype.setRecentDocumentCount = function (count) {
-                this.recentDocumentCount = count;
-                return this;
-            };
-            DocumentListServiceProvider.prototype.$get = function ($resource) {
-                var resource = $resource(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
-                    get: {
-                        method: 'GET',
-                        isArray: true
-                    },
-                    delete: {
-                        method: 'DELETE',
-                        isArray: false
-                    }
-                });
-                return {
-                    deleteDocument: function (documentId) {
-                        return resource.delete({ documentId: documentId })[0];
-                    },
-                    getDocumentList: resource.get
-                };
-            };
-            ;
-            return DocumentListServiceProvider;
-        })();
-        angular
-            .module('documentList')
-            .provider('documentListService', DocumentListServiceProvider);
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .directive('documentListTabsetItem', documentListTabsetItem);
-        documentListTabsetItem.$inject = ['resultsService'];
-        function documentListTabsetItem(resultsService) {
-            return {
-                restrict: 'E',
-                link: function (scope, element, attrs) {
-                    element.click(function (event) {
-                        event.stopPropagation();
-                        resultsService.processDocument(scope.documentId, scope.name);
-                        event.preventDefault();
-                        var promise = resultsService.processDocument(scope.documentId, scope.name);
-                        scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete;
-                        scope.showProgress = true;
-                        promise.then(function () { return scope.analysisProgress = resultsService.tasks[scope.documentId].percentComplete; });
-                    });
-                    console.log(attrs);
-                },
-                scope: {
-                    documentId: '=',
-                    name: '=',
-                    percentComplete: '='
-                },
-                templateUrl: '/app/widgets/document-list/document-list-tabset-item.html'
-            };
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .factory('documentsService', documentsService);
-        documentsService.$inject = ['$resource'];
-        function documentsService($resource) {
-            var userDocouments = $resource('api/UserDocuments/:documentId');
-            function getbyId(documentId) {
-                return userDocouments.get({ documentId: documentId });
-            }
-            function deleteById(documentId) {
-                return userDocouments.delete({ documentId: documentId });
-            }
-            return {
-                deleteById: deleteById,
-                getbyId: getbyId
-            };
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .controller('ListController', ListController);
-        ListController.$inject = [
-            '$q', '$log', '$rootScope', 'documentListService',
-            'tasksListService', 'documentsService', 'DocumentModelService'
-        ];
-        function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
-            var vm = this;
-            vm.title = 'ListController';
-            vm.documents = [];
-            Object.defineProperty(vm, 'documentCount', {
-                get: function () { return vm.documents.length; },
-                enumerable: true,
-                configurable: false
-            });
-            vm.expanded = false;
-            activate();
-            function activate() {
-                vm.deleteById = function (id) {
-                    var deleteResult = documentsService.deleteById(id);
-                    $log.info(deleteResult);
-                    vm.documents = documentListService.getDocumentList();
-                };
-                vm.processDocument = function (documentId) {
-                    var deferred = $q.defer();
-                    $q.when(documentModelService.processDocument(documentId)).then(function (data) {
-                        $q.when(data).then(function (d) {
-                            vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
-                            if (!$rootScope.$$phase) {
-                                $rootScope.$apply();
-                            }
-                        });
-                    });
-                };
-                $q.all([
-                    $q.when(documentListService.getDocumentList()),
-                    $q.when(tasksListService.getActiveTasks(function (tasks) { return tasks.forEach(function (task) {
-                        vm.tasks[task.id] = task;
-                        vm.documents.filter(function (d) { return d.name === task.name; })[0].task = task;
-                    }); }))
-                ]).then(function (promises) {
-                    vm.documents = promises[0];
-                    vm.documents.correlate(promises[1], function (document) { return document.id; }, function (task) { return task.id; })
-                        .forEach(function (documentWithTask) {
-                        var document = documentWithTask.first, task = documentWithTask.second;
-                        document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
-                        document.progress = Math.round(task.percentComplete);
-                        document.statusMessage = task.statusMessage;
-                    });
-                    vm.tasks = {};
-                    promises[1].forEach(function (task) { vm.tasks[task.id] = task; });
-                });
-            }
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .factory('resultsService', resultsService);
-        resultsService.$inject = ['$http', '$q'];
-        function resultsService($http, $q) {
-            var tasks = [];
-            var processDocument = function (documentId, documentName) {
-                tasks[documentId] = { percentComplete: 0 };
-                var deferred = $q.defer();
-                $http.get('Analysis/' + documentId)
-                    .success(success)
-                    .error(error);
-                return deferred.promise;
-                function success(data) {
-                    var markupHeader = $('<div class="panel panel-default">' +
-                        '<div class="panel-heading"><h4 class="panel-title"><a href="#' +
-                        documentId +
-                        '" data-toggle="collapse" data-parent="#accordion">' +
-                        documentName +
-                        '</a></h4></div></div>');
-                    var markupPanel = $('<div id="' + documentId + '" class="panel-collapse collapse in">' +
-                        JSON.stringify(data) + '</div>' + '</div>');
-                    if (!$('#' + documentId).length) {
-                        $('#accordion').append(markupHeader).append(markupPanel);
-                    }
-                    else {
-                        $('#' + documentId).remove();
-                        $('#accordion').append(markupPanel);
-                    }
-                    LASI.buildMenus();
-                    LASI.enableActiveHighlighting();
-                    tasks[documentId].percentComplete = 100;
-                    deferred.resolve(data);
-                }
-                function error(xhr, message, detail) {
-                    deferred.reject(message);
-                }
-            };
-            return {
-                tasks: tasks,
-                processDocument: processDocument
-            };
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .provider('tasksListService', tasksListServiceProvider);
-        function tasksListServiceProvider() {
-            var updateInterval = 200;
-            var tasksListUrl = 'api/Tasks';
-            $get.$inject = ['$resource', '$window'];
-            return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
-            function setUpdateInterval(milliseconds) {
-                updateInterval = milliseconds;
-                return this;
-            }
-            function setTasksListUrl(url) {
-                tasksListUrl = url;
-                return this;
-            }
-            function $get($resource, $window) {
-                var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
-                var Tasks = $resource(tasksListUrl, { cache: false }, {
-                    get: {
-                        method: 'GET', isArray: true
-                    }
-                });
-                var tasks = [];
-                var getActiveTasks = function (callback) {
-                    $window.setInterval(function () {
-                        callback(tasks);
-                        tasks = Tasks.get();
-                        updateDebugInfo(tasks);
-                    }, updateInterval);
-                    return tasks;
-                };
-                return {
-                    getActiveTasks: getActiveTasks
-                };
-            }
-            function createDebugInfoUpdator(element) {
-                return function (tasks) { return element
-                    .html(tasks
-                    .map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); })
-                    .join()); };
-            }
-        }
-    })(documentList = LASI.documentList || (LASI.documentList = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentList;
-    (function (documentList) {
-        'use strict';
-        angular
-            .module('documentList')
-            .controller('UploadController', UploadController);
-        UploadController.$inject = ['$scope', 'Upload'];
-        function UploadController($scope, uploadService) {
-            var vm = this;
-            activate();
-            vm.files = [];
-            vm.uploadFile = function (file) { return uploadService.upload({
-                file: file,
-                url: 'api/UserDocuments',
-                method: 'POST',
-                fileName: file.name
-            }).progress(progress).success(success); };
-            vm.uploadFiles = function (files) { return (files || []).map(vm.uploadFile); };
-            $scope.$watch('files', vm.uploadFiles);
-            function progress(event) {
-                var progressPercentage = 100.0 * event.loaded / event.total;
-                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
-            }
-            function success(data, status, headers, config) {
-                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
-            }
-            function activate() {
-                vm.formats = [
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'application/msword',
-                    'application/pdf',
-                    'text/plain'
-                ];
-                vm.fileInputAcceptText = vm.formats.join(',');
-            }
-        }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />

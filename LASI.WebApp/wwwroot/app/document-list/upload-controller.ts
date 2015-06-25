@@ -4,9 +4,7 @@
         .module('documentList')
         .controller('UploadController', UploadController);
 
-
     interface IUploadControllerScope extends ng.IScope {
-
         files: File[];
     }
     UploadController.$inject = ['$scope', 'Upload'];

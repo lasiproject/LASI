@@ -2,14 +2,15 @@
     "rules": {
         "use-strict": [ true ],
         "class-name": true,
-        "interface-name": true,
+        "interface-name": false,
         "curly": true,
         "eofline": false,
         "forin": true,
+        "no-switch-case-fall-through": true,
         "indent": [ true, 4 ],
         "label-position": true,
         "label-undefined": true,
-        "max-line-length": [ true, 140 ],
+        "max-line-length": [ true, 160 ],
         "no-arg": true,
         "no-bitwise": true,
         "no-console": [

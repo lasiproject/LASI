@@ -75,4 +75,3 @@
         .filter(function (property) { return !Object.prototype.hasOwnProperty.call(Array.prototype, property.name); })
         .forEach(function (property) { return Object.defineProperty(Array.prototype, property.name, property.value); });
 })();
-//# sourceMappingURL=augmentations.js.map

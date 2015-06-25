@@ -15,7 +15,7 @@
             $.getJSON('api/Tasks', { cache: false })
                 .then(function (tasks) {
                 debugPanel.html(tasks.map(function (task) {
-                    return "<div>" + Object.keys(task).map(function (key) {
+                    return "<div> + " + Object.keys(task).map(function (key) {
                         return "<span>&nbsp&nbsp" + task[key] + "</span>";
                     }) + "</div>";
                 }).join());
