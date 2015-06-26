@@ -1,0 +1,22 @@
+﻿{
+    "all": {
+        "src": [
+            "wwwroot/app/utilities/augmentations.ts",
+            "wwwroot/app/lasi.ts",
+            "wwwroot/app/**/*.module.ts",
+            "wwwroot/app/**/*.ts"
+        ],
+        "dest": "wwwroot/dist/app/app.js",
+        "options": {
+            "references": [ "typings/**/*.d.ts" ],
+            "version": "1.5.0-beta",
+            "noImplicitAny": false,
+            "noEmitOnError": false,
+            "removeComments": true,
+            "sourceMap": true,
+            "target": "es5",
+            "declaration": false,
+            "watch": false
+        }
+    }
+}

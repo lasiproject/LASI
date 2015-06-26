@@ -5,5 +5,5 @@ var LASI;
     LASI.enableActiveHighlighting;
     LASI.setupDraggableDialogs;
     LASI.log = console.log.bind(console);
-    LASI.editor = $('#free-editor').change(LASI.log);
+    LASI.editor = $('#free-editor').change(LASI.log); // TODO: parameterize selector.
 })(LASI || (LASI = {}));

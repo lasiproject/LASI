@@ -46,3 +46,7 @@
 /// <reference path="app/document-list/upload-controller.js" />
 /// <reference path="app/debug-panel/debug-panel.js" />
 /// <reference path="app/document-viewer/tests/mock-document-model-service.js" />
+/// <reference path="lib/angular-paginate/angular-paginate.js" />
+/// <reference path="lib/angular-ui-router/angular-ui-router.js" />
+/// <reference path="lib/angular-paginate/angular-paginate.js" />
+/// <reference path="lib/angular-ui-router/angular-ui-router.js" />

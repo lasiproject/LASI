@@ -1,0 +1,18 @@
+﻿{
+    "options": {
+        "shorthandCompacting": false,
+        "roundingPrecision": -1,
+        "sourceMap": true,
+        "verbose": true
+    },
+    "app": {
+        "files": {
+            "wwwroot/dist/app/app.min.css": [ "wwwroot/css/**/*.css" ]
+        }
+    },
+    "lib": {
+        "files": {
+            "wwwroot/dist/lib/lib.min.css": [ "wwwroot/lib/**/*.css" ]
+        }
+    }
+}
