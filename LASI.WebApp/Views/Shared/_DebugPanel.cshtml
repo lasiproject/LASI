@@ -1,6 +1,10 @@
-﻿<div class="panel panel-body">
-
+﻿<div ng-controller="DebugPanelController as status" class="panel panel-body">
     <button class="btn btn-danger" id="toggle-debug-panel">hide</button>
-    <div id="debug-panel">
+    <div id="debug-panel" class="panel panel-info">
+        <ul class="list-group">
+            <li ng-repeat="task in status.tasks" class="list-group-item">
+                id: {{task.id}}, name: {{task.name}}, state: {{task.state}}, percentComplete: {{task.percentComplete}}, statusMessage: {{task.statusMessage}}
+            </li>
+        </ul>
     </div>
 </div>

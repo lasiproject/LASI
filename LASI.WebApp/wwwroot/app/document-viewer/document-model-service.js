@@ -8,9 +8,6 @@ var LASI;
                 this.$resource = $resource;
                 this.documentSource = $resource('Analysis/:documentId');
             }
-            DocumentModelService.prototype.getData = function () {
-                return this.$resource('tests/test-data/doc.json').get();
-            };
             DocumentModelService.prototype.processDocument = function (documentId) {
                 return this.documentSource.get({ documentId: documentId });
             };

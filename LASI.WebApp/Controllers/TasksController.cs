@@ -20,7 +20,7 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public IEnumerable<WorkItem> Get() => workItemsService.GetAllWorkItemsForUser(User.GetUserId());
 
-        [HttpPost("api/Tasks/Reset/{userId}")]
+        [HttpPost]
         public void Reset(string userId)
         {
             if (workItemsService is WorkItemsService) { ((WorkItemsService)workItemsService).RemoveAllForUser(userId); }

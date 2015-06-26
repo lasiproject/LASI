@@ -1,8 +1,8 @@
 {
-  "profiles": {
-    "web": {
-      "commandName": "web",
-      "sdkVersion": "dnx-clr-win-x64.1.0.0-beta4"
+    "profiles": {
+        "debug": {
+            "launchUrl": "http://localhost/14386",
+            "launchBrowser": true
+        }
     }
-  }
 }

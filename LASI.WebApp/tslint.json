@@ -1,6 +1,6 @@
 {
     "rules": {
-        "use-strict": [ true ],
+        "use-strict": [ "check-function", "check-module", true ],
         "class-name": true,
         "interface-name": false,
         "curly": true,
@@ -33,7 +33,6 @@
         "no-var-requires": true,
         "no-trailing-comma": true,
         "one-line": [
-            true,
             "check-open-brace",
             "check-catch",
             "check-else",
@@ -51,6 +50,7 @@
             "check-operator",
             "check-separator",
             "check-type"
-        ]
+        ],
+        "ban": [ [ "eval", "setTimeout" ] ]
     }
 }

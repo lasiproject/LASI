@@ -8,7 +8,8 @@
         'ui.bootstrap.contextMenu',
         'ngFileUpload',
 
-        'documentViewer'
+        'documentViewer',
+        'debug'
     ]).config(configure);
 
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];

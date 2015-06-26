@@ -8,7 +8,8 @@ var LASI;
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
             'ngFileUpload',
-            'documentViewer'
+            'documentViewer',
+            'debug'
         ]).config(configure);
         configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
         function configure(tasksListServiceProvider, documentListServiceProvider) {

@@ -24,7 +24,7 @@
         }
 
         function $get($resource: ng.resource.IResourceService, $window: ng.IWindowService): ITasksListService {
-            var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
+            var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
             var Tasks = $resource<ITask[]>(tasksListUrl, { cache: false }, {
                 get: {
                     method: 'GET', isArray: true

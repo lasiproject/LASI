@@ -2,7 +2,6 @@
     'use strict';
 
     export interface IDocumentModelService {
-        getData(): models.IDocumentModel;
         processDocument(documentId: string): models.IDocumentModel;
     }
 
@@ -11,10 +10,6 @@
         documentSource: ng.resource.IResourceClass<models.IDocumentModel>;
         constructor(private $resource: ng.resource.IResourceService) {
             this.documentSource = $resource<models.IDocumentModel>('Analysis/:documentId');
-        }
-
-        getData() {
-            return this.$resource<models.IDocumentModel>('tests/test-data/doc.json').get();
         }
         processDocument(documentId: string) {
             return this.documentSource.get({ documentId });

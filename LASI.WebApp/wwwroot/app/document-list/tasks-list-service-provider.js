@@ -20,7 +20,7 @@ var LASI;
                 return this;
             }
             function $get($resource, $window) {
-                var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
+                var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
                 var Tasks = $resource(tasksListUrl, { cache: false }, {
                     get: {
                         method: 'GET', isArray: true

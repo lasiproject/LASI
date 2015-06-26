@@ -1,25 +1,32 @@
 ﻿/// <reference path="../../../typings/jquery/jquery.d.ts" />
-(function (log) {
-    $(function () {
-        var debugPanel = $('#debug-panel');
-        var visible = true;
-        var toggleButton = $('#toggle-debug-panel');
-        toggleButton.click(function () {
-            visible = !visible;
-            debugPanel.toggle();
-            toggleButton.text(visible ? 'hide' : 'show')
-                .toggleClass('btn-danger')
-                .toggleClass('btn-info');
-        });
-        window.setInterval(function () {
-            $.getJSON('api/Tasks', { cache: false })
-                .then(function (tasks) {
-                debugPanel.html(tasks.map(function (task) {
-                    return `<div> + ${Object.keys(task).map(function (key) {
-                        return `<span>&nbsp&nbsp${task[key]}</span>`;
-                    })}</div>`;
-                }).join());
-            });
-        }, 800);
-    });
-} (console.log.bind(console)));
+/// <reference path="../../../typings/angularjs/angular.d.ts" />
+
+module LASI.debug {
+    'use strict';
+
+   
+    class DebugPanelController {
+        static $inject = ['$http', '$interval'];
+
+        tasks: Task[] = [];
+
+        constructor($http: ng.IHttpService, $interval: ng.IIntervalService) {
+            $interval(() => {
+                $http.get<Task[]>('api/Tasks', '$interval')
+                    .success(data => this.tasks = data.sort((x, y) => x.id.localeCompare(y.id)))
+                    .error((error, status) => log(`${status}: ${error}`));
+            }, 50);
+        }
+    }
+
+    interface Task {
+        id: string;
+        name: string;
+        state: string;
+        percentComplete: number;
+        statusMessage: string;
+    }
+    angular.module('debug', [])
+        .controller('DebugPanelController', DebugPanelController);
+
+}

@@ -90,7 +90,8 @@ var LASI;
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
             'ngFileUpload',
-            'documentViewer'
+            'documentViewer',
+            'debug'
         ]).config(configure);
         configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
         function configure(tasksListServiceProvider, documentListServiceProvider) {
@@ -152,30 +153,29 @@ var contextmenuTests;
     ];
 })(contextmenuTests || (contextmenuTests = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
-(function (log) {
-    $(function () {
-        var debugPanel = $('#debug-panel');
-        var visible = true;
-        var toggleButton = $('#toggle-debug-panel');
-        toggleButton.click(function () {
-            visible = !visible;
-            debugPanel.toggle();
-            toggleButton.text(visible ? 'hide' : 'show')
-                .toggleClass('btn-danger')
-                .toggleClass('btn-info');
-        });
-        window.setInterval(function () {
-            $.getJSON('api/Tasks', { cache: false })
-                .then(function (tasks) {
-                debugPanel.html(tasks.map(function (task) {
-                    return "<div> + " + Object.keys(task).map(function (key) {
-                        return "<span>&nbsp&nbsp" + task[key] + "</span>";
-                    }) + "</div>";
-                }).join());
-            });
-        }, 800);
-    });
-}(console.log.bind(console)));
+/// <reference path="../../../typings/angularjs/angular.d.ts" />
+var LASI;
+(function (LASI) {
+    var debug;
+    (function (debug) {
+        'use strict';
+        var DebugPanelController = (function () {
+            function DebugPanelController($http, $interval) {
+                var _this = this;
+                this.tasks = [];
+                $interval(function () {
+                    $http.get('api/Tasks', '$interval')
+                        .success(function (data) { return _this.tasks = data.sort(function (x, y) { return x.id.localeCompare(y.id); }); })
+                        .error(function (error, status) { return LASI.log(status + ": " + error); });
+                }, 50);
+            }
+            DebugPanelController.$inject = ['$http', '$interval'];
+            return DebugPanelController;
+        })();
+        angular.module('debug', [])
+            .controller('DebugPanelController', DebugPanelController);
+    })(debug = LASI.debug || (LASI.debug = {}));
+})(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
     var documentList;
@@ -447,7 +447,7 @@ var LASI;
                 return this;
             }
             function $get($resource, $window) {
-                var updateDebugInfo = createDebugInfoUpdator($('#debug-panel'));
+                var updateDebugInfo = function (tasks) { };
                 var Tasks = $resource(tasksListUrl, { cache: false }, {
                     get: {
                         method: 'GET', isArray: true
@@ -520,24 +520,21 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        angular
-            .module('documentViewer')
-            .controller('DocumentController', DocumentController);
         var DocumentController = (function () {
             function DocumentController(documentModelService, $location) {
                 this.documentModelService = documentModelService;
                 this.$location = $location;
                 this.title = 'DocumentController';
-                this.activate();
             }
             DocumentController.prototype.processDocument = function (documentId) {
                 return this.documentModelService.processDocument(documentId);
             };
-            DocumentController.prototype.activate = function () {
-            };
-            DocumentController.$inject = ['DocumentModelService', '$location'];
+            DocumentController.$inject = ['MockDocumentModelService', '$location'];
             return DocumentController;
         })();
+        angular
+            .module('documentViewer')
+            .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -550,9 +547,6 @@ var LASI;
                 this.$resource = $resource;
                 this.documentSource = $resource('Analysis/:documentId');
             }
-            DocumentModelService.prototype.getData = function () {
-                return this.$resource('tests/test-data/doc.json').get();
-            };
             DocumentModelService.prototype.processDocument = function (documentId) {
                 return this.documentSource.get({ documentId: documentId });
             };
@@ -795,6 +789,27 @@ var LASI;
                 }
             };
         }
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        'use strict';
+        var MockDocumentModelService = (function () {
+            function MockDocumentModelService($resource) {
+                this.$resource = $resource;
+                this.documentSource = $resource('Analysis/:documentId');
+            }
+            MockDocumentModelService.prototype.processDocument = function (documentId) {
+                return this.$resource('tests/test-data/doc.json').get();
+            };
+            MockDocumentModelService.$inject = ['$resource'];
+            return MockDocumentModelService;
+        })();
+        angular
+            .module('documentViewer')
+            .service('MockDocumentModelService', MockDocumentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;

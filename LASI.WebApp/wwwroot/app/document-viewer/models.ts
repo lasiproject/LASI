@@ -1,11 +1,18 @@
 ﻿module LASI.models {
 
-    export interface IDocumentModel {
+    export interface ITextFragmentModel {
+        paragraphs: IParagraphModel[];
+    }
+
+    export interface IDocumentModel extends ITextFragmentModel {
         title: string;
         id: number;
-        style: { cssClass: string };
-        paragraphs: IParagraphModel[];
-        prgress: number | string;
+        progress: number | string;
+        percentComplete: number | string;
+    }
+
+    export interface IPageModel extends ITextFragmentModel {
+        pageNumber: number;
     }
 
     export interface IParagraphModel {
