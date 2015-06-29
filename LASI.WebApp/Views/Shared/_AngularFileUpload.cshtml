@@ -1,18 +1,22 @@
 ﻿<div ng-controller="UploadController as upload">
-    <div class="button" ngf-select ng-model="upload.files" ngf-multiple="multiple">Select File</div>
-    on file change:
-    <div class="button" ngf-select ngf-change="upload.uploadFiles(upload.files)" ngf-multiple="multiple">Select File</div>
+    <div class="btn btn-default" ngf-select ng-model="upload.files" ngf-multiple="multiple" ngf-allow-dir="true" accept="upload.fileInputAcceptText">Browse</div>
+    @*on file change:
+        <div class="button" ngf-select ngf-change="upload.uploadFiles(upload.files)" ngf-multiple="multiple">Select File</div>*@
     Drop File:
-    <div ngf-drop ngf-select ng-model="upload.files" class="drop-box"
+    @*<div ngf-drop ngf-select ng-model="upload.files" class="drop-box"
          ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
          accept="upload.fileInputAcceptText">
         Drop pdfs or images here or click to upload
-    </div>
+    </div>*@
     <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
     Files:
-    <ul>
-        <li ng-repeat="file in upload.files" style="font:smaller">{{file.name}}</li>
-    </ul>
+    <ul class="list-group" id="file-upload-list">
+        <li class="list-group-item">
+            <span class="list-group-item-text" ng-repeat="file in upload.files" style="font:smaller" id="upload-list-item-{{$index}}">
+                <span class="glyphicon glyphicon-file"></span>{{file.name}}<span class="glyphicon glyphicon-remove-sign pull-right" ng-click="upload.removeItem(file, $index)" style="cursor:pointer"></span>
+            </span>
+        </li>
+    </ul><input type="button" ng-model="Upload" ng-click="upload.uploadFiles(upload.files)">
     Upload Log:
 <pre>{{log}}</pre>
 </div>
