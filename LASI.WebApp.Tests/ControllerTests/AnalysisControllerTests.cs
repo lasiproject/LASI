@@ -9,7 +9,9 @@ using Xunit;
 using LASI.WebApp.Models.DocumentStructures;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
+using LASI.Utilities;
 using System;
+using System.Linq;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {
@@ -40,21 +42,18 @@ namespace LASI.WebApp.Tests.ControllerTests
         public void GetWithWithInvalidIdReturns404()
         {
             var invalidId = "this is not a valid document id";
-            dynamic result;
-            //Assert.Throws<InvalidOperationException>(delegate
-            //{
-            result = controller.Get(invalidId).Result;
-            Console.Write(result);
-            //});
+            var result = controller.Get(invalidId).Result;
+            Assert.Equal(controller.Response.StatusCode, 404);
+
         }
 
         [Fact]
         [PreconfigureLASI]
         public void GetWithNoArgumentsReturnsAllResults()
         {
-
-            IEnumerable<DocumentModel> allResults = controller.Get().Result;
-            Assert.NotEmpty(allResults);
+            var allUserDocuments = provider.GetService<IDocumentAccessor<UserDocument>>().GetAllForUser(User.Id);
+            IEnumerable<DocumentModel> results = controller.Get().Result;
+            Assert.False(allUserDocuments.ExceptBy(results, e => new { e.Id, e.UserId }, e => new { e.Id, UserId = User.Id }).Any());
         }
         private System.IServiceProvider provider;
         private AnalysisController controller;

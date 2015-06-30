@@ -234,7 +234,7 @@ namespace LASI.Utilities
 
         /// <summary>Produces the set difference of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
-        /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>
+        /// <typeparam name="TKey">The result type the of projection by which to compare elements.</typeparam>
         /// <param name="first">The first sequence.</param>
         /// <param name="second">The second sequence.</param>
         /// <param name="selector">The projection by which to compare elements.</param>
@@ -247,6 +247,24 @@ namespace LASI.Utilities
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
+        /// <summary>Produces the set difference of two sequences under the given projections.</summary>
+        /// <typeparam name="TSource">The type of the elements in the first sequence.</typeparam>
+        /// <typeparam name="TOther">The type of the elements in the second sequence.</typeparam>
+        /// <typeparam name="TKey">The result type of the projection by which to compare elements.</typeparam>
+        /// <param name="first">The first sequence.</param>
+        /// <param name="second">The second sequence.</param>
+        /// <param name="keySelector">The key selector to project over the first sequence.</param>
+        /// <param name="otherKeySelector">The key selector to project over the second sequence.</param>
+        /// <returns>
+        /// A sequence that contains the set difference of the elements of two sequences under the
+        /// given projection.
+        /// </returns>
+        public static IEnumerable<TKey> ExceptBy<TSource, TOther, TKey>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TOther> second,
+            Func<TSource, TKey> keySelector,
+            Func<TOther, TKey> otherKeySelector
+        ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>

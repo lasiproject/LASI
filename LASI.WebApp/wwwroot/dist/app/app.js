@@ -111,6 +111,18 @@ var LASI;
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
+    var documentUpload;
+    (function (documentUpload) {
+        'use strict';
+        angular.module('documentUpload', [
+            'ngFileUpload'
+        ]).config(configure);
+        configure.$inject = [];
+        function configure() { }
+    })(documentUpload = LASI.documentUpload || (LASI.documentUpload = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
     var documentViewer;
     (function (documentViewer) {
         'use strict';
@@ -128,13 +140,16 @@ var LASI;
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
-    var upload;
-    (function (upload) {
-        'use strict';
-        angular.module('uploads', [
-            'ngFileUpload'
-        ]);
-    })(upload = LASI.upload || (LASI.upload = {}));
+    var documentViewer;
+    (function (documentViewer) {
+        var search;
+        (function (search) {
+            'use strict';
+            angular.module('documentViewer.search', [
+                'ui.bootstrap.typeahead'
+            ]);
+        })(search = documentViewer.search || (documentViewer.search = {}));
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function () {
@@ -548,6 +563,25 @@ var LASI;
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
+    var documentUpload;
+    (function (documentUpload) {
+        'use strict';
+        angular
+            .module('documentUpload')
+            .directive('uploadPanel', uploadPanel);
+        uploadPanel.$inject = ['$window'];
+        function uploadPanel($window) {
+            return {
+                link: link,
+                restrict: 'E'
+            };
+            function link(scope, element, attrs) {
+            }
+        }
+    })(documentUpload = LASI.documentUpload || (LASI.documentUpload = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
     var documentViewer;
     (function (documentViewer) {
         'use strict';
@@ -788,6 +822,74 @@ var LASI;
         angular
             .module('documentViewer')
             .directive('paragraph', paragraph);
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        var search;
+        (function (search) {
+            'use strict';
+            angular
+                .module('documentViewer.search')
+                .directive('textSearch', textSearch);
+            textSearch.$inject = [];
+            function textSearch() {
+                return {
+                    scope: {
+                        find: '=',
+                        searchContext: '=',
+                        onFound: '@',
+                        onContextChanged: '@'
+                    },
+                    bindToController: true,
+                    controllerAs: 'search',
+                    controller: controller,
+                    link: link
+                };
+                controller.$inject = ['$q', '$interval', '$timeout', '$window'];
+                var toFind = {
+                    id: 1,
+                    contextmenu: {
+                        lexicalId: 1
+                    },
+                    detailText: '',
+                    hasContextmenuData: true, style: { cssClass: 'lexical' },
+                    text: ''
+                };
+                controller(null, null, null, null, null)
+                    .search(toFind, [], { lifted: true })
+                    .then(function (results) { return LASI.log(results[0]); });
+                function controller($scope, $q, $interval, $timeout, $window) {
+                    return {
+                        matchedModels: [],
+                        matchedTexts: [],
+                        search: function (find, options) {
+                            var deferred = $q.defer();
+                            $timeout(function () {
+                                deferred.resolve();
+                            }, 0);
+                            return deferred.promise;
+                        }
+                    };
+                }
+                function link(scope, element, attrs, controller) {
+                    [scope, element, attrs, controller].filter(function (e) { return !!e; }).forEach(LASI.log);
+                    var find = scope.find;
+                    var searchContext = scope.searchContext;
+                    if (!(searchContext instanceof Array)) {
+                        var context = [searchContext];
+                        if (typeof find === 'string') {
+                            controller.search(find, context).then(function (data) { return LASI.log(data[0]); });
+                        }
+                        else {
+                            controller.search(find, context).then(function (data) { return LASI.log(data[0].detailText); });
+                        }
+                    }
+                }
+            }
+        })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
