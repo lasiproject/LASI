@@ -38,7 +38,7 @@ var LASI;
                     var $element = $(event.target);
                     //var documentName = $element[0].text;
                     var documentName = $element[0].innerText;
-                    var documentId = $element.find('span.hidden')[0].textContent.trim();
+                    var documentId = $element.next('.item-id-hidden')[0].innerText.trim();
                     LASI.log('clicked Name: ' + documentName + ', Id: ' + documentId);
                     var $parentListItem = $($(event.target).parent());
                     var $progress = $parentListItem.find('.progress hidden')
@@ -55,8 +55,8 @@ var LASI;
                             $('#accordion').append(panelMarkup);
                         }
                         xhr.progress('100%');
-                        LASI.buildMenus();
-                        LASI.enableActiveHighlighting();
+                        //LASI.buildMenus();
+                        //enableActiveHighlighting();
                     }).fail(function (xhr, message, detail) {
                         LASI.log(message);
                     }).progress(function (data) {

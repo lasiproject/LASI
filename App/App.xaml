@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              x:Class="LASI.App.App"
-             StartupUri="..\Windows\StartupWindow.xaml">
+             StartupUri="..\Windows\StartupWindow.xaml"
+             Exit="Application_Exit">
     <Application.Resources>
         <AccessText x:Key="CurrentProjectName"
                     Text="{Binding}" />

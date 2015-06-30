@@ -6,7 +6,7 @@
 
     export interface IDocumentModel extends ITextFragmentModel {
         title: string;
-        id: number;
+        id: string;
         progress: number | string;
         percentComplete: number | string;
     }
@@ -28,7 +28,7 @@
         id: number;
         style: { cssClass: string };
         hasContextmenuData: boolean;
-        contextmenu: documentViewer.IVerbalContextmenuDataSource | documentViewer.IReferencerContextmenuDataSource;
+        contextmenu: documentViewer.ILexicalContextMenuDataSource| documentViewer.IVerbalContextmenuDataSource | documentViewer.IReferencerContextmenuDataSource;
     }
 
     export interface IPhraseModel extends ILexicalModel {

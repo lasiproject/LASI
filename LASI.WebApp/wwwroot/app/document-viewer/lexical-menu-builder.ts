@@ -10,8 +10,8 @@
 
     import contextMenu = ui.bootstrap.contextMenu;
     export interface ILexicalMenuBuilderFactory {
-        buildAngularMenu: (source: IVerbalContextmenuDataSource | IReferencerContextmenuDataSource) => contextMenu.ContextMenu;
-    }   
+        buildAngularMenu: (source: ILexicalContextMenuDataSource |  IVerbalContextmenuDataSource | IReferencerContextmenuDataSource) => contextMenu.ContextMenu;
+    }
     function lexicalMenuBuilder(): ILexicalMenuBuilderFactory {
         var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
@@ -89,11 +89,14 @@
             'View Indirect Objects': 'indirect-object-of-current'
         });
     }
-    export interface IVerbalContextmenuDataSource {
+    export interface ILexicalContextMenuDataSource {
         /**
-         * The id of the verbal for which the menu is defined.
-         */
-        lexicalId: number;
+        * The id of the lexical element for which the menu is defined.
+        */
+        lexicalId: string|number;
+    }
+    export interface IVerbalContextmenuDataSource extends ILexicalContextMenuDataSource {
+       
         /**
          * The ids of any subjects.
          */
@@ -108,7 +111,7 @@
         indirectObjectIds: number[];
     }
 
-    export interface IReferencerContextmenuDataSource {
+    export interface IReferencerContextmenuDataSource extends ILexicalContextMenuDataSource {
         /**
          * The id of the referencer for which the menu is defined.
          */

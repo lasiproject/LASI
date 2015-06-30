@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Text;
 using System.IO;
+using LASI.Utilities.Configuration;
 
 namespace LASI.App
 {
@@ -20,30 +21,20 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
-            Interop.Configuration.Initialize(
-                format: Interop.ConfigFormat.Xml,
-                stream: new MemoryStream(
-                    Encoding.Default.GetBytes(
-                        new XElement(
-                            name: "configuration",
-                            content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
-                                     let name = element.Attribute("key")
-                                     let content = element.Attribute("value")
-                                     where name != null && content != null
-                                     select new XElement(name: name.Value, content: content.Value)
-                        ).ToString()
-                    )
-                )
-            );
-
-            this.Exit += Application_Exit;
+            Interop.Configuration.Initialize(new XmlConfig(new XElement(
+                    name: "configuration",
+                    content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
+                             let name = element.Attribute("key")
+                             let content = element.Attribute("value")
+                             where name != null && content != null
+                             select new XElement(name: name.Value, content: content.Value))));
         }
         private static void LoadPerformancePreference()
         {
-            Interop.ResourceManagement.PerformanceProfile performanceMode;
-            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceMode))
+            Interop.PerformanceProfile performanceProfile;
+            if (Enum.TryParse(Settings.Default.PerformanceLevel, out performanceProfile))
             {
-                Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(performanceMode);
+                Interop.ResourceUsageManager.SetPerformanceLevel(performanceProfile);
             }
         }
         private void Application_Exit(object sender, ExitEventArgs e)
@@ -53,5 +44,6 @@ namespace LASI.App
                 FileManager.DecimateProject();
             }
         }
+
     }
 }

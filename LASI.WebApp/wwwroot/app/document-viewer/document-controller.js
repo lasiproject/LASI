@@ -10,7 +10,12 @@ var LASI;
                 this.title = 'DocumentController';
             }
             DocumentController.prototype.processDocument = function (documentId) {
-                return this.documentModelService.processDocument(documentId);
+                if (this.documentModel.id !== documentId) {
+                    return this.documentModelService.processDocument(documentId);
+                }
+                else {
+                    return this.documentModel;
+                }
             };
             DocumentController.$inject = ['MockDocumentModelService', '$location'];
             return DocumentController;

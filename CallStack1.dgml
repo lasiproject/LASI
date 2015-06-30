@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1 @2 @19 Member=ClearAdjectiveCache)" Category="CodeSchema_Method" Bounds="1744.09666666667,244.8625,143.57,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ClearAdjectiveCache" Icon="CodeSchema_Method" Label="ClearAdjectiveCache" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Heuristics/Lexicon.cs StartLineNumber=33 StartCharacterOffset=0 EndLineNumber=33 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 @19 Member=ClearAdverbCache)" Category="CodeSchema_Method" Bounds="1430.33333333333,244.8625,133.096666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ClearAdverbCache" Icon="CodeSchema_Method" Label="ClearAdverbCache" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Heuristics/Lexicon.cs StartLineNumber=38 StartCharacterOffset=0 EndLineNumber=38 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 @19 Member=ClearNounCache)" Category="CodeSchema_Method" Bounds="1918.56833333333,244.8625,124.626666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ClearNounCache" Icon="CodeSchema_Method" Label="ClearNounCache" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Heuristics/Lexicon.cs StartLineNumber=43 StartCharacterOffset=0 EndLineNumber=43 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 @19 Member=ClearVerbCache)" Category="CodeSchema_Method" Bounds="1593.88333333333,244.8625,119.996666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ClearVerbCache" Icon="CodeSchema_Method" Label="ClearVerbCache" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Heuristics/Lexicon.cs StartLineNumber=48 StartCharacterOffset=0 EndLineNumber=48 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 Type=LexicalEnumerable Member=AnonymousMethod__10_0)" Category="CodeSchema_Method" Bounds="412,244.8625,175.763333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__10_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/LexicalStructures/EnumerableExtensions/EnumerableOfIEntityExtensions.cs StartLineNumber=66 StartCharacterOffset=0 EndLineNumber=66 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 Type=LexicalEnumerable Member=AnonymousMethod__12_0)" Category="CodeSchema_Method" Bounds="618,244.8625,175.763333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__12_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/LexicalStructures/EnumerableExtensions/EnumerableOfIEntityExtensions.cs StartLineNumber=100 StartCharacterOffset=0 EndLineNumber=100 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="(@1 @2 Type=Noun Member=get_SubjectOf)" Category="CodeSchema_Method" Bounds="32.78,302.51,110.203333333333,25.96" CodeSchemaProperty_IsPropertyGet="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" CommonLabel="get_SubjectOf" Icon="CodeSchema_Method" Label="get_SubjectOf" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/LexicalStructures/NounRelatedConstructs/Noun.cs StartLineNumber=71 StartCharacterOffset=0 EndLineNumber=71 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@10" Category="CodeSchema_Method" Bounds="1224,244.8625,175.763333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__10_1" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=154 StartCharacterOffset=0 EndLineNumber=154 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@11" Category="CodeSchema_Method" Bounds="206,244.8625,175.763333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__10_3" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=156 StartCharacterOffset=0 EndLineNumber=156 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@12" Category="CodeSchema_Method" Bounds="0,244.8625,175.763333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__18_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/LexicalStructures/EnumerableExtensions/EnumerableOfIEntityExtensions.cs StartLineNumber=199 StartCharacterOffset=0 EndLineNumber=199 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@13" Category="CodeSchema_Method" Bounds="776.96,57.6475,157.843333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__2" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=33 StartCharacterOffset=0 EndLineNumber=33 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@14" Category="CodeSchema_Method" Bounds="824.235,244.8625,169.293333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__4_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=92 StartCharacterOffset=0 EndLineNumber=92 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@15" Category="CodeSchema_Method" Bounds="1024.235,244.8625,169.293333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__4_4" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=96 StartCharacterOffset=0 EndLineNumber=96 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@17" Category="CodeSchema_Method" Bounds="1437.235,57.6474999999999,169.293333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__5_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Interop/ResourceLayerProviders.cs StartLineNumber=39 StartCharacterOffset=0 EndLineNumber=39 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@18" Category="CodeSchema_Method" Bounds="1437.235,115.295,169.293333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__6_0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Interop/ResourceUsageManager.cs StartLineNumber=60 StartCharacterOffset=0 EndLineNumber=60 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@20" Category="CodeSchema_Method" Bounds="1559.23833333333,172.9425,189.286666666667,25.96" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="ClearAllCachedSynonymData" Icon="CodeSchema_Method" Label="ClearAllCachedSynonymData" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Heuristics/Lexicon.cs StartLineNumber=23 StartCharacterOffset=0 EndLineNumber=23 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@5" Category="CodeSchema_Method" Bounds="1201.045,115.295,173.673333333333,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="WeightByLiteralFrequency" Icon="CodeSchema_Method" Label="WeightByLiteralFrequency" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=144 StartCharacterOffset=0 EndLineNumber=144 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@6" Category="CodeSchema_Method" Bounds="783.528333333333,115.295,144.706666666667,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="WeightSimilarNouns" Icon="CodeSchema_Method" Label="WeightSimilarNouns" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=98 StartCharacterOffset=0 EndLineNumber=98 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@7" Category="CodeSchema_Method" Bounds="680.285,172.9425,129.193333333333,25.96" CodeSchemaProperty_IsPrivate="True" CodeSchemaProperty_IsStatic="True" CommonLabel="GroupAndWeight" Icon="CodeSchema_Method" Label="GroupAndWeight" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=158 StartCharacterOffset=0 EndLineNumber=158 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@8" Category="CodeSchema_Method" Bounds="1028.96,57.6474999999999,157.843333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__0" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=29 StartCharacterOffset=0 EndLineNumber=29 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@9" Category="CodeSchema_Method" Bounds="1216.96,57.6475,157.843333333333,25.96" CodeSchemaProperty_IsAnonymous="True" Label="AnonymousMethod__1" SourceLocation="(Assembly=file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/Analysis/Weighter.cs StartLineNumber=31 StartCharacterOffset=0 EndLineNumber=31 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="ExternalCodeRootNode" Category="ExternalCallStackEntry" Bounds="951.388333333333,0,92.9866666666667,25.96" Label="External Code">
+      <Category Ref="CallStackEntry" />
+    </Node>
+  </Nodes>
+  <Links>
+    <Link Source="@12" Target="(@1 @2 Type=Noun Member=get_SubjectOf)" Category="CallStackDirectCall" Bounds="87.8816680908203,270.822509765625,0,22.6875" />
+    <Link Source="@13" Target="@6" Category="CallStackDirectCall" Bounds="855.881652832031,83.6074981689453,0,22.6875" />
+    <Link Source="@17" Target="@18" Category="CallStackDirectCall" Bounds="1521.88171386719,83.6074981689453,0,22.6875" />
+    <Link Source="@18" Target="@20" Category="CallStackDirectCall" Bounds="1551.60302734375,141.255004882813,64.3095703125,28.0854949951172" />
+    <Link Source="@20" Target="(@1 @2 @19 Member=ClearAdjectiveCache)" Category="CallStackDirectCall" Bounds="1683.119140625,198.902496337891,95.2991943359375,42.3081512451172" />
+    <Link Source="@20" Target="(@1 @2 @19 Member=ClearAdverbCache)" Category="CallStackDirectCall" Bounds="1533.39904785156,198.902496337891,92.1475830078125,42.2117614746094" />
+    <Link Source="@20" Target="(@1 @2 @19 Member=ClearNounCache)" Category="CallStackDirectCall" Bounds="1712.89807128906,198.902496337891,200.17724609375,44.0267639160156" />
+    <Link Source="@20" Target="(@1 @2 @19 Member=ClearVerbCache)" Category="CallStackDirectCall" Bounds="1653.88171386719,198.902496337891,0,36.9600067138672" />
+    <Link Source="@6" Target="@7" Category="CallStackDirectCall" Bounds="777.861694335938,141.255004882813,53.0270385742188,27.5394287109375" />
+    <Link Source="@7" Target="(@1 @2 Type=LexicalEnumerable Member=AnonymousMethod__10_0)" Category="CallStackIndirectCall" Bounds="542.217468261719,198.902496337891,148.159729003906,42.7442932128906" Label="External Code" LabelBounds="520.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@7" Target="(@1 @2 Type=LexicalEnumerable Member=AnonymousMethod__12_0)" Category="CallStackIndirectCall" Bounds="705.524108886719,198.902496337891,24.9193115234375,36.9600067138672" Label="External Code" LabelBounds="633.090190419035,214.230755759786,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@10" Category="CallStackIndirectCall" Bounds="809.478332519531,194.233337402344,405.656311035156,51.8933868408203" Label="External Code" LabelBounds="1004.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@11" Category="CallStackIndirectCall" Bounds="370.94384765625,194.788513183594,309.341125488281,48.3917846679688" Label="External Code" LabelBounds="409.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@12" Category="CallStackIndirectCall" Bounds="184.47509765625,192.150100708008,495.809875488281,53.4617614746094" Label="External Code" LabelBounds="298.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@13" Category="CallStackIndirectCall" Bounds="744.881652832031,85.9039306640625,52.3120727539063,87.03857421875" Label="External Code" LabelBounds="671.895,120.295,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@14" Category="CallStackIndirectCall" Bounds="770.509582519531,198.902496337891,96.4088134765625,42.7142028808594" Label="External Code" LabelBounds="742.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@7" Target="@15" Category="CallStackIndirectCall" Bounds="808.115478515625,198.416397094727,226.242797851563,44.7015838623047" Label="External Code" LabelBounds="853.895,213.9025,72.9866666666667,15.96" />
+    <Link Source="@8" Target="@5" Category="CallStackDirectCall" Bounds="1148.41076660156,83.6074981689453,90.37060546875,28.9424667358398" />
+    <Link Source="@9" Target="@5" Category="CallStackDirectCall" Bounds="1290.92004394531,83.6074981689453,3.1602783203125,22.7729339599609" />
+    <Link Source="ExternalCodeRootNode" Target="@10" Category="CallStackIndirectCall" Bounds="1044.375,16.2645893096924,361.506713867188,225.382200241089" />
+    <Link Source="ExternalCodeRootNode" Target="@11" Category="CallStackIndirectCall" Bounds="267.881652832031,14.815770149231,683.506652832031,222.644968986511" />
+    <Link Source="ExternalCodeRootNode" Target="@12" Category="CallStackIndirectCall" Bounds="101.860237121582,14.7386770248413,849.52806854248,222.699006080627" />
+    <Link Source="ExternalCodeRootNode" Target="@13" Category="CallStackIndirectCall" Bounds="896.193603515625,25.9599990844727,69.7151489257813,28.3021240234375" />
+    <Link Source="ExternalCodeRootNode" Target="@14" Category="CallStackIndirectCall" Bounds="937.067993164063,25.9599990844727,58.8253784179688,214.100379943848" />
+    <Link Source="ExternalCodeRootNode" Target="@15" Category="CallStackIndirectCall" Bounds="997.881652832031,25.9599990844727,100.217956542969,210.897315979004" />
+    <Link Source="ExternalCodeRootNode" Target="@17" Category="CallStackIndirectCall" Bounds="1044.375,16.0257091522217,431.12548828125,38.8237781524658" />
+    <Link Source="ExternalCodeRootNode" Target="@8" Category="CallStackIndirectCall" Bounds="1022.6494140625,25.9599990844727,52.4927978515625,27.5098190307617" />
+    <Link Source="ExternalCodeRootNode" Target="@9" Category="CallStackIndirectCall" Bounds="1044.375,21.9740409851074,175.572387695313,33.9641151428223" />
+  </Links>
+  <Categories>
+    <Category Id="CallStackDirectCall" Label="Call Stack direct call" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Call Stack direct call" OutgoingActionLabel="Call Stack direct call" />
+    <Category Id="CallStackEntry" Label="Call Stack Entry" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Call Stack Entry" />
+    <Category Id="CallStackIndirectCall" Label="Call Stack indirect call" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Call Stack indirect call" OutgoingActionLabel="Call Stack indirect call" />
+    <Category Id="CodeSchema_Member" Label="Member" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Field" NavigationActionLabel="Members" />
+    <Category Id="CodeSchema_Method" Label="Method" BasedOn="CodeSchema_Member" CanBeDataDriven="True" DefaultAction="Link:Forward:CodeSchema_Calls" Icon="CodeSchema_Method" NavigationActionLabel="Methods" />
+    <Category Id="CodeSchema_SourceLocation" Label="Source Location" Icon="File" />
+    <Category Id="ExternalCallStackEntry" Label="External Call Stack Entry" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="External Call Stack Entry" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsAnonymous" Label="Is Anonymous" Description="Flag indicating if this delegate, type, or method is anonymous" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPrivate" Label="Is Private" Description="Flag to indicate the scope is Private" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPropertyGet" Label="Is Property Get" Description="Flag to indicate the frame is a Property Get" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsStatic" Label="Is Static" Description="Flag to indicate the member is a static member" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsVirtual" Label="Is Virtual" Description="Flag to indicate the method can be overridden" DataType="System.Boolean" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="GenericArguments" Label="Generic Arguments" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" />
+    <Name Id="GenericParameterCount" Label="Generic Parameter Count" ValueType="System.String" />
+    <Name Id="Member" Label="Member" ValueType="System.Object" />
+    <Name Id="Name" Label="Name" ValueType="System.String" />
+    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
+    <Name Id="OverloadingParameters" Label="Parameter" ValueType="Microsoft.VisualStudio.GraphModel.GraphNodeIdCollection" Formatter="NameValueNoEscape" />
+    <Name Id="ParameterIdentifier" Label="Parameter Identifier" ValueType="System.String" />
+    <Name Id="Type" Label="Type" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPathUri)" />
+    <Alias n="2" Id="Namespace=LASI.Core" />
+    <Alias n="3" Id="Type=Weighter" />
+    <Alias n="4" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.6/mscorlib.dll" />
+    <Alias n="5" Id="(@1 @2 @3 Member=(Name=WeightByLiteralFrequency OverloadingParameters=[(@4 Namespace=System.Collections.Generic Type=(Name=IEnumerable GenericParameterCount=1 GenericArguments=[(@1 @2 Type=ILexical)]))]))" />
+    <Alias n="6" Id="(@1 @2 @3 Member=(Name=WeightSimilarNouns OverloadingParameters=[(@1 @2 Type=IReifiedTextual)]))" />
+    <Alias n="7" Id="(@1 @2 @3 Member=(Name=GroupAndWeight GenericParameterCount=1 OverloadingParameters=[(@4 Namespace=System.Collections.Generic Type=(Name=IEnumerable GenericParameterCount=1 GenericArguments=[(ParameterIdentifier=0)])),(@4 Namespace=System Type=(Name=Func GenericParameterCount=3 GenericArguments=[(ParameterIdentifier=0),(ParameterIdentifier=0),(@1 @2 Type=Similarity)])),(@4 Namespace=System Type=Double)]))" />
+    <Alias n="8" Id="(@1 @2 @3 Member=AnonymousMethod__0)" />
+    <Alias n="9" Id="(@1 @2 @3 Member=AnonymousMethod__1)" />
+    <Alias n="10" Id="(@1 @2 @3 Member=AnonymousMethod__10_1)" />
+    <Alias n="11" Id="(@1 @2 @3 Member=AnonymousMethod__10_3)" />
+    <Alias n="12" Id="(@1 @2 Type=LexicalEnumerable Member=AnonymousMethod__18_0)" />
+    <Alias n="13" Id="(@1 @2 @3 Member=AnonymousMethod__2)" />
+    <Alias n="14" Id="(@1 @2 @3 Member=AnonymousMethod__4_0)" />
+    <Alias n="15" Id="(@1 @2 @3 Member=AnonymousMethod__4_4)" />
+    <Alias n="16" Uri="Assembly=$(06b96679-9758-4b15-8e75-0f46416e68b7.OutputPathUri)" />
+    <Alias n="17" Id="(@16 Namespace=LASI.Interop Type=Memory Member=AnonymousMethod__5_0)" />
+    <Alias n="18" Id="(@16 Namespace=LASI.Interop Type=ResourceUsageManager Member=AnonymousMethod__6_0)" />
+    <Alias n="19" Id="Type=Lexicon" />
+    <Alias n="20" Id="(@1 @2 @19 Member=ClearAllCachedSynonymData)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Link" GroupLabel="Current Call Stack Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CurrentCallStackCall')" />
+      <Setter Property="Stroke" Value="#FFD93701" />
+      <Setter Property="Weight" Value="1" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Call Stack Indirect Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CallStackIndirectCall')" />
+      <Setter Property="Stroke" Value="#FFB8B8B8" />
+      <Setter Property="StrokeDashArray" Value="4 1" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Call Stack Direct Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CallStackDirectCall')" />
+      <Setter Property="Stroke" Value="#FFB8B8B8" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Call Stack (no source)" ValueLabel="True">
+      <Condition Expression="HasCategory('CurrentCallStackEntry') And !HasCategory('CodeSchema_SourceLocation')" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="#FFA5A5A5" />
+      <Setter Property="Stroke" Value="#FF0072C6" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="External And Current" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('ExternalCallStackEntry') And HasCategory('CurrentCallStackEntry')" />
+      <Setter Property="Background" Value="#FFFFF8F0" />
+      <Setter Property="Stroke" Value="#FFCE5100" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Call Stack (source)" ValueLabel="True">
+      <Condition Expression="HasCategory('CurrentCallStackEntry') And !HasCategory('QueryResult')" />
+      <Setter Property="Background" Value="#FFFFE3C6" />
+      <Setter Property="Stroke" Value="#FFD93701" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="External Call Stack" ValueLabel="True">
+      <Condition Expression="HasCategory('ExternalCallStackEntry')" />
+      <Setter Property="Background" Value="#FFF7F7F7" />
+      <Setter Property="StrokeDashArray" Value="1 3" />
+      <Setter Property="Foreground" Value="#FFA5A5A5" />
+      <Setter Property="Stroke" Value="#FFA5A5A5" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">
+      <Condition Expression="HasCategory('QueryResult')" />
+      <Setter Property="Background" Value="#FFBCFFBE" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Test Project" ValueLabel="Test Project">
+      <Condition Expression="HasCategory('CodeMap_TestProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Template.png" />
+      <Setter Property="Background" Value="#FF307A69" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Web Project" ValueLabel="Web Project">
+      <Condition Expression="HasCategory('CodeMap_WebProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Globe.png" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Windows Store Project" ValueLabel="Windows Store Project">
+      <Condition Expression="HasCategory('CodeMap_WindowsStoreProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Generic_Application.png" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Phone Project" ValueLabel="Phone Project">
+      <Condition Expression="HasCategory('CodeMap_PhoneProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Device.png" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Portable Library" ValueLabel="Portable Library">
+      <Condition Expression="HasCategory('CodeMap_PortableLibraryProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Library.png" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Wpf Project" ValueLabel="Wpf Project">
+      <Condition Expression="HasCategory('CodeMap_WpfProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Dialog.png" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Vsix Project" ValueLabel="Vsix Project">
+      <Condition Expression="HasCategory('CodeMap_VsixProject')" />
+      <Setter Property="Background" Value="#FF68217A" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Modeling Project" ValueLabel="Modeling Project">
+      <Condition Expression="HasCategory('CodeMap_ModelingProject')" />
+      <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/Object.png" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+      <Setter Property="Stroke" Value="#FF094167" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Assembly" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Assembly')" />
+      <Setter Property="Background" Value="#FF094167" />
+      <Setter Property="Stroke" Value="#FF094167" />
+      <Setter Property="Icon" Value="CodeSchema_Assembly" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Namespace" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Namespace')" />
+      <Setter Property="Background" Value="#FF0E619A" />
+      <Setter Property="Stroke" Value="#FF0E619A" />
+      <Setter Property="Icon" Value="CodeSchema_Namespace" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Interface" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Interface')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Interface" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Struct" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Struct')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Struct" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enumeration" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Enum')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Enum" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Delegate" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Delegate')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Delegate" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Class" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Type')" />
+      <Setter Property="Background" Value="#FF1382CE" />
+      <Setter Property="Stroke" Value="#FF1382CE" />
+      <Setter Property="Icon" Value="CodeSchema_Class" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Property')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Property" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Method" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Method') Or HasCategory('CodeSchema_CallStackUnresolvedMethod')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Method" />
+      <Setter Property="LayoutSettings" Value="List" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Event" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Event')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Event" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Field" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Field')" />
+      <Setter Property="Background" Value="#FFE0E0E0" />
+      <Setter Property="Stroke" Value="#FFE0E0E0" />
+      <Setter Property="Icon" Value="CodeSchema_Field" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Out Parameter" ValueLabel="Has category">
+      <Condition Expression="CodeSchemaProperty_IsOut = 'True'" />
+      <Setter Property="Icon" Value="CodeSchema_OutParameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Parameter" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_Parameter')" />
+      <Setter Property="Icon" Value="CodeSchema_Parameter" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Local Variable" ValueLabel="Has category">
+      <Condition Expression="HasCategory('CodeSchema_LocalExpression')" />
+      <Setter Property="Icon" Value="CodeSchema_LocalExpression" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Externals" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Externals')" />
+      <Setter Property="Background" Value="#FF424242" />
+      <Setter Property="Stroke" Value="#FF424242" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True">
+      <Condition Expression="HasCategory('InheritsFrom')" />
+      <Setter Property="Stroke" Value="#FF00A600" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True">
+      <Condition Expression="HasCategory('Implements')" />
+      <Setter Property="Stroke" Value="#8000A600" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Calls" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_Calls')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 0" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Function Pointer" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FunctionPointer')" />
+      <Setter Property="Stroke" Value="#FFFF00FF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Read" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldRead')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Field Write" ValueLabel="True">
+      <Condition Expression="HasCategory('CodeSchema_FieldWrite')" />
+      <Setter Property="Stroke" Value="#FF00AEEF" />
+      <Setter Property="DrawArrow" Value="true" />
+      <Setter Property="IsHidden" Value="false" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Inherits From" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('InheritsFrom') And Target.HasCategory('CodeSchema_Class')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('Implements') And Target.HasCategory('CodeSchema_Interface')" />
+      <Setter Property="TargetDecorator" Value="OpenArrow" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Comment Link" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="Source.HasCategory('Comment')" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Cursor Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCursorLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Disabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="DisabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Enabled Breakpoint Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="EnabledBreakpointCount" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Instruction Pointer Location Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsInstructionPointerLocation" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Current Callstack Changed" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="IsCurrentCallstackFrame" />
+      <Setter Property="IndicatorWest" Value="WestIndicator" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Return" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_ReturnTypeLink')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="References" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('References')" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Uses Attribute" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeSchema_AttributeUse')" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Solution Folder" ValueLabel="True" Visibility="Hidden">
+      <Condition Expression="HasCategory('CodeMap_SolutionFolder')" />
+      <Setter Property="Background" Value="#FFDEBA83" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Project Reference" ValueLabel="Project Reference">
+      <Condition Expression="HasCategory('CodeMap_ProjectReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="External Reference" ValueLabel="External Reference">
+      <Condition Expression="HasCategory('CodeMap_ExternalReference')" />
+      <Setter Property="Stroke" Value="#9A9A9A" />
+      <Setter Property="StrokeDashArray" Value="2 2" />
+      <Setter Property="DrawArrow" Value="true" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="06b96679-9758-4b15-8e75-0f46416e68b7.OutputPathUri" Value="file:///C:/Users/Aluan/Documents/GitHub/LASI/Interop/bin/Debug/LASI.Interop.dll" />
+    <Path Id="8c562a93-a885-4fe9-8b8c-5ce34ccbaec1.OutputPathUri" Value="file:///C:/Users/Aluan/Documents/GitHub/LASI/Core/bin/Debug/LASI.Core.dll" />
+    <Path Id="FxReferenceAssembliesUri" Value="file:///C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
+  </Paths>
+</DirectedGraph>

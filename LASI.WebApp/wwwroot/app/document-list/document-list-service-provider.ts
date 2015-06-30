@@ -14,6 +14,8 @@
         name: string;
         progress: number|string;
         percentComplete: number|string;
+        showProgress: boolean;
+        statusMessage: string;
     }
     class DocumentListServiceProvider implements IDocumentListServiceConfig, ng.IServiceProvider {
         private documentListUrl: string;
@@ -29,7 +31,7 @@
             this.recentDocumentCount = count;
             return this;
         }
-         
+
         $inject = ['$resource'];
         /**
          * @param $resource an instance of the Resource Service supplied by the angular-resource module.

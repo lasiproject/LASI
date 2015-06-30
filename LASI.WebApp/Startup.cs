@@ -35,6 +35,7 @@ using System;
 using System.IO;
 using System.Security.Claims;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LASI.WebApp
 {
@@ -60,28 +61,25 @@ namespace LASI.WebApp
 
         public IConfiguration Configuration { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"))
                     .AddTransient<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                    .AddSingleton<IWorkItemsService>(provider => new WorkItemsService());
-
-            services.AddMongoDB(options =>
-            {
-                options.CreateProcess = true;
-                options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
-                options.UserCollectionName = "users";
-                options.UserDocumentCollectionName = "documents";
-                options.OrganizationCollectionName = "organizations";
-                options.UserRoleCollectionName = "roles";
-                options.ApplicationDatabaseName = "accounts";
-                options.MongodExePath = Configuration["MongoDB:MongodExePath"];
-                options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
-                options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
-            });
-            //services.config)
-            services.AddIdentity<ApplicationUser, UserRole>(options =>
+                    .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
+                    .AddMongoDB(options =>
+                    {
+                        options.CreateProcess = true;
+                        options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
+                        options.UserCollectionName = "users";
+                        options.UserDocumentCollectionName = "documents";
+                        options.OrganizationCollectionName = "organizations";
+                        options.UserRoleCollectionName = "roles";
+                        options.ApplicationDatabaseName = "accounts";
+                        options.MongodExePath = Configuration["MongoDB:MongodExePath"];
+                        options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
+                        options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
+                    })
+                    .AddIdentity<ApplicationUser, UserRole>(options =>
                     {
                         options.Lockout = new LockoutOptions
                         {
@@ -113,7 +111,10 @@ namespace LASI.WebApp
                     .AddRoleStore<CustomUserStore<UserRole>>()
                     .AddUserManager<UserManager<ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>();
-            services.AddMvc()
+
+            services.AddWebEncoders()
+                    .AddDirectoryBrowser()
+                    .AddMvc()
                     .ConfigureMvc(options =>
                     {
                         options.InputFormatters.InstanceOf<JsonInputFormatter>().SerializerSettings = MvcJsonSerializerSettings;
@@ -131,27 +132,34 @@ namespace LASI.WebApp
         }
 
         // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-
-            loggerfactory.AddConsole(LogLevel.Debug)
+            loggerFactory.AddConsole(LogLevel.Debug)
                          .AddLASIOutput(LogLevel.Verbose);
 
+            app.Properties["host.AppMode"] = "development";
 
-            // Add cookie-based authentication to the request pipeline.
-            app.UseIdentity();
-            app.UseDefaultFiles();
-            app.UseRuntimeInfoPage();
+            app.UseStatusCodePages()
+               .UseFileServer()/*.UseDirectoryBrowser()*/
+               .UseBrowserLink()
+               .UseIdentity()
+               .UseDefaultFiles()
+               .UseRuntimeInfoPage();
             // Add the following to the request pipeline only in development environment.
             if (env.IsEnvironment("Development"))
             {
-                app.UseStaticFiles()
-                    .UseBrowserLink()
-                    .UseErrorPage(ErrorPageOptions.ShowAll);
+                app.UseErrorPage(new ErrorPageOptions() // Added to react to the removal of ErrorPageOptions.ShowAll from the next version.
+                {
+                    ShowCookies = true,
+                    ShowEnvironment = true,
+                    ShowExceptionDetails = true,
+                    ShowHeaders = true,
+                    ShowQuery = true,
+                    ShowSourceCode = true
+                });
             }
             else
             {
-                // Add Error handling middleware which catches all application specific errors and sends the request to the following path or controller action.
                 app.UseErrorHandler("/Home/Error");
             }
 
@@ -159,27 +167,23 @@ namespace LASI.WebApp
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
             // app.UseFacebookAuthentication(); app.UseGoogleAuthentication(); app.UseMicrosoftAccountAuthentication(); app.UseTwitterAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
+            app.UseMvc(routes => routes
+                .MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"
-                );
-                routes.MapRoute(
+                    template: "{controller=Home}/{action=Index}/{id?}")
+                .MapRoute(
                     name: "ChildApi",
-                    template: "api/{parentController}/{parentId?}/{controller}/{id?}"
-                );
-                routes.MapRoute(
+                    template: "api/{parentController}/{parentId?}/{controller}/{id?}")
+                .MapRoute(
                     name: "DefaultApi",
-                    template: "api/{controller}/{id?}"
-                );
-            });
+                    template: "api/{controller}/{id?}")
+            );
 
         }
 
         private void ConfigureLASIComponents(string fileName, string subkey)
         {
-            Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceProfile.High);
+            Interop.ResourceUsageManager.SetPerformanceLevel(Interop.PerformanceProfile.High);
             Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
         }
 

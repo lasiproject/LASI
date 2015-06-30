@@ -37,6 +37,10 @@
         },
         "angular-ui-router": {
             "": "release/angular-ui-router.js"
+        },
+        "qunit": {
+            "": "qunit/**/*.js",
+            "../../test": "qunit/**/*.css"
         }
     }
 }

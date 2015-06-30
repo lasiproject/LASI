@@ -7,8 +7,9 @@ namespace LASI.App.Dialogs
 {
     using System.Windows.Input;
     using LASI.Utilities;
-    using UsageManager = LASI.Interop.ResourceManagement.ResourceUsageManager;
-    using LASI.Interop.ResourceManagement;
+    using ResourceUsageManager = LASI.Interop.ResourceUsageManager;
+    using LASI.Interop;
+
 
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
@@ -16,7 +17,7 @@ namespace LASI.App.Dialogs
     public partial class PreferencesWindow : Window
     {
         /// <summary>
-        /// Intializes a new instance of the PreferencesWindow class.
+        /// Initializes a new instance of the PreferencesWindow class.
         /// </summary>
         public PreferencesWindow()
         {
@@ -28,7 +29,7 @@ namespace LASI.App.Dialogs
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.Save();
-            UsageManager.SetPerformanceLevel(PerformanceMode);
+            ResourceUsageManager.SetPerformanceLevel(PerformanceMode);
             this.DialogResult = true;
         }
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -67,14 +68,14 @@ namespace LASI.App.Dialogs
                 switch (PerformanceMode)
                 {
                     case PerformanceProfile.High:
-                    High.IsChecked = true;
-                    break;
+                        High.IsChecked = true;
+                        break;
                     case PerformanceProfile.Normal:
-                    Normal.IsChecked = true;
-                    break;
+                        Normal.IsChecked = true;
+                        break;
                     case PerformanceProfile.Low:
-                    Low.IsChecked = true;
-                    break;
+                        Low.IsChecked = true;
+                        break;
                 }
             }
             catch (ArgumentException e)
@@ -126,7 +127,7 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Gets the PerformanceLevel corresponding to the selected user preference.
         /// </summary>
-        public Interop.ResourceManagement.PerformanceProfile PerformanceMode { get; private set; }
+        public PerformanceProfile PerformanceMode { get; private set; }
 
         #region Fields
 

@@ -110,7 +110,7 @@ namespace LASI.Core
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases
                 .OfNounPhrase()
-                .InSubjectOrObjectRole();
+                .InSubjectOrObjectRole().ToList();
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
         }
         private static void WeightSimilarVerbs(IReifiedTextual source)
@@ -151,12 +151,15 @@ namespace LASI.Core
         private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double scaleBy) where TLexical : class, ILexical
         {
             var groups =
-                from outer in toConsider/*.ToList()*/.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                from inner in toConsider/*.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)*/
+                from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+                from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 where !ReferenceEquals(inner, outer) || correlateWhen(inner, outer)
                 group inner by outer into grouped
-                select grouped.ToList();
-            groups.ForAll(elements => elements.ForEach(e => e.Weight += scaleBy * elements.Count));
+                select grouped;
+            groups.ForAll(group =>
+            {
+                var elements = group.ToList(); elements.ForEach(e => e.Weight += scaleBy * elements.Count);
+            });
         }
 
 

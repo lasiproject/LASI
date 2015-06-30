@@ -1,4 +1,4 @@
-﻿namespace LASI.Interop.ResourceManagement
+﻿namespace LASI.Interop
 {
     using Lexicon = Core.Lexicon;
     using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
@@ -66,69 +66,5 @@
                 System.GC.Collect();
             };
         }
-    }
-
-    /// <summary>
-    /// Broadly specifies the various resource usage profiles of the program.
-    /// </summary>
-    public enum PerformanceProfile
-    {
-        /// <summary>
-        /// High resource usage indicates a liberal allocation and consumption of available
-        /// system resources.
-        /// </summary>
-        High = 0,
-
-        /// <summary>
-        /// Normal resource usage indicates a modest allocation and consumption of available
-        /// system resources.
-        /// </summary>
-        Normal,
-
-        /// <summary>
-        /// High resource usage indicates a conservative allocation and consumption of available
-        /// system resources.
-        /// </summary>
-        Low
-    }
-    /// <summary>
-    /// Represents a resource usage sample.
-    /// </summary>
-    public struct ResourceUsageSample
-    {
-        /// <summary>
-        /// Initializes a new instance of the ResourceSample structure with the specified values.
-        /// </summary>
-        /// <param name="cpuUsage">
-        /// The CPU usage value.
-        /// </param>
-        /// <param name="memoryUsage">
-        /// The memory usage value.
-        /// </param>
-        /// <param name="timeSnapshotted">
-        /// The time when the sample was taken.
-        /// </param>
-        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTime? timeSnapshotted = default(DateTime?))
-            : this()
-        {
-            CpuUsage = cpuUsage;
-            MemoryUsage = memoryUsage;
-            TimeSnapshotted = timeSnapshotted ?? DateTime.Now;
-        }
-
-        /// <summary>
-        /// Gets the CPU usage % of the machine hosting the application when the sample was taken.
-        /// </summary>
-        public float CpuUsage { get; }
-
-        /// <summary>
-        /// Gets the Memory usage % of the machine hosting the application when the sample was taken.
-        /// </summary>
-        public float MemoryUsage { get; }
-
-        /// <summary>
-        /// Gets the local time of the machine hosting the application when the sample was taken.
-        /// </summary>
-        public DateTime TimeSnapshotted { get; }
     }
 }

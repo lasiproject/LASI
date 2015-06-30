@@ -18,8 +18,11 @@ namespace LASI.WebApp.Tests.TestAttributes
         }
         private static void ConfigureLASIComponents(string fileName, string subkey)
         {
-            Interop.ResourceManagement.ResourceUsageManager.SetPerformanceLevel(Interop.ResourceManagement.PerformanceProfile.High);
-            try { Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey); }
+            Interop.ResourceUsageManager.SetPerformanceLevel(Interop.PerformanceProfile.High);
+            try
+            {
+                Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
+            }
             catch (Interop.SystemAlreadyConfiguredException e)
             {
                 e.Log();

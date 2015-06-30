@@ -51,6 +51,7 @@
     <Compile Include="Concurrency.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="PerformanceProfile.cs" />
     <Compile Include="ProgressReporting\Basis\SystemResourceNotifierDualizer.cs" />
     <Compile Include="ProgressReporting\SystemResourceLoadingNotifier.cs" />
     <Compile Include="ProgressReporting\SystemResourceNotifier.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="ProgressReporting\MB.cs" />
     <Compile Include="ProgressReporting\MemoryThresholdExceededEventArgs.cs" />
     <Compile Include="ProgressReporting\ProgressReportEventArgs.cs" />
+    <Compile Include="ResourceUsageSample.cs" />
     <Compile Include="SystemAlreadyConfiguredException.cs" />
     <Compile Include="Visualization\IStyleProvider.cs" />
     <Compile Include="ResourceUsageManager.cs" />

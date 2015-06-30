@@ -1,5 +1,5 @@
 module LASI {
-    'use strict'; 
+    'use strict';
 
     export var buildMenus: () => void;
     export var enableActiveHighlighting: () => void;

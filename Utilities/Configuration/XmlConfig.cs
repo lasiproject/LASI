@@ -9,7 +9,7 @@ namespace LASI.Utilities.Configuration
     /// <summary>
     /// An XML Based configuration source.
     /// </summary>
-    public class XmlConfig : ConfigBase
+    public class XmlConfig : LoadableConfigBase, IConfig
     {
         private readonly IDictionary<string, string> data;
 
@@ -46,7 +46,7 @@ namespace LASI.Utilities.Configuration
         /// </summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
-        public override string this[string name] => data.GetValueOrDefault(name);
+        public string this[string name] => data.GetValueOrDefault(name);
 
     }
 }

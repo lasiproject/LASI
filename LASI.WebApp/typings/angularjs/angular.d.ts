@@ -399,8 +399,8 @@ declare module angular {
          * @param name The name of the service to decorate
          * @param decorator This function will be invoked when the service needs to be instantiated and should return the decorated service instance. The function is called using the injector.invoke method and is therefore fully injectable. Local injection arguments: $delegate - The original service instance, which can be monkey patched, configured, decorated or delegated to.
          */
-        decorator(name:string, decoratorConstructor: Function): IModule;
-        decorator(name:string, inlineAnnotatedConstructor: any[]): IModule;
+        decorator(name: string, decoratorConstructor: Function): IModule;
+        decorator(name: string, inlineAnnotatedConstructor: any[]): IModule;
 
         // Properties
         name: string;
@@ -662,7 +662,7 @@ declare module angular {
          */
         $odd: boolean;
 
-	}
+    }
 
     interface IAngularEvent {
         /**
@@ -958,7 +958,7 @@ declare module angular {
     // DocumentService
     // see http://docs.angularjs.org/api/ng.$document
     ///////////////////////////////////////////////////////////////////////////
-    interface IDocumentService extends IAugmentedJQuery {}
+    interface IDocumentService extends IAugmentedJQuery { }
 
     ///////////////////////////////////////////////////////////////////////////
     // ExceptionHandlerService
@@ -972,7 +972,7 @@ declare module angular {
     // RootElementService
     // see http://docs.angularjs.org/api/ng.$rootElement
     ///////////////////////////////////////////////////////////////////////////
-    interface IRootElementService extends JQuery {}
+    interface IRootElementService extends JQuery { }
 
     interface IQResolveReject<T> {
         (): void;
@@ -1414,6 +1414,7 @@ declare module angular {
     * https://docs.angularjs.org/api/ng/service/$http#defaults
     */
     interface IHttpProviderDefaults {
+        cache?: boolean;
         xsrfCookieName?: string;
         xsrfHeaderName?: string;
         withCredentials?: boolean;
@@ -1468,7 +1469,7 @@ declare module angular {
     // TemplateCacheService
     // see http://docs.angularjs.org/api/ng.$templateCache
     ///////////////////////////////////////////////////////////////////////////
-    interface ITemplateCacheService extends ICacheObject {}
+    interface ITemplateCacheService extends ICacheObject { }
 
     ///////////////////////////////////////////////////////////////////////////
     // SCEService
@@ -1568,7 +1569,7 @@ declare module angular {
             instanceAttributes: IAttributes,
             controller: any,
             transclude: ITranscludeFunction
-        ): void;
+            ): void;
     }
 
     interface IDirectivePrePost {
@@ -1581,7 +1582,7 @@ declare module angular {
             templateElement: IAugmentedJQuery,
             templateAttributes: IAttributes,
             transclude: ITranscludeFunction
-        ): IDirectivePrePost;
+            ): IDirectivePrePost;
     }
 
     interface IDirective {

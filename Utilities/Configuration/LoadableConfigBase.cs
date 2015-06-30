@@ -19,7 +19,7 @@ namespace LASI.Utilities.Configuration
         /// <summary>
         /// Reads the contents of the file indicated by the given path returning a single string containing the entire file's contents.
         /// </summary>
-        /// <param name="filePath">The path of the fle to read.</param>
+        /// <param name="filePath">The path of the file to read.</param>
         /// <returns></returns>
         protected string ReadConfigDataFromFile(string filePath)
         {

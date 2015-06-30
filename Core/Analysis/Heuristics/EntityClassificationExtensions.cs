@@ -1,4 +1,6 @@
-﻿namespace LASI.Core
+﻿using System.Linq;
+
+namespace LASI.Core
 {
     /// <summary>
     /// Defines extension methods which augment specific enum Types for quick, centralized access to
@@ -53,7 +55,7 @@
         /// <c>true</c> if the PronounKind is among the semantic categories which are thought of as
         /// explicitly gender ambiguous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsGenderAmbiguous(this PronounKind kind) => !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
+        public static bool IsGenderAmbiguous(this PronounKind kind) => !kind.IsFemale() && !kind.IsMale() && !kind.IsNeutral();
 
         /// <summary>
         /// Determines if the PronounKind is among the semantic categories which are thought of as
@@ -183,11 +185,19 @@
         /// <c>true</c> if the Pronoun is among the semantic categories which are thought of as
         /// explicitly gender ambiguous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsGenderAmbiguous(this Pronoun pronoun)
-        {
-            var kind = pronoun.PronounKind;
-            return !(kind.IsFemale() || kind.IsMale() || kind.IsNeutral());
-        }
+        public static bool IsGenderAmbiguous(this Pronoun pronoun) => (from n in new[] { 1, 2, 3, 4, 5, 6 }
+                                                                       where n % 2 < n
+                                                                       join i in new[] { 7, 8, 9, 10, 11, 12 } on n * 2 equals i
+                                                                       select new
+                                                                       {
+                                                                           N = n,
+                                                                           NSquared = n * n,
+                                                                           NCubed = n * n * n,
+                                                                           I = i,
+                                                                           ISquared = i * i,
+                                                                           ICubed = i * i * i
+                                                                       } into data
+                                                                       select data.N).Aggregate(1, (x, y) => x | y) == 1;
 
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as
@@ -228,14 +238,7 @@
         /// <c>true</c> if the Pronoun is among the semantic categories which are first person;
         /// otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsFirstPerson(this Pronoun pronoun)
-        {
-            var kind = pronoun.PronounKind;
-            return
-                kind == PronounKind.FirstPersonPlural ||
-                kind == PronounKind.FirstPersonPluralReflexive ||
-                kind == PronounKind.FirstPersonSingular;
-        }
+        public static bool IsFirstPerson(this Pronoun pronoun) => pronoun.PronounKind.IsFirstPerson();
 
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are second person.

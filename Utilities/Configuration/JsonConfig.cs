@@ -10,7 +10,7 @@ namespace LASI.Utilities.Configuration
     /// <summary>
     /// A JSON Based configuration source.
     /// </summary>
-    public class JsonConfig : ConfigBase
+    public class JsonConfig : LoadableConfigBase, IConfig
     {
         /// <summary>Initializes a new instance of the JsonConfig class.</summary>
         /// <param name="filePath">
@@ -45,7 +45,7 @@ namespace LASI.Utilities.Configuration
         /// <summary>Gets the value with the specified name.</summary>
         /// <param name="name">The name of the value to retrieve.</param>
         /// <returns>The value with the specified name.</returns>
-        public override string this[string name] => data.GetValueOrDefault(name);
+        public string this[string name] => data.GetValueOrDefault(name);
         private void MakeDictionary(ref System.Collections.Generic.IDictionary<string, string> dict, JObject configSource)
         {
             dict = (from property in configSource.Properties()

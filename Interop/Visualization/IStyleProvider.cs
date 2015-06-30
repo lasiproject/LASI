@@ -10,7 +10,7 @@
     /// </typeparam>
     /// <remarks>
     /// Motivation:
-    /// This interface was defined to encourage a common patern in which lexical elements would be styled for display by indexing into the map. 
+    /// This interface was defined to encourage a common pattern in which lexical elements would be styled for display by indexing into the map. 
     /// For example in the LASI WebApp an implementation of this interface associates CSS classes with syntactic elements.
     /// These implementations use the pattern matching facilities provided by the LASI infrastructure to provide a clean readable style mappings to various types.
     /// </remarks>

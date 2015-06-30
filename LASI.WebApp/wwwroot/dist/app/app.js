@@ -3,73 +3,78 @@
  */
 (function () {
     'use strict';
-    var arrayAgumentations = [
-        {
-            name: 'flatMap',
-            value: {
-                writable: false,
-                enumerable: false,
-                configurable: false,
-                value: function (arraySelector, elementSelector) {
-                    arraySelector = arraySelector || function (array) {
-                        return array instanceof Array && array;
-                    };
-                    elementSelector = elementSelector || function (element) { return element; };
-                    return this.reduce(function (array, a) {
-                        return array.concat(arraySelector(a).map(elementSelector));
-                    }, []);
-                }
-            }
-        }, {
-            name: 'correlate',
-            value: {
-                writable: false, enumerable: false, configurable: false, value: function (inner, outerKeySelector, innerKeySelector, resultSelector) {
-                    var outerKeyed, innerKeyed, i, j, results = [];
-                    outerKeyed = this.map(function (e) {
-                        return { element: e, key: outerKeySelector(e) };
-                    });
-                    innerKeyed = inner.map(function (e) {
-                        return { element: e, key: innerKeySelector(e) };
-                    });
-                    for (i = 0; i < outerKeyed.length; i += 1) {
-                        for (j = 0; j < innerKeyed.length; j += 1) {
-                            if (outerKeyed[i].key === innerKeyed[j].key) {
-                                results.push({ first: outerKeyed[i].element, second: innerKeyed[j].element });
-                            }
-                        }
-                    }
-                    return resultSelector ? results.map(function (e) {
-                        return resultSelector(e.first, e.second);
-                    }) : results;
-                }
-            }
-        }, {
-            name: 'sum',
-            value: {
-                writable: false,
-                enumerable: false,
-                configurable: false,
-                value: function (valueSelector) {
-                    var projection = valueSelector || (function (x) { return Number(x); });
-                    return this.length === 0 ? 0 : this.reduce(function (total, element) { return total + projection(element); }, 0);
-                }
-            }
+    var arrayAgumentations = {
+        flatMap: function (arraySelector, elementSelector) {
+            arraySelector = arraySelector || function (array) {
+                return array instanceof Array && array;
+            };
+            elementSelector = elementSelector || function (element) { return element; };
+            return this.reduce(function (array, a) {
+                return array.concat(arraySelector(a).map(elementSelector));
+            }, []);
         },
-        {
-            name: 'average',
-            value: {
-                writable: false,
-                enumerable: false,
-                configurable: false,
-                value: function (valueSelector) {
-                    return this.sum(valueSelector || (function (x) { return Number(x); })) / this.length;
+        correlate: function (inner, outerKeySelector, innerKeySelector, resultSelector) {
+            var outerKeyed, innerKeyed, i, j, results = [];
+            outerKeyed = this.map(function (e) {
+                return { element: e, key: outerKeySelector(e) };
+            });
+            innerKeyed = inner.map(function (e) {
+                return { element: e, key: innerKeySelector(e) };
+            });
+            for (i = 0; i < outerKeyed.length; i += 1) {
+                for (j = 0; j < innerKeyed.length; j += 1) {
+                    if (outerKeyed[i].key === innerKeyed[j].key) {
+                        results.push({ first: outerKeyed[i].element, second: innerKeyed[j].element });
+                    }
                 }
             }
+            return resultSelector ? results.map(function (e) {
+                return resultSelector(e.first, e.second);
+            }) : results;
+        },
+        sum: function (valueSelector) {
+            var projection = valueSelector || (function (x) { return Number(x); });
+            return this.length === 0 ? 0 : this.reduce(function (total, element) { return total + projection(element); }, 0);
+        },
+        average: function (valueSelector) {
+            return this.sum(valueSelector || (function (x) { return Number(x); })) / this.length;
+        },
+        first: function (predicate) {
+            if (!predicate) {
+                return this[0];
+            }
+            for (var i = 0; i < this.length; ++i) {
+                if (predicate(this[i])) {
+                    return this[i];
+                }
+            }
+            return undefined;
+        },
+        last: function (predicate) {
+            if (!predicate) {
+                return this[this.length - 1];
+            }
+            for (var i = this.length - 1; i > 0; --i) {
+                if (predicate(this[i])) {
+                    return this[i];
+                }
+            }
+            return undefined;
         }
-    ];
-    arrayAgumentations
-        .filter(function (property) { return !Object.prototype.hasOwnProperty.call(Array.prototype, property.name); })
-        .forEach(function (property) { return Object.defineProperty(Array.prototype, property.name, property.value); });
+    };
+    Object.keys(arrayAgumentations)
+        .filter(function (key) { return !Object.prototype.hasOwnProperty.call(Array.prototype, key); })
+        .map(function (key) { return [key,
+        {
+            writable: false,
+            enumerable: false,
+            configurable: false,
+            value: arrayAgumentations[key]
+        }]; })
+        .forEach(function (_a) {
+        var name = _a[0], property = _a[1];
+        return Object.defineProperty(Array.prototype, name, property);
+    });
 })();
 var LASI;
 (function (LASI) {
@@ -121,6 +126,16 @@ var LASI;
         ;
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var upload;
+    (function (upload) {
+        'use strict';
+        angular.module('uploads', [
+            'ngFileUpload'
+        ]);
+    })(upload = LASI.upload || (LASI.upload = {}));
+})(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function () {
     'use strict';
@@ -152,27 +167,23 @@ var contextmenuTests;
         item1, item2
     ];
 })(contextmenuTests || (contextmenuTests = {}));
-/// <reference path="../../../typings/jquery/jquery.d.ts" />
-/// <reference path="../../../typings/angularjs/angular.d.ts" />
+/// <reference path='../../../typings/jquery/jquery.d.ts' />
+/// <reference path='../../../typings/angularjs/angular.d.ts' />
 var LASI;
 (function (LASI) {
     var debug;
     (function (debug) {
         'use strict';
-        var DebugPanelController = (function () {
-            function DebugPanelController($http, $interval) {
-                var _this = this;
-                this.tasks = [];
-                $interval(function () {
-                    $http.get('api/Tasks', '$interval')
-                        .success(function (data) { return _this.tasks = data.sort(function (x, y) { return x.id.localeCompare(y.id); }); })
-                        .error(function (error, status) { return LASI.log(status + ": " + error); });
-                }, 50);
-            }
-            DebugPanelController.$inject = ['$http', '$interval'];
-            return DebugPanelController;
-        })();
-        angular.module('debug', [])
+        DebugPanelController.$inject = ['tasksListService'];
+        function DebugPanelController(tasksListService) {
+            var _this = this;
+            tasksListService.getActiveTasks().then(function (data) { return _this.tasks = data.sort(function (x, y) { return x.id.localeCompare(y.id); }); });
+            this.show = false;
+            this.getbuttonText = function () { return _this.show ? 'Hide' : 'Show'; };
+            this.toggle = function () { return _this.show = !_this.show; };
+        }
+        angular
+            .module('debug', [])
             .controller('DebugPanelController', DebugPanelController);
     })(debug = LASI.debug || (LASI.debug = {}));
 })(LASI || (LASI = {}));
@@ -346,30 +357,28 @@ var LASI;
                     var deferred = $q.defer();
                     $q.when(documentModelService.processDocument(documentId)).then(function (data) {
                         $q.when(data).then(function (d) {
+                            deferred.resolve(d);
                             vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
                             if (!$rootScope.$$phase) {
                                 $rootScope.$apply();
                             }
                         });
                     });
+                    return deferred.promise;
                 };
-                $q.all([
-                    $q.when(documentListService.getDocumentList()),
-                    $q.when(tasksListService.getActiveTasks(function (tasks) { return tasks.forEach(function (task) {
-                        vm.tasks[task.id] = task;
-                        vm.documents.filter(function (d) { return d.name === task.name; })[0].task = task;
-                    }); }))
-                ]).then(function (promises) {
-                    vm.documents = promises[0];
-                    vm.documents.correlate(promises[1], function (document) { return document.id; }, function (task) { return task.id; })
-                        .forEach(function (documentWithTask) {
-                        var document = documentWithTask.first, task = documentWithTask.second;
+                vm.documents = documentListService.getDocumentList();
+                vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {
+                    vm.tasks[task.id] = task;
+                    return (vm.documents.filter(function (d) { return d.name === task.name; })[0] || {}).task = task;
+                }); });
+                $q.all([vm.documents, vm.tasks]).then(function (data) {
+                    var _a = data, documents = _a[0], tasks = _a[1];
+                    var associated = documents.correlate(tasks, function (document) { return document.id; }, function (task) { return task.id; }, function (document, task) {
                         document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                         document.progress = Math.round(task.percentComplete);
                         document.statusMessage = task.statusMessage;
                     });
-                    vm.tasks = {};
-                    promises[1].forEach(function (task) { vm.tasks[task.id] = task; });
+                    tasks.forEach(function (task) { vm.tasks[task.id] = task; });
                 });
             }
         }
@@ -436,7 +445,7 @@ var LASI;
         function tasksListServiceProvider() {
             var updateInterval = 200;
             var tasksListUrl = 'api/Tasks';
-            $get.$inject = ['$resource', '$window'];
+            $get.$inject = ['$q', '$resource', '$interval'];
             return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
             function setUpdateInterval(milliseconds) {
                 updateInterval = milliseconds;
@@ -446,24 +455,25 @@ var LASI;
                 tasksListUrl = url;
                 return this;
             }
-            function $get($resource, $window) {
-                var updateDebugInfo = function (tasks) { };
-                var Tasks = $resource(tasksListUrl, { cache: false }, {
+            function $get($q, $resource, $interval) {
+                var Tasks = $resource(tasksListUrl, {}, {
                     get: {
                         method: 'GET', isArray: true
                     }
                 });
-                var tasks = [];
                 var getActiveTasks = function (callback) {
-                    $window.setInterval(function () {
-                        callback(tasks);
-                        tasks = Tasks.get();
-                        updateDebugInfo(tasks);
+                    var _this = this;
+                    var deferred = $q.defer();
+                    $interval(function () {
+                        callback && callback(_this.tasks);
+                        _this.tasks = Tasks.get();
+                        deferred.resolve(_this.tasks);
                     }, updateInterval);
-                    return tasks;
+                    return deferred.promise;
                 };
                 return {
-                    getActiveTasks: getActiveTasks
+                    getActiveTasks: getActiveTasks,
+                    tasks: []
                 };
             }
             function createDebugInfoUpdator(element) {
@@ -480,39 +490,60 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
+        var UploadController = (function () {
+            function UploadController($scope, uploadService) {
+                var _this = this;
+                this.uploadService = uploadService;
+                this.uploadFiles = function (files) {
+                    files.filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
+                        .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
+                        .reduce(function (errors, error) { errors.push(error); return errors; }, [])
+                        .forEach(LASI.log);
+                    return (files || _this.files || []).map(_this.uploadFile);
+                };
+                this.uploadFile = function (file) {
+                    var promise = _this.uploadService.upload({
+                        file: file,
+                        url: 'api/UserDocuments',
+                        method: 'POST',
+                        fileName: file.name
+                    });
+                    promise
+                        .progress(_this.progress)
+                        .success(_this.success)
+                        .error(_this.error);
+                    return promise;
+                };
+                $scope.$watch('files', function (x, y) { return _this.uploadFiles; });
+                this.files = [];
+            }
+            UploadController.prototype.progress = function (event) {
+                var progressPercentage = 100.0 * event.loaded / event.total;
+                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
+            };
+            UploadController.prototype.success = function (data, status, headers, config) {
+                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+            };
+            UploadController.prototype.error = function (data, status, headers, config) {
+                LASI.log("Http: " + status + " Failed to upload file.\n                Details: " + data);
+            };
+            UploadController.prototype.removeItem = function (file, index) {
+                this.files = this.files.filter(function (f) { return f.name !== file.name; });
+                $('#file-upload-list').remove("#upload-list-item-" + index);
+            };
+            UploadController.$inject = ['$scope', 'Upload'];
+            UploadController.formats = [
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/msword',
+                'application/pdf',
+                'text/plain'
+            ];
+            UploadController.fileInputAcceptText = UploadController.formats.join(',');
+            return UploadController;
+        })();
         angular
             .module('documentList')
             .controller('UploadController', UploadController);
-        UploadController.$inject = ['$scope', 'Upload'];
-        function UploadController($scope, uploadService) {
-            var vm = this;
-            activate();
-            vm.files = [];
-            vm.uploadFile = function (file) { return uploadService.upload({
-                file: file,
-                url: 'api/UserDocuments',
-                method: 'POST',
-                fileName: file.name
-            }).progress(progress).success(success); };
-            vm.uploadFiles = function (files) { return (files || []).map(vm.uploadFile); };
-            $scope.$watch('files', vm.uploadFiles);
-            function progress(event) {
-                var progressPercentage = 100.0 * event.loaded / event.total;
-                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
-            }
-            function success(data, status, headers, config) {
-                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
-            }
-            function activate() {
-                vm.formats = [
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'application/msword',
-                    'application/pdf',
-                    'text/plain'
-                ];
-                vm.fileInputAcceptText = vm.formats.join(',');
-            }
-        }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -527,7 +558,12 @@ var LASI;
                 this.title = 'DocumentController';
             }
             DocumentController.prototype.processDocument = function (documentId) {
-                return this.documentModelService.processDocument(documentId);
+                if (this.documentModel.id !== documentId) {
+                    return this.documentModelService.processDocument(documentId);
+                }
+                else {
+                    return this.documentModel;
+                }
             };
             DocumentController.$inject = ['MockDocumentModelService', '$location'];
             return DocumentController;
@@ -732,22 +768,6 @@ var LASI;
 })(LASI || (LASI = {}));
 var LASI;
 (function (LASI) {
-    'use strict';
-    angular
-        .module('documentViewer')
-        .controller('VerbalContextController', VerbalContextController);
-    var VerbalContextController = (function () {
-        function VerbalContextController() {
-            this.title = 'VerbalContextController';
-        }
-        VerbalContextController.prototype.activate = function () {
-        };
-        VerbalContextController.$inject = ['$state'];
-        return VerbalContextController;
-    })();
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
     var documentViewer;
     (function (documentViewer) {
         'use strict';
@@ -812,6 +832,130 @@ var LASI;
             .service('MockDocumentModelService', MockDocumentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
+/// <reference path="../lasi.ts"/>
+(function (app) {
+    'use strict';
+    app.buildMenus = (function (contextualElementIdSelectors) {
+        var verbalMenuTextToElementsMap = {
+            'View Subjects': 'subjects',
+            'View Direct Objects': 'directObjects',
+            'View Indirect Objects': 'indirectObjects'
+        };
+        var relationshipCssClassNameMap = {
+            'View Subjects': 'subject-of-current',
+            'View Direct Objects': 'direct-object-of-current',
+            'View Indirect Objects': 'indirect-object-of-current'
+        };
+        return function () {
+            var forVerbal = function (context) {
+                var menu = JSON.parse($('#context' + context[0].id).text());
+                var subjects = menu.subjects, directObjects = menu.directObjects, indirectObjects = menu.indirectObjects;
+                var temp = {
+                    subjects: subjects,
+                    directObjects: directObjects,
+                    indirectObjects: indirectObjects
+                }, result = {};
+                Object.keys(temp)
+                    .filter(function (key) { return temp[key]; })
+                    .forEach(function (key) { result[key] = temp[key]; });
+                return result;
+            }, forReferencer = function (context) {
+                var menu = JSON.parse($('#context' + context[0].id).text());
+                return menu;
+            };
+            $('span.referencer').contextmenu({
+                target: '#referencer-context-menu',
+                before: function (event, context) {
+                    var data = forReferencer(context);
+                    event.target.lexicalContextMenu = data;
+                    return data.referredTo && data.referredTo.length > 0;
+                },
+                onItem: function (context) {
+                    context[0].lexicalContextMenu.referredTo.map(function (id) {
+                        return $('#' + id);
+                    }).forEach(function (element) {
+                        element.css('background-color', 'red');
+                    });
+                }
+            });
+            $('span.verbal').contextmenu({
+                target: '#verbal-context-menu',
+                before: function (e, context) {
+                    var count = 0;
+                    var menu = forVerbal(context);
+                    e.target.lexicalContextMenu = {};
+                    Object.keys(menu).forEach(function (key) {
+                        e.target.lexicalContextMenu[key] = menu[key].map(function (id) {
+                            var idSelector = '#' + id;
+                            if (!contextualElementIdSelectors.some(function (e) { return e === idSelector; })) {
+                                contextualElementIdSelectors.push(idSelector);
+                            }
+                            return idSelector;
+                        });
+                    });
+                    [
+                        { name: 'subjects', id: '#subjects-item' },
+                        { name: 'directObjects', id: '#directobjects-item' },
+                        { name: 'indirectObjects', id: '#indirectobjects-item' }
+                    ].forEach(function (x) {
+                        if (!menu[x.name]) {
+                            $(x.id).hide();
+                        }
+                        else {
+                            count += 1;
+                            $(x.id).show();
+                        }
+                    });
+                    return count > 0;
+                },
+                onItem: function (context, event) {
+                    var menu = context[0].lexicalContextMenu;
+                    contextualElementIdSelectors
+                        .flatMap(function (e) { return $(e).toArray(); }, $)
+                        .forEach(function (e) {
+                        Object.keys(relationshipCssClassNameMap).forEach(function (key) {
+                            e.removeClass(relationshipCssClassNameMap[key]);
+                        });
+                    });
+                    menu[verbalMenuTextToElementsMap[event.target.text]]
+                        .map($)
+                        .forEach(function (e) {
+                        e.addClass(relationshipCssClassNameMap[event.target.text]);
+                    });
+                }
+            });
+            $(document).on('click', function () {
+                $('#verbal-context-menu').hide();
+                $('#referencer-context-menu').hide();
+            });
+        };
+    }([]));
+    $(app.buildMenus);
+}(LASI));
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
+/// <reference path="../lasi.ts"/>
+(function (app) {
+    app.enableActiveHighlighting = (function () {
+        'use strict';
+        var onReady = function () {
+            var phrasalTextSpans = $('span.phrase'), highlightClass = 'active-phrase-highlight', recolor = function () {
+                phrasalTextSpans.each(function () {
+                    $(this).removeClass(highlightClass);
+                });
+                $(this).addClass(highlightClass);
+            };
+            phrasalTextSpans.click(recolor);
+            phrasalTextSpans.on('contextmenu', recolor);
+            $('[data-toggle="tooltip"]').tooltip({
+                delay: 250,
+                container: 'body'
+            });
+        };
+        $(onReady);
+        return onReady;
+    }());
+}(LASI));
 var LASI;
 (function (LASI) {
     var documentList;
@@ -848,7 +992,7 @@ var LASI;
                     var $listItem = $(this);
                     var $element = $(event.target);
                     var documentName = $element[0].innerText;
-                    var documentId = $element.find('span.hidden')[0].textContent.trim();
+                    var documentId = $element.next('.item-id-hidden')[0].innerText.trim();
                     LASI.log('clicked Name: ' + documentName + ', Id: ' + documentId);
                     var $parentListItem = $($(event.target).parent());
                     var $progress = $parentListItem.find('.progress hidden')
@@ -865,8 +1009,6 @@ var LASI;
                             $('#accordion').append(panelMarkup);
                         }
                         xhr.progress('100%');
-                        LASI.buildMenus();
-                        LASI.enableActiveHighlighting();
                     }).fail(function (xhr, message, detail) {
                         LASI.log(message);
                     }).progress(function (data) {

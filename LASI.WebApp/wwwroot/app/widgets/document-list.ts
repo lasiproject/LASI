@@ -35,7 +35,7 @@ module LASI.documentList {
                 var $element = $(event.target);
                 //var documentName = $element[0].text;
                 var documentName = $element[0].innerText;
-                var documentId = $element.find('span.hidden')[0].textContent.trim();
+                var documentId = $element.next('.item-id-hidden')[0].innerText.trim();
                 log('clicked Name: ' + documentName + ', Id: ' + documentId);
                 var $parentListItem = $($(event.target).parent());
                 var $progress = $parentListItem.find('.progress hidden')
@@ -54,8 +54,8 @@ module LASI.documentList {
                         $('#accordion').append(panelMarkup);
                     }
                     xhr.progress('100%');
-                    buildMenus();
-                    enableActiveHighlighting();
+                  //LASI.buildMenus();
+                    //enableActiveHighlighting();
                 }).fail(function (xhr, message, detail) {
                     log(message);
                 }).progress(function (data) {

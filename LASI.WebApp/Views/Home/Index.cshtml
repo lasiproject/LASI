@@ -3,8 +3,15 @@
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
             @await Html.PartialAsync("_DynamicTabs")
+
+
+
         }
         @await Html.PartialAsync("_LexicalContextMenus")
     </div>
-    <hr />
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @await Html.PartialAsync("_DebugPanel")
+    </div>
 </div>

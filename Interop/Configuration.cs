@@ -94,6 +94,17 @@ namespace LASI.Interop
                 InitializeImplementation(reader.ReadToEnd(), format, subkey);
             }
         }
+        public static void Initialize(IConfig config) => Initialize(() => config);
+        public static void Initialize(Func<IConfig> configFactory)
+        {
+            lock (initializationLock)
+            {
+                Validate.IsFalse(alreadyConfigured, () => new SystemAlreadyConfiguredException());
+                var config = configFactory();
+                InitializeComponents(config);
+                alreadyConfigured = true;
+            }
+        }
 
         private static void InitializeImplementation(string raw, ConfigFormat format, string subkey)
         {
@@ -101,28 +112,26 @@ namespace LASI.Interop
 
             lock (initializationLock)
             {
-                if (configured)
-                {
-                    throw new SystemAlreadyConfiguredException();
-                };
+                Validate.IsFalse(alreadyConfigured, () => new SystemAlreadyConfiguredException());
 
                 Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
 
                 Func<IConfig> loadJsonConfig = () => new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace() ? JToken.Parse(raw) : JToken.Parse(raw).SelectToken(subkey)));
 
-                Action<IConfig> initializeComponents = settings =>
-                {
-                    Core.Configuration.Configuration.Initialize(settings);
-                    Content.InteropBindings.Configuration.Initialize(settings);
-                };
 
                 var config = format == ConfigFormat.Json ? loadJsonConfig() : loadXmlConfig();
-                initializeComponents(config);
-                configured = true;
+                InitializeComponents(config);
+                alreadyConfigured = true;
             }
         }
 
-        private static bool configured;
+        private static void InitializeComponents(IConfig settings)
+        {
+            Core.Configuration.Configuration.Initialize(settings);
+            Content.InteropBindings.Configuration.Initialize(settings);
+        }
+
+        private static bool alreadyConfigured;
         private static readonly object initializationLock = new object();
     }
     /// <summary>

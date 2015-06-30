@@ -9,7 +9,7 @@ var LASI;
         function tasksListServiceProvider() {
             var updateInterval = 200;
             var tasksListUrl = 'api/Tasks';
-            $get.$inject = ['$resource', '$window'];
+            $get.$inject = ['$q', '$resource', '$interval'];
             return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
             function setUpdateInterval(milliseconds) {
                 updateInterval = milliseconds;
@@ -19,24 +19,26 @@ var LASI;
                 tasksListUrl = url;
                 return this;
             }
-            function $get($resource, $window) {
-                var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
-                var Tasks = $resource(tasksListUrl, { cache: false }, {
+            function $get($q, $resource, $interval) {
+                //var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
+                var Tasks = $resource(tasksListUrl, {}, {
                     get: {
                         method: 'GET', isArray: true
                     }
                 });
-                var tasks = [];
                 var getActiveTasks = function (callback) {
-                    $window.setInterval(function () {
-                        callback(tasks);
-                        tasks = Tasks.get();
-                        updateDebugInfo(tasks);
+                    var _this = this;
+                    var deferred = $q.defer();
+                    $interval(function () {
+                        callback && callback(_this.tasks);
+                        _this.tasks = Tasks.get();
+                        deferred.resolve(_this.tasks);
                     }, updateInterval);
-                    return tasks;
+                    return deferred.promise;
                 };
                 return {
-                    getActiveTasks: getActiveTasks
+                    getActiveTasks: getActiveTasks,
+                    tasks: []
                 };
             }
             function createDebugInfoUpdator(element) {

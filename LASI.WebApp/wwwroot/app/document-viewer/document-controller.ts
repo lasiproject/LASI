@@ -17,7 +17,11 @@ module LASI.documentViewer {
         constructor(private documentModelService: IDocumentModelService, private $location: ng.ILocationService) {
         }
         processDocument(documentId: string) {
-            return this.documentModelService.processDocument(documentId);
+            if (this.documentModel.id !== documentId) {
+                return this.documentModelService.processDocument(documentId);
+            } else {
+                return this.documentModel;
+            }
         }
     }
     angular

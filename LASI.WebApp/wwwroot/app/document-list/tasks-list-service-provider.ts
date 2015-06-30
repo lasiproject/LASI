@@ -10,7 +10,7 @@
         var updateInterval = 200;
         var tasksListUrl = 'api/Tasks';
 
-        $get.$inject = ['$resource', '$window'];
+        $get.$inject = ['$q', '$resource', '$interval'];
 
         return { $get, setUpdateInterval, setTasksListUrl };
 
@@ -23,25 +23,26 @@
             return this;
         }
 
-        function $get($resource: ng.resource.IResourceService, $window: ng.IWindowService): ITasksListService {
-            var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
-            var Tasks = $resource<ITask[]>(tasksListUrl, { cache: false }, {
+        function $get($q: ng.IQService, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService): ITasksListService {
+            //var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
+            var Tasks = $resource<ITask[]>(tasksListUrl, {}, {
                 get: {
                     method: 'GET', isArray: true
                 }
             });
-            var tasks: ITask[] = [];
-
-            var getActiveTasks = function (callback: (tasks: ITask[]) => any) {
-                $window.setInterval(() => {
-                    callback(tasks);
-                    tasks = Tasks.get();
-                    updateDebugInfo(tasks);
+            var getActiveTasks = function (callback?: (tasks: ITask[]) => any) {
+                var deferred = $q.defer<ITask[]>();
+                $interval(() => {
+                    callback && callback(this.tasks);
+                    this.tasks = Tasks.get();
+                    deferred.resolve(this.tasks);
                 }, updateInterval);
-                return tasks;
+                return deferred.promise;
             };
+
             return {
-                getActiveTasks
+                getActiveTasks,
+                tasks: []
             };
         }
         function createDebugInfoUpdator(element: JQuery) {
@@ -52,7 +53,7 @@
         }
     }
     export interface ITasksListServiceConfig {
-        $get: ($resource: ng.resource.IResourceService, $window: ng.IWindowService) => ITasksListService;
+        $get: ($q, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService) => ITasksListService;
         setTasksListUrl(url: string): ITasksListServiceConfig;
         setUpdateInterval(milliconds: number): ITasksListServiceConfig;
     }
@@ -66,6 +67,7 @@
     }
 
     export interface ITasksListService {
-        getActiveTasks(callback: (tasks: ITask[]) => any): ITask[];
+        getActiveTasks(callback?: (tasks: ITask[]) => any): ng.IPromise<ITask[]>;
+        tasks: ITask[];
     }
 }

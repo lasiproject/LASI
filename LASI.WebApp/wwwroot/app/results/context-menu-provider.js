@@ -1,3 +1,5 @@
+/// <reference path="../../../typings/jquery/jquery.d.ts"/>
+/// <reference path="../lasi.ts"/>
 (function (app) {
     'use strict';
     app.buildMenus = (function (contextualElementIdSelectors) {
@@ -13,11 +15,8 @@
         };
         return function () {
             var forVerbal = function (context) {
-
                 var menu = JSON.parse($('#context' + context[0].id).text());
-                var subjects = menu.subjects,
-                    directObjects = menu.directObjects,
-                    indirectObjects = menu.indirectObjects;
+                var subjects = menu.subjects, directObjects = menu.directObjects, indirectObjects = menu.indirectObjects;
                 var temp = {
                     subjects: subjects,
                     directObjects: directObjects,
@@ -49,7 +48,6 @@
             $('span.verbal').contextmenu({
                 target: '#verbal-context-menu',
                 before: function (e, context) {
-
                     var count = 0;
                     var menu = forVerbal(context);
                     e.target.lexicalContextMenu = {};
@@ -69,7 +67,8 @@
                     ].forEach(function (x) {
                         if (!menu[x.name]) {
                             $(x.id).hide();
-                        } else {
+                        }
+                        else {
                             count += 1;
                             $(x.id).show();
                         }
@@ -81,16 +80,15 @@
                     contextualElementIdSelectors
                         .flatMap(function (e) { return $(e).toArray(); }, $)
                         .forEach(function (e) {
-                            Object.keys(relationshipCssClassNameMap).forEach(function (key) {
-                                e.removeClass(relationshipCssClassNameMap[key]);
-                            });
+                        Object.keys(relationshipCssClassNameMap).forEach(function (key) {
+                            e.removeClass(relationshipCssClassNameMap[key]);
                         });
+                    });
                     menu[verbalMenuTextToElementsMap[event.target.text]]
                         .map($)
                         .forEach(function (e) {
-                            e.addClass(relationshipCssClassNameMap[event.target.text]);
-                        });
-
+                        e.addClass(relationshipCssClassNameMap[event.target.text]);
+                    });
                 }
             });
             $(document).on('click', function () {

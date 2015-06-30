@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -18,7 +19,11 @@ namespace LASI.WebApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WorkItem> Get() => workItemsService.GetAllWorkItemsForUser(User.GetUserId());
+        public IEnumerable<WorkItem> Get()
+        {
+            var userId = User.GetUserId();
+            return userId == null ? Enumerable.Empty<WorkItem>() : workItemsService.GetAllWorkItemsForUser(userId);
+        }
 
         [HttpPost]
         public void Reset(string userId)

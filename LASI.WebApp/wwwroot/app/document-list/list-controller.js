@@ -32,30 +32,28 @@ var LASI;
                     var deferred = $q.defer();
                     $q.when(documentModelService.processDocument(documentId)).then(function (data) {
                         $q.when(data).then(function (d) {
+                            deferred.resolve(d);
                             vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
                             if (!$rootScope.$$phase) {
                                 $rootScope.$apply();
                             }
                         });
                     });
+                    return deferred.promise;
                 };
-                $q.all([
-                    $q.when(documentListService.getDocumentList()),
-                    $q.when(tasksListService.getActiveTasks(function (tasks) { return tasks.forEach(function (task) {
-                        vm.tasks[task.id] = task;
-                        vm.documents.filter(function (d) { return d.name === task.name; })[0].task = task;
-                    }); }))
-                ]).then(function (promises) {
-                    vm.documents = promises[0];
-                    vm.documents.correlate(promises[1], function (document) { return document.id; }, function (task) { return task.id; })
-                        .forEach(function (documentWithTask) {
-                        var document = documentWithTask.first, task = documentWithTask.second;
+                vm.documents = documentListService.getDocumentList();
+                vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {
+                    vm.tasks[task.id] = task;
+                    return (vm.documents.filter(function (d) { return d.name === task.name; })[0] || {}).task = task;
+                }); });
+                $q.all([vm.documents, vm.tasks]).then(function (data) {
+                    var _a = data, documents = _a[0], tasks = _a[1];
+                    var associated = documents.correlate(tasks, function (document) { return document.id; }, function (task) { return task.id; }, function (document, task) {
                         document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                         document.progress = Math.round(task.percentComplete);
                         document.statusMessage = task.statusMessage;
                     });
-                    vm.tasks = {};
-                    promises[1].forEach(function (task) { vm.tasks[task.id] = task; });
+                    tasks.forEach(function (task) { vm.tasks[task.id] = task; });
                 });
             }
         }

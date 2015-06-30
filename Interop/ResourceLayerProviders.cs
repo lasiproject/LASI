@@ -1,4 +1,4 @@
-﻿namespace LASI.Interop.ResourceManagement
+﻿namespace LASI.Interop
 {
     using System;
     using MemoryEventArgs = MemoryThresholdExceededEventArgs;

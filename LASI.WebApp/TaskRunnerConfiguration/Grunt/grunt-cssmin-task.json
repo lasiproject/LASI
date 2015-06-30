@@ -1,18 +1,26 @@
 ﻿{
-    "options": {
-        "shorthandCompacting": false,
-        "roundingPrecision": -1,
-        "sourceMap": true,
-        "verbose": true
-    },
+
     "app": {
-        "files": {
-            "wwwroot/dist/app/app.min.css": [ "wwwroot/css/**/*.css" ]
-        }
+        "options": {
+            "report": "gzip",
+            "shorthandCompacting": false,
+            "roundingPrecision": -1,
+            "sourceMap": true,
+            "verbose": true
+        },
+        "src": [ "wwwroot/css/**/*.css" ],
+        "dest": "wwwroot/dist/app/app.min.css"
     },
     "lib": {
-        "files": {
-            "wwwroot/dist/lib/lib.min.css": [ "wwwroot/lib/**/*.css" ]
-        }
+        "options": {
+            "report": "gzip",
+            "shorthandCompacting": false,
+            "roundingPrecision": -1,
+            "sourceMap": true,
+            "verbose": true
+        },
+        "src": [ "wwwroot/lib/**/*.css" ],
+        "dest": "wwwroot/dist/lib/lib.min.css"
+
     }
 }

@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         tslint: {
             options: { configuration: grunt.file.readJSON('TaskRunnerConfiguration/tslint.json') },
             app: { src: ['wwwroot/app/**/*.ts'] },
-            test: { src: ['wwwroot/test/**/*.ts']} 
+            test: { src: ['wwwroot/test/**/*.ts'] }
         },
         cssmin: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-cssmin-task.json'),
         qunit: { all: ['wwwroot/test/**/*.html'] },

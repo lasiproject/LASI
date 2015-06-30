@@ -19,7 +19,7 @@ namespace LASI.Utilities.Validation
         /// The name of the value being validated in the context of the calling method.
         /// </param>
         /// <exception cref="ArgumentNullException">The value was null.</exception>
-        public static void NotNull<T>(T value, string name = "value")  
+        public static void NotNull<T>(T value, string name = "value")
         {
             if (value == null)
             {
@@ -44,22 +44,6 @@ namespace LASI.Utilities.Validation
                 FailWithArgumentNullException(name, message);
             }
         }
-
-        /// <summary>
-        /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false.
-        /// </summary>
-        /// <param name="conditionOne">The first condition to test.</param>
-        /// <param name="conditionTwo">The second condition to test.</param>
-        /// <param name="message">A message detailing error information.</param>
-        /// 
-        public static void Either(bool conditionOne, bool conditionTwo, string message)
-        {
-            if (!(conditionOne || conditionTwo))
-            {
-                FailWithArgumentException(message);
-            }
-        }
-
 
         /// <summary>
         /// Validates the specified arguments, raising a <see cref="System.ArgumentNullException"/> if any of them
@@ -337,6 +321,54 @@ namespace LASI.Utilities.Validation
                 FailWithArgumentException(name, $"{collection.Format()} must not contain the member {value}.");
             }
         }
+
+        #region Conditional Validation
+        /// <summary>
+        /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false.
+        /// </summary>
+        /// <param name="conditionOne">The first condition to test.</param>
+        /// <param name="conditionTwo">The second condition to test.</param>
+        /// <param name="message">A message detailing error information.</param>
+        public static void Either(bool conditionOne, bool conditionTwo, string message)
+        {
+            if (!(conditionOne || conditionTwo))
+            {
+                FailWithArgumentException(message);
+            }
+        }
+        public static void IsFalse(bool value, string message)
+        {
+            if (value) FailWithArgumentException(message);
+        }
+        public static void IsFalse<TFailWith>(bool value) where TFailWith : Exception, new()
+        {
+            if (value) throw new TFailWith();
+        }
+        public static void IsFalse<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+        {
+            if (value) throw failWith();
+        }
+        public static void IsFalse<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+        {
+            if (value) throw failWith(message);
+        }
+        public static void IsTrue(bool value, string message)
+        {
+            if (!value) FailWithArgumentException(message);
+        }
+        public static void IsTrue<TFailWith>(bool value) where TFailWith : Exception, new()
+        {
+            if (!value) throw new TFailWith();
+        }
+        public static void IsTrue<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+        {
+            if (!value) throw failWith();
+        }
+        public static void IsTrue<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+        {
+            if (!value) throw failWith(message);
+        }
+        #endregion Conditional Validation
 
         #endregion Range Validation
 

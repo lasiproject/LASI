@@ -2,7 +2,7 @@ LASI
 ====
 
 LASI is a lexical parsing tool that attempts to identify important associations and generalizable patterns between the words and phrases over a set of one or more documents.
-Some of the heurisitcs appled include: 
+Some of the heuristics applied include: 
 
 lifted frequencies, syntactic identification, sentence level locality, and gender aware pronoun inference
 
