@@ -1,227 +1,226 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LASI.Core.Tests</RootNamespace>
-    <AssemblyName>LASI.Core.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>CodedUITest</TestProjectType>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>540098a2</NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Win32Resource>
-    </Win32Resource>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\OpenNLP.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpEntropy, Version=1.0.2529.39670, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpEntropy.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpWordNet, Version=1.0.2529.39512, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpWordNet.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AdjectivePhraseTest.cs" />
-    <Compile Include="AdjectiveTest.cs" />
-    <Compile Include="AdverbTest.cs" />
-    <Compile Include="AggregateEntityTest.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpherTest.cs" />
-    <Compile Include="PatternMatching\PhraseAsSequentialPatternMatchingTest.cs" />
-    <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
-    <Compile Include="ConjunctionPhraseTest.cs" />
-    <Compile Include="ConjunctionTest.cs" />
-    <Compile Include="DeterminerTest.cs" />
-    <Compile Include="DocumentTest.cs" />
-    <Compile Include="DoubleQuoteTest.cs" />
-    <Compile Include="ExistentialTest.cs" />
-    <Compile Include="ExpressionExtensionsTest.cs" />
-    <Compile Include="ForeignWordTest.cs" />
-    <Compile Include="CommonPluralNounTest.cs" />
-    <Compile Include="CommonSingularNounTest.cs" />
-    <Compile Include="PatternMatching\MatchTTresultTest.cs" />
-    <Compile Include="PatternMatching\MonadOperatorsTest.cs" />
-    <Compile Include="SubjectBinderTests.cs" />
-    <Compile Include="IDirectObjectTakerTest.cs" />
-    <Compile Include="IEntityTest.cs" />
-    <Compile Include="IGenderedTest.cs" />
-    <Compile Include="IInderectObjectTakerTest.cs" />
-    <Compile Include="ILexicalTest.cs" />
-    <Compile Include="IModalityModifiableTest.cs" />
-    <Compile Include="InterjectionPhraseTest.cs" />
-    <Compile Include="InterjectionTest.cs" />
-    <Compile Include="InvertedClauseBeginPhraseTest.cs" />
-    <Compile Include="IQuantifiableTest.cs" />
-    <Compile Include="ISimpleGenderedTest.cs" />
-    <Compile Include="LexiconTest.cs" />
-    <Compile Include="ModalAuxilaryTest.cs" />
-    <Compile Include="ModalTest.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\NounMorpherTest.cs" />
-    <Compile Include="NounPhraseTest.cs" />
-    <Compile Include="NounTest.cs" />
-    <Compile Include="ParagraphTest.cs" />
-    <Compile Include="ParticlePhraseTest.cs" />
-    <Compile Include="ParticleTest.cs" />
-    <Compile Include="PastParticipleVerbTest.cs" />
-    <Compile Include="PastPrtcplVerbTest.cs" />
-    <Compile Include="PastTenseVerbTest.cs" />
-    <Compile Include="PersonalPronounTest.cs" />
-    <Compile Include="PreDeterminerTest.cs" />
-    <Compile Include="PrepositionalPhraseTest.cs" />
-    <Compile Include="PrepositionTest.cs" />
-    <Compile Include="ProperNounTest.cs" />
-    <Compile Include="ProperPluralNounTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PunctuatorTest.cs" />
-    <Compile Include="RoughListPhraseTest.cs" />
-    <Compile Include="SentenceTest.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SimpleDeclarativeClauseBeginPhraseTest.cs" />
-    <Compile Include="SingleQuoteTest.cs" />
-    <Compile Include="SuperlativeAdverbTest.cs" />
-    <Compile Include="SymbolTest.cs" />
-    <Compile Include="IPrepositionLinkableTest.cs" />
-    <Compile Include="UnknownWordTest.cs" />
-    <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpherTest.cs" />
-    <Compile Include="VerbPhraseTest.cs" />
-    <Compile Include="VerbTest.cs" />
-    <Compile Include="WeightTest.cs" />
-    <Compile Include="WordTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Name>LASI.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shared.Test.Utilities\LASI.Shared.Test.csproj">
-      <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
-      <Name>LASI.Shared.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>LASI.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <Import Project="..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" />
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>LASI.Core.Tests</RootNamespace>
+        <AssemblyName>LASI.Core.Tests</AssemblyName>
+        <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+        <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+        <IsCodedUITest>False</IsCodedUITest>
+        <TestProjectType>CodedUITest</TestProjectType>
+        <TargetFrameworkProfile />
+        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+        <RestorePackages>true</RestorePackages>
+        <NuGetPackageImportStamp>540098a2</NuGetPackageImportStamp>
     </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <PlatformTarget>x64</PlatformTarget>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignAssembly>false</SignAssembly>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Win32Resource>
+        </Win32Resource>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ApplicationIcon>
+        </ApplicationIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="OpenNLP, Version=1.0.2529.39671, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\OpenNLP.dll</HintPath>
+        </Reference>
+        <Reference Include="SharpEntropy, Version=1.0.2529.39670, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpEntropy.dll</HintPath>
+        </Reference>
+        <Reference Include="SharpWordNet, Version=1.0.2529.39512, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\ThirdPartyComponents\SharpNLPDLLs\SharpWordNet.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+            <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Reactive.PlatformServices">
+            <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Web.Extensions" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Xml.Linq" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="AdjectivePhraseTest.cs" />
+        <Compile Include="AdjectiveTest.cs" />
+        <Compile Include="AdverbTest.cs" />
+        <Compile Include="AggregateEntityTest.cs" />
+        <Compile Include="Analysis\Heuristics\WordMorphing\AdjectiveMorpherTest.cs" />
+        <Compile Include="PatternMatching\PhraseAsSequentialPatternMatchingTest.cs" />
+        <Compile Include="PatternMatching\SequentialPatternMatchingTest.cs" />
+        <Compile Include="ConjunctionPhraseTest.cs" />
+        <Compile Include="ConjunctionTest.cs" />
+        <Compile Include="DeterminerTest.cs" />
+        <Compile Include="DocumentTest.cs" />
+        <Compile Include="DoubleQuoteTest.cs" />
+        <Compile Include="ExistentialTest.cs" />
+        <Compile Include="ExpressionExtensionsTest.cs" />
+        <Compile Include="ForeignWordTest.cs" />
+        <Compile Include="CommonPluralNounTest.cs" />
+        <Compile Include="CommonSingularNounTest.cs" />
+        <Compile Include="PatternMatching\MatchTTresultTest.cs" />
+        <Compile Include="PatternMatching\MonadOperatorsTest.cs" />
+        <Compile Include="SubjectBinderTests.cs" />
+        <Compile Include="IDirectObjectTakerTest.cs" />
+        <Compile Include="IEntityTest.cs" />
+        <Compile Include="IGenderedTest.cs" />
+        <Compile Include="IInderectObjectTakerTest.cs" />
+        <Compile Include="ILexicalTest.cs" />
+        <Compile Include="IModalityModifiableTest.cs" />
+        <Compile Include="InterjectionPhraseTest.cs" />
+        <Compile Include="InterjectionTest.cs" />
+        <Compile Include="InvertedClauseBeginPhraseTest.cs" />
+        <Compile Include="IQuantifiableTest.cs" />
+        <Compile Include="ISimpleGenderedTest.cs" />
+        <Compile Include="LexiconTest.cs" />
+        <Compile Include="ModalAuxilaryTest.cs" />
+        <Compile Include="ModalTest.cs" />
+        <Compile Include="Analysis\Heuristics\WordMorphing\NounMorpherTest.cs" />
+        <Compile Include="NounPhraseTest.cs" />
+        <Compile Include="NounTest.cs" />
+        <Compile Include="ParagraphTest.cs" />
+        <Compile Include="ParticlePhraseTest.cs" />
+        <Compile Include="ParticleTest.cs" />
+        <Compile Include="PastParticipleVerbTest.cs" />
+        <Compile Include="PastPrtcplVerbTest.cs" />
+        <Compile Include="PastTenseVerbTest.cs" />
+        <Compile Include="PersonalPronounTest.cs" />
+        <Compile Include="PreDeterminerTest.cs" />
+        <Compile Include="PrepositionalPhraseTest.cs" />
+        <Compile Include="PrepositionTest.cs" />
+        <Compile Include="ProperNounTest.cs" />
+        <Compile Include="ProperPluralNounTest.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="PunctuatorTest.cs" />
+        <Compile Include="RoughListPhraseTest.cs" />
+        <Compile Include="SentenceTest.cs" />
+        <Compile Include="Settings.cs" />
+        <Compile Include="SimpleDeclarativeClauseBeginPhraseTest.cs" />
+        <Compile Include="SingleQuoteTest.cs" />
+        <Compile Include="SuperlativeAdverbTest.cs" />
+        <Compile Include="SymbolTest.cs" />
+        <Compile Include="IPrepositionLinkableTest.cs" />
+        <Compile Include="UnknownWordTest.cs" />
+        <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpherTest.cs" />
+        <Compile Include="VerbPhraseTest.cs" />
+        <Compile Include="VerbTest.cs" />
+        <Compile Include="WeightTest.cs" />
+        <Compile Include="WordTest.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="app.config">
+            <SubType>Designer</SubType>
+        </None>
+        <None Include="packages.config">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Core\LASI.Core.csproj">
+            <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
+            <Name>LASI.Core</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\Shared.Test.Utilities\LASI.Shared.Test.csproj">
+            <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
+            <Name>LASI.Shared.Test</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
+            <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+            <Name>LASI.Utilities</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <Choose>
+        <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+            <ItemGroup>
+                <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+                    <Private>False</Private>
+                </Reference>
+                <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+                    <Private>False</Private>
+                </Reference>
+                <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+                    <Private>False</Private>
+                </Reference>
+                <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+                    <Private>False</Private>
+                </Reference>
+            </ItemGroup>
+        </When>
+    </Choose>
+    <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+    <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+        <PropertyGroup>
+            <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+        </PropertyGroup>
+        <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    </Target>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
