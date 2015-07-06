@@ -7,9 +7,11 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNet.Authorization;
 
 namespace LASI.WebApp.Controllers.Documents
 {
+    [Authorize]
     [Route("api/UserDocuments/[controller]")]
     public class ListController : Controller
     {

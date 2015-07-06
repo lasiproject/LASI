@@ -16,6 +16,7 @@
         percentComplete: number|string;
         showProgress: boolean;
         statusMessage: string;
+        raeification: models.IDocumentModel;
     }
     class DocumentListServiceProvider implements IDocumentListServiceConfig, ng.IServiceProvider {
         private documentListUrl: string;

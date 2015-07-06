@@ -1,8 +1,0 @@
-{
-    "profiles": {
-        "debug": {
-            "launchUrl": "http://localhost/14386",
-            "launchBrowser": true
-        }
-    }
-}

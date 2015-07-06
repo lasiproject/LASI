@@ -28,18 +28,10 @@ var LASI;
                     $log.info(deleteResult);
                     vm.documents = documentListService.getDocumentList();
                 };
-                vm.processDocument = function (documentId) {
-                    var deferred = $q.defer();
-                    $q.when(documentModelService.processDocument(documentId)).then(function (data) {
-                        $q.when(data).then(function (d) {
-                            deferred.resolve(d);
-                            vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
-                            if (!$rootScope.$$phase) {
-                                $rootScope.$apply();
-                            }
-                        });
-                    });
-                    return deferred.promise;
+                vm.processDocument = function (document) {
+                    documentModelService.processDocument(document.id)
+                        .success(function (data) { return document.raeification = data; })
+                        .error(function (message) { return message; });
                 };
                 vm.documents = documentListService.getDocumentList();
                 vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {

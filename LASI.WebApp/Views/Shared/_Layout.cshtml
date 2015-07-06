@@ -10,7 +10,7 @@
 </head>
 <body ng-app="documentList" ng-strict-di ng-cloak ng-controller="ListController as controller">
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -32,7 +32,6 @@
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a href="#" class="glyphicon glyphicon-upload"></a></li>
                     <li><a asp-controller="Results" asp-action="Results">Results</a></li>
-                    <li><a asp-controller="Account" asp-action="Manage">Manage</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -93,9 +92,7 @@
             </div>
         </div>
     </div>
-
-    @*<script src="http://www.google.com/jsapi"></script>*@
-    <script src="http://www.google.com/jsapi"></script>
+ 
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>

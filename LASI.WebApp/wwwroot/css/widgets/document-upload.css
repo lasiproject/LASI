@@ -11,17 +11,17 @@
 }
 
 .upload-button {
-	Height: 26px;
-	line-height: 30px;
-	padding: 0 10px;
-	background: #CCC;
-	appearance: button;
-	-moz-appearance: button; /* Firefox */
-	-webkit-appearance: button; /* Safari and Chrome */
-	position: relative;
-	text-align: center;
-	top: 7px;
-	cursor: pointer;
+    Height: 26px;
+    line-height: 30px;
+    padding: 0 10px;
+    background: #CCC;
+    -moz-appearance: button; /* Firefox */
+    -webkit-appearance: button;
+    appearance: button; /* Safari and Chrome */
+    position: relative;
+    text-align: center;
+    top: 7px;
+    cursor: pointer;
 }
 
 .sel-file {

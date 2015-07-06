@@ -4,14 +4,13 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         var DocumentModelService = (function () {
-            function DocumentModelService($resource) {
-                this.$resource = $resource;
-                this.documentSource = $resource('Analysis/:documentId');
+            function DocumentModelService($http) {
+                this.$http = $http;
             }
             DocumentModelService.prototype.processDocument = function (documentId) {
-                return this.documentSource.get({ documentId: documentId });
+                return this.$http.get("Analysis/" + documentId);
             };
-            DocumentModelService.$inject = ['$resource'];
+            DocumentModelService.$inject = ['$http'];
             return DocumentModelService;
         })();
         angular

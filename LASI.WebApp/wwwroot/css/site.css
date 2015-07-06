@@ -483,3 +483,7 @@ li menuitem {
 .progress-bar-100 {
     width: 100% !important;
 }
+
+.document-viewer-tab-heading {
+    cursor: pointer;
+}

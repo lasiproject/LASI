@@ -1,33 +1,21 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <div ng-cloak div class="tabbable">
-            <tabset class="tabs-left">
-                <tab>
-                    <tab-heading>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </tab-heading>
-                    <textarea></textarea>
-                    @{
-                        await Component.InvokeAsync("DynamicTextEditor");
-                    }
-                </tab>
-                <tab ng-repeat="document in controller.documents track by document.id">
-                    <tab-heading class="document-viewer-tab-heading" ng-click="document.documentModel = controller.processDocument(document.id)">
-                        {{document.name}}
-                        <div>
-                            <progress-bar value="{{document.task.percentComplete || 0}}"></progress-bar>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped active progress-bar-{{document.task.percentComplete || 0}}"
-                                 role="progressbar"
-                                 aria-valuenow="{{document.task.percentComplete || 0}}"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100">{{document.task.percentComplete || 0}}%</div>
-                        </div>
-                    </tab-heading>
-                    <document-viewer-directive document="document.documentModel"></document-viewer-directive>
-                </tab>
-            </tabset>
-        </div>
-    </div>
+﻿<div ng-cloak>
+    <tabset class="tabs-left">
+        <tab ng-cloak ng-repeat="document in controller.documents track by document.id">
+            <tab-heading class="document-viewer-tab-heading" ng-click="controller.processDocument(document)">
+                {{document.name}}
+                <div ng-controller="SearchBoxController as search">
+                    <input ng-init="search.searchContext = document.raeification"
+                           ng-model="search.find"
+                           type="text"
+                           value="search.find"
+                           placeholder="find"
+                           ng-blur="search.search(search.find)" />
+                </div>
+                <processing-task-progress-bar task="document.task"></processing-task-progress-bar>
+            </tab-heading>
+            <div class="col-md-9">
+                <document-viewer-directive document="document.raeification"></document-viewer-directive>
+            </div>
+        </tab>
+    </tabset>
 </div>

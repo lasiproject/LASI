@@ -25,7 +25,13 @@
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties TaskRunnerConfiguration_2Grunt_2grunt-typescript_1json__JSONSchema="http://json.schemastore.org/grunt-task" TaskRunnerConfigFiles_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-beta4" tsd_1json__JSONSchema="http://json.schemastore.org/tsdrc" TaskRunnerConfigFiles_2grunt-cssmin_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" TaskRunnerConfiguration_2Grunt_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" TaskRunnerConfigFiles_2grunt-watch-task_1json__JSONSchema="http://json.schemastore.org/grunt-watch-task" />
+      <UserProperties TaskRunnerConfiguration_2Grunt_2grunt-typescript_1json__JSONSchema="http://json.schemastore.org/grunt-task" 
+                      TaskRunnerConfigFiles_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-beta4"
+                      tsd_1json__JSONSchema="http://json.schemastore.org/tsdrc" 
+                      TaskRunnerConfigFiles_2grunt-cssmin_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task"
+                      TaskRunnerConfiguration_2Grunt_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" 
+                      TaskRunnerConfigFiles_2grunt-watch-task_1json__JSONSchema="http://json.schemastore.org/grunt-watch-task" 
+                      package_1json__JSONSchema="http://json.schemastore.org/package.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

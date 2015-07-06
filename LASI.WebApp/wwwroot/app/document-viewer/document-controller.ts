@@ -4,7 +4,7 @@ module LASI.documentViewer {
 
     interface IDocumentController {
         title: string;
-        processDocument: (documentId: string) => models.IDocumentModel;
+        processDocument: (documentId: string) => ng.IPromise<models.IDocumentModel>;
     }
 
     class DocumentController implements IDocumentController {
@@ -12,15 +12,17 @@ module LASI.documentViewer {
 
         private documentModel: models.IDocumentModel;
 
-        static $inject = ['MockDocumentModelService', '$location'];
+        static $inject = ['$q', '$location', 'MockDocumentModelService'];
 
-        constructor(private documentModelService: IDocumentModelService, private $location: ng.ILocationService) {
+        constructor(private $q: ng.IQService,
+            private $location: ng.ILocationService,
+            private documentModelService: IDocumentModelService) {
         }
         processDocument(documentId: string) {
             if (this.documentModel.id !== documentId) {
                 return this.documentModelService.processDocument(documentId);
             } else {
-                return this.documentModel;
+                return this.$q.reject(this.documentModel);
             }
         }
     }

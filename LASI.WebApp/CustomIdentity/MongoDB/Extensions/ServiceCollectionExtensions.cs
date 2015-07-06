@@ -8,9 +8,9 @@ namespace LASI.WebApp.Persistence.MongoDB.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, Func<MongoDBConfiguration> mongoConfigFactory)
+        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoDBConfiguration mongoConfig)
         {
-            services.AddSingleton(provider => new MongoDBService(mongoConfigFactory()));
+            services.AddSingleton(provider => new MongoDBService(mongoConfig));
             AddCommonServices(services);
             return services;
         }
@@ -21,12 +21,11 @@ namespace LASI.WebApp.Persistence.MongoDB.Extensions
             setupAction(mongoOptions);
             return services
                 .AddSingleton(provider => mongoOptions)
-                .AddMongoDB(() => new MongoDBConfiguration(mongoOptions));
+                .AddMongoDB(new MongoDBConfiguration(mongoOptions));
         }
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoDBConfiguration config) => AddMongoDB(services, () => config);
         private static void AddCommonServices(IServiceCollection services) => services
-                .AddSingleton<IRoleAccessor<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
-                .AddSingleton<IUserAccessor<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()))
-                .AddSingleton<IDocumentAccessor<UserDocument>>(provider => new MongoDBDocumentProvider(provider.GetService<MongoDBService>()));
+               .AddSingleton<IRoleAccessor<UserRole>>(provider => new MongoDBRoleProvider(provider.GetService<MongoDBService>()))
+               .AddSingleton<IUserAccessor<ApplicationUser>>(provider => new MongoDBUserProvider(provider.GetService<MongoDBService>()))
+               .AddSingleton<IDocumentAccessor<UserDocument>>(provider => new MongoDBDocumentProvider(provider.GetService<MongoDBService>()));
     }
 }

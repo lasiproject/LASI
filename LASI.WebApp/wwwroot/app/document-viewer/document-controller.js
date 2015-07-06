@@ -4,9 +4,10 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         var DocumentController = (function () {
-            function DocumentController(documentModelService, $location) {
-                this.documentModelService = documentModelService;
+            function DocumentController($q, $location, documentModelService) {
+                this.$q = $q;
                 this.$location = $location;
+                this.documentModelService = documentModelService;
                 this.title = 'DocumentController';
             }
             DocumentController.prototype.processDocument = function (documentId) {
@@ -14,10 +15,10 @@ var LASI;
                     return this.documentModelService.processDocument(documentId);
                 }
                 else {
-                    return this.documentModel;
+                    return this.$q.reject(this.documentModel);
                 }
             };
-            DocumentController.$inject = ['MockDocumentModelService', '$location'];
+            DocumentController.$inject = ['$q', '$location', 'MockDocumentModelService'];
             return DocumentController;
         })();
         angular

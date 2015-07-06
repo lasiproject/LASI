@@ -41,18 +41,10 @@
                 vm.documents = documentListService.getDocumentList();
             };
 
-            vm.processDocument = (documentId: string) => {
-                var deferred = $q.defer();
-                $q.when(documentModelService.processDocument(documentId)).then((data) => {
-                    $q.when(data).then(d => {
-                        deferred.resolve(d);
-                        vm.documents.filter(d => d.id === documentId)[0].documentModel = d;
-                        if (!$rootScope.$$phase) {
-                            $rootScope.$apply();
-                        }
-                    });
-                });
-                return deferred.promise;
+            vm.processDocument = (document: IDocumentListItemModel) => {
+                documentModelService.processDocument(document.id)
+                    .success(data => document.raeification = data)
+                    .error(message => message);
             };
             vm.documents = documentListService.getDocumentList();
 

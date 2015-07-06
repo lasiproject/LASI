@@ -80,7 +80,9 @@
 })();
 interface Array<T> {
     flatMap<TArray, TResult>(arraySelector: (element: T) => TArray[], elementSelector: (element: TArray) => TResult): TResult[];
-    flatMap<U>(arraySelector: (element: T) => T, elementSelector: (element: T) => U): U[];
+    flatMap<TArray>(arraySelector: (element: T) => TArray[]): TArray[];
+    //flatMap<U>(arraySelector: (element: T) => U[], elementSelector?: (element: T) => U): U[];
+    //flatMap<U extends T[]>(): T[];
     flatMap(): any[];
     correlate<TInner, TKey>(inner: TInner[], outerKeySelector: (e: T) => TKey, innerKeySelector: (e: TInner) => TKey): { first: T, second: TInner }[];
     /**

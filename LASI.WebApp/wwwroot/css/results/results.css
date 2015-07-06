@@ -156,6 +156,12 @@
 
 .view-empty-menu-item {
 }
+
+.matched-by-search {
+    background-color: black;
+    color: white;
+}
+
 /*.top-result-modal{
     width :900px;
 }*/

@@ -128,6 +128,8 @@ var LASI;
         'use strict';
         angular
             .module('documentViewer', [
+            'documentViewer.search',
+            'widgets',
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu'
@@ -150,6 +152,16 @@ var LASI;
             ]);
         })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var widgets;
+    (function (widgets) {
+        'use strict';
+        angular.module('widgets', [
+            'ui.bootstrap'
+        ]);
+    })(widgets = LASI.widgets || (LASI.widgets = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
 (function () {
@@ -368,18 +380,10 @@ var LASI;
                     $log.info(deleteResult);
                     vm.documents = documentListService.getDocumentList();
                 };
-                vm.processDocument = function (documentId) {
-                    var deferred = $q.defer();
-                    $q.when(documentModelService.processDocument(documentId)).then(function (data) {
-                        $q.when(data).then(function (d) {
-                            deferred.resolve(d);
-                            vm.documents.filter(function (d) { return d.id === documentId; })[0].documentModel = d;
-                            if (!$rootScope.$$phase) {
-                                $rootScope.$apply();
-                            }
-                        });
-                    });
-                    return deferred.promise;
+                vm.processDocument = function (document) {
+                    documentModelService.processDocument(document.id)
+                        .success(function (data) { return document.raeification = data; })
+                        .error(function (message) { return message; });
                 };
                 vm.documents = documentListService.getDocumentList();
                 vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {
@@ -586,9 +590,10 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         var DocumentController = (function () {
-            function DocumentController(documentModelService, $location) {
-                this.documentModelService = documentModelService;
+            function DocumentController($q, $location, documentModelService) {
+                this.$q = $q;
                 this.$location = $location;
+                this.documentModelService = documentModelService;
                 this.title = 'DocumentController';
             }
             DocumentController.prototype.processDocument = function (documentId) {
@@ -596,10 +601,10 @@ var LASI;
                     return this.documentModelService.processDocument(documentId);
                 }
                 else {
-                    return this.documentModel;
+                    return this.$q.reject(this.documentModel);
                 }
             };
-            DocumentController.$inject = ['MockDocumentModelService', '$location'];
+            DocumentController.$inject = ['$q', '$location', 'MockDocumentModelService'];
             return DocumentController;
         })();
         angular
@@ -613,14 +618,13 @@ var LASI;
     (function (documentViewer) {
         'use strict';
         var DocumentModelService = (function () {
-            function DocumentModelService($resource) {
-                this.$resource = $resource;
-                this.documentSource = $resource('Analysis/:documentId');
+            function DocumentModelService($http) {
+                this.$http = $http;
             }
             DocumentModelService.prototype.processDocument = function (documentId) {
-                return this.documentSource.get({ documentId: documentId });
+                return this.$http.get("Analysis/" + documentId);
             };
-            DocumentModelService.$inject = ['$resource'];
+            DocumentModelService.$inject = ['$http'];
             return DocumentModelService;
         })();
         angular
@@ -776,35 +780,6 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        angular
-            .module('documentViewer')
-            .directive('phrase', phrase);
-        phrase.$inject = ['lexicalMenuBuilder'];
-        function phrase(lexicalMenuBuilder) {
-            return {
-                restrict: 'E',
-                templateUrl: '/app/document-viewer/lexical/phrase.html',
-                scope: {
-                    phrase: '=',
-                    parentId: '='
-                },
-                link: link
-            };
-            function link(scope, element, attrs) {
-                var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
-                scope.phrase.hasContextmenuData = !!contextmenu;
-                if (scope.phrase.hasContextmenuData) {
-                    scope.phrase.contextmenu = contextmenu;
-                }
-            }
-        }
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        'use strict';
         paragraph.$inject = ['$window'];
         function paragraph($window) {
             var link = function (scope, element, attrs) {
@@ -828,67 +803,79 @@ var LASI;
 (function (LASI) {
     var documentViewer;
     (function (documentViewer) {
-        var search;
-        (function (search) {
-            'use strict';
-            angular
-                .module('documentViewer.search')
-                .directive('textSearch', textSearch);
-            textSearch.$inject = [];
-            function textSearch() {
-                return {
-                    scope: {
-                        find: '=',
-                        searchContext: '=',
-                        onFound: '@',
-                        onContextChanged: '@'
-                    },
-                    bindToController: true,
-                    controllerAs: 'search',
-                    controller: controller,
-                    link: link
-                };
-                controller.$inject = ['$q', '$interval', '$timeout', '$window'];
-                var toFind = {
-                    id: 1,
-                    contextmenu: {
-                        lexicalId: 1
-                    },
-                    detailText: '',
-                    hasContextmenuData: true, style: { cssClass: 'lexical' },
-                    text: ''
-                };
-                controller(null, null, null, null, null)
-                    .search(toFind, [], { lifted: true })
-                    .then(function (results) { return LASI.log(results[0]); });
-                function controller($scope, $q, $interval, $timeout, $window) {
-                    return {
-                        matchedModels: [],
-                        matchedTexts: [],
-                        search: function (find, options) {
-                            var deferred = $q.defer();
-                            $timeout(function () {
-                                deferred.resolve();
-                            }, 0);
-                            return deferred.promise;
-                        }
-                    };
-                }
-                function link(scope, element, attrs, controller) {
-                    [scope, element, attrs, controller].filter(function (e) { return !!e; }).forEach(LASI.log);
-                    var find = scope.find;
-                    var searchContext = scope.searchContext;
-                    if (!(searchContext instanceof Array)) {
-                        var context = [searchContext];
-                        if (typeof find === 'string') {
-                            controller.search(find, context).then(function (data) { return LASI.log(data[0]); });
-                        }
-                        else {
-                            controller.search(find, context).then(function (data) { return LASI.log(data[0].detailText); });
-                        }
-                    }
+        'use strict';
+        angular
+            .module('documentViewer')
+            .directive('phrase', phrase);
+        phrase.$inject = ['lexicalMenuBuilder'];
+        function phrase(lexicalMenuBuilder) {
+            return {
+                restrict: 'E',
+                templateUrl: '/app/document-viewer/phrase.html',
+                scope: {
+                    phrase: '=',
+                    parentId: '='
+                },
+                link: link
+            };
+            function link(scope, element, attrs) {
+                var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
+                scope.phrase.hasContextmenuData = !!contextmenu;
+                if (scope.phrase.hasContextmenuData) {
+                    scope.phrase.contextmenu = contextmenu;
                 }
             }
+        }
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        var search;
+        (function (search_1) {
+            'use strict';
+            SearchBoxController.$inject = ['$q'];
+            function SearchBoxController($q) {
+                var vm = this;
+                vm.searchContext = {
+                    value: undefined,
+                    set: function (value) {
+                        var context = (value instanceof Array ? value : [value]);
+                        this.value = context;
+                        return vm.search;
+                    }, get: function () { return this.value; }
+                };
+                var search = function (searchFor, options) {
+                    var deferred = $q.defer();
+                    var term = typeof searchFor === 'string' ? searchFor : typeof searchFor !== 'undefined' ? searchFor.detailText : undefined;
+                    if (term === undefined) {
+                        deferred.reject('search term was undefined');
+                    }
+                    var results = vm.searchContext
+                        .flatMap(function (m) { return m.paragraphs; })
+                        .flatMap(function (x) { return x.sentences; })
+                        .flatMap(function (e) { return e.phrases; })
+                        .filter(function (phrase) { return phrase.text === searchFor; });
+                    results.forEach(function (model) {
+                        var matched = true;
+                        var unmatchedStyle = model.style.cssClass;
+                        var matchedStyle = unmatchedStyle + ' matched-by-search';
+                        model.style = {
+                            get cssClass() {
+                                var result = matched ? matchedStyle : unmatchedStyle;
+                                matched = !matched;
+                                return result;
+                            }
+                        };
+                    });
+                    deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
+                    return deferred.promise;
+                };
+            }
+            angular
+                .module('documentViewer.search')
+                .controller('SearchBoxController', SearchBoxController);
         })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
@@ -913,27 +900,8 @@ var LASI;
         }
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        'use strict';
-        var MockDocumentModelService = (function () {
-            function MockDocumentModelService($resource) {
-                this.$resource = $resource;
-                this.documentSource = $resource('Analysis/:documentId');
-            }
-            MockDocumentModelService.prototype.processDocument = function (documentId) {
-                return this.$resource('tests/test-data/doc.json').get();
-            };
-            MockDocumentModelService.$inject = ['$resource'];
-            return MockDocumentModelService;
-        })();
-        angular
-            .module('documentViewer')
-            .service('MockDocumentModelService', MockDocumentModelService);
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
+//module LASI.documentViewer {
+//    'use strict';
 /// <reference path="../../../typings/jquery/jquery.d.ts"/>
 /// <reference path="../lasi.ts"/>
 (function (app) {
@@ -1176,4 +1144,24 @@ var LASI;
         });
     });
 })(LASI);
+var LASI;
+(function (LASI) {
+    var widgets;
+    (function (widgets) {
+        'use strict';
+        processingTaskProgressBar.$inject = [];
+        function processingTaskProgressBar() {
+            return {
+                restrict: 'E',
+                scope: {
+                    task: '='
+                },
+                templateUrl: '/app/widgets/processing-task-progress-bar.html'
+            };
+        }
+        angular
+            .module('widgets')
+            .directive('processingTaskProgressBar', processingTaskProgressBar);
+    })(widgets = LASI.widgets || (LASI.widgets = {}));
+})(LASI || (LASI = {}));
 //# sourceMappingURL=app.js.map

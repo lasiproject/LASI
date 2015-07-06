@@ -1,41 +1,21 @@
-﻿using LASI.Utilities;
-using LASI.WebApp.Helpers;
+﻿using System;
+using System.IO;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using LASI.WebApp.Persistence;
-using LASI.WebApp.Persistence.MongoDB;
 using LASI.WebApp.Persistence.MongoDB.Extensions;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Authentication;
-using Microsoft.AspNet.Authentication;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authentication.DataHandler;
-using Microsoft.AspNet.Authentication.Facebook;
-using Microsoft.AspNet.Authentication.Google;
-using Microsoft.AspNet.Authentication.MicrosoftAccount;
-using Microsoft.AspNet.Authentication.Notifications;
-using Microsoft.AspNet.Authentication.OAuth;
-using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Http.Extensions;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Security.Claims;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LASI.WebApp
 {
@@ -47,8 +27,8 @@ namespace LASI.WebApp
             var configuration = new Configuration()
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
-
-            if (env.IsEnvironment("Development"))
+            environmentIsDevelopment = env.IsEnvironment("Development");
+            if (environmentIsDevelopment)
             {
                 // This reads the configuration keys from the secret store.
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
@@ -61,10 +41,10 @@ namespace LASI.WebApp
 
         public IConfiguration Configuration { get; set; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
         {
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"))
-                    .AddTransient<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
+                    .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
                     .AddMongoDB(options =>
                     {
@@ -96,7 +76,7 @@ namespace LASI.WebApp
                             RequireConfirmedEmail = false,
                             RequireConfirmedPhoneNumber = false
                         };
-                        options.Password = new PasswordOptions
+                        options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
                         {
                             RequireLowercase = true,
                             RequireUppercase = true,
@@ -112,9 +92,7 @@ namespace LASI.WebApp
                     .AddUserManager<UserManager<ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>();
 
-            services.AddWebEncoders()
-                    .AddDirectoryBrowser()
-                    .AddMvc()
+            services.AddMvc()
                     .ConfigureMvc(options =>
                     {
                         options.InputFormatters.InstanceOf<JsonInputFormatter>().SerializerSettings = MvcJsonSerializerSettings;
@@ -132,10 +110,10 @@ namespace LASI.WebApp
         }
 
         // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Debug)
-                         .AddLASIOutput(LogLevel.Verbose);
+                         .AddLASIOutput(LogLevel.Debug);
 
             app.Properties["host.AppMode"] = "development";
 
@@ -146,7 +124,7 @@ namespace LASI.WebApp
                .UseDefaultFiles()
                .UseRuntimeInfoPage();
             // Add the following to the request pipeline only in development environment.
-            if (env.IsEnvironment("Development"))
+            if (environmentIsDevelopment)
             {
                 app.UseErrorPage(new ErrorPageOptions() // Added to react to the removal of ErrorPageOptions.ShowAll from the next version.
                 {
@@ -197,5 +175,8 @@ namespace LASI.WebApp
 #endif
             Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } }
         };
+
+        private bool environmentIsDevelopment;
+
     }
 }

@@ -1,0 +1,8 @@
+﻿<span ng-if="phrase.hasContextmenuData" id="{{phrase.id}}"
+      class="phrase {{phrase.style.cssClass}}"
+      tooltip="{{phrase.detailText.trim()}}"
+      context-menu="phrase.contextmenu">{{phrase.text.trim()}}</span>
+<span ng-if="!phrase.hasContextmenuData" id="{{phrase.id}}"
+      class="phrase {{phrase.style.cssClass}}"
+      tooltip="{{phrase.detailText.trim()}}">{{phrase.text.trim()}}</span><span> </span>
+<!--TODO: Merge tooltip and context menu into a unified, touch capable control-->
