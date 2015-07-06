@@ -5,7 +5,7 @@
     "": [],
     ".NETFramework,Version=v4.6": [
       "Newtonsoft.Json >= 6.0.8",
-      "System.Collections.Immutable >= 1.1.34-rc",
+      "System.Collections.Immutable >= 1.1.36",
       "LASI.Core >= 1.0.0-*",
       "LASI.Utilities >= 1.0.0-*",
       "itextsharp >= 1.0.0-*",
@@ -243,30 +243,6 @@
         "lib/windowsphone71/System.Reactive.PlatformServices.XML",
         "lib/windowsphone8/System.Reactive.PlatformServices.dll",
         "lib/windowsphone8/System.Reactive.PlatformServices.XML"
-      ]
-    },
-    "System.Collections.Immutable/1.1.34-rc": {
-      "serviceable": true,
-      "sha": "WzH7eUVtkUymLcc80OuO5cgxg13xMqRgdGxfeAdlmZIxMt+z1zB8g3GRc2IoCC2gzkb+4CPzTYTwy50hKA6E1g==",
-      "frameworks": {
-        ".NETFramework,Version=v4.6": {
-          "dependencies": {},
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [
-            "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll"
-          ],
-          "compileAssemblies": [
-            "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll"
-          ]
-        }
-      },
-      "files": [
-        "License-Stable.rtf",
-        "System.Collections.Immutable.1.1.34-rc.nupkg",
-        "System.Collections.Immutable.1.1.34-rc.nupkg.sha512",
-        "System.Collections.Immutable.nuspec",
-        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
-        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml"
       ]
     }
   }

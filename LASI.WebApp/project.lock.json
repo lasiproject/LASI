@@ -23,7 +23,7 @@
       "Microsoft.Framework.CodeGenerators.Mvc >= 1.0.0-beta4",
       "Microsoft.Framework.Logging >= 1.0.0-beta4",
       "Microsoft.Framework.Logging.Console >= 1.0.0-beta4",
-      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-*",
+      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-beta4",
       "System.Collections.Immutable >= 1.1.34-rc",
       "mongocsharpdriver >= 1.10.0",
       "Newtonsoft.Json >= 6.0.8",
@@ -2345,7 +2345,7 @@
     },
     "Microsoft.CodeAnalysis.Analyzers/1.0.0-rc2": {
       "serviceable": false,
-      "sha": "/4Z5es8TXCEn5sfzWz2uhUITmikgCfMAhehMJPQcSD2FRp2ooLTczDq3p4KOl+bcnsvaAu0aKrmdRgOvkrcwhw==",
+      "sha": "S3P/WuSCgbhIxMVDFCJiJAh9g8ZVVIISsFn2lKqJYJdRGiFM2WJR0I46psNVXJt2uM13SBSGiAKAdqOeRvhl7w==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -2379,7 +2379,7 @@
     },
     "Microsoft.CodeAnalysis.Common/1.0.0-rc2": {
       "serviceable": false,
-      "sha": "7ALXqeJxiEMgnSST2qlWMThc5CIhJNFsUKYITIXXXj7gf8mF+ktEuKgUE7NWePzUgi0gq/2WmBX/4yWJuF1j6w==",
+      "sha": "LIc/rzjORrM0jrQ9ZtoIwJWbYi4IM7RvcSFT9YLe2uH9aBPq2oQ7qimK3ZosZJE+5faoJ+DgfGOigWw6uQpmQw==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -2429,7 +2429,7 @@
     },
     "Microsoft.CodeAnalysis.CSharp/1.0.0-rc2": {
       "serviceable": false,
-      "sha": "wsj0BdWRY+fsUINMEQ+uanN0pWMAMj2z0UiJKjwoUo/Xbrk7PqGklzpOB7lvlESHjO8+Eaw71PQnml6j7m7rdQ==",
+      "sha": "RdXyaAZSRJH/oU6ccy3RNgGVMwFY1fY41I0Rtpbch9nq4mePYrkjTk3YObNHYa4lowAhktlaUoQOpprmOzc/kg==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -4471,7 +4471,7 @@
     },
     "System.IO/4.0.10-beta-22816": {
       "serviceable": false,
-      "sha": "/wVhoi2uVXw5IZFU+JrPlyVgKrtMPtzQaYQ3DKUxH9nqiX64BChTFGNDcwZK3iNWTIWESxJhj9JR3lbqbG/PIg==",
+      "sha": "PjyH9UMFVQHSl8g1XR+M6Q/mG2RTpPff42kG9aygXyR/Wyt/O/wOiyxZ2SaYNl8e86yecKRh9SnK2RS9thI4ig==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -4559,7 +4559,7 @@
     },
     "System.Runtime/4.0.20-beta-22816": {
       "serviceable": false,
-      "sha": "sDSJEmM6Q5O7Nn9XxHTrsEJ4bv4hsBdeTWjuvyzd9/u9ujl9AWa3q1XFLrdPZetILPOC1P0+1LOCq4kZcsKF5Q==",
+      "sha": "BEN6F4aNjbBdDxM8Xhb/MCSDhYmtvA29c1HUBvn0aNAVXaIJECLy2w5YkcscdklIieZCrcYeG2UzIgWlr4+GeQ==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -4605,7 +4605,7 @@
     },
     "System.Security.Cryptography.Hashing/4.0.0-beta-22816": {
       "serviceable": false,
-      "sha": "bB8cT1NwMBuz7tejXLQ3eH81s0pRoaqwUrM1CNCNeEV1OFyUQ/qXJhVx5nXTB8AGMIxGVn9JCXMdZm6CM2RTrA==",
+      "sha": "CQ+k5PCqX3rOYC1gLcFNXWl7VwBPMyZhkQFiukqtSMG/mWKQ8ba9+oF1V+9c5zUerhHMxFhrwymnghQpA/NdhQ==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -4651,7 +4651,7 @@
     },
     "System.Security.Cryptography.Hashing.Algorithms/4.0.0-beta-22816": {
       "serviceable": false,
-      "sha": "xjCltKxHteccyq3dUXzJaN1L7BQJnbS0xT2A79ac3xmzxUDiIFQtRjhlexf/LQ8uTXKR7epqkZL3xsHxbj2aZg==",
+      "sha": "2lhNYPFf0ChTgS83OOiGqxkB8ue4e8r28B3F4NDdsQSaknW5RDhhFSxe40bFltiNuIXuNz1QROI1345leHnjxw==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -4697,7 +4697,7 @@
     },
     "System.Text.Encoding/4.0.10-beta-22816": {
       "serviceable": false,
-      "sha": "QDKTAvat7aDGMWnVkGm6tJvvmc2zSTa/p8M4/OEBBkZKNx4SGkeGEjFUhl7b6AXZ220m4dACygkiAVoB/LqMHw==",
+      "sha": "4Isk8Lg2mkSex8N1ufJfazDo9Z0zTvx7FRh7LYiIqUJJSmPMenMXoFYMtm3tQ+sUWz23qMlIrOvT9BuIBnmRQg==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
@@ -4741,7 +4741,7 @@
     },
     "System.Threading.Tasks/4.0.10-beta-22816": {
       "serviceable": false,
-      "sha": "e7TcoQuIPQ4bvkkCY2ulU8NFvj8XqYxsGpD3fAq1KajAlpx5j327Q13lKxlGPb7ouHQydKHCy5G1ZGuydb0DAA==",
+      "sha": "KhcVrI2JzX1oHigWTbf4F/2uhPSkhjquLPYbBVCLe9HGxLDJk2WLgmTbJk7fIus6xWWnWJmhOp0rHERU9M2SQw==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {

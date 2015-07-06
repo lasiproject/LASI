@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		RuleSet1.ruleset = RuleSet1.ruleset
 		Script1.fsx = Script1.fsx
-		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
 		tslint_1json__JSONSchema = http://json.schemastore.org/tslint
@@ -41,8 +40,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wrap", "wrap", "{5E8CB98D-7
 		wrap\LASI.Core\project.json = wrap\LASI.Core\project.json
 		wrap\LASI.Content\project.json = wrap\LASI.Content\project.json
 		wrap\itextsharp\project.json = wrap\itextsharp\project.json
-		wrap\FSharp.Core\project.json = wrap\FSharp.Core\project.json
-		wrap\System.Collections.Immutable\project.json = wrap\System.Collections.Immutable\project.json
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
 		project_1json__JSONSchema = http://json-schema.org/draft-04/schema

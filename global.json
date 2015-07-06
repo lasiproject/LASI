@@ -9,5 +9,5 @@
         "LASI.WebApp.Tests",
         "."
     ],
-    "apiVersion": "1.0.0-beta4-*"
+    "apiVersion": "1.0.0-beta4"
 }
