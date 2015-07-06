@@ -185,7 +185,8 @@ AspSixApp/App_Data/Temp/46934214cats - Copy - Copy.txt
 AspSixApp/App_Data/Temp/29529325C++_for _LASI.txt
 AspSixApp/App_Data/Temp/11060268vadoc.txt
 *.userprefs
-/AspSixApp
+/LASI.WebApp/wwwroot/dist
+/LASI.WebApp/wwwroot/lib
 /LASI.WebApp/node_modules
 /LASI.WebApp/bower_components
 /.vs/config
