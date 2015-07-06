@@ -22,8 +22,7 @@ namespace LASI.Core.Analysis.Relationships
         public RelationshipLookup(IEnumerable<TVerbal> domain, Func<TVerbal, TVerbal, bool> actionComparer, Func<TEntity, TEntity, bool> performerComparer, Func<TEntity, TEntity, bool> receiverComparer)
         {
             VerbalRelationshipDomain = domain.WithSubject().WithObject();
-            this.
-                actionComparer = actionComparer;
+            this.actionComparer = actionComparer;
             this.performerComparer = performerComparer;
             this.receiverComparer = receiverComparer;
         }
@@ -178,16 +177,16 @@ namespace LASI.Core.Analysis.Relationships
                                                             select receiver;
 
         #endregion
+        #region Properties
+        public IEnumerable<TVerbal> VerbalRelationshipDomain { get; }
 
+        #endregion
         #region Fields
 
         private readonly Func<TEntity, TEntity, bool> receiverComparer;
         private readonly Func<TEntity, TEntity, bool> performerComparer;
         private readonly Func<TVerbal, TVerbal, bool> actionComparer;
 
-        public IEnumerable<TVerbal> VerbalRelationshipDomain { get; }
-
         #endregion
-
     }
 }

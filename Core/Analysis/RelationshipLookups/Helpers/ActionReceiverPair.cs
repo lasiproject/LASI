@@ -29,7 +29,6 @@ namespace LASI.Core.Analysis.Relationships
         /// <param name="action">The action.</param>
         /// <param name="receiver">The receiver of the action.</param>
         public ActionReceiverPair(TVerbal action, TEntity receiver)
-            : this()
         {
             Action = action;
             Receiver = receiver;

@@ -21,15 +21,13 @@ namespace LASI.Core.Analysis.Heuristics
             return from svs in data
                    let dataPoint = new
                    {
-                       Key = $"{svs.Subject.Text} -> {svs.Verbal.Text}\n" +
-                                ((svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty) +
-                                (svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)),
+                       Key = $@"{svs.Subject.Text} -> {svs.Verbal.Text}
+                                {(svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty)}
+                                {(svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)}",
                        Value = (float)Math.Round(svs.Weight, 2)
                    }
                    group dataPoint by dataPoint into pointGroup
-                   let key = pointGroup.Key
-                   select Pair.Create(key.Key, key.Value);
-
+                   select Pair.Create(pointGroup.Key.Key, pointGroup.Key.Value);
         }
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source)
         {
@@ -42,11 +40,8 @@ namespace LASI.Core.Analysis.Heuristics
                             .Result(entity)
                        from direct in verbal.DirectObjects.DefaultIfEmpty()
                        from indirect in verbal.IndirectObjects.DefaultIfEmpty()
-                       let relationship = new SvoRelationship(verbal.AggregateSubject, verbal, verbal.AggregateDirectObject, verbal.AggregateIndirectObject)
-                       where relationship.Subject != null &&
-                         relationship.Direct != null ||
-                         relationship.Indirect != null &&
-                         relationship.Subject.Text != (relationship.Direct ?? relationship.Indirect).Text
+                       where subject != null && (direct != null || indirect != null) /*&& (subject.Text != (direct ?? indirect).Text)*/
+                       let relationship = new SvoRelationship(subject, verbal, direct, indirect)
                        orderby relationship.Weight descending
                        select relationship;
             return data.Distinct();
@@ -62,7 +57,6 @@ namespace LASI.Core.Analysis.Heuristics
         {
             var results = from entity in source.Phrases.OfEntity()
                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                          orderby entity.Weight descending
                           let e = entity.Match()
                             .When((IReferencer r) => r.RefersTo?.Any() ?? false)
                             .Then((IReferencer r) => r.RefersTo)
@@ -71,6 +65,7 @@ namespace LASI.Core.Analysis.Heuristics
                           group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
                           where g.Any()
                           select g.MaxBy(x => x.Value) into result
+                          orderby result.Value descending
                           select Pair.Create(result.Name, result.Value);
             return results;
         }

@@ -23,7 +23,7 @@ namespace LASI.Core.Analysis
         /// </summary>
         /// <param name="performer">The performer of some action.</param>
         /// <param name="receiver">The receiver of that action.</param>
-        public PerformerReceiverPair(TPerformer performer, TReceiver receiver) : this()
+        public PerformerReceiverPair(TPerformer performer, TReceiver receiver)
         {
             Performer = performer;
             Receiver = receiver;

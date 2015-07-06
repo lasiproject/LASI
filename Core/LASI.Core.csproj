@@ -64,6 +64,10 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -80,9 +84,6 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Collections.Immutable, Version=1.1.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\System.Collections.Immutable.1.1.34-rc\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
@@ -133,8 +134,8 @@
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchTTresult.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatchBase.cs" />
     <Compile Include="Analysis\PatternMatching\LexicalSpecific\PredicatedMatch.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\ActionsRelatedOn.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\IActionReceiverPair.cs" />
-    <Compile Include="Analysis\RelationshipLookups\RelationshipLookupBase.cs" />
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookupExtensions.cs" />
     <Compile Include="Analysis\Heuristics\NaiveTopResultSelector.cs" />
     <Compile Include="Analysis\Binding\PreBinder.cs" />
