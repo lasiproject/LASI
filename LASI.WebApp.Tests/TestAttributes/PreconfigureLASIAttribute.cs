@@ -5,7 +5,7 @@ using LASI.Utilities;
 
 namespace LASI.WebApp.Tests.TestAttributes
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class PreconfigureLASIAttribute : Xunit.Sdk.BeforeAfterTestAttribute
     {
         private const string ConfigFileName = "config.json";

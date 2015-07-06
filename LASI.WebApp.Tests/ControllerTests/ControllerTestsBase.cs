@@ -1,8 +1,10 @@
 ﻿using LASI.WebApp.Models;
+using LASI.WebApp.Tests.TestAttributes;
 using MongoDB.Bson;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {
+    [PreconfigureLASI]
     public class ControllerTestsBase
     {
         private const string UserName = "testuser@test.com";

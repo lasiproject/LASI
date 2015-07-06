@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using LASI.WebApp.Controllers;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
-using LASI.WebApp.Tests.TestAttributes;
 using LASI.WebApp.Tests.TestSetup;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
@@ -10,7 +9,6 @@ using LASI.WebApp.Models.DocumentStructures;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
 using LASI.Utilities;
-using System;
 using System.Linq;
 
 namespace LASI.WebApp.Tests.ControllerTests
@@ -25,7 +23,6 @@ namespace LASI.WebApp.Tests.ControllerTests
             SetupTestContext();
         }
         [Fact]
-        [PreconfigureLASI]
         public void GetWithWithDocumentIdReturnsCorrespondingDocument()
         {
 
@@ -33,12 +30,11 @@ namespace LASI.WebApp.Tests.ControllerTests
 
             foreach (var document in documentsService.GetAllForUser(User.Id))
             {
-                dynamic result = controller.Get(document.Id).Result;
+                var result = controller.Get(document.Id).Result;
                 Assert.Equal(result.Id, document.Id);
             }
         }
         [Fact]
-        [PreconfigureLASI]
         public void GetWithWithInvalidIdReturns404()
         {
             var invalidId = "this is not a valid document id";
@@ -48,7 +44,6 @@ namespace LASI.WebApp.Tests.ControllerTests
         }
 
         [Fact]
-        [PreconfigureLASI]
         public void GetWithNoArgumentsReturnsAllResults()
         {
             var allUserDocuments = provider.GetService<IDocumentAccessor<UserDocument>>().GetAllForUser(User.Id);
