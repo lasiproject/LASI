@@ -1,0 +1,10 @@
+﻿<div>
+    <progress-bar value="{{task.percentComplete || 0}}"></progress-bar>
+</div>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped active progress-bar-{{task.percentComplete || 0}}"
+         role="progressbar"
+         aria-valuenow="{{task.percentComplete || 0}}"
+         aria-valuemin="0"
+         aria-valuemax="100">{{task.percentComplete || 0}}%</div>
+</div>
