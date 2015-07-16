@@ -1,9 +1,5 @@
 ﻿/// <reference path="../../../typings/jquery/jquery.d.ts" />
-(function () {
+module LASI.accountManagement {
     'use strict';
-    $(function () {
-        $('#cancel-profile-edits').click(function () {
-            document.location.href = `http://${document.domain}:${document.location.port}`;
-        });
-    });
-}());
+    $(() => $('#cancel-profile-edits').click(() => document.location.href = `http://${document.domain}:${document.location.port}`));
+}
