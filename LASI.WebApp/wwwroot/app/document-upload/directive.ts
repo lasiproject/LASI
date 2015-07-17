@@ -9,12 +9,8 @@
 
     function uploadPanel($window): ng.IDirective {
         return {
-            link: link,
-            restrict: 'E'
+            restrict: 'E',
+            link(scope, element, attrs) { }
         };
-
-        function link(scope, element, attrs) {
-        }
     }
-
 }

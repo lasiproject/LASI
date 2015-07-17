@@ -8,7 +8,7 @@ module LASI.documentViewer {
 
     phrase.$inject = ['lexicalMenuBuilder'];
 
-    function phrase(lexicalMenuBuilder: ILexicalMenuBuilderFactory): IPhrase {
+    function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): ng.IDirective {
         return {
             restrict: 'E',
             templateUrl: '/app/document-viewer/phrase.html',
@@ -19,7 +19,7 @@ module LASI.documentViewer {
             link
         };
 
-        function link(scope: IPhraseScope, element: ng.IAugmentedJQuery, attrs: IPhraseAttributes) {
+        function link(scope: PhraseScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
             var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
             scope.phrase.hasContextmenuData = !!contextmenu;
             if (scope.phrase.hasContextmenuData) {
@@ -28,14 +28,10 @@ module LASI.documentViewer {
         }
     }
 
-    interface IPhrase extends ng.IDirective { }
 
-    interface IPhraseScope extends ng.IScope {
-        phrase: models.IPhraseModel;
+    interface PhraseScope extends ng.IScope {
+        phrase: models.PhraseModel;
         parentId?: string;
-        menuIsViable(menu: IVerbalContextmenuDataSource): boolean;
+        menuIsViable(menu: VerbalContextmenuDataSource): boolean;
     }
-
-    interface IPhraseAttributes extends ng.IAttributes { }
-
 }

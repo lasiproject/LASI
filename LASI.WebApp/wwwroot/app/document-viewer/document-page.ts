@@ -1,18 +1,9 @@
 ﻿module LASI.documentViewer {
     'use strict';
 
-    interface IDirective extends ng.IDirective {
-    }
-
-    interface IDirectiveScope extends ng.IScope {
-    }
-
-    interface IDirectiveAttributes extends ng.IAttributes {
-    }
-
     directive.$inject = [];
-    function directive(): IDirective {
-        function link(scope: IDirectiveScope, element: ng.IAugmentedJQuery, attrs: IDirectiveAttributes) {
+    function directive(): ng.IDirective {
+        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
             log(scope);
             log(element);
             log(attrs);

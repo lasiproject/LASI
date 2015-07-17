@@ -3,18 +3,14 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        var DocumentModelService = (function () {
-            function DocumentModelService($http) {
-                this.$http = $http;
-            }
-            DocumentModelService.prototype.processDocument = function (documentId) {
-                return this.$http.get("Analysis/" + documentId);
+        documentModelService.$inject = ['$http'];
+        function documentModelService($http) {
+            return {
+                processDocument: function (documentId) { return $http.get("Analysis/" + documentId); }
             };
-            DocumentModelService.$inject = ['$http'];
-            return DocumentModelService;
-        })();
+        }
         angular
             .module('documentViewer')
-            .service('DocumentModelService', DocumentModelService);
+            .factory('documentModelService', documentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

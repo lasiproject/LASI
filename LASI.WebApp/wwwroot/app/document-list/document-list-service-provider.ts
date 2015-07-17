@@ -1,24 +1,24 @@
 ﻿module LASI.documentList {
     'use strict';
 
-    export interface IDocumentListServiceConfig {
-        setRecentDocumentCount(count: number): IDocumentListServiceConfig;
-        setDocumentListUrl(url: string): IDocumentListServiceConfig;
+    export interface DocumentListServiceConfig {
+        setRecentDocumentCount(count: number): DocumentListServiceConfig;
+        setDocumentListUrl(url: string): DocumentListServiceConfig;
     }
-    export interface IDocumentListService {
-        getDocumentList(): IDocumentListItemModel[];
-        deleteDocument(documentId: string): IDocumentListItemModel;
+    export interface DocumentListService {
+        getDocumentList(): DocumentListItemModel[];
+        deleteDocument(documentId: string): DocumentListItemModel;
     }
-    export interface IDocumentListItemModel {
+    export interface DocumentListItemModel {
         id: string;
         name: string;
         progress: number|string;
         percentComplete: number|string;
         showProgress: boolean;
         statusMessage: string;
-        raeification: models.IDocumentModel;
+        raeification: models.DocumentModel;
     }
-    class DocumentListServiceProvider implements IDocumentListServiceConfig, ng.IServiceProvider {
+    class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
         private documentListUrl: string;
         private recentDocumentCount: number;
         constructor() {
@@ -37,8 +37,8 @@
         /**
          * @param $resource an instance of the Resource Service supplied by the angular-resource module.
          */
-        $get($resource: ng.resource.IResourceService): IDocumentListService {
-            var resource = $resource<IDocumentListItemModel[]>(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
+        $get($resource: ng.resource.IResourceService): DocumentListService {
+            var resource = $resource<DocumentListItemModel[]>(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
                 get: {
                     method: 'GET',
                     isArray: true

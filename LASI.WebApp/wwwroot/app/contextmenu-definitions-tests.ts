@@ -6,7 +6,7 @@ module contextmenuTests {
     import ItemEvent = ui.bootstrap.contextMenu.ItemEvent;
 
     type T = string;
-    import ItemScope = ui.bootstrap.contextMenu.IItemScope;
+    import ItemScope = ui.bootstrap.contextMenu.ItemScope;
 
 
     var item1: Item = [

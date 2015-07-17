@@ -7,17 +7,17 @@
 
     ListController.$inject = [
         '$q', '$log', '$rootScope', 'documentListService',
-        'tasksListService', 'documentsService', 'DocumentModelService'
+        'tasksListService', 'documentsService', 'documentModelService'
     ];
 
     function ListController(
         $q: ng.IQService,
         $log: ng.ILogService,
         $rootScope: ng.IRootScopeService,
-        documentListService: IDocumentListService,
-        tasksListService: ITasksListService,
-        documentsService: IDocumentsService,
-        documentModelService: LASI.documentViewer.IDocumentModelService) {
+        documentListService: DocumentListService,
+        tasksListService: TasksListService,
+        documentsService: DocumentsService,
+        documentModelService: LASI.documentViewer.DocumentModelService) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'ListController';
@@ -41,7 +41,7 @@
                 vm.documents = documentListService.getDocumentList();
             };
 
-            vm.processDocument = (document: IDocumentListItemModel) => {
+            vm.processDocument = (document: DocumentListItemModel) => {
                 documentModelService.processDocument(document.id)
                     .success(data => document.raeification = data)
                     .error(message => message);
@@ -58,7 +58,7 @@
 
 
             $q.all([vm.documents, vm.tasks]).then((data) => {
-                let [documents, tasks] = <[IDocumentListItemModel[], ITask[]]>data;
+                let [documents, tasks] = <[DocumentListItemModel[], Task[]]>data;
                 let associated = documents.correlate(tasks, document => document.id, task => task.id,
                     (document, task) => {
                         document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';

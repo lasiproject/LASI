@@ -14,7 +14,7 @@
 
     configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
 
-    function configure(tasksListServiceProvider: ITasksListServiceConfig, documentListServiceProvider: IDocumentListServiceConfig) {
+    function configure(tasksListServiceProvider: TasksListServiceConfig, documentListServiceProvider: DocumentListServiceConfig) {
         tasksListServiceProvider
             .setUpdateInterval(100)
             .setTasksListUrl('api/Tasks');

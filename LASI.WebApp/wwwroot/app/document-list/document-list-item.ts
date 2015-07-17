@@ -1,5 +1,5 @@
 module LASI.documentList {
-    export interface IDocumentListItem {
+    export interface DocumentListItem {
         /**
          * The name of the document
          */

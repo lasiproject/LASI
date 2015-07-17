@@ -9,25 +9,25 @@
     lexicalMenuBuilder.$inject = [];
 
     import contextMenu = ui.bootstrap.contextMenu;
-    export interface ILexicalMenuBuilderFactory {
-        buildAngularMenu: (source: ILexicalContextMenuDataSource |  IVerbalContextmenuDataSource | IReferencerContextmenuDataSource) => contextMenu.ContextMenu;
+    export interface LexicalMenuBuilderFactory {
+        buildAngularMenu: (source: LexicalContextMenuDataSource |  VerbalContextmenuDataSource | ReferencerContextmenuDataSource) => contextMenu.ContextMenu;
     }
-    function lexicalMenuBuilder(): ILexicalMenuBuilderFactory {
+    function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
         var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
         return {
             buildAngularMenu: source =>
-                referencerMenuIsViable(<IReferencerContextmenuDataSource>source) ?
-                    buildForReferencer(<IReferencerContextmenuDataSource>source) :
-                    verbalMenuIsViable(<IVerbalContextmenuDataSource>source) ?
-                        buildForVerbal(<IVerbalContextmenuDataSource>source) :
+                referencerMenuIsViable(<ReferencerContextmenuDataSource>source) ?
+                    buildForReferencer(<ReferencerContextmenuDataSource>source) :
+                    verbalMenuIsViable(<VerbalContextmenuDataSource>source) ?
+                        buildForVerbal(<VerbalContextmenuDataSource>source) :
                         undefined
         };
 
-        function verbalMenuIsViable(menu: IVerbalContextmenuDataSource) {
+        function verbalMenuIsViable(menu: VerbalContextmenuDataSource) {
             return !!(menu && (menu.directObjectIds || menu.indirectObjectIds || menu.subjectIds));
         }
-        function referencerMenuIsViable(menu: IReferencerContextmenuDataSource) {
+        function referencerMenuIsViable(menu: ReferencerContextmenuDataSource) {
             return !!(menu && menu.refersToIds);
         }
 
@@ -37,7 +37,7 @@
             Object.keys(menuActionTargets)
                 .map(key => menuActionTargets[key])
                 .forEach($e => $e.removeClass('referred-to-by-current'));
-        return (source: IReferencerContextmenuDataSource): contextMenu.ContextMenu => [
+        return (source: ReferencerContextmenuDataSource): contextMenu.ContextMenu => [
             ['View Referred To', (itemScope, event) => {
                 resetReferencerAsssotionCssClasses();
                 source.refersToIds
@@ -47,7 +47,7 @@
     }
     function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
         return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
-            return (source: IVerbalContextmenuDataSource) => {
+            return (source: VerbalContextmenuDataSource) => {
                 var menuItems: contextMenu.ContextMenu = [];
                 if (source.subjectIds) {
                     menuItems.push(['View Subjects', (itemScope, event) => {
@@ -89,13 +89,13 @@
             'View Indirect Objects': 'indirect-object-of-current'
         });
     }
-    export interface ILexicalContextMenuDataSource {
+    export interface LexicalContextMenuDataSource {
         /**
         * The id of the lexical element for which the menu is defined.
         */
         lexicalId: string|number;
     }
-    export interface IVerbalContextmenuDataSource extends ILexicalContextMenuDataSource {
+    export interface VerbalContextmenuDataSource extends LexicalContextMenuDataSource {
        
         /**
          * The ids of any subjects.
@@ -111,7 +111,7 @@
         indirectObjectIds: number[];
     }
 
-    export interface IReferencerContextmenuDataSource extends ILexicalContextMenuDataSource {
+    export interface ReferencerContextmenuDataSource extends LexicalContextMenuDataSource {
         /**
          * The id of the referencer for which the menu is defined.
          */

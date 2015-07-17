@@ -6,12 +6,12 @@
         .factory('documentsService', documentsService);
 
     documentsService.$inject = ['$resource'];
-    export interface IDocumentsService {
-        getbyId: (documentId: string) => IDocumentListItem[];
-        deleteById: (documentId: string) => IDocumentListItem[];
+    export interface DocumentsService {
+        getbyId: (documentId: string) => DocumentListItem[];
+        deleteById: (documentId: string) => DocumentListItem[];
     }
-    function documentsService($resource: ng.resource.IResourceService): IDocumentsService {
-        var userDocouments = $resource<IDocumentListItem[]>('api/UserDocuments/:documentId');
+    function documentsService($resource: ng.resource.IResourceService): DocumentsService {
+        var userDocouments = $resource<DocumentListItem[]>('api/UserDocuments/:documentId');
         function getbyId(documentId) {
             return userDocouments.get({ documentId });
         }

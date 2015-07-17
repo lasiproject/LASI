@@ -1,41 +1,41 @@
 ﻿module LASI.models {
 
-    export interface ITextFragmentModel {
-        paragraphs: IParagraphModel[];
+    export interface TextFragmentModel {
+        paragraphs: ParagraphModel[];
     }
 
-    export interface IDocumentModel extends ITextFragmentModel {
+    export interface DocumentModel extends TextFragmentModel {
         title: string;
         id: string;
         progress: number | string;
         percentComplete: number | string;
     }
 
-    export interface IPageModel extends ITextFragmentModel {
+    export interface PageModel extends TextFragmentModel {
         pageNumber: number;
     }
 
-    export interface IParagraphModel {
-        sentences: ISentenceModel[];
+    export interface ParagraphModel {
+        sentences: SentenceModel[];
     }
 
-    export interface ISentenceModel {
-        phrases: IPhraseModel[];
+    export interface SentenceModel {
+        phrases: PhraseModel[];
     }
-    export interface ILexicalModel {
+    export interface LexicalModel {
         text: string;
         detailText: string;
         id: number;
         style: { cssClass: string };
         hasContextmenuData: boolean;
-        contextmenu: documentViewer.ILexicalContextMenuDataSource |
-        documentViewer.IVerbalContextmenuDataSource |
-        documentViewer.IReferencerContextmenuDataSource;
+        contextmenu: documentViewer.LexicalContextMenuDataSource |
+        documentViewer.VerbalContextmenuDataSource |
+        documentViewer.ReferencerContextmenuDataSource;
     }
 
-    export interface IPhraseModel extends ILexicalModel {
-        words: IWordModel[];
+    export interface PhraseModel extends LexicalModel {
+        words: WordModel[];
     }
 
-    export interface IWordModel extends ILexicalModel { }
+    export interface WordModel extends LexicalModel { }
 }

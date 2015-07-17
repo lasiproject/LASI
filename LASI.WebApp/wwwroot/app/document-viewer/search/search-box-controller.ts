@@ -1,33 +1,22 @@
 ﻿module LASI.documentViewer.search {
     'use strict';
-    //function searchBox(): ng.IDirective {
 
     SearchBoxController.$inject = ['$q'];
 
-    //return {
-    //    restrict: 'E',
-    //    controller,
-    //    controllerAs: 'search',
-    //    scope: {
-    //        find: '=',
-    //        searchContext: '=',
-    //        onFound: '='
-    //    },
-    //    bindToController: true
-    //};
     function SearchBoxController($q: ng.IQService) {
         var vm = this;
         vm.searchContext = {
             value: undefined,
-            set: function (value) {
-                var context = <models.ITextFragmentModel[]>(value instanceof Array ? value : [value]);
+            set(value) {
+                var context = <models.TextFragmentModel[]>(value instanceof Array ? value : [value]);
                 this.value = context;
                 return vm.search;
-            }, get: function () { return this.value; }
+            },
+            get() { return this.value; }
         };
 
-        var search = (searchFor: string | models.ILexicalModel, options: ITextSearchOptions<string | models.ILexicalModel>) => {
-            var deferred = $q.defer<string[]| models.ILexicalModel[]>();
+        var search = (searchFor: string | models.LexicalModel, options: TextSearchOptions<string | models.LexicalModel>) => {
+            var deferred = $q.defer<string[]| models.LexicalModel[]>();
             const term = typeof searchFor === 'string' ? searchFor : typeof searchFor !== 'undefined' ? searchFor.detailText : undefined;
             if (term === undefined) {
                 deferred.reject('search term was undefined');
@@ -53,7 +42,7 @@
             return deferred.promise;
         };
     }
-    interface ITextSearchOptions<TFor> {
+    interface TextSearchOptions<TFor> {
         lifted?: boolean;
     }
 

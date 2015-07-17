@@ -1,12 +1,12 @@
 ﻿module LASI.documentList {
     'use strict';
 
-    interface IUploadController {
-        uploadFile(file: File): ng.angularFileUpload.IUploadPromise<IDocumentListItemModel>;
-        uploadFiles(files: File[]): ng.angularFileUpload.IUploadPromise<IDocumentListItemModel>[];
+    interface UploadControllerStructure {
+        uploadFile(file: File): ng.angularFileUpload.IUploadPromise<DocumentListItemModel>;
+        uploadFiles(files: File[]): ng.angularFileUpload.IUploadPromise<DocumentListItemModel>[];
     }
 
-    class UploadController implements IUploadController {
+    class UploadController implements UploadControllerStructure {
         static $inject = ['$scope', 'Upload'];
 
         static formats = [
@@ -32,7 +32,7 @@
         };
 
         uploadFile = (file: File) => {
-            var promise = this.uploadService.upload<IDocumentListItemModel>({
+            var promise = this.uploadService.upload<DocumentListItemModel>({
                 file,
                 url: 'api/UserDocuments',
                 method: 'POST',

@@ -5,26 +5,19 @@
         .module('documentViewer')
         .directive('sentence', sentence);
 
-    function sentence(): ISentence {
+    function sentence(): ng.IDirective {
         return {
             restrict: 'E',
             templateUrl: '/app/document-viewer/sentence.html',
-            link: (scope: ISentenceScope, element: ng.IAugmentedJQuery, attrs: ISentenceAttributes) => { },
+            link: (scope, element, attrs) => {
+                log(scope);
+                log(element);
+                log(attrs);
+            },
             scope: {
                 sentence: '=',
                 parentId: '='
             }
         };
     }
-    interface ISentence extends ng.IDirective {
-    }
-
-    interface ISentenceScope extends ng.IScope {
-        sentence: models.ISentenceModel;
-        parentId: string | number;
-    }
-
-    interface ISentenceAttributes extends ng.IAttributes {
-    }
-
 }

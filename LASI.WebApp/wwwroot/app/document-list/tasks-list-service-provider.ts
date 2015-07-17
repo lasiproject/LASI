@@ -6,7 +6,7 @@
         .provider('tasksListService', tasksListServiceProvider);
 
 
-    function tasksListServiceProvider(): ITasksListServiceConfig {
+    function tasksListServiceProvider(): TasksListServiceConfig {
         var updateInterval = 200;
         var tasksListUrl = 'api/Tasks';
 
@@ -14,24 +14,24 @@
 
         return { $get, setUpdateInterval, setTasksListUrl };
 
-        function setUpdateInterval(milliseconds: number): ITasksListServiceConfig {
+        function setUpdateInterval(milliseconds: number): TasksListServiceConfig {
             updateInterval = milliseconds;
             return this;
         }
-        function setTasksListUrl(url: string): ITasksListServiceConfig {
+        function setTasksListUrl(url: string): TasksListServiceConfig {
             tasksListUrl = url;
             return this;
         }
 
-        function $get($q: ng.IQService, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService): ITasksListService {
+        function $get($q: ng.IQService, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService): TasksListService {
             //var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
-            var Tasks = $resource<ITask[]>(tasksListUrl, {}, {
+            var Tasks = $resource<Task[]>(tasksListUrl, {}, {
                 get: {
                     method: 'GET', isArray: true
                 }
             });
-            var getActiveTasks = function (callback?: (tasks: ITask[]) => any) {
-                var deferred = $q.defer<ITask[]>();
+            var getActiveTasks = function (callback?: (tasks: Task[]) => any) {
+                var deferred = $q.defer<Task[]>();
                 $interval(() => {
                     callback && callback(this.tasks);
                     this.tasks = Tasks.get();
@@ -46,19 +46,19 @@
             };
         }
         function createDebugInfoUpdator(element: JQuery) {
-            return (tasks: ITask[]) => element
+            return (tasks: Task[]) => element
                 .html(tasks
                 .map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
                 .join());
         }
     }
-    export interface ITasksListServiceConfig {
-        $get: ($q, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService) => ITasksListService;
-        setTasksListUrl(url: string): ITasksListServiceConfig;
-        setUpdateInterval(milliconds: number): ITasksListServiceConfig;
+    export interface TasksListServiceConfig {
+        $get: ($q, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService) => TasksListService;
+        setTasksListUrl(url: string): TasksListServiceConfig;
+        setUpdateInterval(milliconds: number): TasksListServiceConfig;
     }
 
-    export interface ITask {
+    export interface Task {
         id: string;
         name: string;
         state: string;
@@ -66,8 +66,8 @@
         statusMessage: string;
     }
 
-    export interface ITasksListService {
-        getActiveTasks(callback?: (tasks: ITask[]) => any): ng.IPromise<ITask[]>;
-        tasks: ITask[];
+    export interface TasksListService {
+        getActiveTasks(callback?: (tasks: Task[]) => any): ng.IPromise<Task[]>;
+        tasks: Task[];
     }
 }

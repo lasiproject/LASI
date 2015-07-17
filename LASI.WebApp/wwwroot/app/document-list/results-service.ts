@@ -7,17 +7,17 @@
 
     resultsService.$inject = ['$http', '$q'];
 
-    interface IResultsService {
-        tasks: ITask[];
-        processDocument(documentId: string, documentName: string): ng.IPromise<models.IDocumentModel>;
+    interface ResultsService {
+        tasks: Task[];
+        processDocument(documentId: string, documentName: string): ng.IPromise<models.DocumentModel>;
     }
-    function resultsService($http: ng.IHttpService, $q: ng.IQService): IResultsService {
+    function resultsService($http: ng.IHttpService, $q: ng.IQService): ResultsService {
         var tasks = [];
-        var processDocument = function (documentId, documentName): ng.IPromise<models.IDocumentModel> {
+        var processDocument = function (documentId, documentName): ng.IPromise<models.DocumentModel> {
             tasks[documentId] = { percentComplete: 0 };
 
-            var deferred = $q.defer<models.IDocumentModel>();
-            $http.get<models.IDocumentModel>('Analysis/' + documentId)
+            var deferred = $q.defer<models.DocumentModel>();
+            $http.get<models.DocumentModel>('Analysis/' + documentId)
                 .success(success)
                 .error(error);
             return deferred.promise;

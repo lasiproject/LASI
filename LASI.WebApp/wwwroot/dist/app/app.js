@@ -164,14 +164,14 @@ var LASI;
     })(widgets = LASI.widgets || (LASI.widgets = {}));
 })(LASI || (LASI = {}));
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
-(function () {
-    'use strict';
-    $(function () {
-        $('#cancel-profile-edits').click(function () {
-            document.location.href = "http://" + document.domain + ":" + document.location.port;
-        });
-    });
-}());
+var LASI;
+(function (LASI) {
+    var accountManagement;
+    (function (accountManagement) {
+        'use strict';
+        $(function () { return $('#cancel-profile-edits').click(function () { return document.location.href = "http://" + document.domain + ":" + document.location.port; }); });
+    })(accountManagement = LASI.accountManagement || (LASI.accountManagement = {}));
+})(LASI || (LASI = {}));
 /// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextmenu.d.ts'/>
 var contextmenuTests;
 (function (contextmenuTests) {
@@ -361,7 +361,7 @@ var LASI;
             .controller('ListController', ListController);
         ListController.$inject = [
             '$q', '$log', '$rootScope', 'documentListService',
-            'tasksListService', 'documentsService', 'DocumentModelService'
+            'tasksListService', 'documentsService', 'documentModelService'
         ];
         function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
             var vm = this;
@@ -576,11 +576,9 @@ var LASI;
         uploadPanel.$inject = ['$window'];
         function uploadPanel($window) {
             return {
-                link: link,
-                restrict: 'E'
+                restrict: 'E',
+                link: function (scope, element, attrs) { }
             };
-            function link(scope, element, attrs) {
-            }
         }
     })(documentUpload = LASI.documentUpload || (LASI.documentUpload = {}));
 })(LASI || (LASI = {}));
@@ -617,19 +615,15 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        var DocumentModelService = (function () {
-            function DocumentModelService($http) {
-                this.$http = $http;
-            }
-            DocumentModelService.prototype.processDocument = function (documentId) {
-                return this.$http.get("Analysis/" + documentId);
+        documentModelService.$inject = ['$http'];
+        function documentModelService($http) {
+            return {
+                processDocument: function (documentId) { return $http.get("Analysis/" + documentId); }
             };
-            DocumentModelService.$inject = ['$http'];
-            return DocumentModelService;
-        })();
+        }
         angular
             .module('documentViewer')
-            .service('DocumentModelService', DocumentModelService);
+            .factory('documentModelService', documentModelService);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -782,15 +776,15 @@ var LASI;
         'use strict';
         paragraph.$inject = ['$window'];
         function paragraph($window) {
-            var link = function (scope, element, attrs) {
-            };
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/paragraph.html',
-                link: link,
                 scope: {
                     paragraph: '=',
                     parentId: '='
+                },
+                link: function (scope, element, attrs) {
+                    console.log(scope);
                 }
             };
         }
@@ -844,7 +838,8 @@ var LASI;
                         var context = (value instanceof Array ? value : [value]);
                         this.value = context;
                         return vm.search;
-                    }, get: function () { return this.value; }
+                    },
+                    get: function () { return this.value; }
                 };
                 var search = function (searchFor, options) {
                     var deferred = $q.defer();
@@ -891,7 +886,11 @@ var LASI;
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
-                link: function (scope, element, attrs) { },
+                link: function (scope, element, attrs) {
+                    LASI.log(scope);
+                    LASI.log(element);
+                    LASI.log(attrs);
+                },
                 scope: {
                     sentence: '=',
                     parentId: '='
@@ -1004,28 +1003,29 @@ var LASI;
     $(app.buildMenus);
 }(LASI));
 /// <reference path="../../../typings/jquery/jquery.d.ts"/>
+/// <reference path="../../../typings/bootstrap/bootstrap.d.ts"/>
 /// <reference path="../lasi.ts"/>
-(function (app) {
-    app.enableActiveHighlighting = (function () {
-        'use strict';
-        var onReady = function () {
-            var phrasalTextSpans = $('span.phrase'), highlightClass = 'active-phrase-highlight', recolor = function () {
-                phrasalTextSpans.each(function () {
-                    $(this).removeClass(highlightClass);
-                });
-                $(this).addClass(highlightClass);
-            };
-            phrasalTextSpans.click(recolor);
-            phrasalTextSpans.on('contextmenu', recolor);
-            $('[data-toggle="tooltip"]').tooltip({
-                delay: 250,
-                container: 'body'
+LASI.enableActiveHighlighting = function () {
+    'use strict';
+    var enableActiveHighlighting = function () {
+        var phrasalTextSpans = $('span.phrase');
+        var highlightClass = 'active-phrase-highlight';
+        var recolor = function () {
+            phrasalTextSpans.each(function () {
+                $(this).removeClass(highlightClass);
             });
+            $(this).addClass(highlightClass);
         };
-        $(onReady);
-        return onReady;
-    }());
-}(LASI));
+        phrasalTextSpans.click(recolor);
+        phrasalTextSpans.on('contextmenu', recolor);
+        $('[data-toggle="tooltip"]').tooltip({
+            delay: 250,
+            container: 'body'
+        });
+    };
+    $(enableActiveHighlighting);
+    return enableActiveHighlighting;
+};
 var LASI;
 (function (LASI) {
     var documentList;

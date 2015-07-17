@@ -3,9 +3,9 @@
 
     documentViewerDirective.$inject = [];
 
-    function documentViewerDirective(): IDocument {
+    function documentViewerDirective(): ng.IDirective {
 
-        var link: ng.IDirectiveLinkFn = function (scope: IDocumentScope, element: ng.IAugmentedJQuery, attrs: IDocumentAttributes) {
+        var link: ng.IDirectiveLinkFn = function (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
             log(scope);
             log(element);
             log(attrs);
@@ -20,14 +20,7 @@
             link
         };
     }
-    interface IDocument extends ng.IDirective {
-    }
 
-    interface IDocumentScope extends ng.IScope {
-    }
-
-    interface IDocumentAttributes extends ng.IAttributes {
-    }
     angular
         .module('documentViewer')
         .directive('documentViewerDirective', documentViewerDirective);

@@ -1,22 +1,16 @@
 module LASI.documentViewer {
     'use strict';
 
-
-    interface IDocumentController {
-        title: string;
-        processDocument: (documentId: string) => ng.IPromise<models.IDocumentModel>;
-    }
-
-    class DocumentController implements IDocumentController {
+    class DocumentController {
         title: string = 'DocumentController';
 
-        private documentModel: models.IDocumentModel;
+        private documentModel: models.DocumentModel;
 
         static $inject = ['$q', '$location', 'MockDocumentModelService'];
 
         constructor(private $q: ng.IQService,
             private $location: ng.ILocationService,
-            private documentModelService: IDocumentModelService) {
+            private documentModelService: DocumentModelService) {
         }
         processDocument(documentId: string) {
             if (this.documentModel.id !== documentId) {

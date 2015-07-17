@@ -30,7 +30,7 @@ let analyze (sources : Source) =
 let display (ls: seq<ILexical>) =
     ls 
     |> Seq.map(fun e->e.Text) 
-    |> Seq.fold (fun  x e -> x + e) ""
+    |> Seq.fold (fun x e -> x + e) ""
 let result = async {
    let! analyzed= analyze(Path(@"C:\Users\Aluan\Documents\GitHub\LASI\DocXFileTest_GetTextTest\Draft_Environmental_Assessment.txt" )) 
    do analyzed |> Seq.iter(fun e-> printf  "%A" (display(e.Lexicals)))

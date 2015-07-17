@@ -5,9 +5,7 @@ var LASI;
         var search;
         (function (search_1) {
             'use strict';
-            //function searchBox(): ng.IDirective {
             SearchBoxController.$inject = ['$q'];
-
             function SearchBoxController($q) {
                 var vm = this;
                 vm.searchContext = {
@@ -16,7 +14,8 @@ var LASI;
                         var context = (value instanceof Array ? value : [value]);
                         this.value = context;
                         return vm.search;
-                    }, get: function () { return this.value; }
+                    },
+                    get: function () { return this.value; }
                 };
                 var search = function (searchFor, options) {
                     var deferred = $q.defer();

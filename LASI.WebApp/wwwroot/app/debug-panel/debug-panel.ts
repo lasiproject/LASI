@@ -8,7 +8,7 @@ module LASI.debug {
     DebugPanelController.$inject = ['tasksListService'];
 
 
-    function DebugPanelController(tasksListService: documentList.ITasksListService) {
+    function DebugPanelController(tasksListService: documentList.TasksListService) {
         tasksListService.getActiveTasks().then(data => this.tasks = data.sort((x, y) => x.id.localeCompare(y.id)));
         this.show = false;
         this.getbuttonText = () => this.show ? 'Hide' : 'Show';

@@ -10,7 +10,11 @@ var LASI;
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
-                link: function (scope, element, attrs) { },
+                link: function (scope, element, attrs) {
+                    LASI.log(scope);
+                    LASI.log(element);
+                    LASI.log(attrs);
+                },
                 scope: {
                     sentence: '=',
                     parentId: '='

@@ -12,7 +12,7 @@
 
         return {
             restrict: 'E',
-            link: (scope: IDocumentListTabsetItemScope, element, attrs) => {
+            link: (scope: DocumentListTabsetItemScope, element, attrs) => {
                 element.click(event => {
                     event.stopPropagation();
                     resultsService.processDocument(scope.documentId, scope.name); event.preventDefault();
@@ -32,7 +32,7 @@
         };
     }
 
-    interface IDocumentListTabsetItemScope extends ng.IScope {
+    interface DocumentListTabsetItemScope extends ng.IScope {
         documentId: string;
         name: string;
         analysisProgress: any;

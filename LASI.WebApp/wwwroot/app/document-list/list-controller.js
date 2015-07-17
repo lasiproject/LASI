@@ -8,7 +8,7 @@ var LASI;
             .controller('ListController', ListController);
         ListController.$inject = [
             '$q', '$log', '$rootScope', 'documentListService',
-            'tasksListService', 'documentsService', 'DocumentModelService'
+            'tasksListService', 'documentsService', 'documentModelService'
         ];
         function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
             /* jshint validthis:true */

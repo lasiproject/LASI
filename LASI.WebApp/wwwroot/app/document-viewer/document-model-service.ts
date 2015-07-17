@@ -1,19 +1,17 @@
 ﻿module LASI.documentViewer {
     'use strict';
 
-    export interface IDocumentModelService {
-        processDocument(documentId: string): ng.IHttpPromise<models.IDocumentModel>;
+    export interface DocumentModelService {
+        processDocument(documentId: string): ng.IHttpPromise<models.DocumentModel>;
     }
+    documentModelService.$inject = ['$http'];
+    function documentModelService($http: ng.IHttpService): DocumentModelService {
 
-    class DocumentModelService implements IDocumentModelService {
-        static $inject = ['$http'];
-        processDocument(documentId: string) {
-            return this.$http.get(`Analysis/${documentId}`);
-        }
-        constructor(private $http: ng.IHttpService) { }
+        return {
+            processDocument: (documentId) => $http.get(`Analysis/${documentId}`)
+        };
     }
-
     angular
         .module('documentViewer')
-        .service('DocumentModelService', DocumentModelService);
+        .factory('documentModelService', documentModelService);
 }

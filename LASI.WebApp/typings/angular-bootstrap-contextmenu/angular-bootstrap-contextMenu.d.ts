@@ -3,22 +3,22 @@
 
 declare module ui.bootstrap.contextMenu {
 
-    interface IItemScope<T> extends ng.IScope {
+    interface ItemScope<T> extends ng.IScope {
         item: T;
     }
-    interface IContextMenuDirectiveLinkFn<T> extends ng.IDirectiveLinkFn {
-        (scope: IItemScope<T>, element: ng.IAugmentedJQuery, attrs: IContextMenuDirectiveAttributes)
+    interface ContextMenuDirectiveLinkFn<T> extends ng.IDirectiveLinkFn {
+        (scope: ItemScope<T>, element: ng.IAugmentedJQuery, attrs: ContextMenuDirectiveAttributes)
     }
-    interface IContextMenuDirectiveAttributes extends ng.IAttributes {
+    interface ContextMenuDirectiveAttributes extends ng.IAttributes {
         contextMenu: Array<MenuItem>;
     }
-    interface IContextMenuDirectiveFactory<T> extends ng.IDirectiveFactory {
-        ($parse: ng.IParseService): IContextMenuDirectiveLinkFn<T>;
+    interface ContextMenuDirectiveFactory<T> extends ng.IDirectiveFactory {
+        ($parse: ng.IParseService): ContextMenuDirectiveLinkFn<T>;
     }
     interface ItemEvent extends JQueryEventObject { }
-    type ItemScope = IItemScope<any>;
+    type Scope = ItemScope<any>;
     interface ComputeName {
-        (s: ItemScope, e: ItemEvent): string;
+        (s: Scope, e: ItemEvent): string;
     }
     /**
     * A function to call when the item is clicked.
@@ -29,7 +29,7 @@ declare module ui.bootstrap.contextMenu {
         * @param s The item scope
         * @param e The event which trigged the visibility check. 
         */
-        (s: ItemScope, e: ItemEvent): void;
+        (s: Scope, e: ItemEvent): void;
     }
     interface ToggleItem {
         /**
@@ -38,7 +38,7 @@ declare module ui.bootstrap.contextMenu {
         * @param e The event which trigged the visibility check. 
         * @returns true to show the item; false to hide the item.
         */
-        (s: ItemScope, e: ItemEvent): boolean;
+        (s: Scope, e: ItemEvent): boolean;
     }
 
     type MenuItem =
