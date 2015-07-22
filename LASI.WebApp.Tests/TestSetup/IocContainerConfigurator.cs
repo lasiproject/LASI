@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.OptionsModel;
+using System.Linq;
+using Microsoft.Framework.Logging;
 
 namespace LASI.WebApp.Tests.TestSetup
 {
@@ -29,7 +31,7 @@ namespace LASI.WebApp.Tests.TestSetup
             services.AddTransient(provider =>
             {
                 var user = provider.GetService<ApplicationUser>();
-                var httpContext = new Microsoft.AspNet.Http.Core.DefaultHttpContext();
+                var httpContext = new Microsoft.AspNet.Http.Internal.DefaultHttpContext();
                 var contextAccessor = new HttpContextAccessor
                 {
                     HttpContext = httpContext
@@ -43,10 +45,14 @@ namespace LASI.WebApp.Tests.TestSetup
                     identityOptions
                 );
                 var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(user);
+                var optionsAccessor = new OptionsManager<IdentityOptions>(Enumerable.Empty<IConfigureOptions<IdentityOptions>>());
+                var logger = new Logger<SignInManager<ApplicationUser>>(new LoggerFactory());
                 var signInManager = new SignInManager<ApplicationUser>(
                     userManager,
                     contextAccessor,
-                    userClaimsPrincipalFactory
+                    userClaimsPrincipalFactory,
+                    optionsAccessor,
+                    logger
                 );
                 httpContext.User = userClaimsPrincipal.Result;
                 signInManager.SignInAsync(user, true);

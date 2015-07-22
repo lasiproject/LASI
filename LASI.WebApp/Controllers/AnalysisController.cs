@@ -76,8 +76,8 @@ namespace LASI.WebApp.Controllers
             analyzer.ProgressChanged += (s, e) =>
             {
                 workItem.PercentComplete = Math.Round(
-                    value: Math.Min(workItem.PercentComplete + e.PercentWorkRepresented, 100), 
-                    digits: 0, 
+                    value: Math.Min(workItem.PercentComplete + e.PercentWorkRepresented, 100),
+                    digits: 0,
                     mode: MidpointRounding.AwayFromZero
                 );
                 workItem.StatusMessage = e.Message;

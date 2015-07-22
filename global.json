@@ -6,8 +6,11 @@
         "Utilities",
         "Interop",
         "LASI.WebApp",
-        "LASI.WebApp.Tests",
-        "."
-    ],
-    "apiVersion": "1.0.0-beta4"
+        "LASI.WebApp.Tests"
+	],
+    "sdk": {
+        "version": "1.0.0-beta5",
+        "runtime": "clr",
+        "architecture": "x64"
+    }
 }

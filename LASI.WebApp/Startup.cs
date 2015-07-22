@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
@@ -10,9 +11,10 @@ using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
+using Microsoft.Framework.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -21,83 +23,84 @@ namespace LASI.WebApp
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            // Setup configuration sources.
-            var configuration = new Configuration()
+            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
+
             environmentIsDevelopment = env.IsEnvironment("Development");
-            if (environmentIsDevelopment)
+            if (env.IsDevelopment())
             {
                 // This reads the configuration keys from the secret store.
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                configuration.AddUserSecrets();
+                builder.AddUserSecrets();
             }
-            configuration.AddEnvironmentVariables();
-            Configuration = configuration;
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
             ConfigureLASIComponents(fileName: Path.Combine(Directory.GetParent(env.WebRootPath).FullName, "config.json"), subkey: "Resources");
         }
 
         public IConfiguration Configuration { get; set; }
 
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"))
-                    .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
-                    .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
-                    .AddMongoDB(options =>
-                    {
-                        options.CreateProcess = true;
-                        options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
-                        options.UserCollectionName = "users";
-                        options.UserDocumentCollectionName = "documents";
-                        options.OrganizationCollectionName = "organizations";
-                        options.UserRoleCollectionName = "roles";
-                        options.ApplicationDatabaseName = "accounts";
-                        options.MongodExePath = Configuration["MongoDB:MongodExePath"];
-                        options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
-                        options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
-                    })
-                    .AddIdentity<ApplicationUser, UserRole>(options =>
-                    {
-                        options.Lockout = new LockoutOptions
-                        {
-                            EnabledByDefault = true,
-                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                            MaxFailedAccessAttempts = 10
-                        };
-                        options.User = new UserOptions
-                        {
-                            RequireUniqueEmail = true
-                        };
-                        options.SignIn = new SignInOptions
-                        {
-                            RequireConfirmedEmail = false,
-                            RequireConfirmedPhoneNumber = false
-                        };
-                        options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
-                        {
-                            RequireLowercase = true,
-                            RequireUppercase = true,
-                            RequireNonLetterOrDigit = true,
-                            RequireDigit = true,
-                            RequiredLength = 8
-                        };
-                    })
-                    .AddDefaultTokenProviders()
-                    .AddUserValidator<UserValidator<ApplicationUser>>()
-                    .AddRoleManager<RoleManager<UserRole>>()
-                    .AddRoleStore<CustomUserStore<UserRole>>()
-                    .AddUserManager<UserManager<ApplicationUser>>()
-                    .AddUserStore<CustomUserStore<UserRole>>();
+            services.Configure<AppSettings>(Configuration.GetConfigurationSection("AppSettings"));
 
-            services.AddMvc()
-                    .ConfigureMvc(options =>
-                    {
-                        options.InputFormatters.InstanceOf<JsonInputFormatter>().SerializerSettings = MvcJsonSerializerSettings;
-                        options.OutputFormatters.InstanceOf<JsonOutputFormatter>().SerializerSettings = MvcJsonSerializerSettings;
-                    });
+            services.AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer());
+            services.AddSingleton<IWorkItemsService>(provider => new WorkItemsService());
+            services.AddMongoDB(options =>
+            {
+                options.CreateProcess = true;
+                options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
+                options.UserCollectionName = "users";
+                options.UserDocumentCollectionName = "documents";
+                options.OrganizationCollectionName = "organizations";
+                options.UserRoleCollectionName = "roles";
+                options.ApplicationDatabaseName = "accounts";
+                options.MongodExePath = Configuration["MongoDB:MongodExePath"];
+                options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
+                options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
+            });
+            services.AddIdentity<ApplicationUser, UserRole>(options =>
+            {
+                options.Lockout = new LockoutOptions
+                {
+                    AllowedForNewUsers = true,
+                    DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                    MaxFailedAccessAttempts = 10
+                };
+                options.User = new UserOptions
+                {
+                    RequireUniqueEmail = true
+                };
+                options.SignIn = new SignInOptions
+                {
+                    RequireConfirmedEmail = false,
+                    RequireConfirmedPhoneNumber = false
+                };
+                options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
+                {
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonLetterOrDigit = true,
+                    RequireDigit = true,
+                    RequiredLength = 8
+                };
+            })
+            .AddDefaultTokenProviders()
+            .AddUserValidator<UserValidator<ApplicationUser>>()
+            .AddRoleManager<RoleManager<UserRole>>()
+            .AddRoleStore<CustomUserStore<UserRole>>()
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddUserStore<CustomUserStore<UserRole>>();
+
+            services.AddMvc();
+            services.ConfigureMvc(options =>
+            {
+                options.InputFormatters.OfType<JsonInputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
+                options.OutputFormatters.OfType<JsonOutputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
+            });
 
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.

@@ -1,8 +1,8 @@
-﻿@model LoginViewModel
+﻿@model LASI.WebApp.Models.LoginViewModel
 @using System.Collections.Generic
 @using Microsoft.AspNet.Http
 @using Microsoft.AspNet.Http.Authentication
-@inject SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNet.Identity.SignInManager<LASI.WebApp.Models.ApplicationUser> SignInManager
 
 @{
     ViewBag.Title = "Log in";

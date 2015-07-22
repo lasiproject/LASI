@@ -22,10 +22,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <ProduceOutputsOnBuild>True</ProduceOutputsOnBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Content\LASI.Content.csproj" />
+    <ProjectReference Include="..\Core\LASI.Core.csproj" />
+    <ProjectReference Include="..\Interop\LASI.Interop.csproj" />
+    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties TaskRunnerConfiguration_2Grunt_2grunt-typescript_1json__JSONSchema="http://json.schemastore.org/grunt-task" TaskRunnerConfigFiles_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-beta4" TaskRunnerConfiguration_2Grunt_2grunt-tslint_2task_1json__JSONSchema="http://json.schemastore.org/grunt-task" tsd_1json__JSONSchema="http://json.schemastore.org/tsdrc" TaskRunnerConfigFiles_2grunt-cssmin_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" TaskRunnerConfiguration_2Grunt_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" TaskRunnerConfigFiles_2grunt-watch-task_1json__JSONSchema="http://json.schemastore.org/grunt-watch-task" package_1json__JSONSchema="http://json.schemastore.org/package.json" />
+      <UserProperties TaskRunnerConfiguration_2Grunt_2grunt-typescript_1json__JSONSchema="http://json.schemastore.org/grunt-task" tsd_1json__JSONSchema="http://json.schemastore.org/tsdrc" TaskRunnerConfiguration_2Grunt_2grunt-cssmin-task_1json__JSONSchema="http://json.schemastore.org/grunt-cssmin-task" package_1json__JSONSchema="http://json.schemastore.org/package.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

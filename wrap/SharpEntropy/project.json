@@ -5,6 +5,11 @@
       "bin": {
         "assembly": "../../ThirdPartyComponents/SharpNLPDLLs/SharpEntropy.dll"
       }
+    },
+    "net45": {
+      "bin": {
+        "assembly": "../../ThirdPartyComponents/SharpNLPDLLs/SharpEntropy.dll"
+      }
     }
   }
 }

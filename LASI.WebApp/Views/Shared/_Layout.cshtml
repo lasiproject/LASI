@@ -1,4 +1,4 @@
-﻿@inject IOptions<AppSettings> AppSettings
+﻿@inject Microsoft.Framework.OptionsModel.IOptions<LASI.WebApp.AppSettings> AppSettings
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,9 +29,9 @@
                     <li class="navbar-brand">
                         <a href="~/"><div><img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" /></div></a>
                     </li>
-                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li>@Html.ActionLink(linkText: "Home", controllerName: "Home", actionName: "Index")</li>
                     <li><a href="#" class="glyphicon glyphicon-upload"></a></li>
-                    <li><a asp-controller="Results" asp-action="Results">Results</a></li>
+                    <li>@Html.ActionLink(linkText: "Results", controllerName: "Results", actionName: "Results")</li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -92,7 +92,6 @@
             </div>
         </div>
     </div>
- 
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/jquery-validation/jquery.validate.js"></script>

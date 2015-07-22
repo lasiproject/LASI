@@ -10,7 +10,7 @@
     <RootNamespace>LASI.Utilities</RootNamespace>
     <AssemblyName>LASI.Utilities</AssemblyName>
     <!--<LangVersion>experimental</LangVersion>-->
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

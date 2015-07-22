@@ -5,6 +5,11 @@
       "bin": {
         "assembly": "../../ThirdPartyComponents/SharpNLPDLLs/SharpWordNet.dll"
       }
+    },
+    "net45": {
+      "bin": {
+        "assembly": "../../ThirdPartyComponents/SharpNLPDLLs/SharpWordNet.dll"
+      }
     }
   }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LASI.WebApp.Models;
 using Microsoft.AspNet.Identity;
 using MongoDB.Driver;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.Configuration;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver.Builders;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace LASI.WebApp.Persistence.MongoDB
         {
             if (Users.Count(Query.EQ("Email", user.NormalizedEmail)) != 0)
             {
-                return IdentityResult.Failed(IdentityErrorDescriber.Default.DuplicateEmail(user.Email));
+                return IdentityResult.Failed(new IdentityErrorDescriber().DuplicateEmail(user.Email));
             }
             var outcome = Users.Insert(user);
             return outcome?.ErrorMessage == null ?

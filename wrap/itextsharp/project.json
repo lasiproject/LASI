@@ -5,6 +5,11 @@
       "bin": {
         "assembly": "../../ThirdPartyComponents/FileFormatConversion/itextsharp/itextsharp.dll"
       }
+    },
+    "net45": {
+      "bin": {
+        "assembly": "../../ThirdPartyComponents/FileFormatConversion/itextsharp/itextsharp.dll"
+      }
     }
   }
 }

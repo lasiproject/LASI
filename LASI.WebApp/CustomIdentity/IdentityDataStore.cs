@@ -8,6 +8,6 @@ namespace LASI.WebApp.Persistence
 {
     public abstract class IdentityStore
     {
-        protected readonly IdentityErrorDescriber ErrorDescriber = IdentityErrorDescriber.Default;
+        protected readonly IdentityErrorDescriber ErrorDescriber = new IdentityErrorDescriber();
     }
 }

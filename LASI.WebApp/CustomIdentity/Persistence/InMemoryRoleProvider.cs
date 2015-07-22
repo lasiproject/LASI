@@ -55,8 +55,7 @@ namespace LASI.WebApp.Persistence
         /// Provides an on which to synchronize. Do not use for any other purpose. Do not expose reference.
         /// </summary>
         private static readonly object Lock = new object();
-        private readonly IdentityErrorDescriber ErrorDescriber = IdentityErrorDescriber.Default;
-
+        private readonly IdentityErrorDescriber ErrorDescriber = new IdentityErrorDescriber();
         private static void WithLock(Action a) { lock (Lock) a(); }
 
         private static T WithLock<T>(Func<T> f) { lock (Lock) return f(); }

@@ -20,7 +20,7 @@
         "ApplicationDatabaseName": "accounts",
         "MongoDataDbPath": "/App_Data/Mongo/data/db",
         "MongoDbInstanceUrl": "mongodb://localhost:27017",
-        "MongodExePath": "C:/Program Files/MongoDB 2.6 Standard/bin/mongod.exe",
+        "MongodExePath": "C:/program Files/MongoDB/Server/3.0/bin/mongod.exe",
         "UserCollectionName": "users",
         "UserDocumentCollectionName": "documents",
         "OrganizationCollectionName": "organizations",

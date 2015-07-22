@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace LASI.WebApp.Tests.MvcHelpers
 {
@@ -15,9 +16,9 @@ namespace LASI.WebApp.Tests.MvcHelpers
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = Formatting.Indented
             };
-            options.InputFormatters.InstanceOf<JsonInputFormatter>().SerializerSettings = jsonSerializerSettings;
+            options.InputFormatters.OfType<JsonInputFormatter>().First().SerializerSettings = jsonSerializerSettings;
 
-            options.OutputFormatters.InstanceOf<JsonOutputFormatter>().SerializerSettings = jsonSerializerSettings;
+            options.OutputFormatters.OfType<JsonOutputFormatter>().First().SerializerSettings = jsonSerializerSettings;
         }
     }
 }

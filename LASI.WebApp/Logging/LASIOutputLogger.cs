@@ -29,7 +29,9 @@ namespace LASI.WebApp.Logging
                 this.name = name ?? typeof(Utilities.Logger).FullName;
                 this.filter = filter ?? delegate { return true; };
             }
-            public IDisposable BeginScope(object state) => null;
+            public IDisposable BeginScope(object state) => BeginScopeImpl(state);
+
+            public IDisposable BeginScopeImpl(object state) => new LoggerScope(state);
 
             public bool IsEnabled(LogLevel logLevel) => filter(name, logLevel);
 
@@ -38,10 +40,40 @@ namespace LASI.WebApp.Logging
                 if (IsEnabled(logLevel))
                 {
                     var message = formatter != null ? formatter(state, exception) : $"{exception.Message}\n{exception.StackTrace}";
-
                     var severity = logLevel.ToString().ToUpperInvariant();
                     Utilities.Logger.Log($"[{severity}:{name}] {message}");
                 }
+            }
+
+            private sealed class LoggerScope : IDisposable
+            {
+                public LoggerScope(object state)
+                {
+                    this.state = state;
+                }
+                private object state;
+
+                #region IDisposable Support
+                private bool disposedValue = false; // To detect redundant calls
+
+                void Dispose(bool disposing)
+                {
+                    if (!disposedValue)
+                    {
+                        if (disposing)
+                        {
+                            state = null;
+                        }
+                        disposedValue = true;
+                    }
+                }
+                public void Dispose()
+                {
+                    Dispose(true);
+                }
+                #endregion
+
+
             }
         }
     }

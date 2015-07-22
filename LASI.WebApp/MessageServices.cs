@@ -1,4 +1,4 @@
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,9 @@ namespace LASI.WebApp
 
         private static System.Net.NetworkCredential RetrieveCredentials()
         {
-            var configuration = new Configuration().AddUserSecrets();
+            var configuration = new ConfigurationBuilder()
+                .AddUserSecrets()
+                .Build();
             return new System.Net.NetworkCredential
             {
                 UserName = configuration["SendGrid:Username"],

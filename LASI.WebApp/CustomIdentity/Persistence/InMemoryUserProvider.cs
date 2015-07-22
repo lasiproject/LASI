@@ -20,8 +20,8 @@ namespace LASI.WebApp.Persistence
             else
             {
                 return IdentityResult.Failed(
-                    IdentityErrorDescriber.Default.DuplicateUserName(user.UserName),
-                    IdentityErrorDescriber.Default.DuplicateEmail(user.Email)
+                    identityErrorDescriber.DuplicateUserName(user.UserName),
+                    identityErrorDescriber.DuplicateEmail(user.Email)
                 );
             }
         });
@@ -68,13 +68,13 @@ namespace LASI.WebApp.Persistence
         {
             lock (Lock) { return f(); }
         }
-        IdentityErrorDescriber ErrorDescriber = IdentityErrorDescriber.Default;
+        private readonly IdentityErrorDescriber identityErrorDescriber = new IdentityErrorDescriber();
         public ApplicationUser Get(Func<ApplicationUser, bool> match) => WithLock(() => users.FirstOrDefault(match));
 
         private readonly List<ApplicationUser> users = new List<ApplicationUser>();
 
         #region Synchronization
-        private static readonly object Lock = new object();
+        private readonly object Lock = new object();
 
 
         #endregion
