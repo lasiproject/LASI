@@ -3,47 +3,49 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         var search;
-        (function (search_1) {
+        (function (search) {
             'use strict';
-            SearchBoxController.$inject = ['$q'];
-            function SearchBoxController($q) {
-                var vm = this;
-                vm.searchContext = {
-                    value: undefined,
-                    set: function (value) {
-                        var context = (value instanceof Array ? value : [value]);
-                        this.value = context;
-                        return vm.search;
-                    },
-                    get: function () { return this.value; }
-                };
-                var search = function (searchFor, options) {
-                    var deferred = $q.defer();
-                    var term = typeof searchFor === 'string' ? searchFor : typeof searchFor !== 'undefined' ? searchFor.detailText : undefined;
-                    if (term === undefined) {
+            var SearchBoxController = (function () {
+                function SearchBoxController($q) {
+                    this.$q = $q;
+                }
+                SearchBoxController.prototype.search = function (searchOptions, searchContext) {
+                    var deferred = this.$q.defer();
+                    var value = searchOptions.value;
+                    var term = typeof value === 'string' ? value : typeof value !== 'undefined' ? value.detailText : undefined;
+                    if (!term) {
                         deferred.reject('search term was undefined');
                     }
-                    var results = vm.searchContext
-                        .flatMap(function (m) { return m.paragraphs; })
-                        .flatMap(function (x) { return x.sentences; })
-                        .flatMap(function (e) { return e.phrases; })
-                        .filter(function (phrase) { return phrase.text === searchFor; });
-                    results.forEach(function (model) {
-                        var matched = true;
-                        var unmatchedStyle = model.style.cssClass;
-                        var matchedStyle = unmatchedStyle + ' matched-by-search';
-                        model.style = {
-                            get cssClass() {
-                                var result = matched ? matchedStyle : unmatchedStyle;
-                                matched = !matched;
-                                return result;
+                    else if (!searchContext) {
+                        deferred.reject('nothing to search');
+                        this.phrases.forEach(function (phrase) { return phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', ''); });
+                    }
+                    else {
+                        if (!this.phrases) {
+                            this.phrases = searchContext
+                                .flatMap(function (m) { return m.paragraphs; })
+                                .flatMap(function (x) { return x.sentences; })
+                                .flatMap(function (e) { return e.phrases; });
+                        }
+                        var results = [];
+                        this.phrases.forEach(function (phrase) {
+                            var matched = phrase.words.some(function (word) { return word.text === value; });
+                            if (!matched) {
+                                phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', '');
                             }
-                        };
-                    });
-                    deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
+                            else {
+                                phrase.style.cssClass += ' matched-by-search';
+                                results.push(phrase);
+                            }
+                        });
+                        deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
+                    }
                     return deferred.promise;
                 };
-            }
+                SearchBoxController.$inject = ['$q'];
+                return SearchBoxController;
+            })();
+            search.SearchBoxController = SearchBoxController;
             angular
                 .module('documentViewer.search')
                 .controller('SearchBoxController', SearchBoxController);

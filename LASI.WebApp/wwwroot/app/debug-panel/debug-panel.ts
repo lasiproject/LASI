@@ -13,7 +13,6 @@ module LASI.debug {
         this.show = false;
         this.getbuttonText = () => this.show ? 'Hide' : 'Show';
         this.toggle = () => this.show = !this.show;
-
     }
 
     angular

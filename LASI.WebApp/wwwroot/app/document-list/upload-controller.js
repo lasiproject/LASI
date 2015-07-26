@@ -5,42 +5,33 @@ var LASI;
         'use strict';
         var UploadController = (function () {
             function UploadController($scope, uploadService) {
-                var _this = this;
+                this.$scope = $scope;
                 this.uploadService = uploadService;
-                this.uploadFiles = function (files) {
-                    files.filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
-                        .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
-                        .reduce(function (errors, error) { errors.push(error); return errors; }, [])
-                        .forEach(LASI.log);
-                    return (files || _this.files || []).map(_this.uploadFile);
-                };
-                this.uploadFile = function (file) {
-                    var promise = _this.uploadService.upload({
-                        file: file,
-                        url: 'api/UserDocuments',
-                        method: 'POST',
-                        fileName: file.name
-                    });
-                    promise
-                        .progress(_this.progress)
-                        .success(_this.success)
-                        .error(_this.error);
-                    return promise;
-                };
-                $scope.$watch('files', function (x, y) { return _this.uploadFiles; });
                 this.files = [];
+                this.$scope.$watch('files', this.uploadFiles.bind(this));
             }
-            UploadController.prototype.progress = function (event) {
-                var progressPercentage = 100.0 * event.loaded / event.total;
-                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
+            UploadController.prototype.uploadFiles = function () {
+                var _this = this;
+                this.files
+                    .filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
+                    .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
+                    .reduce(function (errors, error) { errors.push(error); return errors; }, [])
+                    .forEach(LASI.log);
+                return this.files.map(function (file) { return _this.uploadFile(file); });
             };
-            UploadController.prototype.success = function (data, status, headers, config) {
-                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+            UploadController.prototype.uploadFile = function (file) {
+                return this.uploadService
+                    .upload({
+                    file: file,
+                    url: 'api/UserDocuments',
+                    method: 'POST',
+                    fileName: file.name
+                })
+                    .progress(function (data) { return LASI.log("Progress: " + 100.0 * data.progress / data.percentComplete + "% " + file.name); })
+                    .success(function (data) { return LASI.log("File " + file.name + " uploaded. \nResponse: " + JSON.stringify(data)); })
+                    .error(function (data, status) { return LASI.log("Http: " + status + " Failed to upload file. \nDetails: " + data); });
             };
-            UploadController.prototype.error = function (data, status, headers, config) {
-                LASI.log("Http: " + status + " Failed to upload file.\n                Details: " + data);
-            };
-            UploadController.prototype.removeItem = function (file, index) {
+            UploadController.prototype.removeFile = function (file, index) {
                 this.files = this.files.filter(function (f) { return f.name !== file.name; });
                 $('#file-upload-list').remove("#upload-list-item-" + index);
             };
@@ -51,7 +42,6 @@ var LASI;
                 'application/pdf',
                 'text/plain'
             ];
-            UploadController.fileInputAcceptText = UploadController.formats.join(',');
             return UploadController;
         })();
         angular

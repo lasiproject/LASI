@@ -10,13 +10,13 @@
         "qunit": "~1.18.0",
         "draggable": "~1.0.0",
 
-        "angular": "~1.4.1",
-        "angular-resource": "~1.4.1",
+        "angular": "1.4.3",
+        "angular-resource": "1.4.3",
 
         "angular-bootstrap": "~0.13.0",
-        "angular-ui-router": "0.2.15",
+        "angular-ui-router": "~0.2.15",
 
-        "angular-bootstrap-contextmenu": "~0.9.3",
+        "angular-bootstrap-contextmenu": "~0.9.4",
         "angularjs-file-upload": "~5.0.9",
         "ng-file-upload-shim": "~5.0.9"
     },
@@ -33,7 +33,7 @@
             "": "draggable.js"
         },
         "angular-bootstrap": {
-            "": "ui-bootstrap-tpls.{js,min.js}"
+            "": "ui-bootstrap-tpls.min.js"
         },
         "angular-ui-router": {
             "": "release/angular-ui-router.js"

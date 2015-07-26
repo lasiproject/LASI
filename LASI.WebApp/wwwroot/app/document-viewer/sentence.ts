@@ -5,15 +5,10 @@
         .module('documentViewer')
         .directive('sentence', sentence);
 
-    function sentence(): ng.IDirective {
+    function sentence(): angular.IDirective {
         return {
             restrict: 'E',
             templateUrl: '/app/document-viewer/sentence.html',
-            link: (scope, element, attrs) => {
-                log(scope);
-                log(element);
-                log(attrs);
-            },
             scope: {
                 sentence: '=',
                 parentId: '='

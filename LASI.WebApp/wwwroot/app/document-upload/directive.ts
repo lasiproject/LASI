@@ -7,7 +7,7 @@
 
     uploadPanel.$inject = ['$window'];
 
-    function uploadPanel($window): ng.IDirective {
+    function uploadPanel($window): angular.IDirective {
         return {
             restrict: 'E',
             link(scope, element, attrs) { }

@@ -11,8 +11,8 @@
         "Moq": "4.2.1502.911",
         "xunit.runner.visualstudio": "2.1.0-beta2-*",
         "System.Reflection": "4.0.10-beta-22816",
-        "Newtonsoft.Json": "6.0.8",
-        "LASI.WebApp": "1.0.0-*"
+        "Newtonsoft.Json": "6.0.8"
+
     },
 
     "commands": {
@@ -21,6 +21,9 @@
     "compilationOptions": { "warningsAsErrors": true },
     "frameworks": {
         "dnx451": {
+            "dependencies": {
+                "LASI.WebApp": "1.0.0-*"
+            }
         }
     }
 }

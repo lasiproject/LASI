@@ -6,7 +6,14 @@
 
     documentListMenuItem.$inject = ['$window', 'resultsService'];
 
-    function documentListMenuItem($window, resultsService) {
+
+    interface DocumentListItemScope extends angular.IScope {
+        documentId: string;
+        name: string;
+        analysisProgress: number;
+        showProgress: boolean;
+    }
+    function documentListMenuItem($window, resultsService): angular.IDirective {
 
         return {
             transclude: true,
@@ -17,7 +24,7 @@
                 name: '=',
                 documentId: '='
             },
-            link: function (scope, element, attrs, ctrl) {
+            link: function (scope: DocumentListItemScope, element: JQuery, attrs: angular.IAttributes) {
                 element.click(function (event) {
                     event.preventDefault();
                     event.stopPropagation();

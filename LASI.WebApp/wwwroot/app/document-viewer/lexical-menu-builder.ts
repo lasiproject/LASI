@@ -8,7 +8,7 @@
 
     lexicalMenuBuilder.$inject = [];
 
-    import contextMenu = ui.bootstrap.contextMenu;
+    import contextMenu = angular.ui.bootstrap.contextMenu;
     export interface LexicalMenuBuilderFactory {
         buildAngularMenu: (source: LexicalContextMenuDataSource |  VerbalContextmenuDataSource | ReferencerContextmenuDataSource) => contextMenu.ContextMenu;
     }
@@ -54,8 +54,8 @@
                         resetVerbalAssociationCssClasses();
                         source.subjectIds
                             .forEach(id => {
-                            menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Subjects']);
-                        });
+                                menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Subjects']);
+                            });
                     }]);
                 }
                 if (source.directObjectIds) {
@@ -79,9 +79,9 @@
                 Object.keys(menuActionTargets)
                     .map(key => menuActionTargets[key])
                     .forEach($e =>
-                    Object.keys(verbalMenuCssClassMap)
-                        .map((k: string): string => verbalMenuCssClassMap[k])
-                        .forEach(cssClass => $e.removeClass(cssClass)));
+                        Object.keys(verbalMenuCssClassMap)
+                            .map((k: string): string => verbalMenuCssClassMap[k])
+                            .forEach(cssClass => $e.removeClass(cssClass)));
             }
         })({
             'View Subjects': 'subject-of-current',

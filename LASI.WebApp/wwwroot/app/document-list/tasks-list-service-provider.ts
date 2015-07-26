@@ -1,5 +1,4 @@
 ﻿module LASI.documentList {
-
     'use strict';
     angular
         .module('documentList')
@@ -23,7 +22,7 @@
             return this;
         }
 
-        function $get($q: ng.IQService, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService): TasksListService {
+        function $get($q: angular.IQService, $resource: angular.resource.IResourceService, $interval: angular.IIntervalService): TasksListService {
             //var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
             var Tasks = $resource<Task[]>(tasksListUrl, {}, {
                 get: {
@@ -48,12 +47,12 @@
         function createDebugInfoUpdator(element: JQuery) {
             return (tasks: Task[]) => element
                 .html(tasks
-                .map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
-                .join());
+                    .map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
+                    .join());
         }
     }
     export interface TasksListServiceConfig {
-        $get: ($q, $resource: ng.resource.IResourceService, $interval: ng.IIntervalService) => TasksListService;
+        $get: ($q, $resource: angular.resource.IResourceService, $interval: angular.IIntervalService) => TasksListService;
         setTasksListUrl(url: string): TasksListServiceConfig;
         setUpdateInterval(milliconds: number): TasksListServiceConfig;
     }
@@ -67,7 +66,7 @@
     }
 
     export interface TasksListService {
-        getActiveTasks(callback?: (tasks: Task[]) => any): ng.IPromise<Task[]>;
+        getActiveTasks(callback?: (tasks: Task[]) => any): angular.IPromise<Task[]>;
         tasks: Task[];
     }
 }

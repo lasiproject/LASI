@@ -2,8 +2,8 @@
     'use strict';
 
     directive.$inject = [];
-    function directive(): ng.IDirective {
-        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
+    function directive(): angular.IDirective {
+        function link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
             log(scope);
             log(element);
             log(attrs);

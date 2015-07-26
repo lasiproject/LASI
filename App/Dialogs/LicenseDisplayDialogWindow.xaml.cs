@@ -20,13 +20,15 @@ namespace LASI.App.Dialogs
     /// </summary>
     public partial class LicenseDisplayDialogWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LicenseDisplayDialogWindow"/> class which will display the specified text.
+        /// </summary>
+        /// <param name="licenseText">The text of the license to which the window will display.</param>
         public LicenseDisplayDialogWindow(string licenseText)
         {
+            LicenseText = licenseText;
+
             InitializeComponent();
-
-            LicenseText = licenseText; // .SetBinding(LicenseDocument.
-
-            LicenseDocument.Blocks.Add(new Paragraph(new Run(LicenseText)));
         }
 
         public string LicenseText { get; }

@@ -5,13 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LASI.App.Dialogs"
         mc:Ignorable="d"
-        Title="LicenseDisplayDialog" KeyDown="Window_KeyDown"
-        Height="800" ResizeMode="CanMinimize"
-        Width="480">
+        Title="LicenseDisplayDialog"
+        KeyDown="Window_KeyDown"
+        Height="800"
+        ResizeMode="CanMinimize"
+        Width="480"
+        x:Name="LicenseWindow">
     <Grid>
-        <FlowDocumentPageViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-            <FlowDocument  x:Name="LicenseDocument"
-                           TextAlignment="Center"></FlowDocument>
+        <FlowDocumentPageViewer ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Visible">
+            <FlowDocument x:Name="LicenseDocument"
+                          TextAlignment="Center">
+                <FlowDocument.Blocks>
+                    <Paragraph TextAlignment="Left">
+                        <Run Text="{Binding Mode=OneTime, ElementName=LicenseWindow, Path=LicenseText}"
+                             Block.TextAlignment="Left"></Run>
+                    </Paragraph>
+                </FlowDocument.Blocks>
+            </FlowDocument>
         </FlowDocumentPageViewer>
     </Grid>
 </Window>

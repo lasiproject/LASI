@@ -3,9 +3,9 @@
 
     documentViewerDirective.$inject = [];
 
-    function documentViewerDirective(): ng.IDirective {
+    function documentViewerDirective(): angular.IDirective {
 
-        var link: ng.IDirectiveLinkFn = function (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
+        var link: angular.IDirectiveLinkFn = function (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
             log(scope);
             log(element);
             log(attrs);

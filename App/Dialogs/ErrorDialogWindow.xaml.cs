@@ -20,6 +20,11 @@ namespace LASI.App.Dialogs
     /// </summary>
     public partial class ErrorDialogWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorDialogWindow"/> class.
+        /// </summary>
+        /// <param name="message">The error message to display.</param>
+        /// <param name="kind">The <see cref="ErrorKind"/> of the error.</param>
         public ErrorDialogWindow(string message, ErrorKind kind = ErrorKind.NonFatal)
         {
             InitializeComponent();
@@ -27,9 +32,15 @@ namespace LASI.App.Dialogs
             Message = message;
             ProceedButton.Content = kind == ErrorKind.Fatal ? "Quit LASI" : "Continue";
         }
+        /// <summary>
+        /// The error message displayed by the dialog.
+        /// </summary>
         public string Message { get; set; }
+        /// <summary>
+        /// The ErrorKind displayed by the dialog.
+        /// </summary>
         public ErrorKind Kind { get; }
 
-        private const string DefaultMessage = "An unspecified error occured.\nPress OK to continue";
+        private const string DefaultMessage = "An unspecified error occurred.\nPress OK to continue";
     }
 }

@@ -7,28 +7,14 @@
             <li>
                 <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.GetUserName()!</a>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li><a href="javascript:document.   getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     </form>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink(
-               linkText: "Register",
-               controllerName: "Account",
-               actionName: "Register",
-               routeValues: new { },
-               htmlAttributes: new { id = "registerLink" })
-        </li>
-        <li>
-            @Html.ActionLink(
-               linkText: "Login",
-               controllerName: "Account",
-               actionName: "Login",
-               routeValues: new { },
-               htmlAttributes: new { id = "loginLink" })
-        </li>
+        <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
     </ul>
 }

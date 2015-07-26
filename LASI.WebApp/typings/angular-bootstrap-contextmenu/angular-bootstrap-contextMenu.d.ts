@@ -1,19 +1,18 @@
 ﻿/// <reference path="../angularjs/angular.d.ts" />
 /// <reference path="../angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
 
-declare module ui.bootstrap.contextMenu {
-
-    interface ItemScope<T> extends ng.IScope {
+declare module angular.ui.bootstrap.contextMenu {
+    interface ItemScope<T> extends angular.IScope {
         item: T;
     }
-    interface ContextMenuDirectiveLinkFn<T> extends ng.IDirectiveLinkFn {
-        (scope: ItemScope<T>, element: ng.IAugmentedJQuery, attrs: ContextMenuDirectiveAttributes)
+    interface ContextMenuDirectiveLinkFn<T> extends angular.IDirectiveLinkFn {
+        (scope: ItemScope<T>, element: angular.IAugmentedJQuery, attrs: ContextMenuDirectiveAttributes)
     }
-    interface ContextMenuDirectiveAttributes extends ng.IAttributes {
+    interface ContextMenuDirectiveAttributes extends angular.IAttributes {
         contextMenu: Array<MenuItem>;
     }
-    interface ContextMenuDirectiveFactory<T> extends ng.IDirectiveFactory {
-        ($parse: ng.IParseService): ContextMenuDirectiveLinkFn<T>;
+    interface ContextMenuDirectiveFactory<T> extends angular.IDirectiveFactory {
+        ($parse: angular.IParseService): ContextMenuDirectiveLinkFn<T>;
     }
     interface ItemEvent extends JQueryEventObject { }
     type Scope = ItemScope<any>;

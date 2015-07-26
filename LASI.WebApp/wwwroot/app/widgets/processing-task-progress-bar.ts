@@ -2,7 +2,7 @@
     'use strict';
 
     processingTaskProgressBar.$inject = [];
-    function processingTaskProgressBar(): ng.IDirective {
+    function processingTaskProgressBar(): angular.IDirective {
         return {
             restrict: 'E',
             scope: {

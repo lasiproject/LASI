@@ -1,8 +1,8 @@
 ﻿{
 
-    "app": {
-        "options": {
-            "report": "gzip",
+    "app": {    
+        "options": { 
+            "report": "min",
             "shorthandCompacting": false,
             "roundingPrecision": -1,
             "sourceMap": true,
@@ -13,7 +13,7 @@
     },
     "lib": {
         "options": {
-            "report": "gzip",
+            "report": "min",
             "shorthandCompacting": false,
             "roundingPrecision": -1,
             "sourceMap": true,

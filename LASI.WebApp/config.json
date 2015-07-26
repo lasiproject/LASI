@@ -7,7 +7,7 @@
         "debug": true
     },
     "Resources": {
-        "ResourcesDirectory": "C:/Users/Aluan/Documents/GitHub/LASI/WebApp.Old/Resources/",
+        "ResourcesDirectory": "C:/Users/Aluan/Documents/GitHubVisualStudio/LASI/WebApp.Old/Resources/",
         "ConvertersDirectory": "StandaloneFileConverters/",
         "MaximumEntropyModelDirectory": "TaggingPackage/OpenNLP/OpenNLP/Models/",
         "NameDataDirectory": "LASICustom/NameData/",

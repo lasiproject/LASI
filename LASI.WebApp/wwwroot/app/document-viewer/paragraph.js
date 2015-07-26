@@ -11,9 +11,6 @@ var LASI;
                 scope: {
                     paragraph: '=',
                     parentId: '='
-                },
-                link: function (scope, element, attrs) {
-                    console.log(scope);
                 }
             };
         }

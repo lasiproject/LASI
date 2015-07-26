@@ -11,7 +11,6 @@ var LASI;
             'tasksListService', 'documentsService', 'documentModelService'
         ];
         function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
-            /* jshint validthis:true */
             var vm = this;
             vm.title = 'ListController';
             vm.documents = [];
@@ -29,9 +28,13 @@ var LASI;
                     vm.documents = documentListService.getDocumentList();
                 };
                 vm.processDocument = function (document) {
-                    documentModelService.processDocument(document.id)
-                        .success(function (data) { return document.raeification = data; })
-                        .error(function (message) { return message; });
+                    if (!vm.documents.some(function (d) { return d.id === document.id && d.raeification; })) {
+                        documentModelService.processDocument(document.id)
+                            .success(function (data) {
+                            document.raeification = data;
+                        })
+                            .error(function (message) { return message; });
+                    }
                 };
                 vm.documents = documentListService.getDocumentList();
                 vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {

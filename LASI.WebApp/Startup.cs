@@ -45,71 +45,64 @@ namespace LASI.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(Configuration.GetConfigurationSection("AppSettings"));
-
-            services.AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer());
-            services.AddSingleton<IWorkItemsService>(provider => new WorkItemsService());
-            services.AddMongoDB(options =>
-            {
-                options.CreateProcess = true;
-                options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
-                options.UserCollectionName = "users";
-                options.UserDocumentCollectionName = "documents";
-                options.OrganizationCollectionName = "organizations";
-                options.UserRoleCollectionName = "roles";
-                options.ApplicationDatabaseName = "accounts";
-                options.MongodExePath = Configuration["MongoDB:MongodExePath"];
-                options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
-                options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
-            });
-            services.AddIdentity<ApplicationUser, UserRole>(options =>
-            {
-                options.Lockout = new LockoutOptions
-                {
-                    AllowedForNewUsers = true,
-                    DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
-                    MaxFailedAccessAttempts = 10
-                };
-                options.User = new UserOptions
-                {
-                    RequireUniqueEmail = true
-                };
-                options.SignIn = new SignInOptions
-                {
-                    RequireConfirmedEmail = false,
-                    RequireConfirmedPhoneNumber = false
-                };
-                options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
-                {
-                    RequireLowercase = true,
-                    RequireUppercase = true,
-                    RequireNonLetterOrDigit = true,
-                    RequireDigit = true,
-                    RequiredLength = 8
-                };
-            })
-            .AddDefaultTokenProviders()
-            .AddUserValidator<UserValidator<ApplicationUser>>()
-            .AddRoleManager<RoleManager<UserRole>>()
-            .AddRoleStore<CustomUserStore<UserRole>>()
-            .AddUserManager<UserManager<ApplicationUser>>()
-            .AddUserStore<CustomUserStore<UserRole>>();
-
-            services.AddMvc();
-            services.ConfigureMvc(options =>
-            {
-                options.InputFormatters.OfType<JsonInputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
-                options.OutputFormatters.OfType<JsonOutputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
-            });
-
+            services.Configure<AppSettings>(Configuration.GetConfigurationSection("AppSettings"))
+                    .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
+                    .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
+                     .AddMongoDB(options =>
+                    {
+                        options.CreateProcess = true;
+                        options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
+                        options.UserCollectionName = "users";
+                        options.UserDocumentCollectionName = "documents";
+                        options.OrganizationCollectionName = "organizations";
+                        options.UserRoleCollectionName = "roles";
+                        options.ApplicationDatabaseName = "accounts";
+                        options.MongodExePath = Configuration["MongoDB:MongodExePath"];
+                        options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
+                        options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
+                    })
+                    .ConfigureIdentity(options =>
+                    {
+                        options.Lockout = new LockoutOptions
+                        {
+                            AllowedForNewUsers = true,
+                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
+                            MaxFailedAccessAttempts = 10
+                        };
+                        options.User = new UserOptions
+                        {
+                            RequireUniqueEmail = true
+                        };
+                        options.SignIn = new SignInOptions
+                        {
+                            RequireConfirmedEmail = false,
+                            RequireConfirmedPhoneNumber = false
+                        };
+                        options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
+                        {
+                            RequiredLength = 8,
+                            RequireDigit = true,
+                            RequireLowercase = true,
+                            RequireUppercase = true,
+                            RequireNonLetterOrDigit = true
+                        };
+                    })
+                    .AddMvc()
+                    .ConfigureMvc(options =>
+                    {
+                        options.InputFormatters.OfType<JsonInputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
+                        options.OutputFormatters.OfType<JsonOutputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
+                    });
+            services.AddIdentity<ApplicationUser, UserRole>()
+                    .AddUserValidator<UserValidator<ApplicationUser>>()
+                    .AddRoleManager<RoleManager<UserRole>>()
+                    .AddRoleStore<CustomUserStore<UserRole>>()
+                    .AddUserManager<UserManager<ApplicationUser>>()
+                    .AddUserStore<CustomUserStore<UserRole>>()
+                    .AddDefaultTokenProviders();
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
-            services.ConfigureFacebookAuthentication(options =>
-            {
-                options.AppId = Configuration["Authentication:Facebook:AppId"];
-                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
         }
 
         // Configure is called after ConfigureServices is called.
@@ -129,7 +122,7 @@ namespace LASI.WebApp
             // Add the following to the request pipeline only in development environment.
             if (environmentIsDevelopment)
             {
-                app.UseErrorPage(new ErrorPageOptions() // Added to react to the removal of ErrorPageOptions.ShowAll from the next version.
+                app.UseErrorPage(new ErrorPageOptions // Added to react to the removal of ErrorPageOptions.ShowAll from the next version.
                 {
                     ShowCookies = true,
                     ShowEnvironment = true,
@@ -146,26 +139,20 @@ namespace LASI.WebApp
 
             // Add authentication middleware to the request pipeline. You can configure options such as Id and Secret in the ConfigureServices method.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
-            // app.UseFacebookAuthentication(); app.UseGoogleAuthentication(); app.UseMicrosoftAccountAuthentication(); app.UseTwitterAuthentication();
+            //app.UseFacebookAuthentication();
 
-            app.UseMvc(routes => routes
-                .MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}")
-                .MapRoute(
-                    name: "ChildApi",
-                    template: "api/{parentController}/{parentId?}/{controller}/{id?}")
-                .MapRoute(
-                    name: "DefaultApi",
-                    template: "api/{controller}/{id?}")
-            );
-
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}")
+                      .MapRoute(name: "ChildApi", template: "api/{parentController}/{parentId?}/{controller}/{id?}")
+                      .MapRoute(name: "DefaultApi", template: "api/{controller}/{id?}");
+            });
         }
 
         private void ConfigureLASIComponents(string fileName, string subkey)
         {
-            Interop.ResourceUsageManager.SetPerformanceLevel(Interop.PerformanceProfile.High);
-            Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
+            LASI.Interop.ResourceUsageManager.SetPerformanceLevel(LASI.Interop.PerformanceProfile.High);
+            LASI.Interop.Configuration.Initialize(fileName, LASI.Interop.ConfigFormat.Json, subkey);
         }
 
         private static readonly JsonSerializerSettings MvcJsonSerializerSettings = new JsonSerializerSettings

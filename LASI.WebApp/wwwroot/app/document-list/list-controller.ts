@@ -1,6 +1,5 @@
 ﻿module LASI.documentList {
     'use strict';
-
     angular
         .module('documentList')
         .controller('ListController', ListController);
@@ -11,14 +10,13 @@
     ];
 
     function ListController(
-        $q: ng.IQService,
-        $log: ng.ILogService,
-        $rootScope: ng.IRootScopeService,
+        $q: angular.IQService,
+        $log: angular.ILogService,
+        $rootScope: angular.IRootScopeService,
         documentListService: DocumentListService,
         tasksListService: TasksListService,
         documentsService: DocumentsService,
         documentModelService: LASI.documentViewer.DocumentModelService) {
-        /* jshint validthis:true */
         var vm = this;
         vm.title = 'ListController';
         vm.documents = [];
@@ -42,9 +40,13 @@
             };
 
             vm.processDocument = (document: DocumentListItemModel) => {
-                documentModelService.processDocument(document.id)
-                    .success(data => document.raeification = data)
-                    .error(message => message);
+                if (!vm.documents.some(d => d.id === document.id && d.raeification)) {
+                    documentModelService.processDocument(document.id)
+                        .success(data => {
+                            document.raeification = data;
+                        })
+                        .error(message => message);
+                }
             };
             vm.documents = documentListService.getDocumentList();
 
@@ -52,7 +54,6 @@
                 vm.tasks[task.id] = task;
                 return (vm.documents.filter(d => d.name === task.name)[0] || {}).task = task;
             }));
-
 
 
 

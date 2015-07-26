@@ -487,3 +487,7 @@ li menuitem {
 .document-viewer-tab-heading {
     cursor: pointer;
 }
+
+input[type=text]::-ms-clear {
+    display: none;
+}

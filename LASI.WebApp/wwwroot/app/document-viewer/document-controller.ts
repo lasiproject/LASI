@@ -8,8 +8,8 @@ module LASI.documentViewer {
 
         static $inject = ['$q', '$location', 'MockDocumentModelService'];
 
-        constructor(private $q: ng.IQService,
-            private $location: ng.ILocationService,
+        constructor(private $q: angular.IQService,
+            private $location: angular.ILocationService,
             private documentModelService: DocumentModelService) {
         }
         processDocument(documentId: string) {

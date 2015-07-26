@@ -233,7 +233,7 @@ var LASI;
                     name: '=',
                     documentId: '='
                 },
-                link: function (scope, element, attrs, ctrl) {
+                link: function (scope, element, attrs) {
                     element.click(function (event) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -381,9 +381,13 @@ var LASI;
                     vm.documents = documentListService.getDocumentList();
                 };
                 vm.processDocument = function (document) {
-                    documentModelService.processDocument(document.id)
-                        .success(function (data) { return document.raeification = data; })
-                        .error(function (message) { return message; });
+                    if (!vm.documents.some(function (d) { return d.id === document.id && d.raeification; })) {
+                        documentModelService.processDocument(document.id)
+                            .success(function (data) {
+                            document.raeification = data;
+                        })
+                            .error(function (message) { return message; });
+                    }
                 };
                 vm.documents = documentListService.getDocumentList();
                 vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {
@@ -511,42 +515,33 @@ var LASI;
         'use strict';
         var UploadController = (function () {
             function UploadController($scope, uploadService) {
-                var _this = this;
+                this.$scope = $scope;
                 this.uploadService = uploadService;
-                this.uploadFiles = function (files) {
-                    files.filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
-                        .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
-                        .reduce(function (errors, error) { errors.push(error); return errors; }, [])
-                        .forEach(LASI.log);
-                    return (files || _this.files || []).map(_this.uploadFile);
-                };
-                this.uploadFile = function (file) {
-                    var promise = _this.uploadService.upload({
-                        file: file,
-                        url: 'api/UserDocuments',
-                        method: 'POST',
-                        fileName: file.name
-                    });
-                    promise
-                        .progress(_this.progress)
-                        .success(_this.success)
-                        .error(_this.error);
-                    return promise;
-                };
-                $scope.$watch('files', function (x, y) { return _this.uploadFiles; });
                 this.files = [];
+                this.$scope.$watch('files', this.uploadFiles.bind(this));
             }
-            UploadController.prototype.progress = function (event) {
-                var progressPercentage = 100.0 * event.loaded / event.total;
-                LASI.log("Progress: " + progressPercentage + "% " + event.config.file.name);
+            UploadController.prototype.uploadFiles = function () {
+                var _this = this;
+                this.files
+                    .filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
+                    .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
+                    .reduce(function (errors, error) { errors.push(error); return errors; }, [])
+                    .forEach(LASI.log);
+                return this.files.map(function (file) { return _this.uploadFile(file); });
             };
-            UploadController.prototype.success = function (data, status, headers, config) {
-                LASI.log("File " + config.file.name + " uploaded. Response: " + JSON.stringify(data));
+            UploadController.prototype.uploadFile = function (file) {
+                return this.uploadService
+                    .upload({
+                    file: file,
+                    url: 'api/UserDocuments',
+                    method: 'POST',
+                    fileName: file.name
+                })
+                    .progress(function (data) { return LASI.log("Progress: " + 100.0 * data.progress / data.percentComplete + "% " + file.name); })
+                    .success(function (data) { return LASI.log("File " + file.name + " uploaded. \nResponse: " + JSON.stringify(data)); })
+                    .error(function (data, status) { return LASI.log("Http: " + status + " Failed to upload file. \nDetails: " + data); });
             };
-            UploadController.prototype.error = function (data, status, headers, config) {
-                LASI.log("Http: " + status + " Failed to upload file.\n                Details: " + data);
-            };
-            UploadController.prototype.removeItem = function (file, index) {
+            UploadController.prototype.removeFile = function (file, index) {
                 this.files = this.files.filter(function (f) { return f.name !== file.name; });
                 $('#file-upload-list').remove("#upload-list-item-" + index);
             };
@@ -557,7 +552,6 @@ var LASI;
                 'application/pdf',
                 'text/plain'
             ];
-            UploadController.fileInputAcceptText = UploadController.formats.join(',');
             return UploadController;
         })();
         angular
@@ -618,7 +612,7 @@ var LASI;
         documentModelService.$inject = ['$http'];
         function documentModelService($http) {
             return {
-                processDocument: function (documentId) { return $http.get("Analysis/" + documentId); }
+                processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: true }); }
             };
         }
         angular
@@ -782,9 +776,6 @@ var LASI;
                 scope: {
                     paragraph: '=',
                     parentId: '='
-                },
-                link: function (scope, element, attrs) {
-                    console.log(scope);
                 }
             };
         }
@@ -827,50 +818,85 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         var search;
-        (function (search_1) {
+        (function (search) {
             'use strict';
-            SearchBoxController.$inject = ['$q'];
-            function SearchBoxController($q) {
-                var vm = this;
-                vm.searchContext = {
-                    value: undefined,
-                    set: function (value) {
-                        var context = (value instanceof Array ? value : [value]);
-                        this.value = context;
-                        return vm.search;
-                    },
-                    get: function () { return this.value; }
-                };
-                var search = function (searchFor, options) {
-                    var deferred = $q.defer();
-                    var term = typeof searchFor === 'string' ? searchFor : typeof searchFor !== 'undefined' ? searchFor.detailText : undefined;
-                    if (term === undefined) {
+            var SearchBoxController = (function () {
+                function SearchBoxController($q) {
+                    this.$q = $q;
+                }
+                SearchBoxController.prototype.search = function (searchOptions, searchContext) {
+                    var deferred = this.$q.defer();
+                    var value = searchOptions.value;
+                    var term = typeof value === 'string' ? value : typeof value !== 'undefined' ? value.detailText : undefined;
+                    if (!term) {
                         deferred.reject('search term was undefined');
                     }
-                    var results = vm.searchContext
-                        .flatMap(function (m) { return m.paragraphs; })
-                        .flatMap(function (x) { return x.sentences; })
-                        .flatMap(function (e) { return e.phrases; })
-                        .filter(function (phrase) { return phrase.text === searchFor; });
-                    results.forEach(function (model) {
-                        var matched = true;
-                        var unmatchedStyle = model.style.cssClass;
-                        var matchedStyle = unmatchedStyle + ' matched-by-search';
-                        model.style = {
-                            get cssClass() {
-                                var result = matched ? matchedStyle : unmatchedStyle;
-                                matched = !matched;
-                                return result;
+                    else if (!searchContext) {
+                        deferred.reject('nothing to search');
+                        this.phrases.forEach(function (phrase) { return phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', ''); });
+                    }
+                    else {
+                        if (!this.phrases) {
+                            this.phrases = searchContext
+                                .flatMap(function (m) { return m.paragraphs; })
+                                .flatMap(function (x) { return x.sentences; })
+                                .flatMap(function (e) { return e.phrases; });
+                        }
+                        var results = [];
+                        this.phrases.forEach(function (phrase) {
+                            var matched = phrase.words.some(function (word) { return word.text === value; });
+                            if (!matched) {
+                                phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', '');
+                            }
+                            else {
+                                phrase.style.cssClass += ' matched-by-search';
+                                results.push(phrase);
+                            }
+                        });
+                        deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
+                    }
+                    return deferred.promise;
+                };
+                SearchBoxController.$inject = ['$q'];
+                return SearchBoxController;
+            })();
+            search.SearchBoxController = SearchBoxController;
+            angular
+                .module('documentViewer.search')
+                .controller('SearchBoxController', SearchBoxController);
+        })(search = documentViewer.search || (documentViewer.search = {}));
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        var search;
+        (function (search) {
+            'use strict';
+            function searchBox() {
+                return {
+                    restrict: 'E',
+                    controller: 'SearchBoxController',
+                    controllerAs: 'search',
+                    scope: {
+                        searchContext: '='
+                    },
+                    templateUrl: '/app/document-viewer/search/search-box.html',
+                    link: function (scope, element, attrs, ctrl) {
+                        ctrl.keyDown = function ($event) {
+                            if ($event.keyCode === 13) {
+                                ctrl.search({ value: ctrl.find }, [scope.searchContext]);
+                                $event.stopPropagation();
+                                $event.preventDefault();
                             }
                         };
-                    });
-                    deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
-                    return deferred.promise;
+                    }
                 };
             }
             angular
                 .module('documentViewer.search')
-                .controller('SearchBoxController', SearchBoxController);
+                .directive('searchBox', searchBox);
         })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
@@ -886,11 +912,6 @@ var LASI;
             return {
                 restrict: 'E',
                 templateUrl: '/app/document-viewer/sentence.html',
-                link: function (scope, element, attrs) {
-                    LASI.log(scope);
-                    LASI.log(element);
-                    LASI.log(attrs);
-                },
                 scope: {
                     sentence: '=',
                     parentId: '='

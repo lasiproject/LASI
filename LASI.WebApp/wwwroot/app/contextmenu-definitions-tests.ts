@@ -2,11 +2,11 @@
 module contextmenuTests {
     'use strict';
 
-    type Item = ui.bootstrap.contextMenu.MenuItem;
-    import ItemEvent = ui.bootstrap.contextMenu.ItemEvent;
+    type Item = angular.ui.bootstrap.contextMenu.MenuItem;
+    import ItemEvent = angular.ui.bootstrap.contextMenu.ItemEvent;
 
     type T = string;
-    import ItemScope = ui.bootstrap.contextMenu.ItemScope;
+    import ItemScope = angular.ui.bootstrap.contextMenu.ItemScope;
 
 
     var item1: Item = [

@@ -8,7 +8,7 @@
 
     documentListTabsetItem.$inject = ['resultsService'];
 
-    function documentListTabsetItem(resultsService): ng.IDirective {
+    function documentListTabsetItem(resultsService): angular.IDirective {
 
         return {
             restrict: 'E',
@@ -32,7 +32,7 @@
         };
     }
 
-    interface DocumentListTabsetItemScope extends ng.IScope {
+    interface DocumentListTabsetItemScope extends angular.IScope {
         documentId: string;
         name: string;
         analysisProgress: any;

@@ -17,7 +17,7 @@ var LASI;
                     name: '=',
                     documentId: '='
                 },
-                link: function (scope, element, attrs, ctrl) {
+                link: function (scope, element, attrs) {
                     element.click(function (event) {
                         event.preventDefault();
                         event.stopPropagation();

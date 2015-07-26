@@ -12,13 +12,13 @@
     export interface DocumentListItemModel {
         id: string;
         name: string;
-        progress: number|string;
-        percentComplete: number|string;
+        progress: number;
+        percentComplete: number;
         showProgress: boolean;
         statusMessage: string;
         raeification: models.DocumentModel;
     }
-    class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
+    class DocumentListServiceProvider implements DocumentListServiceConfig, angular.IServiceProvider {
         private documentListUrl: string;
         private recentDocumentCount: number;
         constructor() {
@@ -37,7 +37,7 @@
         /**
          * @param $resource an instance of the Resource Service supplied by the angular-resource module.
          */
-        $get($resource: ng.resource.IResourceService): DocumentListService {
+        $get($resource: angular.resource.IResourceService): DocumentListService {
             var resource = $resource<DocumentListItemModel[]>(this.documentListUrl + '/' + this.recentDocumentCount, {}, {
                 get: {
                     method: 'GET',

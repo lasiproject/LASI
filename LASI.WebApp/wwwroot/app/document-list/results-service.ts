@@ -9,11 +9,11 @@
 
     interface ResultsService {
         tasks: Task[];
-        processDocument(documentId: string, documentName: string): ng.IPromise<models.DocumentModel>;
+        processDocument(documentId: string, documentName: string): angular.IPromise<models.DocumentModel>;
     }
-    function resultsService($http: ng.IHttpService, $q: ng.IQService): ResultsService {
+    function resultsService($http: angular.IHttpService, $q: angular.IQService): ResultsService {
         var tasks = [];
-        var processDocument = function (documentId, documentName): ng.IPromise<models.DocumentModel> {
+        var processDocument = function (documentId, documentName): angular.IPromise<models.DocumentModel> {
             tasks[documentId] = { percentComplete: 0 };
 
             var deferred = $q.defer<models.DocumentModel>();

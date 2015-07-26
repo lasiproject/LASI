@@ -33,16 +33,22 @@ namespace LASI.App.Helpers
         }
 
         /// <summary>
-        /// Attempts to reposition the <see cref="Window"/> in relation to the desktop, based on the location of another. 
+        /// Attempts to reposition the <see cref="Window"/> in relation to the desktop, using the location of the specified <see cref="Window" /> as a reference. 
         /// </summary>
-        /// <param name="window"> The window to reposition. </param>
+        /// <param name="window"> The window to reposition.</param>
         /// <param name="other"> The window to use as a reference when repositioning. </param>
-        /// <returns> The window. </returns>
+        /// <returns>The window.</returns>
         public static Window Reposition(this Window window, Window other)
         {
             window.Reposition(other.Top, other.Left);
             return window;
         }
+        /// <summary>
+        /// Attempts to reposition the <see cref="Window"/> using the specified point's top and left coordinates.
+        /// </summary>
+        /// <param name="window"> The window to reposition.</param>
+        /// <param name="position">A point specifying the desired top and left coordinates.</param>
+        /// <returns>The window.</returns>
         public static Window Reposition(this Window window, Point position)
         {
             window.Reposition(position.Y, position.X);

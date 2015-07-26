@@ -3047,10 +3047,9 @@
       "System.Collections.Immutable >= 1.1.34-rc",
       "mongocsharpdriver >= 1.10.0",
       "Newtonsoft.Json >= 6.0.8",
-      "Sendgrid >= 6.1.0"
+      "Sendgrid >= 6.1.0",
+      "LASI.Interop "
     ],
-    "DNX,Version=v4.5.1": [
-      "LASI.Interop >= 1.0.0-*"
-    ]
+    "DNX,Version=v4.5.1": []
   }
 }

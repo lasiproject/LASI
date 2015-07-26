@@ -2,7 +2,7 @@
 <div ng-controller="UploadController as upload">
     <div class="upload-button" ngf-select ng-model="upload.files" ngf-multiple="multiple">Select File</div>
     on file change:
-    <div class="upload-button" ngf-select ngf-change="upload.uploadFiles(upload.files)" ngf-multiple="multiple">Select File</div>
+    <div class="upload-button" ngf-select ngf-change="upload.uploadFiles()" ngf-multiple="multiple">Select File</div>
     Drop File:
     <div ngf-drop ngf-select ng-model="upload.files" class="upload-drop-box"
          ngf-drag-over-class="upload-dragover" ngf-multiple="true" ngf-allow-dir="true"
@@ -16,4 +16,5 @@
     </ul>
     Upload Log:
 <pre>{{log}}</pre>
+    <input type="button" value="Upload" ng-click="upload.uploadFiles()">
 </div>

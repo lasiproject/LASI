@@ -10,7 +10,7 @@
         getbyId: (documentId: string) => DocumentListItem[];
         deleteById: (documentId: string) => DocumentListItem[];
     }
-    function documentsService($resource: ng.resource.IResourceService): DocumentsService {
+    function documentsService($resource: angular.resource.IResourceService): DocumentsService {
         var userDocouments = $resource<DocumentListItem[]>('api/UserDocuments/:documentId');
         function getbyId(documentId) {
             return userDocouments.get({ documentId });

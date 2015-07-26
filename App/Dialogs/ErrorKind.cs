@@ -1,5 +1,8 @@
 ﻿namespace LASI.App.Dialogs
 {
+    /// <summary>
+    /// Delineates the categories of errors which are displayed to the user.
+    /// </summary>
     public enum ErrorKind
     {
         /// <summary>
