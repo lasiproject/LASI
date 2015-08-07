@@ -14,9 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Script1.fsx = Script1.fsx
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
-		tslint_1json__JSONSchema = http://json.schemastore.org/tslint
-		Documents_2GitHub_2LASI_2tslint_1json__JSONSchema = http://json.schemastore.org/tslint
-		Documents_2GitHub_2LASI_2global_1json__JSONSchema = http://json.schemastore.org/global
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B012451A-BCB9-423F-8119-BE8027CA8474}"

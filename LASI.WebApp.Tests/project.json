@@ -20,7 +20,7 @@
     },
     "compilationOptions": { "warningsAsErrors": true },
     "frameworks": {
-        "dnx451": {
+        "dnx46": {
             "dependencies": {
                 "LASI.WebApp": "1.0.0-*"
             }
