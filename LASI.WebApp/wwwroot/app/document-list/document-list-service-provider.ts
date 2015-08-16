@@ -1,4 +1,4 @@
-﻿module LASI.documentList {
+﻿namespace LASI.documentList {
     'use strict';
 
     export interface DocumentListServiceConfig {

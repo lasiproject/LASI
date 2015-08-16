@@ -14,7 +14,7 @@ namespace LASI.WebApp.Logging
         public ILogger CreateLogger(string name)
         {
             var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
-                $"WebApp_log{DateTime.Now.ToFileTimeUtc()}.txt");
+                $"WebApp_log{DateTimeOffset.Now.ToFileTime()}.txt");
             Utilities.Logger.SetToFile(null);
             return new Logger(name, filter);
         }

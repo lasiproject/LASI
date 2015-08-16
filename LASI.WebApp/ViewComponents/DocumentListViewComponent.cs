@@ -29,7 +29,7 @@ namespace LASI.WebApp.ViewComponents
             var userId = user.Id;
             var userDocuments =
                 from document in documentStore.GetAllForUser(userId)
-                let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
+                let dateUploaded = (DateTimeOffset)(JToken)(document.DateUploaded)
                 orderby dateUploaded descending
                 select ActiveUserDocument.FromUserDocument(document);
             return await Task.FromResult(View(userDocuments.Take(maxResults).Reverse()));

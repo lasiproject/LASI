@@ -89,7 +89,7 @@ namespace LASI.WebApp.Controllers
                               Name = fileName,
                               Content = textContent,
                               UserId = userId,
-                              DateUploaded = (string)(JToken)DateTime.Now
+                              DateUploaded = (string)(JToken)DateTimeOffset.Now
                           };
             foreach (var upload in uploads)
             {

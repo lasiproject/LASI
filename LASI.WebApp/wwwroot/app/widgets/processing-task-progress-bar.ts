@@ -1,4 +1,4 @@
-﻿module LASI.widgets {
+﻿namespace LASI.widgets {
     'use strict';
 
     processingTaskProgressBar.$inject = [];

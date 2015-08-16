@@ -38,7 +38,7 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path)
         {
-            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), path ?? $"LasiLog{DateTime.Now.Millisecond}.txt");
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), path ?? $"LasiLog{DateTimeOffset.Now.Millisecond}.txt");
             OutputMode = Mode.File;
 
             var fileStream = new FileStream(path: logPath, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.Write);
@@ -57,7 +57,7 @@ namespace LASI.Utilities
             // and also the logic behind such granularity is questionable from a conceptual standpoint.
 
             writer = TextWriter.Synchronized(new StreamWriter(fileStream));
-            writer.WriteLine($"LASI Message Log: {DateTime.Now}");
+            writer.WriteLine($"LASI Message Log: {DateTime.UtcNow}");
 
             AppDomain.CurrentDomain.ProcessExit += delegate { writer.Dispose(); };
             AppDomain.CurrentDomain.DomainUnload += delegate { writer.Dispose(); };

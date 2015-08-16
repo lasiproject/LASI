@@ -49,7 +49,7 @@ namespace LASI.App
                 catch (IOException e)
                 {
                     Logger.Log(e.Message);
-                    SetupLogging(logFileParentDirectory, logFileName + (char)(DateTime.Now.Second % 9 + 48));
+                    SetupLogging(logFileParentDirectory, logFileName + (char)(DateTimeOffset.Now.Second % 9 + 48));
                 }
             }
             else

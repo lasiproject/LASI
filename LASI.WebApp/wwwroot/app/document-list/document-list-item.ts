@@ -1,4 +1,4 @@
-module LASI.documentList {
+namespace LASI.documentList {
     export interface DocumentListItem {
         /**
          * The name of the document

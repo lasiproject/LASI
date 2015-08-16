@@ -2,7 +2,6 @@
 {
     using Lexicon = Core.Lexicon;
     using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
-    using DateTime = System.DateTime;
 
     /// <summary>
     /// Controls global performance and resource usage settings.

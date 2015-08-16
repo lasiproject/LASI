@@ -22,7 +22,7 @@ namespace LASI.WebApp.Controllers.Documents
         [HttpGet]
         public IEnumerable<dynamic> Get() => from document in documentStore.GetAllForUser(Context.User.GetUserId())
                                              let activeDocument = ActiveUserDocument.FromUserDocument(document)
-                                             let dateUploaded = (DateTime)(JToken)(document.DateUploaded)
+                                             let dateUploaded = (DateTimeOffset)(JToken)(document.DateUploaded)
                                              orderby dateUploaded descending
                                              select new
                                              {

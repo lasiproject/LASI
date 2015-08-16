@@ -1,4 +1,4 @@
-﻿module LASI.documentUpload {
+﻿namespace LASI.documentUpload {
     'use strict';
 
     angular

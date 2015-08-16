@@ -5,15 +5,15 @@
     "dependencies": {
         "jquery": "~2.1.4",
         "bootstrap": "3.3.5",
-        "jquery-validation": "~1.13.1",
+        "jquery-validation": "~1.14.0",
         "jquery-validation-unobtrusive": "~3.2.2",
         "qunit": "~1.18.0",
         "draggable": "~1.0.0",
 
-        "angular": "1.4.3",
-        "angular-resource": "1.4.3",
+        "angular": "1.4.4",
+        "angular-resource": "1.4.4",
 
-        "angular-bootstrap": "~0.13.0",
+        "angular-bootstrap": "~0.13.3",
         "angular-ui-router": "~0.2.15",
 
         "angular-bootstrap-contextmenu": "~0.9.4",

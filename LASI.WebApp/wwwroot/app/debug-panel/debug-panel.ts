@@ -1,7 +1,7 @@
 ﻿/// <reference path='../../../typings/jquery/jquery.d.ts' />
 /// <reference path='../../../typings/angularjs/angular.d.ts' />
 
-module LASI.debug {
+namespace LASI.debug {
     'use strict';
 
 

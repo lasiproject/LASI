@@ -1,4 +1,4 @@
-﻿module LASI.documentViewer {
+﻿namespace LASI.documentViewer {
     'use strict';
 
     export interface DocumentModelService {

@@ -37,21 +37,21 @@ namespace LASI.WebApp.Tests.ServiceCollectionExtensions
             var documents = new[] {
                 new UserDocument {
                     _id = MongoDB.Bson.ObjectId.GenerateNewId(),
-                    DateUploaded = DateTime.Now.ToString(),
+                    DateUploaded = DateTimeOffset.Now.ToString(),
                     Name = "Test Document One",
                     UserId = user.Id,
                     Content = MockDocumentContent1
                 },
                 new UserDocument {
                     _id = MongoDB.Bson.ObjectId.GenerateNewId(),
-                    DateUploaded = DateTime.Now.ToString(),
+                    DateUploaded = DateTimeOffset.Now.ToString(),
                     Name = "Test Document Two",
                     UserId = user.Id,
                     Content = MockDocumentContent2
                 },
                 new UserDocument {
                     _id = MongoDB.Bson.ObjectId.GenerateNewId(),
-                    DateUploaded = DateTime.Now.ToString(),
+                    DateUploaded = DateTimeOffset.Now.ToString(),
                     Name = "Test Document Three",
                     UserId = user.Id,
                     Content = MockDocumentContent3

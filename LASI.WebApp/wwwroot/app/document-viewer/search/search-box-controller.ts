@@ -1,4 +1,4 @@
-﻿module LASI.documentViewer.search {
+﻿namespace LASI.documentViewer.search {
     'use strict';
 
     type SearchModelType = string|models.LexicalModel;

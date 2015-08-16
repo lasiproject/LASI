@@ -1,5 +1,4 @@
-﻿// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
-module LASI.documentViewer {
+﻿namespace LASI.documentViewer {
     'use strict';
 
     angular

@@ -65,7 +65,8 @@
             "tsd update -s -o"
         ],
         "prepare": [
-            "grunt bower:install"
+            "grunt bower:install",
+            "grunt clean:bower-d-ts"
         ]
     }
 }

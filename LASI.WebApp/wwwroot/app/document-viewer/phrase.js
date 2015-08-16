@@ -1,4 +1,3 @@
-// Install the angularjs.TypeScript.DefinitelyTyped NuGet package
 var LASI;
 (function (LASI) {
     var documentViewer;

@@ -1,4 +1,4 @@
-﻿module LASI.models {
+﻿namespace LASI.models {
 
     export interface TextFragmentModel {
         paragraphs: ParagraphModel[];

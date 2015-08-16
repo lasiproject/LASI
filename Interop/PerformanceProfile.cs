@@ -1,9 +1,5 @@
 namespace LASI.Interop
 {
-    using Lexicon = Core.Lexicon;
-    using MemoryThresholdEventHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
-    using DateTime = System.DateTime;
-
     /// <summary>
     /// Broadly specifies the various resource usage profiles of the program.
     /// </summary>

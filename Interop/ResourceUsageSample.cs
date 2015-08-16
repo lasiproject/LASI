@@ -1,6 +1,6 @@
 namespace LASI.Interop
 {
-    using DateTime = System.DateTime;
+    using DateTimeOffset = System.DateTimeOffset;
 
     /// <summary>
     /// Represents a resource usage sample.
@@ -19,12 +19,12 @@ namespace LASI.Interop
         /// <param name="timeSnapshotted">
         /// The time when the sample was taken.
         /// </param>
-        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTime? timeSnapshotted = default(DateTime?))
+        public ResourceUsageSample(float cpuUsage, float memoryUsage, DateTimeOffset? timeSnapshotted = default(DateTimeOffset?))
             : this()
         {
             CpuUsage = cpuUsage;
             MemoryUsage = memoryUsage;
-            TimeSnapshotted = timeSnapshotted ?? DateTime.Now;
+            TimeSnapshotted = timeSnapshotted ?? DateTimeOffset.Now;
         }
 
         /// <summary>
@@ -40,6 +40,6 @@ namespace LASI.Interop
         /// <summary>
         /// Gets the local time of the machine hosting the application when the sample was taken.
         /// </summary>
-        public DateTime TimeSnapshotted { get; }
+        public DateTimeOffset TimeSnapshotted { get; }
     }
 }

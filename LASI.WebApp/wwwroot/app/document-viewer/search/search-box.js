@@ -10,19 +10,11 @@ var LASI;
                     restrict: 'E',
                     controller: 'SearchBoxController',
                     controllerAs: 'search',
+                    bindToController: true,
                     scope: {
                         searchContext: '='
                     },
-                    templateUrl: '/app/document-viewer/search/search-box.html',
-                    link: function (scope, element, attrs, ctrl) {
-                        ctrl.keyDown = function ($event) {
-                            if ($event.keyCode === 13) {
-                                ctrl.search({ value: ctrl.find }, [scope.searchContext]);
-                                $event.stopPropagation();
-                                $event.preventDefault();
-                            }
-                        };
-                    }
+                    templateUrl: '/app/document-viewer/search/search-box.html'
                 };
             }
             angular

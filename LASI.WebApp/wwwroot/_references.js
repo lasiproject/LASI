@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="../gruntfile.js" />
+/// <reference path="../unused-gulpfile.js" />
 /// <reference path="app/account/manage.js" />
 /// <reference path="app/contextmenu-definitions-tests.js" />
 /// <reference path="app/debug-panel/debug-panel.js" />

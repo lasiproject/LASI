@@ -1,4 +1,4 @@
-﻿module LASI.documentViewer {
+﻿namespace LASI.documentViewer {
     'use strict';
 
     documentViewerDirective.$inject = [];

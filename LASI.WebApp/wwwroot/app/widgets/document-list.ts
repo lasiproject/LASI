@@ -1,5 +1,5 @@
 /* global:draggable */
-module LASI.documentList {
+namespace LASI.documentList {
     'use strict';
     var draggable = (<any>window).draggable;
     var createHeaderMarkup = function (documentId, documentName) {
@@ -11,22 +11,22 @@ module LASI.documentList {
     };
     $(function () {
         window.setTimeout(function () {
-            setupDraggableDialogs = function () {
-                var enableDragging = function (e, h?) {
-                    var handle = $(e).find('.handle')[0];
-                    draggable(e, handle);
-                    e.style.position = '';
-                };
-                // Make all confirm delete modals draggable.
-                $('[id^=confirm-delete-modal]').toArray().forEach(enableDragging);
-                // Make the manage documents modal draggable.
-                var draggableDialog = $('#manage-documents-modal');
-                var dragHandle = draggableDialog.find('.handle')[0];
-                if (draggableDialog[0] || dragHandle) {
-                    enableDragging(draggableDialog[0], dragHandle);
-                }
-            };
-            setupDraggableDialogs();
+            //setupDraggableDialogs = function () {
+            //    var enableDragging = function (e, h?) {
+            //        var handle = $(e).find('.handle')[0];
+            //        draggable(e, handle);
+            //        e.style.position = '';
+            //    };
+            //    // Make all confirm delete modals draggable.
+            //    $('[id^=confirm-delete-modal]').toArray().forEach(enableDragging);
+            //    // Make the manage documents modal draggable.
+            //    var draggableDialog = $('#manage-documents-modal');
+            //    var dragHandle = draggableDialog.find('.handle')[0];
+            //    if (draggableDialog[0] || dragHandle) {
+            //        enableDragging(draggableDialog[0], dragHandle);
+            //    }
+            //};
+            //setupDraggableDialogs();
             var $tabs = $('.document-viewer-tab-heading');
             var $listItemRefs = $('.document-list-item > a');
             var click = function (event) {

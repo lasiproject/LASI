@@ -13,7 +13,8 @@ module.exports = function (grunt) {
         },
         cssmin: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-cssmin-task.json'),
         qunit: { all: ['wwwroot/test/**/*.html'] },
-        watch: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-watch-task.json')
+        watch: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-watch-task.json'),
+        clean: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-clean-task.json')
     });
     // This command registers the default task which installs bower packages into wwwroot/lib.
     grunt.registerTask('default', ['bower:install']);
@@ -33,4 +34,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-typescript');
     grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 };
