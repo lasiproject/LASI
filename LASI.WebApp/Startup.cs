@@ -122,15 +122,7 @@ namespace LASI.WebApp
             // Add the following to the request pipeline only in development environment.
             if (environmentIsDevelopment)
             {
-                app.UseErrorPage(new ErrorPageOptions // Added to react to the removal of ErrorPageOptions.ShowAll from the next version.
-                {
-                    ShowCookies = true,
-                    ShowEnvironment = true,
-                    ShowExceptionDetails = true,
-                    ShowHeaders = true,
-                    ShowQuery = true,
-                    ShowSourceCode = true
-                });
+                app.UseErrorPage(new ErrorPageOptions());
             }
             else
             {

@@ -1,25 +1,32 @@
 {
     "AppSettings": {
-        "SiteTitle": "LASI.WebApp"
+        "SiteTitle": "LASI",
+        "ProjectWebsite": "http://lasi-project.org",
+        "AutoDebugCleanupOn": true,
+        "vs": { "EnableBrowserLink": true },
+        "debug": true
     },
     "Resources": {
-        "ConvertersDirectory": "StandaloneFileConverters\\",
-        "MaximumEntropyModelDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\",
-        "NameDataDirectory": "LASICustom\\NameData\\",
-        "ResourcesDirectory": "C:\\Users\\Aluan\\Documents\\GitHub\\LASI\\WebApp.Old\\Resources\\",
-        "SubordinatingPrepositionalsInfoFile": "LASICustom\\Binding\\KnownSubordinators.txt",
-        "WordnetFileDirectory": "WordNetThesaurusData\\",
-        "WordnetSearchDirectory": "TaggingPackage\\OpenNLP\\OpenNLP\\Models\\namefind\\"
+        "ResourcesDirectory": "C:/Users/Aluan/Documents/GitHubVisualStudio/LASI/WebApp.Old/Resources/",
+        "ConvertersDirectory": "StandaloneFileConverters/",
+        "MaximumEntropyModelDirectory": "TaggingPackage/OpenNLP/OpenNLP/Models/",
+        "NameDataDirectory": "LASICustom/NameData/",
+        "SubordinatingPrepositionalsInfoFile": "LASICustom/Binding/KnownSubordinators.txt",
+        "WordnetFileDirectory": "WordNetThesaurusData/",
+        "WordnetSearchDirectory": "TaggingPackage/OpenNLP/OpenNLP/Models/namefind/"
     },
     "MongoDB": {
         "CreateMongoDbProcess": true,
         "ApplicationDatabaseName": "accounts",
-        "MongoDataDbPath": "\\App_Data\\Mongo\\data\\db",
+        "MongoDataDbPath": "/App_Data/Mongo/data/db",
         "MongoDbInstanceUrl": "mongodb://localhost:27017",
-        "MongodExePath": "C:/Program Files/MongoDB 2.6 Standard/bin/mongod.exe",
+        "MongodExePath": "C:/program Files/MongoDB/Server/3.0/bin/mongod.exe",
         "UserCollectionName": "users",
         "UserDocumentCollectionName": "documents",
         "OrganizationCollectionName": "organizations",
         "UserRoleCollectionName": "roles"
+    },
+    "Data": {
+        "AccountStorageMedium": "MongoDb"
     }
 }
