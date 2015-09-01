@@ -38,7 +38,7 @@
 
         files: File[] = [];
 
-        static formats = [
+        private static formats = [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/msword',
             'application/pdf',

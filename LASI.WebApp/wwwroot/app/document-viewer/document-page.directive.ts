@@ -11,7 +11,7 @@
         return {
             restrict: 'E',
             link: link,
-            templateUrl: '/app/document-viewer/document-page.html',
+            templateUrl: '/app/document-viewer/document-page.directive.html',
             replace: true,
             scope: {
                 page: '=',

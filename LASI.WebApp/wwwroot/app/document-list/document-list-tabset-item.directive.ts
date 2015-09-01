@@ -28,7 +28,7 @@
                 name: '=',
                 percentComplete: '='
             },
-            templateUrl: '/app/document-list/document-list-tabset-item.html'
+            templateUrl: '/app/document-list/document-list-tabset-item.directive.html'
         };
     }
 

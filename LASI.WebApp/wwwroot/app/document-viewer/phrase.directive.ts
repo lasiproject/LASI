@@ -10,7 +10,7 @@
     function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): angular.IDirective {
         return {
             restrict: 'E',
-            templateUrl: '/app/document-viewer/phrase.html',
+            templateUrl: '/app/document-viewer/phrase.directive.html',
             scope: {
                 phrase: '=',
                 parentId: '='

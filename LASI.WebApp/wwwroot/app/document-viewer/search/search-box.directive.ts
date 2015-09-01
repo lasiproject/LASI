@@ -1,17 +1,12 @@
 ﻿namespace LASI.documentViewer.search {
     'use strict';
 
-    type SearchModelType = string|models.LexicalModel;
-    interface SearchOptions {
-        value: SearchModelType;
-        lifted?: boolean;
-    }
-    export class SearchBoxController {
+    class SearchBoxController {
         static $inject = ['$q'];
         constructor(private $q: angular.IQService) { }
         private phrases: models.PhraseModel[];
 
-        search(searchOptions: SearchOptions, searchContext: models.TextFragmentModel[]) {
+        search(searchOptions: SearchOptions, searchContext: TextFragmentModel[]) {
             var deferred = this.$q.defer<SearchModelType[]>();
 
             var value = searchOptions.value;
@@ -43,8 +38,28 @@
             return deferred.promise;
         }
     }
+
+    function searchBox(): angular.IDirective {
+        return {
+            restrict: 'E',
+            controller: SearchBoxController,
+            controllerAs: 'search',
+            bindToController: true,
+            scope: {
+                searchContext: '='
+            },
+            templateUrl: '/app/document-viewer/search/search-box.directive.html'
+        };
+    }
+
+    type SearchModelType = string | models.LexicalModel;
+    type TextFragmentModel = models.TextFragmentModel;
+    interface SearchOptions {
+        value: SearchModelType;
+        lifted?: boolean;
+    }
+
     angular
         .module('documentViewer.search')
-        .controller('SearchBoxController', SearchBoxController);
-
+        .directive('searchBox', searchBox);
 }

@@ -10,7 +10,7 @@ var LASI;
         function phrase(lexicalMenuBuilder) {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/phrase.html',
+                templateUrl: '/app/document-viewer/phrase.directive.html',
                 scope: {
                     phrase: '=',
                     parentId: '='

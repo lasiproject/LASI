@@ -8,7 +8,7 @@
     function documentModelService($http: angular.IHttpService): DocumentModelService {
 
         return {
-            processDocument: (documentId) => $http.get(`Analysis/${documentId}`, { cache: true })
+            processDocument: (documentId) => $http.get(`Analysis/${documentId}`, { cache: false })
         };
     }
     angular

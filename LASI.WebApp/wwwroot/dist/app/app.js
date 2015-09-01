@@ -81,7 +81,6 @@ var LASI;
     'use strict';
     LASI.buildMenus;
     LASI.enableActiveHighlighting;
-    LASI.setupDraggableDialogs;
     LASI.log = console.log.bind(console);
     LASI.editor = $('#free-editor').change(LASI.log);
 })(LASI || (LASI = {}));
@@ -228,7 +227,7 @@ var LASI;
                 transclude: true,
                 replace: true,
                 restrict: 'E',
-                templateUrl: '/app/document-list/document-list-menu-item.html',
+                templateUrl: '/app/document-list/document-list-menu-item.directive.html',
                 scope: {
                     name: '=',
                     documentId: '='
@@ -322,7 +321,7 @@ var LASI;
                     name: '=',
                     percentComplete: '='
                 },
-                templateUrl: '/app/document-list/document-list-tabset-item.html'
+                templateUrl: '/app/document-list/document-list-tabset-item.directive.html'
             };
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));
@@ -581,38 +580,10 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        var DocumentController = (function () {
-            function DocumentController($q, $location, documentModelService) {
-                this.$q = $q;
-                this.$location = $location;
-                this.documentModelService = documentModelService;
-                this.title = 'DocumentController';
-            }
-            DocumentController.prototype.processDocument = function (documentId) {
-                if (this.documentModel.id !== documentId) {
-                    return this.documentModelService.processDocument(documentId);
-                }
-                else {
-                    return this.$q.reject(this.documentModel);
-                }
-            };
-            DocumentController.$inject = ['$q', '$location', 'MockDocumentModelService'];
-            return DocumentController;
-        })();
-        angular
-            .module('documentViewer')
-            .controller('DocumentController', DocumentController);
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        'use strict';
         documentModelService.$inject = ['$http'];
         function documentModelService($http) {
             return {
-                processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: true }); }
+                processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: false }); }
             };
         }
         angular
@@ -635,7 +606,7 @@ var LASI;
             return {
                 restrict: 'E',
                 link: link,
-                templateUrl: '/app/document-viewer/document-page.html',
+                templateUrl: '/app/document-viewer/document-page.directive.html',
                 replace: true,
                 scope: {
                     page: '=',
@@ -662,7 +633,7 @@ var LASI;
             };
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/document-viewer-directive.html',
+                templateUrl: '/app/document-viewer/document-viewer.directive.html',
                 replace: true,
                 scope: {
                     document: '='
@@ -673,6 +644,33 @@ var LASI;
         angular
             .module('documentViewer')
             .directive('documentViewerDirective', documentViewerDirective);
+    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
+})(LASI || (LASI = {}));
+var LASI;
+(function (LASI) {
+    var documentViewer;
+    (function (documentViewer) {
+        'use strict';
+        var DocumentController = (function () {
+            function DocumentController($q, $location, documentModelService) {
+                this.$q = $q;
+                this.$location = $location;
+                this.documentModelService = documentModelService;
+            }
+            DocumentController.prototype.processDocument = function (documentId) {
+                if (this.documentModel.id !== documentId) {
+                    return this.documentModelService.processDocument(documentId);
+                }
+                else {
+                    return this.$q.reject(this.documentModel);
+                }
+            };
+            DocumentController.$inject = ['$q', '$location', 'MockDocumentModelService'];
+            return DocumentController;
+        })();
+        angular
+            .module('documentViewer')
+            .controller('DocumentController', DocumentController);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));
 var LASI;
@@ -772,7 +770,7 @@ var LASI;
         function paragraph($window) {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/paragraph.html',
+                templateUrl: '/app/document-viewer/paragraph.directive.html',
                 scope: {
                     paragraph: '=',
                     parentId: '='
@@ -796,7 +794,7 @@ var LASI;
         function phrase(lexicalMenuBuilder) {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/phrase.html',
+                templateUrl: '/app/document-viewer/phrase.directive.html',
                 scope: {
                     phrase: '=',
                     parentId: '='
@@ -860,30 +858,16 @@ var LASI;
                 SearchBoxController.$inject = ['$q'];
                 return SearchBoxController;
             })();
-            search.SearchBoxController = SearchBoxController;
-            angular
-                .module('documentViewer.search')
-                .controller('SearchBoxController', SearchBoxController);
-        })(search = documentViewer.search || (documentViewer.search = {}));
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
-var LASI;
-(function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        var search;
-        (function (search) {
-            'use strict';
             function searchBox() {
                 return {
                     restrict: 'E',
-                    controller: 'SearchBoxController',
+                    controller: SearchBoxController,
                     controllerAs: 'search',
                     bindToController: true,
                     scope: {
                         searchContext: '='
                     },
-                    templateUrl: '/app/document-viewer/search/search-box.html'
+                    templateUrl: '/app/document-viewer/search/search-box.directive.html'
                 };
             }
             angular
@@ -903,7 +887,7 @@ var LASI;
         function sentence() {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/sentence.html',
+                templateUrl: '/app/document-viewer/sentence.directive.html',
                 scope: {
                     sentence: '=',
                     parentId: '='
@@ -1054,20 +1038,6 @@ var LASI;
         };
         $(function () {
             window.setTimeout(function () {
-                LASI.setupDraggableDialogs = function () {
-                    var enableDragging = function (e, h) {
-                        var handle = $(e).find('.handle')[0];
-                        draggable(e, handle);
-                        e.style.position = '';
-                    };
-                    $('[id^=confirm-delete-modal]').toArray().forEach(enableDragging);
-                    var draggableDialog = $('#manage-documents-modal');
-                    var dragHandle = draggableDialog.find('.handle')[0];
-                    if (draggableDialog[0] || dragHandle) {
-                        enableDragging(draggableDialog[0], dragHandle);
-                    }
-                };
-                LASI.setupDraggableDialogs();
                 var $tabs = $('.document-viewer-tab-heading');
                 var $listItemRefs = $('.document-list-item > a');
                 var click = function (event) {

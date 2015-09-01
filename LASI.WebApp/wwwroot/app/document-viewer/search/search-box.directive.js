@@ -45,10 +45,21 @@ var LASI;
                 SearchBoxController.$inject = ['$q'];
                 return SearchBoxController;
             })();
-            search.SearchBoxController = SearchBoxController;
+            function searchBox() {
+                return {
+                    restrict: 'E',
+                    controller: SearchBoxController,
+                    controllerAs: 'search',
+                    bindToController: true,
+                    scope: {
+                        searchContext: '='
+                    },
+                    templateUrl: '/app/document-viewer/search/search-box.directive.html'
+                };
+            }
             angular
                 .module('documentViewer.search')
-                .controller('SearchBoxController', SearchBoxController);
+                .directive('searchBox', searchBox);
         })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

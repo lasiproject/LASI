@@ -6,7 +6,7 @@ var LASI;
         documentModelService.$inject = ['$http'];
         function documentModelService($http) {
             return {
-                processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: true }); }
+                processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: false }); }
             };
         }
         angular

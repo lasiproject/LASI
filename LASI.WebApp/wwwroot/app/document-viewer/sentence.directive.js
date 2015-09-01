@@ -9,7 +9,7 @@ var LASI;
         function sentence() {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/sentence.html',
+                templateUrl: '/app/document-viewer/sentence.directive.html',
                 scope: {
                     sentence: '=',
                     parentId: '='

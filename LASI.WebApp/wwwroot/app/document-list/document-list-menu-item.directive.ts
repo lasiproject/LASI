@@ -19,7 +19,7 @@
             transclude: true,
             replace: true,
             restrict: 'E',
-            templateUrl: '/app/document-list/document-list-menu-item.html',
+            templateUrl: '/app/document-list/document-list-menu-item.directive.html',
             scope: {
                 name: '=',
                 documentId: '='

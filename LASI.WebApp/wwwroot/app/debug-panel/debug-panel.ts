@@ -4,9 +4,7 @@
 namespace LASI.debug {
     'use strict';
 
-
     DebugPanelController.$inject = ['tasksListService'];
-
 
     function DebugPanelController(tasksListService: documentList.TasksListService) {
         tasksListService.getActiveTasks().then(data => this.tasks = data.sort((x, y) => x.id.localeCompare(y.id)));

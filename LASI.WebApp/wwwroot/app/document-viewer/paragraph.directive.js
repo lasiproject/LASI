@@ -7,7 +7,7 @@ var LASI;
         function paragraph($window) {
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/paragraph.html',
+                templateUrl: '/app/document-viewer/paragraph.directive.html',
                 scope: {
                     paragraph: '=',
                     parentId: '='

@@ -2,8 +2,6 @@ namespace LASI.documentViewer {
     'use strict';
 
     class DocumentController {
-        title: string = 'DocumentController';
-
         private documentModel: models.DocumentModel;
 
         static $inject = ['$q', '$location', 'MockDocumentModelService'];

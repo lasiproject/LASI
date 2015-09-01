@@ -3,25 +3,26 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        documentViewerDirective.$inject = [];
-        function documentViewerDirective() {
-            var link = function (scope, element, attrs) {
+        directive.$inject = [];
+        function directive() {
+            function link(scope, element, attrs) {
                 LASI.log(scope);
                 LASI.log(element);
                 LASI.log(attrs);
-            };
+            }
             return {
                 restrict: 'E',
-                templateUrl: '/app/document-viewer/document-viewer-directive.html',
+                link: link,
+                templateUrl: '/app/document-viewer/document-page.directive.html',
                 replace: true,
                 scope: {
+                    page: '=',
                     document: '='
-                },
-                link: link
+                }
             };
         }
         angular
             .module('documentViewer')
-            .directive('documentViewerDirective', documentViewerDirective);
+            .directive('documentPage', directive);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

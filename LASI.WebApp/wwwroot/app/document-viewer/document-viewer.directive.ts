@@ -12,7 +12,7 @@
         };
         return {
             restrict: 'E',
-            templateUrl: '/app/document-viewer/document-viewer-directive.html',
+            templateUrl: '/app/document-viewer/document-viewer.directive.html',
             replace: true,
             scope: {
                 document: '='

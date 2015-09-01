@@ -1,6 +1,8 @@
 ﻿namespace LASI.documentViewer {
     'use strict';
 
+    type ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
+
     angular
         .module('documentViewer')
         .factory('lexicalMenuBuilder', lexicalMenuBuilder);
@@ -8,10 +10,6 @@
 
     lexicalMenuBuilder.$inject = [];
 
-    import contextMenu = angular.ui.bootstrap.contextMenu;
-    export interface LexicalMenuBuilderFactory {
-        buildAngularMenu: (source: LexicalContextMenuDataSource |  VerbalContextmenuDataSource | ReferencerContextmenuDataSource) => contextMenu.ContextMenu;
-    }
     function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
         var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
@@ -37,7 +35,7 @@
             Object.keys(menuActionTargets)
                 .map(key => menuActionTargets[key])
                 .forEach($e => $e.removeClass('referred-to-by-current'));
-        return (source: ReferencerContextmenuDataSource): contextMenu.ContextMenu => [
+        return (source: ReferencerContextmenuDataSource): ContextMenu => [
             ['View Referred To', (itemScope, event) => {
                 resetReferencerAsssotionCssClasses();
                 source.refersToIds
@@ -48,7 +46,7 @@
     function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
         return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
             return (source: VerbalContextmenuDataSource) => {
-                var menuItems: contextMenu.ContextMenu = [];
+                var menuItems: ContextMenu = [];
                 if (source.subjectIds) {
                     menuItems.push(['View Subjects', (itemScope, event) => {
                         resetVerbalAssociationCssClasses();
@@ -89,6 +87,11 @@
             'View Indirect Objects': 'indirect-object-of-current'
         });
     }
+
+    export interface LexicalMenuBuilderFactory {
+        buildAngularMenu: (source: LexicalContextMenuDataSource |  VerbalContextmenuDataSource | ReferencerContextmenuDataSource) => ContextMenu;
+    }
+
     export interface LexicalContextMenuDataSource {
         /**
         * The id of the lexical element for which the menu is defined.

@@ -8,7 +8,6 @@ var LASI;
                 this.$q = $q;
                 this.$location = $location;
                 this.documentModelService = documentModelService;
-                this.title = 'DocumentController';
             }
             DocumentController.prototype.processDocument = function (documentId) {
                 if (this.documentModel.id !== documentId) {
