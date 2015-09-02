@@ -6,6 +6,8 @@
     <title>@ViewBag.Title - @AppSettings.Options.SiteTitle</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="~/lib/Font-Awesome/css/font-awesome.min.css" />
+
     <link href="~/dist/app/app.min.css" rel="stylesheet" />
 </head>
 <body ng-app="documentList" ng-strict-di ng-cloak ng-controller="ListController as controller">
@@ -27,12 +29,14 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li class="navbar-brand">
-                        <a href="~/"><div><img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" /></div></a>
+                        <a href="~/"><span><img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" /></span></a>
                     </li>
-                    <li>@Html.ActionLink(linkText: "Home", controllerName: "Home", actionName: "Index")</li>
-                    <li><a href="#" class="glyphicon glyphicon-upload"></a></li>
-                    <li>@Html.ActionLink(linkText: "Results", controllerName: "Results", actionName: "Results")</li>
+                    <li>@Html.ActionLink(linkText: "", controllerName: "Home", actionName: "Index", htmlAttributes: new { @class = "fa fa-home fa-lg" }, routeValues: new { })</li>
+
+
                 </ul>
+
+
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -62,7 +66,7 @@
                             <li ng-repeat="document in controller.documents" class="list-group-item">
                                 <div>
                                     {{document.name}}<a href="#" data-toggle="modal" data-target="#confirm-delete-modal{{document.id}}">
-                                        <span class="glyphicon glyphicon-remove pull-right"></span>
+                                        <span class="fa fa-remove pull-right"></span>
                                     </a>
                                 </div>
                                 <div id="confirm-delete-modal{{document.id}}"

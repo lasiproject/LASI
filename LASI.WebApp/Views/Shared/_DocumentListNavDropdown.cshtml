@@ -1,43 +1,40 @@
-﻿<div>
-    <div class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li class="dropdown" id="dropdown-list-item-container">
-                <a href="#"
-                   class="dropdown-toggle"
-                   id="document-menu-dropdown-href"
-                   ng-click="controller.expanded = !controller.expanded"
-                   data-toggle="dropdown"
-                   role="button"
-                   aria-expanded="false">
-                    <span class="glyphicon"
-                          ng-class="{
-                            'glyphicon-folder-close': controller.expanded,
-                            'glyphicon-folder-open': !controller.expanded
+﻿<div class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+        <li class="dropdown" id="dropdown-list-item-container">
+            <a href="#"
+               class="dropdown-toggle"
+               id="document-menu-dropdown-href"
+               ng-click="controller.expanded = !controller.expanded"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+                <span class="fa"
+                      ng-class="{
+                            'fa-folder-open': controller.expanded,
+                            'fa-folder': !controller.expanded
                           }">
-                        &nbsp;<span class="badge small">{{controller.documentCount}}</span>
-                    </span>&nbsp;&nbsp;<b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" role="menu" ng-model="controller.documents">
-                    <li class="dropdown" id="document-list-item-manage">
-                        <a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>
-                    </li>
-                    <document-list-menu-item ng-repeat="document in controller.documents"
-                                             ng-model="document"
-                                             document-id="document.id"
-                                             name="document.name"
-                                             analysis-progress="document.progress">
-                    </document-list-menu-item>
-                    <li class="dropdown">
-                        <a href="#"
-                           id="new-text-editor-item"
-                           data-toggle="collapse"
-                           data-target="#free-editor"
-                           class="nav-justified glyphicon glyphicon-pencil">
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-   
+                    &nbsp;<span class="badge small">{{controller.documentCount}}</span>
+                </span>&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu" ng-model="controller.documents">
+                <li class="dropdown" id="document-list-item-manage">
+                    <a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>
+                </li>
+                <document-list-menu-item ng-repeat="document in controller.documents"
+                                         ng-model="document"
+                                         document-id="document.id"
+                                         name="document.name"
+                                         analysis-progress="document.progress">
+                </document-list-menu-item>
+                <li class="dropdown">
+                    <a href="#"
+                       id="new-text-editor-item"
+                       data-toggle="collapse"
+                       data-target="#free-editor"
+                       class="nav-justified fa fa-pencil">
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </div>

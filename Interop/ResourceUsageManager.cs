@@ -12,13 +12,13 @@
         /// Sets the overall performance level based on the provided enumeration value, providing
         /// for coarse grained adjustments to the CPU and RAM consumption.
         /// </summary>
-        /// <param name="mode">
+        /// <param name="performanceProfile">
         /// The PerformanceLevel value indicating the new performance and resource usage settings to adopt.
         /// </param>
-        public static void SetPerformanceLevel(PerformanceProfile mode)
+        public static void SetPerformanceLevel(PerformanceProfile performanceProfile)
         {
-            Concurrency.SetByPerformanceMode(mode);
-            Memory.SetByPerformanceMode(mode);
+            Concurrency.SetByPerformanceMode(performanceProfile);
+            Memory.SetByPerformanceMode(performanceProfile);
         }
 
         /// <summary>

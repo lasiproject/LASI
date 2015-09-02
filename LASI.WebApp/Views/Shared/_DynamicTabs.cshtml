@@ -3,8 +3,12 @@
         <tab ng-cloak ng-repeat="document in controller.documents track by document.id">
             <tab-heading class="document-viewer-tab-heading" ng-click="controller.processDocument(document)">
                 {{document.name}}
-                <search-box search-context="document.raeification"></search-box>
-                <processing-task-progress-bar task="document.task"></processing-task-progress-bar>
+                <div class="form-group">
+                    <search-box search-context="document.raeification"></search-box>
+                </div>
+                <div class="form-group">
+                    <processing-task-progress-bar task="document.task"></processing-task-progress-bar>
+                </div>
             </tab-heading>
             <div class="col-md-9">
                 <document-viewer-directive document="document.raeification"></document-viewer-directive>
