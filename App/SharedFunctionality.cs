@@ -72,8 +72,8 @@ namespace LASI.App
                         DisplayMessageIf(window, fileNamePresent, $"A document named {file} is already part of the current project.");
                         if (!fileNamePresent)
                         {
-                            DisplayMessageIf(window, file.UnableToOpen(), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
-                            if (!file.UnableToOpen())
+                            DisplayMessageIf(window, !DocumentManager.AbleToOpen(file), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            if (!DocumentManager.AbleToOpen(file))
                             {
                                 await processValid(file);
                             }
@@ -107,9 +107,9 @@ namespace LASI.App
                         {
                             DisplayMessage(source, $"A document named {file} is already part of the current project.");
                         }
-                        else if (file.UnableToOpen())
+                        else if (!DocumentManager.AbleToOpen(file))
                         {
-                            DisplayMessage(source, $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            DisplayMessage(source, $"The document {file} cannot be opened and may be in use by another process, please close any applications which may be using the file and try again.");
                         }
                         else
                         {
@@ -133,7 +133,7 @@ namespace LASI.App
             public static readonly string UnableToLocateManual = "Unable to locate the User Manual, please write to us at thelasiproject@gmail.com for further support.";
             public static readonly string UnableToOpenManual = "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.";
             public static readonly string ValidDocumentFormats = $"The following file formats are accepted:\n{DocumentManager.AcceptedFormats}";
-            public static readonly string DocumentLimitExceeded = $"A single project may have a maximum of {DocumentManager.MAX_DOCUMENTS} documents.";
+            public static readonly string DocumentLimitExceeded = $"A single project may have a maximum of {DocumentManager.MaxDocuments} documents.";
         }
     }
 }

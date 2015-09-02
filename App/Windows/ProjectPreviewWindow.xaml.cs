@@ -138,7 +138,7 @@ namespace LASI.App
             if (docSelected != null)
             {
                 DocumentPreview.Items.Remove(docSelected);
-                DocumentManager.RemoveDocument((docSelected as TabItem).Header.ToString());
+                DocumentManager.RemoveByFileName((docSelected as TabItem).Header.ToString());
                 FileManager.RemoveFile((docSelected as TabItem).Header.ToString());
                 CheckIfAddingAllowed();
 
@@ -181,7 +181,7 @@ namespace LASI.App
                 {
                     MessageBox.Show(this, $"A document named {file} is already part of the project.");
                 }
-                else if (!file.UnableToOpen())
+                else if (DocumentManager.AbleToOpen(file))
                 {
                     DocumentManager.AddDocument(file.Name, file.FullName);
                     await DisplayAddNewDocumentDialogImplementation(file.FullName);

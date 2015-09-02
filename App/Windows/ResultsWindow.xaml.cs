@@ -379,7 +379,7 @@ namespace LASI.App
                 {
                     MessageBox.Show(this, $"A document named {file} is already part of the project.");
                 }
-                else if (!file.UnableToOpen())
+                else if (DocumentManager.AbleToOpen(file))
                 {
                     await AddNewDocument(file);
                 }

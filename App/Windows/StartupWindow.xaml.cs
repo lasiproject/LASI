@@ -65,9 +65,9 @@ namespace LASI.App
 
         private void ProcessCommandLineArgs(IEnumerable<string> filePaths)
         {
-            foreach (var f in DocumentManager.GetValidFilesInPathList(filePaths))
+            foreach (var file in DocumentManager.GetValidFilesInPathList(filePaths))
             {
-                DocumentManager.AddDocument(f.Name, f.FullName);
+                DocumentManager.AddDocument(file.Name, file.FullName);
             }
             if (!DocumentManager.IsEmpty)
             {

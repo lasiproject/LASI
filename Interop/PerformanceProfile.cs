@@ -1,25 +1,23 @@
 namespace LASI.Interop
 {
     /// <summary>
-    /// Broadly specifies the various resource usage profiles of the program.
+    /// Broadly specifies the various resource usage profiles of the program. The default is <see cref="High"/>.
     /// </summary>
+    /// <remarks><see cref="PerformanceProfile"/> values provided decidedly coarse grained control over the amount of resources consumed. 
+    /// They do not specify limits or guarantee maximum consumption but rather serve as guidelines.
+    /// </remarks>
     public enum PerformanceProfile
     {
         /// <summary>
-        /// High resource usage indicates a liberal allocation and consumption of available
-        /// system resources.
+        /// Indicates a liberal consumption of available system resources.
         /// </summary>
         High = 0,
-
         /// <summary>
-        /// Normal resource usage indicates a modest allocation and consumption of available
-        /// system resources.
+        /// Indicates a considerable consumption of available system resources.
         /// </summary>
         Normal,
-
         /// <summary>
-        /// High resource usage indicates a conservative allocation and consumption of available
-        /// system resources.
+        /// Indicates a conservative consumption of available system resources.
         /// </summary>
         Low
     }
