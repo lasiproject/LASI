@@ -725,8 +725,9 @@ declare module angular {
     // see http://docs.angularjs.org/api/ng.$timeout
     ///////////////////////////////////////////////////////////////////////////
     interface ITimeoutService {
-        <T>(func: (...args: any[]) => T, delay?: number, invokeApply?: boolean): IPromise<T>;
-        cancel(promise: IPromise<any>): boolean;
+        (delay?: number, invokeApply?: boolean): IPromise<void>;
+        <T>(fn: (...args: any[]) => T, delay?: number, invokeApply?: boolean, ...args: any[]): IPromise<T>;
+        cancel(promise?: IPromise<any>): boolean;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -998,6 +999,8 @@ declare module angular {
     interface IQService {
         new <T>(resolver: (resolve: IQResolveReject<T>) => any): IPromise<T>;
         new <T>(resolver: (resolve: IQResolveReject<T>, reject: IQResolveReject<any>) => any): IPromise<T>;
+        <T>(resolver: (resolve: IQResolveReject<T>) => any): IPromise<T>;
+        <T>(resolver: (resolve: IQResolveReject<T>, reject: IQResolveReject<any>) => any): IPromise<T>;
 
         /**
          * Combines multiple promises into a single promise that is resolved when all of the input promises are resolved.
@@ -1006,7 +1009,7 @@ declare module angular {
          *
          * @param promises An array of promises.
          */
-        all(promises: IPromise<any>[]): IPromise<any[]>;
+        all<T>(promises: IPromise<any>[]): IPromise<T[]>;
         /**
          * Combines multiple promises into a single promise that is resolved when all of the input promises are resolved.
          *
@@ -1015,6 +1018,7 @@ declare module angular {
          * @param promises A hash of promises.
          */
         all(promises: { [id: string]: IPromise<any>; }): IPromise<{ [id: string]: any; }>;
+        all<T extends {}>(promises: { [id: string]: IPromise<any>; }): IPromise<T>;
         /**
          * Creates a Deferred object which represents a task which will finish in the future.
          */
@@ -1059,7 +1063,7 @@ declare module angular {
          *
          * Because finally is a reserved word in JavaScript and reserved keywords are not supported as property names by ES3, you'll need to invoke the method like promise['finally'](callback) to make your code IE8 and Android 2.x compatible.
          */
-        finally<TResult>(finallyCallback: () => any): IPromise<TResult>;
+        finally(finallyCallback: () => any): IPromise<T>;
     }
 
     interface IDeferred<T> {
@@ -1448,6 +1452,14 @@ declare module angular {
         interceptors: any[];
         useApplyAsync(): boolean;
         useApplyAsync(value: boolean): IHttpProvider;
+
+        /**
+         *
+         * @param {boolean=} value If true, `$http` will return a normal promise without the `success` and `error` methods.
+         * @returns {boolean|Object} If a value is specified, returns the $httpProvider for chaining.
+         *    otherwise, returns the current configured value.
+         */
+        useLegacyPromiseExtensions(value:boolean) : boolean | IHttpProvider;
     }
 
     ///////////////////////////////////////////////////////////////////////////
