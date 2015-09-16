@@ -3,8 +3,7 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        directive.$inject = [];
-        function directive() {
+        function documentPage() {
             function link(scope, element, attrs) {
                 LASI.log(scope);
                 LASI.log(element);
@@ -23,6 +22,6 @@ var LASI;
         }
         angular
             .module('documentViewer')
-            .directive('documentPage', directive);
+            .directive({ documentPage: documentPage });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

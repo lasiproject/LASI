@@ -22,6 +22,6 @@ var LASI;
         }
         angular
             .module('documentViewer')
-            .directive('documentViewerDirective', documentViewerDirective);
+            .directive({ documentViewerDirective: documentViewerDirective });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

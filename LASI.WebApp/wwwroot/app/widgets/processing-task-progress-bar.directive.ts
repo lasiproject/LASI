@@ -8,11 +8,11 @@
             scope: {
                 task: '='
             },
-            templateUrl: '/app/widgets/processing-task-progress-bar.html'
+            templateUrl: '/app/widgets/processing-task-progress-bar.directive.html'
         };
     }
 
     angular
         .module('widgets')
-        .directive('processingTaskProgressBar', processingTaskProgressBar);
+        .directive({ processingTaskProgressBar });
 }

@@ -3,54 +3,59 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .controller('ListController', ListController);
-        ListController.$inject = [
-            '$q', '$log', '$rootScope', 'documentListService',
-            'tasksListService', 'documentsService', 'documentModelService'
-        ];
-        function ListController($q, $log, $rootScope, documentListService, tasksListService, documentsService, documentModelService) {
-            var vm = this;
-            vm.title = 'ListController';
-            vm.documents = [];
-            Object.defineProperty(vm, 'documentCount', {
-                get: function () { return vm.documents.length; },
+        var ListController = (function () {
+            function ListController($q, documentListService, tasksListService, documentsService, documentModelService) {
+                this.$q = $q;
+                this.documentListService = documentListService;
+                this.tasksListService = tasksListService;
+                this.documentsService = documentsService;
+                this.documentModelService = documentModelService;
+                this.expanded = false;
+                this.documents = [];
+                this.activate();
+            }
+            ListController.prototype.deleteById = function (id) {
+                var deleteResult = this.documentsService.deleteById(id);
+                LASI.log(deleteResult);
+                this.documents = this.documentListService.get();
+            };
+            Object.defineProperty(ListController.prototype, "documentCount", {
+                get: function () { return this.documents.length; },
                 enumerable: true,
-                configurable: false
+                configurable: true
             });
-            vm.expanded = false;
-            activate();
-            function activate() {
-                vm.deleteById = function (id) {
-                    var deleteResult = documentsService.deleteById(id);
-                    $log.info(deleteResult);
-                    vm.documents = documentListService.getDocumentList();
-                };
-                vm.processDocument = function (document) {
-                    if (!vm.documents.some(function (d) { return d.id === document.id && d.raeification; })) {
-                        documentModelService.processDocument(document.id)
-                            .success(function (data) {
-                            document.raeification = data;
-                        })
-                            .error(function (message) { return message; });
-                    }
-                };
-                vm.documents = documentListService.getDocumentList();
-                vm.tasks = tasksListService.getActiveTasks(function (tasks) { return tasks.map(function (task) {
-                    vm.tasks[task.id] = task;
-                    return (vm.documents.filter(function (d) { return d.name === task.name; })[0] || {}).task = task;
-                }); });
-                $q.all([vm.documents, vm.tasks]).then(function (data) {
+            ListController.prototype.processDocument = function (document) {
+                if (!this.documents.some(function (d) { return d.raeification && d.id === document.id; })) {
+                    var data = this.documentModelService.processDocument(document.id)
+                        .success(function (processed) { return document.raeification = processed; })
+                        .error(function (error) { return console.log(error); });
+                }
+            };
+            ListController.prototype.activate = function () {
+                var _this = this;
+                return this.$q.all([
+                    this.$q.when(this.documentListService.get()),
+                    this.tasksListService.getActiveTasks().then(function (tasks) { return tasks.map(function (task) {
+                        _this.tasks[task.id] = task;
+                        var t = _this.documents.first(function (d) { return d.name === task.name; });
+                        (t && t).task = task;
+                        return t;
+                    }); })
+                ]).then(function (data) {
                     var _a = data, documents = _a[0], tasks = _a[1];
                     var associated = documents.correlate(tasks, function (document) { return document.id; }, function (task) { return task.id; }, function (document, task) {
                         document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                         document.progress = Math.round(task.percentComplete);
                         document.statusMessage = task.statusMessage;
                     });
-                    tasks.forEach(function (task) { vm.tasks[task.id] = task; });
+                    tasks.forEach(function (task) { _this.tasks[task.id] = task; });
+                    _b = [documents, tasks], _this.documents = _b[0], _this.tasks = _b[1];
+                    var _b;
                 });
-            }
-        }
+            };
+            ListController.$inject = ['$q', 'documentListService', 'tasksListService', 'documentsService', 'documentModelService'];
+            return ListController;
+        })();
+        angular.module('documentList').controller({ ListController: ListController });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

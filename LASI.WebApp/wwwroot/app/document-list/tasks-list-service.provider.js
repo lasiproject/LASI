@@ -3,9 +3,6 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .provider('tasksListService', tasksListServiceProvider);
         function tasksListServiceProvider() {
             var updateInterval = 200;
             var tasksListUrl = 'api/Tasks';
@@ -26,11 +23,10 @@ var LASI;
                         method: 'GET', isArray: true
                     }
                 });
-                var getActiveTasks = function (callback) {
+                var getActiveTasks = function () {
                     var _this = this;
                     var deferred = $q.defer();
                     $interval(function () {
-                        callback && callback(_this.tasks);
                         _this.tasks = Tasks.get();
                         deferred.resolve(_this.tasks);
                     }, updateInterval);
@@ -42,11 +38,11 @@ var LASI;
                 };
             }
             function createDebugInfoUpdator(element) {
-                return function (tasks) { return element
-                    .html(tasks
-                    .map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); })
-                    .join()); };
+                return function (tasks) { return element.html(tasks.map(function (task) { return ("<div>" + Object.keys(task).map(function (key) { return ("<span>&nbsp&nbsp" + task[key] + "</span>"); }) + "</div>"); }).join()); };
             }
         }
+        angular
+            .module('documentList')
+            .provider('tasksListService', tasksListServiceProvider);
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

@@ -1,10 +1,6 @@
 ﻿namespace LASI.documentViewer {
     'use strict';
 
-    angular
-        .module('documentViewer')
-        .directive('sentence', sentence);
-
     function sentence(): angular.IDirective {
         return {
             restrict: 'E',
@@ -15,4 +11,8 @@
             }
         };
     }
+
+    angular
+        .module('documentViewer')
+        .directive({ sentence });
 }

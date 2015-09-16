@@ -3,9 +3,6 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        angular
-            .module('documentViewer')
-            .factory('lexicalMenuBuilder', lexicalMenuBuilder);
         lexicalMenuBuilder.$inject = [];
         function lexicalMenuBuilder() {
             var _a = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})], buildForVerbal = _a[0], buildForReferencer = _a[1];
@@ -34,8 +31,7 @@ var LASI;
             return function (source) { return [
                 ['View Referred To', function (itemScope, event) {
                         resetReferencerAsssotionCssClasses();
-                        source.refersToIds
-                            .forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'); });
+                        source.refersToIds.forEach(function (id) { return menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'); });
                     }]
             ]; };
         }
@@ -84,5 +80,6 @@ var LASI;
                 'View Indirect Objects': 'indirect-object-of-current'
             });
         }
+        angular.module('documentViewer').factory({ lexicalMenuBuilder: lexicalMenuBuilder });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

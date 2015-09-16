@@ -10,14 +10,14 @@ var LASI;
             'ngFileUpload',
             'documentViewer',
             'debug'
-        ]).config(configure);
-        configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
-        function configure(tasksListServiceProvider, documentListServiceProvider) {
+        ], config);
+        config.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
+        function config(tasksListServiceProvider, documentListServiceProvider) {
             tasksListServiceProvider
-                .setUpdateInterval(100)
+                .setUpdateInterval(500)
                 .setTasksListUrl('api/Tasks');
             documentListServiceProvider
-                .setRecentDocumentCount(3)
+                .setRecentDocumentCount(5)
                 .setDocumentListUrl('api/UserDocuments/List');
         }
     })(documentList = LASI.documentList || (LASI.documentList = {}));

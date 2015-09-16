@@ -1,9 +1,5 @@
 ﻿namespace LASI.documentList {
     'use strict';
-    angular
-        .module('documentList')
-        .provider('tasksListService', tasksListServiceProvider);
-
 
     function tasksListServiceProvider(): TasksListServiceConfig {
         var updateInterval = 200;
@@ -29,10 +25,9 @@
                     method: 'GET', isArray: true
                 }
             });
-            var getActiveTasks = function (callback?: (tasks: Task[]) => any) {
+            var getActiveTasks = function () {
                 var deferred = $q.defer<Task[]>();
                 $interval(() => {
-                    callback && callback(this.tasks);
                     this.tasks = Tasks.get();
                     deferred.resolve(this.tasks);
                 }, updateInterval);
@@ -44,11 +39,8 @@
                 tasks: []
             };
         }
-        function createDebugInfoUpdator(element: JQuery) {
-            return (tasks: Task[]) => element
-                .html(tasks
-                    .map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`)
-                    .join());
+        function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
+            return tasks => element.html(tasks.map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`).join());
         }
     }
     export interface TasksListServiceConfig {
@@ -66,7 +58,11 @@
     }
 
     export interface TasksListService {
-        getActiveTasks(callback?: (tasks: Task[]) => any): angular.IPromise<Task[]>;
+        getActiveTasks(): angular.IPromise<Task[]>;
         tasks: Task[];
     }
+
+    angular
+        .module('documentList')
+        .provider('tasksListService', tasksListServiceProvider);
 }

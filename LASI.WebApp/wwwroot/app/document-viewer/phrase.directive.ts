@@ -1,9 +1,6 @@
 ﻿namespace LASI.documentViewer {
     'use strict';
 
-    angular
-        .module('documentViewer')
-        .directive('phrase', phrase);
 
     phrase.$inject = ['lexicalMenuBuilder'];
 
@@ -33,4 +30,8 @@
         parentId?: string;
         menuIsViable(menu: VerbalContextmenuDataSource): boolean;
     }
+
+    angular
+        .module('documentViewer')
+        .directive({ phrase });
 }

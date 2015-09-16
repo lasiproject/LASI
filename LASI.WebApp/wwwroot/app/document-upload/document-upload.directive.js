@@ -3,9 +3,6 @@ var LASI;
     var documentUpload;
     (function (documentUpload) {
         'use strict';
-        angular
-            .module('documentUpload')
-            .directive('uploadPanel', uploadPanel);
         uploadPanel.$inject = ['$window'];
         function uploadPanel($window) {
             return {
@@ -13,5 +10,8 @@ var LASI;
                 link: function (scope, element, attrs) { }
             };
         }
+        angular
+            .module('documentUpload')
+            .directive({ uploadPanel: uploadPanel });
     })(documentUpload = LASI.documentUpload || (LASI.documentUpload = {}));
 })(LASI || (LASI = {}));

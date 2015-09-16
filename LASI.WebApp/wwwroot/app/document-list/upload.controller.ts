@@ -3,9 +3,9 @@
     import ngf = angular.angularFileUpload;
 
     class UploadController {
-        static $inject = ['$scope', 'Upload'];
+        static $inject = ['$scope', '$q', 'Upload'];
 
-        constructor(private $scope: angular.IScope, private uploadService: ngf.IUploadService) {
+        constructor(private $scope: angular.IScope, private $q: ng.IQService, private uploadService: ngf.IUploadService) {
             this.$scope.$watch('files', this.uploadFiles.bind(this));
         }
 
@@ -13,7 +13,6 @@
             this.files
                 .filter(file => UploadController.formats.every(format => file.type.localeCompare(format) !== 0))
                 .map(file => `File ${file.name} has unaccepted format ${file.type}`)
-                .reduce((errors, error) => { errors.push(error); return errors; }, [])
                 .forEach(log);
             return this.files.map(file => this.uploadFile(file));
         }
@@ -49,5 +48,5 @@
 
     angular
         .module('documentList')
-        .controller('UploadController', UploadController);
+        .controller({ UploadController });
 }

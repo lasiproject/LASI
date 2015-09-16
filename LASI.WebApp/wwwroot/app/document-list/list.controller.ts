@@ -1,64 +1,49 @@
 ﻿namespace LASI.documentList {
     'use strict';
-    angular
-        .module('documentList')
-        .controller('ListController', ListController);
 
-    ListController.$inject = [
-        '$q', '$log', '$rootScope', 'documentListService',
-        'tasksListService', 'documentsService', 'documentModelService'
-    ];
-
-    function ListController(
-        $q: angular.IQService,
-        $log: angular.ILogService,
-        $rootScope: angular.IRootScopeService,
-        documentListService: DocumentListService,
-        tasksListService: TasksListService,
-        documentsService: DocumentsService,
-        documentModelService: LASI.documentViewer.DocumentModelService) {
-        var vm = this;
-        vm.title = 'ListController';
-        vm.documents = [];
-        Object.defineProperty(vm, 'documentCount', {
-            get: function () { return vm.documents.length; },
-            enumerable: true,
-            configurable: false
-        });
-        vm.expanded = false;
+    class ListController {
+        expanded = false;
+        documents: DocumentListItemModel[] = [];
+        tasks: Task[];
+        static $inject = ['$q', 'documentListService', 'tasksListService', 'documentsService', 'documentModelService'];
+        constructor(
+            private $q: angular.IQService,
+            private documentListService: DocumentListService,
+            private tasksListService: TasksListService,
+            private documentsService: DocumentsService,
+            private documentModelService: LASI.documentViewer.DocumentModelService) {
+            this.activate();
+        }
 
 
-        activate();
+        deleteById(id: string) {
+            var deleteResult = this.documentsService.deleteById(id);
+            log(deleteResult);
+            this.documents = this.documentListService.get();
+        }
+        get documentCount() { return this.documents.length; }
 
-
-        function activate() {
-
-            vm.deleteById = (id: string) => {
-                var deleteResult = documentsService.deleteById(id);
-                $log.info(deleteResult);
-                vm.documents = documentListService.getDocumentList();
-            };
-
-            vm.processDocument = (document: DocumentListItemModel) => {
-                if (!vm.documents.some(d => d.id === document.id && d.raeification)) {
-                    documentModelService.processDocument(document.id)
-                        .success(data => {
-                            document.raeification = data;
-                        })
-                        .error(message => message);
-                }
-            };
-            vm.documents = documentListService.getDocumentList();
-
-            vm.tasks = tasksListService.getActiveTasks(tasks => tasks.map(task => {
-                vm.tasks[task.id] = task;
-                return (vm.documents.filter(d => d.name === task.name)[0] || {}).task = task;
-            }));
+        processDocument(document: DocumentListItemModel) {
+            if (!this.documents.some(d => d.raeification && d.id === document.id)) {
+                let data = this.documentModelService.processDocument(document.id)
+                    .success(processed => document.raeification = processed)
+                    .error(error => console.log(error));
+            }
+        }
 
 
 
 
-            $q.all([vm.documents, vm.tasks]).then((data) => {
+        activate() {
+            return this.$q.all([
+                this.$q.when(this.documentListService.get()),
+                this.tasksListService.getActiveTasks().then(tasks => tasks.map(task => {
+                    this.tasks[task.id] = task;
+                    var t = this.documents.first(d => d.name === task.name);
+                    (t && (<any>t)).task = task;
+                    return t;
+                }))
+            ]).then(data => {
                 let [documents, tasks] = <[DocumentListItemModel[], Task[]]>data;
                 let associated = documents.correlate(tasks, document => document.id, task => task.id,
                     (document, task) => {
@@ -67,10 +52,16 @@
                         document.statusMessage = task.statusMessage;
                     });
 
-                tasks.forEach(task => { vm.tasks[task.id] = task; });
+                tasks.forEach(task => { this.tasks[task.id] = task; });
+                [this.documents, this.tasks] = [documents, tasks];
             });
+
         }
     }
+
+
+    angular.module('documentList').controller({ ListController });
+
 }
 
 

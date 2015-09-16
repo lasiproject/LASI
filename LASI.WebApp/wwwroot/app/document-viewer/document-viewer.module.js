@@ -10,10 +10,6 @@ var LASI;
             'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu'
-        ]).config(configure);
-        configure.$inject = [];
-        function configure() {
-        }
-        ;
+        ]);
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

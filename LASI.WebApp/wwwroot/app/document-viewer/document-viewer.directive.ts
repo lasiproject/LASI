@@ -23,7 +23,5 @@
 
     angular
         .module('documentViewer')
-        .directive('documentViewerDirective', documentViewerDirective);
-
-
+        .directive({ documentViewerDirective });
 }

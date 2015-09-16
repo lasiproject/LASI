@@ -6,7 +6,7 @@
         setDocumentListUrl(url: string): DocumentListServiceConfig;
     }
     export interface DocumentListService {
-        getDocumentList(): DocumentListItemModel[];
+        get(): DocumentListItemModel[];
         deleteDocument(documentId: string): DocumentListItemModel;
     }
     export interface DocumentListItemModel {
@@ -53,16 +53,12 @@
                 deleteDocument: function (documentId: string) {
                     return resource.delete({ documentId })[0];
                 },
-                getDocumentList: resource.get
+                get: resource.get
             };
         };
     }
-
-
-
+    
     angular
         .module('documentList')
         .provider('documentListService', DocumentListServiceProvider);
-
-
 }

@@ -9,10 +9,14 @@ var LASI;
                 function SearchBoxController($q) {
                     this.$q = $q;
                 }
+                SearchBoxController.prototype.getWords = function () {
+                    return (this.phrases || []).flatMap(function (p) { return p.words; });
+                };
                 SearchBoxController.prototype.search = function (searchOptions, searchContext) {
                     var deferred = this.$q.defer();
                     var value = searchOptions.value;
-                    var term = typeof value === 'string' ? value : typeof value !== 'undefined' ? value.detailText : undefined;
+                    var term = typeof value === 'string' ? value :
+                        typeof value !== 'undefined' ? value.detailText : undefined;
                     if (!term) {
                         deferred.reject('search term was undefined');
                     }
@@ -21,12 +25,7 @@ var LASI;
                         this.phrases.forEach(function (phrase) { return phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', ''); });
                     }
                     else {
-                        if (!this.phrases) {
-                            this.phrases = searchContext
-                                .flatMap(function (m) { return m.paragraphs; })
-                                .flatMap(function (x) { return x.sentences; })
-                                .flatMap(function (e) { return e.phrases; });
-                        }
+                        this.phrases = this.phrases || searchContext.flatMap(function (m) { return m.paragraphs; }).flatMap(function (p) { return p.sentences; }).flatMap(function (s) { return s.phrases; });
                         var results = [];
                         this.phrases.forEach(function (phrase) {
                             var matched = phrase.words.some(function (word) { return word.text === value; });
@@ -38,7 +37,7 @@ var LASI;
                                 results.push(phrase);
                             }
                         });
-                        deferred.resolve(typeof term === 'string' ? results.map(function (r) { return r.text; }) : results);
+                        deferred.resolve(results.map(function (r) { return r.text; }));
                     }
                     return deferred.promise;
                 };
@@ -50,16 +49,17 @@ var LASI;
                     restrict: 'E',
                     controller: SearchBoxController,
                     controllerAs: 'search',
-                    bindToController: true,
-                    scope: {
-                        searchContext: '='
+                    scope: {},
+                    bindToController: {
+                        searchContext: '=',
+                        find: '='
                     },
                     templateUrl: '/app/document-viewer/search/search-box.directive.html'
                 };
             }
             angular
                 .module('documentViewer.search')
-                .directive('searchBox', searchBox);
+                .directive({ searchBox: searchBox });
         })(search = documentViewer.search || (documentViewer.search = {}));
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

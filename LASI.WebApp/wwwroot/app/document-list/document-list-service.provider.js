@@ -34,7 +34,7 @@ var LASI;
                     deleteDocument: function (documentId) {
                         return resource.delete({ documentId: documentId })[0];
                     },
-                    getDocumentList: resource.get
+                    get: resource.get
                 };
             };
             ;

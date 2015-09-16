@@ -10,9 +10,9 @@ namespace LASI.documentViewer {
             private $location: angular.ILocationService,
             private documentModelService: DocumentModelService) {
         }
-        processDocument(documentId: string) {
-            if (this.documentModel.id !== documentId) {
-                return this.documentModelService.processDocument(documentId);
+        processDocument(id: string) {
+            if (this.documentModel.id !== id) {
+                return this.documentModelService.processDocument(id);
             } else {
                 return this.$q.reject(this.documentModel);
             }
@@ -20,6 +20,6 @@ namespace LASI.documentViewer {
     }
     angular
         .module('documentViewer')
-        .controller('DocumentController', DocumentController);
+        .controller({ DocumentController });
 
 }

@@ -3,9 +3,6 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .factory('documentsService', documentsService);
         documentsService.$inject = ['$resource'];
         function documentsService($resource) {
             var userDocouments = $resource('api/UserDocuments/:documentId');
@@ -20,5 +17,8 @@ var LASI;
                 getbyId: getbyId
             };
         }
+        angular
+            .module('documentList')
+            .factory({ documentsService: documentsService });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

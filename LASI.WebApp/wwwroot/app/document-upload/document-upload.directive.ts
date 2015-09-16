@@ -1,10 +1,6 @@
 ﻿namespace LASI.documentUpload {
     'use strict';
 
-    angular
-        .module('documentUpload')
-        .directive('uploadPanel', uploadPanel);
-
     uploadPanel.$inject = ['$window'];
 
     function uploadPanel($window): angular.IDirective {
@@ -13,4 +9,8 @@
             link(scope, element, attrs) { }
         };
     }
+    angular
+        .module('documentUpload')
+        .directive({ uploadPanel });
+
 }

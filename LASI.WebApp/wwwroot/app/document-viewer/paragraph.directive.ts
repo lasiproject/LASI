@@ -15,5 +15,5 @@
     }
     angular
         .module('documentViewer')
-        .directive('paragraph', paragraph);
+        .directive({ paragraph });
 }

@@ -1,10 +1,6 @@
 ﻿namespace LASI.documentList {
     'use strict';
 
-    angular
-        .module('documentList')
-        .factory('resultsService', resultsService);
-
     resultsService.$inject = ['$http', '$q'];
 
     interface ResultsService {
@@ -51,4 +47,6 @@
             processDocument
         };
     }
+    angular.module('documentList').factory({ resultsService });
+
 }

@@ -4,8 +4,9 @@ var LASI;
     (function (documentList) {
         'use strict';
         var UploadController = (function () {
-            function UploadController($scope, uploadService) {
+            function UploadController($scope, $q, uploadService) {
                 this.$scope = $scope;
+                this.$q = $q;
                 this.uploadService = uploadService;
                 this.files = [];
                 this.$scope.$watch('files', this.uploadFiles.bind(this));
@@ -15,7 +16,6 @@ var LASI;
                 this.files
                     .filter(function (file) { return UploadController.formats.every(function (format) { return file.type.localeCompare(format) !== 0; }); })
                     .map(function (file) { return ("File " + file.name + " has unaccepted format " + file.type); })
-                    .reduce(function (errors, error) { errors.push(error); return errors; }, [])
                     .forEach(LASI.log);
                 return this.files.map(function (file) { return _this.uploadFile(file); });
             };
@@ -35,7 +35,7 @@ var LASI;
                 this.files = this.files.filter(function (f) { return f.name !== file.name; });
                 $('#file-upload-list').remove("#upload-list-item-" + index);
             };
-            UploadController.$inject = ['$scope', 'Upload'];
+            UploadController.$inject = ['$scope', '$q', 'Upload'];
             UploadController.formats = [
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/msword',
@@ -46,6 +46,6 @@ var LASI;
         })();
         angular
             .module('documentList')
-            .controller('UploadController', UploadController);
+            .controller({ UploadController: UploadController });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

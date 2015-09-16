@@ -9,9 +9,9 @@ var LASI;
                 this.$location = $location;
                 this.documentModelService = documentModelService;
             }
-            DocumentController.prototype.processDocument = function (documentId) {
-                if (this.documentModel.id !== documentId) {
-                    return this.documentModelService.processDocument(documentId);
+            DocumentController.prototype.processDocument = function (id) {
+                if (this.documentModel.id !== id) {
+                    return this.documentModelService.processDocument(id);
                 }
                 else {
                     return this.$q.reject(this.documentModel);
@@ -22,6 +22,6 @@ var LASI;
         })();
         angular
             .module('documentViewer')
-            .controller('DocumentController', DocumentController);
+            .controller({ DocumentController: DocumentController });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

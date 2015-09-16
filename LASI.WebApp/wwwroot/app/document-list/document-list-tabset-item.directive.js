@@ -3,9 +3,6 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .directive('documentListTabsetItem', documentListTabsetItem);
         documentListTabsetItem.$inject = ['resultsService'];
         function documentListTabsetItem(resultsService) {
             return {
@@ -30,5 +27,8 @@ var LASI;
                 templateUrl: '/app/document-list/document-list-tabset-item.directive.html'
             };
         }
+        angular
+            .module('documentList')
+            .directive({ documentListTabsetItem: documentListTabsetItem });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

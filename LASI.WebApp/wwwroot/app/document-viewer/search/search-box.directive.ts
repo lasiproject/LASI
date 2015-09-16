@@ -4,25 +4,29 @@
     class SearchBoxController {
         static $inject = ['$q'];
         constructor(private $q: angular.IQService) { }
-        private phrases: models.PhraseModel[];
+        phrases: models.PhraseModel[];
+        words: models.WordModel[];
+
+        getWords() {
+            return (this.phrases || []).flatMap(p => p.words);
+        }
+        find: SearchModel;
+        searchContext: TextFragmentModel[];
 
         search(searchOptions: SearchOptions, searchContext: TextFragmentModel[]) {
-            var deferred = this.$q.defer<SearchModelType[]>();
-
-            var value = searchOptions.value;
-            const term = typeof value === 'string' ? value : typeof value !== 'undefined' ? value.detailText : undefined;
+            let deferred = this.$q.defer<SearchModel[]>();
+            let value = searchOptions.value;
+            const term =
+                typeof value === 'string' ? value :
+                    typeof value !== 'undefined' ? value.detailText : undefined;
             if (!term) {
                 deferred.reject('search term was undefined');
             } else if (!searchContext) {
                 deferred.reject('nothing to search');
                 this.phrases.forEach(phrase => phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', ''));
             } else {
-                if (!this.phrases) {
-                    this.phrases = searchContext
-                        .flatMap(m => m.paragraphs)
-                        .flatMap(x => x.sentences)
-                        .flatMap(e => e.phrases);
-                }
+                this.phrases = this.phrases || searchContext.flatMap(m => m.paragraphs).flatMap(p => p.sentences).flatMap(s => s.phrases);
+
                 var results: models.PhraseModel[] = [];
                 this.phrases.forEach(phrase => {
                     let matched = phrase.words.some(word => word.text === value);
@@ -33,7 +37,7 @@
                         results.push(phrase);
                     }
                 });
-                deferred.resolve(typeof term === 'string' ? results.map(r => r.text) : results);
+                deferred.resolve(results.map(r => r.text));
             }
             return deferred.promise;
         }
@@ -44,22 +48,23 @@
             restrict: 'E',
             controller: SearchBoxController,
             controllerAs: 'search',
-            bindToController: true,
-            scope: {
-                searchContext: '='
+            scope: {},
+            bindToController: {
+                searchContext: '=',
+                find: '='
             },
             templateUrl: '/app/document-viewer/search/search-box.directive.html'
         };
     }
 
-    type SearchModelType = string | models.LexicalModel;
+    type SearchModel = string | models.LexicalModel;
     type TextFragmentModel = models.TextFragmentModel;
     interface SearchOptions {
-        value: SearchModelType;
+        value: SearchModel;
         lifted?: boolean;
     }
 
     angular
         .module('documentViewer.search')
-        .directive('searchBox', searchBox);
+        .directive({ searchBox });
 }

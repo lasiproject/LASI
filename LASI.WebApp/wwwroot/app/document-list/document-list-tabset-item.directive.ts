@@ -1,11 +1,6 @@
 ﻿namespace LASI.documentList {
     'use strict';
 
-    angular
-        .module('documentList')
-        .directive('documentListTabsetItem', documentListTabsetItem);
-
-
     documentListTabsetItem.$inject = ['resultsService'];
 
     function documentListTabsetItem(resultsService): angular.IDirective {
@@ -39,4 +34,7 @@
         showProgress: boolean;
     }
 
+    angular
+        .module('documentList')
+        .directive({ documentListTabsetItem });
 }

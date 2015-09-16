@@ -7,19 +7,18 @@
         'ui.bootstrap',
         'ui.bootstrap.contextMenu',
         'ngFileUpload',
-
         'documentViewer',
         'debug'
-    ]).config(configure);
+    ], config);
 
-    configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
+    config.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
 
-    function configure(tasksListServiceProvider: TasksListServiceConfig, documentListServiceProvider: DocumentListServiceConfig) {
+    function config(tasksListServiceProvider: TasksListServiceConfig, documentListServiceProvider: DocumentListServiceConfig) {
         tasksListServiceProvider
-            .setUpdateInterval(100)
+            .setUpdateInterval(500)
             .setTasksListUrl('api/Tasks');
         documentListServiceProvider
-            .setRecentDocumentCount(3)
+            .setRecentDocumentCount(5)
             .setDocumentListUrl('api/UserDocuments/List');
     }
 }

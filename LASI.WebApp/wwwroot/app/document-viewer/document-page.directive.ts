@@ -1,8 +1,7 @@
 ﻿namespace LASI.documentViewer {
     'use strict';
 
-    directive.$inject = [];
-    function directive(): angular.IDirective {
+    function documentPage(): angular.IDirective {
         function link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
             log(scope);
             log(element);
@@ -24,5 +23,5 @@
 
     angular
         .module('documentViewer')
-        .directive('documentPage', directive);
+        .directive({ documentPage });
 }

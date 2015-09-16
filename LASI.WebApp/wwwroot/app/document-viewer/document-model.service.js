@@ -9,8 +9,6 @@ var LASI;
                 processDocument: function (documentId) { return $http.get("Analysis/" + documentId, { cache: false }); }
             };
         }
-        angular
-            .module('documentViewer')
-            .factory('documentModelService', documentModelService);
+        angular.module('documentViewer').factory({ documentModelService: documentModelService });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

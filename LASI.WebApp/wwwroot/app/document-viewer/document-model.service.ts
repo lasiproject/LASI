@@ -11,7 +11,6 @@
             processDocument: (documentId) => $http.get(`Analysis/${documentId}`, { cache: false })
         };
     }
-    angular
-        .module('documentViewer')
-        .factory('documentModelService', documentModelService);
+
+    angular.module('documentViewer').factory({ documentModelService });
 }

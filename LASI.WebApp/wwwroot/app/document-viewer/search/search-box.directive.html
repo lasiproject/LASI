@@ -1,6 +1,5 @@
-﻿<input type="text"
-       ng-model="search.find"
+﻿<input type="text" ng-model="search.find" typeahead="word as word.text for word in search.getWords()"
        placeholder="find" ng-keypress="search.keyDown($event)">
 <span class="fa fa-search"
-      ng-click="search.search({ value: search.find }, [searchContext])">
+      ng-click="search.search({ value: search.find }, [search.searchContext])">
 </span>

@@ -3,11 +3,6 @@
 
     type ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
 
-    angular
-        .module('documentViewer')
-        .factory('lexicalMenuBuilder', lexicalMenuBuilder);
-
-
     lexicalMenuBuilder.$inject = [];
 
     function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
@@ -38,8 +33,7 @@
         return (source: ReferencerContextmenuDataSource): ContextMenu => [
             ['View Referred To', (itemScope, event) => {
                 resetReferencerAsssotionCssClasses();
-                source.refersToIds
-                    .forEach(id => menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'));
+                source.refersToIds.forEach(id => menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'));
             }]
         ];
     }
@@ -87,6 +81,8 @@
             'View Indirect Objects': 'indirect-object-of-current'
         });
     }
+
+    angular.module('documentViewer').factory({ lexicalMenuBuilder });
 
     export interface LexicalMenuBuilderFactory {
         buildAngularMenu: (source: LexicalContextMenuDataSource |  VerbalContextmenuDataSource | ReferencerContextmenuDataSource) => ContextMenu;

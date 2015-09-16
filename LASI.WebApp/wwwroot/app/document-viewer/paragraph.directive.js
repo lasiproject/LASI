@@ -16,6 +16,6 @@ var LASI;
         }
         angular
             .module('documentViewer')
-            .directive('paragraph', paragraph);
+            .directive({ paragraph: paragraph });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

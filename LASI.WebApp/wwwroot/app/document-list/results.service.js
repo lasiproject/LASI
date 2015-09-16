@@ -3,9 +3,6 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .factory('resultsService', resultsService);
         resultsService.$inject = ['$http', '$q'];
         function resultsService($http, $q) {
             var tasks = [];
@@ -46,5 +43,6 @@ var LASI;
                 processDocument: processDocument
             };
         }
+        angular.module('documentList').factory({ resultsService: resultsService });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

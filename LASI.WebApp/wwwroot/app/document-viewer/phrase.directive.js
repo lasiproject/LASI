@@ -3,9 +3,6 @@ var LASI;
     var documentViewer;
     (function (documentViewer) {
         'use strict';
-        angular
-            .module('documentViewer')
-            .directive('phrase', phrase);
         phrase.$inject = ['lexicalMenuBuilder'];
         function phrase(lexicalMenuBuilder) {
             return {
@@ -25,5 +22,8 @@ var LASI;
                 }
             }
         }
+        angular
+            .module('documentViewer')
+            .directive({ phrase: phrase });
     })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
 })(LASI || (LASI = {}));

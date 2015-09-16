@@ -1,10 +1,6 @@
 ﻿namespace LASI.documentList {
     'use strict';
 
-    angular
-        .module('documentList')
-        .factory('documentsService', documentsService);
-
     documentsService.$inject = ['$resource'];
     export interface DocumentsService {
         getbyId: (documentId: string) => DocumentListItem[];
@@ -23,4 +19,7 @@
             getbyId
         };
     }
+    angular
+        .module('documentList')
+        .factory({ documentsService });
 }

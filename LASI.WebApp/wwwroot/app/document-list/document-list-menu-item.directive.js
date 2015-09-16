@@ -3,9 +3,6 @@ var LASI;
     var documentList;
     (function (documentList) {
         'use strict';
-        angular
-            .module('documentList')
-            .directive('documentListMenuItem', documentListMenuItem);
         documentListMenuItem.$inject = ['$window', 'resultsService'];
         function documentListMenuItem($window, resultsService) {
             return {
@@ -31,5 +28,8 @@ var LASI;
                 }
             };
         }
+        angular
+            .module('documentList')
+            .directive({ documentListMenuItem: documentListMenuItem });
     })(documentList = LASI.documentList || (LASI.documentList = {}));
 })(LASI || (LASI = {}));

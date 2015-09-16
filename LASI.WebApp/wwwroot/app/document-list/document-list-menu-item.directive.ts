@@ -1,11 +1,6 @@
 ﻿namespace LASI.documentList {
     'use strict';
-    angular
-        .module('documentList')
-        .directive('documentListMenuItem', documentListMenuItem);
-
     documentListMenuItem.$inject = ['$window', 'resultsService'];
-
 
     interface DocumentListItemScope extends angular.IScope {
         documentId: string;
@@ -39,4 +34,9 @@
             }
         };
     }
+    angular
+        .module('documentList')
+        .directive({ documentListMenuItem });
+
+
 }

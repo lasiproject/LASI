@@ -1,7 +1,7 @@
 /* global:draggable */
 namespace LASI.documentList {
     'use strict';
-    var draggable = (<any>window).draggable;
+    var draggable = (window as any).draggable;
     var createHeaderMarkup = function (documentId, documentName) {
         return '<div>' +
             '<div class="panel-heading">' +
@@ -54,7 +54,7 @@ namespace LASI.documentList {
                         $('#accordion').append(panelMarkup);
                     }
                     xhr.progress('100%');
-                  //LASI.buildMenus();
+                    //LASI.buildMenus();
                     //enableActiveHighlighting();
                 }).fail(function (xhr, message, detail) {
                     log(message);
