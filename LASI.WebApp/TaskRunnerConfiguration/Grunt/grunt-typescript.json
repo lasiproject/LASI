@@ -9,7 +9,7 @@
         "dest": "wwwroot/dist/app/app.js",
         "options": {
             "references": [ "typings/**/*.d.ts" ],
-            "version": "1.6.0-beta",
+            "version": "1.6.2",
             "noImplicitAny": false,
             "noEmitOnError": false,
             "removeComments": true,
