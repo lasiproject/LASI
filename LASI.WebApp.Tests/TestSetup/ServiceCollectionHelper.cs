@@ -1,19 +1,18 @@
-﻿using LASI.Utilities.Specialized.Enhanced.Universal;
-using LASI.WebApp.Persistence;
+﻿using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
-using LASI.WebApp.Tests.MvcHelpers;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
-using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.OptionsModel;
 using System.Linq;
 using Microsoft.Framework.Logging;
+using Newtonsoft.Json;
+using Microsoft.AspNet.Http.Internal;
 
 namespace LASI.WebApp.Tests.TestSetup
 {
-    public static class IocContainerConfigurator
+    public static class ServiceCollectionHelper
     {
         public static IServiceCollection CreateConfiguredServiceCollection(ApplicationUser applicationUser)
         {
@@ -21,7 +20,15 @@ namespace LASI.WebApp.Tests.TestSetup
             services.AddSingleton(provider => applicationUser)
                     .AddInMemoryStores(applicationUser)
                     .AddMvc()
-                    .ConfigureMvc(MvcConfigurationHelper.ConfigureMvcJsonFormatters);
+                    .AddJsonOptions(json =>
+                    {
+                        json.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
+                        json.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                        json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                        json.SerializerSettings.Formatting = Formatting.Indented;
+                    })
+                    .AddControllersAsServices(new[] { typeof(LASI.WebApp.Startup).Assembly });
 
             services.AddIdentity<ApplicationUser, UserRole>()
                     .AddUserManager<UserManager<ApplicationUser>>()
@@ -31,7 +38,7 @@ namespace LASI.WebApp.Tests.TestSetup
             services.AddTransient(provider =>
             {
                 var user = provider.GetService<ApplicationUser>();
-                var httpContext = new Microsoft.AspNet.Http.Internal.DefaultHttpContext();
+                var httpContext = new DefaultHttpContext();
                 var contextAccessor = new HttpContextAccessor
                 {
                     HttpContext = httpContext
@@ -61,7 +68,7 @@ namespace LASI.WebApp.Tests.TestSetup
                     HttpContext = httpContext
                 };
             });
-            return services.WithControllersAsServices(new[] { typeof(LASI.WebApp.Startup).Assembly });
+            return services;
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Framework.DependencyInjection;
 using Moq;
+using Microsoft.Framework.DependencyInjection.Extensions;
 
 namespace LASI.WebApp.Tests.ServiceCollectionExtensions
 {
@@ -26,9 +27,9 @@ namespace LASI.WebApp.Tests.ServiceCollectionExtensions
                 mock.SetupGet(m => m.WebRootFileProvider)
                     .Returns(new PhysicalFileProvider(mock.Object.WebRootPath));
                 return mock.Object;
-            })
-            .AddSingleton<IUserAccessor<ApplicationUser>>(provider => new InMemoryUserProvider())
-            .AddSingleton<IRoleAccessor<UserRole>>(provider => new InMemoryRoleProvider());
+            });
+            services.AddSingleton<IUserAccessor<ApplicationUser>>(provider => new InMemoryUserProvider());
+            services.AddSingleton<IRoleAccessor<UserRole>>(provider => new InMemoryRoleProvider());
             services.TryAdd(new ServiceDescriptor(typeof(IDocumentAccessor<UserDocument>), CreateMockDocumentProvider(user)));
             return services;
         }

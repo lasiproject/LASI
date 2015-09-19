@@ -29,7 +29,7 @@
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties />
+      <UserProperties project_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-beta7" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

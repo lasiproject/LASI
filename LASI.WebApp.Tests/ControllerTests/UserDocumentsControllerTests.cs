@@ -12,7 +12,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         [Fact]
         public void GetTest1()
         {
-            var provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
+            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
                 .BuildServiceProvider();
 
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
@@ -27,7 +27,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         [Fact]
         public void GetTest2()
         {
-            var provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
+            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
                 .BuildServiceProvider();
 
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();

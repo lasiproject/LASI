@@ -54,7 +54,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         private AnalysisController controller;
         private void SetupTestContext()
         {
-            provider = IocContainerConfigurator.CreateConfiguredServiceCollection(User)
+            provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
                             .AddMockWorkItemsService(User)
                             .BuildServiceProvider();
 

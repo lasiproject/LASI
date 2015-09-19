@@ -10,11 +10,10 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -29,7 +28,7 @@ namespace LASI.WebApp
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
 
-            environmentIsDevelopment = env.IsEnvironment("Development");
+            developement = env.IsEnvironment("Development");
             if (env.IsDevelopment())
             {
                 // This reads the configuration keys from the secret store.
@@ -45,7 +44,7 @@ namespace LASI.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(Configuration.GetConfigurationSection("AppSettings"))
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
                      .AddMongoDB(options =>
@@ -78,7 +77,7 @@ namespace LASI.WebApp
                             RequireConfirmedEmail = false,
                             RequireConfirmedPhoneNumber = false
                         };
-                        options.Password = environmentIsDevelopment ? new PasswordOptions { } : new PasswordOptions
+                        options.Password = developement ? new PasswordOptions { } : new PasswordOptions
                         {
                             RequiredLength = 8,
                             RequireDigit = true,
@@ -88,10 +87,16 @@ namespace LASI.WebApp
                         };
                     })
                     .AddMvc()
-                    .ConfigureMvc(options =>
+                    .AddJsonOptions(options =>
                     {
-                        options.InputFormatters.OfType<JsonInputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
-                        options.OutputFormatters.OfType<JsonOutputFormatter>().First().SerializerSettings = MvcJsonSerializerSettings;
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
+                        options.SerializerSettings.Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } };
+                        if (developement)
+                        {
+                            options.SerializerSettings.Formatting = Formatting.Indented;
+                        }
                     });
             services.AddIdentity<ApplicationUser, UserRole>()
                     .AddUserValidator<UserValidator<ApplicationUser>>()
@@ -120,7 +125,7 @@ namespace LASI.WebApp
                .UseDefaultFiles()
                .UseRuntimeInfoPage();
             // Add the following to the request pipeline only in development environment.
-            if (environmentIsDevelopment)
+            if (developement)
             {
                 app.UseErrorPage(new ErrorPageOptions());
             }
@@ -149,16 +154,10 @@ namespace LASI.WebApp
 
         private static readonly JsonSerializerSettings MvcJsonSerializerSettings = new JsonSerializerSettings
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-#if DEBUG
-            Formatting = Formatting.Indented,
-            Error = (s, e) => { throw e.ErrorContext.Error; },
-#endif
-            Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } }
+
         };
 
-        private bool environmentIsDevelopment;
+        private readonly bool developement;
 
     }
 }
