@@ -1,13 +1,7 @@
-var LASI;
-(function (LASI) {
-    var documentViewer;
-    (function (documentViewer) {
-        var search;
-        (function (search) {
-            'use strict';
-            angular.module('documentViewer.search', [
-                'ui.bootstrap.typeahead'
-            ]);
-        })(search = documentViewer.search || (documentViewer.search = {}));
-    })(documentViewer = LASI.documentViewer || (LASI.documentViewer = {}));
-})(LASI || (LASI = {}));
+'use strict';
+var search_box_directive_1 = require('./search-box.directive');
+exports.default = {
+    name: 'documentViewer.search',
+    requires: ['ui.bootstrap.typeahead'],
+    directives: { searchBox: search_box_directive_1.searchBox }
+};

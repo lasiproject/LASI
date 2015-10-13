@@ -23,10 +23,11 @@ namespace LASI.WebApp.Tests.TestAttributes
             {
                 Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
             }
-            catch (Interop.SystemAlreadyConfiguredException e)
+            catch (Interop.SystemAlreadyConfiguredException)
             {
-                e.Log();
+                //Console.WriteLine("LASI was already setup by a previous test; continuing");
             }
+            Logger.SetToSilent();
         }
     }
 }

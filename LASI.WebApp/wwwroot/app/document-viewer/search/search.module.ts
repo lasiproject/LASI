@@ -1,7 +1,9 @@
-﻿namespace LASI.documentViewer.search {
-    'use strict';
+﻿'use strict';
+import * as angular from 'angular'
+import { searchBox } from './search-box.directive';
 
-    angular.module('documentViewer.search', [
-        'ui.bootstrap.typeahead'
-    ]);
+export default {
+    name: 'documentViewer.search',
+    requires: ['ui.bootstrap.typeahead'],
+    directives: { searchBox }
 }

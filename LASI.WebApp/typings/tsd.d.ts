@@ -6,3 +6,4 @@
 /// <reference path="qunit/qunit.d.ts" />
 /// <reference path="ng-file-upload/ng-file-upload.d.ts" />
 /// <reference path="bootstrap/bootstrap.d.ts" />
+/// <reference path="systemjs/systemjs.d.ts" />

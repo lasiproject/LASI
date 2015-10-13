@@ -167,7 +167,10 @@ WebEssentials-Settings.json
 /LASI.Core.Tests/NewProject/
 AspSixApp/node_modules/
 AspSixApp/node_modules/grunt-bower-task/
-/node_modules/
+node_modules/
+node_modules/
+bower_compoents/
+jspm_packages/
 /AspSixApp/wwwroot/lib/
 /AspSixApp/bower_components
 /AspSixApp/App_Data/Mongo/

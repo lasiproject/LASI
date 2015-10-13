@@ -4,15 +4,54 @@
   else this[moduleName] = definition();
 
 })('draggable', function definition() {
+  function addEventListener(element, eventName, handler) {
+                if (element.addEventListener) {
+                    element.addEventListener(eventName, handler, false);
+                } else if (element.attachEvent) {
+                    element.attachEvent('on' + eventName, handler);
+                } else {
+                    element['on' + eventName] = handler;
+                }
+            }
+  function removeEventListener(element, eventName, handler) {
+      if (element.removeEventListener) {
+          element.removeEventListener(eventName, handler, false);
+      } else if (element.detachEvent) {
+          element.detachEvent('on' + eventName,handler);
+      } else {
+          element['on' + eventName] = null;
+      }
+  }
+  function toCamelCase(s){
+    return s.replace(/(\-[a-z])/g, function($1){return $1.toUpperCase().replace('-','');});
+  }
+  function getStyle(el, styleProp) {
+      var s='';
+        if (typeof el['currentStyle']==='object')
+            s = el.currentStyle[toCamelCase(styleProp)];
+        else if (window.getComputedStyle)
+            s = document.defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
+        return s;
+  }
   var currentElement;
   var fairlyHighZIndex = '10';
 
   function draggable(element, handle) {
     handle = handle || element;
+    var index=parseInt(getStyle(element,'z-index'));
+    fairlyHighZIndex = isNaN(index)? '10' : index ;
     setPositionType(element);
     setDraggableListeners(element);
-    handle.addEventListener('mousedown', function(event) {
-      startDragging(event, element);
+    addEventListener(handle,'mousedown', function(event) {
+        if (event.which == null)
+        /* IE case */
+            button = (event.button < 2) ? "LEFT" :
+                ((event.button == 4) ? "MIDDLE" : "RIGHT");
+        else
+        /* All others */
+            button = (event.which < 2) ? "LEFT" :
+                ((event.which == 2) ? "MIDDLE" : "RIGHT");
+      button==='LEFT' && startDragging(event, element);
     });
   }
 
@@ -76,29 +115,22 @@
   }
 
   function addDocumentListeners() {
-    document.addEventListener('selectstart', cancelDocumentSelection);
-    document.addEventListener('mousemove', repositionElement);
-    document.addEventListener('mouseup', removeDocumentListeners);
+    addEventListener(document,'selectstart', cancelDocumentSelection);
+    addEventListener(document,'mousemove', repositionElement);
+    addEventListener(document,'mouseup', removeDocumentListeners);
   }
 
   function getInitialPosition(element) {
-    var top = 0;
-    var left = 0;
-    var currentElement = element;
-    do {
-      top += currentElement.offsetTop;
-      left += currentElement.offsetLeft;
-    } while (currentElement = currentElement.offsetParent);
+  var rect={};
+    if(getStyle(element,'position')=='absolute'){
+        rect={top:parseInt(getStyle(element,'top')),left:parseInt(getStyle(element,'left'))};
+    }else{
+       rect = element.getBoundingClientRect();
 
-    var computedStyle = getComputedStyle? getComputedStyle(element) : false;
-    if (computedStyle) {
-      left = left - (parseInt(computedStyle['margin-left']) || 0) - (parseInt(computedStyle['border-left']) || 0);
-      top = top - (parseInt(computedStyle['margin-top']) || 0) - (parseInt(computedStyle['border-top']) || 0);
     }
-
-    return {
-      top: top,
-      left: left
+   return {
+      top: rect.top,
+      left: rect.left
     };
   }
 
@@ -114,6 +146,8 @@
   }
 
   function repositionElement(event) {
+    event.preventDefault && event.preventDefault();
+    event.returnValue = false;
     var style = currentElement.style;
     var elementXPosition = parseInt(style.left, 10);
     var elementYPosition = parseInt(style.top, 10);
@@ -131,9 +165,9 @@
   }
 
   function removeDocumentListeners(event) {
-    document.removeEventListener('selectstart', cancelDocumentSelection);
-    document.removeEventListener('mousemove', repositionElement);
-    document.removeEventListener('mouseup', removeDocumentListeners);
+    removeEventListener(document,'selectstart',cancelDocumentSelection);
+    removeEventListener(document,'mousemove',repositionElement);
+    removeEventListener(document,'mouseup',removeDocumentListeners);
 
     var left = parseInt(currentElement.style.left, 10);
     var top = parseInt(currentElement.style.top, 10);

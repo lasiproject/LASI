@@ -1,6 +1,6 @@
-﻿namespace LASI.widgets {
-    'use strict';
-    angular.module('widgets', [
-        'ui.bootstrap'
-    ]);
+﻿'use strict';
+
+export default {
+    name: 'widgets',
+    requires: ['ui.bootstrap']
 }

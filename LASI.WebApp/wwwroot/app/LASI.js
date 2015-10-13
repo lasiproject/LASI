@@ -1,9 +1,6 @@
-var LASI;
-(function (LASI) {
-    'use strict';
-    LASI.buildMenus;
-    LASI.enableActiveHighlighting;
-    //export var setupDraggableDialogs: () => void;
-    LASI.log = console.log.bind(console);
-    LASI.editor = $('#free-editor').change(LASI.log); // TODO: parameterize selector.
-})(LASI || (LASI = {}));
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+var $ = require('jquery');
+//export var setupDraggableDialogs: () => void; 
+exports.log = console.log.bind(console);
+exports.editor = $('#free-editor').change(exports.log); // TODO: parameterize selector.

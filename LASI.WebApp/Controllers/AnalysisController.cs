@@ -1,14 +1,11 @@
 ﻿using LASI.Core;
 using Microsoft.AspNet.Mvc;
-using Path = System.IO.Path;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.WebApp.Models.DocumentStructures;
 using LASI.Interop;
 using LASI.Utilities;
-using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, LASI.WebApp.Models.Results.WorkItemStatus>;
-using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
 using LASI.WebApp.Persistence;
 using System.Collections.Immutable;
 using LASI.WebApp.Models.User;
@@ -18,9 +15,14 @@ using LASI.WebApp.Models;
 using System.Security.Claims;
 using Microsoft.AspNet.Hosting;
 using LASI.WebApp.Controllers.Helpers;
+using Microsoft.AspNet.Cors.Core;
 
 namespace LASI.WebApp.Controllers
 {
+    using Path = System.IO.Path;
+    using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, LASI.WebApp.Models.Results.WorkItemStatus>;
+    using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
+
     [Authorize]
     [Route("[Controller]")]
     public class AnalysisController : Controller
@@ -62,10 +64,11 @@ namespace LASI.WebApp.Controllers
         {
             var workItems = CreateWorkItemsForProcessingOperations(userDocuments).ToList();
             workItems.ForEach(item => userWorkItemsService.UpdateWorkItemForUser(User.GetUserId(), item));
-            var results = await Task.WhenAll(from source in userDocuments
-                                             join workItem in workItems
-                                             on source.Id equals workItem.Id
-                                             select Task.Run(() => ProcessUserDocument(source, workItem)));
+            var tasks = from source in userDocuments
+                        join workItem in workItems
+                        on source.Id equals workItem.Id
+                        select ProcessUserDocument(source, workItem);
+            var results = await Task.WhenAll(tasks);
             ProcessedDocuments = ProcessedDocuments.Union(results);
             return results;
         }
@@ -110,17 +113,15 @@ namespace LASI.WebApp.Controllers
                 StatusMessage = statusMessage
             };
 
-        internal static IImmutableSet<Document> ProcessedDocuments { get; set; } = ImmutableHashSet.Create(LASI.Utilities.ComparerFactory.Create<Document>((dx, dy) => dx.Name == dy.Name, d => d.Name.GetHashCode()));
+        internal static IImmutableSet<Document> ProcessedDocuments { get; set; } = ImmutableHashSet.Create(Comparer.Create<Document>((x, y) => x.Name == y.Name, d => d.Name.GetHashCode()));
 
         public static JobStatusMap TrackedJobs { get; } = new JobStatusMap();
         private string ServerPath => System.IO.Directory.GetParent(hostingEnvironment.WebRootPath).FullName;
         private string UserDocumentsDirectory => Path.Combine(ServerPath, "App_Data", "SourceFiles");
-
         private readonly IDocumentAccessor<UserDocument> documentStore;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IWorkItemsService userWorkItemsService;
         private const string DocumentNotFoundMessage = "No document matching the specified Id could be retrieved";
         private const int MaxChartItems = 10;
-
     }
 }

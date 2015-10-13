@@ -6,12 +6,10 @@
     "projectUrl": "http://lasi-project.org",
     "licenseUrl": "",
     "dependencies": {
-        "xunit": "2.1.0-beta4-*",
-        "Moq": "4.2.1502.911",
-        "xunit.runner.dnx": "2.1.0-beta4-*",
-        "System.Reflection": "4.0.10-beta-22816",
         "LASI.WebApp": "1.0.0-*",
-        "Microsoft.AspNet.Http": "1.0.0-beta7"
+        "xunit": "2.1.0-rc1-build3168",
+        "Moq": "4.2.1502.911",
+        "xunit.runner.dnx": "2.1.0-beta5-build169"
     },
 
     "commands": {
@@ -20,6 +18,9 @@
     "compilationOptions": { "warningsAsErrors": true },
     "frameworks": {
         "dnx46": {
+            "frameworkAssemblies": {
+                "System.Reflection": { }
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         {
             SetupTestContext();
         }
-        [Fact]
+        [Fact(Skip = "Runs full document analysis and thus is very expensive")]
         public void GetWithWithDocumentIdReturnsCorrespondingDocument()
         {
 
@@ -43,7 +43,7 @@ namespace LASI.WebApp.Tests.ControllerTests
 
         }
 
-        [Fact]
+        [Fact(Skip = "Runs full document analysis and thus is very expensive")]
         public void GetWithNoArgumentsReturnsAllResults()
         {
             var allUserDocuments = provider.GetService<IDocumentAccessor<UserDocument>>().GetAllForUser(User.Id);

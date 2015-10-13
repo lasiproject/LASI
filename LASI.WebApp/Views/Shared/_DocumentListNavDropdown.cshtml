@@ -4,19 +4,18 @@
             <a href="#"
                class="dropdown-toggle"
                id="document-menu-dropdown-href"
-               ng-click="controller.expanded = !controller.expanded"
-               data-toggle="dropdown"
+               ng-click="controller.toggleExpanded()"
                role="button"
                aria-expanded="false">
                 <span class="fa"
                       ng-class="{
-                            'fa-folder-open': controller.expanded,
-                            'fa-folder': !controller.expanded
-                          }">
+                          'fa-folder-open': controller.expanded,
+                          'fa-folder': !controller.expanded
+                      }">
                     &nbsp;<span class="badge small">{{controller.documentCount}}</span>
                 </span>&nbsp;&nbsp;<b class="caret"></b>
             </a>
-            <ul class="dropdown-menu" role="menu" ng-model="controller.documents">
+            <ul class="dropdown-menu" role="menu">
                 <li class="dropdown" id="document-list-item-manage">
                     <a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>
                 </li>

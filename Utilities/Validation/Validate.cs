@@ -336,35 +336,35 @@ namespace LASI.Utilities.Validation
                 FailWithArgumentException(message);
             }
         }
-        public static void IsFalse(bool value, string message)
+        public static void False(bool value, string message)
         {
             if (value) FailWithArgumentException(message);
         }
-        public static void IsFalse<TFailWith>(bool value) where TFailWith : Exception, new()
+        public static void False<TFailWith>(bool value) where TFailWith : Exception, new()
         {
             if (value) throw new TFailWith();
         }
-        public static void IsFalse<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+        public static void False<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
         {
             if (value) throw failWith();
         }
-        public static void IsFalse<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+        public static void False<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
         {
             if (value) throw failWith(message);
         }
-        public static void IsTrue(bool value, string message)
+        public static void True(bool value, string message)
         {
             if (!value) FailWithArgumentException(message);
         }
-        public static void IsTrue<TFailWith>(bool value) where TFailWith : Exception, new()
+        public static void True<TFailWith>(bool value) where TFailWith : Exception, new()
         {
             if (!value) throw new TFailWith();
         }
-        public static void IsTrue<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+        public static void True<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
         {
             if (!value) throw failWith();
         }
-        public static void IsTrue<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+        public static void True<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
         {
             if (!value) throw failWith(message);
         }

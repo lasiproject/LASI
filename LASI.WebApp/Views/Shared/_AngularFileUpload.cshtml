@@ -4,11 +4,14 @@
         <div class="upload-button" ngf-select ng-model="upload.files" ngf-multiple="multiple">
             <i class="fa fa-file-text-o fa-lg"></i><i class="fa fa-file-word-o fa-lg"></i><i class="fa fa-file-pdf-o fa-lg"></i>
         </div>
+        <pre>
         on file change:
-        <div class="upload-button" ngf-select ngf-change="upload.uploadFiles()" ngf-multiple="multiple">
+        </pre><div class="upload-button" ngf-select ngf-change="upload.uploadFiles()" ngf-multiple="multiple">
             <i class="fa fa-file-text-o fa-lg"></i><i class="fa fa-file-word-o fa-lg"></i><i class="fa fa-file-pdf-o fa-lg"></i>
         </div>
+        <pre>
         Drop File:
+        </pre>
         <div ngf-drop ngf-select ng-model="upload.files" class="upload-drop-box"
              ngf-drag-over-class="upload-dragover" ngf-multiple="true" ngf-allow-dir="true"
              accept="upload.fileInputAcceptText">
@@ -20,7 +23,7 @@
             <li ng-repeat="file in upload.files" style="font:smaller">{{file.name}}</li>
         </ul>
         Upload Log:
-<pre>{{log}}</pre>
+<pre>{{upload.log}}</pre>
         <button class="btn btn-primary" type="button" value="Upload" ng-click="upload.uploadFiles()"><i class="fa fa-upload fa-lg"></i></button>
     </div>
 </div>

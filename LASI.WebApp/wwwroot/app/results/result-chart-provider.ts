@@ -1,6 +1,4 @@
-/// <reference path="../../../typings/jquery/jquery.d.ts"/>
-/// <reference path="../../../typings/bootstrap/bootstrap.d.ts"/>
-/// <reference path="../lasi.ts"/>
+import * as LASI from 'app/LASI';
 
 LASI.enableActiveHighlighting = function () {
     'use strict';

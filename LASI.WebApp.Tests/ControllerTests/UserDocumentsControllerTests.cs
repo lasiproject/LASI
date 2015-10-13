@@ -4,6 +4,7 @@ using Xunit;
 using MongoDB.Bson;
 using LASI.WebApp.Tests.TestSetup;
 using LASI.WebApp.Controllers;
+using LASI.WebApp.Tests.TestAttributes;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {

@@ -23,7 +23,7 @@ namespace LASI.WebApp.ViewComponents
             public string Name => "Dynamic Free Text";
             public string Text { get; set; }
             public string LoadText() => Text;
-            public async Task<string> LoadTextAsync() => await Task.FromResult(Text);
+            public Task<string> LoadTextAsync() => Task.FromResult(Text);
         }
     }
 }

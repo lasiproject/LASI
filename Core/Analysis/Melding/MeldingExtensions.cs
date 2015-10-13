@@ -15,7 +15,7 @@ namespace LASI.Core
             where TEntity : class, IEntity => entities.Meld((e1, e2) => e1.IsSimilarTo(e2));
 
         public static IEnumerable<IEntity> Meld<TEntity>(this IEnumerable<TEntity> entities, Func<TEntity, TEntity, bool> meldWhen)
-            where TEntity : class, IEntity => MeldImplementation(entities, ComparerFactory.Create(meldWhen));
+            where TEntity : class, IEntity => MeldImplementation(entities, Comparer.Create(meldWhen));
 
         private static IEnumerable<IEntity> MeldImplementation<TEntity>(IEnumerable<TEntity> entities, IEqualityComparer<TEntity> comparer)
             where TEntity : class, IEntity

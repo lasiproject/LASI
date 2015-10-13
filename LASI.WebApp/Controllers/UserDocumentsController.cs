@@ -33,10 +33,10 @@ namespace LASI.WebApp.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet(Order = 1)]
+        [HttpGet(Order = 0)]
         public IEnumerable<UserDocument> Get() => documentStore.GetAllForUser(Context.User.GetUserId());
 
-        [HttpGet("{documentId}", Order = 2)]
+        [HttpGet("{documentId}", Order = 1)]
         public UserDocument Get(string documentId) => documentStore.GetById(Context.User.GetUserId(), documentId);
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace LASI.WebApp.Controllers
             var files = Request.Form.Files;
             if (!files.Any())
             {
-                return new ObjectResult("Unable to process the request because no files were recieved. Request must contain at least one file.")
+                return new ObjectResult("Unable to process the request because no files were received. Request must contain at least one file.")
                 {
                     StatusCode = HttpResponseHelper.UnprocessableEntity
                 };

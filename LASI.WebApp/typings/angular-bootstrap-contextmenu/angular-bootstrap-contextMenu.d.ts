@@ -1,6 +1,18 @@
 ﻿/// <reference path="../angularjs/angular.d.ts" />
 /// <reference path="../angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
 
+declare module 'angular-bootstrap-contextmenu' {
+    export type ItemScope<T> = angular.ui.bootstrap.contextMenu.ItemScope<T>;
+    export type ContextMenuDirectiveLinkFn<T> = angular.ui.bootstrap.contextMenu.ContextMenuDirectiveLinkFn<T>;
+    export type ContextMenuDirectiveAttributes = angular.ui.bootstrap.contextMenu.ContextMenuDirectiveAttributes;
+    export type ContextMenuDirectiveFactory<T> = angular.ui.bootstrap.contextMenu.ContextMenuDirectiveFactory<T>;
+    export type ItemEvent = angular.ui.bootstrap.contextMenu.ItemEvent;
+    export type Scope = angular.ui.bootstrap.contextMenu.Scope;
+    export type ComputeName = angular.ui.bootstrap.contextMenu.ComputeName;
+    export type ItemAction = angular.ui.bootstrap.contextMenu.ItemAction;
+    export type ToggleItem = angular.ui.bootstrap.contextMenu.ToggleItem;
+    export type ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
+}
 declare module angular.ui.bootstrap.contextMenu {
     interface ItemScope<T> extends angular.IScope {
         item: T;
@@ -41,14 +53,14 @@ declare module angular.ui.bootstrap.contextMenu {
     }
 
     type MenuItem =
-    [
-        string | ComputeName,
-        ItemAction
-    ]|[
-        string | ComputeName,
-        ItemAction,
-        ToggleItem
-    ];
+        [
+            string | ComputeName,
+            ItemAction
+        ] | [
+            string | ComputeName,
+            ItemAction,
+            ToggleItem
+        ];
 
     type ContextMenu = MenuItem[];
 }

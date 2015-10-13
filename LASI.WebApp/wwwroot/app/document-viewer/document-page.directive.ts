@@ -1,27 +1,19 @@
-﻿namespace LASI.documentViewer {
-    'use strict';
+﻿'use strict';
 
-    function documentPage(): angular.IDirective {
-        function link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
-            log(scope);
-            log(element);
-            log(attrs);
-        }
-        return {
-            restrict: 'E',
-            link: link,
-            templateUrl: '/app/document-viewer/document-page.directive.html',
-            replace: true,
-            scope: {
-                page: '=',
-                document: '='
-            }
-        };
-
-
+export function documentPage(): angular.IDirective {
+    function link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
+        console.log(scope);
+        console.log(element);
+        console.log(attrs);
     }
-
-    angular
-        .module('documentViewer')
-        .directive({ documentPage });
+    return {
+        restrict: 'E',
+        link: link,
+        template: require('/app/document-viewer/document-page.directive.html!'),
+        replace: true,
+        scope: {
+            page: '=',
+            document: '='
+        }
+    };
 }

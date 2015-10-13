@@ -9,14 +9,14 @@
         "jquery-validation": "~1.14.0",
         "jquery-validation-unobtrusive": "~3.2.3",
         "qunit": "~1.19.0",
-        "draggable": "~1.0.0",
+        "draggable": "~1.0.1",
         "angular": "1.4.5",
         "angular-resource": "1.4.5",
         "angular-bootstrap": "~0.13.3",
         "angular-ui-router": "~0.2.15",
         "angular-bootstrap-contextmenu": "~0.9.4",
-        "angularjs-file-upload": "~5.0.9",
-        "ng-file-upload-shim": "~5.0.9"
+        "angularjs-file-upload": "~7.2.1",
+        "ng-file-upload-shim": "^7.2.1"
     },
     "exportsOverride": {
         "Font-Awesome": {

@@ -1,20 +1,46 @@
-﻿using LASI.WebApp.Models;
+﻿using System;
+using LASI.WebApp.Models;
 using LASI.WebApp.Tests.TestAttributes;
 using MongoDB.Bson;
+using Moq;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {
     [PreconfigureLASI]
     public class ControllerTestsBase
     {
-        private const string UserName = "testuser@test.com";
+        private const string Email = "testuser@test.com";
         private static readonly ObjectId userId = ObjectId.GenerateNewId();
-        private static readonly ApplicationUser user = new ApplicationUser
+
+        private class TestApplicationUser : ApplicationUser
         {
-            _id = userId,
-            UserName = UserName,
-            Email = UserName
-        };
+            public override ObjectId _id
+            {
+                get
+                {
+                    return userId;
+                }
+                set { throw new InvalidOperationException(); }
+            }
+            public override string UserName
+            {
+                get
+                {
+                    return ControllerTestsBase.Email;
+                }
+                set { throw new InvalidOperationException(); }
+            }
+            public override string Email
+            {
+                get
+                {
+                    return ControllerTestsBase.Email;
+                }
+                set { throw new InvalidOperationException(); }
+            }
+
+        }
+        private static readonly ApplicationUser user = new TestApplicationUser();
 
         public static ApplicationUser User => user;
     }

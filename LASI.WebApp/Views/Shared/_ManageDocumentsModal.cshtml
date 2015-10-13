@@ -1,0 +1,46 @@
+<div id="manage-documents-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="#myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header handle modal-drag-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Manage Documents</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li ng-repeat="document in controller.documents" class="list-group-item">
+                        <div>
+                            {{document.name}}<a href="#" data-toggle="modal" data-target="#confirm-delete-modal{{document.id}}">
+                                <span class="fa fa-remove pull-right"></span>
+                            </a>
+                        </div>
+                        <div id="confirm-delete-modal{{document.id}}"
+                             class="modal fade"
+                             role="dialog"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header handle modal-drag-handle">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <div class="modal-title">Are you sure you want to delete <em>{{document.name}}</em>?</div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button type="button" role="button" class="btn btn-block" data-dismiss="modal" value="OK" ng-click="controller.deleteById(document.id)">OK<span hidden></span></button>
+                                        <button type="button" role="button" class="btn btn-block" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>

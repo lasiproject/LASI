@@ -28,6 +28,7 @@ namespace LASI.WebApp.Controllers
         [HttpPost]
         public void Reset(string userId)
         {
+            // This is terrible.
             if (workItemsService is WorkItemsService) { ((WorkItemsService)workItemsService).RemoveAllForUser(userId); }
             else if (workItemsService is DummyUserWorkItemService)
             {

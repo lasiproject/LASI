@@ -213,7 +213,7 @@ namespace LASI.Utilities
         {
             Validate.NotNull(source, "source", selector, "selector");
             return source.Distinct(
-                ComparerFactory.Create<TSource>(
+                Comparer.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -243,7 +243,7 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Except(second, ComparerFactory.Create<TSource>(
+            first.Except(second, Comparer.Create<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
@@ -277,7 +277,7 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Intersect(second, ComparerFactory.Create<TSource>(
+            first.Intersect(second, Comparer.Create<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
@@ -401,7 +401,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.SequenceEqual(second, ComparerFactory.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, Comparer.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -579,7 +579,7 @@ namespace LASI.Utilities
         /// A sequence that contains the set union of the elements of two sequences under the given projection.
         /// </returns>
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Union(second, ComparerFactory.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
+            first.Union(second, Comparer.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
 
         /// <summary>Merges three sequences by using the specified function to select elements.</summary>
         /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>

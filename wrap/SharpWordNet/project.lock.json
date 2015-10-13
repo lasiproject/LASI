@@ -1,9 +1,14 @@
 {
   "locked": false,
-  "version": -9998,
+  "version": 1,
+  "targets": {
+    ".NETFramework,Version=v4.6": {},
+    ".NETFramework,Version=v4.5": {}
+  },
+  "libraries": {},
   "projectFileDependencyGroups": {
     "": [],
-    ".NETFramework,Version=v4.6": []
-  },
-  "libraries": {}
+    ".NETFramework,Version=v4.6": [],
+    ".NETFramework,Version=v4.5": []
+  }
 }

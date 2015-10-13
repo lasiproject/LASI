@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     'use strict';
     grunt.initConfig({
         bower: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-bower-task.json'),
-        typescript: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-typescript.json'),
+        typescript: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/grunt-typescript-task.json'),
         tslint: {
             options: { configuration: grunt.file.readJSON('TaskRunnerConfiguration/Grunt/tslint.json') },
             app: { src: ['wwwroot/app/**/*.ts'] },

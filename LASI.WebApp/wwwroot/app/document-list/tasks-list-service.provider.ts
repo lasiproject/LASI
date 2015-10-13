@@ -1,68 +1,65 @@
-﻿namespace LASI.documentList {
-    'use strict';
+﻿'use strict';
+import { IQService, IIntervalService, IPromise } from 'angular';
+import { IResourceService } from 'angular-resource';
 
-    function tasksListServiceProvider(): TasksListServiceConfig {
-        var updateInterval = 200;
-        var tasksListUrl = 'api/Tasks';
+export interface TasksListServiceProvider {
+    $get: ($q, $resource: IResourceService, $interval: IIntervalService) => TasksListService;
+    setTasksListUrl(url: string): TasksListServiceProvider;
+    setUpdateInterval(milliconds: number): TasksListServiceProvider;
+}
 
-        $get.$inject = ['$q', '$resource', '$interval'];
+export interface Task {
+    id: string;
+    name: string;
+    state: string;
+    percentComplete: number;
+    statusMessage: string;
+}
 
-        return { $get, setUpdateInterval, setTasksListUrl };
+export interface TasksListService {
+    getActiveTasks(): IPromise<Task[]>;
+    tasks: Task[];
+}
+export function tasksListServiceProvider(): TasksListServiceProvider {
+    var updateInterval = 200;
+    var tasksListUrl = 'api/Tasks';
 
-        function setUpdateInterval(milliseconds: number): TasksListServiceConfig {
-            updateInterval = milliseconds;
-            return this;
-        }
-        function setTasksListUrl(url: string): TasksListServiceConfig {
-            tasksListUrl = url;
-            return this;
-        }
+    $get.$inject = ['$q', '$resource', '$interval'];
 
-        function $get($q: angular.IQService, $resource: angular.resource.IResourceService, $interval: angular.IIntervalService): TasksListService {
-            //var updateDebugInfo = function (tasks) { }; //createDebugInfoUpdator($('#debug-panel'));
-            var Tasks = $resource<Task[]>(tasksListUrl, {}, {
-                get: {
-                    method: 'GET', isArray: true
-                }
-            });
-            var getActiveTasks = function () {
-                var deferred = $q.defer<Task[]>();
-                $interval(() => {
-                    this.tasks = Tasks.get();
-                    deferred.resolve(this.tasks);
-                }, updateInterval);
-                return deferred.promise;
-            };
+    return { $get, setUpdateInterval, setTasksListUrl };
 
-            return {
-                getActiveTasks,
-                tasks: []
-            };
-        }
-        function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
-            return tasks => element.html(tasks.map(task => `<div>${ Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`).join());
-        }
+    function setUpdateInterval(milliseconds: number): TasksListServiceProvider {
+        updateInterval = milliseconds;
+        return this;
     }
-    export interface TasksListServiceConfig {
-        $get: ($q, $resource: angular.resource.IResourceService, $interval: angular.IIntervalService) => TasksListService;
-        setTasksListUrl(url: string): TasksListServiceConfig;
-        setUpdateInterval(milliconds: number): TasksListServiceConfig;
+    function setTasksListUrl(url: string): TasksListServiceProvider {
+        tasksListUrl = url;
+        return this;
     }
 
-    export interface Task {
-        id: string;
-        name: string;
-        state: string;
-        percentComplete: number;
-        statusMessage: string;
-    }
+    function $get($q: IQService, $resource: IResourceService, $interval: IIntervalService): TasksListService {
+        var Tasks = $resource<Task[]>(tasksListUrl, {}, {
+            get: {
+                method: 'GET', isArray: true
+            }
+        });
+        var getActiveTasks = function () {
+            var deferred = $q.defer<Task[]>();
+            $interval(() => {
+                this.tasks = Tasks.get();
+                deferred.resolve(this.tasks);
+            }, updateInterval);
+            return deferred.promise;
+        };
 
-    export interface TasksListService {
-        getActiveTasks(): angular.IPromise<Task[]>;
-        tasks: Task[];
+        return {
+            getActiveTasks,
+            tasks: []
+        };
     }
-
-    angular
-        .module('documentList')
-        .provider('tasksListService', tasksListServiceProvider);
+    function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
+        return tasks => element.html(tasks.map(
+            task => `<div>${Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`
+        ).join());
+    }
 }

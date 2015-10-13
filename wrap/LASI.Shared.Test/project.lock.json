@@ -1,25 +1,26 @@
 {
   "locked": false,
-  "version": -9998,
-  "projectFileDependencyGroups": {
-    "": [],
-    ".NETFramework,Version=v4.6": [
-      "Microsoft.VisualStudio.QualityTools.UnitTestFramework >= 1.0.0-*",
-      "System.Collections.Immutable >= 1.1.36"
-    ]
+  "version": 1,
+  "targets": {
+    ".NETFramework,Version=v4.6": {
+      "Microsoft.VisualStudio.QualityTools.UnitTestFramework/11.0.50727.1": {
+        "type": "package"
+      },
+      "System.Collections.Immutable/1.1.36": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
+        }
+      }
+    }
   },
   "libraries": {
     "Microsoft.VisualStudio.QualityTools.UnitTestFramework/11.0.50727.1": {
-      "serviceable": false,
-      "sha": "MM3IUKZ11zbZA658hkGnAgf2Br58ZOWExCLevemDlw+xKgh5pgWO5stPSZM50w4bt0WzQ8DzKAA8N7yBxa8u8A==",
-      "frameworks": {
-        ".NETFramework,Version=v4.6": {
-          "dependencies": {},
-          "frameworkAssemblies": [],
-          "runtimeAssemblies": [],
-          "compileAssemblies": []
-        }
-      },
+      "type": "package",
+      "sha512": "MM3IUKZ11zbZA658hkGnAgf2Br58ZOWExCLevemDlw+xKgh5pgWO5stPSZM50w4bt0WzQ8DzKAA8N7yBxa8u8A==",
       "files": [
         "Microsoft.VisualStudio.QualityTools.UnitTestFramework.11.0.50727.1.nupkg",
         "Microsoft.VisualStudio.QualityTools.UnitTestFramework.11.0.50727.1.nupkg.sha512",
@@ -29,6 +30,26 @@
         "MSTest.exe",
         "MSTest.exe.config"
       ]
+    },
+    "System.Collections.Immutable/1.1.36": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "MOlivTIeAIQPPMUPWIIoMCvZczjFRLYUWSYwqi1szu8QPyeIbsaPeI+hpXe1DzTxNwnRnmfYaoToi6kXIfSPNg==",
+      "files": [
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml",
+        "License-Stable.rtf",
+        "System.Collections.Immutable.1.1.36.nupkg",
+        "System.Collections.Immutable.1.1.36.nupkg.sha512",
+        "System.Collections.Immutable.nuspec"
+      ]
     }
+  },
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v4.6": [
+      "Microsoft.VisualStudio.QualityTools.UnitTestFramework >= 1.0.0-*",
+      "System.Collections.Immutable >= 1.1.36"
+    ]
   }
 }

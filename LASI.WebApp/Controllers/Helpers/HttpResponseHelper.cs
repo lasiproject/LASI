@@ -16,6 +16,5 @@ namespace LASI.WebApp.Controllers.Helpers
             await context.Response.WriteAsync(message);
             return await Task.FromResult<T>(null);
         }
-
     }
 }

@@ -39,7 +39,7 @@ var LASI;
                     //var documentName = $element[0].text;
                     var documentName = $element[0].innerText;
                     var documentId = $element.next('.item-id-hidden')[0].innerText.trim();
-                    LASI.log('clicked Name: ' + documentName + ', Id: ' + documentId);
+                    console.log('clicked Name: ' + documentName + ', Id: ' + documentId);
                     var $parentListItem = $($(event.target).parent());
                     var $progress = $parentListItem.find('.progress hidden')
                         .find('.progress-bar')
@@ -58,7 +58,7 @@ var LASI;
                         //LASI.buildMenus();
                         //enableActiveHighlighting();
                     }).fail(function (xhr, message, detail) {
-                        LASI.log(message);
+                        log(message);
                     }).progress(function (data) {
                         $progress.css('width', data);
                     });

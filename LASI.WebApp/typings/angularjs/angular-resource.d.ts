@@ -9,6 +9,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 // ngResource module (angular-resource.js)
 ///////////////////////////////////////////////////////////////////////////////
+
+declare module 'angular-resource' {
+    export type IResourceOptions = angular.resource.IResourceOptions;
+    export type IResourceService = angular.resource.IResourceService;
+    export type IActionDescriptor = angular.resource.IActionDescriptor;
+    export type IResourceClass<T> = angular.resource.IResourceClass<T>;
+    export type IResource<T> = angular.resource.IResource<T>;
+    export type IResourceArray<T> = angular.resource.IResourceArray<T>;
+    export type IResourceServiceFactoryFunction<T> = angular.resource.IResourceServiceFactoryFunction<T>;
+    export type IResourceServiceProvider = angular.resource.IResourceServiceProvider;
+}
+
 declare module angular.resource {
 
     /**
@@ -71,7 +83,7 @@ declare module angular.resource {
     // Also, static calls always return the IResource (or IResourceArray) retrieved
     // https://github.com/angular/angular.js/blob/v1.2.0/src/ngResource/resource.js#L538-L549
     interface IResourceClass<T> {
-        new(dataOrParams? : any) : T;
+        new (dataOrParams?: any): T;
         get(): T;
         get(params: Object): T;
         get(success: Function, error?: Function): T;
@@ -127,8 +139,8 @@ declare module angular.resource {
         $delete(success: Function, error?: Function): angular.IPromise<T>;
 
         /** the promise of the original server interaction that created this instance. **/
-        $promise : angular.IPromise<T>;
-        $resolved : boolean;
+        $promise: angular.IPromise<T>;
+        $resolved: boolean;
     }
 
     /**
@@ -136,8 +148,8 @@ declare module angular.resource {
      */
     interface IResourceArray<T> extends Array<T> {
         /** the promise of the original server interaction that created this collection. **/
-        $promise : angular.IPromise<IResourceArray<T>>;
-        $resolved : boolean;
+        $promise: angular.IPromise<IResourceArray<T>>;
+        $resolved: boolean;
     }
 
     /** when creating a resource factory via IModule.factory */
@@ -163,9 +175,8 @@ declare module angular {
     }
 }
 
-interface Array<T>
-{
+interface Array<T> {
     /** the promise of the original server interaction that created this collection. **/
-    $promise : angular.IPromise<Array<T>>;
-    $resolved : boolean;
+    $promise: angular.IPromise<Array<T>>;
+    $resolved: boolean;
 }

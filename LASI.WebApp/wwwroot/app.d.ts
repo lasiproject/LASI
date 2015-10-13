@@ -1,0 +1,1 @@
+declare var require: (...args: string[]) => any;

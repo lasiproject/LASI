@@ -68,7 +68,6 @@ namespace LASI.Core.Analysis.Binding
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
         {
             base.GetObjectData(info, context);
-            Validate.NotNull(info, nameof(info));
             info.AddValue(nameof(Sequence), Sequence);
         }
     }

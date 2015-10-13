@@ -47,7 +47,7 @@ namespace LASI.WebApp
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
-                     .AddMongoDB(options =>
+                    .AddMongoDB(options =>
                     {
                         options.CreateProcess = true;
                         options.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -60,7 +60,23 @@ namespace LASI.WebApp
                         options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
                         options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
                     })
-                    .ConfigureIdentity(options =>
+                    .AddMvc(options => options.Filters.Add(new Filters.HttpResponseExceptionFilter()))
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
+                        options.SerializerSettings.Converters = new[] {
+                            new StringEnumConverter {
+                                AllowIntegerValues = false,
+                                CamelCaseText = true }
+                        };
+                        if (developement)
+                        {
+                            options.SerializerSettings.Formatting = Formatting.Indented;
+                        }
+                    });
+            services.AddIdentity<ApplicationUser, UserRole>(options =>
                     {
                         options.Lockout = new LockoutOptions
                         {
@@ -77,34 +93,24 @@ namespace LASI.WebApp
                             RequireConfirmedEmail = false,
                             RequireConfirmedPhoneNumber = false
                         };
-                        options.Password = developement ? new PasswordOptions { } : new PasswordOptions
-                        {
-                            RequiredLength = 8,
-                            RequireDigit = true,
-                            RequireLowercase = true,
-                            RequireUppercase = true,
-                            RequireNonLetterOrDigit = true
-                        };
+                        options.Password = developement ?
+                            new PasswordOptions() :
+                            new PasswordOptions
+                            {
+                                RequiredLength = 8,
+                                RequireDigit = true,
+                                RequireLowercase = true,
+                                RequireUppercase = true,
+                                RequireNonLetterOrDigit = true
+                            };
                     })
-                    .AddMvc()
-                    .AddJsonOptions(options =>
-                    {
-                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                        options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
-                        options.SerializerSettings.Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } };
-                        if (developement)
-                        {
-                            options.SerializerSettings.Formatting = Formatting.Indented;
-                        }
-                    });
-            services.AddIdentity<ApplicationUser, UserRole>()
                     .AddUserValidator<UserValidator<ApplicationUser>>()
                     .AddRoleManager<RoleManager<UserRole>>()
                     .AddRoleStore<CustomUserStore<UserRole>>()
                     .AddUserManager<UserManager<ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>()
                     .AddDefaultTokenProviders();
+            services.AddCors();
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715

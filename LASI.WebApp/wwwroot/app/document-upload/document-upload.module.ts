@@ -1,11 +1,9 @@
-﻿namespace LASI.documentUpload {
-    'use strict';
+﻿'use strict';
+import 'app/angular-shim';
+import * as angular from 'angular';
+import { uploadPanel } from './upload-panel.directive';
 
-    angular.module('documentUpload', [
-        'ngFileUpload'
-    ]).config(configure);
-
-    configure.$inject = [];
-
-    function configure() { }
+export default {
+    name: 'documentUpload',
+    requires: ['ngFileUpload'],
 }

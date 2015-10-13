@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="~/lib/Font-Awesome/css/font-awesome.min.css" />
 
-    <link href="~/dist/app/app.min.css" rel="stylesheet" />
+    <link href="~/dist/app.min.css" rel="stylesheet" />
 </head>
-<body ng-app="documentList" ng-strict-di ng-cloak ng-controller="ListController as controller">
+<body ng-strict-di ng-cloak ng-controller="ListController as controller">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -20,8 +20,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div id="document-list-navbar-item-container" class="dropdown-toggle">
-                    @if (User?.Identity?.IsAuthenticated ?? false)
-                    {
+                    @if (User?.Identity?.IsAuthenticated ?? false) {
                         @await Html.PartialAsync("_DocumentListNavDropdown")
                     }
                 </div>
@@ -49,66 +48,34 @@
         <footer>
             <p>&copy; 2015 - @AppSettings.Options.SiteTitle</p>
         </footer>
-        <div id="manage-documents-modal"
-             class="modal fade"
-             tabindex="-1"
-             role="dialog"
-             aria-labelledby="#myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header handle modal-drag-handle">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Manage Documents</h4>
-                    </div>
-                    <div class="modal-body">
-                        <ul class="list-group">
-                            <li ng-repeat="document in controller.documents" class="list-group-item">
-                                <div>
-                                    {{document.name}}<a href="#" data-toggle="modal" data-target="#confirm-delete-modal{{document.id}}">
-                                        <span class="fa fa-remove pull-right"></span>
-                                    </a>
-                                </div>
-                                <div id="confirm-delete-modal{{document.id}}"
-                                     class="modal fade"
-                                     role="dialog"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header handle modal-drag-handle">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <div class="modal-title">Are you sure you want to delete <em>{{document.name}}</em>?</div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <button type="button" role="button" class="btn btn-block" data-dismiss="modal" value="OK" ng-click="controller.deleteById(document.id)">OK<span hidden></span></button>
-                                                <button type="button" role="button" class="btn btn-block" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                            <div class="modal-footer">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="modal-footer"></div>
-                </div>
-            </div>
-        </div>
+        @await Html.PartialAsync("_ManageDocumentsModal")
     </div>
-    <script src="~/lib/jquery/jquery.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-    <script src="~/lib/jquery-validation/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/lib/draggable/draggable.js"></script>
-    <script src="~/lib/angular/angular.js"></script>
-    <script src="~/lib/angular-resource/angular-resource.js"></script>
-    <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="~/lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
-    <script src="~/lib/ng-file-upload-shim/ng-file-upload-shim.js"></script>
-    <script src="~/lib/angularjs-file-upload/ng-file-upload.js"></script>
-    <script src="~/dist/app/app.js"></script>
+    <script src="~/jspm_packages/system.js"></script>
+    <script src="~/config.js"></script>
+
+    @*<script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/draggable/draggable.js"></script>
+        <script src="~/lib/angular/angular.js"></script>
+        <script src="~/lib/angular-resource/angular-resource.js"></script>
+        <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="~/lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
+        <script src="~/lib/ng-file-upload-shim/ng-file-upload-shim.js"></script>
+        <script src="~/lib/angularjs-file-upload/ng-file-upload.js"></script>*@
+    <script>
+        System.import('main').then(function (app) {
+            app.angularBootstrap()();
+
+        });
+        //System.import('module-registry.js').then(function () {
+        //    alert("loaded");
+        //});
+    </script>
+    @*<script src="~/dist/app/app.js"></script>*@
 
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

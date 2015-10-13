@@ -99,7 +99,7 @@ namespace LASI.Interop
         {
             lock (initializationLock)
             {
-                Validate.IsFalse(alreadyConfigured, () => new SystemAlreadyConfiguredException());
+                Validate.False(alreadyConfigured, () => new SystemAlreadyConfiguredException());
                 var config = configFactory();
                 InitializeComponents(config);
                 alreadyConfigured = true;
@@ -112,7 +112,7 @@ namespace LASI.Interop
 
             lock (initializationLock)
             {
-                Validate.IsFalse(alreadyConfigured, () => new SystemAlreadyConfiguredException());
+                Validate.False(alreadyConfigured, () => new SystemAlreadyConfiguredException());
 
                 Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
 

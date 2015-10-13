@@ -13,7 +13,8 @@ namespace LASI.WebApp.Logging
         }
         public ILogger CreateLogger(string name)
         {
-            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
+            var path = System.IO.Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create),
                 $"WebApp_log{DateTimeOffset.Now.ToFileTime()}.txt");
             Utilities.Logger.SetToFile(null);
             return new Logger(name, filter);
@@ -94,7 +95,7 @@ namespace LASI.WebApp.Logging
 
                 disposedValue = true;
             }
-        } 
+        }
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
