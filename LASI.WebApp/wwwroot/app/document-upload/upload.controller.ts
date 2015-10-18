@@ -1,5 +1,5 @@
 ﻿'use strict';
-import { DocumentListItemModel } from 'app/document-list/document-list-service.provider';
+import { DocumentListItemModel } from './../document-list/document-list-service.provider';
 import ngf = angular.angularFileUpload;
 var log = console.log.bind(console);
 export class UploadController {

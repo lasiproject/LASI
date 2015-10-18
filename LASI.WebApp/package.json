@@ -39,6 +39,10 @@
       "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@^3.2.3",
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
-    "devDependencies": {}
+    "devDependencies": {
+      "-f": "npm:babel-core@^5.8.24",
+      "-f-runtime": "npm:babel-runtime@^5.8.24",
+      "typescript": "npm:typescript@^1.6.2"
+    }
   }
 }

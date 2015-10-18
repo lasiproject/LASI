@@ -43,3 +43,4 @@ define(["require", "exports", 'app/LASI'], function (require, exports, LASI_1) {
     }
     exports.resultsService = resultsService;
 });
+//# sourceMappingURL=results.service.js.map

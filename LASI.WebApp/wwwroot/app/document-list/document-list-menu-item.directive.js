@@ -1,14 +1,13 @@
 /// <amd-dependency path="./document-list-menu-item.directive.html" />
 'use strict';
-define(["require", "exports", "./document-list-menu-item.directive.html"], function (require, exports) {
-    documentListMenuItem.$inject = ['$window', 'resultsService'];
-    var template = require('./document-list-menu-item.directive.html');
+System.register(['./document-list-menu-item.directive.html'], function(exports_1) {
+    var document_list_menu_item_directive_html_1;
     function documentListMenuItem($window, resultsService) {
         return {
             transclude: true,
             replace: true,
             restrict: 'E',
-            template: template,
+            template: document_list_menu_item_directive_html_1.default,
             scope: {
                 name: '=',
                 documentId: '='
@@ -27,6 +26,15 @@ define(["require", "exports", "./document-list-menu-item.directive.html"], funct
             }
         };
     }
-    exports.documentListMenuItem = documentListMenuItem;
+    exports_1("documentListMenuItem", documentListMenuItem);
+    return {
+        setters:[
+            function (document_list_menu_item_directive_html_1_1) {
+                document_list_menu_item_directive_html_1 = document_list_menu_item_directive_html_1_1;
+            }],
+        execute: function() {
+            documentListMenuItem.$inject = ['$window', 'resultsService'];
+        }
+    }
 });
 //# sourceMappingURL=document-list-menu-item.directive.js.map

@@ -1,18 +1,26 @@
 /// <amd-dependency path="./paragraph.html" />
 'use strict';
-define(["require", "exports", "./paragraph.html"], function (require, exports) {
-    paragraph.$inject = ['$window'];
+System.register(['./paragraph.html'], function(exports_1) {
+    var paragraph_html_1;
     function paragraph($window) {
         return {
             restrict: 'E',
-            template: require('./paragraph.html'),
+            template: paragraph_html_1.default,
             scope: {
                 paragraph: '=',
                 parentId: '='
             }
         };
     }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = paragraph;
+    exports_1("default", paragraph);
+    return {
+        setters:[
+            function (paragraph_html_1_1) {
+                paragraph_html_1 = paragraph_html_1_1;
+            }],
+        execute: function() {
+            paragraph.$inject = ['$window'];
+        }
+    }
 });
 //# sourceMappingURL=paragraph.js.map

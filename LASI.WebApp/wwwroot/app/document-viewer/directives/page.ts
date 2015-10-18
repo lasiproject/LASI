@@ -1,6 +1,6 @@
 ﻿/// <amd-dependency path="./page.html" />
 'use strict';
-
+import template from './page.html';
 export default function documentPage(): angular.IDirective {
     function link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
         console.log(scope);
@@ -10,7 +10,7 @@ export default function documentPage(): angular.IDirective {
     return {
         restrict: 'E',
         link,
-        template: require('./page.html'),
+        template,
         scope: {
             page: '=',
             document: '='

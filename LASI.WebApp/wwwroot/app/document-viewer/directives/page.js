@@ -1,6 +1,7 @@
 /// <amd-dependency path="./page.html" />
 'use strict';
-define(["require", "exports", "./page.html"], function (require, exports) {
+System.register(['./page.html'], function(exports_1) {
+    var page_html_1;
     function documentPage() {
         function link(scope, element, attrs) {
             console.log(scope);
@@ -10,14 +11,21 @@ define(["require", "exports", "./page.html"], function (require, exports) {
         return {
             restrict: 'E',
             link: link,
-            template: require('./page.html'),
+            template: page_html_1.default,
             scope: {
                 page: '=',
                 document: '='
             }
         };
     }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = documentPage;
+    exports_1("default", documentPage);
+    return {
+        setters:[
+            function (page_html_1_1) {
+                page_html_1 = page_html_1_1;
+            }],
+        execute: function() {
+        }
+    }
 });
 //# sourceMappingURL=page.js.map

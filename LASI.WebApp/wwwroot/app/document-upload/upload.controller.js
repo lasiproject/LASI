@@ -49,3 +49,4 @@ define(["require", "exports"], function (require, exports) {
     })();
     exports.UploadController = UploadController;
 });
+//# sourceMappingURL=upload.controller.js.map

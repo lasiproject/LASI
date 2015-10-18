@@ -8,8 +8,8 @@ interface DocumentListItemScope extends angular.IScope {
     analysisProgress: number;
     showProgress: boolean;
 }
-var template = require('./document-list-menu-item.directive.html');
-
+//var require = window.require = System.amdRequire;
+import template from './document-list-menu-item.directive.html';
 export function documentListMenuItem($window, resultsService): angular.IDirective {
     return {
         transclude: true,

@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Authorization;
 using LASI.Utilities;
 using System.Security.Claims;
+using LASI.WebApp.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,24 +41,22 @@ namespace LASI.WebApp.Controllers
         public UserDocument Get(string documentId) => documentStore.GetById(Context.User.GetUserId(), documentId);
 
         [HttpPost]
-        public async Task<IActionResult> Post()
+        public Task<IEnumerable<FileUploadedResult>> Post()
         {
             var files = Request.Form.Files;
             if (!files.Any())
             {
-                return new ObjectResult("Unable to process the request because no files were received. Request must contain at least one file.")
-                {
-                    StatusCode = HttpResponseHelper.UnprocessableEntity
-                };
+                throw new HttpResponseException(HttpHelper.Status422UnprocessableEntity,
+                    "Unable to process the request because no files were received. Request must contain at least one file.");
             }
             if (files.Any(file => !file.IsAcceptedContentType())) // If any of the files is invalid, reject them all.
             {
-                return new UnsupportedMediaTypeResult();
+                throw new HttpResponseException(StatusCodes.Status415UnsupportedMediaType);
                 //    $@"One or more of your files was in an incorrect format.
                 //    The accepted formats are {string.Join(", ", FileManager.AcceptedFileFormats)}"
                 //);
             }
-            return Json(await ProcessFormFiles(Request.Form.Files));
+            return ProcessFormFiles(Request.Form.Files);
         }
 
         [HttpDelete("{documentId}")]
@@ -124,13 +123,13 @@ namespace LASI.WebApp.Controllers
             var fullpath = Path.Combine(tempDirectory, formFile.GetHashCode() + new FileInfo(fileName).Name);
             await formFile.SaveAsAsync(fullpath);
             var extension = fileName.Substring(fileName.LastIndexOf('.'));
-            var wrapped = wrapperFactory[extension](fullpath);
+            var wrapped = WrapperFactory[extension](fullpath);
             return await wrapped.LoadTextAsync();
         }
 
         #region Fields
 
-        private static readonly ExtensionWrapperMap wrapperFactory = new ExtensionWrapperMap();
+        private static readonly ExtensionWrapperMap WrapperFactory = new ExtensionWrapperMap();
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IDocumentAccessor<UserDocument> documentStore;
         private readonly UserManager<ApplicationUser> userManager;

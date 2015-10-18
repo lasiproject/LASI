@@ -1,10 +1,10 @@
 ﻿/// <amd-dependency path="./sentence.html" />
 'use strict';
-var template = require('./sentence.html');
+import template from './sentence.html';
 export default function sentence(): angular.IDirective {
     return {
         restrict: 'E',
-        template: template,
+        template,
         scope: {
             sentence: '=',
             parentId: '='

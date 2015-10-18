@@ -1,21 +1,9 @@
 ﻿/// <amd-dependency path="./search-box.html" />
-var template = require('./search-box.html');
+//var template = ;
 
 'use strict';
 import { LexicalModel, WordModel, PhraseModel, TextFragmentModel } from 'app/models';
-export default function searchBox(): angular.IDirective {
-    return {
-        restrict: 'E',
-        controller: SearchBoxController,
-        controllerAs: 'search',
-        scope: {},
-        bindToController: {
-            searchContext: '=',
-            find: '='
-        },
-        template: template
-    };
-}
+
 class SearchBoxController {
     static $inject = ['$q'];
     constructor(private $q: angular.IQService) { }
@@ -63,4 +51,18 @@ type SearchModel = string | LexicalModel;
 interface SearchOptions {
     value: SearchModel;
     lifted?: boolean;
-} 
+}
+import template from './search-box.html';
+export default function searchBox(): angular.IDirective {
+    return {
+        template,
+        restrict: 'E',
+        scope: true,
+        bindToController: {
+            searchContext: '=',
+            find: '='
+        },
+        controller: SearchBoxController,
+        controllerAs: 'search'
+    };
+}

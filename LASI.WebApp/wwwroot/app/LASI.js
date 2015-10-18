@@ -5,3 +5,4 @@ define(["require", "exports"], function (require, exports) {
     exports.log = console.log.bind(console);
 });
 //export var editor = $('#free-editor').change(log); // TODO: parameterize selector. 
+//# sourceMappingURL=LASI.js.map

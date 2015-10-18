@@ -108,7 +108,7 @@ namespace LASI.Content
             }
             catch (KeyNotFoundException ex)
             {
-                throw new UnsupportedFileTypeAddedException(ext, ex);
+                throw new UnsupportedFileTypeException(ext, ex);
             }
         }
 
@@ -564,7 +564,7 @@ namespace LASI.Content
         /// Gets the .txt files directory
         /// </summary>
         public static string TxtFilesDirectory => InputFilesDirectory + @"\txt";
-        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeAddedException("unmapped " + path); });
+        internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeException("unmapped " + path); });
         #endregion
         public static IEnumerable<string> AcceptedFileFormats
         {
@@ -626,7 +626,7 @@ namespace LASI.Content
         /// <summary>
         /// Initializes a new instance of the ExtensionWrapperMap class that will throw for unknown extensions.
         /// </summary>
-        public ExtensionWrapperMap() : this(extension => { throw new UnsupportedFileTypeAddedException(extension); }) { }
+        public ExtensionWrapperMap() : this(extension => { throw new UnsupportedFileTypeException(extension); }) { }
 
         /// <summary>
         /// Gets all of the file extensions, which are supported.

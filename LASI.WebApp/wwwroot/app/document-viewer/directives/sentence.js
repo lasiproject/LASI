@@ -1,18 +1,25 @@
 /// <amd-dependency path="./sentence.html" />
 'use strict';
-define(["require", "exports", "./sentence.html"], function (require, exports) {
-    var template = require('./sentence.html');
+System.register(['./sentence.html'], function(exports_1) {
+    var sentence_html_1;
     function sentence() {
         return {
             restrict: 'E',
-            template: template,
+            template: sentence_html_1.default,
             scope: {
                 sentence: '=',
                 parentId: '='
             }
         };
     }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = sentence;
+    exports_1("default", sentence);
+    return {
+        setters:[
+            function (sentence_html_1_1) {
+                sentence_html_1 = sentence_html_1_1;
+            }],
+        execute: function() {
+        }
+    }
 });
 //# sourceMappingURL=sentence.js.map

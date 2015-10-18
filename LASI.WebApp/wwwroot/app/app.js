@@ -20,12 +20,10 @@ define(["require", "exports", 'angular', './debug/debug.module', './widgets/widg
             .constant(m.constants || {})
             .run(m.runFn || (function () { }));
     }
-    function angularBootstrap() {
+    function bootstrap() {
         modules.forEach(register);
         angular_1.bootstrap(document, modules.map(function (m) { return m.name; }));
     }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = angularBootstrap;
+    exports.bootstrap = bootstrap;
 });
-//angularBootstrap(); 
 //# sourceMappingURL=app.js.map

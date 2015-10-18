@@ -1,7 +1,7 @@
 ﻿<div ng-cloak>
-    <tabset class="tabs-left">
-        <tab ng-cloak ng-repeat="document in controller.documents track by document.id">
-            <tab-heading class="document-viewer-tab-heading" ng-click="controller.processDocument(document)">
+    <uib-tabset class="tabs-left">
+        <uib-tab ng-cloak ng-repeat="document in controller.documents track by document.id">
+            <uib-tab-heading class="document-viewer-tab-heading" ng-click="controller.processDocument(document)">
                 {{document.name}}
                 <div class="form-group">
                     <search-box search-context="document.raeification"></search-box>
@@ -9,10 +9,10 @@
                 <div class="form-group">
                     <processing-task-progress-bar task="document.task"></processing-task-progress-bar>
                 </div>
-            </tab-heading>
+            </uib-tab-heading>
             <div class="col-md-9">
                 <document-viewer document="document.raeification"></document-viewer>
             </div>
-        </tab>
-    </tabset>
+        </uib-tab>
+    </uib-tabset>
 </div>

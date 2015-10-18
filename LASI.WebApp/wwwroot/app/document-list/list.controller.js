@@ -60,3 +60,4 @@ define(["require", "exports"], function (require, exports) {
     })();
     exports.ListController = ListController;
 });
+//# sourceMappingURL=list.controller.js.map

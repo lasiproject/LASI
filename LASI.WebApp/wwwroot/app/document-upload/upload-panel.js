@@ -1,17 +1,28 @@
 /// <amd-dependency path="./upload-panel.html" />
 'use strict';
-define(["require", "exports", './upload.controller', "./upload-panel.html"], function (require, exports, upload_controller_1) {
-    var template = require('./upload-panel.html');
-    uploadPanel.$inject = ['$window'];
+System.register(['./upload.controller', './upload-panel.html'], function(exports_1) {
+    var upload_controller_1, upload_panel_html_1;
     function uploadPanel($window) {
         return {
             restrict: 'E',
             scope: false,
             controller: upload_controller_1.UploadController,
-            template: template,
+            template: upload_panel_html_1.default,
             controllerAs: 'upload'
         };
     }
-    exports.uploadPanel = uploadPanel;
+    exports_1("uploadPanel", uploadPanel);
+    return {
+        setters:[
+            function (upload_controller_1_1) {
+                upload_controller_1 = upload_controller_1_1;
+            },
+            function (upload_panel_html_1_1) {
+                upload_panel_html_1 = upload_panel_html_1_1;
+            }],
+        execute: function() {
+            uploadPanel.$inject = ['$window'];
+        }
+    }
 });
 //# sourceMappingURL=upload-panel.js.map

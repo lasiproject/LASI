@@ -1,6 +1,6 @@
 ﻿/// <amd-dependency path='./phrase.html' />
 'use strict';
-
+import template from './phrase.html';
 import { PhraseModel } from 'app/models';
 import { LexicalMenuBuilderFactory, VerbalContextmenuDataSource } from './lexical-menu-builder.service';
 
@@ -9,7 +9,7 @@ phrase.$inject = ['lexicalMenuBuilder'];
 export default function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): angular.IDirective {
     return {
         restrict: 'E',
-        template: require('./phrase.html'),
+        template,
         scope: {
             phrase: '=',
             parentId: '='

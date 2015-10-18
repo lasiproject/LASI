@@ -4,7 +4,7 @@ import 'dist/app.css!';
 import 'bootstrap';
 import './utilities/augmentations';
 import './LASI';
-import { module, bootstrap } from 'angular';
+import { module, bootstrap as ngBootstrap } from 'angular';
 import debug from './debug/debug.module';
 import widgets from './widgets/widgets.module';
 import documentList from './document-list/document-list.module';
@@ -32,8 +32,7 @@ function register(m: AngularModuleOptions) {
         .constant(m.constants || {})
         .run(m.runFn || (() => { }));
 }
-export default function angularBootstrap() {
+export function bootstrap() {
     modules.forEach(register);
-    bootstrap(document, modules.map(m => m.name));
+    ngBootstrap(document, modules.map(m => m.name));
 }
-//angularBootstrap();

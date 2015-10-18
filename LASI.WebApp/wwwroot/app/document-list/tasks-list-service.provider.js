@@ -39,3 +39,4 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.tasksListServiceProvider = tasksListServiceProvider;
 });
+//# sourceMappingURL=tasks-list-service.provider.js.map

@@ -27,3 +27,4 @@ define(["require", "exports", './documents.service', './results.service', './doc
         controllers: { ListController: list_controller_1.ListController }
     };
 });
+//# sourceMappingURL=document-list.module.js.map

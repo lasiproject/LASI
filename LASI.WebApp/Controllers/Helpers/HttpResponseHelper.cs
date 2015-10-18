@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LASI.WebApp.Controllers.Helpers
 {
-    public static class HttpResponseHelper
+    public static class HttpHelper
     {
-        public const int UnprocessableEntity = 422;
+        public const int Status422UnprocessableEntity = 422;
 
         public static async Task<T> WriteNotFoundResponseAsnyc<T>(this HttpContext context, string message) where T : class
         {

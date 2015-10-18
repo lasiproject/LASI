@@ -65,3 +65,4 @@
 //        //$tabs.click(click);
 //    }, 1000);
 //}); 
+//# sourceMappingURL=document-list.js.map

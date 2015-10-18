@@ -6,3 +6,4 @@ define(["require", "exports", './document-list'], function (require, exports) {
         requires: ['ui.bootstrap']
     };
 });
+//# sourceMappingURL=widgets.module.js.map

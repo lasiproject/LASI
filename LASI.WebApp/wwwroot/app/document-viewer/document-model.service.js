@@ -10,3 +10,4 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.documentModelService = documentModelService;
 });
+//# sourceMappingURL=document-model.service.js.map

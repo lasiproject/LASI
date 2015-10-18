@@ -1,11 +1,11 @@
 /// <amd-dependency path='./phrase.html' />
 'use strict';
-define(["require", "exports", "./phrase.html"], function (require, exports) {
-    phrase.$inject = ['lexicalMenuBuilder'];
+System.register(['./phrase.html'], function(exports_1) {
+    var phrase_html_1;
     function phrase(lexicalMenuBuilder) {
         return {
             restrict: 'E',
-            template: require('./phrase.html'),
+            template: phrase_html_1.default,
             scope: {
                 phrase: '=',
                 parentId: '='
@@ -20,7 +20,15 @@ define(["require", "exports", "./phrase.html"], function (require, exports) {
             }
         }
     }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = phrase;
+    exports_1("default", phrase);
+    return {
+        setters:[
+            function (phrase_html_1_1) {
+                phrase_html_1 = phrase_html_1_1;
+            }],
+        execute: function() {
+            phrase.$inject = ['lexicalMenuBuilder'];
+        }
+    }
 });
 //# sourceMappingURL=phrase.js.map

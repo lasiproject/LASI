@@ -43,7 +43,7 @@ gulp.task('typescript', function () {
             removeComments: false,
             target: 'es5',
             watch: false,
-            module: 'amd'
+            module: 'system'
         }))
         .pipe(sourcemaps.write());
 });
