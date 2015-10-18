@@ -7,3 +7,4 @@ define(["require", "exports", './upload-panel', 'app/angular-shim'], function (r
         directives: { uploadPanel: upload_panel_1.uploadPanel }
     };
 });
+//# sourceMappingURL=document-upload.module.js.map
