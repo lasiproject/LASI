@@ -1,4 +1,5 @@
-﻿'use strict';
+﻿/// <amd-dependency path="./document-list-menu-item.directive.html" />
+'use strict';
 documentListMenuItem.$inject = ['$window', 'resultsService'];
 
 interface DocumentListItemScope extends angular.IScope {
@@ -7,7 +8,7 @@ interface DocumentListItemScope extends angular.IScope {
     analysisProgress: number;
     showProgress: boolean;
 }
-var template = require('app/document-list/document-list-menu-item.directive.html');
+var template = require('./document-list-menu-item.directive.html');
 
 export function documentListMenuItem($window, resultsService): angular.IDirective {
     return {

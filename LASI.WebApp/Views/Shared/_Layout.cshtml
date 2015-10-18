@@ -55,7 +55,9 @@
     <script src="~/config.js"></script>
     <script>
         System.import('app')
-                .then(function (app) { app.default(); })
+                .then(function (app) {
+                    app.default();
+                })
                 .catch(console.error.bind(console));
     </script>
     @RenderSection("scripts", required: false)

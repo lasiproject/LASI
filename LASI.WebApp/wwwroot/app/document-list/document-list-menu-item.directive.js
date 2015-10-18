@@ -1,7 +1,8 @@
+/// <amd-dependency path="./document-list-menu-item.directive.html" />
 'use strict';
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "./document-list-menu-item.directive.html"], function (require, exports) {
     documentListMenuItem.$inject = ['$window', 'resultsService'];
-    var template = require('app/document-list/document-list-menu-item.directive.html');
+    var template = require('./document-list-menu-item.directive.html');
     function documentListMenuItem($window, resultsService) {
         return {
             transclude: true,
