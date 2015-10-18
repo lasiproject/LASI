@@ -1,7 +1,7 @@
 System.config({
   baseURL: "/",
   defaultJSExtensions: true,
-  transpiler: "none",
+  transpiler: "typescript",
   paths: {
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
@@ -9,8 +9,8 @@ System.config({
 
   packages: {
     "app": {
-      "main": "app.js",
-      "defaultExtension": "js",
+      "main": "app.ts",
+      "defaultExtension": "ts",
       "modules": {
         "*.html": {
           "loader": "text"
@@ -37,6 +37,7 @@ System.config({
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.3",
     "text": "github:systemjs/plugin-text@0.0.2",
+    "typescript": "npm:typescript@1.6.2",
     "github:aspnet/jquery-validation-unobtrusive@3.2.3": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
