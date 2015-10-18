@@ -22,7 +22,7 @@ export function documentListTabsetItem(resultsService): angular.IDirective {
             name: '=',
             percentComplete: '='
         },
-        template: require('/app/document-list/document-list-tabset-item.directive.html!')
+        template: require('/app/document-list/document-list-tabset-item.directive.html')
     };
 }
 

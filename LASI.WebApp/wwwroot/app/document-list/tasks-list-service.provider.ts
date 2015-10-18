@@ -1,11 +1,10 @@
 ﻿'use strict';
 import { IQService, IIntervalService, IPromise } from 'angular';
-import { IResourceService } from 'angular-resource';
 
 export interface TasksListServiceProvider {
-    $get: ($q, $resource: IResourceService, $interval: IIntervalService) => TasksListService;
-    setTasksListUrl(url: string): TasksListServiceProvider;
-    setUpdateInterval(milliconds: number): TasksListServiceProvider;
+    $get: ($q, $resource: ng.resource.IResourceService, $interval: IIntervalService) => TasksListService;
+    setTasksListUrl: (url: string) => TasksListServiceProvider;
+    setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
 }
 
 export interface Task {
@@ -37,7 +36,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         return this;
     }
 
-    function $get($q: IQService, $resource: IResourceService, $interval: IIntervalService): TasksListService {
+    function $get($q: IQService, $resource: ng.resource.IResourceService, $interval: IIntervalService): TasksListService {
         var Tasks = $resource<Task[]>(tasksListUrl, {}, {
             get: {
                 method: 'GET', isArray: true

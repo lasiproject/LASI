@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='watch' />
+/// <binding />
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
@@ -15,13 +15,27 @@ var paths = {
         'wwwroot/app/**/*.ts',
         'wwwroot/main.ts'
     ],
-    appcss: 'wwwroot/css/**/*.css',
-    appcssDest: 'wwwroot/dist/app.min.css',
-    libcss: 'wwwroot/lib/**/*.css',
-    libcssDest: 'wwwroot/dist/lib/lib.min.css'
+    css: {
+        app: {
+            src: 'wwwroot/css/**/*.css',
+            dest: {
+                dir: 'wwwroot/dist',
+                name: 'app.css'
+            }
+        },
+        lib: {
+            src: 'wwwroot/lib/**/*.css',
+            dest: {
+                dir: 'wwwroot/dist/lib',
+                name: 'lib.min.css'
+            }
+        }
+    }
 };
+
 gulp.task('typescript', function () {
-    return gulp.src(paths.appts)
+    return gulp
+        .src(paths.appts)
         .pipe(sourcemaps.init())
         .pipe(typescript({
             noImplicitAny: false,
@@ -29,24 +43,33 @@ gulp.task('typescript', function () {
             removeComments: false,
             target: 'es5',
             watch: false,
-            module:'amd',
+            module: 'amd'
         }))
-        .pipe(concat('app.js'))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('wwwroot/dist/app'));
+        .pipe(sourcemaps.write());
 });
+
 gulp.task('appcss', function () {
-    return gulp.src(paths.appcss)
+    return gulp
+        .src(paths.css.app.src)
         .pipe(sourcemaps.init())
-        .pipe(concat('app.min.css'))
-        .pipe(minifyCss())
+        .pipe(concat(paths.css.app.dest.name))
         .pipe(sourcemaps.write('/'))
-        .pipe(gulp.dest('wwwroot/dist'));
+        .pipe(gulp.dest(paths.css.app.dest.dir))
+        .pipe(minifyCss())
+        .pipe(rename('app.min.css'))
+        .pipe(gulp.dest(paths.css.app.dest.dir));
+});
+
+gulp.task('tslint', function () {
+    return gulp
+        .src(paths.appts)
+        .pipe(tslint(require('./wwwroot/tslint.json')))
+        .pipe(tslint.report('verbose'));
 });
 
 gulp.task('watch', function () {
     var onError = console.error.bind(console);
-    gulp.watch(paths.appts, ['typescript'])
+    gulp.watch(paths.appts, ['typescript', 'tslint'])
         .on('error', onError);
     gulp.watch(paths.appcss, ['appcss'])
         .on('error', onError);

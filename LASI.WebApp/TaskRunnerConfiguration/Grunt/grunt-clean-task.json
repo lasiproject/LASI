@@ -1,4 +1,0 @@
-{
-    "options": { },
-    "bower-d-ts": { "src": [ "bower_components/**/*.d.ts" ] }
-}

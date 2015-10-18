@@ -10,13 +10,13 @@ module contextmenuTests {
 
 
     var item1: Item = [
-        (s: ItemScope<string>, e: JQueryEventObject) => 'item1',
-        (s: ItemScope<string>, e: JQueryEventObject) => console.log('item1 clicked'),
-        (s: ItemScope<string>, e: JQueryEventObject) => true
+        (s, e) => 'item1',
+        (s, e) => console.log('item1 clicked'),
+        (s, e) => true
     ];
     var item2: Item = [
         'item2',
-        (s) => console.log(s)
+        s => console.log(s)
     ];
     var item3: Item = [
         'item3',

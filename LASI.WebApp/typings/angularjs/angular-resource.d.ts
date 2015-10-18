@@ -10,15 +10,8 @@
 // ngResource module (angular-resource.js)
 ///////////////////////////////////////////////////////////////////////////////
 
-declare module 'angular-resource' {
-    export type IResourceOptions = angular.resource.IResourceOptions;
-    export type IResourceService = angular.resource.IResourceService;
-    export type IActionDescriptor = angular.resource.IActionDescriptor;
-    export type IResourceClass<T> = angular.resource.IResourceClass<T>;
-    export type IResource<T> = angular.resource.IResource<T>;
-    export type IResourceArray<T> = angular.resource.IResourceArray<T>;
-    export type IResourceServiceFactoryFunction<T> = angular.resource.IResourceServiceFactoryFunction<T>;
-    export type IResourceServiceProvider = angular.resource.IResourceServiceProvider;
+declare module "angular-resource" {
+
 }
 
 declare module angular.resource {

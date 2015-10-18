@@ -7,7 +7,7 @@ documentModelService.$inject = ['$http'];
 export function documentModelService($http: angular.IHttpService): DocumentModelService {
     return {
         processDocument(documentId) {
-            return $http.get(`Analysis/${documentId}`, { cache: false })
+            return $http.get(`Analysis/${documentId}`, { cache: false });
         }
     };
 }

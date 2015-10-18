@@ -4,11 +4,6 @@
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - @AppSettings.Options.SiteTitle</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="~/lib/Font-Awesome/css/font-awesome.min.css" />
-
-    <link href="~/dist/app.min.css" rel="stylesheet" />
 </head>
 <body ng-strict-di ng-cloak ng-controller="ListController as controller">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -28,23 +23,29 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li class="navbar-brand">
-                        <a href="~/"><span><img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" /></span></a>
+                        <a href="~/">
+                            <span>
+                                <img class="project-logo-navbar" src="~/images/ic_launcher-web - Copy.png" />
+                            </span>
+                        </a>
                     </li>
-                    <li>@Html.ActionLink(linkText: "", controllerName: "Home", actionName: "Index", htmlAttributes: new { @class = "fa fa-home fa-lg" }, routeValues: new { })</li>
-
-
+                    <li>
+                        @Html.ActionLink(
+                            linkText: string.Empty,
+                            controllerName: "Home",
+                            actionName: "Index",
+                            htmlAttributes: new { @class = "fa fa-home fa-lg" },
+                            routeValues: new { }
+                        )
+                    </li>
                 </ul>
-
-
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-        <div>
-            @await Html.PartialAsync("_AngularFileUpload")
-        </div>
+        <upload-panel></upload-panel>
         <footer>
             <p>&copy; 2015 - @AppSettings.Options.SiteTitle</p>
         </footer>
@@ -52,30 +53,11 @@
     </div>
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/config.js"></script>
-
-    @*<script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/draggable/draggable.js"></script>
-        <script src="~/lib/angular/angular.js"></script>
-        <script src="~/lib/angular-resource/angular-resource.js"></script>
-        <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script src="~/lib/angular-bootstrap-contextmenu/contextMenu.js"></script>
-        <script src="~/lib/ng-file-upload-shim/ng-file-upload-shim.js"></script>
-        <script src="~/lib/angularjs-file-upload/ng-file-upload.js"></script>*@
     <script>
-        System.import('main').then(function (app) {
-            app.angularBootstrap()();
-
-        });
-        //System.import('module-registry.js').then(function () {
-        //    alert("loaded");
-        //});
+        System.import('app')
+                .then(function (app) { app.default(); })
+                .catch(console.error.bind(console));
     </script>
-    @*<script src="~/dist/app/app.js"></script>*@
-
     @RenderSection("scripts", required: false)
 </body>
-
 </html>
