@@ -1,5 +1,4 @@
-﻿/// <amd-dependency path="./document-viewer.html" />
-'use strict';
+﻿'use strict';
 import template from './document-viewer.html';
 documentViewerDirective.$inject = [];
 export default function documentViewerDirective(): angular.IDirective {

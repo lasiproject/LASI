@@ -2,7 +2,8 @@
     "compilerOptions": {
         "target": "es5",
         "module": "system",
-        "sourceMap": true
+        "sourceMap": false,
+        "noEmit": true
     },
     "exclude": [ "jspm_packages" ]
 }
