@@ -69,7 +69,7 @@ gulp.task('tslint', function () {
 
 gulp.task('watch', function () {
     var onError = console.error.bind(console);
-    gulp.watch(paths.appts, ['typescript', 'tslint'])
+    gulp.watch(paths.appts, [/*'typescript',*/ 'tslint'])
         .on('error', onError);
     gulp.watch(paths.appcss, ['appcss'])
         .on('error', onError);

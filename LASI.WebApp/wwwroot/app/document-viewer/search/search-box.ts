@@ -1,7 +1,4 @@
-﻿/// <amd-dependency path="./search-box.html" />
-//var template = ;
-
-'use strict';
+﻿'use strict';
 import { LexicalModel, WordModel, PhraseModel, TextFragmentModel } from 'app/models';
 
 class SearchBoxController {
@@ -52,7 +49,7 @@ interface SearchOptions {
     value: SearchModel;
     lifted?: boolean;
 }
-import template from './search-box.html';
+import template from 'app/document-viewer/search/search-box.html';
 export default function searchBox(): angular.IDirective {
     return {
         template,

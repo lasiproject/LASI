@@ -1,4 +1,4 @@
-import { debugPanel } from './debug-panel.directive';
+import { debugPanel } from './debug-panel';
 
 var m: AngularModuleOptions = {
     name: 'debug',

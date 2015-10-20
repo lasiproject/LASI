@@ -1,6 +1,6 @@
 ﻿/// <amd-dependency path="./paragraph.html" />
 'use strict';
-import template from './paragraph.html';
+import template from 'app/document-viewer/directives/paragraph.html';
 paragraph.$inject = ['$window'];
 export default function paragraph($window: angular.IWindowService): angular.IDirective {
     return {

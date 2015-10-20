@@ -203,3 +203,5 @@ AspSixApp/App_Data/Temp/11060268vadoc.txt
 /LASI.WebApp/typings/
 *.map
 *.min.*
+/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll

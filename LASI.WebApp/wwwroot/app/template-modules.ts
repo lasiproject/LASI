@@ -1,0 +1,10 @@
+declare module 'app/debug/debug-panel.html' { export default ''; }
+declare module 'app/document-list/document-list-menu-item.html' { export default ''; }
+declare module 'app/document-list/document-list-tabset-item.html' { export default ''; }
+declare module 'app/document-upload/upload-panel.html' { export default ''; }
+declare module 'app/document-viewer/search/search-box.html' { export default ''; }
+declare module 'app/document-viewer/directives/document-viewer.html' { export default ''; }
+declare module 'app/document-viewer/directives/page.html' { export default ''; }
+declare module 'app/document-viewer/directives/paragraph.html' { export default ''; }
+declare module 'app/document-viewer/directives/sentence.html' { export default ''; }
+declare module 'app/document-viewer/directives/phrase.html' { export default ''; }

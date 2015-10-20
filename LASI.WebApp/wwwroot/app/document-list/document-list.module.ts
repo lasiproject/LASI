@@ -5,8 +5,8 @@ import { resultsService } from './results.service';
 import { DocumentListServiceConfig, DocumentListServiceProvider } from './document-list-service.provider';
 import { TasksListServiceProvider, tasksListServiceProvider } from './tasks-list-service.provider';
 import { ListController } from './list.controller';
-import { documentListTabsetItem } from './document-list-tabset-item.directive';
-import { documentListMenuItem } from './document-list-menu-item.directive';
+import { documentListTabsetItem } from './document-list-tabset-item';
+import { documentListMenuItem } from './document-list-menu-item';
 
 configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
 

@@ -9,7 +9,7 @@ interface DocumentListItemScope extends angular.IScope {
     showProgress: boolean;
 }
 //var require = window.require = System.amdRequire;
-import template from './document-list-menu-item.directive.html';
+import template from 'app/document-list/document-list-menu-item.html';
 export function documentListMenuItem($window, resultsService): angular.IDirective {
     return {
         transclude: true,

@@ -1,7 +1,7 @@
 ﻿/// <amd-dependency path="./document-list-tabset-item.directive.html" />
 'use strict';
 
-import template from './document-list-tabset-item.directive.html';
+import template from 'app/document-list/document-list-tabset-item.html';
 
 documentListTabsetItem.$inject = ['resultsService'];
 export function documentListTabsetItem(resultsService): angular.IDirective {
