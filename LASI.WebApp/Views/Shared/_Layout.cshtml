@@ -5,7 +5,7 @@
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - @AppSettings.Options.SiteTitle</title>
 </head>
-<body ng-strict-di ng-cloak ng-controller="ListController as controller">
+<body hidden ng-strict-di ng-cloak ng-controller="ListController as controller">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -15,7 +15,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div id="document-list-navbar-item-container" class="dropdown-toggle">
-                    @if (User?.Identity?.IsAuthenticated ?? false) {
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
                         @await Html.PartialAsync("_DocumentListNavDropdown")
                     }
                 </div>
@@ -55,8 +56,9 @@
     <script src="~/config.js"></script>
     <script>
         System.import('app')
-                .then(function (app) {
+                .then(app => {
                     app.bootstrap();
+                    $(document.body).show();
                 })
                 .catch(console.error.bind(console));
     </script>

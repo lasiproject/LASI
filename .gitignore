@@ -205,3 +205,4 @@ AspSixApp/App_Data/Temp/11060268vadoc.txt
 *.min.*
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+/LASI.WebApp/wwwroot/app/app.js
