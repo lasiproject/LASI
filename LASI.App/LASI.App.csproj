@@ -487,24 +487,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Content\LASI.Content.csproj">
+    <ProjectReference Include="..\LASI.Content\LASI.Content.csproj">
       <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
       <Name>LASI.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\LASI.Core.csproj">
+    <ProjectReference Include="..\LASI.Core\LASI.Core.csproj">
       <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
+    <ProjectReference Include="..\LASI.Interop\LASI.Interop.csproj">
+      <Project>{06B96679-9758-4B15-8E75-0F46416E68B7}</Project>
       <Name>LASI.Interop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
+    <ProjectReference Include="..\LASI.Utilities\LASI.Utilities.csproj">
       <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -80,17 +80,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LASI.Utilities\LASI.Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
+      <Name>LASI.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared.Test.Utilities\LASI.Shared.Test.csproj">
       <Project>{1314082a-eb47-44e9-88a0-72c71489035f}</Project>
       <Name>LASI.Shared.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Name>LASI.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

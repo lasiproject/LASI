@@ -2,10 +2,10 @@
   "version": "1.0.0-*",
   "frameworks": {
     "net46": {
-      "wrappedProject": "../../Content/LASI.Content.csproj",
+      "wrappedProject": "../../LASI.Content/LASI.Content.csproj",
       "bin": {
-        "assembly": "../../Content/obj/{configuration}/LASI.Content.dll",
-        "pdb": "../../Content/obj/{configuration}/LASI.Content.pdb"
+        "assembly": "../../LASI.Content/obj/{configuration}/LASI.Content.dll",
+        "pdb": "../../LASI.Content/obj/{configuration}/LASI.Content.pdb"
       },
       "dependencies": {
         "Newtonsoft.Json": "6.0.8",
@@ -19,10 +19,10 @@
       }
     },
     "net45": {
-      "wrappedProject": "../../Content/LASI.Content.csproj",
+      "wrappedProject": "../../LASI.Content/LASI.Content.csproj",
       "bin": {
-        "assembly": "../../Content/obj/{configuration}/LASI.Content.dll",
-        "pdb": "../../Content/obj/{configuration}/LASI.Content.pdb"
+        "assembly": "../../LASI.Content/obj/{configuration}/LASI.Content.dll",
+        "pdb": "../../LASI.Content/obj/{configuration}/LASI.Content.pdb"
       },
       "dependencies": {
         "Newtonsoft.Json": "6.0.8",

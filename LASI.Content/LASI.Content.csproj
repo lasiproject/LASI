@@ -129,14 +129,13 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Core\LASI.Core.csproj">
-      <Project>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</Project>
+    <ProjectReference Include="..\LASI.Core\LASI.Core.csproj">
+      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
       <Name>LASI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\LASI.Utilities.csproj">
-      <Project>{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}</Project>
+    <ProjectReference Include="..\LASI.Utilities\LASI.Utilities.csproj">
+      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
       <Name>LASI.Utilities</Name>
     </ProjectReference>
   </ItemGroup>

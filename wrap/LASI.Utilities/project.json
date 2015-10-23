@@ -2,10 +2,10 @@
   "version": "1.0.0-*",
   "frameworks": {
     "net46": {
-      "wrappedProject": "../../Utilities/LASI.Utilities.csproj",
+      "wrappedProject": "../../LASI.Utilities/LASI.Utilities.csproj",
       "bin": {
-        "assembly": "../../Utilities/obj/{configuration}/LASI.Utilities.dll",
-        "pdb": "../../Utilities/obj/{configuration}/LASI.Utilities.pdb"
+        "assembly": "../../LASI.Utilities/obj/{configuration}/LASI.Utilities.dll",
+        "pdb": "../../LASI.Utilities/obj/{configuration}/LASI.Utilities.pdb"
       },
       "dependencies": {
         "Newtonsoft.Json": "6.0.8",
@@ -13,10 +13,10 @@
       }
     },
     "net45": {
-      "wrappedProject": "../../Utilities/LASI.Utilities.csproj",
+      "wrappedProject": "../../LASI.Utilities/LASI.Utilities.csproj",
       "bin": {
-        "assembly": "../../Utilities/obj/{configuration}/LASI.Utilities.dll",
-        "pdb": "../../Utilities/obj/{configuration}/LASI.Utilities.pdb"
+        "assembly": "../../LASI.Utilities/obj/{configuration}/LASI.Utilities.dll",
+        "pdb": "../../LASI.Utilities/obj/{configuration}/LASI.Utilities.pdb"
       },
       "dependencies": {
         "Newtonsoft.Json": "6.0.8",

@@ -76,7 +76,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Interop\LASI.Interop.csproj">
+    <ProjectReference Include="..\LASI.Interop\LASI.Interop.csproj">
       <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
       <Name>LASI.Interop</Name>
     </ProjectReference>

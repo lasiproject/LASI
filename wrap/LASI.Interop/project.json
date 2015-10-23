@@ -2,10 +2,10 @@
   "version": "1.0.0-*",
   "frameworks": {
     "net46": {
-      "wrappedProject": "../../Interop/LASI.Interop.csproj",
+      "wrappedProject": "../../LASI.Interop/LASI.Interop.csproj",
       "bin": {
-        "assembly": "../../Interop/obj/{configuration}/LASI.Interop.dll",
-        "pdb": "../../Interop/obj/{configuration}/LASI.Interop.pdb"
+        "assembly": "../../LASI.Interop/obj/{configuration}/LASI.Interop.dll",
+        "pdb": "../../LASI.Interop/obj/{configuration}/LASI.Interop.pdb"
       },
       "dependencies": {
         "LASI.Content": "1.0.0-*",
@@ -16,10 +16,10 @@
       }
     },
     "net45": {
-      "wrappedProject": "../../Interop/LASI.Interop.csproj",
+      "wrappedProject": "../../LASI.Interop/LASI.Interop.csproj",
       "bin": {
-        "assembly": "../../Interop/obj/{configuration}/LASI.Interop.dll",
-        "pdb": "../../Interop/obj/{configuration}/LASI.Interop.pdb"
+        "assembly": "../../LASI.Interop/obj/{configuration}/LASI.Interop.dll",
+        "pdb": "../../LASI.Interop/obj/{configuration}/LASI.Interop.pdb"
       },
       "dependencies": {
         "Newtonsoft.Json": "6.0.8",
