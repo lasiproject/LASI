@@ -21,13 +21,14 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
+            var configPath = File.Exists(@"App.config") ? "App.config" : @"..\..\App.config";
             Interop.Configuration.Initialize(new XmlConfig(new XElement(
                     name: "configuration",
-                    content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
+                    content: from element in XElement.Load(configPath).Element("appSettings").Elements()
                              let name = element.Attribute("key")
                              let content = element.Attribute("value")
                              where name != null && content != null
-                             select new XElement(name: name.Value, content: content.Value))));
+                             select new XElement(name: name.Value, content: name.Value == "ResourcesDirectory" ? Directory.GetCurrentDirectory() + @"\" : content.Value))));
         }
         private static void LoadPerformancePreference()
         {

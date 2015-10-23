@@ -19,7 +19,7 @@
                Foreground="DarkRed"
                KeyDown="LicenseLabel_KeyDown"
                MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
-               Tag="Resources\Licenses\b2xtranslatorLicense.txt"
+               Tag="Licenses\b2xtranslatorLicense.txt"
                ToolTip="LASI uses the b2x translator library to parse legacy Microsoft Word documents (.doc)"
                HorizontalContentAlignment="Center">
             <Label.Content>b2xtranslator</Label.Content>
@@ -40,7 +40,7 @@
                Foreground="DarkRed"
                MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
                KeyDown="LicenseLabel_KeyDown"
-               Tag="Resources\Licenses\iTextSharpLicense.txt"
+               Tag="Licenses\iTextSharpLicense.txt"
                ToolTip="LASI uses the iTextSharp v4.16 library to parse Adobe Acrobat documents (.pdf)"
                HorizontalContentAlignment="Center">
             <Label.Content>iTextSharp</Label.Content>
@@ -61,7 +61,7 @@
                Foreground="DarkRed"
                MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
                KeyDown="LicenseLabel_KeyDown"
-               Tag="Resources\Licenses\SharpNLPLicense.txt"
+               Tag="Licenses\SharpNLPLicense.txt"
                ToolTip="LASI uses the SharpNLP part of speech tagging library to identify the syntactic roles of lexical tokens and aggregates"
                HorizontalContentAlignment="Center">
             <Label.Content>SharpNLP</Label.Content>
@@ -82,7 +82,7 @@
                Foreground="DarkRed"
                MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
                KeyDown="LicenseLabel_KeyDown"
-               Tag="Resources\Licenses\WordNetLicense.txt"
+               Tag="Licenses\WordNetLicense.txt"
                ToolTip="LASI uses the Princeton WordNet 3.0 data files to provide synonymic, attributive, and categorical context"
                HorizontalContentAlignment="Center">
             <Label.Content>WordNet</Label.Content>
@@ -103,7 +103,7 @@
                Foreground="DarkRed"
                MouseLeftButtonDown="LicenseLabel_MouseLeftButtonDown"
                KeyDown="LicenseLabel_KeyDown"
-               Tag="Resources\Licenses\WPFToolkitLicense.txt"
+               Tag="Licenses\WPFToolkitLicense.txt"
                ToolTip="LASI uses the WPF Toolkit library to provide enhanced data visualization"
                HorizontalContentAlignment="Center">
             <Label.Content>WPFToolkit</Label.Content>

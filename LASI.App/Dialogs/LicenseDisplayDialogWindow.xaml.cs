@@ -30,7 +30,9 @@ namespace LASI.App.Dialogs
 
             InitializeComponent();
         }
-
+        /// <summary>
+        /// The text of the licence.
+        /// </summary>
         public string LicenseText { get; }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

@@ -242,129 +242,129 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Resources\DotLasiFile.xsd">
+    <Resource Include="Resources\DotLasiFile.xsd">
       <SubType>Designer</SubType>
-    </None>
+    </Resource>
     <None Include="Resources\StandaloneFileConverters\doc2x.exe.config" />
     <None Include="Resources\StandaloneFileConverters\doc2x.vshost.exe.config" />
     <None Include="Resources\StandaloneFileConverters\libzlibwapi.so" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\acronyms" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.fem" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.mal" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\num.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\sim.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishChunk.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishPOS.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishSD.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishTok.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.fem" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.mal" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\imodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\acronyms" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\date.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.fem" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.mal" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\location.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\money.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\num.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\organization.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\percentage.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\person.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\sim.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\time.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\num.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\build.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\check.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\chunk.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\head_rules" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\percentage.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tag.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tagdict" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\time.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\sim.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel.nbin" />
-    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adj.exc" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adv.exc" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist.rev" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adj" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adv" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.noun" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.verb" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\frames.vrb" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adj" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adv" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.noun" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.sense" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.verb" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\log.grind.2.1" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\noun.exc" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sentidx.vrb" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sents.vrb" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.exc" />
-    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext" />
-    <None Include="Resources\WordNetThesaurusData\adj.exc" />
-    <None Include="Resources\WordNetThesaurusData\adv.exc" />
-    <None Include="Resources\WordNetThesaurusData\data.adj" />
-    <None Include="Resources\WordNetThesaurusData\data.adv" />
-    <None Include="Resources\WordNetThesaurusData\data.noun" />
-    <None Include="Resources\WordNetThesaurusData\data.verb" />
-    <None Include="Resources\WordNetThesaurusData\index.adj" />
-    <None Include="Resources\WordNetThesaurusData\index.adv" />
-    <None Include="Resources\WordNetThesaurusData\index.noun" />
-    <None Include="Resources\WordNetThesaurusData\index.sense" />
-    <None Include="Resources\WordNetThesaurusData\index.verb" />
-    <None Include="Resources\WordNetThesaurusData\noun.exc" />
-    <None Include="Resources\WordNetThesaurusData\verb.exc" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\acronyms" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.fem" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.mal" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\num.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\sim.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishChunk.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishPOS.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishSD.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishTok.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.fem" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.mal" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\imodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\acronyms" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\date.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.fem" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.mal" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\location.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\money.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\num.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\organization.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\percentage.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\person.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\sim.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\time.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\num.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\build.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\check.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\chunk.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\head_rules" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\percentage.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tag.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tagdict" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\time.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\sim.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel.nbin" />
+    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\adj.exc" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\adv.exc" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist.rev" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adj" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adv" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.noun" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.verb" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\frames.vrb" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adj" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adv" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.noun" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.sense" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.verb" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\log.grind.2.1" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\noun.exc" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\sentidx.vrb" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\sents.vrb" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.exc" />
+    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext" />
+    <Resource Include="Resources\WordNetThesaurusData\adj.exc" />
+    <Resource Include="Resources\WordNetThesaurusData\adv.exc" />
+    <Resource Include="Resources\WordNetThesaurusData\data.adj" />
+    <Resource Include="Resources\WordNetThesaurusData\data.adv" />
+    <Resource Include="Resources\WordNetThesaurusData\data.noun" />
+    <Resource Include="Resources\WordNetThesaurusData\data.verb" />
+    <Resource Include="Resources\WordNetThesaurusData\index.adj" />
+    <Resource Include="Resources\WordNetThesaurusData\index.adv" />
+    <Resource Include="Resources\WordNetThesaurusData\index.noun" />
+    <Resource Include="Resources\WordNetThesaurusData\index.sense" />
+    <Resource Include="Resources\WordNetThesaurusData\index.verb" />
+    <Resource Include="Resources\WordNetThesaurusData\noun.exc" />
+    <Resource Include="Resources\WordNetThesaurusData\verb.exc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -448,42 +448,36 @@
     <Resource Include="Resources\LASICustom\NameData\femalefirst.txt" />
     <Resource Include="Resources\LASICustom\NameData\last.txt" />
     <Resource Include="Resources\LASICustom\NameData\malefirst.txt" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.CommonTranslatorLib.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.DocFileFormat.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OfficeDrawing.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OpenXmlLib.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Shell.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.StructuredStorage.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Tools.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.dll" />
-    <Content Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.ZipUtils.dll" />
-    <Content Include="Resources\StandaloneFileConverters\doc2x.exe" />
-    <Content Include="Resources\StandaloneFileConverters\zlibwapi.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.CommonTranslatorLib.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.DocFileFormat.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OfficeDrawing.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OpenXmlLib.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Shell.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.StructuredStorage.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Tools.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.ZipUtils.dll" />
+    <None Include="Resources\StandaloneFileConverters\doc2x.exe" />
+    <None Include="Resources\StandaloneFileConverters\zlibwapi.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Licences\b2xtranslatorLicense.txt">
       <Link>Resources\Licenses\b2xtranslatorLicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\iTextSharpLicense.txt">
       <Link>Resources\Licenses\iTextSharpLicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\LASILicense.txt">
       <Link>Resources\Licenses\LASILicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\SharpNLPLicense.txt">
       <Link>Resources\Licenses\SharpNLPLicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\WordNetLicense.txt">
       <Link>Resources\Licenses\WordNetLicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\WPFToolkitLicense.txt">
       <Link>Resources\Licenses\WPFToolkitLicense.txt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
