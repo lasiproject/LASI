@@ -15,6 +15,9 @@ namespace LASI.App
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// A global structure containing dynamic application configuration.
+        /// </summary>
         public static IConfig Config { get; private set; }
 
         /// <summary>
