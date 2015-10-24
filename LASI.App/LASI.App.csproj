@@ -41,7 +41,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
     <DocumentationFile>
     </DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -56,7 +56,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\LASI.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -125,6 +125,7 @@
     <Compile Include="Dialogs\LicenseDisplayDialogWindow.xaml.cs">
       <DependentUpon>LicenseDisplayDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\WindowExtensions.cs" />
     <Compile Include="Visualization\ContextMenuBuilder.cs" />

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LASI.App.Extensions;
 using LASI.App.Helpers;
 namespace LASI.App.Dialogs
 {
@@ -38,10 +41,10 @@ namespace LASI.App.Dialogs
         /// <param name="helpUri">The help URI to Display if an error occurs.</param>
         private void OpenTxtFileInDefaultApp(string filePath, string helpUri)
         {
-            var actualPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath);
+            var actualPath =  Path.Combine($@"{App.Config["LicencesDirectory"]}\{filePath}");
             try
             {
-                using (var reader = new System.IO.StreamReader(actualPath, encoding: System.Text.Encoding.UTF8))
+                using (var reader = new StreamReader(actualPath, Encoding.UTF8))
                 {
                     var licenseViewer = new LicenseDisplayDialogWindow(reader.ReadToEnd());
                     var pos = PointToScreen(new Point(this.Left, this.Top));
@@ -56,7 +59,8 @@ namespace LASI.App.Dialogs
             }
             catch (Win32Exception)
             {
-                MessageBox.Show(this, $"An error occured when trying to open or locate the file {actualPath}. Please visit {helpUri} for assistance.");
+                this.Message($@"An error occured when trying to open or locate the file {actualPath}. 
+                                Please visit {helpUri} for assistance.");
             }
         }
 

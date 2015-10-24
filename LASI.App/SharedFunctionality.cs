@@ -8,12 +8,14 @@ using System.Configuration;
 using LASI.Content.Serialization;
 using LASI.App.Dialogs;
 using System.Linq;
+using LASI.App.Extensions;
 
 namespace LASI.App
 {
+    using static Logger;
     static class SharedFunctionality
     {
-        internal static void LaunchLASIWebsite(Window source)
+        internal static void LaunchLASIWebsite(Window window)
         {
             try
             {
@@ -21,43 +23,38 @@ namespace LASI.App
             }
             catch (Exception x)
             {
-                MessageBox.Show(source, UiMessages.UnableToReachLASIWebSite);
-                Logger.Log(x.Message);
-                Logger.Log(x);
+                window.Message(UiMessages.UnableToReachLASIWebSite);
+                Log(x.Message);
+                Log(x);
             }
         }
 
-        internal static void OpenManualWithInstalledViewer(Window source)
+        internal static void OpenManualWithInstalledViewer(Window window)
         {
+            Action<string> alert = window.Message;
             try
             {
                 System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
-                MessageBox.Show(source, UiMessages.UnableToLocateManual);
+                alert(UiMessages.UnableToLocateManual);
+                Log(e.Message);
+                Log(e);
             }
-            catch (Exception x)
+            catch (Exception e)
             {
-                MessageBox.Show(source, UiMessages.UnableToOpenManual);
-                Logger.Log(x.Message);
-                Logger.Log(x);
+                alert(UiMessages.UnableToOpenManual);
+                Log(e.Message);
+                Log(e);
             }
         }
-        private static void DisplayMessage(Window window, string message)
-        {
-            MessageBox.Show(window, message);
-        }
-        private static void DisplayMessageIf(Window window, Func<bool> condition, string message) => DisplayMessageIf(window, condition(), message);
-        private static void DisplayMessageIf(Window window, bool condition, string message)
-        {
-            if (condition) { DisplayMessage(window, message); }
-        }
+
         internal static async Task HandleDropAddAsync(Window window, DragEventArgs e, Func<FileInfo, Task> processValid)
         {
             if (!DocumentManager.CanAdd)
             {
-                MessageBox.Show(window, UiMessages.DocumentLimitExceeded);
+                window.Message(UiMessages.DocumentLimitExceeded);
             }
             else
             {
@@ -69,10 +66,12 @@ namespace LASI.App
                     foreach (var file in validFiles)
                     {
                         var fileNamePresent = DocumentManager.HasFileWithName(file.Name);
-                        DisplayMessageIf(window, fileNamePresent, $"A document named {file} is already part of the current project.");
+                        window.MessageIf(fileNamePresent, $"A document named {file} is already part of the current project.");
                         if (!fileNamePresent)
                         {
-                            DisplayMessageIf(window, !DocumentManager.AbleToOpen(file), $"The document {file} is in use by another process, please close any applications which may be using the file and try again.");
+                            window.MessageIf(
+                                !DocumentManager.AbleToOpen(file),
+                                $@"The document {file} is in use by another process. Please close any applications which may be using the file and try again.");
                             if (!DocumentManager.AbleToOpen(file))
                             {
                                 await processValid(file);
@@ -80,16 +79,17 @@ namespace LASI.App
                         }
                     }
                 }
-                DisplayMessageIf(window, !validFiles.Any(), $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
+                window.MessageIf(validFiles.Any, $"Cannot add a file of type {data}. The following formats are supported {UiMessages.ValidDocumentFormats}");
 
             }
         }
 
-        internal static void HandleDropAdd(Window source, DragEventArgs e, Action<FileInfo> forValid)
+        internal static void HandleDropAdd(Window window, DragEventArgs e, Action<FileInfo> forValid)
         {
+            Action<string> alert = window.Message;
             if (!DocumentManager.CanAdd)
             {
-                MessageBox.Show(source, UiMessages.DocumentLimitExceeded);
+                alert(UiMessages.DocumentLimitExceeded);
             }
             else
             {
@@ -97,7 +97,7 @@ namespace LASI.App
                 var validFiles = DocumentManager.GetValidFilesInPathList(data as string[]);
                 if (!validFiles.Any())
                 {
-                    MessageBox.Show(source, $"Cannot add a file of type {data}; " + UiMessages.ValidDocumentFormats);
+                    alert($"Cannot add a file of type {data}; " + UiMessages.ValidDocumentFormats);
                 }
                 else
                 {
@@ -105,11 +105,12 @@ namespace LASI.App
                     {
                         if (DocumentManager.HasFileWithName(file.Name))
                         {
-                            DisplayMessage(source, $"A document named {file} is already part of the current project.");
+                            alert($"A document named {file} is already part of the current project.");
                         }
                         else if (!DocumentManager.AbleToOpen(file))
                         {
-                            DisplayMessage(source, $"The document {file} cannot be opened and may be in use by another process, please close any applications which may be using the file and try again.");
+                            alert($@"The document {file} cannot be opened and may be in use by another process.
+                                     Please close any applications which may be using the file and try again.");
                         }
                         else
                         {
@@ -129,9 +130,9 @@ namespace LASI.App
         }
         static class UiMessages
         {
-            public static readonly string UnableToReachLASIWebSite = "Sorry, the LASI project website could not be opened";
-            public static readonly string UnableToLocateManual = "Unable to locate the User Manual, please write to us at thelasiproject@gmail.com for further support.";
-            public static readonly string UnableToOpenManual = "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.";
+            public const string UnableToReachLASIWebSite = "Sorry, the LASI project website could not be opened";
+            public const string UnableToLocateManual = "Unable to locate the User Manual, please write to us at thelasiproject@gmail.com for further support.";
+            public const string UnableToOpenManual = "Sorry, the manual could not be opened. Please ensure you have a pdf viewer installed.";
             public static readonly string ValidDocumentFormats = $"The following file formats are accepted:\n{DocumentManager.AcceptedFormats}";
             public static readonly string DocumentLimitExceeded = $"A single project may have a maximum of {DocumentManager.MaxDocuments} documents.";
         }

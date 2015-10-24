@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using LASI.Interop;
 using LASI.App.Helpers;
+using LASI.App.Extensions;
 
 namespace LASI.App
 {
@@ -104,7 +105,7 @@ namespace LASI.App
             }
             catch (FileConversionFailureException e)
             {
-                MessageBox.Show(this, $".doc file conversion failed\n{e.Message}");
+                this.Message($".doc file conversion failed\n{e.Message}");
             }
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
@@ -179,7 +180,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.HasFileWithName(file.Name))
                 {
-                    MessageBox.Show(this, $"A document named {file} is already part of the project.");
+                    this.Message($"A document named {file} is already part of the project.");
                 }
                 else if (DocumentManager.AbleToOpen(file))
                 {
@@ -188,7 +189,7 @@ namespace LASI.App
                 }
                 else
                 {
-                    MessageBox.Show(this, $"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
+                    this.Message($"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
                 }
 
             }

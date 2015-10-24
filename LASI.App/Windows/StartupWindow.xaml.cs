@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
+using LASI.App.Extensions;
 
 namespace LASI.App
 {
@@ -116,7 +117,7 @@ namespace LASI.App
                 }
                 catch (FileNotFoundException e)
                 {
-                    MessageBox.Show(this, e.Message);
+                    this.Message(e.Message);
                 }
             }
             try
@@ -125,7 +126,7 @@ namespace LASI.App
             }
             catch (FileConversionFailureException e)
             {
-                MessageBox.Show(this, $".doc file conversion failed\n{e.Message}");
+                this.Message($".doc file conversion failed\n{e.Message}");
             }
         }
 
@@ -197,7 +198,7 @@ namespace LASI.App
                         }
                         else
                         {
-                            MessageBox.Show(this, $"A document named {openDialog.SafeFileName} is already part of the project.");
+                            this.Message($"A document named {openDialog.SafeFileName} is already part of the project.");
                         }
                     }
                 }
@@ -212,9 +213,10 @@ namespace LASI.App
                 {
                     Directory.CreateDirectory(locationTextBox.Text);
                 }
-                catch (Exception)
+                catch (Exception x)
                 {
-                    MessageBox.Show(this, ErrorMessages.UnusableProjectDirectory);
+                    x.Log();
+                    this.Message(ErrorMessages.UnusableProjectDirectory);
                 }
             }
             if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectHasADocument())

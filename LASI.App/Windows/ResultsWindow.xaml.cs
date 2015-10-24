@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using LASI.Interop;
 using LASI.Content.Serialization;
+using LASI.App.Extensions;
 
 namespace LASI.App
 {
@@ -26,6 +27,7 @@ namespace LASI.App
     using FlowDocumentPageViewer = FlowDocumentPageViewer;
     using FileInfo = System.IO.FileInfo;
     using LASI.App.Helpers;
+    using Extensions;
 
     /// <summary>
     /// Interaction logic for ResultsWindow.xaml
@@ -208,7 +210,7 @@ namespace LASI.App
             {
                 var failureMessage = $".doc file conversion failed\n{e.Message}";
                 Logger.Log(failureMessage);
-                MessageBox.Show(this, failureMessage);
+                this.Message(failureMessage);
             }
         }
 
@@ -331,7 +333,7 @@ namespace LASI.App
         }
         private void HelpAbout_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://lasi-project.org");
+            Process.Start(LASI.App.App.Config["ProjectWebsite"]);
         }
         private async void exportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -377,7 +379,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.HasFileWithName(file.Name))
                 {
-                    MessageBox.Show(this, $"A document named {file} is already part of the project.");
+                    this.Message($"A document named {file} is already part of the project.");
                 }
                 else if (DocumentManager.AbleToOpen(file))
                 {
@@ -385,7 +387,7 @@ namespace LASI.App
                 }
                 else
                 {
-                    MessageBox.Show(this, $"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
+                    this.Message($"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
                 }
             }
         }
