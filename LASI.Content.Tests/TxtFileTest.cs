@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading.Tasks;
-using LASI.Content.Tests.Helpers;
 using Shared.Test.Attributes;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -53,11 +53,10 @@ namespace LASI.Content.Tests
             TxtFile target = new TxtFile(invalidPath);
         }
         [TestMethod]
-        [ExpectedFileTypeWrapperMismatchException]
         public void TxtFileConstructorTest2()
         {
-            string wrongTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
-            TxtFile target = new TxtFile(wrongTypePath);
+            string wrongTypePath = new FileInfo(@"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf").FullName;
+            Check.ThatCode(() => new TxtFile(wrongTypePath)).Throws<FileTypeWrapperMismatchException<TxtFile>>();
         }
 
         /// <summary>

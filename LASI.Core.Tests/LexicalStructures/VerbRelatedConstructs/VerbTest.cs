@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Shared.Test.Assertions;
+using FluentAssertions;
 
 namespace LASI.Core.Tests
 {
@@ -137,8 +138,10 @@ namespace LASI.Core.Tests
             Verb target = new BaseVerb(text);
             IEntity subject = new PersonalPronoun("he");
             target.BindSubject(subject);
-            Assert.IsTrue(target.Subjects.Count() == 1);
-            Assert.IsTrue(target.Subjects.Contains(subject));
+
+            target.Subjects.Should()
+                .HaveCount(1)
+                .And.Contain(subject);
         }
 
 
@@ -153,7 +156,10 @@ namespace LASI.Core.Tests
             Verb target = new BaseVerb(text);
             IAdverbial adv = new Adverb("sufficiently");
             target.ModifyWith(adv);
-            Assert.IsTrue(target.AdverbialModifiers.Contains(adv) && target.AdverbialModifiers.Count() == 1);
+
+            target.AdverbialModifiers.Should()
+                .Contain(adv)
+                .And.HaveCount(1);
         }
 
 
@@ -344,18 +350,18 @@ namespace LASI.Core.Tests
             int rand = new Random().Next(-1, 2);
             switch (rand)
             {
-                case -1:
-                    target.BindSubject(entity);
-                    break;
-                case 0:
-                    target.BindDirectObject(entity);
-                    break;
-                case 1:
-                    target.BindDirectObject(entity);
-                    break;
-                default:
-                    Assert.Fail();
-                    break;
+            case -1:
+            target.BindSubject(entity);
+            break;
+            case 0:
+            target.BindDirectObject(entity);
+            break;
+            case 1:
+            target.BindDirectObject(entity);
+            break;
+            default:
+            Assert.Fail();
+            break;
             }
             Func<IEntity, bool> predicate = e => e.Text == "monkeys";
             bool expected = true;

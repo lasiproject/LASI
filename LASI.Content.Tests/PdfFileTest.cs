@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using LASI.Content.Tests.Helpers;
 using Shared.Test.Attributes;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -30,17 +30,17 @@ namespace LASI.Content.Tests
         }
         [TestMethod]
         [ExpectedFileNotFoundException]
-        public void PdfFileConstructorTest1()
+        public void PdfFileConstructor_Given_Txt_File_Throws_File_Type_Mismatch_Of_PdfFile()
         {
             string invalidPath = Directory.GetCurrentDirectory();
             PdfFile target = new PdfFile(invalidPath);
         }
         [TestMethod]
-        [ExpectedFileTypeWrapperMismatchException]
         public void PdfFileConstructorTest2()
         {
             string pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.txt";
-            PdfFile target = new PdfFile(pathToNonPdfFile);
+            Check.ThatCode(() => new PdfFile(pathToNonPdfFile))
+                 .Throws<FileTypeWrapperMismatchException<PdfFile>>();
         }
         /// <summary>
         ///A test for LoadText

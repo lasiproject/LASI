@@ -189,7 +189,7 @@
     <Compile Include="LexicalStructures\NounRelatedConstructs\RelativePronounKind.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\ActionReceiverPair.cs" />
     <Compile Include="Analysis\RelationshipLookups\Helpers\PerformerReceiverPair.cs" />
-    <Compile Include="Analysis\RelationshipLookups\Helpers\ExpressionExtensions.cs" />
+    <Compile Include="Analysis\RelationshipLookups\Helpers\RelationShipInferenceExtensions.cs" />
     <Compile Include="Analysis\RelationshipLookups\IRelationshipLookup.cs" />
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\AggregateVerbal.cs" />

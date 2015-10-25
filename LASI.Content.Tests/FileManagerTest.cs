@@ -472,7 +472,8 @@ namespace LASI.Content.Tests
         [TestInitialize]
         public void MyTestInitialize()
         {
-            if (Directory.Exists(testProjectDirectory))
+            var testMethodWorkingDirectory = $@"{this.TestContext.TestName}\{testProjectDirectory}";
+            if (Directory.Exists(testMethodWorkingDirectory))
             {
                 try
                 {
@@ -483,7 +484,7 @@ namespace LASI.Content.Tests
                     testProjectDirectory += "011";
                 }
             }
-            FileManager.Initialize(testProjectDirectory);
+            FileManager.Initialize(testMethodWorkingDirectory);
         }
 
         #endregion Additional test attributes

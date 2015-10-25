@@ -18,16 +18,19 @@ namespace LASI.Content
         /// <param name="path">The path of the .txt file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
         public TxtFile(string path)
-            : base(path) {
+            : base(path)
+        {
             if (!Extension.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
+                throw new FileTypeWrapperMismatchException<TxtFile>(Extension);
         }
         /// <summary>
         /// Gets a single string containing all of the text in the TxtFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TxtFile.</returns>
-        public override string LoadText() {
-            using (var reader = File.OpenText(FullPath)) {
+        public override string LoadText()
+        {
+            using (var reader = File.OpenText(FullPath))
+            {
                 return reader.ReadToEnd();
             }
         }
@@ -35,8 +38,10 @@ namespace LASI.Content
         /// Asynchronously gets a single string containing all of the text in the TxtFile.
         /// </summary>
         /// <returns>A single string containing all of the text in the TxtFile.</returns>
-        public override async Task<string> LoadTextAsync() {
-            using (var reader = File.OpenText(FullPath)) {
+        public override async Task<string> LoadTextAsync()
+        {
+            using (var reader = File.OpenText(FullPath))
+            {
                 return await reader.ReadToEndAsync();
             }
         }

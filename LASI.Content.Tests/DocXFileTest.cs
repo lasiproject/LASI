@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.Content.Tests.Helpers;
 using Shared.Test.Attributes;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -26,11 +26,10 @@ namespace LASI.Content.Tests
         /// A test for DocXFile Constructor
         /// </summary>
         [TestMethod]
-        [ExpectedFileTypeWrapperMismatchException]
         public void DocXFileConstructorTest1()
         {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
-            DocXFile target = new DocXFile(path);
+            Check.ThatCode(() => new DocXFile(path)).Throws<FileTypeWrapperMismatchException<DocXFile>>();
         }
 
         /// <summary>

@@ -115,7 +115,7 @@
         <Menu Height="26"
               VerticalAlignment="Top">
             <MenuItem Header="_File">
-                <MenuItem Click="NewProjectMenuItem_Click"                                                 
+                <MenuItem Click="NewProjectMenuItem_Click"
                           Header="_New Project"
                           InputGestureText="Ctrl+N" />
                 <MenuItem Header="Free _Write"

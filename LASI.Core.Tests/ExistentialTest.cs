@@ -4,8 +4,7 @@ using System;
 
 namespace LASI.Core.Tests
 {
-
-
+    using Test = TestMethodAttribute;
     /// <summary>
     ///This is a test class for ExistentialTest and is intended
     ///to contain all ExistentialTest Unit Tests
@@ -14,16 +13,9 @@ namespace LASI.Core.Tests
     public class ExistentialTest
     {
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext { get; set; }
-
-
-        /// <summary>
         ///A test for Existential Constructor
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ExistentialConstructorTest()
         {
             string text = "there";

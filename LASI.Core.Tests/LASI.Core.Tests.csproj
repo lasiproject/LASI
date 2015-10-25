@@ -54,6 +54,14 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.0.1\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.0.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.0.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdPartyComponents\FileFormatConversion\itextsharp\itextsharp.dll</HintPath>
@@ -118,7 +126,7 @@
     <Compile Include="DocumentTest.cs" />
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
-    <Compile Include="ExpressionExtensionsTest.cs" />
+    <Compile Include="RelationShipInferenceExtensionsTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
@@ -145,9 +153,9 @@
     <Compile Include="ParagraphTest.cs" />
     <Compile Include="ParticlePhraseTest.cs" />
     <Compile Include="ParticleTest.cs" />
-    <Compile Include="PastParticipleVerbTest.cs" />
-    <Compile Include="PastPrtcplVerbTest.cs" />
-    <Compile Include="PastTenseVerbTest.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticipleVerbTest.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PastParticipleTest.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PastTenseVerbTest.cs" />
     <Compile Include="PersonalPronounTest.cs" />
     <Compile Include="PreDeterminerTest.cs" />
     <Compile Include="PrepositionalPhraseTest.cs" />
@@ -166,8 +174,8 @@
     <Compile Include="IPrepositionLinkableTest.cs" />
     <Compile Include="UnknownWordTest.cs" />
     <Compile Include="Analysis\Heuristics\WordMorphing\VerbMorpherTest.cs" />
-    <Compile Include="VerbPhraseTest.cs" />
-    <Compile Include="VerbTest.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbPhraseTest.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbTest.cs" />
     <Compile Include="WeightTest.cs" />
     <Compile Include="WordTest.cs" />
   </ItemGroup>

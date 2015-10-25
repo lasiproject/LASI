@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Threading.Tasks;
-using LASI.Content.Tests.Helpers;
 using Shared.Test.Attributes;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -53,10 +53,9 @@ namespace LASI.Content.Tests
             Assert.AreEqual(target.FullPath, fileInfo.FullName);
         }
         [TestMethod]
-        [ExpectedFileTypeWrapperMismatchException]
         public void TaggedFileConstructorTest2()
         {
-            TaggedFile target = new TaggedFile(DIFFERENT_TYPE_FILE_PATH);
+            Check.ThatCode(() => new TaggedFile(DIFFERENT_TYPE_FILE_PATH)).Throws<FileTypeWrapperMismatchException<TaggedFile>>();
         }
         [TestMethod]
         [ExpectedFileNotFoundException]

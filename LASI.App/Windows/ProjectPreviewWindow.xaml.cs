@@ -105,7 +105,7 @@ namespace LASI.App
             }
             catch (FileConversionFailureException e)
             {
-                this.Message($".doc file conversion failed\n{e.Message}");
+                this.ShowMessage($".doc file conversion failed\n{e.Message}");
             }
             var textfile = FileManager.TxtFiles.Where(f => f.NameSansExt == chosenFile.NameSansExt).First();
             await LoadTextandTabAsync(textfile);
@@ -180,7 +180,7 @@ namespace LASI.App
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.HasFileWithName(file.Name))
                 {
-                    this.Message($"A document named {file} is already part of the project.");
+                    this.ShowMessage($"A document named {file} is already part of the project.");
                 }
                 else if (DocumentManager.AbleToOpen(file))
                 {
@@ -189,7 +189,7 @@ namespace LASI.App
                 }
                 else
                 {
-                    this.Message($"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
+                    this.ShowMessage($"The document {file} is in use by another process, please close any applications which may be using the document and try again.");
                 }
 
             }

@@ -16,16 +16,19 @@ namespace LASI.Content
         /// <param name="path">The path to a .docx file.</param>
         /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .docx extension.</exception>
         public DocXFile(string path)
-            : base(path) {
-            if (!Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase)) {
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
+            : base(path)
+        {
+            if (!Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new FileTypeWrapperMismatchException<DocXFile>(Extension);
             }
         }
         /// <summary>
         /// Returns a single string containing all of the text in the DocXFile.
         /// </summary>
         /// <returns>A string containing all of the text in the DocXFile.</returns>
-        public override string LoadText() {
+        public override string LoadText()
+        {
             var converter = new DocxToTextConverter(this);
             return (converter.ConvertFile() as TxtFile).LoadText();
         }
@@ -33,9 +36,10 @@ namespace LASI.Content
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.
         /// </summary>
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocXFile.</returns>
-        public override async Task<string> LoadTextAsync() {
+        public override async Task<string> LoadTextAsync()
+        {
             var converter = new DocxToTextConverter(this);
             return await (await converter.ConvertFileAsync() as TxtFile).LoadTextAsync();
-        } 
+        }
     }
 }

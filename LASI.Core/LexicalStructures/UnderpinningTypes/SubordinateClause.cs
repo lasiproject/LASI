@@ -13,7 +13,6 @@ namespace LASI.Core
     {
         public IEnumerable<IAdverbial> AttributedBy => AdverbialModifiers;
 
-
         IVerbal IAttributive<IVerbal>.AttributedTo { get { throw new NotImplementedException(); } }
 
         IDescriptor IAttributive<IDescriptor>.AttributedTo { get { throw new NotImplementedException(); } }

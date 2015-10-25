@@ -12,7 +12,7 @@ namespace LASI.Core.Analysis.Relationships
     /// <summary>
     /// Provides convenient extension methods for working with IEntity and IVerbal constructs in the context of an applicable IRelationshipLookup.
     /// </summary>
-    public static class ExpressionExtensions
+    public static class RelationShipInferenceExtensions
     {
         /// <summary>
         /// Returns an object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.

@@ -5,8 +5,8 @@ using System.Linq;
 namespace LASI.Utilities
 {
     using System.Numerics;
-    using LASI.Utilities.SpecializedResultTypes;
-    using Utilities.Validation;
+    using SpecializedResultTypes;
+    using Validation;
     using static Enumerable;
 
     /// <summary>
@@ -28,15 +28,12 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException">Source contains no elements.</exception>
         public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) =>
-            source.Select((e, i) => new
-            {
-                Element = e,
-                Index = i
-            }).Aggregate((z, e) => new
-            {
-                Element = func(z.Element, e.Element, e.Index),
-                e.Index // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
-            }).Element;
+            source.Select(Indexed.Create)
+                  .Aggregate((z, e) => Indexed.Create(
+                      element: func(z.Element, e.Element, e.Index),
+                     // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
+                     index: e.Index
+                  )).Element;
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -213,7 +210,7 @@ namespace LASI.Utilities
         {
             Validate.NotNull(source, "source", selector, "selector");
             return source.Distinct(
-                Comparer.Create<TSource>(
+                Equality.Create<TSource>(
                     (x, y) => selector(x).Equals(selector(y)),
                     x => selector(x).GetHashCode())
             );
@@ -243,7 +240,7 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Except(second, Comparer.Create<TSource>(
+            first.Except(second, Equality.Create<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
@@ -277,7 +274,7 @@ namespace LASI.Utilities
         /// given projection.
         /// </returns>
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Intersect(second, Comparer.Create<TSource>(
+            first.Intersect(second, Equality.Create<TSource>(
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
@@ -401,7 +398,7 @@ namespace LASI.Utilities
         /// compare equal under the given projection; otherwise, false.
         /// </returns>
         public static bool SequenceEqualBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.SequenceEqual(second, Comparer.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
+            first.SequenceEqual(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), e => selector(e).GetHashCode()));
 
         #region Statistical
 
@@ -579,7 +576,7 @@ namespace LASI.Utilities
         /// A sequence that contains the set union of the elements of two sequences under the given projection.
         /// </returns>
         public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> selector) =>
-            first.Union(second, Comparer.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
+            first.Union(second, Equality.Create<TSource>((x, y) => selector(x).Equals(selector(y)), x => selector(x).GetHashCode()));
 
         /// <summary>Merges three sequences by using the specified function to select elements.</summary>
         /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>

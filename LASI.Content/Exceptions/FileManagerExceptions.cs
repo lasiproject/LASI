@@ -231,6 +231,7 @@ namespace LASI.Content
     [Serializable]
     public abstract class ContentFileException : Exception
     {
+        public ContentFileException() { }
         /// <summary>
         /// Initializes a new instance of the FileSystemException class with its message string set to message.
         /// </summary>

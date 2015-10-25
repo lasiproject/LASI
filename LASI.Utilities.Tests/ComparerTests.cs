@@ -1,0 +1,50 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LASI.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NFluent;
+using NFluent.Extensions;
+
+namespace LASI.Utilities.Tests
+{
+    using Shared.Test.Assertions;
+    using Test = TestMethodAttribute;
+    [TestClass]
+    public class ComparerTests
+    {
+        [Test]
+        public void Equality_Created_Determines_Equality_As_Specified()
+        {
+            var comparer = Equality.Create<string>((x, y) => x.EqualsIgnoreCase(y));
+            var first = "hello";
+            var second = "HELLO";
+            Check.That(comparer.Equals(first, second)).IsTrue();
+        }
+
+        [Test]
+        public void Equality_Created_Without_Specifying_Hasher_Causes_Non_Nulls_To_Collide()
+        {
+            var comparer = Equality.Create<object>((x, y) => x.Equals(y));
+            object[] values = { "hello", 123, new object(), (decimal?)1m };
+            Check.That(values.Select(comparer.GetHashCode).Distinct()).HasSize(1);
+        }
+
+        [Test]
+        public void Equality_Created_Without_Specifying_Hasher_Causes_Nulls_To_Collide()
+        {
+            var comparer = Equality.Create<object>((x, y) => x.Equals(y));
+            var values = Enumerable.Repeat<object>(null, 2);
+            Check.That(values.Select(comparer.GetHashCode).Distinct()).HasSize(1);
+            Check.That(comparer.GetHashCode(string.Empty)).IsNotEqualTo(comparer.GetHashCode(null));
+        }
+
+        [Test]
+        public void Comparer_Created_With_Explicit_Hasher_Computes_Equivalent_Hash_Codes()
+        {
+            var comparer = Equality.Create<int>((x, y) => x.Equals(y), x => x < 10 ? x : x % 5);
+        }
+    }
+}

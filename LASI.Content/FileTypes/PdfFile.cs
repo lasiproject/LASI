@@ -21,7 +21,7 @@ namespace LASI.Content
             : base(fullPath)
         {
             if (!Extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
+                throw new FileTypeWrapperMismatchException<PdfFile>(Extension);
         }
         /// <summary>
         /// Returns a single string containing all of the text in the PdfFile.

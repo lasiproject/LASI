@@ -13,6 +13,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets a IEqualityComparer&lt;ILexical&gt; which uses a default, case-sensitive textual matching function.
         /// </summary>
-        public static IEqualityComparer<ILexical> Textual => Comparer.Create<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode());
+        public static IEqualityComparer<ILexical> Textual => Equality.Create<ILexical>((x, y) => x.Text == y.Text, x => x.Text.GetHashCode());
     }
 }

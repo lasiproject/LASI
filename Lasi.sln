@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		RuleSet1.ruleset = RuleSet1.ruleset
 		Script1.fsx = Script1.fsx
+		TestLocator.config = TestLocator.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B012451A-BCB9-423F-8119-BE8027CA8474}"

@@ -23,7 +23,7 @@ namespace LASI.App
             }
             catch (Exception x)
             {
-                window.Message(UiMessages.UnableToReachLASIWebSite);
+                window.ShowMessage(UiMessages.UnableToReachLASIWebSite);
                 Log(x.Message);
                 Log(x);
             }
@@ -31,7 +31,7 @@ namespace LASI.App
 
         internal static void OpenManualWithInstalledViewer(Window window)
         {
-            Action<string> alert = window.Message;
+            Action<string> alert = window.ShowMessage;
             try
             {
                 System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Manual.pdf");
@@ -54,7 +54,7 @@ namespace LASI.App
         {
             if (!DocumentManager.CanAdd)
             {
-                window.Message(UiMessages.DocumentLimitExceeded);
+                window.ShowMessage(UiMessages.DocumentLimitExceeded);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace LASI.App
 
         internal static void HandleDropAdd(Window window, DragEventArgs e, Action<FileInfo> forValid)
         {
-            Action<string> alert = window.Message;
+            Action<string> alert = window.ShowMessage;
             if (!DocumentManager.CanAdd)
             {
                 alert(UiMessages.DocumentLimitExceeded);
@@ -138,11 +138,11 @@ namespace LASI.App
         }
     }
 }
-namespace LASI.App.Commands
-{
-    static class MyApplicationCommands
-    {
-        static MyApplicationCommands() { CommandManager.RegisterClassCommandBinding(typeof(MyApplicationCommands), new CommandBinding(exitCommand)); }
-        public static RoutedUICommand exitCommand => new RoutedUICommand("Exit", "Exit", typeof(MyApplicationCommands));
-    }
-}
+//namespace LASI.App.Commands
+//{
+//    static class MyApplicationCommands
+//    {
+//        static MyApplicationCommands() { CommandManager.RegisterClassCommandBinding(typeof(MyApplicationCommands), new CommandBinding(exitCommand)); }
+//        public static RoutedUICommand exitCommand => new RoutedUICommand("Exit", "Exit", typeof(MyApplicationCommands));
+//    }
+//}

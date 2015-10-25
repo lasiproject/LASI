@@ -21,7 +21,7 @@ namespace LASI.Content
         {
             if (!Extension.EqualsIgnoreCase(".doc"))
             {
-                throw new FileTypeWrapperMismatchException(GetType().ToString(), Extension);
+                throw new FileTypeWrapperMismatchException<DocFile>(Extension);
             }
         }
         /// <summary>

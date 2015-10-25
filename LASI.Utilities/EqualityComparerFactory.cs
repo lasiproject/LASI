@@ -8,7 +8,7 @@ namespace LASI.Utilities
     /// <summary>
     /// Provides static methods for the creation of <see cref="IEqualityComparer{T}"/> instances.
     /// </summary>
-    public static class Comparer
+    public static class Equality
     {
         /// <summary>
         /// Creates an <see cref="IEqualityComparer{T}"/> which will use the provided function to

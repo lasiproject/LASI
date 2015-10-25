@@ -15,7 +15,7 @@ namespace LASI.WebApp.Filters
             var httpResponseException = context.Exception as Exceptions.HttpResponseException;
             if (httpResponseException == null)
             {
-                throw context.Exception;
+                await Task.FromException(context.Exception);
             }
 #if DEBUG
             var message = $"{context.ActionDescriptor.Name}\n failed with: {httpResponseException.GetType()}\n with message: {httpResponseException.Message}\n with status code {httpResponseException.StatusCode}";

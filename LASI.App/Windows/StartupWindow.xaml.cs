@@ -27,7 +27,7 @@ namespace LASI.App
         {
             InitializeComponent();
             SetupLogging(Environment.GetCommandLineArgs()[0], "lasilog");
-            ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? "MyProject" : "";
+            ProjectNameTextBox.Text = Properties.Settings.Default.AutoNameProjects ? $"MyProject" : string.Empty;
             WindowManager.Intialize();
             Resources["createButtonContent"] = "Create";
             Left = (SystemParameters.WorkArea.Width - Width) / 2;
@@ -117,7 +117,7 @@ namespace LASI.App
                 }
                 catch (FileNotFoundException e)
                 {
-                    this.Message(e.Message);
+                    this.ShowMessage(e.Message);
                 }
             }
             try
@@ -126,7 +126,7 @@ namespace LASI.App
             }
             catch (FileConversionFailureException e)
             {
-                this.Message($".doc file conversion failed\n{e.Message}");
+                this.ShowMessage($".doc file conversion failed\n{e.Message}");
             }
         }
 
@@ -198,7 +198,7 @@ namespace LASI.App
                         }
                         else
                         {
-                            this.Message($"A document named {openDialog.SafeFileName} is already part of the project.");
+                            this.ShowMessage($"A document named {openDialog.SafeFileName} is already part of the project.");
                         }
                     }
                 }
@@ -216,7 +216,7 @@ namespace LASI.App
                 catch (Exception x)
                 {
                     x.Log();
-                    this.Message(ErrorMessages.UnusableProjectDirectory);
+                    this.ShowMessage(ErrorMessages.UnusableProjectDirectory);
                 }
             }
             if (ValidateProjectName() && ValidateProjectLocationField() && ValidateProjectHasADocument())
@@ -262,7 +262,7 @@ namespace LASI.App
         {
             var locationSelectDialog = new System.Windows.Forms.OpenFileDialog
             {
-                Filter = "LASI Project Files|*.lasi",
+                Filter = $"LASI Project Files|*.lasi",
                 Multiselect = false
             };
 

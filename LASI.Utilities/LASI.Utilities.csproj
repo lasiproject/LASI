@@ -70,7 +70,7 @@
     <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
     <Compile Include="Specialized\Option.cs" />
     <Compile Include="Validation\Validate.cs" />
-    <Compile Include="ComparerFactory.cs" />
+    <Compile Include="EqualityComparerFactory.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />

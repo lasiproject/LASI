@@ -8,7 +8,7 @@ namespace LASI.Core
     public static partial class Lexicon
     {
         /// <summary>e
-        /// Determines if two IVerbal instances are similar.
+        /// Determines if two <see cref="IVerbal"/>s are similar.
         /// </summary>
         /// <param name="first">The first IVerbal</param>
         /// <param name="second">The second IVerbal</param>
@@ -29,7 +29,7 @@ namespace LASI.Core
                 .Result())
             .Result();
         /// <summary>
-        /// Determines if the two provided Verb instances are similar.
+        /// Determines if two <see cref="Verb"/>s are similar.
         /// </summary>
         /// <param name="first">The first Verb.</param>
         /// <param name="second">The second Verb.</param>
@@ -37,7 +37,7 @@ namespace LASI.Core
         public static Similarity IsSimilarTo(this Verb first, Verb second) => Similarity.FromBoolean(first.IsSynonymFor(second));
 
         /// <summary>
-        /// Determines if two VerbPhrases are similar.
+        /// Determines if two <see cref="VerbPhrase"/>s are similar.
         /// </summary>
         /// <param name="first">The first VerbPhrase</param>
         /// <param name="second">The second VerbPhrase</param>
@@ -45,7 +45,7 @@ namespace LASI.Core
         public static Similarity IsSimilarTo(this VerbPhrase first, VerbPhrase second)
         {
             //Look into refining this
-             
+
             var results = from v1 in first.Words.OfVerb()
                           from v2 in second.Words.OfVerb()
                           select v1.IsSynonymFor(v2);
@@ -69,7 +69,7 @@ namespace LASI.Core
         private static Similarity IsSimilarTo(this VerbPhrase first, Verb second) => second.IsSimilarTo(first);
 
         /// <summary>
-        /// Determines if the provided Verb is similar to the provided VerbPhrase.
+        /// Determines if the provided <see cref="Verb"/> is similar to the provided VerbPhrase.
         /// </summary>
         /// <param name="first">The Verb.</param>
         /// <param name="second">The VerbPhrase.</param>

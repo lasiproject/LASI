@@ -113,7 +113,7 @@ namespace LASI.WebApp.Controllers
                 StatusMessage = statusMessage
             };
 
-        internal static IImmutableSet<Document> ProcessedDocuments { get; set; } = ImmutableHashSet.Create(Comparer.Create<Document>((x, y) => x.Name == y.Name, d => d.Name.GetHashCode()));
+        internal static IImmutableSet<Document> ProcessedDocuments { get; set; } = ImmutableHashSet.Create(Equality.Create<Document>((x, y) => x.Name == y.Name, d => d.Name.GetHashCode()));
 
         public static JobStatusMap TrackedJobs { get; } = new JobStatusMap();
         private string ServerPath => System.IO.Directory.GetParent(hostingEnvironment.WebRootPath).FullName;

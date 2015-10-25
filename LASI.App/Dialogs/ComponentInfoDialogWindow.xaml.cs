@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Resources;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ namespace LASI.App.Dialogs
     public partial class ComponentInfoDialogWindow : Window
     {
         private const string ProductHomePage = "http://lasi-product.org";
+        private readonly ResourceManager resourceManager;
 
         /// <summary>
         /// Initializes a new instance of the ComponentInfoDialogWindow class.
@@ -22,6 +24,8 @@ namespace LASI.App.Dialogs
         public ComponentInfoDialogWindow()
         {
             InitializeComponent();
+            this.resourceManager = new ResourceManager(System.Globalization.CultureInfo.CurrentUICulture.Name, assembly: System.Reflection.Assembly.GetExecutingAssembly());
+
         }
 
         #region Interaction Logic
@@ -41,7 +45,7 @@ namespace LASI.App.Dialogs
         /// <param name="helpUri">The help URI to Display if an error occurs.</param>
         private void OpenTxtFileInDefaultApp(string filePath, string helpUri)
         {
-            var actualPath =  Path.Combine($@"{App.Config["LicencesDirectory"]}\{filePath}");
+            var actualPath = Path.Combine($@"{App.Config["LicencesDirectory"]}\{filePath}");
             try
             {
                 using (var reader = new StreamReader(actualPath, Encoding.UTF8))
@@ -59,7 +63,7 @@ namespace LASI.App.Dialogs
             }
             catch (Win32Exception)
             {
-                this.Message($@"An error occured when trying to open or locate the file {actualPath}. 
+                this.ShowMessage($@"An error occured when trying to open or locate the file {actualPath}. 
                                 Please visit {helpUri} for assistance.");
             }
         }

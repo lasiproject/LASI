@@ -2,48 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NFluent;
+using NFluent.Extensions;
+using NFluent.Helpers;
 
 namespace LASI.Utilities.Tests
 {
     using Shared.Test.Assertions;
+    using Test = TestMethodAttribute;
     using static Enumerable;
+    using FluentAssertions;
+
     [TestClass]
     public class EnumerableExtensionsTest
     {
-        private static LASI.Utilities.Pair<T1, T2> Pair<T1, T2>(T1 x, T2 y) => LASI.Utilities.Pair.Create(x, y);
-        private static System.Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
+        private static Pair<T1, T2> Pair<T1, T2>(T1 x, T2 y) => LASI.Utilities.Pair.Create(x, y);
+        private static Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
 
         #region Sequence String Formatting Methods
 
-        [TestMethod]
-        public void FormatTest()
+        [Test]
+        public void Format_Uses_SquareBracket_And_Comma_By_Default()
         {
             var target = Range(0, 4);
             var expected = "[ 0, 1, 2, 3 ]";
             var actual = target.Format();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
-        [TestMethod]
-        public void FormatTest1()
-        {
-            var target = Range(0, 4);
-            var expected = "[ System.Int32,\nSystem.Int32,\nSystem.Int32,\nSystem.Int32 ]";
-            var actual = target.Format(20, x => x.GetType().FullName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void FormatTest2()
-        {
-            var target = Range(0, 4);
-            var expected = "< 0; 1; 2; 3 >";
-            var actual = target.Format(Tuple('<', ';', '>'));
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void FormatTest3()
+        [Test]
+        public void Format_Applies_Specified_String_Selector()
         {
             var target = Range(0, 4);
             var expected = "[ System.Int32, System.Int32, System.Int32, System.Int32 ]";
@@ -51,7 +39,25 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
+        public void Format_Applies_Specified_String_Selector_And_Line_Length()
+        {
+            var target = Range(0, 4);
+            var expected = "[ System.Int32,\nSystem.Int32,\nSystem.Int32,\nSystem.Int32 ]";
+            var actual = target.Format(lineLength: 20, selector: x => x.GetType().FullName);
+            Check.That(actual).IsEqualTo(expected);
+        }
+
+        [Test]
+        public void Format_Uses_Specified_Bracketing_And_Separator()
+        {
+            var target = Range(0, 4);
+            var expected = "< 0; 1; 2; 3 >";
+            var actual = target.Format(Tuple('<', ';', '>'));
+            Check.That(actual).IsEqualTo(expected);
+        }
+
+        [Test]
         public void FormatTest4()
         {
             var target = Range(0, 4);
@@ -60,8 +66,8 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void FormatTest5()
+        [Test]
+        public void Format_Uses_Specified_Bracketing_And_Line_Length()
         {
             var target = Range(0, 4).Select(x => x.GetType().FullName);
             var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
@@ -69,8 +75,8 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void FormatTest6()
+        [Test]
+        public void Format_Uses_Specified_Bracketing_And_Separator_And_String_Selector_And_Line_Length()
         {
             var target = Range(0, 4);
             var expected = "{ System.Int32;\nSystem.Int32;\nSystem.Int32;\nSystem.Int32 }";
@@ -78,8 +84,8 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void FormatTest7()
+        [Test]
+        public void Format_Enforces_Specified_Line_Length_Test_One()
         {
             var target = Range(0, 4);
             var expected = "[ 0, 1, 2,\n3 ]";
@@ -87,16 +93,16 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
 
         }
-        [TestMethod]
-        public void FormatTest8()
+        [Test]
+        public void Format_Enforces_Specified_Line_Length_Test_Two()
         {
             var target = Range(0, 4);
             var expected = "[ 0, 1, 2,\n3 ]";
             var actual = target.Format(10);
             Assert.AreEqual(expected, actual);
         }
-        [TestMethod]
-        public void FormatTest9()
+        [Test]
+        public void Format_Enforces_Specified_Line_Length_Test_Three()
         {
             var target = Range(0, 4);
             var expected = "[ 0, 1,\n2, 3 ]";
@@ -108,63 +114,72 @@ namespace LASI.Utilities.Tests
 
         #region Additional Query Operators
 
-        [TestMethod]
-        public void AppendTest()
+        [Test]
+        public void Append_Inserts_Value_At_End()
         {
-            var target = new[] { 1, 2, 3 };
-            var expected = new[] { 1, 2, 3, 0 };
-            var actual = target.Append(0);
-            EnumerableAssert.AreSequenceEqual(expected, actual);
+            var values = new[] { 1, 2, 3 };
+            Check.That(values.Append(0)).ContainsExactly(1, 2, 3, 0);
+        }
+        [Test]
+        public void Append_Inserts_Actual_Value_At_End()
+        {
+            var elements = Range(0, 5).Select(x => new object());
+            var toAppend = new object();
+            elements.Append(toAppend).Should().EndWith(toAppend);
         }
 
-        [TestMethod]
-        public void PrependTest()
+        [Test]
+        public void PrependInserts_Value_At_Start()
         {
-            var target = new[] { 1, 2, 3 };
-            var expected = new[] { 0, 1, 2, 3 };
-            var actual = target.Prepend(0);
-            EnumerableAssert.AreSequenceEqual(expected, actual);
+            var values = new[] { 1, 2, 3 };
+            Check.That(values.Prepend(0)).ContainsExactly(0, 1, 2, 3);
         }
 
-        [TestMethod]
-        public void PairWiseTest()
+        [Test]
+        public void Append_Inserts_Actual_Value_At_Start()
         {
-            var target = Range(0, 5);
-            var expected = new[] { Pair(0, 1), Pair(1, 2), Pair(2, 3), Pair(3, 4) };
-            var actual = target.PairWise();
-            Assert.IsTrue(expected.SequenceEqual(actual));
+            var elements = Range(0, 5).Select(x => new object());
+            var toPrepend = new object();
+            elements.Prepend(toPrepend).Should().StartWith(toPrepend);
         }
 
-        [TestMethod]
-        public void MaxByTest()
+        [Test]
+        public void PairWise_Pairs_Adjacent_Elements()
         {
-            var target = new[] { "carrot", "apple", "chicken" };
-            Assert.AreEqual(target.MaxBy(s => s.Length), "chicken");
+            var target = Range(12, 5).PairWise();
+            Check.That(target).ContainsExactly(Pair(12, 13), Pair(13, 14), Pair(14, 15), Pair(15, 16));
         }
 
-        [TestMethod]
-        public void MaxByTest1()
+        [Test]
+        public void MaxBy_Yields_Value_With_Max_Under_Projection_Test_One()
+        {
+            var target = new[] { "apple", "chicken", "carrot" };
+            Check.That(target.MaxBy(s => s.Length)).IsEqualTo("chicken");
+        }
+
+        [Test]
+        public void MaxBy_Yields_Value_With_Max_Under_Projection_Test_Two()
         {
             var target = new[] { "alpha", "omega", "gamma" };
             Assert.AreEqual(target.MaxBy(s => s[0], Comparer<int>.Default), "omega");
         }
 
-        [TestMethod]
-        public void MinByTest()
+        [Test]
+        public void MaxBy_Yields_Value_With_Min_Under_Projection_Test_One()
         {
             var target = new[] { "carrot", "apple", "chicken" };
             Assert.AreEqual(target.MinBy(s => s.Length), "apple");
         }
 
-        [TestMethod]
-        public void MinByTest1()
+        [Test]
+        public void MaxBy_Yields_Value_With_Min_Under_Projection_Test_Two()
         {
             var target = new[] { "alpha", "omega", "gamma" };
             Assert.AreEqual(target.MinBy(s => s[0], Comparer<int>.Default), "alpha");
         }
 
-        [TestMethod]
-        public void DistinctByTest()
+        [Test]
+        public void DistinctBy_Uses_Set_Semantics_Under_Projection()
         {
             var target = new[] { "beach", "parrot", "peach", "seventh" };
             var result = target.DistinctBy(x => x.Length);
@@ -172,23 +187,23 @@ namespace LASI.Utilities.Tests
             Assert.IsTrue(!result.Select(x => x.Length).Except(new[] { 7, 5, 6 }).Any());
         }
 
-        [TestMethod]
-        public void SetEqualTest()
+        [Test]
+        public void SetEqual_Uses_Set_semantics()
         {
-            var first = new[] { 1, 2, 3 };
-            Assert.IsTrue(first.SetEqual(new[] { 3, 1, 2 }));
-            Assert.IsTrue(first.SetEqual(new[] { 3, 1, 2, 1 }));
-            Assert.IsTrue(first.SetEqual(new[] { 3, 2, 1, 2, 1, 3 }));
+            var values = new[] { 1, 2, 3 };
+            Assert.IsTrue(values.SetEqual(new[] { 3, 1, 2 }));
+            Assert.IsTrue(values.SetEqual(new[] { 3, 1, 2, 1 }));
+            Assert.IsTrue(values.SetEqual(new[] { 3, 2, 1, 2, 1, 3 }));
         }
 
-        [TestMethod]
-        public void SetEqualByTest()
+        [Test]
+        public void SetEqual_Uses_Set_semantics_Under_Projection()
         {
             var first = new[] { "carrot", "apple", "chicken" };
             Assert.IsTrue(first.SetEqualBy(new[] { "beach", "parrot", "peach", "seventh" }, s => s.Length));
         }
 
-        [TestMethod]
+        [Test]
         public void Zip3Test()
         {
             Zip3TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
@@ -208,7 +223,7 @@ namespace LASI.Utilities.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Zip4Test()
         {
             Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
@@ -222,6 +237,47 @@ namespace LASI.Utilities.Tests
             Zip4TestHelper(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
         }
 
+        [Test]
+        public void Aggregate_With_Index_Matches_Aggregate_When_Index_Is_Unused_By_Aggregator()
+        {
+            var values = Range(1, 10);
+            Check.That(values.Aggregate((sum, n, index) => sum + n)).IsEqualTo(values.Aggregate((sum, n) => sum + n));
+        }
+
+        [Test]
+        public void Aggregate_With_Index_Matches_Aggregate_When_Seed_Is_Specified_And_Index_Is_Unused_By_Aggregator()
+        {
+            var values = Range(1, 10);
+            Check.That(values.Aggregate(14, (sum, n, index) => sum + n)).IsEqualTo(values.Aggregate(14, (sum, n) => sum + n));
+        }
+
+        [Test]
+        public void Aggregate_With_Index_Passes_Correct_Index()
+        {
+            var values = Range(1, 10);
+            Check.That(values.Aggregate((sum, n, i) => sum + n + i)).IsEqualTo(values.Select((n, i) => n + i).Aggregate((sum, n) => sum + n));
+        }
+
+        [Test]
+        public void Aggregate_With_Index_Specifies_Expected_Index_And_Applies_Result_Selector()
+        {
+            var values = Range(1, 10);
+            Check.That(values.Aggregate(1, (sum, n, i) => sum + n + i, r => r * 2))
+                .IsEqualTo(values.Select((n, i) => n + i).Aggregate(1, (sum, n) => sum + n, r => r * 2));
+        }
+
+        [Test]
+        public void Aggregate_With_Index_Specifying_Seed_Passes_Correct_Index_To()
+        {
+            var values = Range(1, 10);
+            Check.That(values.Aggregate(string.Empty, (result, n, i) => $"{result}, {i}").TrimStart(',').TrimStart())
+                .IsEqualTo(string.Join(", ", values.Select((n, i) => i)));
+        }
+
+        #endregion
+
+        #region Generic Helpers
+
         private static void Zip4TestHelper<T1, T2, T3, T4, TResult>(T1[] first, T2[] second, T3[] third, T4[] fourth, Func<T1, T2, T3, T4, TResult> selector, TResult[] expected)
         {
             var result = first.Zip(second, third, fourth, selector).ToArray();
@@ -231,6 +287,7 @@ namespace LASI.Utilities.Tests
                 Assert.AreEqual(result[i], expected[i]);
             }
         }
+
         #endregion
     }
 }
