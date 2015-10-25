@@ -1,31 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shared.Test.Attributes;
+﻿using Shared.Test.Attributes;
 using NFluent;
+using Xunit;
+using System.IO;
 
 namespace LASI.Content.Tests
 {
     /// <summary>
     /// This is a test class for DocXFileTest and is intended to contain all DocXFileTest Unit Tests
     /// </summary>
-    [TestClass]
     public class DocXFileTest
     {
         /// <summary>
         /// A test for DocXFile Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DocXFileConstructorTest()
         {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             DocXFile target = new DocXFile(path);
-            Assert.IsTrue(System.IO.File.Exists(path));
-            Assert.AreEqual(System.IO.Path.GetFullPath(path), target.FullPath);
+            Check.That(File.Exists(path)).IsTrue();
+            Check.That(Path.GetFullPath(path)).Equals(target.FullPath);
         }
 
         /// <summary>
         /// A test for DocXFile Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DocXFileConstructorTest1()
         {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
@@ -35,13 +35,12 @@ namespace LASI.Content.Tests
         /// <summary>
         /// A test for DocXFile Constructor
         /// </summary>
-        [TestMethod]
-        [ExpectedFileNotFoundException]
+        [Fact]
         public void DocXFileConstructorTest2()
         {
-            string invalidPath = System.IO.Directory.GetCurrentDirectory();//This is should never be valid.
-            Assert.IsFalse(System.IO.File.Exists(invalidPath));
-            DocXFile target = new DocXFile(invalidPath);
+            string invalidPath = Directory.GetCurrentDirectory();//This is should never be valid.
+            Check.That(File.Exists(invalidPath)).IsFalse();
+            Check.ThatCode(() => new DocXFile(invalidPath)).Throws<FileNotFoundException>();
         }
     }
 }

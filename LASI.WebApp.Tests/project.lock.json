@@ -12,7 +12,7 @@
           "itextsharp": "1.0.0",
           "LASI.Core": "1.0.0",
           "LASI.Utilities": "1.0.0",
-          "Newtonsoft.Json": "6.0.8",
+          "Newtonsoft.Json": "7.0.1",
           "OpenNLP": "1.0.0",
           "SharpEntropy": "1.0.0",
           "SharpWordNet": "1.0.0",
@@ -23,7 +23,7 @@
         "type": "project",
         "dependencies": {
           "LASI.Utilities": "1.0.0",
-          "Newtonsoft.Json": "6.0.8",
+          "Newtonsoft.Json": "7.0.1",
           "Rx-Core": "2.2.5",
           "Rx-Interfaces": "2.2.5",
           "Rx-Linq": "2.2.5",
@@ -38,14 +38,14 @@
           "LASI.Content": "1.0.0",
           "LASI.Core": "1.0.0",
           "LASI.Utilities": "1.0.0",
-          "Newtonsoft.Json": "6.0.8",
+          "Newtonsoft.Json": "7.0.1",
           "System.Collections.Immutable": "1.1.36"
         }
       },
       "LASI.Utilities/1.0.0": {
         "type": "project",
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8",
+          "Newtonsoft.Json": "7.0.1",
           "System.Collections.Immutable": "1.1.34-rc"
         }
       },
