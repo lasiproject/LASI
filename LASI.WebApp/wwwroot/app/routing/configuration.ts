@@ -7,7 +7,7 @@ import loginTemplate from 'app/sections/login.html';
 import AppController from 'app/app-controller';
 import NavbarController from 'app/sections/navbar/navbar';
 import LoginController from 'app/sections/login';
-import { UserService } from 'app/user-service';
+import UserService from 'app/user-service';
 import { DocumentListService } from 'app/document-list/document-list-service-provider';
 import { DocumentListItemModel } from 'app/document-list/document-list-service-provider';
 
@@ -27,9 +27,7 @@ export default function configure($stateProvider: StateProvider, $urlRouterProvi
 
     function user($q: ng.IQService, userService: UserService) {
         var deferred = $q.defer();
-        userService.getUser()
-            .then(deferred.resolve.bind(deferred))
-            .catch(deferred.reject.bind(deferred));
+        userService.getUser().then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
         return deferred.promise;
     }
     $stateProvider

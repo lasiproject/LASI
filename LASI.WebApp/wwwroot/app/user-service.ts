@@ -1,4 +1,5 @@
 'use strict';
+
 import { User } from './models';
 
 export default class UserService {

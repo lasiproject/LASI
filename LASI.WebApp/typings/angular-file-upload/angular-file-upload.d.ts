@@ -6,4 +6,3 @@
 /// <reference path="../ng-file-upload/ng-file-upload.d.ts" />
 
 // THIS FILE WILL REMOVE IF angular-file-upload.d.ts incoming.
-declare module "angular-file-upload" { export default {} }

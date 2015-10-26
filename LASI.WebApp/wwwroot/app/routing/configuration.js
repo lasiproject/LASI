@@ -11,9 +11,7 @@ System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-li
         user.$inject = ['$q', 'UserService'];
         function user($q, userService) {
             var deferred = $q.defer();
-            userService.getUser()
-                .then(deferred.resolve.bind(deferred))
-                .catch(deferred.reject.bind(deferred));
+            userService.getUser().then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
             return deferred.promise;
         }
         $stateProvider
