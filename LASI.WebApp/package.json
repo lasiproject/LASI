@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "chalk": "1.1.1",
+    "chalk": "~1.1.1",
+    "brace-expansion": "1.1.1",
     "qunitjs": "~1.19.0",
     "typescript": "1.6.2",
     "tsd": "~0.6.4",
@@ -30,6 +31,7 @@
       "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@^0.9.4",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^9.0.13",
       "angular-resource": "github:angular/bower-angular-resource@^1.4.7",
+      "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "clean-css": "npm:clean-css@^3.4.6",
       "css": "github:systemjs/plugin-css@^0.1.18",
@@ -40,8 +42,6 @@
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
     "devDependencies": {
-      "-f": "npm:babel-core@^5.8.24",
-      "-f-runtime": "npm:babel-runtime@^5.8.24",
       "typescript": "npm:typescript@^1.6.2"
     }
   }

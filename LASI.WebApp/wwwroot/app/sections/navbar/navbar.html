@@ -1,0 +1,66 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div id="document-list-navbar-item-container" class="dropdown-toggle">
+                <!--@if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                @await Html.PartialAsync("_DocumentListNavDropdown")
+                }-->
+                <div ng-if="user.authenticated || true" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown" id="dropdown-list-item-container">
+                            <a href="#" data-toggle="dropdown"
+                               class="dropdown-toggle"
+                               id="document-menu-dropdown-href"
+                               ng-click="navbar.toggleExpanded()"
+                               role="button"
+                               aria-expanded="false">
+                                <span class="fa" ng-class="{ 'fa-folder-open': navbar.expanded, 'fa-folder': !navbar.expanded }">
+                                    &nbsp;<span class="badge small">{{navbar.documents && navbar.documents.length}}</span>
+                                </span>&nbsp;&nbsp;<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown" id="document-list-item-manage">
+                                    <!--<a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>-->
+                                    <span class="btn" ng-click="navbar.openManageDocumentsModal()">Manage</span>
+                                </li>
+                                <document-list-menu-item ng-repeat="document in navbar.documents"
+                                                         ng-model="document"
+                                                         document-id="document.id"
+                                                         name="document.name"
+                                                         analysis-progress="document.progress">
+                                </document-list-menu-item>
+                                <li class="dropdown">
+                                    <a href="#"
+                                       id="new-text-editor-item"
+                                       data-toggle="collapse"
+                                       data-target="#free-editor"
+                                       class="nav-justified fa fa-pencil">
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="navbar-brand">
+                    <a ui-sref="app">
+                        <span><img class="project-logo-navbar" src="images/ic_launcher-web - Copy.png" /></span>
+                    </a>
+                </li>
+                <li><a ui-sref=".home" href="" class="fa fa-home fa-lg"></a></li>
+                <li ng-if="!user.loggedIn"><a href="/Account/Login" class="nav-justified fa fa-sign-in"></a></li>
+                <li ng-if="user.loggedIn"><a href="" ui-sref="app.logoff" class="nav-justified fa fa-sign-out"></a></li>
+            </ul>
+            <!--@await Html.PartialAsync("_LoginPartial")-->
+        </div>
+    </div>
+</div>

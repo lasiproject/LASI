@@ -1,17 +1,1 @@
-﻿<div id="main-content" class="row">
-    <div>
-        @if (User?.Identity?.IsAuthenticated ?? false) {
-            @await Html.PartialAsync("_DynamicTabs")
-
-
-
-        }
-        @await Html.PartialAsync("_LexicalContextMenus")
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-
-        <debug-panel />
-    </div>
-</div>
+﻿@*<section ui-view="app.home"></section>*@

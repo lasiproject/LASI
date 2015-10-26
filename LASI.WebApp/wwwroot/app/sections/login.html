@@ -1,0 +1,23 @@
+﻿<form ng-if="User.Identity.IsAuthenticated || true" action="Account/LogOff" method="post" id="logoutForm" class="navbar-right">
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.GetUserName()!</a>
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
+</form>
+
+<ul ng-if="!User.Identity.IsAuthenticated" class="nav navbar-nav navbar-right">
+    <li><button ng-click="login.register()">Register</button></li>
+    <li><button ng-click="login.login()">Log in</button></li>
+</ul>
+<div class="form-group">
+    <div class="form-group">
+        <label class="control-label">Username: </label>
+        <input type="text" name="email" id="email" placeholder="email" ng-model="login.username" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Password: </label>
+        <input type="password" name="password" id="password" ng-model="login.password" class="form-control" />
+    </div>
+</div>

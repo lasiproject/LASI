@@ -1,6 +1,6 @@
 ﻿'use strict';
 import { DocumentModel } from 'app/models';
-import { Task } from 'tasks-list-service.provider';
+import { Task } from './tasks-list-service-provider';
 import { buildMenus, enableActiveHighlighting } from 'app/LASI';
 
 resultsService.$inject = ['$http', '$q'];

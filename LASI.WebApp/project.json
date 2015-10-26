@@ -66,12 +66,10 @@
     "scripts": {
         "postrestore": [
             "npm install",
-            "bower install",
-            "tsd update -s -o"
+            "jspm install",
+            "tsd update --s --o"
         ],
         "prepare": [
-            "grunt bower:install",
-            "grunt clean:bower-d-ts"
         ]
     }
 }

@@ -37,7 +37,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
     }
 
     function $get($q: IQService, $resource: ng.resource.IResourceService, $interval: IIntervalService): TasksListService {
-        var Tasks = $resource<Task[]>(tasksListUrl, {}, {
+        var tasks = $resource<Task[]>(tasksListUrl, {}, {
             get: {
                 method: 'GET', isArray: true
             }
@@ -45,7 +45,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         var getActiveTasks = function () {
             var deferred = $q.defer<Task[]>();
             $interval(() => {
-                this.tasks = Tasks.get();
+                this.tasks = tasks.get();
                 deferred.resolve(this.tasks);
             }, updateInterval);
             return deferred.promise;

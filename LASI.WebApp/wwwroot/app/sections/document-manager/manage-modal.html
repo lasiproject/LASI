@@ -1,0 +1,18 @@
+<div class="modal-content">
+    <div class="modal-header handle modal-drag-handle">
+        <button type="button" class="close" aria-hidden="true" ng-click="manager.dismiss()">&times;</button>
+        <h4 class="modal-title">Manage Documents</h4>
+    </div>
+    <div class="modal-body">
+        <ul class="list-group">
+            <li ng-repeat="document in manager.documents" class="list-group-item">
+                <div>
+                    {{document.name}}<a href="#" ng-click="manager.deleteById(document.id)">
+                        <span class="fa fa-remove pull-right"></span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer"></div>
+</div>

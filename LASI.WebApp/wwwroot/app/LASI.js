@@ -1,15 +1,21 @@
 /// <reference path="../../typings/tsd.d.ts" />
 'use strict';
-System.register(['jquery'], function(exports_1) {
+System.register(['jquery', './results/result-chart-provider'], function(exports_1) {
     var $;
-    var buildMenus, enableActiveHighlighting, log;
+    var buildMenus, log;
     return {
         setters:[
             function ($_1) {
                 $ = $_1;
+            },
+            function (result_chart_provider_1_1) {
+                exports_1({
+                    "enableActiveHighlighting": result_chart_provider_1_1["default"]
+                });
             }],
         execute: function() {
-            exports_1("buildMenus", buildMenus = (function (contextualElementIdSelectors) {
+            exports_1("buildMenus", buildMenus = function () {
+                var contextualElementIdSelectors = [];
                 var verbalMenuTextToElementsMap = {
                     'View Subjects': 'subjects',
                     'View Direct Objects': 'directObjects',
@@ -103,7 +109,7 @@ System.register(['jquery'], function(exports_1) {
                         $('#referencer-context-menu').hide();
                     });
                 };
-            }([])));
+            });
             //export var setupDraggableDialogs: () => void; 
             exports_1("log", log = console.log.bind(console));
         }

@@ -7,4 +7,4 @@
 /// <reference path="ng-file-upload/ng-file-upload.d.ts" />
 /// <reference path="bootstrap/bootstrap.d.ts" />
 /// <reference path="systemjs/systemjs.d.ts" />
-declare var require: (...args) => any;
+/// <reference path="angular-ui-router/angular-ui-router.d.ts" />

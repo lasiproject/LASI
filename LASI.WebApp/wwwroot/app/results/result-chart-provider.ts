@@ -1,6 +1,6 @@
 import * as LASI from 'app/LASI';
 
-LASI.enableActiveHighlighting = function () {
+export default function enableActiveHighlighting() {
     'use strict';
     var enableActiveHighlighting = function () {
         var phrasalTextSpans = $('span.phrase');
@@ -26,4 +26,4 @@ LASI.enableActiveHighlighting = function () {
     };
     $(enableActiveHighlighting);
     return enableActiveHighlighting;
-};
+}

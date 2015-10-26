@@ -1,7 +1,10 @@
 /// <reference path="../../typings/tsd.d.ts" />
 'use strict';
 import * as $ from 'jquery';
-export var buildMenus: () => void = (function (contextualElementIdSelectors) {
+
+export {default as enableActiveHighlighting} from './results/result-chart-provider';
+export var buildMenus = function () {
+    var contextualElementIdSelectors = [];
     var verbalMenuTextToElementsMap = {
         'View Subjects': 'subjects',
         'View Direct Objects': 'directObjects',
@@ -99,8 +102,7 @@ export var buildMenus: () => void = (function (contextualElementIdSelectors) {
             $('#referencer-context-menu').hide();
         });
     };
-} ([]));
-export var enableActiveHighlighting: () => void;
+};
 //export var setupDraggableDialogs: () => void; 
 export var log: (message?: any, ...optionalParams: any[]) => void = console.log.bind(console);
 //export var editor = $('#free-editor').change(log); // TODO: parameterize selector.

@@ -1,7 +1,13 @@
+declare module 'app/app.html' { export default ''; }
+declare module 'app/sections/home/home.html' { export default ''; }
+declare module 'app/sections/navbar/navbar.html' { export default ''; }
+declare module 'app/sections/login.html' { export default ''; }
+declare module 'app/sections/document-manager/manage-modal.html' { export default ''; }
+declare module 'app/sections/document-manager/confirm-delete-modal.html' { export default ''; }
+declare module 'app/document-upload/upload-panel.html' { export default ''; }
 declare module 'app/debug/debug-panel.html' { export default ''; }
 declare module 'app/document-list/document-list-menu-item.html' { export default ''; }
 declare module 'app/document-list/document-list-tabset-item.html' { export default ''; }
-declare module 'app/document-upload/upload-panel.html' { export default ''; }
 declare module 'app/document-viewer/search/search-box.html' { export default ''; }
 declare module 'app/document-viewer/directives/document-viewer.html' { export default ''; }
 declare module 'app/document-viewer/directives/page.html' { export default ''; }

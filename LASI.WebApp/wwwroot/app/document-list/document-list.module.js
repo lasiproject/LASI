@@ -1,5 +1,5 @@
 'use strict';
-System.register(['./documents.service', './results.service', './document-list-service.provider', './tasks-list-service.provider', './list.controller', './document-list-tabset-item', './document-list-menu-item'], function(exports_1) {
+System.register(['./documents-service', './results-service', './document-list-service-provider', './tasks-list-service-provider', './list-controller', './document-list-tabset-item', './document-list-menu-item'], function(exports_1) {
     var documents_service_1, results_service_1, document_list_service_provider_1, tasks_list_service_provider_1, list_controller_1, document_list_tabset_item_1, document_list_menu_item_1;
     function configure(tasksListServiceProvider, documentListServiceProvider) {
         tasksListServiceProvider

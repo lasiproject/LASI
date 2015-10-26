@@ -43,15 +43,10 @@
         "radix": true,
         "semicolon": true,
         "triple-equals": [ true ],
-        "use-strict": [ "check-function", "check-module", true ],
-        "variable-name": false,
-        "whitespace": [
-            true,
-            "check-branch",
-            "check-decl",
-            "check-operator",
-            "check-separator",
-            "check-type"
-        ]
+        "use-strict": [ true ],
+        "variable-name": true,
+        "whitespace": [ true ],
+        "switch-default": true,
+        "no-var-keyword": false
     }
 }

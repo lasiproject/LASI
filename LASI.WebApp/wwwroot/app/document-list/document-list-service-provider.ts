@@ -34,9 +34,7 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, a
     }
 
     $inject = ['$resource'];
-    /**
-     * @param $resource an instance of the Resource Service supplied by the angular-resource module.
-     */
+
     $get($resource: angular.resource.IResourceService): DocumentListService {
         var resource = $resource<DocumentListItemModel[]>(this.documentListUrl + '?limit=' + this.recentDocumentCount, {}, {
             get: {

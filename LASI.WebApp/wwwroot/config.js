@@ -29,6 +29,7 @@ System.config({
     "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.4",
     "angular-file-upload": "github:danialfarid/ng-file-upload-bower@9.0.13",
     "angular-resource": "github:angular/bower-angular-resource@1.4.7",
+    "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
     "clean-css": "npm:clean-css@3.4.6",
     "css": "github:systemjs/plugin-css@0.1.18",
@@ -38,6 +39,9 @@ System.config({
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.3",
     "text": "github:systemjs/plugin-text@0.0.2",
     "typescript": "npm:typescript@1.6.2",
+    "github:angular-ui/ui-router@0.2.15": {
+      "angular": "github:angular/bower-angular@1.4.7"
+    },
     "github:aspnet/jquery-validation-unobtrusive@3.2.3": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },

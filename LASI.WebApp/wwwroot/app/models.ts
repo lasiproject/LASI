@@ -1,5 +1,9 @@
-﻿import { LexicalContextMenuDataSource, VerbalContextmenuDataSource, ReferencerContextmenuDataSource, LexicalMenuBuilderFactory }
-from './document-viewer/lexical-menu-builder.service';
+﻿import {
+LexicalContextMenuDataSource,
+VerbalContextmenuDataSource,
+ReferencerContextmenuDataSource,
+LexicalMenuBuilderFactory
+} from './document-viewer/lexical-menu-builder.service';
 export interface TextFragmentModel {
     paragraphs: ParagraphModel[];
 }
@@ -38,3 +42,9 @@ export interface PhraseModel extends LexicalModel {
 }
 
 export interface WordModel extends LexicalModel { }
+
+export interface User {
+    loggedIn: boolean;
+    email: string;
+    password: string;
+}

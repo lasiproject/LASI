@@ -1,7 +1,7 @@
 ﻿'use strict';
-import { DocumentListItemModel, DocumentListService } from './document-list-service.provider';
-import { Task, TasksListService } from './tasks-list-service.provider';
-import { DocumentsService } from './documents.service';
+import { DocumentListItemModel, DocumentListService } from './document-list-service-provider';
+import { Task, TasksListService } from './tasks-list-service-provider';
+import { DocumentsService } from './documents-service';
 import { DocumentModelService } from 'app/document-viewer/document-model.service';
 export class ListController {
     expanded = false;

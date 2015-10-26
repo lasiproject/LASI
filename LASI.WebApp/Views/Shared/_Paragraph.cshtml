@@ -1,9 +1,0 @@
-﻿@model LASI.WebApp.Models.DocumentStructures.ParagraphModel
-
-<div class="lexical-content-block @Model.Style.CssClass">
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    @foreach (var sentenceModel in Model.Sentences)
-    {
-        @Html.Partial("_Sentence", sentenceModel)
-    }
-</div>

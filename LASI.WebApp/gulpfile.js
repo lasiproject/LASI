@@ -1,4 +1,4 @@
-/// <binding />
+/// <binding ProjectOpened='watch' />
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
