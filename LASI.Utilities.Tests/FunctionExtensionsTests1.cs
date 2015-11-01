@@ -3,6 +3,7 @@ using System;
 using System.Numerics;
 namespace LASI.Utilities.Tests
 {
+    using NFluent;
     using static System.Threading.Thread;
     using static FunctionExtensions;
     [TestClass]
@@ -104,7 +105,6 @@ namespace LASI.Utilities.Tests
             Func<U, R> g = u => default(R);
             Func<U, T> expected = u => default(T);
             Func<U, T> actual;
-            var y = f.Compose(g);
             actual = FunctionExtensions.Compose(f, g);
             Assert.AreEqual(expected(default(U)), default(T));
 
@@ -367,81 +367,43 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void ApplyTest()
+        public void ApplyingArity2ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Func<int, int, int> f = (a, b) => a * b;
+
+            Check.That(f(5, 2)).Equals(f.Apply(5)(2));
         }
 
         [TestMethod]
-        public void ApplyTest1()
+        public void ApplyingArity3ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Func<int, int, int, int> f = (a, b, c) => a * b - c;
+
+            Check.That(f(5, 2, 7)).Equals(f.Apply(5)(2, 7));
         }
 
         [TestMethod]
-        public void ApplyTest2()
+        public void ApplyingArity4ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Func<int, int, int, int, int> f = (a, b, c, d) => a * b - c + d;
+
+            Check.That(f(5, 2, 7, 13)).Equals(f.Apply(5)(2, 7, 13));
         }
 
         [TestMethod]
-        public void ApplyTest3()
+        public void ApplyingArity5ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Func<int, int, int, int, int, int> f = (a, b, c, d, e) => a * b - c + d / e;
+
+            Check.That(f(5, 2, 7, 13, 5)).Equals(f.Apply(5)(2, 7, 13, 5));
         }
 
         [TestMethod]
-        public void ApplyTest4()
+        public void ApplyingArity6ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
+            Func<int, int, int, int, int, int, int> g = (a, b, c, d, e, f) => a * b - c + d / e % f;
 
-        [TestMethod]
-        public void ApplyTest5()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest6()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest7()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest8()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest9()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest10()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest11()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void ApplyTest12()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            Check.That(g(5, 2, 7, 13, 5, 16)).Equals(g.Apply(5)(2, 7, 13, 5, 16));
         }
 
         [TestMethod]
@@ -462,7 +424,7 @@ namespace LASI.Utilities.Tests
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void WithTimerTest()
+        public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
             Complex result = default(Complex);
@@ -480,7 +442,7 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void WithTimerTest1()
+        public void WithTimerOfArity1FunctionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
             Func<Complex, Complex> compute = data =>
@@ -497,7 +459,7 @@ namespace LASI.Utilities.Tests
         }
 
         [TestMethod]
-        public void WithTimerTest2()
+        public void WithTimerOfArity0ActionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
             Complex result = default(Complex);

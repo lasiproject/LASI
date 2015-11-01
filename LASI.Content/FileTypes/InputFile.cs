@@ -50,6 +50,13 @@ namespace LASI.Content
         /// Gets the full path of the directory in which the file resides.
         /// </summary>
         public string Directory => fileData.Directory;
+
+        /// <summary>
+        /// Determines if the wrapped file exists.
+        /// </summary>
+        /// <returns> <c>true</c> if the wrapped file exists; otherwise, <c>false</c>.</returns> 
+        public bool Exists() => fileData.Exists();
+
         /// <summary>
         /// Returns a value that indicates whether the specified InputFile is equal to the current InputFile.
         /// </summary>
@@ -110,6 +117,5 @@ namespace LASI.Content
         /// <param name="right">The InputFile on the right.</param>
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
-
     }
 }

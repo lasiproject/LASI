@@ -1,8 +1,9 @@
 ﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Xunit;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -12,63 +13,60 @@ namespace LASI.Content.Tests
     ///This is A test class for DocToDocXConverterTest and is intended
     ///to contain all DocToDocXConverterTest Unit Tests
     /// </summary>
-    [TestClass]
-    public class DocToDocXConverterTest
+    public class DocToDocXConverterTest : FileConverterTestBase<DocFile>
     {
+        protected override string FileName => "Draft_Environmental_Assessment.doc";
+
+        protected override Func<string, DocFile> SourceFactory => path => new DocFile(path);
+
         /// <summary>
         ///A test for DocToDocXConverter Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DocToDocXConverterConstructorTest()
         {
-            var infile = CreateTarget();
+            var infile = SourceFile;
             DocToDocXConverter target = new DocToDocXConverter(infile);
-            Assert.IsTrue(target.Original == infile);
+            Check.That(target.Original).IsEqualTo(infile);
         }
 
-        /// <summary>
-        ///A test for DocToDocXConverter Constructor
-        /// </summary>
-        [TestMethod]
-        public void DocToDocXConverterConstructorTest1()
-        {
-            var infile = CreateTarget();
-            string DocxFilesDir = @"..\..\..\NewProject\input\docx";
-            DocToDocXConverter target = new DocToDocXConverter(infile, DocxFilesDir);
-            Assert.IsTrue(target.Original == infile);
-        }
+        ///// <summary>
+        /////A test for DocToDocXConverter Constructor
+        ///// </summary>
+        //[Fact]
+        //public void DocToDocXConverterConstructorTest1()
+        //{
+        //    var infile = SourceFile;
+        //    string DocxFilesDir = @"..\..\..\NewProject\input\docx";
+        //    DocToDocXConverter target = new DocToDocXConverter(infile, DocxFilesDir);
+        //    Check.That(target.Original).IsEqualTo(infile);
+        //}
 
-        private static DocFile CreateTarget()
-        {
-            var infile = new DocFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.doc");
-
-            return infile;
-        }
 
         /// <summary>
         ///A test for ConvertFile
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ConvertFileTest()
         {
-            var infile = CreateTarget();
+            var infile = SourceFile;
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
-            Assert.IsTrue(File.Exists(actual.FullPath));
+            Assert.True(File.Exists(actual.FullPath));
         }
 
         /// <summary>
         ///A test for ConvertFileAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public async Task ConvertFileAsyncTest()
         {
-            var infile = CreateTarget();
+            var infile = SourceFile;
             DocToDocXConverter target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();
-            Assert.IsTrue(File.Exists(actual.FullPath));
+            Assert.True(File.Exists(actual.FullPath));
         }
     }
 }

@@ -87,28 +87,28 @@ namespace LASI.Content
         public static InputFile AddFile(string path)
         {
             ThrowIfUninitialized();
-            var ext = path.Substring(path.LastIndexOf('.')).ToLower();
+            var extension = Path.GetExtension(path).ToLower();
             try
             {
-                var originalFile = WrapperMap[ext](path);
+                var originalFile = WrapperMap[extension](path);
                 var newPath =
-                    ext == ".doc" ? DocFilesDirectory :
-                    ext == ".docx" ? DocxFilesDirectory :
-                    ext == ".txt" ? TxtFilesDirectory :
-                    ext == ".pdf" ? PdfFilesDirectory :
-                    ext == ".tagged" ? TaggedFilesDirectory : string.Empty;
+                    extension == ".doc" ? DocFilesDirectory :
+                    extension == ".docx" ? DocxFilesDirectory :
+                    extension == ".txt" ? TxtFilesDirectory :
+                    extension == ".pdf" ? PdfFilesDirectory :
+                    extension == ".tagged" ? TaggedFilesDirectory : string.Empty;
 
                 newPath += "\\" + originalFile.FileName;
 
                 File.Copy(originalFile.FullPath, newPath, overwrite: true);
-                var newFile = WrapperMap[ext](newPath);
+                var newFile = WrapperMap[extension](newPath);
 
                 AddToTypedList(newFile as dynamic);
                 return newFile;
             }
-            catch (KeyNotFoundException ex)
+            catch (UnsupportedFileTypeException e)
             {
-                throw new UnsupportedFileTypeException(ext, ex);
+                throw new UnsupportedFileTypeException(extension, e);
             }
         }
 
@@ -139,28 +139,6 @@ namespace LASI.Content
         /// <param name="inputFile">An Instance of the InputFile class or one of its descendants.</param>
         /// <returns>False if a file with the same name, irrespective of it's extension, is part of the project. False otherwise.</returns>
         public static bool HasSimilarFile(InputFile inputFile) => HasSimilarFile(inputFile.FullPath);
-
-        /// <summary>
-        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of file path strings.
-        /// </summary>
-        /// <param name="filesToKeep">A collection of file path strings indicating which files are not to be culled. All others will summarily executed.</param>
-        public static void RemoveAllFilesNotIn(IEnumerable<string> filesToKeep)
-        {
-            ThrowIfUninitialized();
-            RemoveAllNotIn(filesToKeep.Select(fileName => fileName.IndexOf('.') > 0 ? WrapperMap[fileName.Substring(fileName.LastIndexOf('.'))](fileName) : new TxtFile(fileName)));
-        }
-        /// <summary>
-        /// Removes all files, regardless of extension, whose names do not match any of the names in the provided collection of InputFile objects.
-        /// </summary>
-        /// <param name="filesToKeep">collection of InputFile objects indicating which files are not to be culled. All others will summarily executed.</param>
-        public static void RemoveAllNotIn(IEnumerable<InputFile> filesToKeep)
-        {
-            ThrowIfUninitialized();
-            foreach (var f in AllDocumentNames.Except(taggedFiles.Select(tagged => tagged.NameSansExt)))
-            {
-                RemoveAllAlikeFiles(f);
-            }
-        }
 
         /// <summary>
         /// Removes the document represented by InputFile object from the project.

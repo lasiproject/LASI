@@ -1,61 +1,51 @@
 ﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
-
-
-    /// <summary>
-    ///This is A test class for DocxToTextConverterTest and is intended
-    ///to contain all DocxToTextConverterTest Unit Tests
-    /// </summary>
-    [TestClass]
-    public class DocxToTextConverterTest
+    using Fact = Xunit.FactAttribute;
+    public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
     {
+        protected override string FileName => "Draft_Environmental_Assessment.docx";
 
-        private static DocXFile CreateDocXFile()
-        {
-            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            DocXFile infile = new DocXFile(path);
-            return infile;
-        }
+        protected sealed override Func<string, DocXFile> SourceFactory => path => new DocXFile(path);
 
         /// <summary>
         ///A test for ConvertFileAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public async Task ConvertFileAsyncTest()
         {
-            DocXFile infile = CreateDocXFile();
+            DocXFile infile = SourceFile;
             DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = await target.ConvertFileAsync();
-            Assert.IsTrue(File.Exists(actual.FullPath));
+            Check.That(File.Exists(actual.FullPath)).IsTrue();
         }
         /// <summary>
         ///A test for ConvertFile
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ConvertFileTest()
         {
-            DocXFile infile = CreateDocXFile();
+            DocXFile infile = SourceFile;
             DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = target.ConvertFile();
-            Assert.IsTrue(File.Exists(actual.FullPath));
+            Check.That(File.Exists(actual.FullPath)).IsTrue();
         }
         /// <summary>
         ///A test for DocxToTextConverter Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DocxToTextConverterConstructorTest()
         {
-            DocXFile infile = CreateDocXFile();
+            DocXFile infile = SourceFile;
             DocxToTextConverter target = new DocxToTextConverter(infile);
-            Assert.AreEqual(target.Original.FullPath, infile.FullPath);
+            Check.That(target.Original.FullPath).IsEqualTo(infile.FullPath);
         }
     }
 }

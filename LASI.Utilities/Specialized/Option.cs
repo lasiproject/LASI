@@ -257,7 +257,7 @@ namespace LASI.Utilities.Specialized.Option
         /// <summary>
         /// Defines <see cref="Option{T}"/> s that have a value.
         /// </summary>
-        protected internal sealed class Some : Option<T>
+        sealed class Some : Option<T>
         {
             public override Option<TResult> Select<TResult>(Func<T, TResult> selector) => new Option<TResult>.Some(selector(Value));
 

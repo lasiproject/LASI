@@ -1,11 +1,12 @@
 ﻿using LASI.Content.Tagging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using LASI.Core;
 using System.Collections.Generic;
 using System.Reflection;
 using LASI.Content;
+using NFluent;
+using TestMethod = Xunit.FactAttribute;
 
 namespace LASI.Content.Tests
 {
@@ -15,7 +16,6 @@ namespace LASI.Content.Tests
     ///This is a test class for PhraseTagsetMapTest and is intended
     ///to contain all PhraseTagsetMapTest Unit Tests
     /// </summary>
-    [TestClass]
     public class PhraseTagsetMapTest
     {
 
@@ -65,7 +65,7 @@ namespace LASI.Content.Tests
             Func<IEnumerable<Word>, Phrase> actual;
             actual = target[tag];
             var phrase = actual(new Word[] { new PersonalPronoun("he") });
-            Assert.AreEqual(tag, target[phrase]);
+            Check.That(tag).IsEqualTo(target[phrase]);
         }
 
         /// <summary>
@@ -78,14 +78,13 @@ namespace LASI.Content.Tests
             Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });
             string actual;
             actual = target[phrase];
-            Assert.AreEqual("NP", actual);
+            Check.That("NP").IsEqualTo(actual);
         }
         [TestMethod]
-        [ExpectedException(typeof(UnknownPhraseTagException))]
         public void ItemTest3_FailureExpected()
         {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
-            var createPhrase = target["NOTMAPPED"];
+            Check.ThatCode(() => target["NOTMAPPED"]).Throws<UnknownPhraseTagException>();
         }
     }
 }

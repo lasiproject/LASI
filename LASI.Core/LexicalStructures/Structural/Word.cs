@@ -43,7 +43,7 @@ namespace LASI.Core
         /// Returns a string representation of the word.
         /// </summary>
         /// <returns>A string containing its underlying Noun and its text content.</returns>
-        public override string ToString() => $"{GetType().Name } \"{Text}\"";
+        public override string ToString() => $"{GetType().Name} \"{Text}\"";
 
         #endregion
 

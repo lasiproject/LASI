@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿using System.IO;
 using Shared.Test.Attributes;
 using NFluent;
+using Xunit;
+using LASI.Content.Tests.Extensions;
 
 namespace LASI.Content.Tests
 {
@@ -11,54 +12,55 @@ namespace LASI.Content.Tests
     ///This is a test class for PdfFileTest and is intended
     ///to contain all PdfFileTest Unit Tests
     /// </summary>
-    [TestClass]
     public class PdfFileTest
     {
-        private const string TestPdfFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
+        private const string TestPdfFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
 
         /// <summary>
         ///A test for PdfFile Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PdfFileConstructorTest()
         {
             PdfFile target = new PdfFile(TestPdfFilePath);
             FileInfo pdfInfo = new FileInfo(TestPdfFilePath);
-            Assert.AreEqual(pdfInfo.FullName, target.FullPath);
-            Assert.AreEqual(pdfInfo.Name, target.FileName);
-            Assert.AreEqual(pdfInfo.Extension, target.Extension);
+            Assert.Equal(pdfInfo.FullName, target.FullPath);
+            Assert.Equal(pdfInfo.Name, target.FileName);
+            Assert.Equal(pdfInfo.Extension, target.Extension);
         }
-        [TestMethod]
-        [ExpectedFileNotFoundException]
-        public void PdfFileConstructor_Given_Txt_File_Throws_File_Type_Mismatch_Of_PdfFile()
+        [Fact]
+        public void PdfFileConstructorGivenTxtFileThrowsFileTypeMismatchOfPdfFile()
         {
             string invalidPath = Directory.GetCurrentDirectory();
-            PdfFile target = new PdfFile(invalidPath);
+            Check.That(invalidPath).DoesNotSatisfy(File.Exists);
+            Check.ThatCode(() => new PdfFile(invalidPath))
+                 .Throws<FileNotFoundException>();
         }
-        [TestMethod]
+        [Fact]
         public void PdfFileConstructorTest2()
         {
-            string pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.txt";
+            string pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            Check.That(pathToNonPdfFile).Satisfies(File.Exists);
             Check.ThatCode(() => new PdfFile(pathToNonPdfFile))
                  .Throws<FileTypeWrapperMismatchException<PdfFile>>();
         }
         /// <summary>
         ///A test for LoadText
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextTest()
         {
             PdfFile target = new PdfFile(TestPdfFilePath);
             string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
             actual = target.LoadText();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         ///A test for LoadTextAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextAsyncTest()
         {
             string path = TestPdfFilePath;
@@ -66,7 +68,7 @@ namespace LASI.Content.Tests
             string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
             actual = target.LoadTextAsync().Result;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

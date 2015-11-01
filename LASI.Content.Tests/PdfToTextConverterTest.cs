@@ -1,7 +1,9 @@
 ﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -11,10 +13,11 @@ namespace LASI.Content.Tests
     ///This is a test class for PdfToTextConverterTest and is intended
     ///to contain all PdfToTextConverterTest Unit Tests
     /// </summary>
-    [TestClass]
-    public class PdfToTextConverterTest
+    public class PdfToTextConverterTest : FileConverterTestBase<PdfFile>
     {
-        private const string TestPdfFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
+        protected override string FileName => "Draft_Environmental_Assessment.pdf";
+
+        protected sealed override Func<string, PdfFile> SourceFactory => path => new PdfFile(path);
 
         /// <summary>
         ///A test for PdfToTextConverter Constructor
@@ -22,9 +25,9 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void PdfToTextConverterConstructorTest()
         {
-            PdfFile infile = new PdfFile(TestPdfFilePath);
+            PdfFile infile = SourceFile;
             PdfToTextConverter target = new PdfToTextConverter(infile);
-            Assert.AreEqual(infile, target.Original);
+            Check.That(infile).IsEqualTo(target.Original);
         }
 
         /// <summary>
@@ -33,12 +36,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void ConvertFileTest()
         {
-            PdfFile infile = new PdfFile(TestPdfFilePath);
+            PdfFile infile = SourceFile;
             PdfToTextConverter target = new PdfToTextConverter(infile);
             string expected = infile.LoadText();
             string actual;
             actual = target.ConvertFile().LoadText();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
@@ -47,12 +50,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void ConvertFileAsyncTest()
         {
-            PdfFile infile = new PdfFile(TestPdfFilePath);
+            PdfFile infile = SourceFile;
             PdfToTextConverter target = new PdfToTextConverter(infile);
             string expected = infile.LoadText();
             string actual;
             actual = target.ConvertFileAsync().Result.LoadText();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

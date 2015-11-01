@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
+using TestMethod = Xunit.FactAttribute;
 
 namespace LASI.Content.Tests
 {
@@ -6,7 +7,6 @@ namespace LASI.Content.Tests
     ///This is a test class for ITaggedTextSourceTest and is intended
     ///to contain all ITaggedTextSourceTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ITaggedTextSourceTest
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace LASI.Content.Tests
             string expected = ExpectedText;
             string actual;
             actual = target.LoadTextAsync().Result;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace LASI.Content.Tests
             string expected = ExpectedText;
             string actual;
             actual = target.LoadText();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace LASI.Content.Tests
             ITaggedTextSource target = CreateITaggedTextSource();
             string actual;
             actual = target.Name;
-            Assert.AreEqual("test fragment", actual);
+            Assert.Equal("test fragment", actual);
         }
 
         internal virtual ITaggedTextSource CreateITaggedTextSource()

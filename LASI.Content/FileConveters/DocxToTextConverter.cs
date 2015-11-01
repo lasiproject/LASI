@@ -23,8 +23,7 @@ namespace LASI.Content
         /// The converted file will be placed in the same directory as the original.
         /// </summary>
         /// <param name="infile">The DocXFile instance representing the document to convert.</param>
-        public DocxToTextConverter(DocXFile infile) :
-            base(infile)
+        public DocxToTextConverter(DocXFile infile) : base(infile)
         {
             DestinationInfo = new FileData(DestinationDir + infile.FileName);
         }

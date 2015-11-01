@@ -50,11 +50,11 @@ namespace LASI.Utilities
         public static implicit operator Pair<T1, T2>(KeyValuePair<T1, T2> keyValuePair) => new Pair<T1, T2>(keyValuePair.Key, keyValuePair.Value);
 
         /// <summary>
-        /// 
+        /// Determines if the specified <see cref="Pair{T1,T2}"/> is equal to the current instance.
         /// </summary>
         /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(Pair<T1, T2> other) => (First?.Equals(other.First) ?? other.First == null) && (Second?.Equals(other.Second) ?? other.Second == null);
+        /// <returns><c>true</c> if the specified <see cref="Pair{T1,T2}"/> is equal to the current instance; otherwise <c>false</c>.</returns>
+        public bool Equals(Pair<T1, T2> other) => Equals(First, other.First) && Equals(Second, other.Second);
         /// <summary>
         /// Determines if the specified object is equal to the current instance.
         /// </summary>

@@ -1,7 +1,7 @@
-﻿using LASI.Content;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
+
 
 namespace LASI.Content.Tests
 {
@@ -11,10 +11,9 @@ namespace LASI.Content.Tests
     ///This is a test class for InputFileTest and is intended
     ///to contain all InputFileTest Unit Tests
     /// </summary>
-    [TestClass]
     public class InputFileTest
     {
-        const string TestTextFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
+        const string TestTextFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
 
         internal virtual InputFile CreateInputFile() => new TxtFile(TestTextFilePath);
 
@@ -24,27 +23,27 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void EqualsTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             object obj = null;
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
             obj = new DocXFile(relativePath);
             expected = true;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
-            TxtFile other = new TxtFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt");
+            Assert.Equal(expected, actual);
+            TxtFile other = new TxtFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.txt");
             expected = false;
             actual = target.Equals(other);
-            InputFile other1 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx");
+            InputFile other1 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = true;
             actual = target.Equals(other1);
-            DocXFile other2 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx");
+            DocXFile other2 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = true;
             actual = target.Equals(other2);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -53,12 +52,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void GetHashCodeTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             int expected = new DocXFile(relativePath).GetHashCode();
             int actual;
             actual = target.GetHashCode();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace LASI.Content.Tests
             }
             string actual;
             actual = target.LoadText();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace LASI.Content.Tests
                 async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
                 Task.Run(async () => actual = await target.LoadTextAsync())
             );
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace LASI.Content.Tests
             string expected = string.Format("{0}: {1} in: {2}", target.GetType(), target.FileName, target.Directory);
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -118,16 +117,16 @@ namespace LASI.Content.Tests
             bool expected = false;
             bool actual;
             actual = (left == right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
 
-            right = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx");
+            right = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = false;
             actual = (left == right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
             right = new TxtFile(TestTextFilePath);
             expected = true;
             actual = (left == right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -141,16 +140,16 @@ namespace LASI.Content.Tests
             bool expected = true;
             bool actual;
             actual = (left != right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
 
-            right = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx");
+            right = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = true;
             actual = (left != right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
             right = new TxtFile(TestTextFilePath);
             expected = false;
             actual = (left != right);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -159,12 +158,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void DirectoryTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             string expected = new System.IO.FileInfo(relativePath).Directory.FullName + "\\";
             string actual;
             actual = target.Directory;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -173,12 +172,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void ExtTest()
         {
-            var fullPath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var fullPath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(fullPath);
             string expected = ".docx";
             string actual;
             actual = target.Extension;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -187,12 +186,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void FileNameTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
             InputFile target = new PdfFile(relativePath);
-            string expected = "Draft_Environmental_Assessment3.pdf";
+            string expected = "Draft_Environmental_Assessment.pdf";
             string actual;
             actual = target.FileName;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -201,22 +200,22 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void FullPathTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
             actual = target.FullPath;
-            Assert.AreEqual(System.IO.Path.GetFullPath(relativePath), actual);
+            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
         }        /// <summary>
                  ///A test for FullPath
                  /// </summary>
         [TestMethod]
         public void FullPathTest1()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment2.docx";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
             actual = target.FullPath;
-            Assert.AreEqual(System.IO.Path.GetFullPath(relativePath), actual);
+            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
         }
 
         /// <summary>
@@ -225,12 +224,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void NameTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment1.doc";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.doc";
             InputFile target = new DocFile(relativePath);
-            string expected = "Draft_Environmental_Assessment1";
+            string expected = "Draft_Environmental_Assessment";
             string actual;
             actual = target.Name;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -239,12 +238,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void NameSansExtTest()
         {
-            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment4.txt";
+            var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             InputFile target = new TxtFile(relativePath);
-            string expected = "Draft_Environmental_Assessment4";
+            string expected = "Draft_Environmental_Assessment";
             string actual;
             actual = target.Name;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
@@ -253,12 +252,12 @@ namespace LASI.Content.Tests
         [TestMethod]
         public void PathSansExtTest()
         {
-            var absolutePath = System.IO.Path.GetFullPath(@"..\..\MockUserFiles\Draft_Environmental_Assessment3.pdf");
+            var absolutePath = System.IO.Path.GetFullPath(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf");
             InputFile target = new PdfFile(absolutePath);
-            string expected = System.IO.Path.GetDirectoryName(absolutePath) + @"\Draft_Environmental_Assessment3";
+            string expected = System.IO.Path.GetDirectoryName(absolutePath) + @"\Draft_Environmental_Assessment";
             string actual;
             actual = target.PathSansExt;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

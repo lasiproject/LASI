@@ -105,11 +105,7 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
     <Compile Include="CustomTestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
@@ -117,6 +113,8 @@
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />
     <Compile Include="DocxToTextConverterTest.cs" />
+    <Compile Include="Extensions\NFluent.cs" />
+    <Compile Include="FileConverterTestsBase.cs" />
     <Compile Include="FileManagerTest.cs" />
     <Compile Include="InputFileTest.cs" />
     <Compile Include="IRawTextSourceTest.cs" />

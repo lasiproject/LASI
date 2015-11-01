@@ -37,6 +37,13 @@ namespace LASI.Content
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Determines if the wrapped path exists.
+        /// </summary>
+        /// <returns> <c>true</c> if the wrapped path exists; otherwise, <c>false</c>.</returns> 
+        public bool Exists() => System.IO.File.Exists(FullPathAndExt);
+        
         /// <summary>
         /// Returns a string representation of the FileData, containing its directory path and full name.
         /// </summary>

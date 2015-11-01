@@ -1,9 +1,10 @@
 ﻿using LASI.Content;
 using LASI.Content.Tagging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NFluent;
+using Fact = Xunit.FactAttribute;
 
 namespace LASI.Content.Tests
 {
@@ -13,40 +14,15 @@ namespace LASI.Content.Tests
     ///This is a test class for TaggedTextFragmentTest and is intended
     ///to contain all TaggedTextFragmentTest Unit Tests
     /// </summary>
-    [TestClass]
     public class TaggedTextFragmentTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-
-        #endregion
-
 
         private Tagger Tagger => new Tagger();
 
         /// <summary>
         ///A test for TaggedTextFragment Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void TaggedTextFragmentConstructorTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
@@ -56,13 +32,13 @@ namespace LASI.Content.Tests
             });
             string name = "Test Fragment";
             TaggedTextFragment target = new TaggedTextFragment(lines, name);
-            Assert.AreEqual(target.Name, name);
+            Check.That(target.Name).IsEqualTo(name);
         }
 
         /// <summary>
         ///A test for LoadText
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
@@ -75,13 +51,13 @@ namespace LASI.Content.Tests
             string expected = string.Join("\n", lines);
             string actual;
             actual = target.LoadText();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for LoadTextAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextAsyncTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
@@ -94,7 +70,7 @@ namespace LASI.Content.Tests
             string expected = string.Join("\n", lines);
             string actual = null;
             Task.WaitAll(Task.Run(async () => actual = await target.LoadTextAsync()));
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace LASI.Utilities.Tests
     public class ComparerTests
     {
         [Test]
-        public void Equality_Created_Determines_Equality_As_Specified()
+        public void EqualityCreatedDeterminesEqualityAsSpecified()
         {
             var comparer = Equality.Create<string>((x, y) => x.EqualsIgnoreCase(y));
             var first = "hello";
@@ -25,7 +25,7 @@ namespace LASI.Utilities.Tests
         }
 
         [Test]
-        public void Equality_Created_Without_Specifying_Hasher_Causes_Non_Nulls_To_Collide()
+        public void EqualityCreatedWithoutSpecifyingHasherCausesNonNullsToCollide()
         {
             var comparer = Equality.Create<object>((x, y) => x.Equals(y));
             object[] values = { "hello", 123, new object(), (decimal?)1m };
@@ -33,7 +33,7 @@ namespace LASI.Utilities.Tests
         }
 
         [Test]
-        public void Equality_Created_Without_Specifying_Hasher_Causes_Nulls_To_Collide()
+        public void EqualityCreatedWithoutSpecifyingHasherCausesNullsToCollide()
         {
             var comparer = Equality.Create<object>((x, y) => x.Equals(y));
             var values = Enumerable.Repeat<object>(null, 2);
@@ -42,7 +42,7 @@ namespace LASI.Utilities.Tests
         }
 
         [Test]
-        public void Comparer_Created_With_Explicit_Hasher_Computes_Equivalent_Hash_Codes()
+        public void ComparerCreatedWithExplicitHasherComputesEquivalentHashCodes()
         {
             var comparer = Equality.Create<int>((x, y) => x.Equals(y), x => x < 10 ? x : x % 5);
         }
