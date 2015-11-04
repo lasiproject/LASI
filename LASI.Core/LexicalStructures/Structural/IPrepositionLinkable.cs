@@ -3,14 +3,25 @@
     public interface IPrepositionLinkable : ILexical
     {
         /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Left of the Lexical element.
+        /// The <see cref="IPrepositional"/> instance lexically to the left of the element.
         /// </summary>
-        IPrepositional PrepositionOnLeft { get; set; }
+        IPrepositional LeftPrepositional { get; }
 
         /// <summary>
-        /// Gets or sets the IPrepositional instance lexically to the Right of the Lexical element.
+        /// The <see cref="IPrepositional"/> instance lexically to the right of the element.
         /// </summary>
-        IPrepositional PrepositionOnRight { get; set; }
+        IPrepositional RightPrepositional { get; }
 
+        /// <summary>
+        /// Binds the specified prepositional as the leftward prepositional of the element.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        void BindLeftPrepositional(IPrepositional prepositional);
+
+        /// <summary>
+        /// Binds the specified prepositional as the rightward prepositional of the element.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        void BindRightPrepositional(IPrepositional prepositional);
     }
 }

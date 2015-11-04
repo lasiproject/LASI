@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Immutable;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -11,6 +12,7 @@ namespace LASI.Core
     /// <para> situtation where an IEntity is Expected, but also enumerate it via foreach(var in ...) or (from e in ...) </para>
     /// </summary>
     /// <seealso cref="IAggregateEntity"/>
+    /// <seealso cref="IAggregateLexical{TLexical}"/>
     /// <seealso cref="IEntity"/>
     public class AggregateEntity : IAggregateEntity
     {
@@ -22,16 +24,15 @@ namespace LASI.Core
         /// <param name="entities">The entities aggregated into the group.</param>
         public AggregateEntity(IEnumerable<IEntity> entities)
         {
-            constituents = ImmutableList.CreateRange((from entity in entities
-                                                      select entity.Match()
-                                                      .Case((IAggregateEntity a) => a.AsEnumerable())
-                                                      .Result(new[] { entity }) into entitySet
-                                                      from entity in entitySet
-                                                      select entity).Distinct()); // entities.AsRecursivelyEnumerable().Distinct().ToImmutableList();
-            var kinds = from constituent in constituents
-                        group constituent by constituent.EntityKind into g
-                        orderby g.Count() descending
-                        select g.Key;
+            Constituents = (from entity in entities
+                            let aggregate = entity.Match((IAggregateEntity a) => a, (IEntity e) => e.Lift())
+                            from aggregated in aggregate
+                            select aggregated).Distinct().ToList();
+
+            var kinds = from constituent in Constituents
+                        group constituent by constituent.EntityKind into byKind
+                        orderby byKind.Count() descending
+                        select byKind.Key;
             EntityKind = kinds.DefaultIfEmpty(EntityKind.ThingMultiple).First();
         }
 
@@ -79,7 +80,7 @@ namespace LASI.Core
         /// Returns an enumerator that iterates through the members of the aggregate entity.
         /// </summary>
         /// <returns>An enumerator that iterates through the members of the aggregate entity.</returns>
-        public IEnumerator<IEntity> GetEnumerator() => constituents.GetEnumerator();
+        public IEnumerator<IEntity> GetEnumerator() => Constituents.GetEnumerator();
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
         /// <summary>
@@ -88,12 +89,11 @@ namespace LASI.Core
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString()
         {
-            var members = constituents.AsRecursivelyEnumerable().ToList();
+            var members = Constituents.AsRecursivelyEnumerable().ToList();
             return $@"[ {members.Count} ] {string.Join(" ",
                 from member in members
-                let quote = '\"'
                 where !(member is IAggregateEntity)
-                select $"{member.GetType().Name} {quote}{member.Text}{quote}")
+                select $"{member.GetType().Name} \"{member.Text}\"")
             }";
         }
 
@@ -134,11 +134,11 @@ namespace LASI.Core
         /// </summary>
         public IPossesser Possesser { get; set; }
         /// <summary>
-        /// Gets a textual representation of the aggregate entity.
+        /// A textual representation of the aggregate entity.
         /// </summary>
         public string Text => string.Join(" , ",
-                    from member in constituents.AsRecursivelyEnumerable()
-                    let prepositionText = member.Match().Case((IPrepositionLinkable i) => i.PrepositionOnRight?.Text ?? string.Empty).Result()
+                    from member in Constituents.AsRecursivelyEnumerable()
+                    let prepositionText = member.Match((IPrepositionLinkable i) => i.RightPrepositional?.Text ?? string.Empty)
                     select member.Text + (prepositionText.IsNullOrWhiteSpace() ? string.Empty : " " + prepositionText));
 
         /// <summary>
@@ -151,14 +151,16 @@ namespace LASI.Core
         /// </summary>
         public double MetaWeight { get; set; }
 
+        /// <summary>
+        /// The sequence of entities which compose to form the aggregate entity.
+        /// </summary>
+        public IEnumerable<IEntity> Constituents { get; }
+
         #endregion
 
         #region Fields
 
-        /// <summary>
-        /// The sequence of entities which compose to form the aggregate entity.
-        /// </summary>
-        private readonly IImmutableList<IEntity> constituents;
+
         IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;

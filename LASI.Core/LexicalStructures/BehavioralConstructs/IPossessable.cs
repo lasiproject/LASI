@@ -14,9 +14,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which has been inferred as the "owner" of the IPossessable.
         /// </summary>
-        IPossesser Possesser {
-            get;
-            set;
-        }
+        IPossesser Possesser { get; set; }
     }
 }

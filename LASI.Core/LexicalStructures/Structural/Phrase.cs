@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using LASI.Core.LexicalStructures.Structural;
+using LASI.Core.LexicalStructures;
 
 namespace LASI.Core
 {
@@ -60,20 +60,32 @@ namespace LASI.Core
             }
         }
 
+        /// <summary>
+        /// Binds the specified prepositional as the leftward prepositional of the phrase.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        public void BindLeftPrepositional(IPrepositional prepositional) => LeftPrepositional = prepositional;
+        
+        /// <summary>
+        /// Binds the specified prepositional as the rightward prepositional of the phrase.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        public void BindRightPrepositional(IPrepositional prepositional) => RightPrepositional = prepositional;
+       
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The <see cref="IPrepositional"/> instance lexically to the left of the phrase.
+        /// </summary>
+        public IPrepositional LeftPrepositional { get; private set; }
 
         /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the right of the word.
+        /// The <see cref="IPrepositional"/> instance lexically to the right of the phrase.
         /// </summary>
-        public IPrepositional PrepositionOnRight { get; set; }
+        public IPrepositional RightPrepositional { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the Prepositional construct which is lexically to the left of the Phrase.
-        /// </summary>
-        public IPrepositional PrepositionOnLeft { get; set; }
-
+      
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -16,10 +12,8 @@ namespace LASI.Core
         /// Initializes a new instance of the InvertedClauseBeginPhrase class.
         /// </summary>
         /// <param name="composed">The words which comprise the InvertedClauseBeginPhrase.</param>
-        public InvertedClauseBeginPhrase(IEnumerable<Word> composed)
-            : base(composed)
-        {
-        }
+        public InvertedClauseBeginPhrase(IEnumerable<Word> composed) : base(composed) { }
+
         /// <summary>
         /// Initializes a new instance of the InvertedClauseBeginPhrase class.
         /// </summary>

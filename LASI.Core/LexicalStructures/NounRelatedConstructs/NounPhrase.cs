@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
+using LASI.Core.LexicalStructures;
 
 namespace LASI.Core
 {
@@ -12,7 +10,7 @@ namespace LASI.Core
     /// Represents a noun phrase such as "The Pinko-Commy Conspiracy".
     /// Note that noun componentPhrases are the constructs which wrap both nouns and pronouns at the phrase level.
     /// </summary>
-    public class NounPhrase : Phrase, IEntity, LexicalStructures.Structural.IRoleCompositeLexical<Word, Noun>
+    public class NounPhrase : Phrase, IEntity, IRoleCompositeLexical<Word, Noun>
     {
         #region Constructors
         /// <summary>

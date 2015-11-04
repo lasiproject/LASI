@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LASI.Core.LexicalStructures;
 using LASI.Utilities.Validation;
 
 namespace LASI.Core
@@ -11,7 +12,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides the base class, properties, and behaviors for all word level grammatical constructs.
     /// </summary>
-    public abstract class Word : ILexical, LexicalStructures.Structural.ILinkedUnitLexical<Word>
+    public abstract class Word : ILexical, ILinkedUnitLexical<Word>
     {
         #region Constructors
         /// <summary>
@@ -39,6 +40,19 @@ namespace LASI.Core
         /// </summary>
         /// <param name="parent">The Phrase to which the word belongs.</param>
         internal void EstablishTextualLinks(Phrase parent) => Phrase = parent;
+
+        /// <summary>
+        /// Binds the specified prepositional as the leftward prepositional of the word.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        public void BindLeftPrepositional(IPrepositional prepositional) => LeftPrepositional = prepositional;
+
+        /// <summary>
+        /// Binds the specified prepositional as the rightward prepositional of the word.
+        /// </summary>
+        /// <param name="prepositional">The prepositional to bind.</param>
+        public void BindRightPrepositional(IPrepositional prepositional) => RightPrepositional = prepositional;
+
         /// <summary>
         /// Returns a string representation of the word.
         /// </summary>
@@ -85,11 +99,11 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Left of the word.
         /// </summary>
-        public IPrepositional PrepositionOnLeft { get; set; }
+        public IPrepositional LeftPrepositional { get; private set; }
         /// <summary>
         /// Gets or sets the Prepositional construct which is lexically to the Right of the word.
         /// </summary>
-        public IPrepositional PrepositionOnRight { get; set; }
+        public IPrepositional RightPrepositional { get; private set; }
         /// <summary>
         /// Gets or sets the numeric Weight of the word within the context of its parent document.
         /// </summary>

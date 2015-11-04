@@ -5,16 +5,13 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
 using LASI.Core;
+using LASI.Core.Analysis.Heuristics.Support;
+using LASI.Interop;
+using LASI.Utilities;
 
 namespace LASI.App
 {
-    using Core.Analysis.Heuristics.Support;
-    using Interop.ResourceManagement;
-    using LASI.Interop;
-    using Utilities;
     using ChartItem = KeyValuePair<string, float>;
-    using ChartItemCollection = IEnumerable<KeyValuePair<string, float>>;
-
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
     /// </summary>
@@ -32,8 +29,8 @@ namespace LASI.App
         /// </param>
         public static async void ChangeChartKindAsync(ChartKind chartKind)
         {
-            ChartKind = chartKind;
-            foreach (var pair in documentsByChart)
+            Visualizer.chartKind = chartKind;
+            foreach (var pair in DocumentsByChart)
             {
                 var document = pair.Value;
                 var chart = pair.Key;
@@ -55,7 +52,7 @@ namespace LASI.App
         public static async Task InitChartDisplayAsync(Document document)
         {
             var chart = await BuildBarChartAsync(document);
-            documentsByChart.Add(chart, document);
+            DocumentsByChart.Add(chart, document);
             var tab = new TabItem
             {
                 Header = document.Name,
@@ -131,11 +128,11 @@ namespace LASI.App
         private static async Task<Chart> BuildBarChartAsync(Document document)
         {
             var dataPointSource =
-                ChartKind == ChartKind.NounPhrasesOnly ?
+                chartKind == ChartKind.NounPhrasesOnly ?
                 await GetNounWiseDataAsync(document) :
-                ChartKind == ChartKind.SubjectVerbObject ?
-                await GetVerbWiseDataAsync(document) :
-                await GetVerbWiseDataAsync(document);
+                chartKind == ChartKind.SubjectVerbObject ?
+                await GetVerbWiseRelationshipChartItemsAsync(document) :
+                await GetVerbWiseRelationshipChartItemsAsync(document);
             // Materialize item source so that changing chart types is less expensive.
             var topPoints = dataPointSource
                 .OrderByDescending(point => point.Value)
@@ -160,13 +157,13 @@ namespace LASI.App
             return chart;
         }
 
-        private static async Task<ChartItemCollection> CreateChartDataAsync(ChartKind chartKind, Document document)
+        private static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind chartKind, Document document)
         {
             switch (chartKind)
             {
-                case ChartKind.SubjectVerbObject: return await GetVerbWiseDataAsync(document);
-                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
-                default: return await GetNounWiseDataAsync(document);
+            case ChartKind.SubjectVerbObject: return await GetVerbWiseRelationshipChartItemsAsync(document);
+            case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+            default: return await GetNounWiseDataAsync(document);
             }
         }
 
@@ -193,7 +190,7 @@ namespace LASI.App
             chart.Series.Add(series);
         }
 
-        private static ChartItemCollection GetItemSource(this Chart chart) => (chart.Tag as ChartItemCollection).Reverse();
+        private static IEnumerable<ChartItem> GetItemSource(this Chart chart) => (chart.Tag as IEnumerable<ChartItem>).Reverse();
 
         #endregion General Chart Building Methods
 
@@ -236,50 +233,48 @@ namespace LASI.App
                 Weight = Math.Round(relationship.Weight, 2)
             };
 
-        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.PrepositionOnLeft?.Text + " " + o?.Text;
+        private static string FormatObjectText(IEntity o) => (o as IPrepositionLinkable)?.LeftPrepositional?.Text + " " + o?.Text;
 
         private static string FormatVerbalText(IVerbal verbal)
         {
-            var prepositionalText = (verbal as IPrepositionLinkable)?.PrepositionOnLeft?.Text;
+            var prepositionalText = verbal.Match((IPrepositionLinkable p) => p.LeftPrepositional?.Text);
             var adverbialText = string.Join(" ", verbal.AdverbialModifiers.Select(m => m.Text));
             return $"{prepositionalText} {verbal.Modality?.Text} {verbal.Text} {adverbialText}";
         }
 
-        private static ChartItemCollection GetNounWiseData(Document document) =>
+        private static IEnumerable<ChartItem> GetNounWiseRelationshipChartItems(Document document) =>
             document.Phrases.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                 .OfNounPhrase()
                 .Meld()
                 .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
                 .Distinct();
 
-        private static async Task<ChartItemCollection> GetNounWiseDataAsync(Document document) =>
-            await Task.Run(() => GetNounWiseData(document));
+        private static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
+              Task.Run(() => GetNounWiseRelationshipChartItems(document));
 
-        private static async Task<ChartItemCollection> GetVerbWiseData(Document document)
+        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
-            var dataPoints =
-                from relationship in await GetVerbWiseRelationshipsAsync(document)
-                select new ChartItem(key: $"{relationship.Subject.Text} -> {relationship.Verbal.Text}\n" +
-                                        (relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty) +
-                                        (relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty),
-                                    value: (float)Math.Round(relationship.Weight, 2)
-                );
-            return dataPoints.Distinct();
+            var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
+            return verbWiseRelationships
+                .Select(relationship =>
+                    new ChartItem(
+                        key: $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
+                            {(relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty)}
+                            {(relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty)}",
+                        value: (float)Math.Round(relationship.Weight, 2)))
+                .Distinct();
         }
 
-        private static async Task<ChartItemCollection> GetVerbWiseDataAsync(Document document) => await Task.Run(() => GetVerbWiseData(document));
+        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) => await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
 
         private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
-            var consideredVerbals = document.Phrases
-                                    .OfVerbPhrase()
-                                    .WithSubject(subject => subject.Match()
-                                        .Case((IReferencer r) => r.RefersTo != null)
-                                        .Case((IEntity e) => e != null)
-                                        .Result())
-                                    .Distinct((x, y) => x.IsSimilarTo(y));
+            var consideredVerbals = document.Phrases.OfVerbal()
+                .WithSubject(subject => subject.Match((IReferencer r) => r.RefersTo != null, (IEntity e) => e != null))
+                .Distinct((x, y) => x.IsSimilarTo(y))
+                .AsParallel().WithDegreeOfParallelism(Concurrency.Max);
 
-            return from verbal in consideredVerbals.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
+            return from verbal in consideredVerbals
                    select verbal into verbal
                    from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    let subject = entity.Match()
@@ -302,16 +297,8 @@ namespace LASI.App
                    select relationship;
         });
 
-        /// <summary>
-        /// Gets the ChartKind currently used by the ChartManager.
-        /// </summary>
-        internal static ChartKind ChartKind
-        {
-            get;
-            private set;
-        }
-
+        private static ChartKind chartKind;
         private const int ChartItemLimit = 14;
-        private static Dictionary<Chart, Document> documentsByChart = new Dictionary<Chart, Document>();
+        private static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
     }
 }

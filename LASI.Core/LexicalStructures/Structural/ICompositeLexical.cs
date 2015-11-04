@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LASI.Core.LexicalStructures.Structural
+namespace LASI.Core.LexicalStructures
 {
     /// <summary>
     /// Represents a single, unit viewable lexical element which is comprised of a collections of lexical components.

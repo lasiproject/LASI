@@ -59,11 +59,11 @@ namespace LASI.Core.Binding
         {
             if (prepPhrase.PreviousPhrase != null)
             {
-                prepPhrase.PreviousPhrase.PrepositionOnRight = prepPhrase;
+                prepPhrase.PreviousPhrase.BindRightPrepositional(prepPhrase);
             }
             else if (prepPhrase.NextPhrase != null)
             {
-                prepPhrase.NextPhrase.PrepositionOnLeft = prepPhrase;
+                prepPhrase.NextPhrase.BindLeftPrepositional(prepPhrase);
             }
             prepPhrase.ToTheRightOf = prepPhrase.NextPhrase;
             prepPhrase.ToTheLeftOf = prepPhrase.PreviousPhrase;

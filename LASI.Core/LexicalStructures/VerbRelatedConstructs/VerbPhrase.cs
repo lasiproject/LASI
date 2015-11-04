@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
-    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable, LASI.Core.LexicalStructures.Structural.IRoleCompositeLexical<Word, Verb>
+    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable, LexicalStructures.IRoleCompositeLexical<Word, Verb>
     {
         #region Constructors
 

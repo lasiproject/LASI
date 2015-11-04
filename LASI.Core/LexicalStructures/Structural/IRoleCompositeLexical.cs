@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LASI.Core.LexicalStructures.Structural
+namespace LASI.Core.LexicalStructures
 {
     /// <summary>
     /// Represents a composite lexical which has a number of components which define a single syntactic role.

@@ -173,7 +173,7 @@ namespace LASI.Core.Analysis.Binding
                     {
                         if (Machine.lastPrepositional != null)
                         {
-                            c.PrepositionOnLeft = Machine.lastPrepositional;
+                            c.BindLeftPrepositional(Machine.lastPrepositional);
                             Machine.lastPrepositional.ToTheRightOf = c;
                         }
                         BindIfExhaustedOrContinueVia(ToState2);
@@ -182,9 +182,9 @@ namespace LASI.Core.Analysis.Binding
                     {
                         if (Machine.lastPrepositional != null)
                         {
-                            n.PrepositionOnLeft = Machine.lastPrepositional;
+                            n.BindLeftPrepositional(Machine.lastPrepositional);
                             Machine.lastPrepositional.ToTheRightOf = n;
-                            Machine.bindingTarget.AttachObjectViaPreposition(n.PrepositionOnLeft);
+                            Machine.bindingTarget.AttachObjectViaPreposition(n.LeftPrepositional);
                         }
                         Machine.entities.Push(n);
                         BindIfExhaustedOrContinueVia(ToState2);
@@ -312,7 +312,7 @@ namespace LASI.Core.Analysis.Binding
                     {
                         foreach (var e in Machine.entities) { Machine.bindingTarget.BindDirectObject(e); }
                         Machine.lastPrepositional = p;
-                        Machine.entities.Last().PrepositionOnRight = Machine.lastPrepositional;
+                        Machine.entities.Last().BindRightPrepositional(Machine.lastPrepositional);
                         p.ToTheLeftOf = Machine.entities.Last();
                         Machine.entities.Clear();
                         Machine.directBound = true;

@@ -1,66 +1,61 @@
-﻿using LASI;
-using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LASI.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities;
+using NFluent;
+using Fact = Xunit.FactAttribute;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is A test class for VerbPhraseTest and is intended
     ///to contain all VerbPhraseTest Unit Tests
     /// </summary>
-    [TestClass]
     public class VerbPhraseTest
     {
-
         private static VerbPhrase CreateVerbPhrase1() => new VerbPhrase(new BaseVerb("help"));
 
         /// <summary>
         ///A test for VerbPhrase Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void VerbPhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through") };
             VerbPhrase target = new VerbPhrase(composedWords);
-            Assert.IsTrue(composedWords == target.Words);
+            Check.That(target.Words).IsEqualTo(composedWords);
         }
         /// <summary>
         ///A test for VerbPhrase Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void VerbPhraseConstructorTest1()
         {
             VerbPhrase target = new VerbPhrase(new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through"));
             var words = target.Words.ToList();
-            Assert.AreEqual(words[0].Text, "run");
-            Assert.AreEqual(words[0].GetType(), typeof(BaseVerb));
-            Assert.AreEqual(words[1].Text, "swiftly");
-            Assert.AreEqual(words[1].GetType(), typeof(Adverb));
-            Assert.AreEqual(words[2].Text, "through");
-            Assert.AreEqual(words[2].GetType(), typeof(Preposition));
+            Check.That(words[0].Text).IsEqualTo("run");
+            Check.That(words[0].GetType()).IsEqualTo(typeof(BaseVerb));
+            Check.That(words[1].Text).IsEqualTo("swiftly");
+            Check.That(words[1].GetType()).IsEqualTo(typeof(Adverb));
+            Check.That(words[2].Text).IsEqualTo("through");
+            Check.That(words[2].GetType()).IsEqualTo(typeof(Preposition));
         }
         /// <summary>
         ///A test for ModifyWith
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ModifyWithTest()
         {
             VerbPhrase target = CreateVerbPhrase();
             IAdverbial adv = new Adverb("daringly");
             target.ModifyWith(adv);
-            Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
+            Check.That(target.AdverbialModifiers).Contains(adv);
         }
 
         /// <summary>
         ///A test for BoundSubject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BoundSubjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -68,13 +63,13 @@ namespace LASI.Core.Tests
             IEntity actual;
             target.BindSubject(expected);
             actual = target.Subjects.First();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Modality
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ModalityTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -82,7 +77,7 @@ namespace LASI.Core.Tests
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         private static VerbPhrase CreateVerbPhrase() => new VerbPhrase(new BaseVerb("run"), new Adverb("swiftly"), new Preposition("through"));
@@ -92,7 +87,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for IsPossessive
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IsPossessiveTest()
         {
             VerbPhrase target = new VerbPhrase(
@@ -100,42 +95,38 @@ namespace LASI.Core.Tests
                 new PastTenseVerb("had"),
                 new Quantifier("many")
             );
-            bool actual;
-            actual = target.IsPossessive;
-            Assert.IsTrue(actual);
+            Check.That(target.IsPossessive).IsTrue();
         }
         /// <summary>
         ///A test for IsPossessive
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IsPossessiveTest1()
         {
             VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
                 new PastTenseVerb("was")
             );
-            bool actual;
-            actual = target.IsPossessive;
-            Assert.IsFalse(actual);
+
+            Check.That(target.IsPossessive).IsFalse();
         }
         /// <summary>
         ///A test for IsClassifier
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IsClassifierTest()
         {
             VerbPhrase target = new VerbPhrase(
                 new Adverb("certainly"),
                 new PastTenseVerb("is")
             );
-            bool actual;
-            actual = target.IsClassifier;
-            Assert.IsTrue(actual);
+
+            Check.That(target.IsClassifier).IsTrue();
         }
         /// <summary>
         ///A test for IsClassifier
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IsClassifierTest1()
         {
             VerbPhrase target = new VerbPhrase(
@@ -143,48 +134,47 @@ namespace LASI.Core.Tests
                 new PastTenseVerb("owned"),
                 new Quantifier("many")
             );
-            bool actual;
-            actual = target.IsClassifier;
-            Assert.IsFalse(actual);
+
+            Check.That(target.IsClassifier).IsFalse();
         }
 
         /// <summary>
         ///A test for IndirectObjects
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectObjectsTest()
         {
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.IndirectObjects;
-            Assert.IsFalse(target.IndirectObjects.Any());
+            Check.That(target.IndirectObjects).IsEmpty();
             IEntity indirectObject = new PersonalPronoun("them");
             target.BindIndirectObject(indirectObject);
-            Assert.IsTrue(target.IndirectObjects.Contains(indirectObject));
+            Check.That(target.IndirectObjects).Contains(indirectObject);
         }
 
         /// <summary>
         ///A test for DirectObjects
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DirectObjectsTest()
         {
             VerbPhrase target = CreateVerbPhrase();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
-            Assert.IsFalse(target.DirectObjects.Any());
+            Check.That(target.DirectObjects).IsEmpty();
             IEntity directObject = new NounPhrase(
                 new Determiner("the"),
                 new CommonSingularNoun("book")
             );
             target.BindDirectObject(directObject);
-            Assert.IsTrue(target.DirectObjects.Contains(directObject));
+            Check.That(target.DirectObjects).Contains(directObject);
         }
 
         /// <summary>
         ///A test for AggregateSubject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AggregateSubjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -200,13 +190,13 @@ namespace LASI.Core.Tests
             target.BindSubject(subject);
             IAggregateEntity actual;
             actual = target.AggregateSubject;
-            Assert.IsFalse(actual.Except(subject).Any());
+            Check.That(actual.Except(subject)).IsEmpty();
         }
 
         /// <summary>
         ///A test for AggregateIndirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AggregateIndirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -222,13 +212,13 @@ namespace LASI.Core.Tests
             target.BindIndirectObject(indirectObject);
             IAggregateEntity actual;
             actual = target.AggregateIndirectObject;
-            Assert.IsFalse(actual.Except(indirectObject).Any());
+            Check.That(actual.Except(indirectObject)).IsEmpty();
         }
 
         /// <summary>
         ///A test for AggregateDirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AggregateDirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -239,13 +229,13 @@ namespace LASI.Core.Tests
             target.BindDirectObject(directObject);
             IAggregateEntity actual;
             actual = target.AggregateDirectObject;
-            Assert.IsFalse(directObject.Except(actual).Any());
+            Check.That(directObject.Except(actual)).IsEmpty();
         }
 
         /// <summary>
         ///A test for AdjectivalModifier
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AdjectivalModifierTest()
         {
             VerbPhrase target = new VerbPhrase(new PastTenseVerb("grew"));
@@ -255,14 +245,14 @@ namespace LASI.Core.Tests
             IDescriptor actual;
             target.PostpositiveDescriptor = expected;
             actual = target.PostpositiveDescriptor;
-            Assert.AreEqual(expected, actual);
-            Assert.IsTrue(subject.Descriptors.Contains(expected));
+            Check.That(actual).IsEqualTo(expected);
+            Check.That(subject.Descriptors).Contains(expected);
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             Phrase.VerboseOutput = false;
@@ -274,14 +264,14 @@ namespace LASI.Core.Tests
             string expected = "VerbPhrase \"run swiftly through\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
         /// <summary>
         ///A test for HasSubjectOrObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void HasSubjectOrObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase1();
@@ -291,14 +281,13 @@ namespace LASI.Core.Tests
             bool expected = true;
             bool actual;
             actual = target.HasSubjectOrObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
             target.BindDirectObject(entity);
             actual = target.HasSubjectOrObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
             target.BindIndirectObject(entity);
             actual = target.HasSubjectOrObject(predicate);
-            Assert.AreEqual(expected, actual);
-
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -306,7 +295,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for HasSubject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void HasSubjectTest()
         {
             VerbPhrase target = CreateVerbPhrase1();
@@ -316,13 +305,13 @@ namespace LASI.Core.Tests
             bool expected = true;
             bool actual;
             actual = target.HasSubject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for HasObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void HasObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase1();
@@ -333,17 +322,17 @@ namespace LASI.Core.Tests
             bool actual;
             target.BindDirectObject(entity);
             actual = target.HasObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
             target.BindIndirectObject(entity);
             actual = target.HasObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
         /// <summary>
         ///A test for HasIndirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void HasIndirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase1();
@@ -353,13 +342,13 @@ namespace LASI.Core.Tests
             bool expected = true;
             bool actual;
             actual = target.HasIndirectObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for HasDirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void HasDirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
@@ -369,51 +358,49 @@ namespace LASI.Core.Tests
             bool expected = true;
             bool actual;
             actual = target.HasDirectObject(predicate);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
-
-
 
         /// <summary>
         ///A test for BindSubject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindSubjectTest()
         {
             VerbPhrase target = CreateVerbPhrase1();
             IEntity subject = new CommonPluralNoun("cats");
             target.BindSubject(subject);
-            Assert.IsTrue(target.HasSubject(e => e == subject));
+            Check.That(target.HasSubject(e => e == subject)).IsTrue();
         }
 
         /// <summary>
         ///A test for BindIndirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindIndirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
             IEntity indirectObject = new ProperSingularNoun("John");
             target.BindIndirectObject(indirectObject);
-            Assert.IsTrue(target.HasIndirectObject(e => e == indirectObject));
+            Check.That(target.HasIndirectObject(e => e == indirectObject)).IsTrue();
         }
 
         /// <summary>
         ///A test for BindDirectObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDirectObjectTest()
         {
             VerbPhrase target = CreateVerbPhrase();
             IEntity directObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("forest"));
             target.BindDirectObject(directObject);
-            Assert.IsTrue(target.HasDirectObject(e => e == directObject));
+            Check.That(target.HasDirectObject(e => e == directObject)).IsTrue();
         }
 
         /// <summary>
         ///A test for AttachObjectViaPreposition
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AttachObjectViaPrepositionTest()
         {
             VerbPhrase target = new VerbPhrase(new BaseVerb("consume"));
@@ -421,7 +408,7 @@ namespace LASI.Core.Tests
             ILexical prepositionalObject = new NounPhrase(new Adjective("great"), new CommonSingularNoun("haste"));
             prepositional.BindObject(prepositionalObject);
             target.AttachObjectViaPreposition(prepositional);
-            Assert.AreEqual(target.ObjectOfThePreposition, prepositionalObject);
+            Check.That(target.ObjectOfThePreposition).IsEqualTo(prepositionalObject);
         }
 
 
