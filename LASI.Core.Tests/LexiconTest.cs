@@ -7,148 +7,173 @@ using LASI.Core.Analysis.Heuristics;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
 using LASI.Core.Heuristics;
 using LASI.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
+using Fact = Xunit.FactAttribute;
 using Shared.Test.Assertions;
 
 namespace LASI.Core.Heuristics.Tests
 {
 
-    [TestClass]
     public class LexiconTests
     {
-        [TestMethod]
+        [Fact]
         public void GetGenderTest()
         {
-            var firstName = new ProperSingularNoun("Patrick");
+            var patrick = new ProperSingularNoun("Patrick");
 
-            Assert.AreEqual(firstName.GetGender(), firstName.Gender);
-            Assert.AreEqual(firstName.GetGender(), Gender.Male);
-            Assert.AreEqual((firstName as IEntity).GetGender(), Gender.Male);
-            Assert.AreEqual((firstName as ProperNoun).GetGender(), Gender.Male);
-            Assert.AreEqual((firstName as Noun).GetGender(), Gender.Male);
-            var fullName = new NounPhrase(firstName, new ProperPluralNoun("Roberts"));
-            Assert.AreEqual(fullName.GetGender(), firstName.Gender);
-            Assert.AreEqual((fullName as IEntity).GetGender(), firstName.Gender);
-            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), firstName, new ProperPluralNoun("Rachels"));
-            Assert.AreEqual(np1.GetGender(), firstName.Gender);
+            Check.That(patrick.GetGender()).IsEqualTo(patrick.GetGender());
+            Check.That(patrick.GetGender()).IsEqualTo(Gender.Male);
+            Check.That((patrick as IEntity).GetGender()).IsEqualTo(Gender.Male);
+            Check.That((patrick as ProperNoun).GetGender()).IsEqualTo(Gender.Male);
+            Check.That((patrick as Noun).GetGender()).IsEqualTo(Gender.Male);
         }
 
-        [TestMethod]
+        [Fact]
+        public void FullNameWithPrefixGenderIsSameAsFirstNameGender()
+        {
+            var patrick = new ProperSingularNoun("Patrick");
+
+            var drPatrickRachels = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Patrick"), new ProperPluralNoun("Rachels"));
+            Check.That(drPatrickRachels.GetGender()).IsEqualTo(patrick.Gender);
+        }
+
+        [Fact]
+        public void FullNameGenderIsSameAsFirstNameGender()
+        {
+            var patrickRoberts = new NounPhrase(new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts"));
+            var patrick = new ProperSingularNoun("Patrick");
+
+            Check.That(patrickRoberts.GetGender()).IsEqualTo(patrick.GetGender());
+            Check.That((patrickRoberts as IEntity).GetGender()).IsEqualTo(patrick.GetGender());
+        }
+
+        [Fact]
         public void IsFemaleFullTest()
         {
             var np = new NounPhrase(new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts"));
-            Assert.IsTrue(np.IsFullFemaleName());
-            Assert.IsFalse(np.IsFullMaleName());
+            Check.That(np.IsFullFemaleName()).IsTrue();
+            Check.That(np.IsFullMaleName()).IsFalse();
             var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Julia"), new ProperPluralNoun("Rachels"));
-            Assert.IsTrue(np1.IsFullFemaleName());
-            Assert.IsFalse(np1.IsFullMaleName());
+            Check.That(np1.IsFullFemaleName()).IsTrue();
+            Check.That(np1.IsFullMaleName()).IsFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void IsMaleFullTest()
         {
             var np = new NounPhrase(new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts"));
-            Assert.IsTrue(np.IsFullMaleName());
-            Assert.IsFalse(np.IsFullFemaleName());
+            Check.That(np.IsFullMaleName()).IsTrue();
+            Check.That(np.IsFullFemaleName()).IsFalse();
             var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Patrick"), new ProperPluralNoun("Rachels"));
-            Assert.IsTrue(np1.IsFullMaleName());
-            Assert.IsFalse(np1.IsFullFemaleName());
+            Check.That(np1.IsFullMaleName()).IsTrue();
+            Check.That(np1.IsFullFemaleName()).IsFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void IsFirstNameTest()
         {
-            Assert.IsTrue(new ProperSingularNoun("Patrick").IsFirstName());
-            Assert.IsTrue(new ProperSingularNoun("Rachel").IsFirstName());
+            Check.That(new ProperSingularNoun("Patrick").IsFirstName()).IsTrue();
+            Check.That(new ProperSingularNoun("Rachel").IsFirstName()).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void IsLastNameTest()
         {
-            Assert.IsTrue(new ProperSingularNoun("Patrick").IsLastName());
-            Assert.IsTrue(new ProperSingularNoun("Williams").IsLastName());
-            Assert.IsTrue(new ProperSingularNoun("Roberts").IsLastName());
-            Assert.IsTrue(new ProperSingularNoun("Baker").IsLastName());
+            Check.That(new ProperSingularNoun("Patrick").IsLastName()).IsTrue();
+            Check.That(new ProperSingularNoun("Williams").IsLastName()).IsTrue();
+            Check.That(new ProperSingularNoun("Roberts").IsLastName()).IsTrue();
+            Check.That(new ProperSingularNoun("Baker").IsLastName()).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void IsFemaleFirstTest()
         {
             var n = new ProperSingularNoun("Rachel");
-            Assert.IsTrue(n.IsFemaleFirstName());
-            Assert.IsFalse(n.IsMaleFirstName());
-            var n2 = new ProperSingularNoun("Jamie");
-            Assert.IsTrue(n.IsFemaleFirstName());
+            Check.That(n.IsFemaleFirstName()).IsTrue();
+            Check.That(n.IsMaleFirstName()).IsFalse();
+            Check.That(n.IsFemaleFirstName()).IsTrue();
+            var n2 = new ProperSingularNoun("Jaimie");
+            Check.That(n2.IsFemaleFirstName()).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void IsMaleFirstTest()
         {
             var n = new ProperSingularNoun("Patrick");
             var n1 = new ProperSingularNoun("James");
 
-            Assert.IsTrue(n.IsMaleFirstName());
-            Assert.IsTrue(n1.IsMaleFirstName());
-            Assert.IsFalse(n.IsFemaleFirstName());
+            Check.That(n.IsMaleFirstName()).IsTrue();
+            Check.That(n1.IsMaleFirstName()).IsTrue();
+            Check.That(n.IsFemaleFirstName()).IsFalse();
         }
 
-        [TestMethod]
-        public void GetSynonymsTest()
+        [Fact]
+        public void GetSynonymsOfNounIncludesOwnText()
         {
-            Noun noun = new CommonSingularNoun("ball");
-            Assert.IsTrue(noun.GetSynonyms().Any(n => !n.EqualsIgnoreCase(noun.Text)));
+            Noun ball = new CommonSingularNoun("ball");
+            Check.That(ball.GetSynonyms().Any(n => !n.EqualsIgnoreCase(ball.Text))).IsTrue();
         }
 
-        [TestMethod]
-        public void GetSynonymsTest1()
+        [Fact]
+        public void GetSynonymsOfVerbIncludesOwnText()
         {
-            Verb verb = new BaseVerb("heal");
-            Assert.IsTrue(verb.GetSynonyms().Any(v => !v.EqualsIgnoreCase(verb.Text)));
+            Verb heal = new BaseVerb("heal");
+            Check.That(heal.GetSynonyms().Any(v => !v.EqualsIgnoreCase(heal.Text))).IsTrue();
         }
 
 
-        [TestMethod]
-        public void GetSynonymsTest3()
+        [Fact]
+        public void GetSynonymsOfAdjectiveIncludesOwnText()
         {
-            Adjective adjective = new Adjective("Pale");
-            Assert.IsTrue(adjective.GetSynonyms().Any(a => a.EqualsIgnoreCase(adjective.Text)));
+            Adjective pale = new Adjective("Pale");
+            Check.That(pale.GetSynonyms().Any(a => a.EqualsIgnoreCase(pale.Text))).IsTrue();
         }
 
-        [TestMethod]
-        public void IsSynonymForTest()
+        [Fact]
+        public void GetSynonymsOfAdverbIncludesOwnText()
         {
-            Noun noun1 = new CommonSingularNoun("hobby");
-            Noun noun2 = new CommonSingularNoun("pastime");
-
-            Assert.IsTrue(noun1.IsSynonymFor(noun2));
-            Assert.IsTrue(noun2.IsSynonymFor(noun1));
+            Adverb slyly = new Adverb("slyly");
+            Check.That(slyly.GetSynonyms().Any(a => a.EqualsIgnoreCase(slyly.Text))).IsTrue();
         }
 
-        [TestMethod]
-        public void IsSynonymForTest1()
+        [Fact]
+        public void GetSynonymsOfNounIsReflexive()
         {
-            Verb verb1 = new BaseVerb("walk");
-            Verb verb2 = new BaseVerb("perambulate");
-            Assert.IsTrue(verb2.IsSynonymFor(verb1));
-            Assert.IsTrue(verb1.IsSynonymFor(verb2));
+            var hobby = new CommonSingularNoun("hobby");
+            var pastime = new CommonSingularNoun("pastime");
+
+            Check.That(hobby.IsSynonymFor(pastime)).IsTrue();
+            Check.That(pastime.IsSynonymFor(hobby)).IsTrue();
         }
 
-        [TestMethod]
-        public void IsSynonymForTest2()
+        [Fact]
+        public void GetSynonymsOfVerbIsReflexive()
         {
-            Adverb adverb1 = new Adverb("furtively");
-            Adverb adverb2 = new Adverb("stealthily");
-            Assert.IsTrue(adverb1.IsSynonymFor(adverb2));
-            Assert.IsTrue(adverb2.IsSynonymFor(adverb1));
+            Verb walk = new BaseVerb("walk");
+            Verb perambulate = new BaseVerb("perambulate");
+
+            Check.That(walk.GetSynonyms().OrderBy(s => s)).Contains("perambulate");
+            Check.That(perambulate.GetSynonyms().OrderBy(s => s)).Contains("walk");
+            Check.That(perambulate.IsSynonymFor(walk)).IsTrue();
+            Check.That(walk.IsSynonymFor(perambulate)).IsTrue();
         }
 
-        [TestMethod]
-        public void IsSynonymForTest3()
+        [Fact]
+        public void GetSynonymsOfAdverbIsReflexive()
         {
-            Adjective adjective1 = new Adjective("pale");
-            Adjective adjective2 = new Adjective("pallid");
-            Assert.IsTrue(adjective1.IsSynonymFor(adjective2));
-            Assert.IsTrue(adjective2.IsSynonymFor(adjective1));
+            Adverb furtively = new Adverb("furtively");
+            Adverb stealthily = new Adverb("stealthily");
+            Check.That(furtively.IsSynonymFor(stealthily)).IsTrue();
+            Check.That(stealthily.IsSynonymFor(furtively)).IsTrue();
+        }
+
+        [Fact]
+        public void GetSynonymsOfAdjectiveIsReflexive()
+        {
+            Adjective pale = new Adjective("pale");
+            Adjective pallid = new Adjective("pallid");
+            Check.That(pale.IsSynonymFor(pallid)).IsTrue();
+            Check.That(pallid.IsSynonymFor(pale)).IsTrue();
         }
     }
 }

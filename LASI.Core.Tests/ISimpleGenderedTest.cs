@@ -1,59 +1,52 @@
 ﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using LASI.Core.Heuristics;
+using Fact = Xunit.FactAttribute;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is a test class for ISimpleGenderedTest and is intended
     ///to contain all ISimpleGenderedTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ISimpleGenderedTest
     {
         /// <summary>
         ///A test for Gender
         /// </summary>
-        [TestMethod]
-        public void GenderTest1()
+        [Fact]
+        public void KnownMaleFirstNameIsOfMaleGender()
         {
-            ISimpleGendered target = new ProperSingularNoun("Jack");
-            Gender actual;
-            actual = target.Gender;
-            Assert.AreEqual(Gender.Male, actual);
+            ISimpleGendered jack = new ProperSingularNoun("Jack");
+            Check.That(jack.Gender).IsEqualTo(Gender.Male).And.IsEqualTo(jack.GetGender());
         }
         /// <summary>
         ///A test for Gender
         /// </summary>
-        [TestMethod]
-        public void GenderTest2()
+        [Fact]
+        public void KnownFemaleIsOfFemaleGender()
         {
-            ISimpleGendered target = new ProperSingularNoun("Jill");
-            Gender actual = target.Gender;
-            Assert.AreEqual(Gender.Female, actual);
+            ISimpleGendered jill = new ProperSingularNoun("Jill");
+            Check.That(jill.Gender).IsEqualTo(Gender.Female).And.IsEqualTo(jill.GetGender());
         }
         /// <summary>
         ///A test for Gender
         /// </summary>
-        [TestMethod]
-        public void GenderTest3()
+        [Fact]
+        public void KnownLastNameIsOfNeutralGender()
         {
-            ISimpleGendered target = new ProperSingularNoun("Carnegie");
-            Gender actual = target.Gender;
-            Assert.AreEqual(Gender.Neutral, actual);
+            ISimpleGendered carnegie = new ProperSingularNoun("Carnegie");
+            Check.That(carnegie.Gender).IsEqualTo(Gender.Neutral).And.IsEqualTo(carnegie.GetGender());
         }
         /// <summary>
         ///A test for Gender
         /// </summary>
-        [TestMethod]
-        public void GenderTest4()
+        [Fact]
+        public void AcronymIsOfNeutralGender()
         {
-            ISimpleGendered target = new ProperSingularNoun("LASI");
-            Gender actual = target.Gender;
-            Assert.AreEqual(Gender.Neutral, actual);
+            ISimpleGendered lasi = new ProperSingularNoun("LASI");
+            Check.That(lasi.Gender).IsEqualTo(Gender.Neutral).And.IsEqualTo(lasi.GetGender());
         }
 
     }
