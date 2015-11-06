@@ -1,6 +1,6 @@
-/// <reference path="../../typings/tsd.d.ts" />
-'use strict';
-System.register(['jquery', './results/result-chart-provider'], function(exports_1) {
+System.register(['jquery', './results/result-chart-builder'], function(exports_1) {
+    /// <reference path="../../typings/tsd.d.ts" />
+    'use strict';
     var $;
     var buildMenus, log;
     return {
@@ -8,9 +8,9 @@ System.register(['jquery', './results/result-chart-provider'], function(exports_
             function ($_1) {
                 $ = $_1;
             },
-            function (result_chart_provider_1_1) {
+            function (result_chart_builder_1_1) {
                 exports_1({
-                    "enableActiveHighlighting": result_chart_provider_1_1["default"]
+                    "enableActiveHighlighting": result_chart_builder_1_1["default"]
                 });
             }],
         execute: function() {
@@ -51,11 +51,9 @@ System.register(['jquery', './results/result-chart-provider'], function(exports_
                             return data.referredTo && data.referredTo.length > 0;
                         },
                         onItem: function (context) {
-                            context[0].lexicalContextMenu.referredTo.map(function (id) {
-                                return $('#' + id);
-                            }).forEach(function (element) {
-                                element.css('background-color', 'red');
-                            });
+                            context[0].lexicalContextMenu.referredTo
+                                .map(function (id) { return $('#' + id); })
+                                .forEach(function ($e) { return $e.css('background-color', 'red'); });
                         }
                     });
                     $('span.verbal').contextmenu({

@@ -22,7 +22,7 @@ namespace LASI.WebApp.Controllers.Documents
             this.documentStore = documentStore;
         }
         [HttpGet("{limit?}")]
-        public IEnumerable<dynamic> Get(int? limit)
+        public IEnumerable<dynamic> Get(int limit = int.MaxValue)
         {
             var results =
             from document in documentStore.GetAllForUser(Context.User.GetUserId())
@@ -35,7 +35,7 @@ namespace LASI.WebApp.Controllers.Documents
                 Name = activeDocument.Name,
                 Progress = activeDocument.Progress
             };
-            return limit == null ? results : results.Take(limit.Value);
+            return results.Take(limit);
         }
 
         private readonly IDocumentAccessor<UserDocument> documentStore;

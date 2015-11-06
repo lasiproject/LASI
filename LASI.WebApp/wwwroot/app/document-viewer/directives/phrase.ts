@@ -2,7 +2,7 @@
 'use strict';
 import template from 'app/document-viewer/directives/phrase.html';
 import { PhraseModel } from 'app/models';
-import { LexicalMenuBuilderFactory, VerbalContextmenuDataSource } from './lexical-menu-builder.service';
+import { LexicalMenuBuilderFactory, VerbalContextmenuData } from './lexical-menu-builder';
 
 phrase.$inject = ['lexicalMenuBuilder'];
 
@@ -30,5 +30,5 @@ export default function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): a
 interface PhraseScope extends angular.IScope {
     phrase: PhraseModel;
     parentId?: string;
-    menuIsViable(menu: VerbalContextmenuDataSource): boolean;
+    menuIsViable(menu: VerbalContextmenuData): boolean;
 }

@@ -6,6 +6,7 @@ using NFluent;
 
 namespace LASI.Content.Tests
 {
+    using Extensions;
     using Fact = Xunit.FactAttribute;
     public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
     {
@@ -23,7 +24,7 @@ namespace LASI.Content.Tests
             DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = await target.ConvertFileAsync();
-            Check.That(File.Exists(actual.FullPath)).IsTrue();
+            Check.That(actual.FullPath).Satisfies(File.Exists);
         }
         /// <summary>
         ///A test for ConvertFile

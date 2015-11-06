@@ -627,7 +627,6 @@ define(["require", "exports", './documents.service', './results.service', './doc
     exports.default = {
         name: 'documentList',
         requires: [
-            'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu',
             'ngFileUpload',
@@ -674,7 +673,6 @@ define(["require", "exports", './document.controller', './document-model.service
         requires: [
             'documentViewer.search',
             'widgets',
-            'ngResource',
             'ui.bootstrap',
             'ui.bootstrap.contextMenu'
         ],

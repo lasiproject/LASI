@@ -1,5 +1,5 @@
-System.register(['jquery', 'angular', 'angular-resource', 'angular-bootstrap', 'angular-bootstrap-contextmenu', 'angular-file-upload'], function(exports_1) {
-    var $, angular, resource, angularBootstrap, angularBootstrapContextmenu, angularFileUpload;
+System.register(['jquery', 'angular', 'angular-bootstrap', 'angular-bootstrap-contextmenu', 'angular-file-upload'], function(exports_1) {
+    var $, angular, angularBootstrap, angularBootstrapContextmenu, angularFileUpload;
     return {
         setters:[
             function ($_1) {
@@ -7,9 +7,6 @@ System.register(['jquery', 'angular', 'angular-resource', 'angular-bootstrap', '
             },
             function (angular_1) {
                 angular = angular_1;
-            },
-            function (resource_1) {
-                resource = resource_1;
             },
             function (angularBootstrap_1) {
                 angularBootstrap = angularBootstrap_1;
@@ -24,7 +21,6 @@ System.register(['jquery', 'angular', 'angular-resource', 'angular-bootstrap', '
             exports_1("default",{
                 $: $,
                 angular: angular,
-                resource: resource,
                 angularBootstrap: angularBootstrap,
                 angularBootstrapContextmenu: angularBootstrapContextmenu,
                 angularFileUpload: angularFileUpload

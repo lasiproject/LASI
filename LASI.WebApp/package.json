@@ -14,7 +14,7 @@
     "gulp": "~3.9.0",
     "gulp-sourcemaps": "1.6.0",
     "gulp-typescript": "2.9.2",
-    "gulp-tslint": "3.3.0",
+    "gulp-tslint": "3.5.0",
     "gulp-concat": "2.6.0",
     "gulp-minify-css": "1.2.1",
     "gulp-requirejs-optimizer": "0.9.8",
@@ -30,7 +30,6 @@
       "angular-bootstrap": "github:angular-ui/bootstrap-bower@^0.14.2",
       "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@^0.9.4",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^9.0.13",
-      "angular-resource": "github:angular/bower-angular-resource@^1.4.7",
       "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "clean-css": "npm:clean-css@^3.4.6",
@@ -44,5 +43,8 @@
     "devDependencies": {
       "typescript": "npm:typescript@^1.6.2"
     }
+  },
+  "dependencies": {
+    "typescript": "1.6.2"
   }
 }

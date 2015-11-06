@@ -25,24 +25,23 @@ System.config({
 
   map: {
     "angular": "github:angular/bower-angular@1.4.7",
-    "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.2",
+    "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.3",
     "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.4",
-    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@9.0.13",
-    "angular-resource": "github:angular/bower-angular-resource@1.4.7",
+    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@9.1.2",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
     "clean-css": "npm:clean-css@3.4.6",
-    "css": "github:systemjs/plugin-css@0.1.18",
+    "css": "github:systemjs/plugin-css@0.1.19",
     "font-awesome": "npm:font-awesome@4.4.0",
     "jquery": "github:components/jquery@2.1.4",
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
-    "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.3",
+    "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.4",
     "text": "github:systemjs/plugin-text@0.0.2",
     "typescript": "npm:typescript@1.6.2",
     "github:angular-ui/ui-router@0.2.15": {
       "angular": "github:angular/bower-angular@1.4.7"
     },
-    "github:aspnet/jquery-validation-unobtrusive@3.2.3": {
+    "github:aspnet/jquery-validation-unobtrusive@3.2.4": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -128,7 +127,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:font-awesome@4.4.0": {
-      "css": "github:systemjs/plugin-css@0.1.18"
+      "css": "github:systemjs/plugin-css@0.1.19"
     },
     "npm:graceful-readlink@1.0.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2"

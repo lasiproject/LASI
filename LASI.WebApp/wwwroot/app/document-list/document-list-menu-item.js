@@ -1,6 +1,6 @@
-/// <amd-dependency path="./document-list-menu-item.directive.html" />
-'use strict';
 System.register(['app/document-list/document-list-menu-item.html'], function(exports_1) {
+    /// <amd-dependency path="./document-list-menu-item.directive.html" />
+    'use strict';
     var document_list_menu_item_html_1;
     function documentListMenuItem($window, resultsService) {
         return {

@@ -14,8 +14,8 @@ import { DocumentListItemModel } from 'app/document-list/document-list-service-p
 import UrlRouterProvider = ng.ui.IUrlRouterProvider;
 import StateProvider = ng.ui.IStateProvider;
 
-configure.$inject = ['$stateProvider', '$urlRouterProvider'];
-export default function configure($stateProvider: StateProvider, $urlRouterProvider: UrlRouterProvider) {
+configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
+export default function configureStates($stateProvider: StateProvider, $urlRouterProvider: UrlRouterProvider) {
 
     data.$inject = ['$q', 'documentListService'];
     function data($q: ng.IQService, documentListService: DocumentListService) {

@@ -66,8 +66,7 @@
     "scripts": {
         "postrestore": [
             "npm install",
-            "jspm install",
-            "tsd update --s --o"
+            "jspm install"
         ],
         "prepare": [
         ]

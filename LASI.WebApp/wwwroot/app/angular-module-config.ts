@@ -1,5 +1,5 @@
 /**
- @function A trait which specifies whose $inject property is required.
+ @function A trait which decsribes a functions whose $inject property is required.
 */
 type Annotated = {};
 

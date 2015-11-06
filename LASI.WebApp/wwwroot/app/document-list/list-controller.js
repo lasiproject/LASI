@@ -1,5 +1,5 @@
-'use strict';
 System.register([], function(exports_1) {
+    'use strict';
     var ListController;
     return {
         setters:[],
@@ -13,15 +13,17 @@ System.register([], function(exports_1) {
                     this.documentModelService = documentModelService;
                     this.expanded = false;
                     this.documents = [];
+                    this.tasks = [];
                     this.activate();
                 }
                 ListController.prototype.toggleExpanded = function () {
                     this.expanded = !this.expanded;
                 };
                 ListController.prototype.deleteById = function (id) {
+                    var _this = this;
                     var deleteResult = this.documentsService.deleteById(id);
                     console.log(deleteResult);
-                    this.documents = this.documentListService.get();
+                    this.documentListService.get().then(function (documents) { return _this.documents = documents; });
                 };
                 Object.defineProperty(ListController.prototype, "documentCount", {
                     get: function () {
@@ -32,24 +34,24 @@ System.register([], function(exports_1) {
                 });
                 ListController.prototype.processDocument = function (document) {
                     if (!this.documents.some(function (d) { return d.raeification && d.id === document.id; })) {
-                        this.documentModelService.processDocument(document.id)
-                            .success(function (processed) { return document.raeification = processed; })
-                            .error(function (error) { return console.log(error); });
+                        this.documentModelService.processDocument(document.id).then(function (processed) { return document.raeification = processed; }, function (reason) { return console.error(reason); });
                     }
                 };
                 ListController.prototype.activate = function () {
                     var _this = this;
                     return this.$q.all([
-                        this.$q.when(this.documentListService.get()),
-                        this.tasksListService.getActiveTasks().then(function (tasks) { return tasks.map(function (task) {
+                        this.documentListService.get(),
+                        this.$q.when(this.tasksListService.getActiveTasks().map(function (task) {
                             _this.tasks[task.id] = task;
                             var t = _this.documents.first(function (d) { return d.name === task.name; });
-                            (t && t).task = task;
+                            if (t) {
+                                t.task = task;
+                            }
                             return t;
-                        }); })
+                        }))
                     ]).then(function (data) {
                         var _a = data, documents = _a[0], tasks = _a[1];
-                        var associated = documents.correlate(tasks, function (document) { return document.id; }, function (task) { return task.id; }, function (document, task) {
+                        var associated = documents.correlate(tasks.filter(function (t) { return !!t; }), function (document) { return document.id; }, function (task) { return task.id; }, function (document, task) {
                             document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                             document.progress = Math.round(task.percentComplete);
                             document.statusMessage = task.statusMessage;

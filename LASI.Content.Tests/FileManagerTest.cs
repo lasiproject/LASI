@@ -99,7 +99,7 @@ namespace LASI.Content.Tests
         public void BackupProjectTest()
         {
             FileManager.BackupProject();
-            Assert.True(Directory.Exists(Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" + FileManager.ProjectName));
+            Check.That(Directory.GetParent(FileManager.ProjectDirectory).FullName + @"\backup\" + FileManager.ProjectName).Satisfies(Directory.Exists);
         }
 
         /// <summary>
@@ -110,10 +110,11 @@ namespace LASI.Content.Tests
         {
             var files = GetAllTestFiles();
 
-            foreach (var file in files) {
+            foreach (var file in files)
+            {
                 Check.That(file.Exists()).IsTrue();
             }
-            Assert.True(files.Any());
+            Check.That(files).Not.IsEmpty();
 
             files.ToList().ForEach(file => FileManager.AddFile(file.FileName));
 
@@ -122,7 +123,7 @@ namespace LASI.Content.Tests
                 from file in FileManager.AllFiles.Except(FileManager.TxtFiles).Except(FileManager.TaggedFiles)
                 where !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt)
                 select file;
-            Assert.False(filesUnconverted.Any());
+            Check.That(filesUnconverted).IsEmpty();
         }
 
         /// <summary>

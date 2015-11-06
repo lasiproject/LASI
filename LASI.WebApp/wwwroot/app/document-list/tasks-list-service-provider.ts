@@ -1,8 +1,8 @@
 ﻿'use strict';
-import { IQService, IIntervalService, IPromise } from 'angular';
+import { IQService, IIntervalService, IPromise, IHttpService } from 'angular';
 
 export interface TasksListServiceProvider {
-    $get: ($q, $resource: ng.resource.IResourceService, $interval: IIntervalService) => TasksListService;
+    $get: ($q: IQService, http: IHttpService, $interval: IIntervalService) => TasksListService;
     setTasksListUrl: (url: string) => TasksListServiceProvider;
     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
 }
@@ -16,14 +16,15 @@ export interface Task {
 }
 
 export interface TasksListService {
-    getActiveTasks(): IPromise<Task[]>;
+    getActiveTasks(): Task[];
     tasks: Task[];
 }
 export function tasksListServiceProvider(): TasksListServiceProvider {
     var updateInterval = 200;
     var tasksListUrl = 'api/Tasks';
+    var tasks: Task[] = [];
 
-    $get.$inject = ['$q', '$resource', '$interval'];
+    $get.$inject = ['$q', '$http', '$interval'];
 
     return { $get, setUpdateInterval, setTasksListUrl };
 
@@ -36,29 +37,26 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         return this;
     }
 
-    function $get($q: IQService, $resource: ng.resource.IResourceService, $interval: IIntervalService): TasksListService {
-        var tasks = $resource<Task[]>(tasksListUrl, {}, {
-            get: {
-                method: 'GET', isArray: true
-            }
-        });
-        var getActiveTasks = function () {
-            var deferred = $q.defer<Task[]>();
-            $interval(() => {
-                this.tasks = tasks.get();
-                deferred.resolve(this.tasks);
-            }, updateInterval);
-            return deferred.promise;
-        };
-
+    function $get($q: IQService, $http: IHttpService, $interval: IIntervalService): TasksListService {
         return {
-            getActiveTasks,
-            tasks: []
+            getActiveTasks() {
+                var deferred = $q.defer<Task[]>();
+
+                $interval(() => {
+                    $http.get<Task[]>(tasksListUrl).success(ts => {
+                        deferred.resolve(ts);
+                        tasks = ts;
+                    });
+
+                }, updateInterval);
+                return tasks;
+            },
+            tasks
         };
     }
     function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
         return tasks => element.html(tasks.map(
-            task => `<div>${Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`) }</div>`
+            task => `<div>${Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`)}</div>`
         ).join());
     }
 }

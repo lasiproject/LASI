@@ -1,9 +1,10 @@
-'use strict';
 System.register([], function(exports_1) {
+    'use strict';
     function tasksListServiceProvider() {
         var updateInterval = 200;
         var tasksListUrl = 'api/Tasks';
-        $get.$inject = ['$q', '$resource', '$interval'];
+        var tasks = [];
+        $get.$inject = ['$q', '$http', '$interval'];
         return { $get: $get, setUpdateInterval: setUpdateInterval, setTasksListUrl: setTasksListUrl };
         function setUpdateInterval(milliseconds) {
             updateInterval = milliseconds;
@@ -13,24 +14,19 @@ System.register([], function(exports_1) {
             tasksListUrl = url;
             return this;
         }
-        function $get($q, $resource, $interval) {
-            var tasks = $resource(tasksListUrl, {}, {
-                get: {
-                    method: 'GET', isArray: true
-                }
-            });
-            var getActiveTasks = function () {
-                var _this = this;
-                var deferred = $q.defer();
-                $interval(function () {
-                    _this.tasks = tasks.get();
-                    deferred.resolve(_this.tasks);
-                }, updateInterval);
-                return deferred.promise;
-            };
+        function $get($q, $http, $interval) {
             return {
-                getActiveTasks: getActiveTasks,
-                tasks: []
+                getActiveTasks: function () {
+                    var deferred = $q.defer();
+                    $interval(function () {
+                        $http.get(tasksListUrl).success(function (ts) {
+                            deferred.resolve(ts);
+                            tasks = ts;
+                        });
+                    }, updateInterval);
+                    return tasks;
+                },
+                tasks: tasks
             };
         }
         function createDebugInfoUpdator(element) {

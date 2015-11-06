@@ -1,13 +1,14 @@
 ﻿'use strict';
-import { DocumentModelService } from './../document-viewer/document-model.service';
+import { DocumentModelService } from './../document-viewer/document-model-service';
 import { DocumentModel } from 'app/models';
+
 export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 export interface DocumentListService {
-    get(): DocumentListItemModel[];
-    deleteDocument(documentId: string): DocumentListItemModel;
+    get(): ng.IPromise<DocumentListItemModel[]>;
+    deleteDocument(documentId: string): ng.IPromise<DocumentListItemModel>;
 }
 export interface DocumentListItemModel {
     id: string;
@@ -22,7 +23,7 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, a
     private documentListUrl: string;
     private recentDocumentCount: number;
     constructor() {
-        this.$get.$inject = ['$resource'];
+        this.$get.$inject = ['$q', '$http'];
     }
     setDocumentListUrl(url: string) {
         this.documentListUrl = url;
@@ -33,25 +34,17 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, a
         return this;
     }
 
-    $inject = ['$resource'];
-
-    $get($resource: angular.resource.IResourceService): DocumentListService {
-        var resource = $resource<DocumentListItemModel[]>(this.documentListUrl + '?limit=' + this.recentDocumentCount, {}, {
-            get: {
-                method: 'GET',
-                isArray: true
-            },
-            delete: {
-                method: 'DELETE',
-                isArray: false
-            }
-        });
-
+    $get($q: ng.IQService, $http: ng.IHttpService): DocumentListService {
+        var [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
         return {
-            deleteDocument: function (documentId: string) {
-                return resource.delete({ documentId })[0];
+            deleteDocument(documentId: string) {
+                return $http.delete(listUrl + '?documentId=' + documentId);
             },
-            get: resource.get
+            get() {
+                var deferred = $q.defer<DocumentListItemModel[]>();
+                $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`).then(response=> deferred.resolve(response.data));
+                return deferred.promise;
+            }
         };
     };
 }

@@ -1,9 +1,4 @@
-﻿import {
-LexicalContextMenuDataSource,
-VerbalContextmenuDataSource,
-ReferencerContextmenuDataSource,
-LexicalMenuBuilderFactory
-} from './document-viewer/lexical-menu-builder.service';
+﻿import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData, LexicalMenuBuilderFactory } from './document-viewer/lexical-menu-builder';
 export interface TextFragmentModel {
     paragraphs: ParagraphModel[];
 }
@@ -32,9 +27,8 @@ export interface LexicalModel {
     id: number;
     style: { cssClass: string };
     hasContextmenuData: boolean;
-    contextmenu: LexicalContextMenuDataSource |
-    VerbalContextmenuDataSource |
-    ReferencerContextmenuDataSource;
+    contextmenu: LexicalContextmenuData |
+    VerbalContextmenuData | ReferencerContextmenuData;
 }
 
 export interface PhraseModel extends LexicalModel {

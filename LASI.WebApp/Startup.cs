@@ -125,20 +125,12 @@ namespace LASI.WebApp
             app.Properties["host.AppMode"] = "development";
 
             app.UseStatusCodePages()
-               .UseFileServer()/*.UseDirectoryBrowser()*/
-               .UseBrowserLink()
                .UseIdentity()
+               .UseFileServer()
+               .UseBrowserLink()
                .UseDefaultFiles()
-               .UseRuntimeInfoPage();
-            // Add the following to the request pipeline only in development environment.
-            if (developement)
-            {
-                app.UseErrorPage(new ErrorPageOptions());
-            }
-            else
-            {
-                app.UseErrorHandler("/Home/Error");
-            }
+               .UseRuntimeInfoPage()
+               .UseErrorPage();
 
             // Add authentication middleware to the request pipeline. You can configure options such as Id and Secret in the ConfigureServices method.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715

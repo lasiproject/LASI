@@ -22,9 +22,8 @@ function configure(tasksListServiceProvider: TasksListServiceProvider, documentL
 export default {
     name: 'documentList',
     requires: [
-        'ngResource',
         'ui.bootstrap',
-        'ui.bootstrap.contextMenu', 
+        'ui.bootstrap.contextMenu',
         'ngFileUpload',
         'documentViewer',
         'debug'

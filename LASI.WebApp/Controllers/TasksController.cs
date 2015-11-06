@@ -4,12 +4,14 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using LASI.WebApp.Models.User;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LASI.WebApp.Controllers
 {
+    [Authorize]
     [Route("api/Tasks")]
     public class TasksController : Controller
     {

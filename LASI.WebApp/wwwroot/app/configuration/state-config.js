@@ -1,7 +1,7 @@
 'use strict';
 System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-list/list-controller', 'app/sections/navbar/navbar.html', 'app/sections/login.html', 'app/app-controller', 'app/sections/navbar/navbar', 'app/sections/login'], function(exports_1) {
     var app_html_1, home_html_1, list_controller_1, navbar_html_1, login_html_1, app_controller_1, navbar_1, login_1;
-    function configure($stateProvider, $urlRouterProvider) {
+    function configureStates($stateProvider, $urlRouterProvider) {
         data.$inject = ['$q', 'documentListService'];
         function data($q, documentListService) {
             var deferred = $q.defer();
@@ -60,7 +60,7 @@ System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-li
         });
         $urlRouterProvider.otherwise('');
     }
-    exports_1("default", configure);
+    exports_1("default", configureStates);
     return {
         setters:[
             function (app_html_1_1) {
@@ -88,7 +88,7 @@ System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-li
                 login_1 = login_1_1;
             }],
         execute: function() {
-            configure.$inject = ['$stateProvider', '$urlRouterProvider'];
+            configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
         }
     }
 });

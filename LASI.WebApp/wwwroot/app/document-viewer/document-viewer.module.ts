@@ -1,7 +1,7 @@
 ﻿'use strict';
 import { DocumentController } from './document.controller';
-import { documentModelService } from './document-model.service';
-import { lexicalMenuBuilder } from './lexical-menu-builder.service';
+import { documentModelService } from './document-model-service';
+import { lexicalMenuBuilder } from './lexical-menu-builder';
 import documentViewer from './directives/document-viewer';
 import page from './directives/page';
 import paragraph from './directives/paragraph';
@@ -12,7 +12,6 @@ var module: AngularModuleOptions = {
     requires: [
         'documentViewer.search',
         'widgets',
-        'ngResource',
         'ui.bootstrap',
         'ui.bootstrap.contextMenu'
     ],

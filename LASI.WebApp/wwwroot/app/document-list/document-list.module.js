@@ -1,5 +1,5 @@
-'use strict';
 System.register(['./documents-service', './results-service', './document-list-service-provider', './tasks-list-service-provider', './list-controller', './document-list-tabset-item', './document-list-menu-item'], function(exports_1) {
+    'use strict';
     var documents_service_1, results_service_1, document_list_service_provider_1, tasks_list_service_provider_1, list_controller_1, document_list_tabset_item_1, document_list_menu_item_1;
     function configure(tasksListServiceProvider, documentListServiceProvider) {
         tasksListServiceProvider
@@ -37,7 +37,6 @@ System.register(['./documents-service', './results-service', './document-list-se
             exports_1("default",{
                 name: 'documentList',
                 requires: [
-                    'ngResource',
                     'ui.bootstrap',
                     'ui.bootstrap.contextMenu',
                     'ngFileUpload',

@@ -16,59 +16,12 @@ namespace LASI.Core.Tests
     [TestClass]
     public class NounPhraseTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for NounPhrase Constructorf
         /// </summary>
         [TestMethod]
-        public void NounPhraseConstructorTest() {
+        public void NounPhraseConstructorTest()
+        {
             IEnumerable<Word> composedWords = new Word[] {
                 new ProperPluralNoun("Americans"),
                 new Conjunction("and"),
@@ -83,7 +36,8 @@ namespace LASI.Core.Tests
         ///A test for BindDescriptor
         /// </summary>
         [TestMethod]
-        public void BindDescriberTest() {
+        public void BindDescriberTest()
+        {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticiple("loving") });
@@ -95,7 +49,8 @@ namespace LASI.Core.Tests
         ///A test for BindPronoun
         /// </summary>
         [TestMethod]
-        public void BindPronounTest() {
+        public void BindPronounTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
@@ -107,7 +62,8 @@ namespace LASI.Core.Tests
         ///A test for Equals
         /// </summary>
         [TestMethod]
-        public void EqualsTest() {
+        public void EqualsTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.AreEqual(target, target as object);
         }
@@ -116,7 +72,8 @@ namespace LASI.Core.Tests
         ///A test for Descriptors
         /// </summary>
         [TestMethod]
-        public void DescribedByTest() {
+        public void DescribedByTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsTrue(target.Descriptors.Count() == 0);
             IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticiple("loving"));
@@ -131,7 +88,8 @@ namespace LASI.Core.Tests
         ///A test for DirectObjectOf
         /// </summary>
         [TestMethod]
-        public void DirectObjectOfTest() {
+        public void DirectObjectOfTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new BaseVerb("insult");
             IVerbal actual;
@@ -144,7 +102,8 @@ namespace LASI.Core.Tests
         ///A test for IndirectObjectOf
         /// </summary>
         [TestMethod]
-        public void IndirectObjectOfTest() {
+        public void IndirectObjectOfTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new VerbPhrase(new BaseVerb("gave"), new Adverb("willingly"));
             IVerbal actual;
@@ -157,7 +116,8 @@ namespace LASI.Core.Tests
         ///A test for IndirectReferences
         /// </summary>
         [TestMethod]
-        public void IndirectReferencesTest() {
+        public void IndirectReferencesTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Assert.IsFalse(target.Referencers.Any());
             Pronoun pro = new PersonalPronoun("they");
@@ -169,7 +129,8 @@ namespace LASI.Core.Tests
         ///A test for PossessesFor
         /// </summary>
         [TestMethod]
-        public void PossesserTest() {
+        public void PossesserTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity expected = new NounPhrase(new ProperSingularNoun("North"), new ProperSingularNoun("America"));
             IPossesser actual;
@@ -183,7 +144,8 @@ namespace LASI.Core.Tests
         ///A test for SubjectOf
         /// </summary>
         [TestMethod]
-        public void SubjectOfTest() {
+        public void SubjectOfTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new BaseVerb("are");
             IVerbal actual;
@@ -197,7 +159,8 @@ namespace LASI.Core.Tests
         ///A test for AddPossession
         /// </summary>
         [TestMethod]
-        public void AddPossessionTest() {
+        public void AddPossessionTest()
+        {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity possession = new NounPhrase(new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles"));
             target.AddPossession(possession);
@@ -208,7 +171,8 @@ namespace LASI.Core.Tests
         ///A test for ToString
         /// </summary>
         [TestMethod]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy"));
             string expected = "NounPhrase \"LASI and Timmy\"";
             string actual;
@@ -221,11 +185,13 @@ namespace LASI.Core.Tests
         ///A test for Referees
         /// </summary>
         [TestMethod]
-        public void RefereesTest() {
+        public void RefereesTest()
+        {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
             IEnumerable<IReferencer> expected = new IReferencer[] { new RelativePronoun("that"), new PersonalPronoun("it") };
             IEnumerable<IReferencer> actual;
-            foreach (var r in expected) {
+            foreach (var r in expected)
+            {
                 target.BindReferencer(r);
             }
             actual = target.Referencers;
@@ -237,7 +203,8 @@ namespace LASI.Core.Tests
         ///A test for Possessed
         /// </summary>
         [TestMethod]
-        public void PossessedTest() {
+        public void PossessedTest()
+        {
             NounPhrase target = new NounPhrase(new Adjective("large"), new CommonSingularNoun("elephants"));
             IEnumerable<IPossessable> actual;
             IEnumerable<IPossessable> expected = new[] { new CommonSingularNoun("trunks") };
@@ -250,7 +217,8 @@ namespace LASI.Core.Tests
         ///A test for OuterAttributive
         /// </summary>
         [TestMethod]
-        public void OuterAttributiveTest() {
+        public void OuterAttributiveTest()
+        {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Catus"));
             NounPhrase expected = new NounPhrase(new ProperSingularNoun("Felis"));
             NounPhrase actual;
@@ -263,7 +231,8 @@ namespace LASI.Core.Tests
         ///A test for InnerAttributive
         /// </summary>
         [TestMethod]
-        public void InnerAttributiveTest() {
+        public void InnerAttributiveTest()
+        {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Felis"));
             NounPhrase expected = new NounPhrase(new ProperSingularNoun("Catus"));
             NounPhrase actual;
@@ -279,7 +248,8 @@ namespace LASI.Core.Tests
         ///A test for Descriptors
         /// </summary>
         [TestMethod]
-        public void DescriptorsTest() {
+        public void DescriptorsTest()
+        {
             NounPhrase target = new NounPhrase(new Determiner("the"), new CommonSingularNoun("elephants"));
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
@@ -295,7 +265,8 @@ namespace LASI.Core.Tests
         ///A test for BindReferencer
         /// </summary>
         [TestMethod]
-        public void BindReferencerTest() {
+        public void BindReferencerTest()
+        {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant"));
             IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
@@ -307,7 +278,8 @@ namespace LASI.Core.Tests
         ///A test for BindDescriptor
         /// </summary>
         [TestMethod]
-        public void BindDescriptorTest() {
+        public void BindDescriptorTest()
+        {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
             IDescriptor descriptor = new Adjective("hungry");
             target.BindDescriptor(descriptor);
@@ -315,7 +287,5 @@ namespace LASI.Core.Tests
             Assert.IsTrue(descriptor.Describes == target);
 
         }
-
-
     }
 }

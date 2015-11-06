@@ -1,5 +1,6 @@
 ﻿/// <amd-dependency path="./document-list-menu-item.directive.html" />
 'use strict';
+
 documentListMenuItem.$inject = ['$window', 'resultsService'];
 
 interface DocumentListItemScope extends angular.IScope {

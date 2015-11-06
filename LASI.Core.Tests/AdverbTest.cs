@@ -1,133 +1,85 @@
 ﻿using LASI;
 using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-
+using NFluent;
+using Fact = Xunit.FactAttribute;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is A test class for AdverbTest and is intended
     ///to contain all AdverbTest Unit Tests
     /// </summary>
-    [TestClass]
     public class AdverbTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for Modifies
         /// </summary>
-        [TestMethod]
-        public void ModiffiedTest() {
-            string text = "quickly";
-            Adverb target = new Adverb(text);
-            IAdverbialModifiable expected = new BaseVerb("run");
-            IAdverbialModifiable actual;
-            target.Modifies = expected;
-            actual = target.Modifies;
-            Assert.AreEqual(expected, actual);
+        [Fact]
+        public void ModifiedTest()
+        {
+            Adverb quickly = new Adverb("quickly");
+            IAdverbialModifiable run = new BaseVerb("run");
+            quickly.Modifies = run;
+            Check.That(quickly.Modifies).IsEqualTo(run);
         }
 
         /// <summary>
         ///A test for Adverb Constructor
         /// </summary>
-        [TestMethod]
-        public void AdverbConstructorTest() {
-            string text = "quickly";
-            Adverb target = new Adverb(text);
-            Assert.IsTrue(target.Text == "quickly" && target.Modifies == null);
+        [Fact]
+        public void AdverbConstructorTest()
+        {
+            Adverb quickly = new Adverb("quickly");
+            Check.That(quickly.Text).IsEqualTo("quickly");
+            Check.That(quickly.Modifies).IsNull();
         }
 
         /// <summary>
         ///A test for Modifies
         /// </summary>
-        [TestMethod]
-        public void ModifiesTest() {
-            string text = "quickly";
-            Adverb target = new Adverb(text);
-            IAdverbialModifiable expected = new BaseVerb("ran");
-            IAdverbialModifiable actual;
-            target.Modifies = expected;
-            actual = target.Modifies;
-            Assert.AreEqual(expected, actual);
+        [Fact]
+        public void ModifiesTest()
+        {
+            Adverb quickly = new Adverb("quickly");
+            IAdverbialModifiable ran = new BaseVerb("ran");
+            quickly.Modifies = ran;
+            Check.That(quickly.Modifies).IsEqualTo(ran);
         }
 
         /// <summary>
         ///A test for Modifiers
         /// </summary>
-        [TestMethod]
-        public void ModifiersTest() {
-            string text = "unfothomably";
-            Adverb target = new Adverb(text);
-            IEnumerable<IAdverbial> actual = new[] { new Adverb("uncertainly"), new Adverb("possibly") };
-            foreach (var m in actual) { target.ModifyWith(m); }
-            foreach (var m in actual) { Assert.IsTrue(target.AdverbialModifiers.Contains(m) && m.Modifies == target); }
+        [Fact]
+        public void ModifiersTest()
+        {
+            Adverb unfothomably = new Adverb("unfothomably");
+            IEnumerable<IAdverbial> modifiers = new[] { new Adverb("uncertainly"), new Adverb("possibly") };
+            foreach (var modifier in modifiers)
+            {
+                unfothomably.ModifyWith(modifier);
+            }
+            foreach (var modifier in modifiers)
+            {
+                Check.That(unfothomably.AdverbialModifiers).Contains(modifier);
+                Check.That(modifier.Modifies).IsEqualTo(unfothomably);
+            }
         }
 
         /// <summary>
         ///A test for ModifyWith
         /// </summary>
-        [TestMethod]
-        public void ModifyWithTest() {
-            string text = "unfothomably";
-            Adverb target = new Adverb(text);
-            IAdverbial adv = new Adverb("uncertainly");
-            target.ModifyWith(adv);
-            Assert.IsTrue(target.AdverbialModifiers.Contains(adv));
-            target.ModifyWith(adv);
-            Assert.AreEqual(adv.Modifies, target);
+        [Fact]
+        public void ModifyWithTest()
+        {
+            Adverb unfothomably = new Adverb("unfothomably");
+            IAdverbial uncertainly = new Adverb("uncertainly");
+            unfothomably.ModifyWith(uncertainly);
+            Check.That(unfothomably.AdverbialModifiers).Contains(uncertainly);
+            unfothomably.ModifyWith(uncertainly);
+            Check.That(uncertainly.Modifies).IsEqualTo(unfothomably);
         }
-
     }
 }

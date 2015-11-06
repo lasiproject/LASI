@@ -2,7 +2,7 @@
 'use strict';
 import * as $ from 'jquery';
 
-export {default as enableActiveHighlighting} from './results/result-chart-provider';
+export { default as enableActiveHighlighting } from './results/result-chart-builder';
 export var buildMenus = function () {
     var contextualElementIdSelectors = [];
     var verbalMenuTextToElementsMap = {
@@ -43,11 +43,9 @@ export var buildMenus = function () {
                 return data.referredTo && data.referredTo.length > 0;
             },
             onItem: function (context) {
-                context[0].lexicalContextMenu.referredTo.map(function (id) {
-                    return $('#' + id);
-                }).forEach(function (element) {
-                    element.css('background-color', 'red');
-                });
+                context[0].lexicalContextMenu.referredTo
+                    .map(id => $('#' + id))
+                    .forEach($e => $e.css('background-color', 'red'));
             }
         });
         $('span.verbal').contextmenu({

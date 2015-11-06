@@ -13,38 +13,40 @@ import documentList from './document-list/document-list.module';
 import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
-import configureRouter from './routing/configuration';
+import configureRouter from './configuration/state-config';
+import startup from './configuration/startup';
 import UserService from './user-service';
-var modules: AngularModuleOptions[] = [documentList, debug, widgets, documentUpload, documentViewer, documentViewerSearch];
-function register(m: AngularModuleOptions) {
-    function validate() {
-        if (!m.name) {
-            throw new TypeError('name is required');
-        }
-        if (!m.requires) {
-            throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
-        }
-    }
-    module(m.name, m.requires, m.configFn || (() => { }))
-        .provider(m.providers || {})
-        .factory(m.factories || {})
-        .service(m.services || {})
-        .filter(m.filters || {})
-        .controller(m.controllers || {})
-        .directive(m.directives || {})
-        .value(m.values || {})
-        .constant(m.constants || {})
-        .run(m.runFn || (() => { }));
-}
-run.$inject = ['$state'];
-function run($state: ng.ui.IStateService) {
-    $state.go('app');
-}
+var modules: AngularModuleOptions[] = [debug, widgets, documentList, documentUpload, documentViewer, documentViewerSearch];
+
+
+
+// Define the primary 'app' module, specifying all top level dependencies.
 angular
     .module('app', ['ui.router', 'ui.bootstrap.modal', ...modules.map(m => m.name)])
     .service({ UserService })
-    .run(run);
+    .config(configureRouter)
+    .run(startup);
 export function bootstrap() {
-    modules.forEach(register);
-    ngBootstrap(document, ['app', configureRouter], { strictDi: true, debugInfoEnabled: true });
+    function createAngularModule(m: AngularModuleOptions) {
+        function validate() {
+            if (!m.name) {
+                throw new TypeError('name is required');
+            }
+            if (!m.requires) {
+                throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
+            }
+        }
+        module(m.name, m.requires, m.configFn || (() => { }))
+            .provider(m.providers || {})
+            .factory(m.factories || {})
+            .service(m.services || {})
+            .filter(m.filters || {})
+            .controller(m.controllers || {})
+            .directive(m.directives || {})
+            .value(m.values || {})
+            .constant(m.constants || {})
+            .run(m.runFn || (() => { }));
+    }
+    modules.forEach(createAngularModule);
+    ngBootstrap(document, ['app'], { strictDi: true, debugInfoEnabled: true });
 }

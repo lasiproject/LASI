@@ -1,13 +1,12 @@
-'use strict';
 System.register([], function(exports_1) {
+    'use strict';
     var DocumentListServiceProvider;
     return {
         setters:[],
         execute: function() {
             DocumentListServiceProvider = (function () {
                 function DocumentListServiceProvider() {
-                    this.$inject = ['$resource'];
-                    this.$get.$inject = ['$resource'];
+                    this.$get.$inject = ['$q', '$http'];
                 }
                 DocumentListServiceProvider.prototype.setDocumentListUrl = function (url) {
                     this.documentListUrl = url;
@@ -17,22 +16,17 @@ System.register([], function(exports_1) {
                     this.recentDocumentCount = count;
                     return this;
                 };
-                DocumentListServiceProvider.prototype.$get = function ($resource) {
-                    var resource = $resource(this.documentListUrl + '?limit=' + this.recentDocumentCount, {}, {
-                        get: {
-                            method: 'GET',
-                            isArray: true
-                        },
-                        delete: {
-                            method: 'DELETE',
-                            isArray: false
-                        }
-                    });
+                DocumentListServiceProvider.prototype.$get = function ($q, $http) {
+                    var _a = [this.recentDocumentCount, this.documentListUrl], limit = _a[0], listUrl = _a[1];
                     return {
                         deleteDocument: function (documentId) {
-                            return resource.delete({ documentId: documentId })[0];
+                            return $http.delete(listUrl + '?documentId=' + documentId);
                         },
-                        get: resource.get
+                        get: function () {
+                            var deferred = $q.defer();
+                            $http.get(listUrl + "?limit=" + limit).then(function (response) { return deferred.resolve(response.data); });
+                            return deferred.promise;
+                        }
                     };
                 };
                 ;
