@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using Shared.Test.Attributes;
 using NFluent;
+using Shared.Test.NFluentExtensions;
 using Xunit;
-using LASI.Content.Tests.Extensions;
 
 namespace LASI.Content.Tests
 {

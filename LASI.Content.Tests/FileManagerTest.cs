@@ -8,7 +8,7 @@ using LASI.Utilities;
 using Shared.Test.Assertions;
 using Xunit;
 using NFluent;
-using LASI.Content.Tests.Extensions;
+using Shared.Test.NFluentExtensions;
 
 namespace LASI.Content.Tests
 {

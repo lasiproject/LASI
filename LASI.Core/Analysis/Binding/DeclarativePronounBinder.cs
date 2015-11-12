@@ -15,7 +15,7 @@
 //        private static void Bind(Paragraph paragraph)
 //        {
 //            //var match = paragraph.Sentences
-//            //    .WithIndex()
+//            //    .WithIndices()
 //            //    .SelectMany((s, i) => s.Element
 //            //        .Phrases
 //            //        .Select((p, pi) => new { Phrase = p, Rank = s.Index + i + pi }))

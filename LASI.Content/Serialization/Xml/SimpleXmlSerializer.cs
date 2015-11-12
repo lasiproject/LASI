@@ -21,7 +21,7 @@
             new XElement("Root",
                 new XElement("Results",
                     new XAttribute("Name", parentElementTitle),
-                    from e in source.WithIndex()
+                    from e in source.WithIndices()
                     select new XElement(e.Element.GetType().Name,
                         new XAttribute("Id", e.Index),
                         new XAttribute("Text", e.Element.Text),

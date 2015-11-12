@@ -344,33 +344,34 @@ namespace LASI.Core.Tests
         {
             Sentence[] firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] {
-                            new NounPhrase(new Word[] {
+                        new Clause(
+                            new NounPhrase(
                                 new PersonalPronoun("We")
-                            }),
-                            new VerbPhrase(new Word[] {
+                            ),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("attack")
-                            }),
-                            new NounPhrase(new Word[] {
+                            ),
+                            new NounPhrase(
                                 new Adjective("blue"),
-                                new CommonSingularNoun("team") }
-                                )}
+                                new CommonSingularNoun("team")
+                                )
                             )}, SentenceEnding.ExclamationPoint),
-                        new Sentence(new Clause[]{new Clause( new Phrase[]{
-                            new NounPhrase(new Word[]{
-                                new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] {
+                        new Sentence(new Clause[] { new Clause(
+                            new NounPhrase(
+                                new PersonalPronoun("We")
+                            ),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("do")
-                            }),
-                        new NounPhrase(new Word[]{
+                            ),
+                        new NounPhrase(
                             new PersonalPronoun("this")
-                        }),
-                        new AdverbPhrase(new Word [] {
+                        ),
+                        new AdverbPhrase(
                             new Adverb("quickly")
-                        })
-                    })}, SentenceEnding.ExclamationPoint)
+                        ))
+                    }, SentenceEnding.ExclamationPoint)
                 };
 
             Document target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });

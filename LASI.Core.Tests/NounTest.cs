@@ -1,70 +1,73 @@
 ﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 using Shared.Test.Assertions;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
+    using Fact = Xunit.FactAttribute;
     /// <summary>
     ///This is A test class for NounTest and is intended
     ///to contain all NounTest Unit Tests
     /// </summary>
-    [TestClass]
     public class NounTest
     {
         /// <summary>
         ///A test for AddPossession
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AddPossessionTest()
         {
             Noun target = CreateNoun();
             IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessions.Contains(possession) && possession.Possesser == target);
+            Check.That(target.Possessions).Contains(possession);
+            Check.That(possession.Possesser).IsEqualTo(target);
         }
 
         /// <summary>
         ///A test for BindDescriptor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDescriberTest()
         {
             Noun target = CreateNoun();
             IDescriptor adjective = new Adjective("rambunctious");
             target.BindDescriptor(adjective);
-            Assert.IsTrue(target.Descriptors.Contains(adjective) && adjective.Describes == target);
+            Check.That(target.Descriptors).Contains(adjective);
+            Check.That(adjective.Describes).IsEqualTo(target);
         }
 
         /// <summary>
         ///A test for BindPronoun
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindPronounTest()
         {
             Noun target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Check.That(target.Referencers).Contains(pro);
+            Check.That(pro.RefersTo).Contains(target);
         }
 
         /// <summary>
         ///A test for Descriptors
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DescribedByTest()
         {
             Noun target = CreateNoun();
 
-            Assert.IsTrue(target.Descriptors != null && target.Descriptors.Count() == 0);
+            Check.That(target.Descriptors).IsNotNull().And.IsEmpty();
         }
 
         /// <summary>
         ///A test for DirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DirectObjectOfTest()
         {
             Noun target = CreateNoun();
@@ -72,13 +75,13 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectObjectOfTest()
         {
             Noun target = CreateNoun();
@@ -86,37 +89,37 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectReferences
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectReferencesTest()
         {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
             actual = target.Referencers;
-            Assert.IsTrue(actual != null && actual.Count() == 0);
+            Check.That(actual).IsNotNull().And.IsEmpty();
         }
 
         /// <summary>
         ///A test for Possessed
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossessedTest()
         {
             Noun target = CreateNoun();
             IEnumerable<IPossessable> actual;
             actual = target.Possessions;
-            Assert.IsTrue(actual != null && actual.Count() == 0);
+            Check.That(actual).IsNotNull().And.IsEmpty();
         }
 
         /// <summary>
         ///A test for PossessesFor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossesserTest()
         {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
@@ -124,13 +127,13 @@ namespace LASI.Core.Tests
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for SubjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SubjectOfTest()
         {
             Noun target = CreateNoun();
@@ -138,13 +141,13 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for SuperTaxonomicNoun
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SuperTaxonomicNounTest()
         {
             Noun target = CreateNoun();
@@ -152,13 +155,13 @@ namespace LASI.Core.Tests
             Noun actual;
             target.PrecedingAdjunctNoun = expected;
             actual = target.PrecedingAdjunctNoun;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for SubTaxonomicNoun
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SubTaxonomicNounTest()
         {
             Noun target = CreateNoun();
@@ -166,29 +169,29 @@ namespace LASI.Core.Tests
             Noun actual;
             target.FollowingAdjunctNoun = expected;
             actual = target.FollowingAdjunctNoun;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Referees
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void RefereesTest()
         {
             Noun target = CreateNoun();
             IEnumerable<IReferencer> actual;
             actual = target.Referencers;
-            Assert.IsTrue(!actual.Any());
+            Check.That(actual).IsEmpty();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro));
-            Assert.IsTrue(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target)));
+            Check.That(target.Referencers).Contains(pro);
+            Check.That(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target))).IsTrue();
         }
 
         /// <summary>
         ///A test for QuantifiedBy
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void QuantifiedByTest()
         {
             Noun target = CreateNoun();
@@ -196,19 +199,19 @@ namespace LASI.Core.Tests
             IQuantifier actual;
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
-            Assert.AreEqual(expected, actual);
-            Assert.IsTrue(target.QuantifiedBy.Quantifies == target);
+            Check.That(actual).IsEqualTo(expected);
+            Check.That(target.QuantifiedBy.Quantifies).IsEqualTo(target);
         }
 
         /// <summary>A test for Descriptors</summary>
-        [TestMethod]
+        [Fact]
         public void DescriptorsTest()
         {
             Noun target = CreateNoun();
 
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.IsFalse(actual.Any());
+            Check.That(actual).IsEmpty();
             IEnumerable<IDescriptor> descriptors = new[] { new Adjective("red"), new Adjective("slow") };
 
             foreach (var d in descriptors) { target.BindDescriptor(d); }
@@ -220,56 +223,40 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for BindReferencer
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindReferencerTest()
         {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IReferencer pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro));
-            Assert.IsTrue(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target)));
+            Check.That(target.Referencers).Contains(pro);
+            Check.That(target.Referencers.All(r => r.RefersTo == target || r.RefersTo.Contains(target))).IsTrue();
         }
 
         /// <summary>
         ///A test for BindDeterminer
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDeterminerTest()
         {
             Noun target = CreateNoun();
             Determiner determiner = new Determiner("the");
             target.BindDeterminer(determiner);
-            Assert.AreEqual(target.Determiner, determiner);
-            Assert.AreEqual(determiner.Determines, target);
+            Check.That(target.Determiner).IsEqualTo(determiner);
+            Check.That(determiner.Determines).IsEqualTo(target);
         }
 
         /// <summary>
         ///A test for BindDescriptor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDescriptorTest()
         {
             Noun target = CreateNoun();
             IDescriptor descriptor = new Adjective("red");
             target.BindDescriptor(descriptor);
-            Assert.IsTrue(target.Descriptors.Contains(descriptor));
-            Assert.AreEqual(descriptor.Describes, target);
-        }
-
-        /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            Check.That(target.Descriptors).Contains(descriptor);
+            Check.That(descriptor.Describes).IsEqualTo(target);
         }
 
         private Noun CreateNoun()
@@ -277,7 +264,5 @@ namespace LASI.Core.Tests
             Noun target = new CommonSingularNoun("dog");
             return target;
         }
-
-        private TestContext testContextInstance;
     }
 }

@@ -1,16 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NFluent;
-using NFluent.Extensions;
 
 namespace LASI.Utilities.Tests
 {
-    using Shared.Test.Assertions;
     using Test = TestMethodAttribute;
     [TestClass]
     public class ComparerTests

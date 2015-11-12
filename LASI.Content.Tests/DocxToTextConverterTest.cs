@@ -6,7 +6,7 @@ using NFluent;
 
 namespace LASI.Content.Tests
 {
-    using Extensions;
+    using Shared.Test.NFluentExtensions;
     using Fact = Xunit.FactAttribute;
     public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
     {

@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using TestMethod = Xunit.FactAttribute;
 
 namespace LASI.Content.Tests
 {
@@ -12,7 +11,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for LoadTextAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetTextAsyncTest()
         {
             ITaggedTextSource target = CreateITaggedTextSource();
@@ -25,7 +24,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for LoadText
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetTextTest()
         {
             ITaggedTextSource target = CreateITaggedTextSource();
@@ -38,7 +37,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for Name
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NameTest()
         {
             ITaggedTextSource target = CreateITaggedTextSource();

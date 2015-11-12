@@ -196,7 +196,6 @@
     <Compile Include="PunctuatorTest.cs" />
     <Compile Include="RoughListPhraseTest.cs" />
     <Compile Include="SentenceTest.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="SimpleDeclarativeClauseBeginPhraseTest.cs" />
     <Compile Include="SingleQuoteTest.cs" />
     <Compile Include="SuperlativeAdverbTest.cs" />

@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Shared.Test.Attributes;
 using NFluent;
+using Shared.Test.NFluentExtensions;
 using Fact = Xunit.FactAttribute;
-using LASI.Content.Tests.Extensions;
 
 namespace LASI.Content.Tests
 {

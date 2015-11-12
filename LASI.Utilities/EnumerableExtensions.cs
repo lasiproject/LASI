@@ -52,7 +52,7 @@ namespace LASI.Utilities
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) =>
-            source.WithIndex().Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
+            source.WithIndices().Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -633,7 +633,8 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
-        public static IEnumerable<Indexed<T>> WithIndex<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
+        public static IEnumerable<Indexed<T>> WithIndices<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
+
         /// <summary>
         /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.
         /// </summary>

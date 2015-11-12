@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using LASI.Content;
 using NFluent;
-using TestMethod = Xunit.FactAttribute;
+using Fact = Xunit.FactAttribute;
 
 namespace LASI.Content.Tests
 {
@@ -57,7 +57,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for Item
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ItemTest()
         {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
@@ -71,7 +71,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for Item
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ItemTest2()
         {
             PhraseTagsetMap target = CreatePhraseTagsetMap();
@@ -80,7 +80,7 @@ namespace LASI.Content.Tests
             actual = target[phrase];
             Check.That("NP").IsEqualTo(actual);
         }
-        [TestMethod]
+        [Fact]
         public void ItemTest3_FailureExpected()
         {
             PhraseTagsetMap target = CreatePhraseTagsetMap();

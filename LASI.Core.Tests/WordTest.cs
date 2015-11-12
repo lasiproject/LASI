@@ -127,7 +127,7 @@ namespace LASI.Core.Tests
         public void ParentDocTest()
         {
             Word target = CreateWord();
-            Document parent = new Document(new[] { new Paragraph(ParagraphKind.Default, new[] { new Sentence(new[] { new Clause(new[] { new NounPhrase(new Word[] { target }) }) }, null) }) });
+            Document parent = new Document(new Paragraph(ParagraphKind.Default, new Sentence(new[] { new Clause(new NounPhrase(target)) }, null)));
             Document expected = parent;
             Document actual;
             actual = target.Document;

@@ -76,7 +76,7 @@ namespace LASI.Content
         }
         #endregion
 
-        #region List Insertion Overloads
+        #region Insertion Overloads
 
         /// <summary>
         /// Adds the document indicated by the specified path string to the project
@@ -568,13 +568,15 @@ namespace LASI.Content
         {
             get
             {
-                foreach (var txt in txtFiles) { yield return txt; }
-                foreach (var pdf in pdfFiles) { yield return pdf; }
-                foreach (var doc in docFiles) { yield return doc; }
-                foreach (var docx in docXFiles) { yield return docx; }
-                foreach (var tagged in taggedFiles) { yield return tagged; }
+                return (txtFiles as IEnumerable<InputFile>).Concat(pdfFiles).Concat(docFiles).Concat(docXFiles).Concat(taggedFiles);
+                //foreach (var txt in txtFiles) { yield return txt; }
+                //foreach (var pdf in pdfFiles) { yield return pdf; }
+                //foreach (var doc in docFiles) { yield return doc; }
+                //foreach (var docx in docXFiles) { yield return docx; }
+                //foreach (var tagged in taggedFiles) { yield return tagged; }
             }
         }
+
         #region Fields
 
         private static List<DocFile> docFiles = new List<DocFile>();
@@ -582,6 +584,7 @@ namespace LASI.Content
         private static List<PdfFile> pdfFiles = new List<PdfFile>();
         private static List<TaggedFile> taggedFiles = new List<TaggedFile>();
         private static List<TxtFile> txtFiles = new List<TxtFile>();
+
         #endregion
     }
 
@@ -613,7 +616,7 @@ namespace LASI.Content
 
         private readonly Func<string, InputFile> unsupportedHandler;
 
-        private IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase)
         {
             [".txt"] = p => new TxtFile(p),
             [".doc"] = p => new DocFile(p),

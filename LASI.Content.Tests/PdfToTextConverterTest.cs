@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using TestMethod = Xunit.FactAttribute;
 using NFluent;
 
 namespace LASI.Content.Tests
@@ -22,7 +21,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for PdfToTextConverter Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PdfToTextConverterConstructorTest()
         {
             PdfFile infile = SourceFile;
@@ -33,7 +32,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for ConvertFile
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ConvertFileTest()
         {
             PdfFile infile = SourceFile;
@@ -47,7 +46,7 @@ namespace LASI.Content.Tests
         /// <summary>
         ///A test for ConvertFileAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ConvertFileAsyncTest()
         {
             PdfFile infile = SourceFile;

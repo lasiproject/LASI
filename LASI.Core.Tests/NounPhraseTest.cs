@@ -1,25 +1,25 @@
 ﻿using LASI;
 using LASI.Core;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
+
     /// <summary>
     ///This is A test class for NounPhraseTest and is intended
     ///to contain all NounPhraseTest Unit Tests
     /// </summary>
-    [TestClass]
     public class NounPhraseTest
     {
         /// <summary>
         ///A test for NounPhrase Constructorf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NounPhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = new Word[] {
@@ -28,66 +28,67 @@ namespace LASI.Core.Tests
                 new ProperPluralNoun("Canadians")
             };
             NounPhrase target = new NounPhrase(composedWords);
-            Assert.AreEqual(target.Words, composedWords);
+            Check.That(target.Words).IsEqualTo(composedWords);
         }
 
 
         /// <summary>
         ///A test for BindDescriptor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDescriberTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians") };
             NounPhrase target = new NounPhrase(composedWords);
             IDescriptor adj = new AdjectivePhrase(new Word[] { new CommonSingularNoun("peace"), new PresentParticiple("loving") });
             target.BindDescriptor(adj);
-            Assert.IsTrue(target.Descriptors.Contains(adj));
+            Check.That(target.Descriptors).Contains(adj);
         }
 
         /// <summary>
         ///A test for BindPronoun
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindPronounTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Check.That(target.Referencers).Contains(pro);
+            Check.That(pro.RefersTo).Contains(target);
         }
 
 
         /// <summary>
         ///A test for Equals
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void EqualsTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            Assert.AreEqual(target, target as object);
+            Check.That(target).IsEqualTo(target as object);
         }
 
         /// <summary>
         ///A test for Descriptors
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DescribedByTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            Assert.IsTrue(target.Descriptors.Count() == 0);
+            Check.That(target.Descriptors).IsEmpty();
             IDescriptor adj = new AdjectivePhrase(new CommonSingularNoun("peace"), new PresentParticiple("loving"));
             target.BindDescriptor(adj);
-            Assert.IsTrue(target.Descriptors.Contains(adj));
+            Check.That(target.Descriptors).Contains(adj);
             IDescriptor adj2 = new Adjective("proud");
             target.BindDescriptor(adj2);
-            Assert.IsTrue(target.Descriptors.Contains(adj) && target.Descriptors.Contains(adj2));
+            Check.That(target.Descriptors).Contains(adj, adj2);
         }
 
         /// <summary>
         ///A test for DirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DirectObjectOfTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -95,13 +96,13 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectObjectOfTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -109,26 +110,26 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectReferences
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectReferencesTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
-            Assert.IsFalse(target.Referencers.Any());
+            Check.That(target.Referencers).IsEmpty();
             Pronoun pro = new PersonalPronoun("they");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target));
+            Check.That(target.Referencers.Contains(pro) && pro.RefersTo.Any(e => e == target)).IsTrue();
         }
 
         /// <summary>
         ///A test for PossessesFor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossesserTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -136,14 +137,13 @@ namespace LASI.Core.Tests
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
-            Assert.AreEqual(expected, actual);
-
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for SubjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SubjectOfTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
@@ -151,40 +151,40 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
-            Assert.AreEqual(expected, actual);
-
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for AddPossession
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AddPossessionTest()
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity possession = new NounPhrase(new Adverb("relatively"), new Adjective("affluent"), new CommonPluralNoun("lifestyles"));
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessions.Contains(possession) && possession.Possesser == target);
+            Check.That(target.Possessions).Contains(possession);
+            Check.That(possession.Possesser).IsEqualTo(target);
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy"));
             string expected = "NounPhrase \"LASI and Timmy\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
         /// <summary>
         ///A test for Referees
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void RefereesTest()
         {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
@@ -195,14 +195,14 @@ namespace LASI.Core.Tests
                 target.BindReferencer(r);
             }
             actual = target.Referencers;
-            Assert.IsTrue(expected.All(e => actual.Contains(e)));
+            Check.That(actual).Contains(expected);
         }
 
 
         /// <summary>
         ///A test for Possessed
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossessedTest()
         {
             NounPhrase target = new NounPhrase(new Adjective("large"), new CommonSingularNoun("elephants"));
@@ -210,13 +210,13 @@ namespace LASI.Core.Tests
             IEnumerable<IPossessable> expected = new[] { new CommonSingularNoun("trunks") };
             actual = target.Possessions;
             foreach (var ip in expected) { target.AddPossession(ip); }
-            Assert.IsTrue(expected.All(e => actual.Contains(e)));
+            Check.That(actual).Contains(expected);
         }
 
         /// <summary>
         ///A test for OuterAttributive
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void OuterAttributiveTest()
         {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Catus"));
@@ -224,13 +224,13 @@ namespace LASI.Core.Tests
             NounPhrase actual;
             target.OuterAttributive = expected;
             actual = target.OuterAttributive;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for InnerAttributive
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void InnerAttributiveTest()
         {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("Felis"));
@@ -238,7 +238,7 @@ namespace LASI.Core.Tests
             NounPhrase actual;
             target.InnerAttributive = expected;
             actual = target.InnerAttributive;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -247,16 +247,16 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Descriptors
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DescriptorsTest()
         {
             NounPhrase target = new NounPhrase(new Determiner("the"), new CommonSingularNoun("elephants"));
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
-            Assert.IsFalse(target.Descriptors.Any());
+            Check.That(target.Descriptors).IsEmpty();
             IDescriptor descriptor = new Adjective("large");
             target.BindDescriptor(descriptor);
-            Assert.IsTrue(target.Descriptors.Contains(descriptor));
+            Check.That(target.Descriptors).Contains(descriptor);
         }
 
 
@@ -264,27 +264,27 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for BindReferencer
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindReferencerTest()
         {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephant"));
             IReferencer pro = new RelativePronoun("which");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.All(r => r.RefersTo.Contains(target)));
+            Check.That(target.Referencers.All(r => r.RefersTo.Contains(target))).IsTrue();
 
         }
 
         /// <summary>
         ///A test for BindDescriptor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDescriptorTest()
         {
             NounPhrase target = new NounPhrase(new Determiner("the"), new Adjective("large"), new CommonSingularNoun("elephants"));
             IDescriptor descriptor = new Adjective("hungry");
             target.BindDescriptor(descriptor);
-            Assert.IsTrue(target.Descriptors.Contains(descriptor));
-            Assert.IsTrue(descriptor.Describes == target);
+            Check.That(target.Descriptors).Contains(descriptor);
+            Check.That(descriptor.Describes).IsEqualTo(target);
 
         }
     }
