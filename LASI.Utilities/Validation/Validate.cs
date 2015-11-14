@@ -184,10 +184,10 @@ namespace LASI.Utilities.Validation
         /// The validation is described by the
         /// <see cref="Enumerable.Any{TSource}(IEnumerable{TSource})" /> method.
         /// </remarks>
-        public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name)
+        public static void NeitherNullNorEmpty<T>(this IEnumerable<T> value, string name, string message = null)
         {
-            NotNull(value, name);
-            NotEmpty(value, name);
+            NotNull(value, name, message);
+            NotEmpty(value, name, message);
         }
 
         #endregion Arity Validation
@@ -271,7 +271,7 @@ namespace LASI.Utilities.Validation
         /// <param name="name">The name of the value which must exist.</param>
         public static void ExistsIn<T>(IEnumerable<T> collection, T value, string name)
         {
-            ExistsIn(collection, value, name, EqualityComparer<T>.Default);
+            ExistsIn(collection, value, EqualityComparer<T>.Default, name);
         }
 
 
@@ -283,9 +283,9 @@ namespace LASI.Utilities.Validation
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="collection">The collection in which must contain the value.</param>      
         /// <param name="value">The value to validate.</param>
-        /// <param name="name">The name of the value which must exist.</param>
         /// <param name="comparer">The comparer to use to validate that the value exists.</param>
-        public static void ExistsIn<T>(IEnumerable<T> collection, T value, string name, IEqualityComparer<T> comparer)
+        /// <param name="name">The name of the value which must exist.</param>
+        public static void ExistsIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name)
         {
             if (!collection.Contains(value, comparer))
             {
@@ -300,11 +300,25 @@ namespace LASI.Utilities.Validation
         /// <param name="collection">The collection in which must contain the value.</param>
         /// <param name="value">The value to validate.</param>
         /// <param name="name">The name of the value which must not exist.</param>
-        public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, string name)
+        public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, string name, string message = null)
         {
-            DoesNotExistIn(collection, value, name, EqualityComparer<T>.Default);
+            DoesNotExistIn(collection, value, EqualityComparer<T>.Default, name, message);
         }
 
+        /// <summary>
+        /// Validates that the specified value is not present in the specified set of values, throwing a <see cref="ArgumentException" /> if it exists.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to validate.</typeparam>
+        /// <param name="collection">The collection in which must contain the value.</param>
+        /// <param name="value">The value to validate.</param>
+        /// <param name="name">The name of the value which must not exist.</param>
+        public static void DoesNotExistIn<T>(IEnumerable<T> collection, IEnumerable<T> values, string name, string message = null)
+        {
+            foreach (var value in values)
+            {
+                DoesNotExistIn(collection, value, EqualityComparer<T>.Default, name, message);
+            }
+        }
 
         /// <summary>
         /// Validates that the specified value is not present in the specified set of values using the specified <see cref="IEqualityComparer{T}" />, throwing a <see cref="ArgumentException" /> if it exists.
@@ -314,7 +328,7 @@ namespace LASI.Utilities.Validation
         /// <param name="value">The value to validate.</param>
         /// <param name="name">The name of the value which must not exist.</param>
         /// <param name="comparer">The comparer to use to test for the presence of the value.</param>
-        public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, string name, IEqualityComparer<T> comparer)
+        public static void DoesNotExistIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name, string message = null)
         {
             if (collection.Contains(value, comparer))
             {

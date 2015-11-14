@@ -22,8 +22,8 @@ namespace LASI.Core
         /// <param name="text">The text content of the word.</param>
         protected Word(string text)
         {
-            Validate.DoesNotExistIn(text, ' ', "The text of a word may not contain white space");
-            Validate.NeitherNullNorEmpty(text, nameof(text));
+            Validate.DoesNotExistIn(text, new[] { ' ', '\r', '\n', '\t' }, "The text of a word may not contain white space.", nameof(text));
+            Validate.NeitherNullNorEmpty(text, nameof(text), $"The text of {nameof(Word)} must not be null and must be at least 1 characters in length.");
 
             Text = text;
             Weight = 1;

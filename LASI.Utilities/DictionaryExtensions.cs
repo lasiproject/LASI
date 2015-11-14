@@ -129,7 +129,7 @@ namespace LASI.Utilities
             }
         }
 
-        public static IDictionary<TKey, Indexed<TValue>> WithIndex<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
+        public static IDictionary<TKey, Indexed<TValue>> WithIndices<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) =>
             dictionary
                 .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
                 .ToDictionary();

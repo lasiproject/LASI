@@ -1,13 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using NFluent;
+using Xunit;
 
 namespace LASI.Utilities.Tests
 {
+    using GenericParameterHelper = Microsoft.VisualStudio.TestTools.UnitTesting.GenericParameterHelper;
     /// <summary>
     ///This is A test class for FunctionExtensionsTest and is intended
     ///to contain all FunctionExtensionsTest Unit Tests
     /// </summary>
-    [TestClass]
     public class FunctionExtensionsTest
     {
         /// <summary>
@@ -21,11 +22,12 @@ namespace LASI.Utilities.Tests
             Func<U, T> actual;
             var y = f.Compose(g);
             actual = FunctionExtensions.Compose(f, g);
-            Assert.AreEqual(expected(default(U)), default(T));
+
+            Check.That(expected(default(U))).IsEqualTo(default(T));
 
         }
 
-        [TestMethod]
+        [Fact]
         public void ComposeTest1()
         {
             ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities.Validation;
 using System.Text;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -16,10 +17,9 @@ namespace LASI.Core
         /// Initializes a new instance of the Symbol class.
         /// </summary>
         /// <param name="literalSymbol">The text of the Symbol.</param>
-        public Symbol(string literalSymbol) : base(literalSymbol)
+        public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol).ToString())
         {
-            Validate.NotLessThan(literalSymbol.Length, 1, nameof(literalSymbol), "a symbol must be comprised of at least one character");
-            LiteralCharacter = literalSymbol[0];
+            LiteralCharacter = Text.Length == 1 ? Text[0] : '\0';
         }
         /// <summary>
         /// Gets the literal punctuation character of the Punctuator.
@@ -30,7 +30,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="other">A <see cref="Symbol"/> to compare with the current instance.</param>
         /// <returns><c>true</c> if the given <see cref="Symbol"/> is equal to the current instance; <c>false</c> otherwise.</returns>
-        public bool Equals(Symbol other) => this.LiteralCharacter == other?.LiteralCharacter;
+        public bool Equals(Symbol other) => this.Text == other?.Text;
 
         /// <summary>
         /// Determines if the given <see cref="object"/> is equal to the current instance.
@@ -44,23 +44,27 @@ namespace LASI.Core
         /// <returns>A hashcode for the Symbol</returns>
         public override int GetHashCode() => LiteralCharacter;
 
+        public static bool operator ==(Symbol left, Symbol right) => left?.Equals(right) ?? right == null;
+        public static bool operator !=(Symbol left, Symbol right) => !(left == right);
+
         /// <summary>
         /// Maps between certain punctuation characters and alias text.
         /// </summary>
         protected static class SymbolAliasMap
         {
-            private static readonly IDictionary<string, char> aliasMap = new Dictionary<string, char>
+            private static readonly IDictionary<string, string> aliasMap = new Dictionary<string, string>
             {
-                ["COMMA"] = ',',
-                ["LEFT_SQUARE_BRACKET"] = '[',
-                ["RIGHT_SQUARE_BRACKET"] = ']',
-                ["PERIOD_CHARACTER_SYMBOL"] = '.',
-                ["END_OF_PARAGRAPH"] = '\n'
+                ["COMMA"] = ",",
+                ["LEFT_SQUARE_BRACKET"] = "[",
+                ["RIGHT_SQUARE_BRACKET"] = "]",
+                ["PERIOD_CHARACTER_SYMBOL"] = ".",
+                ["END_OF_PARAGRAPH"] = "'\n"
             };
 
-            public static char FromAlias(string alias) => aliasMap[alias];
+            public static string FromAlias(string alias) => aliasMap.GetValueOrDefault(alias, alias);
 
-            public static string ToAlias(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
+            public static string ToAlias(string actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
+            public static string ToAlias(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value.Length == 0 && kvp.Value[0] == actual).Key ?? actual.ToString();
 
         }
 

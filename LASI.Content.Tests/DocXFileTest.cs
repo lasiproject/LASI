@@ -1,7 +1,7 @@
-﻿using Shared.Test.Attributes;
-using NFluent;
+﻿using NFluent;
 using Xunit;
 using System.IO;
+using Shared.Test.NFluentExtensions;
 
 namespace LASI.Content.Tests
 {
@@ -18,8 +18,8 @@ namespace LASI.Content.Tests
         {
             string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
             DocXFile target = new DocXFile(path);
-            Check.That(File.Exists(path)).IsTrue();
-            Check.That(Path.GetFullPath(path)).Equals(target.FullPath);
+            Check.That(path).Satisfies(File.Exists);
+            Check.That(Path.GetFullPath(path)).IsEqualTo(target.FullPath);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace LASI.Content.Tests
         public void DocXFileConstructorTest2()
         {
             string invalidPath = Directory.GetCurrentDirectory();//This is should never be valid.
-            Check.That(File.Exists(invalidPath)).IsFalse();
+            Check.That(invalidPath).DoesNotSatisfy(File.Exists);
             Check.ThatCode(() => new DocXFile(invalidPath)).Throws<FileNotFoundException>();
         }
     }

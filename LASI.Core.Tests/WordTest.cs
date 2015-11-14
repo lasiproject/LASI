@@ -1,82 +1,64 @@
 ﻿using LASI;
 using LASI.Core;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml;
 using System.Xml.Schema;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
-
     /// <summary>
     ///This is A test class for WordTest and is intended
     ///to contain all WordTest Unit Tests
     /// </summary>
-    [TestClass]
     public class WordTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
+        [Fact]
+        public void CreateWordWithOnlyWhiteSpaceTextThrowsArgumentException()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            Check.ThatCode(() => new CommonSingularNoun(" \r\n\t")).Throws<ArgumentException>();
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        internal virtual Word CreateWord()
+        [Fact]
+        public void CreateWordWithSpaceInTextThrowsArgumentException()
         {
-            Word target = new CommonSingularNoun("dog");
-            return target;
+            Check.ThatCode(() => new CommonSingularNoun("cat hat")).Throws<ArgumentException>();
+        }
+        [Fact]
+        public void CreateWordWithTabInTextThrowsArgumentException()
+        {
+            Check.ThatCode(() => new CommonSingularNoun("\t")).Throws<ArgumentException>();
+        }
+        [Fact]
+        public void CreateWordWithNewLineInTextThrowsArgumentException()
+        {
+            Check.ThatCode(() => new CommonSingularNoun("\n")).Throws<ArgumentException>();
+        }
+        [Fact]
+        public void CreateWordWithCarriageReturnInTextThrowsArgumentException()
+        {
+            Check.ThatCode(() => new CommonSingularNoun("\r")).Throws<ArgumentException>();
+        }
+
+        [Fact]
+        public void CreateWordWithEmptyTextThrowsArgumentException()
+        {
+            Check.ThatCode(() => new CommonSingularNoun("")).Throws<ArgumentException>();
+        }
+
+        [Fact]
+        public void CreateWordWithNullTextThrowsArgumentException()
+        {
+            Check.ThatCode(() => new CommonSingularNoun(null)).Throws<ArgumentException>();
         }
 
         /// <summary>
         ///A test for Equals
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void EqualsTest()
         {
             Word target = CreateWord();
@@ -84,38 +66,38 @@ namespace LASI.Core.Tests
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
             obj = target;
             expected = true;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for GetHashCode
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetHashCodeTest()
         {
             Word target = CreateWord();
             int expected = (target).GetHashCode();
             int actual;
             actual = target.GetHashCode();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
 
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             Word target = CreateWord();
             string expected = target.GetType().Name + " \"" + target.Text + "\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -123,7 +105,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Document
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ParentDocTest()
         {
             Word target = CreateWord();
@@ -131,7 +113,7 @@ namespace LASI.Core.Tests
             Document expected = parent;
             Document actual;
             actual = target.Document;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -139,14 +121,14 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Text
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void TextTest()
         {
             Word target = new BaseVerb("run");
             string expected = "run";
             string actual;
             actual = target.Text;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
 
         }
 
@@ -154,7 +136,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Weight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void WeightTest()
         {
             Word target = CreateWord();
@@ -162,23 +144,28 @@ namespace LASI.Core.Tests
             double actual;
             target.Weight = expected;
             actual = target.Weight;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for VerboseOutput
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void VerboseOutputTest()
         {
             bool expected = false;
             bool actual;
             Word.VerboseOutput = expected;
             actual = Word.VerboseOutput;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
 
         }
 
+        internal virtual Word CreateWord()
+        {
+            Word target = new CommonSingularNoun("dog");
+            return target;
+        }
 
     }
 }

@@ -1,73 +1,24 @@
 ﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using LASI.Utilities;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
-
 
     /// <summary>
     ///This is a test class for AggregateEntityTest and is intended
     ///to contain all AggregateEntityTest Unit Tests
     /// </summary>
-    [TestClass]
     public class AggregateEntityTest
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
         /// <summary>
         ///A test for AggregateEntity Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AggregateEntityConstructorTest()
         {
             IEnumerable<IEntity> members = new[] {
@@ -75,26 +26,26 @@ namespace LASI.Core.Tests
                 new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            foreach (var m in members) { Assert.IsTrue(target.Contains(m)); }
+            Check.That(target).Contains(members);
         }
 
         /// <summary>
         ///A test for AggregateEntity Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AggregateEntityConstructorTest1()
         {
             IEntity e1 = new NounPhrase(new ProperPluralNoun("Americans"));
             IEntity e2 = new NounPhrase(new ProperPluralNoun("Canadians"));
             AggregateEntity target = new AggregateEntity(e1, e2);
-            Assert.IsTrue(target.Contains(e1));
-            Assert.IsTrue(target.Contains(e2));
+            Check.That(target).Contains(e1);
+            Check.That(target).Contains(e2);
 
         }
         /// <summary>
         ///A test for AddPossession
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AddPossessionTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -103,13 +54,13 @@ namespace LASI.Core.Tests
             );
             IPossessable possession = new NounPhrase(new CommonSingularNoun("fur"));
             target.AddPossession(possession);
-            Assert.IsTrue(target.Possessions.Contains(possession));
+            Check.That(target.Possessions).Contains(possession);
         }
 
         /// <summary>
         ///A test for BindDescriptor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindDescriptorTest()
         {
             IEnumerable<IEntity> members = new[] {
@@ -120,13 +71,13 @@ namespace LASI.Core.Tests
             );
             IDescriptor descriptor = new Adjective("rambunctious");
             target.BindDescriptor(descriptor);
-            Assert.IsTrue(target.Descriptors.Contains(descriptor));
+            Check.That(target.Descriptors).Contains(descriptor);
         }
 
         /// <summary>
         ///A test for BindPronoun
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindPronounTest()
         {
             IEnumerable<IEntity> members = new[] {
@@ -136,11 +87,11 @@ namespace LASI.Core.Tests
             AggregateEntity target = new AggregateEntity(members);
             IReferencer pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro));
-            Assert.IsTrue(pro.RefersTo.Contains(target) || pro.RefersTo == target || pro.RefersTo.SetEqual(target));
+            Check.That(target.Referencers).Contains(pro);
+            Assert.True(pro.RefersTo.Contains(target) || pro.RefersTo == target || pro.RefersTo.SetEqual(target));
             foreach (IEntity e in members)
             {
-                Assert.IsTrue(pro.RefersTo.Contains(e) || pro.RefersTo == e);
+                Assert.True(pro.RefersTo.Contains(e) || pro.RefersTo == e);
 
             }
         }
@@ -148,7 +99,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for GetEnumerator
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetEnumeratorTest()
         {
             IEnumerable<IEntity> members = new IEntity[] { };
@@ -159,14 +110,14 @@ namespace LASI.Core.Tests
             actual = target.GetEnumerator();
             while (expected.MoveNext() | actual.MoveNext())
             {
-                Assert.AreEqual(expected.Current, actual.Current);
+                Check.That(actual.Current).IsEqualTo(expected.Current);
             }
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -176,13 +127,13 @@ namespace LASI.Core.Tests
             string expected = "[ 2 ] NounPhrase \"Americans\" NounPhrase \"Canadians\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for BoundPronouns
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BoundPronounsTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -194,13 +145,13 @@ namespace LASI.Core.Tests
 
             foreach (var r in expected) { target.BindReferencer(r); }
             actual = target.Referencers;
-            foreach (var r in expected) { Assert.IsTrue(actual.Contains(r)); }
+            Check.That(actual).Contains(expected);
         }
 
         /// <summary>
         ///A test for Descriptors
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DescriptorsTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -213,14 +164,16 @@ namespace LASI.Core.Tests
             target.BindDescriptor(adj1);
             target.BindDescriptor(adj2);
             actual = target.Descriptors;
-            Assert.IsTrue(target.Descriptors.Contains(adj1) && adj1.Describes == target);
-            Assert.IsTrue(target.Descriptors.Contains(adj2) && adj2.Describes == target);
+            Check.That(target.Descriptors).Contains(adj1);
+            Check.That(adj1.Describes).IsEqualTo(target);
+            Check.That(target.Descriptors).Contains(adj2);
+            Check.That(adj2.Describes).IsEqualTo(target);
         }
 
         /// <summary>
         ///A test for DirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DirectObjectOfTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -231,13 +184,13 @@ namespace LASI.Core.Tests
             target.DirectObjectOf = expected;
 
             IVerbal actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectObjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IndirectObjectOfTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -248,13 +201,13 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.IndirectObjectOf = expected;
             actual = target.IndirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for MetaWeight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void MetaWeightTest()
         {
             IEnumerable<IEntity> members = new IEntity[] { };
@@ -263,13 +216,13 @@ namespace LASI.Core.Tests
             double actual;
             target.MetaWeight = expected;
             actual = target.MetaWeight;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Possessed
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossessedTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -283,14 +236,13 @@ namespace LASI.Core.Tests
             foreach (var possession in possessions) { target.AddPossession(possession); }
             IEnumerable<IPossessable> actual;
             actual = target.Possessions;
-            foreach (var possession in possessions) { Assert.IsTrue(actual.Contains(possession)); }
-
+            Check.That(actual).Contains(possessions);
         }
 
         /// <summary>
         ///A test for Possesser
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PossesserTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -301,13 +253,13 @@ namespace LASI.Core.Tests
             IPossesser actual;
             target.Possesser = expected;
             actual = target.Possesser;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for SubjectOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SubjectOfTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -318,13 +270,13 @@ namespace LASI.Core.Tests
             IVerbal actual;
             target.SubjectOf = expected;
             actual = target.SubjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Text
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void TextTest()
         {
             AggregateEntity target = new AggregateEntity(
@@ -334,13 +286,13 @@ namespace LASI.Core.Tests
             string expected = "Americans ," + " Canadians";
             string actual;
             actual = target.Text;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Weight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void WeightTest()
         {
             IEnumerable<IEntity> members = new IEntity[] { };
@@ -349,7 +301,7 @@ namespace LASI.Core.Tests
             double actual;
             target.Weight = expected;
             actual = target.Weight;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
     }
 }

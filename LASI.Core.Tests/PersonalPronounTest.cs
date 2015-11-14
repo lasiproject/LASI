@@ -1,105 +1,57 @@
 ﻿using LASI;
 using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Xunit;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is A test class for PronounTest and is intended
     ///to contain all PronounTest Unit Tests
     /// </summary>
-    [TestClass]
     public class PersonalPronounTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for PersonalPronoun Constructor
         /// </summary>
-        [TestMethod]
-        public void PronounConstructorTest() {
+        [Fact]
+        public void PronounConstructorTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            Assert.IsTrue(target.Text == text, "Text property value correctly initialized via parameter");
+            Assert.True(target.Text == text, "Text property value correctly initialized via parameter");
             //Assert.IsTrue(from.BoundEntity == null,"Bound Entity property was initialized to NULL");
         }
 
         /// <summary>
         ///A test for BindPronoun
         /// </summary>
-        [TestMethod]
-        public void BindPronounTest() {
+        [Fact]
+        public void BindPronounTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
-            Assert.IsTrue(target.Referencers.Contains(pro));
+            Check.That(target.Referencers).Contains(pro);
         }
 
         /// <summary>
         ///A test for Equals
         /// </summary>
-        [TestMethod]
-        public void EqualsTest() {
+        [Fact]
+        public void EqualsTest()
+        {
             string text = "her";
             PersonalPronoun target = new PersonalPronoun(text);
             object obj = target as object;
             bool expected = true;
             bool actual;
             actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
 
@@ -109,98 +61,105 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for BoundEntity
         /// </summary>
-        [TestMethod]
-        public void BoundEntityTest() {
+        [Fact]
+        public void BoundEntityTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IEntity expected = new ProperSingularNoun("Aluan");
             IAggregateEntity actual;
             target.BindAsReferringTo(expected);
             actual = target.RefersTo;
-            Assert.IsTrue(actual.Contains(expected));
+            Check.That(actual).Contains(expected);
         }
 
         /// <summary>
         ///A test for DirectObjectOf
         /// </summary>
-        [TestMethod]
-        public void DirectObjectOfTest() {
+        [Fact]
+        public void DirectObjectOfTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected.Text, actual.Text);
+            Check.That(actual.Text).IsEqualTo(expected.Text);
 
         }
 
         /// <summary>
         ///A test for IndirectObjectOf
         /// </summary>
-        [TestMethod]
-        public void IndirectObjectOfTest() {
+        [Fact]
+        public void IndirectObjectOfTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for IndirectReferences
         /// </summary>
-        [TestMethod]
-        public void IndirectReferencesTest() {
+        [Fact]
+        public void IndirectReferencesTest()
+        {
             string text = "he";
             PersonalPronoun target = new PersonalPronoun(text);
             Pronoun referencer = new PersonalPronoun("himslef");
             target.BindReferencer(referencer);
-            Assert.IsTrue(target.Referencers.Contains(referencer));
+            Check.That(target.Referencers).Contains(referencer);
         }
 
         /// <summary>
         ///A test for SubjectOf
         /// </summary>
-        [TestMethod]
-        public void SubjectOfTest() {
+        [Fact]
+        public void SubjectOfTest()
+        {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
             IVerbal actual;
             target.DirectObjectOf = expected;
             actual = target.DirectObjectOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
 
         }
 
         /// <summary>
         ///A test for EntityKind
         /// </summary>
-        [TestMethod]
-        public void EntityKindTest() {
+        [Fact]
+        public void EntityKindTest()
+        {
             string text = "they";
             PersonalPronoun target = new PersonalPronoun(text);
             EntityKind actual;
             actual = target.EntityKind;
-            Assert.AreEqual(EntityKind.Undefined, actual);
+            Check.That(EntityKind.Undefined).IsEqualTo(actual);
             target.BindAsReferringTo(new NounPhrase(new[] { new CommonPluralNoun("apples") }));
-            Assert.AreEqual(EntityKind.ThingMultiple, target.EntityKind);
+            Check.That(EntityKind.ThingMultiple).IsEqualTo(target.EntityKind);
         }
 
         /// <summary>
         ///A test for PersonalPronoun Constructor
         /// </summary>
-        [TestMethod]
-        public void PersonalPronounConstructorTest() {
+        [Fact]
+        public void PersonalPronounConstructorTest()
+        {
             string text = "her";
             PersonalPronoun target = new PersonalPronoun(text);
-            Assert.IsTrue(target.Text == text);
-            Assert.IsTrue(target.IsFemale());
-            Assert.IsTrue(target.IsThirdPerson());
-            Assert.IsTrue(target.EntityKind == EntityKind.PersonFemale);
+            Check.That(target.Text).IsEqualTo(text);
+            Check.That(target.IsFemale()).IsTrue();
+            Check.That(target.IsThirdPerson()).IsTrue();
+            Check.That(target.EntityKind).IsEqualTo(EntityKind.PersonFemale);
         }
     }
 }

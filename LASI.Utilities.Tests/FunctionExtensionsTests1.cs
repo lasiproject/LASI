@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Numerics;
 namespace LASI.Utilities.Tests
 {
     using NFluent;
+    using Xunit;
     using static System.Threading.Thread;
     using static FunctionExtensions;
-    [TestClass]
+
     public class FunctionExtensionsTests1
     {
-        [TestMethod]
+        [Fact]
         public void ComposeTest()
         {
             Func<double, double> f = x => x * x;
@@ -19,32 +19,33 @@ namespace LASI.Utilities.Tests
             var temp = g(value);
             var expected = f(temp);
             var actual = target(value);
-            Assert.AreEqual(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComposeCallsGBeforeFTest()
         {
             bool fCalled = false;
             bool gCalled = false;
             Func<double, double> f = x =>
             {
-                Assert.IsTrue(gCalled);
+                Check.That(gCalled).IsTrue();
                 fCalled = true;
                 return x * x;
             };
             Func<double, double> g = x =>
             {
-                Assert.IsFalse(fCalled);
+                Check.That(fCalled).IsFalse();
                 gCalled = true;
                 return x - 1;
             };
             var target = f.Compose(g)(5);
-            Assert.IsTrue(fCalled);
-            Assert.IsTrue(gCalled);
+
+            Check.That(fCalled).IsTrue();
+            Check.That(gCalled).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void ComposePropagatesExceptionsThrownByGAndDoesNotCallFTest()
         {
             bool fCalled = false;
@@ -70,16 +71,16 @@ namespace LASI.Utilities.Tests
             catch (Exception e) when (e.Message == failure)
             {
             }
-            Assert.IsFalse(fCalled);
-            Assert.IsTrue(gCalled);
+            Check.That(fCalled).IsFalse();
+            Check.That(gCalled).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void ComposeTest4()
         {
-            ComposeTest1Helper<GenericParameterHelper, GenericParameterHelper, GenericParameterHelper>();
+            ComposeTest1Helper<Microsoft.VisualStudio.TestTools.UnitTesting.GenericParameterHelper, Microsoft.VisualStudio.TestTools.UnitTesting.GenericParameterHelper, Microsoft.VisualStudio.TestTools.UnitTesting.GenericParameterHelper>();
         }
-        [TestMethod]
+        [Fact]
         public void ComposeTest5()
         {
             ComposeTest1Helper<object, object, object>();
@@ -106,11 +107,11 @@ namespace LASI.Utilities.Tests
             Func<U, T> expected = u => default(T);
             Func<U, T> actual;
             actual = FunctionExtensions.Compose(f, g);
-            Assert.AreEqual(expected(default(U)), default(T));
+            Check.That(expected(default(U))).IsEqualTo(default(T));
 
         }
 
-        [TestMethod]
+        [Fact]
         public void AndThenCallsA1BeforeA2()
         {
             bool a1Called = false;
@@ -118,23 +119,23 @@ namespace LASI.Utilities.Tests
 
             Action<string> a1 = s =>
             {
-                Assert.IsFalse(a2Called);
+                Check.That(a2Called).IsFalse();
                 a1Called = true;
                 Logger.Log(s);
             };
             Action<string> a2 = s =>
             {
-                Assert.IsTrue(a1Called);
+                Check.That(a1Called).IsTrue();
                 a2Called = true;
                 Logger.Log(s.ToUpper());
             };
             var target = a1.AndThen(a2);
             target("hello");
-            Assert.IsTrue(a1Called);
-            Assert.IsTrue(a2Called);
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void AndThenTest5()
         {
             bool a1Called = false;
@@ -142,23 +143,23 @@ namespace LASI.Utilities.Tests
 
             Action<string> a1 = s =>
             {
-                Assert.IsFalse(a2Called);
+                Check.That(a2Called).IsFalse();
                 a1Called = true;
                 Logger.Log(s);
             };
             Action a2 = () =>
             {
-                Assert.IsTrue(a1Called);
+                Check.That(a1Called).IsTrue();
                 a2Called = true;
                 Logger.Log($"called {nameof(a2)}");
             };
             var target = a1.AndThen(a2);
             target("hello");
-            Assert.IsTrue(a1Called);
-            Assert.IsTrue(a2Called);
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void AndThenTest6()
         {
             bool a1Called = false;
@@ -166,23 +167,23 @@ namespace LASI.Utilities.Tests
 
             Action a1 = () =>
             {
-                Assert.IsFalse(a2Called);
+                Check.That(a2Called).IsFalse();
                 a1Called = true;
                 Logger.Log($"called {nameof(a1)}");
             };
             Action a2 = () =>
             {
-                Assert.IsTrue(a1Called);
+                Check.That(a1Called).IsTrue();
                 a2Called = true;
                 Logger.Log($"called {nameof(a2)}");
             };
             var target = a1.AndThen(a2);
             target();
-            Assert.IsTrue(a1Called);
-            Assert.IsTrue(a2Called);
+            Check.That(a1Called).IsTrue();
+            Check.That(a2Called).IsTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfTwoArgumentFunctionTest()
         {
             Func<int, int, string> uncurried = (x, y) => $"{x} * {y} = {x * y}";
@@ -191,12 +192,12 @@ namespace LASI.Utilities.Tests
             var arg2 = 5;
             var expected = $"{arg1} * {arg2} = {arg1 * arg2}";
             var uncurriedResult = uncurried(arg1, arg2);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
             var curriedResult = curried(arg1)(arg2);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfThreeArgumentFunctionTest()
         {
             Func<int, int, int, string> uncurried = (x, y, z) => $"{x} * {y} * {z} = {x * y * z}";
@@ -205,14 +206,14 @@ namespace LASI.Utilities.Tests
             var arg3 = 6;
             var expected = $"{arg1} * {arg2} * {arg3} = {arg1 * arg2 * arg3}";
             var uncurriedResult = uncurried(arg1, arg2, arg3);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfFourArgumentFunctionTest()
         {
             Func<int, int, int, int, string> uncurried = (x, y, z, a) => $"({x} * {y} * {z}) / {a} = {(x * y * z) / a}";
@@ -222,14 +223,14 @@ namespace LASI.Utilities.Tests
             var arg4 = 3;
             var expected = $"({arg1} * {arg2} * {arg3}) / {arg4} = {(arg1 * arg2 * arg3) / arg4}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfFiveArgumentFunctionTest()
         {
             Func<int, int, int, int, int, string> uncurried = (x, y, z, a, b) => $"({x} * {y} * {z}) / {a} - {b} = {(x * y * z) / a - b}";
@@ -240,14 +241,14 @@ namespace LASI.Utilities.Tests
             var arg5 = 2;
             var expected = $"({arg1} * {arg2} * {arg3}) / {arg4} - {arg5} = {(arg1 * arg2 * arg3) / arg4 - arg5}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfSixArgumentFunctionTest()
         {
             Func<int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c) => $"({x} * {y} * {z}) / ({a} - {b} + {c}) = {(x * y * z) / (a - b + c)}";
@@ -259,14 +260,14 @@ namespace LASI.Utilities.Tests
             var arg6 = 2;
             var expected = $"({arg1} * {arg2} * {arg3}) / ({arg4} - {arg5} + {arg6}) = {(arg1 * arg2 * arg3) / (arg4 - arg5 + arg6)}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfSevenArgumentFunctionTest()
         {
             Func<int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d) => $"(({d})({x} + {y} + {z}) / ({a} - {b} + {c}) = {d * (x + y + z) / (a - b + c)}";
@@ -279,14 +280,14 @@ namespace LASI.Utilities.Tests
             var arg7 = 17;
             var expected = $"(({arg7})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) = {arg7 * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6)}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfEightArgumentFunctionTest()
         {
             Func<int, int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d, e) => $"(({d} - {e})({x} + {y} + {z}) / ({a} - {b} + {c}) = {(d - e) * (x + y + z) / (a - b + c)}";
@@ -300,14 +301,14 @@ namespace LASI.Utilities.Tests
             var arg8 = 18;
             var expected = $"(({arg7} - {arg8})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) = {(arg7 - arg8) * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6)}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void CurryOfNineArgumentFunctionTest()
         {
             Func<int, int, int, int, int, int, int, int, int, string> uncurried = (x, y, z, a, b, c, d, e, f) =>
@@ -323,90 +324,54 @@ namespace LASI.Utilities.Tests
             var arg9 = 2;
             var expected = $"(({arg7} - {arg8})({arg1} + {arg2} + {arg3}) / ({arg4} - {arg5} + {arg6}) + {arg9} = {(arg7 - arg8) * (arg1 + arg2 + arg3) / (arg4 - arg5 + arg6) + arg9}";
             var uncurriedResult = uncurried(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-            Assert.AreEqual(expected, uncurriedResult);
+            Check.That(expected).IsEqualTo(uncurriedResult);
 
             var curried = uncurried.Curry();
             var curriedResult = curried(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9);
-            Assert.AreEqual(curriedResult, uncurriedResult);
+            Check.That(curriedResult).IsEqualTo(uncurriedResult);
         }
 
-        [TestMethod]
-        public void CurryTest8()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void CurryTest9()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void CurryTest10()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void CurryTest11()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void CurryTest12()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
-        public void CurryTest13()
-        {
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        [TestMethod]
+        [Fact]
         public void ApplyingArity2ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
             Func<int, int, int> f = (a, b) => a * b;
 
-            Check.That(f(5, 2)).Equals(f.Apply(5)(2));
+            Check.That(f(5, 2)).IsEqualTo(f.Apply(5)(2));
         }
 
-        [TestMethod]
+        [Fact]
         public void ApplyingArity3ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
             Func<int, int, int, int> f = (a, b, c) => a * b - c;
 
-            Check.That(f(5, 2, 7)).Equals(f.Apply(5)(2, 7));
+            Check.That(f(5, 2, 7)).IsEqualTo(f.Apply(5)(2, 7));
         }
 
-        [TestMethod]
+        [Fact]
         public void ApplyingArity4ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
             Func<int, int, int, int, int> f = (a, b, c, d) => a * b - c + d;
 
-            Check.That(f(5, 2, 7, 13)).Equals(f.Apply(5)(2, 7, 13));
+            Check.That(f(5, 2, 7, 13)).IsEqualTo(f.Apply(5)(2, 7, 13));
         }
 
-        [TestMethod]
+        [Fact]
         public void ApplyingArity5ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
             Func<int, int, int, int, int, int> f = (a, b, c, d, e) => a * b - c + d / e;
 
-            Check.That(f(5, 2, 7, 13, 5)).Equals(f.Apply(5)(2, 7, 13, 5));
+            Check.That(f(5, 2, 7, 13, 5)).IsEqualTo(f.Apply(5)(2, 7, 13, 5));
         }
 
-        [TestMethod]
+        [Fact]
         public void ApplyingArity6ReferentiallyTransparentFunctionReturnsCorrectResult()
         {
             Func<int, int, int, int, int, int, int> g = (a, b, c, d, e, f) => a * b - c + d / e % f;
 
-            Check.That(g(5, 2, 7, 13, 5, 16)).Equals(g.Apply(5)(2, 7, 13, 5, 16));
+            Check.That(g(5, 2, 7, 13, 5, 16)).IsEqualTo(g.Apply(5)(2, 7, 13, 5, 16));
         }
 
-        [TestMethod]
+        [Fact]
         public void IdentityTest()
         {
             IdentityTestHelper<object>();
@@ -421,9 +386,9 @@ namespace LASI.Utilities.Tests
             T target = new T();
             T expected = target;
             T actual = Identity(target);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
-        [TestMethod]
+        [Fact]
         public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
@@ -436,12 +401,12 @@ namespace LASI.Utilities.Tests
             System.Diagnostics.Stopwatch sw;
 
             var computeWithTimer = compute.WithTimer(out sw);
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
             computeWithTimer();
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void WithTimerOfArity1FunctionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
@@ -453,12 +418,12 @@ namespace LASI.Utilities.Tests
             System.Diagnostics.Stopwatch sw;
 
             var computeWithTimer = compute.WithTimer(out sw);
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
             computeWithTimer(new Complex(2, 2));
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void WithTimerOfArity0ActionStopsAndStartsTimerAppropriately()
         {
             int synthesizedWaitInMs = 0;
@@ -471,9 +436,9 @@ namespace LASI.Utilities.Tests
             System.Diagnostics.Stopwatch sw;
 
             var computeWithTimer = compute.WithTimer(out sw);
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
             computeWithTimer();
-            Assert.IsFalse(sw.IsRunning);
+            Check.That(sw.IsRunning).IsFalse();
         }
     }
 }

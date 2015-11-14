@@ -1,49 +1,48 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
-namespace LASI.Core.Tests
+namespace LASI.Core.Testss
 {
     /// <summary>
     ///This is A test class for PrepositionalPhraseTest and is intended
     ///to contain all PrepositionalPhraseTest Unit Tests
     /// </summary>
-    [TestClass]
     public class PrepositionalPhraseTest
     {
         /// <summary>
         /// A test for BindObjectOfPreposition
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindObjectOfPrepositionTest()
         {
             PrepositionalPhrase target = CreatePrepositionPhrase();
             ILexical prepositionalObject = new VerbPhrase(new Word[] { new BaseVerb("have") });
             target.BindObject(prepositionalObject);
-            Assert.IsTrue(target.BoundObject == prepositionalObject);
+            Assert.True(target.BoundObject == prepositionalObject);
         }
 
         /// <summary>
         /// A test for BindObject
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BindObjectTest()
         {
             var composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("table") });
             target.BindObject(prepositionalObject);
-            Assert.AreEqual(prepositionalObject, target.BoundObject);
+            Assert.Equal(prepositionalObject, target.BoundObject);
             IVerbal verbal = new ThirdPersonSingularPresentVerb("is");
             verbal.AttachObjectViaPreposition(target);
-            Assert.AreEqual(prepositionalObject, verbal.ObjectOfThePreposition);
+            Assert.Equal(prepositionalObject, verbal.ObjectOfThePreposition);
         }
 
         /// <summary>
         /// A test for OnLeftSide
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void OnLeftSideTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -52,13 +51,13 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for OnRightSide
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void OnRightSideTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -67,26 +66,26 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for PrepositionalPhrase Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PrepositionalPhraseConstructorTest()
         {
             var composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
 
-            Assert.IsTrue(target.Words.Count() == composedWords.Count());
-            Assert.IsTrue(target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
+            Assert.True(target.Words.Count() == composedWords.Count());
+            Assert.True(target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
         }
 
         /// <summary>
         /// A test for PrepositionalRole
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PrepositionalRoleTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
@@ -94,13 +93,13 @@ namespace LASI.Core.Tests
             PrepositionRole expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             actual = target.Role;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for Role
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void RoleTest()
         {
             var composedWords = new[] { new Preposition("on") };
@@ -110,13 +109,13 @@ namespace LASI.Core.Tests
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             Phrase.VerboseOutput = true;
@@ -127,13 +126,13 @@ namespace LASI.Core.Tests
             string expected = string.Format("PrepositionalPhrase \"for\"\n\tleft linked: {0}\n\tright linked: {1}", target.ToTheLeftOf, target.ToTheRightOf);
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for ToTheLeftOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToTheLeftOfTest()
         {
             var composedWords = new[] { new Preposition("on") };
@@ -142,13 +141,13 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         /// <summary>
         /// A test for ToTheRightOf
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToTheRightOfTest()
         {
             var composedWords = new[] { new Preposition("on") };
@@ -157,7 +156,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         private static PrepositionalPhrase CreatePrepositionPhrase()

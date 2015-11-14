@@ -6,23 +6,24 @@ using LASI.Utilities.Specialized.Option;
 
 namespace LASI.Utilities.Tests
 {
-    [TestClass]
+    using NFluent;
+    using Xunit;
     public class OptionTest
     {
-        [TestMethod]
+        [Fact]
         public void ValueTest1()
         {
             Option<string> target = "str".ToOption();
-            Assert.IsInstanceOfType(target, typeof(Option<string>));
+            Check.That(target).InheritsFrom<Option<string>>();
         }
-        [TestMethod]
+        [Fact]
         public void CoalescenseTest1()
         {
             Option<string> target = "str".ToOption().ToOption();
-            Assert.AreEqual(target, "str".ToOption());
-            Assert.AreEqual("str".ToOption(), target);
+            Assert.Equal(target, "str".ToOption());
+            Assert.Equal("str".ToOption(), target);
         }
-        [TestMethod]
+        [Fact]
         public void CoalescenseTest()
         {
             Option<string> target = "str".ToOption();
@@ -31,216 +32,208 @@ namespace LASI.Utilities.Tests
             {
                 target = target.ToOption();
             }
-            Assert.AreEqual(target, "str".ToOption());
-            Assert.AreEqual("str".ToOption(), target);
+            Assert.Equal(target, "str".ToOption());
+            Assert.Equal("str".ToOption(), target);
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromNullTest1()
         {
             Option<object> target = FromNullFactory<object>();
-            Assert.IsTrue(target.IsNone);
-            Assert.IsFalse(target.IsSome);
+            Assert.True(target.IsNone);
+            Assert.False(target.IsSome);
         }
 
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullTest2()
         {
             Option<object> target = FromNullFactory<object>();
-            object value = target.Value;// Must fail
+            Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromValueTest1()
         {
             const string source = "str";
             Option<string> target = source.ToOption();
             string value = target.Value;
-            Assert.AreEqual(value, source);
+            Assert.Equal(value, source);
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromValueTest2()
         {
             const string source = "str";
             Option<string> target = source.ToOption();
-            Assert.IsTrue(target.IsSome);
+            Assert.True(target.IsSome);
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromValueSelectTest1()
         {
             const string source = "str";
             Option<string> target = source.ToOption();
             Option<string> projected = target.Select(x => x.ToUpper());
-            Assert.IsTrue(projected.IsSome);
+            Assert.True(projected.IsSome);
             string value = projected.Value;
-            Assert.AreEqual(value, source.ToUpper());
+            Assert.Equal(value, source.ToUpper());
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromValueSelectTest2()
         {
             const string source = "str";
             Option<string> target = source.ToOption();
             Option<string> projected = from v in target
                                        select v.ToUpper();
-            Assert.IsTrue(projected.IsSome);
+            Assert.True(projected.IsSome);
             string value = projected.Value;
-            Assert.AreEqual(value, source.ToUpper());
+            Assert.Equal(value, source.ToUpper());
         }
-        [TestMethod]
+        [Fact]
         public void OptionFromNullTestWhereTest1()
         {
             // Should always return None, never applying the predicate.
             Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
-            Assert.IsFalse(filtered.IsSome);
+            Assert.False(filtered.IsSome);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionFromNullTestWhereTest2()
         {
             Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => false);
-            Assert.IsFalse(filtered.IsSome);
-            Assert.IsTrue(filtered.IsNone);
+            Assert.False(filtered.IsSome);
+            Assert.True(filtered.IsNone);
         }
 
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullTestWhereTest3()
         {
             Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
-            object value = filtered.Value; // Must fail
+            Check.ThatCode(() => filtered.Value).Throws<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionFromNullSelectTest1()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> projected = target.Select(x => 1);
-            Assert.IsFalse(projected.IsSome);
+            Assert.False(projected.IsSome);
         }
 
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullSelectTest2()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> projected = target.Select(x => 1);
-            int result = projected.Value; // Must fail
+            Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionFromNullSelectTest3()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> result = from value in target
                                  select 1;
-            Assert.IsFalse(result.IsSome);
+            Assert.False(result.IsSome);
         }
 
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullSelectTest4()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> projected = from value in target
                                     select 1;
-            int result = projected.Value;// Must fail
+            Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>(); // Must fail
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionFromNullSelectManyTest1()
         {
             Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
-            Assert.IsFalse(projected.IsSome);
+            Assert.False(projected.IsSome);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionFromNullSelectManyTest2()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> projected = from value in target
                                     from x in target
                                     select 1;
-            Assert.IsFalse(projected.IsSome);
+            Assert.False(projected.IsSome);
         }
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullSelectManyTest3()
         {
             Option<object> target = FromNullFactory<object>();
             Option<int> projected = from value in target
                                     from x in target
                                     select 1;
-            int result = projected.Value; // must fail
+            Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionFromNullSelectManyTest4()
         {
             Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
-            int result = projected.Value;// must fail
+            Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionCreateTest1()
         {
             object value = null;
             Option<object> target = Option.Create(value);
-            Assert.IsFalse(target.IsSome);
-            Assert.IsTrue(target.IsNone);
+            Assert.False(target.IsSome);
+            Assert.True(target.IsNone);
         }
-        [TestMethod]
-        [ExpectedInvalidOperationException]
+        [Fact]
         public void OptionCreateTest2()
         {
             int? value = null;
             Option<int?> target = Option.Create(value);
-            object wrapped = target.Value; // must fail.
+            Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
-        [TestMethod]
-        [ExpectedInvalidOperationException()]
+        [Fact]
         public void OptionCreateTest3()
         {
             object value = null;
             Option<object> target = Option.Create(value);
-            object wrapped = target.Value; // must fail.
+            Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualityTest1()
         {
             var value = new object();
             var left = Option.Create(value);
             var right = Option.Create(value);
 
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
-            Assert.IsTrue(left.Equals(right));
+            Assert.True(left == right);
+            Assert.False(left != right);
+            Assert.True(left.Equals(right));
 
-            Assert.IsTrue(right == left);
-            Assert.IsFalse(right != left);
+            Assert.True(right == left);
+            Assert.False(right != left);
         }
-        [TestMethod]
+        [Fact]
         public void IEquatableOfOptionEqualityTest1()
         {
             var value = new object();
             var left = Option.Create(value);
             var right = Option.Create(value);
-            Assert.IsTrue(right.Equals(left));
-            Assert.IsTrue(((object)right).Equals(left));
-            Assert.IsTrue(left.Equals(right));
-            Assert.IsTrue(((object)left).Equals(right));
+            Assert.True(right.Equals(left));
+            Assert.True(((object)right).Equals(left));
+            Assert.True(left.Equals(right));
+            Assert.True(((object)left).Equals(right));
 
         }
-        [TestMethod]
+        [Fact]
         public void IEquatableOfOptionEqualityTest2()
         {
             var value = new object();
             var target = Option.Create(value);
-            Assert.IsTrue(target.Equals(value));
-            Assert.IsTrue(target.Equals(value));
-            Assert.IsTrue(target.Equals(target.Value));
-            Assert.IsTrue(((object)target).Equals(target.Value));
+            Assert.True(target.Equals(value));
+            Assert.True(target.Equals(value));
+            Assert.True(target.Equals(target.Value));
+            Assert.True(((object)target).Equals(target.Value));
         }
-        [TestMethod]
+        [Fact]
         public void EqualityTest2()
         {
             var leftValue = new object();
@@ -248,77 +241,77 @@ namespace LASI.Utilities.Tests
             var rightValue = new object();
             var right = Option.Create(rightValue);
 
-            Assert.IsFalse(left == right);
-            Assert.IsTrue(left != right);
-            Assert.IsFalse(left.Equals(right));
+            Assert.False(left == right);
+            Assert.True(left != right);
+            Assert.False(left.Equals(right));
 
-            Assert.IsFalse(right == left);
-            Assert.IsTrue(right != left);
-            Assert.IsFalse(right.Equals(left));
+            Assert.False(right == left);
+            Assert.True(right != left);
+            Assert.False(right.Equals(left));
         }
-        [TestMethod]
+        [Fact]
         public void EqualityTest3()
         {
             var value = new object();
             var target = Option.Create(value);
 
-            Assert.IsTrue(target == value);
-            Assert.IsFalse(target != value);
+            Assert.True(target == value);
+            Assert.False(target != value);
 
-            Assert.IsTrue(value == target);
-            Assert.IsFalse(value != target);
+            Assert.True(value == target);
+            Assert.False(value != target);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityTest4()
         {
             var value = new object();
             var target = Option.Create(value);
 
-            Assert.IsTrue(target == value);
-            Assert.IsFalse(target != value);
+            Assert.True(target == value);
+            Assert.False(target != value);
 
-            Assert.IsTrue(value == target);
-            Assert.IsFalse(value != target);
+            Assert.True(value == target);
+            Assert.False(value != target);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityTest5()
         {
             var value = new object();
             var left = Option.Create(Option.Create(value));
             var right = Option.Create(value);
 
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
+            Assert.True(left == right);
+            Assert.False(left != right);
 
-            Assert.IsTrue(right == left);
-            Assert.IsFalse(right != left);
+            Assert.True(right == left);
+            Assert.False(right != left);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityTest6()
         {
             var value = new object();
             var left = Option.Create(Option.Create(value));
             var right = Option.Create(Option.Create(value));
 
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
+            Assert.True(left == right);
+            Assert.False(left != right);
 
-            Assert.IsTrue(right == left);
-            Assert.IsFalse(right != left);
+            Assert.True(right == left);
+            Assert.False(right != left);
         }
 
         private Func<int> random = new Random().Next;
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest1()
         {
             var value = random();
             var target = Option.Create(value);
-            Assert.IsTrue(target.Equals(value));
-            Assert.IsTrue(target.Equals(value));
-            Assert.IsTrue(target.Equals(target.Value));
-            Assert.IsTrue(((object)target).Equals(target.Value));
+            Assert.True(target.Equals(value));
+            Assert.True(target.Equals(value));
+            Assert.True(target.Equals(target.Value));
+            Assert.True(((object)target).Equals(target.Value));
         }
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest2()
         {
             var leftValue = random();
@@ -326,97 +319,97 @@ namespace LASI.Utilities.Tests
             var rightValue = leftValue + 1;
             var right = Option.Create(rightValue);
 
-            Assert.IsFalse(left == right);
-            Assert.IsTrue(left != right);
-            Assert.IsFalse(left.Equals(right));
+            Assert.False(left == right);
+            Assert.True(left != right);
+            Assert.False(left.Equals(right));
 
-            Assert.IsFalse(right == left);
-            Assert.IsTrue(right != left);
-            Assert.IsFalse(right.Equals(left));
+            Assert.False(right == left);
+            Assert.True(right != left);
+            Assert.False(right.Equals(left));
         }
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest3()
         {
             var value = random();
             var target = Option.Create(value);
 
-            Assert.IsTrue(target == value);
-            Assert.IsFalse(target != value);
+            Assert.True(target == value);
+            Assert.False(target != value);
 
-            Assert.IsTrue(value == target);
-            Assert.IsFalse(value != target);
+            Assert.True(value == target);
+            Assert.False(value != target);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest4()
         {
             var value = random();
             var target = Option.Create(value);
 
-            Assert.IsTrue(target == value);
-            Assert.IsFalse(target != value);
+            Assert.True(target == value);
+            Assert.False(target != value);
 
-            Assert.IsTrue(value == target);
-            Assert.IsFalse(value != target);
+            Assert.True(value == target);
+            Assert.False(value != target);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest5()
         {
             var value = random();
             var left = Option.Create(Option.Create(value));
             var right = Option.Create(value);
 
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
+            Assert.True(left == right);
+            Assert.False(left != right);
 
-            Assert.IsTrue(right == left);
-            Assert.IsFalse(right != left);
+            Assert.True(right == left);
+            Assert.False(right != left);
         }
-        [TestMethod]
+        [Fact]
         public void EqualityOfTypeWith_op_EqualsValueTest6()
         {
             var value = random();
             var left = Option.Create(Option.Create(value));
             var right = Option.Create(Option.Create(value));
 
-            Assert.IsTrue(left == right);
-            Assert.IsFalse(left != right);
+            Assert.True(left == right);
+            Assert.False(left != right);
 
-            Assert.IsTrue(right == left);
-            Assert.IsFalse(right != left);
+            Assert.True(right == left);
+            Assert.False(right != left);
         }
-        [TestMethod]
+        [Fact]
         public void IsNoneTest1()
         {
             var target = Option.Create((object)null);
-            Assert.IsTrue(target.IsNone);
-            Assert.IsFalse(target.IsSome);
+            Assert.True(target.IsNone);
+            Assert.False(target.IsSome);
         }
-        [TestMethod]
+        [Fact]
         public void IsNoneTest2()
         {
             var target = Option.Create((int?)null);
-            Assert.IsTrue(target.IsNone);
-            Assert.IsFalse(target.IsSome);
+            Assert.True(target.IsNone);
+            Assert.False(target.IsSome);
         }
-        [TestMethod]
+        [Fact]
         public void IsSomeTest3()
         {
             var target = Option.Create((int?)random());
-            Assert.IsFalse(target.IsNone);
-            Assert.IsTrue(target.IsSome);
+            Assert.False(target.IsNone);
+            Assert.True(target.IsSome);
         }
         public void IsSomeTest4()
         {
             var target = Option.Create(random());
-            Assert.IsFalse(target.IsNone);
-            Assert.IsTrue(target.IsSome);
+            Assert.False(target.IsNone);
+            Assert.True(target.IsSome);
         }
-        [TestMethod]
+        [Fact]
         public void IsSomeTest5()
         {
             var target = Option.Create(new object());
-            Assert.IsFalse(target.IsNone);
-            Assert.IsTrue(target.IsSome);
+            Assert.False(target.IsNone);
+            Assert.True(target.IsSome);
         }
         private static Option<T> OptionFromNullWhereTestHelper<T>(Func<T, bool> predicate) where T : class
         {

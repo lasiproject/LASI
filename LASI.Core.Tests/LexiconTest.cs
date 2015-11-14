@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Core.Analysis.Heuristics;
-using LASI.Core.Analysis.Heuristics.WordMorphing;
-using LASI.Core.Heuristics;
 using LASI.Utilities;
 using NFluent;
 using Fact = Xunit.FactAttribute;
-using Shared.Test.Assertions;
 
 namespace LASI.Core.Heuristics.Tests
 {
-
     public class LexiconTests
     {
         [Fact]
@@ -111,14 +103,14 @@ namespace LASI.Core.Heuristics.Tests
         public void GetSynonymsOfNounIncludesOwnText()
         {
             Noun ball = new CommonSingularNoun("ball");
-            Check.That(ball.GetSynonyms().Any(n => !n.EqualsIgnoreCase(ball.Text))).IsTrue();
+            Check.That(ball.GetSynonyms().Contains(ball.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
         [Fact]
         public void GetSynonymsOfVerbIncludesOwnText()
         {
             Verb heal = new BaseVerb("heal");
-            Check.That(heal.GetSynonyms().Any(v => !v.EqualsIgnoreCase(heal.Text))).IsTrue();
+            Check.That(heal.GetSynonyms().Contains(heal.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
 
@@ -126,14 +118,14 @@ namespace LASI.Core.Heuristics.Tests
         public void GetSynonymsOfAdjectiveIncludesOwnText()
         {
             Adjective pale = new Adjective("Pale");
-            Check.That(pale.GetSynonyms().Any(a => a.EqualsIgnoreCase(pale.Text))).IsTrue();
+            Check.That(pale.GetSynonyms().Contains(pale.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
         [Fact]
         public void GetSynonymsOfAdverbIncludesOwnText()
         {
             Adverb slyly = new Adverb("slyly");
-            Check.That(slyly.GetSynonyms().Any(a => a.EqualsIgnoreCase(slyly.Text))).IsTrue();
+            Check.That(slyly.GetSynonyms().Contains(slyly.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
         [Fact]

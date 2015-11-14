@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 
 namespace LASI.Utilities.Tests
 {
-    [TestClass]
+    using Fact = Xunit.FactAttribute;
     public class DictionaryExtensionsTests
     {
         private static Dictionary<string, int?> target = new Dictionary<string, int?>
@@ -21,66 +20,66 @@ namespace LASI.Utilities.Tests
         };
 
 
-        [TestMethod]
+        [Fact]
         public void GetValueOrDefaultTest()
         {
-            Assert.IsNull(target.GetValueOrDefault("zero"));
-            Assert.IsNull(target.GetValueOrDefault("five"));
-            Assert.AreEqual(1, target.GetValueOrDefault("one"));
-            Assert.IsNotNull(target.GetValueOrDefault("one"));
+            Check.That(target.GetValueOrDefault("zero")).IsNull();
+            Check.That(target.GetValueOrDefault("five")).IsNull();
+            Check.That(target.GetValueOrDefault("one")).IsEqualTo(1);
+            Check.That(target.GetValueOrDefault("one")).IsNotNull();
         }
 
 
-        [TestMethod]
+        [Fact]
         public void GetValueOrDefaultTest1()
         {
-            Assert.IsNotNull(target.GetValueOrDefault("one", default(int?)));
-            Assert.IsNull(target.GetValueOrDefault("eight", default(int?)));
-            Assert.AreEqual(target.GetValueOrDefault("eight", 8), 8);
+            Check.That(target.GetValueOrDefault("one", default(int?))).IsNotNull();
+            Check.That(target.GetValueOrDefault("eight", default(int?))).IsNull();
+            Check.That(target.GetValueOrDefault("eight", 8)).IsEqualTo(8);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueOrDefaultTest2()
         {
-            Assert.IsNotNull(target.GetValueOrDefault("one", () => default(int?)));
-            Assert.IsNull(target.GetValueOrDefault("eight", () => default(int?)));
-            Assert.AreEqual(target.GetValueOrDefault("eight", () => 8), 8);
-            Assert.AreEqual(target.GetValueOrDefault("four", () => 7), 4);
-            Assert.AreNotEqual(target.GetValueOrDefault("four", () => 7), 7);
+            Check.That(target.GetValueOrDefault("one", () => default(int?))).IsNotNull();
+            Check.That(target.GetValueOrDefault("eight", () => default(int?))).IsNull();
+            Check.That(target.GetValueOrDefault("eight", () => 8)).IsEqualTo(8);
+            Check.That(target.GetValueOrDefault("four", () => 7)).IsEqualTo(4);
+            Check.That(target.GetValueOrDefault("four", () => 7)).IsNotEqualTo(7);
         }
-        [TestMethod]
+        [Fact]
         public void GetValueOrDefaultTest3()
         {
             foreach (var keyValuePair in target)
             {
-                Assert.AreEqual(target[keyValuePair.Key], target.GetValueOrDefault(keyValuePair.Key));
+                Check.That(target[keyValuePair.Key]).IsEqualTo(target.GetValueOrDefault(keyValuePair.Key));
             }
         }
-        [TestMethod]
+        [Fact]
         public void ForEachTest()
         {
             target.ForEach((key, value) =>
             {
                 switch (key)
                 {
-                    case "zero": Assert.AreEqual(value, null); break;
-                    case "one": Assert.AreEqual(value, 1); break;
-                    case "two": Assert.AreEqual(value, 2); break;
-                    case "three": Assert.AreEqual(value, 3); break;
-                    case "four": Assert.AreEqual(value, 4); break;
-                    default: throw new Exception("test failed");
+                case "zero": Check.That(value).IsNull(); break;
+                case "one": Check.That(value).IsEqualTo(1); break;
+                case "two": Check.That(value).IsEqualTo(2); break;
+                case "three": Check.That(value).IsEqualTo(3); break;
+                case "four": Check.That(value).IsEqualTo(4); break;
+                default: throw new Exception("test failed");
                 }
             });
         }
 
-        [TestMethod]
-        public void WithIndexTest()
+        [Fact]
+        public void WithIndicesTest()
         {
-            var target = DictionaryExtensionsTests.target.WithIndex();
+            var target = DictionaryExtensionsTests.target.WithIndices();
             var expectedIndex = 0;
             foreach (var indexedKeyValuePair in target)
             {
-                Assert.AreEqual(expectedIndex, indexedKeyValuePair.Value.Index);
+                Check.That(expectedIndex).IsEqualTo(indexedKeyValuePair.Value.Index);
                 expectedIndex++;
             }
         }

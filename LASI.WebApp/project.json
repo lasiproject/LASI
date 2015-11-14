@@ -33,7 +33,7 @@
         "Microsoft.Framework.DependencyInjection": "1.0.0-beta7",
         "Microsoft.Framework.Configuration": "1.0.0-beta7",
         "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7",
-        "System.Collections.Immutable": "1.1.36",
+        "System.Collections.Immutable": "1.1.37",
         "mongocsharpdriver": "1.10.0",
         "Newtonsoft.Json": "7.0.1",
         "Sendgrid": "6.1.0",
@@ -41,7 +41,6 @@
         "LASI.Content": "1.0.0-*",
         "LASI.Utilities": "1.0.0-*",
         "LASI.Interop": "1.0.0-*"
-
     },
     "commands": {
         "web": "Microsoft.AspNet.Hosting --config hosting.ini",

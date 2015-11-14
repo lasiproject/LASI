@@ -19,8 +19,10 @@ namespace LASI.Core
         /// Pairs one DoubleQuote with another DoubleQuote, establishing a reflexive link between the two.
         /// </summary>
         /// <param name="complement">A matching DoubleQuote with which to pair.</param>
-        public override void PairWith(DoubleQuote complement) {
-            if (complement != this) {
+        public override void PairWith(DoubleQuote complement)
+        {
+            if (!ReferenceEquals(this, complement))
+            {
                 PairedWith = complement;
                 complement.PairedWith = this;
             }

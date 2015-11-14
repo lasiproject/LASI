@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using TestMethod = Xunit.FactAttribute;
+using NFluent;
 
 namespace LASI.Content.Tests
 {
@@ -14,18 +14,10 @@ namespace LASI.Content.Tests
     /// </summary>
     public class IRawTextSourceTest
     {
-        internal virtual IRawTextSource CreateIRawTextSource()
-        {
-            IRawTextSource target = new RawTextFragment(lines, "test fragment");
-            return target;
-        }
-
-
-
         /// <summary>
         ///A test for LoadText
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextTest()
         {
             string text = string.Join("\n", lines);
@@ -33,13 +25,13 @@ namespace LASI.Content.Tests
             string expected = text;
             string actual;
             actual = target.LoadText();
-            Assert.Equal(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for LoadTextAsync
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void LoadTextAsyncTest()
         {
             string text = string.Join("\n", lines);
@@ -47,13 +39,13 @@ namespace LASI.Content.Tests
             string expected = text;
             string actual;
             actual = target.LoadTextAsync().Result;
-            Assert.Equal(expected, actual);
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>
         ///A test for Name
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NameTest()
         {
             string text = string.Join("\n", lines);
@@ -62,10 +54,15 @@ namespace LASI.Content.Tests
             string actual;
             string expected = "test fragment";
             actual = target.Name;
-            Assert.Equal(expected, actual);
-
+            Check.That(actual).IsEqualTo(expected);
         }
-        private static readonly string[] lines = { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
 
+        internal virtual IRawTextSource CreateIRawTextSource()
+        {
+            IRawTextSource target = new RawTextFragment(lines, "test fragment");
+            return target;
+        }
+
+        private static readonly string[] lines = { "John enjoyed, with his usual lack of humility, consuming the object in question.", "Some may call him a heathen, but they are mistaken.", "Heathens are far less dangerous than he." };
     }
 }

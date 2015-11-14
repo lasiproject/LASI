@@ -1,5 +1,4 @@
-﻿using LASI.Content;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using NFluent;
@@ -8,6 +7,7 @@ namespace LASI.Content.Tests
 {
     using Shared.Test.NFluentExtensions;
     using Fact = Xunit.FactAttribute;
+
     public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
     {
         protected override string FileName => "Draft_Environmental_Assessment.docx";

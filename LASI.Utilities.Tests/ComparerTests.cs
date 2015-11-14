@@ -1,14 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using System.Linq;
 using NFluent;
 
 namespace LASI.Utilities.Tests
 {
-    using Test = TestMethodAttribute;
-    [TestClass]
+    using Fact = Xunit.FactAttribute;
     public class ComparerTests
     {
-        [Test]
+        [Fact]
         public void EqualityCreatedDeterminesEqualityAsSpecified()
         {
             var comparer = Equality.Create<string>((x, y) => x.EqualsIgnoreCase(y));
@@ -17,7 +15,7 @@ namespace LASI.Utilities.Tests
             Check.That(comparer.Equals(first, second)).IsTrue();
         }
 
-        [Test]
+        [Fact]
         public void EqualityCreatedWithoutSpecifyingHasherCausesNonNullsToCollide()
         {
             var comparer = Equality.Create<object>((x, y) => x.Equals(y));
@@ -25,7 +23,7 @@ namespace LASI.Utilities.Tests
             Check.That(values.Select(comparer.GetHashCode).Distinct()).HasSize(1);
         }
 
-        [Test]
+        [Fact]
         public void EqualityCreatedWithoutSpecifyingHasherCausesNullsToCollide()
         {
             var comparer = Equality.Create<object>((x, y) => x.Equals(y));
@@ -34,7 +32,7 @@ namespace LASI.Utilities.Tests
             Check.That(comparer.GetHashCode(string.Empty)).IsNotEqualTo(comparer.GetHashCode(null));
         }
 
-        [Test]
+        [Fact]
         public void ComparerCreatedWithExplicitHasherComputesEquivalentHashCodes()
         {
             var comparer = Equality.Create<int>((x, y) => x.Equals(y), x => x < 10 ? x : x % 5);
