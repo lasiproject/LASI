@@ -56,10 +56,11 @@
                         <span><img class="project-logo-navbar" src="images/ic_launcher-web - Copy.png" /></span>
                     </a>
                 </li>
-                <li><a ui-sref=".home" href="" class="fa fa-home fa-lg"></a></li>
-                <li ng-if="!user.loggedIn"><a href="/Account/Login" class="nav-justified fa fa-sign-in"></a></li>
-                <li ng-if="user.loggedIn"><a href="" ui-sref="app.logoff" class="nav-justified fa fa-sign-out"></a></li>
+                <li><a ui-sref="home" href="" class="fa fa-home fa-lg"></a></li>
+                <li ng-if="!user.loggedIn"><a ui-sref="login" href="" class="nav-justified fa fa-sign-in fa-lg"></a></li>
+                <li ng-if="user.loggedIn"><a ui-sref="logoff" href="" class="nav-justified fa fa-sign-out fa-lg"></a></li>
             </ul>
+            <section ui-view></section>
             <!--@await Html.PartialAsync("_LoginPartial")-->
         </div>
     </div>

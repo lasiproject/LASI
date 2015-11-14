@@ -1,8 +1,7 @@
 import { debugPanel } from './debug-panel';
 
-var m: AngularModuleOptions = {
+export default {
     name: 'debug',
     requires: [],
     directives: { debugPanel }
-};
-export default m;   
+} as AngularModuleOptions;   

@@ -9,6 +9,7 @@ System.register(['angular-ui-router'], function(exports_1) {
                     this.$state = $state;
                     this.$stateParams = $stateParams;
                     this.documents = [];
+                    //$state.go('app.home');
                     this.documents = data;
                     //this.user = user();
                 }

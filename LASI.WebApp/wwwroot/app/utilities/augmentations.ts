@@ -1,12 +1,11 @@
 ﻿/**
  * Augments Array with the additional methods, if and only if a member with the same name as the method has not already been defined.
  */
-
 (function () {
     'use strict';
     var arrayAgumentations = {
         flatMap: function (arraySelector, elementSelector) {
-            arraySelector = arraySelector || (array => Array.isArray(array));
+            arraySelector = arraySelector || (function (array) { return Array.isArray(array); });
             elementSelector = elementSelector || function (element) { return element; };
             return this.reduce(function (array, a) {
                 return array.concat(arraySelector(a).map(elementSelector));
@@ -37,7 +36,7 @@
         sum: function (valueSelector) {
             // If the a valueSelector was not provided, define a function which will attempt 
             // to convert its argument to a number.
-            var projection = valueSelector || (x => Number(x));
+            var projection = valueSelector || (function (x) { return Number(x); });
             return this.length === 0 ?
                 0 :
                 this.reduce(function (total, element) {
@@ -45,13 +44,13 @@
                 }, 0);
         },
         average: function (valueSelector) {
-            return this.sum(valueSelector || (x => Number(x))) / this.length;
+            return this.sum(valueSelector || (function (x) { return Number(x); })) / this.length;
         },
         first: function (predicate) {
             if (!predicate) {
                 return this[0];
             }
-            for (let i = 0; i < this.length; ++i) {
+            for (var i = 0; i < this.length; ++i) {
                 if (predicate(this[i])) {
                     return this[i];
                 }
@@ -62,7 +61,7 @@
             if (!predicate) {
                 return this[this.length - 1];
             }
-            for (let i = this.length - 1; i > 0; --i) {
+            for (var i = this.length - 1; i > 0; --i) {
                 if (predicate(this[i])) {
                     return this[i];
                 }
@@ -71,8 +70,8 @@
         }
     };
     Object.keys(arrayAgumentations)
-        .filter(key => !Object.prototype.hasOwnProperty.call(Array.prototype, key))
-        .forEach(key => {
+        .filter(function (key) { return !Object.prototype.hasOwnProperty.call(Array.prototype, key); })
+        .forEach(function (key) {
             Object.defineProperty(Array.prototype, key, {
                 writable: false,
                 enumerable: false,

@@ -9,7 +9,7 @@ System.config({
 
   packages: {
     "app": {
-      "main": "app.ts",
+      "main": "LASI.ts",
       "defaultExtension": "ts",
       "modules": {
         "*.html": {

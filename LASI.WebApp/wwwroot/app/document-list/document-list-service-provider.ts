@@ -19,7 +19,7 @@ export interface DocumentListItemModel {
     statusMessage: string;
     raeification: DocumentModel;
 }
-export class DocumentListServiceProvider implements DocumentListServiceConfig, angular.IServiceProvider {
+export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;
     private recentDocumentCount: number;
     constructor() {
@@ -35,13 +35,13 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, a
     }
 
     $get($q: ng.IQService, $http: ng.IHttpService): DocumentListService {
-        var [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
+        let [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
         return {
             deleteDocument(documentId: string) {
                 return $http.delete(listUrl + '?documentId=' + documentId);
             },
             get() {
-                var deferred = $q.defer<DocumentListItemModel[]>();
+                let deferred = $q.defer<DocumentListItemModel[]>();
                 $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`).then(response=> deferred.resolve(response.data));
                 return deferred.promise;
             }

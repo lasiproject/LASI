@@ -1,26 +1,21 @@
 /**
  @function A trait which decsribes a functions whose $inject property is required.
 */
-type Annotated = {};
-
-type BlockFunction = { (...args): any } & Annotated;
-type AnnotatedFactory = { (...args): any } & Annotated;
-type DirectiveFactory = ng.IDirectiveFactory & Annotated;
-type AnnotatedConstructor = { new (...args): any } & Annotated;
-type AnnotatedProviderClass = ng.IServiceProviderClass & Annotated;
-type AnnotatedProviderFactory = ng.IServiceProviderFactory & Annotated;
+type FunctionMap = { [name: string]: Function };
+type ConstructorMap = { [name: string]: new (...args) => any };
+type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
 
 interface AngularModuleOptions {
     name: string;
-    requires: string[];
-    configFn?: BlockFunction;
-    runFn?: BlockFunction;
-    values?: { [name: string]: any };
-    constants?: { [name: string]: any };
-    filters?: {};
-    controllers?: {};
-    directives?: {};
-    factories?: {};
-    services?: { [name: string]: AnnotatedConstructor };
-    providers?: {};
+    requires: (string | AngularModuleOptions)[];
+    configFn?: Function;
+    runFn?: Function;
+    values?: FunctionMap;
+    constants?: FunctionMap;
+    filters?: FunctionMap;
+    controllers?: ConstructorMap;
+    directives?: FunctionMap;
+    factories?: FunctionMap;
+    services?: ConstructorMap;
+    providers?: FunctionOrConstructorMap;
 }

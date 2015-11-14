@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     minifyCss = require('gulp-minify-css'),
     typescript = require('gulp-typescript'),
-    tslint = require('gulp-tslint');
+    tslint = require('gulp-tslint'),
+    uglify = require('gulp-uglify');
 
 var paths = {
     appts: [
@@ -72,5 +73,13 @@ gulp.task('watch', function () {
     gulp.watch(paths.appts, [/*'typescript',*/ 'tslint'])
         .on('error', onError);
     gulp.watch(paths.appcss, ['appcss'])
+        .on('error', onError);
+});
+
+gulp.task('uglify-bundle', function () {
+    var onError = console.error.bind(console);
+    return gulp.src('app.built.js')
+        .pipe(uglify({ preserveComments :"all" }))
+        .pipe(gulp.dest('./app.built.min.js'))
         .on('error', onError);
 });

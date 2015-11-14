@@ -4,6 +4,7 @@ export default class AppController {
     static $inject = ['$state', '$stateParams', 'data'];
 
     constructor(private $state: ng.ui.IStateService, private $stateParams: ng.ui.IStateParamsService, data) {
+        //$state.go('app.home');
         this.documents = data;
         //this.user = user();
     }

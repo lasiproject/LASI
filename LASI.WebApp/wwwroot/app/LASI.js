@@ -1,8 +1,48 @@
-System.register(['jquery', './results/result-chart-builder'], function(exports_1) {
+System.register(['jquery', './results/result-chart-builder', 'github:twbs/bootstrap@3.3.5/css/bootstrap.css!', 'font-awesome', 'dist/app.css!', 'bootstrap', 'angular-ui-router', './utilities/augmentations', 'angular', './app'], function(exports_1) {
     /// <reference path="../../typings/tsd.d.ts" />
     'use strict';
-    var $;
-    var buildMenus, log;
+    var $, angular_1, app_1;
+    var buildMenus, log, modules;
+    // Define the primary 'app' module, specifying all top level dependencies.
+    function bootstrap() {
+        function buildModule(m) {
+            function isConfig(x) {
+                return typeof x !== 'string';
+            }
+            function validate() {
+                if (isConfig(m)) {
+                    if (!m.name) {
+                        throw new TypeError('name is required');
+                    }
+                    if (!m.requires) {
+                        throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
+                    }
+                }
+                else if (typeof m !== 'string') {
+                    throw new TypeError('module must be a string or an AngularModuleOptions options object');
+                }
+            }
+            if (isConfig(m)) {
+                angular_1.module(m.name, m.requires.map(buildModule).slice(), m.configFn || (function () { }))
+                    .provider(m.providers || {})
+                    .factory(m.factories || {})
+                    .service(m.services || {})
+                    .filter(m.filters || {})
+                    .controller(m.controllers || {})
+                    .directive(m.directives || {})
+                    .value(m.values || {})
+                    .constant(m.constants || {})
+                    .run(m.runFn || (function () { }));
+                return m.name;
+            }
+            else {
+                return m;
+            }
+        }
+        modules.forEach(buildModule);
+        angular_1.bootstrap(document, ['app'], { strictDi: true, debugInfoEnabled: true });
+    }
+    exports_1("bootstrap", bootstrap);
     return {
         setters:[
             function ($_1) {
@@ -12,6 +52,18 @@ System.register(['jquery', './results/result-chart-builder'], function(exports_1
                 exports_1({
                     "enableActiveHighlighting": result_chart_builder_1_1["default"]
                 });
+            },
+            function (_1) {},
+            function (_2) {},
+            function (_3) {},
+            function (_4) {},
+            function (_5) {},
+            function (_6) {},
+            function (angular_1_1) {
+                angular_1 = angular_1_1;
+            },
+            function (app_1_1) {
+                app_1 = app_1_1;
             }],
         execute: function() {
             exports_1("buildMenus", buildMenus = function () {
@@ -110,7 +162,7 @@ System.register(['jquery', './results/result-chart-builder'], function(exports_1
             });
             //export var setupDraggableDialogs: () => void; 
             exports_1("log", log = console.log.bind(console));
+            modules = [app_1.default];
         }
     }
 });
-//export var editor = $('#free-editor').change(log); // TODO: parameterize selector. 

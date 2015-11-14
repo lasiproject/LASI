@@ -7,7 +7,7 @@ import page from './directives/page';
 import paragraph from './directives/paragraph';
 import sentence from './directives/sentence';
 import phrase from './directives/phrase';
-var module: AngularModuleOptions = {
+export default {
     name: 'documentViewer',
     requires: [
         'documentViewer.search',
@@ -29,5 +29,4 @@ var module: AngularModuleOptions = {
         sentence,
         phrase
     }
-};
-export default module;
+} as AngularModuleOptions;

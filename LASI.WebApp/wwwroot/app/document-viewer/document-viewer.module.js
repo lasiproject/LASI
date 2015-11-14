@@ -1,7 +1,6 @@
 System.register(['./document.controller', './document-model-service', './lexical-menu-builder', './directives/document-viewer', './directives/page', './directives/paragraph', './directives/sentence', './directives/phrase'], function(exports_1) {
     'use strict';
     var document_controller_1, document_model_service_1, lexical_menu_builder_1, document_viewer_1, page_1, paragraph_1, sentence_1, phrase_1;
-    var module;
     return {
         setters:[
             function (document_controller_1_1) {
@@ -29,7 +28,7 @@ System.register(['./document.controller', './document-model-service', './lexical
                 phrase_1 = phrase_1_1;
             }],
         execute: function() {
-            module = {
+            exports_1("default",{
                 name: 'documentViewer',
                 requires: [
                     'documentViewer.search',
@@ -51,8 +50,7 @@ System.register(['./document.controller', './document-model-service', './lexical
                     sentence: sentence_1.default,
                     phrase: phrase_1.default
                 }
-            };
-            exports_1("default",module);
+            });
         }
     }
 });

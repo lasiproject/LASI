@@ -7,12 +7,12 @@
 </head>
 <body hidden>
 
-
-    <section ui-view="app.navbar"></section>
+    
+    <section ui-view="navbar"></section>
 
     <div class="container body-content">
         @RenderBody()
-        <section ui-view="app.home"></section>
+        <section ui-view="home"></section>
 
 
         <footer>
@@ -21,6 +21,8 @@
     </div>
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/config.js"></script>
+    <!--Uncomment in production-->
+    @*<script src="~/app.js"></script>*@
     <script>
         System.import('app')
             .then(function (app) {

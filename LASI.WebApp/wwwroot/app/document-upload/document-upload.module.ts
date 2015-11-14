@@ -7,4 +7,4 @@ export default {
     name: 'documentUpload',
     requires: ['ngFileUpload'],
     directives: { uploadPanel }
-}
+} as AngularModuleOptions;

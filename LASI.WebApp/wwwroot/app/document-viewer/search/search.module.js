@@ -1,5 +1,5 @@
-'use strict';
 System.register(['./search-box'], function(exports_1) {
+    'use strict';
     var search_box_1;
     return {
         setters:[

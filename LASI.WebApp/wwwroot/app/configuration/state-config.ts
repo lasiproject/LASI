@@ -42,8 +42,8 @@ export default function configureStates($stateProvider: StateProvider, $urlRoute
             }, data: data,
 
             views: {
-                'app.navbar': {
-                    name: 'app.navbar',
+                navbar: {
+                    name: 'navbar',
                     controller: NavbarController,
                     controllerAs: 'navbar',
                     template: navbarTemplate,
@@ -51,23 +51,23 @@ export default function configureStates($stateProvider: StateProvider, $urlRoute
                         data
                     }, data: data
                 },
-                'app.home': {
-                    name: 'app.home',
+                home: {
+                    name: 'home',
                     controllerAs: 'controller',
                     controller: HomeController,
                     template: homeTemplate,
                     resolve: { data }, data: data
                 },
-                'app.login': {
-                    name: 'app.login',
+                login: {
+                    name: 'login',
                     controller: LoginController,
                     controllerAs: 'login',
                     template: loginTemplate,
                     resolve: { data }, data: data
 
                 },
-                'app.logoff': {
-                    name: 'app.logoff',
+                logoff: {
+                    name: 'logoff',
                     controller: LoginController,
                     controllerAs: 'logoff',
                     template: loginTemplate,

@@ -1,5 +1,5 @@
-'use strict';
 System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-list/list-controller', 'app/sections/navbar/navbar.html', 'app/sections/login.html', 'app/app-controller', 'app/sections/navbar/navbar', 'app/sections/login'], function(exports_1) {
+    'use strict';
     var app_html_1, home_html_1, list_controller_1, navbar_html_1, login_html_1, app_controller_1, navbar_1, login_1;
     function configureStates($stateProvider, $urlRouterProvider) {
         data.$inject = ['$q', 'documentListService'];
@@ -25,8 +25,8 @@ System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-li
                 data: data
             }, data: data,
             views: {
-                'app.navbar': {
-                    name: 'app.navbar',
+                navbar: {
+                    name: 'navbar',
                     controller: navbar_1.default,
                     controllerAs: 'navbar',
                     template: navbar_html_1.default,
@@ -34,22 +34,22 @@ System.register(['app/app.html', 'app/sections/home/home.html', 'app/document-li
                         data: data
                     }, data: data
                 },
-                'app.home': {
-                    name: 'app.home',
+                home: {
+                    name: 'home',
                     controllerAs: 'controller',
                     controller: list_controller_1.ListController,
                     template: home_html_1.default,
                     resolve: { data: data }, data: data
                 },
-                'app.login': {
-                    name: 'app.login',
+                login: {
+                    name: 'login',
                     controller: login_1.default,
                     controllerAs: 'login',
                     template: login_html_1.default,
                     resolve: { data: data }, data: data
                 },
-                'app.logoff': {
-                    name: 'app.logoff',
+                logoff: {
+                    name: 'logoff',
                     controller: login_1.default,
                     controllerAs: 'logoff',
                     template: login_html_1.default,
