@@ -33,4 +33,4 @@ export default {
     providers: { documentListService: DocumentListServiceProvider, tasksListService: tasksListServiceProvider },
     directives: { documentListTabsetItem, documentListMenuItem },
     controllers: { ListController }
-} as AngularModuleOptions;
+} as NgModuleConfig;

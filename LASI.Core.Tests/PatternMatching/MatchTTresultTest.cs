@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LASI.Utilities.Specialized;
 using Shared.Test.Assertions;
-using LASI.Utilities.Specialized.Option;
+using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.PatternMatching.Tests

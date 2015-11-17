@@ -1,5 +1,4 @@
-﻿/// <amd-dependency path="./document-list-tabset-item.directive.html" />
-'use strict';
+﻿'use strict';
 
 import template from 'app/document-list/document-list-tabset-item.html';
 

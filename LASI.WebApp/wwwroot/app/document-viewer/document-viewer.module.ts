@@ -29,4 +29,4 @@ export default {
         sentence,
         phrase
     }
-} as AngularModuleOptions;
+} as NgModuleConfig;

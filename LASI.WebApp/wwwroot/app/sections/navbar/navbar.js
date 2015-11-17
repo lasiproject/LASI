@@ -1,9 +1,24 @@
-'use strict';
-System.register(['app/sections/document-manager/manage-modal', 'app/sections/document-manager/manage-modal.html'], function(exports_1) {
-    var manage_modal_1, manage_modal_html_1;
+System.register(['app/sections/navbar/navbar.html', 'app/sections/document-manager/manage-modal', 'app/sections/document-manager/manage-modal.html'], function(exports_1) {
+    'use strict';
+    var navbar_html_1, manage_modal_1, manage_modal_html_1;
     var NavbarController;
+    function navbar() {
+        return {
+            controller: NavbarController,
+            controllerAs: 'navbar',
+            template: navbar_html_1.default,
+            bindToController: {
+                documents: '='
+            },
+            scope: true
+        };
+    }
+    exports_1("navbar", navbar);
     return {
         setters:[
+            function (navbar_html_1_1) {
+                navbar_html_1 = navbar_html_1_1;
+            },
             function (manage_modal_1_1) {
                 manage_modal_1 = manage_modal_1_1;
             },
@@ -12,10 +27,9 @@ System.register(['app/sections/document-manager/manage-modal', 'app/sections/doc
             }],
         execute: function() {
             NavbarController = (function () {
-                function NavbarController($uibModal, data) {
+                function NavbarController($uibModal) {
                     this.$uibModal = $uibModal;
                     this.expanded = false;
-                    this.documents = data;
                 }
                 NavbarController.prototype.openManageDocumentsModal = function () {
                     var _this = this;
@@ -24,7 +38,7 @@ System.register(['app/sections/document-manager/manage-modal', 'app/sections/doc
                         controllerAs: 'manager',
                         controller: manage_modal_1.default,
                         template: manage_modal_html_1.default,
-                        resolve: { data: function () { return _this.documents; } },
+                        resolve: { documents: function () { return _this.documents; } },
                         keyboard: true
                     });
                     modal.result.then(function (result) { return console.info(result); });
@@ -33,10 +47,9 @@ System.register(['app/sections/document-manager/manage-modal', 'app/sections/doc
                 NavbarController.prototype.toggleExpanded = function () {
                     this.expanded = !this.expanded;
                 };
-                NavbarController.$inject = ['$uibModal', 'data'];
+                NavbarController.$inject = ['$uibModal'];
                 return NavbarController;
             })();
-            exports_1("default", NavbarController);
         }
     }
 });

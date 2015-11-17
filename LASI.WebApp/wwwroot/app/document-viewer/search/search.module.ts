@@ -6,4 +6,4 @@ export default {
     name: 'documentViewer.search',
     requires: ['ui.bootstrap.typeahead'],
     directives: { searchBox }
-} as AngularModuleOptions;
+} as NgModuleConfig;

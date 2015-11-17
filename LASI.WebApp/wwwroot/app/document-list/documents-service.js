@@ -1,5 +1,5 @@
-'use strict';
 System.register([], function(exports_1) {
+    'use strict';
     function documentsService($q, $http) {
         function getbyId(documentId) {
             return $http.get("api/UserDocuments/" + documentId);

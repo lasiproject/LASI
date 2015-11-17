@@ -1,6 +1,6 @@
 ﻿'use strict';
 import { DocumentModelService } from './../document-viewer/document-model-service';
-import { DocumentModel } from 'app/models';
+import { DocumentModel, DocumentListItemModel } from 'app/models';
 
 export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
@@ -9,15 +9,6 @@ export interface DocumentListServiceConfig {
 export interface DocumentListService {
     get(): ng.IPromise<DocumentListItemModel[]>;
     deleteDocument(documentId: string): ng.IPromise<DocumentListItemModel>;
-}
-export interface DocumentListItemModel {
-    id: string;
-    name: string;
-    progress: number;
-    percentComplete: number;
-    showProgress: boolean;
-    statusMessage: string;
-    raeification: DocumentModel;
 }
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;

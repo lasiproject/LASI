@@ -9,15 +9,16 @@ namespace LASI.Utilities
     public static class Pair
     {
         /// <summary>
-        /// Creates a new pair
+        /// Creates a new <see cref="Pair{T1, T2}"/> from the specified components.
         /// </summary>
         /// <typeparam name="T1">The type of the pairs's first component.</typeparam>
         /// <typeparam name="T2">The type of the pairs's second component.</typeparam>
-        /// <param name="first">The value of the pairs's first component.</param>
-        /// <param name="second">The value of the pairs's second component.</param>
+        /// <param name="first">The first component.</param>
+        /// <param name="second">The second component.</param>
         /// <returns>A pair whose value is (first, second).</returns>
         public static Pair<T1, T2> Create<T1, T2>(T1 first, T2 second) => new Pair<T1, T2>(first, second);
     }
+
     /// <summary>
     /// Defines a generic pair.
     /// </summary>
@@ -25,24 +26,33 @@ namespace LASI.Utilities
     /// <typeparam name="T2">The type of the second component of the pair.</typeparam>
     public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pair{T1, T2}"/> structure.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="second">The second value.</param>
         internal Pair(T1 first, T2 second)
         {
             First = first;
             Second = second;
         }
+
         /// <summary>
         /// The first component of the pair.
         /// </summary>
         public T1 First { get; }
+
         /// <summary>
         /// The second component of the pair.
         /// </summary>
         public T2 Second { get; }
+
         /// <summary>
         /// Defines an implicit conversion to an instance of the <see cref= "KeyValuePair{T1,T2}"/> structure.
         /// </summary>
         /// <param name="pair">The pair undergoing the conversion/</param>
         public static implicit operator KeyValuePair<T1, T2>(Pair<T1, T2> pair) => new KeyValuePair<T1, T2>(pair.First, pair.Second);
+
         /// <summary>
         /// Defines an implicit conversion from an instance of the <see cref="KeyValuePair{T1,T2}"/> to an instance of the <see cref= "Pair{T1,T2}"/> structure.
         /// </summary>
@@ -55,17 +65,26 @@ namespace LASI.Utilities
         /// <param name="other"></param>
         /// <returns><c>true</c> if the specified <see cref="Pair{T1,T2}"/> is equal to the current instance; otherwise <c>false</c>.</returns>
         public bool Equals(Pair<T1, T2> other) => Equals(First, other.First) && Equals(Second, other.Second);
+
         /// <summary>
         /// Determines if the specified object is equal to the current instance.
         /// </summary>
         /// <param name="obj">An object to test for equality.</param>
         /// <returns><c>true</c> if the specified object is equal to the current instance; otherwise <c>false</c>.</returns>
         public override bool Equals(object obj) => obj is Pair<T1, T2> && Equals((Pair<T1, T2>)obj);
+
         /// <summary>
         /// Gets a hashcode for current instance.
         /// </summary>
         /// <returns>A hashcode for current instance.</returns>
         public override int GetHashCode() => First?.GetHashCode() ?? 0 ^ Second?.GetHashCode() ?? 0;
+
+        /// <summary>
+        /// Returns a string representation of the <see cref="Pair{T1, T2}"/>.
+        /// </summary>
+        /// <returns>A string representation of the <see cref="Pair{T1, T2}"/>.</returns>
+        public override string ToString() => $"{nameof(Pair)}<{First?.GetType()}, {Second?.GetType()}> {{ {First}, {Second} }}";
+
         /// <summary>
         /// Performs an equality comparison between two instances of the <see cref="Pair{T1,T2}"/> structure.
         /// </summary>
@@ -73,6 +92,7 @@ namespace LASI.Utilities
         /// <param name="right">The second instance to compare.</param>
         /// <returns><c>true</c> if the pairs are equal; otherwise <c>false</c>.</returns>
         public static bool operator ==(Pair<T1, T2> left, Pair<T1, T2> right) => left.Equals(right);
+
         /// <summary>
         /// Performs an inequality comparison between two instances of the <see cref="Pair{T1,T2}"/> structure.
         /// </summary>

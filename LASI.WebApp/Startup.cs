@@ -10,6 +10,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
@@ -60,7 +61,11 @@ namespace LASI.WebApp
                         options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
                         options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
                     })
-                    .AddMvc(options => options.Filters.Add(new Filters.HttpResponseExceptionFilter()))
+                    .AddMvc(options =>
+                    {
+                        //options.Filters.Add(new Filters.HttpAuthorizationFilter());
+                        options.Filters.Add(new Filters.HttpResponseExceptionFilter());
+                    })
                     .AddJsonOptions(options =>
                     {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -110,6 +115,8 @@ namespace LASI.WebApp
                     .AddUserManager<UserManager<ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>()
                     .AddDefaultTokenProviders();
+
+
             services.AddCors();
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
@@ -126,6 +133,7 @@ namespace LASI.WebApp
 
             app.UseStatusCodePages()
                .UseIdentity()
+               .UseCookieAuthentication()
                .UseFileServer()
                .UseBrowserLink()
                .UseDefaultFiles()

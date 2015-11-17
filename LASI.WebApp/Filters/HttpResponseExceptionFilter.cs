@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LASI.WebApp.Exceptions;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 
@@ -12,7 +13,7 @@ namespace LASI.WebApp.Filters
     {
         public async Task OnExceptionAsync(ExceptionContext context)
         {
-            var httpResponseException = context.Exception as Exceptions.HttpResponseException;
+            var httpResponseException = context.Exception as HttpResponseException;
             if (httpResponseException == null)
             {
                 await Task.FromException(context.Exception);

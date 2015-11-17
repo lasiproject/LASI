@@ -1,7 +1,7 @@
 <div id="main-content" class="row" ng-cloak>
     <uib-tabset class="tabs-left">
-        <uib-tab ng-cloak ng-repeat="document in controller.documents track by document.id">
-            <uib-tab-heading class="document-viewer-tab-heading" ng-click="controller.processDocument(document)">
+        <uib-tab ng-cloak ng-repeat="document in home.documents track by document.id">
+            <uib-tab-heading class="document-viewer-tab-heading" ng-click="home.processDocument(document)">
                 {{document.name}}
                 <div class="form-group">
                     <search-box search-context="document.raeification"></search-box>

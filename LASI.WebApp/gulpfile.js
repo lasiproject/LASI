@@ -1,20 +1,22 @@
 /// <binding ProjectOpened='watch' />
 var gulp = require('gulp'),
+    fs = require('fs'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
     minifyCss = require('gulp-minify-css'),
     typescript = require('gulp-typescript'),
-    tslint = require('gulp-tslint'),
+    tslint = require('tslint'),
+    gulpTslint = require('gulp-tslint'),
     uglify = require('gulp-uglify');
 
 var paths = {
     appts: [
-        'wwwroot/app/utilities/augmentations.ts',
-        'wwwroot/app/LASI.ts',
-        'wwwroot/app/**/*.module.ts',
+        //'wwwroot/app/utilities/augmentations.ts',
+        //'wwwroot/app/LASI.ts',
+        //'wwwroot/app/**/*.module.ts',
         'wwwroot/app/**/*.ts',
-        'wwwroot/main.ts'
+        //'wwwroot/main.ts'
     ],
     css: {
         app: {
@@ -64,8 +66,12 @@ gulp.task('appcss', function () {
 gulp.task('tslint', function () {
     return gulp
         .src(paths.appts)
-        .pipe(tslint(require('./wwwroot/tslint.json')))
-        .pipe(tslint.report('verbose'));
+        .pipe(gulpTslint({
+            emitError: true,
+            rulesDirectory: './wwwroot',
+            tslint: tslint
+        }))
+        .pipe(gulpTslint.report('verbose'));
 });
 
 gulp.task('watch', function () {
@@ -79,7 +85,7 @@ gulp.task('watch', function () {
 gulp.task('uglify-bundle', function () {
     var onError = console.error.bind(console);
     return gulp.src('app.built.js')
-        .pipe(uglify({ preserveComments :"all" }))
+        .pipe(uglify({ preserveComments: "all" }))
         .pipe(gulp.dest('./app.built.min.js'))
         .on('error', onError);
 });

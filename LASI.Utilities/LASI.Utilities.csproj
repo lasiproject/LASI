@@ -92,7 +92,7 @@
     <Compile Include="Configuration\IConfig.cs" />
     <Compile Include="Configuration\JsonConfig.cs" />
     <Compile Include="Specialized\Enhanced\IList\Linq\IListExtensions.cs" />
-    <Compile Include="Specialized\Option.cs" />
+    <Compile Include="Option.cs" />
     <Compile Include="Validation\Validate.cs" />
     <Compile Include="EqualityComparerFactory.cs" />
     <Compile Include="DictionaryExtensions.cs" />

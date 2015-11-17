@@ -6,4 +6,4 @@ export default {
     name: 'widgets',
     requires: ['ui.bootstrap'],
     directives: { processingTaskProgressBar }
-} as AngularModuleOptions;
+} as NgModuleConfig;

@@ -1,4 +1,15 @@
-﻿import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData, LexicalMenuBuilderFactory } from './document-viewer/lexical-menu-builder';
+﻿'use strict';
+import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData, LexicalMenuBuilderFactory } from './document-viewer/lexical-menu-builder';
+
+export interface DocumentListItemModel {
+    id: string;
+    name: string;
+    progress: number;
+    percentComplete: number;
+    showProgress: boolean;
+    statusMessage: string;
+    raeification: DocumentModel;
+}
 export interface TextFragmentModel {
     paragraphs: ParagraphModel[];
 }
@@ -41,4 +52,5 @@ export interface User {
     loggedIn: boolean;
     email: string;
     password: string;
+    documents: any[];
 }

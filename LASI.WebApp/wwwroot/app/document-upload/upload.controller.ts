@@ -1,5 +1,5 @@
 ﻿'use strict';
-import { DocumentListItemModel } from './../document-list/document-list-service-provider';
+import { DocumentListItemModel } from 'app/models';
 import ngf = angular.angularFileUpload;
 var log = console.log.bind(console);
 export class UploadController {
@@ -12,8 +12,8 @@ export class UploadController {
     }
 
     uploadFiles() {
-        this.logInvalidFiles();
         var files = this.files;
+        this.logInvalidFiles();
         return this.$q.when((Array.isArray(files) ? files : [files]).map(file => this.uploadFile(file)));
     }
     logInvalidFiles() {

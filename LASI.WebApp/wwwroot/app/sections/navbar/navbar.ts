@@ -1,20 +1,23 @@
 'use strict';
 
+import navbarTemplate from 'app/sections/navbar/navbar.html';
 import ManageDocumentsModalController from 'app/sections/document-manager/manage-modal';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
+import { DocumentListItemModel } from 'app/models';
+import UserService from 'app/user-service';
+import { User } from 'app/models';
 
-export default class NavbarController {
-    static $inject = ['$uibModal', 'data'];
+class NavbarController {
+    static $inject = ['$uibModal'];
 
-    constructor(private $uibModal: ng.ui.bootstrap.IModalService, data) { this.documents = data; }
-
+    constructor(private $uibModal: ng.ui.bootstrap.IModalService) { }
     openManageDocumentsModal() {
         var navbarController = this;
         var modal = this.$uibModal.open({
             controllerAs: 'manager',
             controller: ManageDocumentsModalController,
             template: manageDocumentsModalTemplate,
-            resolve: { data: () => this.documents },
+            resolve: { documents: () => this.documents },
             keyboard: true
             //size: 'lg'
         });
@@ -24,6 +27,18 @@ export default class NavbarController {
     toggleExpanded() {
         this.expanded = !this.expanded;
     }
-    documents: any[];
+    documents: DocumentListItemModel[];
     expanded = false;
+    user: User;
+}
+export function navbar(): ng.IDirective {
+    return {
+        controller: NavbarController,
+        controllerAs: 'navbar',
+        template: navbarTemplate,
+        bindToController: {
+            documents: '='
+        },
+        scope: true
+    };
 }

@@ -1,22 +1,81 @@
 'use strict';
 
 import { User } from './models';
-
 export default class UserService {
+    static $inject = ['$http', '$q'];
+
     constructor(private $http: ng.IHttpService, private $q: ng.IQService) { }
-    getUser(): PromiseLike<User> {
-        if (this.user && this.user.loggedIn) {
-            return this.$q.when(this.user);
-        }
+
+    loginUser(credentials: Credentials): PromiseLike<User> {
         var deferred = this.$q.defer<User>();
+
+        var data = {
+            Email: credentials.email,
+            Password: credentials.password
+        };
+        data[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
+        var headers: { [name: string]: any } = {};
+        headers[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
+        headers['Upgrade-Insecure-Requests'] = '1';
+        headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        var config = {
+
+            xsrfHeaderName: credentials.antiforgeryTokenName,
+            headers: headers
+        };
+        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
         this.$http
-            .post<User>('/Account/Login', { email: this.user.email, password: this.user.password })
+            .post<User>('/Account/Login', angular.element.param(data), config)
             .then(response => {
-                this.user = response.data;
-                deferred.resolve(this.user);
+                this.loggedIn = true;
+                deferred.resolve();
             })
-            .catch(deferred.reject.bind(deferred));
+            .catch(error=> {
+                deferred.reject(error);
+                console.error(error);
+            });
+        return deferred.promise;
+    }
+
+    logoff({antiforgeryTokenName, antiforgeryTokenValue}): PromiseLike<void> {
+        var deferred = this.$q.defer<void>();
+        var data = {};
+        data[antiforgeryTokenName] = antiforgeryTokenValue;
+        var config: ng.IRequestShortcutConfig = {
+
+            xsrfHeaderName: antiforgeryTokenName,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        config.headers[antiforgeryTokenName] = antiforgeryTokenValue;
+        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
+        this.$http
+            .post('/Account/LogOff', angular.element.param(data), config)
+            .then(response => {
+                this.user = undefined;
+            })
+            .catch(error => console.error(error));
+        return deferred.promise;
+
+    }
+    getUser(): PromiseLike<User> {
+        var deferred = this.$q.defer<User>();
+        if (this.user) {
+            deferred.resolve(this.user);
+        } else {
+            deferred.reject('not logged in');
+        }
+
         return deferred.promise;
     }
     user: User;
+    loggedIn = false;
+}
+interface Credentials {
+    email: string;
+    password: string;
+    antiforgeryTokenName: string;
+    antiforgeryTokenValue: string;
 }

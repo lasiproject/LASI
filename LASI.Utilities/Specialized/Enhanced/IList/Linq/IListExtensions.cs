@@ -205,6 +205,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         }
 
         #endregion Skips
+
         #region Concat
 
         [DebuggerHidden]
@@ -220,6 +221,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
             }
         }
         #endregion
+
         #region ForEach
 
         /// <summary>Performs the specified action on each element of the <see cref="System.Collections.Generic.IList{T}"/>.</summary>
@@ -242,7 +244,7 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #endregion ForEach
 
         [DebuggerHidden]
-        public static IList<Indexed<T>> WithIndex<T>(this IList<T> list)
+        public static IList<Indexed<T>> WithIndices<T>(this IList<T> list)
         {
             var results = new List<Indexed<T>>(list.Count);
             for (var i = 0; i < list.Count; ++i)

@@ -1,8 +1,8 @@
-System.register(['jquery', './results/result-chart-builder', 'github:twbs/bootstrap@3.3.5/css/bootstrap.css!', 'font-awesome', 'dist/app.css!', 'bootstrap', 'angular-ui-router', './utilities/augmentations', 'angular', './app'], function(exports_1) {
+System.register(['./app', 'angular', './results/result-chart-builder'], function(exports_1) {
     /// <reference path="../../typings/tsd.d.ts" />
     'use strict';
-    var $, angular_1, app_1;
-    var buildMenus, log, modules;
+    var app_1, angular_1;
+    var modules, buildMenus, log;
     // Define the primary 'app' module, specifying all top level dependencies.
     function bootstrap() {
         function buildModule(m) {
@@ -45,27 +45,19 @@ System.register(['jquery', './results/result-chart-builder', 'github:twbs/bootst
     exports_1("bootstrap", bootstrap);
     return {
         setters:[
-            function ($_1) {
-                $ = $_1;
+            function (app_1_1) {
+                app_1 = app_1_1;
+            },
+            function (angular_1_1) {
+                angular_1 = angular_1_1;
             },
             function (result_chart_builder_1_1) {
                 exports_1({
                     "enableActiveHighlighting": result_chart_builder_1_1["default"]
                 });
-            },
-            function (_1) {},
-            function (_2) {},
-            function (_3) {},
-            function (_4) {},
-            function (_5) {},
-            function (_6) {},
-            function (angular_1_1) {
-                angular_1 = angular_1_1;
-            },
-            function (app_1_1) {
-                app_1 = app_1_1;
             }],
         execute: function() {
+            modules = [app_1.default];
             exports_1("buildMenus", buildMenus = function () {
                 var contextualElementIdSelectors = [];
                 var verbalMenuTextToElementsMap = {
@@ -162,7 +154,7 @@ System.register(['jquery', './results/result-chart-builder', 'github:twbs/bootst
             });
             //export var setupDraggableDialogs: () => void; 
             exports_1("log", log = console.log.bind(console));
-            modules = [app_1.default];
         }
     }
 });
+//export var editor = $('#free-editor').change(log); // TODO: parameterize selector.

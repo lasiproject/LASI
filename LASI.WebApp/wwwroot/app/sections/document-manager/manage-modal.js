@@ -38,7 +38,7 @@ System.register(['app/sections/document-manager/confirm-delete-modal.html', 'app
                         .then(function () { return ("Successfully deleted: " + document.name + "."); })
                         .catch(function (error) { return console.error("Error deleting document " + document.name + "!\n" + error + "!"); });
                 };
-                DocumentManager.$inject = ['$uibModalInstance', '$uibModal', 'documentsService', 'data'];
+                DocumentManager.$inject = ['$uibModalInstance', '$uibModal', 'documentsService', 'documents'];
                 return DocumentManager;
             })();
             exports_1("default", DocumentManager);

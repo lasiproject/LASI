@@ -1,6 +1,50 @@
 /// <reference path="../../typings/tsd.d.ts" />
 'use strict';
-import * as $ from 'jquery';
+
+import app from './app';
+import { module as registerAngularModule, bootstrap  as ngBootstrap} from 'angular';
+
+
+
+var modules = [app];
+// Define the primary 'app' module, specifying all top level dependencies.
+
+export function bootstrap() {
+    function buildModule(m: NgModuleConfig | string) {
+        function isConfig(x): x is NgModuleConfig {
+            return typeof x !== 'string';
+        }
+        function validate() {
+            if (isConfig(m)) {
+                if (!m.name) {
+                    throw new TypeError('name is required');
+                } if (!m.requires) {
+                    throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
+                }
+            } else if (typeof m !== 'string') {
+                throw new TypeError('module must be a string or an AngularModuleOptions options object');
+            }
+        }
+        if (isConfig(m)) {
+            registerAngularModule(m.name, [...m.requires.map(buildModule)], m.configFn || (() => { }))
+                .provider(m.providers || {})
+                .factory(m.factories || {})
+                .service(m.services || {})
+                .filter(m.filters || {})
+                .controller(m.controllers || {})
+                .directive(m.directives || {})
+                .value(m.values || {})
+                .constant(m.constants || {})
+                .run(m.runFn || (() => { }));
+
+            return m.name;
+        } else {
+            return m;
+        }
+    }
+    modules.forEach(buildModule);
+    ngBootstrap(document, ['app'], { strictDi: true, debugInfoEnabled: true });
+}
 
 export { default as enableActiveHighlighting } from './results/result-chart-builder';
 export var buildMenus = function () {
@@ -104,54 +148,3 @@ export var buildMenus = function () {
 //export var setupDraggableDialogs: () => void; 
 export var log: (message?: any, ...optionalParams: any[]) => void = console.log.bind(console);
 //export var editor = $('#free-editor').change(log); // TODO: parameterize selector.
-
-
-import 'github:twbs/bootstrap@3.3.5/css/bootstrap.css!';
-import 'font-awesome';
-import 'dist/app.css!';
-import 'bootstrap';
-import 'angular-ui-router';
-import './utilities/augmentations';
-import * as LASI from './LASI';
-import { module as registerAngularModule, bootstrap  as ngBootstrap} from 'angular';
-
-import app from './app';
-var modules = [app];
-// Define the primary 'app' module, specifying all top level dependencies.
-
-export function bootstrap() {
-    function buildModule(m: AngularModuleOptions | string) {
-        function isConfig(x): x is AngularModuleOptions {
-            return typeof x !== 'string';
-        }
-        function validate() {
-            if (isConfig(m)) {
-                if (!m.name) {
-                    throw new TypeError('name is required');
-                } if (!m.requires) {
-                    throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
-                }
-            } else if (typeof m !== 'string') {
-                throw new TypeError('module must be a string or an AngularModuleOptions options object');
-            }
-        }
-        if (isConfig(m)) {
-            registerAngularModule(m.name, [...m.requires.map(buildModule)], m.configFn || (() => { }))
-                .provider(m.providers || {})
-                .factory(m.factories || {})
-                .service(m.services || {})
-                .filter(m.filters || {})
-                .controller(m.controllers || {})
-                .directive(m.directives || {})
-                .value(m.values || {})
-                .constant(m.constants || {})
-                .run(m.runFn || (() => { }));
-
-            return m.name;
-        } else {
-            return m;
-        }
-    }
-    modules.forEach(buildModule);
-    ngBootstrap(document, ['app'], { strictDi: true, debugInfoEnabled: true });
-}

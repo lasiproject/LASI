@@ -4,16 +4,20 @@ import documentList from './document-list/document-list.module';
 import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
-import configureRouter from './configuration/state-config';
-import startup from './configuration/startup';
+import { navbar }  from './sections/navbar/navbar';
 import UserService from './user-service';
-var modules = [debug, widgets, documentList, documentUpload, documentViewer, documentViewerSearch];
+import configureStates from './configuration/configure-states';
+import startup from './configuration/startup';
 
-var app: AngularModuleOptions = {
+export default {
     name: 'app',
-    requires: ['ui.router', 'ui.bootstrap.modal', ...modules],
+    requires: [
+        'ui.router', 'ui.bootstrap.modal',
+        debug, widgets, documentList, documentUpload,
+        documentViewer, documentViewerSearch
+    ],
+    directives: { navbar },
     services: { UserService },
-    configFn: configureRouter,
+    configFn: configureStates,
     runFn: startup
-};
-export default app;
+} as NgModuleConfig;

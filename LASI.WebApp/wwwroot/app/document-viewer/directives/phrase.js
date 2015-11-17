@@ -1,5 +1,4 @@
 System.register(['app/document-viewer/directives/phrase.html'], function(exports_1) {
-    /// <amd-dependency path='./phrase.html' />
     'use strict';
     var phrase_html_1;
     function phrase(lexicalMenuBuilder) {

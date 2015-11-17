@@ -9,9 +9,11 @@ using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Cors.Core;
+using LASI.WebApp.Filters;
 
 namespace LASI.WebApp.Controllers.Documents
 {
+    [HttpAuthorizationFilterAttribute]
     [EnableCors("Allow")]
     [Authorize]
     [Route("api/UserDocuments/[controller]")]
@@ -21,6 +23,7 @@ namespace LASI.WebApp.Controllers.Documents
         {
             this.documentStore = documentStore;
         }
+        [AllowAnonymous]
         [HttpGet("{limit?}")]
         public IEnumerable<dynamic> Get(int limit = int.MaxValue)
         {

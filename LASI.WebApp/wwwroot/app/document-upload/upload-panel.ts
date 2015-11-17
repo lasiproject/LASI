@@ -1,5 +1,4 @@
-﻿/// <amd-dependency path="./upload-panel.html" />
-'use strict';
+﻿ 'use strict';
 import { UploadController as controller } from './upload.controller';
 import template from 'app/document-upload/upload-panel.html';
 

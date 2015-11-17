@@ -1,5 +1,4 @@
-﻿/// <amd-dependency path='./phrase.html' />
-'use strict';
+﻿'use strict';
 import template from 'app/document-viewer/directives/phrase.html';
 import { PhraseModel } from 'app/models';
 import { LexicalMenuBuilderFactory, VerbalContextmenuData } from './lexical-menu-builder';

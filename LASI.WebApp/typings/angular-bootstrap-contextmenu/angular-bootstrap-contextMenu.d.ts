@@ -12,6 +12,7 @@ declare module 'angular-bootstrap-contextmenu' {
     export type ItemAction = angular.ui.bootstrap.contextMenu.ItemAction;
     export type ToggleItem = angular.ui.bootstrap.contextMenu.ToggleItem;
     export type ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
+    export default '';
 }
 declare module angular.ui.bootstrap.contextMenu {
     interface ItemScope<T> extends angular.IScope {

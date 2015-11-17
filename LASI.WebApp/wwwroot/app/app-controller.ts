@@ -1,11 +1,13 @@
+'use strict';
 import 'angular-ui-router';
-import { DocumentListItemModel } from './document-list/document-list-service-provider';
+import { DocumentListItemModel } from './models';
 export default class AppController {
-    static $inject = ['$state', '$stateParams', 'data'];
-
-    constructor(private $state: ng.ui.IStateService, private $stateParams: ng.ui.IStateParamsService, data) {
+    static $inject = ['$state', '$stateParams', 'documents'];
+    currentStateName: string;
+    constructor(private $state: ng.ui.IStateService, private $stateParams: ng.ui.IStateParamsService, documents) {
         //$state.go('app.home');
-        this.documents = data;
+        this.documents = documents;
+        this.currentStateName = $state.current.name;
         //this.user = user();
     }
     documents: DocumentListItemModel[] = [];

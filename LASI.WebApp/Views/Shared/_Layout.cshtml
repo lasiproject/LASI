@@ -1,4 +1,9 @@
 ﻿@inject Microsoft.Framework.OptionsModel.IOptions<LASI.WebApp.AppSettings> AppSettings
+@using System.Collections.Generic
+@using Microsoft.AspNet.Http
+@using Microsoft.AspNet.Http.Authentication
+@inject Microsoft.AspNet.Identity.SignInManager<LASI.WebApp.Models.ApplicationUser> SignInManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,13 +11,12 @@
     <title>@ViewBag.Title - @AppSettings.Options.SiteTitle</title>
 </head>
 <body hidden>
+    @Html.AntiForgeryToken()
 
-    
-    <section ui-view="navbar"></section>
+    <navbar></navbar>
 
     <div class="container body-content">
         @RenderBody()
-        <section ui-view="home"></section>
 
 
         <footer>
@@ -22,9 +26,9 @@
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/config.js"></script>
     <!--Uncomment in production-->
-    @*<script src="~/app.js"></script>*@
+    <script src="~/build.js"></script>
     <script>
-        System.import('app')
+        System.import('app/lasi')
             .then(function (app) {
                 app.bootstrap();
                 $(document.body).show();

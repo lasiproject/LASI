@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LASI.Utilities.Specialized.Option
+namespace LASI.Utilities
 {
     /// <summary>
     /// Provides static facilities for the creation of optional values.
