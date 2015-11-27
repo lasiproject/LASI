@@ -13,19 +13,26 @@ namespace LASI.WebApp.Filters
     {
         public async Task OnExceptionAsync(ExceptionContext context)
         {
-            var httpResponseException = context.Exception as HttpResponseException;
-            if (httpResponseException == null)
+            //var httpResponseException = context.Exception as HttpResponseException;
+            //if (httpResponseException != null)
+            //{
+            //    await Task.FromException(context.Exception);
+            //}
+            switch (context.HttpContext.Response.StatusCode)
             {
-                await Task.FromException(context.Exception);
+                case 401:
+                context.Result = new JsonResult(new HttpUnauthorizedResult());
+                break;
             }
-#if DEBUG
-            var message = $"{context.ActionDescriptor.Name}\n failed with: {httpResponseException.GetType()}\n with message: {httpResponseException.Message}\n with status code {httpResponseException.StatusCode}";
-            //context.HttpContext.Response.Body = new System.IO.MemoryStream();
+            await Task.CompletedTask;
+            //#if DEBUG
+            //            var message = $"{context.ActionDescriptor.Name}\n failed with: {httpResponseException.GetType()}\n with message: {httpResponseException.Message}\n with status code {httpResponseException.StatusCode}";
+            //            //context.HttpContext.Response.Body = new System.IO.MemoryStream();
 
-            //context.HttpContext.Response.ContentType = "Application/JSON";
-            await context.HttpContext.Response.WriteAsync(message);
-#endif
-            context.HttpContext.Response.StatusCode = httpResponseException.StatusCode;
+            //            //context.HttpContext.Response.ContentType = "Application/JSON";
+            //            await context.HttpContext.Response.WriteAsync(message);
+            //#endif
+            //context.HttpContext.Response.StatusCode = httpResponseException.StatusCode;
         }
     }
 

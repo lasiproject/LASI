@@ -26,14 +26,12 @@
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/config.js"></script>
     <!--Uncomment in production-->
-    <script src="~/build.js"></script>
+    @*<script src="~/app.js"></script>*@
     <script>
-        System.import('app/lasi')
-            .then(function (app) {
-                app.bootstrap();
-                $(document.body).show();
-            })
-            .catch(console.error.bind(console));
+        System.import('app').then(function (app) {
+            app.bootstrap(document.body);
+            $(document.body).show();
+        }, console.error.bind(console));
     </script>
     @RenderSection("scripts", required: false)
 </body>

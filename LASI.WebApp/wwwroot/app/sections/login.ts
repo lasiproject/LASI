@@ -13,8 +13,8 @@ export default class LoginController {
         $('form[name="login-form"]').find($('input[name="__RequestVerificationToken"')).val($(document).find('input[name="__RequestVerificationToken"').val());
     }
 
-    login(): PromiseLike<void> {
-        var deferred = this.$q.defer<void>();
+    login(): PromiseLike<User> {
+        var deferred = this.$q.defer<User>();
         const antiforgeryTokenName = '__RequestVerificationToken';
         const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
         this.userService
@@ -24,15 +24,17 @@ export default class LoginController {
                 antiforgeryTokenName,
                 antiforgeryTokenValue
             })
-            .then(() => {
-                deferred.resolve();
-                return this.$state.go('app.home');
+            .then(user => {
+                this.user = user;
+                this.username = user.email;
+                deferred.resolve(user);
             },
             error=> {
                 deferred.reject(error);
                 return this.$uibModal.open({ template: `An error ocurred and we were unable to log you in.<br/ >${error}` });
 
-            });
+            }).then(() => this.$state.go('app.home'));
+
         return deferred.promise;
     }
 

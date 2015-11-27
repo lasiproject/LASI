@@ -678,7 +678,7 @@ declare function done(callback: (details: DoneCallbackObject) => any): any;
 *
 * @param callback Callback to execute.
 */
-declare function log(callback: (details: LogCallbackObject) => any): any;
+//declare function log(callback: (details: LogCallbackObject) => any): any;
 
 /**
 * Register a callback to fire whenever a module ends.

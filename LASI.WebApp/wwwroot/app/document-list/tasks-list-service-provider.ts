@@ -1,5 +1,5 @@
 ﻿'use strict';
-import { IQService, IIntervalService, IPromise, IHttpService } from 'angular';
+import { IQService, IIntervalService, IHttpService } from 'angular';
 
 export interface TasksListServiceProvider {
     $get: ($q: IQService, http: IHttpService, $interval: IIntervalService) => TasksListService;
@@ -16,13 +16,13 @@ export interface Task {
 }
 
 export interface TasksListService {
-    getActiveTasks(): Task[];
+    getActiveTasks(): Promise<Task[]>;
     tasks: Task[];
 }
 export function tasksListServiceProvider(): TasksListServiceProvider {
     var updateInterval = 200;
     var tasksListUrl = 'api/Tasks';
-    var tasks: Task[] = [];
+    var tasks: Task[];
 
     $get.$inject = ['$q', '$http', '$interval'];
 
@@ -38,18 +38,14 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
     }
 
     function $get($q: IQService, $http: IHttpService, $interval: IIntervalService): TasksListService {
+        var deferred = $q.defer<Task[]>();
         return {
             getActiveTasks() {
-                var deferred = $q.defer<Task[]>();
-
-                $interval(() => {
-                    $http.get<Task[]>(tasksListUrl).success(ts => {
-                        deferred.resolve(ts);
-                        tasks = ts;
-                    });
-
-                }, updateInterval);
-                return tasks;
+                $interval(() => $http.get<Task[]>(tasksListUrl)
+                    .then(response=> tasks = response.data)
+                    .then(deferred.resolve.bind(deferred))
+                    .catch(deferred.reject.bind(deferred)), updateInterval);
+                return deferred.promise;
             },
             tasks
         };

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-type ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
+import ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
 
 lexicalMenuBuilder.$inject = [];
 

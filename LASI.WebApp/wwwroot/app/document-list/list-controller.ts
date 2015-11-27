@@ -6,7 +6,7 @@ import { DocumentsService } from './documents-service';
 import { DocumentModelService } from 'app/document-viewer/document-model-service';
 export class ListController {
     expanded = false;
-    documents: DocumentListItemModel[] = [];
+    private documents: DocumentListItemModel[] = [];
     tasks: Task[] = [];
     static $inject = ['$q', 'documentListService', 'tasksListService', 'documentsService', 'documentModelService'];
     constructor(
@@ -40,27 +40,27 @@ export class ListController {
     }
 
     activate() {
-        return this.$q.all([
-            this.documentListService.get(),
-            this.$q.when(this.tasksListService.getActiveTasks().map(task => {
+        var documentPromise = this.documentListService.get()
+            .then(documents => this.documents = documents)
+            .then(documents => this.tasksListService.getActiveTasks().then(tasks => ({ documents, tasks })))
+            .then(xs=> xs.tasks.map(task => {
                 this.tasks[task.id] = task;
-                var t = this.documents.first(d => d.name === task.name);
-                if (t) {
-                    (<any>t).task = task;
+                var doc = this.documents.first(d => d.name === task.name);
+                if (doc) {
+                    doc.task = task;
                 }
-                return t;
-            }))
-        ]).then(data => {
-            let [documents, tasks] = <[DocumentListItemModel[], Task[]]>data;
-            let associated = documents.correlate(tasks.filter(t => !!t), document => document.id, task => task.id,
+                return doc;
+            }));
+        return documentPromise.then(data => {
+
+            let associated = this.documents.correlate(this.tasks.filter(t => !!t), document => document.id, task => task.id,
                 (document, task) => {
                     document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                     document.progress = Math.round(task.percentComplete);
                     document.statusMessage = task.statusMessage;
                 });
 
-            tasks.forEach(task => { this.tasks[task.id] = task; });
-            [this.documents, this.tasks] = [documents, tasks];
+            this.tasks.forEach(task => { this.tasks[task.id] = task; });
         });
 
     }

@@ -24,6 +24,7 @@ export default class DocumentManager {
                 }
             })
             .then(() => `Successfully deleted: ${document.name}.`)
+
             .catch(error=> console.error(`Error deleting document ${document.name}!\n${error}!`));
     }
 

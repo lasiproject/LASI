@@ -1,4 +1,3 @@
-/// <reference path="../app/utilities/augmentations.ts" />
 /// <reference path="../app/lasi.ts" />
 /// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/qunit/qunit.d.ts" />
@@ -110,4 +109,3 @@
         deepEqual(actual, expected, ('expected: ' + expected + ';  actual: ' + actual));
     });
 }());
-//# sourceMappingURL=utilities-tests.js.map

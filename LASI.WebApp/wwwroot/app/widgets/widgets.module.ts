@@ -1,5 +1,4 @@
 ﻿'use strict';
-import './document-list';
 import { processingTaskProgressBar } from './processing-task-progress-bar';
 //import './document-upload';
 export default {

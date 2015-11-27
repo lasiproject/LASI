@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
@@ -48,6 +50,7 @@ namespace LASI.WebApp
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
+                    .AddInstance(new Filters.HttpResponseExceptionFilter())
                     .AddMongoDB(options =>
                     {
                         options.CreateProcess = true;
@@ -63,8 +66,8 @@ namespace LASI.WebApp
                     })
                     .AddMvc(options =>
                     {
-                        //options.Filters.Add(new Filters.HttpAuthorizationFilter());
-                        options.Filters.Add(new Filters.HttpResponseExceptionFilter());
+                        options.Filters.Add(new Filters.HttpAuthorizationFilterAttribute());
+                        //options.Filters.AddService(typeof(Filters.HttpResponseExceptionFilter));
                     })
                     .AddJsonOptions(options =>
                     {
@@ -131,9 +134,7 @@ namespace LASI.WebApp
 
             app.Properties["host.AppMode"] = "development";
 
-            app.UseStatusCodePages()
-               .UseIdentity()
-               .UseCookieAuthentication()
+            app.UseIdentity()
                .UseFileServer()
                .UseBrowserLink()
                .UseDefaultFiles()
@@ -145,10 +146,15 @@ namespace LASI.WebApp
             //app.UseFacebookAuthentication();
 
             app.UseMvc(routes =>
+                {
+                    routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}")
+                          .MapRoute(name: "ChildApi", template: "api/{parentController}/{parentId?}/{controller}/{id?}")
+                          .MapRoute(name: "DefaultApi", template: "api/{controller}/{id?}");
+                });
+            app.Run(async context =>
             {
-                routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}")
-                      .MapRoute(name: "ChildApi", template: "api/{parentController}/{parentId?}/{controller}/{id?}")
-                      .MapRoute(name: "DefaultApi", template: "api/{controller}/{id?}");
+                Debug.WriteLine(context.Response.StatusCode);
+                await Task.CompletedTask;
             });
         }
 

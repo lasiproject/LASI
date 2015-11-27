@@ -1,6 +1,6 @@
 ﻿'use strict';
 import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData, LexicalMenuBuilderFactory } from './document-viewer/lexical-menu-builder';
-
+import { Task } from './document-list/tasks-list-service-provider';
 export interface DocumentListItemModel {
     id: string;
     name: string;
@@ -9,6 +9,7 @@ export interface DocumentListItemModel {
     showProgress: boolean;
     statusMessage: string;
     raeification: DocumentModel;
+    task: Task;
 }
 export interface TextFragmentModel {
     paragraphs: ParagraphModel[];
@@ -51,6 +52,6 @@ export interface WordModel extends LexicalModel { }
 export interface User {
     loggedIn: boolean;
     email: string;
-    password: string;
-    documents: any[];
+    password?: string;
+    documents?: any[];
 }

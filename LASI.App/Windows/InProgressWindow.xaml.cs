@@ -76,7 +76,7 @@ namespace LASI.App
                     for (int i = 0; i < 33; ++i)
                     {
                         progressBar.Value += animateStep;
-                        await Task.Delay(1);
+                        await Task.Yield();
                     }
                 });
             var timer = System.Diagnostics.Stopwatch.StartNew();

@@ -2,8 +2,15 @@
     "compilerOptions": {
         "target": "es5",
         "module": "system",
-        "sourceMap": false,
-        "noEmit": true
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "rootDir": "/",
+        "noEmit": true,
+        "experimentalAsyncFunctions": true,
+        "diagnostics": true,
+        "watch": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
     "exclude": [ "jspm_packages" ]
 }

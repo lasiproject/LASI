@@ -13,6 +13,7 @@ export default class UserService {
             Email: credentials.email,
             Password: credentials.password
         };
+
         data[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
         var headers: { [name: string]: any } = {};
         headers[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
@@ -28,8 +29,13 @@ export default class UserService {
         this.$http
             .post<User>('/Account/Login', angular.element.param(data), config)
             .then(response => {
+                this.user = {
+                    loggedIn: true,
+                    email: credentials.email
+                };
                 this.loggedIn = true;
-                deferred.resolve();
+
+                deferred.resolve(this.user);
             })
             .catch(error=> {
                 deferred.reject(error);

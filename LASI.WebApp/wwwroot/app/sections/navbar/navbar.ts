@@ -8,18 +8,22 @@ import UserService from 'app/user-service';
 import { User } from 'app/models';
 
 class NavbarController {
-    static $inject = ['$uibModal'];
+    static $inject = ['$uibModal', 'UserService'];
 
-    constructor(private $uibModal: ng.ui.bootstrap.IModalService) { }
+    constructor(private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
+        this.activate();
+    }
+
+    activate() {
+        //return this.userService.getUser().then(user=> this.user = user);
+    }
     openManageDocumentsModal() {
         var navbarController = this;
         var modal = this.$uibModal.open({
             controllerAs: 'manager',
             controller: ManageDocumentsModalController,
             template: manageDocumentsModalTemplate,
-            resolve: { documents: () => this.documents },
-            keyboard: true
-            //size: 'lg'
+            resolve: { documents: () => this.documents }
         });
         modal.result.then(result => console.info(result));
     }
@@ -37,7 +41,8 @@ export function navbar(): ng.IDirective {
         controllerAs: 'navbar',
         template: navbarTemplate,
         bindToController: {
-            documents: '='
+            documents: '=',
+            user: '='
         },
         scope: true
     };

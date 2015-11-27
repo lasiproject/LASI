@@ -7,11 +7,8 @@
                 <span class="icon-bar"></span>
             </button>
             <div id="document-list-navbar-item-container" class="dropdown-toggle">
-                <!--@if (User?.Identity?.IsAuthenticated ?? false)
-                {
-                @await Html.PartialAsync("_DocumentListNavDropdown")
-                }-->
-                <div ng-if="user.authenticated || true" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+                
+                <div ng-if="navbar.documents && navbar.documents.length" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown" id="dropdown-list-item-container">
                             <a href="#" data-toggle="dropdown"

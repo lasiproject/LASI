@@ -7,7 +7,7 @@ export interface DocumentListServiceConfig {
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 export interface DocumentListService {
-    get(): ng.IPromise<DocumentListItemModel[]>;
+    get(): Promise<DocumentListItemModel[]>;
     deleteDocument(documentId: string): ng.IPromise<DocumentListItemModel>;
 }
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
@@ -33,7 +33,12 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, n
             },
             get() {
                 let deferred = $q.defer<DocumentListItemModel[]>();
-                $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`).then(response=> deferred.resolve(response.data));
+                $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`)
+                    .then(response=> deferred.resolve(response.data))
+                    .catch(error=> {
+                        console.error.bind(console);
+                        deferred.resolve([]);
+                    });
                 return deferred.promise;
             }
         };
