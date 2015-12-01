@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.Organization;
-using Microsoft.Framework.Configuration;
 
 namespace LASI.WebApp.Persistence.MongoDB
 {

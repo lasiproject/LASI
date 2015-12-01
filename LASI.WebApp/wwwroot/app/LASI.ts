@@ -7,7 +7,7 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'angular';
 import 'angular-ui-router';
-import 'utilities/augmentations.js';
+import './utilities/augmentations';
 export { default as enableActiveHighlighting } from './results/result-chart-builder';
 export function buildMenus() {
     var contextualElementIdSelectors = [];

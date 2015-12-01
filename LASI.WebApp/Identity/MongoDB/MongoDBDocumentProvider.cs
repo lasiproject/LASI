@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LASI.WebApp.Models;
-using Microsoft.Framework.Configuration;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Linq;

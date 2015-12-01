@@ -333,7 +333,7 @@ namespace LASI.WebApp.Controllers
             Error
         }
 
-        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByIdAsync(Context.User.GetUserId());
+        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByIdAsync(HttpContext.User.GetUserId());
 
         private IActionResult RedirectToLocal(string returnUrl)
         {

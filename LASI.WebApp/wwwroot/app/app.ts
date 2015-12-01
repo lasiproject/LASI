@@ -63,7 +63,7 @@ function buildModule(m: NgModuleConfig | string) {
         return m;
     }
 }
-export function bootstrap() {
+function bootstrap() {
     modules.forEach(buildModule);
     ngBootstrap(document.body, ['app'], {
         strictDi: true,
@@ -71,5 +71,6 @@ export function bootstrap() {
     });
     $(document.body).show();
 }
+bootstrap();
 // Uncoment to create a enable jspm/systemjs-builder to create a self executing bundle.
 //$(function () { bootstrap(); });

@@ -414,7 +414,7 @@ namespace LASI.WebApp.Controllers
             }
         }
 
-        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByIdAsync(Context.User.GetUserId());
+        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByIdAsync(HttpContext.User.GetUserId());
 
         private IActionResult RedirectToLocal(string returnUrl) => Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) : RedirectToAction("Index", "Home") as IActionResult;
 

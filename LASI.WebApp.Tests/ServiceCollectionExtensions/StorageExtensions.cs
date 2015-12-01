@@ -7,9 +7,10 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Framework.DependencyInjection;
 using Moq;
 using Microsoft.Framework.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LASI.WebApp.Tests.ServiceCollectionExtensions
 {

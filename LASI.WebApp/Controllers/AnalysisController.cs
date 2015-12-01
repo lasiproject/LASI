@@ -15,7 +15,7 @@ using LASI.WebApp.Models;
 using System.Security.Claims;
 using Microsoft.AspNet.Hosting;
 using LASI.WebApp.Controllers.Helpers;
-using Microsoft.AspNet.Cors.Core;
+using Microsoft.AspNet.Cors.Infrastructure;
 
 namespace LASI.WebApp.Controllers
 {
@@ -45,13 +45,13 @@ namespace LASI.WebApp.Controllers
             var document = documentStore.GetById(User.GetUserId(), documentId);
             if (document == null)
             {
-                return await Context.WriteNotFoundResponseAsnyc<DocumentModel>(DocumentNotFoundMessage);
+                return await HttpContext.WriteNotFoundResponseAsnyc<DocumentModel>(DocumentNotFoundMessage);
             }
             var model = await LoadResultDocument(new[] { document });
             return model.First();
         }
 
-        private IEnumerable<UserDocument> GetAllUserSources() => documentStore.GetAllForUser(Context.User.GetUserId());
+        private IEnumerable<UserDocument> GetAllUserSources() => documentStore.GetAllForUser(HttpContext.User.GetUserId());
 
         private async Task<IEnumerable<DocumentModel>> LoadResultDocument(IEnumerable<UserDocument> userDocuments) =>
             from document in await ProcessUserDocuments(userDocuments)

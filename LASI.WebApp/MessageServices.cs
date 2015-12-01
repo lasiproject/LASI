@@ -1,8 +1,8 @@
-using Microsoft.Framework.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace LASI.WebApp
 {
@@ -33,7 +33,7 @@ namespace LASI.WebApp
         private static System.Net.NetworkCredential RetrieveCredentials()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets()
+                //.AddUserSecrets()
                 .Build();
             return new System.Net.NetworkCredential
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using LASI.WebApp.Models;
 using Microsoft.AspNet.Identity;
 using MongoDB.Driver;
-using Microsoft.Framework.Configuration;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver.Builders;
 using System.Linq;

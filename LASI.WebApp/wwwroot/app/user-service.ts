@@ -15,11 +15,10 @@ export default class UserService {
         };
 
         data[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
-        var headers: { [name: string]: any } = {};
+        var headers: { [name: string]: any } = { Accept: 'application/json' };
         headers[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
         headers['Upgrade-Insecure-Requests'] = '1';
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
         var config = {
 
             xsrfHeaderName: credentials.antiforgeryTokenName,

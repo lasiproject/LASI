@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using LASI.WebApp.Exceptions;
-using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Filters;
 
 namespace LASI.WebApp.Filters
 {

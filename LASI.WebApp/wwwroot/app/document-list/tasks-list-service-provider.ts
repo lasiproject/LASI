@@ -41,7 +41,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         var deferred = $q.defer<Task[]>();
         return {
             getActiveTasks() {
-                $interval(() => $http.get<Task[]>(tasksListUrl)
+                $interval(() => $http.get<Task[]>(tasksListUrl, { headers: { ['accept']: 'application/json' } })
                     .then(response=> tasks = response.data)
                     .then(deferred.resolve.bind(deferred))
                     .catch(deferred.reject.bind(deferred)), updateInterval);

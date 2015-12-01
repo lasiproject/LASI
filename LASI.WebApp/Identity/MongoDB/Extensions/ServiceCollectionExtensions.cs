@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using LASI.WebApp.Models;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Persistence.MongoDB.Extensions
 {

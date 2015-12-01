@@ -15,6 +15,7 @@ namespace LASI.WebApp.Models.Lexical
         }
         public int Id { get; }
         public string Text { get; }
+        //[JsonIgnore]
         public abstract string DetailText { get; }
         public Style Style { get; }
         [JsonIgnore]

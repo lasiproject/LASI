@@ -8,7 +8,6 @@ using LASI.WebApp.Models.User;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Cors.Core;
 
 namespace LASI.WebApp.Controllers.Documents
 {
@@ -24,7 +23,7 @@ namespace LASI.WebApp.Controllers.Documents
         public IEnumerable<dynamic> Get(int limit = int.MaxValue)
         {
             var results =
-            from document in documentStore.GetAllForUser(Context.User.GetUserId())
+            from document in documentStore.GetAllForUser(HttpContext.User.GetUserId())
             let activeDocument = ActiveUserDocument.FromUserDocument(document)
             let dateUploaded = (DateTimeOffset)(JToken)(document.DateUploaded)
             orderby dateUploaded descending

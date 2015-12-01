@@ -3,25 +3,27 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.OptionsModel;
 using System.Linq;
-using Microsoft.Framework.Logging;
 using Newtonsoft.Json;
 using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Http;
 using Moq;
 using System.Security.Claims;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.OptionsModel;
 
 namespace LASI.WebApp.Tests.TestSetup
 {
     public static class ServiceCollectionHelper
     {
-        public static IServiceCollection CreateConfiguredServiceCollection(ApplicationUser applicationUser) {
+        public static IServiceCollection CreateConfiguredServiceCollection(ApplicationUser applicationUser)
+        {
             var services = new ServiceCollection();
             services.AddMvc()
-                    .AddJsonOptions(json => {
+                    .AddJsonOptions(json =>
+                    {
                         json.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
                         json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -45,7 +47,8 @@ namespace LASI.WebApp.Tests.TestSetup
                     .AddLogging()
                     .AddSingleton(provider => new LoggerFactory().AddConsole(LogLevel.Critical))
                     .AddSingleton<ILogger<UserManager<ApplicationUser>>>(provider => new Logger<UserManager<ApplicationUser>>(provider.GetService<ILoggerFactory>()))
-                    .AddSingleton(provider => {
+                    .AddSingleton(provider =>
+                    {
                         return new SignInManager<ApplicationUser>(
                         userManager: provider.GetService<UserManager<ApplicationUser>>(),
                         contextAccessor: provider.GetService<IHttpContextAccessor>(),
@@ -53,7 +56,8 @@ namespace LASI.WebApp.Tests.TestSetup
                         optionsAccessor: provider.GetService<IOptions<IdentityOptions>>(),
                         logger: provider.GetService<ILogger<SignInManager<ApplicationUser>>>());
                     })
-                    .AddTransient(provider => {
+                    .AddTransient(provider =>
+                    {
                         var identityOptions = provider.GetService<IOptions<IdentityOptions>>();
                         var userManager = provider.GetService<UserManager<ApplicationUser>>();
                         var roleManager = provider.GetService<RoleManager<UserRole>>();

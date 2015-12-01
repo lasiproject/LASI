@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.DependencyInjection;
 using Xunit;
 using MongoDB.Bson;
 using LASI.WebApp.Tests.TestSetup;
 using LASI.WebApp.Controllers;
 using LASI.WebApp.Tests.TestAttributes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {

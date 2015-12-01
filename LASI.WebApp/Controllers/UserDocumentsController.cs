@@ -35,10 +35,10 @@ namespace LASI.WebApp.Controllers
         }
 
         [HttpGet(Order = 0)]
-        public IEnumerable<UserDocument> Get() => documentStore.GetAllForUser(Context.User.GetUserId());
+        public IEnumerable<UserDocument> Get() => documentStore.GetAllForUser(HttpContext.User.GetUserId());
 
         [HttpGet("{documentId}", Order = 1)]
-        public UserDocument Get(string documentId) => documentStore.GetById(Context.User.GetUserId(), documentId);
+        public UserDocument Get(string documentId) => documentStore.GetById(HttpContext.User.GetUserId(), documentId);
 
         [HttpPost]
         public Task<IEnumerable<FileUploadedResult>> Post()
@@ -77,7 +77,7 @@ namespace LASI.WebApp.Controllers
 
         private async Task<IEnumerable<FileUploadedResult>> ProcessFormFiles(IFormFileCollection files)
         {
-            var userId = Context.User.GetUserId();
+            var userId = HttpContext.User.GetUserId();
             var user = await userManager.FindByIdAsync(userId);
             var uploads = from file in files
                           let fileName = new FileInfo(file.ExtractFileName()).Name

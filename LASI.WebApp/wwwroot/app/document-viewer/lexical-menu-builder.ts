@@ -9,11 +9,11 @@ export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
 
     return {
         buildAngularMenu: source =>
-            referencerMenuIsViable(<ReferencerContextmenuData>source) ?
-                buildForReferencer(<ReferencerContextmenuData>source) :
-                verbalMenuIsViable(<VerbalContextmenuData>source) ?
-                    buildForVerbal(<VerbalContextmenuData>source) :
-                    undefined
+            referencerMenuIsViable(<ReferencerContextmenuData>source)
+                ? buildForReferencer(<ReferencerContextmenuData>source)
+                : verbalMenuIsViable(<VerbalContextmenuData>source)
+                ? buildForVerbal(<VerbalContextmenuData>source)
+                : undefined
     };
 
     function verbalMenuIsViable(menu: VerbalContextmenuData) {

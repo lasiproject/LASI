@@ -1,4 +1,4 @@
-﻿@inject Microsoft.Framework.OptionsModel.IOptions<LASI.WebApp.AppSettings> AppSettings
+﻿@inject Microsoft.Extensions.OptionsModel.IOptions<LASI.WebApp.AppSettings> AppSettings
 @using System.Collections.Generic
 @using Microsoft.AspNet.Http
 @using Microsoft.AspNet.Http.Authentication
@@ -8,30 +8,26 @@
 <html>
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - @AppSettings.Options.SiteTitle</title>
+    <title>@ViewBag.Title - @AppSettings.Value.SiteTitle</title>
 </head>
 <body hidden>
     @Html.AntiForgeryToken()
 
-    <navbar></navbar>
 
     <div class="container body-content">
         @RenderBody()
-
+        <ui-view></ui-view>
 
         <footer>
-            <p>&copy; 2015 - @AppSettings.Options.SiteTitle</p>
+            <p>&copy; 2015 - @AppSettings.Value.SiteTitle</p>
         </footer>
     </div>
     <script src="~/jspm_packages/system.js"></script>
     <script src="~/config.js"></script>
     <!--Uncomment in production-->
-    @*<script src="~/app.js"></script>*@
+    @*<script src="~/build.js"></script>*@
     <script>
-        System.import('app').then(function (app) {
-            app.bootstrap(document.body);
-            $(document.body).show();
-        }, console.error.bind(console));
+        System.import('app').catch(console.error.bind(console));
     </script>
     @RenderSection("scripts", required: false)
 </body>

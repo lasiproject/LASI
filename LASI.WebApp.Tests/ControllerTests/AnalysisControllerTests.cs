@@ -3,13 +3,13 @@ using LASI.WebApp.Controllers;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
 using LASI.WebApp.Tests.TestSetup;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.DependencyInjection;
 using Xunit;
 using LASI.WebApp.Models.DocumentStructures;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
 using LASI.Utilities;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {
