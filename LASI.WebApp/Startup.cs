@@ -17,14 +17,14 @@ namespace LASI.WebApp
 {
     public class Startup
     {
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            env.IsDevelopment();
-            if (env.IsDevelopment())
+            isDevelopment = env.IsDevelopment();
+            if (isDevelopment)
             {
                 // This reads the configuration keys from the secret store.
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
@@ -37,7 +37,7 @@ namespace LASI.WebApp
 
         public IConfigurationRoot Configuration { get; set; }
 
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
@@ -66,7 +66,7 @@ namespace LASI.WebApp
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                         options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
                         options.SerializerSettings.Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } };
-                        options.SerializerSettings.Formatting = env.IsDevelopment() ? Formatting.Indented : Formatting.None;
+                        options.SerializerSettings.Formatting = isDevelopment ? Formatting.Indented : Formatting.None;
                     });
             services.AddIdentity<Models.ApplicationUser, UserRole>(options =>
                     {
@@ -149,12 +149,7 @@ namespace LASI.WebApp
             Interop.ResourceUsageManager.SetPerformanceLevel(Interop.PerformanceProfile.High);
             Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
         }
-
-        private static readonly JsonSerializerSettings MvcJsonSerializerSettings = new JsonSerializerSettings
-        {
-
-        };
-
+        private readonly bool isDevelopment;
 
     }
 }

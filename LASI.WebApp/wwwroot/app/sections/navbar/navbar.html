@@ -7,8 +7,8 @@
                 <span class="icon-bar"></span>
             </button>
             <div id="document-list-navbar-item-container" class="dropdown-toggle">
-                
-                <div ng-if="navbar.documents && navbar.documents.length" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+
+                <div ng-show="navbar.documents && navbar.documents.length" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown" id="dropdown-list-item-container">
                             <a href="#" data-toggle="dropdown"
@@ -54,8 +54,20 @@
                     </a>
                 </li>
                 <li><a ui-sref="app.home" href="" class="fa fa-home fa-lg"></a></li>
-                <li ng-if="!user.loggedIn"><a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a></li>
-                <li ng-if="user.loggedIn"><a ui-sref="app.logoff" href="" class="nav-justified fa fa-sign-out fa-lg"></a></li>
+                <li ng-show="!navbar.user.loggedIn">
+                    <a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    <a title="Manage">Hello {{navbar.userService.user.email}}!</a>
+                </li>
+                <li ng-show="navbar.user.loggedIn">
+                    <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
+                        <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out"></i> Logoff</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>

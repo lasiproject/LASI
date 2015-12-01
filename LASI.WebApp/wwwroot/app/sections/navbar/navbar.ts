@@ -15,7 +15,7 @@ class NavbarController {
     }
 
     activate() {
-        //return this.userService.getUser().then(user=> this.user = user);
+        return this.userService.getUser().then(user=> this.user = user);
     }
     openManageDocumentsModal() {
         var navbarController = this;
@@ -34,6 +34,11 @@ class NavbarController {
     documents: DocumentListItemModel[];
     expanded = false;
     user: User;
+    logoff() {
+        const antiforgeryTokenName = '__RequestVerificationToken';
+        const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
+        return this.userService.logoff(antiforgeryTokenName, antiforgeryTokenValue);
+    }
 }
 export function navbar(): ng.IDirective {
     return {

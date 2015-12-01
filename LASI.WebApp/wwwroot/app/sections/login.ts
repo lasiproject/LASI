@@ -42,7 +42,7 @@ export default class LoginController {
         const antiforgeryTokenName = '__RequestVerificationToken';
         const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
 
-        return this.userService.logoff({ antiforgeryTokenName, antiforgeryTokenValue });
+        return this.userService.logoff(antiforgeryTokenName, antiforgeryTokenValue);
     }
     username: string;
     password: string;

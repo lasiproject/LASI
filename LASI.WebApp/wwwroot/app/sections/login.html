@@ -1,16 +1,4 @@
-﻿<ul class="nav navbar-nav navbar-right">
-
-    <li>
-        <a title="Manage">Hello {{login.username}}!</a>
-    </li>
-    <li>
-        <form ng-submit="login.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
-            <button type="submit" class="btn btn-default"><i class="fa fa-sign-out"></i></button>
-        </form>
-    </li>
-</ul>
-
-<form novalidate name="login-form" ng-submit="login.login()" method="post" class="form-horizontal" role="form">
+﻿<form novalidate name="login-form" ng-submit="login.login()" method="post" class="form-horizontal" role="form">
     <div class="form-group">
         <div class="form-group">
             <label class="control-label">Username: </label>

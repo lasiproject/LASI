@@ -2,9 +2,9 @@
 
 import { User } from './models';
 export default class UserService {
-    static $inject = ['$http', '$q'];
+    static $inject = ['$q', '$http', '$state'];
 
-    constructor(private $http: ng.IHttpService, private $q: ng.IQService) { }
+    constructor(private $q: ng.IQService, private $http: ng.IHttpService, private $state: ng.ui.IStateService) { }
 
     loginUser(credentials: Credentials): PromiseLike<User> {
         var deferred = this.$q.defer<User>();
@@ -39,11 +39,12 @@ export default class UserService {
             .catch(error=> {
                 deferred.reject(error);
                 console.error(error);
-            });
+            })
+            .finally(() => this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home'));
         return deferred.promise;
     }
 
-    logoff({antiforgeryTokenName, antiforgeryTokenValue}): PromiseLike<void> {
+    logoff(antiforgeryTokenName, antiforgeryTokenValue): PromiseLike<void> {
         var deferred = this.$q.defer<void>();
         var data = {};
         data[antiforgeryTokenName] = antiforgeryTokenValue;
@@ -61,7 +62,8 @@ export default class UserService {
             .then(response => {
                 this.user = undefined;
             })
-            .catch(error => console.error(error));
+            .catch(error => console.error(error))
+            .finally(() => this.$state.current.name === 'app.login' ? this.$state.reload() : this.$state.go('app.login'));
         return deferred.promise;
 
     }
