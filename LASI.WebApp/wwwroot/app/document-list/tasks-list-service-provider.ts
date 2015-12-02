@@ -1,24 +1,8 @@
 ﻿'use strict';
 import { IQService, IIntervalService, IHttpService } from 'angular';
 
-export interface TasksListServiceProvider {
-    $get: ($q: IQService, http: IHttpService, $interval: IIntervalService) => TasksListService;
-    setTasksListUrl: (url: string) => TasksListServiceProvider;
-    setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
-}
 
-export interface Task {
-    id: string;
-    name: string;
-    state: string;
-    percentComplete: number;
-    statusMessage: string;
-}
 
-export interface TasksListService {
-    getActiveTasks(): Promise<Task[]>;
-    tasks: Task[];
-}
 export function tasksListServiceProvider(): TasksListServiceProvider {
     var updateInterval = 200;
     var tasksListUrl = 'api/Tasks';

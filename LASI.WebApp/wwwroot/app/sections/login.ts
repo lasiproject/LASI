@@ -1,8 +1,9 @@
 'use strict';
-import { User } from 'app/models';
-import UserService from 'app/user-service';
 import $ from 'jquery';
-export default class LoginController {
+import { UserService } from 'app/user-service';
+import { inject } from 'app/decorators';
+@inject
+export class LoginController {
     static $inject = ['$http', '$q', '$uibModal', '$state', 'UserService'];
 
     constructor(private $http: ng.IHttpService, private $q: ng.IQService, private $uibModal: ng.ui.bootstrap.IModalService, private $state: ng.ui.IStateService, private userService: UserService) {

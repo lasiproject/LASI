@@ -1,13 +1,11 @@
 ﻿'use strict';
-import { DocumentModelService } from './../document-viewer/document-model-service';
-import { DocumentModel, DocumentListItemModel } from 'app/models';
 
 export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 export interface DocumentListService {
-    get(): Promise<DocumentListItemModel[]>;
+    get(): PromiseLike<DocumentListItemModel[]>;
     deleteDocument(documentId: string): ng.IPromise<DocumentListItemModel>;
 }
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {

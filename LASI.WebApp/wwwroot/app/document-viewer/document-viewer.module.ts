@@ -2,11 +2,8 @@
 import { DocumentController } from './document.controller';
 import { documentModelService } from './document-model-service';
 import { lexicalMenuBuilder } from './lexical-menu-builder';
-import documentViewer from './directives/document-viewer';
-import page from './directives/page';
-import paragraph from './directives/paragraph';
-import sentence from './directives/sentence';
-import phrase from './directives/phrase';
+import { documentViewer, documentPage as page, paragraph, sentence, phrase } from './directives/directives';
+
 export default {
     name: 'documentViewer',
     requires: [

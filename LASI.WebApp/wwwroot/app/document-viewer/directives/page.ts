@@ -1,6 +1,6 @@
 ﻿'use strict';
 import template from 'app/document-viewer/directives/page.html';
-export default function documentPage(): angular.IDirective {
+export function documentPage(): angular.IDirective {
     return {
         restrict: 'E',
         template,

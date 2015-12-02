@@ -1,15 +1,14 @@
 'use strict';
 import appTemplate from 'app/app.html';
+import { AppController } from 'app/app-controller';
 import homeTemplate from 'app/sections/home/home.html';
 import { ListController as HomeController } from 'app/document-list/list-controller';
 
 import loginTemplate from 'app/sections/login.html';
-import AppController from 'app/app-controller';
 
-import LoginController from 'app/sections/login';
-import UserService from 'app/user-service';
+import { LoginController } from 'app/sections/login';
+import { UserService } from 'app/user-service';
 import { DocumentListService } from 'app/document-list/document-list-service-provider';
-import { DocumentListItemModel } from 'app/models';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
 export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
@@ -18,8 +17,7 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
     function documents($q: ng.IQService, documentListService: DocumentListService) {
         var deferred = $q.defer<DocumentListItemModel[]>();
         documentListService.get()
-            .then(deferred.resolve.bind(deferred))
-            .catch(deferred.reject.bind(deferred));
+            .then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
         return deferred.promise;
     }
 

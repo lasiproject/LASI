@@ -1,5 +1,5 @@
 'use strict';
-type DocumentListItem = LASI.documentList.DocumentListItem;
+
 type IModalServiceInstance = ng.ui.bootstrap.IModalServiceInstance;
 
 export default class ConfirmDeleteModal {

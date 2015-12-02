@@ -8,7 +8,6 @@
  * imported in TypeScript code, add a module named after the full path of the template releative to the wwwroot folder, 
  * and having a dummy default export to this file.
  */
-'use strict';
 declare module 'app/app.html' { export default ''; }
 declare module 'app/sections/home/home.html' { export default ''; }
 declare module 'app/sections/navbar/navbar.html' { export default ''; }

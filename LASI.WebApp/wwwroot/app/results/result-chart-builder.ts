@@ -1,3 +1,4 @@
+/// <reference path="./../../../typings/jquery/jquery.d.ts" />
 import * as LASI from 'app/LASI';
 
 export default function enableActiveHighlighting() {

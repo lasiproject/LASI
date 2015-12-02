@@ -1,8 +1,5 @@
 ﻿'use strict';
-
 import ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
-
-lexicalMenuBuilder.$inject = [];
 
 export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
     var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
@@ -12,8 +9,8 @@ export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
             referencerMenuIsViable(<ReferencerContextmenuData>source)
                 ? buildForReferencer(<ReferencerContextmenuData>source)
                 : verbalMenuIsViable(<VerbalContextmenuData>source)
-                ? buildForVerbal(<VerbalContextmenuData>source)
-                : undefined
+                    ? buildForVerbal(<VerbalContextmenuData>source)
+                    : undefined
     };
 
     function verbalMenuIsViable(menu: VerbalContextmenuData) {
@@ -79,40 +76,4 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
         'View Direct Objects': 'direct-object-of-current',
         'View Indirect Objects': 'indirect-object-of-current'
     });
-}
-export interface LexicalMenuBuilderFactory {
-    buildAngularMenu: (source: LexicalContextmenuData | VerbalContextmenuData | ReferencerContextmenuData) => ContextMenu;
-}
-
-export interface LexicalContextmenuData {
-    /**
-    * The id of the lexical element for which the menu is defined.
-    */
-    lexicalId: string | number;
-}
-export interface VerbalContextmenuData extends LexicalContextmenuData {
-       
-    /**
-     * The ids of any subjects.
-     */
-    subjectIds: number[];
-    /**
-     * The ids of any direct objects.
-     */
-    directObjectIds: number[];
-    /**
-     * The ids of any direct objects.
-     */
-    indirectObjectIds: number[];
-}
-
-export interface ReferencerContextmenuData extends LexicalContextmenuData {
-    /**
-     * The id of the referencer for which the menu is defined.
-     */
-    lexicalId: number;
-    /**
-     * The ids of any entities the referred to.
-     */
-    refersToIds: number[];
 }

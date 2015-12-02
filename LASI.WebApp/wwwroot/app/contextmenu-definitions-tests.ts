@@ -1,4 +1,4 @@
-﻿/// <reference path = '../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextmenu.d.ts'/>
+﻿/// <reference path = './../../typings/angular-bootstrap-contextMenu/angular-bootstrap-contextmenu.d.ts'/>
 module contextmenuTests {
     'use strict';
 

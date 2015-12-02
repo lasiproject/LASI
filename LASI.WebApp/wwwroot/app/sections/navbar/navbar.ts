@@ -1,11 +1,9 @@
 'use strict';
 
 import navbarTemplate from 'app/sections/navbar/navbar.html';
-import ManageDocumentsModalController from 'app/sections/document-manager/manage-modal';
+import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
-import { DocumentListItemModel } from 'app/models';
-import UserService from 'app/user-service';
-import { User } from 'app/models';
+import { UserService } from 'app/user-service';
 
 class NavbarController {
     static $inject = ['$uibModal', 'UserService'];

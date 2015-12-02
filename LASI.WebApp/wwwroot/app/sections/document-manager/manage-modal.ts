@@ -1,10 +1,9 @@
 'use strict';
-type DocumentListItem = LASI.documentList.DocumentListItem;
 
 import { DocumentsService } from 'app/document-list/documents-service';
 import confirmDeleteModalTemplate from 'app/sections/document-manager/confirm-delete-modal.html';
 import ConfirmDeleteModalController from 'app/sections/document-manager/confirm-delete-modal';
-export default class DocumentManager {
+export class ManageDocumentsModalController {
     static $inject = ['$uibModalInstance', '$uibModal', 'documentsService', 'documents'];
     constructor(private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, private $modal: ng.ui.bootstrap.IModalService, private documentsService: DocumentsService, private documents: DocumentListItem[]) { }
 

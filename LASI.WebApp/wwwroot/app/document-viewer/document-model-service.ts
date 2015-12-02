@@ -1,11 +1,7 @@
 ﻿'use strict';
-import { DocumentModel } from 'app/models';
-
-export interface DocumentModelService {
-    processDocument(documentId: string): ng.IPromise<DocumentModel>;
-}
 
 documentModelService.$inject = ['$q', '$http'];
+
 export function documentModelService($q: ng.IQService, $http: angular.IHttpService): DocumentModelService {
     return {
         processDocument(documentId) {

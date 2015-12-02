@@ -1,5 +1,4 @@
 ﻿'use strict';
-import { LexicalModel, WordModel, PhraseModel, TextFragmentModel } from 'app/models';
 
 class SearchBoxController {
     static $inject = ['$q'];
@@ -50,7 +49,7 @@ interface SearchOptions {
     lifted?: boolean;
 }
 import template from 'app/document-viewer/search/search-box.html';
-export default function searchBox(): angular.IDirective {
+export function searchBox(): angular.IDirective {
     return {
         template,
         restrict: 'E',

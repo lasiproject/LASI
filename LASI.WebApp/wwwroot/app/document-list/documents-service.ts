@@ -1,6 +1,5 @@
 ﻿'use strict';
 
-type DocumentListItem = LASI.documentList.DocumentListItem;
 documentsService.$inject = ['$q', '$http'];
 export interface DocumentsService {
     getbyId(documentId: string): ng.IPromise<DocumentListItem>;

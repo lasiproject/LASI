@@ -1,6 +1,4 @@
 'use strict';
-import { DocumentModelService } from './document-model-service';
-import { DocumentModel } from 'app/models';
 
 export class DocumentController {
     static $inject = ['$q', 'MockDocumentModelService'];

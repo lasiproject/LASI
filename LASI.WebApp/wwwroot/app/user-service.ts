@@ -1,7 +1,5 @@
 'use strict';
-
-import { User } from './models';
-export default class UserService {
+export class UserService {
     static $inject = ['$q', '$http', '$state'];
 
     constructor(private $q: ng.IQService, private $http: ng.IHttpService, private $state: ng.ui.IStateService) { }
