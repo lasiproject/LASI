@@ -3384,7 +3384,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LASI.Interop, Version=1.0.5814.43115, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:LASI.Interop, Version=1.0.5815.85, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
                     "_2198C2C0233F186B6A4B0DE05A34F46C"
@@ -4369,7 +4369,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LASI.Core, Version=1.0.5814.43115, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:LASI.Core, Version=1.0.5815.84, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
                     "_478E32A53399C2DB76DE67D0D23C766F"
@@ -5818,7 +5818,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LASI.Utilities, Version=1.0.5814.43114, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:LASI.Utilities, Version=1.0.5815.84, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
                     "_966D8050A799EE88BBD7D72ECFB5C867"
@@ -7579,7 +7579,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LASI.Content, Version=1.0.5814.43115, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:LASI.Content, Version=1.0.5815.85, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
                     "_DCC06B33A00F26F3245C5EF61557D32D"
@@ -8817,7 +8817,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LASI"
         "ProductCode" = "8:{0FAF8284-F30A-46B0-8FB2-1C0D34D942E2}"
-        "PackageCode" = "8:{8D1F1138-93FA-4BAA-8D49-F52A09CF59A2}"
+        "PackageCode" = "8:{80DA336E-3656-4C37-9B28-A51C76FE0E31}"
         "UpgradeCode" = "8:{7E991B9F-8502-4F53-9F9D-6964089F6BBD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
