@@ -53,17 +53,24 @@
                         <span><img class="project-logo-navbar" src="images/ic_launcher-web - Copy.png" /></span>
                     </a>
                 </li>
-                <li><a ui-sref="app.home" href="" class="fa fa-home fa-lg"></a></li>
-                <li ng-show="!navbar.user.loggedIn">
+                <li>
+                    <a ui-sref="app.home" href="" class="fa fa-home fa-lg"></a>
+                </li>
+                <!--<li ng-hide="navbar.user">
                     <a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a>
                 </li>
+                <li ng-hide="navbar.user">
+                    <a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a>
+                </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-
-                <li>
-                    <a title="Manage">Hello {{navbar.userService.user.email}}!</a>
+                <li ng-hide="navbar.user">
+                    <a href="/account/login">Login</a>
                 </li>
-                <li ng-show="navbar.user.loggedIn">
+                <li ng-hide="navbar.user">
+                    <a href="/account/register">Register</a>
+                </li>
+                <li ng-show="navbar.user">
                     <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
                         <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out"></i> Logoff</button>
                     </form>

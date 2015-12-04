@@ -6,14 +6,14 @@ import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-m
 import { UserService } from 'app/user-service';
 
 class NavbarController {
-    static $inject = ['$uibModal', 'UserService'];
+    static $inject = ['$scope', '$uibModal', 'UserService'];
 
-    constructor(private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
+    constructor(private $scope: ng.IScope, private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
         this.activate();
     }
 
     activate() {
-        return this.userService.getUser().then(user=> this.user = user);
+        return this.userService.getUser().then(user=> this.user = user, console.error.bind(console));
     }
     openManageDocumentsModal() {
         var navbarController = this;
