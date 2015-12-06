@@ -43,20 +43,8 @@ namespace LASI.WebApp
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
                     .AddInstance(new Filters.HttpResponseExceptionFilter())
-                    .AddInMemoryDatabase()
-                    //.AddMongoDB(options =>
-                    //{
-                    //    options.CreateProcess = true;
-                    //    options.ApplicationBasePath = System.AppContext.BaseDirectory;
-                    //    options.UserCollectionName = "users";
-                    //    options.UserDocumentCollectionName = "documents";
-                    //    options.OrganizationCollectionName = "organizations";
-                    //    options.UserRoleCollectionName = "roles";
-                    //    options.ApplicationDatabaseName = "accounts";
-                    //    options.MongodExePath = Configuration["MongoDB:MongodExePath"];
-                    //    options.DataDbPath = Configuration["MongoDB:MongoDataDbPath"];
-                    //    options.InstanceUrl = Configuration["MongoDB:MongoDbInstanceUrl"];
-                    //})
+                    //.AddInMemoryDatabase()
+                    .AddMongoDB(Configuration)
                     .AddMvc(options =>
                     {
                         options.Filters.AddService(typeof(Filters.HttpResponseExceptionFilter));

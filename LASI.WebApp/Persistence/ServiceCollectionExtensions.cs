@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using LASI.WebApp.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Persistence.MongoDB.Extensions
@@ -20,6 +21,21 @@ namespace LASI.WebApp.Persistence.MongoDB.Extensions
             return services;
         }
 
+        public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration) =>
+            services.AddMongoDB(new MongoDBConfiguration(new MongoDBOptions
+            {
+                ApplicationBasePath = configuration.GetMongoDBSetting(nameof(MongoDBOptions.ApplicationBasePath)),
+                CreateProcess = bool.Parse(configuration.GetMongoDBSetting(nameof(MongoDBOptions.CreateProcess))),
+                ApplicationDatabaseName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.ApplicationDatabaseName)),
+                DataDbPath = AppContext.BaseDirectory + configuration.GetMongoDBSetting(nameof(MongoDBOptions.DataDbPath)),
+                InstanceUrl = configuration.GetMongoDBSetting(nameof(MongoDBOptions.InstanceUrl)),
+                MongodExePath = configuration.GetMongoDBSetting(nameof(MongoDBOptions.MongodExePath)),
+                OrganizationCollectionName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.OrganizationCollectionName)),
+                UserCollectionName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.UserCollectionName)),
+                UserDocumentCollectionName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.UserDocumentCollectionName)),
+                UserRoleCollectionName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.UserRoleCollectionName))
+            }));
+        private static string GetMongoDBSetting(this IConfiguration configuration, string key) => configuration[$"MongoDB:{key}"];
         public static IServiceCollection AddMongoDB(this IServiceCollection services, Action<MongoDBOptions> setupAction)
         {
             var mongoOptions = new MongoDBOptions();

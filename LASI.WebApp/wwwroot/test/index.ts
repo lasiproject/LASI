@@ -1,9 +1,9 @@
-﻿/// <reference path="../app/lasi.ts" />
-/// <reference path="../../typings/jquery/jquery.d.ts" />
-/// <reference path="../../typings/qunit/qunit.d.ts" />
-
-(function () {
-    'use strict';
+﻿/// <reference path="../../typings/qunit/qunit.d.ts" />
+import $ from "jquery";
+import QUnit from "qunit";
+import "./../app/utilities/augmentations";
+'use strict';
+export function runTests() {
 
     var test = QUnit.test,
         deepEqual = QUnit.deepEqual,
@@ -28,7 +28,7 @@
         ok(Array.prototype.hasOwnProperty('flatMap'), 'flatMap defined on Array.prototype!');
     });
     test('flatMap test', function () {
-        var actual = [[1, 2, 3], [4, 5, 6], [7, 8]].flatMap(),
+        var actual = [[1, 2, 3], [4, 5, 6], [7, 8]].flatMap(e=> e),
             expected = [1, 2, 3, 4, 5, 6, 7, 8];
         deepEqual(actual, expected, ('expected: ' + expected + ';  actual: ' + actual));
     });
@@ -53,13 +53,13 @@
         $('body').append('<ul style="list-style:none;" hidden id="flatMapTest3"><li>18</li><li>67</li></ul>');
         var actual = [
             document.getElementById('flatMapTest3').childNodes, document.getElementById('flatMapTest3').childNodes].flatMap(function (e) {
-            var i,
-                result = [];
-            for (i = 0; i < e.length; i += 1) {
-                result.push(Number($(e[i]).text()));
-            }
-            return result;
-        }, function (x) { return x * x; }),
+                var i,
+                    result = [];
+                for (i = 0; i < e.length; i += 1) {
+                    result.push(Number($(e[i]).text()));
+                }
+                return result;
+            }, function (x) { return x * x; }),
             expected = [18 * 18, 67 * 67, 18 * 18, 67 * 67];
         deepEqual(actual, expected, ('expected: ' + expected + ';  actual: ' + actual));
     });
@@ -135,5 +135,6 @@
             actual = numbers.average(function (x) { return x; }),
             expected = numbers.reduce(function (sum, x) { return sum + x; }, 0) / numbers.length;
         deepEqual(actual, expected, ('expected: ' + expected + ';  actual: ' + actual));
-    });
-} ());
+    }); 
+    QUnit.start();
+}

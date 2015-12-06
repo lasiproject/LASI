@@ -5,7 +5,8 @@ System.config({
   typescriptOptions: {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalAsyncFunctions": true
+    "experimentalAsyncFunctions": true,
+    //"noResolve":true
   },
   paths: {
     "github:*": "jspm_packages/github/*",
@@ -16,11 +17,19 @@ System.config({
     "app": {
       "main": "app",
       "defaultExtension": "ts",
-      "modules": {
+      "meta": {
         "*.html": {
           "loader": "text"
         }
       }
+    },
+    "test": {
+      "defaultExtension": "ts",
+      "main": "index.ts",
+      "deps": [
+        "qunit",
+        "jquery"
+      ]
     },
     "bootstrap-css": {
       "css": "github:systemjs/plugin-css@0.1.18",
@@ -32,7 +41,7 @@ System.config({
     "angular": "github:angular/bower-angular@1.4.7",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.3",
     "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.4",
-    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@9.1.2",
+    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@10.1.8",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "babel": "npm:babel-core@5.8.34",
     "babel-runtime": "npm:babel-runtime@5.8.34",
@@ -44,6 +53,7 @@ System.config({
     "jquery": "github:components/jquery@2.1.4",
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.4",
+    "qunit": "github:jquery/qunit@1.20.0",
     "text": "github:systemjs/plugin-text@0.0.2",
     "ts": "github:frankwallis/plugin-typescript@2.3.2",
     "typescript": "npm:typescript@1.7.3",

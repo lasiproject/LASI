@@ -1,8 +1,7 @@
 'use strict';
 import $ from 'jquery';
 import { UserService } from 'app/user-service';
-import { inject } from 'app/decorators';
-@inject
+
 export class LoginController {
     static $inject = ['$http', '$q', '$uibModal', '$state', 'UserService'];
 

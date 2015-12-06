@@ -5,7 +5,11 @@
     'use strict';
     var arrayAgumentations = {
         flatMap: function (arraySelector, elementSelector) {
-            arraySelector = arraySelector || (function (array) { return Array.isArray(array); });
+
+            arraySelector = arraySelector || function (array) {
+                if (!Array.isArray(array)) { throw new TypeError(); }
+                return array;
+            };
             elementSelector = elementSelector || function (element) { return element; };
             return this.reduce(function (array, a) {
                 return array.concat(arraySelector(a).map(elementSelector));

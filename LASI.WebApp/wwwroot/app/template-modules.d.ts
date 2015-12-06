@@ -24,3 +24,4 @@ declare module 'app/document-viewer/directives/page.html' { export default ''; }
 declare module 'app/document-viewer/directives/paragraph.html' { export default ''; }
 declare module 'app/document-viewer/directives/sentence.html' { export default ''; }
 declare module 'app/document-viewer/directives/phrase.html' { export default ''; }
+declare module 'app/widgets/processing-task-progress-bar.html' { export default ''; }

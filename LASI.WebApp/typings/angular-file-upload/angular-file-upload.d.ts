@@ -3,7 +3,10 @@
 // Definitions by: John Reilly <https://github.com/johnnyreilly>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-///// <reference path="../angular-file-upload/angular-file-upload.d.ts" />
+/// <reference path="../ng-file-upload/ng-file-upload.d.ts" />
 
 // THIS FILE WILL REMOVE IF angular-file-upload.d.ts incoming.
-declare module 'angular-file-upload' { }
+declare module 'angular-file-upload' {
+    import angularFileUpload = angular.angularFileUpload;
+    export default angularFileUpload;
+}

@@ -362,7 +362,7 @@ interface QUnitStatic extends QUnitAssert {
     *
     * @param decrement Optional argument to merge multiple stop() calls into one. Use with multiple corrsponding start() calls.
     */
-    stop(increment? : number): any;
+    stop(increment?: number): any;
     
     /* CALLBACKS */
 
@@ -649,7 +649,7 @@ declare function start(decrement?: number): any;
 *
 * @param decrement Optional argument to merge multiple stop() calls into one. Use with multiple corrsponding start() calls.
 */
-declare function stop(increment? : number): any;
+declare function stop(increment?: number): any;
     
 /* CALLBACKS */
 
@@ -780,3 +780,5 @@ declare var raises: any;
 
 /* QUNIT */
 declare var QUnit: QUnitStatic;
+
+declare module "qunit" { export default QUnit; }

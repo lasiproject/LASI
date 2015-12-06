@@ -1,6 +1,5 @@
 /// <binding ProjectOpened='watch' />
 var gulp = require('gulp'),
-    fs = require('fs'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -8,7 +7,8 @@ var gulp = require('gulp'),
     typescript = require('gulp-typescript'),
     tslint = require('tslint'),
     gulpTslint = require('gulp-tslint'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    qunit = require('gulp-qunit');
 
 var paths = {
     appts: [
@@ -17,6 +17,9 @@ var paths = {
         //'wwwroot/app/**/*.module.ts',
         'wwwroot/app/**/*.ts',
         //'wwwroot/main.ts'
+    ],
+    test:[
+        'wwwroot/test/**/*.html'
     ],
     css: {
         app: {
@@ -35,6 +38,11 @@ var paths = {
         }
     }
 };
+
+gulp.task('qunit', function () {
+    return gulp.src(paths.test)
+        .pipe(qunit());
+    });
 
 gulp.task('typescript', function () {
     return gulp
