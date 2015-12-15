@@ -58,5 +58,5 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
             template: loginTemplate
         });
 
-    $urlRouterProvider.otherwise('/');
+    //$urlRouterProvider.otherwise('/');
 }

@@ -57,10 +57,10 @@ namespace LASI.WebApp.Controllers
                         user.ActiveWorkItems
                     });
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                }
+                //if (result.RequiresTwoFactor)
+                //{
+                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //}
                 if (result.IsLockedOut)
                 {
                     return View("Lockout");
@@ -118,7 +118,7 @@ namespace LASI.WebApp.Controllers
         public async Task<IActionResult> LogOff()
         {
             await SignInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
 
         //

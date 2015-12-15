@@ -30,13 +30,13 @@ export class UserService {
                 this.loggedIn = true;
                 this.user = response.data;
                 deferred.resolve(response.data);
-
+                return this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home')
             })
             .catch(error => {
                 deferred.reject(error);
                 console.error(error);
             })
-        //.finally(() => this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home'));
+        //.finally(() =>);
         return deferred.promise;
     }
 
@@ -45,24 +45,26 @@ export class UserService {
         var data = {};
         data[antiforgeryTokenName] = antiforgeryTokenValue;
         var config: ng.IRequestShortcutConfig = {
-
+            [antiforgeryTokenName]: antiforgeryTokenValue,
             xsrfHeaderName: antiforgeryTokenName,
             headers: {
                 [antiforgeryTokenName]: antiforgeryTokenValue,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
+        
         // TODO: Remove angular.element.param(data) as it silently depends on jQuery
         return this.$http
-            .post<User>('/Account/LogOff', angular.element.param(data), config)
+            .post<User>('/Account/LogOff', undefined, config)
             .then(response => {
-                if (JSON.parse(response.data.toString())) {
-                    console.log('valid');
 
-                    console.log('Logged off');
-                    console.log(response);
-                    resolve();
-                }
+                console.log('valid');
+
+                console.log('Logged off');
+                console.log(response);
+                resolve();
+                this.user = undefined;
+                return this.$state.go('app.login');
             })
             .catch(() => reject());
 

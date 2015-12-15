@@ -68,14 +68,15 @@
                 <li ui-sref="app.login" ng-hide="app.user">
                     <a ui-sref="app.login">Login</a>
                 </li>
+                <li>
+                    <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-sign-out"></i> Logoff</button>
+                    </form>
+                </li>
                 <li ng-hide="app.user">
                     <a href="/account/register">Register</a>
                 </li>
-                <li ng-show="app.user">
-                    <form ng-submit="app.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
-                        <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out"></i> Logoff</button>
-                    </form>
-                </li>
+
             </ul>
         </div>
     </div>
