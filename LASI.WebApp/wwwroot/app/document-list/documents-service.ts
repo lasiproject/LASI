@@ -7,10 +7,10 @@ export interface DocumentsService {
 }
 export function documentsService($q: ng.IQService, $http: ng.IHttpService): DocumentsService {
     function getbyId(documentId) {
-        return $http.get<DocumentListItem>(`api/UserDocuments/${documentId}`);
+        return $http.get<DocumentListItem>(`/api/UserDocuments/${documentId}`);
     }
     function deleteById(documentId) {
-        return $http.delete(`api/UserDocuments/${documentId}`);
+        return $http.delete(`/api/UserDocuments/${documentId}`);
     }
     return {
         deleteById,

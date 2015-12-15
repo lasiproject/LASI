@@ -8,7 +8,6 @@ export class AppController {
     currentStateName: string;
     constructor(private $state: ng.ui.IStateService, private $stateParams: ng.ui.IStateParamsService, private userService: UserService, private documents: DocumentListItemModel[]) {
         this.currentStateName = $state.current.name;
-        userService.getUser().then(user => this.user = user);
+
     }
-    user;
 }

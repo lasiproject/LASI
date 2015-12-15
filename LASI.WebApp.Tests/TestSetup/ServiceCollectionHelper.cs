@@ -7,12 +7,12 @@ using System.Linq;
 using Newtonsoft.Json;
 using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Http;
-using Moq;
 using System.Security.Claims;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
+using System.Threading.Tasks;
 
 namespace LASI.WebApp.Tests.TestSetup
 {
@@ -64,14 +64,19 @@ namespace LASI.WebApp.Tests.TestSetup
                         var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<ApplicationUser, UserRole>(userManager, roleManager, identityOptions);
                         var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(applicationUser);
                         var httpContext = provider.GetService<HttpContext>();
-                        var mockUserClaimsPrincipleFactory = new Mock<UserClaimsPrincipalFactory<ApplicationUser, UserRole>>();
-                        mockUserClaimsPrincipleFactory
-                            .Setup(m => m.CreateAsync(applicationUser))
-                            .ReturnsAsync(new ClaimsPrincipal(applicationUser.Claims.Select(claim => claim.Subject)));
+                        var optionsAccessor = provider.GetService<IOptions<IdentityOptions>>();
+                        var mockUserClaimsPrincipleFactory = new MockUserClaimsPrincipalFactory(userManager, roleManager, optionsAccessor);
+
                         httpContext.User = userClaimsPrincipal.Result;
                         return new ActionContext { HttpContext = httpContext };
                     });
             return services;
+        }
+        class MockUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, UserRole>
+        {
+            public MockUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, RoleManager<UserRole> roleManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, roleManager, optionsAccessor) { }
+            public override Task<ClaimsPrincipal> CreateAsync(ApplicationUser user) => Task.FromResult(new ClaimsPrincipal(user.Claims.Select(claim => claim.Subject)));
+
         }
     }
 }

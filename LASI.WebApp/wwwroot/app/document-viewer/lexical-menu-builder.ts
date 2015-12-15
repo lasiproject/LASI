@@ -5,19 +5,17 @@ export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
     var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
     return {
-        buildAngularMenu: source =>
-            referencerMenuIsViable(<ReferencerContextmenuData>source)
-                ? buildForReferencer(<ReferencerContextmenuData>source)
-                : verbalMenuIsViable(<VerbalContextmenuData>source)
-                    ? buildForVerbal(<VerbalContextmenuData>source)
-                    : undefined
+        buildAngularMenu: source => menuIsReferencerMenu(source) ? buildForReferencer(source)
+            : menuIsVerbalMenu(source) ? buildForVerbal(source) : undefined
     };
 
-    function verbalMenuIsViable(menu: VerbalContextmenuData) {
-        return !!(menu && (menu.directObjectIds || menu.indirectObjectIds || menu.subjectIds));
+    function menuIsVerbalMenu(menu: LexicalContextmenuData): menu is VerbalContextmenuData {
+        var verbalMenu = menu as VerbalContextmenuData;
+        return !!(menu && (verbalMenu.directObjectIds || verbalMenu.indirectObjectIds || verbalMenu.subjectIds));
     }
-    function referencerMenuIsViable(menu: ReferencerContextmenuData) {
-        return !!(menu && menu.refersToIds);
+    function menuIsReferencerMenu(menu: LexicalContextmenuData): menu is ReferencerContextmenuData {
+        var referencerMenu = menu as ReferencerContextmenuData;
+        return !!(menu && referencerMenu.refersToIds);
     }
 
 }

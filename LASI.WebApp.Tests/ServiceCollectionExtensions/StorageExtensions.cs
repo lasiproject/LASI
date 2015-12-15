@@ -7,10 +7,10 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
-using Moq;
 using Microsoft.Framework.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Collections.Generic;
 
 namespace LASI.WebApp.Tests.ServiceCollectionExtensions
 {
@@ -20,14 +20,7 @@ namespace LASI.WebApp.Tests.ServiceCollectionExtensions
         {
             services.AddSingleton(provider =>
             {
-                var mock = new Mock<IHostingEnvironment>();
-                mock.SetupGet(m => m.EnvironmentName)
-                    .Returns("Development");
-                mock.SetupGet(m => m.WebRootPath)
-                    .Returns(Directory.GetCurrentDirectory());
-                mock.SetupGet(m => m.WebRootFileProvider)
-                    .Returns(new PhysicalFileProvider(mock.Object.WebRootPath));
-                return mock.Object;
+                return new MockHostingEnvironment();
             });
             services.AddSingleton<IUserAccessor<ApplicationUser>>(provider => new InMemoryUserProvider());
             services.AddSingleton<IRoleAccessor<UserRole>>(provider => new InMemoryRoleProvider());
@@ -60,39 +53,93 @@ namespace LASI.WebApp.Tests.ServiceCollectionExtensions
                 }
             };
             user.Documents = documents;
-            var mock = new Mock<IDocumentAccessor<UserDocument>>();
-            mock.Setup(m => m.GetAllForUser(It.IsAny<string>()))
-                .Returns(documents);
-            mock.Setup(m => m.RemoveById(It.IsAny<string>(), It.IsIn(documents.Select(d => d._id.ToString()))))
-                .Callback((string userId, string documentId) => user.Documents = user.Documents.Where(d => d.Id != documentId && d.UserId != userId));
-            mock.Setup(m => m.AddForUser(It.IsAny<string>(), It.IsAny<UserDocument>()))
-                .Returns((string userId, string documentId) => documentId);
-            mock.Setup(m => m.GetById(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns((string userId, string documentId) => documents.FirstOrDefault(d => d.Id == documentId && d.UserId == userId));
-            return mock.Object;
+            return new MockDocumentAccessor(documents);
         }
-
+        public class MockHostingEnvironment : IHostingEnvironment
+        {
+            public string EnvironmentName { get; set; } = "Development";
+            public IFileProvider WebRootFileProvider { get { return new PhysicalFileProvider(WebRootPath); } set { throw new NotSupportedException(); } }
+            public string WebRootPath { get; set; } = Directory.GetCurrentDirectory();
+        }
         public static IServiceCollection AddMockWorkItemsService(this IServiceCollection services, ApplicationUser user)
         {
             services.TryAdd(new ServiceDescriptor(typeof(IDocumentAccessor<UserDocument>), CreateMockDocumentProvider(user)));
             return services.AddSingleton(provider =>
             {
                 var documentProvider = provider.GetService<IDocumentAccessor<UserDocument>>();
-                var userWorkItemIdGenerator = 0;
-                var mock = new Mock<IWorkItemsService>();
-                mock.Setup(m => m.GetAllWorkItemsForUser(It.IsAny<string>()))
-                    .Returns((string userId) => from document in documentProvider.GetAllForUser(userId)
-                                                select new WorkItem
-                                                {
-                                                    Id = (++userWorkItemIdGenerator).ToString(),
-                                                    Name = $"{document.Name}WorkItem",
-                                                    PercentComplete = 0,
-                                                    State = TaskState.Pending,
-                                                    StatusMessage = TaskState.Pending.ToString()
-                                                });
-                return mock.Object;
+                return new MockWorkItemsService(documentProvider);
             });
         }
+
+        private class MockDocumentAccessor : IDocumentAccessor<UserDocument>
+        {
+            public MockDocumentAccessor(IEnumerable<UserDocument> documents)
+            {
+                this.documents = documents.GroupBy(d => d.UserId).ToDictionary(g => g.Key, g => g.AsEnumerable());
+            }
+            public string AddForUser(UserDocument document) => AddForUser(document.UserId, document);
+
+            public string AddForUser(string userId, UserDocument document)
+            {
+                if (documents.ContainsKey(userId))
+                {
+                    documents[userId] = documents[userId].Append(document);
+                }
+                return document.Id;
+            }
+
+            public IEnumerable<UserDocument> GetAllForUser(string userId) => documents.GetValueOrDefault(userId, Enumerable.Empty<UserDocument>());
+
+            public UserDocument GetById(string userId, string documentId)
+            {
+                return documents.GetValueOrDefault(userId).First(d => d.Id == documentId && d.UserId == userId);
+            }
+
+            public void RemoveById(string userId, string documentId)
+            {
+                if (documents.ContainsKey(userId))
+                {
+                    documents[userId] = documents[userId].Where(d => d.Id != documentId.ToString() && d.UserId != userId);
+                }
+            }
+            private Dictionary<string, IEnumerable<UserDocument>> documents;
+
+        }
+
+
+        private class MockWorkItemsService : IWorkItemsService
+        {
+
+            public MockWorkItemsService(IDocumentAccessor<UserDocument> documentProvider)
+            {
+                this.documentProvider = documentProvider;
+            }
+            public IEnumerable<WorkItem> GetAllWorkItemsForUser(string userId)
+            {
+
+                var userWorkItemIdGenerator = 0;
+                return from document in documentProvider.GetAllForUser(userId)
+                       select new WorkItem
+                       {
+                           Id = (++userWorkItemIdGenerator).ToString(),
+                           Name = $"{document.Name}WorkItem",
+                           PercentComplete = 0,
+                           State = TaskState.Pending,
+                           StatusMessage = TaskState.Pending.ToString()
+                       };
+            }
+            public WorkItem GetWorkItemForUserDocument(string userId, string documentId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void UpdateWorkItemForUser(string userId, WorkItem item)
+            {
+                throw new NotImplementedException();
+            }
+            private readonly IDocumentAccessor<UserDocument> documentProvider;
+        }
+
         private const string MockDocumentContent1 =
             @"Studying is the main source of knowledge. Books are indeed never failing friends
             of man. For a mature mind, reading is the greatest source of pleasure and solace

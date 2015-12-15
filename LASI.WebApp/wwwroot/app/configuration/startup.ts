@@ -1,8 +1,6 @@
 'use strict';
-
-import * as angular from 'angular';
-startup.$inject = ['$state'];
-
-export default function startup($state: ng.ui.IStateService) {
+startup.$inject = ['$rootScope', '$state'];
+export function startup($rootScope: ng.IRootScopeService, $state: ng.ui.IStateService) {
+    $rootScope.$on('$stateChangeError', console.error.bind(console));
     $state.go('app.home');
 }

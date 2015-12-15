@@ -19,9 +19,9 @@ declare interface TasksListServiceProvider {
 declare interface Task {
     id: string;
     name: string;
-    state: string;
     percentComplete: number;
-    statusMessage: string;
+    state?: string;
+    statusMessage?: string;
 }
 declare interface DocumentListItemModel {
     id: string;
@@ -86,7 +86,7 @@ declare interface PhraseModel extends LexicalModel {
 
 declare interface WordModel extends LexicalModel { }
 declare interface LexicalMenuBuilderFactory {
-    buildAngularMenu: (source: LexicalContextmenuData | VerbalContextmenuData | ReferencerContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
+    buildAngularMenu: (source:LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
 }
 
 declare interface LexicalContextmenuData {
@@ -122,7 +122,7 @@ declare interface ReferencerContextmenuData extends LexicalContextmenuData {
     refersToIds: number[];
 }
 declare interface User {
-    loggedIn: boolean;
+    loggedIn?: boolean;
     email: string;
     password?: string;
     documents?: any[];

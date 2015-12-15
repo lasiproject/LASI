@@ -103,16 +103,15 @@ namespace LASI.WebApp
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink()
-                   .UseDeveloperExceptionPage();
+                //app.UseBrowserLink()
+                //   .UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStatusCodePages()
-               .UseStaticFiles()
+            app.UseStaticFiles()
                .UseIdentity()
                .UseIISPlatformHandler(options =>
                {
@@ -122,6 +121,7 @@ namespace LASI.WebApp
                {
                    options.LoginPath = "";
                    options.ReturnUrlParameter = "";
+                   options.AccessDeniedPath = null;
                })
                .UseMvc(routes =>
                {

@@ -5,8 +5,7 @@ System.config({
   typescriptOptions: {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalAsyncFunctions": true,
-    //"noResolve":true
+    "experimentalAsyncFunctions": true
   },
   paths: {
     "github:*": "jspm_packages/github/*",
@@ -53,6 +52,8 @@ System.config({
     "jquery": "github:components/jquery@2.1.4",
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.4",
+    "plugin-typescript": "npm:babel-core@5.8.34",
+    "plugin-typescript-runtime": "npm:babel-runtime@5.8.34",
     "qunit": "github:jquery/qunit@1.20.0",
     "text": "github:systemjs/plugin-text@0.0.2",
     "ts": "github:frankwallis/plugin-typescript@2.3.2",

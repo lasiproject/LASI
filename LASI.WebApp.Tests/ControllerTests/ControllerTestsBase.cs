@@ -2,7 +2,6 @@
 using LASI.WebApp.Models;
 using LASI.WebApp.Tests.TestAttributes;
 using MongoDB.Bson;
-using Moq;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {

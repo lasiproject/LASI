@@ -6,7 +6,7 @@ export interface DocumentListServiceConfig {
 }
 export interface DocumentListService {
     get(): PromiseLike<DocumentListItemModel[]>;
-    deleteDocument(documentId: string): ng.IPromise<DocumentListItemModel>;
+    deleteDocument(documentId: string): PromiseLike<DocumentListItemModel>;
 }
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;

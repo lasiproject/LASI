@@ -45,7 +45,17 @@ namespace LASI.WebApp.Controllers
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return RedirectToLocal(returnUrl);
+                    var user = await UserManager.FindByEmailAsync(model.Email);
+                    return new JsonResult(new
+                    {
+                        user.Email,
+                        user.Documents,
+                        user.Projects,
+                        user.UserName,
+                        user.FirstName,
+                        user.LastName,
+                        user.ActiveWorkItems
+                    });
                 }
                 if (result.RequiresTwoFactor)
                 {

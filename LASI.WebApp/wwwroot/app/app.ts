@@ -6,8 +6,8 @@ import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
 import { navbar }  from './sections/navbar/navbar';
 import { UserService } from './user-service';
-import configureStates from './configuration/configure-states';
-import startup from './configuration/startup';
+import { configureStates } from './configuration/configure-states';
+import { startup } from './configuration/startup';
 import * as LASI from './LASI';
 import { module as registerAngularModule, bootstrap  as ngBootstrap} from 'angular';
 

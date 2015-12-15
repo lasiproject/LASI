@@ -4,17 +4,23 @@ import { buildMenus, enableActiveHighlighting } from 'app/LASI';
 
 resultsService.$inject = ['$http', '$q'];
 
-interface ResultsService {
+export interface ResultsService {
     tasks: Task[];
     processDocument(documentId: string, documentName: string): angular.IPromise<DocumentModel>;
+    taskFor(documentId: string): Task;
 }
 function resultsService($http: angular.IHttpService, $q: angular.IQService): ResultsService {
-    var tasks = [];
+    var tasks: Task[] = [];
     var processDocument = function (documentId, documentName): angular.IPromise<DocumentModel> {
-        tasks[documentId] = { percentComplete: 0 };
+        tasks[documentId] = {
+            id: documentId,
+            name: documentName,
+            percentComplete: 0,
+
+        };
 
         var deferred = $q.defer<DocumentModel>();
-        $http.get<DocumentModel>('Analysis/' + documentId)
+        $http.get<DocumentModel>('/analysis/' + documentId)
             .success(success)
             .error(error);
         return deferred.promise;
@@ -44,8 +50,12 @@ function resultsService($http: angular.IHttpService, $q: angular.IQService): Res
             deferred.reject(message);
         }
     };
+    function taskFor(documentId: string) {
+        return tasks.first(task=> task.id === documentId);
+    }
     return {
         tasks,
+        taskFor,
         processDocument
     };
 }

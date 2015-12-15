@@ -1,14 +1,18 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <div id="document-list-navbar-item-container" class="dropdown-toggle">
 
-                <div ng-show="navbar.documents && navbar.documents.length" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+                <div ng-show="navbar.documents && navbar.documents.length"
+                     class="collapse navbar-collapse navbar-left"
+                     id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown" id="dropdown-list-item-container">
                             <a href="#" data-toggle="dropdown"
@@ -17,13 +21,16 @@
                                ng-click="navbar.toggleExpanded()"
                                role="button"
                                aria-expanded="false">
-                                <span class="fa" ng-class="{ 'fa-folder-open': navbar.expanded, 'fa-folder': !navbar.expanded }">
+                                <span class="fa"
+                                      ng-class="{
+                                          'fa-folder-open': navbar.expanded,
+                                          'fa-folder': !navbar.expanded
+                                      }">
                                     &nbsp;<span class="badge small">{{navbar.documents && navbar.documents.length}}</span>
                                 </span>&nbsp;&nbsp;<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li class="dropdown" id="document-list-item-manage">
-                                    <!--<a href="#" data-target="#manage-documents-modal" data-toggle="modal">Manage</a>-->
                                     <span class="btn" ng-click="navbar.openManageDocumentsModal()">Manage</span>
                                 </li>
                                 <document-list-menu-item ng-repeat="document in navbar.documents"
@@ -56,22 +63,16 @@
                 <li>
                     <a ui-sref="app.home" href="" class="fa fa-home fa-lg"></a>
                 </li>
-                <!--<li ng-hide="navbar.user">
-                    <a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a>
-                </li>
-                <li ng-hide="navbar.user">
-                    <a ui-sref="app.login" href="" class="nav-justified fa fa-sign-in fa-lg"></a>
-                </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-hide="navbar.user">
-                    <a href="/account/login">Login</a>
+                <li ui-sref="app.login" ng-hide="app.user">
+                    <a ui-sref="app.login">Login</a>
                 </li>
-                <li ng-hide="navbar.user">
+                <li ng-hide="app.user">
                     <a href="/account/register">Register</a>
                 </li>
-                <li ng-show="navbar.user">
-                    <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
+                <li ng-show="app.user">
+                    <form ng-submit="app.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
                         <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out"></i> Logoff</button>
                     </form>
                 </li>

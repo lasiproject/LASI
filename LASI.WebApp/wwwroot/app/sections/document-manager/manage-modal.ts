@@ -23,7 +23,6 @@ export class ManageDocumentsModalController {
                 }
             })
             .then(() => `Successfully deleted: ${document.name}.`)
-
             .catch(error=> console.error(`Error deleting document ${document.name}!\n${error}!`));
     }
 

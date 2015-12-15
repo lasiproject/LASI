@@ -26,43 +26,45 @@ export class UserService {
         this.$http
             .post<User>('/Account/Login', angular.element.param(data), config)
             .then(response => {
-                this.user = {
-                    loggedIn: true,
-                    email: credentials.email
-                };
+                console.log('valid');
                 this.loggedIn = true;
+                this.user = response.data;
+                deferred.resolve(response.data);
 
-                deferred.resolve(this.user);
             })
-            .catch(error=> {
+            .catch(error => {
                 deferred.reject(error);
                 console.error(error);
             })
-            .finally(() => this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home'));
+        //.finally(() => this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home'));
         return deferred.promise;
     }
 
     logoff(antiforgeryTokenName, antiforgeryTokenValue): PromiseLike<void> {
-        var deferred = this.$q.defer<void>();
+        var { resolve, reject } = this.$q.defer<void>();
         var data = {};
         data[antiforgeryTokenName] = antiforgeryTokenValue;
         var config: ng.IRequestShortcutConfig = {
 
             xsrfHeaderName: antiforgeryTokenName,
             headers: {
+                [antiforgeryTokenName]: antiforgeryTokenValue,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
-        config.headers[antiforgeryTokenName] = antiforgeryTokenValue;
         // TODO: Remove angular.element.param(data) as it silently depends on jQuery
-        this.$http
-            .post('/Account/LogOff', angular.element.param(data), config)
+        return this.$http
+            .post<User>('/Account/LogOff', angular.element.param(data), config)
             .then(response => {
-                this.user = undefined;
+                if (JSON.parse(response.data.toString())) {
+                    console.log('valid');
+
+                    console.log('Logged off');
+                    console.log(response);
+                    resolve();
+                }
             })
-            .catch(error => console.error(error))
-            .finally(() => this.$state.current.name === 'app.login' ? this.$state.reload() : this.$state.go('app.login'));
-        return deferred.promise;
+            .catch(() => reject());
 
     }
     getUser(): PromiseLike<User> {
@@ -75,9 +77,10 @@ export class UserService {
 
         return deferred.promise;
     }
-    user: User;
+    private user: User;
     loggedIn = false;
 }
+
 interface Credentials {
     email: string;
     password: string;

@@ -119,7 +119,7 @@ namespace LASI.WebApp.Models
         /// <summary>
         /// Gets or sets the user's outstanding <see cref="WorkItem"/>s.
         /// </summary>
-        public virtual IEnumerable<WorkItem> ActiceWorkItems { get; set; } = Empty<WorkItem>();
+        public virtual IEnumerable<WorkItem> ActiveWorkItems { get; set; } = Empty<WorkItem>();
         /// <summary>
         /// Gets the collection of <see cref="UserRole"/>s to which the user belongs.
         /// </summary>

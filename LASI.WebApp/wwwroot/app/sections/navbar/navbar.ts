@@ -6,14 +6,14 @@ import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-m
 import { UserService } from 'app/user-service';
 
 class NavbarController {
-    static $inject = ['$scope', '$uibModal', 'UserService'];
+    static $inject = ['$uibModal', 'UserService'];
 
-    constructor(private $scope: ng.IScope, private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
+    constructor(private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
         this.activate();
     }
 
     activate() {
-        return this.userService.getUser().then(user=> this.user = user, console.error.bind(console));
+        return this.userService.getUser().then(user => this.user = user, console.error.bind(console));
     }
     openManageDocumentsModal() {
         var navbarController = this;
@@ -23,7 +23,7 @@ class NavbarController {
             template: manageDocumentsModalTemplate,
             resolve: { documents: () => this.documents }
         });
-        modal.result.then(result => console.info(result));
+        return modal.result.then(result => console.info(result));
     }
     // TODO: rename to toggleDropdownList
     toggleExpanded() {

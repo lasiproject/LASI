@@ -1,11 +1,9 @@
 ﻿'use strict';
 import { IQService, IIntervalService, IHttpService } from 'angular';
 
-
-
 export function tasksListServiceProvider(): TasksListServiceProvider {
     var updateInterval = 200;
-    var tasksListUrl = 'api/Tasks';
+    var tasksListUrl = '/api/Tasks';
     var tasks: Task[];
 
     $get.$inject = ['$q', '$http', '$interval'];
