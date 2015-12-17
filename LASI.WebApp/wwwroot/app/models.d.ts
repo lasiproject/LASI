@@ -86,7 +86,7 @@ declare interface PhraseModel extends LexicalModel {
 
 declare interface WordModel extends LexicalModel { }
 declare interface LexicalMenuBuilderFactory {
-    buildAngularMenu: (source:LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
+    buildAngularMenu: (source: LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
 }
 
 declare interface LexicalContextmenuData {
@@ -138,8 +138,8 @@ declare type FunctionOrConstructorMap = { [name: string]: Function | (new (...ar
 declare interface NgModuleConfig {
     name: string;
     requires: (string | NgModuleConfig)[];
-    configFn?: Function;
-    runFn?: Function;
+    configs?: Function[];
+    runs?: Function[];
     values?: FunctionMap;
     constants?: FunctionMap;
     filters?: FunctionMap;

@@ -27,7 +27,7 @@ export default {
         'documentViewer',
         'debug'
     ],
-    configFn: configure,
+    configs: [configure],
     factories: { resultsService, documentsService },
     providers: { documentListService: DocumentListServiceProvider, tasksListService: tasksListServiceProvider },
     directives: { documentListMenuItem },

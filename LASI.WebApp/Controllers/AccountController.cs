@@ -4,6 +4,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using LASI.WebApp.Models;
+using LASI.WebApp.Http;
 
 namespace LASI.WebApp.Controllers
 {
@@ -43,6 +44,7 @@ namespace LASI.WebApp.Controllers
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set shouldLockout: true
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     var user = await UserManager.FindByEmailAsync(model.Email);
@@ -67,13 +69,12 @@ namespace LASI.WebApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return new HttpForbiddenResult("Invalid username or password.");
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return HttpUnauthorized();
         }
 
         //

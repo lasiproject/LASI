@@ -26,11 +26,13 @@ export class UserService {
         this.$http
             .post<User>('/Account/Login', angular.element.param(data), config)
             .then(response => {
+                const user = response.data;
                 console.log('valid');
                 this.loggedIn = true;
-                this.user = response.data;
-                deferred.resolve(response.data);
-                return this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home')
+                this.user = user;
+                deferred.resolve(user);
+                return user;
+                //return this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home')
             })
             .catch(error => {
                 deferred.reject(error);
@@ -59,12 +61,12 @@ export class UserService {
             .then(response => {
 
                 console.log('valid');
-
                 console.log('Logged off');
                 console.log(response);
                 resolve();
                 this.user = undefined;
-                return this.$state.go('app.login');
+                return this.user;
+                //return this.$state.go('app.login');
             })
             .catch(() => reject());
 
