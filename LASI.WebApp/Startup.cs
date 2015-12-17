@@ -103,8 +103,8 @@ namespace LASI.WebApp
 
             if (env.IsDevelopment())
             {
-                //app.UseBrowserLink()
-                //   .UseDeveloperExceptionPage();
+                app.UseBrowserLink()
+                   .UseDeveloperExceptionPage();
             }
             else
             {
