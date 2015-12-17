@@ -1,26 +1,27 @@
 'use strict';
+import 'angular';
 export class UserService {
     static $inject = ['$q', '$http', '$state'];
 
     constructor(private $q: ng.IQService, private $http: ng.IHttpService, private $state: ng.ui.IStateService) { }
 
-    loginUser(credentials: Credentials): PromiseLike<User> {
-        var deferred = this.$q.defer<User>();
-
+    loginUser({ email, password, antiforgeryTokenName, antiforgeryTokenValue }: Credentials): PromiseLike<User> {
+        var { reject, resolve, promise } = this.$q.defer<User>();
         var data = {
-            Email: credentials.email,
-            Password: credentials.password
+            email,
+            password,
+            [antiforgeryTokenName]: antiforgeryTokenValue
         };
 
-        data[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
-        var headers: { [name: string]: any } = { Accept: 'application/json' };
-        headers[credentials.antiforgeryTokenName] = credentials.antiforgeryTokenValue;
-        headers['Upgrade-Insecure-Requests'] = '1';
-        headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        var config = {
 
-            xsrfHeaderName: credentials.antiforgeryTokenName,
-            headers: headers
+        var config: { [i: string]: any } = {
+            xsrfHeaderName: antiforgeryTokenName,
+            headers: {
+                accept: 'application/json',
+                [antiforgeryTokenName]: antiforgeryTokenValue,
+                'Upgrade-Insecure-Requests': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         };
         // TODO: Remove angular.element.param(data) as it silently depends on jQuery
         this.$http
@@ -30,22 +31,21 @@ export class UserService {
                 console.log('valid');
                 this.loggedIn = true;
                 this.user = user;
-                deferred.resolve(user);
+                resolve(user);
                 return user;
-                //return this.$state.current.name === 'app.home' ? this.$state.reload() : this.$state.go('app.home')
             })
             .catch(error => {
-                deferred.reject(error);
+                reject(error);
                 console.error(error);
-            })
-        //.finally(() =>);
-        return deferred.promise;
+            });
+        return promise;
     }
 
-    logoff(antiforgeryTokenName, antiforgeryTokenValue): PromiseLike<void> {
-        var { resolve, reject } = this.$q.defer<void>();
-        var data = {};
-        data[antiforgeryTokenName] = antiforgeryTokenValue;
+    logoff(antiforgeryTokenName: string, antiforgeryTokenValue: string): PromiseLike<void> {
+        var { resolve, reject, promise } = this.$q.defer<void>();
+        var data = {
+            [antiforgeryTokenName]: antiforgeryTokenValue
+        };
         var config: ng.IRequestShortcutConfig = {
             [antiforgeryTokenName]: antiforgeryTokenValue,
             xsrfHeaderName: antiforgeryTokenName,
@@ -56,7 +56,7 @@ export class UserService {
         };
         
         // TODO: Remove angular.element.param(data) as it silently depends on jQuery
-        return this.$http
+        this.$http
             .post<User>('/Account/LogOff', undefined, config)
             .then(response => {
 
@@ -66,20 +66,22 @@ export class UserService {
                 resolve();
                 this.user = undefined;
                 return this.user;
-                //return this.$state.go('app.login');
+
             })
-            .catch(() => reject());
+            .then(() => this.$state.go('app.login'))
+            .catch(error => reject(error));
+
+        return promise;
 
     }
     getUser(): PromiseLike<User> {
-        var deferred = this.$q.defer<User>();
+        var {resolve, reject, promise } = this.$q.defer<User>();
         if (this.user) {
-            deferred.resolve(this.user);
+            resolve(this.user);
         } else {
-            deferred.reject('not logged in');
+            reject('not logged in');
         }
-
-        return deferred.promise;
+        return promise;
     }
     private user: User;
     loggedIn = false;

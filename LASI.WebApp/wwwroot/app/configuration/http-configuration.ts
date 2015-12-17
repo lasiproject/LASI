@@ -1,7 +1,7 @@
 configureHttp.$inject = ['$httpProvider'];
 export function configureHttp($httpProvider: ng.IHttpProvider) {
-    var interceptorFactory: ng.IHttpInterceptorFactory = ($q: ng.IQService) => {
-
+    interceptorFactory.$inject = ['$q'];
+    function interceptorFactory($q: ng.IQService): ng.IHttpInterceptor {
         return {
             responseError: (reason) => {
                 var deferred = $q.defer();
@@ -9,8 +9,7 @@ export function configureHttp($httpProvider: ng.IHttpProvider) {
                 return deferred.promise;
             }
         };
-
     }
-    interceptorFactory.$inject = ['$q'];
+
     $httpProvider.interceptors.push(interceptorFactory);
 }

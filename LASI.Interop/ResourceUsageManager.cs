@@ -10,7 +10,7 @@
     {
         /// <summary>
         /// Sets the overall performance level based on the provided enumeration value, providing
-        /// for coarse grained adjustments to the CPU and RAM consumption.
+        /// for coarse grained adjustments control over CPU and RAM consumption.
         /// </summary>
         /// <param name="performanceProfile">
         /// The PerformanceLevel value indicating the new performance and resource usage settings to adopt.
