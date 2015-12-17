@@ -1,4 +1,3 @@
-import 'github:twbs/bootstrap@3.3.5/css/bootstrap.css!';
 import 'font-awesome';
 import 'dist/app.css!';
 import 'bootstrap';
@@ -96,6 +95,43 @@ import * as angularFileUpload from 'angular-file-upload';
             });
         });
 })();
+
+export function registerAngularModule(module: NgModuleConfig | string) {
+    function isConfig(x): x is NgModuleConfig {
+        return typeof x !== 'string';
+    }
+    function validate() {
+        if (isConfig(module)) {
+            if (!module.name) {
+                throw new TypeError('name is required');
+            } if (!module.requires) {
+                throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
+            }
+        } else if (typeof module !== 'string') {
+            throw new TypeError('module must be a string or an AngularModuleOptions options object');
+        }
+    }
+    if (isConfig(module)) {
+        const configs = module.configs;
+        const runs = module.runs;
+        const configBlocks = configs && (Array.isArray(configs) ? configs : [configs]) || [];
+        const runBlocks = runs && (Array.isArray(runs) ? runs : [runs]) || [];
+        const app = angular.module(module.name, [...module.requires.map(registerAngularModule)])
+            .provider(module.providers || {})
+            .factory(module.factories || {})
+            .service(module.services || {})
+            .filter(module.filters || {})
+            .controller(module.controllers || {})
+            .directive(module.directives || {})
+            .value(module.values || {})
+            .constant(module.constants || {});
+        configBlocks.forEach(app.config.bind(module));
+        runBlocks.forEach(app.run.bind(module));
+        return module.name;
+    } else {
+        return module;
+    }
+}
 
 export default {
     $,

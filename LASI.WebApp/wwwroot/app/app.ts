@@ -1,3 +1,5 @@
+import { bootstrap as ngBootstrap} from 'angular';
+import { registerAngularModule } from './angular-shim';
 import debug from './debug/debug.module';
 import widgets from './widgets/widgets.module';
 import documentList from './document-list/document-list.module';
@@ -10,7 +12,6 @@ import { configureStates } from './configuration/configure-states';
 import { configureHttp } from './configuration/http-configuration';
 import { startup } from './configuration/startup';
 import * as LASI from './LASI';
-import { module as ngModule, bootstrap  as ngBootstrap} from 'angular';
 
 // Define the primary 'app' module, specifying all top level dependencies.
 var app: NgModuleConfig = {
@@ -31,44 +32,8 @@ var app: NgModuleConfig = {
 var modules = [app];
 
 
-function buildModule(module: NgModuleConfig | string) {
-    function isConfig(x): x is NgModuleConfig {
-        return typeof x !== 'string';
-    }
-    function validate() {
-        if (isConfig(module)) {
-            if (!module.name) {
-                throw new TypeError('name is required');
-            } if (!module.requires) {
-                throw new TypeError('requires must be an array. Did you intend to invoke the setter?');
-            }
-        } else if (typeof module !== 'string') {
-            throw new TypeError('module must be a string or an AngularModuleOptions options object');
-        }
-    }
-    if (isConfig(module)) {
-        const configs = module.configs;
-        const runs = module.runs;
-        const configBlocks = configs && (Array.isArray(configs) ? configs : [configs]) || [];
-        const runBlocks = runs && (Array.isArray(runs) ? runs : [runs]) || [];
-        const app = ngModule(module.name, [...module.requires.map(buildModule)])
-            .provider(module.providers || {})
-            .factory(module.factories || {})
-            .service(module.services || {})
-            .filter(module.filters || {})
-            .controller(module.controllers || {})
-            .directive(module.directives || {})
-            .value(module.values || {})
-            .constant(module.constants || {});
-        configBlocks.forEach(app.config.bind(module));
-        runBlocks.forEach(app.run.bind(module));
-        return module.name;
-    } else {
-        return module;
-    }
-}
 function bootstrap() {
-    modules.forEach(buildModule);
+    modules.forEach(registerAngularModule);
     ngBootstrap(document.body, ['app'], {
         strictDi: true,
         debugInfoEnabled: true

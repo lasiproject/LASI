@@ -135,7 +135,12 @@ declare type FunctionMap = { [name: string]: Function };
 declare type ConstructorMap = { [name: string]: new (...args) => any };
 declare type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
 
-declare interface NgModuleConfig {
+/**
+ Describes the shape of angular module which will be registered via angular.module('name', ...deps).
+ The requires array may contain both the names angular modules and other NgModuleConfig objects as dependencies.
+ @see angular.module
+*/
+declare type NgModuleConfig = {
     name: string;
     requires: (string | NgModuleConfig)[];
     configs?: Function[];

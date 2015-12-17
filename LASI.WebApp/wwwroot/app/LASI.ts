@@ -1,7 +1,7 @@
 /// <reference path="../../typings/tsd.d.ts" />
 'use strict';
 import 'font-awesome';
-import 'github:twbs/bootstrap@3.3.5/css/bootstrap.css!';
+import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css!';
 import 'dist/app.css!';
 import $ from 'jquery';
 import 'bootstrap';
