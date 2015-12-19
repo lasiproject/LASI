@@ -28,6 +28,7 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToConsole()
         {
+            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Console;
             writer = Console.Out;
         }
@@ -38,7 +39,8 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path)
         {
-            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), path ?? $"LasiLog{DateTimeOffset.Now.Millisecond}.txt");
+            ThrowIfAlreadyConfigured();
+            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI", path ?? $"LasiLog.txt");
             OutputMode = Mode.File;
 
             var fileStream = new FileStream(path: logPath, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.Write);
@@ -57,7 +59,7 @@ namespace LASI.Utilities
             // and also the logic behind such granularity is questionable from a conceptual standpoint.
 
             writer = TextWriter.Synchronized(new StreamWriter(fileStream));
-            writer.WriteLine($"LASI Message Log: {DateTime.UtcNow}");
+            writer.WriteLine($"LASI Log: {DateTime.Now}");
 
             AppDomain.CurrentDomain.ProcessExit += delegate { writer.Dispose(); };
             AppDomain.CurrentDomain.DomainUnload += delegate { writer.Dispose(); };
@@ -69,8 +71,13 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToDebug()
         {
+            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Debug;
+#if DEBUG
             writer = DebugOutputProxy.Instance;
+#else
+            writer = TextWriter.Null;
+#endif
         }
 
         /// <summary>
@@ -79,7 +86,8 @@ namespace LASI.Utilities
         /// <param name="outputWriter">The text writer to which subsequent messages will be written.</param>
         public static void SetTo(TextWriter outputWriter)
         {
-            Validate.NotNull(outputWriter, "outputWriter", "The output writer cannot be null. To disable output, call Output.SetToSilent");
+            ThrowIfAlreadyConfigured();
+            Validate.NotNull(outputWriter);
             writer = outputWriter;
             OutputMode = Mode.Custom;
         }
@@ -90,8 +98,8 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToSilent()
         {
+            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Silent;
-            if (OutputMode == Mode.File) { writer.Close(); }
             writer = TextWriter.Null;
         }
 
@@ -99,7 +107,7 @@ namespace LASI.Utilities
         /// Writes a string to the text output stream.
         /// </summary>
         /// <param name="value">The string to write to the text output stream.</param>
-        public static void Log(string value) { if (OutputMode != Mode.Silent) writer.WriteLine(value); }
+        public static void Log(string value) { writer.WriteLine(value); }
 
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
@@ -113,10 +121,10 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1) { if (OutputMode != Mode.Silent) writer.WriteLine(format, arg0, arg1); }
+        public static void Log(string format, object arg0, object arg1) { writer.WriteLine(format, arg0, arg1); }
         /// <summary>
         /// Writes a formatted string to the text output stream followed by a line terminator, using the same semantics
-        /// as the System.String.Format(System.String,System.Object) method.
+        /// as the <see cref="string.Format(string, object)"/> method.
         /// </summary>
         /// <param name="format">A composite format string.</param>
         /// <param name="arg0">The first object to format and write.</param>
@@ -127,13 +135,21 @@ namespace LASI.Utilities
         /// item is less than 0 (zero), or greater than or equal to the number of objects
         /// to be formatted (which, for this method overload, is one).
         /// </exception>
-        public static void Log(string format, object arg0, object arg1, object arg2) { if (OutputMode != Mode.Silent) writer.WriteLine(format, arg0, arg1, arg2); }
+        public static void Log(string format, object arg0, object arg1, object arg2) { writer.WriteLine(format, arg0, arg1, arg2); }
 
         /// <summary>
         /// Writes an object to the text output stream.
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
-        public static void Log(object value) { if (OutputMode != Mode.Silent) writer.WriteLine(value); }
+        public static void Log(object value) { writer.WriteLine(value); }
+
+        private static void ThrowIfAlreadyConfigured()
+        {
+            if (OutputMode != Mode.Unspecified)
+            {
+                throw new NotSupportedException($@"Logging has been configured with Output Mode: {OutputMode}. Reconfiguration is not supported.");
+            }
+        }
 
         #endregion
 
@@ -151,6 +167,10 @@ namespace LASI.Utilities
         #endregion
 
         #region Classes 
+
+        /// <summary>
+        /// A <see cref="TextWriter"/> which delegates to the debug output of a supporting IDE.
+        /// </summary>
         private class DebugOutputProxy : TextWriter
         {
             private DebugOutputProxy() { }
@@ -201,22 +221,26 @@ namespace LASI.Utilities
         public enum Mode
         {
             /// <summary>
-            /// The default. All output will be directed to the current console window.
+            /// The default. An output mode has not yet been set.
+            /// </summary>
+            Unspecified,
+            /// <summary>
+            /// Output will be directed to the current console window.
             /// </summary>
             /// <seealso cref="SetToConsole"/>
             Console,
             /// <summary>
-            /// All output will be directed to the IDE's debug window.
+            /// Output will be directed to the IDE's debug window.
             /// </summary>
             /// <seealso cref="SetToDebug"/>
             Debug,
             /// <summary>
-            /// All output will be directed to a file.
+            /// Output will be directed to a file.
             /// </summary>
             /// <seealso cref="SetToFile(string)" />
             File,
             /// <summary>
-            /// All output will be directed to an externally supplied destination.
+            /// Output will be directed to an externally supplied destination.
             /// </summary>
             /// <seealso cref="SetTo(TextWriter)"/>
             Custom,
