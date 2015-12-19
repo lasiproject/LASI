@@ -28,7 +28,6 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToConsole()
         {
-            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Console;
             writer = Console.Out;
         }
@@ -39,7 +38,6 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path)
         {
-            ThrowIfAlreadyConfigured();
             var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI", path ?? $"LasiLog.txt");
             OutputMode = Mode.File;
 
@@ -71,7 +69,6 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToDebug()
         {
-            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Debug;
 #if DEBUG
             writer = DebugOutputProxy.Instance;
@@ -83,12 +80,11 @@ namespace LASI.Utilities
         /// <summary>
         /// Sets the current output stream to the specified textWriter.
         /// </summary>
-        /// <param name="outputWriter">The text writer to which subsequent messages will be written.</param>
-        public static void SetTo(TextWriter outputWriter)
+        /// <param name="textWriter">The text writer to which subsequent messages will be written.</param>
+        public static void SetTo(TextWriter textWriter)
         {
-            ThrowIfAlreadyConfigured();
-            Validate.NotNull(outputWriter);
-            writer = outputWriter;
+            Validate.NotNull(textWriter);
+            writer = textWriter;
             OutputMode = Mode.Custom;
         }
 
@@ -98,7 +94,6 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToSilent()
         {
-            ThrowIfAlreadyConfigured();
             OutputMode = Mode.Silent;
             writer = TextWriter.Null;
         }
@@ -142,15 +137,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
         public static void Log(object value) { writer.WriteLine(value); }
-
-        private static void ThrowIfAlreadyConfigured()
-        {
-            if (OutputMode != Mode.Unspecified)
-            {
-                throw new NotSupportedException($@"Logging has been configured with Output Mode: {OutputMode}. Reconfiguration is not supported.");
-            }
-        }
-
+ 
         #endregion
 
         #region Properties
