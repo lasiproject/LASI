@@ -84,9 +84,7 @@ namespace LASI.WebApp
                         };
                     })
                     .AddUserValidator<UserValidator<Models.ApplicationUser>>()
-                    //.AddRoleManager<RoleManager<UserRole>>()
                     .AddRoleStore<CustomUserStore<UserRole>>()
-                    //.AddUserManager<UserManager<Models.ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>()
                     .AddDefaultTokenProviders();
             // Configure the options for the authentication middleware.

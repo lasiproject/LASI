@@ -7,29 +7,22 @@ using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Framework.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections.Generic;
+using LASI.WebApp.Tests.Mocks;
 
 namespace LASI.WebApp.Tests.ServiceCollectionExtensions
 {
     public static class StorageExtensions
     {
-        public static IServiceCollection AddInMemoryStores(this IServiceCollection services, ApplicationUser user)
-        {
-            services.AddSingleton(provider =>
-            {
-                return new MockHostingEnvironment();
-            });
-            services.AddSingleton<IUserAccessor<ApplicationUser>>(provider => new InMemoryUserProvider());
-            services.AddSingleton<IRoleAccessor<UserRole>>(provider => new InMemoryRoleProvider());
-            services.TryAdd(new ServiceDescriptor(typeof(IDocumentAccessor<UserDocument>), CreateMockDocumentProvider(user)));
-            return services;
-        }
-        private static IDocumentAccessor<UserDocument> CreateMockDocumentProvider(ApplicationUser user)
-        {
-            var documents = new[] {
+        public static IServiceCollection AddInMemoryStores(this IServiceCollection services, ApplicationUser user) => services
+            .AddSingleton<IHostingEnvironment, MockHostingEnvironment>()
+            .AddSingleton<IUserAccessor<ApplicationUser>, InMemoryUserProvider>()
+            .AddSingleton<IRoleAccessor<UserRole>, InMemoryRoleProvider>()
+            .AddSingleton<IWorkItemsService, MockWorkItemsService>()
+            .AddSingleton<IDocumentAccessor<UserDocument>, MockDocumentAccessor>()
+            .AddSingleton<IEnumerable<UserDocument>>(provider => new[] {
                 new UserDocument {
                     _id = MongoDB.Bson.ObjectId.GenerateNewId(),
                     DateUploaded = DateTimeOffset.Now.ToString(),
@@ -51,94 +44,7 @@ namespace LASI.WebApp.Tests.ServiceCollectionExtensions
                     UserId = user.Id,
                     Content = MockDocumentContent3
                 }
-            };
-            user.Documents = documents;
-            return new MockDocumentAccessor(documents);
-        }
-        public class MockHostingEnvironment : IHostingEnvironment
-        {
-            public string EnvironmentName { get; set; } = "Development";
-            public IFileProvider WebRootFileProvider { get { return new PhysicalFileProvider(WebRootPath); } set { throw new NotSupportedException(); } }
-            public string WebRootPath { get; set; } = Directory.GetCurrentDirectory();
-        }
-        public static IServiceCollection AddMockWorkItemsService(this IServiceCollection services, ApplicationUser user)
-        {
-            services.TryAdd(new ServiceDescriptor(typeof(IDocumentAccessor<UserDocument>), CreateMockDocumentProvider(user)));
-            return services.AddSingleton(provider =>
-            {
-                var documentProvider = provider.GetService<IDocumentAccessor<UserDocument>>();
-                return new MockWorkItemsService(documentProvider);
             });
-        }
-
-        private class MockDocumentAccessor : IDocumentAccessor<UserDocument>
-        {
-            public MockDocumentAccessor(IEnumerable<UserDocument> documents)
-            {
-                this.documents = documents.GroupBy(d => d.UserId).ToDictionary(g => g.Key, g => g.AsEnumerable());
-            }
-            public string AddForUser(UserDocument document) => AddForUser(document.UserId, document);
-
-            public string AddForUser(string userId, UserDocument document)
-            {
-                if (documents.ContainsKey(userId))
-                {
-                    documents[userId] = documents[userId].Append(document);
-                }
-                return document.Id;
-            }
-
-            public IEnumerable<UserDocument> GetAllForUser(string userId) => documents.GetValueOrDefault(userId, Enumerable.Empty<UserDocument>());
-
-            public UserDocument GetById(string userId, string documentId)
-            {
-                return documents.GetValueOrDefault(userId).First(d => d.Id == documentId && d.UserId == userId);
-            }
-
-            public void RemoveById(string userId, string documentId)
-            {
-                if (documents.ContainsKey(userId))
-                {
-                    documents[userId] = documents[userId].Where(d => d.Id != documentId.ToString() && d.UserId != userId);
-                }
-            }
-            private Dictionary<string, IEnumerable<UserDocument>> documents;
-
-        }
-
-
-        private class MockWorkItemsService : IWorkItemsService
-        {
-
-            public MockWorkItemsService(IDocumentAccessor<UserDocument> documentProvider)
-            {
-                this.documentProvider = documentProvider;
-            }
-            public IEnumerable<WorkItem> GetAllWorkItemsForUser(string userId)
-            {
-
-                var userWorkItemIdGenerator = 0;
-                return from document in documentProvider.GetAllForUser(userId)
-                       select new WorkItem
-                       {
-                           Id = (++userWorkItemIdGenerator).ToString(),
-                           Name = $"{document.Name}WorkItem",
-                           PercentComplete = 0,
-                           State = TaskState.Pending,
-                           StatusMessage = TaskState.Pending.ToString()
-                       };
-            }
-            public WorkItem GetWorkItemForUserDocument(string userId, string documentId)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void UpdateWorkItemForUser(string userId, WorkItem item)
-            {
-                throw new NotImplementedException();
-            }
-            private readonly IDocumentAccessor<UserDocument> documentProvider;
-        }
 
         private const string MockDocumentContent1 =
             @"Studying is the main source of knowledge. Books are indeed never failing friends
