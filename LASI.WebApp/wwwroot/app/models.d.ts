@@ -11,7 +11,7 @@ declare interface TasksListService {
     tasks: Task[];
 }
 declare interface TasksListServiceProvider {
-    $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService) => TasksListService;
+    $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
     setTasksListUrl: (url: string) => TasksListServiceProvider;
     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
 }

@@ -40,6 +40,7 @@ export class NavbarController {
         const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
         return this.userService
             .logoff(antiforgeryTokenName, antiforgeryTokenValue)
+            .then(() => this.user = undefined)
             .finally(() => this.$state.transitionTo(this.$state.current.name, {}, { reload: true }));
     }
 }

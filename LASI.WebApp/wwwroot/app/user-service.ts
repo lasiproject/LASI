@@ -63,7 +63,7 @@ export class UserService {
                 console.log(response);
                 resolve(response);
                 this.user = undefined;
-
+                return this.user;
             })
             .catch(error => reject(error));
 
