@@ -15,12 +15,12 @@
                      id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown" id="dropdown-list-item-container">
-                            <a href="#" data-toggle="dropdown"
-                               class="dropdown-toggle"
-                               id="document-menu-dropdown-href"
-                               ng-click="navbar.toggleExpanded()"
-                               role="button"
-                               aria-expanded="false">
+                            <button data-toggle="dropdown"
+                                    class="dropdown-toggle"
+                                    id="document-menu-dropdown-href"
+                                    ng-click="navbar.toggleExpanded()"
+                                    role="button"
+                                    aria-expanded="false">
                                 <span class="fa"
                                       ng-class="{
                                           'fa-folder-open': navbar.expanded,
@@ -28,7 +28,7 @@
                                       }">
                                     &nbsp;<span class="badge small">{{navbar.documents && navbar.documents.length}}</span>
                                 </span>&nbsp;&nbsp;<b class="caret"></b>
-                            </a>
+                            </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li class="dropdown" id="document-list-item-manage">
                                     <span class="btn" ng-click="navbar.openManageDocumentsModal()">Manage</span>
@@ -65,15 +65,22 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ui-sref="app.login" ng-hide="app.user">
+                <li ng-if="!navbar.user">
                     <a ui-sref="app.login">Login</a>
                 </li>
-                <li>
+                <li ng-show="navbar.user">
+                    <a>Welcome {{navbar.user.email}}!</a>
+                </li>
+                <li ng-if="navbar.user">
                     <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
-                        <button type="submit" class="btn btn-default"><i class="fa fa-sign-out"></i> Logoff</button>
+                        <div>
+                            <div>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-sign-out"></i> Logoff</button>
+                            </div>
+                        </div>
                     </form>
                 </li>
-                <li ng-hide="app.user">
+                <li ng-hide="navbar.user">
                     <a href="/account/register">Register</a>
                 </li>
 

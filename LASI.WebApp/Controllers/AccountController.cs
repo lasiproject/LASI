@@ -28,7 +28,7 @@ namespace LASI.WebApp.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return Ok();
         }
 
         //

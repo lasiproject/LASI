@@ -4,16 +4,19 @@ import navbarTemplate from 'app/sections/navbar/navbar.html';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
 import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
 import { UserService } from 'app/user-service';
+import { DocumentListService } from 'app/document-list/document-list-service-provider';
 
-class NavbarController {
-    static $inject = ['$uibModal', 'UserService'];
+export class NavbarController {
+    static $inject = ['$state', '$uibModal', 'UserService', 'documentListService'];
 
-    constructor(private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService) {
+    constructor(private $state: ng.ui.IStateService, private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService, private documentListService: DocumentListService) {
         this.activate();
     }
 
     activate() {
-        return this.userService.getUser().then(user => this.user = user, console.error.bind(console));
+        return this.userService.getUser()
+            .then(user => this.user = user, console.error.bind(console))
+            .then(user => this.documentListService.get().then(documents=> this.documents = documents));
     }
     openManageDocumentsModal() {
         var navbarController = this;
@@ -34,8 +37,10 @@ class NavbarController {
     user: User;
     logoff() {
         const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
-        return this.userService.logoff(antiforgeryTokenName, antiforgeryTokenValue);
+        const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
+        return this.userService
+            .logoff(antiforgeryTokenName, antiforgeryTokenValue)
+            .finally(() => this.$state.transitionTo(this.$state.current.name, {}, { reload: true }));
     }
 }
 export function navbar(): ng.IDirective {

@@ -6,6 +6,9 @@ import { ListController as HomeController } from 'app/document-list/list-control
 
 import loginTemplate from 'app/sections/login.html';
 
+import { NavbarController } from 'app/sections/navbar/navbar';
+import navbarTemplate from 'app/sections/navbar/navbar.html';
+
 import { LoginController } from 'app/sections/login';
 import { UserService } from 'app/user-service';
 import { DocumentListService } from 'app/document-list/document-list-service-provider';
@@ -25,31 +28,65 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
         .state({
             url: '/',
             name: 'app',
-            abstract: true,
-            controller: AppController,
-            template: appTemplate,
-            controllerAs: 'app',
-            resolve: {
-                documents
+            //abstract: true,
+            views: {
+                '': {
+                    controller: AppController,
+                    controllerAs: 'app',
+                    template: appTemplate,
+                    resolve: {
+                        documents
+                    }
+                },
+                'main': {
+                    
+                },
+                'navbar': {
+                    name: 'navbar',
+                    controller: NavbarController,
+                    controllerAs: 'navbar',
+                    template: navbarTemplate
+                }
             }
-
         })
         .state({
             name: 'app.home',
-            controllerAs: 'home',
-            controller: HomeController,
-            template: homeTemplate,
-            resolve: {
-                documents
+            url: 'home',
+            views: {
+                'main': {
+                    name: 'home',
+                    controllerAs: 'home',
+                    controller: HomeController,
+                    template: homeTemplate,
+                    resolve: {
+                        documents
+                    }
+                }, 'navbar': {
+                    name: 'navbar',
+                    controller: NavbarController,
+                    controllerAs: 'navbar',
+                    template: navbarTemplate
+                }
             }
-
         })
         .state({
             name: 'app.login',
-            controller: LoginController,
-            controllerAs: 'login',
-            template: loginTemplate
+            url: 'login',
+            views: {
+                'main': {
+                    controller: LoginController,
+                    controllerAs: 'login',
+                    template: loginTemplate, resolve: {
+                        documents
+                    }
+                },
+                'navbar': {
+                    controller: NavbarController,
+                    controllerAs: 'navbar',
+                    template: navbarTemplate,
 
+                }
+            }
         })
         .state({
             name: 'app.logoff',
@@ -58,5 +95,5 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
             template: loginTemplate
         });
 
-    //$urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
 }

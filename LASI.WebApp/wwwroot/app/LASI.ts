@@ -1,12 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 'use strict';
-import 'font-awesome';
-import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css!';
-import 'dist/app.css!';
-import $ from 'jquery';
-import 'bootstrap';
-import 'angular';
-import 'angular-ui-router';
+import './angular-shim';
 import './utilities/augmentations';
 export { default as enableActiveHighlighting } from './results/result-chart-builder';
 export function buildMenus() {

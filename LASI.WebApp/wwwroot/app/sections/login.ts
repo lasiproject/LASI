@@ -30,16 +30,17 @@ export class LoginController {
         }, error => {
             deferred.reject(error);
             console.error(error);
+            return this.$uibModal.open({
+                template: `<p>An error occurred and you could not be logged in.</p>
+                           <p>Please try again.</p>`
+            });
+        }).finally(() => {
+            return this.$state.go('app.home');
         });
         return deferred.promise;
     }
 
-    logoff(): PromiseLike<void> {
-        const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
-
-        return this.userService.logoff(antiforgeryTokenName, antiforgeryTokenValue);
-    }
+   
     user: User;
     username: string;
     password: string;

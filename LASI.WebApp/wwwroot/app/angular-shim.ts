@@ -1,18 +1,19 @@
+'use strict';
 import 'font-awesome';
+import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css!';
 import 'dist/app.css!';
+import $ from 'jquery';
 import 'bootstrap';
+import 'angular';
 import 'angular-ui-router';
-import * as $ from 'jquery';
-import * as angular from 'angular';
-import * as angularBootstrap from 'angular-bootstrap';
-import * as angularBootstrapContextmenu from 'angular-bootstrap-contextmenu';
-import * as angularFileUpload from 'angular-file-upload';
+import 'angular-bootstrap';
+import 'angular-bootstrap-contextmenu';
+import 'angular-file-upload';
 
 /**
  * Augments Array with the additional methods, if and only if a member with the same name as the method has not already been defined.
  */
 (function () {
-    'use strict';
     var arrayAgumentations = {
         flatMap: function (arraySelector, elementSelector) {
             arraySelector = arraySelector || function (array) {
@@ -134,10 +135,6 @@ export function registerAngularModule(module: NgModuleConfig | string) {
 }
 
 export default {
-    $,
-    angular,
-    angularBootstrap,
-    angularBootstrapContextmenu,
-    angularFileUpload
+    $
 }
 
