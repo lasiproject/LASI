@@ -5,20 +5,20 @@ export class UserService {
 
     constructor(private $q: ng.IQService, private $http: ng.IHttpService) { }
 
-    loginUser({ email, password, antiforgeryTokenName, antiforgeryTokenValue }: Credentials): ng.IPromise<User> {
+    loginUser({ email, password, antiforgeryToken }: Credentials): ng.IPromise<User> {
         var { reject, resolve, promise } = this.$q.defer<User>();
         var data = {
             email,
             password,
-            [antiforgeryTokenName]: antiforgeryTokenValue
+            [this.antiforgeryTokenName]: this.token || antiforgeryToken
         };
 
 
         var config: { [i: string]: any } = {
-            xsrfHeaderName: antiforgeryTokenName,
+            xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
                 accept: 'application/json',
-                [antiforgeryTokenName]: antiforgeryTokenValue,
+                [this.antiforgeryTokenName]: this.token,
                 'Upgrade-Insecure-Requests': '1',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -31,6 +31,7 @@ export class UserService {
                 this.loggedIn = true;
                 this.user = user;
                 resolve(user);
+                this.token = response.data.token;
                 return user;
             })
             .catch(error => {
@@ -43,13 +44,13 @@ export class UserService {
     logoff(antiforgeryTokenName: string, antiforgeryTokenValue: string): ng.IPromise<any> {
         var { resolve, reject, promise } = this.$q.defer();
         var data = {
-            [antiforgeryTokenName]: antiforgeryTokenValue
+            [antiforgeryTokenName]: this.token
         };
         var config: ng.IRequestShortcutConfig = {
             xsrfHeaderName: antiforgeryTokenName,
             headers: {
                 accept: 'application/json',
-                [antiforgeryTokenName]: antiforgeryTokenValue,
+                [antiforgeryTokenName]: this.token,
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Upgrade-Insecure-Requests': '1'
             }
@@ -72,14 +73,13 @@ export class UserService {
     }
     getUser(): PromiseLike<User> {
         const {resolve, reject, promise } = this.$q.defer<User>();
-        const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
+        const antiforgeryTokenValue = this.token;
 
         var config: ng.IRequestShortcutConfig = {
-            xsrfHeaderName: antiforgeryTokenName,
+            xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
                 accept: 'application/json',
-                [antiforgeryTokenName]: antiforgeryTokenValue,
+                [this.antiforgeryTokenName]: antiforgeryTokenValue,
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Upgrade-Insecure-Requests': '1'
             }
@@ -88,25 +88,19 @@ export class UserService {
         if (this.user) {
             resolve(this.user);
         } else {
-            this.$http.get<User>('Account/Login', config)
-                .then(response => {
-                    if (response.status !== 200) {
-                        reject(response.statusText);
-                    } else {
-                        this.user = response.data;
-                        resolve(this.user);
-                    }
-                }).catch(() => reject('not logged in'));
+            reject('not logged in');
         }
         return promise;
     }
-    private user: User;
+    token: string;
+    user: User;
     loggedIn = false;
+    antiforgeryTokenName = '__RequestVerificationToken';
+
 }
 
 interface Credentials {
     email: string;
     password: string;
-    antiforgeryTokenName: string;
-    antiforgeryTokenValue: string;
+    antiforgeryToken: string;
 }

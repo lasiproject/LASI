@@ -127,7 +127,7 @@ namespace LASI.WebApp
                })
                .UseCookieAuthentication(options =>
                {
-                   options.ReturnUrlParameter = "/#/login";
+                   //options.ReturnUrlParameter = "/#/login";
                    options.AutomaticChallenge = true;
                    options.AutomaticAuthenticate = true;
                    options.AccessDeniedPath = null;

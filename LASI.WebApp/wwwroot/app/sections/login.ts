@@ -17,12 +17,11 @@ export class LoginController {
     login(): PromiseLike<User> {
         const deferred = this.$q.defer<User>();
         const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
+        const antiforgeryToken = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
         this.userService.loginUser({
             email: this.username,
             password: this.password,
-            antiforgeryTokenName,
-            antiforgeryTokenValue
+            antiforgeryToken
         }).then(user => {
             this.username = user.email;
             deferred.resolve(user);
@@ -40,7 +39,7 @@ export class LoginController {
         return deferred.promise;
     }
 
-   
+
     user: User;
     username: string;
     password: string;

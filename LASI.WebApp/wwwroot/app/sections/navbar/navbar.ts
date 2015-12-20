@@ -9,7 +9,12 @@ import { DocumentListService } from 'app/document-list/document-list-service-pro
 export class NavbarController {
     static $inject = ['$state', '$uibModal', 'UserService', 'documentListService'];
 
-    constructor(private $state: ng.ui.IStateService, private $uibModal: ng.ui.bootstrap.IModalService, private userService: UserService, private documentListService: DocumentListService) {
+    constructor(
+        private $state: ng.ui.IStateService,
+        private $uibModal: ng.ui.bootstrap.IModalService,
+        private userService: UserService,
+        private documentListService: DocumentListService
+    ) {
         this.activate();
     }
 

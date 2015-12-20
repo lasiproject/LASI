@@ -20,18 +20,18 @@ namespace LASI.WebApp.Controllers
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
-        {
-            if (!User.IsSignedIn())
-            {
-                return HttpUnauthorized();
-            }
-            else {
-                return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
-            };
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Login(string returnUrl = null)
+        //{
+        //    if (!User.IsSignedIn())
+        //    {
+        //        return HttpUnauthorized();
+        //    }
+        //    else {
+        //        return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
+        //    };
+        //}
 
         [HttpPost]
         [AllowAnonymous]
@@ -48,16 +48,17 @@ namespace LASI.WebApp.Controllers
                 if (result.Succeeded)
                 {
                     var user = await UserManager.FindByEmailAsync(model.Email);
-                    return UserJson(user);
+                    return Json(new
+                    {
+                        user.Email,
+                        user.Documents,
+                        user.Projects,
+                        user.UserName,
+                        user.FirstName,
+                        user.LastName,
+                        user.ActiveWorkItems
+                    });
                 }
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                //}
-                //if (result.IsLockedOut)
-                //{
-                //    return View("Lockout");
-                //}
                 else
                 {
                     return HttpUnauthorized();
@@ -68,7 +69,7 @@ namespace LASI.WebApp.Controllers
             return HttpUnauthorized();
         }
 
-        private IActionResult UserJson(ApplicationUser user) => Json(new
+        private JsonResult UserJson(ApplicationUser user) => Json(new
         {
             user.Email,
             user.Documents,

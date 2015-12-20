@@ -544,16 +544,7 @@ namespace LASI.Content
         public static string TxtFilesDirectory => InputFilesDirectory + @"\txt";
         internal static readonly ExtensionWrapperMap WrapperMap = new ExtensionWrapperMap(path => { throw new UnsupportedFileTypeException("unmapped " + path); });
         #endregion
-        public static IEnumerable<string> AcceptedFileFormats
-        {
-            get
-            {
-                yield return "TXT";
-                yield return "DOC";
-                yield return "DOCX";
-                yield return "PDF";
-            }
-        }
+        public static IReadOnlyList<string> AcceptedFileFormats = ImmutableList.Create("TXT", "DOC", "DOCX", "PDF");
 
         /// <summary>
         /// Gets the names of all documents in the current project. Ignoring file extensions.
@@ -564,18 +555,7 @@ namespace LASI.Content
         /// Gets all input files in the current project.
         /// </summary>
         /// <returns>All input files in the current project.</returns>
-        public static IEnumerable<InputFile> AllFiles
-        {
-            get
-            {
-                return (txtFiles as IEnumerable<InputFile>).Concat(pdfFiles).Concat(docFiles).Concat(docXFiles).Concat(taggedFiles);
-                //foreach (var txt in txtFiles) { yield return txt; }
-                //foreach (var pdf in pdfFiles) { yield return pdf; }
-                //foreach (var doc in docFiles) { yield return doc; }
-                //foreach (var docx in docXFiles) { yield return docx; }
-                //foreach (var tagged in taggedFiles) { yield return tagged; }
-            }
-        }
+        public static IEnumerable<InputFile> AllFiles => (txtFiles as IEnumerable<InputFile>).Concat(pdfFiles).Concat(docFiles).Concat(docXFiles).Concat(taggedFiles);
 
         #region Fields
 
@@ -616,20 +596,21 @@ namespace LASI.Content
 
         private readonly Func<string, InputFile> unsupportedHandler;
 
-        private static readonly IDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly IReadOnlyDictionary<string, Func<string, InputFile>> mapping = new Dictionary<string, Func<string, InputFile>>()
         {
-            [".txt"] = p => new TxtFile(p),
-            [".doc"] = p => new DocFile(p),
-            [".docx"] = p => new DocXFile(p),
-            [".pdf"] = p => new PdfFile(p),
-            [".tagged"] = p => new TaggedFile(p)
-        };
+            [".txt"] = path => new TxtFile(path),
+            [".doc"] = path => new DocFile(path),
+            [".docx"] = path => new DocXFile(path),
+            [".pdf"] = path => new PdfFile(path),
+            [".tagged"] = path => new TaggedFile(path)
+        }.ToImmutableDictionary(StringComparer.OrdinalIgnoreCase);
+
         /// <summary>
         /// Returns a function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.
         /// </summary>
         /// <param name="fileExtension">The file extension which for which to retrieve the appropriate InputFile instantiator function.</param>
         /// <returns>A function which can be invoked to instantiate an InputFile Wrapper corresponding to the given file extension.</returns>
-        public Func<string, InputFile> this[string fileExtension] => mapping.GetValueOrDefault(fileExtension, unsupportedHandler);
+        public Func<string, InputFile> this[string fileExtension] => mapping.ToDictionary().GetValueOrDefault(fileExtension, unsupportedHandler);
 
     }
     #endregion

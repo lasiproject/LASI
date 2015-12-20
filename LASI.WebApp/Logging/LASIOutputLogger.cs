@@ -35,7 +35,7 @@ namespace LASI.WebApp.Logging
             public IDisposable BeginScopeImpl(object state) => new LoggerScope(state);
 
             public bool IsEnabled(LogLevel logLevel) => filter(name, logLevel);
-
+            [System.Diagnostics.DebuggerStepThrough]
             public void Log(LogLevel logLevel, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
             {
                 if (IsEnabled(logLevel))
@@ -45,7 +45,7 @@ namespace LASI.WebApp.Logging
                     Utilities.Logger.Log($"[{severity}:{name}] {message}");
                 }
             }
-
+            [System.Diagnostics.DebuggerStepThrough]
             private sealed class LoggerScope : IDisposable
             {
                 public LoggerScope(object state)

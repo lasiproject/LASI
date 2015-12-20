@@ -49,7 +49,7 @@ namespace LASI.Core.Heuristics.WordNet
                     setsById[indexed.Set.Id] = indexed.Set;
                     if (indexed.LineNumber % 821 == 0)
                     {
-                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2)); 
+                        OnReport(new EventArgs($"Loaded Noun Data - Set: {indexed.LineNumber} / {TotalLines}", ProgressAmount * 2));
                     }
                 }
             }
@@ -65,19 +65,19 @@ namespace LASI.Core.Heuristics.WordNet
             var line = rawSynset.Substring(0, rawSynset.IndexOf('|'));
 
             var referencedSets = from Match match in PointerRegex.Matches(line)
-                                          let split = match.Value.SplitRemoveEmpty(' ')
-                                          where split.Length > 1
-                                          let linkKind = linkMap[split[0]]
-                                          where consideredSetLinks.Contains(linkKind)
-                                          let referenced = int.Parse(split[1])
-                                          select new SetReference(linkKind, referenced);
+                                 let split = match.Value.SplitRemoveEmpty(' ')
+                                 where split.Length > 1
+                                 let linkKind = linkMap[split[0]]
+                                 where consideredSetLinks.Contains(linkKind)
+                                 let referenced = int.Parse(split[1])
+                                 select new SetReference(linkKind, referenced);
             return new NounSynset(
                 id: int.Parse(line.Substring(0, 8)),
                 words: from Match m in WordRegex.Matches(line)
-                                   select m.Value.Replace(
-                                           '_',
-                                           ' '
-                                       ),
+                       select m.Value.Replace(
+                               '_',
+                               ' '
+                           ),
                 category: (NounCategory)int.Parse(line.Substring(9, 2)),
                 pointerRelationships: referencedSets
             );
@@ -146,41 +146,41 @@ namespace LASI.Core.Heuristics.WordNet
         private const int TotalLines = 82114;
 
         private static readonly IImmutableSet<Link> consideredSetLinks = ImmutableHashSet.Create(
-                                                                             Link.MemberOfThisDomain_REGION,
-                                                                             Link.MemberOfThisDomain_TOPIC,
-                                                                             Link.MemberOfThisDomain_USAGE,
-                                                                             Link.DomainOfSynset_REGION,
-                                                                             Link.DomainOfSynset_TOPIC,
-                                                                             Link.DomainOfSynset_USAGE,
-                                                                             Link.Hyponym,
-                                                                             Link.InstanceHyponym,
-                                                                             Link.InstanceHypernym,
-                                                                             Link.Hypernym
-                                                                         );
+            Link.MemberOfThisDomain_REGION,
+            Link.MemberOfThisDomain_TOPIC,
+            Link.MemberOfThisDomain_USAGE,
+            Link.DomainOfSynset_REGION,
+            Link.DomainOfSynset_TOPIC,
+            Link.DomainOfSynset_USAGE,
+            Link.Hyponym,
+            Link.InstanceHyponym,
+            Link.InstanceHypernym,
+            Link.Hypernym
+        );
 
         // Provides an indexed lookup between the values of the Noun enum and their corresponding
         // string representation in WordNet data.noun files.
         private static readonly IReadOnlyDictionary<string, Link> linkMap = new Dictionary<string, Link>
         {
-            ["!" ] = Link.Antonym,
-            ["@" ] = Link.Hypernym,
-            ["@i" ] = Link.InstanceHypernym,
-            ["~" ] = Link.Hyponym,
-            ["~i" ] = Link.InstanceHyponym,
-            ["#m" ] = Link.MemberHolonym,
-            ["#s" ] = Link.SubstanceHolonym,
-            ["#p" ] = Link.PartHolonym,
-            ["%m" ] = Link.MemberMeronym,
-            ["%s" ] = Link.SubstanceMeronym,
-            ["%p" ] = Link.PartMeronym,
-            ["=" ] = Link.Attribute,
-            ["+" ] = Link.DerivationallyRelatedForm,
-            [";c" ] = Link.DomainOfSynset_TOPIC,
-            ["-c" ] = Link.MemberOfThisDomain_TOPIC,
-            [";r" ] = Link.DomainOfSynset_REGION,
-            ["-r" ] = Link.MemberOfThisDomain_REGION,
-            [";u" ] = Link.DomainOfSynset_USAGE,
-            ["-u" ] = Link.MemberOfThisDomain_USAGE
+            ["!"] = Link.Antonym,
+            ["@"] = Link.Hypernym,
+            ["@i"] = Link.InstanceHypernym,
+            ["~"] = Link.Hyponym,
+            ["~i"] = Link.InstanceHyponym,
+            ["#m"] = Link.MemberHolonym,
+            ["#s"] = Link.SubstanceHolonym,
+            ["#p"] = Link.PartHolonym,
+            ["%m"] = Link.MemberMeronym,
+            ["%s"] = Link.SubstanceMeronym,
+            ["%p"] = Link.PartMeronym,
+            ["="] = Link.Attribute,
+            ["+"] = Link.DerivationallyRelatedForm,
+            [";c"] = Link.DomainOfSynset_TOPIC,
+            ["-c"] = Link.MemberOfThisDomain_TOPIC,
+            [";r"] = Link.DomainOfSynset_REGION,
+            ["-r"] = Link.MemberOfThisDomain_REGION,
+            [";u"] = Link.DomainOfSynset_USAGE,
+            ["-u"] = Link.MemberOfThisDomain_USAGE
         };
 
         private static readonly Regex PointerRegex = new Regex(
@@ -200,7 +200,7 @@ namespace LASI.Core.Heuristics.WordNet
                                                                      TotalLines
                                                                  );
 
-        internal override IImmutableSet<string> this [string search]
+        internal override IImmutableSet<string> this[string search]
         {
             get
             {
@@ -220,6 +220,6 @@ namespace LASI.Core.Heuristics.WordNet
             }
         }
 
-        internal override IImmutableSet<string> this [Noun search] => this[search.Text];
+        internal override IImmutableSet<string> this[Noun search] => this[search.Text];
     }
 }

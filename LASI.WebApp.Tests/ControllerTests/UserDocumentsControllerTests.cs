@@ -21,8 +21,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         [Fact]
         public void GetTest1()
         {
-            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
-                .BuildServiceProvider();
+            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
@@ -36,8 +35,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         [Fact]
         public void GetTest2()
         {
-            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
-                .BuildServiceProvider();
+            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
@@ -46,8 +44,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         [Fact]
         public async Task UnauthenticatedGetReturns401()
         {
-            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User)
-              .BuildServiceProvider();
+            var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
             UserDocumentsController controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
