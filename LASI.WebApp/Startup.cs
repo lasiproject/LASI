@@ -121,16 +121,23 @@ namespace LASI.WebApp
 
             app.UseStaticFiles()
                .UseIdentity()
+               .UseCors(policy =>
+              {
+                  policy.AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowAnyOrigin()
+                   .AllowCredentials()
+                   .WithExposedHeaders("Access-Control-Allow-Origin");
+              })
                .UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
                })
                .UseCookieAuthentication(options =>
                {
-                   //options.ReturnUrlParameter = "/#/login";
                    options.AutomaticChallenge = true;
                    options.AutomaticAuthenticate = true;
-                   options.AccessDeniedPath = null;
+                   options.AccessDeniedPath = "/#/login";
                })
                .UseMvc(routes =>
                {
