@@ -12,8 +12,6 @@ namespace LASI.Core
     /// </summary>
     public class Existential : Word
     {
-        internal object text;
-
         /// <summary>Initializes a new instance of the Existential class.</summary>
         /// <param name="text">The text content of the Existential word.</param>
         public Existential(string text) : base(text) { }
