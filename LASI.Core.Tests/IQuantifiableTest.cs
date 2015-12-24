@@ -1,6 +1,5 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -10,28 +9,23 @@ namespace LASI.Core.Tests
     ///This is a test class for IQuantifiableTest and is intended
     ///to contain all IQuantifiableTest Unit Tests
     /// </summary>
-    [TestClass]
     public class IQuantifiableTest
     {
-        internal virtual IQuantifiable CreateIQuantifiable()
-        {
-            // TODO: Instantiate an appropriate concrete class.
-            IQuantifiable target = new CommonPluralNoun("mittens");
-            return target;
-        }
+
+        private static IQuantifiable CreateIQuantifiable() => new CommonPluralNoun("mittens");
 
         /// <summary>
         ///A test for QuantifiedBy
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void QuantifiedByTest()
         {
-            IQuantifiable target = CreateIQuantifiable(); // TODO: Initialize to an appropriate value
+            IQuantifiable target = CreateIQuantifiable();
             IQuantifier expected = new Quantifier("all");
             IQuantifier actual;
             target.QuantifiedBy = expected;
             actual = target.QuantifiedBy;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }

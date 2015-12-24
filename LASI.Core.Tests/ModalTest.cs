@@ -1,8 +1,5 @@
-﻿using LASI;
-using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -12,31 +9,33 @@ namespace LASI.Core.Tests
     ///This is A test class for ModalTest and is intended
     ///to contain all ModalTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ModalTest
-    { 
+    {
         /// <summary>
         ///A test for ModalAuxilary Constructor
         /// </summary>
-        [TestMethod]
-        public void ModalConstructorTest() {
+        [Fact]
+        public void ModalConstructorTest()
+        {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
-            Assert.IsTrue(target.Modifies == null && target.Text == text);
+            Check.That(target.Modifies).IsNull();
+            Check.That(target.Text).IsEqualTo(text);
         }
 
         /// <summary>
         ///A test for Modifies
         /// </summary>
-        [TestMethod]
-        public void ModifiesTest() {
+        [Fact]
+        public void ModifiesTest()
+        {
             string text = "can";
             ModalAuxilary target = new ModalAuxilary(text);
             IModalityModifiable expected = new BaseVerb("capitulate");
             IModalityModifiable actual;
             target.Modifies = expected;
             actual = target.Modifies;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }

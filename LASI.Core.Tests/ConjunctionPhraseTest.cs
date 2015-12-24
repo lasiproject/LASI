@@ -1,35 +1,31 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
-
-
     /// <summary>
     ///This is a test class for ConjunctionPhraseTest and is intended
     ///to contain all ConjunctionPhraseTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ConjunctionPhraseTest
     {
         /// <summary>
         ///A test for ConjunctionPhrase Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ConjunctionPhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("or") };
             ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
-            Assert.AreEqual(target.Text, string.Join(" ", composedWords.Select(w => w.Text)));
+            Check.That(target.Text).IsEqualTo(string.Join(" ", composedWords.Select(w => w.Text)));
         }
 
         /// <summary>
         ///A test for JoinedLeft
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void JoinedLeftTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
@@ -38,13 +34,13 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedLeft = expected;
             actual = target.JoinedLeft;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for JoinedRight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void JoinedRightTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
@@ -53,9 +49,7 @@ namespace LASI.Core.Tests
             ILexical actual;
             target.JoinedRight = expected;
             actual = target.JoinedRight;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
-
-
     }
 }

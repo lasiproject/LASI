@@ -206,25 +206,24 @@ namespace LASI.Core
             var first = properNouns.OfSingular()
                 .FirstOrDefault(n => n.Gender.IsMaleOrFemale());
             var last = properNouns.LastOrDefault(n => n != first && n.IsLastName());
-            return first != null && (last != null || properNouns.All(n => n.GetGender() == first.Gender)) ?
-                first.Gender :
-                name.Words.OfNoun().All(n => n.GetGender().IsNeutral()) ?
-                Gender.Neutral :
-                Gender.Undetermined;
+            return (first != null && (last != null || properNouns.All(n => n.GetGender() == first.Gender)))
+                ? first.Gender
+                : name.Words.OfNoun().All(n => n.GetGender().IsNeutral())
+                    ? Gender.Neutral
+                    : Gender.Undetermined;
         }
 
         private static Gender DeterminePronounPhraseGender(PronounPhrase pronounPhrase)
         {
             if (pronounPhrase.Words.All(w => w is Determiner)) { return Gender.Undetermined; }
             var genders = pronounPhrase.Words.OfType<ISimpleGendered>().Select(w => w.Gender);
-            return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered)) ?
-                DetermineNounPhraseGender(pronounPhrase) :
-                genders.Any() ?
-                    genders.All(g => g.IsFemale()) ? Gender.Female :
-                    genders.All(g => g.IsMale()) ? Gender.Male :
-                    genders.All(g => g.IsNeutral()) ? Gender.Neutral :
-                    Gender.Undetermined :
-                Gender.Undetermined;
+            return pronounPhrase.Words.OfProperNoun().Any(n => !(n is ISimpleGendered))
+                ? DetermineNounPhraseGender(pronounPhrase)
+                : genders.Any()
+                    ? genders.All(g => g.IsFemale()) ? Gender.Female
+                    : genders.All(g => g.IsMale()) ? Gender.Male
+                    : genders.All(g => g.IsNeutral()) ? Gender.Neutral : Gender.Undetermined
+                    : Gender.Undetermined;
         }
 
 

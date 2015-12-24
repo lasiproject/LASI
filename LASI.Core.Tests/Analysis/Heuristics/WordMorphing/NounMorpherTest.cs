@@ -8,7 +8,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
     using Utilities;
     using Utilities.Specialized.Enhanced.IList.Linq;
     using Shared.Test.Assertions;
-
+    using NFluent;
     /// <summary>
     ///This is A test class for NounConjugatorTest and is intended
     ///to contain all NounConjugatorTest Unit Tests
@@ -27,7 +27,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "bird";
             string actual;
             actual = target.FindRoot(conjugated);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopus";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
         /// <summary>
         ///A test for FindRoot
@@ -54,7 +54,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "pass-through";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopus";
             string actual;
             actual = target.FindRoot(noun);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
         /// <summary>
         ///A test for FindRoot
@@ -81,7 +81,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopi-hunter";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>

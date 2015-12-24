@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
@@ -97,11 +98,11 @@ namespace LASI.Core.Tests
             IEntity actual;
             target.Describes = expected;
             actual = target.Describes;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
             expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("woman") });
             target.Describes = expected;
             actual = target.Describes;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>

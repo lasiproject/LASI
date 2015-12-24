@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
 using Shared.Test.Assertions;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
@@ -333,7 +334,7 @@ namespace LASI.Core.Tests
             string expected = "testname";
             string actual;
             actual = target.Name;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -392,7 +393,7 @@ namespace LASI.Core.Tests
             string expected = string.Join(string.Empty, target.GetType(), ": ", target.Name, "\nParagraphs:\n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -414,7 +415,7 @@ namespace LASI.Core.Tests
             }
             EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
             EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
-            Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) ).IsEqualTo( string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
         }
         /// <summary>
         ///A test for Paginate
@@ -435,7 +436,7 @@ namespace LASI.Core.Tests
             }
             EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
             EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
-            Assert.IsTrue(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) == string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) ).IsEqualTo( string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
 
         }
 

@@ -2,6 +2,7 @@
 using LASI.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using NFluent;
 
 namespace LASI.Core.Tests
 {
@@ -20,11 +21,14 @@ namespace LASI.Core.Tests
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         /// </summary>
-        public TestContext TestContext {
-            get {
+        public TestContext TestContext
+        {
+            get
+            {
                 return testContextInstance;
             }
-            set {
+            set
+            {
                 testContextInstance = value;
             }
         }
@@ -64,10 +68,11 @@ namespace LASI.Core.Tests
         ///A test for Punctuation Constructor
         /// </summary>
         [TestMethod]
-        public void PunctuatorConstructorTest() {
+        public void PunctuatorConstructorTest()
+        {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
-            Assert.IsTrue(target.LiteralCharacter == puncChar, "Punctuator Character Constructor Works!");
+            Check.That(target.LiteralCharacter).IsEqualTo(puncChar);
         }
 
 
@@ -75,38 +80,41 @@ namespace LASI.Core.Tests
         ///A test for Text
         /// </summary>
         [TestMethod]
-        public void TextTest() {
+        public void TextTest()
+        {
             char puncChar = '\u0021';
             Punctuator target = new Punctuator(puncChar);
             string expected = "!";
             string actual;
             actual = target.Text;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for Punctuator Constructor
         /// </summary>
         [TestMethod]
-        public void PunctuatorConstructorTest2() {
+        public void PunctuatorConstructorTest2()
+        {
             string punctuation = "!";
             Punctuator target = new Punctuator(punctuation);
             string expected = "!";
             string actual;
             actual = target.Text;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for Punctuator Constructor
         /// </summary>
         [TestMethod]
-        public void PunctuatorConstructorTest3() {
+        public void PunctuatorConstructorTest3()
+        {
             char punctuation = '.';
             Punctuator target = new Punctuator(punctuation);
             char expected = '.';
             char actual = target.LiteralCharacter;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }

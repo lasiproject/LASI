@@ -17,7 +17,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the RelativePronoun.</param>
         public RelativePronoun(string text)
-            : base(text) {
+            : base(text)
+        {
             RelativePronounKind = DetermineKind(this);
         }
         #region Methods
@@ -25,10 +26,13 @@ namespace LASI.Core
         /// Binds the RelativePronoun to refer to the given Entity.
         /// </summary>
         /// <param name="target">The entity to which to bind.</param>
-        public void BindAsReferringTo(IEntity target) {
-            if (RefersTo == null || !RefersTo.Any()) {
+        public void BindAsReferringTo(IEntity target)
+        {
+            if (RefersTo == null || !RefersTo.Any())
+            {
                 RefersTo = new AggregateEntity(new[] { target });
-            } else {
+            }
+            else {
                 RefersTo = new AggregateEntity(RefersTo.Append(target));
             }
             EntityKind = RefersTo.EntityKind;
@@ -39,10 +43,13 @@ namespace LASI.Core
         /// If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public void AddPossession(IPossessable possession) {
-            if (IsBound) {
+        public void AddPossession(IPossessable possession)
+        {
+            if (IsBound)
+            {
                 RefersTo.AddPossession(possession);
-            } else {
+            }
+            else {
                 possessions = possessions.Add(possession);
                 possession.Possesser = this;
             }
@@ -51,7 +58,8 @@ namespace LASI.Core
         /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the RelativePronoun.
         /// </summary>
         /// <param name="referencer">The EntityReferency to Bind.</param>
-        public void BindReferencer(IReferencer referencer) {
+        public void BindReferencer(IReferencer referencer)
+        {
             referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
@@ -59,7 +67,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the RelativePronoun.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the RelativePronoun's descriptors.</param>
-        public void BindDescriptor(IDescriptor descriptor) {
+        public void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -132,7 +141,8 @@ namespace LASI.Core
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
 
-        private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun) {
+        private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun)
+        {
             var text = relativePronoun.Text.ToLower();
             return
                 subjectRolePersonal.Contains(text) ? RelativePronounKind.SubjectRolePersonal :

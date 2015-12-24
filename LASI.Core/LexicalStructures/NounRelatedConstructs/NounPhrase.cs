@@ -120,7 +120,7 @@ namespace LASI.Core
         public NounPhrase InnerAttributive
         {
             get { return innerAttributive; }
-            set { innerAttributive = (value != this ? value : null); }
+            set { innerAttributive = value != this ? value : null; }
         }
         /// <summary>
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.

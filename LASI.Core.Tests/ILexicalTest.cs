@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
-using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -9,13 +7,12 @@ namespace LASI.Core.Tests
     ///This is a test class for ILexicalTest and is intended
     ///to contain all ILexicalTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ILexicalTest
     {
         /// <summary>
         ///A test for MetaWeight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void MetaWeightTest()
         {
             ILexical target = CreateILexical();
@@ -23,25 +20,25 @@ namespace LASI.Core.Tests
             double actual;
             target.MetaWeight = expected;
             actual = target.MetaWeight;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
-        /// <summary>
-        ///A test for Text
-        /// </summary>
-        [TestMethod]
-        public void TextTest()
-        {
-            ILexical target = CreateILexical();
-            string actual;
-            actual = target.Text;
-            Assert.AreEqual(target.Text, actual);
-        }
+        ///// <summary>
+        /////A test for Text
+        ///// </summary>
+        //[Fact]
+        //public void TextTest()
+        //{
+        //    ILexical target = CreateILexical();
+        //    string actual;
+        //    actual = target.Text;
+        //    Check.That(target.Text).IsEqualTo(actual);
+        //}
 
         /// <summary>
         ///A test for Weight
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void WeightTest()
         {
             ILexical target = CreateILexical();
@@ -49,23 +46,7 @@ namespace LASI.Core.Tests
             double actual;
             target.Weight = expected;
             actual = target.Weight;
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            Check.That(expected).IsEqualTo(actual);
         }
 
         internal virtual ILexical CreateILexical()
@@ -77,11 +58,5 @@ namespace LASI.Core.Tests
             );
             return target;
         }
-
-        private TestContext testContextInstance;
-
-        #region Additional test attributes
-
-        #endregion Additional test attributes
     }
 }
