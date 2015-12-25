@@ -1,7 +1,5 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using NFluent;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -14,7 +12,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Modifies
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ModifiesTest()
         {
             string text = "can";
@@ -29,13 +27,13 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for ModalAuxilary Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ModalAuxilaryConstructorTest()
         {
             string text = "cannot";
             ModalAuxilary target = new ModalAuxilary(text);
             Check.That(target.Text).IsEqualTo(text);
-            Assert.IsTrue(target.Modifies == null);
+            Check.That(target.Modifies).IsNull();
         }
     }
 }

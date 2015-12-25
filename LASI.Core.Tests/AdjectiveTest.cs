@@ -1,11 +1,8 @@
-﻿using LASI;
-using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using LASI.Core;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities;
 using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -15,83 +12,39 @@ namespace LASI.Core.Tests
     ///This is A test class for AdjectiveTest and is intended
     ///to contain all AdjectiveTest Unit Tests
     /// </summary>
-    [TestClass]
     public class AdjectiveTest
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for Adjective Constructor
         /// </summary>
-        [TestMethod]
-        public void AdjectiveConstructorTest() {
+        [Fact]
+        public void AdjectiveConstructorTest()
+        {
             string text = "orangish";
             Adjective target = new Adjective(text);
-            Assert.AreEqual(text, target.Text);
+            Check.That(target.Text).IsEqualTo(text);
         }
 
         /// <summary>
         ///A test for ModifyWith
         /// </summary>
-        [TestMethod]
-        public void ModifyWithTest() {
+        [Fact]
+        public void ModifyWithTest()
+        {
             Adjective target = new Adjective("orangish");
             Adverb adv = new Adverb("demonstrably");
             AdverbPhrase advp = new AdverbPhrase(new[] { adv });
             target.ModifyWith(adv);
             target.ModifyWith(advp);
-            Assert.IsTrue(target.AdverbialModifiers.Contains(adv) && target.AdverbialModifiers.Contains(advp));
+            Check.That(target.AdverbialModifiers).Contains(adv).And.Contains(advp);
         }
 
         /// <summary>
         ///A test for Describes
         /// </summary>
-        [TestMethod]
-        public void DescribesTest() {
+        [Fact]
+        public void DescribesTest()
+        {
             string text = "funny";
             Adjective target = new Adjective(text);
             IEntity expected = new CommonSingularNoun("man");
@@ -108,13 +61,14 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Modifiers
         /// </summary>
-        [TestMethod]
-        public void ModifiersTest() {
+        [Fact]
+        public void ModifiersTest()
+        {
             string text = "funny";
             Adjective target = new Adjective(text);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
-            Assert.IsFalse(target.AdverbialModifiers.Any());
+            Check.That(target.AdverbialModifiers).IsEmpty();
         }
 
 

@@ -1,10 +1,9 @@
 ﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
-using Shared.Test.Assertions;
 using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -14,59 +13,8 @@ namespace LASI.Core.Tests
     ///This is A test class for DocumentTest and is intended
     ///to contain all DocumentTest Unit Tests
     /// </summary>
-    [TestClass]
     public class DocumentTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in A class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
         #region Testing Helpers
 
         private static Document CreateUnboundUnweightedTestDocument()
@@ -146,23 +94,23 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Document Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void DocumentConstructorTest()
         {
             Document doc = CreateUnboundUnweightedTestDocument();
-            Assert.IsTrue(doc.Words
+            Assert.True(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
              ).Aggregate(true, (f, e) => f && e));
-            Assert.IsTrue(doc.Phrases
+            Assert.True(doc.Phrases
                 .Select((x, index) => x.PreviousPhrase == doc.Phrases.ElementAtOrDefault(index - 1) && x.NextPhrase == doc.Phrases.ElementAtOrDefault(index + 1)
                 ).Aggregate(true, (f, e) => f && e));
-            Assert.IsTrue(doc != null);
+            Assert.True(doc != null);
         }
 
         /// <summary>
         ///A test for GetActions
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetVerbalsTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
@@ -183,7 +131,7 @@ namespace LASI.Core.Tests
             actual = target.Verbals;
             foreach (var e in expected)
             {
-                Assert.IsTrue(actual.Contains(e, LASI.Utilities.Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
+                Assert.True(actual.Contains(e, LASI.Utilities.Equality.Create<IVerbal>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
 
         }
@@ -191,7 +139,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for GetEntities
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetEntitiesTest()
         {
 
@@ -219,7 +167,7 @@ namespace LASI.Core.Tests
             actual = target.Entities;
             foreach (var e in expected)
             {
-                Assert.IsTrue(actual.Contains(e, LASI.Utilities.Equality.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
+                Assert.True(actual.Contains(e, LASI.Utilities.Equality.Create<IEntity>((a, b) => a.Text == b.Text && a.GetType() == b.GetType())));
             }
         }
 
@@ -227,7 +175,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Paragraphs
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ParagraphsTest()
         {
             IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
@@ -237,14 +185,14 @@ namespace LASI.Core.Tests
             for (var i = 0; i < paragraphsIn.Count(); ++i)
             {
 
-                Assert.AreEqual(paragraphsIn.ToList()[i], actual.ToList()[i]);
+                Check.That(paragraphsIn.ToList()[i]).IsEqualTo(actual.ToList()[i]);
             }
         }
 
         /// <summary>
         ///A test for Phrases
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PhrasesTest()
         {
 
@@ -255,13 +203,13 @@ namespace LASI.Core.Tests
                 .Zip(new[] { "We", "must attack", "blue team", "We", "must do", "this", "quickly" },
                 (r, s) => r.Text == s)
                 .Aggregate(true, (aggr, val) => aggr && val);
-            Assert.IsTrue(expectedResult);
+            Assert.True(expectedResult);
         }
 
         /// <summary>
         ///A test for Sentences
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SentencesTest()
         {
             Sentence[] firstParagraphSentences = new Sentence[] {
@@ -301,14 +249,14 @@ namespace LASI.Core.Tests
             for (var i = 0; i < actual.Count(); ++i)
             {
 
-                Assert.AreEqual(firstParagraphSentences.ToList()[i], actual.ToList()[i]);
+                Check.That(firstParagraphSentences.ToList()[i]).IsEqualTo(actual.ToList()[i]);
             }
         }
 
         /// <summary>
         ///A test for Words
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void WordsTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
@@ -317,7 +265,7 @@ namespace LASI.Core.Tests
             string[] expectedLexicalMatches = new[]{
                 "We", "must", "attack", "blue", "team","!", "We", "must", "do", "this", "quickly","!"};
             var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr && val);
-            Assert.IsTrue(expectedResult);
+            Assert.True(expectedResult);
         }
 
 
@@ -326,7 +274,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Name
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void TitleTest()
         {
             IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
@@ -340,7 +288,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Clauses
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ClausesTest()
         {
             Sentence[] firstParagraphSentences = new Sentence[] {
@@ -380,13 +328,13 @@ namespace LASI.Core.Tests
             IEnumerable<Clause> expected = firstParagraphSentences.SelectMany(s => s.Clauses);
             IEnumerable<Clause> actual;
             actual = target.Clauses;
-            EnumerableAssert.AreSetEqual(expected, actual);
+            Check.That(actual).Contains(expected).Only();
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ToStringTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
@@ -399,7 +347,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Paginate
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PaginateTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
@@ -411,16 +359,16 @@ namespace LASI.Core.Tests
             actual = target.Paginate(lineLength, linesPerPage);
             foreach (var page in actual)
             {
-                Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+                Assert.True(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
-            EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
-            EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
-            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) ).IsEqualTo( string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Check.That(target.Sentences.Except(actual.SelectMany(page => page.Sentences))).IsEmpty();
+            Check.That(target.Paragraphs.Except(actual.SelectMany(page => page.Paragraphs))).IsEmpty();
+            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text))).IsEqualTo(string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
         }
         /// <summary>
         ///A test for Paginate
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void PaginateTest1()
         {
             Document target = CreateUnboundUnweightedTestDocument();
@@ -432,11 +380,11 @@ namespace LASI.Core.Tests
             actual = target.Paginate(lineLength, linesPerPage);
             foreach (var page in actual)
             {
-                Assert.IsTrue(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
+                Assert.True(string.Join(string.Empty, page.Paragraphs.Select(p => p.Text)).Length <= lineLength * linesPerPage);
             }
-            EnumerableAssert.AreSetEqual(target.Paragraphs, actual.SelectMany(page => page.Paragraphs));
-            EnumerableAssert.AreSetEqual(target.Sentences, actual.SelectMany(page => page.Sentences));
-            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text)) ).IsEqualTo( string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
+            Check.That(target.Paragraphs.Except(actual.SelectMany(page => page.Paragraphs))).IsEmpty();
+            Check.That(target.Sentences.Except(actual.SelectMany(page => page.Sentences))).IsEmpty();
+            Check.That(string.Join(string.Empty, target.Sentences.Select(s => s.Text))).IsEqualTo(string.Join(string.Empty, actual.SelectMany(p => p.Sentences.Select(s => s.Text))));
 
         }
 

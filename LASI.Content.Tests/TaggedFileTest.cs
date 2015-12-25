@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Shared.Test.Attributes;
 using NFluent;
 
 namespace LASI.Content.Tests

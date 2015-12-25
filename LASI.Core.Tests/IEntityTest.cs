@@ -1,25 +1,22 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Xunit;
 
 namespace LASI.Core.Tests
 {
     /// <summary>
     /// This is a test class for IEntityTest and is intended to contain all IEntityTest Unit Tests
     /// </summary>
-    [TestClass]
     public class IEntityTest
     {
         /// <summary>
         ///A test for EntityKind
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void EntityKindTest()
         {
             IEntity target = new CommonSingularNoun("cat");
             EntityKind actual;
             actual = target.EntityKind;
-            Assert.AreEqual(actual, EntityKind.Thing);
+            Assert.Equal(actual, EntityKind.Thing);
         }
     }
 }

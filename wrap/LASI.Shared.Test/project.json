@@ -8,8 +8,7 @@
                 "pdb": "../../Shared.Test.Utilities/obj/{configuration}/LASI.Shared.Test.pdb"
             },
             "dependencies": {
-                "Microsoft.VisualStudio.QualityTools.UnitTestFramework": "1.0.0-*",
-                "System.Collections.Immutable": "1.1.36"
+                "System.Collections.Immutable": "1.1.37"
             }
         }
     }

@@ -1,7 +1,4 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using LASI.Core.Heuristics;
+﻿using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -11,8 +8,7 @@ namespace LASI.Core.Tests
     ///This is a test class for IGenderedTest and is intended
     ///to contain all IGenderedTest Unit Tests
     /// </summary>
-    [TestClass]
-    public class IGenderedTest
+     public class IGenderedTest
     {
         internal virtual ISimpleGendered CreateGendered()
         {
@@ -23,13 +19,13 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Gender
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GenderTest()
         {
             ISimpleGendered target = CreateGendered();
             Gender actual;
             actual = target.Gender;
-            Assert.AreEqual(actual, target.Gender);
+            Assert.Equal(actual, target.Gender);
         }
     }
 }

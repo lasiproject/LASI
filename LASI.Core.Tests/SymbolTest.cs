@@ -1,6 +1,4 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -10,19 +8,18 @@ namespace LASI.Core.Tests
     ///This is a test class for SymbolTest and is intended
     ///to contain all SymbolTest Unit Tests
     /// </summary>
-    [TestClass]
     public class SymbolTest
     {
         /// <summary>
         ///A test for Symbol Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SymbolConstructorTest()
         {
             char character = ',';
             Symbol target = new Symbol(character.ToString());
-            Assert.AreEqual(character, target.LiteralCharacter);
-            Assert.AreEqual(character.ToString(), target.Text);
+            Assert.Equal(character, target.LiteralCharacter);
+            Assert.Equal(character.ToString(), target.Text);
         }
 
     }

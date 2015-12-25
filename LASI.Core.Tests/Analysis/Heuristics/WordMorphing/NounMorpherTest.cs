@@ -1,25 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
     using Utilities;
     using Utilities.Specialized.Enhanced.IList.Linq;
-    using Shared.Test.Assertions;
     using NFluent;
-    /// <summary>
-    ///This is A test class for NounConjugatorTest and is intended
-    ///to contain all NounConjugatorTest Unit Tests
-    /// </summary>
-    [TestClass]
+    using Xunit;    /// <summary>
+                    ///This is A test class for NounConjugatorTest and is intended
+                    ///to contain all NounConjugatorTest Unit Tests
+                    /// </summary>
     public class NounMorpherTest
     {
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest()
         {
             NounMorpher target = new NounMorpher();
@@ -33,7 +30,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -46,7 +43,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest2()
         {
             NounMorpher target = new NounMorpher();
@@ -60,7 +57,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest3()
         {
             NounMorpher target = new NounMorpher();
@@ -73,7 +70,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest4()
         {
             NounMorpher target = new NounMorpher();
@@ -87,7 +84,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         /// <summary>
         ///A test for GetLexicalForms
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -97,11 +94,11 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             actual = target.GetLexicalForms(root);
             foreach (var a in expected)
             {
-                Assert.IsTrue(actual.Contains(a));
+                Check.That(actual).Contains(a);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionalNounFormsTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -111,7 +108,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
                 var entries = line.Replace('_', ' ').SplitRemoveEmpty(' ', '\t').Select(exc => exc.Trim());
                 entries.ForEach(exc =>
                 {
-                    EnumerableAssert.Contains(target.GetLexicalForms(exc), exc, $"tested {tested} exceptions; failed on {exc}\n");
+                    Check.That(target.GetLexicalForms(exc)).Contains(exc);
                     ++tested;
                 });
             });

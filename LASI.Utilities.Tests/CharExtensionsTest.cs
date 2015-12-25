@@ -1,81 +1,80 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LASI.Utilities.Tests
 {
+    using Xunit;
     using static System.Char;
-    [TestClass]
     public class CharExtensionsTest
     {
         private const string Consonants = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
         private const string Vowels = "aeiouyAEIOUY";
         private const string Alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        [TestMethod]
+        [Fact]
         public void IsConsonantTest()
         {
             foreach (var c in Consonants)
             {
-                Assert.IsTrue(c.IsConsonant());
+                Assert.True(c.IsConsonant());
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void IsVowelTest()
         {
             foreach (var c in Vowels)
             {
-                Assert.IsTrue(c.IsVowel());
+                Assert.True(c.IsVowel());
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void IsEnglishLetterTest()
         {
             for (var c = MinValue; c < MaxValue; ++c)
             {
                 if (Alphabet.Contains(c))
                 {
-                    Assert.IsTrue(c.IsEnglishLetter());
+                    Assert.True(c.IsEnglishLetter());
                 }
                 else
                 {
-                    Assert.IsFalse(c.IsEnglishLetter());
+                    Assert.False(c.IsEnglishLetter());
                 }
             }
         }
-        [TestMethod]
+        [Fact]
         public void IsUpperTest()
         {
             for (char c = MinValue; c < MaxValue; ++c)
             {
-                Assert.AreEqual(c.IsUpper(), IsUpper(c));
+                Assert.Equal(c.IsUpper(), IsUpper(c));
             }
         }
-        [TestMethod]
+        [Fact]
         public void IsLowerTest()
         {
             for (char c = MinValue; c < MaxValue; ++c)
             {
-                Assert.AreEqual(c.IsLower(), IsLower(c));
+                Assert.Equal(c.IsLower(), IsLower(c));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsIgnoreCaseTest()
         {
             var lowerCaseLetters = Alphabet.Take(26);
             foreach (char lower in lowerCaseLetters)
             {
                 char upper = ToUpper(lower);
-                Assert.IsTrue(upper.EqualsIgnoreCase(lower));
-                Assert.IsTrue(lower.EqualsIgnoreCase(upper));
-                Assert.IsTrue(upper.EqualsIgnoreCase(upper));
-                Assert.IsTrue(lower.EqualsIgnoreCase(lower));
-                Assert.AreEqual(50, Alphabet.Count(c => !c.EqualsIgnoreCase(lower)));
-                Assert.AreEqual(2, Alphabet.Count(c => c.EqualsIgnoreCase(lower)));
-                Assert.AreEqual(50, Alphabet.Count(c => !c.EqualsIgnoreCase(upper)));
-                Assert.AreEqual(2, Alphabet.Count(c => c.EqualsIgnoreCase(upper)));
+                Assert.True(upper.EqualsIgnoreCase(lower));
+                Assert.True(lower.EqualsIgnoreCase(upper));
+                Assert.True(upper.EqualsIgnoreCase(upper));
+                Assert.True(lower.EqualsIgnoreCase(lower));
+                Assert.Equal(50, Alphabet.Count(c => !c.EqualsIgnoreCase(lower)));
+                Assert.Equal(2, Alphabet.Count(c => c.EqualsIgnoreCase(lower)));
+                Assert.Equal(50, Alphabet.Count(c => !c.EqualsIgnoreCase(upper)));
+                Assert.Equal(2, Alphabet.Count(c => c.EqualsIgnoreCase(upper)));
             }
             var random = new Random();
             Func<int> rand = () => random.Next(MinValue, MaxValue + 1);
@@ -85,7 +84,7 @@ namespace LASI.Utilities.Tests
                 .Take(100);
             foreach (var character in randomCharacters)
             {
-                Assert.IsFalse(character.EqualsIgnoreCase(character.ToUpper()), $"{character}({character}) IS equal to {character.ToUpper()}({character.ToUpper()})");
+                Assert.False(character.EqualsIgnoreCase(character.ToUpper()), $"{character}({character}) IS equal to {character.ToUpper()}({character.ToUpper()})");
             }
         }
     }

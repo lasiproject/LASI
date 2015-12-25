@@ -108,7 +108,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="CustomTestAttributes\ExpectedFileTypeWrapperMismatchExceptionAttribute.cs" />
     <Compile Include="DocFileTest.cs" />
     <Compile Include="DocToDocXConverterTest.cs" />
     <Compile Include="DocXFileTest.cs" />

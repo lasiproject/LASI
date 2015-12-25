@@ -3,29 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace LASI.Core.Analysis.Binding.Tests
 {
-    [TestClass]
     public class SubjectBinderTests
     {
-        [TestMethod]
+        [Fact(Skip = "TODO: Implement code to verify target")]
         public void BindTest()
         {
             SubjectBinder target = new SubjectBinder();
-            Assert.Inconclusive("TODO: Implement code to verify target");
+            throw new NotImplementedException("TODO: Implement code to verify target");
         }
-        [TestMethod]
+        [Fact]
         public void HasSubjectPronounTest()
         {
             PronounPhrase phrase = new PronounPhrase(
                 new PersonalPronoun("they"),
                 new PersonalPronoun("themselves")
             );
-            Assert.IsTrue(phrase.HasSubjectPronoun());
+            Assert.True(phrase.HasSubjectPronoun());
         }
-        [TestMethod]
+        [Fact]
         public void HasSubjectPronounTest1()
         {
             PronounPhrase phrase = new PronounPhrase(
@@ -33,9 +32,9 @@ namespace LASI.Core.Analysis.Binding.Tests
                 new Conjunction("and"),
                 new PersonalPronoun("it")
             );
-            Assert.IsTrue(phrase.HasSubjectPronoun());
+            Assert.True(phrase.HasSubjectPronoun());
         }
-        [TestMethod]
+        [Fact]
         public void HasSubjectPronounTest2()
         {
             PronounPhrase phrase = new PronounPhrase(
@@ -43,9 +42,9 @@ namespace LASI.Core.Analysis.Binding.Tests
                 new Conjunction("and"),
                 new PersonalPronoun("it")
             );
-            Assert.IsTrue(phrase.HasSubjectPronoun());
+            Assert.True(phrase.HasSubjectPronoun());
         }
-        [TestMethod]
+        [Fact]
         public void HasSubjectPronounTest3()
         {
             PronounPhrase phrase = new PronounPhrase(
@@ -53,7 +52,7 @@ namespace LASI.Core.Analysis.Binding.Tests
                 new Conjunction("and"),
                 new PersonalPronoun("her")
             );
-            Assert.IsFalse(phrase.HasSubjectPronoun());
+            Assert.False(phrase.HasSubjectPronoun());
         }
     }
 }

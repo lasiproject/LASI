@@ -1,16 +1,13 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LASI.Utilities.Specialized;
-using Shared.Test.Assertions;
-using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.Universal;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.PatternMatching.Tests
 {
-    [TestClass]
     public class MatchTTresultTest
     {
-        [TestMethod]
+        [Fact]
         public void MatchChangingMidwayToLessDerivedResultType1()
         {
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
@@ -18,10 +15,9 @@ namespace LASI.Core.PatternMatching.Tests
                  .Case((VerbPhrase v) => v.Words)
                  .Case((IVerbal v) => new[] { v }.OfType<ILexical>())
                  .Result();
-            Assert.AreNotEqual(result, null);
-            EnumerableAssert.AreSequenceEqual(result, ((Phrase)target).Words);
+            Check.That(result).IsNotNull().And.Contains(((Phrase)target).Words).Only().InThatOrder();
         }
-        [TestMethod]
+        [Fact]
         public void MatchChangingMidwayToLessDerivedResultType2()
         {
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
@@ -29,8 +25,7 @@ namespace LASI.Core.PatternMatching.Tests
                  .Case((IVerbal v) => v.Lift())
                  .Case((VerbPhrase v) => v.Words.OfType<ILexical>())
                  .Result();
-            Assert.AreNotEqual(result, null);
-            EnumerableAssert.AreSequenceEqual(result, target.Lift());
+            Check.That(result).IsNotNull().And.Contains(target.Lift()).Only().InThatOrder();
         }
     }
 }
