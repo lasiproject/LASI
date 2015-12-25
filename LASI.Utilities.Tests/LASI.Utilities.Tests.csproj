@@ -62,9 +62,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -108,12 +105,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CharExtensionsTest.cs" />
-    <Compile Include="ComparerTests.cs" />
-    <Compile Include="DictionaryExtensionsTests.cs" />
-    <Compile Include="EnumerableExtensionsTests.cs" />
+    <Compile Include="ComparerTest.cs" />
+    <Compile Include="DictionaryExtensionsTest.cs" />
+    <Compile Include="EnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\CheckExtensions.cs" />
     <Compile Include="FunctionExtensionsTest.cs" />
-    <Compile Include="FunctionExtensionsTests1.cs" />
     <Compile Include="ListExtensionsTest.cs" />
     <Compile Include="OptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
