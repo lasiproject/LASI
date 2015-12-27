@@ -51,5 +51,8 @@
       "plugin-typescript-runtime": "npm:babel-runtime@^5.8.24",
       "typescript": "npm:typescript@1.7.5"
     }
+  },
+  "dependencies": {
+    "jspm": "^0.16.15"
   }
 }
