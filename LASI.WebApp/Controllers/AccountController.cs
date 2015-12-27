@@ -20,18 +20,18 @@ namespace LASI.WebApp.Controllers
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> Login(string returnUrl = null)
-        //{
-        //    if (!User.IsSignedIn())
-        //    {
-        //        return HttpUnauthorized();
-        //    }
-        //    else {
-        //        return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
-        //    };
-        //}
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(string returnUrl = null)
+        {
+            if (!User.IsSignedIn())
+            {
+                return HttpUnauthorized();
+            }
+            else {
+                return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
+            };
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -50,7 +50,8 @@ namespace LASI.WebApp.Controllers
                     var user = await UserManager.FindByEmailAsync(model.Email);
                     return Json(new
                     {
-                        user.Email,
+                        model.Email,
+                        model.RememberMe,
                         user.Documents,
                         user.Projects,
                         user.UserName,

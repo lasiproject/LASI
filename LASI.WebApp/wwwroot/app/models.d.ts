@@ -7,13 +7,20 @@ declare interface DocumentModelService {
     processDocument(documentId: string): ng.IPromise<DocumentModel>;
 }
 declare interface TasksListService {
-    getActiveTasks(): PromiseLike<Task[]>;
+    getActiveTasks(): ng.IPromise<Task[]>;
     tasks: Task[];
 }
 declare interface TasksListServiceProvider {
     $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
     setTasksListUrl: (url: string) => TasksListServiceProvider;
     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
+}
+
+interface Credentials {
+    email: string;
+    password: string;
+    antiforgeryToken: string;
+    rememberMe?: boolean;
 }
 
 declare interface Task {
@@ -121,11 +128,11 @@ declare interface ReferencerContextmenuData extends LexicalContextmenuData {
      */
     refersToIds: number[];
 }
-declare interface User {
+declare interface User extends Credentials {
     loggedIn?: boolean;
     email: string;
-    password?: string;
-    documents?: any[];
+    password: string;
+    documents: any[];
     token?: string;
 }
  

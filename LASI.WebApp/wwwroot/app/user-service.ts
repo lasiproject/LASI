@@ -5,16 +5,9 @@ export class UserService {
 
     constructor(private $q: ng.IQService, private $http: ng.IHttpService) { }
 
-    loginUser({ email, password, antiforgeryToken }: Credentials): ng.IPromise<User> {
+    loginUser({ email, password, antiforgeryToken, rememberMe }: Credentials): ng.IPromise<User> {
         var { reject, resolve, promise } = this.$q.defer<User>();
-        var data = {
-            email,
-            password,
-            [this.antiforgeryTokenName]: this.token || antiforgeryToken
-        };
-
-
-        var config: { [i: string]: any } = {
+        var requestConfig: { [i: string]: any } = {
             xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
                 accept: 'application/json',
@@ -23,22 +16,40 @@ export class UserService {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
-        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
-        this.$http
-            .post<User>('/Account/Login', angular.element.param(data), config)
-            .then(response => {
-                const user = response.data;
-                this.loggedIn = true;
+        var data = {
+            email,
+            password,
+            rememberMe,
+            [this.antiforgeryTokenName]: this.token || antiforgeryToken
+        };
+
+        this.loginViaGet(requestConfig)
+
+            .catch(error => this.loginViaPost(data, requestConfig)).then(user => {
                 this.user = user;
+                this.loggedIn = true;
                 resolve(user);
-                this.token = response.data.token;
-                return user;
-            })
-            .catch(error => {
-                reject(error);
+                this.token = user.token;
+                return this.user;
+            }).catch(error=> {
                 console.error(error);
+                reject(error);
             });
+
         return promise;
+
+    }
+    loginViaPost(data: {}, config: ng.IRequestShortcutConfig) {
+
+
+        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
+        return this.$http
+            .post<User>('/Account/Login', angular.element.param(data), config)
+            .then(response => response.data);
+    }
+
+    loginViaGet(requestConfig: ng.IRequestShortcutConfig) {
+        return this.$http.get<User>('/Account/Login', requestConfig).then(response=> response.data);
     }
 
     logoff(antiforgeryTokenName: string, antiforgeryTokenValue: string): ng.IPromise<any> {
@@ -97,10 +108,4 @@ export class UserService {
     loggedIn = false;
     antiforgeryTokenName = '__RequestVerificationToken';
 
-}
-
-interface Credentials {
-    email: string;
-    password: string;
-    antiforgeryToken: string;
 }

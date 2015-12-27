@@ -136,7 +136,7 @@ namespace LASI.WebApp
                .UseCookieAuthentication(options =>
                {
                    options.AutomaticChallenge = true;
-                   options.AutomaticAuthenticate = true;
+                   options.AutomaticAuthenticate = false;
                    options.AccessDeniedPath = "/#/login";
                })
                .UseMvc(routes =>

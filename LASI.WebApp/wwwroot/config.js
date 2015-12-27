@@ -31,7 +31,7 @@ System.config({
           "loader": "ts"
         },
         "*.js": {
-            "loader":"ts"
+          "loader": "ts"
         }
       }
     },

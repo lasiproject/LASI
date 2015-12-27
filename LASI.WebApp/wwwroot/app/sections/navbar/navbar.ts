@@ -46,18 +46,10 @@ export class NavbarController {
         return this.userService
             .logoff(antiforgeryTokenName, antiforgeryTokenValue)
             .then(() => this.user = undefined)
-            .finally(() => this.$state.transitionTo(this.$state.current.name, {}, { reload: true }));
+            .finally(() => {
+                return this.$state.transitionTo(this.$state.current.name, {}, { reload: true })
+                    .then(window.location.reload.bind(window, true));
+
+            });
     }
-}
-export function navbar(): ng.IDirective {
-    return {
-        controller: NavbarController,
-        controllerAs: 'navbar',
-        template: navbarTemplate,
-        bindToController: {
-            documents: '=',
-            user: '='
-        },
-        scope: true
-    };
-}
+} 

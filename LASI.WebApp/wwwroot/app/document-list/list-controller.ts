@@ -5,14 +5,13 @@ import { DocumentsService } from './documents-service';
 export class ListController {
     expanded = false;
     private documents: DocumentListItemModel[] = [];
-    tasks: Task[] = [];
-    static $inject = ['$q', 'documentListService', 'tasksListService', 'documentsService', 'documentModelService'];
+    static $inject = ['$q', 'documentListService', 'documentsService', 'documentModelService', 'tasks'];
     constructor(
         private $q: angular.IQService,
         private documentListService: DocumentListService,
-        private tasksListService: TasksListService,
         private documentsService: DocumentsService,
-        private documentModelService: DocumentModelService) {
+        private documentModelService: DocumentModelService,
+        private tasks: Task[]) {
         this.activate();
     }
 
@@ -40,7 +39,7 @@ export class ListController {
     activate() {
         var documentPromise = this.documentListService.get()
             .then(documents => this.documents = documents)
-            .then(documents => this.tasksListService.getActiveTasks().then(tasks => ({ documents, tasks })))
+            .then(documents => ({ documents: this.documents, tasks: this.tasks }))
             .then(xs=> xs.tasks.map(task => {
                 this.tasks[task.id] = task;
                 var doc = this.documents.first(d => d.name === task.name);

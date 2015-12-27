@@ -23,6 +23,12 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
             .then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
         return deferred.promise;
     }
+    tasks.$inject = ['tasksListService'];
+    function tasks(tasksListService: TasksListService) {
+
+        return tasksListService.getActiveTasks()
+            .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
+    }
 
     $stateProvider
         .state({
@@ -35,11 +41,15 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
                     controllerAs: 'app',
                     template: appTemplate,
                     resolve: {
-                        documents
+                        documents,
+                        tasks
                     }
                 },
                 'main': {
-                    
+                    resolve: {
+                        documents,
+                        tasks
+                    }
                 },
                 'navbar': {
                     name: 'navbar',
@@ -59,7 +69,8 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
                     controller: HomeController,
                     template: homeTemplate,
                     resolve: {
-                        documents
+                        documents,
+                        tasks
                     }
                 }, 'navbar': {
                     name: 'navbar',
@@ -76,8 +87,10 @@ export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouter
                 'main': {
                     controller: LoginController,
                     controllerAs: 'login',
-                    template: loginTemplate, resolve: {
-                        documents
+                    template: loginTemplate,
+                    resolve: {
+                        documents,
+                        tasks
                     }
                 },
                 'navbar': {

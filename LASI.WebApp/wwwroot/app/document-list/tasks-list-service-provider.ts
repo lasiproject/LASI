@@ -29,11 +29,13 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
                         .then(response=> tasks = response.data)
                         .then(deferred.resolve.bind(deferred))
                         .catch(deferred.reject.bind(deferred)), updateInterval);
-                }
-                else {
+                } else {
                     deferred.reject('Must login to retrieve tasks');
                 }
-                return deferred.promise;
+                return deferred.promise.catch(error => {
+                    console.error(error);
+                    return [];
+                });
             },
             tasks
         };

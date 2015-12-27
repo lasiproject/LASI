@@ -12,7 +12,9 @@ export class LoginController {
         private $uibModal: ng.ui.bootstrap.IModalService,
         private $state: ng.ui.IStateService,
         private userService: UserService
-    ) { }
+    ) {
+        this.rememberMe = this.user && this.user.rememberMe;
+    }
 
     login(): PromiseLike<User> {
         const deferred = this.$q.defer<User>();
@@ -21,6 +23,7 @@ export class LoginController {
         this.userService.loginUser({
             email: this.username,
             password: this.password,
+            rememberMe: this.rememberMe || this.user && this.user.rememberMe,
             antiforgeryToken
         }).then(user => {
             this.username = user.email;
@@ -43,4 +46,5 @@ export class LoginController {
     user: User;
     username: string;
     password: string;
+    rememberMe: boolean;
 }
