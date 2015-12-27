@@ -38,7 +38,12 @@ namespace LASI.Utilities
         /// </summary>
         public static void SetToFile(string path)
         {
-            var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI", path ?? $"LasiLog.txt");
+            var directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            var logPath = Path.Combine(directoryPath, path ?? $"LasiLog.txt");
             OutputMode = Mode.File;
 
             var fileStream = new FileStream(path: logPath, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.Write);
@@ -137,7 +142,7 @@ namespace LASI.Utilities
         /// </summary>
         /// <param name="value">The object to write to the text output stream.</param>
         public static void Log(object value) { writer.WriteLine(value); }
- 
+
         #endregion
 
         #region Properties
