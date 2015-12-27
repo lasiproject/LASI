@@ -1,6 +1,5 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -10,18 +9,17 @@ namespace LASI.Core.Tests
     ///This is a test class for InterjectionTest and is intended
     ///to contain all InterjectionTest Unit Tests
     /// </summary>
-    [TestClass]
     public class InterjectionTest
     {
         /// <summary>
         /// A test for Interjection Constructor
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void InterjectionConstructorTest()
         {
             string text = "ha";
             Interjection target = new Interjection(text);
-            Assert.AreEqual(target.Text, text);
+            Check.That(target.Text).IsEqualTo(text);
         }
     }
 }

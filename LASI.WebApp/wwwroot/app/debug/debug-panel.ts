@@ -2,18 +2,13 @@
 import template from 'app/debug/debug-panel.html';
 
 class DebugPanelController {
-    static $inject = ['tasksListService'];
-    constructor(tasksListService: TasksListService) {
-
-        tasksListService.getActiveTasks()
-            .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
-    }
+    static $inject = ['tasks'];
+    constructor(private tasks: Task[]) { }
 
     get buttonText() { return this.infoVisible ? 'Hide' : 'Show'; }
 
     toggle() { this.infoVisible = !this.infoVisible; }
 
-    tasks: Task[] = [];
     infoVisible = false;
 }
 export function debugPanel(): ng.IDirective {

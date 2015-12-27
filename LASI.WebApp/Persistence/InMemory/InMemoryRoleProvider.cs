@@ -16,7 +16,7 @@ namespace LASI.WebApp.Persistence
         {
             if (Roles.Any(r => r.RoleId == role.RoleId || r == role))
             {
-                return IdentityResult.Failed(ErrorDescriber.UserAlreadyInRole(role.RoleName));
+                return IdentityResult.Failed(errorDescriber.UserAlreadyInRole(role.RoleName));
             }
             else
             {
@@ -42,7 +42,7 @@ namespace LASI.WebApp.Persistence
             var target = Roles.FirstOrDefault(r => r.RoleName == role.RoleName || r.RoleId == role.RoleId || r == role);
             if (role == null)
             {
-                return IdentityResult.Failed(ErrorDescriber.UserNotInRole(role.RoleName));
+                return IdentityResult.Failed(errorDescriber.UserNotInRole(role.RoleName));
             }
             target._id = role._id;
             target.RoleName = role.RoleName;
@@ -50,20 +50,23 @@ namespace LASI.WebApp.Persistence
             target.UserId = role.UserId;
             return IdentityResult.Success;
         }
+        
+        public IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public UserRole Get(Func<UserRole, bool> match) => Roles.FirstOrDefault(match);
+
+        private readonly IdentityErrorDescriber errorDescriber = new IdentityErrorDescriber();
+
         #region Synchronization
         /// <summary>
         /// Provides an on which to synchronize. Do not use for any other purpose. Do not expose reference.
         /// </summary>
         private static readonly object Lock = new object();
-        private readonly IdentityErrorDescriber ErrorDescriber = new IdentityErrorDescriber();
         private static void WithLock(Action a) { lock (Lock) a(); }
 
         private static T WithLock<T>(Func<T> f) { lock (Lock) return f(); }
 
         #endregion
-        public IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public UserRole Get(Func<UserRole, bool> match) => Roles.FirstOrDefault(match);
     }
 }

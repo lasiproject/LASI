@@ -1,24 +1,32 @@
-﻿using LASI.WebApp.Persistence;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using LASI.WebApp.Models;
+using LASI.WebApp.Persistence;
+using LASI.WebApp.Tests.Mocks;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
+using Microsoft.AspNet.Authentication;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using System.Linq;
-using Newtonsoft.Json;
-using Microsoft.AspNet.Http.Internal;
-using Microsoft.AspNet.Http;
-using System.Security.Claims;
-using Newtonsoft.Json.Serialization;
+using Microsoft.AspNet.Mvc.Abstractions;
+using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LASI.WebApp.Tests.TestSetup
 {
     public static class ServiceCollectionHelper
     {
-        public static IServiceCollection CreateConfiguredServiceCollection(ApplicationUser applicationUser)
+        public static IServiceCollection CreateConfiguredServiceCollection(ApplicationUser user)
         {
             var services = new ServiceCollection();
             services.AddMvc()
@@ -33,50 +41,36 @@ namespace LASI.WebApp.Tests.TestSetup
                     .AddControllersAsServices(new[] { typeof(Startup).Assembly });
 
             services.AddIdentity<ApplicationUser, UserRole>()
-                    .AddUserManager<UserManager<ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>()
-                    .AddRoleManager<RoleManager<UserRole>>()
                     .AddRoleStore<CustomUserStore<UserRole>>();
 
-            services.AddSingleton<HttpContext>(provider => new DefaultHttpContext())
-                    .AddSingleton<IHttpContextAccessor>(provider => new HttpContextAccessor
-                    {
-                        HttpContext = provider.GetService<HttpContext>()
-                    })
-                    .AddInMemoryStores(applicationUser)
+            services.AddScoped(provider => new RouteData { })
+                    .AddScoped<HttpContext, DefaultHttpContext>()
+                    .AddScoped<IHttpContextAccessor, HttpContextAccessor>()
+                    .AddInMemoryStores(user)
                     .AddLogging()
                     .AddSingleton(provider => new LoggerFactory().AddConsole(LogLevel.Critical))
                     .AddSingleton<ILogger<UserManager<ApplicationUser>>>(provider => new Logger<UserManager<ApplicationUser>>(provider.GetService<ILoggerFactory>()))
+                    .AddSingleton<UserClaimsPrincipalFactory<ApplicationUser, UserRole>>()
+                    .AddSingleton<IAuthorizationService, DefaultAuthorizationService>()
+                    .AddSingleton<SignInManager<ApplicationUser>>()
+                    .AddScoped<UserClaimsPrincipalFactory<ApplicationUser, UserRole>>()
+                    .AddScoped<ActionDescriptor>()
                     .AddSingleton(provider =>
                     {
-                        return new SignInManager<ApplicationUser>(
-                        userManager: provider.GetService<UserManager<ApplicationUser>>(),
-                        contextAccessor: provider.GetService<IHttpContextAccessor>(),
-                        claimsFactory: provider.GetService<IUserClaimsPrincipalFactory<ApplicationUser>>(),
-                        optionsAccessor: provider.GetService<IOptions<IdentityOptions>>(),
-                        logger: provider.GetService<ILogger<SignInManager<ApplicationUser>>>());
-                    })
-                    .AddTransient(provider =>
-                    {
-                        var identityOptions = provider.GetService<IOptions<IdentityOptions>>();
-                        var userManager = provider.GetService<UserManager<ApplicationUser>>();
-                        var roleManager = provider.GetService<RoleManager<UserRole>>();
-                        var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<ApplicationUser, UserRole>(userManager, roleManager, identityOptions);
-                        var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(applicationUser);
-                        var httpContext = provider.GetService<HttpContext>();
-                        var optionsAccessor = provider.GetService<IOptions<IdentityOptions>>();
-                        var mockUserClaimsPrincipleFactory = new MockUserClaimsPrincipalFactory(userManager, roleManager, optionsAccessor);
+                        var userClaimsPrincipalFactory = provider.GetRequiredService<UserClaimsPrincipalFactory<ApplicationUser, UserRole>>();
+                        var httpContext = provider.GetRequiredService<HttpContext>();
+                        var userClaimsPrincipal = userClaimsPrincipalFactory.CreateAsync(user);
 
                         httpContext.User = userClaimsPrincipal.Result;
-                        return new ActionContext { HttpContext = httpContext };
+                        return new ActionContext
+                        {
+                            HttpContext = httpContext,
+                            RouteData = new RouteData(),
+                            ActionDescriptor = provider.GetRequiredService<ActionDescriptor>()
+                        };
                     });
             return services;
-        }
-        class MockUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, UserRole>
-        {
-            public MockUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, RoleManager<UserRole> roleManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, roleManager, optionsAccessor) { }
-            public override Task<ClaimsPrincipal> CreateAsync(ApplicationUser user) => Task.FromResult(new ClaimsPrincipal(user.Claims.Select(claim => claim.Subject)));
-
         }
     }
 }

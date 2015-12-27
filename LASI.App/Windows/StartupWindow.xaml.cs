@@ -42,10 +42,9 @@ namespace LASI.App
             {
                 try
                 {
-                    var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
-                    if (!Directory.Exists(logDir)) { Directory.CreateDirectory(logDir); }
-                    Logger.SetToFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                       "LASI", logFileName + ".txt"));
+                    var logDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LASI");
+                    if (!Directory.Exists(logDirectory)) { Directory.CreateDirectory(logDirectory); }
+                    Logger.SetToFile($@"{logDirectory}\{logFileName}.txt");
                 }
                 catch (IOException e)
                 {

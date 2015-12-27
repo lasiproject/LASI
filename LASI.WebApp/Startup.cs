@@ -1,11 +1,15 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Text;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models.User;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Persistence.MongoDB.Extensions;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -57,6 +61,11 @@ namespace LASI.WebApp
                         options.SerializerSettings.Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } };
                         options.SerializerSettings.Formatting = isDevelopment ? Formatting.Indented : Formatting.None;
                     });
+
+            services.AddAntiforgery()
+                    .AddAuthorization()
+                    .AddAuthentication();
+
             services.AddIdentity<Models.ApplicationUser, UserRole>(options =>
                     {
                         options.Lockout = new LockoutOptions
@@ -83,10 +92,9 @@ namespace LASI.WebApp
                             RequireNonLetterOrDigit = true
                         };
                     })
+                    .AddRoleValidator<RoleValidator<UserRole>>()
                     .AddUserValidator<UserValidator<Models.ApplicationUser>>()
-                    //.AddRoleManager<RoleManager<UserRole>>()
                     .AddRoleStore<CustomUserStore<UserRole>>()
-                    //.AddUserManager<UserManager<Models.ApplicationUser>>()
                     .AddUserStore<CustomUserStore<UserRole>>()
                     .AddDefaultTokenProviders();
             // Configure the options for the authentication middleware.
@@ -113,15 +121,23 @@ namespace LASI.WebApp
 
             app.UseStaticFiles()
                .UseIdentity()
+               .UseCors(policy =>
+              {
+                  policy.AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowAnyOrigin()
+                   .AllowCredentials()
+                   .WithExposedHeaders("Access-Control-Allow-Origin");
+              })
                .UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
                })
                .UseCookieAuthentication(options =>
                {
-                   options.LoginPath = "";
-                   options.ReturnUrlParameter = "";
-                   options.AccessDeniedPath = null;
+                   options.AutomaticChallenge = true;
+                   options.AutomaticAuthenticate = false;
+                   options.AccessDeniedPath = "/#/login";
                })
                .UseMvc(routes =>
                {

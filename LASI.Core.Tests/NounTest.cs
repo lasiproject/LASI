@@ -217,7 +217,7 @@ namespace LASI.Core.Tests
             foreach (var d in descriptors) { target.BindDescriptor(d); }
             actual = target.Descriptors;
 
-            EnumerableAssert.AreSetEqual(actual, descriptors);
+            Check.That(actual).Contains(descriptors).Only();
         }
 
         /// <summary>

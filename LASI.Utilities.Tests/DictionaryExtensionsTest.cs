@@ -8,7 +8,7 @@ using NFluent;
 namespace LASI.Utilities.Tests
 {
     using Fact = Xunit.FactAttribute;
-    public class DictionaryExtensionsTests
+    public class DictionaryExtensionsTest
     {
         private static Dictionary<string, int?> target = new Dictionary<string, int?>
         {
@@ -75,7 +75,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithIndicesTest()
         {
-            var target = DictionaryExtensionsTests.target.WithIndices();
+            var target = DictionaryExtensionsTest.target.WithIndices();
             var expectedIndex = 0;
             foreach (var indexedKeyValuePair in target)
             {

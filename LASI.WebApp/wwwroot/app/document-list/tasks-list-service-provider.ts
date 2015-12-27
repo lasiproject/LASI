@@ -1,12 +1,13 @@
 ﻿'use strict';
 import { IQService, IIntervalService, IHttpService } from 'angular';
+import { UserService } from 'app/user-service';
 
 export function tasksListServiceProvider(): TasksListServiceProvider {
     var updateInterval = 200;
     var tasksListUrl = '/api/Tasks';
     var tasks: Task[];
 
-    $get.$inject = ['$q', '$http', '$interval'];
+    $get.$inject = ['$q', '$http', '$interval', 'UserService'];
 
     return { $get, setUpdateInterval, setTasksListUrl };
 
@@ -19,15 +20,22 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         return this;
     }
 
-    function $get($q: IQService, $http: IHttpService, $interval: IIntervalService): TasksListService {
+    function $get($q: IQService, $http: IHttpService, $interval: IIntervalService, userService: UserService): TasksListService {
         var deferred = $q.defer<Task[]>();
         return {
             getActiveTasks() {
-                $interval(() => $http.get<Task[]>(tasksListUrl, { headers: { ['accept']: 'application/json' } })
-                    .then(response=> tasks = response.data)
-                    .then(deferred.resolve.bind(deferred))
-                    .catch(deferred.reject.bind(deferred)), updateInterval);
-                return deferred.promise;
+                if (userService.loggedIn) {
+                    $interval(() => $http.get<Task[]>(tasksListUrl, { headers: { ['accept']: 'application/json' } })
+                        .then(response=> tasks = response.data)
+                        .then(deferred.resolve.bind(deferred))
+                        .catch(deferred.reject.bind(deferred)), updateInterval);
+                } else {
+                    deferred.reject('Must login to retrieve tasks');
+                }
+                return deferred.promise.catch(error => {
+                    console.error(error);
+                    return [];
+                });
             },
             tasks
         };

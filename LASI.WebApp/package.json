@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "brace-expansion": "1.1.1",
+    "brace-expansion": "1.1.2",
     "chalk": "~1.1.1",
-    "clean-css": "^3.4.3",
+    "clean-css": "^3.4.8",
     "gulp": "~3.9.0",
     "gulp-concat": "2.6.0",
     "gulp-minify-css": "1.2.1",
@@ -18,9 +18,9 @@
     "gulp-util": "3.0.6",
     "jspm": "0.16.15",
     "qunitjs": "~1.20.0",
-    "systemjs-builder": "^0.14.11",
-    "tsd": "~0.6.5",
-    "tslint": "^3.1.1"
+    "systemjs-builder": "0.14.15",
+    "tsd": "^0.6.5",
+    "tslint": "^3.2.1"
   },
   "jspm": {
     "directories": {
@@ -49,7 +49,7 @@
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "plugin-typescript": "npm:babel-core@^5.8.24",
       "plugin-typescript-runtime": "npm:babel-runtime@^5.8.24",
-      "typescript": "npm:typescript@^1.6.2"
+      "typescript": "npm:typescript@1.7.5"
     }
   },
   "dependencies": {

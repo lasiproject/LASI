@@ -11,10 +11,11 @@
     <title>@ViewBag.Title - @AppSettings.Value.SiteTitle</title>
 </head>
 <body hidden>
-    @Html.AntiForgeryToken()
-
 
     <div class="container body-content">
+        @Html.AntiForgeryToken()
+
+
         @RenderBody()
         <ui-view></ui-view>
 

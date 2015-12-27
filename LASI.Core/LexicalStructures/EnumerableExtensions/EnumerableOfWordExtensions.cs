@@ -56,7 +56,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All GenericNouns in the collection.</returns>
-        public static IEnumerable<CommonNoun> OfGenericNoun(this IEnumerable<Word> words) => words.OfType<CommonNoun>();
+        public static IEnumerable<CommonNoun> OfCommonNoun(this IEnumerable<Word> words) => words.OfType<CommonNoun>();
 
         /// <summary>
         /// Returns all ModalAuxilaries in the collection.
@@ -185,7 +185,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="words">The sequence of Words to filter.</param>
         /// <returns>All GenericNouns in the collection.</returns>
-        public static ParallelQuery<CommonNoun> OfGenericNoun(this ParallelQuery<Word> words) => words.OfType<CommonNoun>();
+        public static ParallelQuery<CommonNoun> OfCommonNoun(this ParallelQuery<Word> words) => words.OfType<CommonNoun>();
 
         /// <summary>
         /// Returns all ModalAuxilaries in the collection.

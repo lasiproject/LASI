@@ -58,9 +58,6 @@ namespace LASI.Content.Tests.Extensions
                 FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(SUT).Name).On(checker.Value).ToString());
         }
 
-        private static string GetNominalInfo<SUT>(Func<SUT, bool> requirement)
-        {
-            return requirement.Method.DeclaringType.Name + "." + requirement.Method.Name;
-        }
+        private static string GetNominalInfo<SUT>(Func<SUT, bool> requirement) => requirement.Method.DeclaringType.Name + "." + requirement.Method.Name;
     }
 }

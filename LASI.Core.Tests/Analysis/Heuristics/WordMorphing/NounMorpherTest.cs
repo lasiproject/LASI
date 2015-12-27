@@ -1,25 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LASI.Core.Analysis.WordMorphing.Tests
 {
     using Utilities;
     using Utilities.Specialized.Enhanced.IList.Linq;
-    using Shared.Test.Assertions;
-
-    /// <summary>
-    ///This is A test class for NounConjugatorTest and is intended
-    ///to contain all NounConjugatorTest Unit Tests
-    /// </summary>
-    [TestClass]
+    using NFluent;
+    using Xunit;    /// <summary>
+                    ///This is A test class for NounConjugatorTest and is intended
+                    ///to contain all NounConjugatorTest Unit Tests
+                    /// </summary>
     public class NounMorpherTest
     {
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest()
         {
             NounMorpher target = new NounMorpher();
@@ -27,13 +24,13 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "bird";
             string actual;
             actual = target.FindRoot(conjugated);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -41,12 +38,12 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopus";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest2()
         {
             NounMorpher target = new NounMorpher();
@@ -54,13 +51,13 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "pass-through";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest3()
         {
             NounMorpher target = new NounMorpher();
@@ -68,12 +65,12 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopus";
             string actual;
             actual = target.FindRoot(noun);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
         /// <summary>
         ///A test for FindRoot
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindRootTest4()
         {
             NounMorpher target = new NounMorpher();
@@ -81,13 +78,13 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             string expected = "octopi-hunter";
             string actual;
             actual = target.FindRoot(nounForm);
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for GetLexicalForms
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -97,11 +94,11 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
             actual = target.GetLexicalForms(root);
             foreach (var a in expected)
             {
-                Assert.IsTrue(actual.Contains(a));
+                Check.That(actual).Contains(a);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionalNounFormsTest1()
         {
             NounMorpher target = new NounMorpher();
@@ -111,7 +108,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
                 var entries = line.Replace('_', ' ').SplitRemoveEmpty(' ', '\t').Select(exc => exc.Trim());
                 entries.ForEach(exc =>
                 {
-                    EnumerableAssert.Contains(target.GetLexicalForms(exc), exc, $"tested {tested} exceptions; failed on {exc}\n");
+                    Check.That(target.GetLexicalForms(exc)).Contains(exc);
                     ++tested;
                 });
             });

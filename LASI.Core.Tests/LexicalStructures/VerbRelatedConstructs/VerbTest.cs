@@ -238,7 +238,7 @@ namespace LASI.Core.Tests
             IEntity subject = new CommonPluralNoun("monkeys");
             target.BindSubject(subject);
             actual = target.AggregateSubject;
-            EnumerableAssert.AreSetEqual(new[] { subject }, actual);
+            Check.That(new[] { subject }.Except(actual)).IsEmpty();
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace LASI.Core.Tests
             IEntity indirectObject = new CommonPluralNoun("monkeys");
             target.BindIndirectObject(indirectObject);
             actual = target.AggregateIndirectObject;
-            EnumerableAssert.AreSetEqual(new[] { indirectObject }, actual);
+            Check.That(new[] { indirectObject }.Except(actual)).IsEmpty();
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace LASI.Core.Tests
             IEntity directObject = new CommonPluralNoun("monkeys");
             target.BindDirectObject(directObject);
             actual = target.AggregateDirectObject;
-            EnumerableAssert.AreSetEqual(new[] { directObject }, actual);
+            Check.That(new[] { directObject }.Except(actual)).IsEmpty();
         }
 
 
@@ -290,18 +290,18 @@ namespace LASI.Core.Tests
             int rand = new Random().Next(-1, 2);
             switch (rand)
             {
-            case -1:
-            target.BindSubject(entity);
-            break;
-            case 0:
-            target.BindDirectObject(entity);
-            break;
-            case 1:
-            target.BindDirectObject(entity);
-            break;
-            default:
-            Check.That(false).IsTrue();
-            break;
+                case -1:
+                target.BindSubject(entity);
+                break;
+                case 0:
+                target.BindDirectObject(entity);
+                break;
+                case 1:
+                target.BindDirectObject(entity);
+                break;
+                default:
+                Check.That(false).IsTrue();
+                break;
             }
             Func<IEntity, bool> predicate = e => e.Text == "monkeys";
             bool expected = true;

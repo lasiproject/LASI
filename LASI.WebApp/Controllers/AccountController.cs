@@ -4,7 +4,6 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using LASI.WebApp.Models;
-using LASI.WebApp.Http;
 
 namespace LASI.WebApp.Controllers
 {
@@ -21,18 +20,19 @@ namespace LASI.WebApp.Controllers
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 
-        //
-        // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            if (!User.IsSignedIn())
+            {
+                return HttpUnauthorized();
+            }
+            else {
+                return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
+            };
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -48,9 +48,10 @@ namespace LASI.WebApp.Controllers
                 if (result.Succeeded)
                 {
                     var user = await UserManager.FindByEmailAsync(model.Email);
-                    return new JsonResult(new
+                    return Json(new
                     {
-                        user.Email,
+                        model.Email,
+                        model.RememberMe,
                         user.Documents,
                         user.Projects,
                         user.UserName,
@@ -59,23 +60,26 @@ namespace LASI.WebApp.Controllers
                         user.ActiveWorkItems
                     });
                 }
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                //}
-                if (result.IsLockedOut)
-                {
-                    return View("Lockout");
-                }
                 else
                 {
-                    return new HttpForbiddenResult("Invalid username or password.");
+                    return HttpUnauthorized();
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return HttpUnauthorized();
         }
+
+        private JsonResult UserJson(ApplicationUser user) => Json(new
+        {
+            user.Email,
+            user.Documents,
+            user.Projects,
+            user.UserName,
+            user.FirstName,
+            user.LastName,
+            user.ActiveWorkItems
+        });
 
         //
         // GET: /Account/Register
@@ -115,7 +119,7 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await SignInManager.SignOutAsync();

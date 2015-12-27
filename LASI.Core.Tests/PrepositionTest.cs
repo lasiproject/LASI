@@ -1,9 +1,5 @@
-﻿using LASI;
-using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -13,81 +9,65 @@ namespace LASI.Core.Tests
     ///This is A test class for PrepositionTest and is intended
     ///to contain all PrepositionTest Unit Tests
     /// </summary>
-    [TestClass]
     public class PrepositionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext {
-            get {
-                return testContextInstance;
-            }
-            set {
-                testContextInstance = value;
-            }
-        }
-
         /// <summary>
         ///A test for Preposition Constructor
         /// </summary>
-        [TestMethod]
-        public void PrepositionConstructorTest() {
+        [Fact]
+        public void PrepositionConstructorTest()
+        {
             string text = "into";
             Preposition target = new Preposition(text);
-            Assert.IsTrue(
-                target.Text == "into" &&
-                target.ToTheLeftOf == null &&
-                target.ToTheRightOf == null &&
-                target.BoundObject == null
-            );
+            Check.That(target.Text).IsEqualTo(text);
+            Check.That(target.BoundObject).IsNull();
+            Check.That(target.ToTheLeftOf).IsNull();
+            Check.That(target.ToTheRightOf).IsNull();
         }
 
         /// <summary>
         ///A test for BindObjectOfPreposition
         /// </summary>
-        [TestMethod]
-        public void BindObjectOfPrepositionTest() {
+        [Fact]
+        public void BindObjectOfPrepositionTest()
+        {
             string text = "into";
             Preposition target = new Preposition(text);
             ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("drawer"));
             target.BindObject(prepositionalObject);
-            Assert.IsTrue(target.BoundObject == prepositionalObject);
+            Check.That(target.BoundObject).IsEqualTo(prepositionalObject);
         }
 
 
         /// <summary>
         ///A test for OnLeftSide
         /// </summary>
-        [TestMethod]
-        public void OnLeftSideTest() {
+        [Fact]
+        public void OnLeftSideTest()
+        {
             string text = "into";
             Preposition target = new Preposition(text);
             ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
 
         }
 
         /// <summary>
         ///A test for OnRightSide
         /// </summary>
-        [TestMethod]
-        public void OnRightSideTest() {
+        [Fact]
+        public void OnRightSideTest()
+        {
             string text = "into";
             Preposition target = new Preposition(text);
             ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
 
         }
 
@@ -95,29 +75,31 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for ToTheRightOf
         /// </summary>
-        [TestMethod]
-        public void ToTheRightOfTest() {
+        [Fact]
+        public void ToTheRightOfTest()
+        {
             string text = "into";
             Preposition target = new Preposition(text);
             ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheRightOf = expected;
             actual = target.ToTheRightOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for ToTheLeftOf
         /// </summary>
-        [TestMethod]
-        public void ToTheLeftOfTest() {
+        [Fact]
+        public void ToTheLeftOfTest()
+        {
             string text = "inside";
             Preposition target = new Preposition(text);
             ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheLeftOf = expected;
             actual = target.ToTheLeftOf;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
 
@@ -125,40 +107,43 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Role
         /// </summary>
-        [TestMethod]
-        public void RoleTest() {
+        [Fact]
+        public void RoleTest()
+        {
             string text = "over";
             Preposition target = new Preposition(text);
             PrepositionRole expected = PrepositionRole.SpatialSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for ToString
         /// </summary>
-        [TestMethod]
-        public void ToStringTest() {
+        [Fact]
+        public void ToStringTest()
+        {
             string text = "with";
             Preposition target = new Preposition(text);
             string expected = "Preposition \"with\"";
             string actual;
             actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for BindObject
         /// </summary>
-        [TestMethod]
-        public void BindObjectTest() {
+        [Fact]
+        public void BindObjectTest()
+        {
             string text = "with";
             Preposition target = new Preposition(text);
             ILexical prepositionalObject = new PersonalPronoun("them");
             target.BindObject(prepositionalObject);
-            Assert.AreEqual(prepositionalObject, target.BoundObject);
+            Check.That(prepositionalObject).IsEqualTo(target.BoundObject);
         }
     }
 }

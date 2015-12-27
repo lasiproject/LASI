@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shared.Test.Assertions;
+﻿using System.Linq;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests.PatternMatching
 {
-    [TestClass]
     public class MonadOperatorsTest
     {
-        [TestMethod]
+        [Fact]
         public void SelectTest1()
         {
             var expectedWord = new BaseVerb("walk");
@@ -16,9 +14,9 @@ namespace LASI.Core.Tests.PatternMatching
             var result = from word in target.Match()
                          .Case((VerbPhrase v) => v.Words.OfVerb().First())
                          select word;
-            Assert.AreEqual(expectedWord, result.Single());
+            Assert.Equal(expectedWord, result.Single());
         }
-        [TestMethod]
+        [Fact]
         public void SelectTest2()
         {
             var expectedString = "walk";
@@ -26,9 +24,9 @@ namespace LASI.Core.Tests.PatternMatching
             var result = from word in target.Match()
                          .Case((VerbPhrase v) => v.Words.OfVerb().First())
                          select word.Text;
-            Assert.AreEqual(expectedString, result.Single());
+            Assert.Equal(expectedString, result.Single());
         }
-        [TestMethod]
+        [Fact]
         public void WhereTest1()
         {
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
@@ -36,9 +34,9 @@ namespace LASI.Core.Tests.PatternMatching
                          .Case((VerbPhrase v) => v.Words.OfVerb().First())
                          where word.Text == "run" // false
                          select word;
-            EnumerableAssert.IsEmpty(result); ;
+            Check.That(result).IsEmpty();
         }
-        [TestMethod]
+        [Fact]
         public void WhereTest2()
         {
             var expectedWord = new BaseVerb("walk");
@@ -47,9 +45,9 @@ namespace LASI.Core.Tests.PatternMatching
                          .Case((VerbPhrase v) => v.Words.OfVerb().First())
                          where word.Text == "walk" // true
                          select word;
-            Assert.AreEqual(expectedWord, result.Single());
+            Assert.Equal(expectedWord, result.Single());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest1()
         {
             var expectedWord = new BaseVerb("walk");
@@ -58,9 +56,9 @@ namespace LASI.Core.Tests.PatternMatching
                          .Case((Clause c) => c.Phrases.OfVerbPhrase().First())
                          from word in phrase.Words
                          select word;
-            Assert.AreEqual(expectedWord, result.First());
+            Assert.Equal(expectedWord, result.First());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest2()
         {
             var expectedWord = new BaseVerb("walk");
@@ -70,9 +68,9 @@ namespace LASI.Core.Tests.PatternMatching
                          from word in phrase.Words
                          where word.Text == "walk"
                          select word;
-            Assert.AreEqual(expectedWord, result.Single());
+            Assert.Equal(expectedWord, result.Single());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest3()
         {
             ILexical target = new Clause(new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly")));
@@ -81,9 +79,9 @@ namespace LASI.Core.Tests.PatternMatching
                          from word in phrase.Words
                          where word.Text == "run"
                          select word;
-            EnumerableAssert.IsEmpty(result);
+            Check.That(result).IsEmpty();
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest4()
         {
             var expectedString = "walk";
@@ -92,9 +90,9 @@ namespace LASI.Core.Tests.PatternMatching
                          from word in phrase.Words
                          where word.Text == "walk"
                          select word.Text;
-            Assert.AreEqual(expectedString, result.Single());
+            Assert.Equal(expectedString, result.Single());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest5()
         {
             var expectedCharacter = 'w';
@@ -105,9 +103,9 @@ namespace LASI.Core.Tests.PatternMatching
                          where word.Text == "walk"
                          from c in word.Text
                          select c;
-            Assert.AreEqual(expectedCharacter, result.First());
+            Assert.Equal(expectedCharacter, result.First());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest6()
         {
             var expected = new { Character = 'w', String = "walk" };
@@ -116,9 +114,9 @@ namespace LASI.Core.Tests.PatternMatching
                          .Case((Clause c) => c.Phrases.OfVerbPhrase().First())
                          from word in phrase.Words
                          select new { Character = word.Text.First(), String = word.Text };
-            Assert.AreEqual(expected, result.First());
+            Assert.Equal(expected, result.First());
         }
-        [TestMethod]
+        [Fact]
         public void SelectManyTest7()
         {
             var word = new BaseVerb("walk");
@@ -129,7 +127,7 @@ namespace LASI.Core.Tests.PatternMatching
                          .Case((Clause c) => c.Phrases.OfVerbPhrase().First())
                          from w in phrase.Words.OfVerb()
                          select new { Character = w.Text.First(), word = w, Phrase = phrase };
-            Assert.AreEqual(expected.Phrase, result.First().Phrase);
+            Assert.Equal(expected.Phrase, result.First().Phrase);
         }
     }
 }

@@ -12,17 +12,19 @@ export class LoginController {
         private $uibModal: ng.ui.bootstrap.IModalService,
         private $state: ng.ui.IStateService,
         private userService: UserService
-    ) { }
+    ) {
+        this.rememberMe = this.user && this.user.rememberMe;
+    }
 
     login(): PromiseLike<User> {
         const deferred = this.$q.defer<User>();
         const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
+        const antiforgeryToken = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
         this.userService.loginUser({
             email: this.username,
             password: this.password,
-            antiforgeryTokenName,
-            antiforgeryTokenValue
+            rememberMe: this.rememberMe || this.user && this.user.rememberMe,
+            antiforgeryToken
         }).then(user => {
             this.username = user.email;
             deferred.resolve(user);
@@ -30,17 +32,19 @@ export class LoginController {
         }, error => {
             deferred.reject(error);
             console.error(error);
+            return this.$uibModal.open({
+                template: `<p>An error occurred and you could not be logged in.</p>
+                           <p>Please try again.</p>`
+            });
+        }).finally(() => {
+            return this.$state.go('app.home');
         });
         return deferred.promise;
     }
 
-    logoff(): PromiseLike<void> {
-        const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $('form[name="login-form"]').find($(`input[name="${antiforgeryTokenName}"`)).val();
 
-        return this.userService.logoff(antiforgeryTokenName, antiforgeryTokenValue);
-    }
     user: User;
     username: string;
     password: string;
+    rememberMe: boolean;
 }

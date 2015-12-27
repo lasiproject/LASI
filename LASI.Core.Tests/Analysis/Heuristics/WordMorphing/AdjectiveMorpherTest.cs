@@ -1,15 +1,15 @@
 ﻿using System;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shared.Test.Assertions;
 using System.Linq;
+using NFluent;
+using Xunit;
 
 namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
 {
-    [TestClass]
     public class AdjectiveMorpherTest
     {
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest1()
         {
             AdjectiveMorpher adjectiveMorpher = new AdjectiveMorpher();
@@ -17,10 +17,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
             foreach (var synthesizedForms in from form in adjectiveForms
                                              select adjectiveMorpher.GetLexicalForms(form))
             {
-                EnumerableAssert.AreSetEqual(adjectiveForms, synthesizedForms, StringComparer.OrdinalIgnoreCase);
+                Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest2()
         {
             AdjectiveMorpher adjectiveMorpher = new AdjectiveMorpher();
@@ -28,10 +28,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
             foreach (var synthesizedForms in from form in adjectiveForms
                                              select adjectiveMorpher.GetLexicalForms(form))
             {
-                EnumerableAssert.AreSetEqual(adjectiveForms, synthesizedForms, StringComparer.OrdinalIgnoreCase);
+                Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest3()
         {
             AdjectiveMorpher adjectiveMorpher = new AdjectiveMorpher();
@@ -39,10 +39,10 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
             foreach (var synthesizedForms in from form in adjectiveForms
                                              select adjectiveMorpher.GetLexicalForms(form))
             {
-                EnumerableAssert.AreSetEqual(adjectiveForms, synthesizedForms, StringComparer.OrdinalIgnoreCase);
+                Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
-        [TestMethod]
+        [Fact]
         public void GetLexicalFormsTest4()
         {
             AdjectiveMorpher adjectiveMorpher = new AdjectiveMorpher();
@@ -50,7 +50,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing.Tests
             foreach (var synthesizedForms in from form in adjectiveForms
                                              select adjectiveMorpher.GetLexicalForms(form))
             {
-                EnumerableAssert.AreSetEqual(adjectiveForms, synthesizedForms, StringComparer.OrdinalIgnoreCase);
+                Check.That(adjectiveForms.Except(synthesizedForms, StringComparer.OrdinalIgnoreCase)).IsEmpty();
             }
         }
 

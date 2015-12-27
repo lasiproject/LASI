@@ -6,7 +6,6 @@ import documentList from './document-list/document-list.module';
 import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
-import { navbar }  from './sections/navbar/navbar';
 import { UserService } from './user-service';
 import { configureStates } from './configuration/configure-states';
 import { configureHttp } from './configuration/http-configuration';
@@ -21,13 +20,18 @@ var app: NgModuleConfig = {
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],
-    directives: { navbar },
     services: { UserService },
+    factories: { tasks },
     configs: [configureStates, configureHttp],
     runs: [startup]
 };
 
+tasks.$inject = ['tasksListService'];
+function tasks(tasksListService: TasksListService) {
 
+    return tasksListService.getActiveTasks()
+        .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
+}
 
 var modules = [app];
 

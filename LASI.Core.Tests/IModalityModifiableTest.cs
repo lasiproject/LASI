@@ -1,6 +1,5 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -10,7 +9,6 @@ namespace LASI.Core.Tests
     ///This is a test class for IModalityModifiableTest and is intended
     ///to contain all IModalityModifiableTest Unit Tests
     /// </summary>
-    [TestClass]
     public class IModalityModifiableTest
     {
         internal virtual IModalityModifiable CreateIModalityModifiable()
@@ -22,7 +20,7 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for Modality
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ModalityTest()
         {
             IModalityModifiable target = CreateIModalityModifiable();
@@ -30,7 +28,7 @@ namespace LASI.Core.Tests
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;
-            Assert.AreEqual(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
 

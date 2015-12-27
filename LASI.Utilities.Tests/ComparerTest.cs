@@ -4,7 +4,7 @@ using NFluent;
 namespace LASI.Utilities.Tests
 {
     using Fact = Xunit.FactAttribute;
-    public class ComparerTests
+    public class ComparerTest
     {
         [Fact]
         public void EqualityCreatedDeterminesEqualityAsSpecified()

@@ -1,7 +1,6 @@
 ﻿<li class="dropdown document-list-item"
-    id="document-list-item-{{menuItem.documentId}}"
-    click="menuItem.click($event)">
-    <a href="#">
+    id="document-list-item-{{menuItem.documentId}}">
+    <a href="#" ng-click="menuItem.click($event)">
         <span class="fa fa-file-text pull-left" />{{menuItem.name}}
     </a>
     <span class="item-id-hidden" hidden>{{menuItem.documentId}}</span>

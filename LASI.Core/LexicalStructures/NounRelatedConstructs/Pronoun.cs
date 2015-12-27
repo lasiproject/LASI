@@ -141,10 +141,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the gender of the Pronoun.
         /// </summary>
-        public virtual Gender Gender => this.IsFemale() ? Gender.Female :
-                    this.IsMale() ? Gender.Male :
-                    this.IsNeutral() ? Gender.Neutral :
-                    Gender.Undetermined;
+        public virtual Gender Gender => this.IsFemale() ? Gender.Female : this.IsMale() ? Gender.Male : this.IsNeutral() ? Gender.Neutral : Gender.Undetermined;
 
         #endregion
 

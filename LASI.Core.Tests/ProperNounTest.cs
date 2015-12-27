@@ -1,8 +1,5 @@
-﻿using LASI.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
@@ -12,7 +9,6 @@ namespace LASI.Core.Tests
     ///This is a test class for ProperNounTest and is intended
     ///to contain all ProperNounTest Unit Tests
     /// </summary>
-    [TestClass]
     public class ProperNounTest
     {
         private IEnumerable<ProperNoun> CreateProperNouns()
@@ -26,14 +22,14 @@ namespace LASI.Core.Tests
         /// <summary>
         ///A test for IsPersonalName
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IsPersonalNameTest()
         {
             foreach (ProperNoun target in CreateProperNouns())
             {
                 bool actual;
                 actual = target.IsPersonalName;
-                Assert.IsTrue(actual);
+                Assert.True(actual);
             }
         }
     }

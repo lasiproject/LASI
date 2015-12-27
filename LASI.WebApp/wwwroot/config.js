@@ -29,6 +29,9 @@ System.config({
         },
         "*.ts": {
           "loader": "ts"
+        },
+        "*.js": {
+          "loader": "ts"
         }
       }
     },
