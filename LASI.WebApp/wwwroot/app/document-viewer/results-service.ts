@@ -1,14 +1,9 @@
 ﻿'use strict';
 
-import { buildMenus, enableActiveHighlighting } from 'app/LASI';
-
+import { buildMenus } from 'app/LASI';
+import { enableActiveHighlighting } from './result-chart-builder';
 resultsService.$inject = ['$http', '$q'];
 
-export interface ResultsService {
-    tasks: Task[];
-    processDocument(documentId: string, documentName: string): angular.IPromise<DocumentModel>;
-    taskFor(documentId: string): Task;
-}
 function resultsService($http: angular.IHttpService, $q: angular.IQService): ResultsService {
     var tasks: Task[] = [];
     var processDocument = function (documentId, documentName): angular.IPromise<DocumentModel> {

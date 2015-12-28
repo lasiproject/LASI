@@ -1,8 +1,5 @@
 ﻿/// <reference path="./../../typings/tsd.d.ts" />
 
-declare module 'modules' {
-    export default '';
-}
 declare interface DocumentModelService {
     processDocument(documentId: string): ng.IPromise<DocumentModel>;
 }
@@ -14,6 +11,12 @@ declare interface TasksListServiceProvider {
     $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
     setTasksListUrl: (url: string) => TasksListServiceProvider;
     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
+}
+
+declare interface ResultsService {
+    tasks: Task[];
+    processDocument(documentId: string, documentName: string): angular.IPromise<DocumentModel>;
+    taskFor(documentId: string): Task;
 }
 
 interface Credentials {

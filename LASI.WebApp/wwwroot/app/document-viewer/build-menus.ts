@@ -1,8 +1,5 @@
-/// <reference path="../../typings/tsd.d.ts" />
 'use strict';
-import './angular-shim';
-import './utilities/augmentations';
-export { default as enableActiveHighlighting } from './results/result-chart-builder';
+
 export function buildMenus() {
     var contextualElementIdSelectors = [];
     var verbalMenuTextToElementsMap = {
@@ -100,7 +97,5 @@ export function buildMenus() {
             $('#referencer-context-menu').hide();
         });
     };
-};
-//export var setupDraggableDialogs: () => void; 
-export var log: (message?: any, ...optionalParams: any[]) => void = console.log.bind(console);
+}
  

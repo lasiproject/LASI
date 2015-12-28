@@ -1,13 +1,10 @@
-﻿/**
- * Augments Array with the additional methods, if and only if a member with the same name as the method has not already been defined.
- */
-(function () {
-    'use strict';
+﻿(function () {
     var arrayAgumentations = {
         flatMap: function (arraySelector, elementSelector) {
-
             arraySelector = arraySelector || function (array) {
-                if (!Array.isArray(array)) { throw new TypeError(); }
+                if (!Array.isArray(array)) {
+                    throw new TypeError('expected an array');
+                }
                 return array;
             };
             elementSelector = elementSelector || function (element) { return element; };

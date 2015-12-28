@@ -1,7 +1,6 @@
 ﻿'use strict';
 
 import { documentsService } from './documents-service';
-import { resultsService } from './results-service';
 import { DocumentListServiceConfig, DocumentListServiceProvider } from './document-list-service-provider';
 import { tasksListServiceProvider } from './tasks-list-service-provider';
 import { ListController } from './list-controller';
@@ -28,7 +27,7 @@ export default {
         'debug'
     ],
     configs: [configure],
-    factories: { resultsService, documentsService },
+    factories: { documentsService },
     providers: { documentListService: DocumentListServiceProvider, tasksListService: tasksListServiceProvider },
     directives: { documentListMenuItem },
     controllers: { ListController }

@@ -1,13 +1,7 @@
 ﻿'use strict';
-import { ResultsService } from 'app/document-list/results-service';
+
 import template from 'app/document-list/document-list-menu-item.html';
 
-interface DocumentListItemScope extends angular.IScope {
-    documentId: string;
-    name: string;
-    analysisProgress: number;
-    showProgress: boolean;
-}
 export function documentListMenuItem(): angular.IDirective {
     return {
         replace: true,
