@@ -25,28 +25,12 @@ namespace LASI.WebApp.Controllers
             this.userManager = userManager;
         }
 
+        // Authorization failing
         [HttpGet]
         [Authorize("Bearer")]
-        public async Task<dynamic> Get()
+        public Task<dynamic> Get()
         {
             throw new NotImplementedException();
-            //if (HttpContext.User?.Identity.IsAuthenticated ?? false)
-            //{
-            //    var user = await userManager.FindByIdAsync(User.GetUserId());
-            //    return new
-            //    {
-            //        User = new
-            //        {
-            //            user.Email,
-            //            Username = user.Email,
-            //            user.FirstName,
-            //            user.LastName,
-            //            user.Id
-            //        },
-            //        Token = GenerateJwtToken()
-            //    };
-            //}
-            //else return null;
         }
 
         [HttpPost]
@@ -73,12 +57,14 @@ namespace LASI.WebApp.Controllers
             }
             return new { Authenticated = false };
         }
+        // Authorization failing
         [Authorize("Bearer")]
         [HttpPost("LogOff")]
-        public async Task LogOff()
+        public Task<IActionResult> LogOff()
         {
-            var token = Request.Headers["Token"];
-            await signInManager.SignOutAsync();
+            throw new NotImplementedException();
+            //var token = Request.Headers["Token"];
+            //await signInManager.SignOutAsync();
 
         }
 
@@ -100,6 +86,11 @@ namespace LASI.WebApp.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        public class Credentials { public string Email { get; set; } public string Password { get; set; } public bool? RememberMe { get; set; } }
+        public class Credentials
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public bool? RememberMe { get; set; }
+        }
     }
 }
