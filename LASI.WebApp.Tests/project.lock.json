@@ -86,6 +86,8 @@
           "LASI.Core": "1.0.0",
           "LASI.Interop": "1.0.0",
           "LASI.Utilities": "1.0.0",
+          "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
+          "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
           "Microsoft.AspNet.Cors": "6.0.0-rc1-final",
           "Microsoft.AspNet.DataProtection": "1.0.0-rc1-final",
           "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
@@ -173,6 +175,46 @@
         },
         "runtime": {
           "lib/net451/Microsoft.AspNet.Authentication.Cookies.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.JwtBearer/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.OAuth/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
         }
       },
       "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
@@ -1610,6 +1652,58 @@
           "lib/net451/Microsoft.Extensions.WebEncoders.Core.dll": {}
         }
       },
+      "Microsoft.IdentityModel.Logging/1.0.0-rc1-211161024": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens.Jwt": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols.OpenIdConnect/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        }
+      },
       "Microsoft.Net.Http.Headers/1.0.0-rc1-final": {
         "type": "package",
         "frameworkAssemblies": [
@@ -1828,6 +1922,44 @@
           "lib/net45/_._": {}
         }
       },
+      "System.IdentityModel.Tokens/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "1.0.0-rc1-211161024",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        }
+      },
       "System.IO/4.0.0": {
         "type": "package",
         "compile": {
@@ -1853,12 +1985,12 @@
           "System.Numerics"
         ],
         "compile": {
-          "ref/net46/System.Numerics.Vectors.dll": {},
-          "ref/net46/_._": {}
+          "ref/net46/_._": {},
+          "ref/net46/System.Numerics.Vectors.dll": {}
         },
         "runtime": {
-          "lib/net46/System.Numerics.Vectors.dll": {},
-          "lib/net46/_._": {}
+          "lib/net46/_._": {},
+          "lib/net46/System.Numerics.Vectors.dll": {}
         }
       },
       "System.Reflection/4.0.0": {
@@ -2170,6 +2302,8 @@
           "LASI.Core": "1.0.0",
           "LASI.Interop": "1.0.0",
           "LASI.Utilities": "1.0.0",
+          "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
+          "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
           "Microsoft.AspNet.Cors": "6.0.0-rc1-final",
           "Microsoft.AspNet.DataProtection": "1.0.0-rc1-final",
           "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
@@ -2257,6 +2391,46 @@
         },
         "runtime": {
           "lib/net451/Microsoft.AspNet.Authentication.Cookies.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.JwtBearer/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.OAuth/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
         }
       },
       "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
@@ -3697,6 +3871,58 @@
           "lib/net451/Microsoft.Extensions.WebEncoders.Core.dll": {}
         }
       },
+      "Microsoft.IdentityModel.Logging/1.0.0-rc1-211161024": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens.Jwt": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols.OpenIdConnect/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        }
+      },
       "Microsoft.Net.Http.Headers/1.0.0-rc1-final": {
         "type": "package",
         "frameworkAssemblies": [
@@ -3915,6 +4141,44 @@
           "lib/net45/_._": {}
         }
       },
+      "System.IdentityModel.Tokens/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "1.0.0-rc1-211161024",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        }
+      },
       "System.IO/4.0.0": {
         "type": "package",
         "compile": {
@@ -3940,12 +4204,12 @@
           "System.Numerics"
         ],
         "compile": {
-          "ref/net46/System.Numerics.Vectors.dll": {},
-          "ref/net46/_._": {}
+          "ref/net46/_._": {},
+          "ref/net46/System.Numerics.Vectors.dll": {}
         },
         "runtime": {
-          "lib/net46/System.Numerics.Vectors.dll": {},
-          "lib/net46/_._": {}
+          "lib/net46/_._": {},
+          "lib/net46/System.Numerics.Vectors.dll": {}
         }
       },
       "System.Reflection/4.0.0": {
@@ -4257,6 +4521,8 @@
           "LASI.Core": "1.0.0",
           "LASI.Interop": "1.0.0",
           "LASI.Utilities": "1.0.0",
+          "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
+          "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
           "Microsoft.AspNet.Cors": "6.0.0-rc1-final",
           "Microsoft.AspNet.DataProtection": "1.0.0-rc1-final",
           "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
@@ -4344,6 +4610,46 @@
         },
         "runtime": {
           "lib/net451/Microsoft.AspNet.Authentication.Cookies.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.JwtBearer/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        },
+        "runtime": {
+          "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Authentication.OAuth/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll": {}
         }
       },
       "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
@@ -5784,6 +6090,58 @@
           "lib/net451/Microsoft.Extensions.WebEncoders.Core.dll": {}
         }
       },
+      "Microsoft.IdentityModel.Logging/1.0.0-rc1-211161024": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Logging.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens.Jwt": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.dll": {}
+        }
+      },
+      "Microsoft.IdentityModel.Protocols.OpenIdConnect/2.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols": "2.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll": {}
+        }
+      },
       "Microsoft.Net.Http.Headers/1.0.0-rc1-final": {
         "type": "package",
         "frameworkAssemblies": [
@@ -6002,6 +6360,44 @@
           "lib/net45/_._": {}
         }
       },
+      "System.IdentityModel.Tokens/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "1.0.0-rc1-211161024",
+          "Newtonsoft.Json": "6.0.6"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.dll": {}
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/5.0.0-rc1-211161024": {
+        "type": "package",
+        "dependencies": {
+          "System.IdentityModel.Tokens": "5.0.0-rc1-211161024"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "mscorlib",
+          "System",
+          "System.Core"
+        ],
+        "compile": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        },
+        "runtime": {
+          "lib/net451/System.IdentityModel.Tokens.Jwt.dll": {}
+        }
+      },
       "System.IO/4.0.0": {
         "type": "package",
         "compile": {
@@ -6027,12 +6423,12 @@
           "System.Numerics"
         ],
         "compile": {
-          "ref/net46/System.Numerics.Vectors.dll": {},
-          "ref/net46/_._": {}
+          "ref/net46/_._": {},
+          "ref/net46/System.Numerics.Vectors.dll": {}
         },
         "runtime": {
-          "lib/net46/System.Numerics.Vectors.dll": {},
-          "lib/net46/_._": {}
+          "lib/net46/_._": {},
+          "lib/net46/System.Numerics.Vectors.dll": {}
         }
       },
       "System.Reflection/4.0.0": {
@@ -6338,6 +6734,34 @@
         "Microsoft.AspNet.Authentication.Cookies.1.0.0-rc1-final.nupkg",
         "Microsoft.AspNet.Authentication.Cookies.1.0.0-rc1-final.nupkg.sha512",
         "Microsoft.AspNet.Authentication.Cookies.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.Authentication.JwtBearer/1.0.0-rc1-final": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "pkgJ9xKl2RY5j6alvpnLWNGpnM7qpFpcdQSSxjOFI0yWDYxkqagwghdisC/lVgRiSDzh3tm1asjpMbt+6+sNOg==",
+      "files": [
+        "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.dll",
+        "lib/dnx451/Microsoft.AspNet.Authentication.JwtBearer.xml",
+        "lib/dnxcore50/Microsoft.AspNet.Authentication.JwtBearer.dll",
+        "lib/dnxcore50/Microsoft.AspNet.Authentication.JwtBearer.xml",
+        "Microsoft.AspNet.Authentication.JwtBearer.1.0.0-rc1-final.nupkg",
+        "Microsoft.AspNet.Authentication.JwtBearer.1.0.0-rc1-final.nupkg.sha512",
+        "Microsoft.AspNet.Authentication.JwtBearer.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.Authentication.OAuth/1.0.0-rc1-final": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "3h2Mz/ObM1pQRDDkkK4roI1Y6n6XlTQGsLxbeMQ6aGJZCYYnZhCrp6UN4CWktd3xBrLUdaRYMH1r94+0wjCqAg==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.AspNet.Authentication.OAuth.dll",
+        "lib/dotnet5.4/Microsoft.AspNet.Authentication.OAuth.xml",
+        "lib/net451/Microsoft.AspNet.Authentication.OAuth.dll",
+        "lib/net451/Microsoft.AspNet.Authentication.OAuth.xml",
+        "Microsoft.AspNet.Authentication.OAuth.1.0.0-rc1-final.nupkg",
+        "Microsoft.AspNet.Authentication.OAuth.1.0.0-rc1-final.nupkg.sha512",
+        "Microsoft.AspNet.Authentication.OAuth.nuspec"
       ]
     },
     "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
@@ -7454,6 +7878,48 @@
         "Microsoft.Extensions.WebEncoders.Core.nuspec"
       ]
     },
+    "Microsoft.IdentityModel.Logging/1.0.0-rc1-211161024": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "creXwpCysjVpRx+IsZSf8mxCT9lZ/VY1T6wR6zFFulPXV1UZysVURmLd/IgJg/p9pAtcrU5yIbRC9Az3j73+nA==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.IdentityModel.Logging.dll",
+        "lib/dotnet5.4/Microsoft.IdentityModel.Logging.xml",
+        "lib/net451/Microsoft.IdentityModel.Logging.dll",
+        "lib/net451/Microsoft.IdentityModel.Logging.xml",
+        "Microsoft.IdentityModel.Logging.1.0.0-rc1-211161024.nupkg",
+        "Microsoft.IdentityModel.Logging.1.0.0-rc1-211161024.nupkg.sha512",
+        "Microsoft.IdentityModel.Logging.nuspec"
+      ]
+    },
+    "Microsoft.IdentityModel.Protocols/2.0.0-rc1-211161024": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "1/I4nkZCKjNg9jIASv2sNIi8RvdsYLi/efbylZEw+zvtBgNfNEvdCeAsIVyX3A4pR0yQwtIdz+kTYRTs2diSEQ==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.IdentityModel.Protocols.dll",
+        "lib/dotnet5.4/Microsoft.IdentityModel.Protocols.xml",
+        "lib/net451/Microsoft.IdentityModel.Protocols.dll",
+        "lib/net451/Microsoft.IdentityModel.Protocols.xml",
+        "Microsoft.IdentityModel.Protocols.2.0.0-rc1-211161024.nupkg",
+        "Microsoft.IdentityModel.Protocols.2.0.0-rc1-211161024.nupkg.sha512",
+        "Microsoft.IdentityModel.Protocols.nuspec"
+      ]
+    },
+    "Microsoft.IdentityModel.Protocols.OpenIdConnect/2.0.0-rc1-211161024": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "4xW6TBJ4ys3p+KtHwzddq8pkdxFoUtRlHYcHECK9YtZxkp4omLA9NUGrHRZ57RGN31vPdSzX3u1ujiA2Bqpo+A==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll",
+        "lib/dotnet5.4/Microsoft.IdentityModel.Protocols.OpenIdConnect.xml",
+        "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll",
+        "lib/net451/Microsoft.IdentityModel.Protocols.OpenIdConnect.xml",
+        "Microsoft.IdentityModel.Protocols.OpenIdConnect.2.0.0-rc1-211161024.nupkg",
+        "Microsoft.IdentityModel.Protocols.OpenIdConnect.2.0.0-rc1-211161024.nupkg.sha512",
+        "Microsoft.IdentityModel.Protocols.OpenIdConnect.nuspec"
+      ]
+    },
     "Microsoft.Net.Http.Headers/1.0.0-rc1-final": {
       "type": "package",
       "serviceable": true,
@@ -7879,6 +8345,34 @@
         "System.Globalization.4.0.0.nupkg",
         "System.Globalization.4.0.0.nupkg.sha512",
         "System.Globalization.nuspec"
+      ]
+    },
+    "System.IdentityModel.Tokens/5.0.0-rc1-211161024": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "UbFu6NIPI8pDL/lZlajUQ06OQNJvkpUWYBDIZr+HaqiXseE0Jja1kXTFg2gxKpjuruRinR7e7+/qnAAE3/BPcw==",
+      "files": [
+        "lib/dotnet5.4/System.IdentityModel.Tokens.dll",
+        "lib/dotnet5.4/System.IdentityModel.Tokens.xml",
+        "lib/net451/System.IdentityModel.Tokens.dll",
+        "lib/net451/System.IdentityModel.Tokens.xml",
+        "System.IdentityModel.Tokens.5.0.0-rc1-211161024.nupkg",
+        "System.IdentityModel.Tokens.5.0.0-rc1-211161024.nupkg.sha512",
+        "System.IdentityModel.Tokens.nuspec"
+      ]
+    },
+    "System.IdentityModel.Tokens.Jwt/5.0.0-rc1-211161024": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "A/mqsC0pFbFnsZ6OR17PPkNz4OEu0Xt8wK83FNDLvsoWMhvKS2DDFnn9dqzUxKDLEIZUXwWWCJQJritmvXsf1g==",
+      "files": [
+        "lib/dotnet5.4/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/dotnet5.4/System.IdentityModel.Tokens.Jwt.xml",
+        "lib/net451/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/net451/System.IdentityModel.Tokens.Jwt.xml",
+        "System.IdentityModel.Tokens.Jwt.5.0.0-rc1-211161024.nupkg",
+        "System.IdentityModel.Tokens.Jwt.5.0.0-rc1-211161024.nupkg.sha512",
+        "System.IdentityModel.Tokens.Jwt.nuspec"
       ]
     },
     "System.IO/4.0.0": {

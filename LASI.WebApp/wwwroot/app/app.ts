@@ -19,9 +19,10 @@ import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
 import { UserService } from './user-service';
-import { configureStates } from './configuration/configure-states';
-import { configureHttp } from './configuration/http-configuration';
-import { startup } from './configuration/startup';
+import { TokenService } from './token-service';
+import configureStates from './configuration/configure-states';
+import configureHttp from './configuration/http-configuration';
+import run from './configuration/startup';
  
 // Define the primary 'app' module, specifying all top level dependencies.
 var app: NgModuleConfig = {
@@ -31,10 +32,10 @@ var app: NgModuleConfig = {
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],
-    services: { UserService },
+    services: { UserService, TokenService },
     factories: { tasks },
     configs: [configureStates, configureHttp],
-    runs: [startup]
+    runs: [run]
 };
 
 tasks.$inject = ['tasksListService'];

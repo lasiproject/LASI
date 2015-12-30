@@ -22,8 +22,13 @@ declare interface ResultsService {
 interface Credentials {
     email: string;
     password: string;
-    antiforgeryToken: string;
     rememberMe?: boolean;
+}
+
+interface AuthenticationResult {
+    user?: User;
+    autenticated: boolean;
+    token?: string;
 }
 
 declare interface Task {
@@ -136,7 +141,6 @@ declare interface User extends Credentials {
     email: string;
     password: string;
     documents: any[];
-    token?: string;
 }
  
 /**
@@ -195,4 +199,5 @@ declare interface Array<T> {
     first(predicate?: (element: T) => boolean): T;
     last(predicate?: (element: T) => boolean): T;
 
-} 
+}
+interface JQuery { contextmenu: any; }

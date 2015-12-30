@@ -14,7 +14,7 @@ import { UserService } from 'app/user-service';
 import { DocumentListService } from 'app/document-list/document-list-service-provider';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
-export function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
+export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
 
     documents.$inject = ['$q', 'documentListService'];
     function documents($q: ng.IQService, documentListService: DocumentListService) {

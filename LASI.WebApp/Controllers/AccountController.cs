@@ -4,6 +4,8 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using LASI.WebApp.Models;
+using System;
+using LASI.WebApp.Authentication;
 
 namespace LASI.WebApp.Controllers
 {
@@ -20,30 +22,20 @@ namespace LASI.WebApp.Controllers
 
         public SignInManager<ApplicationUser> SignInManager { get; }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
-        {
-            if (!User.IsSignedIn())
-            {
-                return HttpUnauthorized();
-            }
-            else {
-                return this.UserJson(await this.UserManager.FindByIdAsync(User.GetUserId()));
-            };
-        }
-
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            ViewBag.ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set shouldLockout: true
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await SignInManager.PasswordSignInAsync(
+                    userName: model.Email,
+                    password: model.Password,
+                    lockoutOnFailure: false,
+                    isPersistent: model.RememberMe ?? false
+                );
 
                 if (result.Succeeded)
                 {
@@ -57,30 +49,21 @@ namespace LASI.WebApp.Controllers
                         user.UserName,
                         user.FirstName,
                         user.LastName,
-                        user.ActiveWorkItems
+                        user.ActiveWorkItems,
+                        Token = await UserManager.GenerateUserTokenAsync(user, nameof(ApplicationTokenProvider), nameof(Login))
                     });
                 }
-                else
-                {
+
+                else {
                     return HttpUnauthorized();
                 }
-            }
 
-            // If we got this far, something failed, redisplay form
+
+
+                // If we got this far, something failed, redisplay form
+            }
             return HttpUnauthorized();
         }
-
-        private JsonResult UserJson(ApplicationUser user) => Json(new
-        {
-            user.Email,
-            user.Documents,
-            user.Projects,
-            user.UserName,
-            user.FirstName,
-            user.LastName,
-            user.ActiveWorkItems
-        });
-
         //
         // GET: /Account/Register
         [HttpGet]

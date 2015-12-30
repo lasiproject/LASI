@@ -10,7 +10,7 @@ configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
 
 function configure(tasksListServiceProvider: TasksListServiceProvider, documentListServiceProvider: DocumentListServiceConfig) {
     tasksListServiceProvider
-        .setUpdateInterval(500)
+        .setUpdateInterval(5000)
         .setTasksListUrl('api/Tasks');
     documentListServiceProvider
         .setRecentDocumentCount(5)

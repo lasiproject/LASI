@@ -1,15 +1,21 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens;
+using System.IO;
+using System.Security.Cryptography;
+using LASI.WebApp.Authentication;
+using LASI.WebApp.Authorization;
+using LASI.WebApp.Filters;
 using LASI.WebApp.Logging;
+using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Persistence.MongoDB.Extensions;
+using Microsoft.AspNet.Authentication.JwtBearer;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,6 +30,12 @@ namespace LASI.WebApp
 
         public Startup(IHostingEnvironment env)
         {
+            tokenAuthorizationOptions = new TokenAuthorizationOptions
+            {
+                Audience = "LASI",
+                Issuer = "LASI",
+                SigningCredentials = new SigningCredentials(rsaKey = new RsaSecurityKey(new RSACryptoServiceProvider(2048).ExportParameters(true)), SecurityAlgorithms.RsaSha256Signature)
+            };
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
@@ -46,32 +58,39 @@ namespace LASI.WebApp
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .AddSingleton<ILookupNormalizer>(provider => new UpperInvariantLookupNormalizer())
                     .AddSingleton<IWorkItemsService>(provider => new WorkItemsService())
-                    .AddInstance(new Filters.HttpResponseExceptionFilter())
-                    //.AddInMemoryDatabase()
                     .AddMongoDB(Configuration)
                     .AddMvc(options =>
                     {
-                        options.Filters.AddService(typeof(Filters.HttpResponseExceptionFilter));
+                        //options.Filters.Add(new HttpResponseExceptionFilter());
                     })
                     .AddJsonOptions(options =>
                     {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                         options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
-                        options.SerializerSettings.Converters = new[] { new StringEnumConverter { AllowIntegerValues = false, CamelCaseText = true } };
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter
+                        {
+                            AllowIntegerValues = false,
+                            CamelCaseText = true
+                        });
                         options.SerializerSettings.Formatting = isDevelopment ? Formatting.Indented : Formatting.None;
                     });
 
-            services.AddAntiforgery()
-                    .AddAuthorization()
-                    .AddAuthentication();
-
-            services.AddIdentity<Models.ApplicationUser, UserRole>(options =>
+            services.AddInstance(tokenAuthorizationOptions)
+                    .AddAuthorization(options =>
+                    {
+                        options.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                            .RequireAuthenticatedUser().Build()
+                        );
+                    })
+                    //.AddAuthentication()
+                    .AddIdentity<ApplicationUser, UserRole>(options =>
                     {
                         options.Lockout = new LockoutOptions
                         {
                             AllowedForNewUsers = true,
-                            DefaultLockoutTimeSpan = System.TimeSpan.FromDays(1),
+                            DefaultLockoutTimeSpan = TimeSpan.FromDays(1),
                             MaxFailedAccessAttempts = 10
                         };
                         options.User = new UserOptions
@@ -92,14 +111,8 @@ namespace LASI.WebApp
                             RequireNonLetterOrDigit = true
                         };
                     })
-                    .AddRoleValidator<RoleValidator<UserRole>>()
-                    .AddUserValidator<UserValidator<Models.ApplicationUser>>()
                     .AddRoleStore<CustomUserStore<UserRole>>()
-                    .AddUserStore<CustomUserStore<UserRole>>()
-                    .AddDefaultTokenProviders();
-            // Configure the options for the authentication middleware.
-            // You can add options for Google, Twitter and other middleware as shown below.
-            // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
+                    .AddUserStore<CustomUserStore<UserRole>>();
         }
 
         // Configure is called after ConfigureServices is called.
@@ -118,26 +131,29 @@ namespace LASI.WebApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseStaticFiles()
-               .UseIdentity()
-               .UseCors(policy =>
-              {
-                  policy.AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowAnyOrigin()
-                   .AllowCredentials()
-                   .WithExposedHeaders("Access-Control-Allow-Origin");
-              })
-               .UseIISPlatformHandler(options =>
+            app.UseIISPlatformHandler(options =>
+                {
+                    options.AuthenticationDescriptions.Clear();
+                    options.AutomaticAuthentication = false;
+                })
+               .UseJwtBearerAuthentication(options =>
                {
-                   options.AuthenticationDescriptions.Clear();
+                   options.TokenValidationParameters.IssuerSigningKey = rsaKey;
+                   options.TokenValidationParameters.ValidAudience = tokenAuthorizationOptions.Audience;
+                   options.TokenValidationParameters.ValidIssuer = tokenAuthorizationOptions.Issuer;
+                   options.TokenValidationParameters.ValidateSignature = true;
+                   options.TokenValidationParameters.ValidateLifetime = true;
+                   options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(0);
                })
-               .UseCookieAuthentication(options =>
+               .UseIdentity()
+               .UseStaticFiles()
+               .UseCors(policy =>
                {
-                   options.AutomaticChallenge = true;
-                   options.AutomaticAuthenticate = false;
-                   options.AccessDeniedPath = "/#/login";
+                   policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowCredentials()
+                    .WithExposedHeaders("Access-Control-Allow-Origin");
                })
                .UseMvc(routes =>
                {
@@ -145,7 +161,6 @@ namespace LASI.WebApp
                          .MapRoute(name: "ChildApi", template: "api/{parentController}/{parentId?}/{controller}/{id?}")
                          .MapRoute(name: "DefaultApi", template: "api/{controller}/{id?}");
                });
-
         }
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
 
@@ -155,6 +170,7 @@ namespace LASI.WebApp
             Interop.Configuration.Initialize(fileName, Interop.ConfigFormat.Json, subkey);
         }
         private readonly bool isDevelopment;
-
+        private readonly SecurityKey rsaKey = null;
+        private readonly TokenAuthorizationOptions tokenAuthorizationOptions;
     }
 }

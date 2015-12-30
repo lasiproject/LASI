@@ -1,18 +1,16 @@
 'use strict';
-import 'angular';
+
+import { TokenService } from 'app/token-service';
+
 export class UserService {
-    static $inject = ['$q', '$http', '$state'];
+    static $inject = ['$q', '$http', 'TokenService'];
 
-    constructor(private $q: ng.IQService, private $http: ng.IHttpService) { }
+    constructor(private $q: ng.IQService, private $http: ng.IHttpService, private tokenService: TokenService) { }
 
-    loginUser({ email, password, antiforgeryToken, rememberMe }: Credentials): ng.IPromise<User> {
+    loginUser({ email, password, rememberMe }: Credentials): ng.IPromise<User> {
         var { reject, resolve, promise } = this.$q.defer<User>();
         var requestConfig: { [i: string]: any } = {
-            xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
-                accept: 'application/json',
-                [this.antiforgeryTokenName]: this.token,
-                'Upgrade-Insecure-Requests': '1',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
@@ -20,16 +18,16 @@ export class UserService {
             email,
             password,
             rememberMe,
-            [this.antiforgeryTokenName]: this.token || antiforgeryToken
+            token: this.token,
+            auth_token: this.token
         };
-
         this.loginViaGet(requestConfig)
-
-            .catch(error => this.loginViaPost(data, requestConfig)).then(user => {
+            .catch(error => this.loginViaPost(data, requestConfig))
+            .then(({ user, token }) => {
                 this.user = user;
                 this.loggedIn = true;
+                this.tokenService.token = token;
                 resolve(user);
-                this.token = user.token;
                 return this.user;
             }).catch(error=> {
                 console.error(error);
@@ -37,44 +35,38 @@ export class UserService {
             });
 
         return promise;
-
     }
     loginViaPost(data: {}, config: ng.IRequestShortcutConfig) {
 
 
         // TODO: Remove angular.element.param(data) as it silently depends on jQuery
         return this.$http
-            .post<User>('/Account/Login', angular.element.param(data), config)
+            .post<AuthenticationResult>('/api/authenticate', angular.element.param(data), config)
             .then(response => response.data);
     }
 
     loginViaGet(requestConfig: ng.IRequestShortcutConfig) {
-        return this.$http.get<User>('/Account/Login', requestConfig).then(response=> response.data);
+        return this.$http.get<AuthenticationResult>('/api/authenticate', requestConfig).then(response => response.data);
     }
 
-    logoff(antiforgeryTokenName: string, antiforgeryTokenValue: string): ng.IPromise<any> {
+    logoff(): ng.IPromise<any> {
         var { resolve, reject, promise } = this.$q.defer();
-        var data = {
-            [antiforgeryTokenName]: this.token
-        };
+
         var config: ng.IRequestShortcutConfig = {
-            xsrfHeaderName: antiforgeryTokenName,
+            withCredentials: true,
             headers: {
-                accept: 'application/json',
-                [antiforgeryTokenName]: this.token,
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Upgrade-Insecure-Requests': '1'
             }
         };
-        
-        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
+
         this.$http
-            .post<User>('/Account/LogOff', angular.element.param(data), config)
+            .post<User>('/api/authenticate/logoff', {}, config)
             .then(response => {
                 console.log('Logged off');
                 console.log(response);
-                resolve(response);
+                this.tokenService.token = undefined;
                 this.user = undefined;
+                resolve(response.data);
                 return this.user;
             })
             .catch(error => reject(error));
@@ -89,10 +81,8 @@ export class UserService {
         var config: ng.IRequestShortcutConfig = {
             xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
-                accept: 'application/json',
                 [this.antiforgeryTokenName]: antiforgeryTokenValue,
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Upgrade-Insecure-Requests': '1'
             }
         };
 
@@ -103,7 +93,7 @@ export class UserService {
         }
         return promise;
     }
-    token: string;
+    get token() { return this.tokenService.token; }
     user: User;
     loggedIn = false;
     antiforgeryTokenName = '__RequestVerificationToken';

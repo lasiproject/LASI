@@ -97,5 +97,4 @@ export function buildMenus() {
             $('#referencer-context-menu').hide();
         });
     };
-}
- 
+} 

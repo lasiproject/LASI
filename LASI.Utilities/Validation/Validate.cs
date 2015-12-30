@@ -11,7 +11,7 @@ namespace LASI.Utilities.Validation
         #region Nullity Validation
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentNullException if it is null.
+        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="value">The value to validate.</param>
@@ -28,7 +28,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified value, raising a System.ArgumentNullException if it is null.
+        /// Validates the specified value, raising a <see cref="ArgumentNullException"/> if it is null.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The value to validate.</param>
@@ -46,7 +46,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="System.ArgumentNullException"/> if any of them
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
         /// are null.
         /// </summary>
         /// <typeparam name="T1">The type of the first value.</typeparam>
@@ -63,7 +63,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="System.ArgumentNullException"/> if any of them
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
         /// are null.
         /// </summary>
         /// <typeparam name="T1">The type of the first value.</typeparam>
@@ -86,7 +86,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="System.ArgumentNullException"/> if any of them
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
         /// are null.
         /// </summary>
         /// <typeparam name="T1">The type of the first value.</typeparam>
@@ -113,7 +113,7 @@ namespace LASI.Utilities.Validation
         }
 
         /// <summary>
-        /// Validates the specified arguments, raising a <see cref="System.ArgumentNullException"/> if any of them
+        /// Validates the specified arguments, raising a <see cref="ArgumentNullException"/> if any of them
         /// are null.
         /// </summary>
         /// <typeparam name="T1">The type of the first value.</typeparam>

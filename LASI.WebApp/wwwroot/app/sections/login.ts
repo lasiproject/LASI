@@ -23,8 +23,7 @@ export class LoginController {
         this.userService.loginUser({
             email: this.username,
             password: this.password,
-            rememberMe: this.rememberMe || this.user && this.user.rememberMe,
-            antiforgeryToken
+            rememberMe: this.rememberMe || this.user && this.user.rememberMe
         }).then(user => {
             this.username = user.email;
             deferred.resolve(user);
