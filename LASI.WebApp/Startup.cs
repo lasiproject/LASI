@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Cryptography;
-using LASI.WebApp.Authentication;
 using LASI.WebApp.Authorization;
-using LASI.WebApp.Filters;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;

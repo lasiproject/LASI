@@ -4,8 +4,6 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using LASI.WebApp.Models;
-using System;
-using LASI.WebApp.Authentication;
 
 namespace LASI.WebApp.Controllers
 {
@@ -50,7 +48,6 @@ namespace LASI.WebApp.Controllers
                         user.FirstName,
                         user.LastName,
                         user.ActiveWorkItems,
-                        Token = await UserManager.GenerateUserTokenAsync(user, nameof(ApplicationTokenProvider), nameof(Login))
                     });
                 }
 
