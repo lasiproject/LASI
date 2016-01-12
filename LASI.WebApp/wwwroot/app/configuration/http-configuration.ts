@@ -1,4 +1,4 @@
-import { TokenService } from 'app/token-service';
+import TokenService from 'app/token-service';
 
 configureHttp.$inject = ['$httpProvider'];
 export default function configureHttp($httpProvider: ng.IHttpProvider) {
@@ -10,8 +10,13 @@ export default function configureHttp($httpProvider: ng.IHttpProvider) {
     function interceptorFactory($q: ng.IQService, $rootScope: ng.IRootScopeService, tokenService: TokenService): ng.IHttpInterceptor {
         return {
             request: requestConfig => {
-                requestConfig.headers['token'] = requestConfig.headers['auth_token'] = requestConfig.headers['client_assertion'] = tokenService.token;
-                requestConfig.headers['grant_type'] = 'password';
+                requestConfig.withCredentials = true;
+                if (tokenService.token) {
+                    requestConfig.headers['Authorization'] = `Bearer ${tokenService.token}`;
+
+                }
+                requestConfig.headers['Scheme'] = 'Bearer';
+                requestConfig.headers['WWW-Authenticate'] = 'Bearer';
                 return requestConfig;
             },
             responseError: reason => {

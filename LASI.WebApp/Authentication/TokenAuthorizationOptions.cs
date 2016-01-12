@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens;
 
-namespace LASI.WebApp.Authorization
+namespace LASI.WebApp.Authentication
 {
     public class TokenAuthorizationOptions
     {

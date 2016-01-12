@@ -1,6 +1,4 @@
 'use strict';
-import 'angular-ui-router';
-
 import { UserService } from './user-service';
 
 export class AppController {

@@ -18,8 +18,6 @@ export class LoginController {
 
     login(): PromiseLike<User> {
         const deferred = this.$q.defer<User>();
-        const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryToken = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
         this.userService.loginUser({
             email: this.username,
             password: this.password,

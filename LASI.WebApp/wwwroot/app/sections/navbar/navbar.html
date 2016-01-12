@@ -10,7 +10,7 @@
             </button>
             <div id="document-list-navbar-item-container" class="dropdown-toggle">
 
-                <div ng-show="navbar.documents && navbar.documents.length"
+                <div ng-if="navbar.user"
                      class="collapse navbar-collapse navbar-left"
                      id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -59,9 +59,6 @@
                     <a ui-sref="app.home">
                         <span><img class="project-logo-navbar" src="images/ic_launcher-web - Copy.png" /></span>
                     </a>
-                </li>
-                <li>
-                    <a ui-sref="app.home" href="" class="fa fa-home fa-lg"></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

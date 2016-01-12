@@ -33,7 +33,6 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
                     deferred.reject('Must login to retrieve tasks');
                 }
                 return deferred.promise.catch(error => {
-                    console.error(error);
                     return [];
                 });
             },

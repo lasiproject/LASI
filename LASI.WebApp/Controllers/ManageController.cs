@@ -10,7 +10,7 @@ using LASI.WebApp.Models;
 
 namespace LASI.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize("Bearer")]
     public class ManageController : Controller
     {
         public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)

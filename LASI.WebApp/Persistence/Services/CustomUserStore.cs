@@ -10,6 +10,7 @@
     using Microsoft.AspNet.Identity;
     using LASI.WebApp.Models;
     using System.Threading;
+    using System.Security.Claims;
 
     public class CustomUserStore<TRole> :
         IUserStore<User>,
@@ -19,7 +20,8 @@
         IUserEmailStore<User>,
         IUserPhoneNumberStore<User>,
         IUserTwoFactorStore<User>,
-        IUserLoginStore<User>
+        IUserLoginStore<User>,
+        IUserClaimStore<User>
         where TRole : UserRole, new()
     {
         public CustomUserStore(IUserAccessor<User> userProvider, IRoleAccessor<TRole> roleProvider)
@@ -186,6 +188,38 @@
             await ExecuteAsnyc(() => userProvider.Get(u => u.Logins.Any(login => login.LoginProvider == loginProvider && login.ProviderKey == providerKey)), cancellationToken);
 
 
+        public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken) => await ExecuteAsnyc(() => user.Claims.ToList(), cancellationToken);
+
+        public Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            foreach (var claim in claims)
+            {
+                user.Claims.Add(claim);
+            }
+            return Task.FromResult(0);
+        }
+
+        public Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            user.Claims.Remove(claim); user.Claims.Add(newClaim);
+            return Task.FromResult(0);
+        }
+
+        public Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            foreach (var claim in claims)
+            {
+                user.Claims.Remove(claim);
+            }
+            return Task.FromResult(0);
+        }
+
+        public async Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken) =>
+            await ExecuteAsnyc(() => userProvider.Where(user => user.Claims.Contains(claim)).ToList(), cancellationToken);
+
 
 
 
@@ -215,7 +249,6 @@
             }
         }
         public void Dispose() { Dispose(true); }
-
 
         #endregion IDisposable Support
 

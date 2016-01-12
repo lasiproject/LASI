@@ -1,6 +1,6 @@
 'use strict';
 
-import { TokenService } from 'app/token-service';
+import TokenService from 'app/token-service';
 
 export class UserService {
     static $inject = ['$q', '$http', 'TokenService'];
@@ -17,18 +17,12 @@ export class UserService {
         var data = {
             email,
             password,
-            rememberMe,
-            token: this.token,
-            auth_token: this.token
+            rememberMe
         };
         this.loginViaGet(requestConfig)
             .catch(error => this.loginViaPost(data, requestConfig))
             .then(({ user, token }) => {
-                this.user = user;
-                this.loggedIn = true;
-                this.tokenService.token = token;
-                resolve(user);
-                return this.user;
+                this.loginSuccess(resolve, user, token);
             }).catch(error=> {
                 console.error(error);
                 reject(error);
@@ -46,14 +40,17 @@ export class UserService {
     }
 
     loginViaGet(requestConfig: ng.IRequestShortcutConfig) {
-        return this.$http.get<AuthenticationResult>('/api/authenticate', requestConfig).then(response => response.data);
+        if (this.tokenService.token) {
+            return this.$http.get<AuthenticationResult>('/api/authenticate', requestConfig).then(response => response.data);
+        } else {
+            return this.$q.reject('not logged in');
+        }
     }
 
     logoff(): ng.IPromise<any> {
         var { resolve, reject, promise } = this.$q.defer();
 
         var config: ng.IRequestShortcutConfig = {
-            withCredentials: true,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             }
@@ -64,7 +61,7 @@ export class UserService {
             .then(response => {
                 console.log('Logged off');
                 console.log(response);
-                this.tokenService.token = undefined;
+                this.tokenService.clearToken();
                 this.user = undefined;
                 resolve(response.data);
                 return this.user;
@@ -76,24 +73,35 @@ export class UserService {
     }
     getUser(): PromiseLike<User> {
         const {resolve, reject, promise } = this.$q.defer<User>();
-        const antiforgeryTokenValue = this.token;
+        const antiforgeryTokenValue = this.tokenService.token;
 
         var config: ng.IRequestShortcutConfig = {
-            xsrfHeaderName: this.antiforgeryTokenName,
             headers: {
-                [this.antiforgeryTokenName]: antiforgeryTokenValue,
                 'Content-Type': 'application/x-www-form-urlencoded',
             }
         };
 
-        if (this.user) {
+        if (this.user && this.tokenService.token) {
             resolve(this.user);
         } else {
-            reject('not logged in');
+            this.loginViaGet(config)
+                .then(({ user, token }) => {
+                    this.loginSuccess(resolve, user, token);
+                }).catch(error=> {
+                    reject(error);
+                });
         }
         return promise;
     }
-    get token() { return this.tokenService.token; }
+    loginSuccess = (resolve, user, token) => {
+        this.user = user;
+        this.loggedIn = true;
+        if (token) {
+            this.tokenService.token = token;
+        }
+        resolve(user);
+        return this.user;
+    }
     user: User;
     loggedIn = false;
     antiforgeryTokenName = '__RequestVerificationToken';

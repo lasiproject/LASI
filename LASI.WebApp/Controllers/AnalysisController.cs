@@ -23,7 +23,7 @@ namespace LASI.WebApp.Controllers
     using JobStatusMap = System.Collections.Concurrent.ConcurrentDictionary<int, LASI.WebApp.Models.Results.WorkItemStatus>;
     using NaiveTopResultSelector = LASI.Core.Analysis.Heuristics.NaiveTopResultSelector;
 
-    [Authorize]
+    [Authorize("Bearer")]
     [Route("[Controller]")]
     public class AnalysisController : Controller
     {

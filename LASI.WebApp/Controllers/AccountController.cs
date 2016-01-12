@@ -4,6 +4,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using LASI.WebApp.Models;
+using System.Linq;
 
 namespace LASI.WebApp.Controllers
 {
@@ -76,9 +77,22 @@ namespace LASI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var createResult = await UserManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email
+                }, model.Password);
+                if (!createResult.Succeeded)
+                {
+                    AddErrors(createResult);
+                }
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                //var addClaimResult = await UserManager.AddClaimAsync(user, new Claim(nameof(user.Email), user.Email));
+                //var results = new[] {
+                //    await 
+                //      //await UserManager.AddClaimAsync(user, new Claim(nameof(user.PasswordHash), user.PasswordHash))
+                //  };
+                //if (addClaimResult./*All(result => result.*/Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
@@ -86,10 +100,10 @@ namespace LASI.WebApp.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
                     //await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    await SignInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
+                //results.ToList().ForEach(AddErrors);
+                //AddErrors(addClaimResult);
             }
 
             // If we got this far, something failed, redisplay form

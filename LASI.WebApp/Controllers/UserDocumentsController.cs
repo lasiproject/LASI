@@ -21,7 +21,7 @@ using LASI.WebApp.Exceptions;
 
 namespace LASI.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize("Bearer")]
     [Route("api/[controller]")]
     public class UserDocumentsController : Controller
     {

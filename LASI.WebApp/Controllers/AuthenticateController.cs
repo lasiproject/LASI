@@ -6,21 +6,23 @@ using Microsoft.AspNet.Authorization;
 using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNet.Authentication.JwtBearer;
-using LASI.WebApp.Authorization;
+using LASI.WebApp.Authentication;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using LASI.WebApp.Models;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.WebApp.Controllers
 {
     [Route("api/[controller]")]
     public class AuthenticateController : Controller
     {
-        public AuthenticateController(TokenAuthorizationOptions tokenAuthorizationOptions, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthenticateController(TokenAuthorizationOptions tokenAuthorizationOptions, JwtSecurityTokenHandler jwtSecurityTokenHandler, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.tokenAuthorizationOptions = tokenAuthorizationOptions;
+            this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
@@ -28,30 +30,42 @@ namespace LASI.WebApp.Controllers
         // Authorization failing
         [HttpGet]
         [Authorize("Bearer")]
-        public Task<dynamic> Get()
+        public async Task<dynamic> Get()
         {
-            throw new NotImplementedException();
-        }
+            var user = await userManager.FindByEmailAsync((
+                from claim in User.Claims
+                where claim.Properties.Values.Contains("unique_name")
+                select claim.Value
+            ).DefaultIfEmpty("").First());
 
+            if (user != null)
+            {
+                return new
+                {
+                    User = UserResponse.FromApplicatinUser(user),
+                    Authenticated = true
+                };
+            }
+            return HttpNotFound("Invalid login attempt");
+        }
         [HttpPost]
         public async Task<dynamic> Post(Credentials body)
         {
-            SignInResult signInResult = await signInManager.PasswordSignInAsync(body.Email, body.Password, isPersistent: true, lockoutOnFailure: false);
-            ApplicationUser user = await userManager.FindByEmailAsync(body.Email);
+            var signInResult = await signInManager.PasswordSignInAsync(
+                body.Email,
+                body.Password,
+                isPersistent: true,
+                lockoutOnFailure: false
+            );
+
+            var user = await userManager.FindByEmailAsync(body.Email);
             if (signInResult.Succeeded)
             {
                 string renderedToken = GenerateJwtToken();
                 return new
                 {
                     Authenticated = true,
-                    User = new
-                    {
-                        user.Email,
-                        Username = user.Email,
-                        user.FirstName,
-                        user.LastName,
-                        user.Id
-                    },
+                    User = UserResponse.FromApplicatinUser(user),
                     Token = renderedToken
                 };
             }
@@ -60,37 +74,53 @@ namespace LASI.WebApp.Controllers
         // Authorization failing
         [Authorize("Bearer")]
         [HttpPost("LogOff")]
-        public Task<IActionResult> LogOff()
+        public async Task LogOff()
         {
-            throw new NotImplementedException();
-            //var token = Request.Headers["Token"];
-            //await signInManager.SignOutAsync();
-
+            await signInManager.SignOutAsync();
         }
 
         private string GenerateJwtToken()
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(
-                                  issuer: tokenAuthorizationOptions.Issuer,
-                                  audience: tokenAuthorizationOptions.Audience,
-                                  signingCredentials: tokenAuthorizationOptions.SigningCredentials,
-                                  subject: User.Identities.FirstOrDefault(),
-                                  expires: (DateTimeOffset.UtcNow + TimeSpan.FromHours(1)).DateTime
-                              );
-            var renderedToken = tokenHandler.WriteToken(token);
+            var utcDateTime = DateTimeOffset.UtcNow.UtcDateTime;
+            var token = this.jwtSecurityTokenHandler.CreateJwtSecurityToken(new SecurityTokenDescriptor
+            {
+                Issuer = this.tokenAuthorizationOptions.Issuer,
+                Audience = this.tokenAuthorizationOptions.Audience,
+                Claims = User.Claims,
+                SigningCredentials = this.tokenAuthorizationOptions.SigningCredentials,
+                IssuedAt = utcDateTime,
+                Expires = DateTimeOffset.UtcNow.UtcDateTime + TimeSpan.FromMinutes(60)
+            });
+            var renderedToken = jwtSecurityTokenHandler.WriteToken(token);
             return renderedToken;
         }
 
         private readonly TokenAuthorizationOptions tokenAuthorizationOptions;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
 
         public class Credentials
         {
             public string Email { get; set; }
             public string Password { get; set; }
             public bool? RememberMe { get; set; }
+        }
+        public class UserResponse
+        {
+            public static UserResponse FromApplicatinUser(ApplicationUser user) => new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            };
+            public string Id { get; set; }
+            public string Email { get; set; }
+            public string UserName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
         }
     }
 }

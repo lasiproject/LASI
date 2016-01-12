@@ -19,10 +19,11 @@ import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
 import { UserService } from './user-service';
-import { TokenService } from './token-service';
+import TokenService from './token-service';
 import configureStates from './configuration/configure-states';
 import configureHttp from './configuration/http-configuration';
 import run from './configuration/startup';
+
  
 // Define the primary 'app' module, specifying all top level dependencies.
 var app: NgModuleConfig = {

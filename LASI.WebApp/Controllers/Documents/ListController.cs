@@ -11,7 +11,7 @@ using Microsoft.AspNet.Authorization;
 
 namespace LASI.WebApp.Controllers.Documents
 {
-    [Authorize]
+    [Authorize("Bearer")]
     [Route("api/UserDocuments/[controller]")]
     public class ListController : Controller
     {

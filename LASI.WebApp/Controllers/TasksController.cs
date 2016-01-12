@@ -11,7 +11,7 @@ using Microsoft.AspNet.Mvc;
 
 namespace LASI.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize("Bearer")]
     [Route("api/Tasks")]
     public class TasksController : Controller
     {

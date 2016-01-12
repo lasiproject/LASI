@@ -47,8 +47,8 @@ export class NavbarController {
             .logoff()
             .then(() => this.user = undefined)
             .finally(() => {
-                return this.$state.transitionTo(this.$state.current.name, {}, { reload: true })
-                    .then(window.location.reload.bind(window, true));
+                //return this.$state.transitionTo(this.$state.current.name, {}, { reload: true })
+                //    .then(window.location.reload.bind(window, true));
 
             });
     }
