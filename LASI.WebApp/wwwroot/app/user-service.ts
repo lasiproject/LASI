@@ -22,7 +22,7 @@ export class UserService {
         this.loginViaGet(requestConfig)
             .catch(error => this.loginViaPost(data, requestConfig))
             .then(({ user, token }) => {
-                this.loginSuccess(resolve, user, token);
+                return this.loginSuccess(resolve, user, token);
             }).catch(error=> {
                 console.error(error);
                 reject(error);
@@ -86,7 +86,7 @@ export class UserService {
         } else {
             this.loginViaGet(config)
                 .then(({ user, token }) => {
-                    this.loginSuccess(resolve, user, token);
+                    return this.loginSuccess(resolve, user, token);
                 }).catch(error=> {
                     reject(error);
                 });
@@ -104,6 +104,4 @@ export class UserService {
     }
     user: User;
     loggedIn = false;
-    antiforgeryTokenName = '__RequestVerificationToken';
-
 }
