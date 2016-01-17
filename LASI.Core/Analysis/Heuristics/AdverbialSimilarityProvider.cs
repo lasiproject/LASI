@@ -17,7 +17,7 @@ namespace LASI.Core
                 first.Match()
                     .Case((Adverb a1) =>
                         second.Match()
-                            .Case((Adverb a2) => a1.IsSynonymFor(a2))
+                            .Case((Adverb a2) => a1.IsSimilarTo(a2))
                             .Case((AdverbPhrase ap2) => ap2.IsSimilarTo(a1))
                             .Result())
                     .Case((AdverbPhrase ap1) =>
@@ -33,7 +33,8 @@ namespace LASI.Core
         /// <param name="first">The first Adverb.</param>
         /// <param name="second">The second Adverb.</param>
         /// <returns><c>true</c> if the first Adverb is similar to the second; otherwise, <c>false</c>.</returns>
-        public static Similarity IsSimilarTo(this Adverb first, Adverb second) => Similarity.FromBoolean(first.IsSynonymFor(second));
+        public static Similarity IsSimilarTo(this Adverb first, Adverb second) => Similarity.FromBoolean(Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false));
+
 
         /// <summary>
         /// Determines if the provided AdverbPhrase is similar to the provided Adverb.
@@ -53,7 +54,7 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the provided Adverb is similar to the provided AdverbPhrase; otherwise, <c>false</c>.
         /// </returns>
-        public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) => Similarity.FromBoolean(second.Words.OfAdverb().Any(a => a.IsSynonymFor(first)));
+        public static Similarity IsSimilarTo(this Adverb first, AdverbPhrase second) => Similarity.FromBoolean(second.Words.OfAdverb().Any(a => a.IsSimilarTo(first)));
 
         /// <summary>
         /// Determines if two AdverbPhrases are similar.
@@ -66,7 +67,7 @@ namespace LASI.Core
             var percentMatched =
                 first.Words.OfAdverb()
                 .Zip(second.Words.OfAdverb(),
-                    (a, b) => a.IsSynonymFor(b))
+                    (a, b) => (bool)a.IsSimilarTo(b))
                 .PercentTrue();
             return Similarity.FromBoolean(first == second || percentMatched / 100 > SimilarityThreshold);
         }

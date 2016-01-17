@@ -21,7 +21,7 @@ namespace LASI.Utilities.SpecializedResultTypes
         public static Indexed<T> Create<T>(T element, int index) => new Indexed<T>(element, index);
     }
     /// <summary>
-    /// Represents a pairing of an element with its index in a linear data structure.
+    /// Represents a pairing of an element with its index in some ordering of some data structure.
     /// </summary>
     /// <typeparam name="T">The type of the element.</typeparam>
     public struct Indexed<T> : IEquatable<Indexed<T>>

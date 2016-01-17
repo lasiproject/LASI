@@ -94,74 +94,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<string> GetSynonyms(this Adverb adverb) => cachedAdverbData.GetOrAdd(adverb.Text, key => AdverbLookup[key]);
 
-        /// <summary>
-        /// Determines if two Noun instances are synonymous.
-        /// </summary>
-        /// <param name="first">
-        /// The first Noun.
-        /// </param>
-        /// <param name="second">
-        /// The second Noun
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the Noun instances are synonymous; otherwise, <c>false</c>.
-        /// </returns> 
-        public static bool IsSynonymFor(this Noun first, Noun second) =>
-            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
-
-        /// <summary>
-        /// Determines if two Verb instances are synonymous.
-        /// </summary>
-        /// <param name="first">
-        /// The first Verb.
-        /// </param>
-        /// <param name="second">
-        /// The second Verb
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the Verb instances are synonymous; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsSynonymFor(this Verb first, Verb second) =>
-            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
-
-        /// <summary>
-        /// Determines if two Adjective instances are synonymous.
-        /// </summary>
-        /// <param name="first">
-        /// The first Adjective.
-        /// </param>
-        /// <param name="second">
-        /// The second Adjective
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the Adjective instances are synonymous; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsSynonymFor(this Adjective first, Adjective second) =>
-            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
-
-        /// <summary>
-        /// Determines if two Adverb instances are synonymous.
-        /// </summary>
-        /// <param name="first">
-        /// The first Adverb.
-        /// </param>
-        /// <param name="second">
-        /// The second Adverb
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the Adverb instances are synonymous; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsSynonymFor(this Adverb first, Adverb second) =>
-            Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false);
-
         #endregion Public Methods
-
-        #region Synonym Lookup Methods
-        #endregion Synonym Lookup Methods
-
-        #region Internal Synonym Lookup Methods
-
-        #endregion
 
         private static WordNetLookup<TWord> LazyLoad<TWord>(WordNetLookup<TWord> wordNetLookup) where TWord : Word
         {

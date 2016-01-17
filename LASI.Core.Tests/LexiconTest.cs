@@ -134,8 +134,8 @@ namespace LASI.Core.Heuristics.Tests
             var hobby = new CommonSingularNoun("hobby");
             var pastime = new CommonSingularNoun("pastime");
 
-            Check.That(hobby.IsSynonymFor(pastime)).IsTrue();
-            Check.That(pastime.IsSynonymFor(hobby)).IsTrue();
+            Check.That(hobby.GetSynonyms()).Contains("pastime");
+            Check.That(pastime.GetSynonyms()).Contains("hobby");
         }
 
         [Fact]
@@ -144,10 +144,8 @@ namespace LASI.Core.Heuristics.Tests
             Verb walk = new BaseVerb("walk");
             Verb perambulate = new BaseVerb("perambulate");
 
-            Check.That(walk.GetSynonyms().OrderBy(s => s)).Contains("perambulate");
-            Check.That(perambulate.GetSynonyms().OrderBy(s => s)).Contains("walk");
-            Check.That(perambulate.IsSynonymFor(walk)).IsTrue();
-            Check.That(walk.IsSynonymFor(perambulate)).IsTrue();
+            Check.That(walk.GetSynonyms()).Contains("perambulate");
+            Check.That(perambulate.GetSynonyms()).Contains("walk");
         }
 
         [Fact]
@@ -155,8 +153,8 @@ namespace LASI.Core.Heuristics.Tests
         {
             Adverb furtively = new Adverb("furtively");
             Adverb stealthily = new Adverb("stealthily");
-            Check.That(furtively.IsSynonymFor(stealthily)).IsTrue();
-            Check.That(stealthily.IsSynonymFor(furtively)).IsTrue();
+            Check.That(furtively.GetSynonyms()).Contains("stealthily");
+            Check.That(stealthily.GetSynonyms()).Contains("furtively");
         }
 
         [Fact]
@@ -164,8 +162,8 @@ namespace LASI.Core.Heuristics.Tests
         {
             Adjective pale = new Adjective("pale");
             Adjective pallid = new Adjective("pallid");
-            Check.That(pale.IsSynonymFor(pallid)).IsTrue();
-            Check.That(pallid.IsSynonymFor(pale)).IsTrue();
+            Check.That(pale.GetSynonyms()).Contains("pallid");
+            Check.That(pallid.GetSynonyms()).Contains("pale");
         }
     }
 }

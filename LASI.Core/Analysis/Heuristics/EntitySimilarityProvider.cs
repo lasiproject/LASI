@@ -51,7 +51,7 @@ namespace LASI.Core
         private static Similarity IsSimilarTo(this Noun first, NounPhrase second)
         {
             var phraseNouns = second.Words.OfNoun().ToList();
-            return Similarity.FromBoolean(phraseNouns.Count == 1 && phraseNouns.First().IsSynonymFor(first));
+            return Similarity.FromBoolean(phraseNouns.Count == 1 && phraseNouns.First().IsSimilarTo(first));
         }
 
         /// <summary>Determines if the provided NounPhrase is similar to the provided Noun.</summary>
@@ -73,7 +73,8 @@ namespace LASI.Core
         /// <param name="first">The first Noun.</param>
         /// <param name="second">The second Noun.</param>
         /// <returns><c>true</c> if the first Noun is similar to the second; otherwise, <c>false</c>.</returns>
-        private static Similarity IsSimilarTo(this Noun first, Noun second) => Similarity.FromBoolean(first.IsSynonymFor(second));
+        private static Similarity IsSimilarTo(this Noun first, Noun second) =>
+            Similarity.FromBoolean(Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false));
 
         /// <summary>Determines if the text is equal to that of a known Common Noun.</summary>
         /// <param name="nounText">The text to test.</param>
@@ -194,7 +195,7 @@ namespace LASI.Core
             if (right.Count == 0) { return 0; }
             var comparisonResults = from outer in (right.Count > left.Count ? left : right)
                                     from inner in (left.Count < right.Count ? right : left)
-                                    select outer.IsSynonymFor(inner) ? 0.7 : 0;
+                                    select outer.IsSimilarTo(inner) ? 0.7 : 0;
             return comparisonResults.Average();
         }
 
