@@ -16,7 +16,7 @@
     "gulp-typescript": "^2.9.2",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "3.0.6",
-    "jspm": "0.16.15",
+    "jspm": "^0.16.19",
     "qunitjs": "~1.20.0",
     "systemjs-builder": "0.14.15",
     "tsd": "^0.6.5",
@@ -42,14 +42,16 @@
       "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@^3.2.3",
       "qunit": "github:jquery/qunit@^1.20.0",
       "text": "github:systemjs/plugin-text@^0.0.2",
-      "ts": "github:frankwallis/plugin-typescript@^2.3.2"
+      "ts": "github:frankwallis/plugin-typescript@^2.4.7"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "plugin-typescript": "npm:babel-core@^5.8.24",
       "plugin-typescript-runtime": "npm:babel-runtime@^5.8.24",
-      "typescript": "npm:typescript@1.7.5"
+      "traceur": "github:jmcriffey/bower-traceur@0.0.93",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.93",
+      "typescript": "npm:typescript@^1.7.5"
     }
   }
 }

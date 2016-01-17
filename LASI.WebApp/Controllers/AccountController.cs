@@ -72,7 +72,6 @@ namespace LASI.WebApp.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -82,12 +81,21 @@ namespace LASI.WebApp.Controllers
                     UserName = model.Email,
                     Email = model.Email
                 }, model.Password);
+
                 if (!createResult.Succeeded)
                 {
                     AddErrors(createResult);
                 }
-                var user = await UserManager.FindByEmailAsync(model.Email);
-                //var addClaimResult = await UserManager.AddClaimAsync(user, new Claim(nameof(user.Email), user.Email));
+                else {
+                    var user = await UserManager.FindByEmailAsync(model.Email);
+                    var result = await SignInManager.PasswordSignInAsync(
+                    userName: model.Email,
+                    password: model.Password,
+                    lockoutOnFailure: false,
+                    isPersistent: false
+                 );
+                    return LocalRedirect("~/api/authenticate");
+                }//var addClaimResult = await UserManager.AddClaimAsync(user, new Claim(nameof(user.Email), user.Email));
                 //var results = new[] {
                 //    await 
                 //      //await UserManager.AddClaimAsync(user, new Claim(nameof(user.PasswordHash), user.PasswordHash))
@@ -100,14 +108,13 @@ namespace LASI.WebApp.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Context.Request.Scheme);
                     //await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
                 }
                 //results.ToList().ForEach(AddErrors);
                 //AddErrors(addClaimResult);
             }
-
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Json(new { Message = "Unable to register" });
         }
 
         //

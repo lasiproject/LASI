@@ -11,6 +11,7 @@ using LASI.WebApp.Models;
 namespace LASI.WebApp.Controllers
 {
     [Authorize("Bearer")]
+    [Route("api/[controller]")]
     public class ManageController : Controller
     {
         public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
@@ -25,8 +26,8 @@ namespace LASI.WebApp.Controllers
 
         //
         // GET: /Account/Index
-        [HttpGet]
-        public async Task<IActionResult> Index(ManageMessageId? message = null)
+        [HttpGet("account")]
+        public async Task<IndexViewModel> Get(ManageMessageId? message = null)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -44,11 +45,30 @@ namespace LASI.WebApp.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(user),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(user),
                 Logins = await UserManager.GetLoginsAsync(user),
-                BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user)
+                BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user),
+                Email = await UserManager.GetEmailAsync(user),
             };
-            return View(model);
+            return model;
         }
+        [HttpPost("account")]
+        public async Task<IndexViewModel> Post([FromBody]IndexViewModel details)
+        {
+            var user = await GetCurrentUserAsync();
 
+            if (details.PhoneNumber != null)
+            {
+                user.PhoneNumber = details.PhoneNumber;
+            }
+            if (details.Email != null)
+            {
+                user.Email = details.Email;
+            }
+
+            var result = await UserManager.UpdateAsync(user);
+
+            details.Errors = result.Errors.Select(e => e.Description);
+            return details;
+        }
         //
         // GET: /Account/RemoveLogin
         [HttpGet]
@@ -63,7 +83,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             ManageMessageId? message = ManageMessageId.Error;
@@ -87,7 +106,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Account/AddPhoneNumber
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -104,7 +122,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
@@ -119,7 +136,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
@@ -144,7 +160,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Account/VerifyPhoneNumber
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -192,7 +207,6 @@ namespace LASI.WebApp.Controllers
         //
         // POST: /Account/Manage
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)

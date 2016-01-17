@@ -1,18 +1,18 @@
 ﻿'use strict';
-
+import { UserService } from 'app/user-service';
 export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 export interface DocumentListService {
-    get(): PromiseLike<DocumentListItemModel[]>;
+    get(): ng.IPromise<DocumentListItemModel[]>;
     deleteDocument(documentId: string): PromiseLike<DocumentListItemModel>;
 }
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;
     private recentDocumentCount: number;
     constructor() {
-        this.$get.$inject = ['$q', '$http'];
+        this.$get.$inject = ['$q', '$http', 'UserService'];
     }
     setDocumentListUrl(url: string) {
         this.documentListUrl = url;
@@ -23,21 +23,24 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, n
         return this;
     }
 
-    $get($q: ng.IQService, $http: ng.IHttpService): DocumentListService {
+    $get($q: ng.IQService, $http: ng.IHttpService, userService: UserService): DocumentListService {
         let [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
         return {
             deleteDocument(documentId: string) {
-                return $http.delete(listUrl + '?documentId=' + documentId);
+                if (userService.loggedIn) {
+                    return $http.delete(`${listUrl}?documentId=${documentId}`);
+                } else {
+                    return {} as any;
+                }
             },
             get() {
-                let deferred = $q.defer<DocumentListItemModel[]>();
-                $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`)
-                    .then(response=> deferred.resolve(response.data))
-                    .catch(error=> {
-                        console.error.bind(console);
-                        deferred.resolve([]);
-                    });
-                return deferred.promise;
+                return userService.loggedIn
+                    ? $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`)
+                        .then(response => response.data)
+                        .catch(error => {
+                            return $q.resolve([]);
+                        })
+                    : $q.resolve([]);
             }
         };
     };

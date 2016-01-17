@@ -16,27 +16,37 @@ export class LoginController {
         this.rememberMe = this.user && this.user.rememberMe;
     }
 
-    login(): PromiseLike<User> {
-        const deferred = this.$q.defer<User>();
-        this.userService.loginUser({
+    login(): ng.IPromise<any> {
+        return this.userService.login({
             email: this.username,
             password: this.password,
             rememberMe: this.rememberMe || this.user && this.user.rememberMe
         }).then(user => {
             this.username = user.email;
-            deferred.resolve(user);
             this.user = user;
-        }, error => {
-            deferred.reject(error);
-            console.error(error);
+            return this.$state.go('app.home', {}, { reload: true });
+        }).catch(error => {
             return this.$uibModal.open({
-                template: `<p>An error occurred and you could not be logged in.</p>
-                           <p>Please try again.</p>`
-            });
-        }).finally(() => {
-            return this.$state.go('app.home');
+                controller: class {
+                    static $inject = ['$uibModalInstance'];
+                    error = error;
+                    constructor(private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
+                    }
+                    ok() { this.$uibModalInstance.close(); return this.$uibModalInstance.result; }
+                },
+                controllerAs: 'modal',
+                template: `
+                        <div class="modal-header">
+                            <h3 class="modal-title">Login Failed</h3>
+                        </div>
+                        <div class="modal-body">
+                            {{modal.error}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" ng-click="modal.ok()">OK</button>
+                        </div>`
+            }).result;
         });
-        return deferred.promise;
     }
 
 

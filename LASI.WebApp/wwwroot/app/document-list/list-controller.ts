@@ -5,13 +5,13 @@ import { DocumentsService } from './documents-service';
 export class ListController {
     expanded = false;
     private documents: DocumentListItemModel[] = [];
-    static $inject = ['$q', 'documentListService', 'documentsService', 'documentModelService', 'tasks'];
+    static $inject = ['$q', 'documentListService', 'documentsService', 'documentModelService', 'tasksListService'];
     constructor(
         private $q: angular.IQService,
         private documentListService: DocumentListService,
         private documentsService: DocumentsService,
         private documentModelService: DocumentModelService,
-        private tasks: Task[]) {
+        private taskListService: TasksListService) {
         this.activate();
     }
 
@@ -39,14 +39,15 @@ export class ListController {
     activate() {
         var documentPromise = this.documentListService.get()
             .then(documents => this.documents = documents)
-            .then(documents => ({ documents: this.documents, tasks: this.tasks }))
-            .then(xs=> xs.tasks.map(task => {
-                this.tasks[task.id] = task;
-                var doc = this.documents.first(d => d.name === task.name);
-                if (doc) {
-                    doc.task = task;
+            .then(documents => this.taskListService.getActiveTasks()).then(tasks => this.tasks = tasks)
+            .then(tasks => ({ documents: this.documents, tasks }))
+            .then(({ documents, tasks }) => tasks.map(task => {
+                this.taskListService[task.id] = task;
+                var document = documents.first(d => d.name === task.name);
+                if (document) {
+                    document.task = task;
                 }
-                return doc;
+                return document;
             }));
         return documentPromise.then(data => {
 
@@ -57,8 +58,10 @@ export class ListController {
                     document.statusMessage = task.statusMessage;
                 });
 
-            this.tasks.forEach(task => { this.tasks[task.id] = task; });
+            this.tasks.forEach(task => { this.taskListService[task.id] = task; });
         });
 
     }
+
+    tasks: Task[];
 }

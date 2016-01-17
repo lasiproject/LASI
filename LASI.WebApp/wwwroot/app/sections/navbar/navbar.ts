@@ -20,8 +20,11 @@ export class NavbarController {
 
     activate() {
         return this.userService.getUser()
-            .then(user => this.user = user, console.error.bind(console))
-            .then(user => this.documentListService.get().then(documents=> this.documents = documents));
+            .then(user => this.user = user)
+            .then(user => this.documentListService.get().then(documents=> this.documents = documents))
+            .catch(reason => {
+                return this.$state.go('app.login');
+            });
     }
     openManageDocumentsModal() {
         var navbarController = this;
@@ -41,15 +44,11 @@ export class NavbarController {
     expanded = false;
     user: User;
     logoff() {
-        const antiforgeryTokenName = '__RequestVerificationToken';
-        const antiforgeryTokenValue = $(document).find($(`input[name="${antiforgeryTokenName}"`)).val();
         return this.userService
             .logoff()
             .then(() => this.user = undefined)
             .finally(() => {
-                //return this.$state.transitionTo(this.$state.current.name, {}, { reload: true })
-                //    .then(window.location.reload.bind(window, true));
-
+                return this.$state.go('app.login', {}, { reload: true })
             });
     }
 } 

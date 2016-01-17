@@ -27,7 +27,7 @@ interface Credentials {
 
 interface AuthenticationResult {
     user?: User;
-    autenticated: boolean;
+    autenticated?: boolean;
     token?: string;
 }
 

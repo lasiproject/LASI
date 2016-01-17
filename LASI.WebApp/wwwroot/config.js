@@ -9,9 +9,13 @@ System.config({
     ]
   },
   typescriptOptions: {
+    "module": "system",
+    "target": "es5",
+    "sourceMap": true,
+    "inlineSourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalAsyncFunctions": true,
+    "experimentalAsyncFunctions": false,
     "typeCheck": false
   },
   paths: {
@@ -65,7 +69,9 @@ System.config({
     "plugin-typescript-runtime": "npm:babel-runtime@5.8.34",
     "qunit": "github:jquery/qunit@1.20.0",
     "text": "github:systemjs/plugin-text@0.0.2",
-    "ts": "github:frankwallis/plugin-typescript@2.4.3",
+    "traceur": "github:jmcriffey/bower-traceur@0.0.92",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.92",
+    "ts": "github:frankwallis/plugin-typescript@2.4.7",
     "typescript": "npm:typescript@1.7.5",
     "github:angular-ui/ui-router@0.2.15": {
       "angular": "github:angular/bower-angular@1.4.8"
@@ -73,7 +79,7 @@ System.config({
     "github:aspnet/jquery-validation-unobtrusive@3.2.5": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
-    "github:frankwallis/plugin-typescript@2.4.3": {
+    "github:frankwallis/plugin-typescript@2.4.7": {
       "typescript": "npm:typescript@1.7.5"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -199,7 +205,7 @@ System.config({
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "isarray": "npm:isarray@0.0.1",
+      "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"

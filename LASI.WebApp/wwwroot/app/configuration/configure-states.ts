@@ -9,27 +9,15 @@ import loginTemplate from 'app/sections/login.html';
 import { NavbarController } from 'app/sections/navbar/navbar';
 import navbarTemplate from 'app/sections/navbar/navbar.html';
 
+import { AccountController} from 'app/sections/account';
+import accountTemplate from 'app/sections/account.html';
+
 import { LoginController } from 'app/sections/login';
 import { UserService } from 'app/user-service';
 import { DocumentListService } from 'app/document-list/document-list-service-provider';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
 export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
-
-    documents.$inject = ['$q', 'documentListService'];
-    function documents($q: ng.IQService, documentListService: DocumentListService) {
-        var deferred = $q.defer<DocumentListItemModel[]>();
-        documentListService.get()
-            .then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
-        return deferred.promise;
-    }
-    tasks.$inject = ['tasksListService'];
-    function tasks(tasksListService: TasksListService) {
-
-        return tasksListService.getActiveTasks()
-            .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
-    }
-
     $stateProvider
         .state({
             url: '/',
@@ -41,14 +29,10 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     controllerAs: 'app',
                     template: appTemplate,
                     resolve: {
-                        documents,
-                        tasks
                     }
                 },
                 'main': {
                     resolve: {
-                        documents,
-                        tasks
                     }
                 },
                 'navbar': {
@@ -67,11 +51,7 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     name: 'home',
                     controllerAs: 'home',
                     controller: HomeController,
-                    template: homeTemplate,
-                    resolve: {
-                        documents,
-                        tasks
-                    }
+                    template: homeTemplate
                 }, 'navbar': {
                     name: 'navbar',
                     controller: NavbarController,
@@ -89,8 +69,25 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     controllerAs: 'login',
                     template: loginTemplate,
                     resolve: {
-                        documents,
-                        tasks
+                    }
+                },
+                'navbar': {
+                    controller: NavbarController,
+                    controllerAs: 'navbar',
+                    template: navbarTemplate,
+
+                }
+            }
+        })
+        .state({
+            name: 'app.account',
+            url: 'account',
+            views: {
+                'main': {
+                    controller: AccountController,
+                    controllerAs: 'account',
+                    template: accountTemplate,
+                    resolve: {
                     }
                 },
                 'navbar': {

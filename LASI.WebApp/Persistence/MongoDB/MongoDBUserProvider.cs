@@ -38,7 +38,7 @@ namespace LASI.WebApp.Persistence.MongoDB
 
         public IdentityResult Update(ApplicationUser user)
         {
-            var outcome = Users.Update(Query.EQ("_id", user.Id), Update<ApplicationUser>.Replace(user));
+            var outcome = Users.Save(user);
             if (outcome?.ErrorMessage == null)
             {
                 return IdentityResult.Success;

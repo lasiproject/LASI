@@ -5,9 +5,9 @@ export default function configureHttp($httpProvider: ng.IHttpProvider) {
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.defaults.headers['accept'] = 'application/json';
     $httpProvider.defaults.headers['Upgrade-Insecure-Requests'] = '1';
-    interceptorFactory.$inject = ['$q', '$rootScope', 'TokenService'];
+    interceptorFactory.$inject = ['TokenService'];
 
-    function interceptorFactory($q: ng.IQService, $rootScope: ng.IRootScopeService, tokenService: TokenService): ng.IHttpInterceptor {
+    function interceptorFactory(tokenService: TokenService): ng.IHttpInterceptor {
         return {
             request: requestConfig => {
                 requestConfig.withCredentials = true;
@@ -20,12 +20,17 @@ export default function configureHttp($httpProvider: ng.IHttpProvider) {
                 return requestConfig;
             },
             responseError: reason => {
-                if (reason.status === 401) {
-                    $rootScope.$broadcast('unauthorized');
+                switch (reason.status) {
+                    case 401:
+                        console.info('Anauthorized');
+
+                        break;
+                    case 404:
+                        console.info('not found');
+                        break;
+                    default:
+                        return;
                 }
-                var deferred = $q.defer();
-                deferred.reject(reason);
-                return deferred.promise;
             }
         };
     }

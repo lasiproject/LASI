@@ -66,7 +66,7 @@
                     <a ui-sref="app.login">Login</a>
                 </li>
                 <li ng-show="navbar.user">
-                    <a>Welcome {{navbar.user.email}}!</a>
+                    <a ui-sref="app.account">Welcome {{navbar.user.email}}!</a>
                 </li>
                 <li ng-show="navbar.user">
                     <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">

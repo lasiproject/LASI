@@ -23,7 +23,7 @@ namespace LASI.WebApp.Controllers
         [HttpGet]
         public IEnumerable<WorkItem> Get()
         {
-            var userId = User.GetUserId();
+            var userId = User.FindFirstValue("unique_name");
             return userId == null ? Enumerable.Empty<WorkItem>() : workItemsService.GetAllWorkItemsForUser(userId);
         }
 

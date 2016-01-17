@@ -11,6 +11,7 @@
 declare module 'app/app.html' { export default ''; }
 declare module 'app/sections/home/home.html' { export default ''; }
 declare module 'app/sections/navbar/navbar.html' { export default ''; }
+declare module 'app/sections/account.html' { export default ''; }
 declare module 'app/sections/login.html' { export default ''; }
 declare module 'app/sections/document-manager/manage-modal.html' { export default ''; }
 declare module 'app/sections/document-manager/confirm-delete-modal.html' { export default ''; }
