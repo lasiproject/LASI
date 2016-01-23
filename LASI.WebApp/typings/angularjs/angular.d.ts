@@ -61,7 +61,7 @@ declare module angular {
          * @param config an object for defining configuration options for the application. The following keys are supported:
          *     - `strictDi`: disable automatic function annotation for the application. This is meant to assist in finding bugs which break minified code.
          */
-        bootstrap(element: string|Element|JQuery|Document, modules?: (string|Function|any[])[], config?: IAngularBootstrapConfig): auto.IInjectorService;
+        bootstrap(element: string | Element | JQuery | Document, modules?: (string | Function | any[])[], config?: IAngularBootstrapConfig): auto.IInjectorService;
 
         /**
          * Creates a deep copy of source, which should be an object or an array.
@@ -165,7 +165,7 @@ declare module angular {
             dot: number;
             codeName: string;
         };
-        
+
         /**
          * If window.name contains prefix NG_DEFER_BOOTSTRAP! when angular.bootstrap is called, the bootstrap process will be paused until angular.resumeBootstrap() is called.
          * @param extraModules An optional array of modules that should be added to the original list of modules that the app was about to be bootstrapped with.
@@ -181,6 +181,13 @@ declare module angular {
         animation(name: string, animationFactory: Function): IModule;
         animation(name: string, inlineAnnotatedFunction: any[]): IModule;
         animation(object: Object): IModule;
+        /**
+         * Use this method to register a component.
+         *
+         * @param name The name of the component.
+         * @param options A definition object passed into the component.
+         */
+        component(name: string, options: IComponentOptions): IModule;
         /**
          * Use this method to register work which needs to be performed on module loading.
          *
@@ -285,8 +292,8 @@ declare module angular {
          * @param name The name of the service to decorate
          * @param decorator This function will be invoked when the service needs to be instantiated and should return the decorated service instance. The function is called using the injector.invoke method and is therefore fully injectable. Local injection arguments: $delegate - The original service instance, which can be monkey patched, configured, decorated or delegated to.
          */
-        decorator(name:string, decoratorConstructor: Function): IModule;
-        decorator(name:string, inlineAnnotatedConstructor: any[]): IModule;
+        decorator(name: string, decoratorConstructor: Function): IModule;
+        decorator(name: string, inlineAnnotatedConstructor: any[]): IModule;
 
         // Properties
         name: string;
@@ -681,7 +688,7 @@ declare module angular {
     }
 
     interface IFilterFilter {
-        <T>(array: T[], expression: string | IFilterFilterPatternObject | IFilterFilterPredicateFunc<T>, comparator?: IFilterFilterComparatorFunc<T>|boolean): T[];
+        <T>(array: T[], expression: string | IFilterFilterPatternObject | IFilterFilterPredicateFunc<T>, comparator?: IFilterFilterComparatorFunc<T> | boolean): T[];
     }
 
     interface IFilterFilterPatternObject {
@@ -714,7 +721,7 @@ declare module angular {
          * @param fractionSize Number of decimal places to round the number to. If this is not provided then the fraction size is computed from the current locale's number formatting pattern. In the case of the default locale, it will be 3.
          * @return Number rounded to decimalPlaces and places a “,” after each third digit.
          */
-        (value: number|string, fractionSize?: number|string): string;
+        (value: number | string, fractionSize?: number | string): string;
     }
 
     interface IFilterDate {
@@ -761,7 +768,7 @@ declare module angular {
          * @param begin Index at which to begin limitation. As a negative index, begin indicates an offset from the end of input. Defaults to 0.
          * @return A new sub-array of length limit or less if input array had less than limit elements.
          */
-        <T>(input: T[], limit: string|number, begin?: string|number): T[];
+        <T>(input: T[], limit: string | number, begin?: string | number): T[];
         /**
          * Creates a new string containing only a specified number of elements. The elements are taken from either the beginning or the end of the source string or number, as specified by the value and sign (positive or negative) of limit. If a number is used as input, it is converted to a string.
          * @param input Source string or number to be limited.
@@ -769,7 +776,7 @@ declare module angular {
          * @param begin Index at which to begin limitation. As a negative index, begin indicates an offset from the end of input. Defaults to 0.
          * @return A new substring of length limit or less if input had less than limit elements.
          */
-        (input: string|number, limit: string|number, begin?: string|number): string;
+        (input: string | number, limit: string | number, begin?: string | number): string;
     }
 
     interface IFilterOrderBy {
@@ -780,7 +787,7 @@ declare module angular {
          * @param reverse Reverse the order of the array.
          * @return Reverse the order of the array.
          */
-        <T>(array: T[], expression: string|((value: T) => any)|(((value: T) => any)|string)[], reverse?: boolean): T[];
+        <T>(array: T[], expression: string | ((value: T) => any) | (((value: T) => any) | string)[], reverse?: boolean): T[];
     }
 
     /**
@@ -948,7 +955,7 @@ declare module angular {
          * @param search New search params
          * @param paramValue If search is a string or a Number, then paramValue will override only a single search property. If paramValue is null, the property specified via the first argument will be deleted. If paramValue is an array, it will override the property of the search component of $location specified via the first argument. If paramValue is true, the property specified via the first argument will be added with no value nor trailing equal sign.
          */
-        search(search: string, paramValue: string|number|string[]|boolean): ILocationService;
+        search(search: string, paramValue: string | number | string[] | boolean): ILocationService;
 
         state(): any;
         state(state: any): ILocationService;
@@ -972,7 +979,7 @@ declare module angular {
     // DocumentService
     // see http://docs.angularjs.org/api/ng.$document
     ///////////////////////////////////////////////////////////////////////////
-    interface IDocumentService extends IAugmentedJQuery {}
+    interface IDocumentService extends IAugmentedJQuery { }
 
     ///////////////////////////////////////////////////////////////////////////
     // ExceptionHandlerService
@@ -986,7 +993,7 @@ declare module angular {
     // RootElementService
     // see http://docs.angularjs.org/api/ng.$rootElement
     ///////////////////////////////////////////////////////////////////////////
-    interface IRootElementService extends JQuery {}
+    interface IRootElementService extends JQuery { }
 
     interface IQResolveReject<T> {
         (): void;
@@ -1037,7 +1044,7 @@ declare module angular {
          *
          * @param value Value or a promise
          */
-        resolve<T>(value: IPromise<T>|T): IPromise<T>;
+        resolve<T>(value: IPromise<T> | T): IPromise<T>;
         /**
          * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
          */
@@ -1047,7 +1054,7 @@ declare module angular {
          *
          * @param value Value or a promise
          */
-        when<T>(value: IPromise<T>|T): IPromise<T>;
+        when<T>(value: IPromise<T> | T): IPromise<T>;
         /**
          * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
          */
@@ -1060,12 +1067,12 @@ declare module angular {
          * The successCallBack may return IPromise<void> for when a $q.reject() needs to be returned
          * This method returns a new promise which is resolved or rejected via the return value of the successCallback, errorCallback. It also notifies via the return value of the notifyCallback method. The promise can not be resolved or rejected from the notifyCallback method.
          */
-        then<TResult>(successCallback: (promiseValue: T) => IPromise<TResult>|TResult, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
+        then<TResult>(successCallback: (promiseValue: T) => IPromise<TResult> | TResult, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
 
         /**
          * Shorthand for promise.then(null, errorCallback)
          */
-        catch<TResult>(onRejected: (reason: any) => IPromise<TResult>|TResult): IPromise<TResult>;
+        catch<TResult>(onRejected: (reason: any) => IPromise<TResult> | TResult): IPromise<TResult>;
 
         /**
          * Allows you to observe either the fulfillment or rejection of a promise, but to do so without modifying the final value. This is useful to release resources or do some clean-up that needs to be done whether the promise was rejected or resolved. See the full specification for more information.
@@ -1350,7 +1357,7 @@ declare module angular {
         /**
          * Timeout in milliseconds, or promise that should abort the request when resolved.
          */
-        timeout?: number|IPromise<any>;
+        timeout?: number | IPromise<any>;
 
         /**
          * See [XMLHttpRequest.responseType]https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#xmlhttprequest-responsetype
@@ -1406,12 +1413,13 @@ declare module angular {
     }
 
     interface IHttpRequestConfigHeaders {
-        [requestType: string]: string|(() => string);
-        common?: string|(() => string);
-        get?: string|(() => string);
-        post?: string|(() => string);
-        put?: string|(() => string);
-        patch?: string|(() => string);
+        [requestType: string]: string | (() => string);
+        accept?: string;
+        common?: string | (() => string);
+        get?: string | (() => string);
+        post?: string | (() => string);
+        put?: string | (() => string);
+        patch?: string | (() => string);
     }
 
     /**
@@ -1433,7 +1441,7 @@ declare module angular {
          * headers and returns its transformed (typically serialized) version.
          * @see {@link https://docs.angularjs.org/api/ng/service/$http#transforming-requests-and-responses}
          */
-        transformRequest?: IHttpRequestTransformer |IHttpRequestTransformer[];
+        transformRequest?: IHttpRequestTransformer | IHttpRequestTransformer[];
 
         /**
          * Transform function or an array of such functions. The transform function takes the http response body and
@@ -1469,9 +1477,9 @@ declare module angular {
     }
 
     interface IHttpInterceptor {
-        request?: (config: IRequestConfig) => IRequestConfig|IPromise<IRequestConfig>;
+        request?: (config: IRequestConfig) => IRequestConfig | IPromise<IRequestConfig>;
         requestError?: (rejection: any) => any;
-        response?: <T>(response: IHttpPromiseCallbackArg<T>) => IPromise<T>|T;
+        response?: <T>(response: IHttpPromiseCallbackArg<T>) => IPromise<T> | T;
         responseError?: (rejection: any) => any;
     }
 
@@ -1486,7 +1494,7 @@ declare module angular {
          * Register service factories (names or implementations) for interceptors which are called before and after
          * each request.
          */
-        interceptors: (string|IHttpInterceptorFactory|(string|IHttpInterceptorFactory)[])[];
+        interceptors: (string | IHttpInterceptorFactory | (string | IHttpInterceptorFactory)[])[];
         useApplyAsync(): boolean;
         useApplyAsync(value: boolean): IHttpProvider;
 
@@ -1496,7 +1504,7 @@ declare module angular {
          * @returns {boolean|Object} If a value is specified, returns the $httpProvider for chaining.
          *    otherwise, returns the current configured value.
          */
-        useLegacyPromiseExtensions(value:boolean) : boolean | IHttpProvider;
+        useLegacyPromiseExtensions(value: boolean): boolean | IHttpProvider;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -1535,7 +1543,7 @@ declare module angular {
     // TemplateCacheService
     // see http://docs.angularjs.org/api/ng.$templateCache
     ///////////////////////////////////////////////////////////////////////////
-    interface ITemplateCacheService extends ICacheObject {}
+    interface ITemplateCacheService extends ICacheObject { }
 
     ///////////////////////////////////////////////////////////////////////////
     // SCEService
@@ -1621,6 +1629,110 @@ declare module angular {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    // Component
+    // see http://angularjs.blogspot.com.br/2015/11/angularjs-15-beta2-and-14-releases.html
+    // and http://toddmotto.com/exploring-the-angular-1-5-component-method/
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * Runtime representation a type that a Component or other object is instances of.
+     *
+     * An example of a `Type` is `MyCustomComponent` class, which in JavaScript is be represented by
+     * the `MyCustomComponent` constructor function.
+     */
+    interface Type extends Function {
+    }
+
+    /**
+     * `RouteDefinition` defines a route within a {@link RouteConfig} decorator.
+     *
+     * Supported keys:
+     * - `path` or `aux` (requires exactly one of these)
+     * - `component`, `loader`,  `redirectTo` (requires exactly one of these)
+     * - `name` or `as` (optional) (requires exactly one of these)
+     * - `data` (optional)
+     *
+     * See also {@link Route}, {@link AsyncRoute}, {@link AuxRoute}, and {@link Redirect}.
+     */
+    interface RouteDefinition {
+        path?: string;
+        aux?: string;
+        component?: Type | ComponentDefinition | string;
+        loader?: Function;
+        redirectTo?: any[];
+        as?: string;
+        name?: string;
+        data?: any;
+        useAsDefault?: boolean;
+    }
+
+    /**
+     * Represents either a component type (`type` is `component`) or a loader function
+     * (`type` is `loader`).
+     *
+     * See also {@link RouteDefinition}.
+     */
+    interface ComponentDefinition {
+        type: string;
+        loader?: Function;
+        component?: Type;
+    }
+
+    /**
+     * Component definition object (a simplified directive definition object)
+     */
+    interface IComponentOptions {
+        /**
+         * Controller constructor function that should be associated with newly created scope or the name of a registered
+         * controller if passed as a string. Empty function by default.
+         */
+        controller?: string | Function;
+        /**
+         * An identifier name for a reference to the controller. If present, the controller will be published to scope under
+         * the controllerAs name. If not present, this will default to be the same as the component name.
+         */
+        controllerAs?: string;
+        /**
+         * html template as a string or a function that returns an html template as a string which should be used as the
+         * contents of this component. Empty string by default.
+         * If template is a function, then it is injected with the following locals:
+         * $element - Current element
+         * $attrs - Current attributes object for the element
+         */
+        template?: string | Function;
+        /**
+         * path or function that returns a path to an html template that should be used as the contents of this component.
+         * If templateUrl is a function, then it is injected with the following locals:
+         * $element - Current element
+         * $attrs - Current attributes object for the element
+         */
+        templateUrl?: string | Function;
+        /**
+         * Define DOM attribute binding to component properties. Component properties are always bound to the component
+         * controller and not to the scope.
+         */
+        bindings?: any;
+        /**
+         * Whether transclusion is enabled. Enabled by default.
+         */
+        transclude?: boolean;
+        /**
+         * Whether the new scope is isolated. Isolated by default.
+         */
+        isolate?: boolean;
+        /**
+         * String of subset of EACM which restricts the component to specific directive declaration style. If omitted,
+         * this defaults to 'E'.
+         */
+        restrict?: string;
+        $canActivate?: () => boolean;
+        $routeConfig?: RouteDefinition[];
+    }
+
+    interface IComponentTemplateFn {
+        ($element?: IAugmentedJQuery, $attrs?: IAttributes): string;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     // Directive
     // see http://docs.angularjs.org/api/ng.$compileProvider#directive
     // and http://docs.angularjs.org/guide/directive
@@ -1657,7 +1769,7 @@ declare module angular {
         compile?: IDirectiveCompileFn;
         controller?: any;
         controllerAs?: string;
-        bindToController?: boolean|Object;
+        bindToController?: boolean | Object;
         link?: IDirectiveLinkFn | IDirectivePrePost;
         name?: string;
         priority?: number;

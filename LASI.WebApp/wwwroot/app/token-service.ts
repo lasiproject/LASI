@@ -14,5 +14,5 @@ export default class TokenService {
         this.$window.sessionStorage.removeItem(this.tokenKey);
     }
 
-    tokenKey = "auth_token";
+    tokenKey = 'auth_token';
 }

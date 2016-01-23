@@ -1,5 +1,4 @@
 ﻿'use strict';
-
 class SearchBoxController {
     static $inject = ['$q'];
     constructor(private $q: angular.IQService) { }

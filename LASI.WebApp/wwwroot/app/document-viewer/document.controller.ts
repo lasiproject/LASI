@@ -11,7 +11,7 @@ export class DocumentController {
         if (this.documentModel.id !== id) {
             return this.documentModelService.processDocument(id);
         } else {
-            return this.$q.when(this.documentModel);
+            return this.$q.resolve(this.documentModel);
         }
     }
 }

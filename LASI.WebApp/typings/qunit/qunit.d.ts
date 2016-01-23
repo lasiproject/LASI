@@ -148,23 +148,27 @@ interface URLConfigItem {
 interface LifecycleObject {
     /**
      * Runs before each test
+     * @param assert
      * @deprecated
      */
-    setup?: () => void;
+    setup?: (assert: QUnitAssert) => void;
 
     /**
      * Runs after each test
+     * @param assert
      * @deprecated
      */
-    teardown?: () => void;
+    teardown?: (assert: QUnitAssert) => void;
     /**
      * Runs before each test
+     * @param assert
      */
-    beforeEach?: () => void;
+    beforeEach?: (assert: QUnitAssert) => void;
     /**
      * Runs after each test
+     * @param assert
      */
-    afterEach?: () => void;
+    afterEach?: (assert: QUnitAssert) => void;
 
     /**
      * Any additional properties on the hooks object will be added to that context.
@@ -362,7 +366,7 @@ interface QUnitStatic extends QUnitAssert {
     *
     * @param decrement Optional argument to merge multiple stop() calls into one. Use with multiple corrsponding start() calls.
     */
-    stop(increment?: number): any;
+    stop(increment? : number): any;
     
     /* CALLBACKS */
 
@@ -649,7 +653,7 @@ declare function start(decrement?: number): any;
 *
 * @param decrement Optional argument to merge multiple stop() calls into one. Use with multiple corrsponding start() calls.
 */
-declare function stop(increment?: number): any;
+declare function stop(increment? : number): any;
     
 /* CALLBACKS */
 
@@ -678,7 +682,7 @@ declare function done(callback: (details: DoneCallbackObject) => any): any;
 *
 * @param callback Callback to execute.
 */
-//declare function log(callback: (details: LogCallbackObject) => any): any;
+declare function log(callback: (details: LogCallbackObject) => any): any;
 
 /**
 * Register a callback to fire whenever a module ends.
@@ -780,5 +784,3 @@ declare var raises: any;
 
 /* QUNIT */
 declare var QUnit: QUnitStatic;
-
-declare module "qunit" { export default QUnit; }

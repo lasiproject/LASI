@@ -1,13 +1,9 @@
 ﻿'use strict';
-import { DocumentListService } from './document-list-service-provider';
-import { DocumentsService } from './documents-service';
-
 export class ListController {
-    expanded = false;
-    private documents: DocumentListItemModel[] = [];
-    static $inject = ['$q', 'documentListService', 'documentsService', 'documentModelService', 'tasksListService'];
+    static $inject = ['documentListService', 'documentsService', 'documentModelService', 'tasksListService'];
+
+    private documents: DocumentListItem[] = [];
     constructor(
-        private $q: angular.IQService,
         private documentListService: DocumentListService,
         private documentsService: DocumentsService,
         private documentModelService: DocumentModelService,
@@ -28,7 +24,7 @@ export class ListController {
         return this.documents.length;
     }
 
-    processDocument(document: DocumentListItemModel) {
+    processDocument(document: DocumentListItem) {
         if (!this.documents.some(d => d.raeification && d.id === document.id)) {
             this.documentModelService.processDocument(document.id).then(processed => document.raeification = processed,
                 reason => console.error(reason)
@@ -64,4 +60,5 @@ export class ListController {
     }
 
     tasks: Task[];
+    expanded = false;
 }

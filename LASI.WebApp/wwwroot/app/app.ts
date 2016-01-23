@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="./models.d.ts" />
 'use strict';
 import 'font-awesome';
 import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css!';
@@ -21,7 +21,7 @@ import documentViewerSearch from './document-viewer/search/search.module';
 import { UserService } from './user-service';
 import TokenService from './token-service';
 import configureStates from './configuration/configure-states';
-import configureHttp from './configuration/http-configuration';
+import configureHttp from './configuration/configure-http';
 import run from './configuration/startup';
 
  
@@ -74,6 +74,7 @@ function registerAngularModule(module: NgModuleConfig | string) {
             throw new TypeError('module must be a string or an AngularModuleOptions options object');
         }
     }
+    
     if (isConfig(module)) {
         const configs = module.configs;
         const runs = module.runs;

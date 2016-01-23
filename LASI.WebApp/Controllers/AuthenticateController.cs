@@ -46,7 +46,7 @@ namespace LASI.WebApp.Controllers
                     Authenticated = true
                 };
             }
-            return HttpNotFound("Invalid login attempt");
+            return HttpUnauthorized();
         }
         [HttpPost]
         public async Task<dynamic> Post(Credentials body)

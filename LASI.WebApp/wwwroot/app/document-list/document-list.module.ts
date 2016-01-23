@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import { documentsService } from './documents-service';
-import { DocumentListServiceConfig, DocumentListServiceProvider } from './document-list-service-provider';
+import { DocumentListServiceProvider } from './document-list-service-provider';
 import { tasksListServiceProvider } from './tasks-list-service-provider';
 import { ListController } from './list-controller';
 import { documentListMenuItem } from './document-list-menu-item';
@@ -14,7 +14,7 @@ function configure(tasksListServiceProvider: TasksListServiceProvider, documentL
         .setTasksListUrl('api/Tasks');
     documentListServiceProvider
         .setRecentDocumentCount(5)
-        .setDocumentListUrl('api/UserDocuments/List');
+        .setDocumentListUrl('api/UserDocuments/List/');
 }
 
 export default {

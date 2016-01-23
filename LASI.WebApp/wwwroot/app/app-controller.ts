@@ -1,5 +1,4 @@
 'use strict';
-import { DocumentsService } from './document-list/documents-service';
 import { UserService } from './user-service';
 
 export class AppController {

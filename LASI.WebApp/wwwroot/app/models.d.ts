@@ -3,29 +3,54 @@
 declare interface DocumentModelService {
     processDocument(documentId: string): ng.IPromise<DocumentModel>;
 }
+
 declare interface TasksListService {
     getActiveTasks(): ng.IPromise<Task[]>;
     tasks: Task[];
 }
+
+declare interface UserService {
+    login({ email, password, rememberMe }: Credentials): ng.IPromise<User>;
+    loginGet(): ng.IPromise<User>;
+    loginPost(data: {}): ng.IPromise<User>;
+    getUser: ng.IPromise<User>;
+    loggedIn: boolean;
+}
+
 declare interface TasksListServiceProvider {
     $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
     setTasksListUrl: (url: string) => TasksListServiceProvider;
     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
 }
 
-declare interface ResultsService {
-    tasks: Task[];
-    processDocument(documentId: string, documentName: string): angular.IPromise<DocumentModel>;
-    taskFor(documentId: string): Task;
+declare interface DocumentListService {
+    get(): ng.IPromise<DocumentListItem[]>;
+    deleteDocument(documentId: string): ng.IPromise<DocumentListItem>;
 }
 
-interface Credentials {
+declare interface DocumentsService {
+    getbyId(documentId: string): ng.IPromise<DocumentListItem>;
+    deleteById(documentId: string): ng.IPromise<any>;
+}
+
+declare interface DocumentListServiceConfig {
+    setRecentDocumentCount(count: number): DocumentListServiceConfig;
+    setDocumentListUrl(url: string): DocumentListServiceConfig;
+}
+
+declare interface ResultsService {
+    tasks: Task[];
+    processDocument(documentId: string, documentName: string): ng.IPromise<DocumentModel>;
+    getTasksForDocument(id: string):ng.IPromise<Task[]>;
+}
+
+declare interface Credentials {
     email: string;
     password: string;
     rememberMe?: boolean;
 }
 
-interface AuthenticationResult {
+declare interface AuthenticationResult {
     user?: User;
     autenticated?: boolean;
     token?: string;
@@ -38,7 +63,8 @@ declare interface Task {
     state?: string;
     statusMessage?: string;
 }
-declare interface DocumentListItemModel {
+
+declare interface DocumentListItem {
     id: string;
     name: string;
     progress: number;
@@ -47,22 +73,12 @@ declare interface DocumentListItemModel {
     statusMessage: string;
     raeification: DocumentModel;
     task: Task;
-}
-
-declare interface DocumentListItem {
     /**
-     * The name of the document
-     */
-    name: string;
-    /**
-     * The id of the document
-     */
-    id: string;
-    /**
-     * The content is optional as the list item may just be a placeholder for the document.
-     */
+    * The content is optional as the list item may just be a placeholder for the document.
+    */
     content?: string;
 }
+
 declare interface TextFragmentModel {
     paragraphs: ParagraphModel[];
 }
@@ -85,6 +101,7 @@ declare interface ParagraphModel {
 declare interface SentenceModel {
     phrases: PhraseModel[];
 }
+
 declare interface LexicalModel {
     text: string;
     detailText: string;
@@ -100,6 +117,7 @@ declare interface PhraseModel extends LexicalModel {
 }
 
 declare interface WordModel extends LexicalModel { }
+
 declare interface LexicalMenuBuilderFactory {
     buildAngularMenu: (source: LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
 }
@@ -110,6 +128,7 @@ declare interface LexicalContextmenuData {
     */
     lexicalId: string | number;
 }
+
 declare interface VerbalContextmenuData extends LexicalContextmenuData {
        
     /**
@@ -174,6 +193,7 @@ declare interface Array<T> {
     flatMap<TArray>(arraySelector: (element: T) => TArray[]): TArray[];
     //flatMap<U>(arraySelector: (element: T) => U[], elementSelector?: (element: T) => U): U[];
     //flatMap<U extends T[]>(): T[];
+
     flatMap(): any[];
     correlate<TInner, TKey>(inner: TInner[], outerKeySelector: (e: T) => TKey, innerKeySelector: (e: TInner) => TKey): { first: T, second: TInner }[];
     /**

@@ -4,7 +4,6 @@ import navbarTemplate from 'app/sections/navbar/navbar.html';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
 import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
 import { UserService } from 'app/user-service';
-import { DocumentListService } from 'app/document-list/document-list-service-provider';
 
 export class NavbarController {
     static $inject = ['$state', '$uibModal', 'UserService', 'documentListService'];
@@ -21,10 +20,10 @@ export class NavbarController {
     activate() {
         return this.userService.getUser()
             .then(user => this.user = user)
-            .then(user => this.documentListService.get().then(documents=> this.documents = documents))
-            .catch(reason => {
-                return this.$state.go('app.login');
-            });
+            .then(user => this.documentListService.get().then(documents=> this.documents = documents));
+            //.catch(reason => {
+            //    return this.$state.go('app.login');
+            //});
     }
     openManageDocumentsModal() {
         var navbarController = this;
@@ -40,7 +39,7 @@ export class NavbarController {
     toggleExpanded() {
         this.expanded = !this.expanded;
     }
-    documents: DocumentListItemModel[];
+    documents: DocumentListItem[];
     expanded = false;
     user: User;
     logoff() {
@@ -48,7 +47,7 @@ export class NavbarController {
             .logoff()
             .then(() => this.user = undefined)
             .finally(() => {
-                return this.$state.go('app.login', {}, { reload: true })
+                return this.$state.go('app.login', {}, { reload: true });
             });
     }
 } 

@@ -14,7 +14,6 @@ import accountTemplate from 'app/sections/account.html';
 
 import { LoginController } from 'app/sections/login';
 import { UserService } from 'app/user-service';
-import { DocumentListService } from 'app/document-list/document-list-service-provider';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
 export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {

@@ -23,7 +23,7 @@ export class UploadController {
     }
     uploadFile(file: File) {
         return this.uploadService
-            .upload<DocumentListItemModel>({
+            .upload<DocumentListItem>({
                 file,
                 url: 'api/UserDocuments',
                 method: 'POST',

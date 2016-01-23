@@ -27,7 +27,7 @@
       "baseURL": "wwwroot"
     },
     "dependencies": {
-      "angular": "github:angular/bower-angular@^1.4.7",
+      "angular": "github:angular/bower-angular@^1.4.8",
       "angular-bootstrap": "github:angular-ui/bootstrap-bower@^0.14.2",
       "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@^0.9.4",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^10.1.8",

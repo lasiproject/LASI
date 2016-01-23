@@ -23,7 +23,7 @@ namespace LASI.WebApp.Persistence.MongoDB
 
 
         public UserDocument GetById(string userId, string documentId) => Documents.FindAll().FirstOrDefault(d => d.UserId == userId && d.Id == documentId);
-        public IEnumerable<UserDocument> GetAllForUser(string userId) => Documents.Find(Query.EQ("UserId", userId));
+        public IEnumerable<UserDocument> GetAllForUser(string userId) => Documents.Find(Query.EQ("UserId", userId??string.Empty));
 
 
         /// <summary>

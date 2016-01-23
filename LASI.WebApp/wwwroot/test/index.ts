@@ -1,6 +1,7 @@
-﻿/// <reference path="../../typings/qunit/qunit.d.ts" />
+﻿/// <reference path="../app/models.d.ts" />
+/// <reference path="../../typings/qunit/qunit.d.ts" />
 import $ from "jquery";
-import QUnit from "qunit";
+import "qunit";
 import "./../app/utilities/augmentations";
 'use strict';
 export function runTests() {

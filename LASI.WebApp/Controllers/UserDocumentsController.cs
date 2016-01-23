@@ -35,10 +35,14 @@ namespace LASI.WebApp.Controllers
         }
 
         [HttpGet(Order = 0)]
-        public IEnumerable<UserDocument> Get() => documentStore.GetAllForUser(HttpContext.User.GetUserId());
+        public IEnumerable<UserDocument> Get() => HttpContext.User != null
+            ? documentStore.GetAllForUser(HttpContext.User.GetUserId())
+            : Enumerable.Empty<UserDocument>();
 
         [HttpGet("{documentId}", Order = 1)]
-        public UserDocument Get(string documentId) => documentStore.GetById(HttpContext.User.GetUserId(), documentId);
+        public UserDocument Get(string documentId) => HttpContext.User != null
+            ? documentStore.GetById(HttpContext.User.GetUserId(), documentId)
+            : null;
 
         [HttpPost]
         public Task<IEnumerable<FileUploadedResult>> Post()

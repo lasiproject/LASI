@@ -4,10 +4,6 @@ export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
-export interface DocumentListService {
-    get(): ng.IPromise<DocumentListItemModel[]>;
-    deleteDocument(documentId: string): PromiseLike<DocumentListItemModel>;
-}
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;
     private recentDocumentCount: number;
@@ -34,13 +30,14 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, n
                 }
             },
             get() {
-                return userService.loggedIn
-                    ? $http.get<DocumentListItemModel[]>(`${listUrl}?limit=${limit}`)
+                if(userService.loggedIn){
+                    return $http.get<DocumentListItem[]>(`${listUrl}?limit=${limit}`)
                         .then(response => response.data)
-                        .catch(error => {
-                            return $q.resolve([]);
-                        })
-                    : $q.resolve([]);
+                        .catch(error => []);
+                }
+                else {
+                   return $q.resolve([]);
+                }
             }
         };
     };

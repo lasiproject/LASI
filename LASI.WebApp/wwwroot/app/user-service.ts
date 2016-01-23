@@ -61,8 +61,9 @@ export class UserService {
         } else if (this.tokenService.token) {
             return this.loginGet()
                 .then(this.loginSuccess);
+        } else {
+            return this.$q.reject('not logged in');
         }
-        else return this.$q.reject("not logged in");
     }
 
     getDetails(): ng.IPromise<any> {
@@ -81,7 +82,7 @@ export class UserService {
             this.tokenService.token = token;
         }
         return this.user;
-    }
+    };
     user: User;
     loggedIn = false;
 

@@ -22,17 +22,20 @@ namespace LASI.WebApp.Controllers.Documents
         [HttpGet("{limit?}")]
         public IEnumerable<dynamic> Get(int limit = int.MaxValue)
         {
+            if (HttpContext.User == null) {
+                return Enumerable.Empty<dynamic>();
+            }
             var results =
-            from document in documentStore.GetAllForUser(HttpContext.User.GetUserId())
-            let activeDocument = ActiveUserDocument.FromUserDocument(document)
-            let dateUploaded = (DateTimeOffset)(JToken)(document.DateUploaded)
-            orderby dateUploaded descending
-            select new
-            {
-                Id = activeDocument._id.ToString(),
-                Name = activeDocument.Name,
-                Progress = activeDocument.Progress
-            };
+                from document in documentStore.GetAllForUser(HttpContext.User.GetUserId())
+                let activeDocument = ActiveUserDocument.FromUserDocument(document)
+                let dateUploaded = (DateTimeOffset)(JToken)(document.DateUploaded)
+                orderby dateUploaded descending
+                select new
+                {
+                    Id = activeDocument._id.ToString(),
+                    Name = activeDocument.Name,
+                    Progress = activeDocument.Progress
+                };
             return results.Take(limit);
         }
 
