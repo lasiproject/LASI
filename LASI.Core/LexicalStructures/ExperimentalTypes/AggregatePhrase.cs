@@ -36,11 +36,46 @@ namespace LASI.Core.Binding.Experimental
             boundPronouns.Add(referencer);
         }
 
+        /// <summary>
+        /// Binds the <see cref="AggregateNounPhrase"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="AggregateNounPhrase"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="AggregateNounPhrase"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
+
         public IEnumerable<IEntity> Constituents => constituents;
 
         public IEnumerable<IDescriptor> Descriptors => descriptors;
 
-        public IVerbal DirectObjectOf { get; set; }
+
+        /// <summary>
+        ///Gets the IVerbal instance the AggregateNounPhrase is the subject of.
+        /// </summary>
+        public IVerbal SubjectOf { get; private set; }
+
+        public IVerbal DirectObjectOf { get; private set; }
+
+        public IVerbal IndirectObjectOf { get; private set; }
 
         public EntityKind EntityKind
         {
@@ -62,7 +97,6 @@ namespace LASI.Core.Binding.Experimental
             }
         }
 
-        public IVerbal IndirectObjectOf { get; set; }
 
         public double MetaWeight { get; set; }
 
@@ -76,11 +110,6 @@ namespace LASI.Core.Binding.Experimental
         public IEnumerable<NounPhrase> PrimaryConstituents => constituents.OfType<NounPhrase>();
 
         public IEnumerable<IReferencer> Referencers => boundPronouns;
-
-        /// <summary>
-        ///Gets or sets the IVerbal instance the AggregateNounPhrase is the subject of.
-        /// </summary>
-        public IVerbal SubjectOf { get; set; }
 
         public string Text => $"{GetType()} with constituents\n{PrimaryConstituents.Format(p => p.GetType() + ": " + p.Text)}";
 

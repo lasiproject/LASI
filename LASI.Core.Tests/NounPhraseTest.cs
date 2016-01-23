@@ -94,7 +94,7 @@ namespace LASI.Core.Tests
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new BaseVerb("insult");
             IVerbal actual;
-            target.DirectObjectOf = expected;
+            target.BindAsDirectObjectOf(expected);
             actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -108,7 +108,7 @@ namespace LASI.Core.Tests
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new VerbPhrase(new BaseVerb("gave"), new Adverb("willingly"));
             IVerbal actual;
-            target.IndirectObjectOf = expected;
+            target.BindAsIndirectObjectOf ( expected);
             actual = target.IndirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -149,7 +149,7 @@ namespace LASI.Core.Tests
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new BaseVerb("are");
             IVerbal actual;
-            target.SubjectOf = expected;
+            target.BindAsSubjectOf (expected);
             actual = target.SubjectOf;
             Check.That(actual).IsEqualTo(expected);
         }

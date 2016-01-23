@@ -54,32 +54,62 @@ namespace LASI.Core.Analysis.Melding
             possession.Possesser = this;
         }
 
+        /// <summary>
+        /// Binds the <see cref="LiftedEntity"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="LiftedEntity"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="LiftedEntity"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
+
         public IEnumerable<IDescriptor> Descriptors => descriptors;
         public IEnumerable<IReferencer> Referencers => referencers;
         public IEnumerable<IPossessable> Possessions => possessions;
 
         public EntityKind EntityKind => avatar.EntityKind;
-
+        
+        /// <summary>
+        /// Gets the <see cref="IVerbal"/> of which the entity is the subject of.
+        /// </summary>
         public IVerbal SubjectOf
         {
             get { return subjectsOfVerbals; }
-            set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
+            private set { subjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
         /// <summary>
-        /// Gets the verbal of which the entity is the direct object of.
+        /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
         /// </summary>
         public IVerbal DirectObjectOf
         {
             get { return directObjectsOfVerbals; }
-            set { directObjectsOfVerbals = new[] { value }.ToAggregate(); }
+            private set { directObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
         /// <summary>
-        /// Gets the verbal of which the entity is the indirect object of.
+        /// Gets the <see cref="IVerbal"/> of which the entity is the indirect object of.
         /// </summary>
         public IVerbal IndirectObjectOf
         {
             get { return indirectObjectsOfVerbals; }
-            set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
+            private set { indirectObjectsOfVerbals = new[] { value }.ToAggregate(); }
         }
 
 
@@ -110,7 +140,6 @@ namespace LASI.Core.Analysis.Melding
 
         private IImmutableSet<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
             represented.SelectMany(e => collectionSelector(e).Where(r => r != null)).ToImmutableHashSet();
-
         #endregion Private Helper Methods
 
         #region Fields

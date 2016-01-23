@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Immutable;
 using LASI.Utilities;
 using LASI.Utilities.Specialized.Enhanced.Universal;
+using System;
 
 namespace LASI.Core
 {
@@ -97,26 +98,45 @@ namespace LASI.Core
             }";
         }
 
+        /// <summary>
+        /// Binds the <see cref="AggregateEntity"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
+
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the aggregate entity instance.
+        /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the aggregate entity instance.
         /// </summary>
         public EntityKind EntityKind { get; }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the DIRECT object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the INDIRECT object of.
         /// </summary>
-        public IVerbal IndirectObjectOf { get; set; }
+        public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
         /// Gets the IVerbal instance, generally a Verb or VerbPhrase, which the aggregate entity is the subject of.
         /// </summary>
-        public IVerbal SubjectOf { get; set; }
+        public IVerbal SubjectOf { get; private set; }
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the aggregate entity.
         /// </summary>

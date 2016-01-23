@@ -181,7 +181,7 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
             IVerbal expected = new VerbPhrase(new BaseVerb("eat"));
-            target.DirectObjectOf = expected;
+            target.BindAsDirectObjectOf(expected);
 
             IVerbal actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
@@ -199,7 +199,7 @@ namespace LASI.Core.Tests
             );
             IVerbal expected = new VerbPhrase(new PastTenseVerb("were"), new PastParticiple("eaten"));
             IVerbal actual;
-            target.IndirectObjectOf = expected;
+            target.BindAsIndirectObjectOf(expected);
             actual = target.IndirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -268,7 +268,7 @@ namespace LASI.Core.Tests
             );
             IVerbal expected = new BaseVerb("eat");
             IVerbal actual;
-            target.SubjectOf = expected;
+            target.BindAsSubjectOf(expected);
             actual = target.SubjectOf;
             Check.That(actual).IsEqualTo(expected);
         }

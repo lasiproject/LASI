@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -31,21 +29,24 @@ namespace LASI.Core
 
         #region Properties
         /// <summary>
+        ///Gets the IVerbal instance the InfinitivePhrase is the subject of.
+        /// </summary>
+        public IVerbal SubjectOf { get; private set; }
+
+        /// <summary>
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an InfinitivePhrase.
         /// </summary>
         public EntityKind EntityKind => EntityKind.Activity;
+
         /// <summary>
-        ///Gets or sets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
+        ///Gets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal DirectObjectOf { get; private set; }
+
         /// <summary>
-        ///Gets or sets the IVerbal instance the InfinitivePhrase is the indirect object of.
+        ///Gets the IVerbal instance the InfinitivePhrase is the indirect object of.
         /// </summary>
-        public IVerbal IndirectObjectOf { get; set; }
-        /// <summary>
-        ///Gets or sets the IVerbal instance the InfinitivePhrase is the subject of.
-        /// </summary>
-        public IVerbal SubjectOf { get; set; }
+        public IVerbal IndirectObjectOf { get; private set; }
 
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the InfinitivePhrase.
@@ -64,6 +65,34 @@ namespace LASI.Core
             descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
+
+        /// <summary>
+        /// Binds the <see cref="InfinitivePhrase"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="InfinitivePhrase"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="InfinitivePhrase"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
+
         /// <summary>
         /// Gets all of the IPronoun instances, generally Pronouns or PronounPhrases, which refer to the InfinitivePhrase Instance.
         /// </summary>

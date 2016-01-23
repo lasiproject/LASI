@@ -73,7 +73,7 @@ namespace LASI.Core.Tests
             Noun target = CreateNoun();
             IVerbal expected = new PastTenseVerb("walked");
             IVerbal actual;
-            target.DirectObjectOf = expected;
+            target.BindAsDirectObjectOf(expected);
             actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -87,7 +87,7 @@ namespace LASI.Core.Tests
             Noun target = CreateNoun();
             IVerbal expected = new PastTenseVerb("gave");
             IVerbal actual;
-            target.IndirectObjectOf = expected;
+            target.BindAsIndirectObjectOf(expected);
             actual = target.IndirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -139,7 +139,7 @@ namespace LASI.Core.Tests
             Noun target = CreateNoun();
             IVerbal expected = new SingularPresentVerb("runs");
             IVerbal actual;
-            target.SubjectOf = expected;
+            target.BindAsSubjectOf(expected);
             actual = target.SubjectOf;
             Check.That(actual).IsEqualTo(expected);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -16,7 +17,8 @@ namespace LASI.Core
         /// </summary>
         /// <param name="text">The text content of the Noun.</param>
         protected Noun(string text)
-            : base(text) {
+            : base(text)
+        {
             EntityKind = EntityKind.Undefined;
             //EstablishKind();
         }
@@ -29,7 +31,8 @@ namespace LASI.Core
         /// Binds the given Determiner to The Noun.
         /// </summary>
         /// <param name="determiner">The Determiner which to bind.</param>
-        public virtual void BindDeterminer(Determiner determiner) {
+        public virtual void BindDeterminer(Determiner determiner)
+        {
             determiner.Determines = this;
             Determiner = determiner;
         }
@@ -38,7 +41,8 @@ namespace LASI.Core
         /// Binds an EntityReferencer, generally a Pronoun or PronounPhrase to refer to the Noun.
         /// </summary>
         /// <param name="referencer">The EntityReferency to Bind.</param>
-        public virtual void BindReferencer(IReferencer referencer) {
+        public virtual void BindReferencer(IReferencer referencer)
+        {
             referencers = referencers.Add(referencer);
             referencer.BindAsReferringTo(this);
         }
@@ -47,7 +51,8 @@ namespace LASI.Core
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Noun.
         /// </summary>
         /// <param name="descriptor">The IDescriptor instance which will be added to the Noun's descriptors.</param>
-        public virtual void BindDescriptor(IDescriptor descriptor) {
+        public virtual void BindDescriptor(IDescriptor descriptor)
+        {
             descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
@@ -57,9 +62,37 @@ namespace LASI.Core
         /// sets its owner to be the Noun. If the item is already possessed by the current instance, this method has no effect.
         /// </summary>
         /// <param name="possession">The possession to add.</param>
-        public virtual void AddPossession(IPossessable possession) {
+        public virtual void AddPossession(IPossessable possession)
+        {
             possessions = possessions.Add(possession);
             possession.Possesser = this;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="Noun"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="Noun"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="Noun"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
         }
 
         #endregion Methods
@@ -69,17 +102,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IVerbal instance the Noun is the subject of.
         /// </summary>
-        public virtual IVerbal SubjectOf { get; set; }
+        public virtual IVerbal SubjectOf { get; private set; }
 
         /// <summary>
         /// Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf { get; set; }
+        public virtual IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
         /// Gets or sets the IVerbal instance the Noun is the indirect object of.
         /// </summary>
-        public virtual IVerbal IndirectObjectOf { get; set; }
+        public virtual IVerbal IndirectObjectOf { get; private set; }
 
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the Noun Instance.
@@ -99,7 +132,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IPossesser Possesser {
+        public IPossesser Possesser
+        {
             get { return possessor is IWeakPossessor ? (possessor as IWeakPossessor).PossessesFor ?? possessor : possessor; }
             set { possessor = value; }
         }
@@ -131,15 +165,20 @@ namespace LASI.Core
         /// Gets or sets the IQunatifier which specifies the number of units of the Noun which are referred to in this occurrence. e.g.
         /// "[18] Pinkos"
         /// </summary>
-        public virtual IQuantifier QuantifiedBy {
-            get {
+        public virtual IQuantifier QuantifiedBy
+        {
+            get
+            {
                 return quantity;
             }
-            set {
-                if (quantity != null) {
+            set
+            {
+                if (quantity != null)
+                {
                     quantity.QuantifiedBy = value;
                     value.Quantifies = quantity;
-                } else {
+                }
+                else {
                     quantity = value;
                     value.Quantifies = this;
                 }

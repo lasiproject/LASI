@@ -55,6 +55,25 @@ namespace LASI.Core
             possessable.Possesser = this;
         }
 
+        /// <summary>
+        /// Binds the <see cref="PresentParticiple"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
+
         #endregion
 
         #region Properties
@@ -74,15 +93,15 @@ namespace LASI.Core
         /// <summary>
         /// The Verb construct which the PresentParticiple is the subject of.
         /// </summary>
-        public IVerbal SubjectOf { get; set; }
+        public IVerbal SubjectOf { get; private set; }
         /// <summary>
         /// The Verb construct which the PresentParticiple is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
         /// The Verb construct which the PresentParticiple is the indirect object of.
         /// </summary>
-        public IVerbal IndirectObjectOf { get; set; }
+        public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
         /// Gets or sets the Entity which "owns" the PresentParticiple.
         /// </summary>

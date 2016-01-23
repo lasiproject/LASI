@@ -2,6 +2,8 @@
 using LASI.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -89,7 +91,32 @@ namespace LASI.Core
             }
         }
 
+        /// <summary>
+        /// Binds the <see cref="Pronoun"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
 
+        /// <summary>
+        /// Binds the <see cref="Pronoun"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="Pronoun"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
         #endregion
 
         #region Properties
@@ -102,30 +129,30 @@ namespace LASI.Core
         /// Gets all of the constructs the Pronoun can be determined to "own".
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
-
         /// <summary>
-        /// Gets or sets the Entity which the Pronoun references.
+        /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
+        /// </summary>
+        public IEnumerable<IReferencer> Referencers => boundPronouns;
+        /// <summary>
+        /// Gets the <see cref="IVerbal"/> which the Pronoun references.
         /// </summary>
         public virtual IAggregateEntity RefersTo { get; private set; }
 
         /// <summary>
         /// Gets or sets the ISubjectTaker instance, generally a Verb or VerbPhrase, which the Pronoun is the subject of.
         /// </summary>
-        public IVerbal SubjectOf { get; set; }
+        public IVerbal SubjectOf { get; private set; }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
+        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal DirectObjectOf { get; private set; }
+
         /// <summary>
-        /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the Pronoun.
+        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers => boundPronouns;
+        public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
-        /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
-        /// </summary>
-        public IVerbal IndirectObjectOf { get; set; }
-        /// <summary>
-        /// Gets or sets the Entity which is inferred to the Pronoun.
+        /// Gets or sets the <see cref="IVerbal"/> which is inferred to the Pronoun.
         /// </summary>
         public IPossesser Possesser { get; set; }
         /// <summary>
@@ -181,7 +208,6 @@ namespace LASI.Core
                 thirdPersonPluralReflexives.Contains(text) ? PronounKind.ThirdPersonPluralReflexive :
                 PronounKind.Undefined;
         }
-
         #endregion
 
         #region Static Fields

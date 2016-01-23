@@ -81,7 +81,7 @@ namespace LASI.Core
             if (subject != null)
             {
                 subjects.Add(subject);
-                subject.SubjectOf = this;
+                subject.BindAsSubjectOf(this);
                 if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
                 foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
             }
@@ -96,7 +96,7 @@ namespace LASI.Core
             if (directObject != null)
             {
                 directObjects.Add(directObject);
-                directObject.DirectObjectOf = this;
+                directObject.BindAsDirectObjectOf(this);
                 foreach (var v in Words.OfVerb())
                 {
                     v.BindDirectObject(directObject);
@@ -127,7 +127,7 @@ namespace LASI.Core
             if (indirectObject != null)
             {
                 indirectObjects.Add(indirectObject);
-                indirectObject.IndirectObjectOf = this;
+                indirectObject.BindAsIndirectObjectOf(this);
                 foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
             }
         }

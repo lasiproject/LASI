@@ -78,6 +78,32 @@ namespace LASI.Core
         /// <returns>A string representation of the RelativePronoun.</returns>
         public override string ToString() => Text + (VerboseOutput ? " " + RelativePronounKind : string.Empty);
 
+        /// <summary>
+        /// Binds the <see cref="RelativePronoun"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            SubjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="RelativePronoun"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="RelativePronoun"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        {
+            IndirectObjectOf = verbal;
+        }
         #endregion
 
         #region Properties
@@ -105,15 +131,15 @@ namespace LASI.Core
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the subject object of.
         /// </summary>
-        public IVerbal SubjectOf { get; set; }
+        public IVerbal SubjectOf { get; private set; }
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; set; }
+        public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the indirect object of.
         /// </summary>
-        public IVerbal IndirectObjectOf { get; set; }
+        public IVerbal IndirectObjectOf { get; private set; }
         /// <summary>
         /// Gets all of the IEntityReferences instances, generally Pronouns or PronounPhrases, which refer to the RelativePronoun Instance.
         /// </summary>

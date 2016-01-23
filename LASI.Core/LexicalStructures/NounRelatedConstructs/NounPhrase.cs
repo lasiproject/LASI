@@ -3,6 +3,7 @@ using System.Linq;
 using LASI.Utilities;
 using LASI.Core.Heuristics;
 using LASI.Core.LexicalStructures;
+using System;
 
 namespace LASI.Core
 {
@@ -72,6 +73,32 @@ namespace LASI.Core
         /// Returns a string representation of the NounPhrase.
         /// </summary>
         /// <returns>A string representation of the NounPhrase.</returns>
+
+        /// <summary>
+        /// Binds the <see cref="NounPhrase"/> as a subject of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsSubjectOf(IVerbal verbal)
+        {
+            subjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="NounPhrase"/> as a direct object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsDirectObjectOf(IVerbal verbal)
+        {
+            DirectObjectOf = verbal;
+        }
+
+        /// <summary>
+        /// Binds the <see cref="NounPhrase"/> as an indirect object of the <see cref="IVerbal"/>.
+        /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        public void BindAsIndirectObjectOf(IVerbal verbal)
+        { IndirectObjectOf = verbal; }
+
         public override string ToString()
         {
             if (!VerboseOutput)
@@ -122,6 +149,7 @@ namespace LASI.Core
             get { return innerAttributive; }
             set { innerAttributive = value != this ? value : null; }
         }
+
         /// <summary>
         /// Gets the Entity PronounKind; Person, Place, Thing, Organization, or Activity; of the NounPhrase.
         /// </summary>
@@ -132,6 +160,7 @@ namespace LASI.Core
         /// Gets all of the constructs which the NounPhrase "owns".
         /// </summary>
         public IEnumerable<IPossessable> Possessions => possessions;
+
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
@@ -154,48 +183,48 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Gets or sets the IVerbal instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
+        /// Gets the <see cref="IVerbal"/> instance, generally a Verb or VerbPhrase, which the NounPhrase is the subject of.
         /// </summary>
         public virtual IVerbal SubjectOf
         {
             get { return subjectOf; }
-            set
+            private set
             {
                 subjectOf = value;
                 foreach (var entity in Words.OfType<IEntity>())
                 {
-                    entity.SubjectOf = value;
+                    entity.BindAsSubjectOf(value);
                 }
             }
         }
         /// <summary>
-        /// Gets the or sets IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
+        /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
         public virtual IVerbal DirectObjectOf
         {
             get { return directObjectOf; }
-            set
+            private set
             {
                 directObjectOf = value;
                 foreach (var entity in Words.OfType<IEntity>())
                 {
-                    entity.DirectObjectOf = value;
+                    entity.BindAsDirectObjectOf(value);
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
+        /// Gets or sets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
         /// </summary>
         public virtual IVerbal IndirectObjectOf
         {
-            get { return indirecObjectOf; }
-            set
+            get { return indirectObjectOf; }
+            private set
             {
-                indirecObjectOf = value;
+                indirectObjectOf = value;
                 foreach (var entity in Words.OfType<IEntity>())
                 {
-                    entity.IndirectObjectOf = value;
+                    entity.BindAsDirectObjectOf(value);
                 }
             }
         }
@@ -210,7 +239,7 @@ namespace LASI.Core
         private HashSet<IReferencer> references = new HashSet<IReferencer>();
         private IPossesser possessor;
         private IVerbal directObjectOf;
-        private IVerbal indirecObjectOf;
+        private IVerbal indirectObjectOf;
         private IVerbal subjectOf;
         private NounPhrase innerAttributive;
         private NounPhrase outerAttributive;

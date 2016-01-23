@@ -8,18 +8,25 @@ namespace LASI.Core
     public interface IVerbalObject
     {
         /// <summary>
-        /// Gets or sets the IVerbal construct the IVerbalSubject is the direct object of.
+        /// Binds the <see cref="IVerbalObject"/> as a direct object of the <see cref="IVerbal"/>.
         /// </summary>
-        IVerbal DirectObjectOf {
-            get;
-            set;
-        }
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        void BindAsDirectObjectOf(IVerbal verbal);
+
         /// <summary>
-        /// Gets or sets the IVerbal construct the IVerbalSubject is the indirect object of.
+        /// Binds the <see cref="IVerbalObject"/> as an indirect object of the <see cref="IVerbal"/>.
         /// </summary>
-        IVerbal IndirectObjectOf {
-            get;
-            set;
-        }
+        /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
+        void BindAsIndirectObjectOf(IVerbal verbal);
+
+        /// <summary>
+        /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the direct object of.
+        /// </summary>
+
+        IVerbal DirectObjectOf { get; }
+        /// <summary>
+        /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the indirect object of.
+        /// </summary>
+        IVerbal IndirectObjectOf { get; }
     }
 }

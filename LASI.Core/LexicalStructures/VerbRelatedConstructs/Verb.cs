@@ -51,7 +51,7 @@ namespace LASI.Core
         public virtual void BindSubject(IEntity subject)
         {
             subjects.Add(subject);
-            subject.SubjectOf = this;
+            subject.BindAsSubjectOf(this);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace LASI.Core
         public virtual void BindDirectObject(IEntity directObject)
         {
             directObjects.Add(directObject);
-            directObject.DirectObjectOf = this;
+            directObject.BindAsDirectObjectOf(this);
             if (IsPossessive)
             {
                 foreach (var subject in subjects)
@@ -85,7 +85,7 @@ namespace LASI.Core
         public virtual void BindIndirectObject(IEntity indirectObject)
         {
             indirectObjects.Add(indirectObject);
-            indirectObject.IndirectObjectOf = this;
+            indirectObject.BindAsIndirectObjectOf(this);
         }
 
         /// <summary>
