@@ -29,10 +29,17 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
             tasks,
             getActiveTasks() {
                 if (userService.loggedIn) {
-                    $interval(() => $http.get<Task[]>(tasksListUrl, { headers: { accept: 'application/json' } })
-                        .then(response => tasks = response.data)
-                        .then(data => resolve(data))
-                        .catch(reason => reject(reason)), updateInterval);
+                    var intervalPromise = $interval(() => {
+                        if (!userService.loggedIn) {
+                            $interval.cancel(intervalPromise);
+                        }
+                        else {
+                            return $http.get<Task[]>(tasksListUrl)
+                                .then(response => tasks = response.data)
+                                .then(data => resolve(data))
+                                .catch(reason => reject(reason));
+                        }
+                    }, updateInterval);
                 } else {
                     reject('Must login to retrieve tasks');
                 }

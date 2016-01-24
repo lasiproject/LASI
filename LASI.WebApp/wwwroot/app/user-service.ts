@@ -42,6 +42,7 @@ export class UserService {
     }
 
     logoff(): ng.IPromise<any> {
+       
         return this.$http
             .post<User>('/api/authenticate/logoff', {}, UserService.requestConfig)
             .then(response => {

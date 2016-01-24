@@ -23,7 +23,7 @@ class Controller {
     }
 
     activate() {
-      return this.resultsService.getTasksForDocument(this.documentId)
+        return this.resultsService.getTasksForDocument(this.documentId)
             .then(tasks => this.tasks = tasks);
     }
     click(event: ng.IAngularEvent) {
@@ -32,9 +32,7 @@ class Controller {
         this.showProgress = true;
 
         var promise = this.resultsService.processDocument(this.documentId, this.name)
-            .then(function () {
-                this.analysisProgress = this.resultsService.tasks[this.documentId].percentComplete;
-            });
+            .then(() => this.analysisProgress = this.resultsService.tasks[this.documentId].percentComplete);
     }
 
     analysisProgress: number;
