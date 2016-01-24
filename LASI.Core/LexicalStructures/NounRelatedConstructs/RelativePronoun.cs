@@ -21,6 +21,7 @@ namespace LASI.Core
         {
             RelativePronounKind = DetermineKind(this);
         }
+
         #region Methods
         /// <summary>
         /// Binds the RelativePronoun to refer to the given Entity.
@@ -166,23 +167,28 @@ namespace LASI.Core
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
-
+        #region Static Members
         private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun)
         {
             var text = relativePronoun.Text.ToLower();
-            return
-                subjectRolePersonal.Contains(text) ? RelativePronounKind.SubjectRolePersonal :
-                objectRoleEntity.Contains(text) ? RelativePronounKind.ObjectRoleEntity :
-                objectRoleLocationals.Contains(text) ? RelativePronounKind.ObjectRoleLocational :
-                objectRoleTemporals.Contains(text) ? RelativePronounKind.ObjectRoleTemporal :
-                objectRoleExpositories.Contains(text) ? RelativePronounKind.ObjectRoleExpository :
-                RelativePronounKind.Undetermined;
+            return subjectRolePersonal.Contains(text)
+                ? RelativePronounKind.SubjectRolePersonal
+                : objectRoleEntity.Contains(text)
+                ? RelativePronounKind.ObjectRoleEntity
+                : objectRoleLocationals.Contains(text)
+                ? RelativePronounKind.ObjectRoleLocational
+                : objectRoleTemporals.Contains(text)
+                ? RelativePronounKind.ObjectRoleTemporal
+                : objectRoleExpositories.Contains(text)
+                ? RelativePronounKind.ObjectRoleExpository
+                : RelativePronounKind.Undetermined;
         }
 
-        private static readonly string[] subjectRolePersonal = { "who", "that" };
-        private static readonly string[] objectRoleEntity = { "whom", "which", "who", "that" };
-        private static readonly string[] objectRoleLocationals = { "where" };
-        private static readonly string[] objectRoleTemporals = { "when" };
-        private static readonly string[] objectRoleExpositories = { "what", "why" };
+        private static readonly HashSet<string> subjectRolePersonal = new HashSet<string> { "who", "that" };
+        private static readonly HashSet<string> objectRoleLocationals = new HashSet<string> { "where" };
+        private static readonly HashSet<string> objectRoleEntity = new HashSet<string> { "whom", "which", "who", "that" };
+        private static readonly HashSet<string> objectRoleTemporals = new HashSet<string> { "when" };
+        private static readonly HashSet<string> objectRoleExpositories = new HashSet<string> { "what", "why" };
+        #endregion
     }
 }

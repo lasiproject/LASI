@@ -14,10 +14,17 @@ namespace LASI.WebApp.Models
         public string UserId { get; set; }
 
         public string RoleName { get; set; }
+
         public string NormalizedRoleName { get; set; }
 
-        public bool Equals(UserRole other) => RoleName?.Equals(other?.RoleName) ?? false;
+        public bool Equals(UserRole other) => NormalizedRoleName?.Equals(other?.NormalizedRoleName) ?? false;
+
         public override bool Equals(object obj) => Equals(obj as UserRole);
+
         public override int GetHashCode() => RoleName?.GetHashCode() ?? 0;
+
+        public static bool operator ==(UserRole left, UserRole right) => left != null ? left.Equals(right) : right == null;
+
+        public static bool operator !=(UserRole left, UserRole right) => !(left == right);
     }
 }

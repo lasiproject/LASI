@@ -10,7 +10,7 @@ namespace LASI.WebApp.Persistence
 {
     public class InMemoryRoleProvider : IRoleAccessor<UserRole>
     {
-        public IImmutableSet<UserRole> Roles { get; private set; } = ImmutableHashSet.Create<UserRole>();
+        public IImmutableSet<UserRole> Roles { get; private set; } = ImmutableHashSet<UserRole>.Empty;
 
         public IdentityResult Add(UserRole role)
         {
@@ -28,13 +28,13 @@ namespace LASI.WebApp.Persistence
 
         public IdentityResult Delete(UserRole role)
         {
-            Roles.Remove(Roles.FirstOrDefault(r => r.RoleId == role.RoleId || r == role));
+          Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleId == role.RoleId || r == role));
             return IdentityResult.Success;
         }
 
         public void RemoveFromRole(ApplicationUser user, string roleName)
         {
-            Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
+         Roles = Roles.Remove(Roles.FirstOrDefault(r => r.RoleName == roleName && r.UserId == user.Id));
         }
 
         public IdentityResult Update(UserRole role)
@@ -52,21 +52,22 @@ namespace LASI.WebApp.Persistence
         }
         
         public IEnumerator<UserRole> GetEnumerator() => Roles.GetEnumerator();
+
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public UserRole Get(Func<UserRole, bool> match) => Roles.FirstOrDefault(match);
+        public UserRole Get(Func<UserRole, bool> predicate) => Roles.FirstOrDefault(predicate);
 
         private readonly IdentityErrorDescriber errorDescriber = new IdentityErrorDescriber();
 
         #region Synchronization
         /// <summary>
-        /// Provides an on which to synchronize. Do not use for any other purpose. Do not expose reference.
+        /// Provides an object on which to synchronize. Must not be used for any other purpose. Must not be exposed.
         /// </summary>
         private static readonly object Lock = new object();
+
         private static void WithLock(Action a) { lock (Lock) a(); }
 
         private static T WithLock<T>(Func<T> f) { lock (Lock) return f(); }
-
         #endregion
     }
 }

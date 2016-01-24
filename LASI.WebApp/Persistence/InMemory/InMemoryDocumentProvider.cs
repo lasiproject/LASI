@@ -24,7 +24,7 @@ namespace LASI.WebApp.Persistence
             return AddForUser(document);
         }
 
-        public IEnumerable<UserDocument> GetAllForUser(string userId) => userDocuments.GetOrAdd(userId, ImmutableHashSet.Create<UserDocument>());
+        public IEnumerable<UserDocument> GetAllForUser(string userId) => userDocuments.GetOrAdd(userId, ImmutableHashSet<UserDocument>.Empty);
 
         public UserDocument GetById(string userId, string documentId) => userDocuments[userId].First(document => document.Id == documentId);
 

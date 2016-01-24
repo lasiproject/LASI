@@ -17,7 +17,8 @@ namespace LASI.WebApp.Persistence.MongoDB
         {
             roles = new Lazy<MongoCollection<UserRole>>(() => dbService.GetCollection<UserRole>());
         }
-        public UserRole Get(Func<UserRole, bool> match) => this.FirstOrDefault(match);
+
+        public UserRole Get(Func<UserRole, bool> predicate) => this.FirstOrDefault(predicate);
 
         public IdentityResult Add(UserRole role)
         {
@@ -41,23 +42,18 @@ namespace LASI.WebApp.Persistence.MongoDB
             return CreateIdentityResultFromQueryResult(result);
         }
 
-        private static IdentityResult CreateIdentityResultFromQueryResult(WriteConcernResult result)
-        {
-            if (result?.ErrorMessage == null)
-            {
-                return IdentityResult.Success;
-            }
-            else
-            {
-                return IdentityResult.Failed(new IdentityError { Description = result.ErrorMessage });
-            }
-        }
+
+        private static IdentityResult CreateIdentityResultFromQueryResult(WriteConcernResult result) =>
+            result?.ErrorMessage == null
+                ? IdentityResult.Success
+                : IdentityResult.Failed(new IdentityError { Description = result.ErrorMessage });
 
         private MongoCollection<UserRole> Roles => roles.Value;
 
         public IEnumerator<UserRole> GetEnumerator() => Roles.FindAll().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         private readonly Lazy<MongoCollection<UserRole>> roles;
 
     }

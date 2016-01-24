@@ -69,7 +69,7 @@ namespace LASI.Core
         }
 
         #region Fields
-        private IImmutableSet<IPossessable> possessions = ImmutableHashSet.Create<IPossessable>();
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IPossesser possessesFor;
         #endregion Fields
     }

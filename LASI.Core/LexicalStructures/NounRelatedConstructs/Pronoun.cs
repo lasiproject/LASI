@@ -191,43 +191,57 @@ namespace LASI.Core
         {
             var text = pronoun.Text.ToLower();
             return
-                males.Contains(text) ? PronounKind.Male :
-                maleReflexives.Contains(text) ? PronounKind.MaleReflexive :
-                females.Contains(text) ? PronounKind.Female :
-                femaleReflexives.Contains(text) ? PronounKind.FemaleReflexive :
-                neutrals.Contains(text) ? PronounKind.GenderNeurtral :
-                neutralReflexives.Contains(text) ? PronounKind.GenderNeurtralReflexive :
-                firstPersonSingulars.Contains(text) ? PronounKind.FirstPersonSingular :
-                firstPersonPluralReflexives.Contains(text) ? PronounKind.FirstPersonPlural :
-                firstPersonPlurals.Contains(text) ? PronounKind.FirstPersonPlural :
-                firstPersonPluralReflexives.Contains(text) ? PronounKind.FirstPersonPluralReflexive :
-                secondPersons.Contains(text) ? PronounKind.SecondPerson :
-                secondPersonSingularReflexives.Contains(text) ? PronounKind.SecondPersonSingularReflexive :
-                secondPersonPluralReflexives.Contains(text) ? PronounKind.SecondPersonPluralReflexive :
-                thirdPersonGenderAmbiguousPlurals.Contains(text) ? PronounKind.ThirdPersonGenderAmbiguousPlural :
-                thirdPersonPluralReflexives.Contains(text) ? PronounKind.ThirdPersonPluralReflexive :
-                PronounKind.Undefined;
+                males.Contains(text)
+                ? PronounKind.Male
+                : maleReflexives.Contains(text)
+                ? PronounKind.MaleReflexive
+                : females.Contains(text)
+                ? PronounKind.Female : femaleReflexives.Contains(text)
+                ? PronounKind.FemaleReflexive
+                : neutrals.Contains(text)
+                ? PronounKind.GenderNeurtral
+                : neutralReflexives.Contains(text)
+                ? PronounKind.GenderNeurtralReflexive
+                : firstPersonSingulars.Contains(text)
+                ? PronounKind.FirstPersonSingular
+                : firstPersonPluralReflexives.Contains(text)
+                ? PronounKind.FirstPersonPlural
+                : firstPersonPlurals.Contains(text)
+                ? PronounKind.FirstPersonPlural
+                : firstPersonPluralReflexives.Contains(text)
+                ? PronounKind.FirstPersonPluralReflexive
+                : secondPersons.Contains(text)
+                ? PronounKind.SecondPerson
+                : secondPersonSingularReflexives.Contains(text)
+                ? PronounKind.SecondPersonSingularReflexive
+                : secondPersonPluralReflexives.Contains(text)
+                ? PronounKind.SecondPersonPluralReflexive
+                : thirdPersonGenderAmbiguousPlurals.Contains(text)
+                ? PronounKind.ThirdPersonGenderAmbiguousPlural
+                : thirdPersonPluralReflexives.Contains(text)
+                ? PronounKind.ThirdPersonPluralReflexive
+                : PronounKind.Undefined;
         }
         #endregion
 
         #region Static Fields
 
         //Common personal Pronouns by gender and plurality 
-        private static readonly string[] males = { "he", "him", "his" };
-        private static readonly string[] maleReflexives = { "himself", "hisself", };
-        private static readonly string[] females = { "she", "her", "hers" };
-        private static readonly string[] femaleReflexives = { "herself" };
-        private static readonly string[] neutrals = { "one", "it", "itself", "its" };
-        private static readonly string[] neutralReflexives = { "itself" };
-        private static readonly string[] firstPersonSingulars = { "i", "me", "mine" };
-        private static readonly string[] firstPersonSingularReflexives = { "myself" };
-        private static readonly string[] firstPersonPlurals = { "we", "us", "ours" };
-        private static readonly string[] firstPersonPluralReflexives = { "ourselves" };
-        private static readonly string[] secondPersons = { "you", "yours" };
-        private static readonly string[] secondPersonSingularReflexives = { "yourself" };
-        private static readonly string[] secondPersonPluralReflexives = { "yourselves" };
-        private static readonly string[] thirdPersonGenderAmbiguousPlurals = { "them", "they", "theirs" };
-        private static readonly string[] thirdPersonPluralReflexives = { "themselves", "theirselves" };
+        private static readonly HashSet<string> males = new HashSet<string> { "he", "him", "his" };
+        private static readonly HashSet<string> maleReflexives = new HashSet<string> { "himself", "hisself", };
+        private static readonly HashSet<string> females = new HashSet<string> { "she", "her", "hers" };
+        private static readonly HashSet<string> femaleReflexives = new HashSet<string> { "herself" };
+        private static readonly HashSet<string> neutrals = new HashSet<string> { "one", "it", "itself", "its" };
+        private static readonly HashSet<string> neutralReflexives = new HashSet<string> { "itself" };
+        private static readonly HashSet<string> firstPersonSingulars = new HashSet<string> { "i", "me", "mine" };
+        private static readonly HashSet<string> firstPersonSingularReflexives = new HashSet<string> { "myself" };
+        private static readonly HashSet<string> firstPersonPlurals = new HashSet<string> { "we", "us", "ours" };
+        private static readonly HashSet<string> firstPersonPluralReflexives = new HashSet<string> { "ourselves" };
+        private static readonly HashSet<string> secondPersons = new HashSet<string> { "you", "yours" };
+        private static readonly HashSet<string> secondPersonSingularReflexives = new HashSet<string> { "yourself" };
+        private static readonly HashSet<string> secondPersonPluralReflexives = new HashSet<string> { "yourselves" };
+        private static readonly HashSet<string> thirdPersonGenderAmbiguousPlurals = new HashSet<string> { "them", "they", "theirs" };
+        private static readonly HashSet<string> thirdPersonPluralReflexives = new HashSet<string> { "themselves", "theirselves" };
 
         #endregion
 
