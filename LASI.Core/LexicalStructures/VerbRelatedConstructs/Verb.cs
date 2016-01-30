@@ -45,7 +45,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds the given Entity as a subject of the Verb instance.
+        /// Binds the given Entity as a subject of the Verb.
         /// </summary>
         /// <param name="subject">The Entity to attach to the Verb as a subject.</param>
         public virtual void BindSubject(IEntity subject)
@@ -55,7 +55,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds the given Entity as a direct object of the Verb instance.
+        /// Binds the given Entity as a direct object of the Verb.
         /// </summary>
         /// <param name="directObject">The Entity to attach to the Verb as a direct object.</param>
         public virtual void BindDirectObject(IEntity directObject)
@@ -79,7 +79,7 @@ namespace LASI.Core
         }
 
         /// <summary>
-        /// Binds the given Entity as an indirect object of the Verb instance.
+        /// Binds the given Entity as an indirect object of the Verb.
         /// </summary>
         /// <param name="indirectObject">The Entity to attach to the Verb as an indirect object.</param>
         public virtual void BindIndirectObject(IEntity indirectObject)

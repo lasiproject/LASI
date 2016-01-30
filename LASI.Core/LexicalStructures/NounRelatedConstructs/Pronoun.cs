@@ -57,11 +57,11 @@ namespace LASI.Core
         /// <summary>
         /// Binds another IReferencer, generally another Pronoun but possibly a PronounPhrase, to refer to the Pronoun.
         /// </summary>
-        /// <param name="pro">An IReferencer which will be bound to refer to the Pronoun.</param>
-        public virtual void BindReferencer(IReferencer pro)
+        /// <param name="referencer">An IReferencer which will be bound to refer to the Pronoun.</param>
+        public virtual void BindReferencer(IReferencer referencer)
         {
-            boundPronouns.Add(pro);
-            pro.BindAsReferringTo(this);
+            boundPronouns.Add(referencer);
+            referencer.BindAsReferringTo(new AggregateEntity(this, this.RefersTo));
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the Pronoun.

@@ -27,7 +27,7 @@ namespace LASI.Core
         {
             Constituents = (from entity in entities
                             let aggregate = entity.Match((IAggregateEntity a) => a, (IEntity e) => e.Lift())
-                            from aggregated in aggregate
+                            from aggregated in aggregate.AsRecursivelyEnumerable()
                             select aggregated).Distinct().ToList();
 
             var kinds = from constituent in Constituents

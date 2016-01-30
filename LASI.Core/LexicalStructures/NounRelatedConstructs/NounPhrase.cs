@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using LASI.Utilities;
 using LASI.Core.Heuristics;
 using LASI.Core.LexicalStructures;
-using System;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -24,8 +24,8 @@ namespace LASI.Core
                 .OfEntity()
                 .Select(e => e.EntityKind)
                 .DefaultIfEmpty()
-                .GroupBy(e => e)
-                .MaxBy(v => v.Count()).Key;
+                .GroupBy(kind => kind)
+                .MaxBy(group => group.Count()).Key;
         }
         /// <summary>
         /// Initializes a new instance of the NounPhrase class.
@@ -43,11 +43,11 @@ namespace LASI.Core
         /// <summary>
         /// Binds an IPronoun, generally a Pronoun or PronounPhrase, as a reference to the NounPhrase.
         /// </summary>
-        /// <param name="referee">The referencer which refers to the NounPhrase Instance.</param>
-        public virtual void BindReferencer(IReferencer referee)
+        /// <param name="referencer">The referencer which refers to the NounPhrase Instance.</param>
+        public virtual void BindReferencer(IReferencer referencer)
         {
-            references.Add(referee);
-            referee.BindAsReferringTo(this);
+            referencers = referencers.Add(referencer);
+            referencer.BindAsReferringTo(this);
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the NounPhrase.
@@ -55,7 +55,7 @@ namespace LASI.Core
         /// <param name="descriptor">The IDescriptor instance which will be added to the NounPhrase' descriptors.</param>
         public void BindDescriptor(IDescriptor descriptor)
         {
-            descriptors.Add(descriptor);
+            descriptors = descriptors.Add(descriptor);
             descriptor.Describes = this;
         }
         /// <summary>
@@ -66,7 +66,7 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
-            possessions.Add(possession);
+            possessions = possessions.Add(possession);
             possession.Possesser = this;
         }
         /// <summary>
@@ -97,7 +97,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsIndirectObjectOf(IVerbal verbal)
-        { IndirectObjectOf = verbal; }
+        {
+            IndirectObjectOf = verbal;
+        }
 
         public override string ToString()
         {
@@ -128,11 +130,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IReferencer instances, generally Pronouns or PronounPhrases, which refer to the NounPhrase.
         /// </summary>
-        public IEnumerable<IReferencer> Referencers => references;
+        public IEnumerable<IReferencer> Referencers => referencers;
         /// <summary>
         /// Gets all of the IDescriptor constructs,generally Adjectives or AdjectivePhrases, which describe the NounPhrase.
         /// </summary>
         public IEnumerable<IDescriptor> Descriptors => descriptors;
+
+        /// <summary>
+        /// Gets all of the constructs which the NounPhrase "owns".
+        /// </summary>
+        public IEnumerable<IPossessable> Possessions => possessions;
+
         /// <summary>
         /// Gets or sets another NounPhrase, to the left of current instance, which is functions as an Attributor of current instance.
         /// </summary>
@@ -155,12 +163,6 @@ namespace LASI.Core
         /// </summary>
         public EntityKind EntityKind { get; protected set; }
 
-
-        /// <summary>
-        /// Gets all of the constructs which the NounPhrase "owns".
-        /// </summary>
-        public IEnumerable<IPossessable> Possessions => possessions;
-
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
@@ -173,11 +175,17 @@ namespace LASI.Core
                 // Bind entity words of the phrase as possessions of possessor.
                 if (value != null)
                 {
-                    foreach (var entity in Words.OfType<IEntity>()) { value.AddPossession(entity); }
+                    foreach (var entity in Words.OfEntity())
+                    {
+                        value.AddPossession(entity);
+                    }
                 }
                 else
                 {
-                    foreach (var entity in Words.OfType<IEntity>()) { entity.Possesser = value; }
+                    foreach (var entity in Words.OfEntity())
+                    {
+                        entity.Possesser = value;
+                    }
                 }
             }
         }
@@ -191,7 +199,7 @@ namespace LASI.Core
             private set
             {
                 subjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>())
+                foreach (var entity in Words.OfEntity())
                 {
                     entity.BindAsSubjectOf(value);
                 }
@@ -206,7 +214,7 @@ namespace LASI.Core
             private set
             {
                 directObjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>())
+                foreach (var entity in Words.OfEntity())
                 {
                     entity.BindAsDirectObjectOf(value);
                 }
@@ -222,21 +230,20 @@ namespace LASI.Core
             private set
             {
                 indirectObjectOf = value;
-                foreach (var entity in Words.OfType<IEntity>())
+                foreach (var entity in Words.OfEntity())
                 {
                     entity.BindAsDirectObjectOf(value);
                 }
             }
         }
 
-        public virtual IEnumerable<Noun> RoleComponents => roleComponents ?? (roleComponents = Words.OfNoun());
+        public virtual IEnumerable<Noun> RoleComponents => Words.OfNoun();
         #endregion
 
         #region Fields
-        private IEnumerable<Noun> roleComponents;
-        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
-        private HashSet<IReferencer> references = new HashSet<IReferencer>();
+        private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
+        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
         private IPossesser possessor;
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;

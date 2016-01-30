@@ -233,7 +233,7 @@
     <Compile Include="LexicalStructures\UnderpinningTypes\SubordinateClauseBeginPhrase.cs" />
     <Compile Include="Analysis\RelationshipLookups\AliasDictionary.cs" />
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfIEntityExtensions.cs" />
-    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfILexicalExtensions.cs" />
+    <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfLexicalExtensions.cs" />
     <Compile Include="LexicalStructures\BridgingConstructs\PrepositionRole.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\DeterminerKind.cs" />
     <Compile Include="LexicalStructures\NounRelatedConstructs\IDeterminable.cs" />

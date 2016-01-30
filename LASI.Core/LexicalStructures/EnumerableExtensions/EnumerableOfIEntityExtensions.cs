@@ -196,9 +196,7 @@ namespace LASI.Core
         /// IVerbal construct.
         /// </returns>
         public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities)
-            where TEntity : IEntity => from e in entities
-                                       where e.SubjectOf != null
-                                       select e;
+            where TEntity : IEntity => entities.InSubjectRole(subject => subject != null);
 
         /// <summary>
         /// Returns all describables in the source sequence which have been bound as the Subject of
@@ -214,16 +212,8 @@ namespace LASI.Core
         /// All IEntity constructs in the source sequence which have been bound as the Subject of
         /// any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </returns>
-        public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate)
-            where TEntity : IEntity => from e in entities.InSubjectRole()
-                                       where predicate(e.SubjectOf)
-                                       select e;
-        /// <summary>
-        /// Returns all entities of type <see cref="IReferencer"/> in the sequence of entities.
-        /// </summary>
-        /// <param name="entities">The sequence of entities to filter.</param>
-        /// <returns>All entities of type <see cref="IReferencer"/> in the sequence of entities.</returns>
-        public static IEnumerable<IReferencer> OfReferencer(this IEnumerable<IEntity> entities) => entities.OfType<IReferencer>();
+        public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate) where TEntity : IEntity =>
+            entities.InSubjectRole().Where(entity => predicate(entity.SubjectOf));
 
         /// <summary>
         /// Returns all the entities in the sequence such that, if they are referencers, their
@@ -437,9 +427,8 @@ namespace LASI.Core
         /// IVerbal construct.
         /// </returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : IEntity => from e in entities
-                                       where e.SubjectOf != null
-                                       select e;
+            where TEntity : IEntity => entities.InSubjectRole(subject => subject != null);
+
 
         /// <summary>
         /// Returns all describables in the source sequence which have been bound as the Subject of
@@ -456,15 +445,7 @@ namespace LASI.Core
         /// any IVerbal construct which conforms the logic of the IVerbal selector function.
         /// </returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate)
-            where TEntity : IEntity => from e in entities.InSubjectRole()
-                                       where predicate(e.SubjectOf)
-                                       select e;
-        /// <summary>
-        /// Returns all entities of type <see cref="IReferencer"/> in the parallel sequence of entities.
-        /// </summary>
-        /// <param name="entities">The parallel sequence of entities to filter.</param>
-        /// <returns>All entities of type <see cref="IReferencer"/> in the parallel sequence of entities.</returns>
-        public static ParallelQuery<IReferencer> OfReferencer(this ParallelQuery<IEntity> entities) => entities.OfType<IReferencer>();
+            where TEntity : IEntity => entities.InSubjectRole().Where(entity => predicate(entity.SubjectOf));
 
         /// <summary>
         /// Returns all the entities in the sequence such that, if they are referencers, their

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
-using LASI.Utilities.Specialized;
 using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
@@ -158,6 +157,7 @@ namespace LASI.Core
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
                     .Case((Word w) => w.Lift())
+                    .Case((IAggregateLexical<ILexical> a) => a.OfWord())
                 .Result().EmptyIfNull());
 
         /// <summary>Gets all of the Phrase instances in the sequence of ILexicals.</summary>
@@ -179,6 +179,11 @@ namespace LASI.Core
         /// <param name="elements">The sequence of Lexicals to filter.</param>
         /// <returns>All Entities in the sequence.</returns>
         public static IEnumerable<IEntity> OfEntity(this IEnumerable<ILexical> elements) => elements.OfType<IEntity>();
+
+        /// <summary>Returns all Referencers in the sequence.</summary>
+        /// <param name="elements">The sequence of Lexicals to filter.</param>
+        /// <returns>All Referencers in the sequence.</returns>
+        public static IEnumerable<IReferencer> OfReferencer(this IEnumerable<ILexical> elements) => elements.OfType<IReferencer>();
 
         /// <summary>Returns all Verbals in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
@@ -332,12 +337,12 @@ namespace LASI.Core
         /// <param name="elements">The source sequence of ILexical instances.</param>
         /// <returns>All of the word instances in the sequence of ILexicals.</returns>
         public static ParallelQuery<Word> OfWord(this ParallelQuery<ILexical> elements) =>
-            elements.SelectMany(e =>
-                e.Match()
+            elements.SelectMany(e => e.Match()
                     .Case((Clause c) => c.Words)
                     .Case((Phrase p) => p.Words)
                     .Case((Word w) => new[] { w })
-                .Result(new Word[0]));
+                    .Case((IAggregateLexical<ILexical> a) => a.OfWord())
+                .Result().EmptyIfNull());
 
         /// <summary>Gets all of the Clause instances in the sequence of ILexicals.</summary>
         /// <param name="elements">The source sequence of ILexical instances.</param>
@@ -348,6 +353,11 @@ namespace LASI.Core
         /// <param name="elements">The sequence of Lexicals to filter.</param>
         /// <returns>All Entities in the sequence.</returns>
         public static ParallelQuery<IEntity> OfEntity(this ParallelQuery<ILexical> elements) => elements.OfType<IEntity>();
+
+        /// <summary>Returns all Referencers in the sequence.</summary>
+        /// <param name="elements">The sequence of Lexicals to filter.</param>
+        /// <returns>All Referencers in the sequence.</returns>
+        public static ParallelQuery<IReferencer> OfReferencer(this ParallelQuery<ILexical> elements) => elements.OfType<IReferencer>();
 
         /// <summary>Returns all Verbals in the sequence.</summary>
         /// <param name="elements">The sequence of Lexicals to filter</param>
@@ -367,7 +377,7 @@ namespace LASI.Core
                 e.Match()
                     .Case((Clause c) => c.Phrases)
                     .Case((Phrase p) => new[] { p })
-                .Result(new Phrase[0]));
+                .Result().EmptyIfNull());
 
         #endregion Parallel Implementations
     }

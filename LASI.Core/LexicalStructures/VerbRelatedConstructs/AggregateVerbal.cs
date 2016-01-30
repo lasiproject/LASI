@@ -30,7 +30,7 @@ namespace LASI.Core
         /// <param name="constituents">The collection of verbals which form the aggregate.</param>
         public AggregateVerbal(IEnumerable<IVerbal> constituents)
         {
-            this.constituents = constituents.ToImmutableList();
+            this.constituents = constituents.ToList();
             Weight = this.constituents.Select(member => member.Weight)
                          .DefaultIfEmpty(0)
                          .Average();
@@ -155,7 +155,7 @@ namespace LASI.Core
 
         #region Fields
 
-        private readonly IImmutableList<IVerbal> constituents;
+        private readonly IEnumerable<IVerbal> constituents;
         private IImmutableSet<IAdverbial> adverbialModifiers = ImmutableHashSet<IAdverbial>.Empty;
         private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
         private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;

@@ -1,7 +1,9 @@
-﻿using LASI.Core.Heuristics;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System;
+using LASI.Core.Heuristics;
+using LASI.Core.LexicalStructures;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -9,7 +11,7 @@ namespace LASI.Core
     /// <summary>
     /// Represents a Verb Phrase, a Phrase with the syntactic role of a verb.
     /// </summary>
-    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable, LexicalStructures.IRoleCompositeLexical<Word, Verb>
+    public class VerbPhrase : Phrase, IVerbal, IAdverbialModifiable, IModalityModifiable, IRoleCompositeLexical<Word, Verb>
     {
         #region Constructors
 
@@ -20,16 +22,19 @@ namespace LASI.Core
         public VerbPhrase(IEnumerable<Word> words) : base(words)
         {
             var constituentVerbForms = from verb in Words.OfVerb()
-                                       let name = verb.GetType().Name
-                                       group name by name into byform
-                                       let count = byform.Count()
-                                       let name = byform.Key
-                                       select new { Name = name, Count = count };
+                                       let typeName = verb.GetType().Name
+                                       group typeName by typeName into byTypeName
+                                       select new
+                                       {
+                                           Name = byTypeName.Key,
+                                           Count = byTypeName.Count()
+                                       };
+
             PrevailingForm = constituentVerbForms
                 .DefaultIfEmpty(new { Name = "Undetermined", Count = 1 })
                 .MaxBy(form => form.Count).Name;
 
-            modifiers.UnionWith(words.OfAdverb());
+            modifiers = modifiers.Union(words.OfAdverb());
         }
 
         /// <summary>
@@ -57,7 +62,7 @@ namespace LASI.Core
         /// <param name="modifier">The Adverbial construct by which to modify the AdjectivePhrase.</param>
         public void ModifyWith(IAdverbial modifier)
         {
-            modifiers.Add(modifier);
+            modifiers = modifiers.Add(modifier);
             modifier.Modifies = this;
         }
 
@@ -80,10 +85,16 @@ namespace LASI.Core
         {
             if (subject != null)
             {
-                subjects.Add(subject);
+                subjects = subjects.Add(subject);
                 subject.BindAsSubjectOf(this);
-                if (PostpositiveDescriptor != null) { subject.BindDescriptor(postpositiveDescriptor); }
-                foreach (var v in Words.OfVerb()) { v.BindSubject(subject); }
+                if (PostpositiveDescriptor != null)
+                {
+                    subject.BindDescriptor(postpositiveDescriptor);
+                }
+                foreach (var verb in Words.OfVerb())
+                {
+                    verb.BindSubject(subject);
+                }
             }
         }
 
@@ -95,11 +106,11 @@ namespace LASI.Core
         {
             if (directObject != null)
             {
-                directObjects.Add(directObject);
+                directObjects = directObjects.Add(directObject);
                 directObject.BindAsDirectObjectOf(this);
-                foreach (var v in Words.OfVerb())
+                foreach (var verb in Words.OfVerb())
                 {
-                    v.BindDirectObject(directObject);
+                    verb.BindDirectObject(directObject);
                 }
                 if (IsPossessive)
                 {
@@ -126,7 +137,7 @@ namespace LASI.Core
         {
             if (indirectObject != null)
             {
-                indirectObjects.Add(indirectObject);
+                indirectObjects = indirectObjects.Add(indirectObject);
                 indirectObject.BindAsIndirectObjectOf(this);
                 foreach (var v in Words.OfVerb()) { v.BindIndirectObject(indirectObject); }
             }
@@ -265,10 +276,10 @@ namespace LASI.Core
 
         #region Fields
 
-        private ISet<IAdverbial> modifiers = new HashSet<IAdverbial>();
-        private ISet<IEntity> subjects = new HashSet<IEntity>();
-        private ISet<IEntity> directObjects = new HashSet<IEntity>();
-        private ISet<IEntity> indirectObjects = new HashSet<IEntity>();
+        private IImmutableSet<IAdverbial> modifiers = ImmutableHashSet<IAdverbial>.Empty;
+        private IImmutableSet<IEntity> subjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> directObjects = ImmutableHashSet<IEntity>.Empty;
+        private IImmutableSet<IEntity> indirectObjects = ImmutableHashSet<IEntity>.Empty;
 
         private IDescriptor postpositiveDescriptor;
 

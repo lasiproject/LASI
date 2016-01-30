@@ -206,11 +206,10 @@ namespace LASI.Core.Tests
         public void PossessedTest()
         {
             NounPhrase target = new NounPhrase(new Adjective("large"), new CommonSingularNoun("elephants"));
-            IEnumerable<IPossessable> actual;
+
             IEnumerable<IPossessable> expected = new[] { new CommonSingularNoun("trunks") };
-            actual = target.Possessions;
             foreach (var ip in expected) { target.AddPossession(ip); }
-            Check.That(actual).Contains(expected);
+            Check.That(target.Possessions).Contains(expected);
         }
 
         /// <summary>
