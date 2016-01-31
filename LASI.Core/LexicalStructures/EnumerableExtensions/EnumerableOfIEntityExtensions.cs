@@ -196,7 +196,9 @@ namespace LASI.Core
         /// IVerbal construct.
         /// </returns>
         public static IEnumerable<TEntity> InSubjectRole<TEntity>(this IEnumerable<TEntity> entities)
-            where TEntity : IEntity => entities.InSubjectRole(subject => subject != null);
+            where TEntity : IEntity => from e in entities
+                                       where e.SubjectOf != null
+                                       select e;
 
         /// <summary>
         /// Returns all describables in the source sequence which have been bound as the Subject of
@@ -427,7 +429,9 @@ namespace LASI.Core
         /// IVerbal construct.
         /// </returns>
         public static ParallelQuery<TEntity> InSubjectRole<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : IEntity => entities.InSubjectRole(subject => subject != null);
+            where TEntity : IEntity => from e in entities
+                                       where e.SubjectOf != null
+                                       select e;
 
 
         /// <summary>

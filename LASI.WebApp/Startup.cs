@@ -160,7 +160,10 @@ namespace LASI.WebApp
                    options.TokenValidationParameters.ValidateLifetime = true;
                    options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(0);
                    options.TokenValidationParameters.NameClaimType = "unique_name";
-                   //options.Configuration.HttpLogoutSupported = true;
+                   options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration
+                   {
+                       HttpLogoutSupported = true
+                   };
                    options.TokenValidationParameters.SaveSigninToken = true;
                })
                .UseCors(policy =>
