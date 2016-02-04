@@ -6,9 +6,6 @@ import { ListController as HomeController } from 'app/document-list/list-control
 
 import loginTemplate from 'app/sections/login.html';
 
-import { NavbarController } from 'app/sections/navbar/navbar';
-import navbarTemplate from 'app/sections/navbar/navbar.html';
-
 import { AccountController} from 'app/sections/account';
 import accountTemplate from 'app/sections/account.html';
 
@@ -17,6 +14,11 @@ import { UserService } from 'app/user-service';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
 export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
+    user.$inject = ['UserService'];
+    function user(userService: UserService) {
+        return userService.getUser();
+    }
+
     $stateProvider
         .state({
             url: '/',
@@ -36,9 +38,13 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                 },
                 'navbar': {
                     name: 'navbar',
-                    controller: NavbarController,
-                    controllerAs: 'navbar',
-                    template: navbarTemplate
+                    template: `<navbar user="resolved.user"></navbar>`,
+                    controllerAs: 'resolved',
+                    resolve: { user },
+                    controller: class {
+                        static $inject = ['user'];
+                        constructor(private user: User) { }
+                    },
                 }
             }
         })
@@ -53,9 +59,13 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     template: homeTemplate
                 }, 'navbar': {
                     name: 'navbar',
-                    controller: NavbarController,
-                    controllerAs: 'navbar',
-                    template: navbarTemplate
+                    template: `<navbar user="resolved.user"></navbar>`,
+                    controllerAs: 'resolved',
+                    resolve: { user },
+                    controller: class {
+                        static $inject = ['user'];
+                        constructor(private user: User) { }
+                    }
                 }
             }
         })
@@ -71,10 +81,14 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     }
                 },
                 'navbar': {
-                    controller: NavbarController,
-                    controllerAs: 'navbar',
-                    template: navbarTemplate,
-
+                    name: 'navbar',
+                    template: `<navbar user="resolved.user"></navbar>`,
+                    controllerAs: 'resolved',
+                    resolve: { user },
+                    controller: class {
+                        static $inject = ['user'];
+                        constructor(private user: User) { }
+                    }
                 }
             }
         })
@@ -90,10 +104,14 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     }
                 },
                 'navbar': {
-                    controller: NavbarController,
-                    controllerAs: 'navbar',
-                    template: navbarTemplate,
-
+                    name: 'navbar',
+                    template: `<navbar user="resolved.user"></navbar>`,
+                    controllerAs: 'resolved',
+                    resolve: { user },
+                    controller: class {
+                        static $inject = ['user'];
+                        constructor(private user: User) { }
+                    }
                 }
             }
         })

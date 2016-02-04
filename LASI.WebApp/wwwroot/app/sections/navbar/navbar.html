@@ -62,25 +62,10 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="!navbar.user">
-                    <a ui-sref="app.login">Login</a>
-                </li>
-                <li ng-show="navbar.user">
-                    <a ui-sref="app.account">Welcome {{navbar.user.email}}!</a>
-                </li>
-                <li ng-show="navbar.user">
-                    <form ng-submit="navbar.logoff()" novalidate method="post" name="logout-form" id="logout-form" class="navbar-right">
-                        <div>
-                            <div>
-                                <button type="submit" class="navbar-inverse nav navbar-btn small"><i class="fa fa-sign-out fa-inverse"></i> <span style="color: white">Logoff</span></button>
-                            </div>
-                        </div>
-                    </form>
-                </li>
-                <li ng-hide="navbar.user">
-                    <a href="/account/register">Register</a>
-                </li>
-
+                <li ng-hide="navbar.user"><a ui-sref="app.login">Login</a></li>
+                <li ng-hide="navbar.user"><a href="/account/register">Register</a></li>
+                <li ng-show="navbar.user"><a ui-sref="app.account">Welcome {{navbar.user.email}}!</a></li>
+                <li ng-show="navbar.user"><logoff user="navbar.user"></logoff></li>
             </ul>
         </div>
     </div>

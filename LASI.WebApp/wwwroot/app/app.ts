@@ -1,7 +1,7 @@
 /// <reference path="./models.d.ts" />
 'use strict';
 import 'font-awesome';
-import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css!';
+import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
 import 'dist/app.css!';
 import $ from 'jquery';
 import 'bootstrap';
@@ -18,11 +18,13 @@ import documentList from './document-list/document-list.module';
 import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
+import { navbar } from './sections/navbar/navbar';
+import { logoff } from './sections/logoff';
 import { UserService } from './user-service';
 import TokenService from './token-service';
-import configureStates from './configuration/configure-states';
-import configureHttp from './configuration/configure-http';
-import run from './configuration/startup';
+import configureStates from './configuration/router';
+import configureHttp from './configuration/http';
+import run from './startup';
 
  
 // Define the primary 'app' module, specifying all top level dependencies.
@@ -33,6 +35,7 @@ var app: NgModuleConfig = {
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],
+    directives: { navbar, logoff },
     services: { UserService, TokenService },
     factories: { tasks },
     configs: [configureStates, configureHttp],
@@ -74,7 +77,7 @@ function registerAngularModule(module: NgModuleConfig | string) {
             throw new TypeError('module must be a string or an AngularModuleOptions options object');
         }
     }
-    
+
     if (isConfig(module)) {
         const configs = module.configs;
         const runs = module.runs;

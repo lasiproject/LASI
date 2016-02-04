@@ -8,8 +8,8 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
     $get.$inject = ['$q', '$http', '$interval', 'UserService'];
 
     return {
-        $get, 
-        setUpdateInterval, 
+        $get,
+        setUpdateInterval,
         setTasksListUrl
     };
 
@@ -32,8 +32,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
                     var intervalPromise = $interval(() => {
                         if (!userService.loggedIn) {
                             $interval.cancel(intervalPromise);
-                        }
-                        else {
+                        } else {
                             return $http.get<Task[]>(tasksListUrl)
                                 .then(response => tasks = response.data)
                                 .then(data => resolve(data))
@@ -48,7 +47,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
         };
     }
     function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
-        return tasks => element.html(tasks.map(task => 
+        return tasks => element.html(tasks.map(task =>
             `<div>${Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`)}</div>`
         ).join());
     }

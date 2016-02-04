@@ -46,7 +46,7 @@ namespace LASI.WebApp.Controllers
                     Authenticated = true
                 };
             }
-            return HttpUnauthorized();
+            return Task.FromResult(HttpUnauthorized());
         }
         [HttpPost]
         public async Task<dynamic> Post(Credentials body)

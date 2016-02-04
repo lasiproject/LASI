@@ -30,13 +30,12 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, n
                 }
             },
             get() {
-                if(userService.loggedIn){
+                if (userService.loggedIn) {
                     return $http.get<DocumentListItem[]>(`${listUrl}?limit=${limit}`)
                         .then(response => response.data)
                         .catch(error => []);
-                }
-                else {
-                   return $q.resolve([]);
+                } else {
+                    return $q.resolve([]);
                 }
             }
         };

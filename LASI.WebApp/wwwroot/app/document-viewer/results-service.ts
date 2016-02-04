@@ -17,7 +17,7 @@ function resultsService($q:ng.IQService, $http: ng.IHttpService): ResultsService
             .success(success)
             .error(error);
         return deferred.promise;
-        function success(data){
+        function success(data) {
             var markupHeader = $(`
                 <div class="panel panel-default">
                   <div class="panel-heading">

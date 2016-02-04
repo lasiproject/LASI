@@ -24,10 +24,11 @@ export class UploadController {
     uploadFile(file: File) {
         return this.uploadService
             .upload<DocumentListItem>({
-                file,
+                data: {
+                    [file.name]: file
+                },
                 url: 'api/UserDocuments',
-                method: 'POST',
-                fileName: file.name
+                method: 'POST'
             })
             .progress(data => log(`Progress: ${100.0 * data.progress / data.percentComplete}% ${file.name}`))
             .success(data => log(`File ${file.name} uploaded. \nResponse: ${JSON.stringify(data)}`))

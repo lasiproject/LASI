@@ -28,14 +28,17 @@ System.config({
       "main": "app",
       "defaultExtension": "ts",
       "meta": {
-        "*.html": {
-          "loader": "text"
-        },
         "*.ts": {
           "loader": "ts"
         },
         "*.js": {
           "loader": "ts"
+        },
+        "*.css": {
+          "loader": "css"
+        },
+        "*.html": {
+          "loader": "text"
         }
       }
     },
@@ -50,43 +53,41 @@ System.config({
   },
 
   map: {
-    "angular": "github:angular/bower-angular@1.4.8",
+    "angular": "github:angular/bower-angular@1.4.9",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.3",
-    "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.4",
-    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@10.1.9",
-    "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
-    "babel": "npm:babel-core@5.8.34",
-    "babel-runtime": "npm:babel-runtime@5.8.34",
+    "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.6",
+    "angular-file-upload": "github:danialfarid/ng-file-upload-bower@10.1.14",
+    "angular-ui-router": "github:angular-ui/ui-router@0.2.17",
+    "babel": "npm:babel-core@5.8.35",
+    "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
-    "clean-css": "npm:clean-css@3.4.8",
+    "clean-css": "npm:clean-css@3.4.9",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
     "font-awesome": "npm:font-awesome@4.5.0",
-    "jquery": "github:components/jquery@2.1.4",
+    "jquery": "github:components/jquery@2.2.0",
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.5",
-    "plugin-typescript": "npm:babel-core@5.8.34",
-    "plugin-typescript-runtime": "npm:babel-runtime@5.8.34",
-    "qunit": "github:jquery/qunit@1.20.0",
+    "plugin-typescript": "npm:babel-core@5.8.35",
+    "plugin-typescript-runtime": "npm:babel-runtime@5.8.35",
+    "qunit": "github:jquery/qunit@1.21.0",
     "text": "github:systemjs/plugin-text@0.0.2",
-    "traceur": "github:jmcriffey/bower-traceur@0.0.92",
-    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.92",
-    "ts": "github:frankwallis/plugin-typescript@2.4.7",
-    "typescript": "npm:typescript@1.7.5",
-    "github:angular-ui/ui-router@0.2.15": {
-      "angular": "github:angular/bower-angular@1.4.8"
+    "ts": "github:frankwallis/plugin-typescript@2.5.10",
+    "typescript": "npm:typescript@1.8.0",
+    "github:angular-ui/ui-router@0.2.17": {
+      "angular": "github:angular/bower-angular@1.4.9"
     },
     "github:aspnet/jquery-validation-unobtrusive@3.2.5": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
-    "github:frankwallis/plugin-typescript@2.4.7": {
-      "typescript": "npm:typescript@1.7.5"
+    "github:frankwallis/plugin-typescript@2.5.10": {
+      "typescript": "npm:typescript@1.8.0"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
-      "buffer": "npm:buffer@3.5.5"
+      "buffer": "npm:buffer@3.6.0"
     },
     "github:jspm/nodelibs-events@0.1.1": {
       "events": "npm:events@1.0.2"
@@ -121,10 +122,10 @@ System.config({
       "util": "npm:util@0.10.3"
     },
     "github:jzaefferer/jquery-validation@1.14.0": {
-      "jquery": "github:components/jquery@2.1.4"
+      "jquery": "npm:jquery@2.2.0"
     },
     "github:twbs/bootstrap@3.3.6": {
-      "jquery": "github:components/jquery@2.1.4"
+      "jquery": "github:components/jquery@2.2.0"
     },
     "npm:amdefine@1.0.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -135,10 +136,10 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.34": {
+    "npm:babel-runtime@5.8.35": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:buffer@3.5.5": {
+    "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -146,7 +147,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:clean-css@3.4.8": {
+    "npm:clean-css@3.4.9": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commander": "npm:commander@2.8.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",

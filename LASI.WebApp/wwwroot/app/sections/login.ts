@@ -4,11 +4,10 @@ import $ from 'jquery';
 import { UserService } from 'app/user-service';
 
 export class LoginController {
-    static $inject = ['$http', '$q', '$uibModal', '$state', 'UserService'];
+    static $inject = ['$http', '$uibModal', '$state', 'UserService'];
 
     constructor(
         private $http: ng.IHttpService,
-        private $q: ng.IQService,
         private $uibModal: ng.ui.bootstrap.IModalService,
         private $state: ng.ui.IStateService,
         private userService: UserService

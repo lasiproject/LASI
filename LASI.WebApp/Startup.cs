@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using LASI.WebApp.Authentication;
 using LASI.WebApp.Logging;
@@ -141,15 +142,17 @@ namespace LASI.WebApp
             app.UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
+                   options.AutomaticAuthentication = false;
                })
                .UseJwtBearerAuthentication(options =>
                {
                    options.Events = new JwtBearerEvents
                    {
-                       OnAuthenticationFailed = context =>
+                       OnAuthenticationFailed = async context =>
                        {
-                           System.Diagnostics.Debug.WriteLine(context.Request);
-                           return Task.FromResult(0);
+                           System.Diagnostics.Debug.WriteLine(context.Exception.Message);
+                           context.Response.StatusCode = 401;
+                           await context.Response.Body.WriteAsync(Encoding.Default.GetBytes("Unauthorized"), 0, 12);
                        }
                    };
                    options.RequireHttpsMetadata = false;

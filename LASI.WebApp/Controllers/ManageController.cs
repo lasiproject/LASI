@@ -27,7 +27,7 @@ namespace LASI.WebApp.Controllers
         //
         // GET: /Account/Index
         [HttpGet("account")]
-        public async Task<IndexViewModel> Get(ManageMessageId? message = null)
+        public async Task<dynamic> Get(ManageMessageId? message = null)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -37,8 +37,16 @@ namespace LASI.WebApp.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            var user = await UserManager.FindByEmailAsync((
+                from claim in User.Claims
+                where claim.Properties.Values.Contains("unique_name")
+                select claim.Value
+                ).DefaultIfEmpty("").First());
 
-            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return Task.FromResult(HttpUnauthorized());
+            }
             var model = new IndexViewModel
             {
                 HasPassword = await UserManager.HasPasswordAsync(user),
@@ -347,7 +355,8 @@ namespace LASI.WebApp.Controllers
             Error
         }
 
-        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByIdAsync(HttpContext.User.GetUserId());
+        private async Task<ApplicationUser> GetCurrentUserAsync() => await UserManager.FindByNameAsync(HttpContext.User.Claims
+            .First(claim => claim.Subject.NameClaimType == "unique_name").Value);
 
         private IActionResult RedirectToLocal(string returnUrl)
         {

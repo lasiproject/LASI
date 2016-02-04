@@ -15,7 +15,14 @@ export class UserService {
             password,
             rememberMe
         };
-        return promise.then(() => this.loginGet())
+        return promise.then(() => this.loginGet()
+            .then(user => {
+                if (!user) {
+                    throw 'not logged in';
+                } else {
+                    return user;
+                }
+            }))
             .catch(error => this.loginPost(data))
             .then(this.loginSuccess)
             .catch(error => {
@@ -35,14 +42,16 @@ export class UserService {
 
     loginGet() {
         if (this.tokenService.token) {
-            return this.$http.get<AuthenticationResult>('/api/authenticate', UserService.requestConfig).then(response => response.data);
+            return this.$http.get<AuthenticationResult>('/api/authenticate', UserService.requestConfig)
+                .then(response => response.data)
+                .catch(reason => this.$q.reject(reason));
         } else {
             return this.$q.reject('not logged in');
         }
     }
 
     logoff(): ng.IPromise<any> {
-       
+
         return this.$http
             .post<User>('/api/authenticate/logoff', {}, UserService.requestConfig)
             .then(response => {
@@ -63,7 +72,8 @@ export class UserService {
             return this.loginGet()
                 .then(this.loginSuccess);
         } else {
-            return this.$q.reject('not logged in');
+            console.info('not logged in');
+            return this.$q.resolve(undefined);
         }
     }
 
