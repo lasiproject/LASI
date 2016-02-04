@@ -34,9 +34,6 @@ System.config({
         "*.js": {
           "loader": "ts"
         },
-        "*.css": {
-          "loader": "css"
-        },
         "*.html": {
           "loader": "text"
         }
@@ -51,7 +48,11 @@ System.config({
       ]
     }
   },
-
+  meta: {
+    "*.css": {
+      "loader": "css"
+    }
+  },
   map: {
     "angular": "github:angular/bower-angular@1.4.9",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.3",

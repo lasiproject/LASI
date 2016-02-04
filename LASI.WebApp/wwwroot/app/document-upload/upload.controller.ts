@@ -22,17 +22,17 @@ export class UploadController {
             .forEach(log);
     }
     uploadFile(file: File) {
-        return this.uploadService
-            .upload<DocumentListItem>({
+        return (this.uploadService.upload
+            .call(this.uploadService, {
                 data: {
                     [file.name]: file
                 },
                 url: 'api/UserDocuments',
                 method: 'POST'
-            })
+            }))
             .progress(data => log(`Progress: ${100.0 * data.progress / data.percentComplete}% ${file.name}`))
-            .success(data => log(`File ${file.name} uploaded. \nResponse: ${JSON.stringify(data)}`))
-            .error((data, status) => log(`Http: ${status} Failed to upload file. \nDetails: ${data}`));
+            .then(({data}) => log(`File ${file.name} uploaded. \nResponse: ${JSON.stringify(data)}`))
+            .catch(reason => log(`Http: ${status} Failed to upload file. \nDetails: ${reason}`));
     }
 
     removeFile(file: File, index: number) {
