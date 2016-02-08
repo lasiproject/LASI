@@ -2,7 +2,7 @@
 import TokenService from 'app/token-service';
 
 configureHttp.$inject = ['$httpProvider'];
-export default function configureHttp($httpProvider: ng.IHttpProvider) {
+export default function configureHttp($httpProvider: ng.IHttpProvider & { defaults: { headers } }) {
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.defaults.headers.accept = 'application/json';
     $httpProvider.defaults.headers['Upgrade-Insecure-Requests'] = '1';

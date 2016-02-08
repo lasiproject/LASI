@@ -1,29 +1,31 @@
 ﻿<div class="row">
-    <form name="accountForm" method="post" class="form-horizontal" novalidate>
-        <div class="form-group">
-            <div class="col-md-6">
-                <label class="control-label" for="phone-number">Phone #:</label>
-                <input class="form-control" type="tel" id="phone-number" ng-model="account.details.phoneNumber" placeholder="phone number" required>
+    <form name="account.form" method="post" class="form-horizontal" novalidate>
+        <formly-form form="account.form" fields="account.fields" model="account.details">
+            <!--<div class="form-group">
+                <div class="col-md-6">
+                    <label class="control-label" for="phone-number">Phone #:</label>
+                    <input class="form-control" type="tel" id="phone-number" ng-model="account.details.phoneNumber" placeholder="phone number" required>
 
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                <label class="control-label" for="email">Email:</label>
-                <input class="form-control" type="email" id="email" ng-model="account.details.email" ng-valid="account.emailsMatch()" placeholder="email" required>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label class="control-label" for="email">Email:</label>
+                    <input class="form-control" type="email" id="email" ng-model="account.details.email" ng-valid="account.emailsMatch()" placeholder="email" required>
 
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                <label class="control-label" for="confirmEmail">Confirm Email:</label>
-                <input class="form-control" type="email" id="confirmEmail" ng-model="account.details.confirmEmail" placeholder="email" required ng-pattern="(account.details.email)">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label class="control-label" for="confirmEmail">Confirm Email:</label>
+                    <input class="form-control" type="email" id="confirmEmail" ng-model="account.details.confirmEmail" placeholder="email" required ng-pattern="(account.details.email)">
 
-            </div>
-        </div>
-        <input type="submit" value="Save" ng-disabled="accountForm.$invalid" ng-click="account.saveDetails()" class="btn btn-default" />
+                </div>
+            </div>-->
+            <button type="button" ng-disabled="account.form.$invalid" ng-click="account.form.$submit()" class="btn btn-primary">Save</button>
+        </formly-form>
     </form>
 </div>
 <pre>{{account.details | json}}</pre>
 
-<pre>{{accountForm | json}}</pre>
+<pre>{{account.fields | json}}</pre>

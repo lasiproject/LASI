@@ -1,24 +1,30 @@
+/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="./models.d.ts" />
 'use strict';
+import 'core-js';
 import 'font-awesome';
 import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
 import 'dist/app.css!';
-import $ from 'jquery';
 import 'bootstrap';
 import 'angular';
 import 'angular-ui-router';
 import 'angular-bootstrap';
 import 'angular-bootstrap-contextmenu';
 import 'angular-file-upload';
+import 'api-check';
+import 'angular-messages';
+import 'angular-formly';
+import 'angular-formly-templates-bootstrap';
 import 'app/utilities/augmentations';
-import { bootstrap as ngBootstrap} from 'angular';
+import $ from 'jquery';
+import { bootstrap as ngBootstrap } from 'angular';
 import debug from './debug/debug.module';
 import widgets from './widgets/widgets.module';
 import documentList from './document-list/document-list.module';
 import documentUpload from './document-upload/document-upload.module';
 import documentViewer from './document-viewer/document-viewer.module';
 import documentViewerSearch from './document-viewer/search/search.module';
-import { navbar } from './sections/navbar/navbar';
+import { navbar } from './sections/navbar';
 import { logoff } from './sections/logoff';
 import { UserService } from './user-service';
 import TokenService from './token-service';
@@ -26,12 +32,12 @@ import configureStates from './configuration/router';
 import configureHttp from './configuration/http';
 import run from './startup';
 
- 
+
 // Define the primary 'app' module, specifying all top level dependencies.
 var app: NgModuleConfig = {
     name: 'app',
     requires: [
-        'ui.router', 'ui.bootstrap.modal',
+        'ui.router', 'ui.bootstrap.modal', 'formly', 'formlyBootstrap', 'ngMessages',
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],

@@ -1,7 +1,7 @@
 'use strict';
 import { UserService } from './user-service';
 
-export class AppController {
+export default class AppController {
     static $inject = ['$state', '$stateParams', 'documentListService'];
 
     currentStateName: string;

@@ -1,6 +1,6 @@
 ﻿ 'use strict';
 import { UploadController as controller } from './upload.controller';
-import template from 'app/document-upload/upload-panel.html';
+import template from './upload-panel.html';
 
 uploadPanel.$inject = ['$window'];
 export function uploadPanel($window): ng.IDirective {

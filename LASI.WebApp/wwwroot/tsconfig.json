@@ -1,18 +1,21 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "system",
-    "allowJs": true,
-    "pretty": true,
-    "allowSyntheticDefaultImports": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "noEmit": true,
-    "experimentalAsyncFunctions": false,
-    "diagnostics": true,
-    "watch": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  },
-  "exclude": [ "jspm_packages" ]
+    "compilerOptions": {
+        "target": "es5",
+        "module": "system",
+        "allowJs": true,
+        "pretty": true,
+        "allowSyntheticDefaultImports": true,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "noEmit": true,
+        "experimentalAsyncFunctions": false,
+        "diagnostics": true,
+        "watch": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "rootDir": "./"
+    },
+    "exclude": [
+        "jspm_packages"
+    ]
 }

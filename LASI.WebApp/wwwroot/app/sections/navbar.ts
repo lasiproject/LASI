@@ -1,5 +1,5 @@
 'use strict';
-import template from 'app/sections/navbar/navbar.html';
+import template from './navbar.html';
 import controller from './navbar.controller';
 
 export function navbar(): ng.IDirective {

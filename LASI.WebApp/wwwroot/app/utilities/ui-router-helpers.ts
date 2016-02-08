@@ -10,8 +10,8 @@ export default function CreateResolver(...ngDependencies: string[]): ((...args: 
             static $inject = [...ngDependencies];
             constructor(args: any[]) {
                 var names = this.constructor.toString().split(',');
-                names.forEach((name, index) => this[name] = args[index]); this
+                names.forEach((name, index) => this[name] = args[index]);
             }
         };
-    }
+    };
 }

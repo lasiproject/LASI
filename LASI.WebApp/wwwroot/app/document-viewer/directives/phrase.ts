@@ -1,5 +1,5 @@
 ﻿'use strict';
-import template from 'app/document-viewer/directives/phrase.html';
+import template from './phrase.html';
 
 phrase.$inject = ['lexicalMenuBuilder'];
 export function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): angular.IDirective {

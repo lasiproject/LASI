@@ -1,5 +1,5 @@
 ﻿'use strict';
-import template from 'app/widgets/processing-task-progress-bar.html';
+import template from './processing-task-progress-bar.html';
 processingTaskProgressBar.$inject = [];
 export function processingTaskProgressBar(): angular.IDirective {
     return {

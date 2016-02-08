@@ -1,5 +1,5 @@
 ﻿'use strict';
-import template from 'app/document-list/document-list-menu-item.html';
+import template from './document-list-menu-item.html';
 
 export function documentListMenuItem(): angular.IDirective {
     return {

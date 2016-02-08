@@ -1,15 +1,15 @@
 'use strict';
-import appTemplate from 'app/app.html';
-import { AppController } from 'app/app-controller';
-import homeTemplate from 'app/sections/home/home.html';
-import { ListController as HomeController } from 'app/document-list/list-controller';
+import mainTemplate from 'app/main.html';
+import MainController from 'app/main';
+import homeTemplate from 'app/sections/home.html';
+import HomeController from 'app/document-list/list-controller';
 
 import loginTemplate from 'app/sections/login.html';
 
-import { AccountController} from 'app/sections/account';
+import AccountController from 'app/sections/account';
 import accountTemplate from 'app/sections/account.html';
 
-import { LoginController } from 'app/sections/login';
+import LoginController from 'app/sections/login';
 import { UserService } from 'app/user-service';
 
 configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -23,12 +23,12 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
         .state({
             url: '/',
             name: 'app',
-            //abstract: true,
+            abstract: true,
             views: {
                 '': {
-                    controller: AppController,
+                    controller: MainController,
                     controllerAs: 'app',
-                    template: appTemplate,
+                    template: mainTemplate,
                     resolve: {
                     }
                 },
@@ -122,5 +122,5 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
             template: loginTemplate
         });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/home');
 }

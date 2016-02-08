@@ -1,5 +1,5 @@
 ﻿'use strict';
-import template from 'app/document-viewer/directives/paragraph.html';
+import template from './paragraph.html';
 paragraph.$inject = ['$window'];
 export function paragraph($window: angular.IWindowService): angular.IDirective {
     return {

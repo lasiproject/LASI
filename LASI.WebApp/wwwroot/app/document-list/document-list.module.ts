@@ -3,7 +3,6 @@
 import { documentsService } from './documents-service';
 import { DocumentListServiceProvider } from './document-list-service-provider';
 import { tasksListServiceProvider } from './tasks-list-service-provider';
-import { ListController } from './list-controller';
 import { documentListMenuItem } from './document-list-menu-item';
 
 configure.$inject = ['tasksListServiceProvider', 'documentListServiceProvider'];
@@ -29,6 +28,5 @@ export default {
     configs: [configure],
     factories: { documentsService },
     providers: { documentListService: DocumentListServiceProvider, tasksListService: tasksListServiceProvider },
-    directives: { documentListMenuItem },
-    controllers: { ListController }
+    directives: { documentListMenuItem }
 } as NgModuleConfig;

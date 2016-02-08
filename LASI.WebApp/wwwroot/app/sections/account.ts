@@ -1,7 +1,7 @@
 ﻿'use strict';
 import { UserService } from 'app/user-service';
 
-export class AccountController {
+export default class AccountController {
     static $inject = ['UserService'];
 
     constructor(private userService: UserService) {
@@ -10,7 +10,39 @@ export class AccountController {
 
     activate() {
         return this.userService.getDetails()
-            .then(details => this.details = details);
+            .then(details => this.details = details).then(() => this.fields = [
+                {
+                    key: 'email',
+                    type: 'input',
+                    validators: {
+                        emailsMatch: {
+                            expression: (viewValue, viewModel, scope) => !scope.model.confirmEmail || (viewValue || viewModel) === scope.model.confirmEmail,
+                            message: 'Eamils do not match'
+                        }
+                    },
+                    wrapper: ['bootstrapHasError'],
+                    templateOptions: {
+                        label: 'Email',
+                        required: true,
+
+                    }
+                }, {
+                    key: 'confirmEmail',
+                    type: 'input',
+                    wrapper: ['bootstrapHasError'],
+                    validators: {
+                        emailsMatch: {
+                            expression: (viewValue, viewModel, scope) => (viewValue || viewModel) === scope.model.email,
+                            message: 'Eamils do not match'
+                        }
+                    },
+                    templateOptions: {
+                        label: 'Confirm Email',
+                        required: true,
+
+                    }
+                }
+            ]);
     }
 
     saveDetails() {
@@ -22,5 +54,7 @@ export class AccountController {
     }
 
     details: any;
+
+    fields: AngularFormly.IFieldConfigurationObject[];
 
 }

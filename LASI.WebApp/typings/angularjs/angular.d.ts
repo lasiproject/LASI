@@ -1413,8 +1413,7 @@ declare module angular {
     }
 
     interface IHttpRequestConfigHeaders {
-        [requestType: string]: string | (() => string);
-        accept?: string;
+        [requestType: string]: string|(() => string);
         common?: string|(() => string);
         get?: string|(() => string);
         post?: string|(() => string);

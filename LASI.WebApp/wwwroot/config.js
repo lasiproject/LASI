@@ -34,6 +34,9 @@ System.config({
         "*.js": {
           "loader": "ts"
         },
+        "*.css": {
+          "loader": "css"
+        },
         "*.html": {
           "loader": "text"
         }
@@ -48,17 +51,23 @@ System.config({
       ]
     }
   },
+
   meta: {
     "*.css": {
       "loader": "css"
     }
   },
+
   map: {
-    "angular": "github:angular/bower-angular@1.4.9",
-    "angular-bootstrap": "github:angular-ui/bootstrap-bower@0.14.3",
+    "angular": "npm:angular@1.4.9",
+    "angular-bootstrap": "github:angular-ui/bootstrap-bower@1.1.2",
     "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@0.9.6",
     "angular-file-upload": "github:danialfarid/ng-file-upload-bower@10.1.14",
-    "angular-ui-router": "github:angular-ui/ui-router@0.2.17",
+    "angular-formly": "npm:angular-formly@7.5.0",
+    "angular-formly-templates-bootstrap": "npm:angular-formly-templates-bootstrap@6.2.0",
+    "angular-messages": "npm:angular-messages@1.4.9",
+    "angular-ui-router": "npm:angular-ui-router@0.2.17",
+    "api-check": "npm:api-check@7.5.5",
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
@@ -75,9 +84,6 @@ System.config({
     "text": "github:systemjs/plugin-text@0.0.2",
     "ts": "github:frankwallis/plugin-typescript@2.5.10",
     "typescript": "npm:typescript@1.8.0",
-    "github:angular-ui/ui-router@0.2.17": {
-      "angular": "github:angular/bower-angular@1.4.9"
-    },
     "github:aspnet/jquery-validation-unobtrusive@3.2.5": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
@@ -134,10 +140,31 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:angular-formly-templates-bootstrap@6.2.0": {
+      "angular": "npm:angular@1.4.9",
+      "angular-formly": "npm:angular-formly@7.5.0",
+      "api-check": "npm:api-check@7.5.5",
+      "bootstrap": "npm:bootstrap@3.3.6"
+    },
+    "npm:angular-formly@7.5.0": {
+      "angular": "npm:angular@1.4.9",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:angular-ui-router@0.2.17": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:angular@1.4.9": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
     "npm:babel-runtime@5.8.35": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:bootstrap@3.3.6": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:buffer@3.6.0": {

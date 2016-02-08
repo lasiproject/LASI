@@ -1,5 +1,5 @@
 ﻿'use strict';
-export class ListController {
+export default class ListController {
     static $inject = ['documentListService', 'documentsService', 'documentModelService', 'tasksListService'];
 
     private documents: DocumentListItem[] = [];

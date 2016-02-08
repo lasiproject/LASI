@@ -3,7 +3,7 @@
 import $ from 'jquery';
 import { UserService } from 'app/user-service';
 
-export class LoginController {
+export default class LoginController {
     static $inject = ['$http', '$uibModal', '$state', 'UserService'];
 
     constructor(

@@ -1,5 +1,5 @@
 ﻿'use strict';
-import template from 'app/debug/debug-panel.html';
+import template from './debug-panel.html';
 
 class DebugPanelController {
     static $inject = ['tasks'];

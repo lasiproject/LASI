@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-import navbarTemplate from 'app/sections/navbar/navbar.html';
+import navbarTemplate from './navbar.html';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
 import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
 
