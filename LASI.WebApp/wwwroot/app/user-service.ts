@@ -1,5 +1,3 @@
-'use strict';
-
 import TokenService from 'app/token-service';
 
 export class UserService {
@@ -8,9 +6,9 @@ export class UserService {
     constructor(private $q: ng.IQService, private $http: ng.IHttpService, private tokenService: TokenService) { }
 
     login({ email, password, rememberMe }: Credentials): ng.IPromise<User> {
-        var promise = this.loggedIn ? this.getUser() : this.$q.resolve({});
+        const promise = this.loggedIn ? this.getUser() : this.$q.resolve({});
 
-        var data = {
+        const data = {
             email,
             password,
             rememberMe
@@ -94,6 +92,7 @@ export class UserService {
         }
         return this.user;
     };
+
     user: User;
     loggedIn = false;
 

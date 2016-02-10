@@ -1,5 +1,4 @@
-﻿'use strict';
-import * as angular from 'angular';
+﻿import * as angular from 'angular';
 import { uploadPanel } from './upload-panel';
 
 export default {

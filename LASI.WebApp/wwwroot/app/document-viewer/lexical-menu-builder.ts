@@ -1,8 +1,7 @@
-﻿'use strict';
-import ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
+﻿import ContextMenu = angular.ui.bootstrap.contextMenu.ContextMenu;
 
 export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
-    var [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
+    const [buildForVerbal, buildForReferencer] = [createForVerbalMenuBuilder({}), createForReferencerMenuBuilder({})];
 
     return {
         buildAngularMenu: source => menuIsReferencerMenu(source) ? buildForReferencer(source)
@@ -10,17 +9,17 @@ export function lexicalMenuBuilder(): LexicalMenuBuilderFactory {
     };
 
     function menuIsVerbalMenu(menu: LexicalContextmenuData): menu is VerbalContextmenuData {
-        var verbalMenu = menu as VerbalContextmenuData;
+        const verbalMenu = menu as VerbalContextmenuData;
         return !!(menu && (verbalMenu.directObjectIds || verbalMenu.indirectObjectIds || verbalMenu.subjectIds));
     }
     function menuIsReferencerMenu(menu: LexicalContextmenuData): menu is ReferencerContextmenuData {
-        var referencerMenu = menu as ReferencerContextmenuData;
+        const referencerMenu = menu as ReferencerContextmenuData;
         return !!(menu && referencerMenu.refersToIds);
     }
-
 }
+
 function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
-    var resetReferencerAsssotionCssClasses = () =>
+    const resetReferencerAsssotionCssClasses = () =>
         Object.keys(menuActionTargets)
             .map(key => menuActionTargets[key])
             .forEach($e => $e.removeClass('referred-to-by-current'));
@@ -31,10 +30,11 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
         }]
     ];
 }
+
 function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
     return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
         return (source: VerbalContextmenuData) => {
-            var menuItems: ContextMenu = [];
+            const menuItems: ContextMenu = [];
             if (source.subjectIds) {
                 menuItems.push(['View Subjects', (itemScope, event) => {
                     resetVerbalAssociationCssClasses();
@@ -64,10 +64,11 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
         function resetVerbalAssociationCssClasses() {
             Object.keys(menuActionTargets)
                 .map(key => menuActionTargets[key])
-                .forEach($e =>
+                .forEach($e => {
                     Object.keys(verbalMenuCssClassMap)
-                        .map((k: string): string => verbalMenuCssClassMap[k])
-                        .forEach(cssClass => $e.removeClass(cssClass)));
+                        .map(key => verbalMenuCssClassMap[key])
+                        .forEach(cssClass => $e.removeClass(cssClass));
+                });
         }
     })({
         'View Subjects': 'subject-of-current',

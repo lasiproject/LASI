@@ -1,5 +1,4 @@
-﻿'use strict';
-import template from './phrase.html';
+﻿import template from './phrase.html';
 
 phrase.$inject = ['lexicalMenuBuilder'];
 export function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): angular.IDirective {
@@ -14,7 +13,7 @@ export function phrase(lexicalMenuBuilder: LexicalMenuBuilderFactory): angular.I
     };
 
     function link(scope: PhraseScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
-        var contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
+        const contextmenu = lexicalMenuBuilder.buildAngularMenu(scope.phrase.contextmenu);
         scope.phrase.hasContextmenuData = !!contextmenu;
         if (scope.phrase.hasContextmenuData) {
             (<any>scope.phrase).contextmenu = contextmenu;

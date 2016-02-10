@@ -1,5 +1,3 @@
-'use strict';
-
 export class DocumentController {
     static $inject = ['$q', 'MockDocumentModelService'];
 

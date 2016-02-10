@@ -1,5 +1,3 @@
-'use strict';
-
 import { debugPanel } from './debug-panel';
 
 export default {

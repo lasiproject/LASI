@@ -1,5 +1,4 @@
-﻿'use strict';
-import { DocumentController } from './document.controller';
+﻿import { DocumentController } from './document.controller';
 import { documentModelService } from './document-model-service';
 import { resultsService } from './results-service';
 import { lexicalMenuBuilder } from './lexical-menu-builder';

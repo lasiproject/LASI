@@ -1,5 +1,4 @@
-﻿'use strict';
-documentsService.$inject = ['$http'];
+﻿documentsService.$inject = ['$http'];
 export function documentsService($http: ng.IHttpService): DocumentsService {
     function getbyId(documentId) {
         return $http.get<DocumentListItem>(`/api/UserDocuments/${documentId}`);

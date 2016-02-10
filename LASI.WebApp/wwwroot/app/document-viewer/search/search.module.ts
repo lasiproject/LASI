@@ -1,5 +1,4 @@
-﻿'use strict';
-import * as angularBootstrap from 'angular-bootstrap';
+﻿import * as angularBootstrap from 'angular-bootstrap';
 import { searchBox } from './search-box';
 
 export default {

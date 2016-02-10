@@ -1,41 +1,37 @@
-'use strict';
-
 export function buildMenus() {
-    var contextualElementIdSelectors = [];
-    var verbalMenuTextToElementsMap = {
+    const contextualElementIdSelectors = [];
+    const verbalMenuTextToElementsMap = {
         'View Subjects': 'subjects',
         'View Direct Objects': 'directObjects',
         'View Indirect Objects': 'indirectObjects'
     };
-    var relationshipCssClassNameMap = {
+    const relationshipCssClassNameMap = {
         'View Subjects': 'subject-of-current',
         'View Direct Objects': 'direct-object-of-current',
         'View Indirect Objects': 'indirect-object-of-current'
     };
     return function () {
-        var forVerbal = function (context) {
+        const forVerbal = function (context) {
 
-            var menu = JSON.parse($('#context' + context[0].id).text());
-            var subjects = menu.subjects,
+            const menu = JSON.parse($('#context' + context[0].id).text());
+            const subjects = menu.subjects,
                 directObjects = menu.directObjects,
                 indirectObjects = menu.indirectObjects;
-            var temp = {
+            const temp = {
                 subjects: subjects,
                 directObjects: directObjects,
                 indirectObjects: indirectObjects
             }, result = {};
-            Object.keys(temp)
-                .filter(function (key) { return temp[key]; })
-                .forEach(function (key) { result[key] = temp[key]; });
+            Object.keys(temp).filter(key => temp[key]).forEach(key => result[key] = temp[key]);
             return result;
-        }, forReferencer = function (context) {
-            var menu = JSON.parse($('#context' + context[0].id).text());
-            return menu;
         };
+
+        const forReferencer = context => JSON.parse($('#context' + context[0].id).text());
+
         $('span.referencer').contextmenu({
             target: '#referencer-context-menu',
             before: function (event, context) {
-                var data = forReferencer(context);
+                const data = forReferencer(context);
                 event.target.lexicalContextMenu = data;
                 return data.referredTo && data.referredTo.length > 0;
             },
@@ -45,17 +41,17 @@ export function buildMenus() {
                     .forEach($e => $e.css('background-color', 'red'));
             }
         });
+
         $('span.verbal').contextmenu({
             target: '#verbal-context-menu',
             before: function (e, context) {
-
-                var count = 0;
-                var menu = forVerbal(context);
+                let count = 0;
+                const menu = forVerbal(context);
                 e.target.lexicalContextMenu = {};
                 Object.keys(menu).forEach(function (key) {
                     e.target.lexicalContextMenu[key] = menu[key].map(function (id) {
-                        var idSelector = '#' + id;
-                        if (!contextualElementIdSelectors.some(function (e) { return e === idSelector; })) {
+                        const idSelector = '#' + id;
+                        if (!contextualElementIdSelectors.some(e => e === idSelector)) {
                             contextualElementIdSelectors.push(idSelector);
                         }
                         return idSelector;
@@ -76,11 +72,11 @@ export function buildMenus() {
                 return count > 0;
             },
             onItem: function (context, event) {
-                var menu = context[0].lexicalContextMenu;
+                const menu = context[0].lexicalContextMenu;
                 contextualElementIdSelectors
-                    .flatMap(function (e) { return $(e).toArray(); }, $)
-                    .forEach(function (e) {
-                        Object.keys(relationshipCssClassNameMap).forEach(function (key) {
+                    .flatMap(e => $(e).toArray(), $)
+                    .forEach(e => {
+                        Object.keys(relationshipCssClassNameMap).forEach(key => {
                             e.removeClass(relationshipCssClassNameMap[key]);
                         });
                     });

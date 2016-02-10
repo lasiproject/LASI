@@ -1,6 +1,6 @@
-﻿'use strict';
-import ngf = angular.angularFileUpload;
-var log = console.log.bind(console);
+﻿import ngf = angular.angularFileUpload;
+const log = console.log.bind(console);
+
 export class UploadController {
     static $inject = ['$scope', '$q', 'Upload'];
 
@@ -11,12 +11,12 @@ export class UploadController {
     }
 
     uploadFiles() {
-        var files = this.files;
+        const files = this.files;
         this.logInvalidFiles();
         return this.$q.when((Array.isArray(files) ? files : [files]).map(file => this.uploadFile(file)));
     }
     logInvalidFiles() {
-        var files = this.files;
+        const files = this.files;
         (Array.isArray(files) ? files : [files]).filter(file => UploadController.formats.every(format => file.type.localeCompare(format) !== 0))
             .map(file => `File ${file.name} has unaccepted format ${file.type}`)
             .forEach(log);
@@ -36,7 +36,7 @@ export class UploadController {
     }
 
     removeFile(file: File, index: number) {
-        var files = this.files;
+        const files = this.files;
         this.files = (Array.isArray(files) ? files : [files]).filter(f => f.name !== file.name);
         $('#file-upload-list').remove(`#upload-list-item-${index}`);
     }

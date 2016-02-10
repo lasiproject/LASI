@@ -1,5 +1,4 @@
-﻿'use strict';
-import template from './document-list-menu-item.html';
+﻿import template from './document-list-menu-item.html';
 
 export function documentListMenuItem(): angular.IDirective {
     return {
@@ -31,7 +30,7 @@ class Controller {
         event.stopPropagation();
         this.showProgress = true;
 
-        var promise = this.resultsService.processDocument(this.documentId, this.name)
+        this.resultsService.processDocument(this.documentId, this.name)
             .then(() => this.analysisProgress = this.resultsService.tasks[this.documentId].percentComplete);
     }
 

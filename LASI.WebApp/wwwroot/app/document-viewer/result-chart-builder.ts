@@ -1,11 +1,8 @@
-/// <reference path="./../../../typings/jquery/jquery.d.ts" />
-
 export function enableActiveHighlighting() {
-    'use strict';
-    var enableActiveHighlighting = function () {
-        var phrasalTextSpans = $('span.phrase');
-        var highlightClass = 'active-phrase-highlight';
-        var recolor = function () {
+    const enableActiveHighlighting = function () {
+        const phrasalTextSpans = $('span.phrase');
+        const highlightClass = 'active-phrase-highlight';
+        const recolor = function () {
             phrasalTextSpans.each(function () {
                 $(this).removeClass(highlightClass);
             });

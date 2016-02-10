@@ -1,6 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="./models.d.ts" />
-'use strict';
 import 'core-js';
 import 'font-awesome';
 import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
@@ -32,9 +31,8 @@ import configureStates from './configuration/router';
 import configureHttp from './configuration/http';
 import run from './startup';
 
-
 // Define the primary 'app' module, specifying all top level dependencies.
-var app: NgModuleConfig = {
+const app: NgModuleConfig = {
     name: 'app',
     requires: [
         'ui.router', 'ui.bootstrap.modal', 'formly', 'formlyBootstrap', 'ngMessages',
@@ -55,7 +53,7 @@ function tasks(tasksListService: TasksListService) {
         .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
 }
 
-var modules = [app];
+const modules = [app];
 
 
 function bootstrap() {

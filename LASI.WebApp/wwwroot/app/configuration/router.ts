@@ -1,4 +1,3 @@
-'use strict';
 import mainTemplate from 'app/main.html';
 import MainController from 'app/main';
 import homeTemplate from 'app/sections/home.html';

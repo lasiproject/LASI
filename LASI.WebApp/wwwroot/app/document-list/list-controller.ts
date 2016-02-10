@@ -1,5 +1,4 @@
-﻿'use strict';
-export default class ListController {
+﻿export default class ListController {
     static $inject = ['documentListService', 'documentsService', 'documentModelService', 'tasksListService'];
 
     private documents: DocumentListItem[] = [];
@@ -16,9 +15,9 @@ export default class ListController {
     }
 
     deleteById(id: string) {
-        var deleteResult = this.documentsService.deleteById(id);
+        const deleteResult = this.documentsService.deleteById(id);
         console.log(deleteResult);
-        this.documentListService.get().then(documents=> this.documents = documents);
+        this.documentListService.get().then(documents => this.documents = documents);
     }
     get documentCount() {
         return this.documents.length;
@@ -33,13 +32,13 @@ export default class ListController {
     }
 
     activate() {
-        var documentPromise = this.documentListService.get()
+        const documentPromise = this.documentListService.get()
             .then(documents => this.documents = documents)
             .then(documents => this.taskListService.getActiveTasks()).then(tasks => this.tasks = tasks)
             .then(tasks => ({ documents: this.documents, tasks }))
             .then(({ documents, tasks }) => tasks.map(task => {
+                const document = documents.first(d => d.name === task.name);
                 this.taskListService[task.id] = task;
-                var document = documents.first(d => d.name === task.name);
                 if (document) {
                     document.task = task;
                 }
@@ -47,14 +46,16 @@ export default class ListController {
             }));
         return documentPromise.then(data => {
 
-            let associated = this.documents.correlate(this.tasks.filter(t => !!t), document => document.id, task => task.id,
+            this.documents.correlate(this.tasks.filter(task => !!task), document => document.id, task => task.id,
                 (document, task) => {
                     document.showProgress = task.state === 'Ongoing' || task.state === 'Complete';
                     document.progress = Math.round(task.percentComplete);
                     document.statusMessage = task.statusMessage;
                 });
 
-            this.tasks.forEach(task => { this.taskListService[task.id] = task; });
+            this.tasks.forEach(task => {
+                this.taskListService[task.id] = task;
+            });
         });
 
     }

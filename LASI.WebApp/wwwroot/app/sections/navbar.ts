@@ -1,4 +1,3 @@
-'use strict';
 import template from './navbar.html';
 import controller from './navbar.controller';
 
@@ -8,9 +7,9 @@ export function navbar(): ng.IDirective {
         scope: true,
         controller,
         controllerAs: 'navbar',
+        template,
         bindToController: {
             user: '='
-        },
-        template,
+        }
     };
 }

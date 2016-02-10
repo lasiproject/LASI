@@ -1,5 +1,4 @@
-﻿ 'use strict';
-import { UploadController as controller } from './upload.controller';
+﻿import { UploadController as controller } from './upload.controller';
 import template from './upload-panel.html';
 
 uploadPanel.$inject = ['$window'];

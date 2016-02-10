@@ -1,6 +1,4 @@
-﻿'use strict';
-
-import { documentsService } from './documents-service';
+﻿import { documentsService } from './documents-service';
 import { DocumentListServiceProvider } from './document-list-service-provider';
 import { tasksListServiceProvider } from './tasks-list-service-provider';
 import { documentListMenuItem } from './document-list-menu-item';

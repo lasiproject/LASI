@@ -1,9 +1,7 @@
-﻿'use strict';
-
-export function tasksListServiceProvider(): TasksListServiceProvider {
-    var updateInterval = 200;
-    var tasksListUrl = '/api/Tasks';
-    var tasks: Task[] = [];
+﻿export function tasksListServiceProvider(): TasksListServiceProvider {
+    let updateInterval = 200;
+    let tasksListUrl = '/api/Tasks';
+    let tasks: Task[] = [];
 
     $get.$inject = ['$q', '$http', '$interval', 'UserService'];
 
@@ -24,12 +22,13 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
     }
 
     function $get($q: ng.IQService, $http: ng.IHttpService, $interval: ng.IIntervalService, userService: UserService): TasksListService {
-        var { resolve, reject, promise } = $q.defer<Task[]>();
+        const { resolve, reject, promise } = $q.defer<Task[]>();
+
         return {
             tasks,
             getActiveTasks() {
                 if (userService.loggedIn) {
-                    var intervalPromise = $interval(() => {
+                    const intervalPromise = $interval(() => {
                         if (!userService.loggedIn) {
                             $interval.cancel(intervalPromise);
                         } else {
@@ -46,6 +45,7 @@ export function tasksListServiceProvider(): TasksListServiceProvider {
             }
         };
     }
+
     function createDebugInfoUpdator(element: JQuery): (tasks: Task[]) => JQuery {
         return tasks => element.html(tasks.map(task =>
             `<div>${Object.keys(task).map(key => `<span>&nbsp&nbsp${task[key]}</span>`)}</div>`

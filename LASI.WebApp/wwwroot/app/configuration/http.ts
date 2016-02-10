@@ -1,4 +1,3 @@
-'use strict';
 import TokenService from 'app/token-service';
 
 configureHttp.$inject = ['$httpProvider'];

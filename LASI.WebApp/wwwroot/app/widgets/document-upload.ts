@@ -1,32 +1,32 @@
 var LASI = (function (LASI) {
     'use strict';
     LASI.validateFileExtension = (function () {
-        var accepted = Object.freeze(['.txt', '.docx', '.pdf', 'doc']);
+        const accepted = Object.freeze(['.txt', '.docx', '.pdf', 'doc']);
         return function (fileName) {
-            var extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+            const extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
             return accepted.some(function (ext) {
                 return ext === extension;
             });
         };
     })();
     $(function () {
-        var $uploadList = $('#document-upload-list');
+        const $uploadList = $('#document-upload-list');
         LASI.$uploadList = $uploadList;
         $(document)
             .find('.btn-file :file')
             .change(function () {
-                var $input = $(this),
+                const $input = $(this),
                     fileCount = $uploadList.find('span.file-index').length,
                     files = (<HTMLInputElement>$input[0]).files;
                 LASI.files = files;
                 LASI.fileCount = fileCount;
-                var generateUploadListItemMarkup = function (file, index) {
-                    return '<div class="list-group-item text-left">' +
-                        '<span class="glyphicon glyphicon-remove remove-file"/>' +
-                        '&nbsp;&nbsp;&nbsp;<span class="file-index">' +
-                        [fileCount, index, 1].sum() +
-                        '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">' +
-                        file.name + '</span></div>';
+                const generateUploadListItemMarkup = function (file, index) {
+                    return `<div class="list-group-item text-left">
+                                <span class="glyphicon glyphicon-remove remove-file" />&nbsp;&nbsp;&nbsp;<span class="file-index">
+                                ${[fileCount, index, 1].sum()}
+                                </span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file-name">
+                                ${file.name}</span>
+                            </div>`;
                 },
                     label = $input.val().replace(/\\/g, '/').replace(/[.]*\//, '');
                 $(files).filter((index, element) => LASI.validateFileExtension((<HTMLInputElement>element).name))

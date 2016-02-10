@@ -1,17 +1,13 @@
-'use strict';
-
 import $ from 'jquery';
 import { UserService } from 'app/user-service';
 
 export default class LoginController {
     static $inject = ['$http', '$uibModal', '$state', 'UserService'];
-
     constructor(
         private $http: ng.IHttpService,
         private $uibModal: ng.ui.bootstrap.IModalService,
         private $state: ng.ui.IStateService,
-        private userService: UserService
-    ) {
+        private userService: UserService) {
         this.rememberMe = this.user && this.user.rememberMe;
     }
 

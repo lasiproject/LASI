@@ -1,6 +1,4 @@
-﻿'use strict';
-
-import navbarTemplate from './navbar.html';
+﻿import navbarTemplate from './navbar.html';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
 import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
 
@@ -15,11 +13,12 @@ export default class NavbarController {
     }
 
     activate() {
-        return this.documentListService.get().then(documents=> this.documents = documents);
+        return this.documentListService.get()
+            .then(documents => this.documents = documents);
     }
     openManageDocumentsModal() {
-        var navbarController = this;
-        var modal = this.$uibModal.open({
+        const navbarController = this;
+        const modal = this.$uibModal.open({
             controllerAs: 'manager',
             controller: ManageDocumentsModalController,
             template: manageDocumentsModalTemplate,

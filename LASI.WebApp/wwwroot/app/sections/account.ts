@@ -1,9 +1,7 @@
-﻿'use strict';
-import { UserService } from 'app/user-service';
+﻿import { UserService } from 'app/user-service';
 
 export default class AccountController {
     static $inject = ['UserService'];
-
     constructor(private userService: UserService) {
         this.activate();
     }

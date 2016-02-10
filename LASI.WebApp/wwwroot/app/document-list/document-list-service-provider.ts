@@ -1,9 +1,10 @@
-﻿'use strict';
-import { UserService } from 'app/user-service';
+﻿import { UserService } from 'app/user-service';
+
 export interface DocumentListServiceConfig {
     setRecentDocumentCount(count: number): DocumentListServiceConfig;
     setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
+
 export class DocumentListServiceProvider implements DocumentListServiceConfig, ng.IServiceProvider {
     private documentListUrl: string;
     private recentDocumentCount: number;
@@ -20,7 +21,7 @@ export class DocumentListServiceProvider implements DocumentListServiceConfig, n
     }
 
     $get($q: ng.IQService, $http: ng.IHttpService, userService: UserService): DocumentListService {
-        let [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
+        const [limit, listUrl] = [this.recentDocumentCount, this.documentListUrl];
         return {
             deleteDocument(documentId: string) {
                 if (userService.loggedIn) {

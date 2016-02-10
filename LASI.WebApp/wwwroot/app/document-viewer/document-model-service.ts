@@ -1,7 +1,4 @@
-﻿'use strict';
-
-documentModelService.$inject = ['$q', '$http'];
-
+﻿documentModelService.$inject = ['$q', '$http'];
 export function documentModelService($q: ng.IQService, $http: angular.IHttpService): DocumentModelService {
     return {
         processDocument(documentId) {

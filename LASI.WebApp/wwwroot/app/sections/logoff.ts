@@ -1,5 +1,4 @@
-﻿'use strict';
-import { UserService } from 'app/user-service';
+﻿import { UserService } from 'app/user-service';
 
 export function logoff(): ng.IDirective {
     return {
