@@ -35,7 +35,8 @@ import run from './startup';
 const app: NgModuleConfig = {
     name: 'app',
     requires: [
-        'ui.router', 'ui.bootstrap.modal', 'formly', 'formlyBootstrap', 'ngMessages',
+        'ui.router', 'ui.bootstrap.modal',
+        'formly', 'formlyBootstrap', 'ngMessages',
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],

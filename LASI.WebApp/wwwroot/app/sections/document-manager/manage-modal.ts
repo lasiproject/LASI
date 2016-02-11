@@ -1,7 +1,7 @@
-import confirmDeleteModalTemplate from 'app/sections/document-manager/confirm-delete-modal.html';
-import ConfirmDeleteModalController from 'app/sections/document-manager/confirm-delete-modal';
+import confirmDeleteModalTemplate from './confirm-delete-modal.html';
+import ConfirmDeleteModalController from './document-manager/confirm-delete-modal';
 
-export class ManageDocumentsModalController {
+export default class ManageDocumentsModalController {
     static $inject = ['$uibModalInstance', '$uibModal', 'documentsService', 'documents'];
     constructor(
         private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance,

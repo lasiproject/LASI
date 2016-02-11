@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { UserService } from 'app/user-service';
-
+import errorModalTemplate from 'app/widgets/error-modal.html';
 export default class LoginController {
     static $inject = ['$http', '$uibModal', '$state', 'UserService'];
     constructor(
@@ -22,24 +22,17 @@ export default class LoginController {
             return this.$state.go('app.home', {}, { reload: true });
         }).catch(error => {
             return this.$uibModal.open({
+                bindToController: true,
                 controller: class {
                     static $inject = ['$uibModalInstance'];
-                    error = error;
                     constructor(private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
                     }
+                    header = 'Login Failed';
+                    error = error;
                     ok() { this.$uibModalInstance.close(); return this.$uibModalInstance.result; }
                 },
                 controllerAs: 'modal',
-                template: `
-                        <div class="modal-header">
-                            <h3 class="modal-title">Login Failed</h3>
-                        </div>
-                        <div class="modal-body">
-                            {{modal.error}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" ng-click="modal.ok()">OK</button>
-                        </div>`
+                template: errorModalTemplate
             }).result;
         });
     }

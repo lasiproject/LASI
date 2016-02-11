@@ -1,6 +1,6 @@
 ﻿import navbarTemplate from './navbar.html';
 import manageDocumentsModalTemplate from 'app/sections/document-manager/manage-modal.html';
-import { ManageDocumentsModalController } from 'app/sections/document-manager/manage-modal';
+import ManageDocumentsModalController from 'app/sections/document-manager/manage-modal';
 
 export default class NavbarController {
     static $inject = ['$uibModal', 'documentListService'];
