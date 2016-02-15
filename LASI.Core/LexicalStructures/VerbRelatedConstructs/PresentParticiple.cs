@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -52,7 +53,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possessable)
         {
             possessions = possessions.Add(possessable);
-            possessable.Possesser = this;
+            possessable.Possesser = this.ToOption();
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the PresentParticiple.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>

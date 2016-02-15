@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -30,6 +31,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the possessing Entity which possesses through the Weak Possessor.
         /// </summary>
-        IPossesser PossessesFor { get; set; }
+        IOption<IPossesser> PossessesFor { get; set; }
     }
 }

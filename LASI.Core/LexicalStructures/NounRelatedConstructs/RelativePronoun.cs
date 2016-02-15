@@ -52,7 +52,7 @@ namespace LASI.Core
             }
             else {
                 possessions = possessions.Add(possession);
-                possession.Possesser = this;
+                possession.Possesser = this.ToOption();
             }
         }
         /// <summary>
@@ -111,7 +111,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the IEntity which can be said to "own" the RelativePronoun.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>

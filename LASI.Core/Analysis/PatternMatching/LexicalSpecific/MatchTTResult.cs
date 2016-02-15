@@ -140,6 +140,9 @@ namespace LASI.Core.Analysis.PatternMatching
             Matched = matched;
         }
 
+        [DebuggerStepThrough]
+        internal Match(Utilities.Option<T> optionalValue) : base(optionalValue) { }
+
         #endregion Constructors
 
         #region When Expressions
@@ -157,6 +160,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// followed by a single Then expression.
         /// </returns>
         public PredicatedMatch<T, TResult> When(Func<T, bool> predicate) => new PredicatedMatch<T, TResult>(predicate(Value), this);
+
         /// <summary>
         /// Appends a When expression to the current pattern. This applies a predicate to the value
         /// being matched such that the subsequent Then expression will only be chosen if the
@@ -227,7 +231,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical
         {
-            if (!Matched && Value is TCase)
+            if (!UnMatchable && !Matched && Value is TCase)
             { // Despite the nullary func, TCase must match.
                 result = func();
                 Matched = true;
@@ -251,7 +255,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical
         {
-            if (!Matched)
+            if (!UnMatchable && !Matched)
             {
                 var cast = Value as TCase;
                 if (cast != null)
@@ -298,7 +302,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical
         {
-            if (!Matched && Value is TPattern)
+            if (!UnMatchable && !Matched && Value is TPattern)
             {
                 this.result = result;
                 Matched = true;
@@ -359,7 +363,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(Func<T, TResult> func)
         {
-            if (Value != null && !Matched)
+            if (!UnMatchable && !Matched)
             {
                 result = func(Value);
                 Matched = true;

@@ -32,10 +32,10 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
-            PossessesFor = PossessesFor ?? PreviousWord as IEntity;
-            if (PossessesFor != null)
+            PossessesFor = PossessesFor ?? (PreviousWord as IEntity).ToOption();
+            if (PossessesFor.IsSome)
             {
-                PossessesFor.AddPossession(possession);
+                PossessesFor.Match().Case(e => e.AddPossession(possession));
             }
             possessions = possessions.Add(possession);
         }
@@ -51,7 +51,7 @@ namespace LASI.Core
         /// Gets or sets the possessing the Entity the PosssessiveEnding is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is transferred to the target Entity.
         /// </summary>
-        public IPossesser PossessesFor
+        public IOption<IPossesser> PossessesFor
         {
             get
             {
@@ -62,7 +62,7 @@ namespace LASI.Core
                 possessesFor = value;
                 if (value != null)
                     foreach (var possession in possessions)
-                        possessesFor.AddPossession(possession);
+                        possessesFor.Match().Case(x => x.AddPossession(possession));
             }
         }
 
@@ -80,7 +80,7 @@ namespace LASI.Core
         #region Fields
 
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IPossesser possessesFor;
+        private IOption<IPossesser> possessesFor;
 
         #endregion
 

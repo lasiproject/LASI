@@ -67,7 +67,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possesser = this.ToOption();
         }
         /// <summary>
         /// Returns a string representation of the NounPhrase.
@@ -112,7 +112,7 @@ namespace LASI.Core
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
-                Possesser != null ? "\nPossessed By: " + Possesser.Text : empty,
+                Possesser.Match().Case((ILexical c) => $"\nPossessed By: {c.Text}").Result(empty),
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
@@ -166,7 +166,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
-        public IPossesser Possesser
+        public IOption<IPossesser> Possesser
         {
             get { return possessor; }
             set
@@ -177,7 +177,7 @@ namespace LASI.Core
                 {
                     foreach (var entity in Words.OfEntity())
                     {
-                        value.AddPossession(entity);
+                        value.Match().Case((IEntity e) => e.AddPossession(entity));
                     }
                 }
                 else
@@ -244,7 +244,7 @@ namespace LASI.Core
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private IPossesser possessor;
+        private IOption<IPossesser> possessor = Option.None<IPossesser>();
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;
         private IVerbal subjectOf;

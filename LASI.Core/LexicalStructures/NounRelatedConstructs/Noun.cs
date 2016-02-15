@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -65,7 +66,7 @@ namespace LASI.Core
         public virtual void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possesser = this.ToOption();
         }
 
         /// <summary>
@@ -132,11 +133,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IPossesser Possesser
-        {
-            get { return possessor is IWeakPossessor ? (possessor as IWeakPossessor).PossessesFor ?? possessor : possessor; }
-            set { possessor = value; }
-        }
+        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity; of the Noun.
@@ -193,7 +190,6 @@ namespace LASI.Core
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
         private IQuantifier quantity;
-        private IPossesser possessor;
 
         #endregion Fields
 

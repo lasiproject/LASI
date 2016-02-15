@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -179,6 +180,9 @@ namespace LASI.Core
         /// specified ILexical value.
         /// </returns>
         public static Match<TValue> Match<TValue>(this TValue value) where TValue : class, ILexical => new Match<TValue>(value);
+
+        public static Match<TValue> Match<TValue>(this IOption<TValue> optionalValue) where TValue : class, ILexical => new Match<TValue>(optionalValue);
+
         /// <summary>
         /// Matches a value against a single case and immediately returns the result.
         /// </summary>
@@ -191,6 +195,7 @@ namespace LASI.Core
         public static TResult Match<TValue, TCase, TResult>(this TValue value, Func<TCase, TResult> pattern)
             where TValue : class, ILexical
             where TCase : class, ILexical => value.Match().Case(pattern).Result();
+
         /// <summary>
         /// Matches a value against two case patterns and immediately returns the result.
         /// </summary>
@@ -206,6 +211,7 @@ namespace LASI.Core
             where TValue : class, ILexical
             where T1 : class, ILexical
             where T2 : class, ILexical => value.Match().Case(p1).Case(p2).Result();
+
         /// <summary>
         /// Matches a value against three case patterns and immediately returns the result.
         /// </summary>
@@ -224,6 +230,7 @@ namespace LASI.Core
             where T1 : class, ILexical
             where T2 : class, ILexical
             where T3 : class, ILexical => value.Match().Case(p1).Case(p2).Case(p3).Result();
+
         /// <summary>
         /// Matches a value against four case patterns and immediately returns the result.
         /// </summary>
@@ -245,6 +252,7 @@ namespace LASI.Core
             where T2 : class, ILexical
             where T3 : class, ILexical
             where T4 : class, ILexical => value.Match().Case(p1).Case(p2).Case(p3).Case(p4).Result();
+
         /// <summary>
         /// Matches a value against five case patterns and immediately returns the result.
         /// </summary>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using LASI.Utilities;
 
 namespace LASI.Core.Binding
 {
@@ -33,7 +33,7 @@ namespace LASI.Core.Binding
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns)
                 {
-                    pro.PossessesFor = new AggregateEntity(vp.Subjects);
+                    pro.PossessesFor = new AggregateEntity(vp.Subjects).ToOption();
                 }
             }
         }

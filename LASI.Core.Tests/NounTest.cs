@@ -124,10 +124,10 @@ namespace LASI.Core.Tests
         {
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
-            IPossesser actual;
-            target.Possesser = expected;
-            actual = target.Possesser;
-            Check.That(actual).IsEqualTo(expected);
+
+            target.Possesser = expected.ToOption();
+            var actual = target.Possesser;
+            Check.That(actual).IsEqualTo(expected);//).IsTrue();
         }
 
         /// <summary>

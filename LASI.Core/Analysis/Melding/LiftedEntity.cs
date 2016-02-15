@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Melding
 {
@@ -51,7 +52,7 @@ namespace LASI.Core.Analysis.Melding
         public void AddPossession(IPossessable possession)
         {
             possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possesser = this.ToOption();
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace LASI.Core.Analysis.Melding
         public IEnumerable<IPossessable> Possessions => possessions;
 
         public EntityKind EntityKind => avatar.EntityKind;
-        
+
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the subject of.
         /// </summary>
@@ -113,7 +114,7 @@ namespace LASI.Core.Analysis.Melding
         }
 
 
-        public IPossesser Possesser { get; set; }
+        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         public string Text => avatar.Text;
 

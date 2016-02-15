@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -14,6 +15,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which has been inferred as the "owner" of the IPossessable.
         /// </summary>
-        IPossesser Possesser { get; set; }
+        IOption<IPossesser> Possesser { get; set; }
     }
 }

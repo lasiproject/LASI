@@ -57,7 +57,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this;
+            possession.Possesser = this.ToOption();
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the aggregate entity.
@@ -152,7 +152,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>
-        public IPossesser Possesser { get; set; }
+        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// A textual representation of the aggregate entity.
         /// </summary>

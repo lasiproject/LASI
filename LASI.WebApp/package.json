@@ -1,5 +1,5 @@
 {
-  "name": "LASI.WebApp",
+  "name": "lasi.web-app",
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
@@ -27,13 +27,13 @@
       "baseURL": "wwwroot"
     },
     "dependencies": {
-      "angular": "npm:angular@^1.4.9",
+      "angular": "npm:angular@1.5.0",
       "angular-bootstrap": "github:angular-ui/bootstrap-bower@1.1.2",
       "angular-bootstrap-contextmenu": "github:Templarian/ui.bootstrap.contextMenu@^0.9.4",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^10.1.8",
       "angular-formly": "npm:angular-formly@^7.5.0",
       "angular-formly-templates-bootstrap": "npm:angular-formly-templates-bootstrap@^6.2.0",
-      "angular-messages": "npm:angular-messages@^1.4.9",
+      "angular-messages": "npm:angular-messages@^1.5.0",
       "angular-ui-router": "npm:angular-ui-router@^0.2.17",
       "api-check": "npm:api-check@^7.5.5",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",

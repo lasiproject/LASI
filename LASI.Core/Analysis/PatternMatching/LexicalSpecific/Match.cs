@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -98,6 +99,9 @@ namespace LASI.Core.Analysis.PatternMatching
         [DebuggerStepThrough]
         internal Match(T value) : base(value) { }
 
+        [DebuggerStepThrough]
+        internal Match(IOption<T> value) : base(value) { }
+
         #endregion Constructors
 
         #region Expression Transformations
@@ -195,17 +199,24 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
         {
-            if (Value != null)
+            if (Value != null && !Matched)
             {
-                if (!Matched)
+                var matched = Value as TCase;
+                if (matched != null)
                 {
-                    var matched = Value as TCase;
-                    if (matched != null)
-                    {
-                        Matched = true;
-                        action(matched);
-                    }
+                    Matched = true;
+                    action(matched);
                 }
+            }
+            return this;
+        }
+
+        public Match<T> Case(Action<T> action)
+        {
+            if (Value != null && !Matched)
+            {
+                Matched = true;
+                action(Value);
             }
             return this;
         }
@@ -221,7 +232,9 @@ namespace LASI.Core.Analysis.PatternMatching
         public void Default(Action action)
         {
             if (!Matched)
+            {
                 action();
+            }
         }
 
         /// <summary>

@@ -28,9 +28,9 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
-            if (PossessesFor != null)
+            if (PossessesFor.IsSome)
             {
-                PossessesFor.AddPossession(possession);
+                PossessesFor.Match().Case(e => e.AddPossession(possession));
             }
             possessions = possessions.Add(possession);
         }
@@ -39,7 +39,10 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A string representation of the PossessivePronoun.</returns>
         public override string ToString() =>
-            base.ToString() + (VerboseOutput && possessesFor != null ? $"\nSignifying {PossessesFor.Text} as possessing {Possessions.Format(e => e.Text)}" : string.Empty);
+            base.ToString() + PossessesFor.Match()
+                .When(VerboseOutput)
+                .Then(e => $"\nSignifying {e.Text} as possessing {Possessions.Format(x => x.Text)}")
+                .Result(string.Empty);
 
         /// <summary>
         /// Gets all of the IEntity constructs which the Entity "owns".
@@ -49,7 +52,7 @@ namespace LASI.Core
         /// Gets or sets the possessor which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
-        public virtual IPossesser PossessesFor
+        public virtual IOption<IPossesser> PossessesFor
         {
             get
             {
@@ -58,19 +61,16 @@ namespace LASI.Core
             set
             {
                 possessesFor = value;
-                if (value != null)
+                foreach (var possession in possessions)
                 {
-                    foreach (var possession in possessions)
-                    {
-                        possessesFor.AddPossession(possession);
-                    }
+                    possessesFor.Match().Case(e => e.AddPossession(possession));
                 }
             }
         }
 
         #region Fields
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IPossesser possessesFor;
+        private IOption<IPossesser> possessesFor = Option.None<IPossesser>();
         #endregion Fields
     }
 }

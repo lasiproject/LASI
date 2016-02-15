@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching
 {
@@ -26,7 +27,14 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="value">The value to match against.</param>
         protected MatchBase(T value)
         {
+            UnMatchable = value == null;
             Value = value;
+        }
+
+        protected MatchBase(IOption<T> optionalValue)
+        {
+            UnMatchable = optionalValue.IsNone;
+            Value = optionalValue.IsSome ? optionalValue.Value : null;
         }
 
         #region Properties
@@ -34,10 +42,13 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Gets or sets the value indicating if a match was found or if the default value will be yielded by the Result method.
         /// </summary>
         protected bool Matched { get; set; }
+
         /// <summary>
         /// Gets or sets the value being matched against.
         /// </summary>
-        protected T Value { get; set; }
+        protected T Value { get; }
+
+        protected bool UnMatchable { get; }
         #endregion
     }
 }
