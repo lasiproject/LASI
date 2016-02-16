@@ -1,5 +1,5 @@
 import confirmDeleteModalTemplate from './confirm-delete-modal.html';
-import ConfirmDeleteModalController from './document-manager/confirm-delete-modal';
+import ConfirmDeleteModalController from './/confirm-delete-modal';
 
 export default class ManageDocumentsModalController {
     static $inject = ['$uibModalInstance', '$uibModal', 'documentsService', 'documents'];

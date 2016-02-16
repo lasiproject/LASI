@@ -142,7 +142,7 @@ namespace LASI.WebApp
             app.UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
-                   options.AutomaticAuthentication = false;
+                   //options.AutomaticAuthentication = false;
                })
                .UseJwtBearerAuthentication(options =>
                {

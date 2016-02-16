@@ -9,4 +9,5 @@
 /// <reference path="angular-ui-router/angular-ui-router.d.ts" />
 /// <reference path="core-js/core-js.d.ts" />
 /// <reference path="angular-formly/angular-formly.d.ts" />
+/// <reference path="angular-bootstrap-contextmenu/angular-bootstrap-contextMenu.d.ts" />
 
