@@ -1,0 +1,9 @@
+﻿<div class="{{documentViewer.document.style.cssClass}}">
+
+    <div>title: {{documentViewer.document.title}}</div>
+    <div>
+        <paragraph paragraph="paragraph"
+                   parent-id="document.id"
+                   ng-repeat="paragraph in documentViewer.document.paragraphs" />
+    </div>
+</div>

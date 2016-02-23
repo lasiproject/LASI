@@ -15,7 +15,7 @@ System.config({
     "inlineSourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalAsyncFunctions": false,
+    "experimentalAsyncFunctions": true,
     "typeCheck": false
   },
   paths: {
@@ -28,9 +28,6 @@ System.config({
       "main": "app",
       "defaultExtension": "ts",
       "meta": {
-        "*.html": {
-          "loader": "text"
-        },
         "*.js": {
           "loader": "ts"
         }
@@ -52,6 +49,9 @@ System.config({
     },
     "*.css": {
       "loader": "css"
+    },
+    "*.html": {
+      "loader": "text"
     }
   },
 
@@ -69,23 +69,23 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "clean-css": "npm:clean-css@3.4.9",
-    "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
     "font-awesome": "npm:font-awesome@4.5.0",
     "jquery": "github:components/jquery@2.2.0",
     "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0",
     "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.5",
+    "less-runtime": "npm:babel-runtime@5.8.35",
     "plugin-typescript": "npm:babel-core@5.8.35",
     "plugin-typescript-runtime": "npm:babel-runtime@5.8.35",
     "qunit": "github:jquery/qunit@1.21.0",
     "text": "github:systemjs/plugin-text@0.0.2",
     "ts": "github:frankwallis/plugin-typescript@2.5.11",
-    "typescript": "npm:typescript@1.8.0",
+    "typescript": "npm:typescript@1.8.2",
     "github:aspnet/jquery-validation-unobtrusive@3.2.5": {
       "jquery-validation": "github:jzaefferer/jquery-validation@1.14.0"
     },
     "github:frankwallis/plugin-typescript@2.5.11": {
-      "typescript": "npm:typescript@1.8.0"
+      "typescript": "npm:typescript@1.8.2"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -126,7 +126,7 @@ System.config({
       "util": "npm:util@0.10.3"
     },
     "github:jzaefferer/jquery-validation@1.14.0": {
-      "jquery": "npm:jquery@2.2.0"
+      "jquery": "npm:jquery@2.2.1"
     },
     "github:twbs/bootstrap@3.3.6": {
       "jquery": "github:components/jquery@2.2.0"
@@ -191,12 +191,6 @@ System.config({
       "graceful-readlink": "npm:graceful-readlink@1.0.1",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:core-js@1.2.6": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"

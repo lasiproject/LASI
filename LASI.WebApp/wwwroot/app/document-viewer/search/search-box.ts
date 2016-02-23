@@ -1,16 +1,12 @@
 ﻿import controller from './search-box.controller';
 import template from './search-box.html';
 
-export function searchBox(): angular.IDirective {
-    return {
-        restrict: 'E',
-        scope: true,
-        controller,
-        controllerAs: 'search',
-        template,
-        bindToController: {
-            searchContext: '=',
-            find: '='
-        }
-    };
-}
+export const searchBox: ng.IComponentOptions = {
+    controller,
+    controllerAs: 'search',
+    template,
+    bindings: {
+        searchContext: '=',
+        find: '='
+    }
+};

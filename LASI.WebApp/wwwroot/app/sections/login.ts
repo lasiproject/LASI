@@ -29,7 +29,10 @@ export default class LoginController {
                     }
                     header = 'Login Failed';
                     error = error;
-                    ok() { this.$uibModalInstance.close(); return this.$uibModalInstance.result; }
+                    ok() {
+                        this.$uibModalInstance.close();
+                        return this.$uibModalInstance.result;
+                    }
                 },
                 controllerAs: 'modal',
                 template: errorModalTemplate

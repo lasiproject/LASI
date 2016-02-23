@@ -13,7 +13,6 @@ export default function configureHttp($httpProvider: ng.IHttpProvider & { defaul
                 config.withCredentials = true;
                 if (tokenService.token) {
                     config.headers.Authorization = `Bearer ${tokenService.token}`;
-
                 }
                 config.headers.Scheme = 'Bearer';
                 config.headers['WWW-Authenticate'] = 'Bearer';

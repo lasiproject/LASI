@@ -8,7 +8,7 @@
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noEmit": true,
-        "experimentalAsyncFunctions": false,
+        "experimentalAsyncFunctions": true,
         "diagnostics": true,
         "watch": false,
         "experimentalDecorators": true,

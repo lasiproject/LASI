@@ -27,7 +27,7 @@ namespace LASI.WebApp.Controllers
         //
         // GET: /Account/Index
         [HttpGet("account")]
-        public async Task<dynamic> Get(ManageMessageId? message = null)
+        public async Task<IActionResult> Get(ManageMessageId? message = null)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -45,7 +45,7 @@ namespace LASI.WebApp.Controllers
 
             if (user == null)
             {
-                return Task.FromResult(HttpUnauthorized());
+                return HttpUnauthorized();
             }
             var model = new IndexViewModel
             {
@@ -56,7 +56,7 @@ namespace LASI.WebApp.Controllers
                 BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user),
                 Email = await UserManager.GetEmailAsync(user),
             };
-            return model;
+            return Ok(model);
         }
         [HttpPost("account")]
         public async Task<IndexViewModel> Post([FromBody]IndexViewModel details)

@@ -1,0 +1,10 @@
+﻿<!--TODO: Merge tooltip and context menu into a unified, touch capable control-->
+<span ng-if="phrase.phrase.hasContextmenuData" 
+      id="{{phrase.phrase.id}}"
+      class="phrase {{phrase.phrase.style.cssClass}}"
+      uib-tooltip="{{phrase.phrase.detailText}}"
+      context-menu="phrase.phrase.contextmenu">{{phrase.phrase.text}}</span>
+<span ng-if="!phrase.phrase.hasContextmenuData" 
+      id="{{phrase.phrase.id}}"
+      class="phrase {{phrase.phrase.style.cssClass}}"
+      uib-tooltip="{{phrase.phrase.detailText}}">{{phrase.phrase.text}}</span><span> </span>

@@ -142,7 +142,7 @@ namespace LASI.WebApp
             app.UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
-                   //options.AutomaticAuthentication = false;
+                   options.AutomaticAuthentication = false;
                })
                .UseJwtBearerAuthentication(options =>
                {
@@ -177,7 +177,10 @@ namespace LASI.WebApp
                          .AllowCredentials()
                          .WithExposedHeaders("Access-Control-Allow-Origin");
                })
-               .UseStaticFiles()
+               .UseStaticFiles(new Microsoft.AspNet.StaticFiles.StaticFileOptions
+               {
+                   ServeUnknownFileTypes = true,
+               })
                .UseIdentity()
                .UseMvc(routes =>
                {

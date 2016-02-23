@@ -491,3 +491,73 @@ li menuitem {
 input[type=text]::-ms-clear {
     display: none;
 }
+
+.documentselectiontab {
+    margin: 5em;
+    outline-color: azure;
+    list-style-type: none;
+}
+
+.document {
+    padding: 10px;
+    text-wrap: normal !important;
+    text-align: left !important;
+    text-space-collapse: preserve-breaks !important;
+    text-indent: each-line !important;
+}
+
+.page {
+}
+
+.paragraph {
+    text-indent: each-line !important;
+}
+
+.sentence {
+    text-wrap: normal !important;
+}
+
+.lexical-content-block span.selected {
+    background-color: black;
+    padding: 10px;
+    color: silver;
+    border: none;
+}
+
+.lexical-content-block span.paragraph {
+    text-indent: each-line;
+}
+
+.documentlist {
+    border: 1px;
+    border-color: tan;
+    clear: right;
+}
+
+.break-after {
+    -webkit-break-after: always;
+    break-after: always;
+}
+
+
+/*#region info and errors */
+.error {
+    float: none;
+    padding-left: .5em;
+    color: red;
+    vertical-align: top;
+}
+
+.validation-summary-errors {
+    width: 220px;
+    color: red;
+    list-style: none;
+    font-size: .8em;
+}
+
+.validation-summary-errors ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/*#endregion */

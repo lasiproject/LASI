@@ -4,5 +4,5 @@ import { searchBox } from './search-box';
 export default {
     name: 'documentViewer.search',
     requires: ['ui.bootstrap.typeahead'],
-    directives: { searchBox }
+    components: { searchBox }
 } as NgModuleConfig;

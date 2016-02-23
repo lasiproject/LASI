@@ -41,7 +41,7 @@ declare interface DocumentListServiceConfig {
 declare interface ResultsService {
     tasks: Task[];
     processDocument(documentId: string, documentName: string): ng.IPromise<DocumentModel>;
-    getTasksForDocument(id: string):ng.IPromise<Task[]>;
+    getTasksForDocument(id: string): ng.IPromise<Task[]>;
 }
 
 declare interface Credentials {
@@ -130,7 +130,7 @@ declare interface LexicalContextmenuData {
 }
 
 declare interface VerbalContextmenuData extends LexicalContextmenuData {
-       
+
     /**
      * The ids of any subjects.
      */
@@ -161,11 +161,12 @@ declare interface User extends Credentials {
     password: string;
     documents: any[];
 }
- 
+
 /**
  @function A trait which decsribes a functions whose $inject property is required.
 */
 declare type FunctionMap = { [name: string]: Function };
+declare type ComponentMap = { [name: string]: ng.IComponentOptions };
 declare type ConstructorMap = { [name: string]: new (...args) => any };
 declare type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
 
@@ -179,11 +180,12 @@ declare type NgModuleConfig = {
     requires: (string | NgModuleConfig)[];
     configs?: Function[];
     runs?: Function[];
+    directives?: FunctionMap;
+    components?: ComponentMap;
     values?: FunctionMap;
     constants?: FunctionMap;
     filters?: FunctionMap;
     controllers?: ConstructorMap;
-    directives?: FunctionMap;
     factories?: FunctionMap;
     services?: ConstructorMap;
     providers?: FunctionOrConstructorMap;

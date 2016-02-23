@@ -1,9 +1,8 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="./models.d.ts" />
-import 'core-js';
-import 'font-awesome';
-import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
 import 'dist/app.css!';
+import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
+import 'font-awesome';
 import 'bootstrap';
 import 'angular';
 import 'angular-ui-router';
@@ -40,7 +39,7 @@ const app: NgModuleConfig = {
         debug, widgets, documentList, documentUpload,
         documentViewer, documentViewerSearch
     ],
-    directives: { navbar, logoff },
+    components: { navbar, logoff },
     services: { UserService, TokenService },
     factories: { tasks },
     configs: [configureStates, configureHttp],
@@ -49,8 +48,8 @@ const app: NgModuleConfig = {
 
 tasks.$inject = ['tasksListService'];
 function tasks(tasksListService: TasksListService) {
-
-    return tasksListService.getActiveTasks()
+    return tasksListService
+        .getActiveTasks()
         .then(tasks => this.tasks = tasks.sort((x, y) => x.id.localeCompare(y.id)), console.error.bind(console));
 }
 
@@ -88,17 +87,23 @@ function registerAngularModule(module: NgModuleConfig | string) {
         const runs = module.runs;
         const configBlocks = configs && (Array.isArray(configs) ? configs : [configs]) || [];
         const runBlocks = runs && (Array.isArray(runs) ? runs : [runs]) || [];
+        const components = module.components && Object.keys(module.components).map(key => ({ name: key, component: module.components[key] })) || [];
         const app = angular.module(module.name, [...module.requires.map(registerAngularModule)])
             .provider(module.providers || {})
+            .directive(module.directives || {})
             .factory(module.factories || {})
             .service(module.services || {})
             .filter(module.filters || {})
             .controller(module.controllers || {})
-            .directive(module.directives || {})
             .value(module.values || {})
             .constant(module.constants || {});
-        configBlocks.forEach(app.config.bind(module));
-        runBlocks.forEach(app.run.bind(module));
+
+        components.forEach(({name, component}) => app.component(name, component));
+
+        configBlocks.forEach(app.config.bind(app));
+
+        runBlocks.forEach(app.run.bind(app));
+
         return module.name;
     } else {
         return module;

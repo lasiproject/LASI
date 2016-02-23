@@ -1,9 +1,10 @@
 /// <binding ProjectOpened='watch' />
 var gulp = require('gulp'),
+    debug = require('gulp-debug'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
-    minifyCss = require('gulp-minify-css'),
+    cssNano = require('gulp-cssnano'),
     typescript = require('gulp-typescript'),
     tslint = require('tslint'),
     gulpTslint = require('gulp-tslint'),
@@ -18,7 +19,7 @@ var paths = {
         'wwwroot/app/**/*.ts',
         //'wwwroot/main.ts'
     ],
-    test:[
+    test: [
         'wwwroot/test/**/*.html'
     ],
     css: {
@@ -42,11 +43,12 @@ var paths = {
 gulp.task('qunit', function () {
     return gulp.src(paths.test)
         .pipe(qunit());
-    });
+});
 
 gulp.task('typescript', function () {
     return gulp
         .src(paths.appts)
+        .pipe(debug())
         .pipe(sourcemaps.init())
         .pipe(typescript({
             noImplicitAny: false,
@@ -66,7 +68,7 @@ gulp.task('appcss', function () {
         .pipe(concat(paths.css.app.dest.name))
         .pipe(sourcemaps.write('/'))
         .pipe(gulp.dest(paths.css.app.dest.dir))
-        .pipe(minifyCss())
+        .pipe(cssNano())
         .pipe(rename('app.min.css'))
         .pipe(gulp.dest(paths.css.app.dest.dir));
 });
@@ -96,4 +98,8 @@ gulp.task('uglify-bundle', function () {
         .pipe(uglify({ preserveComments: "all" }))
         .pipe(gulp.dest('./app.built.min.js'))
         .on('error', onError);
+});
+
+gulp.task('build', function () {
+    return require('./system.build.js')();
 });

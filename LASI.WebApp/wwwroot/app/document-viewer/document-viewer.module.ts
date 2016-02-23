@@ -2,7 +2,7 @@
 import { documentModelService } from './document-model-service';
 import { resultsService } from './results-service';
 import { lexicalMenuBuilder } from './lexical-menu-builder';
-import { documentViewer, documentPage as page, paragraph, sentence, phrase } from './directives/directives';
+import { documentViewer, documentPage as page, paragraph, sentence, phrase } from './components/components';
 
 export default {
     name: 'documentViewer',
@@ -20,11 +20,11 @@ export default {
         resultsService,
         lexicalMenuBuilder
     },
-    directives: {
+    components: {
         documentViewer,
-        page,
         paragraph,
         sentence,
-        phrase
+        phrase,
+        page
     }
 } as NgModuleConfig;

@@ -1,4 +1,4 @@
-﻿import { UploadController as controller } from './upload.controller';
+﻿import controller from './upload.controller';
 import template from './upload-panel.html';
 
 uploadPanel.$inject = ['$window'];

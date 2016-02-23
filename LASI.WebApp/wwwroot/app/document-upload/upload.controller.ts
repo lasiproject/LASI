@@ -1,7 +1,7 @@
 ﻿import ngf = angular.angularFileUpload;
 const log = console.log.bind(console);
 
-export class UploadController {
+export default class {
     static $inject = ['$scope', '$q', 'Upload'];
 
     constructor(private $scope: angular.IScope,
@@ -15,12 +15,14 @@ export class UploadController {
         this.logInvalidFiles();
         return this.$q.when((Array.isArray(files) ? files : [files]).map(file => this.uploadFile(file)));
     }
+
     logInvalidFiles() {
         const files = this.files;
-        (Array.isArray(files) ? files : [files]).filter(file => UploadController.formats.every(format => file.type.localeCompare(format) !== 0))
+        (Array.isArray(files) ? files : [files]).filter(file => this.formats.every(format => file.type.localeCompare(format) !== 0))
             .map(file => `File ${file.name} has unaccepted format ${file.type}`)
             .forEach(log);
     }
+
     uploadFile(file: File) {
         return (this.uploadService.upload
             .call(this.uploadService, {
@@ -43,11 +45,11 @@ export class UploadController {
 
     files: File | File[] = [];
 
-    private static formats = [
+    formats = Object.freeze([
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/msword',
         'application/pdf',
         'text/plain'
-    ];
+    ]);
 
 } 
