@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 
 namespace LASI.Core
 {
+    using Kind = RelativePronounKind;
     /// <summary>
     /// Represents a Relative Pronoun such as "that", "which, "what" or "who".
     /// </summary>
@@ -52,7 +53,7 @@ namespace LASI.Core
             }
             else {
                 possessions = possessions.Add(possession);
-                possession.Possesser = this.ToOption();
+                possession.Possesser = (this as IPossesser).ToOption();
             }
         }
         /// <summary>
@@ -94,7 +95,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         /// <summary>
@@ -111,7 +112,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the IEntity which can be said to "own" the RelativePronoun.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// Indicates whether or not the IPronoun is bound to an Entity.
         /// </summary>
@@ -119,7 +120,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the RelativePronounKind of the RelativePronoun.
         /// </summary>
-        public RelativePronounKind RelativePronounKind { get; }
+        public Kind RelativePronounKind { get; }
         /// <summary>
         /// Gets the Entity which the RelativePronoun references.
         /// </summary>
@@ -136,7 +137,7 @@ namespace LASI.Core
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
         /// <summary>
         ///Gets or sets the IVerbal instance the RelativePronoun is the indirect object of.
         /// </summary>
@@ -168,20 +169,20 @@ namespace LASI.Core
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
         #region Static Members
-        private static RelativePronounKind DetermineKind(RelativePronoun relativePronoun)
+        private static Kind DetermineKind(RelativePronoun relativePronoun)
         {
             var text = relativePronoun.Text.ToLower();
             return subjectRolePersonal.Contains(text)
-                ? RelativePronounKind.SubjectRolePersonal
+                ? Kind.SubjectRolePersonal
                 : objectRoleEntity.Contains(text)
-                ? RelativePronounKind.ObjectRoleEntity
+                ? Kind.ObjectRoleEntity
                 : objectRoleLocationals.Contains(text)
-                ? RelativePronounKind.ObjectRoleLocational
+                ? Kind.ObjectRoleLocational
                 : objectRoleTemporals.Contains(text)
-                ? RelativePronounKind.ObjectRoleTemporal
+                ? Kind.ObjectRoleTemporal
                 : objectRoleExpositories.Contains(text)
-                ? RelativePronounKind.ObjectRoleExpository
-                : RelativePronounKind.Undetermined;
+                ? Kind.ObjectRoleExpository
+                : Kind.Undetermined;
         }
 
         private static readonly HashSet<string> subjectRolePersonal = new HashSet<string> { "who", "that" };

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 
 namespace LASI.Interop
 {
     /// <summary>
     /// The event data which is accessible to a function which handles a memory threshold exceeded event.
     /// </summary>
-    /// <seealso cref="ResourceManagement.ResourceUsageManager">Provides access to memory usage events</seealso> 
+    /// <seealso cref="ResourceNotifier">Provides access to memory usage events</seealso> 
     [Serializable]
-    [System.Runtime.InteropServices.ComVisible(true)]
+    [ComVisible(true)]
     public class MemoryThresholdExceededEventArgs : EventArgs
     {
         /// <summary>
@@ -18,6 +16,7 @@ namespace LASI.Interop
         /// This represents the memory available to the operating system, and so takes into account the effects of other running applications and services.
         /// </summary>
         public MB RemainingMemory { get; internal set; }
+
         /// <summary>
         /// Gets the minimum memory threshold which triggered the event. This will tend to differ slightly from the value of Remaining memory.
         /// </summary>

@@ -266,7 +266,10 @@ namespace LASI.Core
         /// </summary>
         /// <param name="kind">The EntityKind to test.</param>
         /// <returns><c>true</c> if the EntityKind is plural; otherwise, <c>false</c>.</returns>
-        public static bool IsMultiple(this EntityKind kind) => kind == EntityKind.ThingMultiple || kind == EntityKind.PersonMultiple || kind == EntityKind.ActivityMultiple;
+        public static bool IsMultiple(this EntityKind kind) =>
+            kind == EntityKind.ThingMultiple ||
+            kind == EntityKind.PersonMultiple ||
+            kind == EntityKind.ActivityMultiple;
 
         #endregion EntityKind Extensions
 

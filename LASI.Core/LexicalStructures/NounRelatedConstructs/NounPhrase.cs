@@ -67,7 +67,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption();
+            possession.Possesser = this.ToOption<IPossesser>();
         }
         /// <summary>
         /// Returns a string representation of the NounPhrase.
@@ -89,7 +89,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            directObjectOf = verbal;
         }
 
         /// <summary>
@@ -112,12 +112,12 @@ namespace LASI.Core
             var empty = string.Empty;
             return base.ToString() + string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}",
                 Possessions.Any() ? "\nPossessions: " + Possessions.Format(p => p.Text + '\n') : empty,
-                Possesser.Match().Case((ILexical c) => $"\nPossessed By: {c.Text}").Result(empty),
+                from p in Possesser select "\nPossessed By: " + p.Text,
                 OuterAttributive != null ? "\nDefinedby: " + OuterAttributive.Text : empty,
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
                 SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : empty,
-                DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : empty,
+                from v in DirectObjectOf select "\nDirect Object Of: " + v.Text,
                 IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
                 gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
@@ -166,26 +166,17 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the NounPhrase.
         /// </summary>
-        public IOption<IPossesser> Possesser
+        public Option<IPossesser> Possesser
         {
             get { return possessor; }
             set
             {
                 possessor = value;
                 // Bind entity words of the phrase as possessions of possessor.
-                if (value != null)
+
+                foreach (var entity in Words.OfEntity())
                 {
-                    foreach (var entity in Words.OfEntity())
-                    {
-                        value.Match().Case((IEntity e) => e.AddPossession(entity));
-                    }
-                }
-                else
-                {
-                    foreach (var entity in Words.OfEntity())
-                    {
-                        entity.Possesser = value;
-                    }
+                    value.Match().Case((IEntity e) => e.AddPossession(entity)).Default(() => Words.OfEntity().ToList().ForEach(e => e.Possesser = value));
                 }
             }
         }
@@ -208,18 +199,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf
-        {
-            get { return directObjectOf; }
-            private set
-            {
-                directObjectOf = value;
-                foreach (var entity in Words.OfEntity())
-                {
-                    entity.BindAsDirectObjectOf(value);
-                }
-            }
-        }
+        public virtual Option<IVerbal> DirectObjectOf => directObjectOf.ToOption();
 
         /// <summary>
         /// Gets or sets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.
@@ -244,7 +224,7 @@ namespace LASI.Core
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
-        private IOption<IPossesser> possessor = Option.None<IPossesser>();
+        private Option<IPossesser> possessor = Option.None<IPossesser>();
         private IVerbal directObjectOf;
         private IVerbal indirectObjectOf;
         private IVerbal subjectOf;

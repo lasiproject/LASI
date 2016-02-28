@@ -13,7 +13,7 @@ namespace LASI.Core.PatternMatching.Tests
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
             var result = target.Match()
                  .Case((VerbPhrase v) => v.Words)
-                 .Case((IVerbal v) => new[] { v }.OfType<ILexical>())
+                 .Match((IVerbal v) => new[] { v }.OfType<ILexical>())
                  .Result();
             Check.That(result).IsNotNull().And.Contains(((Phrase)target).Words).Only().InThatOrder();
         }
@@ -23,7 +23,7 @@ namespace LASI.Core.PatternMatching.Tests
             ILexical target = new VerbPhrase(new BaseVerb("walk"), new Adverb("briskly"));
             var result = target.Match()
                  .Case((IVerbal v) => v.Lift())
-                 .Case((VerbPhrase v) => v.Words.OfType<ILexical>())
+                 .Match((VerbPhrase v) => v.Words.OfType<ILexical>())
                  .Result();
             Check.That(result).IsNotNull().And.Contains(target.Lift()).Only().InThatOrder();
         }

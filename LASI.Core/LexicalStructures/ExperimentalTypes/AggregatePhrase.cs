@@ -28,7 +28,10 @@ namespace LASI.Core.Binding.Experimental
 
         public void BindDescriptor(IDescriptor descriptor)
         {
-            foreach (var constituent in PrimaryConstituents) { constituent.BindDescriptor(descriptor); }
+            foreach (var constituent in PrimaryConstituents)
+            {
+                constituent.BindDescriptor(descriptor);
+            }
         }
 
         public void BindReferencer(IReferencer referencer)
@@ -51,7 +54,7 @@ namespace LASI.Core.Binding.Experimental
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace LASI.Core.Binding.Experimental
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
 
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
 
         public IVerbal IndirectObjectOf { get; private set; }
 
@@ -103,7 +106,7 @@ namespace LASI.Core.Binding.Experimental
         /// <summary>
         /// Gets or sets the possessor of the AggregateNounPhrase.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         public IEnumerable<IPossessable> Possessions => possessions;
 

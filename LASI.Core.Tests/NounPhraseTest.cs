@@ -93,9 +93,8 @@ namespace LASI.Core.Tests
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IVerbal expected = new BaseVerb("insult");
-            IVerbal actual;
             target.BindAsDirectObjectOf(expected);
-            actual = target.DirectObjectOf;
+            var actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -134,7 +133,7 @@ namespace LASI.Core.Tests
         {
             NounPhrase target = new NounPhrase(new ProperPluralNoun("Americans"), new Conjunction("and"), new ProperPluralNoun("Canadians"));
             IEntity expected = new NounPhrase(new ProperSingularNoun("North"), new ProperSingularNoun("America"));
-            target.Possesser = expected.ToOption();
+            target.Possesser = expected.ToOption<IPossesser>();
             var actual = target.Possesser;
             Check.That(actual).IsEqualTo(expected);
         }
@@ -174,9 +173,7 @@ namespace LASI.Core.Tests
         {
             NounPhrase target = new NounPhrase(new ProperSingularNoun("LASI"), new Conjunction("and"), new ProperSingularNoun("Timmy"));
             string expected = "NounPhrase \"LASI and Timmy\"";
-            string actual;
-            actual = target.ToString();
-            Check.That(actual).IsEqualTo(expected);
+            Check.That(target.ToString()).IsEqualTo(expected);
         }
 
 

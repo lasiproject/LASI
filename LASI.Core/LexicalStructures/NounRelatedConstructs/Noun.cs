@@ -66,7 +66,7 @@ namespace LASI.Core
         public virtual void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption();
+            possession.Possesser = this.ToOption<IPossesser>();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual IVerbal DirectObjectOf { get; private set; }
+        public virtual Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
 
         /// <summary>
         /// Gets or sets the IVerbal instance the Noun is the indirect object of.
@@ -133,7 +133,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the Noun.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         /// <summary>
         /// Gets or sets the EntityKind; Person, Place, Thing, Organization, or Activity; of the Noun.

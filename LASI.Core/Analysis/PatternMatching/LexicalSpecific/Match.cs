@@ -100,7 +100,7 @@ namespace LASI.Core.Analysis.PatternMatching
         internal Match(T value) : base(value) { }
 
         [DebuggerStepThrough]
-        internal Match(IOption<T> value) : base(value) { }
+        internal Match(Option<T> value) : base(value) { }
 
         #endregion Constructors
 

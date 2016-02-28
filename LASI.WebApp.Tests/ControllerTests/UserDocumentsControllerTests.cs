@@ -54,15 +54,15 @@ namespace LASI.WebApp.Tests.ControllerTests
             await controller.OnActionExecutionAsync(
                 context: new ActionExecutingContext(
                     actionContext: controller.ActionContext,
-                    filters: (provider.GetServices<IFilterMetadata>() ?? new IFilterMetadata[0]).ToArray(),
+                    filters: provider.GetServices<IFilterMetadata>().ToArray(),
                     actionArguments: controller.RouteData?.DataTokens ?? new Dictionary<string, object>(),
                     controller: controller), next: () =>
                     {
                         Assert.Equal(401, controller.Response.StatusCode);
                         return Task.FromResult(
                            new ActionExecutedContext(
-                               controller.ActionContext,
-                                (provider.GetServices<IFilterMetadata>() ?? new IFilterMetadata[0]).ToArray(),
+                               controller.ActionContext, 
+                               provider.GetServices<IFilterMetadata>().ToArray(),
                                controller
                            )
                        );

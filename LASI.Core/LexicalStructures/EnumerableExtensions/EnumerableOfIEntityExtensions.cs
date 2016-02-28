@@ -64,7 +64,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities)
             where TEntity : IEntity => from e in entities
-                                       where e.DirectObjectOf != null
+                                       where e.DirectObjectOf == e.DirectObjectOf.Value
                                        select e;
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities, Func<IVerbal, bool> predicate)
             where TEntity : IEntity => from e in entities.InDirectObjectRole()
-                                       where predicate(e.DirectObjectOf)
+                                       where e.DirectObjectOf.Match(predicate)
                                        select e;
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace LASI.Core
                entity.Match()
                 .When((IReferencer r) => r.RefersTo.Any())
                 .Then((IReferencer r) => r.RefersTo)
-                .Case((IEntity e) => e)
+                .Match((IEntity e) => e)
             .Result());
 
         #endregion Sequential Implementations
@@ -280,7 +280,7 @@ namespace LASI.Core
         /// </returns>
         public static ParallelQuery<TEntity> InDirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities)
             where TEntity : IEntity => from e in entities
-                                       where e.DirectObjectOf != null
+                                       where e.DirectObjectOf.IsSome
                                        select e;
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace LASI.Core
         /// </returns>
         public static ParallelQuery<TEntity> InDirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate)
             where TEntity : IEntity => from e in entities.InDirectObjectRole()
-                                       where predicate(e.DirectObjectOf)
+                                       where e.DirectObjectOf.Match(predicate)
                                        select e;
 
         /// <summary>
@@ -390,10 +390,10 @@ namespace LASI.Core
         /// Direct Object, or Indirect Object of an IVerbal construct.
         /// </returns>
         public static ParallelQuery<TEntity> InSubjectOrObjectRole<TEntity>(this ParallelQuery<TEntity> entities)
-            where TEntity : IEntity => from e in entities
-                                       let verbal = e.SubjectOf ?? e.DirectObjectOf ?? e.IndirectObjectOf
+            where TEntity : IEntity => from entity in entities
+                                       let verbal = entity.SubjectOf ?? entity.DirectObjectOf.Match((IVerbal v) => v) ?? entity.IndirectObjectOf
                                        where verbal != null
-                                       select e;
+                                       select entity;
 
         /// <summary>
         /// Returns all IEntity constructs in the source sequence which have been bound as the
@@ -414,7 +414,7 @@ namespace LASI.Core
         public static ParallelQuery<TEntity> InSubjectOrObjectRole<TEntity>(this ParallelQuery<TEntity> entities, Func<IVerbal, bool> predicate)
             where TEntity : IEntity => from e in entities
                                        where e.SubjectOf != null && predicate(e.SubjectOf)
-                                       || e.DirectObjectOf != null && predicate(e.DirectObjectOf)
+                                       || e.DirectObjectOf.Match(predicate)
                                        || e.IndirectObjectOf != null && predicate(e.IndirectObjectOf)
                                        select e;
 
@@ -466,7 +466,7 @@ namespace LASI.Core
                 .Select(x => x.Match()
                     .When((IReferencer r) => r.RefersTo.Any())
                     .Then((IReferencer r) => r.RefersTo)
-                    .Case((IEntity e) => e).Result()
+                    .Match((IEntity e) => e).Result()
                 );
 
         #endregion Parallel Implementations

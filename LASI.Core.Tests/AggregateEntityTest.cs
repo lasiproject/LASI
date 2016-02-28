@@ -180,10 +180,10 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("cats")),
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
-            IVerbal expected = new VerbPhrase(new BaseVerb("eat"));
+            var expected = new VerbPhrase(new BaseVerb("eat"));
             target.BindAsDirectObjectOf(expected);
 
-            IVerbal actual = target.DirectObjectOf;
+            var actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
 

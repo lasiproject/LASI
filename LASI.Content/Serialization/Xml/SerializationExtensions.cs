@@ -31,7 +31,7 @@ namespace LASI.Content.Serialization.Xml
                 new XElement("SubjectOf",
                     ElementNames[entity.SubjectOf]),
                 new XElement("DirectObjectOf",
-                    ElementNames[entity.DirectObjectOf]),
+                    ElementNames[entity.DirectObjectOf.Match((IVerbal v) => v)]),
                 new XElement("IndirectObjectOf",
                     ElementNames[entity.IndirectObjectOf]),
                 new XElement("BoundPronouns",

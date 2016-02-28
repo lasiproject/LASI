@@ -54,6 +54,9 @@ namespace LASI.Core
         /// <returns>A new Similarity based on the given value.</returns>
         public static Similarity FromBoolean(bool similar) => similar ? Similar : Dissimilar;
 
+        public static bool ToBoolean(Similarity similarity) => similarity.Boolean;
+        public static double ToRatio(Similarity similarity) => similarity.Ratio;
+
         #endregion Factory Methods
 
         #region Methods
@@ -133,7 +136,7 @@ namespace LASI.Core
         /// <returns>
         /// A boolean with the same value as the conversion target's booleanResult Property.
         /// </returns>
-        public static implicit operator bool (Similarity sr) => sr.Boolean;
+        public static implicit operator bool(Similarity sr) => sr.Boolean;
 
         /// <summary>
         /// Converts the SimResult into its double representation. The resulting boolean has the
@@ -145,7 +148,7 @@ namespace LASI.Core
         /// <returns>
         /// A double with the same value as the conversion target's RatioResult Property.
         /// </returns>
-        public static implicit operator double (Similarity sr) => sr.Ratio;
+        public static implicit operator double(Similarity sr) => sr.Ratio;
 
         #endregion Implcit Conversion Operators
 

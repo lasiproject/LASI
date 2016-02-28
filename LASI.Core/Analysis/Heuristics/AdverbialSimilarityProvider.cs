@@ -64,10 +64,10 @@ namespace LASI.Core
         /// <returns><c>true</c> if the given AdverbPhrases are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this AdverbPhrase first, AdverbPhrase second)
         {
-            var percentMatched =
-                first.Words.OfAdverb()
-                .Zip(second.Words.OfAdverb(),
-                    (a, b) => (bool)a.IsSimilarTo(b))
+            var percentMatched = first.Words.OfAdverb()
+                .Zip(second.Words.OfAdverb())
+                .With(IsSimilarTo)
+                .Select(Similarity.ToBoolean)
                 .PercentTrue();
             return Similarity.FromBoolean(first == second || percentMatched / 100 > SimilarityThreshold);
         }

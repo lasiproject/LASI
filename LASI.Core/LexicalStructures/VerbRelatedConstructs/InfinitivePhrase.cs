@@ -41,7 +41,7 @@ namespace LASI.Core
         /// <summary>
         ///Gets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
 
         /// <summary>
         ///Gets the IVerbal instance the InfinitivePhrase is the indirect object of.
@@ -83,7 +83,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         /// <summary>
@@ -119,13 +119,13 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption();
+            possession.Possesser = Option.Create<IPossesser>(this);
         }
 
         /// <summary>
         /// Gets or sets the Entity which "owns" the instance of the InfinitivePhrase.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         #endregion
 

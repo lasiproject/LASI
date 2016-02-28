@@ -53,7 +53,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possessable)
         {
             possessions = possessions.Add(possessable);
-            possessable.Possesser = this.ToOption();
+            possessable.Possesser = this.ToOption<IPossesser>();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace LASI.Core
 
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         public void BindAsIndirectObjectOf(IVerbal verbal)
@@ -98,7 +98,7 @@ namespace LASI.Core
         /// <summary>
         /// The Verb construct which the PresentParticiple is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
         /// <summary>
         /// The Verb construct which the PresentParticiple is the indirect object of.
         /// </summary>
@@ -106,7 +106,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which "owns" the PresentParticiple.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// Gets the Activity value of the EntityKind enumeration, the kind always associated with an PresentParticiple.
         /// </summary>

@@ -35,7 +35,8 @@ namespace LASI.Core
         /// <returns>
         /// <c>true</c> if the first Adjective is similar to the second; otherwise, <c>false</c>.
         /// </returns>
-        public static Similarity IsSimilarTo(this Adjective first, Adjective second) => Similarity.FromBoolean(Similarity.FromBoolean(Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false)));
+        public static Similarity IsSimilarTo(this Adjective first, Adjective second) => 
+            Similarity.FromBoolean(Similarity.FromBoolean(Equals(first, second) || (first?.GetSynonyms().Contains(second?.Text) ?? false)));
 
         /// <summary>
         /// Determines if the provided AdjectivePhrase is similar to the provided Adjective.
@@ -66,6 +67,11 @@ namespace LASI.Core
         /// <param name="second">The second AdjectivePhrase</param>
         /// <returns><c>true</c> if the given AdjectivePhrase are similar; otherwise, <c>false</c>.</returns>
         public static Similarity IsSimilarTo(this AdjectivePhrase first, AdjectivePhrase second) =>
-            Similarity.FromRatio(first.Words.OfAdjective().Zip(second.Words.OfAdjective(), (a, b) => (bool)a.IsSimilarTo(b)).PercentTrue() / 100);
+            Similarity.FromRatio(
+                first.Words.OfAdjective()
+                    .Zip(second.Words.OfAdjective()).With(IsSimilarTo)
+                    .Select(s => (bool)s)
+                    .PercentTrue() / 100
+            );
     }
 }

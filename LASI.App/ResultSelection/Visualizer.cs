@@ -161,9 +161,9 @@ namespace LASI.App
         {
             switch (chartKind)
             {
-            case ChartKind.SubjectVerbObject: return await GetVerbWiseRelationshipChartItemsAsync(document);
-            case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
-            default: return await GetNounWiseDataAsync(document);
+                case ChartKind.SubjectVerbObject: return await GetVerbWiseRelationshipChartItemsAsync(document);
+                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+                default: return await GetNounWiseDataAsync(document);
             }
         }
 

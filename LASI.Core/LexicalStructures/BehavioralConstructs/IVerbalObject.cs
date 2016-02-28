@@ -1,4 +1,6 @@
 ﻿
+using LASI.Utilities;
+
 namespace LASI.Core
 {
     /// <summary>
@@ -23,7 +25,7 @@ namespace LASI.Core
         /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the direct object of.
         /// </summary>
 
-        IVerbal DirectObjectOf { get; }
+        Option<IVerbal> DirectObjectOf { get; }
         /// <summary>
         /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the indirect object of.
         /// </summary>

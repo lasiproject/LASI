@@ -31,7 +31,7 @@ namespace LASI.Core.Analysis.PatternMatching
             Value = value;
         }
 
-        protected MatchBase(IOption<T> optionalValue)
+        protected MatchBase(Option<T> optionalValue)
         {
             UnMatchable = optionalValue.IsNone;
             Value = optionalValue.IsSome ? optionalValue.Value : null;

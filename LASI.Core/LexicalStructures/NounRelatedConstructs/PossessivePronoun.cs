@@ -52,7 +52,7 @@ namespace LASI.Core
         /// Gets or sets the possessor which actually, by proxy, owns the things owned by the PossessivePronoun.
         /// When this property is set, ownership of all possessions associated with the PossessivePronoun is transferred to the target IEntity.
         /// </summary>
-        public virtual IOption<IPossesser> PossessesFor
+        public virtual Option<IPossesser> PossessesFor
         {
             get
             {
@@ -70,7 +70,7 @@ namespace LASI.Core
 
         #region Fields
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IOption<IPossesser> possessesFor = Option.None<IPossesser>();
+        private Option<IPossesser> possessesFor = Option.None<IPossesser>();
         #endregion Fields
     }
 }

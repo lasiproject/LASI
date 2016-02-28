@@ -57,7 +57,7 @@ namespace LASI.Core
         public void AddPossession(IPossessable possession)
         {
             possessions = possessions.Add(possession);
-            possession.Possesser = this.ToOption();
+            possession.Possesser = this.ToOption<IPossesser>();
         }
         /// <summary>
         /// Binds an IDescriptor, generally an Adjective or AdjectivePhrase, as a descriptor of the aggregate entity.
@@ -109,7 +109,7 @@ namespace LASI.Core
 
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         public void BindAsIndirectObjectOf(IVerbal verbal)
@@ -128,7 +128,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the DIRECT object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
         /// <summary>
         /// Gets the IVerbal instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the aggregate entity is the INDIRECT object of.
         /// </summary>
@@ -152,7 +152,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Entity which is inferred to "own" all members the aggregate entity.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// A textual representation of the aggregate entity.
         /// </summary>

@@ -9,13 +9,13 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ValueTest1()
         {
-            IOption<string> target = "str".ToOption();
+            Option<string> target = "str".ToOption();
             Check.That(target).InheritsFrom<Option<string>>();
         }
         [Fact]
         public void CoalescenseTest1()
         {
-            IOption<string> target = "str".ToOption().ToOption();
+            Option<string> target = "str".ToOption().ToOption();
             Assert.Equal(target, "str".ToOption());
             Assert.Equal("str".ToOption(), target);
         }
@@ -35,7 +35,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullTest1()
         {
-            IOption<object> target = FromNullFactory<object>();
+            Option<object> target = FromNullFactory<object>();
             Assert.True(target.IsNone);
             Assert.False(target.IsSome);
         }
@@ -43,14 +43,14 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullTest2()
         {
-            IOption<object> target = FromNullFactory<object>();
+            Option<object> target = FromNullFactory<object>();
             Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
         [Fact]
         public void OptionFromValueTest1()
         {
             const string source = "str";
-            IOption<string> target = source.ToOption();
+            Option<string> target = source.ToOption();
             string value = target.Value;
             Assert.Equal(value, source);
         }
@@ -58,15 +58,15 @@ namespace LASI.Utilities.Tests
         public void OptionFromValueTest2()
         {
             const string source = "str";
-            IOption<string> target = source.ToOption();
+            Option<string> target = source.ToOption();
             Assert.True(target.IsSome);
         }
         [Fact]
         public void OptionFromValueSelectTest1()
         {
             const string source = "str";
-            IOption<string> target = source.ToOption();
-            IOption<string> projected = target.Select(x => x.ToUpper());
+            Option<string> target = source.ToOption();
+            Option<string> projected = target.Select(x => x.ToUpper());
             Assert.True(projected.IsSome);
             string value = projected.Value;
             Assert.Equal(value, source.ToUpper());
@@ -75,8 +75,8 @@ namespace LASI.Utilities.Tests
         public void OptionFromValueSelectTest2()
         {
             const string source = "str";
-            IOption<string> target = source.ToOption();
-            IOption<string> projected = from v in target
+            Option<string> target = source.ToOption();
+            Option<string> projected = from v in target
                                         select v.ToUpper();
             Assert.True(projected.IsSome);
             string value = projected.Value;
@@ -86,14 +86,14 @@ namespace LASI.Utilities.Tests
         public void OptionFromNullTestWhereTest1()
         {
             // Should always return None, never applying the predicate.
-            IOption<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
+            Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
             Assert.False(filtered.IsSome);
         }
 
         [Fact]
         public void OptionFromNullTestWhereTest2()
         {
-            IOption<object> filtered = OptionFromNullWhereTestHelper<object>(x => false);
+            Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => false);
             Assert.False(filtered.IsSome);
             Assert.True(filtered.IsNone);
         }
@@ -101,31 +101,31 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullTestWhereTest3()
         {
-            IOption<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
+            Option<object> filtered = OptionFromNullWhereTestHelper<object>(x => true);
             Check.ThatCode(() => filtered.Value).Throws<InvalidOperationException>();
         }
 
         [Fact]
         public void OptionFromNullSelectTest1()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> projected = target.Select(x => 1);
+            Option<object> target = FromNullFactory<object>();
+            Option<int> projected = target.Select(x => 1);
             Assert.False(projected.IsSome);
         }
 
         [Fact]
         public void OptionFromNullSelectTest2()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> projected = target.Select(x => 1);
+            Option<object> target = FromNullFactory<object>();
+            Option<int> projected = target.Select(x => 1);
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
 
         [Fact]
         public void OptionFromNullSelectTest3()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> result = from value in target
+            Option<object> target = FromNullFactory<object>();
+            Option<int> result = from value in target
                                   select 1;
             Assert.False(result.IsSome);
         }
@@ -133,8 +133,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullSelectTest4()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> projected = from value in target
+            Option<object> target = FromNullFactory<object>();
+            Option<int> projected = from value in target
                                      select 1;
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>(); // Must fail
         }
@@ -142,15 +142,15 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullSelectManyTest1()
         {
-            IOption<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
+            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
             Assert.False(projected.IsSome);
         }
 
         [Fact]
         public void OptionFromNullSelectManyTest2()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> projected = from value in target
+            Option<object> target = FromNullFactory<object>();
+            Option<int> projected = from value in target
                                      from x in target
                                      select 1;
             Assert.False(projected.IsSome);
@@ -158,8 +158,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullSelectManyTest3()
         {
-            IOption<object> target = FromNullFactory<object>();
-            IOption<int> projected = from value in target
+            Option<object> target = FromNullFactory<object>();
+            Option<int> projected = from value in target
                                      from x in target
                                      select 1;
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
@@ -167,7 +167,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void OptionFromNullSelectManyTest4()
         {
-            IOption<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
+            Option<int> projected = OptionFromNullSelectManyTestHelper<object, int>(x => 1.ToOption());
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
 
@@ -175,7 +175,7 @@ namespace LASI.Utilities.Tests
         public void OptionCreateTest1()
         {
             object value = null;
-            IOption<object> target = Option.Create(value);
+            Option<object> target = Option.Create(value);
             Assert.False(target.IsSome);
             Assert.True(target.IsNone);
         }
@@ -183,14 +183,14 @@ namespace LASI.Utilities.Tests
         public void OptionCreateTest2()
         {
             int? value = null;
-            IOption<int?> target = Option.Create(value);
+            Option<int?> target = Option.Create(value);
             Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
         [Fact]
         public void OptionCreateTest3()
         {
             object value = null;
-            IOption<object> target = Option.Create(value);
+            Option<object> target = Option.Create(value);
             Check.ThatCode(() => target.Value).Throws<InvalidOperationException>();
         }
 
@@ -408,21 +408,21 @@ namespace LASI.Utilities.Tests
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
-        private static IOption<T> OptionFromNullWhereTestHelper<T>(Func<T, bool> predicate) where T : class
+        private static Option<T> OptionFromNullWhereTestHelper<T>(Func<T, bool> predicate) where T : class
         {
-            IOption<T> target = FromNullFactory<T>();
-            IOption<T> filtered = target.Where(predicate);
+            Option<T> target = FromNullFactory<T>();
+            Option<T> filtered = target.Where(predicate);
             return filtered;
         }
 
-        private static IOption<TResult> OptionFromNullSelectManyTestHelper<T, TResult>(Func<T, IOption<TResult>> selector) where T : class
+        private static Option<TResult> OptionFromNullSelectManyTestHelper<T, TResult>(Func<T, Option<TResult>> selector) where T : class
         {
-            IOption<T> target = FromNullFactory<T>();
-            IOption<TResult> projected = target.SelectMany(selector);
+            Option<T> target = FromNullFactory<T>();
+            Option<TResult> projected = target.SelectMany(selector);
             return projected;
         }
 
-        static IOption<T> FromNullFactory<T>() where T : class
+        static Option<T> FromNullFactory<T>() where T : class
         {
             T target = null;
             return target.ToOption();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using LASI.Utilities;
+using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core.Analysis.Melding
 {
@@ -29,7 +30,7 @@ namespace LASI.Core.Analysis.Melding
             this.avatar = avatar;
             this.represented = represented.ToImmutableList();
 
-            directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf).ToAggregate();
+            directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf.Match((IAggregateVerbal v) => from x in v select x, (IVerbal v) => v.Lift())).ToAggregate();
             indirectObjectsOfVerbals = FlattenAbout(e => e.IndirectObjectOf).ToAggregate();
             subjectsOfVerbals = FlattenAbout(e => e.SubjectOf).ToAggregate();
 
@@ -52,7 +53,7 @@ namespace LASI.Core.Analysis.Melding
         public void AddPossession(IPossessable possession)
         {
             possessions.Add(possession);
-            possession.Possesser = this.ToOption();
+            possession.Possesser = this.ToOption<IPossesser>();
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace LASI.Core.Analysis.Melding
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            directObjectsOfVerbals = directObjectsOfVerbals.Append(verbal).ToAggregate();
         }
 
         /// <summary>
@@ -99,11 +100,8 @@ namespace LASI.Core.Analysis.Melding
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
         /// </summary>
-        public IVerbal DirectObjectOf
-        {
-            get { return directObjectsOfVerbals; }
-            private set { directObjectsOfVerbals = new[] { value }.ToAggregate(); }
-        }
+        public Option<IVerbal> DirectObjectOf => this.directObjectsOfVerbals.ToOption<IVerbal>();
+
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the indirect object of.
         /// </summary>
@@ -114,7 +112,7 @@ namespace LASI.Core.Analysis.Melding
         }
 
 
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
         public string Text => avatar.Text;
 

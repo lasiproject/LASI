@@ -1,7 +1,6 @@
 ﻿namespace LASI.Interop
 {
     using System;
-    using MemoryEventArgs = MemoryThresholdExceededEventArgs;
     using MemoryHandler = System.EventHandler<MemoryThresholdExceededEventArgs>;
     using Mode = PerformanceProfile;
     /// <summary>
@@ -32,17 +31,17 @@
             SetByPerformanceMode(Mode.Normal);
             var checkIntervalTimer = new System.Timers.Timer(10000);
             checkIntervalTimer.Start();
-            checkIntervalTimer.Elapsed += (s, e) =>
+            checkIntervalTimer.Elapsed += delegate
             {
-                var available = GetAvailableMemory();
-                if (available < MinRamThreshold)
-                {
-                    MemoryCritical(null, new MemoryEventArgs
-                    {
-                        RemainingMemory = available,
-                        TriggeringThreshold = MinRamThreshold
-                    });
-                }
+                //var available = GetAvailableMemory();
+                //if (available < MinRamThreshold)
+                //{
+                //    MemoryCritical(null, new MemoryEventArgs
+                //    {
+                //        RemainingMemory = available,
+                //        TriggeringThreshold = MinRamThreshold
+                //    });
+                //}
             };
         }
 
@@ -63,29 +62,29 @@
         /// The function to be invoked when available memory is least 128 MegaBytes greater than the
         /// specified threshold.
         /// </param>
-        private static void ConfigureRamEvent(MB threshold, uint frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased)
+        private static void ConfigureRamEvent(MB threshold, int frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased)
         {
-            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "event frequency may not be 0"); }
+            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "frequency must be graeter than 0"); }
             var increased = availableRamDecreased ?? delegate { };
             var backingTimer = new System.Timers.Timer(frequency);
-            backingTimer.Elapsed += (sender, e) =>
+            backingTimer.Elapsed += delegate
             {
-                var available = GetAvailableMemory();
-                if (available < threshold)
-                {
-                    availableRamDecreased(
-                        null,
-                        new MemoryEventArgs
-                        {
-                            RemainingMemory = available,
-                            TriggeringThreshold = threshold
-                        }
-                    );
-                }
-                else if (available >= threshold + 128)
-                {
-                    increased(null, new MemoryEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
-                }
+                //var available = GetAvailableMemory();
+                //if (available < threshold)
+                //{
+                //    availableRamDecreased(
+                //        null,
+                //        new MemoryEventArgs
+                //        {
+                //            RemainingMemory = available,
+                //            TriggeringThreshold = threshold
+                //        }
+                //    );
+                //}
+                //else if (available >= threshold + 128)
+                //{
+                //    increased(null, new MemoryEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
+                //}
             };
         }
 

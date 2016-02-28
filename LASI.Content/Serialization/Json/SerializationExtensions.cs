@@ -37,7 +37,7 @@ namespace LASI.Content.Serialization.Json
         public static JObject ToJObject(this IEntity entity) => new JObject(GetRoleIndependentProperties(entity))
         {
             ["subjectOf"] = ElementNameMappingProvider[entity.SubjectOf],
-            ["directObjectOf"] = ElementNameMappingProvider[entity.DirectObjectOf],
+            ["directObjectOf"] = ElementNameMappingProvider[entity.DirectObjectOf.Match((IVerbal v) => v)],
             ["referees"] = new JArray(from referencedBy in entity.Referencers select ElementNameMappingProvider[referencedBy]),
             ["descriptors"] = new JArray(from descriptor in entity.Descriptors select ElementNameMappingProvider[descriptor]),
             ["possessed"] = new JArray(from possession in entity.Possessions select ElementNameMappingProvider[possession])

@@ -82,10 +82,9 @@ namespace LASI.Core.Tests
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
-            IVerbal actual;
             target.BindAsDirectObjectOf(expected);
-            actual = target.DirectObjectOf;
-            Check.That(actual.Text).IsEqualTo(expected.Text);
+            var actual = target.DirectObjectOf;
+            Check.That(actual.Match((IVerbal x) => x.Text)).IsEqualTo(expected.Text);
 
         }
 
@@ -97,11 +96,11 @@ namespace LASI.Core.Tests
         {
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
-            IVerbal expected = new PastTenseVerb("frightened");
-            IVerbal actual;
-            target.BindAsDirectObjectOf(expected);
-            actual = target.DirectObjectOf;
-            Check.That(actual).IsEqualTo(expected);
+            var verbal = new PastTenseVerb("frightened");
+
+            target.BindAsIndirectObjectOf(verbal);
+            var actual = target.IndirectObjectOf;
+            Check.That(actual).IsEqualTo(verbal);
         }
 
         /// <summary>
@@ -126,9 +125,8 @@ namespace LASI.Core.Tests
             string text = "him";
             PersonalPronoun target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
-            IVerbal actual;
-            target.BindAsDirectObjectOf(expected);
-            actual = target.DirectObjectOf;
+            target.BindAsSubjectOf(expected);
+            var actual = target.SubjectOf;
             Check.That(actual).IsEqualTo(expected);
 
         }

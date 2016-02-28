@@ -93,10 +93,10 @@ namespace LASI.Core
                              select e.Match()
                                   .When((IReferencer r) => r.RefersTo != null)
                                   .Then((IReferencer r) => r.RefersTo)
-                                  .Case((IEntity x) => x).Result() into y
+                                  .Match((IEntity x) => x).Result() into y
                              where y != null
                              select y;
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
 
         }
 
@@ -111,12 +111,12 @@ namespace LASI.Core
             var toConsider = source.Phrases
                 .OfNounPhrase()
                 .InSubjectOrObjectRole().ToList();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
         }
         private static void WeightSimilarVerbs(IReifiedTextual source)
         {
             var toConsider = source.Words.OfVerb().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 1);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);
         }
 
 
@@ -125,13 +125,8 @@ namespace LASI.Core
             //Reify the query source so that it may be queried to form a full self join (Cartesian product with itself.
             // in the two subsequent from clauses both query the reified collection in parallel.
             var toConsider = source.Phrases.OfVerbPhrase().WithSubjectOrObject();
-            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, 0.5);
+            GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 0.5);
         }
-
-        //private static void WeightSimilarEntities(IReifiedTextual source)
-        //{
-        //    GroupAndWeight(source.Entities, Lexicon.IsSimilarTo, 0.5);
-        //}
 
         private static void HackSubjectPropernounImportance(IReifiedTextual source)
         {
@@ -148,20 +143,25 @@ namespace LASI.Core
                 .ForAll(elements => elements.ForEach(e => e.Weight += elements.Count));
         }
 
-        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlateWhen, double scaleBy) where TLexical : class, ILexical
+        private static void GroupAndWeight<TLexical>(IEnumerable<TLexical> toConsider, Func<TLexical, TLexical, Similarity> correlate, double scaleBy) where TLexical : class, ILexical
         {
             var groups =
-                from outer in toConsider.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                from inner in toConsider.ToList().AsParallel().WithDegreeOfParallelism(Concurrency.Max)
-                where !ReferenceEquals(inner, outer) || correlateWhen(inner, outer)
+                from outer in toConsider
+                    .AsParallel()
+                    .WithDegreeOfParallelism(Concurrency.Max)
+                from inner in toConsider
+                    .ToList()
+                    .AsParallel()
+                    .WithDegreeOfParallelism(Concurrency.Max)
+                where !ReferenceEquals(inner, outer) || correlate(inner, outer)
                 group inner by outer into grouped
-                select grouped;
-            groups.ForAll(group =>
+                select grouped.ToList();
+
+            groups.ForAll(elements =>
             {
-                var elements = group.ToList(); elements.ForEach(e => e.Weight += scaleBy * elements.Count);
+                elements.ForEach(e => e.Weight += scaleBy * elements.Count);
             });
         }
-
 
         #region Events
         /// <summary>
@@ -174,7 +174,6 @@ namespace LASI.Core
         /// </summary>
         public static event EventHandler<WeightingUpdateEventArgs> PhaseFinished = delegate { };
         #endregion Events
-
     }
 
     /// <summary>

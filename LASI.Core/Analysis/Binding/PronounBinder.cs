@@ -33,7 +33,7 @@ namespace LASI.Core.Binding
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns)
                 {
-                    pro.PossessesFor = new AggregateEntity(vp.Subjects).ToOption();
+                    pro.PossessesFor = new AggregateEntity(vp.Subjects).ToOption<IPossesser>();
                 }
             }
         }

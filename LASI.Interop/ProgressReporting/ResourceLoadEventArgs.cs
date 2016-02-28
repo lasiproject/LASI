@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LASI.Interop.ContractHelperTypes
+﻿namespace LASI.Interop.ContractHelperTypes
 {
     /// <summary>
     /// Carries event data associated with the loading of a specific resource.

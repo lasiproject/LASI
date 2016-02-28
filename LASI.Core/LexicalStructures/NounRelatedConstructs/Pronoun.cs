@@ -6,6 +6,7 @@ using System;
 
 namespace LASI.Core
 {
+    using Kind = PronounKind;
     /// <summary>
     /// Represents a pronoun which generally refers back to a previously defined Entity, such as a Noun or NounPhrase.
     /// </summary>
@@ -87,7 +88,7 @@ namespace LASI.Core
             else
             {
                 possessions.Add(possession);
-                possession.Possesser = this.ToOption();
+                possession.Possesser = this.ToOption<IPossesser>();
             }
         }
 
@@ -106,7 +107,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal;
+            DirectObjectOf = verbal.ToOption();
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public IVerbal DirectObjectOf { get; private set; }
+        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
 
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
@@ -154,7 +155,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the <see cref="IVerbal"/> which is inferred to the Pronoun.
         /// </summary>
-        public IOption<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
+        public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
         /// <summary>
         /// Gets the EntityKind of the Pronoun.
         /// </summary>
@@ -162,7 +163,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the PronounKind of the Pronoun.
         /// </summary>
-        public PronounKind PronounKind { get; protected set; }
+        public Kind PronounKind { get; protected set; }
 
 
         /// <summary>
@@ -187,40 +188,40 @@ namespace LASI.Core
         /// </summary>
         /// <param name="pronoun">The pronoun whose gender to is to be checked</param>
         /// <returns>A PronounGenerder enum value representing the gender of the given pronoun.</returns>
-        private static PronounKind DetermineKind(Pronoun pronoun)
+        private static Kind DetermineKind(Pronoun pronoun)
         {
             var text = pronoun.Text.ToLower();
             return
                 males.Contains(text)
-                ? PronounKind.Male
+                ? Kind.Male
                 : maleReflexives.Contains(text)
-                ? PronounKind.MaleReflexive
+                ? Kind.MaleReflexive
                 : females.Contains(text)
-                ? PronounKind.Female : femaleReflexives.Contains(text)
-                ? PronounKind.FemaleReflexive
+                ? Kind.Female : femaleReflexives.Contains(text)
+                ? Kind.FemaleReflexive
                 : neutrals.Contains(text)
-                ? PronounKind.GenderNeurtral
+                ? Kind.GenderNeurtral
                 : neutralReflexives.Contains(text)
-                ? PronounKind.GenderNeurtralReflexive
+                ? Kind.GenderNeurtralReflexive
                 : firstPersonSingulars.Contains(text)
-                ? PronounKind.FirstPersonSingular
+                ? Kind.FirstPersonSingular
                 : firstPersonPluralReflexives.Contains(text)
-                ? PronounKind.FirstPersonPlural
+                ? Kind.FirstPersonPlural
                 : firstPersonPlurals.Contains(text)
-                ? PronounKind.FirstPersonPlural
+                ? Kind.FirstPersonPlural
                 : firstPersonPluralReflexives.Contains(text)
-                ? PronounKind.FirstPersonPluralReflexive
+                ? Kind.FirstPersonPluralReflexive
                 : secondPersons.Contains(text)
-                ? PronounKind.SecondPerson
+                ? Kind.SecondPerson
                 : secondPersonSingularReflexives.Contains(text)
-                ? PronounKind.SecondPersonSingularReflexive
+                ? Kind.SecondPersonSingularReflexive
                 : secondPersonPluralReflexives.Contains(text)
-                ? PronounKind.SecondPersonPluralReflexive
+                ? Kind.SecondPersonPluralReflexive
                 : thirdPersonGenderAmbiguousPlurals.Contains(text)
-                ? PronounKind.ThirdPersonGenderAmbiguousPlural
+                ? Kind.ThirdPersonGenderAmbiguousPlural
                 : thirdPersonPluralReflexives.Contains(text)
-                ? PronounKind.ThirdPersonPluralReflexive
-                : PronounKind.Undefined;
+                ? Kind.ThirdPersonPluralReflexive
+                : Kind.Undefined;
         }
         #endregion
 

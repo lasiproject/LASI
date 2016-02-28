@@ -625,6 +625,12 @@ namespace LASI.Utilities
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
 
+        public static IEnumerable<ZipHelper.ZipResult<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
+            first.Zip(second, (x, y) => ZipHelper.Create(x, y));
+
+        public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<ZipHelper.ZipResult<T1, T2>> zipped, Func<T1, T2, TResult> selector) =>
+            zipped.Select(x => ZipHelper.Apply(x, selector));
+
         /// <summary>
         /// Projects each element of the sequence into a new form incorporating its index.
         /// </summary>
@@ -645,6 +651,24 @@ namespace LASI.Utilities
             {
                 action();
             }
+        }
+
+        public static class ZipHelper
+        {
+            internal static ZipResult<T1, T2> Create<T1, T2>(T1 x, T2 y) => new ZipResult<T1, T2>
+            {
+                First = x,
+                Second = y
+            };
+
+            public class ZipResult<T1, T2>
+            {
+                internal T1 First { get; set; }
+                internal T2 Second { get; set; }
+
+            }
+            public static TResult Apply<T1, T2, TResult>(ZipResult<T1, T2> zipResult, Func<T1, T2, TResult> f) => f(zipResult.First, zipResult.Second);
+
         }
     }
 }

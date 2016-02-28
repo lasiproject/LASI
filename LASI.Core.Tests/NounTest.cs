@@ -72,9 +72,8 @@ namespace LASI.Core.Tests
         {
             Noun target = CreateNoun();
             IVerbal expected = new PastTenseVerb("walked");
-            IVerbal actual;
             target.BindAsDirectObjectOf(expected);
-            actual = target.DirectObjectOf;
+            var actual = target.DirectObjectOf;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -125,7 +124,7 @@ namespace LASI.Core.Tests
             Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
             IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
 
-            target.Possesser = expected.ToOption();
+            target.Possesser = expected.ToOption<IPossesser>();
             var actual = target.Possesser;
             Check.That(actual).IsEqualTo(expected);//).IsTrue();
         }
