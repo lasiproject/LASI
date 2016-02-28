@@ -507,6 +507,28 @@ namespace LASI.Utilities
         #region Partial Application
 
         /// <summary>
+        /// Partially applies a function taking 1 argument, of the form (T1) => TResult, by
+        /// binding the supplied value as the first argument and returning a new function of the
+        /// form () => TResult.
+        /// </summary>
+        /// <typeparam name="T1">
+        /// The type of the first argument of the function.
+        /// </typeparam>
+        /// <typeparam name="TResult">
+        /// The type of the result of the function.
+        /// </typeparam>
+        /// <param name="f">
+        /// The function to partially apply.
+        /// </param>
+        /// <param name="x">
+        /// The value to bind as the first argument.
+        /// </param>
+        /// <returns>
+        /// A new function, of the form () => TResult, produced by binding the supplied value
+        /// as the first argument.
+        /// </returns>
+        public static Func<TResult> Apply<T1, TResult>(this Func<T1, TResult> f, T1 x) => () => f(x);
+        /// <summary>
         /// Partially applies a function taking 2 arguments, of the form (T1, T2) => TResult, by
         /// binding the supplied value as the first argument and returning a new function of the
         /// form (T2) => TResult.

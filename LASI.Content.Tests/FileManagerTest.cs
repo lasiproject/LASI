@@ -135,7 +135,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertAsNeededAsyncTest()
         {
-            this.GetAllTestFiles().ToList().ForEach(file => FileManager.AddFile(file.FileName));
+            AllTestFiles.ToList().ForEach(file => FileManager.AddFile(file.FileName));
             await FileManager.ConvertAsNeededAsync();
 
             var filesUnconverted = FileManager.AllFiles
@@ -152,7 +152,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertAsNeededTest()
         {
-            GetAllTestFiles().ToList().ForEach(file => FileManager.AddFile(file.FileName));
+            AllTestFiles.ToList().ForEach(file => FileManager.AddFile(file.FileName));
             FileManager.ConvertAsNeeded();
 
             var unconvertedFiles =
@@ -169,7 +169,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocFilesAsyncTest()
         {
-            DocFile[] files = GetTestDocFiles();
+            DocFile[] files = TestDocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -185,7 +185,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocToTextAsyncTest()
         {
-            DocFile[] files = GetTestDocFiles();
+            DocFile[] files = TestDocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -201,7 +201,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocToTextTest()
         {
-            DocFile[] files = GetTestDocFiles();
+            DocFile[] files = TestDocFiles;
             FileManager.ConvertDocToText(files);
 
             foreach (var file in files)
@@ -217,7 +217,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocxToTextAsyncTest()
         {
-            DocXFile[] files = GetTestDocXFiles();
+            DocXFile[] files = TestDocXFiles;
             foreach (var path in from file in files select file.FullPath)
             {
                 FileManager.AddFile(path);
@@ -242,7 +242,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocxToTextTest()
         {
-            DocXFile[] files = GetTestDocXFiles();
+            DocXFile[] files = TestDocXFiles;
             FileManager.ConvertDocxToText(files);
 
             foreach (var file in files)
@@ -258,7 +258,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertPdfToTextAsyncTest()
         {
-            PdfFile[] files = GetTestPdfFiles();
+            PdfFile[] files = TestPdfFiles;
             await FileManager.ConvertPdfToTextAsync(files);
 
             foreach (var file in files)
@@ -274,7 +274,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertPdfToTextTest()
         {
-            PdfFile[] files = GetTestPdfFiles();
+            PdfFile[] files = TestPdfFiles;
             FileManager.ConvertPdfToText(files);
 
             foreach (var file in files)
@@ -304,11 +304,11 @@ namespace LASI.Content.Tests
         [Fact]
         public void HasSimilarFileTest()
         {
-            foreach (var file in GetAllTestFiles())
+            foreach (var file in AllTestFiles)
             {
                 FileManager.AddFile(file.FullPath);
             }
-            foreach (var file in GetAllTestFiles())
+            foreach (var file in AllTestFiles)
             {
                 Check.That(file.NameSansExt).Satisfies(FileManager.HasSimilarFile);
                 Check.That(file).Satisfies(FileManager.HasSimilarFile);
@@ -335,7 +335,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void RemoveFileTest()
         {
-            InputFile file = GetAllTestFiles().ElementAt(new Random().Next(0, GetAllTestFiles().Count()));
+            InputFile file = AllTestFiles.ElementAt(new Random().Next(0, AllTestFiles.Count()));
             FileManager.AddFile(file.FullPath);
 
             Check.That(file).Satisfies(FileManager.HasSimilarFile);
@@ -351,8 +351,8 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task TagTextFilesAsyncTest()
         {
-            var files = GetTestTxtFiles();
-            await FileManager.TagTextFilesAsync(files);
+            var files = TestTxtFiles;
+            await FileManager.TagTextFilesAsync();
 
             foreach (var file in files)
             {
@@ -367,48 +367,50 @@ namespace LASI.Content.Tests
         [Fact]
         public void TagTextFilesTest()
         {
-            TxtFile[] files = GetTestTxtFiles();
+            TxtFile[] files = TestTxtFiles;
             FileManager.TagTextFiles(files);
 
             foreach (var file in files)
             {
-                Check.That(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged"))
-                     .Satisfies(File.Exists);
+                Check.That(Path.Combine(FileManager.TaggedFilesDirectory, file.NameSansExt + ".tagged")).Satisfies(File.Exists);
             }
         }
 
-        private IEnumerable<InputFile> GetAllTestFiles()
+        private IEnumerable<InputFile> AllTestFiles
         {
-            foreach (var file in GetTestDocFiles()) yield return file;
-            foreach (var file in GetTestDocXFiles()) yield return file;
-            foreach (var file in GetTestPdfFiles()) yield return file;
-            foreach (var file in GetTestTxtFiles()) yield return file;
+            get
+            {
+                foreach (var file in TestDocFiles) yield return file;
+                foreach (var file in TestDocXFiles) yield return file;
+                foreach (var file in TestPdfFiles) yield return file;
+                foreach (var file in TestTxtFiles) yield return file;
+            }
         }
 
-        private FileInfo CopyToRunningTestDirectory(FileInfo fileInfo) => fileInfo.CopyTo($@"{testProjectDirectory}\{fileInfo.Name}", overwrite: true);
+        private readonly static Func<FileInfo, FileInfo> CopyToRunningTestDirectory = fileInfo => fileInfo.CopyTo($@"{testProjectDirectory}\{fileInfo.Name}", overwrite: true);
 
-        private DocFile[] GetTestDocFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private DocFile[] TestDocFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(f => f.Extension == ".doc")
                 .Select(CopyToRunningTestDirectory)
                 .Select(f => new DocFile(f.FullName))
                 .ToArray();
 
-        private DocXFile[] GetTestDocXFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private DocXFile[] TestDocXFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".docx")
                 .Select(CopyToRunningTestDirectory)
                 .Select(f => new DocXFile(f.FullName))
                 .ToArray();
 
-        private PdfFile[] GetTestPdfFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private PdfFile[] TestPdfFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(i => i.Extension == ".pdf")
                 .Select(CopyToRunningTestDirectory)
                 .Select(f => new PdfFile(f.FullName))
                 .ToArray();
 
-        private TxtFile[] GetTestTxtFiles() => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
+        private TxtFile[] TestTxtFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
                 .EnumerateFiles()
                 .Where(f => f.Extension == ".txt")
                 .Select(CopyToRunningTestDirectory)
@@ -433,7 +435,7 @@ namespace LASI.Content.Tests
         private static int TestOffset;
         private readonly string testMethodWorkingDirectory;
         private const string TEST_MOCK_FILES_RELATIVE_PATH = @"..\..\MockUserFiles";
-        private string testProjectDirectory;
+        private static string testProjectDirectory;
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

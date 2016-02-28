@@ -1,12 +1,21 @@
 ﻿namespace LASI.Interop
 {
+    using Utilities;
     using System;
     using System.Collections.Generic;
     /// <summary>
-    /// Centralizes management and control of the concurrency level of concurrent operations.
+    /// Provides high level management facilities for the concurrency concurrency level of operations performed by the analysis facilities in LASI.Core.
+    /// Adjust these values via the <see cref="SetByPerformanceMode(PerformanceProfile)"/> to dynamically adapt the peak consumption of Logical Cores.
     /// </summary>
     public static class Concurrency
     {
+        static Concurrency()
+        {
+            // This is critical for LASI.Core to obey the same concurrency constraints as its client
+            // assemblies without a circular dependency
+            Core.Configuration.Configuration.ConfigureConcurrency(ComputeHighMax.Apply(Environment.ProcessorCount));
+        }
+
         /// <summary>
         /// Sets the maximum allowed Concurrency level based on the supplied ResourceUsageMode.
         /// </summary>
@@ -22,32 +31,17 @@
 
         private static readonly IDictionary<PerformanceProfile, Func<int, int>> concurrencyCalculationMap = new Dictionary<PerformanceProfile, Func<int, int>>
         {
-            [PerformanceProfile.High] = cores => cores < 3 ? cores : cores - 1,
-            [PerformanceProfile.Normal] = cores => cores < 3 ? cores : cores - 2,
-            [PerformanceProfile.Low] = cores => cores < 4 ? 1 : cores - 3,
-            [0] = cores => ComputeDefaultMax()
+            [PerformanceProfile.High] = ComputeHighMax,
+            [PerformanceProfile.Normal] = ComputeNormalMax,
+            [PerformanceProfile.Low] = ComputeLowMax
         };
 
-        /// <summary>
-        /// Gets the default maximum number of logical CPU cores, based on the executing hardware,
-        /// the document analysis process is allowed to utilize.
-        /// </summary>
-        /// <returns>
-        /// The default maximum number of logical CPU cores the document analysis process is allowed
-        /// to utilize.
-        /// </returns>
-        private static int ComputeDefaultMax()
-        {
-            var logicalCores = Environment.ProcessorCount;
-            return logicalCores < 3 ? logicalCores : logicalCores - 1;
-        }
+        private static Func<int, int> ComputeHighMax = (int logicalCores) => logicalCores < 3 ? logicalCores : logicalCores - 1;
 
-        static Concurrency()
-        {
-            // This is critical for LASI.Core to obey the same concurrency constraints as its client
-            // assemblies without a circular dependency
-            Core.Configuration.Configuration.ConfigureConcurrency(ComputeDefaultMax);
-        }
+        private static Func<int, int> ComputeNormalMax = (int logicalCores) => logicalCores < 3 ? logicalCores : logicalCores - 2;
+
+        private static Func<int, int> ComputeLowMax = (int logicalCores) => logicalCores < 4 ? 1 : logicalCores - 3;
+
 
         /// <summary>
         /// Gets the maximum allowed Concurrency level for Parallel operations.
