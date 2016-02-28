@@ -15,17 +15,11 @@ namespace LASI.Core.Analysis.Heuristics
     /// </summary>
     public static class NaiveTopResultSelector
     {
+
         private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source) =>
-            from svs in GetVerbWiseRelationships(source)
-            let dataPoint = new
-            {
-                Key = $@"{svs.Subject.Text} -> {svs.Verbal.Text}
-                         {(svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty)}
-                         {(svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)}",
-                Value = (float)Math.Round(svs.Weight, 2)
-            }
-            group dataPoint by dataPoint into pointGroup
-            select Pair.Create(pointGroup.Key.Key, pointGroup.Key.Value);
+            GetVerbWiseRelationships(source)
+                .Select(relationship => Pair.Create(CreateKey(relationship), (float)Math.Round(relationship.Weight, 2)))
+                .Distinct();
 
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source)
         {
@@ -65,12 +59,18 @@ namespace LASI.Core.Analysis.Heuristics
                             .Then((IReferencer r) => r.RefersTo)
                             .Result(entity)
                           where e != null
-                          group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into g
-                          where g.Any()
-                          let topOfGroup = g.MaxBy(x => x.Value)
-                          orderby topOfGroup.Value descending
-                          select Pair.Create(topOfGroup.Name, topOfGroup.Value);
+                          group new { Name = e.Text, Value = (float)Math.Round(e.Weight, 2) } by e.Text into byText
+                          where byText.Any()
+                          let top = byText.MaxBy(x => x.Value)
+                          orderby top.Value descending
+                          select Pair.Create(top.Name, top.Value);
             return results;
         }
+
+        private static string CreateKey(SvoRelationship svs) =>
+            $@"{svs.Subject.Text} -> {svs.Verbal.Text}
+               {(svs.Direct != null ? " -> " + svs.Direct.Text : string.Empty)}
+               {(svs.Indirect != null ? " -> " + svs.Indirect.Text : string.Empty)}";
+
     }
 }

@@ -594,10 +594,13 @@ namespace LASI.Utilities
         /// from the three input sequences.
         /// </returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first,
-                IEnumerable<TSecond> second,
-                IEnumerable<TThird> third,
-                Func<TFirst, TSecond, TThird, TResult> selector) =>
-            first.Zip(second, (a, b) => new { a, b }).Zip(third, (ab, c) => selector(ab.a, ab.b, c));
+            IEnumerable<TSecond> second,
+            IEnumerable<TThird> third,
+            Func<TFirst, TSecond, TThird, TResult> selector) =>
+            first.Zip(second)
+                .With((a, b) => new { a, b })
+                .Zip(third)
+                .With((ab, c) => selector(ab.a, ab.b, c));
 
         /// <summary>Merges four sequences by using the specified function to select elements.</summary>
         /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
@@ -618,10 +621,11 @@ namespace LASI.Utilities
         /// </returns>
         public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(
             this IEnumerable<T1> first,
-                IEnumerable<T2> second,
-                IEnumerable<T3> third,
-                IEnumerable<T4> fourth,
-                Func<T1, T2, T3, T4, TResult> selector) => first
+            IEnumerable<T2> second,
+            IEnumerable<T3> third,
+            IEnumerable<T4> fourth,
+            Func<T1, T2, T3, T4, TResult> selector) =>
+            first
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
 

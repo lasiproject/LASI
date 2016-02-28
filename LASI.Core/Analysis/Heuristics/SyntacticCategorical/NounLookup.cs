@@ -37,10 +37,7 @@ namespace LASI.Core.Heuristics.WordNet
             var setsEnumerated = 0;
             //var setsSampled = 0;
             var indexedSynsets = LoadData()
-                .Zip(
-                                     Range(1, TotalLines),
-                                     (line, i) => new { Set = CreateSet(line), LineNumber = i }
-                                 );
+                .Zip(Range(1, TotalLines)).With((line, i) => new { Set = CreateSet(line), LineNumber = i });
             try
             {
                 foreach (var indexed in indexedSynsets)

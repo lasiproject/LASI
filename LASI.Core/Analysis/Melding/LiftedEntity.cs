@@ -27,16 +27,25 @@ namespace LASI.Core.Analysis.Melding
         /// <param name="represented">The set of entities which have been merged into this single LiftedEntity.</param>
         public LiftedEntity(IEntity avatar, IEnumerable<IEntity> represented)
         {
-            this.avatar = avatar;
-            this.represented = represented.ToImmutableList();
+            Avatar = avatar;
 
-            directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf.Match((IAggregateVerbal v) => from x in v select x, (IVerbal v) => v.Lift())).ToAggregate();
+            Represented = represented.ToImmutableList();
+
+            directObjectsOfVerbals = FlattenAbout(e => e.DirectObjectOf.Match()
+                    .Case((IAggregateVerbal v) => v.AsEnumerable())
+                    .Case((IVerbal v) => v.Lift())
+                    .Result())
+                .ToAggregate();
+
             indirectObjectsOfVerbals = FlattenAbout(e => e.IndirectObjectOf).ToAggregate();
+
             subjectsOfVerbals = FlattenAbout(e => e.SubjectOf).ToAggregate();
 
-            possessions = FlattenAbout(e => e.Possessions);
-            descriptors = FlattenAbout(e => e.Descriptors);
-            referencers = FlattenAbout(e => e.Referencers);
+            possessions = FlattenAbout(e => e.Possessions).ToImmutableHashSet();
+
+            descriptors = FlattenAbout(e => e.Descriptors).ToImmutableHashSet();
+
+            referencers = FlattenAbout(e => e.Referencers).ToImmutableHashSet();
         }
         public void BindDescriptor(IDescriptor descriptor)
         {
@@ -87,7 +96,7 @@ namespace LASI.Core.Analysis.Melding
         public IEnumerable<IReferencer> Referencers => referencers;
         public IEnumerable<IPossessable> Possessions => possessions;
 
-        public EntityKind EntityKind => avatar.EntityKind;
+        public EntityKind EntityKind => Avatar.EntityKind;
 
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the subject of.
@@ -114,38 +123,38 @@ namespace LASI.Core.Analysis.Melding
 
         public Option<IPossesser> Possesser { get; set; } = Option.None<IPossesser>();
 
-        public string Text => avatar.Text;
+        public string Text => Avatar.Text;
 
         public double Weight
         {
-            get { return represented.Average(w => w.Weight); }
-            set { represented.ForEach(entity => entity.Weight = value); }
+            get { return Represented.Average(w => w.Weight); }
+            set { Represented.ForEach(entity => entity.Weight = value); }
         }
 
         public double MetaWeight
         {
-            get { return represented.Average(w => w.MetaWeight); }
-            set { represented.ForEach(entity => entity.MetaWeight = value); }
+            get { return Represented.Average(w => w.MetaWeight); }
+            set { Represented.ForEach(entity => entity.MetaWeight = value); }
         }
+
+        public IEntity Avatar { get; }
+
+        public ImmutableList<IEntity> Represented { get; }
 
 
         #region Helper Methods
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) =>
-            from r in represented
+            from r in Represented
             let result = selector(r)
             where result != null
             select result;
 
-        private IImmutableSet<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
-            represented.SelectMany(e => collectionSelector(e).Where(r => r != null)).ToImmutableHashSet();
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
+            Represented.SelectMany(e => collectionSelector(e).Where(r => r != null));
         #endregion Private Helper Methods
 
         #region Fields
-
-
-        private readonly IEntity avatar;
-        private readonly ImmutableList<IEntity> represented;
 
         private readonly IImmutableSet<IPossessable> possessions;
         private readonly IImmutableSet<IReferencer> referencers;

@@ -183,10 +183,21 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void SetEqualUsesSetsemantics()
         {
-            var values = new[] { 1, 2, 3 };
-            Check.That(values.SetEqual(new[] { 3, 1, 2 })).IsTrue();
-            Check.That(values.SetEqual(new[] { 3, 1, 2, 1 })).IsTrue();
-            Check.That(values.SetEqual(new[] { 3, 2, 1, 2, 1, 3 })).IsTrue();
+            var expectedToBeSetEqual = new[] { 1, 2, 3 };
+
+            Check.That(expectedToBeSetEqual.SetEqual(new[] { 3, 1, 2 })).IsTrue();
+            Check.That(expectedToBeSetEqual.SetEqual(new[] { 3, 1, 2, 1 })).IsTrue();
+            Check.That(expectedToBeSetEqual.SetEqual(new[] { 3, 2, 1, 2, 1, 3 })).IsTrue();
+        }
+
+        [Fact]
+        public void SetEqualRequiresSymmetry()
+        {
+            var expectedToNotBeSetEqual = new[] { 1, 2, 3, 5 };
+
+            Check.That(expectedToNotBeSetEqual.SetEqual(new[] { 3, 1, 2 })).IsFalse();
+            Check.That(expectedToNotBeSetEqual.SetEqual(new[] { 3, 1, 2, 1 })).IsFalse();
+            Check.That(expectedToNotBeSetEqual.SetEqual(new[] { 3, 2, 1, 2, 1, 3 })).IsFalse();
         }
 
         [Fact]
@@ -197,37 +208,125 @@ namespace LASI.Utilities.Tests
         }
 
         [Fact]
+        public void ZipWithHasSameBehaviorAsZip()
+        {
+            Func<int, int, int> selector = (x, y) => x + y * y;
+            var first = Range(1, 10);
+            var second = Range(10, 20);
+
+            var expected = first.Zip(second, selector);
+            var zipWithed = first.Zip(second).With(selector);
+
+            Check.That(expected).ContainsExactly(zipWithed);
+        }
+
+        [Fact]
         public void Zip3Test()
         {
-            Zip3TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
-            Zip3TestHelper(new[] { 2, 4, 6, 5 }, new[] { 1, 3, 5, }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
-            Zip3TestHelper(new[] { 2, 4, 6, 5 }, new[] { 1, 3, 5, 5 }, new[] { 11, 24, 25 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
-            Zip3TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 5 }, new[] { 11, 24, 25, 5 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
-            Zip3TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 5 }, (x, y, z) => x + y + z, new[] { 14, 31, 36 });
+            Zip3TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25 },
+                selector: (x, y, z) => x + y + z,
+                expected: new[] { 14, 31, 36 });
+            Zip3TestHelper(
+                first: new[] { 2, 4, 6, 5 },
+                second: new[] { 1, 3, 5, },
+                third: new[] { 11, 24, 25 },
+                selector: (x, y, z) => x + y + z,
+                expected: new[] { 14, 31, 36 });
+            Zip3TestHelper(
+                first: new[] { 2, 4, 6, 5 },
+                second: new[] { 1, 3, 5, 5 },
+                third: new[] { 11, 24, 25 },
+                selector: (x, y, z) => x + y + z,
+                expected: new[] { 14, 31, 36 });
+            Zip3TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5, 5 },
+                third: new[] { 11, 24, 25, 5 },
+                selector: (x, y, z) => x + y + z,
+                expected: new[] { 14, 31, 36 });
+            Zip3TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25, 5 },
+                selector: (x, y, z) => x + y + z,
+                expected: new[] { 14, 31, 36 });
         }
 
         private static void Zip3TestHelper<T1, T2, T3, TResult>(T1[] first, T2[] second, T3[] third, Func<T1, T2, T3, TResult> selector, TResult[] expected)
         {
             var result = first.Zip(second, third, selector).ToArray();
-            Check.That(result.Length).Equals(expected.Length);
-            for (var i = 0; i < result.Length; ++i)
-            {
-                Check.That(result[i]).Equals(expected[i]);
-            }
+            Check.That(result).ContainsExactly(expected);
         }
 
         [Fact]
         public void Zip4Test()
         {
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 1 }, new[] { 14, 31, 36 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6 }, new[] { 1, 3, 5 }, new[] { 11, 24, 25, 1 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
-            Zip4TestHelper(new[] { 2, 4, 6, 1 }, new[] { 1, 3, 5, 1 }, new[] { 11, 24, 25 }, new[] { 14, 31, 36, 1 }, (a, b, c, d) => a + b + c + d, new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6, 1 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5, 1 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25, 1 },
+                fourth: new[] { 14, 31, 36 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36, 1 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6, 1 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36, 1 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5, 1 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36, 1 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6 },
+                second: new[] { 1, 3, 5 },
+                third: new[] { 11, 24, 25, 1 },
+                fourth: new[] { 14, 31, 36, 1 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
+            Zip4TestHelper(
+                first: new[] { 2, 4, 6, 1 },
+                second: new[] { 1, 3, 5, 1 },
+                third: new[] { 11, 24, 25 },
+                fourth: new[] { 14, 31, 36, 1 },
+                selector: (a, b, c, d) => a + b + c + d,
+                expected: new[] { 28, 62, 72 });
         }
 
         [Fact]
@@ -248,21 +347,23 @@ namespace LASI.Utilities.Tests
         public void AggregateWithIndexPassesCorrectIndex()
         {
             var values = Range(1, 10);
-            Check.That(values.Aggregate((sum, n, i) => sum + n + i)).Equals(values.Select((n, i) => n + i).Aggregate((sum, n) => sum + n));
+            var expected = values.Select((n, i) => n + i).Aggregate((sum, n) => sum + n);
+            var results = values.Aggregate((sum, n, i) => sum + n + i);
+            Check.That(results).IsEqualTo(expected);
         }
 
         [Fact]
         public void AggregateWithIndexSpecifiesExpectedIndexAndAppliesResultSelector()
         {
             var values = Range(1, 10);
-            Check.That(values.Aggregate(1, (sum, n, i) => sum + n + i, r => r * 2)).Equals(values.Select((n, i) => n + i).Aggregate(1, (sum, n) => sum + n, r => r * 2));
+            Check.That(values.Aggregate(1, (sum, n, i) => sum + n + i, r => r * 2)).IsEqualTo(values.Select((n, i) => n + i).Aggregate(1, (sum, n) => sum + n, r => r * 2));
         }
 
         [Fact]
         public void AggregateWithIndexSpecifyingSeedPassesCorrectIndexTo()
         {
             var values = Range(1, 10);
-            Check.That(values.Aggregate(string.Empty, (result, n, i) => $"{result}, {i}").TrimStart(',').TrimStart()).Equals(string.Join(", ", values.Select((n, i) => i)));
+            Check.That(values.Aggregate(string.Empty, (result, n, i) => $"{result}, {i}").TrimStart(',').TrimStart()).IsEqualTo(string.Join(", ", values.Select((n, i) => i)));
         }
 
         [Fact]

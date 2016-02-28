@@ -255,32 +255,36 @@ namespace LASI.App
         private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
             var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
-            return verbWiseRelationships
-                .Select(relationship =>
-                    new ChartItem(
-                        key: $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
-                            {(relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty)}
-                            {(relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty)}",
-                        value: (float)Math.Round(relationship.Weight, 2)))
-                .Distinct();
+            var chartItems =
+                from relationship in verbWiseRelationships
+                let key = $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
+                             {(relationship.Direct != null ? " -> " + relationship.Direct.Text : string.Empty)}
+                             {(relationship.Indirect != null ? " -> " + relationship.Indirect.Text : string.Empty)}"
+                let value = (float)Math.Round(relationship.Weight, 2)
+                select new ChartItem(key, value);
+            return chartItems.Distinct();
         }
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) => await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
+        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) => 
+            await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
 
         private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
             var consideredVerbals = document.Phrases.OfVerbal()
-                .WithSubject(subject => subject.Match((IReferencer r) => r.RefersTo != null, (IEntity e) => e != null))
+                .WithSubject(subject => subject.Match(
+                    (IReferencer r) => r.RefersTo != null, 
+                    (IEntity e) => e != null))
                 .Distinct((x, y) => x.IsSimilarTo(y))
-                .AsParallel().WithDegreeOfParallelism(Concurrency.Max);
+                .AsParallel()
+                .WithDegreeOfParallelism(Concurrency.Max);
 
             return from verbal in consideredVerbals
                    select verbal into verbal
                    from entity in verbal.Subjects.AsParallel().WithDegreeOfParallelism(Concurrency.Max)
                    let subject = entity.Match()
-                                      .When((IReferencer r) => r.RefersTo.EmptyIfNull().Any())
-                                      .Then((IReferencer r) => r.RefersTo)
-                                      .Result(entity)
+                       .When((IReferencer r) => r.RefersTo.EmptyIfNull().Any())
+                       .Then((IReferencer r) => r.RefersTo)
+                       .Result(entity)
                    from direct in verbal.DirectObjects.DefaultIfEmpty()
                    from indirect in verbal.IndirectObjects.DefaultIfEmpty()
                    where direct != null || indirect != null

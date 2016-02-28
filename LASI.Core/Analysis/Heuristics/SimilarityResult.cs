@@ -169,10 +169,10 @@ namespace LASI.Core
         /// equality over phrase-wise comparisons.
         /// </summary>
         /// <param name="left">
-        /// The SimRult on the left hand side.
+        /// The Similarity on the left hand side.
         /// </param>
         /// <param name="right">
-        /// The SimRult on the right hand side.
+        /// The Similarity on the right hand side.
         /// </param>
         /// <returns>
         /// <c>true</c> if the SimResult on the left is equal to the SimResult on the right.
@@ -194,10 +194,10 @@ namespace LASI.Core
         /// equality over phrase-wise comparisons.
         /// </summary>
         /// <param name="left">
-        /// The SimRult on the left hand side.
+        /// The Similarity on the left hand side.
         /// </param>
         /// <param name="right">
-        /// The SimRult on the right hand side.
+        /// The Similarity on the right hand side.
         /// </param>
         /// <returns>
         /// False if the SimResult on the left is equal to the SimResult on the right.
