@@ -102,7 +102,7 @@ namespace LASI.Core.Tests
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
              ).Aggregate(true, (f, e) => f && e));
             Assert.True(doc.Phrases
-                .Select((x, index) => x.PreviousPhrase == doc.Phrases.ElementAtOrDefault(index - 1) && x.NextPhrase == doc.Phrases.ElementAtOrDefault(index + 1)
+                .Select((x, index) => x.Previous == doc.Phrases.ElementAtOrDefault(index - 1) && x.Next == doc.Phrases.ElementAtOrDefault(index + 1)
                 ).Aggregate(true, (f, e) => f && e));
             Assert.True(doc != null);
         }

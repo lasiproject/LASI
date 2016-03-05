@@ -65,7 +65,7 @@ namespace LASI.Core.Analysis.Binding
         {
             var results = new List<Func<Phrase>>();
             var targetVerbPhrases = elements.Select(e => e.Match()
-                    .Case((ConjunctionPhrase c) => c.NextPhrase as VerbPhrase)
+                    .Case((ConjunctionPhrase c) => c.Next as VerbPhrase)
                     .Case((SymbolPhrase s) => s.NextPhrase.Match()
                             .Case((VerbPhrase v) => v).Result(s.NextPhrase.NextPhrase as VerbPhrase))
                     .Case((VerbPhrase v) => v)
