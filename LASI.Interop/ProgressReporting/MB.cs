@@ -1,18 +1,25 @@
-﻿namespace LASI.Interop
+﻿using System;
+
+namespace LASI.Interop
 {
     /// <summary>
     /// Represents a positive quantity in MegaBytes.
     /// </summary>
-    public struct MB : System.IEquatable<MB>, System.IComparable<MB>
+    public struct MB : IEquatable<MB>, IComparable<MB>
     {
         #region constructors
         /// <summary>
         /// Initializes a new instance of the MB structure with the specified value.
         /// </summary>
-        /// <param name="quantity">The quantity of MegaBytes the MB will represent.</param>
-        public MB(int quantity)
+        /// <param name="value">The quantity of MegaBytes the MB will represent.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is negative.</exception>
+        public MB(int value)
         {
-            this.quantity = quantity;
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), $"{nameof(value)} may not be negative.");
+            }
+            this.value = value;
         }
         #endregion constructors
 
@@ -25,16 +32,19 @@
         /// <c>true</c> if the specified object is equal to the current MB; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj) => obj is MB && this == (MB)obj;
+
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
-        public override int GetHashCode() => quantity.GetHashCode();
+        public override int GetHashCode() => value.GetHashCode();
+        
         /// <summary>
         /// Returns a string representation of the MB.
         /// </summary>
         /// <returns>A string representation of the MB.</returns>
-        public override string ToString() => quantity + "MB";
+        public override string ToString() => value + "MB";
+        
         /// <summary>
         /// Returns a value that indicates whether the specified object is equal to the current MB.
         /// </summary>
@@ -43,6 +53,7 @@
         /// <c>true</c> if the specified object is equal to the current MB; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(MB other) => this == other;
+        
         /// <summary>
         /// Compares the current MB with another MB.
         /// </summary>
@@ -53,14 +64,14 @@
         /// indicates that this instance is equal to the other MB. A value greater than zero
         /// indicates that this instance is greater than the other MB.
         /// </returns>
-        public int CompareTo(MB other) => quantity.CompareTo(other.quantity);
+        public int CompareTo(MB other) => value.CompareTo(other.value);
         #endregion public methods
 
         #region properties
         /// <summary>
         /// Stores the quantity of MegaBytes the MB represents.
         /// </summary>
-        private int quantity;
+        private int value;
         #endregion properties
 
         #region conversion operators
@@ -70,13 +81,14 @@
         /// <param name="quantity">The value to convert to an MB.</param>
         /// <returns>A new MB instance representing the value of the int as a megabytes.</returns>
         public static explicit operator MB(int quantity) => new MB(quantity);
+        
         /// <summary>
         /// Converts the specified MB into a int value corresponding to the quantity of MegaBytes
         /// it represents.
         /// </summary>
         /// <param name="MB">The value to convert to an MB.</param>
         /// <returns>A new MB instance representing the value of the int as a megabytes.</returns>
-        public static explicit operator int(MB MB) => MB.quantity;
+        public static explicit operator int(MB MB) => MB.value;
         #endregion conversion operators
 
         #region operator + overloads
@@ -86,21 +98,23 @@
         /// <param name="left">The first MB.</param>
         /// <param name="right">The second MB</param>
         /// <returns>An MB representing the sum of the quantities of the provided MBs.</returns>
-        public static MB operator +(MB left, MB right) => new MB(left.quantity + right.quantity);
+        public static MB operator +(MB left, MB right) => new MB(left.value + right.value);
+        
         /// <summary>
         /// Returns an MB representing the sum of the provided MB and the provided int.
         /// </summary>
         /// <param name="left">The MB.</param>
         /// <param name="right">The int.</param>
         /// <returns>An MB representing the sum of the provided MB and the provided int.</returns>
-        public static MB operator +(MB left, int right) => new MB(left.quantity + right);
+        public static MB operator +(MB left, int right) => new MB(left.value + right);
+        
         /// <summary>
         /// Returns an MB representing the sum of the provided int and the provided MB.
         /// </summary>
         /// <param name="left">The int.</param>
         /// <param name="right">The MB.</param>
         /// <returns>An MB representing the sum of the provided int and the provided MB.</returns>
-        public static MB operator +(int left, MB right) => new MB(left + right.quantity);
+        public static MB operator +(int left, MB right) => new MB(left + right.value);
         #endregion operator + overloads
 
         #region operator - overloads
@@ -110,7 +124,8 @@
         /// <param name="left">The first MB.</param>
         /// <param name="right">The second MB</param>
         /// <returns>An MB representing the difference of the quantities of the provided MBs.</returns>
-        public static MB operator -(MB left, MB right) => new MB(left.quantity - right.quantity);
+        public static MB operator -(MB left, MB right) => new MB(left.value - right.value);
+        
         /// <summary>
         /// Returns an MB representing the difference of the provided MB and the provided int.
         /// </summary>
@@ -119,7 +134,8 @@
         /// <returns>
         /// An MB representing the difference of the provided MB and the provided int.
         /// </returns>
-        public static MB operator -(MB left, int right) => new MB(left.quantity - right);
+        public static MB operator -(MB left, int right) => new MB(left.value - right);
+        
         /// <summary>
         /// Returns an MB representing the difference of the provided int and the provided MB.
         /// </summary>
@@ -128,7 +144,7 @@
         /// <returns>
         /// An MB representing the difference of the provided int and the provided MB.
         /// </returns>
-        public static MB operator -(int left, MB right) => new MB(left - right.quantity);
+        public static MB operator -(int left, MB right) => new MB(left - right.value);
         #endregion operator - overloads
 
         #region operator * overloads
@@ -138,7 +154,8 @@
         /// <param name="left">The first MB.</param>
         /// <param name="right">The second MB</param>
         /// <returns>An MB representing the product of the quantities of the provided MBs.</returns>
-        public static MB operator *(MB left, MB right) => new MB(left.quantity * right.quantity);
+        public static MB operator *(MB left, MB right) => new MB(left.value * right.value);
+        
         /// <summary>
         /// Returns an MB representing the product of the provided MB and the provided int.
         /// </summary>
@@ -147,7 +164,8 @@
         /// <returns>
         /// An MB representing the product of the provided MB and the provided int.
         /// </returns>
-        public static MB operator *(MB left, int right) => new MB(left.quantity * right);
+        public static MB operator *(MB left, int right) => new MB(left.value * right);
+        
         /// <summary>
         /// Returns an MB representing the product of the provided int and the provided MB.
         /// </summary>
@@ -156,7 +174,7 @@
         /// <returns>
         /// An MB representing the product of the provided int and the provided MB.
         /// </returns>
-        public static MB operator *(int left, MB right) => new MB(left * right.quantity);
+        public static MB operator *(int left, MB right) => new MB(left * right.value);
         #endregion operator * overloads
 
         #region operator / overloads
@@ -166,7 +184,8 @@
         /// <param name="left">The first MB.</param>
         /// <param name="right">The second MB</param>
         /// <returns>An MB representing the quotient of the quantities of the the provided MBs.</returns>
-        public static MB operator /(MB left, MB right) => new MB(left.quantity / right.quantity);
+        public static MB operator /(MB left, MB right) => new MB(left.value / right.value);
+        
         /// <summary>
         /// Returns an MB representing the quotient of the  provided MB and the provided int.
         /// </summary>
@@ -175,7 +194,8 @@
         /// <returns>
         /// An MB representing the quotient of the provided MB and the provided int.
         /// </returns>
-        public static MB operator /(MB left, int right) => new MB(left.quantity / right);
+        public static MB operator /(MB left, int right) => new MB(left.value / right);
+        
         /// <summary>
         /// Returns an MB representing the quotient of the provided int and the provided MB.
         /// </summary>
@@ -184,8 +204,7 @@
         /// <returns>
         /// An MB representing the quotient of the provided int and the provided MB.
         /// </returns>
-        public static MB operator /(int left, MB right) => new MB(left / right.quantity);
-
+        public static MB operator /(int left, MB right) => new MB(left / right.value);
         #endregion operator / overloads
 
         #region relational operator overloads
@@ -196,42 +215,48 @@
         /// <param name="left">The first MB to compare.</param>
         /// <param name="right">The second MB to compare.</param>
         /// <returns><c>true</c> if the left MB is less than the right MB.</returns>
-        public static bool operator <(MB left, MB right) => left.quantity < right.quantity;
+        public static bool operator <(MB left, MB right) => left.value < right.value;
+
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than another specified MB.
         /// </summary>
         /// <param name="left">The first MB to compare.</param>
         /// <param name="right">The second MB to compare.</param>
         /// <returns><c>true</c> if the left MB is greater than the right MB.</returns>
-        public static bool operator >(MB left, MB right) => left.quantity > right.quantity;
+        public static bool operator >(MB left, MB right) => left.value > right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is less than a specified int.
         /// </summary>
         /// <param name="left">The MB to compare.</param>
         /// <param name="right">The int to compare.</param>
         /// <returns><c>true</c> if the MB on the left is less than the unit on the right.</returns>
-        public static bool operator <(MB left, int right) => left.quantity < right;
+        public static bool operator <(MB left, int right) => left.value < right;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified int is greater than a specified MB.
         /// </summary>
         /// <param name="left">The int to compare.</param>
         /// <param name="right">The MB to compare.</param>
         /// <returns><c>true</c> if the int on the left is greater than the MB on the right.</returns>
-        public static bool operator >(int left, MB right) => left > right.quantity;
+        public static bool operator >(int left, MB right) => left > right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified int is less than a specified MB.
         /// </summary>
         /// <param name="left">The int to compare.</param>
         /// <param name="right">The MB to compare.</param>
         /// <returns><c>true</c> if the int on the left is less than the MB on the right.</returns>
-        public static bool operator <(int left, MB right) => left < right.quantity;
+        public static bool operator <(int left, MB right) => left < right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than a specified int.
         /// </summary>
         /// <param name="left">The MB to compare.</param>
         /// <param name="right">The int to compare.</param>
         /// <returns><c>true</c> if the MB on the left is greater than the unit on the right.</returns>
-        public static bool operator >(MB left, int right) => left.quantity > right;
+        public static bool operator >(MB left, int right) => left.value > right;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is less than or equal to another
         /// specified MB.
@@ -241,7 +266,8 @@
         /// <returns>
         /// <c>true</c> if the MB on the left is less than or equal to the MB on the right.
         /// </returns>
-        public static bool operator <=(MB left, MB right) => left.quantity <= right.quantity;
+        public static bool operator <=(MB left, MB right) => left.value <= right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than or equal to
         /// another specified MB.
@@ -251,7 +277,8 @@
         /// <returns>
         /// <c>true</c> if the MB on the left is greater than or equal to the MB on the right.
         /// </returns>
-        public static bool operator >=(MB left, MB right) => left.quantity >= right.quantity;
+        public static bool operator >=(MB left, MB right) => left.value >= right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is less than or equal to a
         /// specified int.
@@ -261,7 +288,7 @@
         /// <returns>
         /// <c>true</c> if the MB on the left is less than or equal to the unit on the right.
         /// </returns>
-        public static bool operator <=(MB left, int right) => left.quantity <= right;
+        public static bool operator <=(MB left, int right) => left.value <= right;
 
         /// <summary>
         /// Returns a value that indicates whether a specified int is greater than or equal to a
@@ -272,7 +299,7 @@
         /// <returns>
         /// <c>true</c> if the int on the left is greater than or equal to the MB on the right.
         /// </returns>
-        public static bool operator >=(int left, MB right) => left >= right.quantity;
+        public static bool operator >=(int left, MB right) => left >= right.value;
 
         /// <summary>
         /// Returns a value that indicates whether a specified int is less than or equal to a
@@ -283,7 +310,8 @@
         /// <returns>
         /// <c>true</c> if the int on the left is less than or equal to the MB on the right.
         /// </returns>
-        public static bool operator <=(int left, MB right) => left <= right.quantity;
+        public static bool operator <=(int left, MB right) => left <= right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether a specified MB is greater than or equal to a
         /// specified int.
@@ -293,14 +321,16 @@
         /// <returns>
         /// <c>true</c> if the MB on the left is greater than or equal to the int on the right.
         /// </returns>
-        public static bool operator >=(MB left, int right) => left.quantity >= right;
+        public static bool operator >=(MB left, int right) => left.value >= right;
+        
         /// <summary>
         /// Returns a value that indicates whether two specified MB structures are equal.
         /// </summary>
         /// <param name="left">The first MB to compare.</param>
         /// <param name="right">The second MB to compare.</param>
         /// <returns><c>true</c> if the specified Weight instances are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(MB left, MB right) => left.quantity == right.quantity;
+        public static bool operator ==(MB left, MB right) => left.value == right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether two specified MB structures are not equal.
         /// </summary>
@@ -310,13 +340,15 @@
         /// <c>true</c> if the specified Weight instances are not equal; otherwise, <c>false</c>.
         /// </returns>
         public static bool operator !=(MB left, MB right) => !(left == right);
+        
         /// <summary>
         /// Returns a value that indicates whether the MB on the left is equal to the int on the right.
         /// </summary>
         /// <param name="left">The MB to compare.</param>
         /// <param name="right">The int to compare.</param>
         /// <returns><c>true</c> if the MB on the left is equal to the int on the right.</returns>
-        public static bool operator ==(MB left, int right) => left.quantity == right;
+        public static bool operator ==(MB left, int right) => left.value == right;
+        
         /// <summary>
         /// Returns a value that indicates whether the MB on the left is not equal to the int on
         /// the right.
@@ -325,13 +357,15 @@
         /// <param name="right">The int to compare.</param>
         /// <returns><c>true</c> if the MB on the left is not equal to the int on the right.</returns>
         public static bool operator !=(MB left, int right) => !(left == right);
+        
         /// <summary>
         /// Returns a value that indicates whether the int on the left is equal to the MB on the right.
         /// </summary>
         /// <param name="left">The int to compare.</param>
         /// <param name="right">The MB to compare.</param>
         /// <returns><c>true</c> if the int on the left is equal to the MB on the right.</returns>
-        public static bool operator ==(int left, MB right) => left == right.quantity;
+        public static bool operator ==(int left, MB right) => left == right.value;
+        
         /// <summary>
         /// Returns a value that indicates whether the int on the left is not equal to the MB on
         /// the right.

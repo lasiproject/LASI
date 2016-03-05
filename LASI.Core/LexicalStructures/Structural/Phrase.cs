@@ -85,11 +85,11 @@ namespace LASI.Core
         /// </summary>
         public IPrepositional RightPrepositional { get; private set; }
 
-      
+
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase NextPhrase { get; internal set; }
+        protected Phrase NextPhrase { get; set; }
         /// <summary>
         /// Gets, lexically speaking, the next Phrase in the Document to which the instance belongs.
         /// </summary>
@@ -97,7 +97,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>
-        public Phrase PreviousPhrase { get; internal set; }
+        protected Phrase PreviousPhrase { get; set; }
         /// <summary>
         /// Gets, lexically speaking, the previous Phrase in the Document to which the instance belongs.
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core.Binding
 {
@@ -15,9 +16,7 @@ namespace LASI.Core.Binding
         /// <param name="sentence">The Sentence to bind within.</param>
         public static void Bind(Sentence sentence)
         {
-            foreach (var bindingAction in GetPossibilities(sentence)) {
-                bindingAction();
-            }
+            GetPossibilities(sentence).InvokeAll();
         }
 
         private static IEnumerable<Action> GetPossibilities(Sentence sentence) =>
@@ -26,9 +25,10 @@ namespace LASI.Core.Binding
                 .Concat(sentence.Clauses
                 .SelectMany(c => c.Phrases.OfAdjectivePhrase().Reverse()
                 .Take(1)))
-            where adjectival.Clause == adjectival.NextPhrase.Clause
-            let described = adjectival.NextPhrase as NounPhrase
-            where described != null
-            select new Action(() => described.BindDescriptor(adjectival));
+            where adjectival.IsCoClausalWith(adjectival.Next)
+            select new Action(() =>
+            {
+                adjectival.Next.Match().Case((NounPhrase n) => n.BindDescriptor(adjectival));
+            });
     }
 }

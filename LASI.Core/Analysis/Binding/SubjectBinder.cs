@@ -60,20 +60,20 @@ namespace LASI.Core.Analysis.Binding
                     s6.S = StateType.Final;
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if ((i.PreviousPhrase is NounPhrase) &&
-                        (i.PreviousPhrase.Sentence == i.Sentence) &&
-                         (i.PreviousPhrase as NounPhrase).SubjectOf == null)
+                    if ((i.Previous is NounPhrase) &&
+                        (i.Previous.Sentence == i.Sentence) &&
+                         (i.Previous as NounPhrase).SubjectOf == null)
                     {
 
-                        (i as VerbPhrase).BindSubject(i.PreviousPhrase as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
+                        (i as VerbPhrase).BindSubject(i.Previous as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
-                    if ((i.PreviousPhrase.HasSubjectPronoun() || (i.PreviousPhrase.PreviousPhrase.HasSubjectPronoun())) || ((i.PreviousPhrase != null) && (i.PreviousPhrase.PreviousPhrase is NounPhrase) &&
-                        (i.PreviousPhrase.PreviousPhrase.Sentence == i.Sentence) &&
-                         (i.PreviousPhrase.PreviousPhrase as NounPhrase).SubjectOf == null))
+                    if ((i.Previous.HasSubjectPronoun() || (i.Previous.Previous.HasSubjectPronoun())) || ((i.Previous != null) && (i.Previous.Previous is NounPhrase) &&
+                        (i.Previous.Previous.Sentence == i.Sentence) &&
+                         (i.Previous.Previous as NounPhrase).SubjectOf == null))
                     {
 
-                        (i as VerbPhrase).BindSubject(i.PreviousPhrase.PreviousPhrase as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
+                        (i as VerbPhrase).BindSubject(i.Previous.Previous as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
                     //if the last word, you can't find any more subjects
@@ -82,11 +82,11 @@ namespace LASI.Core.Analysis.Binding
                 }
 
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
-                if ((i is AdverbPhrase) && (i.NextPhrase is VerbPhrase) && (i.NextPhrase.NextPhrase is NounPhrase)
-                    && (i.Sentence == i.NextPhrase.NextPhrase.Sentence)
-                    && (i.NextPhrase.NextPhrase as NounPhrase).SubjectOf == null)
+                if ((i is AdverbPhrase) && (i.Next is VerbPhrase) && (i.Next.Next is NounPhrase)
+                    && (i.Sentence == i.Next.Next.Sentence)
+                    && (i.Next.Next as NounPhrase).SubjectOf == null)
                 {
-                    (i.NextPhrase as VerbPhrase).BindSubject(i.NextPhrase.NextPhrase as NounPhrase);
+                    (i.Next as VerbPhrase).BindSubject(i.Next.Next as NounPhrase);
                     s.IsInverted = true;
 
                 }

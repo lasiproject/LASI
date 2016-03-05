@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LASI.Core.Analysis.BinderImplementations.Experimental.SequentialPatterns;
 using LASI.Core.Analysis.PatternMatching;
 using LASI.Utilities;
@@ -238,6 +239,13 @@ namespace LASI.Core
         public static SequenceMatch Match(this IEnumerable<Word> words) => new SequenceMatch(words);
 
         public static SequenceMatch Match(this IEnumerable<Phrase> phrases) => new SequenceMatch(phrases);
+
+        public static IEnumerable<TResult> SelectCase<TLexical, TCase, TResult>(this IEnumerable<TLexical> lexicals, Func<TCase, TResult> caseSelector)
+            where TLexical : class, ILexical where TCase : class, ILexical =>
+                from lexical in lexicals
+                where lexical.Match((TCase c) => true)
+                select caseSelector(lexical as TCase);
+
 
     }
 }

@@ -219,6 +219,7 @@
     <Compile Include="Analysis\RelationshipLookups\RelationshipLookup.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\AggregateVerbal.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\BaseVerb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\ClauseExtensions.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\SingularPresentVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\VerbalExtensions.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\IAggregateVerbal.cs" />
@@ -336,6 +337,7 @@
     <Compile Include="LexicalStructures\EnumerableExtensions\EnumerableOfWordExtensions.cs" />
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
+    <Compile Include="LexicalStructures\VerbRelatedConstructs\PhraseExtensions.cs" />
     <None Include="packages.config" />
     <Compile Include="DocumentStructures\TextualEnumerable.cs" />
   </ItemGroup>

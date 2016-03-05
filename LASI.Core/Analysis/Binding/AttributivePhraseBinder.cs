@@ -40,54 +40,60 @@ namespace LASI.Core.Binding
             {
                 ProcessLinkingPrepositionalPhrase(prepositional);
             }
-            while (phrases.Count(n => n is NounPhrase) > 1)
+            while (phrases.OfNounPhrase().Count() > 1)
             {
-                var npLeft = phrases.First(n => n is NounPhrase) as NounPhrase;
-                var npRight = phrases.Skip(1).First(n => n is NounPhrase) as NounPhrase;
-                var leftNPDeterminer = npLeft != null ? npLeft.Words.OfDeterminer().FirstOrDefault() : null;
-                var rightNpDeterminer = npRight != null ? npLeft.Words.OfDeterminer().FirstOrDefault() : null;
-                if ((leftNPDeterminer != null && rightNpDeterminer != null) && leftNPDeterminer.DeterminerKind == DeterminerKind.Definite && rightNpDeterminer.DeterminerKind == DeterminerKind.Indefinite)
+                var npLeft = phrases.OfNounPhrase().First();
+                var npRight = phrases.Skip(1).OfNounPhrase().First();
+                var leftNPDeterminer = npLeft?.Words?.OfDeterminer()?.FirstOrDefault();
+                var rightNpDeterminer = npRight?.Words?.OfDeterminer()?.FirstOrDefault();
+                if (leftNPDeterminer != null && rightNpDeterminer != null &&
+                    leftNPDeterminer.DeterminerKind == DeterminerKind.Definite &&
+                    rightNpDeterminer.DeterminerKind == DeterminerKind.Indefinite)
                 {
                     npLeft.InnerAttributive = npRight;
                     npRight.OuterAttributive = npLeft;
                 }
-                phrases = phrases.SkipWhile(n => n.PreviousPhrase != npRight);
+                phrases = phrases.SkipWhile(n => n.Previous != npRight);
             }
         }
 
         private static void ProcessLinkingPrepositionalPhrase(PrepositionalPhrase prepPhrase)
         {
-            if (prepPhrase.PreviousPhrase != null)
+            if (prepPhrase.Previous != null)
             {
-                prepPhrase.PreviousPhrase.BindRightPrepositional(prepPhrase);
+                prepPhrase.Previous.BindRightPrepositional(prepPhrase);
             }
-            else if (prepPhrase.NextPhrase != null)
+            else if (prepPhrase.Next != null)
             {
-                prepPhrase.NextPhrase.BindLeftPrepositional(prepPhrase);
+                prepPhrase.Next.BindLeftPrepositional(prepPhrase);
             }
-            prepPhrase.ToTheRightOf = prepPhrase.NextPhrase;
-            prepPhrase.ToTheLeftOf = prepPhrase.PreviousPhrase;
+            prepPhrase.ToTheRightOf = prepPhrase.Next;
+            prepPhrase.ToTheLeftOf = prepPhrase.Previous;
 
             prepPhrase.Role = PrepositionRole.DiscriptiveLinker;
         }
 
         private static IEnumerable<IEnumerable<Phrase>> FindContiguousNounPhrases(IEnumerable<Phrase> phrases)
         {
-            var result = new List<IEnumerable<Phrase>>();
+            var results = new List<IEnumerable<Phrase>>();
             var temp = phrases;
             while (temp.Any())
             {
+                Func<Phrase, bool> continueTaking = p => p.Match()
+                    .Case((NounPhrase n) => true)
+                    .Case((PrepositionalPhrase x) => true)
+                    .Case(x => x.Words.All(w => w is Punctuator) &&
+                        x.Next is NounPhrase &&
+                        x.Previous is NounPhrase)
+                    .Result();
 
-                result.Add(temp.TakeWhile(n => n is NounPhrase ||
-                    ((n is PrepositionalPhrase ||
-                        n.Words.Count(w => w is Punctuator) == n.Words.Count()) &&
-                        n.NextPhrase is NounPhrase &&
-                        n.PreviousPhrase is NounPhrase)));
-                temp = temp.SkipWhile(n => !(n is NounPhrase)).Skip(result.Last().Count()).ToList();
+                results.Add(temp.TakeWhile(continueTaking));
+                temp = temp
+                    .SkipWhile(n => !(n is NounPhrase))
+                    .Skip(results.Last().Count())
+                    .ToList();
             }
-            return from r in result
-                   where r.Count() > 1
-                   select r;
+            return results.Where(result => result.Count() > 1);
         }
 
     }
