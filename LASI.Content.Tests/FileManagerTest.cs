@@ -24,10 +24,10 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.doc";
+            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.doc";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.DocFilesDirectory + @"\Draft_Environmental_Assessment.doc").Satisfies(File.Exists);
+            Check.That(FileManager.DocFilesDirectory + @"\Test paragraph about house fires.doc").Satisfies(File.Exists);
             Check.That(result).IsInstanceOf<DocFile>();
         }
 
@@ -37,11 +37,11 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocXFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
+            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.docx";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(result.Exists()).IsTrue();
-            Check.That(result).IsInstanceOf<DocXFile>();
+            Check.That(result).IsInstanceOf<DocXFile>()
+                .And.Satisfies(result.Exists);
         }
 
         /// <summary>
@@ -50,42 +50,40 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocFilePathReturnsDocFile()
         {
-            string path = string.Empty;
-            InputFile actual;
-            path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.doc";
-            actual = FileManager.AddFile(path);
+            var path = @"..\..\MockUserFiles\Test paragraph about house fires.doc";
+            var actual = FileManager.AddFile(path);
 
-            Check.That(actual.FileName).IsEqualTo("Draft_Environmental_Assessment.doc");
-            Check.That(actual).IsInstanceOf<DocFile>();
+            Check.That(actual).IsInstanceOf<DocFile>()
+                .And.Satisfies(() => actual.FileName == "Test paragraph about house fires.doc");
         }
 
         [Fact]
         public void AddDocXFilePathReturnsDocXFile()
         {
-            var path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
+            var path = @"..\..\MockUserFiles\Test paragraph about house fires.docx";
             var actual = FileManager.AddFile(path);
 
-            Check.That(actual.FileName).IsEqualTo("Draft_Environmental_Assessment.docx");
+            Check.That(actual.FileName).IsEqualTo("Test paragraph about house fires.docx");
             Check.That(actual).IsInstanceOf<DocXFile>();
         }
 
         [Fact]
         public void AddTxtFilePathReturnsTxtFile()
         {
-            var path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            var path = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
             var actual = FileManager.AddFile(path);
 
-            Check.That(actual.FileName).IsEqualTo("Draft_Environmental_Assessment.txt");
+            Check.That(actual.FileName).IsEqualTo("Test paragraph about house fires.txt");
             Check.That(actual).IsInstanceOf<TxtFile>();
         }
 
         [Fact]
         public void AddPdfFilePathReturnsPdfFile()
         {
-            var path = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            var path = @"..\..\MockUserFiles\Test paragraph about house fires.pdf";
             var actual = FileManager.AddFile(path);
 
-            Check.That(actual.FileName).IsEqualTo("Draft_Environmental_Assessment.pdf");
+            Check.That(actual.FileName).IsEqualTo("Test paragraph about house fires.pdf");
             Check.That(actual).IsInstanceOf<PdfFile>();
         }
 
@@ -95,10 +93,10 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddPdfFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
+            string sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.pdf";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.PdfFilesDirectory + @"\Draft_Environmental_Assessment.pdf")
+            Check.That(FileManager.PdfFilesDirectory + @"\Test paragraph about house fires.pdf")
                  .Satisfies(File.Exists);
             Check.That(result).IsInstanceOf<PdfFile>();
         }
@@ -109,10 +107,10 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddTxtFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            string sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
             var result = FileManager.AddFile(sourcePath);
 
-            Check.That(FileManager.TxtFilesDirectory + @"\Draft_Environmental_Assessment.txt")
+            Check.That(FileManager.TxtFilesDirectory + @"\Test paragraph about house fires.txt")
                  .Satisfies(File.Exists);
             Check.That(result).IsInstanceOf<TxtFile>();
         }
@@ -169,7 +167,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocFilesAsyncTest()
         {
-            DocFile[] files = TestDocFiles;
+            DocFile[] files = DocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -185,7 +183,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocToTextAsyncTest()
         {
-            DocFile[] files = TestDocFiles;
+            DocFile[] files = DocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -201,7 +199,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocToTextTest()
         {
-            DocFile[] files = TestDocFiles;
+            DocFile[] files = DocFiles;
             FileManager.ConvertDocToText(files);
 
             foreach (var file in files)
@@ -217,7 +215,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocxToTextAsyncTest()
         {
-            DocXFile[] files = TestDocXFiles;
+            DocXFile[] files = DocXFiles;
             foreach (var path in from file in files select file.FullPath)
             {
                 FileManager.AddFile(path);
@@ -242,7 +240,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocxToTextTest()
         {
-            DocXFile[] files = TestDocXFiles;
+            DocXFile[] files = DocXFiles;
             FileManager.ConvertDocxToText(files);
 
             foreach (var file in files)
@@ -258,7 +256,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertPdfToTextAsyncTest()
         {
-            PdfFile[] files = TestPdfFiles;
+            PdfFile[] files = PdfFiles;
             await FileManager.ConvertPdfToTextAsync(files);
 
             foreach (var file in files)
@@ -274,7 +272,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertPdfToTextTest()
         {
-            PdfFile[] files = TestPdfFiles;
+            PdfFile[] files = PdfFiles;
             FileManager.ConvertPdfToText(files);
 
             foreach (var file in files)
@@ -351,7 +349,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task TagTextFilesAsyncTest()
         {
-            var files = TestTxtFiles;
+            var files = TxtFiles;
             await FileManager.TagTextFilesAsync();
 
             foreach (var file in files)
@@ -367,7 +365,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void TagTextFilesTest()
         {
-            TxtFile[] files = TestTxtFiles;
+            TxtFile[] files = TxtFiles;
             FileManager.TagTextFiles(files);
 
             foreach (var file in files)
@@ -380,46 +378,31 @@ namespace LASI.Content.Tests
         {
             get
             {
-                foreach (var file in TestDocFiles) yield return file;
-                foreach (var file in TestDocXFiles) yield return file;
-                foreach (var file in TestPdfFiles) yield return file;
-                foreach (var file in TestTxtFiles) yield return file;
+                foreach (var file in DocFiles) yield return file;
+                foreach (var file in DocXFiles) yield return file;
+                foreach (var file in PdfFiles) yield return file;
+                foreach (var file in TxtFiles) yield return file;
             }
         }
 
         private readonly static Func<FileInfo, FileInfo> CopyToRunningTestDirectory = fileInfo => fileInfo.CopyTo($@"{testProjectDirectory}\{fileInfo.Name}", overwrite: true);
 
-        private DocFile[] TestDocFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
-                .EnumerateFiles()
-                .Where(f => f.Extension == ".doc")
-                .Select(CopyToRunningTestDirectory)
-                .Select(f => new DocFile(f.FullName))
-                .ToArray();
+        private DocFile[] DocFiles => LoadInputFiles(".doc", path => new DocFile(path));
 
-        private DocXFile[] TestDocXFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
-                .EnumerateFiles()
-                .Where(i => i.Extension == ".docx")
-                .Select(CopyToRunningTestDirectory)
-                .Select(f => new DocXFile(f.FullName))
-                .ToArray();
+        private DocXFile[] DocXFiles => LoadInputFiles(".docx", path => new DocXFile(path));
 
-        private PdfFile[] TestPdfFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
-                .EnumerateFiles()
-                .Where(i => i.Extension == ".pdf")
-                .Select(CopyToRunningTestDirectory)
-                .Select(f => new PdfFile(f.FullName))
-                .ToArray();
+        private PdfFile[] PdfFiles => LoadInputFiles(".pdf", path => new PdfFile(path));
 
-        private TxtFile[] TestTxtFiles => new DirectoryInfo(TEST_MOCK_FILES_RELATIVE_PATH)
-                .EnumerateFiles()
-                .Where(f => f.Extension == ".txt")
-                .Select(CopyToRunningTestDirectory)
-                .Select(f => new TxtFile(f.FullName))
-                .ToArray();
+        private TxtFile[] TxtFiles => LoadInputFiles(".txt", path => new TxtFile(path));
 
 
-
-        private static Func<string, string> MapExtToDir = ext => @"\" + ext.Substring(1) + @"\";
+        private static TInputFile[] LoadInputFiles<TInputFile>(string extension, Func<string, TInputFile> loadFile) => new DirectoryInfo(MockTestFilesDirectory)
+            .EnumerateFiles()
+            .Where(file => file.Extension == extension)
+            .Select(CopyToRunningTestDirectory)
+            .Select(file => file.FullName)
+            .Select(loadFile)
+            .ToArray();
 
         #region Setup and Teardown
 
@@ -434,7 +417,7 @@ namespace LASI.Content.Tests
 
         private static int TestOffset;
         private readonly string testMethodWorkingDirectory;
-        private const string TEST_MOCK_FILES_RELATIVE_PATH = @"..\..\MockUserFiles";
+        private const string MockTestFilesDirectory = @"..\..\MockUserFiles";
         private static string testProjectDirectory;
 
         #region IDisposable Support

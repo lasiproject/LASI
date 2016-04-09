@@ -75,9 +75,9 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithIndicesTest()
         {
-            var target = DictionaryExtensionsTest.target.WithIndices();
+            var indexedTarget = target.WithIndices();
             var expectedIndex = 0;
-            foreach (var indexedKeyValuePair in target)
+            foreach (var indexedKeyValuePair in indexedTarget)
             {
                 Check.That(expectedIndex).IsEqualTo(indexedKeyValuePair.Value.Index);
                 expectedIndex++;

@@ -16,28 +16,31 @@ namespace LASI.Content
         /// Initializes a new instance of the DocFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .doc file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .doc extension.</exception>
+        /// <exception cref="Exceptions.FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .doc extension.</exception>
         public DocFile(string path) : base(path)
         {
-            if (!Extension.EqualsIgnoreCase(".doc"))
+            if (!Extension.EqualsIgnoreCase(CanonicalExtension))
             {
-                throw new FileTypeWrapperMismatchException<DocFile>(Extension);
+                throw new Exceptions.FileTypeWrapperMismatchException<DocFile>(Extension);
             }
         }
+
+
         /// <summary>
         /// Returns a single string containing all of the text in the DocFile.
         /// </summary>
         /// <returns>A string containing all of the text in the DocFile.</returns>
         public override string LoadText()
         {
-            DocXFile docx;
             var todocXConverter = new DocToDocXConverter(this);
             try
             {
-                docx = todocXConverter.ConvertFile() as DocXFile;
+                return todocXConverter.ConvertFile().LoadText();
             }
-            catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
-            return docx.LoadText();
+            catch (Exception e)
+            {
+                throw CreateFileConversionFailureException("DOCX", e);
+            }
         }
         /// <summary>
         /// Returns a Task&lt;string&gt; which when awaited yields all of the text in the DocFile.
@@ -45,15 +48,19 @@ namespace LASI.Content
         /// <returns>A Task&lt;string&gt; which when awaited yields all of the text in the DocFile.</returns>
         public override async Task<string> LoadTextAsync()
         {
-            DocXFile docx;
             var toDocXConverter = new DocToDocXConverter(this);
             try
             {
-                docx = await toDocXConverter.ConvertFileAsync() as DocXFile;
+                var docx = await toDocXConverter.ConvertFileAsync();
+                return await docx.LoadTextAsync().ConfigureAwait(false);
             }
-            catch (Exception e) { throw new FileConversionFailureException(FullPath, "DOC", "DOCX", e); }
-            return await docx.LoadTextAsync();
+            catch (Exception e)
+            {
+                throw CreateFileConversionFailureException("DOCX", e);
+            }
         }
+
+        public override string CanonicalExtension => ".doc";
     }
 
 }

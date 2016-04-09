@@ -26,6 +26,6 @@ namespace LASI.WebApp.Models.Lexical
 
         public string ContextmenuId { get; }
 
-        private static readonly SyntacticStyleMap SyntacticStyleMap = new SyntacticStyleMap();
+        static readonly SyntacticStyleMap SyntacticStyleMap = new SyntacticStyleMap();
     }
 }

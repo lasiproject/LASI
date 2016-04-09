@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Content.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,13 +17,14 @@ namespace LASI.Content
         /// Initializes a new instance of the TaggedFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .tagged file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .tagged extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .tagged extension.</exception>
         public TaggedFile(string path)
             : base(path)
         {
-            if (!Extension.Equals(".tagged", StringComparison.OrdinalIgnoreCase))
+            if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException<TaggedFile>(Extension);
         }
+
         /// <summary>
         /// Gets a single string containing all of the text in the TaggedFile.
         /// </summary>
@@ -55,5 +57,7 @@ namespace LASI.Content
                 return await reader.ReadToEndAsync();
             }
         }
+
+        public override string CanonicalExtension => ".tagged";
     }
 }

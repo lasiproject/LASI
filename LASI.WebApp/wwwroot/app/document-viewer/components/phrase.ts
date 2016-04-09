@@ -1,7 +1,7 @@
 ﻿import controller from './phrase.controller';
 import template from './phrase.html';
 
-export const phrase: angular.IComponentOptions = {
+export const phrase: ng.IComponentOptions = {
     bindings: {
         phrase: '=',
         parentId: '='

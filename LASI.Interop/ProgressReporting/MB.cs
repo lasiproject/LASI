@@ -71,7 +71,7 @@ namespace LASI.Interop
         /// <summary>
         /// Stores the quantity of MegaBytes the MB represents.
         /// </summary>
-        private int value;
+        private readonly int value;
         #endregion properties
 
         #region conversion operators

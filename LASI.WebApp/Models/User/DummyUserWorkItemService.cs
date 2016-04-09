@@ -10,7 +10,7 @@ namespace LASI.WebApp.Models.User
     {
         public DummyUserWorkItemService(int itemCount, double maxUpdate, TimeSpan updateInterval)
         {
-            this.itemCount = itemCount;
+            InitialItemCount = itemCount;
             this.workItems["x"] = CreateWorkItems(itemCount);
             var rand = CreateRandom(maxUpdate);
             this.timer = new Timer(
@@ -63,11 +63,11 @@ namespace LASI.WebApp.Models.User
 
         private const string Key = "x"; // x is an arbitrary key
 
-        public void Reset() => this.workItems[Key] = CreateWorkItems(this.itemCount);
+        public void Reset() => this.workItems[Key] = CreateWorkItems(this.InitialItemCount);
 
         public void UpdateWorkItemForUser(string userId, WorkItem item) => workItems.AddOrUpdate("x", new[] { item }, (key, value) => from i in value select i.Id == item.Id ? item : i);
 
-        private readonly int itemCount;
+        private readonly int InitialItemCount;
 
         private readonly Timer timer;
 

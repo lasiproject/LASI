@@ -6,4 +6,8 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Language", "CSE0003:Use expression-bodied members", Justification = "Retaining inline comment.", Scope = "member", Target = "~M:LASI.WebApp.MessageServices.SendEmailAsync(System.String,System.String,System.String)~System.Threading.Tasks.Task")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Language", "CSE0003:Use expression-bodied members", Justification = "Retaining inline comment.", Scope = "member", Target = "~M:LASI.WebApp.MessageServices.SendSmsAsync(System.String,System.String)~System.Threading.Tasks.Task")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0108:Warns about static fields in generic types", Justification = "<Pending>", Scope = "member", Target = "~F:LASI.WebApp.Models.Lexical.LexicalModel`1.SyntacticStyleMap")]
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0108:Warns about static fields in generic types", Justification = "<Pending>", Scope = "member", Target = "~F:LASI.WebApp.Models.DocumentStructures.TextualModel`2.IdGenerator")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0018:Comparison of floating point numbers with equality operator", Justification = "<Pending>", Scope = "member", Target = "~M:LASI.WebApp.Models.Results.WorkItemStatus.op_Equality(LASI.WebApp.Models.Results.WorkItemStatus,LASI.WebApp.Models.Results.WorkItemStatus)~System.Boolean")]

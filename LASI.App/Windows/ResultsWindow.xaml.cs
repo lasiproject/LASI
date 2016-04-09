@@ -201,6 +201,8 @@ namespace LASI.App
         {
             try
             {
+                this.currentOperationProgressBar = progressBar;
+                this.currentOperationLabel = progressLabel;
                 var chosenFile = await AttemptToAddNewDocument(docPath);
                 var docName = chosenFile.NameSansExt;
                 var doc = await ProcessNewDocDocument(docName);
@@ -314,8 +316,8 @@ namespace LASI.App
         }
         private void NewProjectMenuItem_Click_1(object sender, RoutedEventArgs e)
         {  //Hacky solution to make every option function. This makes new project restart LASI.
-            App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
-            App.Current.Shutdown();
+            Application.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
+            Application.Current.Shutdown();
         }
 
         private void OpenManualMenuItem_Click_1(object sender, RoutedEventArgs e)

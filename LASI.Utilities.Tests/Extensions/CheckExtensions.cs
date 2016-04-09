@@ -33,12 +33,12 @@ namespace LASI.Content.Tests.Extensions
                 {
                     if (!requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(SUT).GetType().Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(SUT).Name).On(checker.Value).ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
                 },
-                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.").For(typeof(SUT).GetType().Name).On(checker.Value).ToString());
+                FluentMessage.BuildMessage($"The {{0}} satisifies the requirement {requirementName} whereas it must not.").For(typeof(SUT).Name).On(checker.Value).ToString());
         }
         public static ICheckLink<ICheck<SUT>> DoesNotSatisfy<SUT>(this ICheck<SUT> check, Func<SUT, bool> requirement)
         {

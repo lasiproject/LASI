@@ -197,21 +197,13 @@ namespace LASI.Content
         public static async Task ConvertAsNeededAsync()
         {
             ThrowIfUninitialized();
-            try
+            var conversionTasks = new[]
             {
-                var tasks = new
-                {
-                    ConvertPdf = ConvertPdfToTextAsync(pdfFiles.ToArray()),
-                    ConvertDocs = ConvertDocToTextAsync(docFiles.ToArray()),
-                    ConvertDocx = ConvertDocxToTextAsync(docXFiles.ToArray())
-                };
-                await Task.WhenAll(tasks.ConvertPdf, tasks.ConvertDocs, tasks.ConvertDocx);
-            }
-            catch (FileConversionFailureException e)
-            {
-                e.Log();
-                throw;
-            }
+                    ConvertPdfToTextAsync(pdfFiles.ToArray()),
+                    ConvertDocToTextAsync(docFiles.ToArray()),
+                    ConvertDocxToTextAsync(docXFiles.ToArray())
+            };
+            await Task.WhenAll(conversionTasks).ConfigureAwait(false);
         }
 
 
@@ -225,7 +217,7 @@ namespace LASI.Content
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles))
+            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except(taggedFiles, Equality.Create<InputFile>((x, y) => x.NameSansExt == y.NameSansExt)))
             {
                 try
                 {
@@ -237,13 +229,13 @@ namespace LASI.Content
                 }
                 catch (IOException e)
                 {
-                    RecordConversionFailure(document, e);
+                    LogConversionFailure(document, e);
                     //throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt");
                     throw;
                 }
                 catch (UnauthorizedAccessException e)
                 {
-                    RecordConversionFailure(document, e);
+                    LogConversionFailure(document, e);
                     throw;
                 }
             }
@@ -271,13 +263,12 @@ namespace LASI.Content
                 }
                 catch (IOException e)
                 {
-                    RecordConversionFailure(document, e);
-                    //throw new FileConversionFailureException(document.NameSansExt, ".doc", ".txt", e);
+                    LogConversionFailure(document, e);
                     throw;
                 }
                 catch (UnauthorizedAccessException e)
                 {
-                    RecordConversionFailure(document, e);
+                    LogConversionFailure(document, e);
                     throw;
                 }
             }
@@ -354,9 +345,9 @@ namespace LASI.Content
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            foreach (PdfFile pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
             {
-                var converted = await new PdfToTextConverter(pdf as PdfFile).ConvertFileAsync();
+                var converted = await new PdfToTextConverter(pdf).ConvertFileAsync().ConfigureAwait(false);
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
@@ -392,20 +383,25 @@ namespace LASI.Content
         public static async Task TagTextFilesAsync(params TxtFile[] files)
         {
             ThrowIfUninitialized();
-            var tasks = (
-                from file in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles)
-                select new SharpNLPTagger(TaggerMode.TagAndAggregate, file.FullPath, TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged").ProcessFileAsync()
-                ).ToList();
+            var sources = files.Length > 0 ? files.AsEnumerable() : txtFiles;
+            var tasks = sources.Except<InputFile>(taggedFiles)
+                .Select(file => new SharpNLPTagger(
+                        taggingMode: TaggerMode.TagAndAggregate,
+                        sourcePath: file.FullPath, destinationPath:
+                        TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged"
+                    ).ProcessFileAsync()
+                )
+                .ToList();
             while (tasks.Any())
             {
-                var tagged = await Task.WhenAny(tasks);
-                var taggedFile = await tagged;
+                var tagged = await Task.WhenAny(tasks).ConfigureAwait(false);
+                var taggedFile = await tagged.ConfigureAwait(false);
                 taggedFiles.Add(new TaggedFile(taggedFile));
                 tasks.Remove(tagged);
             }
         }
 
-        private static void RecordConversionFailure(InputFile doc, Exception e)
+        private static void LogConversionFailure(InputFile doc, Exception e)
         {
             Logger.Log($"An {e.GetType()} was thrown when attempting to convert {doc.FileName} to plain text.\n{e.StackTrace}");
         }
@@ -550,12 +546,21 @@ namespace LASI.Content
         /// Gets the names of all documents in the current project. Ignoring file extensions.
         /// </summary>
         /// <returns>The names of all documents in the current project. Ignoring file extensions.</returns>
-        public static IEnumerable<string> AllDocumentNames => AllFiles.Select(file => file.NameSansExt).ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
+        public static IEnumerable<string> AllDocumentNames => AllFiles.Select(file => file.NameSansExt).Distinct(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// Gets all input files in the current project.
         /// </summary>
         /// <returns>All input files in the current project.</returns>
-        public static IEnumerable<InputFile> AllFiles => (txtFiles as IEnumerable<InputFile>).Concat(pdfFiles).Concat(docFiles).Concat(docXFiles).Concat(taggedFiles);
+        public static IEnumerable<InputFile> AllFiles
+        {
+            get
+            {
+                foreach (var txt in TxtFiles) yield return txt;
+                foreach (var pdf in PdfFiles) yield return pdf;
+                foreach (var doc in DocFiles) yield return doc;
+                foreach (var docx in DocXFiles) yield return docx;
+            }
+        }
 
         #region Fields
 

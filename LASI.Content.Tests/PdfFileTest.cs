@@ -2,6 +2,7 @@
 using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
+using LASI.Content.Exceptions;
 
 namespace LASI.Content.Tests
 {

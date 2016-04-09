@@ -30,10 +30,9 @@ namespace LASI.App.Dialogs
         /// Executes a lexical search over an applicable set of elements in the current UI context using the provided text as the search seed.
         /// </summary>
         /// <param name="searchText">The text which seeds the search.</param>
-        private void PerformFind(string searchText) {
-            //var toHighLight = from ContentControl element in GetElementsToSearch()
-            //                  where element.Content.ToString().IndexOf(searchText, StringComparer.OrdinalIgnoreCase) >= 0
-            //                  select element;
+        private void PerformFind(string searchText)
+        {
+            var toHighLight = GetElementsToSearch().Where(element => element.Content.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) > -1);
         }
 
         /// <summary>

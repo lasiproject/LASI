@@ -18,10 +18,6 @@ namespace LASI.Content.Tests
     /// </summary>
     public class PhraseTagsetMapTest
     {
-
-        #region Additional test attributes
-
-        #endregion
         class TestPhraseTagsetMap : PhraseTagsetMap
         {
             public override Func<IEnumerable<Word>, Phrase> this[string tag]

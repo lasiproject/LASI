@@ -11,6 +11,9 @@ using LASI.Utilities;
 
 namespace LASI.App
 {
+    using static WindowManager;
+    using static ChartKind;
+
     using ChartItem = KeyValuePair<string, float>;
     /// <summary>
     /// Provides static methods for formatting and displaying results to the user.
@@ -27,9 +30,9 @@ namespace LASI.App
         /// <param name="chartKind">
         /// The ChartKind value determining the what data set is to be displayed.
         /// </param>
-        public static async void ChangeChartKindAsync(ChartKind chartKind)
+        public static async Task ChangeChartKindAsync(ChartKind chartKind)
         {
-            Visualizer.chartKind = chartKind;
+            Visualizer.ChartKind = chartKind;
             foreach (var pair in DocumentsByChart)
             {
                 var document = pair.Value;
@@ -59,8 +62,8 @@ namespace LASI.App
                 Content = chart,
                 Tag = chart
             };
-            WindowManager.ResultsScreen.FrequencyCharts.Items.Add(tab);
-            WindowManager.ResultsScreen.FrequencyCharts.SelectedItem = tab;
+            ResultsScreen.FrequencyCharts.Items.Add(tab);
+            ResultsScreen.FrequencyCharts.SelectedItem = tab;
             ToBarChartsAsync();
         }
 
@@ -103,6 +106,14 @@ namespace LASI.App
             series.DependentValuePath = "Value"; // this string is expected by the charting engine
             series.IndependentValuePath = "Key"; // this string is expected by the charting engine
             series.IsSelectionEnabled = true;
+            series.MouseMove += (s, e) =>
+            {
+                series.ToolTip = (e.Source as DataPoint).IndependentValue;
+            };
+            series.IsMouseCaptureWithinChanged += (s, e) =>
+            {
+                series.ToolTip = ((DataPoint)series.SelectedItem).DependentValue;
+            };
         }
 
 
@@ -117,36 +128,20 @@ namespace LASI.App
                 var items = chart.GetItemSource();
                 var pieSeries = new PieSeries { ItemsSource = items };
                 ConfigureDataPointSeries(pieSeries);
-                pieSeries.IsMouseCaptureWithinChanged += delegate
-                {
-                    pieSeries.ToolTip = (((pieSeries.SelectedItem as DataPoint))).DependentValue;
-                };
+
                 ResetChartContent(chart, pieSeries);
             }
         }
 
         private static async Task<Chart> BuildBarChartAsync(Document document)
         {
-            var dataPointSource =
-                chartKind == ChartKind.NounPhrasesOnly ?
-                await GetNounWiseDataAsync(document) :
-                chartKind == ChartKind.SubjectVerbObject ?
-                await GetVerbWiseRelationshipChartItemsAsync(document) :
-                await GetVerbWiseRelationshipChartItemsAsync(document);
-            // Materialize item source so that changing chart types is less expensive.
-            var topPoints = dataPointSource
-                .OrderByDescending(point => point.Value)
-                .Take(ChartItemLimit).ToList();
+            var topPoints = await GetTopResultDataPointsAsync(document);
             var series = new BarSeries
             {
                 ItemsSource = topPoints,
                 Tag = document,
             };
             ConfigureDataPointSeries(series);
-            series.MouseMove += (sender, e) =>
-            {
-                series.ToolTip = (e.Source as DataPoint).IndependentValue;
-            };
             var chart = new Chart
             {
                 Title = $"Key Subjects in {document.Name}",
@@ -157,20 +152,35 @@ namespace LASI.App
             return chart;
         }
 
+        private static async Task<List<ChartItem>> GetTopResultDataPointsAsync(Document document)
+        {
+            var dataPointSourceTask =
+                ChartKind == NounPhrasesOnly
+                ? GetNounWiseDataAsync(document)
+                : GetVerbWiseRelationshipChartItemsAsync(document);
+
+            var dataPoints = await dataPointSourceTask.ConfigureAwait(false);
+
+            return dataPoints
+                .OrderByDescending(point => point.Value)
+                .Take(ChartItemLimit)
+                .ToList();
+        }
+
         private static async Task<IEnumerable<ChartItem>> CreateChartDataAsync(ChartKind chartKind, Document document)
         {
             switch (chartKind)
             {
-                case ChartKind.SubjectVerbObject: return await GetVerbWiseRelationshipChartItemsAsync(document);
-                case ChartKind.NounPhrasesOnly: return await GetNounWiseDataAsync(document);
+                case SubjectVerbObject: return await GetVerbWiseRelationshipChartItemsAsync(document);
+                case NounPhrasesOnly: return await GetNounWiseDataAsync(document);
                 default: return await GetNounWiseDataAsync(document);
             }
         }
 
-        private static IEnumerable<Chart> RetrieveCharts() => WindowManager.ResultsScreen
-            .FrequencyCharts.Items
+        private static IEnumerable<Chart> RetrieveCharts() => ResultsScreen.FrequencyCharts.Items
             .OfType<TabItem>()
-            .Select(tab => tab.Content).OfType<Chart>();
+            .Select(tab => tab.Content)
+            .OfType<Chart>();
 
         #endregion Chart Transposing Methods
 
@@ -201,16 +211,17 @@ namespace LASI.App
         /// <returns>A Task representing the ongoing asynchronous operation.</returns>
         public static async Task DisplayKeyRelationshipsAsync(Document document)
         {
+            var verbalRelationships = await GetVerbWiseRelationshipsAsync(document);
             var tab = new TabItem
             {
                 Header = document.Name,
                 Content = new Microsoft.Windows.Controls.DataGrid
                 {
-                    ItemsSource = (await GetVerbWiseRelationshipsAsync(document)).ToGridRowData(),
+                    ItemsSource = verbalRelationships.ToGridRowData(),
                 }
             };
-            WindowManager.ResultsScreen.KeyRelationshipsResultsControl.Items.Add(tab);
-            WindowManager.ResultsScreen.KeyRelationshipsResultsControl.SelectedItem = tab;
+            ResultsScreen.KeyRelationshipsResultsControl.Items.Add(tab);
+            ResultsScreen.KeyRelationshipsResultsControl.SelectedItem = tab;
         }
 
         /// <summary>
@@ -249,12 +260,12 @@ namespace LASI.App
                 .Select(entity => new ChartItem(entity.Text, (float)Math.Round(entity.Weight, 2)))
                 .Distinct();
 
-        private static Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
-              Task.Run(() => GetNounWiseRelationshipChartItems(document));
+        private static async Task<IEnumerable<ChartItem>> GetNounWiseDataAsync(Document document) =>
+            await Task.Run(() => GetNounWiseRelationshipChartItems(document)).ConfigureAwait(false);
 
         private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItems(Document document)
         {
-            var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document);
+            var verbWiseRelationships = await GetVerbWiseRelationshipsAsync(document).ConfigureAwait(false);
             var chartItems =
                 from relationship in verbWiseRelationships
                 let key = $@"{relationship.Subject.Text} -> {relationship.Verbal.Text}
@@ -265,18 +276,18 @@ namespace LASI.App
             return chartItems.Distinct();
         }
 
-        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) => 
-            await Task.Run(() => GetVerbWiseRelationshipChartItems(document));
+        private static async Task<IEnumerable<ChartItem>> GetVerbWiseRelationshipChartItemsAsync(Document document) =>
+            await Task.Run(() => GetVerbWiseRelationshipChartItems(document)).ConfigureAwait(false);
 
         private static async Task<IEnumerable<SvoRelationship>> GetVerbWiseRelationshipsAsync(Document document) => await Task.Run(() =>
         {
             var consideredVerbals = document.Phrases.OfVerbal()
-                .WithSubject(subject => subject.Match(
-                    (IReferencer r) => r.RefersTo != null, 
-                    (IEntity e) => e != null))
-                .Distinct((x, y) => x.IsSimilarTo(y))
                 .AsParallel()
-                .WithDegreeOfParallelism(Concurrency.Max);
+                .WithDegreeOfParallelism(Concurrency.Max)
+                .WithSubject(subject => subject.Match()
+                    .Case((IReferencer r) => r.RefersTo != null)
+                    .Case((IEntity e) => e != null))
+                .Distinct((x, y) => x.IsSimilarTo(y));
 
             return from verbal in consideredVerbals
                    select verbal into verbal
@@ -299,9 +310,9 @@ namespace LASI.App
                    let relationship = g.Key
                    orderby relationship.Weight descending
                    select relationship;
-        });
+        }).ConfigureAwait(false);
 
-        private static ChartKind chartKind;
+        private static ChartKind ChartKind;
         private const int ChartItemLimit = 14;
         private static readonly IDictionary<Chart, Document> DocumentsByChart = new Dictionary<Chart, Document>();
     }

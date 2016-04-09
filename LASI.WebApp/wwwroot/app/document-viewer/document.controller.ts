@@ -3,7 +3,7 @@ export class DocumentController {
 
     private documentModel: DocumentModel;
 
-    constructor(private $q: angular.IQService, private documentModelService: DocumentModelService) { }
+    constructor(private $q: ng.IQService, private documentModelService: DocumentModelService) { }
 
     processDocument(id: string) {
         if (this.documentModel.id !== id) {

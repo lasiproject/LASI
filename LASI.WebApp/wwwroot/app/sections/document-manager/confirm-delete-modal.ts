@@ -1,8 +1,6 @@
 export default class ConfirmDeleteModal {
-    static $inject = ['$uibModalInstance', 'data'];
-    constructor(private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, data: DocumentListItem) {
-        this.document = data;
-    }
+    static $inject = ['$uibModalInstance', 'document'];
+    constructor(private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance, private document: DocumentListItem) { }
 
     confirm() {
         this.$uibModalInstance.close(true);
@@ -15,6 +13,4 @@ export default class ConfirmDeleteModal {
     dismiss() {
         this.$uibModalInstance.dismiss();
     }
-
-    document: DocumentListItem;
 }

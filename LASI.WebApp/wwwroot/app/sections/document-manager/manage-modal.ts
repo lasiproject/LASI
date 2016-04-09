@@ -10,14 +10,18 @@ export default class ManageDocumentsModalController {
         private documents: DocumentListItem[]) { }
 
     deleteById(documentId: string) {
-        const document = this.documents.first(d => d.id === documentId);
-        const confirmDelete = this.$modal.open({
-            controller: ConfirmDeleteModalController,
+        const document = this.documents.first(document => document.id === documentId);
+        const resolve = {
+            document: () => document
+        };
+
+        return this.$modal.open({
             controllerAs: 'confirmDelete',
+            bindToController: true,
             template: confirmDeleteModalTemplate,
-            resolve: { data: () => document }
-        });
-        return confirmDelete.result
+            controller: ConfirmDeleteModalController,
+            resolve
+        }).result
             .then(result => {
                 if (result === true) {
                     console.info(`Delete: ${document.name}...`);
@@ -28,5 +32,7 @@ export default class ManageDocumentsModalController {
             .catch(error => console.error(`Error deleting document ${document.name}!\n${error}!`));
     }
 
-    dismiss = this.$uibModalInstance.dismiss.bind(this.$uibModalInstance);
+    dismiss() {
+        this.$uibModalInstance.dismiss();
+    }
 }

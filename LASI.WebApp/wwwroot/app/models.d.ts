@@ -13,7 +13,7 @@ declare interface UserService {
     login({ email, password, rememberMe }: Credentials): ng.IPromise<User>;
     loginGet(): ng.IPromise<User>;
     loginPost(data: {}): ng.IPromise<User>;
-    getUser: ng.IPromise<User>;
+    user: User;
     loggedIn: boolean;
 }
 
@@ -155,11 +155,13 @@ declare interface ReferencerContextmenuData extends LexicalContextmenuData {
      */
     refersToIds: number[];
 }
+
 declare interface User extends Credentials {
     loggedIn?: boolean;
     email: string;
     password: string;
     documents: any[];
+    id: string;
 }
 
 /**
@@ -190,13 +192,14 @@ declare type NgModuleConfig = {
     services?: ConstructorMap;
     providers?: FunctionOrConstructorMap;
 }
+
 declare interface Array<T> {
     flatMap<TArray, TResult>(arraySelector: (element: T) => TArray[], elementSelector: (element: TArray) => TResult): TResult[];
     flatMap<TArray>(arraySelector: (element: T) => TArray[]): TArray[];
     //flatMap<U>(arraySelector: (element: T) => U[], elementSelector?: (element: T) => U): U[];
     //flatMap<U extends T[]>(): T[];
 
-    flatMap(): any[];
+    flatMap<TArray extends T[]>(): T[];
     correlate<TInner, TKey>(inner: TInner[], outerKeySelector: (e: T) => TKey, innerKeySelector: (e: TInner) => TKey): { first: T, second: TInner }[];
     /**
     * @function correlate Correlates the elements of the array with the elements of another 

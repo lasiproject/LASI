@@ -21,7 +21,7 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentNullException">The value was null.</exception>
         public static void NotNull<T>(T value, string name = "value")
         {
-            if (value == null)
+            if (ReferenceEquals(value, null))
             {
                 FailWithArgumentNullException(name);
             }
@@ -39,7 +39,7 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentNullException">One of the values was null.</exception>
         public static void NotNull<T>(T value, string name, string message)
         {
-            if (value == null)
+            if (ReferenceEquals(value, null))
             {
                 FailWithArgumentNullException(name, message);
             }
@@ -165,7 +165,7 @@ namespace LASI.Utilities.Validation
         {
             if (!value.Any())
             {
-                FailWithArgumentException($"Sequence cannot be empty; {name}", name);
+                FailWithArgumentException(name, message);
             }
         }
 
@@ -310,7 +310,6 @@ namespace LASI.Utilities.Validation
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
         /// <param name="collection">The collection in which must contain the value.</param>
-        /// <param name="value">The value to validate.</param>
         /// <param name="name">The name of the value which must not exist.</param>
         public static void DoesNotExistIn<T>(IEnumerable<T> collection, IEnumerable<T> values, string name, string message = null)
         {
@@ -332,7 +331,7 @@ namespace LASI.Utilities.Validation
         {
             if (collection.Contains(value, comparer))
             {
-                FailWithArgumentException(name, $"{collection.Format()} must not contain the member {value}.");
+                FailWithArgumentException(name, message ?? $"{collection.Format()} must not contain the member {value}.");
             }
         }
 

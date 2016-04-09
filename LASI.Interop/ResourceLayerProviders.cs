@@ -64,27 +64,27 @@
         /// </param>
         private static void ConfigureRamEvent(MB threshold, int frequency, MemoryHandler availableRamDecreased, MemoryHandler availableRamIncreased)
         {
-            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "frequency must be graeter than 0"); }
-            var increased = availableRamDecreased ?? delegate { };
+            if (frequency < 1) { throw new ArgumentOutOfRangeException(nameof(frequency), "frequency must be greater than 0"); }
+            var increased = availableRamIncreased;
             var backingTimer = new System.Timers.Timer(frequency);
             backingTimer.Elapsed += delegate
             {
-                //var available = GetAvailableMemory();
-                //if (available < threshold)
-                //{
-                //    availableRamDecreased(
-                //        null,
-                //        new MemoryEventArgs
-                //        {
-                //            RemainingMemory = available,
-                //            TriggeringThreshold = threshold
-                //        }
-                //    );
-                //}
-                //else if (available >= threshold + 128)
-                //{
-                //    increased(null, new MemoryEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
-                //}
+                var available = GetAvailableMemory();
+                if (available < threshold)
+                {
+                    availableRamDecreased(
+                        null,
+                        new MemoryThresholdExceededEventArgs
+                        {
+                            RemainingMemory = available,
+                            TriggeringThreshold = threshold
+                        }
+                    );
+                }
+                else if (available >= threshold + 128)
+                {
+                    increased(null, new MemoryThresholdExceededEventArgs { RemainingMemory = available, TriggeringThreshold = threshold });
+                }
             };
         }
 

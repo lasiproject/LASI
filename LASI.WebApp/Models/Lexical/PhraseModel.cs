@@ -14,8 +14,8 @@ namespace LASI.WebApp.Models.Lexical
             DetailText = ModelFor.ToString().SplitRemoveEmpty('\n', '\r').Format(Tuple.Create(' ', ' ', ' '), s => s + "\n");
             Words = ModelFor.Words.Select(w => new WordModel(w));
         }
-        public override ILexicalContextmenu Contextmenu { get; }
-        public override string DetailText { get; }
+        public sealed override ILexicalContextmenu Contextmenu { get; }
+        public sealed override string DetailText { get; }
         public IEnumerable<ILexicalModel<Word>> Words { get; }
     }
 }

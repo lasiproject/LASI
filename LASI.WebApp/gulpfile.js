@@ -1,15 +1,15 @@
 /// <binding ProjectOpened='watch' />
-var gulp = require('gulp'),
+const gulp = require('gulp'),
     debug = require('gulp-debug'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
     cssNano = require('gulp-cssnano'),
-    typescript = require('gulp-typescript'),
     tslint = require('tslint'),
     gulpTslint = require('gulp-tslint'),
     uglify = require('gulp-uglify'),
-    qunit = require('gulp-qunit');
+    qunit = require('gulp-qunit'),
+    build = require('./system.build.js');
 
 var paths = {
     appts: [
@@ -40,66 +40,34 @@ var paths = {
     }
 };
 
-gulp.task('qunit', function () {
-    return gulp.src(paths.test)
-        .pipe(qunit());
-});
+gulp.task('qunit', () => gulp.src(paths.test).pipe(qunit()));
 
-gulp.task('typescript', function () {
-    return gulp
-        .src(paths.appts)
-        .pipe(debug())
-        .pipe(sourcemaps.init())
-        .pipe(typescript({
-            noImplicitAny: false,
-            noEmitOnError: false,
-            removeComments: false,
-            target: 'es5',
-            watch: false,
-            module: 'system'
-        }))
-        .pipe(sourcemaps.write());
-});
+gulp.task('build', () => build());
 
-gulp.task('appcss', function () {
-    return gulp
-        .src(paths.css.app.src)
+gulp.task('appcss', () =>
+    gulp.src(paths.css.app.src)
         .pipe(sourcemaps.init())
         .pipe(concat(paths.css.app.dest.name))
         .pipe(sourcemaps.write('/'))
         .pipe(gulp.dest(paths.css.app.dest.dir))
         .pipe(cssNano())
         .pipe(rename('app.min.css'))
-        .pipe(gulp.dest(paths.css.app.dest.dir));
-});
+        .pipe(gulp.dest(paths.css.app.dest.dir))
+);
 
-gulp.task('tslint', function () {
-    return gulp
-        .src(paths.appts)
+gulp.task('tslint', () =>
+    gulp.src(paths.appts)
         .pipe(gulpTslint({
             emitError: true,
             rulesDirectory: './wwwroot',
             tslint: tslint
         }))
-        .pipe(gulpTslint.report('verbose'));
-});
+        .pipe(gulpTslint.report('verbose')));
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
     var onError = console.error.bind(console);
     gulp.watch(paths.appts, [/*'typescript',*/ 'tslint'])
         .on('error', onError);
-    gulp.watch(paths.appcss, ['appcss'])
+    gulp.watch(paths.css.app, ['appcss'])
         .on('error', onError);
-});
-
-gulp.task('uglify-bundle', function () {
-    var onError = console.error.bind(console);
-    return gulp.src('app.built.js')
-        .pipe(uglify({ preserveComments: "all" }))
-        .pipe(gulp.dest('./app.built.min.js'))
-        .on('error', onError);
-});
-
-gulp.task('build', function () {
-    return require('./system.build.js')();
 });

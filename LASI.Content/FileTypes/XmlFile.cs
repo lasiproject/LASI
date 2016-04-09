@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Content.Exceptions;
+using System;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -13,7 +14,7 @@ namespace LASI.Content
         /// Initializes a new instance of the GenericXMLFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .xml file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .xml extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .xml extension.</exception>
         public XmlFile(string path)
             : base(path)
         {
@@ -52,5 +53,7 @@ namespace LASI.Content
                 return await reader.ReadContentAsStringAsync();
             }
         }
+
+        public override string CanonicalExtension => ".xml";
     }
 }

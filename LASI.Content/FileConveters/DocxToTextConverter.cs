@@ -151,7 +151,7 @@ namespace LASI.Content
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public async override Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile());
+        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
 
         #endregion
 

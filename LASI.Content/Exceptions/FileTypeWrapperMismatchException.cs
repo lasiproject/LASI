@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace LASI.Content
+namespace LASI.Content.Exceptions
 {
     /// <summary>
     /// The Exception that is thrown when an attempt is made to construct a 
@@ -14,9 +14,8 @@ namespace LASI.Content
     public class FileTypeWrapperMismatchException<TWrapper> : ContentFileException where TWrapper : InputFile
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException"/> class specifying the name of the wrapper and the actual extension of the file.
+        /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException{TWrapper}"/> class specifying the name of the wrapper and the actual extension of the file.
         /// </summary>
-        /// <param name="wrapperName">The name of the wrapper.</param>
         /// <param name="mistmatchedExtension">The actual extension of the file the wrapper was instantiated around.</param>
         public FileTypeWrapperMismatchException(string mistmatchedExtension)
             : base($"Mismatch between\nWrapper Type: {typeof(TWrapper)} and File Extension: {mistmatchedExtension}")
@@ -24,7 +23,7 @@ namespace LASI.Content
             MistmatchedExtension = mistmatchedExtension;
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException"/> class with serialized data.
+        /// Initializes a new instance of the <see cref="FileTypeWrapperMismatchException{TWrapper}"/> class with serialized data.
         /// </summary>
         /// <param name="info">
         /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the serialized

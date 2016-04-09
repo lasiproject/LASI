@@ -54,7 +54,7 @@ namespace LASI.Content
             paragraphs: LoadParagraphs()
         );
 
-        public virtual async Task<Document> LoadDocumentAsync(string title) => await Task.Run(() => LoadDocument(title));
+        public virtual async Task<Document> LoadDocumentAsync(string title) => await Task.Run(() => LoadDocument(title)).ConfigureAwait(false);
 
         /// <summary>
         /// Returns the strongly typed representations of the sentences, componentPhrases,and words

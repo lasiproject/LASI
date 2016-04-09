@@ -8,11 +8,10 @@ namespace LASI.Utilities
     using SpecializedResultTypes;
     using Validation;
     using static Enumerable;
-
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
     /// </summary>
-    public static partial class EnumerableExtensions
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each elements index
@@ -244,6 +243,24 @@ namespace LASI.Utilities
                 (x, y) => selector(x).Equals(selector(y)),
                 x => selector(x).GetHashCode())
             );
+
+        /// <summary>Produces the set difference of two sequences under the given projection.</summary>
+        /// <typeparam name="TBase">The type of the elements of the first sequence.</typeparam>
+        /// <typeparam name="TDerived">The type of the elements of the second sequence.</typeparam>
+        /// <typeparam name="TKey">The result type the of projection by which to compare elements.</typeparam>
+        /// <param name="first">The first sequence.</param>
+        /// <param name="second">The second sequence.</param>
+        /// <param name="selector">The projection by which to compare elements.</param>
+        /// <returns>
+        /// A sequence that contains the set difference of the elements of two sequences under the
+        /// given projection.
+        /// </returns>
+        public static IEnumerable<TBase> ExceptBy<TBase, TDerived, TKey>(this IEnumerable<TBase> first, IEnumerable<TDerived> second, Func<TBase, TKey> selector) where TDerived : class, TBase =>
+            first.Except(second, Equality.Create<TBase>(
+                (x, y) => selector(x).Equals(selector(y)),
+                x => selector(x).GetHashCode())
+            );
+
         /// <summary>Produces the set difference of two sequences under the given projections.</summary>
         /// <typeparam name="TSource">The type of the elements in the first sequence.</typeparam>
         /// <typeparam name="TOther">The type of the elements in the second sequence.</typeparam>
@@ -262,6 +279,8 @@ namespace LASI.Utilities
             Func<TSource, TKey> keySelector,
             Func<TOther, TKey> otherKeySelector
         ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
+
+        public static IEnumerable<TBase> Except<TBase, TDerived>(this IEnumerable<TBase> first, IEnumerable<TDerived> second, Func<TBase, bool> equals) where TDerived : class, TBase => first.ExceptBy(second, equals);
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -538,7 +557,7 @@ namespace LASI.Utilities
         /// order and duplicate items, as the second sequence; otherwise, <c>false</c>.
         /// </returns>
         public static bool SetEqual<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer) =>
-            !first.Except(second).Any() && !second.Except(first).Any();
+            !first.Except(second, comparer).Any() && !second.Except(first, comparer).Any();
 
         /// <summary>
         /// Determines if the source collection contains the same elements as the second under the

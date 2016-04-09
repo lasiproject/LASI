@@ -13,7 +13,7 @@ namespace LASI.Content.Tagging
         {
             phraseString = phraseString.Trim();
             var tagStart = 0;
-            var tagEnd = phraseString.Substring(tagStart).IndexOf(" (");
+            var tagEnd = phraseString.Substring(tagStart).IndexOf(" (", StringComparison.Ordinal);
             if (tagEnd == -1 || tagEnd < tagStart)
             {
                 var tt = phraseString.SplitRemoveEmpty(' ');
@@ -23,7 +23,7 @@ namespace LASI.Content.Tagging
             }
             var tagLength = tagEnd;
             var tag = phraseString.Substring(tagStart + 1, tagLength - 1);
-            var innerTextEnd = phraseString.IndexOf("))");
+            var innerTextEnd = phraseString.IndexOf("))", StringComparison.Ordinal);
             var innerTextLen = innerTextEnd - tagEnd + 1;
             var innerText = phraseString.Substring(tagEnd + 1, innerTextLen);
             if (innerText.Count(c => c == '(') > 0)

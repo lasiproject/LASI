@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Content.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,17 @@ namespace LASI.Content
         /// Initializes a new instance of the DocXFile class for the given path.
         /// </summary>
         /// <param name="path">The path to a .docx file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .docx extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .docx extension.</exception>
         public DocXFile(string path)
             : base(path)
         {
-            if (!Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
+            if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
             {
                 throw new FileTypeWrapperMismatchException<DocXFile>(Extension);
             }
         }
+
+
         /// <summary>
         /// Returns a single string containing all of the text in the DocXFile.
         /// </summary>
@@ -41,5 +44,7 @@ namespace LASI.Content
             var converter = new DocxToTextConverter(this);
             return await (await converter.ConvertFileAsync() as TxtFile).LoadTextAsync();
         }
+
+        public override string CanonicalExtension => ".docx";
     }
 }

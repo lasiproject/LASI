@@ -19,7 +19,7 @@ namespace LASI.App
         public static void Enable(Window window)
         {
             // No need to track this instance; its event handlers will keep it alive
-            new TrayIconProvider(window);
+            TrayIconProvider.FromWindow(window);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace LASI.App
         public static void Enable(InProgressWindow window)
         {
             // No need to track this instance; its event handlers will keep it alive
-            new TrayIconProvider(window);
+              TrayIconProvider.FromInProgressWindow(window);
         }
 
         /// <summary>
@@ -38,16 +38,28 @@ namespace LASI.App
         class TrayIconProvider : IDisposable
         {
             /// <summary>
+            /// Creates a new instance of the MinimizeToTrayInstance class.
+            /// </summary>
+            /// <param name = "window">Window instance to attach to.</param>
+            public static TrayIconProvider FromWindow(Window window) => new TrayIconProvider(window);
+
+            /// <summary>
+            /// Creates a new instance of the MinimizeToTrayInstance class.
+            /// </summary>
+            /// <param name = "inProgressWindow">Window instance to attach to.</param>
+            public static TrayIconProvider FromInProgressWindow(InProgressWindow inProgressWindow) => new TrayIconProvider(inProgressWindow);
+
+            /// <summary>
             /// Initializes a new instance of the MinimizeToTrayInstance class.
             /// </summary>
             /// <param name = "window">Window instance to attach to.</param>
-            public TrayIconProvider(Window window)
+            TrayIconProvider(Window window)
             {
                 this.window = window;
                 window.StateChanged += HandleStateChanged;
             }
 
-            public TrayIconProvider(InProgressWindow window)
+            TrayIconProvider(InProgressWindow window)
             {
                 this.window = window;
                 window.ProcessingCompleted += (s, e) =>

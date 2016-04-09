@@ -14,7 +14,7 @@ namespace LASI.WebApp.Persistence
         /// <returns>A string representation of the added document's id.</returns>
         string AddForUser(string userId, TDocument document);
         /// <summary>
-        /// Adds the given document to the store associates it with the user indicated by the document's <see cref="IUserDocument.UserId"/> property, and returns a string representation of its id.
+        /// Adds the given document to the store associates it with the user indicated by the document's <see cref="UserDocument.UserId"/> property, and returns a string representation of its id.
         /// </summary>
         /// <param name="document">The document to add.</param>
         /// <returns>A string representation of the added document's id.</returns>

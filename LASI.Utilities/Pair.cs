@@ -77,7 +77,7 @@ namespace LASI.Utilities
         /// Gets a hashcode for current instance.
         /// </summary>
         /// <returns>A hashcode for current instance.</returns>
-        public override int GetHashCode() => First?.GetHashCode() ?? 0 ^ Second?.GetHashCode() ?? 0;
+        public override int GetHashCode() => First?.GetHashCode() ^ (Second?.GetHashCode()) ?? 0;
 
         /// <summary>
         /// Returns a string representation of the <see cref="Pair{T1, T2}"/>.

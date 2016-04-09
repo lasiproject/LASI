@@ -24,7 +24,9 @@ namespace LASI.WebApp
             await transport.DeliverAsync(email);
             // Plug in your email service here to send an email.
         }
+#pragma warning disable RECS0154 // Parameter is never used
         public static Task SendSmsAsync(string number, string message)
+#pragma warning restore RECS0154 // Parameter is never used
         {
             // Plug in your SMS service here to send a text message.
             return Task.FromResult(0);

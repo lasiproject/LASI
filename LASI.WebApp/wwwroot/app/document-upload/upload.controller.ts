@@ -2,11 +2,12 @@
 const log = console.log.bind(console);
 
 export default class {
-    static $inject = ['$scope', '$q', 'Upload'];
+    static $inject = ['$scope', '$q', 'Upload', 'UserService'];
 
     constructor(private $scope: angular.IScope,
         private $q: ng.IQService,
-        private uploadService: ngf.IUploadService) {
+        private uploadService: ngf.IUploadService,
+        private userService: UserService) {
         this.$scope.$watch('upload.files', this.uploadFiles.bind(this));
     }
 
@@ -30,7 +31,8 @@ export default class {
                     [file.name]: file
                 },
                 url: 'api/UserDocuments',
-                method: 'POST'
+                method: 'POST',
+                userId: this.userService.user.id
             }))
             .progress(data => log(`Progress: ${100.0 * data.progress / data.percentComplete}% ${file.name}`))
             .then(({data}) => log(`File ${file.name} uploaded. \nResponse: ${JSON.stringify(data)}`))

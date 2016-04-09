@@ -5,17 +5,18 @@ namespace LASI.Content.Tests
 {
     public abstract class FileConverterTestBase<TConvertFrom> : IDisposable where TConvertFrom : InputFile
     {
-        private static int TestsRun;
+#pragma warning disable RECS0108 // Warns about static fields in generic types
+        static int TestsRun;
+#pragma warning restore RECS0108 // Warns about static fields in generic types
         private readonly string filePath;
         private readonly string directoryPath;
-        protected abstract string FileName { get; }
         private string FilePath => filePath;
 
-        public FileConverterTestBase()
+        public FileConverterTestBase(string fileName)
         {
-            var file = new FileInfo($@"..\..\MockUserFiles\{FileName}");
+            var file = new FileInfo($@"..\..\MockUserFiles\{fileName}");
             directoryPath = Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\{this.GetType()}\{TestsRun}").FullName;
-            filePath = file.CopyTo($@"{directoryPath}\{FileName}", overwrite: true).FullName;
+            filePath = file.CopyTo($@"{directoryPath}\{fileName}", overwrite: true).FullName;
             ++TestsRun;
         }
         protected abstract Func<string, TConvertFrom> SourceFactory { get; }

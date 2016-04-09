@@ -63,7 +63,7 @@ namespace LASI.App.Dialogs
             }
             catch (Win32Exception)
             {
-                this.ShowMessage($@"An error occured when trying to open or locate the file {actualPath}. 
+                this.ShowMessage($@"An error occurred when trying to open or locate the file {actualPath}. 
                                 Please visit {helpUri} for assistance.");
             }
         }

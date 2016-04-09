@@ -1,5 +1,4 @@
-﻿/// <reference path="../app/models.d.ts" />
-/// <reference path="../../typings/qunit/qunit.d.ts" />
+﻿import "./../jspm_packages/github/jquery/qunit@1.21.0/qunit/qunit.css!";
 import $ from "jquery";
 import "qunit";
 import "./../app/utilities/augmentations";
@@ -29,7 +28,7 @@ export function runTests() {
         ok(Array.prototype.hasOwnProperty('flatMap'), 'flatMap defined on Array.prototype!');
     });
     test('flatMap test', function () {
-        var actual = [[1, 2, 3], [4, 5, 6], [7, 8]].flatMap(e=> e),
+        var actual = [[1, 2, 3], [4, 5, 6], [7, 8]].flatMap(),
             expected = [1, 2, 3, 4, 5, 6, 7, 8];
         deepEqual(actual, expected, ('expected: ' + expected + ';  actual: ' + actual));
     });

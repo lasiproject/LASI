@@ -6,7 +6,7 @@
     "bundle": "typings/tsd.d.ts",
     "installed": {
         "angularjs/angular.d.ts": {
-            "commit": "4ec3c5bf291bc02f49eb30c1077340b235165c67"
+            "commit": "24635d778d7ff1f7665f04239563b2ef2684ee1c"
         },
         "angular-ui-bootstrap/angular-ui-bootstrap.d.ts": {
             "commit": "70bf7e2bfeb0d5b1b651ef3219bcc65c8eec117e"
@@ -15,7 +15,7 @@
             "commit": "3d2f9971a107e2eee2de3ec5318f5c54071e16ed"
         },
         "jquery/jquery.d.ts": {
-            "commit": "4ec3c5bf291bc02f49eb30c1077340b235165c67"
+            "commit": "24635d778d7ff1f7665f04239563b2ef2684ee1c"
         },
         "qunit/qunit.d.ts": {
             "commit": "70bf7e2bfeb0d5b1b651ef3219bcc65c8eec117e"
@@ -36,7 +36,7 @@
             "commit": "3d2f9971a107e2eee2de3ec5318f5c54071e16ed"
         },
         "angular-formly/angular-formly.d.ts": {
-            "commit": "4ec3c5bf291bc02f49eb30c1077340b235165c67"
+            "commit": "24635d778d7ff1f7665f04239563b2ef2684ee1c"
         }
     }
 }

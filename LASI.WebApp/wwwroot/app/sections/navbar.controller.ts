@@ -16,15 +16,19 @@ export default class NavbarController {
         return this.documentListService.get()
             .then(documents => this.documents = documents);
     }
+
     openManageDocumentsModal() {
-        const navbarController = this;
-        const modal = this.$uibModal.open({
-            controllerAs: 'manager',
-            controller: ManageDocumentsModalController,
-            template: manageDocumentsModalTemplate,
-            resolve: { documents: () => this.documents }
-        });
-        return modal.result.then(result => console.info(result));
+        return this.$uibModal
+            .open({
+                controllerAs: 'manager',
+                bindToController: true,
+                template: manageDocumentsModalTemplate,
+                controller: ManageDocumentsModalController,
+                resolve: {
+                    documents: () => this.documents
+                }
+            }).result
+            .then(result => console.info(result));
     }
     // TODO: rename to toggleDropdownList
     toggleExpanded() {
@@ -33,12 +37,12 @@ export default class NavbarController {
     documents: DocumentListItem[];
     expanded = false;
     user: User;
-    logoff() {
-        //return this.userService
-        //    .logoff()
-        //    .then(() => this.user = undefined)
-        //    .finally(() => {
-        //        return this.$state.go('app.login', {}, { reload: true });
-        //    });
-    }
+    //logoff() {
+    //    return this.userService
+    //        .logoff()
+    //        .then(() => this.user = undefined)
+    //        .finally(() => {
+    //            return this.$state.go('app.login', {}, { reload: true });
+    //        });
+    //}
 } 

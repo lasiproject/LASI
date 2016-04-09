@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 namespace LASI.WebApp
 {
@@ -68,7 +69,7 @@ namespace LASI.WebApp
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                         options.SerializerSettings.Formatting = isDevelopment ? Formatting.Indented : Formatting.None;
-                        //options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
+                        options.SerializerSettings.Error = (s, e) => { throw e.ErrorContext.Error; };
                         options.SerializerSettings.Converters.Add(new StringEnumConverter
                         {
                             AllowIntegerValues = false,
@@ -79,10 +80,13 @@ namespace LASI.WebApp
             services.AddSingleton(provider => TokenAuthorizationOptions)
                     .AddAuthorization(options =>
                     {
-                        options.AddPolicy("Bearer", new AuthorizationPolicyBuilder("Bearer")
-                            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
-                            .RequireAuthenticatedUser().Build()
-                        );
+                        options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                        {
+                            policy
+                               .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                               .RequireAuthenticatedUser()
+                               .Build();
+                        });
                     })
                     .AddIdentity<ApplicationUser, UserRole>(options =>
                     {
@@ -142,7 +146,14 @@ namespace LASI.WebApp
             app.UseIISPlatformHandler(options =>
                {
                    options.AuthenticationDescriptions.Clear();
-                   options.AutomaticAuthentication = false;
+                   options.AutomaticAuthentication = true;
+               })
+               .UseCookieAuthentication(options =>
+               {
+                   options.AutomaticAuthenticate = true;
+                   options.AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
+                   options.LoginPath = null;
+                   options.LogoutPath = null;
                })
                .UseJwtBearerAuthentication(options =>
                {
@@ -163,6 +174,9 @@ namespace LASI.WebApp
                    options.TokenValidationParameters.ValidateLifetime = true;
                    options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(0);
                    options.TokenValidationParameters.NameClaimType = "unique_name";
+                   options.AutomaticAuthenticate = false;
+                   options.AutomaticChallenge = false;
+
                    options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration
                    {
                        HttpLogoutSupported = true
@@ -197,7 +211,11 @@ namespace LASI.WebApp
         }
 
 
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            //new WebHostBuilder().UseContentRoot(Directory.GetCurrentDirectory()).UseDefaultHostConfiguration(args);
+            WebApplication.Run<Startup>(args);
+        }
 
         RsaSecurityKey RsaKey { get; set; }
         private readonly bool isDevelopment;

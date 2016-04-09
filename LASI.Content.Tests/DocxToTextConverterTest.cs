@@ -10,7 +10,7 @@ namespace LASI.Content.Tests
 
     public class DocxToTextConverterTest : FileConverterTestBase<DocXFile>
     {
-        protected override string FileName => "Draft_Environmental_Assessment.docx";
+        public DocxToTextConverterTest() : base("Draft_Environmental_Assessment.docx") { }
 
         protected sealed override Func<string, DocXFile> SourceFactory => path => new DocXFile(path);
 
@@ -36,7 +36,7 @@ namespace LASI.Content.Tests
             DocxToTextConverter target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = target.ConvertFile();
-            Check.That(File.Exists(actual.FullPath)).IsTrue();
+            Check.That(actual.FullPath).Satisfies(File.Exists);
         }
         /// <summary>
         ///A test for DocxToTextConverter Constructor

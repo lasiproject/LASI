@@ -103,7 +103,7 @@ namespace LASI.App
             {
                 if (Directory.Exists(availablePath))
                 {
-                    availablePath = initPath + i.ToString();
+                    availablePath = initPath + i;
                 }
                 else { break; }
             }
@@ -144,7 +144,7 @@ namespace LASI.App
             Resources["createButtonContent"] = "Cancel";
             mainGrid.AllowDrop = true;
             await SetUpDefaultDirectory();
-            if (Height == 250)
+            if ((int)Height == 250)
             {
                 for (var i = 0; i < 270; i += 10)
                 {
@@ -162,7 +162,7 @@ namespace LASI.App
             expandCreatePanelButton.Click -= cancelButton_Click;            //remove this event handler and 
             Resources["createButtonContent"] = "Create";
             mainGrid.AllowDrop = false;
-            if (Height == 550)
+            if ((int)Height == 550)
             {
                 for (var i = 0; i < 270 && Height > 250; i += 10)
                 {
@@ -240,7 +240,7 @@ namespace LASI.App
                     writer.WriteLine(lasiFile.ToString());
                 }
                 this.SwapWith(WindowManager.ProjectPreviewScreen);
-                WindowManager.ProjectPreviewScreen.LoadDocumentPreviews();
+                await WindowManager.ProjectPreviewScreen.LoadDocumentPreviewsAsync();
             }
             else
             {
@@ -346,7 +346,7 @@ namespace LASI.App
         {
             if (string.IsNullOrWhiteSpace(locationTextBox.Text) ||
                 string.IsNullOrEmpty(locationTextBox.Text) ||
-                !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\"))))
+                !Directory.Exists(locationTextBox.Text.Substring(0, locationTextBox.Text.LastIndexOf("\\", StringComparison.Ordinal))))
             {
                 locationTextBox.ToolTip = new ToolTip { Content = ErrorMessages.ProjectLocationInvalid };
                 return false;

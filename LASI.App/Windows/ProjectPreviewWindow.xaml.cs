@@ -39,7 +39,7 @@ namespace LASI.App
         /// <summary>
         /// Loads and displays a text preview tab for each document in the project.
         /// </summary>
-        public async void LoadDocumentPreviews()
+        public async Task LoadDocumentPreviewsAsync()
         {
             foreach (var textfile in FileManager.TxtFiles)
             {
@@ -162,7 +162,7 @@ namespace LASI.App
                     await DisplayAddNewDocumentDialogImplementation(fileInfo.FullName);
                 });
         }
-        private async void DisplayAddNewDocumentDialog()
+        private async Task DisplayAddNewDocumentDialogAsync()
         {
             var openDialog = new Microsoft.Win32.OpenFileDialog
             {
@@ -213,9 +213,9 @@ namespace LASI.App
             SharedFunctionality.LaunchLASIWebsite(this);
         }
 
-        private void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        private async void AddDocument_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            DisplayAddNewDocumentDialog();
+            await DisplayAddNewDocumentDialogAsync();
         }
 
         private void CloseApp_CommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -234,14 +234,14 @@ namespace LASI.App
             SharedFunctionality.OpenManualWithInstalledViewer(this);
         }
 
-        private void AddNewDocumentButton_Click(object sender, RoutedEventArgs e)
+        private async void AddNewDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            DisplayAddNewDocumentDialog();
+            await DisplayAddNewDocumentDialogAsync();
         }
         private void NewProjectMenuItem_Click(object sender, RoutedEventArgs e)
         {  //Hacky solution to make every option function. This makes new project restart LASI.
-            App.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
-            App.Current.Shutdown();
+            Application.Current.Exit += (sndr, evt) => System.Windows.Forms.Application.Restart();
+            Application.Current.Shutdown();
         }
 
         #endregion

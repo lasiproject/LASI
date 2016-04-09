@@ -36,12 +36,12 @@ namespace LASI.WebApp.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+                : string.Empty;
             var user = await UserManager.FindByEmailAsync((
                 from claim in User.Claims
                 where claim.Properties.Values.Contains("unique_name")
                 select claim.Value
-                ).DefaultIfEmpty("").First());
+            ).DefaultIfEmpty(string.Empty).First());
 
             if (user == null)
             {
@@ -49,15 +49,16 @@ namespace LASI.WebApp.Controllers
             }
             var model = new IndexViewModel
             {
+                BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user),
                 HasPassword = await UserManager.HasPasswordAsync(user),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(user),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(user),
                 Logins = await UserManager.GetLoginsAsync(user),
-                BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user),
-                Email = await UserManager.GetEmailAsync(user),
+                Email = await UserManager.GetEmailAsync(user)
             };
             return Ok(model);
         }
+
         [HttpPost("account")]
         public async Task<IndexViewModel> Post([FromBody]IndexViewModel details)
         {

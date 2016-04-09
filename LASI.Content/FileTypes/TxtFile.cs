@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Content.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,13 +17,16 @@ namespace LASI.Content
         /// Initializes a new instance of the TxtFile class for the given path.
         /// </summary>
         /// <param name="path">The path of the .txt file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .txt extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .txt extension.</exception>
         public TxtFile(string path)
             : base(path)
         {
-            if (!Extension.Equals(".txt", StringComparison.OrdinalIgnoreCase))
+            if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
+            {
                 throw new FileTypeWrapperMismatchException<TxtFile>(Extension);
+            }
         }
+
         /// <summary>
         /// Gets a single string containing all of the text in the TxtFile.
         /// </summary>
@@ -45,5 +49,7 @@ namespace LASI.Content
                 return await reader.ReadToEndAsync();
             }
         }
+
+        public override string CanonicalExtension => ".txt";
     }
 }

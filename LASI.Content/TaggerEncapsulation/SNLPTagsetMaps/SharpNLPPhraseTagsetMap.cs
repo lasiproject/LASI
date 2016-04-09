@@ -49,7 +49,7 @@ namespace LASI.Content.Tagging
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create
         /// an instance of the Phrase class which provides its run-time representation.
         /// </summary>
-        /// <param name="posTag">The textual representation of a Phrase Part Of Speech tag.</param>
+        /// <param name="tag">The textual representation of a Phrase Part Of Speech tag.</param>
         /// <returns>
         /// A function which creates an instance of the run-time Phrase type associated with the
         /// textual tag.
@@ -57,14 +57,14 @@ namespace LASI.Content.Tagging
         /// <exception cref="UnknownPhraseTagException">
         /// Thrown when the indexing tag string is not defined by the tagset.
         /// </exception>
-        public override PhraseFactory this[string posTag]
+        public override PhraseFactory this[string tag]
         {
             get
             {
                 PhraseFactory result;
-                if (!map.TryGetValue(posTag, out result))
+                if (!map.TryGetValue(tag, out result))
                 {
-                    throw new UnknownPhraseTagException(posTag);
+                    throw new UnknownPhraseTagException(tag);
                 }
                 return result;
             }

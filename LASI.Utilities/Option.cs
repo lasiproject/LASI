@@ -51,7 +51,7 @@ namespace LASI.Utilities
     /// <typeparam name="T">The type of the optional value.</typeparam>
     public abstract class Option<T> : IEquatable<Option<T>>, IEquatable<T>
     {
-        internal static Option<T> FromValue(T value) => value == null ? NoneOfT : new Some(value);
+        internal static Option<T> FromValue(T value) => ReferenceEquals(value, null) ? NoneOfT : new Some(value);
 
         private Option(bool hasValue)
         {

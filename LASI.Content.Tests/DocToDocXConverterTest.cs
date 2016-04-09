@@ -15,9 +15,9 @@ namespace LASI.Content.Tests
     /// </summary>
     public class DocToDocXConverterTest : FileConverterTestBase<DocFile>
     {
-        protected override string FileName => "Draft_Environmental_Assessment.doc";
+        public DocToDocXConverterTest():base("Draft_Environmental_Assessment.doc") { } 
 
-        protected override Func<string, DocFile> SourceFactory => path => new DocFile(path);
+        protected sealed override Func<string, DocFile> SourceFactory => path => new DocFile(path);
 
         /// <summary>
         ///A test for DocToDocXConverter Constructor

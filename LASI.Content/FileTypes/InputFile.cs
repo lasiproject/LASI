@@ -95,10 +95,12 @@ namespace LASI.Content
         /// </summary>
         public string Name => NameSansExt;
 
+        public abstract string CanonicalExtension { get; }
+
         /// <summary>
         /// Provides encapsulated access to underlying path information.
         /// </summary>
-        private FileData fileData;
+        readonly FileData fileData;
 
         /// <summary>
         /// Returns a value that indicates whether the InputFile on the left is equal to the InputFile on the right.
@@ -117,5 +119,8 @@ namespace LASI.Content
         /// <param name="right">The InputFile on the right.</param>
         /// <returns> <c>true</c> if the InputFile on the left is not equal to the InputFile on the right.</returns>
         public static bool operator !=(InputFile left, InputFile right) => !(left == right);
+
+        protected FileConversionFailureException CreateFileConversionFailureException(string targetExtension, Exception e) => new FileConversionFailureException(FullPath, this.CanonicalExtension, targetExtension, e);
+
     }
 }

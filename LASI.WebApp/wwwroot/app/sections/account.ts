@@ -7,40 +7,7 @@ export default class AccountController {
     }
 
     activate() {
-        return this.userService.getDetails()
-            .then(details => this.details = details).then(() => this.fields = [
-                {
-                    key: 'email',
-                    type: 'input',
-                    validators: {
-                        emailsMatch: {
-                            expression: (viewValue, viewModel, scope) => !scope.model.confirmEmail || (viewValue || viewModel) === scope.model.confirmEmail,
-                            message: 'Eamils do not match'
-                        }
-                    },
-                    wrapper: ['bootstrapHasError'],
-                    templateOptions: {
-                        label: 'Email',
-                        required: true,
-
-                    }
-                }, {
-                    key: 'confirmEmail',
-                    type: 'input',
-                    wrapper: ['bootstrapHasError'],
-                    validators: {
-                        emailsMatch: {
-                            expression: (viewValue, viewModel, scope) => (viewValue || viewModel) === scope.model.email,
-                            message: 'Eamils do not match'
-                        }
-                    },
-                    templateOptions: {
-                        label: 'Confirm Email',
-                        required: true,
-
-                    }
-                }
-            ]);
+        return this.userService.getDetails().then(details => this.details = details)
     }
 
     saveDetails() {
@@ -53,6 +20,37 @@ export default class AccountController {
 
     details: any;
 
-    fields: AngularFormly.IFieldConfigurationObject[];
+    fields: AngularFormly.IFieldConfigurationObject[] = [
+        {
+            key: 'email',
+            type: 'input',
+            validators: {
+                emailsMatch: {
+                    expression: (viewValue, viewModel, scope) => !scope.model.confirmEmail || (viewValue || viewModel) === scope.model.confirmEmail,
+                    message: 'Eamils do not match'
+                }
+            },
+            wrapper: ['bootstrapHasError'],
+            templateOptions: {
+                label: 'Email',
+                required: true
+            }
+        },
+        {
+            key: 'confirmEmail',
+            type: 'input',
+            wrapper: ['bootstrapHasError'],
+            validators: {
+                emailsMatch: {
+                    expression: (viewValue, viewModel, scope) => (viewValue || viewModel) === scope.model.email,
+                    message: 'Eamils do not match'
+                }
+            },
+            templateOptions: {
+                label: 'Confirm Email',
+                required: true
+            }
+        }
+    ];
 
 }

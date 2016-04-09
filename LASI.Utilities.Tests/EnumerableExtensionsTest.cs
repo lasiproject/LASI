@@ -10,7 +10,7 @@ namespace LASI.Utilities.Tests
 {
     using Fact = Xunit.FactAttribute;
     using static Enumerable;
-
+    using Specialized;
     public class EnumerableExtensionsTest
     {
         #region Sequence String Formatting Methods

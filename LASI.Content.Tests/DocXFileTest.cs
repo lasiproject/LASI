@@ -2,6 +2,7 @@
 using Xunit;
 using System.IO;
 using Shared.Test.NFluentExtensions;
+using LASI.Content.Exceptions;
 
 namespace LASI.Content.Tests
 {

@@ -14,7 +14,7 @@ namespace LASI.Content.Tests
     /// </summary>
     public class PdfToTextConverterTest : FileConverterTestBase<PdfFile>
     {
-        protected override string FileName => "Draft_Environmental_Assessment.pdf";
+        public PdfToTextConverterTest() : base("Draft_Environmental_Assessment.pdf") { }
 
         protected sealed override Func<string, PdfFile> SourceFactory => path => new PdfFile(path);
 

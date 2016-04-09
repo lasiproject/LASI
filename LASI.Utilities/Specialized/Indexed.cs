@@ -44,7 +44,7 @@ namespace LASI.Utilities.SpecializedResultTypes
         /// </summary>
         /// <param name="other">The <see cref="Indexed{T}"/> to compare with the current instance/</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
-        public bool Equals(Indexed<T> other) => Index == other.Index && (Element?.Equals(other.Element) ?? other.Element == null);
+        public bool Equals(Indexed<T> other) => Index == other.Index && Equals(Element, other.Element);
         /// <summary>
         /// Tests the current <see cref="Indexed{T}"/> instance for equality with the specified object.
         /// </summary>

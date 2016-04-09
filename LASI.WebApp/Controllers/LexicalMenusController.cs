@@ -10,7 +10,7 @@ namespace LASI.WebApp.Controllers
     [Route("api/[controller]/{documentId}")]
     public class LexicalMenusController : Controller
     {
-        [HttpGet("{lexicalType}/{lexicalId}")]
-        IEnumerable<string> Get(string documentId, string lexicalType, string lexicalId) => new string[] { "value1", "value2" };
+        //[HttpGet("{lexicalType}/{lexicalId}")]
+        //IEnumerable<string> Get(string documentId, string lexicalType, string lexicalId) => new string[] { "value1", "value2" };
     }
 }

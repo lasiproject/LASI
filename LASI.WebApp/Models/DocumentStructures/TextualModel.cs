@@ -25,6 +25,6 @@ namespace LASI.WebApp.Models.DocumentStructures
         [JsonIgnore]
         public abstract string Text { get; }
 
-        private static int IdGenerator;
+        static int IdGenerator;
     }
 }

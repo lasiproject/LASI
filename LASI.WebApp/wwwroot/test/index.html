@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>QUnit JS Tests</title>
-    <link rel="stylesheet" href="./../jspm_packages/github/jquery/qunit@1.20.0/qunit/qunit.css" />
 </head>
 <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <script src="./../jspm_packages/system.js"></script>
     <script src="./../config.js"></script>
-    <script>System.import('test')
-        .then(function (test) {
-            test.runTests();
-        })
-        .catch(console.error.bind(console));
+    <script>
+        System.import('test')
+            .then(function (test) {
+                test.runTests();
+            })
+            .catch(console.error.bind(console));
     </script>
 
     <ol id="qunit-tests">

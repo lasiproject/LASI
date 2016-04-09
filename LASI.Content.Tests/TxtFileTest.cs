@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NFluent;
 using Shared.Test.NFluentExtensions;
 using Fact = Xunit.FactAttribute;
+using LASI.Content.Exceptions;
 
 namespace LASI.Content.Tests
 {
@@ -12,7 +13,7 @@ namespace LASI.Content.Tests
     /// </summary>
     public class TxtFileTest
     {
-        private const string VALID_TXT_FILE_PATH = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+        private const string ValidTxtFilePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
 
         /// <summary>
         ///A test for TextFile Constructor
@@ -20,12 +21,11 @@ namespace LASI.Content.Tests
         [Fact]
         public void TextFileConstructorTest()
         {
-            string path = VALID_TXT_FILE_PATH;
-            TxtFile target = new TxtFile(path);
-            var sfi = new System.IO.FileInfo(path);
-            Check.That(sfi.FullName).IsEqualTo(target.FullPath);
-            Check.That(sfi.Name).IsEqualTo(target.FileName);
-            Check.That(sfi.Extension).IsEqualTo(target.Extension);
+            TxtFile target = new TxtFile(ValidTxtFilePath);
+            var fileInfo = new FileInfo(ValidTxtFilePath);
+            Check.That(fileInfo.FullName).IsEqualTo(target.FullPath);
+            Check.That(fileInfo.Name).IsEqualTo(target.FileName);
+            Check.That(fileInfo.Extension).IsEqualTo(target.Extension);
         }
         [Fact]
         public void TextFileConstructorTest1()
@@ -47,11 +47,9 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            string path = VALID_TXT_FILE_PATH;
-            TxtFile target = new TxtFile(path);
-            string expected = new StreamReader(path).ReadToEnd();
-            string actual;
-            actual = target.LoadText();
+            TxtFile target = new TxtFile(ValidTxtFilePath);
+            string expected = new StreamReader(ValidTxtFilePath).ReadToEnd();
+            string actual = target.LoadText();
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -62,8 +60,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task LoadTextAsyncTest()
         {
-            string path = VALID_TXT_FILE_PATH;
-            TxtFile target = new TxtFile(path);
+            TxtFile target = new TxtFile(ValidTxtFilePath);
             string expected = new StreamReader(target.FullPath).ReadToEndAsync().Result;
             string actual = null;
             actual = await target.LoadTextAsync();

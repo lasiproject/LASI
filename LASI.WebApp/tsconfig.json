@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "allowJs": true
+    },
+    "exclude": [
+        "wwwroot",
+        "typings",
+        "node_modules"
+    ]
+}

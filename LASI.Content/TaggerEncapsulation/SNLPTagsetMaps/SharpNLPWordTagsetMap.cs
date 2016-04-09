@@ -94,17 +94,17 @@ namespace LASI.Content.Tagging
         /// <summary>
         /// Provides POS-Tag indexed access to a constructor function which can be invoked to create an instance of the class which provides its run-time representation.
         /// </summary>
-        /// <param name="posTag">The textual representation of a Part Of Speech tag.</param>
+        /// <param name="tag">The textual representation of a Part Of Speech tag.</param>
         /// <returns>A function which creates an instance of the run-time type associated with the textual tag.</returns>
         /// <exception cref="UnknownWordTagException">Thrown when the indexing tag string is not defined by the tagset.</exception>
-        public override WordFactory this[string posTag]
+        public override WordFactory this[string tag]
         {
             get
             {
                 WordFactory result;
-                if (!map.TryGetValue(posTag, out result))
+                if (!map.TryGetValue(tag, out result))
                 {
-                    throw new UnknownWordTagException(posTag);
+                    throw new UnknownWordTagException(tag);
                 }
                 return result;
             }

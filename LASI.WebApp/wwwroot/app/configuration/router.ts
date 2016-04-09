@@ -4,20 +4,39 @@ import homeTemplate from 'app/sections/home.html';
 import HomeController from 'app/document-list/list-controller';
 
 import loginTemplate from 'app/sections/login.html';
-
-import AccountController from 'app/sections/account';
-import accountTemplate from 'app/sections/account.html';
-
 import LoginController from 'app/sections/login';
+
+import accountTemplate from 'app/sections/account.html';
+import AccountController from 'app/sections/account';
+
 import { UserService } from 'app/user-service';
 
-configureStates.$inject = ['$stateProvider', '$urlRouterProvider'];
-export default function configureStates($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
-    user.$inject = ['UserService'];
-    function user(userService: UserService) {
-        return userService.getUser();
-    }
+configureRouter.$inject = ['$stateProvider', '$urlRouterProvider'];
+export default function configureRouter($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) {
 
+    const resolve = {
+        user: (function () {
+            let cachedUser: User = undefined;
+            var user = function user(userService: UserService) {
+                return cachedUser
+                    ? cachedUser
+                    : userService.getUser().then(user => cachedUser = user);
+            }
+            user.$inject = ['UserService'];
+            return user;
+        })()
+    };
+
+    const navbar: ng.ui.IState = {
+        name: 'navbar',
+        template: `<navbar user="resolved.user"></navbar>`,
+        controllerAs: 'resolved',
+        resolve,
+        controller: class {
+            static $inject = ['user'];
+            constructor(private user: User) { }
+        }
+    };
     $stateProvider
         .state({
             url: '/',
@@ -28,90 +47,49 @@ export default function configureStates($stateProvider: ng.ui.IStateProvider, $u
                     controller: MainController,
                     controllerAs: 'app',
                     template: mainTemplate,
-                    resolve: {
-                    }
+                    resolve
                 },
-                'main': {
-                    resolve: {
-                    }
-                },
-                'navbar': {
-                    name: 'navbar',
-                    template: `<navbar user="resolved.user"></navbar>`,
-                    controllerAs: 'resolved',
-                    resolve: { user },
-                    controller: class {
-                        static $inject = ['user'];
-                        constructor(private user: User) { }
-                    },
-                }
+                main: { resolve },
+                navbar
             }
         })
         .state({
             name: 'app.home',
             url: 'home',
             views: {
-                'main': {
+                main: {
                     name: 'home',
                     controllerAs: 'home',
                     controller: HomeController,
                     template: homeTemplate
-                }, 'navbar': {
-                    name: 'navbar',
-                    template: `<navbar user="resolved.user"></navbar>`,
-                    controllerAs: 'resolved',
-                    resolve: { user },
-                    controller: class {
-                        static $inject = ['user'];
-                        constructor(private user: User) { }
-                    }
-                }
+                },
+                navbar
             }
         })
         .state({
             name: 'app.login',
             url: 'login',
             views: {
-                'main': {
+                main: {
                     controller: LoginController,
                     controllerAs: 'login',
                     template: loginTemplate,
-                    resolve: {
-                    }
+                    resolve
                 },
-                'navbar': {
-                    name: 'navbar',
-                    template: `<navbar user="resolved.user"></navbar>`,
-                    controllerAs: 'resolved',
-                    resolve: { user },
-                    controller: class {
-                        static $inject = ['user'];
-                        constructor(private user: User) { }
-                    }
-                }
+                navbar
             }
         })
         .state({
             name: 'app.account',
             url: 'account',
             views: {
-                'main': {
+                main: {
                     controller: AccountController,
                     controllerAs: 'account',
                     template: accountTemplate,
-                    resolve: {
-                    }
+                    resolve
                 },
-                'navbar': {
-                    name: 'navbar',
-                    template: `<navbar user="resolved.user"></navbar>`,
-                    controllerAs: 'resolved',
-                    resolve: { user },
-                    controller: class {
-                        static $inject = ['user'];
-                        constructor(private user: User) { }
-                    }
-                }
+                navbar
             }
         })
         .state({

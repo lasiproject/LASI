@@ -4,6 +4,7 @@ using NFluent;
 
 namespace LASI.Content.Tests
 {
+    using Exceptions;
     using Fact = Xunit.FactAttribute;
 
     /// <summary>

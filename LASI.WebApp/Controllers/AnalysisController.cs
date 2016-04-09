@@ -37,7 +37,6 @@ namespace LASI.WebApp.Controllers
         [HttpGet("{documentId}")]
         public async Task<DocumentModel> Get(string documentId) => await ProcessOne(documentId);
 
-
         [HttpGet]
         public async Task<IEnumerable<DocumentModel>> Get() => await LoadResultDocument(GetAllUserSources());
         private async Task<DocumentModel> ProcessOne(string documentId)
@@ -60,6 +59,7 @@ namespace LASI.WebApp.Controllers
                 chartItems: NaiveTopResultSelector.GetTopResultsByEntity(document).Take(MaxChartItems),
                 documentId: userDocuments.FirstOrDefault(source => source.Name == document.Name).Id
             );
+
         private async Task<IEnumerable<Document>> ProcessUserDocuments(IEnumerable<UserDocument> userDocuments)
         {
             var workItems = CreateWorkItemsForProcessingOperations(userDocuments).ToList();
@@ -101,9 +101,15 @@ namespace LASI.WebApp.Controllers
         private IEnumerable<WorkItem> CreateWorkItemsForProcessingOperations(IEnumerable<UserDocument> userDocuments) =>
             from document in userDocuments
             let isCached = ProcessedDocuments.Any(d => d.Name.EqualsIgnoreCase(document.Name))
-            let state = isCached ? TaskState.Complete : TaskState.Pending
-            let statusMessage = isCached ? "Analysis Complete." : "Pending"
-            let percentComplete = isCached ? 100 : 0
+            let state = isCached 
+                ? TaskState.Complete 
+                : TaskState.Pending
+            let statusMessage = isCached 
+                ? "Analysis Complete." 
+                : "Pending"
+            let percentComplete = 
+                isCached ? 100 
+                : 0
             select new WorkItem
             {
                 Id = document.Id,

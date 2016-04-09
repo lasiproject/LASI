@@ -75,8 +75,7 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentException">
         /// Thrown when the array of strings to remove contains an empty string.
         /// </exception>
-        public static string RemoveSubstrings(this string value, params string[] remove) => value.RemoveSubstrings(StringComparison.CurrentCulture, remove);
-        public static string RemoveSubstrings(this string value, StringComparison comparison, params string[] remove)
+        public static string RemoveSubstrings(this string value, params string[] remove)
         {
             Validate.NotNull(value, "value");
             if (remove.Contains(string.Empty))

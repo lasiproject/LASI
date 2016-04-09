@@ -5,6 +5,7 @@ using LASI.WebApp.Models.Lexical;
 using System;
 using Newtonsoft.Json;
 using LASI.Utilities;
+using LASI.Utilities.Specialized;
 
 namespace LASI.WebApp.Models.DocumentStructures
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LASI.Content.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,13 +17,14 @@ namespace LASI.Content
         /// Initializes a new instance of the PdfFile class for the given path.
         /// </summary>
         /// <param name="fullPath">The path to a .pdf file.</param>
-        /// <exception cref="FileTypeWrapperMismatchException">Thrown if the provided path does not end in the .pdf extension.</exception>
+        /// <exception cref="FileTypeWrapperMismatchException{TWrapper}">Thrown if the provided path does not end in the .pdf extension.</exception>
         public PdfFile(string fullPath)
             : base(fullPath)
         {
-            if (!Extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+            if (!Extension.Equals(CanonicalExtension, StringComparison.OrdinalIgnoreCase))
                 throw new FileTypeWrapperMismatchException<PdfFile>(Extension);
         }
+
         /// <summary>
         /// Returns a single string containing all of the text in the PdfFile.
         /// </summary>
@@ -39,5 +41,7 @@ namespace LASI.Content
             var converted = await converter.ConvertFileAsync();
             return await converted.LoadTextAsync();
         }
+
+        public override string CanonicalExtension => ".pdf";
     }
 }

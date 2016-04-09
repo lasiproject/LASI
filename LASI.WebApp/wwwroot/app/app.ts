@@ -26,7 +26,7 @@ import { navbar } from './sections/navbar';
 import { logoff } from './sections/logoff';
 import { UserService } from './user-service';
 import TokenService from './token-service';
-import configureStates from './configuration/router';
+import configureRouter from './configuration/router';
 import configureHttp from './configuration/http';
 import run from './startup';
 
@@ -42,7 +42,7 @@ const app: NgModuleConfig = {
     components: { navbar, logoff },
     services: { UserService, TokenService },
     factories: { tasks },
-    configs: [configureStates, configureHttp],
+    configs: [configureRouter, configureHttp],
     runs: [run]
 };
 

@@ -16,7 +16,7 @@ namespace LASI.WebApp.Exceptions
         {
             if (statusCode < 400)
             {
-                throw new InvalidOperationException($"HttpResponseException instances must represent HTTP error response codes. Codes below 400 are not permitted");
+                throw new InvalidOperationException("HttpResponseException instances must represent HTTP error response codes. Codes below 400 are not permitted");
             }
         }
 
