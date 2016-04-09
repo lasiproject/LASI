@@ -162,7 +162,7 @@ namespace LASI.Core
                     AdverbialModifiers.Any() ? $"Modifiers: {AdverbialModifiers.Format(m => m.Text)}" : empty,
                     $"\nPossessive: [{(IsPossessive ? "Yes" : "No")}]",
                     $"\nClassifier: [{(IsClassifier ? "Yes" : "No")}]",
-                    $"\nPrevailing Form: [{PrevailingForm.SpaceByCase().RemoveSubstrings(StringComparison.OrdinalIgnoreCase, "Verb").Trim()}]"
+                    $"\nPrevailing Form: [{PrevailingForm.SpaceByCase().RemoveSubstrings("Verb").Trim()}]"
                 );
         }
 

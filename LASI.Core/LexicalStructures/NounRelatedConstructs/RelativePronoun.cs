@@ -164,12 +164,12 @@ namespace LASI.Core
 
         #endregion
 
-        private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
-        private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
+        IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
+        IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
+        IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
 
         #region Static Members
-        private static Kind DetermineKind(RelativePronoun relativePronoun)
+        static Kind DetermineKind(RelativePronoun relativePronoun)
         {
             var text = relativePronoun.Text.ToLower();
             return subjectRolePersonal.Contains(text)
@@ -185,11 +185,11 @@ namespace LASI.Core
                 : Kind.Undetermined;
         }
 
-        private static readonly HashSet<string> subjectRolePersonal = new HashSet<string> { "who", "that" };
-        private static readonly HashSet<string> objectRoleLocationals = new HashSet<string> { "where" };
-        private static readonly HashSet<string> objectRoleEntity = new HashSet<string> { "whom", "which", "who", "that" };
-        private static readonly HashSet<string> objectRoleTemporals = new HashSet<string> { "when" };
-        private static readonly HashSet<string> objectRoleExpositories = new HashSet<string> { "what", "why" };
+        static readonly HashSet<string> subjectRolePersonal = new HashSet<string> { "who", "that" };
+        static readonly HashSet<string> objectRoleLocationals = new HashSet<string> { "where" };
+        static readonly HashSet<string> objectRoleEntity = new HashSet<string> { "whom", "which", "who", "that" };
+        static readonly HashSet<string> objectRoleTemporals = new HashSet<string> { "when" };
+        static readonly HashSet<string> objectRoleExpositories = new HashSet<string> { "what", "why" };
         #endregion
     }
 }

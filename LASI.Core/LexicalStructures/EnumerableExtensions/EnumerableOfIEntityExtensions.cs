@@ -64,7 +64,7 @@ namespace LASI.Core
         /// </returns>
         public static IEnumerable<TEntity> InDirectObjectRole<TEntity>(this IEnumerable<TEntity> entities)
             where TEntity : IEntity => from e in entities
-                                       where e.DirectObjectOf == e.DirectObjectOf.Value
+                                       where e.DirectObjectOf.IsSome
                                        select e;
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace LASI.Core
         /// </returns>
         public static ParallelQuery<TEntity> InDirectObjectRole<TEntity>(this ParallelQuery<TEntity> entities)
             where TEntity : IEntity => from e in entities
-                                       where e.DirectObjectOf.IsSome
+                                       where e?.DirectObjectOf?.IsSome == true
                                        select e;
 
         /// <summary>

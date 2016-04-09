@@ -185,19 +185,7 @@ namespace LASI.Core
         /// <c>true</c> if the Pronoun is among the semantic categories which are thought of as
         /// explicitly gender ambiguous; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsGenderAmbiguous(this Pronoun pronoun) => (from n in new[] { 1, 2, 3, 4, 5, 6 }
-                                                                       where n % 2 < n
-                                                                       join i in new[] { 7, 8, 9, 10, 11, 12 } on n * 2 equals i
-                                                                       select new
-                                                                       {
-                                                                           N = n,
-                                                                           NSquared = n * n,
-                                                                           NCubed = n * n * n,
-                                                                           I = i,
-                                                                           ISquared = i * i,
-                                                                           ICubed = i * i * i
-                                                                       } into data
-                                                                       select data.N).Aggregate(1, (x, y) => x | y) == 1;
+        public static bool IsGenderAmbiguous(this Pronoun pronoun) => pronoun.PronounKind.IsGenderAmbiguous();
 
         /// <summary>
         /// Determines if the Pronoun is among the semantic categories which are thought of as

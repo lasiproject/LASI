@@ -40,11 +40,11 @@ namespace LASI.Core
         public override string ToString() {
             var result = base.ToString();
             if (ToTheLeftOf != null)
-                result += "\n\tleft linked: " + ToTheLeftOf.ToString();
+                result += "\n\tleft linked: " + ToTheLeftOf.Text;
             if (ToTheRightOf != null)
-                result += "\n\tright linked: " + ToTheRightOf.ToString();
+                result += "\n\tright linked: " + ToTheRightOf.Text;
             if (BoundObject != null)
-                result += "\n\tObject: " + BoundObject.ToString();
+                result += "\n\tObject: " + BoundObject;
             return result;
         }
 

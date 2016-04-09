@@ -30,7 +30,7 @@ namespace LASI.Core
         {
             if (PossessesFor.IsSome)
             {
-                PossessesFor.Match().Case(e => e.AddPossession(possession));
+                PossessesFor.Value.AddPossession(possession);
             }
             possessions = possessions.Add(possession);
         }

@@ -32,7 +32,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets the DeterminerKind value of the current instance.
         /// </summary>
-        public virtual DeterminerKind DeterminerKind { get; }
-
+        public DeterminerKind DeterminerKind { get; }
     }
 }

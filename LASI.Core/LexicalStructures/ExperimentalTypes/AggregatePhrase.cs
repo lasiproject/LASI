@@ -84,7 +84,7 @@ namespace LASI.Core.Binding.Experimental
         {
             get
             {
-                var kinds = from EntityKind kind in Enum.GetValues(EntityKind.GetType())
+                var kinds = from EntityKind kind in Enum.GetValues(typeof(EntityKind))
                             where PrimaryConstituents.All(np => np.EntityKind == kind ||
                                     np.EntityKind == EntityKind.Person && kind == EntityKind.PersonMultiple ||
                                     np.EntityKind == EntityKind.ThingUnknown && kind == EntityKind.ThingMultiple ||
@@ -92,11 +92,17 @@ namespace LASI.Core.Binding.Experimental
                                     np.EntityKind == EntityKind.ThingMultiple && kind == EntityKind.ThingUnknown)
                             select kind;
                 var matchedKind = kinds.FirstOrDefault();
-                return matchedKind == EntityKind.Person || matchedKind == EntityKind.PersonMultiple ?
-                    EntityKind.PersonMultiple :
-                    matchedKind == EntityKind.ThingUnknown || matchedKind == EntityKind.ThingMultiple ?
-                    EntityKind.ThingMultiple :
-                    matchedKind;
+                switch (matchedKind)
+                {
+                    case EntityKind.Person:
+                    case EntityKind.PersonMultiple:
+                    return EntityKind.PersonMultiple;
+                    case EntityKind.ThingUnknown:
+                    case EntityKind.ThingMultiple:
+                    return EntityKind.ThingMultiple;
+                    default:
+                    return matchedKind;
+                }
             }
         }
 

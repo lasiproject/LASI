@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LASI.Core.Configuration;
+using LASI.Utilities.Specialized.Enhanced.Universal;
 
 namespace LASI.Core
 {
@@ -71,7 +72,7 @@ namespace LASI.Core
             if (source.Phrases.Any())
             {
                 var maxWeight = source.Phrases.Max(p => p.Weight);
-                if (maxWeight != 0)
+                if ((int)maxWeight != 0)
                 {
                     foreach (var phrase in source.Phrases)
                     {
@@ -93,7 +94,7 @@ namespace LASI.Core
                              select e.Match()
                                   .When((IReferencer r) => r.RefersTo != null)
                                   .Then((IReferencer r) => r.RefersTo)
-                                  .Match((IEntity x) => x).Result() into y
+                                  .Case((IEntity x) => x.Lift().ToAggregate()).Result() into y
                              where y != null
                              select y;
             GroupAndWeight(toConsider, Lexicon.IsSimilarTo, scaleBy: 1);

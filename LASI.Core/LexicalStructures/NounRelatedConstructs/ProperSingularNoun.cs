@@ -19,7 +19,7 @@ namespace LASI.Core
             : base(text) {
             EntityKind = text.All(c => char.IsUpper(c) || c == '.') ? EntityKind.Organization : (gender ?? Gender.Undetermined).IsMaleOrFemale() ? EntityKind.Person : EntityKind;
         }
-        private Gender? gender = null;
+        Gender? gender = null;
         /// <summary>
         /// Gets the Gender value indicating the likely gender of the ProperNoun.
         /// </summary>

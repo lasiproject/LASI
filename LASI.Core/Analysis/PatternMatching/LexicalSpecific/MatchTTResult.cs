@@ -342,7 +342,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(Func<TResult> defaultValueFactory)
         {
-            if (!Matched)
+            if (!UnMatchable && !Matched)
             {
                 result = defaultValueFactory();
                 Matched = true;
@@ -383,7 +383,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </returns>
         public TResult Result(TResult defaultValue)
         {
-            if (!Matched)
+            if (!UnMatchable && !Matched)
             {
                 result = defaultValue;
                 Matched = true;
@@ -399,7 +399,13 @@ namespace LASI.Core.Analysis.PatternMatching
 
         #endregion Fields
 
-        #region Monadic Operators over Match
+        #region Operators
+
+        public static implicit operator TResult(Match<T, TResult> expression) => expression;
+
+        #endregion
+
+        #region LINQ Operators
         public IEnumerable<TProjection> Select<TProjection>(Func<TResult, TProjection> selector)
         {
             if (Matched) yield return selector(result);

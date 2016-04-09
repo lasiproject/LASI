@@ -177,12 +177,12 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action action) where TCase : class, ILexical
         {
-            if (!Matched && Value is TCase)
+            if (!UnMatchable && Value is TCase && !Matched)
             {
                 Matched = true;
                 action();
             }
-            return Case((TCase t) => action());
+            return this;
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
         {
-            if (Value != null && !Matched)
+            if (!UnMatchable && Value != null && !Matched)
             {
                 var matched = Value as TCase;
                 if (matched != null)
@@ -213,7 +213,7 @@ namespace LASI.Core.Analysis.PatternMatching
 
         public Match<T> Case(Action<T> action)
         {
-            if (Value != null && !Matched)
+            if (!UnMatchable && Value != null && !Matched)
             {
                 Matched = true;
                 action(Value);
@@ -231,7 +231,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke if no matches in the expression succeeded.</param>
         public void Default(Action action)
         {
-            if (!Matched)
+            if (!UnMatchable && !Matched)
             {
                 action();
             }
@@ -243,7 +243,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <param name="action">The function to invoke on the match Case value if no matches in the expression succeeded.</param>
         public void Default(Action<T> action)
         {
-            if (!Matched && Value != null)
+            if (!UnMatchable && !Matched && Value != null)
             {
                 action(Value);
             }

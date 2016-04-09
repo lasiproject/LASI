@@ -9,7 +9,7 @@ namespace LASI.Core
     /// <seealso cref="Document" />
     /// <seealso cref="Sentence" />
     /// <seealso cref="Paragraph" />
-    public static partial class TextualEnumerable
+    public static class TextualEnumerable
     {
         #region Sequential
 

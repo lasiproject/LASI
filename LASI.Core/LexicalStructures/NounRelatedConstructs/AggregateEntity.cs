@@ -27,7 +27,7 @@ namespace LASI.Core
         {
             Constituents = (from entity in entities
                             let aggregate = entity.Match((IAggregateEntity a) => a, (IEntity e) => e.Lift())
-                            from aggregated in aggregate.AsRecursivelyEnumerable()
+                            from aggregated in aggregate.AsRecursivelyEnumerable().Distinct()
                             select aggregated).Distinct().ToList();
 
             var kinds = from constituent in Constituents
@@ -90,7 +90,7 @@ namespace LASI.Core
         /// <returns>A string representation of the aggregate entity.</returns>
         public override string ToString()
         {
-            var members = Constituents.AsRecursivelyEnumerable().ToList();
+            var members = Constituents.ToList();
             return $@"[ {members.Count} ] {string.Join(" ",
                 from member in members
                 where !(member is IAggregateEntity)

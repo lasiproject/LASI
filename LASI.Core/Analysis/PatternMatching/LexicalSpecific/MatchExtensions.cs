@@ -10,7 +10,7 @@ namespace LASI.Core
     /// <summary>
     /// Provides for the construction of flexible Typed Pattern Matching expressions.
     /// </summary>
-    /// <seealso cref="Match{T}"/>
+    /// <seealso cref="Analysis.PatternMatching.Match{T}"/>
     /// <seealso cref="Match{T, TResult}"/>
     /// <seealso cref="Analysis.PatternMatching"/>
     /// <remarks>
@@ -211,12 +211,12 @@ namespace LASI.Core
         /// <typeparam name="TValue">The type of the value being matched over.</typeparam>
         /// <typeparam name="TCase">The type of the Case pattern.</typeparam>
         /// <typeparam name="TResult">The result type of the match expression.</typeparam>
-        /// <param name="value">The Lexical value to match against.</param>
+        /// <param name="option">The Lexical value to match against.</param>
         /// <param name="pattern">The single pattern case to try.</param>
         /// <returns>The result of matching the value against the specified pattern.</returns>
-        public static TResult Match<TValue, TCase, TResult>(this Option<TValue> value, Func<TCase, TResult> pattern)
+        public static TResult Match<TValue, TCase, TResult>(this Option<TValue> option, Func<TCase, TResult> pattern)
             where TValue : class, ILexical
-            where TCase : class, ILexical => value.Match().Case(pattern).Result();
+            where TCase : class, ILexical => option.Match().Case(pattern).Result();
 
         /// <summary>
         /// Matches a value against two case patterns and immediately returns the result.
