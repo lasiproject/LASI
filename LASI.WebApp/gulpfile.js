@@ -40,31 +40,34 @@ var paths = {
     }
 };
 
-gulp.task('qunit', () => gulp.src(paths.test).pipe(qunit()));
+gulp.task('qunit', function () {
+    return gulp.src(paths.test).pipe(qunit());
+});
 
-gulp.task('build', () => build());
+gulp.task('build', build);
 
-gulp.task('appcss', () =>
-    gulp.src(paths.css.app.src)
+gulp.task('appcss', function () {
+    return gulp.src(paths.css.app.src)
         .pipe(sourcemaps.init())
         .pipe(concat(paths.css.app.dest.name))
         .pipe(sourcemaps.write('/'))
         .pipe(gulp.dest(paths.css.app.dest.dir))
         .pipe(cssNano())
         .pipe(rename('app.min.css'))
-        .pipe(gulp.dest(paths.css.app.dest.dir))
-);
+        .pipe(gulp.dest(paths.css.app.dest.dir));
+});
 
-gulp.task('tslint', () =>
-    gulp.src(paths.appts)
+gulp.task('tslint', function () {
+    return gulp.src(paths.appts)
         .pipe(gulpTslint({
             emitError: true,
             rulesDirectory: './wwwroot',
             tslint: tslint
         }))
-        .pipe(gulpTslint.report('verbose')));
+        .pipe(gulpTslint.report('verbose'));
+});
 
-gulp.task('watch', () => {
+gulp.task('watch', function () {
     var onError = console.error.bind(console);
     gulp.watch(paths.appts, [/*'typescript',*/ 'tslint'])
         .on('error', onError);
