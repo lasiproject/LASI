@@ -1,0 +1,14 @@
+<li class="dropdown document-list-item"
+    id="document-list-item-{{listItem.documentId}}">
+    <a href="#" (ngClick)="listItem.click($event)">
+        <span class="fa fa-file-text pull-left" />{{listItem.documentName}}
+    </a>
+    <span class="item-id-hidden" hidden>{{listItem.documentId}}</span>
+    <div class="progress" [hidden]="!listItem.showProgress">
+        <div id="progress-bar-{{listItem.documentId}}"
+             class="progress-bar text-aligned-progress-bar"
+             style="max-width: 100%;"
+             [ngClass]="{ 'progress-bar-half': listItem.analysisProgress }"
+             role="progressbar" />
+    </div>
+</li>

@@ -1,197 +1,197 @@
+declare namespace models {
+    export interface DocumentModelService {
+        processDocument(documentId: string): ng.IPromise<DocumentModel>;
+    }
 
-declare interface DocumentModelService {
-    processDocument(documentId: string): ng.IPromise<DocumentModel>;
-}
+    export interface TasksListService {
+        getActiveTasks(): ng.IPromise<Task[]>;
+        tasks: Task[];
+    }
 
-declare interface TasksListService {
-    getActiveTasks(): ng.IPromise<Task[]>;
-    tasks: Task[];
-}
+    export interface UserService {
+        login({ email, password, rememberMe }: Credentials): ng.IPromise<User>;
+        loginGet(): ng.IPromise<User>;
+        loginPost(data: {}): ng.IPromise<User>;
+        user: User;
+        loggedIn: boolean;
+    }
 
-declare interface UserService {
-    login({ email, password, rememberMe }: Credentials): ng.IPromise<User>;
-    loginGet(): ng.IPromise<User>;
-    loginPost(data: {}): ng.IPromise<User>;
-    user: User;
-    loggedIn: boolean;
-}
+    export interface TasksListServiceProvider {
+        $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
+        setTasksListUrl: (url: string) => TasksListServiceProvider;
+        setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
+    }
 
-declare interface TasksListServiceProvider {
-    $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
-    setTasksListUrl: (url: string) => TasksListServiceProvider;
-    setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
-}
+    export interface DocumentListService {
+        get(): ng.IPromise<DocumentListItem[]>;
+        deleteDocument(documentId: string): ng.IPromise<DocumentListItem>;
+    }
 
-declare interface DocumentListService {
-    get(): ng.IPromise<DocumentListItem[]>;
-    deleteDocument(documentId: string): ng.IPromise<DocumentListItem>;
-}
+    export interface DocumentService {
+        getbyId(documentId: string): Promise<DocumentListItem>;
+        deleteById(documentId: string): Promise<any>;
+    }
 
-declare interface DocumentsService {
-    getbyId(documentId: string): ng.IPromise<DocumentListItem>;
-    deleteById(documentId: string): ng.IPromise<any>;
-}
+    export interface DocumentListServiceConfig {
+        setRecentDocumentCount(count: number): DocumentListServiceConfig;
+        setDocumentListUrl(url: string): DocumentListServiceConfig;
+    }
 
-declare interface DocumentListServiceConfig {
-    setRecentDocumentCount(count: number): DocumentListServiceConfig;
-    setDocumentListUrl(url: string): DocumentListServiceConfig;
-}
+    export interface ResultsService {
+        tasks: Task[];
+        processDocument(documentId: string, documentName: string): ng.IPromise<DocumentModel>;
+        getTasksForDocument(id: string): ng.IPromise<Task[]>;
+    }
 
-declare interface ResultsService {
-    tasks: Task[];
-    processDocument(documentId: string, documentName: string): ng.IPromise<DocumentModel>;
-    getTasksForDocument(id: string): ng.IPromise<Task[]>;
-}
+    export interface Credentials {
+        email: string;
+        password: string;
+        rememberMe?: boolean;
+    }
 
-declare interface Credentials {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
-}
+    export interface AuthenticationResult {
+        user?: User;
+        autenticated?: boolean;
+        token?: string;
+    }
 
-declare interface AuthenticationResult {
-    user?: User;
-    autenticated?: boolean;
-    token?: string;
-}
+    export interface Task {
+        id: string;
+        name: string;
+        percentComplete: number;
+        state?: string;
+        statusMessage?: string;
+    }
 
-declare interface Task {
-    id: string;
-    name: string;
-    percentComplete: number;
-    state?: string;
-    statusMessage?: string;
-}
+    export interface DocumentListItem {
+        id: string;
+        name: string;
+        progress: number;
+        percentComplete: number;
+        showProgress: boolean;
+        statusMessage: string;
+        raeification: DocumentModel;
+        task: Task;
+        /**
+        * The content is optional as the list item may just be a placeholder for the document.
+        */
+        content?: string;
+    }
 
-declare interface DocumentListItem {
-    id: string;
-    name: string;
-    progress: number;
-    percentComplete: number;
-    showProgress: boolean;
-    statusMessage: string;
-    raeification: DocumentModel;
-    task: Task;
+    export interface TextFragmentModel {
+        paragraphs: ParagraphModel[];
+    }
+
+    export interface DocumentModel extends TextFragmentModel {
+        title: string;
+        id: string;
+        progress: number | string;
+        percentComplete: number | string;
+    }
+
+    export interface PageModel extends TextFragmentModel {
+        pageNumber: number;
+    }
+
+    export interface ParagraphModel {
+        sentences: SentenceModel[];
+    }
+
+    export interface SentenceModel {
+        phrases: PhraseModel[];
+    }
+
+    export interface LexicalModel {
+        text: string;
+        detailText: string;
+        id: number;
+        style: { cssClass: string };
+        hasContextmenuData: boolean;
+        contextmenu: LexicalContextmenuData |
+        VerbalContextmenuData | ReferencerContextmenuData;
+    }
+
+    export interface PhraseModel extends LexicalModel {
+        words: WordModel[];
+    }
+
+    export interface WordModel extends LexicalModel { }
+
+    export interface LexicalMenuBuilderFactory {
+        buildAngularMenu: (source: LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
+    }
+
+    export interface LexicalContextmenuData {
+        /**
+        * The id of the lexical element for which the menu is defined.
+        */
+        lexicalId: string | number;
+    }
+
+    export interface VerbalContextmenuData extends LexicalContextmenuData {
+
+        /**
+         * The ids of any subjects.
+         */
+        subjectIds: number[];
+        /**
+         * The ids of any direct objects.
+         */
+        directObjectIds: number[];
+        /**
+         * The ids of any direct objects.
+         */
+        indirectObjectIds: number[];
+    }
+
+    export interface ReferencerContextmenuData extends LexicalContextmenuData {
+        /**
+         * The id of the referencer for which the menu is defined.
+         */
+        lexicalId: number;
+        /**
+         * The ids of any entities the referred to.
+         */
+        refersToIds: number[];
+    }
+
+    export interface User extends Credentials {
+        loggedIn?: boolean;
+        email: string;
+        password: string;
+        documents: any[];
+        id: string;
+    }
+
     /**
-    * The content is optional as the list item may just be a placeholder for the document.
+     @function A trait which decsribes a functions whose $inject property is required.
     */
-    content?: string;
-}
+    export type FunctionMap = { [name: string]: Function };
+    export type ComponentMap = { [name: string]: ng.IComponentOptions };
+    export type ConstructorMap = { [name: string]: new (...args) => any };
+    export type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
 
-declare interface TextFragmentModel {
-    paragraphs: ParagraphModel[];
-}
-
-declare interface DocumentModel extends TextFragmentModel {
-    title: string;
-    id: string;
-    progress: number | string;
-    percentComplete: number | string;
-}
-
-declare interface PageModel extends TextFragmentModel {
-    pageNumber: number;
-}
-
-declare interface ParagraphModel {
-    sentences: SentenceModel[];
-}
-
-declare interface SentenceModel {
-    phrases: PhraseModel[];
-}
-
-declare interface LexicalModel {
-    text: string;
-    detailText: string;
-    id: number;
-    style: { cssClass: string };
-    hasContextmenuData: boolean;
-    contextmenu: LexicalContextmenuData |
-    VerbalContextmenuData | ReferencerContextmenuData;
-}
-
-declare interface PhraseModel extends LexicalModel {
-    words: WordModel[];
-}
-
-declare interface WordModel extends LexicalModel { }
-
-declare interface LexicalMenuBuilderFactory {
-    buildAngularMenu: (source: LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
-}
-
-declare interface LexicalContextmenuData {
     /**
-    * The id of the lexical element for which the menu is defined.
+     Describes the shape of angular module which will be registered via angular.module('name', ...deps).
+     The requires array may contain both the names angular modules and other NgModuleConfig objects as dependencies.
+     @see angular.module
     */
-    lexicalId: string | number;
+    export type NgModuleConfig = {
+        name: string;
+        requires: (string | NgModuleConfig)[];
+        configs?: Function[];
+        runs?: Function[];
+        directives?: FunctionMap;
+        components?: ComponentMap;
+        values?: FunctionMap;
+        constants?: FunctionMap;
+        filters?: FunctionMap;
+        controllers?: ConstructorMap;
+        factories?: FunctionMap;
+        services?: ConstructorMap;
+        providers?: FunctionOrConstructorMap;
+    }
 }
-
-declare interface VerbalContextmenuData extends LexicalContextmenuData {
-
-    /**
-     * The ids of any subjects.
-     */
-    subjectIds: number[];
-    /**
-     * The ids of any direct objects.
-     */
-    directObjectIds: number[];
-    /**
-     * The ids of any direct objects.
-     */
-    indirectObjectIds: number[];
-}
-
-declare interface ReferencerContextmenuData extends LexicalContextmenuData {
-    /**
-     * The id of the referencer for which the menu is defined.
-     */
-    lexicalId: number;
-    /**
-     * The ids of any entities the referred to.
-     */
-    refersToIds: number[];
-}
-
-declare interface User extends Credentials {
-    loggedIn?: boolean;
-    email: string;
-    password: string;
-    documents: any[];
-    id: string;
-}
-
-/**
- @function A trait which decsribes a functions whose $inject property is required.
-*/
-declare type FunctionMap = { [name: string]: Function };
-declare type ComponentMap = { [name: string]: ng.IComponentOptions };
-declare type ConstructorMap = { [name: string]: new (...args) => any };
-declare type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
-
-/**
- Describes the shape of angular module which will be registered via angular.module('name', ...deps).
- The requires array may contain both the names angular modules and other NgModuleConfig objects as dependencies.
- @see angular.module
-*/
-declare type NgModuleConfig = {
-    name: string;
-    requires: (string | NgModuleConfig)[];
-    configs?: Function[];
-    runs?: Function[];
-    directives?: FunctionMap;
-    components?: ComponentMap;
-    values?: FunctionMap;
-    constants?: FunctionMap;
-    filters?: FunctionMap;
-    controllers?: ConstructorMap;
-    factories?: FunctionMap;
-    services?: ConstructorMap;
-    providers?: FunctionOrConstructorMap;
-}
-
 declare interface Array<T> {
     flatMap<TArray, TResult>(arraySelector: (element: T) => TArray[], elementSelector: (element: TArray) => TResult): TResult[];
     flatMap<TArray>(arraySelector: (element: T) => TArray[]): TArray[];

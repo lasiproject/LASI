@@ -19,10 +19,10 @@ export class NavbarComponent implements OnActivate {
         });
     }
 
-    user: User;
+    user: models.User;
 
 }
 
-function isUser(value): value is User {
+function isUser(value): value is models.User {
     return value.email;
 }

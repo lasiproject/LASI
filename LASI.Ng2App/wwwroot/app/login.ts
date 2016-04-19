@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     }
 
 
-    @Input() user: User;
+    @Input() user: models.User;
     @Input() username = '';
     @Input() password = '';
     @Input() rememberMe = false;
