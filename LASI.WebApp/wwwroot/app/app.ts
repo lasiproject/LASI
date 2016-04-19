@@ -1,5 +1,5 @@
-/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="./models.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 import 'dist/app.css!';
 import 'github:twbs/bootstrap@3.3.6/css/bootstrap.css';
 import 'font-awesome';

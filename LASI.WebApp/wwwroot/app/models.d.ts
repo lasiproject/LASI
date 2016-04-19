@@ -1,6 +1,4 @@
-﻿/// <reference path="./../../typings/tsd.d.ts" />
-
-declare interface DocumentModelService {
+﻿declare interface DocumentModelService {
     processDocument(documentId: string): ng.IPromise<DocumentModel>;
 }
 

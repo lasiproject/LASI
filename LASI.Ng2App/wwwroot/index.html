@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <base href="/">
+    <script src="jspm_packages/npm/angular2@2.0.0-beta.14/bundles/angular2-polyfills.min.js"></script>
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+    <script>
+        // SystemJS.import('reflect-metadata')
+        //     .then(function(reflectMetadata) {
+        //         return 
+        SystemJS.import('app')
+            .then(function(app) {
+                return app.bootstrap();
+            })
+            .then(console.info.bind(console))
+            .catch(console.error.bind(console));
+    </script>
+</head>
+
+<body class="container">
+    <app></app>
+</body>
+
+</html>
