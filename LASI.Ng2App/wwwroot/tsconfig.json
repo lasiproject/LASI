@@ -7,14 +7,21 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "watch": false,
+        "allowJs": false,
         "baseUrl": "",
         "paths": {
+            "rxjs": [
+                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
+            ],
+            "rxjs/Rx/*": [
+                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
+            ],
             "rxjs/*": [
-                "jspm_packages/npm/rxjs@5.0.0-beta.6/*"
+                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
             ],
             "angular2/*": [
-                "jspm_packages/npm/angular2@2.0.0-beta.14/*.d.ts",
-                "jspm_packages/npm/angular2@2.0.0-beta.14/**"
+                "jspm_packages/npm/angular2@2.0.0-beta.17/ts/*.ts",
+                "jspm_packages/npm/angular2@2.0.0-beta.17/*"
             ]
         }
     },

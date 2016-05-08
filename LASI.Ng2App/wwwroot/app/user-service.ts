@@ -1,22 +1,23 @@
-import { Injectable } from 'angular2/core';
+import { Injectable } from './ng2-utils';
 import $ from 'jquery';
+import { Observable } from 'rxjs';
 import { Http, Headers } from 'angular2/http';
-import { TokenService } from 'app/token-service';
-import { Subject, Observable } from 'rxjs/Rx';
+import TokenService from 'app/token-service';
 
-@Injectable()
-export class UserService {
-    constructor(private $http: Http, private tokenService: TokenService) { }
 
-    login({ email, password, rememberMe }: Credentials) {
+@Injectable
+export default class UserService {
+    constructor(private http: Http, private tokenService: TokenService) { }
+
+    login({ email, password, rememberMe }: models.Credentials) {
         const data = {
             email,
             password,
             rememberMe
         };
 
-        return this.$http.get(url('authenticate'), new Headers(UserService.requestConfig))
-            .catch((error, caught) => this.$http.post(url('authenticate'), $.param(data), new Headers(UserService.requestConfig)))
+        return this.http.get(url('authenticate'), new Headers(UserService.requestConfig))
+            .catch((error, caught) => this.http.post(url('authenticate'), $.param(data), new Headers(UserService.requestConfig)))
             .map(user => user.json())
             .subscribe(this.loginSuccess.bind(this));
 
@@ -24,7 +25,7 @@ export class UserService {
 
     logoff() {
 
-        return this.$http
+        return this.http
             .post(url('authenticate/logoff'), '', new Headers(UserService.requestConfig))
             .subscribe(response => {
                 console.log(response);
@@ -40,12 +41,12 @@ export class UserService {
     }
 
     getDetails() {
-        return this.$http.get(url('manage/account'))
+        return this.http.get(url('manage/account'))
             .map(data => data.json());
     }
 
     saveDetails(details: any) {
-        return this.$http.post(('manage/account'), details);
+        return this.http.post(('manage/account'), details);
     }
 
     loginSuccess = ({ user, token }) => {
@@ -57,7 +58,7 @@ export class UserService {
         return this.user;
     };
 
-    user: User;
+    user: models.User;
     loggedIn = false;
 
     static requestConfig = {

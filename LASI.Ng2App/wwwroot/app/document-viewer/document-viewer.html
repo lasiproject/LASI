@@ -1,0 +1,9 @@
+﻿<div class="{{document && document.style.cssClass}}">
+
+    <div>title: {{document && document.title}}</div>
+    <div>
+        <div *ngFor="let paragraph of document?.paragraphs">
+            <paragraph [parentId]="document.id" [paragraph]="paragraph"></paragraph>
+        </div>
+    </div>
+</div>

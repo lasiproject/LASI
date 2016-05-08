@@ -2,14 +2,22 @@
 
 <head>
     <base href="/">
-    <script src="jspm_packages/npm/angular2@2.0.0-beta.14/bundles/angular2-polyfills.min.js"></script>
+    <link rel="stylesheet" href="jspm_packages/github/twbs/bootstrap@3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/styles/vertical-tab-support-for-angular-ui-bootstrap.css">
+    <link rel="stylesheet" href="app/styles/site.less">
+    <link rel="stylesheet" href="app/styles/lexical.less">
     <script src="jspm_packages/system.js"></script>
-    <script src="config.js"></script>
     <script>
-        // SystemJS.import('reflect-metadata')
-        //     .then(function(reflectMetadata) {
-        //         return 
-        SystemJS.import('app')
+        SystemJS.import('config.js')
+            .then(function() {
+                return SystemJS.import('angular2-polyfills');
+            })
+            .then(function() {
+                return SystemJS.import('angular2');
+            })
+            .then(function() {
+                return SystemJS.import('app');
+            })
             .then(function(app) {
                 return app.bootstrap();
             })
@@ -22,4 +30,4 @@
     <app></app>
 </body>
 
-</html>
+</html> </html>

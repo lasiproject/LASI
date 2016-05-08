@@ -1,0 +1,6 @@
+﻿<div class="lexical-content-block {{paragraph.style.cssClass}}">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <sentence [sentence]="sentence"
+              [parentId]="paragraph.id"
+              *ngFor="let sentence of paragraph.sentences"></sentence>
+</div>

@@ -1,0 +1,58 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div id="document-list-navbar-item-container" class="dropdown-toggle">
+
+                <div *ngIf="user" class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown" id="dropdown-list-item-container">
+                            <a data-toggle="dropdown" class="dropdown-toggle" id="document-menu-dropdown-href" (click)="toggleExpanded()" role="button" aria-expanded="false">
+                                <span class="fa" [ngClass]="{
+                                          'fa-folder-open': documentListExpanded,
+                                          'fa-folder': !documentListExpanded
+                                      }">
+                                    &nbsp;<span class="badge small">{{documents && documents.length}}</span>
+                                </span>&nbsp;&nbsp;<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown" id="document-list-item-manage">
+                                    <span class="btn" ng-click="openManageDocumentsModal()">Manage</span>
+                                </li>
+                                <document-list-menu-item 
+                                *ngFor="let document of documents" [ngModel]="document" [documentId]="document.id" [documentName]="document.name" [analysisProgress]="document.progress">
+                                </document-list-menu-item>
+                                <li class="dropdown">
+                                    <a href="#" id="new-text-editor-item" data-toggle="collapse" data-target="#free-editor" class="nav-justified fa fa-pencil">
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="navbar-brand">
+                    <a href="">
+                        <span><img class="project-logo-navbar" src="images/ic_launcher-web - Copy.png" /></span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li [hidden]="user"><a [routerLink]="['Login']">Login</a></li>
+                <!--<li [hidden]="user"><a [routerLink]="['/account/register']">Register</a></li>-->
+                <!--<li [hidden]="!user"><a [routerLink]="['/account']">Welcome {{user.email}}!</a></li>-->
+                <li ><a [routerLink]="['Documents']">Documents</a></li>
+                <li>
+                    <logoff user="navbar.user"></logoff>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

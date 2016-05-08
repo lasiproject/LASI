@@ -1,6 +1,7 @@
-import { Injectable } from 'angular2/core';
-@Injectable()
-export class TokenService {
+import {Injectable} from 'app/ng2-utils';
+
+@Injectable
+export default class TokenService {
     $window = window;
     constructor() { }
 

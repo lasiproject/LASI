@@ -20,6 +20,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+  trace: true,
 
   packages: {
     "app": {
@@ -36,17 +37,34 @@ System.config({
           "loader": "text"
         }
       }
+    },
+    "test": {
+      "defaultExtension": "ts",
+      "main": "test",
+      "meta": {
+        "*.ts": {
+          "loader": "ts"
+        },
+        "*.js": {
+          "loader": "ts"
+        },
+        "*.html": {
+          "loader": "text"
+        }
+      }
     }
   },
 
   meta: {
+
     "*.css": {
       "loader": "css"
     }
   },
 
   map: {
-    "angular2": "npm:angular2@2.0.0-beta.14",
+    "angular2-polyfills": "jspm_packages/npm/angular2@2.0.0-beta.17/bundles/angular2-polyfills.min.js",
+    "angular2": "npm:angular2@2.0.0-beta.17",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
@@ -56,7 +74,7 @@ System.config({
     "es6-shim": "github:es-shims/es6-shim@0.35.0",
     "jquery": "npm:jquery@2.2.3",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
-    "rxjs": "npm:rxjs@5.0.0-beta.6",
+    "rxjs": "npm:rxjs@5.0.0-beta.7",
     "text": "github:systemjs/plugin-text@0.0.7",
     "ts": "github:frankwallis/plugin-typescript@4.0.5",
     "typescript": "npm:typescript@1.9.0-dev.20160412",
@@ -97,12 +115,12 @@ System.config({
       "vm-browserify": "npm:vm-browserify@0.0.4"
     },
     "github:twbs/bootstrap@3.3.6": {
-      "jquery": "github:components/jquery@2.2.1"
+      "jquery": "npm:jquery@2.2.3"
     },
-    "npm:angular2@2.0.0-beta.14": {
+    "npm:angular2@2.0.0-beta.17": {
       "reflect-metadata": "npm:reflect-metadata@0.1.3",
-      "rxjs": "npm:rxjs@5.0.0-beta.6",
-      "zone.js": "npm:zone.js@0.6.10"
+      "rxjs": "npm:rxjs@5.0.0-beta.7",
+      "zone.js": "npm:zone.js@0.6.12"
     },
     "npm:asn1.js@4.5.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -317,9 +335,10 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:rxjs@5.0.0-beta.6": {
+    "npm:rxjs@5.0.0-beta.7": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "symbol-observable": "npm:symbol-observable@0.2.4"
     },
     "npm:sha.js@2.4.5": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -345,7 +364,8 @@ System.config({
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
     },
-    "npm:zone.js@0.6.10": {
+    "npm:zone.js@0.6.12": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }

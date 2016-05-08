@@ -1,9 +1,8 @@
-import { Injectable } from 'angular2/core';
+import { Injectable } from 'app/ng2-utils';
 import { Http } from 'angular2/http';
-import 'rxjs/Rx';
 
-@Injectable()
-export class TaskService {
+@Injectable
+export default class TaskService {
     constructor(private http: Http) { }
 
     getTasksForDocumentById(id: string) {

@@ -1,9 +1,8 @@
 import { BaseRequestOptions, BaseResponseOptions } from 'angular2/http';
-import { Injectable } from 'angular2/core';
-import { TokenService } from 'app/token-service';
-@Injectable()
-export class RequestOptions extends BaseRequestOptions {
-    headers: typeof BaseRequestOptions.prototype.headers & { Authorization; Scheme };
+import { Injectable } from 'app/ng2-utils';
+import TokenService from 'app/token-service';
+
+@Injectable export class RequestOptions extends BaseRequestOptions {
     constructor(tokenService: TokenService) {
         super();
         if (tokenService.token) {
@@ -14,11 +13,11 @@ export class RequestOptions extends BaseRequestOptions {
         this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
     }
 
+    headers: typeof BaseRequestOptions.prototype.headers & { Authorization; Scheme };
     withCredentials = true;
 }
 
-@Injectable()
-export class ResponseOptions extends BaseResponseOptions {
+@Injectable export class ResponseOptions extends BaseResponseOptions {
     constructor() {
         super();
     }

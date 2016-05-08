@@ -1,0 +1,16 @@
+{
+    "rules": {
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "class-name": true,
+        "use-strict": [
+            true
+        ]
+    }
+}

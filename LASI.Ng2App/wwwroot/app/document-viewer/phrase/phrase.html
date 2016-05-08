@@ -1,0 +1,10 @@
+﻿<!--TODO: Merge tooltip and context menu into a unified, touch capable control-->
+<span *ngIf="phrase.hasContextmenuData" 
+      [id]="phrase.id"
+      class ="phrase"
+      [class]="phrase.style.cssClass"
+      [title]="phrase.detailText">{{phrase.text}}</span>
+<span *ngIf="!phrase.hasContextmenuData" 
+      [id]="phrase.id"
+      class ="phrase" [class]="phrase.style.cssClass"
+      [title]="phrase.detailText">{{phrase.text}}</span><span> </span>

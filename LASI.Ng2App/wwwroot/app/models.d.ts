@@ -1,30 +1,30 @@
 declare namespace models {
     export interface DocumentModelService {
-        processDocument(documentId: string): ng.IPromise<DocumentModel>;
+        processDocument(documentId: string);
     }
 
     export interface TasksListService {
-        getActiveTasks(): ng.IPromise<Task[]>;
+        getActiveTasks(): Promise<Task[]>;
         tasks: Task[];
     }
 
     export interface UserService {
-        login({ email, password, rememberMe }: Credentials): ng.IPromise<User>;
-        loginGet(): ng.IPromise<User>;
-        loginPost(data: {}): ng.IPromise<User>;
+        login({ email, password, rememberMe }: Credentials): Promise<User>;
+        loginGet(): Promise<User>;
+        loginPost(data: {}): Promise<User>;
         user: User;
         loggedIn: boolean;
     }
 
-    export interface TasksListServiceProvider {
-        $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
-        setTasksListUrl: (url: string) => TasksListServiceProvider;
-        setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
-    }
+    // export interface TasksListServiceProvider {
+    //     $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
+    //     setTasksListUrl: (url: string) => TasksListServiceProvider;
+    //     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
+    // }
 
     export interface DocumentListService {
-        get(): ng.IPromise<DocumentListItem[]>;
-        deleteDocument(documentId: string): ng.IPromise<DocumentListItem>;
+        get(): Promise<DocumentListItem[]>;
+        deleteDocument(documentId: string): Promise<DocumentListItem>;
     }
 
     export interface DocumentService {
@@ -39,8 +39,8 @@ declare namespace models {
 
     export interface ResultsService {
         tasks: Task[];
-        processDocument(documentId: string, documentName: string): ng.IPromise<DocumentModel>;
-        getTasksForDocument(id: string): ng.IPromise<Task[]>;
+        processDocument(documentId: string, documentName: string);
+        getTasksForDocument(id: string);
     }
 
     export interface Credentials {
@@ -107,6 +107,7 @@ declare namespace models {
         id: number;
         style: { cssClass: string };
         hasContextmenuData: boolean;
+        contextmenuDataSource: LexicalContextmenuData;
         contextmenu: LexicalContextmenuData |
         VerbalContextmenuData | ReferencerContextmenuData;
     }
@@ -117,8 +118,8 @@ declare namespace models {
 
     export interface WordModel extends LexicalModel { }
 
-    export interface LexicalMenuBuilderFactory {
-        buildAngularMenu: (source: LexicalContextmenuData) => angular.ui.bootstrap.contextMenu.ContextMenu;
+    export interface LexicalMenuBuilder {
+        buildAngularMenu: (source: LexicalContextmenuData) => any;
     }
 
     export interface LexicalContextmenuData {
@@ -163,34 +164,7 @@ declare namespace models {
         id: string;
     }
 
-    /**
-     @function A trait which decsribes a functions whose $inject property is required.
-    */
-    export type FunctionMap = { [name: string]: Function };
-    export type ComponentMap = { [name: string]: ng.IComponentOptions };
-    export type ConstructorMap = { [name: string]: new (...args) => any };
-    export type FunctionOrConstructorMap = { [name: string]: Function | (new (...args) => any) };
 
-    /**
-     Describes the shape of angular module which will be registered via angular.module('name', ...deps).
-     The requires array may contain both the names angular modules and other NgModuleConfig objects as dependencies.
-     @see angular.module
-    */
-    export type NgModuleConfig = {
-        name: string;
-        requires: (string | NgModuleConfig)[];
-        configs?: Function[];
-        runs?: Function[];
-        directives?: FunctionMap;
-        components?: ComponentMap;
-        values?: FunctionMap;
-        constants?: FunctionMap;
-        filters?: FunctionMap;
-        controllers?: ConstructorMap;
-        factories?: FunctionMap;
-        services?: ConstructorMap;
-        providers?: FunctionOrConstructorMap;
-    }
 }
 declare interface Array<T> {
     flatMap<TArray, TResult>(arraySelector: (element: T) => TArray[], elementSelector: (element: TArray) => TResult): TResult[];

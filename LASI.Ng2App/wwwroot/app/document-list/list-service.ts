@@ -1,9 +1,8 @@
-import { Injectable } from 'angular2/core';
 import { Http } from 'angular2/http';
-import 'rxjs/Rx';
+import { Injectable } from './ng2-utils';
 
-@Injectable()
-export class ListService {
+@Injectable
+export default class ListService {
     constructor(private http: Http) { }
 
     getById(documentId: string) {
@@ -15,5 +14,4 @@ export class ListService {
     deleteById(documentId: string) {
         return this.http.delete(`/api/UserDocuments/${documentId}`);
     }
-
 }
