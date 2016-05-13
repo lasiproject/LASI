@@ -1,0 +1,34 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"module": "system",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"allowJs": false,
+		"baseUrl": "",
+		"paths": {
+			"alurelia-framework": [
+				"jspm_packages/aurelia-framework@1.0.0-beta.1.2.2/*"
+			],
+			"aurelia-templating": [
+				"jspm_packages/aurelia-templating@1.0.0-beta.1.2.2/aurelia-templating.d.ts"
+			],
+			"aurelia-bootstrapper": [
+				"jspm_packages/aurelia-bootstrapper@1.0.0-beta.1.2.0/aurelia-bootstrapper.d.ts"
+			],
+			"aurelia-fetch-client": [
+				"jspm_packages/aurelia-fetch-client@1.0.0-beta.1.2.3/aurelia-fetch-client.d.ts"
+			],
+			"aurelia-router": [
+				"jspm_packages/aurelia-router@1.0.0-beta.1.2.0/aurelia-router.d.ts"
+			],
+			"aurelia-dependency-injection": [
+				"jspm_packages/aurelia-dependency-injection@1.0.0-beta.1.2.2/aurelia-dependency-injection.d.ts"
+			]
+		}
+	},
+	"exclude": [
+		"node_modules"
+	]
+}

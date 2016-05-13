@@ -1,0 +1,14 @@
+﻿<template>
+    <require from="./paragraph/paragraph"></require>
+    
+    
+    <div class="${document && document.style.cssClass}">
+
+    <div>title: ${document && document.title}</div>
+    <div>
+        <div repeat.for="paragraph of document && document.paragraphs || []">
+            <paragraph parent-id.bind="document.id" paragraph.bind="paragraph"></paragraph>
+        </div>
+    </div>
+</div>
+</template>
