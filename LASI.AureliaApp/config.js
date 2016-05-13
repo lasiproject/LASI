@@ -77,7 +77,7 @@ System.config({
     "ts": "github:frankwallis/plugin-typescript@4.0.10",
     "typescript": "npm:typescript@1.9.0-dev.20160428-1.0",
     "github:frankwallis/plugin-typescript@4.0.10": {
-      "typescript": "npm:typescript@1.8.10"
+      "typescript": "npm:typescript@1.9.0-dev.20160428-1.0"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -93,9 +93,6 @@ System.config({
     },
     "github:jspm/nodelibs-events@0.1.1": {
       "events": "npm:events@1.0.2"
-    },
-    "github:jspm/nodelibs-os@0.1.0": {
-      "os-browserify": "npm:os-browserify@0.1.2"
     },
     "github:jspm/nodelibs-path@0.1.0": {
       "path-browserify": "npm:path-browserify@0.0.0"
@@ -403,9 +400,6 @@ System.config({
       "bn.js": "npm:bn.js@4.11.3",
       "brorand": "npm:brorand@1.0.5"
     },
-    "npm:os-browserify@0.1.2": {
-      "os": "github:jspm/nodelibs-os@0.1.0"
-    },
     "npm:parse-asn1@5.0.0": {
       "asn1.js": "npm:asn1.js@4.6.0",
       "browserify-aes": "npm:browserify-aes@1.0.6",
@@ -471,9 +465,6 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
-    },
-    "npm:typescript@1.8.10": {
-      "os": "github:jspm/nodelibs-os@0.1.0"
     },
     "npm:typescript@1.9.0-dev.20160428-1.0": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
