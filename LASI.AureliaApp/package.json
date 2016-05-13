@@ -18,14 +18,14 @@
       "fetch": "github:github/fetch@^0.10.1",
       "font-awesome": "npm:font-awesome@^4.4.0",
       "text": "github:systemjs/plugin-text@^0.0.3",
-      "ts": "github:frankwallis/plugin-typescript@4.0.5"
+      "ts": "github:frankwallis/plugin-typescript@^4.0.10"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "traceur": "github:jmcriffey/bower-traceur@0.0.91",
       "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.91",
-      "typescript": "npm:typescript@^1.6.2"
+      "typescript": "npm:typescript@^1.9.0-dev.20160428-1.0"
     }
   },
   "devDependencies": {
