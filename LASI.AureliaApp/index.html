@@ -3,7 +3,7 @@
 
 <head>
   <title>Aurelia</title>
-  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="src/styles/styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -13,7 +13,7 @@
   <script>
     SystemJS.import('aurelia-bootstrapper')
       .then(function(bootstrapper) {
-        return SystemJS.import('main').then(function(main) {
+        return SystemJS.import('src/main').then(function(main) {
           return bootstrapper.bootstrap(main.configure);
         });
       }).catch(console.error.bind(console));

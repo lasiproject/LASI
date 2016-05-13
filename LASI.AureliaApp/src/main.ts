@@ -7,5 +7,5 @@ export function configure(aurelia: Aurelia) {
         .defaultBindingLanguage()
         .defaultResources();
 
-    aurelia.start().then(() => aurelia.setRoot('app', document.getElementById('app')));
+    aurelia.start().then(() => aurelia.setRoot('src/app/app', document.getElementById('app')));
 }

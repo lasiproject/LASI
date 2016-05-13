@@ -1,5 +1,5 @@
 import './shims';
-import '../../styles/site.css!css';
+import '../styles/site.css!css';
 import {Router, RouterConfiguration} from 'aurelia-router';
 
 export class App {

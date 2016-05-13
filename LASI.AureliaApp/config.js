@@ -1,5 +1,5 @@
 System.config({
-  baseURL: "src",
+  baseURL: "/",
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
@@ -15,19 +15,21 @@ System.config({
     "experimentalAsyncFunctions": true
   },
   paths: {
-    "github:*": "../jspm_packages/github/*",
-    "npm:*": "../jspm_packages/npm/*"
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
   },
-  meta: {
-    "github:twbs/bootstrap@3.3.6/css/*.css": {
-      loader: "css"
-    }
-  },
+
   packages: {
-    "main.ts": {
-      "defaultExtension": "ts"
+    "src": {
+      "main":"main",
+      "defaultExtension": "ts",
+      "meta": {
+        "*.ts": {
+          "loader": "ts"
+        },
+      }
     },
-    "../src": {
+    "src/app": {
       "defaultExtension": "ts",
       "meta": {
         "*.ts": {
@@ -36,13 +38,19 @@ System.config({
         "*.js": {
           "loader": "ts"
         },
-
         "*.css": {
           "loader": "css"
-        },
+        }
       }
     }
   },
+
+  meta: {
+    "github:twbs/bootstrap@3.3.6/css/*.css": {
+      "loader": "css"
+    }
+  },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-beta.1.2.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.2.0",
