@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "target": "es6",
+        "jsx": "react"
+    },
+    "compileOnSave": false,
+    "exclude": [
+        "node_modules",
+        "jspm_packages"
+    ]
+}
