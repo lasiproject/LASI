@@ -72,10 +72,10 @@ namespace LASI.WebApp
             services//.AddSingleton(provider => TokenAuthorizationOptions)
                     .AddAuthorization(options =>
                     {
-                        options.AddPolicy("Bearer", policy =>
+                        options.AddPolicy(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, policy =>
                         {
                             policy
-                               .AddAuthenticationSchemes("Bearer")
+                               .AddAuthenticationSchemes(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme‌​)
                                .RequireAuthenticatedUser()
                                .Build();
                         });
@@ -143,7 +143,7 @@ namespace LASI.WebApp
                .UseCookieAuthentication(options =>
                {
                    options.AutomaticAuthenticate = true;
-                   options.AuthenticationScheme = "Bearer";
+                   options.AuthenticationScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
                    options.LoginPath = null;
                    options.LogoutPath = null;
                })
