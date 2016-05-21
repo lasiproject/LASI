@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using LASI.WebApp.Models;
+﻿using LASI.WebApp.Models;
+using System;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Persistence.MongoDB.Extensions
@@ -10,13 +10,14 @@ namespace LASI.WebApp.Persistence.MongoDB.Extensions
     {
 
         public static IServiceCollection AddInMemoryDatabase(this IServiceCollection services) =>
+
             services.AddSingleton<IRoleAccessor<UserRole>>(provider => new InMemoryRoleProvider())
                     .AddSingleton<IUserAccessor<ApplicationUser>>(provider => new InMemoryUserProvider())
                     .AddSingleton<IDocumentAccessor<UserDocument>>(provider => new InMemoryDocumentProvider());
 
         public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoDBConfiguration mongoConfig)
         {
-            services.AddSingleton(provider => new MongoDBService(mongoConfig));
+            services.AddSingleton(p => new MongoDBService(mongoConfig));
             AddCommonServices(services);
             return services;
         }
@@ -36,7 +37,7 @@ namespace LASI.WebApp.Persistence.MongoDB.Extensions
                 UserRoleCollectionName = configuration.GetMongoDBSetting(nameof(MongoDBOptions.UserRoleCollectionName))
             }));
         private static string GetMongoDBSetting(this IConfiguration configuration, string key) => configuration[$"MongoDB:{key}"];
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, Action<MongoDBOptions> setupAction)
+        public static IServiceCollection AddMongoDB(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Action<MongoDBOptions> setupAction)
         {
             var mongoOptions = new MongoDBOptions();
             setupAction(mongoOptions);

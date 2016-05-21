@@ -30,13 +30,13 @@ namespace LASI.WebApp.Logging
                 this.name = name ?? typeof(Utilities.Logger).FullName;
                 this.filter = filter ?? delegate { return true; };
             }
-            public IDisposable BeginScope(object state) => BeginScopeImpl(state);
+            public IDisposable BeginScope<TState>(TState state) => BeginScopeImpl(state);
 
-            public IDisposable BeginScopeImpl(object state) => new LoggerScope(state);
+            public IDisposable BeginScopeImpl<TState>(TState state) => new LoggerScope<TState>(state);
 
             public bool IsEnabled(LogLevel logLevel) => filter(name, logLevel);
             [System.Diagnostics.DebuggerStepThrough]
-            public void Log(LogLevel logLevel, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
+            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
             {
                 if (IsEnabled(logLevel))
                 {
@@ -46,13 +46,13 @@ namespace LASI.WebApp.Logging
                 }
             }
             [System.Diagnostics.DebuggerStepThrough]
-            private sealed class LoggerScope : IDisposable
+            private sealed class LoggerScope<TState> : IDisposable
             {
-                public LoggerScope(object state)
+                public LoggerScope(TState state)
                 {
                     this.state = state;
                 }
-                private object state;
+                private TState state;
 
                 #region IDisposable Support
                 private bool disposedValue = false; // To detect redundant calls
@@ -63,7 +63,7 @@ namespace LASI.WebApp.Logging
                     {
                         if (disposing)
                         {
-                            state = null;
+                            //state = null;
                         }
                         disposedValue = true;
                     }
