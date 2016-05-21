@@ -1,25 +1,19 @@
 using System;
 using Microsoft.AspNet.Mvc;
-using System.Security.Claims;
-using System.Security.Principal;
 using Microsoft.AspNet.Authorization;
-using System.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNet.Authentication.JwtBearer;
 using LASI.WebApp.Authentication;
-using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using LASI.WebApp.Models;
 using System.Linq;
-using LASI.Utilities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LASI.WebApp.Controllers
 {
     [Route("api/[controller]")]
     public class AuthenticateController : Controller
     {
-        public AuthenticateController(TokenAuthorizationOptions tokenAuthorizationOptions, JwtSecurityTokenHandler jwtSecurityTokenHandler, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthenticateController(TokenAuthorizationOptions tokenAuthorizationOptions, System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler jwtSecurityTokenHandler, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.tokenAuthorizationOptions = tokenAuthorizationOptions;
             this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
@@ -87,7 +81,7 @@ namespace LASI.WebApp.Controllers
             {
                 Issuer = this.tokenAuthorizationOptions.Issuer,
                 Audience = this.tokenAuthorizationOptions.Audience,
-                Claims = User.Claims,
+                //Claims = User.Claims,
                 SigningCredentials = this.tokenAuthorizationOptions.SigningCredentials,
                 IssuedAt = utcDateTime,
                 Expires = DateTimeOffset.UtcNow.UtcDateTime + TimeSpan.FromMinutes(60)
@@ -99,7 +93,7 @@ namespace LASI.WebApp.Controllers
         private readonly TokenAuthorizationOptions tokenAuthorizationOptions;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
+        private readonly System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler jwtSecurityTokenHandler;
 
         public class Credentials
         {

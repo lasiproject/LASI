@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens;
 
 namespace LASI.WebApp.Authentication
 {

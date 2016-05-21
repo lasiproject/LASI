@@ -1,29 +1,21 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.WebApp.Authentication;
 using LASI.WebApp.Logging;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using LASI.WebApp.Persistence;
 using LASI.WebApp.Persistence.MongoDB.Extensions;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authentication.JwtBearer;
-using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp
 {
@@ -53,7 +45,7 @@ namespace LASI.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"))
-                    .AddSingleton<JwtSecurityTokenHandler>()
+                    .AddSingleton<System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler>()
                     .AddSingleton<ILookupNormalizer, UpperInvariantLookupNormalizer>()
                     .AddSingleton<IWorkItemsService, WorkItemsService>()
                     .AddMongoDB(Configuration)
@@ -77,13 +69,13 @@ namespace LASI.WebApp
                         });
                     });
 
-            services.AddSingleton(provider => TokenAuthorizationOptions)
+            services//.AddSingleton(provider => TokenAuthorizationOptions)
                     .AddAuthorization(options =>
                     {
-                        options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                        options.AddPolicy(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, policy =>
                         {
                             policy
-                               .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                               .AddAuthenticationSchemes(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme‌​)
                                .RequireAuthenticatedUser()
                                .Build();
                         });
@@ -121,13 +113,13 @@ namespace LASI.WebApp
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            RsaKey = new RsaSecurityKey(RSAFactory.LoadRSAKey(Configuration["AppSettings:KeyFileName"]));
+            RsaKey = new Microsoft.IdentityModel.Tokens.RsaSecurityKey(RSAFactory.LoadRSAKey(Configuration["AppSettings:KeyFileName"]));
 
             TokenAuthorizationOptions = new TokenAuthorizationOptions
             {
                 Audience = "LASI",
                 Issuer = "LASI",
-                SigningCredentials = new SigningCredentials(key: RsaKey, algorithm: SecurityAlgorithms.RsaSha256Signature)
+                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(key: RsaKey, algorithm: Microsoft.IdentityModel.Tokens.SecurityAlgorithms.RsaSha256Signature)
             };
 
             loggerFactory
@@ -136,7 +128,7 @@ namespace LASI.WebApp
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink()
+                app/*.UseBrowserLink()*/
                    .UseDeveloperExceptionPage();
             }
             else
@@ -151,38 +143,38 @@ namespace LASI.WebApp
                .UseCookieAuthentication(options =>
                {
                    options.AutomaticAuthenticate = true;
-                   options.AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
+                   options.AuthenticationScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
                    options.LoginPath = null;
                    options.LogoutPath = null;
                })
-               .UseJwtBearerAuthentication(options =>
-               {
-                   options.Events = new JwtBearerEvents
-                   {
-                       OnAuthenticationFailed = async context =>
-                       {
-                           System.Diagnostics.Debug.WriteLine(context.Exception.Message);
-                           context.Response.StatusCode = 401;
-                           await context.Response.Body.WriteAsync(Encoding.Default.GetBytes("Unauthorized"), 0, 12);
-                       }
-                   };
-                   options.RequireHttpsMetadata = false;
-                   options.TokenValidationParameters.IssuerSigningKey = RsaKey;
-                   options.TokenValidationParameters.ValidAudience = TokenAuthorizationOptions.Audience;
-                   options.TokenValidationParameters.ValidIssuer = TokenAuthorizationOptions.Issuer;
-                   options.TokenValidationParameters.ValidateSignature = true;
-                   options.TokenValidationParameters.ValidateLifetime = true;
-                   options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(0);
-                   options.TokenValidationParameters.NameClaimType = "unique_name";
-                   options.AutomaticAuthenticate = false;
-                   options.AutomaticChallenge = false;
+               //.UseJwtBearerAuthentication(options =>
+               //{
+               //    options.Events = new JwtBearerEvents
+               //    {
+               //        OnAuthenticationFailed = async context =>
+               //        {
+               //            System.Diagnostics.Debug.WriteLine(context.Exception.Message);
+               //            context.Response.StatusCode = 401;
+               //            await context.Response.Body.WriteAsync(Encoding.Default.GetBytes("Unauthorized"), 0, 12);
+               //        }
+               //    };
+               //    options.RequireHttpsMetadata = false;
+               //    options.TokenValidationParameters.IssuerSigningKey = RsaKey;
+               //    options.TokenValidationParameters.ValidAudience = TokenAuthorizationOptions.Audience;
+               //    options.TokenValidationParameters.ValidIssuer = TokenAuthorizationOptions.Issuer;
+               //    options.TokenValidationParameters.ValidateSignature = true;
+               //    options.TokenValidationParameters.ValidateLifetime = true;
+               //    options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(0);
+               //    options.TokenValidationParameters.NameClaimType = "unique_name";
+               //    options.AutomaticAuthenticate = false;
+               //    options.AutomaticChallenge = false;
 
-                   options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration
-                   {
-                       HttpLogoutSupported = true
-                   };
-                   options.TokenValidationParameters.SaveSigninToken = true;
-               })
+               //    options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration
+               //    {
+               //        HttpLogoutSupported = true
+               //    };
+               //    options.TokenValidationParameters.SaveSigninToken = true;
+               //})
                .UseCors(policy =>
                {
                    policy.AllowAnyHeader()
@@ -217,7 +209,7 @@ namespace LASI.WebApp
             WebApplication.Run<Startup>(args);
         }
 
-        RsaSecurityKey RsaKey { get; set; }
+        Microsoft.IdentityModel.Tokens.RsaSecurityKey RsaKey { get; set; }
         private readonly bool isDevelopment;
         private TokenAuthorizationOptions TokenAuthorizationOptions { get; set; }
     }
