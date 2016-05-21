@@ -1,6 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
+//using System.IO;
+//using System.Reflection;
 using LASI.Utilities;
 
 namespace LASI.WebApp.Tests.TestAttributes
@@ -13,8 +14,8 @@ namespace LASI.WebApp.Tests.TestAttributes
 
         public override void Before(MethodInfo methodUnderTest)
         {
-            ConfigureLASIComponents(Path.Combine(Directory.GetCurrentDirectory(), ConfigFileName), LASIComponentConfigSubkey);
             base.Before(methodUnderTest);
+            ConfigureLASIComponents(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), ConfigFileName), LASIComponentConfigSubkey);
         }
         private static void ConfigureLASIComponents(string fileName, string subkey)
         {
