@@ -29,6 +29,15 @@ System.config({
         }
       }
     },
+    "shared": {
+      "main": "index.ts",
+      "defaultExtension": "ts",
+      "meta": {
+        "*.ts": {
+          "loader": "ts"
+        }
+      }
+    },
     "src/app": {
       "defaultExtension": "ts",
       "meta": {

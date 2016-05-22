@@ -13,7 +13,7 @@ export function configure(aurelia: Aurelia) {
         .singleton(WindowService)
         .singleton(HttpClient, class extends HttpClient {
             static inject = [TokenService];
-            constructor(private tokenService) {
+            constructor(private tokenService: TokenService) {
                 super();
                 super.configure(config => {
                     return config
