@@ -14,6 +14,10 @@ module.exports = {
         "**/*.{html,ts,js,css}"
     ],
     "watchOptions": {
+        "injectChanges": true,
+        "files": [
+            "**/*.{html,ts,css}"
+        ],
         "ignored": [
             "jspm_packages",
             "node_modules"

@@ -21,6 +21,10 @@ namespace LASI.WebApp.Controllers
             this.userManager = userManager;
         }
 
+        [AllowAnonymous]
+        public IActionResult Options() {
+            return Options();
+        }
         // Authorization failing
         [HttpGet]
         [Authorize("Bearer")]

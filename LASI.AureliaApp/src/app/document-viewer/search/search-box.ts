@@ -1,24 +1,15 @@
-﻿import { Input } from 'app/ng2-utils';
-import template from './search-box.html';
-import { Component, OnInit } from 'angular2/core';
+﻿import {bindable} from 'aurelia-framework';
 
-@Component({
-    selector: 'search-box',
-    template
-})
-export default class SearchBoxComponent implements OnInit {
-    ngOnInit() { }
-
-    static $inject = ['$q'];
-    constructor() { }
+export default class SearchBoxComponent  {
+ 
     phrases: models.PhraseModel[];
     words: models.WordModel[];
 
     getWords() {
         return (this.phrases || []).flatMap(p => p.words);
     }
-    @Input find: SearchModel;
-    @Input searchContext: models.TextFragmentModel[];
+    @bindable find: SearchModel;
+    @bindable searchContext: models.TextFragmentModel[];
 
     search(searchOptions: SearchOptions, searchContext: models.TextFragmentModel[]) {
         const value = searchOptions.value;
