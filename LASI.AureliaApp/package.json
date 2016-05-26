@@ -38,10 +38,10 @@
   "devDependencies": {
     "gulp": "3.9.1",
     "gulp-tslint": "*",
-    "lite-server": "2.2.0",
+    "gulp-tslint-stylish": "^1.1.1",
     "jspm": "0.16.34",
+    "lite-server": "2.2.0",
     "tslint": "*",
-    "typescript": "*",
-    "gulp-tslint-stylish": "*"
+    "typescript": "*"
   }
 }

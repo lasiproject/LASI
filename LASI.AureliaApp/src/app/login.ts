@@ -18,7 +18,7 @@ export class Login {
            .then(user => {
                [this.user, this.username, this.rememberMe] = [user, user.email, user.rememberMe];
                 // return this.$state.go('app.home', {}, { reload: true });
-            })
+            });
         // .catch(reason => {
         //     return this.$uibModal.open({
         //         controllerAs: 'modal',

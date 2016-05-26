@@ -4,7 +4,7 @@ import {WindowService} from './app/helpers';
 import TokenService from './app/token-service';
 import getHostElement from './get-host-element';
 
-export function configure(aurelia: Aurelia) {
+export function configure(aurelia: Aurelia) { 
     aurelia.use
         .standardConfiguration()
         .developmentLogging()

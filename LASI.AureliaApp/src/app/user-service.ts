@@ -19,8 +19,7 @@ export class UserService {
         try {
             var user = await this.loginGet();
             return user.user;
-        }
-        catch (e) {
+        } catch (e) {
 
             console.warn('not logged in');
             return await this.loginPost(data).then(this.loginSuccess);
@@ -66,7 +65,7 @@ export class UserService {
 
     async getDetails(): Promise<any> {
         var response = await this.http.fetch('/api/manage/account', { method: 'GET', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        return await response.json()
+        return await response.json();
     }
 
     saveDetails(details: any): Promise<any> {
