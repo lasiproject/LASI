@@ -3,13 +3,12 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
-    "optional": [
-      "runtime"
-    ]
+    "optional": []
   },
   typescriptOptions: {
     "target": "es6",
     "module": "system",
+    "typeCheck": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "experimentalAsyncFunctions": true
@@ -30,13 +29,13 @@ System.config({
       }
     },
     "shared": {
-      "main": "index.ts",
       "defaultExtension": "ts",
       "meta": {
         "*.ts": {
           "loader": "ts"
         }
       }
+
     },
     "src/app": {
       "defaultExtension": "ts",
@@ -66,6 +65,7 @@ System.config({
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0-beta.1.2.5",
     "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.2.4",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0-beta.1.2.1",
+    "aurelia-loader": "npm:aurelia-loader@1.0.0-beta.1.2.0",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0-beta.1.2.2",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-beta.1.2.1",
     "aurelia-router": "npm:aurelia-router@1.0.0-beta.1.2.2",
@@ -80,16 +80,18 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.21",
     "fetch": "github:github/fetch@0.10.1",
     "font-awesome": "npm:font-awesome@4.6.1",
+    "jquery": "npm:jquery@2.2.4",
+    "rxjs": "npm:rxjs@5.0.0-beta.8",
     "text": "github:systemjs/plugin-text@0.0.3",
     "traceur": "github:jmcriffey/bower-traceur@0.0.91",
     "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.91",
-    "ts": "github:frankwallis/plugin-typescript@4.0.10",
-    "typescript": "npm:typescript@1.9.0-dev.20160428-1.0",
-    "github:frankwallis/plugin-typescript@4.0.10": {
-      "typescript": "npm:typescript@1.9.0-dev.20160428-1.0"
+    "ts": "github:frankwallis/plugin-typescript@4.0.16",
+    "typeahead": "github:twitter/typeahead.js@0.11.1",
+    "github:frankwallis/plugin-typescript@4.0.16": {
+      "typescript": "npm:typescript@1.9.0-dev.20160530-1.0"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
-      "assert": "npm:assert@1.3.0"
+      "assert": "npm:assert@1.4.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
@@ -122,7 +124,10 @@ System.config({
       "vm-browserify": "npm:vm-browserify@0.0.4"
     },
     "github:twbs/bootstrap@3.3.6": {
-      "jquery": "npm:jquery@2.2.3"
+      "jquery": "npm:jquery@2.2.4"
+    },
+    "github:twitter/typeahead.js@0.11.1": {
+      "jquery": "npm:jquery@2.2.4"
     },
     "npm:asn1.js@4.6.0": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -133,7 +138,11 @@ System.config({
       "minimalistic-assert": "npm:minimalistic-assert@1.0.0",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
-    "npm:assert@1.3.0": {
+    "npm:assert@1.4.0": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "buffer-shims": "npm:buffer-shims@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "npm:util@0.10.3"
     },
     "npm:aurelia-animator-css@1.0.0-beta.1.2.1": {
@@ -302,10 +311,13 @@ System.config({
       "create-hash": "npm:create-hash@1.1.2",
       "create-hmac": "npm:create-hmac@1.1.4",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "elliptic": "npm:elliptic@6.2.3",
+      "elliptic": "npm:elliptic@6.2.7",
       "inherits": "npm:inherits@2.0.1",
       "parse-asn1": "npm:parse-asn1@5.0.0",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
+    },
+    "npm:buffer-shims@1.0.0": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:buffer-xor@1.0.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -341,7 +353,7 @@ System.config({
       "bn.js": "npm:bn.js@4.11.3",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
-      "elliptic": "npm:elliptic@6.2.3"
+      "elliptic": "npm:elliptic@6.2.7"
     },
     "npm:create-hash@1.1.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -384,7 +396,7 @@ System.config({
       "randombytes": "npm:randombytes@2.0.3",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:elliptic@6.2.3": {
+    "npm:elliptic@6.2.7": {
       "bn.js": "npm:bn.js@4.11.3",
       "brorand": "npm:brorand@1.0.5",
       "hash.js": "npm:hash.js@1.0.3",
@@ -452,7 +464,7 @@ System.config({
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "isarray": "npm:isarray@1.0.0",
+      "isarray": "npm:isarray@0.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
@@ -460,6 +472,11 @@ System.config({
     "npm:ripemd160@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:rxjs@5.0.0-beta.8": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "symbol-observable": "npm:symbol-observable@0.2.4"
     },
     "npm:sha.js@2.4.5": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -475,7 +492,7 @@ System.config({
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:typescript@1.9.0-dev.20160428-1.0": {
+    "npm:typescript@1.9.0-dev.20160530-1.0": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
     },
     "npm:util@0.10.3": {

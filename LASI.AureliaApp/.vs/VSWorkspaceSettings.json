@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\shared",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\document-viewer",
+    "\\src\\app\\document-viewer\\page",
+    "\\src\\app\\document-viewer\\phrase",
+    "\\src\\app\\document-viewer\\search",
+    "\\src\\app\\document-viewer\\sentence",
+    "\\src\\configuration"
+  ],
+  "SelectedNode": "\\src\\app\\user-service.ts",
+  "ProjectConfigurations": [],
+  "StartupProject": "<CurrentDocument>"
+}

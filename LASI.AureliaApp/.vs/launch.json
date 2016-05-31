@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".vcxproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "node_modules\\fsevents\\build\\.vcxproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|x64",
+          "output": "node_modules\\fsevents\\build\\Debug\\.node"
+        },
+        {
+          "name": "Release|x64",
+          "output": "node_modules\\fsevents\\build\\Release\\.node"
+        }
+      ]
+    }
+  ]
+}

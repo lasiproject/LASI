@@ -1,7 +1,8 @@
 ﻿import {autoinject} from 'aurelia-framework';
+import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData } from 'src/models';
 declare type ContextMenu = any;
 
-@autoinject export default class LexicalMenuBuilder implements models.LexicalMenuBuilder {
+@autoinject export default class LexicalMenuBuilder implements LexicalMenuBuilder {
     buildForVerbal = createForVerbalMenuBuilder({});
     buildForReferencer = createForReferencerMenuBuilder({});
 
@@ -12,12 +13,12 @@ declare type ContextMenu = any;
             : undefined;
 }
 
-function menuIsVerbalMenu(menu: models.LexicalContextmenuData): menu is models.VerbalContextmenuData {
-    const verbalMenu = menu as models.VerbalContextmenuData;
+function menuIsVerbalMenu(menu: LexicalContextmenuData): menu is VerbalContextmenuData {
+    const verbalMenu = menu as VerbalContextmenuData;
     return !!(menu && (verbalMenu.directObjectIds || verbalMenu.indirectObjectIds || verbalMenu.subjectIds));
 }
-function menuIsReferencerMenu(menu: models.LexicalContextmenuData): menu is models.ReferencerContextmenuData {
-    const referencerMenu = menu as models.ReferencerContextmenuData;
+function menuIsReferencerMenu(menu: LexicalContextmenuData): menu is ReferencerContextmenuData {
+    const referencerMenu = menu as ReferencerContextmenuData;
     return !!(menu && referencerMenu.refersToIds);
 }
 
@@ -26,7 +27,7 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
         Object.keys(menuActionTargets)
             .map(key => menuActionTargets[key])
             .forEach($e => $e.removeClass('referred-to-by-current'));
-    return (source: models.ReferencerContextmenuData): ContextMenu => [
+    return (source: ReferencerContextmenuData): ContextMenu => [
         ['View Referred To', (itemScope, event) => {
             resetReferencerAsssotionCssClasses();
             source.refersToIds.forEach(id => menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'));
@@ -36,7 +37,7 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
 
 function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
     return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
-        return (source: models.VerbalContextmenuData) => {
+        return (source: VerbalContextmenuData) => {
             const menuItems: ContextMenu = [];
             if (source.subjectIds) {
                 menuItems.push(['View Subjects', (itemScope, event) => {

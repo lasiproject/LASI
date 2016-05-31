@@ -1,0 +1,8 @@
+{
+  "name": "lasi.aurelia-app",
+  "dependencies": {},
+  "globalDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "typeahead": "registry:dt/typeahead#0.11.1+20160317120654"
+  }
+}

@@ -31,7 +31,7 @@ namespace LASI.Core
         /// Establish the nested links between the Paragraph, its parent Document, and the sentences comprising it.
         /// </summary>
         /// <param name="parentDocument">The document instance to identified as the Paragraph's parent.</param>
-        public void EstablishTextualLinks(Document parentDocument)
+        internal void EstablishTextualLinks(Document parentDocument)
         {
             Document = parentDocument;
             foreach (var sentence in Sentences)
@@ -51,38 +51,38 @@ namespace LASI.Core
         /// Returns a string representation of the Paragraph.
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
-        public override string ToString() => $"{base.ToString()}: {Sentences.Count()} sentences\n\"{Text}\"";
+        public override string ToString() => $"{ToString()}: {Sentences.Count()} sentences\n\"{Text}\"";
 
 
         /// <summary>
-        /// Gets the collection of Sentences which comprise the Paragraph.
+        /// The collection of Sentences which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Sentence> Sentences { get; }
 
         /// <summary>
-        /// Gets the collection of Words which comprise the Paragraph.
+        /// The collection of Words which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Word> Words => Sentences.SelectMany(s => s.Words);
         /// <summary>
-        /// Gets the collection of Phrases which comprise the Paragraph.
+        /// The collection of Phrases which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Phrase> Phrases => Sentences.SelectMany(s => s.Phrases);
         /// <summary>
-        /// Gets the collection of Clauses which comprise the Paragraph.
+        /// The collection of Clauses which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Clause> Clauses => Sentences.SelectMany(s => s.Clauses);
 
         /// <summary>
-        /// Gets the Document the Paragraph belongs to.
+        /// The Document the Paragraph belongs to.
         /// </summary>
         public Document Document { get; private set; }
         /// <summary>
-        /// Gets the ParagraphKind of the Paragraph.
+        /// The ParagraphKind of the Paragraph.
         /// </summary>
         public ParagraphKind ParagraphKind { get; }
 
         /// <summary>
-        /// Gets the textual content of the Paragraph.
+        /// The textual content of the Paragraph.
         /// </summary>
         public string Text => text ?? (text = string.Join(" ", Sentences.Select(s => s.Text)));
 

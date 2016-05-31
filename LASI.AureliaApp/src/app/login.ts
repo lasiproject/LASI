@@ -1,24 +1,26 @@
 import $ from 'jquery';
 import {autoinject, bindable} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
-import { UserService } from './user-service';
+
+import {User} from 'models';
+import {UserService} from './user-service';
+
 @autoinject
 export class Login {
-    constructor(
-        private http: HttpClient,
-        private userService: UserService) { }
+    constructor(private userService: UserService) { }
 
-   async login(): Promise<any> {
-       return await this.userService
-           .login({
-               email: this.username,
-               password: this.password,
-               rememberMe: this.rememberMe || this.user && this.user.rememberMe
-           })
-           .then(user => {
-               [this.user, this.username, this.rememberMe] = [user, user.email, user.rememberMe];
-                // return this.$state.go('app.home', {}, { reload: true });
+    async login(): Promise<User> {
+        this.user = await this.userService
+            .login({
+                email: this.username,
+                password: this.password,
+                rememberMe: this.rememberMe || this.user && this.user.rememberMe
             });
+
+        [this.username, this.rememberMe] = [this.user.email, this.user.rememberMe];
+        return this.user;
+
+        // return this.$state.go('app.home', {}, { reload: true });
         // .catch(reason => {
         //     return this.$uibModal.open({
         //         controllerAs: 'modal',
@@ -40,9 +42,7 @@ export class Login {
         //     }).result;
         // });
     }
-
-
-    @bindable user: models.User;
+    @bindable user: User;
     @bindable username: string;
     @bindable password: string;
     @bindable rememberMe: boolean;

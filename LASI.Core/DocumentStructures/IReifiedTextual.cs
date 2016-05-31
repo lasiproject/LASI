@@ -12,31 +12,31 @@ namespace LASI.Core
     public interface IReifiedTextual
     {
         /// <summary>
-        /// Gets the constituent clauses of the textual structure.
+        /// The constituent clauses of the textual structure.
         /// </summary>
         IEnumerable<Clause> Clauses { get; }
         /// <summary>
-        /// Gets the constituent phrases of the textual structure.
+        /// The constituent phrases of the textual structure.
         /// </summary>
         IEnumerable<Phrase> Phrases { get; }
         /// <summary>
-        /// Gets the constituent words of the textual structure.
+        /// The constituent words of the textual structure.
         /// </summary>
         IEnumerable<Word> Words { get; }
         /// <summary>
-        /// Gets the constituent lexicals of the textual structure.
+        /// The constituent lexicals of the textual structure.
         /// </summary>
         IEnumerable<ILexical> Lexicals { get; }
         /// <summary>
-        /// Gets the constituent entities of the textual structure.
+        /// The constituent entities of the textual structure.
         /// </summary>
         IEnumerable<IEntity> Entities { get; }
         /// <summary>
-        /// Gets the constituent verbals of the Textual structure.
+        /// The constituent verbals of the Textual structure.
         /// </summary>
         IEnumerable<IVerbal> Verbals { get; }
         /// <summary>
-        /// Gets the text of the Textual structure.
+        /// The text of the Textual structure.
         /// </summary>
         string Text { get; }
     }

@@ -1,4 +1,4 @@
-export function enableActiveHighlighting() {
+export default function enableActiveHighlighting() {
     const enableActiveHighlighting = function () {
         const phrasalTextSpans = $('span.phrase');
         const highlightClass = 'active-phrase-highlight';

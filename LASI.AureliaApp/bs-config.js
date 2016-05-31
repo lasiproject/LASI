@@ -1,6 +1,6 @@
 module.exports = {
-    "server": {
-        "baseDir": "",
+    server: {
+        baseDir: "",
         port: 3000,
         proxy: {
             target: 'localhost:3000',
@@ -10,18 +10,18 @@ module.exports = {
             }]
         }
     },
-    "files": [
+    files: [
         "**/*.{html,ts,js,css}"
     ],
-    "watchOptions": {
-        "injectChanges": true,
-        "files": [
+    watchOptions: {
+        injectChanges: true,
+        files: [
             "**/*.{html,ts,css}"
         ],
-        "ignored": [
+        ignored: [
             "jspm_packages",
             "node_modules"
         ]
     },
-    "injectChanges": true
+    injectChanges: true
 };

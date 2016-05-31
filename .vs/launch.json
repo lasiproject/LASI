@@ -1,0 +1,345 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ExperimentationWPF.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "ExperimentalClientProjects\\WPFExperimentation\\ExperimentationWPF.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "ExperimentalClientProjects\\WPFExperimentation\\bin\\Debug\\WPFExperimentation.exe"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "ExperimentalClientProjects\\WPFExperimentation\\bin\\Release\\WPFExperimentation.exe"
+        }
+      ]
+    },
+    {
+      "name": "Experimentation.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "ExperimentalClientProjects\\Experimentation\\Experimentation.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "ExperimentalClientProjects\\Experimentation\\bin\\Debug\\Experimentation.exe"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "ExperimentalClientProjects\\Experimentation\\bin\\Release\\Experimentation.exe"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Core.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Core\\LASI.Core.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Core\\bin\\Debug\\LASI.Core.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Core\\bin\\Release\\LASI.Core.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Core\\bin\\x86\\Debug\\LASI.Core.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Core\\bin\\x86\\Release\\LASI.Core.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Content.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Content\\LASI.Content.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Content\\bin\\Debug\\LASI.Content.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Content\\bin\\Release\\LASI.Content.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Content\\bin\\x86\\Debug\\LASI.Content.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Content\\bin\\x86\\Release\\LASI.Content.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.App.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.App\\LASI.App.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.App\\bin\\Debug\\LASI.exe"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.App\\bin\\Release\\LASI.exe"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.App\\bin\\x86\\Debug\\LASI.exe"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.App\\bin\\x86\\Release\\LASI.exe"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Content.Tests.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Content.Tests\\LASI.Content.Tests.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Content.Tests\\bin\\Debug\\LASI.Content.Tests.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Content.Tests\\bin\\Release\\LASI.Content.Tests.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Content.Tests\\bin\\x86\\Debug\\LASI.Content.Tests.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Content.Tests\\bin\\x86\\Release\\LASI.Content.Tests.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Utilities.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Utilities\\LASI.Utilities.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Utilities\\bin\\Debug\\LASI.Utilities.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Utilities\\bin\\Release\\LASI.Utilities.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Utilities\\bin\\x86\\Debug\\LASI.Utilities.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Utilities\\bin\\x86\\Release\\LASI.Utilities.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Core.Tests.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Core.Tests\\LASI.Core.Tests.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Core.Tests\\bin\\Debug\\LASI.Core.Tests.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Core.Tests\\bin\\Release\\LASI.Core.Tests.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Core.Tests\\bin\\x86\\Debug\\LASI.Core.Tests.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Core.Tests\\bin\\x86\\Release\\LASI.Core.Tests.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Interop.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Interop\\LASI.Interop.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Interop\\bin\\Debug\\LASI.Interop.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Interop\\bin\\Release\\LASI.Interop.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Interop\\bin\\x86\\Debug\\LASI.Interop.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Interop\\bin\\x86\\Release\\LASI.Interop.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Shared.Test.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "Shared.Test.Utilities\\LASI.Shared.Test.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "Shared.Test.Utilities\\bin\\Debug\\LASI.Shared.Test.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "Shared.Test.Utilities\\bin\\Release\\LASI.Shared.Test.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "Shared.Test.Utilities\\bin\\x86\\Debug\\LASI.Shared.Test.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "Shared.Test.Utilities\\bin\\x86\\Release\\LASI.Shared.Test.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Utilities.Tests.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Utilities.Tests\\LASI.Utilities.Tests.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Utilities.Tests\\bin\\Debug\\LASI.Utilities.Tests.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Utilities.Tests\\bin\\Release\\LASI.Utilities.Tests.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Utilities.Tests\\bin\\x86\\Debug\\LASI.Utilities.Tests.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Utilities.Tests\\bin\\x86\\Release\\LASI.Utilities.Tests.dll"
+        }
+      ]
+    },
+    {
+      "name": "LASI.Interop.Tests.csproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.Interop.Tests\\LASI.Interop.Tests.csproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|AnyCPU",
+          "output": "LASI.Interop.Tests\\bin\\Debug\\LASI.Interop.Tests.dll"
+        },
+        {
+          "name": "Release|AnyCPU",
+          "output": "LASI.Interop.Tests\\bin\\Release\\LASI.Interop.Tests.dll"
+        },
+        {
+          "name": "Debug|x86",
+          "output": "LASI.Interop.Tests\\bin\\x86\\Debug\\LASI.Interop.Tests.dll"
+        },
+        {
+          "name": "Release|x86",
+          "output": "LASI.Interop.Tests\\bin\\x86\\Release\\LASI.Interop.Tests.dll"
+        }
+      ]
+    },
+    {
+      "name": ".vcxproj",
+      "type": "msbuild",
+      "request": "launch",
+      "project": "LASI.AureliaApp\\node_modules\\fsevents\\build\\.vcxproj",
+      "configurations": [
+        {
+          "name": "default",
+          "args": []
+        },
+        {
+          "name": "Debug|x64",
+          "output": "LASI.AureliaApp\\node_modules\\fsevents\\build\\Debug\\.node"
+        },
+        {
+          "name": "Release|x64",
+          "output": "LASI.AureliaApp\\node_modules\\fsevents\\build\\Release\\.node"
+        }
+      ]
+    }
+  ]
+}

@@ -1,19 +1,24 @@
 import 'src/styles/site.css!css';
 import {autoinject} from 'aurelia-framework';
-import {Router, RouterConfiguration} from 'aurelia-router';
+import {Router, RouterConfiguration, NavigationInstruction} from 'aurelia-router';
 import './shims';
-import { UserService } from './user-service';
+import {UserService} from './user-service';
+import {User} from 'models';
+
 @autoinject export class App {
-  constructor(private userService: UserService) {
-    var user = userService.loginGet()
-      .then(response => {
-        console.log(response);
+  constructor(private userService: UserService) { }
 
-      }).catch(reason => {
-        console.error(reason);
+  async activate(params, routeConfig: RouterConfiguration, $navigationInstruction: NavigationInstruction) {
+    try {
+      console.log(arguments);
 
-      });
-
+      const {user} = await this.userService.loginGet();
+      this.user = user;
+      console.log(user);
+    } catch (e) {
+      console.error(e);
+      this.user = undefined;
+    }
   }
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = 'Aurelia';
@@ -27,6 +32,9 @@ import { UserService } from './user-service';
 
     this.router = router;
   }
+
+  user: User;
+
   router: Router;
 }
 

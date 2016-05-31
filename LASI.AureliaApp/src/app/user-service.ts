@@ -1,14 +1,26 @@
 import {autoinject} from 'aurelia-framework';
 import {HttpClient, RequestInit} from 'aurelia-fetch-client';
-
+import {Credentials, User, AuthenticationResult} from 'src/models';
 import TokenService from './token-service';
 
-@autoinject
-export class UserService {
+const getConfig: RequestInit = {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+};
+const postConfig: RequestInit = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+};
+
+@autoinject export class UserService {
 
     constructor(private http: HttpClient, private tokenService: TokenService) { }
 
-    async login({ email, password, rememberMe }: models.Credentials): Promise<models.User> {
+    async login({ email, password, rememberMe }: Credentials): Promise<User> {
         const promise = this.loggedIn ? this.getUser() : Promise.resolve({});
 
         const data = {
@@ -17,8 +29,8 @@ export class UserService {
             rememberMe
         };
         try {
-            var user = await this.loginGet();
-            return user.user;
+            const { user } = await this.loginGet();
+            return user;
         } catch (e) {
 
             console.warn('not logged in');
@@ -29,23 +41,17 @@ export class UserService {
 
     }
     async loginPost(data: {}) {
-
-
-        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
-        var response = await this.http.fetch('/api/authenticate', { method: 'POST', body: $.param(data), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        return await response.json() as models.AuthenticationResult;
+        const response = await this.http.fetch('/api/authenticate', postConfig);
+        return await response.json() as AuthenticationResult;
     }
 
-    async loginGet(): Promise<models.AuthenticationResult> {
-
-        var response = await this.http.fetch('/api/authenticate', { method: 'GET', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        return await response.json() as models.User;
-
+    async loginGet(): Promise<AuthenticationResult> {
+        const response = await this.http.fetch('/api/authenticate', getConfig);
+        return await response.json() as User;
     }
 
     async logoff(): Promise<any> {
-
-        var response = await this.http.fetch('/api/authenticate/logoff', { method: 'GET', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        const response = await this.http.fetch('/api/authenticate/logoff', getConfig);
         console.log(response);
         this.tokenService.clearToken();
         this.loggedIn = false;
@@ -53,7 +59,7 @@ export class UserService {
         return await response.json();
     }
 
-    async getUser(): Promise<models.AuthenticationResult> {
+    async getUser(): Promise<AuthenticationResult> {
         if (this.user) {
             return this.user;
         } else if (this.tokenService.token) {
@@ -64,7 +70,7 @@ export class UserService {
     }
 
     async getDetails(): Promise<any> {
-        var response = await this.http.fetch('/api/manage/account', { method: 'GET', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        const response = await this.http.fetch('/api/manage/account', getConfig);
         return await response.json();
     }
 
@@ -81,12 +87,8 @@ export class UserService {
         return this.user;
     };
 
-    user: models.User;
+    user: User;
     loggedIn = false;
 
-    static requestConfig: RequestInit = {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    };
+
 } 

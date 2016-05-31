@@ -1,5 +1,7 @@
 ﻿import {bindable} from 'aurelia-framework';
+import {DocumentModel, PageModel} from 'models';
+
 export class Page {
-    @bindable document;
-    @bindable page;
+    @bindable document: DocumentModel;
+    @bindable page: PageModel;
 }
