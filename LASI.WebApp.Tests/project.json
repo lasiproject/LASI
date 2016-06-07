@@ -6,7 +6,7 @@
   "projectUrl": "http://lasi-project.org",
   "licenseUrl": "",
   "dependencies": {
-    "LASI.WebApp": "1.0.0-*",
+    "LASI.WebApp": "1.0.0",
     "xunit": "2.1.0"
   },
 
@@ -23,3 +23,4 @@
     }
   }
 }
+  

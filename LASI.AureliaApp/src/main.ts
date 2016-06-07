@@ -4,13 +4,20 @@ import {WindowService} from './app/helpers';
 import TokenService from './app/token-service';
 import getHostElement from './get-host-element';
 
-export function configure(aurelia: Aurelia) { 
-    aurelia.use    
+export function configure(aurelia: Aurelia) {
+    aurelia.use
         .standardConfiguration()
         .developmentLogging()
         .defaultBindingLanguage()
         .defaultResources()
         .singleton(WindowService)
+        .plugin('aurelia-dialog', config => {
+            config.useDefaults();
+            config.settings.lock = false;
+            config.settings.centerHorizontalOnly = false;
+            config.settings.startingZIndex = 1005;
+        })
+        .plugin('aurelia-typeahead')
         .singleton(HttpClient, class extends HttpClient {
             static inject = [TokenService];
             constructor(private tokenService: TokenService) {

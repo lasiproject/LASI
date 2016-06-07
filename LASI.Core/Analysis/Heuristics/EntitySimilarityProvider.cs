@@ -147,18 +147,19 @@ namespace LASI.Core
         /// <returns>
         /// A NameGender value indicating the likely gender of the entity.
         /// </returns>
-        public static Gender GetGender(this IEntity entity) => entity.Match()
-            .Case((ISimpleGendered p) => p.Gender)
-            .Case((IReferencer p) => GetGender(p))
-            .Case((NounPhrase n) => DetermineNounPhraseGender(n))
-            .Case((CommonNoun n) => Gender.Neutral)
-            .Case((IEntity e) => (from referener in e.Referencers
-                                  let gendered = referener as ISimpleGendered
-                                  let gender = gendered != null ? gendered.Gender : default(Gender)
-                                  group gender by gender into byGender
-                                  orderby byGender.Count() descending
-                                  select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
-            .Result();
+        public static Gender GetGender(this IEntity entity) => entity match (
+            case ISimpleGendered p : p.Gender
+            case IReferencer p : GetGender(p)
+            case NounPhrase n : DetermineNounPhraseGender(n)
+            case CommonNoun n : Gender.Neutral
+            case IEntity e when e.Referencers.Any() : (from referener in e.Referencers
+                                                       let gendered = referener as ISimpleGendered
+                                                       let gender = gendered != null ? gendered.Gender : default(Gender)
+                                                       group gender by gender into byGender
+                                                       orderby byGender.Count() descending
+                                                       select byGender.Key).DefaultIfEmpty().First()
+            case * : default(Gender)
+        );
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the Pronoun based on its
         /// referent if known, or else its PronounKind.

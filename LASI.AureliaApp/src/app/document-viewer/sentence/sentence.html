@@ -1,8 +1,8 @@
 ﻿<template>
     <require from="../phrase/phrase"></require>
-    <div class.bind="sentence.style.cssClass">
+    <span class.bind="sentence.style.cssClass">
     <span repeat.for="phrase of sentence.phrases">
         <phrase phrase.bind="phrase" parent-id.bind="sentence.id"></phrase>
     </span>
-</div>
+    </span>
 </template>

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import {autoinject, bindable} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 
-import {User} from 'models';
+import {User} from 'src/models';
 import {UserService} from './user-service';
 
 @autoinject
@@ -45,5 +45,5 @@ export class Login {
     @bindable user: User;
     @bindable username: string;
     @bindable password: string;
-    @bindable rememberMe: boolean;
+    @bindable rememberMe: boolean = false;
 }

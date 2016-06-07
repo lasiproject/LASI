@@ -63,7 +63,7 @@ namespace LASI.WebApp.Logging
                     {
                         if (disposing)
                         {
-                            //state = null;
+                            state = default(TState);
                         }
                         disposedValue = true;
                     }

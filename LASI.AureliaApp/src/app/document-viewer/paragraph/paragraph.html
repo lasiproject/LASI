@@ -1,10 +1,10 @@
 ﻿<template>
     <require from="../sentence/sentence"></require>
     
-    <div class="lexical-content-block ${paragraph.style.cssClass}">
+    <span class="lexical-content-block ${paragraph.style.cssClass}">
     &nbsp;&nbsp;&nbsp;&nbsp;
     <sentence sentence.bind="sentence"
               parent-id.bind="paragraph.id"
               repeat.for="sentence of paragraph.sentences"></sentence>
-</div>
+</span>
 </template>

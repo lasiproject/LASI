@@ -1,6 +1,6 @@
 ﻿(function () {
     'use strict';
-    var arrayAgumentations = {
+    let arrayAgumentations = {
         flatMap: function (arraySelector, elementSelector) {
             arraySelector = arraySelector || function (array) {
                 if (!Array.isArray(array)) {
@@ -16,7 +16,7 @@
         correlate: function (inner, outerKeySelector, innerKeySelector, resultSelector) {
             let i,
                 j,
-                results = [],
+                results: any[] = [],
                 outerKeyed = this.map((element) => ({ element, key: outerKeySelector(element) })),
                 innerKeyed = inner.map(element => ({ element, key: innerKeySelector(element) }));
 

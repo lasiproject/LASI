@@ -6,6 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}</ProjectGuid>
+    <Features> localFunctions; patterns; refLocalsAndReturns; </Features>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Core</RootNamespace>
@@ -37,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ENSURENOEMPTYWORDS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DEMO__,__DEMO_EXPERIMENTAL__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
@@ -59,6 +60,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <LangVersion>6</LangVersion>
+    <DefineConstants>__DEMO__,__DEMO_EXPERIMENTAL__</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>

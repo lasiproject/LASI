@@ -24,10 +24,11 @@ namespace LASI.App.Visualization
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures) => element.Match()
-            .Case((IVerbal v) => ForVerbal(v, neighboringElementDisplayStructures))
-            .Case((IReferencer r) => ForReferencer(r, neighboringElementDisplayStructures))
-            .Result();
+        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures) => element match (
+            case IVerbal v : ForVerbal(v, neighboringElementDisplayStructures)
+            case IReferencer r : ForReferencer(r, neighboringElementDisplayStructures)
+            case * : null
+        );
 
         #region Lexical Element Context Menu Construction
 
@@ -95,7 +96,7 @@ namespace LASI.App.Visualization
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     var associatedElements = from element in neighboringElements
                                              where element.Tag.Equals(verbal.ObjectOfThePreposition)
-                                             select new { Element = element, Brush = colorMapping[element.Tag as ILexical] };
+                                             select new { Element = element, Brush = colorMapping[element.Tag is ILexical lexical ? lexical : default(ILexical)] };
                     foreach (var a in associatedElements)
                     {
                         a.Element.Foreground = a.Brush;

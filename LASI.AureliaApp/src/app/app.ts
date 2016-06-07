@@ -3,7 +3,7 @@ import {autoinject} from 'aurelia-framework';
 import {Router, RouterConfiguration, NavigationInstruction} from 'aurelia-router';
 import './shims';
 import {UserService} from './user-service';
-import {User} from 'models';
+import {User} from 'src/models';
 
 @autoinject export class App {
   constructor(private userService: UserService) { }
@@ -12,9 +12,8 @@ import {User} from 'models';
     try {
       console.log(arguments);
 
-      const {user} = await this.userService.loginGet();
-      this.user = user;
-      console.log(user);
+      this.user = await this.userService.loginGet();
+      console.log(this.user);
     } catch (e) {
       console.error(e);
       this.user = undefined;
@@ -33,7 +32,7 @@ import {User} from 'models';
     this.router = router;
   }
 
-  user: User;
+  user?: User;
 
   router: Router;
 }

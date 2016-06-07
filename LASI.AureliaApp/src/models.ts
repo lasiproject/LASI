@@ -11,12 +11,6 @@ export interface UserService {
     loggedIn: boolean;
 }
 
-// export interface TasksListServiceProvider {
-//     $get: ($q: ng.IQService, http: ng.IHttpService, $interval: ng.IIntervalService, userService: any) => TasksListService;
-//     setTasksListUrl: (url: string) => TasksListServiceProvider;
-//     setUpdateInterval: (milliconds: number) => TasksListServiceProvider;
-// }
-
 export interface DocumentListService {
     get(): Promise<DocumentListItem[]>;
     deleteDocument(documentId: string): Promise<DocumentListItem>;
@@ -35,7 +29,7 @@ export interface DocumentListServiceConfig {
 export interface Credentials {
     email: string;
     password: string;
-    rememberMe?: boolean;
+    rememberMe: boolean;
 }
 
 export interface AuthenticationResult {

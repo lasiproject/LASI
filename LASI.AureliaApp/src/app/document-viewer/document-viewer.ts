@@ -7,8 +7,18 @@ import {DocumentModel} from 'src/models';
 
   @bindable document: DocumentModel;
   bind() {
-    this.words = document && this.document && this.document.paragraphs.flatMap(p => p.sentences).flatMap(s => s.phrases).flatMap(s => s.words) || [];
+    this.typeAheadSource = document && this.document && this.document.paragraphs
+      .flatMap(p => p.sentences)
+      .flatMap(s => s.phrases)
+      .flatMap(s => s.words)
+      .map(w => w.text) || [];
   }
-  words: any[];
-  @bindable searchTerm: string;
+  @bindable
+  typeAheadSource: any[];
+  @bindable
+  searchTerm: string;
+  queryTypeAhead(query, callback) {
+    console.log(query);
+    console.log(callback);
+  }
 }

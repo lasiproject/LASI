@@ -1,15 +1,20 @@
 ﻿<template>
     <require from="./paragraph/paragraph"></require>
-    <!--<require from="./search/search"></require>-->
-      <require from="shared/type-ahead/type-ahead"></require>
-
-        <type-ahead options.bind="{
+      
+        <aurelia-typeahead typeahead-options.bind="{
             hint: true,
             async: true,
             highlight: true,
-            minLength: 2
-    }" source-array.bind="words"></type-ahead>
-    <div class="${document && document.style.cssClass}">
+            minLength: 2,
+            display:'text', datasets:{
+  name: 'my-dataset',
+  source: typeAheadSource
+}
+    }"
+    basic-source.bind="typeAheadSource" 
+ placeholder="enter lifted search" type="text" value.bind="searchTerm" change.trigger="queryTypeAhead($event, searchTerm)"></aurelia-typeahead>
+
+<div class="${document && document.style.cssClass}">
 
     <div>title: ${document && document.title}</div>
     <div>

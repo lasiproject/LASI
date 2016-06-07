@@ -15,7 +15,8 @@ gulp.task('tslint', function () {
         .pipe(gulpTslint.report(gulpTslintStlish, {
             emitError: false,
             sort: true,
-            fullPath: false
+            fullPath: true,
+            bell: false
         }))
 });
 

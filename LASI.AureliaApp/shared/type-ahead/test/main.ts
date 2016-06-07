@@ -3,7 +3,7 @@ import getHostElement from 'src/get-host-element';
 export function configure(aurelia: Aurelia): void {
     aurelia.use
         .standardConfiguration()
-        .developmentLogging()
+        .developmentLogging();
 
     aurelia.start().then(() => aurelia.setRoot('./app/app', getHostElement()));
 }
