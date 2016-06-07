@@ -42,12 +42,12 @@ SystemJS.config({
     devConfig: {
         "map": {
             "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16",
-            "typescript": "npm:typescript@1.9.0-dev.20160601-1.0"
+            "typescript": "npm:typescript@1.9.0-dev.20160607-1.0"
         },
         "packages": {
             "github:frankwallis/plugin-typescript@4.0.16": {
                 "map": {
-                    "typescript": "npm:typescript@1.9.0-dev.20160601-1.0"
+                    "typescript": "npm:typescript@1.9.0-dev.20160607-1.0"
                 }
             }
         }
@@ -191,13 +191,13 @@ SystemJS.config({
         "npm:create-ecdh@4.0.0": {
             "map": {
                 "elliptic": "npm:elliptic@6.2.8",
-                "bn.js": "npm:bn.js@4.11.3"
+                "bn.js": "npm:bn.js@4.11.4"
             }
         },
         "npm:public-encrypt@4.0.0": {
             "map": {
                 "browserify-rsa": "npm:browserify-rsa@4.0.1",
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "randombytes": "npm:randombytes@2.0.3",
                 "create-hash": "npm:create-hash@1.1.2",
                 "parse-asn1": "npm:parse-asn1@5.0.0"
@@ -206,7 +206,7 @@ SystemJS.config({
         "npm:elliptic@6.2.8": {
             "map": {
                 "inherits": "npm:inherits@2.0.1",
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "hash.js": "npm:hash.js@1.0.3",
                 "brorand": "npm:brorand@1.0.5"
             }
@@ -220,14 +220,14 @@ SystemJS.config({
         },
         "npm:diffie-hellman@5.0.2": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "randombytes": "npm:randombytes@2.0.3",
                 "miller-rabin": "npm:miller-rabin@4.0.0"
             }
         },
         "npm:browserify-rsa@4.0.1": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "randombytes": "npm:randombytes@2.0.3"
             }
         },
@@ -278,7 +278,7 @@ SystemJS.config({
         },
         "npm:browserify-sign@4.0.0": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "browserify-rsa": "npm:browserify-rsa@4.0.1",
                 "create-hash": "npm:create-hash@1.1.2",
                 "create-hmac": "npm:create-hmac@1.1.4",
@@ -303,7 +303,7 @@ SystemJS.config({
         },
         "npm:asn1.js@4.6.2": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "inherits": "npm:inherits@2.0.1",
                 "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
             }
@@ -349,7 +349,7 @@ SystemJS.config({
         },
         "npm:miller-rabin@4.0.0": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.3",
+                "bn.js": "npm:bn.js@4.11.4",
                 "brorand": "npm:brorand@1.0.5"
             }
         },
