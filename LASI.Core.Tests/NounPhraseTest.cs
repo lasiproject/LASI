@@ -9,7 +9,6 @@ using Xunit;
 
 namespace LASI.Core.Tests
 {
-
     /// <summary>
     ///This is A test class for NounPhraseTest and is intended
     ///to contain all NounPhraseTest Unit Tests
