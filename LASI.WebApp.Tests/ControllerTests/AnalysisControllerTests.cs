@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LASI.WebApp.Controllers;
-using LASI.WebApp.Tests.ServiceCollectionExtensions;
 using LASI.WebApp.Tests.TestSetup;
 using Microsoft.AspNet.Mvc;
 using Xunit;

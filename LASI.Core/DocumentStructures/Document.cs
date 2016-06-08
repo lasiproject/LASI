@@ -30,12 +30,15 @@ namespace LASI.Core
         public Document(string title, IEnumerable<Paragraph> paragraphs)
         {
             Name = title;
+
             this.paragraphs = paragraphs
                 .Where(p => p.ParagraphKind == ParagraphKind.Default)
                 .ToList();
+
             this.listOrBulletParagraphs = paragraphs
                 .Where(p => p.ParagraphKind == ParagraphKind.Heading || p.ParagraphKind == ParagraphKind.Enumeration)
                 .ToList();
+
             Reifier.Reifiy(this);
         }
 
@@ -171,7 +174,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the Paragraphs of the Document in linear, left to right order.
         /// </summary>
-        public IEnumerable<Paragraph> Paragraphs => paragraphs.Where(p => p.ParagraphKind == ParagraphKind.Default);
+        public IEnumerable<Paragraph> Paragraphs => paragraphs;
 
         /// <summary>
         /// Gets the Clauses of the Document in linear, left to right order.
@@ -317,15 +320,13 @@ namespace LASI.Core
 
             private static void AssignMembers(Document document)
             {
-                document.sentences = document.paragraphs
-                    .Sentences().Where(s => s.Words.OfVerb().Any())
-                    .ToList();
+                document.sentences = document.paragraphs.Sentences().Where(sentence => sentence.Words.OfVerb().Any()).ToList();
+
                 document.clauses = document.sentences.Clauses().ToList();
-                document.phrases = document.sentences.Phrases()
-                    .ToList();
-                document.words = document.sentences
-                    .SelectMany(s => s.Words.Append(s.Ending))
-                    .ToList();
+
+                document.phrases = document.sentences.Phrases().ToList();
+
+                document.words = document.sentences.SelectMany(sentence => sentence.Words.Append(sentence.Ending)).ToList();
             }
 
             /// <summary>

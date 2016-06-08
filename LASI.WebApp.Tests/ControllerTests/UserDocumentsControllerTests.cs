@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using LASI.WebApp.Tests.TestSetup;
 using LASI.WebApp.Controllers;
 using LASI.WebApp.Tests.TestAttributes;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
@@ -13,6 +13,7 @@ using System;
 using Microsoft.AspNet.Mvc.Filters;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LASI.WebApp.Tests.ControllerTests
 {

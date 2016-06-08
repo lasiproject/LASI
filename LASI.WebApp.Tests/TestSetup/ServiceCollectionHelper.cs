@@ -1,16 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using LASI.WebApp.Models;
+﻿using LASI.WebApp.Models;
 using LASI.WebApp.Persistence;
-using LASI.WebApp.Tests.Mocks;
 using LASI.WebApp.Tests.ServiceCollectionExtensions;
-using Microsoft.AspNet.Authentication;
 using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Http.Internal;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
@@ -18,7 +10,6 @@ using Microsoft.AspNet.Mvc.Abstractions;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -50,7 +41,7 @@ namespace LASI.WebApp.Tests.TestSetup
                     .AddInMemoryStores(user)
                     .AddLogging()
                     .AddSingleton(provider => new LoggerFactory().AddConsole(LogLevel.Critical))
-                    .AddSingleton<ILogger<UserManager<ApplicationUser>>>(provider => new Logger<UserManager<ApplicationUser>>(provider.GetService<ILoggerFactory>()))
+                    //.AddSingleton<ILogger<UserManager<ApplicationUser>>>(provider => new Logger<UserManager<ApplicationUser>>(provider.GetService<ILoggerFactory>()))
                     .AddSingleton<UserClaimsPrincipalFactory<ApplicationUser, UserRole>>()
                     .AddSingleton<IAuthorizationService, DefaultAuthorizationService>()
                     .AddSingleton<SignInManager<ApplicationUser>>()

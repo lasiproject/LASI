@@ -9,7 +9,7 @@
     <ProjectGuid>80325732-6509-4dc7-83af-285d919e7de7</ProjectGuid>
     <RootNamespace>LASI.WebApp</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <OutputPath Condition="'$(OutputPath)'=='' ">..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
@@ -20,7 +20,7 @@
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties project_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-beta3" />
+      <UserProperties project_1json__JSONSchema="http://json.schemastore.org/project-1.0.0-rc2" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -2,7 +2,9 @@
   "profiles": {
     "test": {
       "commandName": "test",
-      "sdkVersion": "dnx-clr-win-x64.1.0.0-rc1-update1"
+      "sdkVersion": "dnx-clr-win-x64.1.0.0-rc2-20221",
+      "runtime": "clr",
+      "architecture": "x64"
     }
   }
 }

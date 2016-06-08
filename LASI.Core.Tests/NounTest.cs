@@ -4,10 +4,10 @@ using System.Linq;
 using LASI.Utilities;
 using Shared.Test.Assertions;
 using NFluent;
+using Xunit;
 
 namespace LASI.Core.Tests
 {
-    using Fact = Xunit.FactAttribute;
     /// <summary>
     ///This is A test class for NounTest and is intended
     ///to contain all NounTest Unit Tests

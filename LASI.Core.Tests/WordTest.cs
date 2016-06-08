@@ -109,10 +109,11 @@ namespace LASI.Core.Tests
         public void ParentDocTest()
         {
             Word target = CreateWord();
-            Document parent = new Document(new Paragraph(ParagraphKind.Default, new Sentence(new[] { new Clause(new NounPhrase(target)) }, null)));
-            Document expected = parent;
-            Document actual;
-            actual = target.Document;
+            Document parent = new Document(new Paragraph(ParagraphKind.Default, new Sentence(new[] { new Clause(new NounPhrase(target)) }, ending: null)));
+
+            var expected = parent;
+            var actual = target.Document;
+
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -161,11 +162,7 @@ namespace LASI.Core.Tests
 
         }
 
-        internal virtual Word CreateWord()
-        {
-            Word target = new CommonSingularNoun("dog");
-            return target;
-        }
+        static Word CreateWord() => new CommonSingularNoun("dog");
 
     }
 }

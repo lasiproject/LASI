@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using LASI.Utilities;
-using LASI.WebApp.Persistence;
+﻿using LASI.WebApp.Persistence;
 using LASI.WebApp.Models;
 using LASI.WebApp.Models.User;
 using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections.Generic;
 using LASI.WebApp.Tests.Mocks;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace LASI.WebApp.Tests.ServiceCollectionExtensions
 {
