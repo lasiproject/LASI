@@ -26,66 +26,47 @@ namespace LASI.Core.Tests
         private static IEnumerable<Paragraph> BuildParagraphs()
         {
             IEnumerable<Paragraph> allParagrpahs = new[] {
-                new Paragraph(ParagraphKind.Default, new[] {
+                new Paragraph(ParagraphKind.Default,
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] {
-                            new NounPhrase(new Word[] {
+                        new Clause(
+                            new NounPhrase(
                                 new PersonalPronoun("We")
-                            }),
-                            new VerbPhrase(new Word[] {
+                            ),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("attack")
-                            }),
-                            new NounPhrase(new Word[] {
+                            ),
+                            new NounPhrase(
                                 new Adjective("blue"),
-                                new CommonSingularNoun("team") }
-                                )}
+                                new CommonSingularNoun("team"))
                             )}, SentenceEnding.ExclamationPoint),
-                        new Sentence(new Clause[]{new Clause( new Phrase[]{
-                            new PronounPhrase(new Word[]{
-                                new PersonalPronoun("We")}),
-                            new VerbPhrase(new Word[] {
+                        new Sentence(new Clause[] {
+                            new Clause(
+                            new PronounPhrase(
+                                new PersonalPronoun("We")),
+                            new VerbPhrase(
                                 new ModalAuxilary("must"),
                                 new BaseVerb("do")
-                            }),
-                        new NounPhrase(new Word[]{
-                            new PersonalPronoun("this")
-                        }),
-                        new AdverbPhrase(new Word [] {
-                            new Adverb("quickly")
-                        })
-                    })}, SentenceEnding.ExclamationPoint)
-                }),
-                new Paragraph(ParagraphKind.Default, new[] {
+                            ),
+                        new NounPhrase(new PersonalPronoun("this")),
+                        new AdverbPhrase(new Adverb("quickly")))
+                    }, SentenceEnding.ExclamationPoint)
+                ),
+                new Paragraph(ParagraphKind.Default,
                     new Sentence(new Clause[] {
-                        new Clause(new Phrase[] {
-                            new NounPhrase(new Word[] {
-                                new PersonalPronoun("We")
-                            }),
-                            new VerbPhrase(new Word[] {
-                                new BaseVerb("are")
-                            }),
-                            new AdjectivePhrase(new[] {
-                                new Adjective("obligated")
-                            })
-                        }),
-                        new SubordinateClause(new Phrase[]{
-                            new SubordinateClauseBeginPhrase(new Word[] {
-                                new Preposition("because")
-                            }),
-                            new PronounPhrase(new[]{
-                                new PersonalPronoun("they")
-                            }),
-                            new VerbPhrase(new []{
-                                new BaseVerb("are")
-                            }),
-                            new NounPhrase(new []{
-                                new CommonPluralNoun("jerks")
-                            })
-                    })}, SentenceEnding.ExclamationPoint)
-                })
+                        new Clause(
+                            new NounPhrase(new PersonalPronoun("We")),
+                            new VerbPhrase(new BaseVerb("are")),
+                            new AdjectivePhrase(new Adjective("obligated"))),
+                        new SubordinateClause(
+                            new SubordinateClauseBeginPhrase(new Preposition("because")),
+                            new PronounPhrase(new PersonalPronoun("they")),
+                            new VerbPhrase(new BaseVerb("are")),
+                            new NounPhrase(new CommonPluralNoun("jerks"))
+                    )}, SentenceEnding.ExclamationPoint)
+                )
             };
-            return allParagrpahs;
+            return allParagrpahs.ToList();
         }
 
 
@@ -101,9 +82,11 @@ namespace LASI.Core.Tests
             Assert.True(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
              ).Aggregate(true, (f, e) => f && e));
+
             Assert.True(doc.Phrases
                 .Select((x, index) => x.Previous == doc.Phrases.ElementAtOrDefault(index - 1) && x.Next == doc.Phrases.ElementAtOrDefault(index + 1)
-                ).Aggregate(true, (f, e) => f && e));
+            ).Aggregate(true, (f, e) => f && e));
+
             Assert.True(doc != null);
         }
 
@@ -180,13 +163,9 @@ namespace LASI.Core.Tests
         {
             IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
             Document target = new Document(paragraphsIn);
-            IEnumerable<Paragraph> actual;
-            actual = target.Paragraphs;
-            for (var i = 0; i < paragraphsIn.Count(); ++i)
-            {
+            IEnumerable<Paragraph> actual = target.Paragraphs.ToList();
 
-                Check.That(paragraphsIn.ToList()[i]).IsEqualTo(actual.ToList()[i]);
-            }
+            Check.That(paragraphsIn).ContainsExactly(actual);
         }
 
         /// <summary>
@@ -260,12 +239,13 @@ namespace LASI.Core.Tests
         public void WordsTest()
         {
             Document target = CreateUnboundUnweightedTestDocument();
-            IEnumerable<Word> actual;
-            actual = target.Words;
-            string[] expectedLexicalMatches = new[]{
-                "We", "must", "attack", "blue", "team","!", "We", "must", "do", "this", "quickly","!"};
+
+            var actual = target.Words;
+            string[] expectedLexicalMatches = { "We", "must", "attack", "blue", "team", "!", "We", "must", "do", "this", "quickly", "!" };
+
             var expectedResult = actual.Zip(expectedLexicalMatches, (w, s) => w.Text == s).Aggregate(true, (aggr, val) => aggr && val);
-            Assert.True(expectedResult);
+
+            Check.That(expectedResult).IsTrue();
         }
 
 

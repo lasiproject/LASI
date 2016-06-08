@@ -21,11 +21,12 @@ namespace LASI.Core.Tests
         [Fact]
         public void AggregateEntityConstructorTest()
         {
-            IEnumerable<IEntity> members = new[] {
+            IEntity[] members = {
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
+
             Check.That(target).Contains(members);
         }
 
@@ -35,11 +36,13 @@ namespace LASI.Core.Tests
         [Fact]
         public void AggregateEntityConstructorTest1()
         {
-            IEntity e1 = new NounPhrase(new ProperPluralNoun("Americans"));
-            IEntity e2 = new NounPhrase(new ProperPluralNoun("Canadians"));
-            AggregateEntity target = new AggregateEntity(e1, e2);
-            Check.That(target).Contains(e1);
-            Check.That(target).Contains(e2);
+            IEntity americans = new NounPhrase(new ProperPluralNoun("Americans"));
+            IEntity canadians = new NounPhrase(new ProperPluralNoun("Canadians"));
+
+            AggregateEntity target = new AggregateEntity(americans, canadians);
+
+            Check.That(target).Contains(americans);
+            Check.That(target).Contains(canadians);
 
         }
         /// <summary>
@@ -53,7 +56,9 @@ namespace LASI.Core.Tests
                 new NounPhrase(new CommonPluralNoun("dogs"))
             );
             IPossessable possession = new NounPhrase(new CommonSingularNoun("fur"));
+
             target.AddPossession(possession);
+
             Check.That(target.Possessions).Contains(possession);
         }
 
@@ -63,14 +68,15 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriptorTest()
         {
-            IEnumerable<IEntity> members = new[] {
+            AggregateEntity target = new AggregateEntity(
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
-            };
-            AggregateEntity target = new AggregateEntity(members
             );
+
             IDescriptor descriptor = new Adjective("rambunctious");
+
             target.BindDescriptor(descriptor);
+
             Check.That(target.Descriptors).Contains(descriptor);
         }
 
@@ -80,19 +86,20 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindPronounTest()
         {
-            IEnumerable<IEntity> members = new[] {
+            IEntity[] members = {
                 new NounPhrase(new ProperPluralNoun("Americans")),
                 new NounPhrase(new ProperPluralNoun("Canadians"))
             };
             AggregateEntity target = new AggregateEntity(members);
-            IReferencer pro = new PersonalPronoun("them");
-            target.BindReferencer(pro);
-            Check.That(target.Referencers).Contains(pro);
-            Assert.True(pro.RefersTo.Contains(target) || pro.RefersTo == target || pro.RefersTo.SetEqual(target));
-            foreach (IEntity e in members)
-            {
-                Assert.True(pro.RefersTo.Contains(e) || pro.RefersTo == e);
+            var them = new PersonalPronoun("them");
+            target.BindReferencer(them);
 
+            Check.That(target.Referencers).Contains(them);
+            Check.That(them.RefersTo.Contains(target) || them.RefersTo == target || them.RefersTo.SetEqual(target)).IsTrue();
+
+            foreach (var member in members)
+            {
+                Assert.True(them.RefersTo.Contains(member) || them.RefersTo == member);
             }
         }
 
@@ -102,16 +109,15 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetEnumeratorTest()
         {
-            IEnumerable<IEntity> members = new IEntity[] { };
-            AggregateEntity target = new AggregateEntity(members
-            );
-            IEnumerator<IEntity> expected = members.GetEnumerator();
-            IEnumerator<IEntity> actual;
-            actual = target.GetEnumerator();
-            while (expected.MoveNext() | actual.MoveNext())
-            {
-                Check.That(actual.Current).IsEqualTo(expected.Current);
-            }
+            var members = Enumerable.Empty<IEntity>();
+            AggregateEntity target = new AggregateEntity(members);
+
+            using (var expected = members.GetEnumerator())
+            using (var actual = target.GetEnumerator())
+                while (expected.MoveNext() | actual.MoveNext())
+                {
+                    Check.That(actual.Current).IsEqualTo(expected.Current);
+                }
         }
 
         /// <summary>

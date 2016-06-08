@@ -4,9 +4,7 @@ using System.Linq;
 using Xunit;
 
 namespace LASI.Core.Tests
-{
-
-
+{ 
     /// <summary>
     ///This is a test class for IInderectObjectTakerTest and is intended
     ///to contain all IInderectObjectTakerTest Unit Tests

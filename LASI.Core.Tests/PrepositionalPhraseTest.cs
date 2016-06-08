@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NFluent;
+using Shared.Test.NFluentExtensions;
 using Xunit;
 
 namespace LASI.Core.Testss
@@ -78,8 +80,10 @@ namespace LASI.Core.Testss
             var composedWords = new[] { new Preposition("on") };
             PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
 
-            Assert.True(target.Words.Count() == composedWords.Count());
-            Assert.True(target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null);
+            Check.That(target.Words).HasSize(composedWords.Count());
+            Check.That(target).Satisfies(() =>
+                target.Text == "on" && target.ToTheLeftOf == null && target.ToTheRightOf == null && target.BoundObject == null
+            );
         }
 
         /// <summary>
@@ -102,10 +106,9 @@ namespace LASI.Core.Testss
         [Fact]
         public void RoleTest()
         {
-            var composedWords = new[] { new Preposition("on") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            PrepositionalPhrase target = new PrepositionalPhrase(new Preposition("on"));
 
-            PrepositionRole expected = PrepositionRole.SpatialSpecifier;
+            PrepositionRole expected = PrepositionRole.LocationOrScopeSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
@@ -119,14 +122,17 @@ namespace LASI.Core.Testss
         public void ToStringTest()
         {
             Phrase.VerboseOutput = true;
-            IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            target.ToTheLeftOf = new NounPhrase(new[] { new PersonalPronoun("it") });
-            target.ToTheRightOf = new VerbPhrase(new[] { new PresentParticiple("slamming") });
-            string expected = string.Format("PrepositionalPhrase \"for\"\n\tleft linked: {0}\n\tright linked: {1}", target.ToTheLeftOf, target.ToTheRightOf);
-            string actual;
-            actual = target.ToString();
-            Assert.Equal(expected, actual);
+
+            PrepositionalPhrase target = new PrepositionalPhrase(new Preposition("for"));
+            var left = new NounPhrase(new PersonalPronoun("it"));
+            var right = new VerbPhrase(new PresentParticiple("slamming"));
+            target.ToTheLeftOf = left;
+            target.ToTheRightOf = right;
+            var expected = $"PrepositionalPhrase \"for\"\n\tleft linked: {left.Text}\n\tright linked: {right.Text}";
+
+            var actual = target.ToString();
+
+            Check.That(actual).IsEqualTo(expected);
         }
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace LASI.Core
         /// Returns a string representation of the Paragraph.
         /// </summary>
         /// <returns>A string representation of the Paragraph.</returns>
-        public override string ToString() => $"{ToString()}: {Sentences.Count()} sentences\n\"{Text}\"";
+        public override string ToString() => $"{base.ToString()}: {Sentences.Count()} sentences\n\"{Text}\"";
 
 
         /// <summary>
@@ -63,10 +63,12 @@ namespace LASI.Core
         /// The collection of Words which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Word> Words => Sentences.SelectMany(s => s.Words);
+
         /// <summary>
         /// The collection of Phrases which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Phrase> Phrases => Sentences.SelectMany(s => s.Phrases);
+        
         /// <summary>
         /// The collection of Clauses which comprise the Paragraph.
         /// </summary>

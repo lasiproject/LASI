@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LASI.Utilities;
 
 namespace LASI.Core
 {
@@ -31,6 +32,13 @@ namespace LASI.Core
         /// The linear sequence of Phrases which compose to form the Clause.
         /// </param>
         public SubordinateClause(IEnumerable<Phrase> composed) : base(composed) { }
+
+        /// <summary>
+        /// Initializes a new instances of the <see cref="SubordinateClause"/> class.
+        /// </summary>
+        /// <param name="first">The phrase which begins the Clause.</param>
+        /// <param name="rest">The linear sequence of Phrases which form the remainder of the Clause.</param>
+        public SubordinateClause(Phrase first, params Phrase[] rest) : this(rest.Prepend(first)) { }
 
         #endregion Constructors
 

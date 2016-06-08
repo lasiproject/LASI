@@ -112,7 +112,7 @@ namespace LASI.Core.Tests
         {
             string text = "over";
             Preposition target = new Preposition(text);
-            PrepositionRole expected = PrepositionRole.SpatialSpecifier;
+            PrepositionRole expected = PrepositionRole.LocationOrScopeSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
