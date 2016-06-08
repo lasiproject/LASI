@@ -63,10 +63,12 @@ namespace LASI.Core
         /// Gets the collection of Words which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Word> Words => Sentences.SelectMany(s => s.Words);
+
         /// <summary>
         /// Gets the collection of Phrases which comprise the Paragraph.
         /// </summary>
         public IEnumerable<Phrase> Phrases => Sentences.SelectMany(s => s.Phrases);
+        
         /// <summary>
         /// Gets the collection of Clauses which comprise the Paragraph.
         /// </summary>

@@ -18,9 +18,9 @@
         /// </summary>
         DiscriptiveLinker,
         /// <summary>
-        /// Preposition specifies a physical, or physically expressed relationship between Entities. E.g. "He first the books 'on' the iceberg"
+        /// Preposition specifies a physical, or physically expressed relationship between Entities. E.g. "He placed the books 'on' the iceberg"
         /// </summary>
-        SpatialSpecifier,//
+        LocationOrScopeSpecifier,
         /// <summary>
         /// Preposition associates a Verbal with an object. E.g. "I worked 'for' the greater evil"
         /// </summary>

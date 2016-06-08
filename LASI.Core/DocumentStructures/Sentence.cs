@@ -51,8 +51,8 @@ namespace LASI.Core
         /// <param name="parent">The Paragraph to which the Sentence belongs.</param>
         public void EstablishTextualLinks(Paragraph parent)
         {
-            EndsParagraph = this == parent.Sentences.Last();
-            BeginsParagraph = this == parent.Sentences.First();
+            EndsParagraph = this == parent.Sentences.LastOrDefault();
+            BeginsParagraph = this == parent.Sentences.FirstOrDefault();
             Paragraph = parent;
 
             foreach (var clause in Clauses)
