@@ -41,13 +41,13 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16",
-            "typescript": "npm:typescript@1.9.0-dev.20160607-1.0"
+            "typescript": "npm:typescript@1.9.0-dev.20160609-1.0",
+            "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16"
         },
         "packages": {
             "github:frankwallis/plugin-typescript@4.0.16": {
                 "map": {
-                    "typescript": "npm:typescript@1.9.0-dev.20160607-1.0"
+                    "typescript": "npm:typescript@1.9.0-dev.20160609-1.0"
                 }
             }
         }

@@ -13,12 +13,15 @@ import {DocumentModel} from 'src/models';
       .flatMap(s => s.words)
       .map(w => w.text) || [];
   }
-  @bindable
-  typeAheadSource: any[];
-  @bindable
-  searchTerm: string;
+  @bindable typeAheadSource: any[];
+  @bindable searchTerm: string;
   queryTypeAhead(query, callback) {
     console.log(query);
     console.log(callback);
+    return callback(query.target.value);
+  }
+
+  search = (query) => {
+    return this.typeAheadSource.filter(x => x.text === query);
   }
 }

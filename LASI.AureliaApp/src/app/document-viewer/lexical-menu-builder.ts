@@ -30,7 +30,8 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
     return (source: ReferencerContextmenuData): ContextMenu => [
         ['View Referred To', (itemScope, event) => {
             resetReferencerAsssotionCssClasses();
-            source.refersToIds.forEach(id => menuActionTargets[id] = $('#' + id).addClass('referred-to-by-current'));
+            source.refersToIds.forEach(id => menuActionTargets[id] = $('#' + id)
+            .addClass('referred-to-by-current'));
         }]
     ];
 }

@@ -16,6 +16,7 @@ export function configure(aurelia: Aurelia) {
             config.settings.lock = false;
             config.settings.centerHorizontalOnly = false;
             config.settings.startingZIndex = 1005;
+            return config;
         })
         .plugin('aurelia-typeahead')
         .singleton(HttpClient, class extends HttpClient {

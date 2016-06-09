@@ -7,12 +7,11 @@
             highlight: true,
             minLength: 2,
             display:'text', datasets:{
-  name: 'my-dataset',
-  source: typeAheadSource
-}
-    }"
-    basic-source.bind="typeAheadSource" 
- placeholder="enter lifted search" type="text" value.bind="searchTerm" change.trigger="queryTypeAhead($event, searchTerm)"></aurelia-typeahead>
+        name: 'my-dataset',
+        source: typeAheadSource
+    }
+}" basic-source.bind="typeAheadSource" 
+ placeholder="enter lifted search" type="text" value.bind="searchTerm" change.trigger="queryTypeAhead($event, search)"></aurelia-typeahead>
 
 <div class="${document && document.style.cssClass}">
 

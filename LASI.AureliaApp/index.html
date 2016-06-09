@@ -11,12 +11,14 @@
   <script src="jspm_packages/system.js"></script>
   <script src="jspm.config.js"></script>
   <script>
-    SystemJS.import('aurelia-bootstrapper')
-      .then(function(bootstrapper) {
-        return SystemJS.import('src/main').then(function(main) {
-          return bootstrapper.bootstrap(main.configure);
-        });
-      }).catch(console.error.bind(console));
+    SystemJS.import('aurelia-polyfills').then(function() {
+      return SystemJS.import('aurelia-bootstrapper')
+        .then(function(bootstrapper) {
+          return SystemJS.import('src/main').then(function(main) {
+            return bootstrapper.bootstrap(main.configure);
+          });
+        })
+    }).catch(console.error.bind(console));
   </script>
   <div id="app"></div>
 </body>
