@@ -8,9 +8,6 @@ export function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
-        .defaultBindingLanguage()
-        .defaultResources()
-        .singleton(WindowService)
         .plugin('aurelia-dialog', config => {
             config.useDefaults();
             config.settings.lock = false;
