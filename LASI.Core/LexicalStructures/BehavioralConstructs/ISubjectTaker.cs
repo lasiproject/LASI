@@ -6,7 +6,7 @@ namespace LASI.Core
     /// <summary>
     /// <para> Defines the role requirements for Action elements, generally Verbs or VerbPhrases, which can be bound to a one or more subjects. </para>
     /// <para>
-    /// Along with the other interfaces in the Syntactic Interfaces Library, the ISubjectTaker interface provides for generalization and abstraction over word and Phrase types. </para>
+    /// Along with the other interfaces in the Syntactic Interfaces Library, the ISubjectTaker interface provides for cross-axial generalization over lexical types. </para>
     /// </summary>
     public interface ISubjectTaker
     {

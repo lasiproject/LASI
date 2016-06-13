@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the role requirements for Transitive elements, generally Verbs or VerbPhrases, which can be bound to one or more Direct
     /// objects and to one or more Indirect objects . Along with the other interfaces in the Syntactic Interfaces Library, the IVerbal
-    /// interface provides for generalization and abstraction over word and Phrase types.
+    /// interface provides for cross-axial generalization over lexical types.
     /// </summary>
     public interface IVerbal : ILexical, 
         ISubjectTaker,
