@@ -5,8 +5,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "noEmit": true,
+    "allowJs": false,
     "baseUrl": "",
     "strictNullChecks": true,
     "paths": {
