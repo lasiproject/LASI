@@ -41,13 +41,12 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "typescript": "npm:typescript@1.9.0-dev.20160609-1.0",
             "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16"
         },
         "packages": {
             "github:frankwallis/plugin-typescript@4.0.16": {
                 "map": {
-                    "typescript": "npm:typescript@1.9.0-dev.20160609-1.0"
+                    "typescript": "npm:typescript@1.9.0-dev.20160614-1.0"
                 }
             }
         }
@@ -90,7 +89,7 @@ SystemJS.config({
         "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-beta.1.2.2",
         "aurelia-metadata": "npm:aurelia-metadata@1.0.0-beta.1.2.1",
         "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.2.2",
-        "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.2.0.1",
+        "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.1.1.2",
         "aurelia-path": "npm:aurelia-path@1.0.0-beta.1.2.2",
         "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0-beta.1.1.6",
         "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.0.0-beta.1.2.1",
@@ -105,6 +104,7 @@ SystemJS.config({
         "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
         "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
+        "core-js": "npm:core-js@2.4.0",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
         "css": "github:systemjs/plugin-css@0.1.22",
         "dgram": "github:jspm/nodelibs-dgram@0.2.0-alpha",
@@ -190,7 +190,7 @@ SystemJS.config({
         },
         "npm:create-ecdh@4.0.0": {
             "map": {
-                "elliptic": "npm:elliptic@6.2.8",
+                "elliptic": "npm:elliptic@6.3.1",
                 "bn.js": "npm:bn.js@4.11.4"
             }
         },
@@ -201,14 +201,6 @@ SystemJS.config({
                 "randombytes": "npm:randombytes@2.0.3",
                 "create-hash": "npm:create-hash@1.1.2",
                 "parse-asn1": "npm:parse-asn1@5.0.0"
-            }
-        },
-        "npm:elliptic@6.2.8": {
-            "map": {
-                "inherits": "npm:inherits@2.0.1",
-                "bn.js": "npm:bn.js@4.11.4",
-                "hash.js": "npm:hash.js@1.0.3",
-                "brorand": "npm:brorand@1.0.5"
             }
         },
         "npm:browserify-cipher@1.0.0": {
@@ -282,7 +274,7 @@ SystemJS.config({
                 "browserify-rsa": "npm:browserify-rsa@4.0.1",
                 "create-hash": "npm:create-hash@1.1.2",
                 "create-hmac": "npm:create-hmac@1.1.4",
-                "elliptic": "npm:elliptic@6.2.8",
+                "elliptic": "npm:elliptic@6.3.1",
                 "inherits": "npm:inherits@2.0.1",
                 "parse-asn1": "npm:parse-asn1@5.0.0"
             }
@@ -410,6 +402,14 @@ SystemJS.config({
             "map": {
                 "readable-stream": "npm:readable-stream@2.1.4",
                 "pako": "npm:pako@0.2.8"
+            }
+        },
+        "npm:elliptic@6.3.1": {
+            "map": {
+                "inherits": "npm:inherits@2.0.1",
+                "bn.js": "npm:bn.js@4.11.4",
+                "hash.js": "npm:hash.js@1.0.3",
+                "brorand": "npm:brorand@1.0.5"
             }
         }
     }
