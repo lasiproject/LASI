@@ -72,7 +72,7 @@ SystemJS.config({
         "npm:*.json"
     ],
     map: {
-        "aurelia-metadata": "npm:aurelia-metadata@1.0.0-beta.2.0.0",
+        "aurelia-metadata": "npm:aurelia-metadata@1.0.0-beta.1.2.1",
         "aurelia-dialog": "npm:aurelia-dialog@0.6.2",
         "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
         "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.1.0",
@@ -86,7 +86,7 @@ SystemJS.config({
         "aurelia-http-client": "npm:aurelia-http-client@1.0.0-beta.1.2.2",
         "aurelia-loader": "npm:aurelia-loader@1.0.0-beta.1.1.0",
         "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0-beta.1.2.2",
-        "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.2.0.0",
+        "aurelia-logging": "npm:aurelia-logging@1.0.0-beta.1.2.1",
         "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-beta.1.1.3",
         "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.3.0",
         "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.1.1.2",
