@@ -46,7 +46,7 @@ SystemJS.config({
         "packages": {
             "github:frankwallis/plugin-typescript@4.0.16": {
                 "map": {
-                    "typescript": "npm:typescript@1.9.0-dev.20160614-1.0"
+                    "typescript": "npm:typescript@1.9.0-dev.20160615-1.0"
                 }
             }
         }
