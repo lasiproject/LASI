@@ -1,0 +1,11 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/typed-typings/npm-tape/9cface38521c07334483f852f42ab25572cd66f3/typings.json",
+    "raw": "registry:npm/tape#4.0.0+20160607230938",
+    "main": "index.d.ts",
+    "global": false,
+    "name": "tape",
+    "type": "typings"
+  }
+}

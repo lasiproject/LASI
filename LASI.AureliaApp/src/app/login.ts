@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import {autoinject, bindable} from 'aurelia-framework';
+import {AppRouter} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
 
 import {User} from 'src/models';
 import {UserService} from './user-service';
 
-@autoinject
-export class Login {
-    constructor(private userService: UserService) { }
+@autoinject export class Login {
+    constructor(private userService: UserService, readonly router: AppRouter) { }
 
     async login(): Promise<User> {
         this.user = await this.userService
@@ -16,8 +16,9 @@ export class Login {
                 password: this.password,
                 rememberMe: this.rememberMe || this.user && this.user.rememberMe
             });
-
         [this.username, this.rememberMe] = [this.user.email, this.user.rememberMe];
+        const nav = await this.router.loadUrl('documents');
+        
         return this.user;
 
         // return this.$state.go('app.home', {}, { reload: true });
@@ -42,8 +43,8 @@ export class Login {
         //     }).result;
         // });
     }
-    @bindable user: User;
-    @bindable username: string;
-    @bindable password: string;
-    @bindable rememberMe: boolean = false;
+    user: any;
+    username: string;
+    password: string;
+    rememberMe: boolean = false;
 }

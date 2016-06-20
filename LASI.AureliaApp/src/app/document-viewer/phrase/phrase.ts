@@ -1,4 +1,6 @@
-﻿import {autoinject, bindable} from 'aurelia-framework';
+﻿import $ from 'jquery';
+import 'jquery-contextmenu';
+import {autoinject, bindable} from 'aurelia-framework';
 import LexicalMenuBuilder from '../lexical-menu-builder';
 import {Contextmenu, ContextmenuOptions} from 'shared/context-menu/context-menu';
 import {PhraseModel} from 'src/models';

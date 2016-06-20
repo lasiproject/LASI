@@ -1,7 +1,7 @@
 import {autoinject} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {HttpClient, RequestInit} from 'aurelia-fetch-client';
 import $ from 'jquery';
-
 import TokenService from './token-service';
 import {Credentials, User, AuthenticationResult} from 'src/models';
 
@@ -23,23 +23,19 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
 };
 //@apiClient
 @autoinject export class UserService {
-
-    constructor(private http: HttpClient, private tokenService: TokenService) { }
+    constructor(
+        readonly router: Router,
+        readonly http: HttpClient,
+        readonly tokenService: TokenService
+    ) { }
 
     async loginGet(): Promise<User> {
         const response = await this.http.fetch('/api/authenticate', getConfig);
-
-
-
-
-        // TODO: Remove angular.element.param(data) as it silently depends on jQuery
-
-        const user = await response.json() as User;
-        if (!user) {
-            throw 'unable to retrieve user';
+        this.user = await response.json() as User;
+        if (!this.user) {
+            throw Error('unable to retrieve user');
         }
 
-        this.user = user;
         return this.user;
     }
 
@@ -49,10 +45,10 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         } else if (this.tokenService.token) {
             return await this.loginGet();
         } else {
-            throw 'not logged in.';
+            return this.router.navigateToRoute('login');
         }
     }
-    async loginPost(data: {}) {
+    async loginPost(data: any) {
         const response = await this.http.fetch('/api/authenticate', postConfig.withBody($.param(data)));
         return await response.json() as AuthenticationResult;
     }

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "noEmit": true,
-    "allowJs": true,
     "target": "es6",
     "module": "system",
     "allowSyntheticDefaultImports": true,
@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "baseUrl": "",
+    "pretty": false,
     "paths": {
       "rxjs/*": [
         "jspm_packages/npm/rxjs@5.0.0-beta.8/Rx.d.ts"
@@ -16,12 +17,9 @@
     }
   },
   "exclude": [
-    "node_modules",
     "jspm_packages/github",
     "!jspm_packages/npm/rxjs@5.0.0-beta.8/src/**/*.d.ts",
     "jspm_packages/npm/rxjs@5.0.0-beta.8/src",
-    "jspm_packages/npm/typescript@1.9.0-dev.20160614-1.0",
-    "./jspm_packages/npm/typescript@1.9.0-dev.20160614-1.0",
-    "node_modules/typescript"
+    "jspm_packages/npm/typescript@1.9.0-dev.20160619-1.0"
   ]
 }

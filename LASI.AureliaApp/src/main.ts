@@ -1,21 +1,16 @@
 import {Aurelia, inject, Lazy} from 'aurelia-framework';
 import {HttpClientConfiguration, HttpClient} from 'aurelia-fetch-client';
-import {WindowService} from './app/helpers';
+import {WindowService, getHostElement} from './helpers';
 import TokenService from './app/token-service';
-import getHostElement from './get-host-element';
+import configureDialogs from './configuration/dialog';
+import configureTypeahead from './configuration/typeahead';
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
-        .plugin('aurelia-dialog', config => {
-            config.useDefaults();
-            config.settings.lock = false;
-            config.settings.centerHorizontalOnly = false;
-            config.settings.startingZIndex = 1005;
-            return config;
-        })
-        .plugin('aurelia-typeahead')
+        .plugin('aurelia-dialog', configureDialogs)
+        .plugin('aurelia-typeahead', configureTypeahead)
         .singleton(HttpClient, class extends HttpClient {
             static inject = [TokenService];
             constructor(private tokenService: TokenService) {

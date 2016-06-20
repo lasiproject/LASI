@@ -1,9 +1,8 @@
 import {autoinject} from 'aurelia-framework';
-import {WindowService} from './helpers';
+import {WindowService} from 'src/helpers';
 
-@autoinject
-export default class TokenService {
-    constructor(private window: WindowService) { }
+@autoinject export default class {
+    constructor(readonly window: WindowService) { }
 
     get token(): string {
         return this.window.sessionStorage[this.tokenKey];
@@ -17,5 +16,5 @@ export default class TokenService {
         this.window.sessionStorage.removeItem(this.tokenKey);
     }
 
-   readonly tokenKey = 'auth_token';
+    readonly tokenKey = 'auth_token';
 }

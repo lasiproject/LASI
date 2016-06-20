@@ -66,6 +66,7 @@ export interface TextFragmentModel {
 }
 
 export interface DocumentModel extends TextFragmentModel {
+    kind: 'document';
     title: string;
     id: string;
     progress: number | string;
@@ -73,47 +74,61 @@ export interface DocumentModel extends TextFragmentModel {
 }
 
 export interface PageModel extends TextFragmentModel {
+    kind: 'page';
     pageNumber: number;
 }
 
 export interface ParagraphModel {
+    kind: 'paragraph';
     sentences: SentenceModel[];
 }
 
 export interface SentenceModel {
+    kind: 'sentence';
     phrases: PhraseModel[];
 }
 
-export interface LexicalModel {
+interface LexicalModelInternal {
     text: string;
     detailText: string;
     id: number;
-    style: { cssClass: string };
+    style: {
+        cssClass: string;
+    };
     hasContextmenuData: boolean;
-    contextmenuDataSource: LexicalContextmenuData;
-    contextmenu: LexicalContextmenuData |
-    VerbalContextmenuData | ReferencerContextmenuData;
+    contextmenuDataSource: LexicalContextMenuData;
+    contextmenu: LexicalContextMenuData |
+    VerbalContextMenuData | ReferencerContextmenuData;
 }
 
-export interface PhraseModel extends LexicalModel {
+export interface PhraseModel extends LexicalModelInternal {
+    kind: 'phrase';
     words: WordModel[];
 }
 
-export interface WordModel extends LexicalModel { }
-
-export interface LexicalMenuBuilder {
-    buildAngularMenu: (source: LexicalContextmenuData) => any;
+export interface WordModel extends LexicalModelInternal {
+    kind: 'word';
 }
 
-export interface LexicalContextmenuData {
+export interface ClauseModel extends LexicalModelInternal {
+    kind: 'clause';
+}
+
+export type LexicalModel = PhraseModel | WordModel | ClauseModel;
+
+export interface LexicalMenuBuilder {
+    buildAngularMenu: (source: LexicalContextMenuData) => any;
+}
+
+export interface LexicalContextMenuData {
     /**
-    * The id of the lexical element for which the menu is defined.
-    */
+   * The id of the lexical element for which the menu is defined.
+   */
     lexicalId: string | number;
 }
 
-export interface VerbalContextmenuData extends LexicalContextmenuData {
-
+export interface VerbalContextMenuData extends LexicalContextMenuData {
+    kind: 'verbal';
     /**
      * The ids of any subjects.
      */
@@ -128,7 +143,8 @@ export interface VerbalContextmenuData extends LexicalContextmenuData {
     indirectObjectIds: number[];
 }
 
-export interface ReferencerContextmenuData extends LexicalContextmenuData {
+export interface ReferencerContextmenuData extends LexicalContextMenuData {
+    kind: 'referencer';
     /**
      * The id of the referencer for which the menu is defined.
      */

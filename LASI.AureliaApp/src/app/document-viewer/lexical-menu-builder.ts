@@ -1,5 +1,5 @@
 ﻿import {autoinject} from 'aurelia-framework';
-import { LexicalContextmenuData, VerbalContextmenuData, ReferencerContextmenuData } from 'src/models';
+import { LexicalContextMenuData, VerbalContextMenuData, ReferencerContextmenuData } from 'src/models';
 declare type ContextMenu = any;
 
 @autoinject export default class LexicalMenuBuilder implements LexicalMenuBuilder {
@@ -13,11 +13,11 @@ declare type ContextMenu = any;
             : undefined;
 }
 
-function menuIsVerbalMenu(menu: LexicalContextmenuData): menu is VerbalContextmenuData {
-    const verbalMenu = menu as VerbalContextmenuData;
+function menuIsVerbalMenu(menu: LexicalContextMenuData): menu is VerbalContextMenuData {
+    const verbalMenu = menu as VerbalContextMenuData;
     return !!(menu && (verbalMenu.directObjectIds || verbalMenu.indirectObjectIds || verbalMenu.subjectIds));
 }
-function menuIsReferencerMenu(menu: LexicalContextmenuData): menu is ReferencerContextmenuData {
+function menuIsReferencerMenu(menu: LexicalContextMenuData): menu is ReferencerContextmenuData {
     const referencerMenu = menu as ReferencerContextmenuData;
     return !!(menu && referencerMenu.refersToIds);
 }
@@ -38,7 +38,7 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
 
 function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
     return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
-        return (source: VerbalContextmenuData) => {
+        return (source: VerbalContextMenuData) => {
             const menuItems: ContextMenu = [];
             if (source.subjectIds) {
                 menuItems.push(['View Subjects', (itemScope, event) => {

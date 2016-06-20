@@ -1,8 +1,13 @@
 {
   "name": "lasi",
-  "dependencies": {},
+  "dependencies": {
+    "tape": "registry:npm/tape#4.0.0+20160607230938"
+  },
   "globalDependencies": {
     "jquery": "registry:dt/jquery#1.10.0+20160417213236",
     "typeahead": "registry:dt/typeahead#0.11.1+20160317120654"
+  },
+  "devDependencies": {
+    "tape": "registry:npm/tape#4.0.0+20160607230938"
   }
 }

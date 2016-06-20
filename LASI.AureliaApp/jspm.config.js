@@ -13,6 +13,15 @@ SystemJS.config({
                 }
             }
         },
+        "test": {
+            main: "test",
+            "defaultExtension": "ts",
+            "meta": {
+                "*.ts": {
+                    "loader": "plugin-typescript"
+                }
+            }
+        },
         "shared": {
             "defaultExtension": "ts",
             "meta": {
@@ -41,12 +50,99 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16"
+            "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16",
+            "tape": "npm:tape@4.5.1"
         },
         "packages": {
             "github:frankwallis/plugin-typescript@4.0.16": {
                 "map": {
-                    "typescript": "npm:typescript@1.9.0-dev.20160615-1.0"
+                    "typescript": "npm:typescript@1.9.0-dev.20160619-1.0"
+                }
+            },
+            "npm:tape@4.5.1": {
+                "map": {
+                    "inherits": "npm:inherits@2.0.1",
+                    "through": "npm:through@2.3.8",
+                    "resumer": "npm:resumer@0.0.0",
+                    "defined": "npm:defined@1.0.0",
+                    "function-bind": "npm:function-bind@1.1.0",
+                    "has": "npm:has@1.0.1",
+                    "deep-equal": "npm:deep-equal@1.0.1",
+                    "object-inspect": "npm:object-inspect@1.1.0",
+                    "minimist": "npm:minimist@1.2.0",
+                    "string.prototype.trim": "npm:string.prototype.trim@1.1.2",
+                    "resolve": "npm:resolve@1.1.7",
+                    "glob": "npm:glob@7.0.4"
+                }
+            },
+            "npm:resumer@0.0.0": {
+                "map": {
+                    "through": "npm:through@2.3.8"
+                }
+            },
+            "npm:has@1.0.1": {
+                "map": {
+                    "function-bind": "npm:function-bind@1.1.0"
+                }
+            },
+            "npm:string.prototype.trim@1.1.2": {
+                "map": {
+                    "function-bind": "npm:function-bind@1.1.0",
+                    "es-abstract": "npm:es-abstract@1.5.1",
+                    "define-properties": "npm:define-properties@1.1.2"
+                }
+            },
+            "npm:glob@7.0.4": {
+                "map": {
+                    "inherits": "npm:inherits@2.0.1",
+                    "fs.realpath": "npm:fs.realpath@1.0.0",
+                    "path-is-absolute": "npm:path-is-absolute@1.0.0",
+                    "inflight": "npm:inflight@1.0.5",
+                    "once": "npm:once@1.3.3",
+                    "minimatch": "npm:minimatch@3.0.2"
+                }
+            },
+            "npm:es-abstract@1.5.1": {
+                "map": {
+                    "function-bind": "npm:function-bind@1.1.0",
+                    "is-callable": "npm:is-callable@1.1.3",
+                    "es-to-primitive": "npm:es-to-primitive@1.1.1",
+                    "is-regex": "npm:is-regex@1.0.3"
+                }
+            },
+            "npm:es-to-primitive@1.1.1": {
+                "map": {
+                    "is-callable": "npm:is-callable@1.1.3",
+                    "is-symbol": "npm:is-symbol@1.0.1",
+                    "is-date-object": "npm:is-date-object@1.0.1"
+                }
+            },
+            "npm:define-properties@1.1.2": {
+                "map": {
+                    "foreach": "npm:foreach@2.0.5",
+                    "object-keys": "npm:object-keys@1.0.9"
+                }
+            },
+            "npm:inflight@1.0.5": {
+                "map": {
+                    "once": "npm:once@1.3.3",
+                    "wrappy": "npm:wrappy@1.0.2"
+                }
+            },
+            "npm:once@1.3.3": {
+                "map": {
+                    "wrappy": "npm:wrappy@1.0.2"
+                }
+            },
+            "npm:minimatch@3.0.2": {
+                "map": {
+                    "brace-expansion": "npm:brace-expansion@1.1.5"
+                }
+            },
+            "npm:brace-expansion@1.1.5": {
+                "map": {
+                    "concat-map": "npm:concat-map@0.0.1",
+                    "balanced-match": "npm:balanced-match@0.4.1"
                 }
             }
         }
@@ -115,6 +211,7 @@ SystemJS.config({
         "http": "github:jspm/nodelibs-http@0.2.0-alpha",
         "https": "github:jspm/nodelibs-https@0.2.0-alpha",
         "jquery": "npm:jquery@2.2.4",
+        "jquery-contextmenu": "npm:jquery-contextmenu@2.2.0",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
         "net": "github:jspm/nodelibs-net@0.2.0-alpha",
         "os": "github:jspm/nodelibs-os@0.2.0-alpha",
@@ -123,6 +220,7 @@ SystemJS.config({
         "punycode": "github:jspm/nodelibs-punycode@0.2.0-alpha",
         "querystring": "github:jspm/nodelibs-querystring@0.2.0-alpha",
         "readline": "github:jspm/nodelibs-readline@0.2.0-alpha",
+        "sass": "github:mobilexag/plugin-sass@0.4.5",
         "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
         "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
         "tls": "github:jspm/nodelibs-tls@0.2.0-alpha",
@@ -410,6 +508,61 @@ SystemJS.config({
                 "bn.js": "npm:bn.js@4.11.4",
                 "hash.js": "npm:hash.js@1.0.3",
                 "brorand": "npm:brorand@1.0.5"
+            }
+        },
+        "github:mobilexag/plugin-sass@0.4.5": {
+            "map": {
+                "lodash": "npm:lodash@4.13.1",
+                "postcss": "npm:postcss@5.0.21",
+                "autoprefixer": "npm:autoprefixer@6.3.6",
+                "sass.js": "npm:sass.js@0.9.10",
+                "fs": "github:jspm/nodelibs-fs@0.1.2",
+                "path": "github:jspm/nodelibs-path@0.1.0",
+                "reqwest": "github:ded/reqwest@2.0.5",
+                "url": "github:jspm/nodelibs-url@0.1.0"
+            }
+        },
+        "npm:autoprefixer@6.3.6": {
+            "map": {
+                "postcss": "npm:postcss@5.0.21",
+                "num2fraction": "npm:num2fraction@1.2.2",
+                "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
+                "browserslist": "npm:browserslist@1.3.2",
+                "caniuse-db": "npm:caniuse-db@1.0.30000479",
+                "normalize-range": "npm:normalize-range@0.1.2"
+            }
+        },
+        "npm:postcss@5.0.21": {
+            "map": {
+                "js-base64": "npm:js-base64@2.1.9",
+                "supports-color": "npm:supports-color@3.1.2",
+                "source-map": "npm:source-map@0.5.6"
+            }
+        },
+        "npm:supports-color@3.1.2": {
+            "map": {
+                "has-flag": "npm:has-flag@1.0.0"
+            }
+        },
+        "github:jspm/nodelibs-path@0.1.0": {
+            "map": {
+                "path-browserify": "npm:path-browserify@0.0.0"
+            }
+        },
+        "npm:browserslist@1.3.2": {
+            "map": {
+                "caniuse-db": "npm:caniuse-db@1.0.30000479"
+            }
+        },
+        "github:jspm/nodelibs-url@0.1.0": {
+            "map": {
+                "url": "npm:url@0.10.3"
+            }
+        },
+        "npm:url@0.10.3": {
+            "map": {
+                "querystring": "npm:querystring@0.2.0",
+                "punycode": "npm:punycode@1.3.2"
             }
         }
     }

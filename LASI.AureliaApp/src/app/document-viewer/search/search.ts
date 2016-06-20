@@ -3,7 +3,7 @@ import {LexicalModel, WordModel, PhraseModel, TextFragmentModel} from 'src/model
 import $ from 'jquery';
 import 'typeahead';
 
-import {TypeAhead} from 'shared/index';
+import {TypeAhead} from 'shared/type-ahead';
 
 export default class SearchBox {
     @bindable find: SearchModel;

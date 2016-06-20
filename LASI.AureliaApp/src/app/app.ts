@@ -1,4 +1,3 @@
-import 'src/styles/site.css!css';
 import './shims';
 import {autoinject} from 'aurelia-framework';
 import {Router, RouterConfiguration, NavigationInstruction} from 'aurelia-router';
