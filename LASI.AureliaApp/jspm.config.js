@@ -5,32 +5,44 @@ SystemJS.config({
     },
     packages: {
         "src": {
+            "format": "esm",
             "main": "main",
             "defaultExtension": "ts",
             "meta": {
                 "*.ts": {
                     "loader": "plugin-typescript"
+                }, "*.js": {
+                    "loader": "plugin-typescript"
                 }
             }
         },
         "test": {
+            "format": "esm",
             "main": "test",
             "defaultExtension": "ts",
             "meta": {
                 "*.ts": {
                     "loader": "plugin-typescript"
+                },
+                "*.js": {
+                    "loader": "plugin-typescript"
                 }
             }
         },
         "shared": {
+            "format": "esm",
             "defaultExtension": "ts",
             "meta": {
                 "*.ts": {
+                    "loader": "plugin-typescript"
+                },
+                "*.js": {
                     "loader": "plugin-typescript"
                 }
             }
         },
         "src/app": {
+            "format": "esm",
             "defaultExtension": "ts",
             "meta": {
                 "*.ts": {
@@ -150,7 +162,10 @@ SystemJS.config({
     transpiler: "plugin-typescript",
     typescriptOptions: {
         "typeCheck": false,
-        "tsconfig": true
+        "tsconfig": true,
+        target: "es5",
+        "module": "system",
+
     },
     map: {
         "bootstrap-css": "github:twbs/bootstrap@3.3.6/dist/css/bootstrap.css"

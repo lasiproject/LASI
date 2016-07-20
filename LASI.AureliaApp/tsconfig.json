@@ -3,14 +3,13 @@
     "jsx": "react",
     "noEmit": true,
     "target": "es2015",
-    "module": "system",
+    "module": "es2015",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictNullChecks": false,
     "baseUrl": ".",
-    "pretty": true,
-    "paths": {}
+    "pretty": true
   },
   "exclude": [
     "jspm_packages/github",

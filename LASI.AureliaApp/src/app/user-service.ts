@@ -1,9 +1,9 @@
-import {autoinject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {HttpClient, RequestInit} from 'aurelia-fetch-client';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 import $ from 'jquery';
 import TokenService from './token-service';
-import {Credentials, User, AuthenticationResult} from 'src/models';
+import { Credentials, User, AuthenticationResult } from 'src/models';
 
 const getConfig: RequestInit = {
     method: 'GET',
