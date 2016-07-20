@@ -74,7 +74,10 @@
       "check-module",
       true
     ],
-    "variable-name": true,
+    "variable-name": [
+      true,
+      "allow-pascal-case"
+    ],
     "whitespace": [
       true
     ],
