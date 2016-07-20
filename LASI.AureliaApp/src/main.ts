@@ -5,7 +5,7 @@ import TokenService from './app/token-service';
 import configureDialogs from './configuration/dialog';
 import configureTypeahead from './configuration/typeahead';
 
-export function configure(aurelia: Aurelia) {
+export async function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
@@ -35,5 +35,6 @@ export function configure(aurelia: Aurelia) {
             }
         });
 
-    aurelia.start().then(() => aurelia.setRoot('src/app/app', getHostElement()));
+    const a = await aurelia.start();
+    await a.setRoot('src/app/app', getHostElement());
 }
