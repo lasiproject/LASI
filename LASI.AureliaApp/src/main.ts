@@ -1,6 +1,6 @@
-import {Aurelia, inject, Lazy} from 'aurelia-framework';
-import {HttpClientConfiguration, HttpClient} from 'aurelia-fetch-client';
-import {WindowService, getHostElement} from './helpers';
+import { Aurelia, inject } from 'aurelia-framework';
+import { HttpClientConfiguration, HttpClient } from 'aurelia-fetch-client';
+import { WindowService, getHostElement } from './helpers';
 import TokenService from './app/token-service';
 import configureDialogs from './configuration/dialog';
 import configureTypeahead from './configuration/typeahead';
@@ -9,8 +9,8 @@ export function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
-        .plugin('aurelia-dialog', configureDialogs)
-        .plugin('aurelia-typeahead', configureTypeahead)
+        // .plugin('aurelia-dialog', configureDialogs)
+        // .plugin('aurelia-typeahead', configureTypeahead)
         .singleton(HttpClient, class extends HttpClient {
             static inject = [TokenService];
             constructor(private tokenService: TokenService) {
