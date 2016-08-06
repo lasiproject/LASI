@@ -179,3 +179,4 @@ jspm_packages/
 /LASI.Ng2App/.VC.db
 .vscode/
 *.VC.db
+.vs/
