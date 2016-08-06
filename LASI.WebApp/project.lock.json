@@ -8006,7 +8006,7 @@
     "Microsoft.Extensions.Configuration/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "dHr1CJ3nkWxQAtIRk7pTX/0KCDC14DY580xC7RlMHt3EW9zUak4y31FQQIMgsE9oaeJMnJP2RtimN4FPzPaWdQ==",
+      "sha512": "p/5eKAorNNXmvJRiPZA7Mpr4KTSepzHw2b087qkVM1vMOUHDKymigzSQEf6OUAjDDHc7bEAeVIRWYLevUo7iHw==",
       "files": [
         "lib/netstandard1.1/Microsoft.Extensions.Configuration.dll",
         "lib/netstandard1.1/Microsoft.Extensions.Configuration.xml",
@@ -8018,7 +8018,7 @@
     "Microsoft.Extensions.Configuration.Abstractions/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "Q871jpweVxec1zvUuK4RoXGRRXCZsp/f+6SDUSi8DQ95KcT8yKe2ZSoq2S2xnwoKFUepg2B6Yr3ToXD2v27zNA==",
+      "sha512": "V3R/6yGrJXrNSObyPizdwA4i5L4IsJ9s3wLeEY1nLEVHaItzXJQX+7lU+b7KAkPQrNT0m9Z1Yr74fcg0pHyoUg==",
       "files": [
         "lib/netstandard1.0/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/netstandard1.0/Microsoft.Extensions.Configuration.Abstractions.xml",
@@ -8078,7 +8078,7 @@
     "Microsoft.Extensions.Configuration.FileExtensions/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "Ry1KQP2nv459lAiY2EsQ7i35u8XgD0ZMMgrvzGr9QlReXW8XWj5WLE2xuu7To3oFQIvCnDtZtZsr7dJ05KHr1Q==",
+      "sha512": "jk/LrsdGRajR8SkgXsklAiRpFS+Wup7T5tPFRrSX8u9w1zaxdKf4mXWbcFb5Mwr0c1By/qFGJ/1Cmoko/YtqSQ==",
       "files": [
         "lib/net451/Microsoft.Extensions.Configuration.FileExtensions.dll",
         "lib/net451/Microsoft.Extensions.Configuration.FileExtensions.xml",
@@ -8092,7 +8092,7 @@
     "Microsoft.Extensions.Configuration.Json/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "1Y/3qSjHpuaLeyja+gSAZUtdj503tbc23699YzE8DxWMZ3urDztdpdWy0CFGGES15obfmsrm+oBxzEwtiHKPTw==",
+      "sha512": "RD5Aye2E9u8ZeaxP7l7634aRcsvqBa7YTxqiqTtlMSP9uuU/6QnVnSLfN/spRAU4/t5qnn5fQf6SmmypciXFfg==",
       "files": [
         "lib/net451/Microsoft.Extensions.Configuration.Json.dll",
         "lib/net451/Microsoft.Extensions.Configuration.Json.xml",
@@ -8106,7 +8106,7 @@
     "Microsoft.Extensions.Configuration.UserSecrets/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "UAj6RZp2uSDc+XJvlPJGScVH+LtOiJaRxXhFPTBy38vfLf4B+5bqpaiHwSjl01HbyT0V4Iy7tiI9EdTfTEspgA==",
+      "sha512": "C1iU/zUokC/UX9s6MChUaFyc4cHYj8vejsyohVTCNzIT5e/06BeabPN7xbS3Hh0jDyTzN+A3dNEiBAJI41NZeA==",
       "files": [
         "lib/net451/Microsoft.Extensions.Configuration.UserSecrets.dll",
         "lib/net451/Microsoft.Extensions.Configuration.UserSecrets.xml",
@@ -8150,7 +8150,7 @@
     "Microsoft.Extensions.FileProviders.Abstractions/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "pVcRuHzugJ1pn4LWpSJYOGXWdIMDcyj+AFIHFWUZ5CBGGXKfDCOPS0ztS5WshLYYc+9zDdAPmWSvQxVbTGljjg==",
+      "sha512": "PyEkoQSheDVIqjnBu6QWGUoDhjxB8ZCvW215O9VNWv5XQFtu8Zcw/S4no97e1dBjyejR8aJtRHrr3rNKpy0WXg==",
       "files": [
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
@@ -8162,7 +8162,7 @@
     "Microsoft.Extensions.FileProviders.Physical/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "mGinPq86ouElAEY7K9Yww3bIJFD3k+UESFveOKCtXVbn9Z25rJOLoD7T0WRkJxzPZ+0MTipWpMh7jUJdsMV5Nw==",
+      "sha512": "XeBmaShWxq6AVKhrqfRl8gYhsQ9db1A1NMErgEl4ud0hLJauFaiPbscoeAQwATB6i/KcPJt6PtNDJFzT6ij/3A==",
       "files": [
         "lib/net451/Microsoft.Extensions.FileProviders.Physical.dll",
         "lib/net451/Microsoft.Extensions.FileProviders.Physical.xml",
@@ -8176,7 +8176,7 @@
     "Microsoft.Extensions.FileSystemGlobbing/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "xyrVmdjyFmGROsMkc50oI5KTie8V15ZJ8BdWbN/vpE45y+McRVpakGZDKzS2cLP7IaE67fGpr0jg4VvLQJ8Jhg==",
+      "sha512": "GjWE8rdrQkLbz7gn87PzUi3/gtHQG0rPIv8Lo7l88Cuih/lLvzpLr5It4Je0PTEGEH/nG9rl8bEAh6lQtLVHVA==",
       "files": [
         "lib/net451/Microsoft.Extensions.FileSystemGlobbing.dll",
         "lib/net451/Microsoft.Extensions.FileSystemGlobbing.xml",
@@ -8248,7 +8248,7 @@
     "Microsoft.Extensions.Logging.Abstractions/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "cuBUcNmHGLqG7zT4ZpGY21w0/zQNJzfw6tz3eIEU2PNLBeA0EfV2b9LHfgrIFhn74+xmgoKhwo/0Th3d28Cubw==",
+      "sha512": "VtbfWYt9+TFZJX6VMxRi69J2FJVVe+vXxt3bt6SU/Ogdt0EqKhYNASy+mbdwqehPCVUiLkE6cdoYzYvAIAEGSw==",
       "files": [
         "lib/netcore50/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netcore50/Microsoft.Extensions.Logging.Abstractions.xml",
@@ -8262,7 +8262,7 @@
     "Microsoft.Extensions.Logging.Console/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "wzTVkE0h7xKPB7PF/XMgTIuvckjzscgDqvpr2QhqMYxXeni7dUqAO8FUy4DQ8MljXikgLbKSUvJS9HgMhFD3ng==",
+      "sha512": "CUDn0ndrDGvyJGIZg18rsCovZBxKs9BDXnlFPLZM6j//bVvoG1x/dFchEe/OLKhKNgYtgAeVvX2uSdLrcbiBqA==",
       "files": [
         "lib/net451/Microsoft.Extensions.Logging.Console.dll",
         "lib/net451/Microsoft.Extensions.Logging.Console.xml",
@@ -8334,7 +8334,7 @@
     "Microsoft.Extensions.PlatformAbstractions/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "OjXClhPcccu39GNAs6SH6J2iC2R883Wco7LKvPqnjo1aKJQRp9vFVFVueutJFABncZO7BZINgZCwgLxVQN3yIg==",
+      "sha512": "fQSiG4u+IteQMY+D9XrQxCx96wq553EaXoANerD7mLu9+yFtgQXbiE53sSvJAldp7PfukDStz70WCanSOmPFxQ==",
       "files": [
         "lib/net451/Microsoft.Extensions.PlatformAbstractions.dll",
         "lib/net451/Microsoft.Extensions.PlatformAbstractions.xml",
@@ -8350,7 +8350,7 @@
     "Microsoft.Extensions.Primitives/1.0.0-rc2-final": {
       "type": "package",
       "serviceable": true,
-      "sha512": "5lXETW9MI0CIOOCtgeJcrX3jODcFkX04tr+K/MB+cRspPvYD3URbf4MRIwWgI5r7cu+8+efPxEH0tG1g8ldhQA==",
+      "sha512": "YqrtcHUZSztQaQmHjx5b5EtlNoilU3653mWMbMJUMsFEVYf7jKa2twzika6gvR8sdqMTF7PqxMhjJePxyGadKw==",
       "files": [
         "lib/netcore50/Microsoft.Extensions.Primitives.dll",
         "lib/netcore50/Microsoft.Extensions.Primitives.xml",
@@ -8426,7 +8426,7 @@
     "Microsoft.IdentityModel.Tokens/5.0.0-rc2-305061149": {
       "type": "package",
       "serviceable": true,
-      "sha512": "IaBBTV2Zg+vWkTWfb2AXShWmAMZsuzi9QwB7t/7wrFDGpN9TMoTWdRm1BK0NZT5s4VQ3hRkEY4I/5rFsaHz/Jw==",
+      "sha512": "8lVh5wB5XyYXABfWYeWpXm5Bx7gArXlQrQJMsF6p/+jrxcE6uz/M/ST1jQf7rfHnn8qnuei8vK+ie60qdW9rqQ==",
       "files": [
         "lib/net451/Microsoft.IdentityModel.Tokens.dll",
         "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll",

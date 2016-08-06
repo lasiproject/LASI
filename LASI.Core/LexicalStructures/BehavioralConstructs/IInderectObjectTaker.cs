@@ -5,7 +5,7 @@ namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for Transitive elements, generally Verbs or VerbPhrases, which can be bound to one or more Indirect objects. </para>
-    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IInderectObjectTaker interface provides for generalization and abstraction over word and Phrase types. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IInderectObjectTaker interface provides for cross-axial generalization over lexical types. </para>
     /// </summary>
     public interface IInderectObjectTaker
     {

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the role requirements for Descriptive constructs which descriptively modify Entity constructs.
     /// Along with the other interfaces in the Syntactic Interfaces Library, the IDescriptor interface provides 
-    /// for generalization and abstraction over word and Phrase types.
+    /// for cross-axial generalization over lexical types.
     /// </summary>
     /// <seealso cref="IEntity"/>
     public interface IDescriptor : ILexical, IAdverbialModifiable, IAttributive<IEntity>
