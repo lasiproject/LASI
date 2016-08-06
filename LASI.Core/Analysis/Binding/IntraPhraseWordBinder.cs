@@ -21,7 +21,7 @@ namespace LASI.Core.Binding
             /*
              * Noun Phrase Assumption:  The Last Noun in a Noun Phrase is the important one
              */
-            Noun LastNoun = np.Words.OfType<Noun>().LastOrDefault();
+            var LastNoun = np.Words.OfType<Noun>().LastOrDefault();
 
             if (np.Words.Count() > 1 && LastNoun != null)
             {
@@ -49,7 +49,7 @@ namespace LASI.Core.Binding
                 /*
                  * Binding determiners to last noun
                  */
-                Determiner det1 = np.Words.OfType<Determiner>().FirstOrDefault();
+                var det1 = np.Words.OfType<Determiner>().FirstOrDefault();
                 if (det1 != null)
                 {
                     LastNoun.BindDeterminer(det1);
@@ -62,7 +62,7 @@ namespace LASI.Core.Binding
                 var ListOfAdjectives = np.Words.OfAdjective();
                 if (ListOfAdjectives.Count() > 0)
                 {
-                    foreach (Adjective adj in ListOfAdjectives)
+                    foreach (var adj in ListOfAdjectives)
                     {
                         LastNoun.BindDescriptor(adj);
                     }
@@ -88,7 +88,7 @@ namespace LASI.Core.Binding
         /// <param name="vp">The VerbPhrase whose elements will be bound together.</param>
         public static void Bind(VerbPhrase vp)
         {
-            Verb LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
+            var LastVerb = vp.Words.OfType<Verb>().LastOrDefault();
 
             if (vp.Words.Count() > 1 && LastVerb != null)
             {

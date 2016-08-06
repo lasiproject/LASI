@@ -27,7 +27,7 @@ namespace LASI.Content.Tests.Extensions
             //      the check fails, in the case we were running the negated version.
             //
             // e.g.:
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {
@@ -44,7 +44,7 @@ namespace LASI.Content.Tests.Extensions
         {
             var checker = ExtensibilityHelper.ExtractChecker(check);
 
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {

@@ -17,3 +17,10 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "Incorrect analysis. Handler removes itself after it has been called.", Scope = "member", Target = "~M:LASI.App.StartupWindow.cancelButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "Incorrect analysis. Handler removes itself after it has been called.", Scope = "member", Target = "~M:LASI.App.StartupWindow.expandCreatePanelButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "Generated Code", Scope = "type", Target = "~P:LASI.App.Properties.Resources.ResourceManager")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "<Pending>", Scope = "type", Target = "~M:LASI.App.ResultsWindow.AddMenuItem_Click(System.Object,System.Windows.RoutedEventArgs)")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "<Pending>", Scope = "type", Target = "~M:LASI.App.StartupWindow.browseForDocButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "<Pending>", Scope = "type", Target = "~P:LASI.App.Properties.Resources.LasiLogo")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "<Pending>", Scope = "type", Target = "~M:LASI.App.InProgressWindow.ParseDocuments~System.Threading.Tasks.Task")]

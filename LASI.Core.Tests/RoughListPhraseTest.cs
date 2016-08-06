@@ -18,7 +18,7 @@ namespace LASI.Core.Tests
         public void RoughListPhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = null; // TODO: Initialize to an appropriate value
-            RoughListPhrase target = new RoughListPhrase(composedWords);
+            var target = new RoughListPhrase(composedWords);
             throw new System.NotImplementedException("TODO: Implement code to verify target");
         }
     }

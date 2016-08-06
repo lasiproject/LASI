@@ -26,7 +26,7 @@ namespace LASI.Content.Tests
         public void DocToDocXConverterConstructorTest()
         {
             var infile = SourceFile;
-            DocToDocXConverter target = new DocToDocXConverter(infile);
+            var target = new DocToDocXConverter(infile);
             Check.That(target.Original).IsEqualTo(infile);
         }
 
@@ -50,7 +50,7 @@ namespace LASI.Content.Tests
         public void ConvertFileTest()
         {
             var infile = SourceFile;
-            DocToDocXConverter target = new DocToDocXConverter(infile);
+            var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
             Assert.True(File.Exists(actual.FullPath));
@@ -63,7 +63,7 @@ namespace LASI.Content.Tests
         public async Task ConvertFileAsyncTest()
         {
             var infile = SourceFile;
-            DocToDocXConverter target = new DocToDocXConverter(infile);
+            var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();
             Assert.True(File.Exists(actual.FullPath));

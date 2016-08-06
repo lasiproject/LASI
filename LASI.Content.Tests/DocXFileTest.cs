@@ -17,8 +17,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocXFileConstructorTest()
         {
-            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
-            DocXFile target = new DocXFile(path);
+            var path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.docx";
+            var target = new DocXFile(path);
             Check.That(path).Satisfies(File.Exists);
             Check.That(Path.GetFullPath(path)).IsEqualTo(target.FullPath);
         }
@@ -29,7 +29,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocXFileConstructorTest1()
         {
-            string path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
+            var path = @"..\..\..\TestDocs\Draft_Environmental_Assessment.txt";
             Check.ThatCode(() => new DocXFile(path)).Throws<FileTypeWrapperMismatchException<DocXFile>>();
         }
 
@@ -39,7 +39,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocXFileConstructorTest2()
         {
-            string invalidPath = Directory.GetCurrentDirectory();//This is should never be valid.
+            var invalidPath = Directory.GetCurrentDirectory();//This is should never be valid.
             Check.That(invalidPath).DoesNotSatisfy(File.Exists);
             Check.ThatCode(() => new DocXFile(invalidPath)).Throws<FileNotFoundException>();
         }

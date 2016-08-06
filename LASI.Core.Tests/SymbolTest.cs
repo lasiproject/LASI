@@ -16,8 +16,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void SymbolConstructorTest()
         {
-            char character = ',';
-            Symbol target = new Symbol(character.ToString());
+            var character = ',';
+            var target = new Symbol(character.ToString());
             Assert.Equal(character, target.LiteralCharacter);
             Assert.Equal(character.ToString(), target.Text);
         }

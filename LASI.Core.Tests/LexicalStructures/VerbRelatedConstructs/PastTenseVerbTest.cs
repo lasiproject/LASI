@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PastTenseVerbConstructorTest()
         {
-            string text = "had";
-            PastTenseVerb target = new PastTenseVerb(text);
+            var text = "had";
+            var target = new PastTenseVerb(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 

@@ -25,12 +25,6 @@ namespace LASI.App.Visualization
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-<<<<<<< Updated upstream
-        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures) => element.Match()
-            .Case((IVerbal v) => ForVerbal(v, neighboringElementDisplayStructures))
-            .Case((IReferencer r) => ForReferencer(r, neighboringElementDisplayStructures))
-            .Result();
-=======
         public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures)
         {
             var createMenuForVerbal = ForVerbal(neighboringElementDisplayStructures);
@@ -40,8 +34,6 @@ namespace LASI.App.Visualization
                 .Case(createMenuForReferencer)
                 .Result();
         }
->>>>>>> Stashed changes
-
         #region Lexical Element Context Menu Construction
 
         /// <summary>

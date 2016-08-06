@@ -28,26 +28,26 @@ namespace LASI.Core.Analysis.Binding
             {
                 if (i is AdjectivePhrase)
                 {
-                    State s2 = new State();
+                    var s2 = new State();
                     s2.StatePhrase = i;
                     stateList.Add(s2);
                 }
                 if (i is NounPhrase)
                 {
-                    State s3 = new State();
+                    var s3 = new State();
                     s3.StatePhrase = i;
                     stateList.Add(s3);
                 }
                 if (i is VerbPhrase && i.Words.Any(n => n is PresentParticiple))
                 {
-                    State s4 = new State();
+                    var s4 = new State();
                     s4.StatePhrase = i;
                     stateList.Add(s4);
                     break;
                 }
                 if (i is ConjunctionPhrase)
                 {
-                    State s5 = new State();
+                    var s5 = new State();
                     s5.StatePhrase = i;
                     stateList.Add(s5);
                 }
@@ -55,7 +55,7 @@ namespace LASI.Core.Analysis.Binding
 
                 if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticiple)))
                 {
-                    State s6 = new State();
+                    var s6 = new State();
                     s6.StatePhrase = i;
                     s6.S = StateType.Final;
                     stateList.Add(s6);
@@ -93,25 +93,25 @@ namespace LASI.Core.Analysis.Binding
 
                 if (i is AdverbPhrase)
                 {
-                    State s7 = new State();
+                    var s7 = new State();
                     s7.StatePhrase = i;
                     stateList.Add(s7);
                 }
                 if (i is PrepositionalPhrase)
                 {
-                    State s8 = new State();
+                    var s8 = new State();
                     s8.StatePhrase = i;
                     stateList.Add(s8);
                 }
                 if (i is ParticlePhrase)
                 {
-                    State s9 = new State();
+                    var s9 = new State();
                     stateList.Add(s9);
                     s9.StatePhrase = i;
                 }
                 if (i is InterjectionPhrase)
                 {
-                    State s10 = new State();
+                    var s10 = new State();
                     s10.StatePhrase = i;
                     stateList.Add(s10);
                 }

@@ -15,8 +15,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifiesTest()
         {
-            string text = "can";
-            ModalAuxilary target = new ModalAuxilary(text);
+            var text = "can";
+            var target = new ModalAuxilary(text);
             IModalityModifiable expected = new BaseVerb("do");
             IModalityModifiable actual;
             target.Modifies = expected;
@@ -30,8 +30,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModalAuxilaryConstructorTest()
         {
-            string text = "cannot";
-            ModalAuxilary target = new ModalAuxilary(text);
+            var text = "cannot";
+            var target = new ModalAuxilary(text);
             Check.That(target.Text).IsEqualTo(text);
             Check.That(target.Modifies).IsNull();
         }

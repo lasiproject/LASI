@@ -73,7 +73,7 @@ namespace LASI.App
                     progressLabel.Content = e.Message;
                     progressBar.ToolTip = e.Message;
                     var animateStep = 0.028 * e.Progress;
-                    for (int i = 0; i < 33; ++i)
+                    for (var i = 0; i < 33; ++i)
                     {
                         progressBar.Value += animateStep;
                         await Task.Yield();

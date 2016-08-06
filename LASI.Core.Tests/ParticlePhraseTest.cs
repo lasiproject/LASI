@@ -18,7 +18,7 @@ namespace LASI.Core.Tests
         public void ParticlePhraseConstructorTest()
         {
             var composedWords = new[] { new Particle("away") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             Check.That(from w1 in composedWords
                        join w2 in composedWords on w1 equals w2
                        select new
@@ -35,7 +35,7 @@ namespace LASI.Core.Tests
         public void BindObjectOfPrepositionTest()
         {
             IEnumerable<Word> composedWords = new[] { new Particle("about") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("house") });
             target.BindObject(prepositionalObject);
             Check.That(target.BoundObject).IsEqualTo(prepositionalObject);
@@ -48,7 +48,7 @@ namespace LASI.Core.Tests
         public void OnLeftSideTest()
         {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical expected = new PastTenseVerb("gave");
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -63,7 +63,7 @@ namespace LASI.Core.Tests
         public void OnRightSideTest()
         {
             IEnumerable<Word> composedWords = new[] { new Particle("away") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical expected = new Preposition("for");
             ILexical actual;
             target.ToTheRightOf = expected;
@@ -80,7 +80,7 @@ namespace LASI.Core.Tests
         public void ToTheRightOfTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
             ILexical actual;
             target.ToTheRightOf = expected;
@@ -95,7 +95,7 @@ namespace LASI.Core.Tests
         public void ToTheLeftOfTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical expected = new PronounPhrase(new[] { new PersonalPronoun("they") });
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -110,8 +110,8 @@ namespace LASI.Core.Tests
         public void RoleTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
-            PrepositionRole expected = PrepositionRole.Undetermined;
+            var target = new ParticlePhrase(composedWords);
+            var expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
@@ -125,7 +125,7 @@ namespace LASI.Core.Tests
         public void BindObjectTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Particle("off"), new Preposition("of") };
-            ParticlePhrase target = new ParticlePhrase(composedWords);
+            var target = new ParticlePhrase(composedWords);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("world") });
             target.BindObject(prepositionalObject);
             Check.That(target.BoundObject).IsEqualTo(prepositionalObject);

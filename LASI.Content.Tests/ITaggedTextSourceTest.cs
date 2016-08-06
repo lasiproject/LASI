@@ -14,8 +14,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void GetTextAsyncTest()
         {
-            ITaggedTextSource target = CreateITaggedTextSource();
-            string expected = ExpectedText;
+            var target = CreateITaggedTextSource();
+            var expected = ExpectedText;
             string actual;
             actual = target.LoadTextAsync().Result;
             Assert.Equal(expected, actual);
@@ -27,8 +27,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void GetTextTest()
         {
-            ITaggedTextSource target = CreateITaggedTextSource();
-            string expected = ExpectedText;
+            var target = CreateITaggedTextSource();
+            var expected = ExpectedText;
             string actual;
             actual = target.LoadText();
             Assert.Equal(expected, actual);
@@ -40,7 +40,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void NameTest()
         {
-            ITaggedTextSource target = CreateITaggedTextSource();
+            var target = CreateITaggedTextSource();
             string actual;
             actual = target.Name;
             Assert.Equal("test fragment", actual);

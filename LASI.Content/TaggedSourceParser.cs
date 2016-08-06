@@ -124,7 +124,7 @@ namespace LASI.Content
             var factory = new WordFactory(wordTagset);
             foreach (var taggedToken in GetTaggedWordStrings(text))
             {
-                TaggedText? textTagPair = wordExtractor.Extract(taggedToken);
+                var textTagPair = wordExtractor.Extract(taggedToken);
                 if (textTagPair.HasValue)
                 {
                     var pair = textTagPair.Value;
@@ -169,7 +169,7 @@ namespace LASI.Content
             var wordFactory = new WordFactory(wordTagset);
             foreach (var element in elements)
             {
-                TaggedText? textTagPair = posExtractor.Extract(element);
+                var textTagPair = posExtractor.Extract(element);
                 if (textTagPair.HasValue)
                 {
                     var pair = textTagPair.Value;

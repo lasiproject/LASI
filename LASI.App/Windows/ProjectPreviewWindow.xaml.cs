@@ -175,7 +175,7 @@ namespace LASI.App
             {
                 return;
             }
-            for (int i = 0; i < openDialog.SafeFileNames.Length; i++)
+            for (var i = 0; i < openDialog.SafeFileNames.Length; i++)
             {
                 var file = new FileInfo(openDialog.FileNames[i]);
                 if (DocumentManager.HasFileWithName(file.Name))

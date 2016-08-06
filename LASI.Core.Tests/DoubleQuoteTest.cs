@@ -16,7 +16,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DoubleQuoteConstructorTest()
         {
-            DoubleQuote target = new DoubleQuote();
+            var target = new DoubleQuote();
             Assert.Equal(target.PairedWith, null);
             Assert.Equal(target.Text, "\"");
         }
@@ -27,8 +27,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PairWithTest()
         {
-            DoubleQuote target = new DoubleQuote();
-            DoubleQuote complement = new DoubleQuote();
+            var target = new DoubleQuote();
+            var complement = new DoubleQuote();
             target.PairWith(complement);
             Assert.Same(target.PairedWith, complement);
             Assert.Same(target, target.PairedWith.PairedWith);

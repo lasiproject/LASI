@@ -24,7 +24,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDirectObjectTest()
         {
-            IDirectObjectTaker target = CreateIDirectObjectTaker();
+            var target = CreateIDirectObjectTaker();
             IEntity directObject = new PersonalPronoun("them");
             target.BindDirectObject(directObject);
             Assert.True(target.DirectObjects.Any(o => o == directObject));
@@ -36,13 +36,13 @@ namespace LASI.Core.Tests
         [Fact]
         public void AggregateDirectObjectTest()
         {
-            IDirectObjectTaker target = CreateIDirectObjectTaker();
+            var target = CreateIDirectObjectTaker();
             IAggregateEntity aggregateObject = new AggregateEntity(new[]{
                 new NounPhrase(new Word[]{new ProperSingularNoun("John"),new ProperSingularNoun( "Smith")}),
                 new NounPhrase(new Word[]{new PossessivePronoun("his"),new CommonPluralNoun("cats")})
             });
             target.BindDirectObject(aggregateObject);
-            IAggregateEntity actual = target.AggregateDirectObject;
+            var actual = target.AggregateDirectObject;
             Assert.False(actual.Except(aggregateObject).Any());
         }
 
@@ -52,7 +52,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DirectObjectsTest()
         {
-            IDirectObjectTaker target = CreateIDirectObjectTaker();
+            var target = CreateIDirectObjectTaker();
             IEnumerable<IEntity> actual;
             actual = target.DirectObjects;
             Assert.Equal(target.DirectObjects, actual);
