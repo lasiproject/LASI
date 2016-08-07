@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/aurelia/router/1.0.0-rc.1.0.1/typings.json",
-    "raw": "github:aurelia/router#1.0.0-rc.1.0.1",
+    "src": "https://raw.githubusercontent.com/aurelia/router/1.0.2/typings.json",
+    "raw": "github:aurelia/router#1.0.2",
     "main": "dist/aurelia-router.d.ts",
     "global": false,
     "name": "aurelia-router",

@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/aurelia/history/1.0.0-rc.1.0.0/typings.json",
-    "raw": "github:aurelia/history#1.0.0-rc.1.0.0",
+    "src": "https://raw.githubusercontent.com/aurelia/history/1.0.0/typings.json",
+    "raw": "github:aurelia/history#1.0.0",
     "main": "dist/aurelia-history.d.ts",
     "global": false,
     "name": "aurelia-history",

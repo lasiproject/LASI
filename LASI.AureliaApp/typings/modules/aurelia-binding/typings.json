@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/aurelia/binding/1.0.0-rc.1.0.3/typings.json",
-    "raw": "github:aurelia/binding#1.0.0-rc.1.0.3",
+    "src": "https://raw.githubusercontent.com/aurelia/binding/1.0.1/typings.json",
+    "raw": "github:aurelia/binding#1.0.1",
     "main": "dist/aurelia-binding.d.ts",
     "global": false,
     "name": "aurelia-binding",

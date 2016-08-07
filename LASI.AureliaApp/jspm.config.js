@@ -11,7 +11,8 @@ SystemJS.config({
             "meta": {
                 "*.ts": {
                     "loader": "plugin-typescript"
-                }, "*.js": {
+                },
+                "*.js": {
                     "loader": "plugin-typescript"
                 }
             }
@@ -62,7 +63,7 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "plugin-typescript": "github:frankwallis/plugin-typescript@5.0.8",
+            "plugin-typescript": "github:frankwallis/plugin-typescript@5.0.9",
             "tape": "npm:tape@4.6.0"
         },
         "packages": {
@@ -117,13 +118,7 @@ SystemJS.config({
             },
             "npm:minimatch@3.0.2": {
                 "map": {
-                    "brace-expansion": "npm:brace-expansion@1.1.5"
-                }
-            },
-            "npm:brace-expansion@1.1.5": {
-                "map": {
-                    "concat-map": "npm:concat-map@0.0.1",
-                    "balanced-match": "npm:balanced-match@0.4.2"
+                    "brace-expansion": "npm:brace-expansion@1.1.6"
                 }
             },
             "npm:tape@4.6.0": {
@@ -152,9 +147,15 @@ SystemJS.config({
                     "minimatch": "npm:minimatch@3.0.2"
                 }
             },
-            "github:frankwallis/plugin-typescript@5.0.8": {
+            "github:frankwallis/plugin-typescript@5.0.9": {
                 "map": {
-                    "typescript": "npm:typescript@2.1.0-dev.20160720"
+                    "typescript": "npm:typescript@2.1.0-dev.20160806"
+                }
+            },
+            "npm:brace-expansion@1.1.6": {
+                "map": {
+                    "concat-map": "npm:concat-map@0.0.1",
+                    "balanced-match": "npm:balanced-match@0.4.2"
                 }
             }
         }
@@ -163,9 +164,8 @@ SystemJS.config({
     typescriptOptions: {
         "typeCheck": false,
         "tsconfig": true,
-        target: "es5",
-        "module": "system",
-
+        "target": "es5",
+        "module": "system"
     },
     map: {
         "bootstrap-css": "github:twbs/bootstrap@3.3.6/dist/css/bootstrap.css"
@@ -179,38 +179,38 @@ SystemJS.config({
         "npm:*.json"
     ],
     map: {
-        "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0-rc.1.0.1",
-        "aurelia-binding": "npm:aurelia-binding@1.0.0-rc.1.0.3",
-        "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-rc.1.0.1",
-        "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-rc.1.0.1",
-        "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0-rc.1.0.0",
-        "aurelia-framework": "npm:aurelia-framework@1.0.0-rc.1.0.2",
-        "aurelia-history": "npm:aurelia-history@1.0.0-rc.1.0.0",
-        "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0-rc.1.0.0",
-        "aurelia-loader": "npm:aurelia-loader@1.0.0-rc.1.0.0",
-        "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0-rc.1.0.0",
-        "aurelia-logging": "npm:aurelia-logging@1.0.0-rc.1.0.1",
-        "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0-rc.1.0.0",
-        "aurelia-metadata": "npm:aurelia-metadata@1.0.0-rc.1.0.1",
-        "aurelia-pal": "npm:aurelia-pal@1.0.0-rc.1.0.0",
-        "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-rc.1.0.1",
-        "aurelia-path": "npm:aurelia-path@1.0.0-rc.1.0.0",
-        "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0-rc.1.0.0",
-        "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.0.0-rc.1.0.1",
-        "aurelia-router": "npm:aurelia-router@1.0.0-rc.1.0.1",
-        "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0-rc.1.0.0",
-        "aurelia-templating": "npm:aurelia-templating@1.0.0-rc.1.0.1",
-        "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0-rc.1.0.1",
-        "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0-rc.1.0.1",
-        "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0-rc.1.0.1",
+        "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0",
+        "aurelia-binding": "npm:aurelia-binding@1.0.1",
+        "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
+        "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
+        "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0",
+        "aurelia-framework": "npm:aurelia-framework@1.0.1",
+        "aurelia-history": "npm:aurelia-history@1.0.0",
+        "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
+        "aurelia-loader": "npm:aurelia-loader@1.0.0",
+        "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
+        "aurelia-logging": "npm:aurelia-logging@1.0.0",
+        "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
+        "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
+        "aurelia-pal": "npm:aurelia-pal@1.0.0",
+        "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0",
+        "aurelia-path": "npm:aurelia-path@1.0.0",
+        "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0",
+        "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.0.0",
+        "aurelia-router": "npm:aurelia-router@1.0.2",
+        "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
+        "aurelia-templating": "npm:aurelia-templating@1.0.0",
+        "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
+        "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0",
+        "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
         "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
-        "bootstrap": "github:twbs/bootstrap@3.3.6",
+        "bootstrap": "github:twbs/bootstrap@3.3.7",
         "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
         "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
         "core-js": "npm:core-js@2.4.1",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
-        "css": "github:systemjs/plugin-css@0.1.23",
+        "css": "github:systemjs/plugin-css@0.1.26",
         "dgram": "github:jspm/nodelibs-dgram@0.2.0-alpha",
         "dns": "github:jspm/nodelibs-dns@0.2.0-alpha",
         "events": "github:jspm/nodelibs-events@0.2.0-alpha",
@@ -239,16 +239,6 @@ SystemJS.config({
         "zlib": "github:jspm/nodelibs-zlib@0.2.0-alpha"
     },
     packages: {
-        "github:twbs/bootstrap@3.3.6": {
-            "meta": {
-                "*.css": {
-                    "loader": "css"
-                }
-            },
-            "map": {
-                "jquery": "npm:jquery@2.2.4"
-            }
-        },
         "npm:font-awesome@4.6.3": {
             "meta": {
                 "*.css": {
@@ -256,7 +246,7 @@ SystemJS.config({
                 }
             },
             "map": {
-                "css": "github:systemjs/plugin-css@0.1.23"
+                "css": "github:systemjs/plugin-css@0.1.26"
             }
         },
         "github:jspm/nodelibs-os@0.2.0-alpha": {
@@ -297,13 +287,13 @@ SystemJS.config({
         "npm:create-ecdh@4.0.0": {
             "map": {
                 "elliptic": "npm:elliptic@6.3.1",
-                "bn.js": "npm:bn.js@4.11.5"
+                "bn.js": "npm:bn.js@4.11.6"
             }
         },
         "npm:public-encrypt@4.0.0": {
             "map": {
                 "browserify-rsa": "npm:browserify-rsa@4.0.1",
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "randombytes": "npm:randombytes@2.0.3",
                 "create-hash": "npm:create-hash@1.1.2",
                 "parse-asn1": "npm:parse-asn1@5.0.0"
@@ -318,14 +308,14 @@ SystemJS.config({
         },
         "npm:diffie-hellman@5.0.2": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "randombytes": "npm:randombytes@2.0.3",
                 "miller-rabin": "npm:miller-rabin@4.0.0"
             }
         },
         "npm:browserify-rsa@4.0.1": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "randombytes": "npm:randombytes@2.0.3"
             }
         },
@@ -376,7 +366,7 @@ SystemJS.config({
         },
         "npm:browserify-sign@4.0.0": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "browserify-rsa": "npm:browserify-rsa@4.0.1",
                 "create-hash": "npm:create-hash@1.1.2",
                 "create-hmac": "npm:create-hmac@1.1.4",
@@ -433,7 +423,7 @@ SystemJS.config({
         },
         "npm:miller-rabin@4.0.0": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "brorand": "npm:brorand@1.0.5"
             }
         },
@@ -450,16 +440,7 @@ SystemJS.config({
         },
         "github:jspm/nodelibs-http@0.2.0-alpha": {
             "map": {
-                "http-browserify": "npm:stream-http@2.3.0"
-            }
-        },
-        "npm:stream-http@2.3.0": {
-            "map": {
-                "inherits": "npm:inherits@2.0.1",
-                "readable-stream": "npm:readable-stream@2.1.4",
-                "xtend": "npm:xtend@4.0.1",
-                "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
-                "to-arraybuffer": "npm:to-arraybuffer@1.0.1"
+                "http-browserify": "npm:stream-http@2.3.1"
             }
         },
         "github:jspm/nodelibs-punycode@0.2.0-alpha": {
@@ -475,13 +456,13 @@ SystemJS.config({
         "npm:browserify-zlib@0.1.4": {
             "map": {
                 "readable-stream": "npm:readable-stream@2.1.4",
-                "pako": "npm:pako@0.2.8"
+                "pako": "npm:pako@0.2.9"
             }
         },
         "npm:elliptic@6.3.1": {
             "map": {
                 "inherits": "npm:inherits@2.0.1",
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "hash.js": "npm:hash.js@1.0.3",
                 "brorand": "npm:brorand@1.0.5"
             }
@@ -509,7 +490,7 @@ SystemJS.config({
         },
         "npm:asn1.js@4.8.0": {
             "map": {
-                "bn.js": "npm:bn.js@4.11.5",
+                "bn.js": "npm:bn.js@4.11.6",
                 "inherits": "npm:inherits@2.0.1",
                 "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
             }
@@ -528,31 +509,45 @@ SystemJS.config({
                 "reqwest": "github:ded/reqwest@2.0.5",
                 "sass.js": "npm:sass.js@0.9.11",
                 "path": "github:jspm/nodelibs-path@0.1.0",
-                "lodash": "npm:lodash@4.13.1",
-                "autoprefixer": "npm:autoprefixer@6.3.7",
-                "postcss": "npm:postcss@5.1.0"
-            }
-        },
-        "npm:autoprefixer@6.3.7": {
-            "map": {
-                "postcss": "npm:postcss@5.1.0",
-                "normalize-range": "npm:normalize-range@0.1.2",
-                "num2fraction": "npm:num2fraction@1.2.2",
-                "browserslist": "npm:browserslist@1.3.5",
-                "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
-                "caniuse-db": "npm:caniuse-db@1.0.30000506"
-            }
-        },
-        "npm:postcss@5.1.0": {
-            "map": {
-                "js-base64": "npm:js-base64@2.1.9",
-                "supports-color": "npm:supports-color@3.1.2",
-                "source-map": "npm:source-map@0.5.6"
+                "lodash": "npm:lodash@4.14.1",
+                "autoprefixer": "npm:autoprefixer@6.4.0",
+                "postcss": "npm:postcss@5.1.2"
             }
         },
         "npm:browserslist@1.3.5": {
             "map": {
-                "caniuse-db": "npm:caniuse-db@1.0.30000506"
+                "caniuse-db": "npm:caniuse-db@1.0.30000518"
+            }
+        },
+        "github:twbs/bootstrap@3.3.7": {
+            "map": {
+                "jquery": "npm:jquery@2.2.4"
+            }
+        },
+        "npm:autoprefixer@6.4.0": {
+            "map": {
+                "postcss": "npm:postcss@5.1.2",
+                "caniuse-db": "npm:caniuse-db@1.0.30000518",
+                "normalize-range": "npm:normalize-range@0.1.2",
+                "browserslist": "npm:browserslist@1.3.5",
+                "num2fraction": "npm:num2fraction@1.2.2",
+                "postcss-value-parser": "npm:postcss-value-parser@3.3.0"
+            }
+        },
+        "npm:postcss@5.1.2": {
+            "map": {
+                "source-map": "npm:source-map@0.5.6",
+                "js-base64": "npm:js-base64@2.1.9",
+                "supports-color": "npm:supports-color@3.1.2"
+            }
+        },
+        "npm:stream-http@2.3.1": {
+            "map": {
+                "inherits": "npm:inherits@2.0.1",
+                "readable-stream": "npm:readable-stream@2.1.4",
+                "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
+                "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
+                "xtend": "npm:xtend@4.0.1"
             }
         }
     }

@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/aurelia/logging-console/1.0.0-rc.1.0.0/typings.json",
-    "raw": "github:aurelia/logging-console#1.0.0-rc.1.0.0",
+    "src": "https://raw.githubusercontent.com/aurelia/logging-console/1.0.0/typings.json",
+    "raw": "github:aurelia/logging-console#1.0.0",
     "main": "dist/aurelia-logging-console.d.ts",
     "global": false,
     "name": "aurelia-logging-console",
