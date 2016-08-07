@@ -5,8 +5,9 @@ module.exports = {
         proxy: {
             target: 'localhost:3000',
             proxyRes: [function (proxyRes) {
-                if (proxyRes.req.path.match(/jspm_packages/))
+                if (proxyRes.req.path.match(/jspm_packages/)) {
                     proxyRes.headers['cache-control'] = 'max-age=604800, public';
+                }
             }]
         }
     },
@@ -16,7 +17,7 @@ module.exports = {
     watchOptions: {
         injectChanges: true,
         files: [
-            "**/*.{html,ts,css}"
+            "**/*.{html,ts,tsx,js,jsx,css}"
         ],
         ignored: [
             "jspm_packages",

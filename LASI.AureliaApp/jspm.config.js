@@ -149,7 +149,7 @@ SystemJS.config({
             },
             "github:frankwallis/plugin-typescript@5.0.9": {
                 "map": {
-                    "typescript": "npm:typescript@2.1.0-dev.20160806"
+                    "typescript": "npm:typescript@2.1.0-dev.20160807"
                 }
             },
             "npm:brace-expansion@1.1.6": {
@@ -168,7 +168,7 @@ SystemJS.config({
         "module": "system"
     },
     map: {
-        "bootstrap-css": "github:twbs/bootstrap@3.3.6/dist/css/bootstrap.css"
+        "bootstrap-css": "github:twbs/bootstrap@3.3.7/dist/css/bootstrap.css"
     }
 });
 

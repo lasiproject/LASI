@@ -1,0 +1,6 @@
+{
+    "$schema": "http://json.schemastore.org/package",
+    "dependencies": {
+        "typescript": "npm:typescript@2.1.0-dev.20160807"
+    }
+}
