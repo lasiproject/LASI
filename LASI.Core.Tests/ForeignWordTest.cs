@@ -18,8 +18,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ForeignWordConstructorTest()
         {
-            string text = "Bonjour";
-            ForeignWord target = new ForeignWord(text);
+            var text = "Bonjour";
+            var target = new ForeignWord(text);
             Check.That(target.Text).IsEqualTo(text);
             Check.That(target.UsedAsType).IsNull();
         }
@@ -30,9 +30,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void UsedAsTypeTest()
         {
-            string text = "Bonjour";
-            ForeignWord target = new ForeignWord(text);
-            Type expected = typeof(Interjection);
+            var text = "Bonjour";
+            var target = new ForeignWord(text);
+            var expected = typeof(Interjection);
             Type actual;
             target.UsedAsType = expected;
             actual = target.UsedAsType;

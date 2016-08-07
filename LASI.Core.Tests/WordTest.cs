@@ -61,9 +61,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void EqualsTest()
         {
-            Word target = CreateWord();
+            var target = CreateWord();
             object obj = CreateWord();
-            bool expected = false;
+            var expected = false;
             bool actual;
             actual = target.Equals(obj);
             Check.That(actual).IsEqualTo(expected);
@@ -79,8 +79,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetHashCodeTest()
         {
-            Word target = CreateWord();
-            int expected = (target).GetHashCode();
+            var target = CreateWord();
+            var expected = (target).GetHashCode();
             int actual;
             actual = target.GetHashCode();
             Check.That(actual).IsEqualTo(expected);
@@ -93,8 +93,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToStringTest()
         {
-            Word target = CreateWord();
-            string expected = target.GetType().Name + " \"" + target.Text + "\"";
+            var target = CreateWord();
+            var expected = target.GetType().Name + " \"" + target.Text + "\"";
             string actual;
             actual = target.ToString();
             Check.That(actual).IsEqualTo(expected);
@@ -108,8 +108,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ParentDocTest()
         {
-            Word target = CreateWord();
-            Document parent = new Document(new Paragraph(ParagraphKind.Default, new Sentence(new[] { new Clause(new NounPhrase(target)) }, ending: null)));
+            var target = CreateWord();
+            var parent = new Document(new Paragraph(ParagraphKind.Default, new Sentence(new[] { new Clause(new NounPhrase(target)) }, ending: null)));
 
             var expected = parent;
             var actual = target.Document;
@@ -126,7 +126,7 @@ namespace LASI.Core.Tests
         public void TextTest()
         {
             Word target = new BaseVerb("run");
-            string expected = "run";
+            var expected = "run";
             string actual;
             actual = target.Text;
             Check.That(actual).IsEqualTo(expected);
@@ -140,8 +140,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void WeightTest()
         {
-            Word target = CreateWord();
-            double expected = new Random().NextDouble() * double.MaxValue;
+            var target = CreateWord();
+            var expected = new Random().NextDouble() * double.MaxValue;
             double actual;
             target.Weight = expected;
             actual = target.Weight;
@@ -154,7 +154,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void VerboseOutputTest()
         {
-            bool expected = false;
+            var expected = false;
             bool actual;
             Word.VerboseOutput = expected;
             actual = Word.VerboseOutput;

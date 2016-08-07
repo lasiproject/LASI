@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PrepositionConstructorTest()
         {
-            string text = "into";
-            Preposition target = new Preposition(text);
+            var text = "into";
+            var target = new Preposition(text);
             Check.That(target.Text).IsEqualTo(text);
             Check.That(target.BoundObject).IsNull();
             Check.That(target.ToTheLeftOf).IsNull();
@@ -31,8 +31,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindObjectOfPrepositionTest()
         {
-            string text = "into";
-            Preposition target = new Preposition(text);
+            var text = "into";
+            var target = new Preposition(text);
             ILexical prepositionalObject = new NounPhrase(new Determiner("the"), new CommonSingularNoun("drawer"));
             target.BindObject(prepositionalObject);
             Check.That(target.BoundObject).IsEqualTo(prepositionalObject);
@@ -45,8 +45,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void OnLeftSideTest()
         {
-            string text = "into";
-            Preposition target = new Preposition(text);
+            var text = "into";
+            var target = new Preposition(text);
             ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -61,8 +61,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void OnRightSideTest()
         {
-            string text = "into";
-            Preposition target = new Preposition(text);
+            var text = "into";
+            var target = new Preposition(text);
             ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheRightOf = expected;
@@ -78,8 +78,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToTheRightOfTest()
         {
-            string text = "into";
-            Preposition target = new Preposition(text);
+            var text = "into";
+            var target = new Preposition(text);
             ILexical expected = new PastTenseVerb("gazed");
             ILexical actual;
             target.ToTheRightOf = expected;
@@ -93,8 +93,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToTheLeftOfTest()
         {
-            string text = "inside";
-            Preposition target = new Preposition(text);
+            var text = "inside";
+            var target = new Preposition(text);
             ILexical expected = new NounPhrase(new PossessivePronoun("your"), new CommonSingularNoun("soul"));
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -110,9 +110,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void RoleTest()
         {
-            string text = "over";
-            Preposition target = new Preposition(text);
-            PrepositionRole expected = PrepositionRole.LocationOrScopeSpecifier;
+            var text = "over";
+            var target = new Preposition(text);
+            var expected = PrepositionRole.LocationOrScopeSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
@@ -125,9 +125,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToStringTest()
         {
-            string text = "with";
-            Preposition target = new Preposition(text);
-            string expected = "Preposition \"with\"";
+            var text = "with";
+            var target = new Preposition(text);
+            var expected = "Preposition \"with\"";
             string actual;
             actual = target.ToString();
             Check.That(expected).IsEqualTo(actual);
@@ -139,8 +139,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindObjectTest()
         {
-            string text = "with";
-            Preposition target = new Preposition(text);
+            var text = "with";
+            var target = new Preposition(text);
             ILexical prepositionalObject = new PersonalPronoun("them");
             target.BindObject(prepositionalObject);
             Check.That(prepositionalObject).IsEqualTo(target.BoundObject);

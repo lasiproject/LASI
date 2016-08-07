@@ -93,7 +93,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddPdfFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.pdf";
+            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.pdf";
             var result = FileManager.AddFile(sourcePath);
 
             Check.That(FileManager.PdfFilesDirectory + @"\Test paragraph about house fires.pdf")
@@ -107,7 +107,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddTxtFileTest()
         {
-            string sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
+            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.txt";
             var result = FileManager.AddFile(sourcePath);
 
             Check.That(FileManager.TxtFilesDirectory + @"\Test paragraph about house fires.txt")
@@ -167,7 +167,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocFilesAsyncTest()
         {
-            DocFile[] files = DocFiles;
+            var files = DocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -183,7 +183,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocToTextAsyncTest()
         {
-            DocFile[] files = DocFiles;
+            var files = DocFiles;
             await FileManager.ConvertDocToTextAsync(files);
 
             foreach (var file in files)
@@ -199,7 +199,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocToTextTest()
         {
-            DocFile[] files = DocFiles;
+            var files = DocFiles;
             FileManager.ConvertDocToText(files);
 
             foreach (var file in files)
@@ -215,7 +215,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertDocxToTextAsyncTest()
         {
-            DocXFile[] files = DocXFiles;
+            var files = DocXFiles;
             foreach (var path in from file in files select file.FullPath)
             {
                 FileManager.AddFile(path);
@@ -240,7 +240,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertDocxToTextTest()
         {
-            DocXFile[] files = DocXFiles;
+            var files = DocXFiles;
             FileManager.ConvertDocxToText(files);
 
             foreach (var file in files)
@@ -256,7 +256,7 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertPdfToTextAsyncTest()
         {
-            PdfFile[] files = PdfFiles;
+            var files = PdfFiles;
             await FileManager.ConvertPdfToTextAsync(files);
 
             foreach (var file in files)
@@ -272,7 +272,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertPdfToTextTest()
         {
-            PdfFile[] files = PdfFiles;
+            var files = PdfFiles;
             FileManager.ConvertPdfToText(files);
 
             foreach (var file in files)
@@ -320,7 +320,7 @@ namespace LASI.Content.Tests
         public void ProjectNameTest()
         {
             FileManager.Initialize(testProjectDirectory);
-            string expected = testProjectDirectory.Split(Path.DirectorySeparatorChar).Last();
+            var expected = testProjectDirectory.Split(Path.DirectorySeparatorChar).Last();
             string actual;
             actual = FileManager.ProjectName;
 
@@ -333,7 +333,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void RemoveFileTest()
         {
-            InputFile file = AllTestFiles.ElementAt(new Random().Next(0, AllTestFiles.Count()));
+            var file = AllTestFiles.ElementAt(new Random().Next(0, AllTestFiles.Count()));
             FileManager.AddFile(file.FullPath);
 
             Check.That(file).Satisfies(FileManager.HasSimilarFile);
@@ -365,7 +365,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void TagTextFilesTest()
         {
-            TxtFile[] files = TxtFiles;
+            var files = TxtFiles;
             FileManager.TagTextFiles(files);
 
             foreach (var file in files)

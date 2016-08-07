@@ -19,7 +19,7 @@ namespace LASI.Core.Tests
 
         private static Document CreateUnboundUnweightedTestDocument()
         {
-            IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
+            var allParagrpahs = BuildParagraphs();
             return new Document(allParagrpahs);
         }
 
@@ -78,7 +78,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DocumentConstructorTest()
         {
-            Document doc = CreateUnboundUnweightedTestDocument();
+            var doc = CreateUnboundUnweightedTestDocument();
             Assert.True(doc.Words
                 .Select((x, index) => x.PreviousWord == doc.Words.ElementAtOrDefault(index - 1) && x.NextWord == doc.Words.ElementAtOrDefault(index + 1)
              ).Aggregate(true, (f, e) => f && e));
@@ -96,7 +96,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetVerbalsTest()
         {
-            Document target = CreateUnboundUnweightedTestDocument();
+            var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IVerbal> expected = new IVerbal[]{
                     new VerbPhrase(new Word[] {
                                 new ModalAuxilary("must"),
@@ -126,7 +126,7 @@ namespace LASI.Core.Tests
         public void GetEntitiesTest()
         {
 
-            Document target = CreateUnboundUnweightedTestDocument();
+            var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<IEntity> expected = new IEntity[]{
                 new NounPhrase(new Word[] {
                                 new PersonalPronoun("We")
@@ -161,8 +161,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ParagraphsTest()
         {
-            IEnumerable<Paragraph> paragraphsIn = BuildParagraphs();
-            Document target = new Document(paragraphsIn);
+            var paragraphsIn = BuildParagraphs();
+            var target = new Document(paragraphsIn);
             IEnumerable<Paragraph> actual = target.Paragraphs.ToList();
 
             Check.That(paragraphsIn).ContainsExactly(actual);
@@ -175,7 +175,7 @@ namespace LASI.Core.Tests
         public void PhrasesTest()
         {
 
-            Document target = CreateUnboundUnweightedTestDocument();
+            var target = CreateUnboundUnweightedTestDocument();
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             var expectedResult = actual
@@ -191,7 +191,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SentencesTest()
         {
-            Sentence[] firstParagraphSentences = new Sentence[] {
+            var firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
                         new Clause(new Phrase[] {
                             new NounPhrase(new Word[] {
@@ -222,7 +222,7 @@ namespace LASI.Core.Tests
                     })}, SentenceEnding.ExclamationPoint)
                 };
 
-            Document target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
+            var target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
             IEnumerable<Sentence> actual;
             actual = target.Sentences;
             for (var i = 0; i < actual.Count(); ++i)
@@ -238,7 +238,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void WordsTest()
         {
-            Document target = CreateUnboundUnweightedTestDocument();
+            var target = CreateUnboundUnweightedTestDocument();
 
             var actual = target.Words;
             string[] expectedLexicalMatches = { "We", "must", "attack", "blue", "team", "!", "We", "must", "do", "this", "quickly", "!" };
@@ -257,9 +257,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void TitleTest()
         {
-            IEnumerable<Paragraph> allParagrpahs = BuildParagraphs();
-            Document target = new Document("testname", allParagrpahs);
-            string expected = "testname";
+            var allParagrpahs = BuildParagraphs();
+            var target = new Document("testname", allParagrpahs);
+            var expected = "testname";
             string actual;
             actual = target.Name;
             Check.That(expected).IsEqualTo(actual);
@@ -271,7 +271,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ClausesTest()
         {
-            Sentence[] firstParagraphSentences = new Sentence[] {
+            var firstParagraphSentences = new Sentence[] {
                     new Sentence(new Clause[] {
                         new Clause(
                             new NounPhrase(
@@ -303,9 +303,9 @@ namespace LASI.Core.Tests
                     }, SentenceEnding.ExclamationPoint)
                 };
 
-            Document target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
+            var target = new Document(new[] { new Paragraph(ParagraphKind.Default, firstParagraphSentences) });
 
-            IEnumerable<Clause> expected = firstParagraphSentences.SelectMany(s => s.Clauses);
+            var expected = firstParagraphSentences.SelectMany(s => s.Clauses);
             IEnumerable<Clause> actual;
             actual = target.Clauses;
             Check.That(actual).Contains(expected).Only();
@@ -317,8 +317,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToStringTest()
         {
-            Document target = CreateUnboundUnweightedTestDocument();
-            string expected = string.Join(string.Empty, target.GetType(), ": ", target.Name, "\nParagraphs:\n", target.Paragraphs.Format());
+            var target = CreateUnboundUnweightedTestDocument();
+            var expected = string.Join(string.Empty, target.GetType(), ": ", target.Name, "\nParagraphs:\n", target.Paragraphs.Format());
             string actual;
             actual = target.ToString();
             Check.That(expected).IsEqualTo(actual);
@@ -330,9 +330,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void PaginateTest()
         {
-            Document target = CreateUnboundUnweightedTestDocument();
-            int lineLength = 80;
-            int linesPerPage = 3;
+            var target = CreateUnboundUnweightedTestDocument();
+            var lineLength = 80;
+            var linesPerPage = 3;
 
             IEnumerable<Document.Page> actual;
 
@@ -351,9 +351,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void PaginateTest1()
         {
-            Document target = CreateUnboundUnweightedTestDocument();
-            int lineLength = 80;
-            int linesPerPage = 1;
+            var target = CreateUnboundUnweightedTestDocument();
+            var lineLength = 80;
+            var linesPerPage = 1;
 
             IEnumerable<Document.Page> actual;
 

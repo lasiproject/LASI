@@ -20,8 +20,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void AdjectiveConstructorTest()
         {
-            string text = "orangish";
-            Adjective target = new Adjective(text);
+            var text = "orangish";
+            var target = new Adjective(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 
@@ -31,9 +31,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifyWithTest()
         {
-            Adjective target = new Adjective("orangish");
-            Adverb adv = new Adverb("demonstrably");
-            AdverbPhrase advp = new AdverbPhrase(new[] { adv });
+            var target = new Adjective("orangish");
+            var adv = new Adverb("demonstrably");
+            var advp = new AdverbPhrase(new[] { adv });
             target.ModifyWith(adv);
             target.ModifyWith(advp);
             Check.That(target.AdverbialModifiers).Contains(adv).And.Contains(advp);
@@ -45,8 +45,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void DescribesTest()
         {
-            string text = "funny";
-            Adjective target = new Adjective(text);
+            var text = "funny";
+            var target = new Adjective(text);
             IEntity expected = new CommonSingularNoun("man");
             IEntity actual;
             target.Describes = expected;
@@ -64,8 +64,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifiersTest()
         {
-            string text = "funny";
-            Adjective target = new Adjective(text);
+            var text = "funny";
+            var target = new Adjective(text);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
             Check.That(target.AdverbialModifiers).IsEmpty();

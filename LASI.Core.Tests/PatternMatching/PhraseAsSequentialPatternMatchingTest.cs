@@ -10,9 +10,9 @@ namespace LASI.Core.Tests.PatternMatching
         [Fact]
         public void NounPhraseTest1()
         {
-            bool actual = false;
+            var actual = false;
             var target = new NounPhrase(new Determiner("The"), new CommonSingularNoun("truth"));
-            bool expected = true;
+            var expected = true;
             target.MatchSequence()
                 .Case((Determiner d, IEntity e) => actual = true);
             Check.That(expected).IsEqualTo(actual);
@@ -20,9 +20,9 @@ namespace LASI.Core.Tests.PatternMatching
         [Fact]
         public void NounPhraseTest2()
         {
-            bool actual = false;
+            var actual = false;
             var target = new NounPhrase(new Determiner("The"), new CommonSingularNoun("truth"));
-            bool expected = true;
+            var expected = true;
             target.MatchSequence()
                 .Case((Determiner d, IDeterminable e) => actual = true);
             Check.That(expected).IsEqualTo(actual);

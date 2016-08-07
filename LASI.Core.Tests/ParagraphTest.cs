@@ -18,29 +18,29 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToStringTest()
         {
-            Phrase[] phrases1 = new Phrase[] {
+            var phrases1 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") })
             };
-            Sentence[] sentences = new Sentence[3];
+            var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] {
+            var phrases2 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
-            Phrase[] phrases3 = new Phrase[] {
+            var phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
-            Paragraph target = new Paragraph(ParagraphKind.Default, sentences);
+            var target = new Paragraph(ParagraphKind.Default, sentences);
 
-            string expected = string.Format("LASI.Core.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
+            var expected = string.Format("LASI.Core.Paragraph: {0} sentences\n\"LASI found TIMIS. LASI SNIFd them. Richard did awesome.\"", sentences.Length);
             string actual;
             actual = target.ToString();
             Check.That(actual).IsEqualTo(expected);
@@ -52,29 +52,29 @@ namespace LASI.Core.Tests
         [Fact]
         public void TextTest()
         {
-            Phrase[] phrases1 = new Phrase[] {
+            var phrases1 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
                 new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
             };
-            Sentence[] sentences = new Sentence[3];
+            var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] {
+            var phrases2 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("them") })
             };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
-            Phrase[] phrases3 = new Phrase[] {
+            var phrases3 = new Phrase[] {
                 new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                 new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                 new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
             };
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
-            Paragraph target = new Paragraph(ParagraphKind.Default, sentences);
+            var target = new Paragraph(ParagraphKind.Default, sentences);
 
-            string expected = "LASI found TIMIS. LASI SNIFd them. Richard did awesome.";
+            var expected = "LASI found TIMIS. LASI SNIFd them. Richard did awesome.";
             string actual;
             actual = target.Text;
             Check.That(actual).IsEqualTo(expected);
@@ -86,20 +86,20 @@ namespace LASI.Core.Tests
         [Fact]
         public void EstablishParentTest()
         {
-            Phrase[] phrases1 = new Phrase[] {
+            var phrases1 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("found")}),
                    new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS")})
                };
-            Sentence[] sentences = new Sentence[3];
+            var sentences = new Sentence[3];
             sentences[0] = new Sentence(phrases1, SentenceEnding.Period);
-            Phrase[] phrases2 = new Phrase[] {
+            var phrases2 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("SNIFd") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("them") })
                };
             sentences[1] = new Sentence(phrases2, SentenceEnding.Period);
-            Phrase[] phrases3 = new Phrase[] {
+            var phrases3 = new Phrase[] {
                    new NounPhrase(new Word[] { new ProperSingularNoun("Richard") }),
                    new VerbPhrase(new Word[] { new PastTenseVerb("did") }),
                    new NounPhrase(new Word[] { new ProperPluralNoun("awesome") })
@@ -107,7 +107,7 @@ namespace LASI.Core.Tests
             sentences[2] = new Sentence(phrases3, SentenceEnding.Period);
 
             Paragraph[] target = { new Paragraph(ParagraphKind.Default, sentences) };
-            Document parentDoc = new Document(target);
+            var parentDoc = new Document(target);
             target[0].EstablishTextualLinks(parentDoc);
             Check.That(target[0].Document).IsEqualTo(parentDoc);
         }
@@ -142,8 +142,8 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("this")),
                             new AdverbPhrase(new Adverb("quickly")))}, SentenceEnding.ExclamationPoint)
         };
-            ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(paragraphKind, sentences);
+            var paragraphKind = ParagraphKind.Default;
+            var target = new Paragraph(paragraphKind, sentences);
             IEnumerable<Word> actual;
             actual = target.Words;
             Check.That(sentences.Words()).ContainsExactly(actual);
@@ -180,8 +180,8 @@ namespace LASI.Core.Tests
                                 new PersonalPronoun("this")),
                             new AdverbPhrase(new Adverb("quickly")))}, SentenceEnding.ExclamationPoint)
                 };
-            ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(paragraphKind, sentences);
+            var paragraphKind = ParagraphKind.Default;
+            var target = new Paragraph(paragraphKind, sentences);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             Check.That(sentences.Phrases()).ContainsExactly(actual);
@@ -210,9 +210,9 @@ namespace LASI.Core.Tests
                         })},
                         SentenceEnding.ExclamationPoint)
                 };
-            ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(paragraphKind, sentences);
-            IEnumerable<Phrase> expected = sentences.Phrases().SkipWhile(p => p != startAfter).Skip(1);
+            var paragraphKind = ParagraphKind.Default;
+            var target = new Paragraph(paragraphKind, sentences);
+            var expected = sentences.Phrases().SkipWhile(p => p != startAfter).Skip(1);
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(startAfter);
 
@@ -240,8 +240,8 @@ namespace LASI.Core.Tests
                         new AdverbPhrase(new Adverb("quickly")))
                         }, SentenceEnding.ExclamationPoint)
                 };
-            ParagraphKind paragraphKind = ParagraphKind.Default;
-            Paragraph target = new Paragraph(paragraphKind, sentences);
+            var paragraphKind = ParagraphKind.Default;
+            var target = new Paragraph(paragraphKind, sentences);
             Check.That(paragraphKind).IsEqualTo(target.ParagraphKind);
             Check.That(sentences).ContainsExactly(target.Sentences);
         }

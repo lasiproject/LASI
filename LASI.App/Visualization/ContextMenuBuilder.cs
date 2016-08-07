@@ -8,6 +8,7 @@ using LASI.Utilities.Specialized.Enhanced.IList.Linq;
 
 namespace LASI.App.Visualization
 {
+    using System;
     using WpfDocuments = System.Windows.Documents;
 
     internal static class ContextMenuBuilder
@@ -24,11 +25,15 @@ namespace LASI.App.Visualization
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures) => element match (
-            case IVerbal v : ForVerbal(v, neighboringElementDisplayStructures)
-            case IReferencer r : ForReferencer(r, neighboringElementDisplayStructures)
-            case * : null
-        );
+        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures)
+        {
+            var createMenuForVerbal = ForVerbal(neighboringElementDisplayStructures);
+            var createMenuForReferencer = ForReferencer(neighboringElementDisplayStructures);
+            return element.Match()
+                .Case(createMenuForVerbal)
+                .Case(createMenuForReferencer)
+                .Result();
+        }
 
         #region Lexical Element Context Menu Construction
 
@@ -43,27 +48,28 @@ namespace LASI.App.Visualization
         /// <returns>
         /// A context menu based on the provided IVerbal in the context of the provided labels.
         /// </returns>
-        private static ContextMenu ForVerbal(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
-        {
-            var result = new ContextMenu();
-            if (verbal.Subjects.Any())
+        private static Func<IVerbal, ContextMenu> ForVerbal(IReadOnlyList<WpfDocuments.TextElement> neighboringElements) =>
+            verbal =>
             {
-                result.Items.Add(VerbalMenuItemFactory.ForSubject(verbal, neighboringElements));
-            }
-            if (verbal.DirectObjects.Any())
-            {
-                result.Items.Add(VerbalMenuItemFactory.ForDirectObject(verbal, neighboringElements));
-            }
-            if (verbal.IndirectObjects.Any())
-            {
-                result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(verbal, neighboringElements));
-            }
-            if (verbal.ObjectOfThePreposition != null)
-            {
-                result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(verbal, neighboringElements));
-            }
-            return result.Items.Count == 0 ? null : result;
-        }
+                var result = new ContextMenu();
+                if (verbal.Subjects.Any())
+                {
+                    result.Items.Add(VerbalMenuItemFactory.ForSubject(verbal, neighboringElements));
+                }
+                if (verbal.DirectObjects.Any())
+                {
+                    result.Items.Add(VerbalMenuItemFactory.ForDirectObject(verbal, neighboringElements));
+                }
+                if (verbal.IndirectObjects.Any())
+                {
+                    result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(verbal, neighboringElements));
+                }
+                if (verbal.ObjectOfThePreposition != null)
+                {
+                    result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(verbal, neighboringElements));
+                }
+                return result.Items.Count == 0 ? null : result;
+            };
 
         /// <summary>
         /// Creates a context menu specific to the given IReferencer element with context
@@ -76,15 +82,16 @@ namespace LASI.App.Visualization
         /// <returns>
         /// A context menu based on the provided IReferencer in the context of the provided labels.
         /// </returns>
-        private static ContextMenu ForReferencer(IReferencer referencer, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
-        {
-            var result = new ContextMenu();
-            if (referencer.RefersTo != null && referencer.RefersTo.Any())
+        private static Func<IReferencer, ContextMenu> ForReferencer(IReadOnlyList<WpfDocuments.TextElement> neighboringElements) =>
+            referencer =>
             {
-                result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(neighboringElements, referencer));
-            }
-            return result.Items.Count == 0 ? null : result;
-        }
+                var result = new ContextMenu();
+                if (referencer.RefersTo != null && referencer.RefersTo.Any())
+                {
+                    result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(neighboringElements, referencer));
+                }
+                return result.Items.Count == 0 ? null : result;
+            };
 
         private static class VerbalMenuItemFactory
         {

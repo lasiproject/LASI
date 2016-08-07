@@ -91,7 +91,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         {
             ActionsRelatedOn? relatorSet = null;
             IVerbal relator = new PastTenseVerb("walked");
-            bool expected = false;
+            var expected = false;
             bool actual;
             actual = RelationShipInferenceExtensions.On(relatorSet, relator);
             Check.That(actual).IsEqualTo(expected);
@@ -104,7 +104,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
         {
             IVerbal relator = new PastTenseVerb("walked");
             ActionsRelatedOn? relatorSet = new ActionsRelatedOn(new[] { relator });
-            bool expected = true;
+            var expected = true;
             bool actual;
             actual = RelationShipInferenceExtensions.On(relatorSet, relator);
             Check.That(actual).IsEqualTo(expected);
@@ -139,7 +139,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
             relator.BindSubject(performer);
             relator.BindDirectObject(receiver);
             performer.SetRelationshipLookup(new RelationshipLookup<IEntity, IVerbal>(new[] { relator }, Equals, Equals, Equals));
-            bool expected = true;
+            var expected = true;
             bool actual;
             actual = RelationShipInferenceExtensions.IsRelatedTo(performer, receiver).On(relator);
             Check.That(actual).IsEqualTo(expected);
@@ -156,7 +156,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
             relator.BindSubject(performer);
             relator.BindDirectObject(receiver);
             performer.SetRelationshipLookup(new RelationshipLookup<IEntity, IVerbal>(new[] { relator }, Equals, Equals, Equals));
-            bool expected = true;
+            var expected = true;
             bool actual;
             actual = RelationShipInferenceExtensions.IsRelatedTo(receiver, performer).On(relator);
             Check.That(actual).IsEqualTo(expected);

@@ -15,8 +15,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void MetaWeightTest()
         {
-            ILexical target = CreateILexical();
-            double expected = 1d;
+            var target = CreateILexical();
+            var expected = 1d;
             double actual;
             target.MetaWeight = expected;
             actual = target.MetaWeight;
@@ -41,8 +41,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void WeightTest()
         {
-            ILexical target = CreateILexical();
-            double expected = 1d;
+            var target = CreateILexical();
+            var expected = 1d;
             double actual;
             target.Weight = expected;
             actual = target.Weight;

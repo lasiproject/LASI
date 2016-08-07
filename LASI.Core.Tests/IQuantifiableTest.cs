@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void QuantifiedByTest()
         {
-            IQuantifiable target = CreateIQuantifiable();
+            var target = CreateIQuantifiable();
             IQuantifier expected = new Quantifier("all");
             IQuantifier actual;
             target.QuantifiedBy = expected;

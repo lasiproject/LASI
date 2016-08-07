@@ -22,7 +22,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void GenderTest()
         {
-            ISimpleGendered target = CreateGendered();
+            var target = CreateGendered();
             Gender actual;
             actual = target.Gender;
             Assert.Equal(actual, target.Gender);

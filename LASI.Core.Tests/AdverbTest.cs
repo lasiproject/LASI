@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifiedTest()
         {
-            Adverb quickly = new Adverb("quickly");
+            var quickly = new Adverb("quickly");
             IAdverbialModifiable run = new BaseVerb("run");
             quickly.Modifies = run;
             Check.That(quickly.Modifies).IsEqualTo(run);
@@ -32,7 +32,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void AdverbConstructorTest()
         {
-            Adverb quickly = new Adverb("quickly");
+            var quickly = new Adverb("quickly");
             Check.That(quickly.Text).IsEqualTo("quickly");
             Check.That(quickly.Modifies).IsNull();
         }
@@ -43,7 +43,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifiesTest()
         {
-            Adverb quickly = new Adverb("quickly");
+            var quickly = new Adverb("quickly");
             IAdverbialModifiable ran = new BaseVerb("ran");
             quickly.Modifies = ran;
             Check.That(quickly.Modifies).IsEqualTo(ran);
@@ -55,7 +55,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifiersTest()
         {
-            Adverb unfothomably = new Adverb("unfothomably");
+            var unfothomably = new Adverb("unfothomably");
             IEnumerable<IAdverbial> modifiers = new[] { new Adverb("uncertainly"), new Adverb("possibly") };
             foreach (var modifier in modifiers)
             {
@@ -74,7 +74,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModifyWithTest()
         {
-            Adverb unfothomably = new Adverb("unfothomably");
+            var unfothomably = new Adverb("unfothomably");
             IAdverbial uncertainly = new Adverb("uncertainly");
             unfothomably.ModifyWith(uncertainly);
             Check.That(unfothomably.AdverbialModifiers).Contains(uncertainly);

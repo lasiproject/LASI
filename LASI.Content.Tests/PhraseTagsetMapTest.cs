@@ -56,8 +56,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void ItemTest()
         {
-            PhraseTagsetMap target = CreatePhraseTagsetMap();
-            string tag = "NP";
+            var target = CreatePhraseTagsetMap();
+            var tag = "NP";
             Func<IEnumerable<Word>, Phrase> actual;
             actual = target[tag];
             var phrase = actual(new Word[] { new PersonalPronoun("he") });
@@ -70,7 +70,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ItemTest2()
         {
-            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            var target = CreatePhraseTagsetMap();
             Phrase phrase = new NounPhrase(new Word[] { new PersonalPronoun("he") });
             string actual;
             actual = target[phrase];
@@ -79,7 +79,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void ItemTest3_FailureExpected()
         {
-            PhraseTagsetMap target = CreatePhraseTagsetMap();
+            var target = CreatePhraseTagsetMap();
             Check.ThatCode(() => target["NOTMAPPED"]).Throws<UnknownPhraseTagException>();
         }
     }

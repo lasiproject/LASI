@@ -20,8 +20,8 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertFileAsyncTest()
         {
-            DocXFile infile = SourceFile;
-            DocxToTextConverter target = new DocxToTextConverter(infile);
+            var infile = SourceFile;
+            var target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = await target.ConvertFileAsync();
             Check.That(actual.FullPath).Satisfies(File.Exists);
@@ -32,8 +32,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void ConvertFileTest()
         {
-            DocXFile infile = SourceFile;
-            DocxToTextConverter target = new DocxToTextConverter(infile);
+            var infile = SourceFile;
+            var target = new DocxToTextConverter(infile);
             TxtFile actual;
             actual = target.ConvertFile();
             Check.That(actual.FullPath).Satisfies(File.Exists);
@@ -44,8 +44,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocxToTextConverterConstructorTest()
         {
-            DocXFile infile = SourceFile;
-            DocxToTextConverter target = new DocxToTextConverter(infile);
+            var infile = SourceFile;
+            var target = new DocxToTextConverter(infile);
             Check.That(target.Original.FullPath).IsEqualTo(infile.FullPath);
         }
     }

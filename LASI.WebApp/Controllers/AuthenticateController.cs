@@ -60,7 +60,7 @@ namespace LASI.WebApp.Controllers
             var user = await userManager.FindByEmailAsync(body.Email);
             if (signInResult.Succeeded)
             {
-                string renderedToken = GenerateJwtToken();
+                var renderedToken = GenerateJwtToken();
                 return new
                 {
                     Authenticated = true,

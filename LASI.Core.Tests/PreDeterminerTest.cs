@@ -15,8 +15,8 @@ namespace LASI.Core.Tests
         /// </summary>
         [Fact]
         public void PreDeterminerConstructorTest() {
-            string text = "both";
-            PreDeterminer target = new PreDeterminer(text);
+            var text = "both";
+            var target = new PreDeterminer(text);
             Assert.Equal(text, target.Text);
         }
     }

@@ -19,9 +19,9 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest()
         {
-            NounMorpher target = new NounMorpher();
-            string conjugated = "birds";
-            string expected = "bird";
+            var target = new NounMorpher();
+            var conjugated = "birds";
+            var expected = "bird";
             string actual;
             actual = target.FindRoot(conjugated);
             Check.That(expected).IsEqualTo(actual);
@@ -33,9 +33,9 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest1()
         {
-            NounMorpher target = new NounMorpher();
-            string nounForm = "octopi";
-            string expected = "octopus";
+            var target = new NounMorpher();
+            var nounForm = "octopi";
+            var expected = "octopus";
             string actual;
             actual = target.FindRoot(nounForm);
             Check.That(expected).IsEqualTo(actual);
@@ -46,9 +46,9 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest2()
         {
-            NounMorpher target = new NounMorpher();
-            string nounForm = "pass-throughs";
-            string expected = "pass-through";
+            var target = new NounMorpher();
+            var nounForm = "pass-throughs";
+            var expected = "pass-through";
             string actual;
             actual = target.FindRoot(nounForm);
             Check.That(expected).IsEqualTo(actual);
@@ -60,9 +60,9 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest3()
         {
-            NounMorpher target = new NounMorpher();
+            var target = new NounMorpher();
             Noun noun = new CommonPluralNoun("octopi");
-            string expected = "octopus";
+            var expected = "octopus";
             string actual;
             actual = target.FindRoot(noun);
             Check.That(expected).IsEqualTo(actual);
@@ -73,9 +73,9 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void FindRootTest4()
         {
-            NounMorpher target = new NounMorpher();
-            string nounForm = "octopi-hunters";
-            string expected = "octopi-hunter";
+            var target = new NounMorpher();
+            var nounForm = "octopi-hunters";
+            var expected = "octopi-hunter";
             string actual;
             actual = target.FindRoot(nounForm);
             Check.That(expected).IsEqualTo(actual);
@@ -87,8 +87,8 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void GetLexicalFormsTest1()
         {
-            NounMorpher target = new NounMorpher();
-            string root = "kitten";
+            var target = new NounMorpher();
+            var root = "kitten";
             IEnumerable<string> expected = new[] { "kittens" };
             IEnumerable<string> actual;
             actual = target.GetLexicalForms(root);
@@ -101,7 +101,7 @@ namespace LASI.Core.Analysis.WordMorphing.Tests
         [Fact]
         public void ExceptionalNounFormsTest1()
         {
-            NounMorpher target = new NounMorpher();
+            var target = new NounMorpher();
             var tested = 0;
             NounExcFileLines.ForEach(line =>
             {

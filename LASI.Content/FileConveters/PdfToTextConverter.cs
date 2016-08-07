@@ -70,7 +70,7 @@ namespace LASI.Content
             public void ExtractText(string inFileName, string outFileName)
             {
                 // Create a reader for the given PDF file   
-                PdfReader reader = new PdfReader(new FileStream(inFileName,
+                var reader = new PdfReader(new FileStream(inFileName,
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.Read, 1024,
@@ -109,7 +109,7 @@ namespace LASI.Content
                 int bracketDepth = 0;
 
                 // Keep previous chars to get extract numbers etc.: 
-                char[] previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
+                var previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
                 for (int i = 0; i < input.Length; i++)

@@ -88,7 +88,7 @@ namespace LASI.Core.Heuristics.WordNet
                                         access: FileAccess.Read
                                     )))
             {
-                for (int i = 0; i < LinesInHeader; ++i)
+                for (var i = 0; i < LinesInHeader; ++i)
                 {
                     reader.ReadLine();
                 }

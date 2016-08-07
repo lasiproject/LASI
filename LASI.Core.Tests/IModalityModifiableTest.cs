@@ -23,8 +23,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ModalityTest()
         {
-            IModalityModifiable target = CreateIModalityModifiable();
-            ModalAuxilary expected = new ModalAuxilary("might");
+            var target = CreateIModalityModifiable();
+            var expected = new ModalAuxilary("might");
             ModalAuxilary actual;
             target.Modality = expected;
             actual = target.Modality;

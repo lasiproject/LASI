@@ -20,8 +20,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PronounConstructorTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             Assert.True(target.Text == text, "Text property value correctly initialized via parameter");
             //Assert.IsTrue(from.BoundEntity == null,"Bound Entity property was initialized to NULL");
         }
@@ -32,8 +32,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindPronounTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             Pronoun pro = new PersonalPronoun("them");
             target.BindReferencer(pro);
             Check.That(target.Referencers).Contains(pro);
@@ -45,10 +45,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void EqualsTest()
         {
-            string text = "her";
-            PersonalPronoun target = new PersonalPronoun(text);
-            object obj = target as object;
-            bool expected = true;
+            var text = "her";
+            var target = new PersonalPronoun(text);
+            var obj = target as object;
+            var expected = true;
             bool actual;
             actual = target.Equals(obj);
             Check.That(actual).IsEqualTo(expected);
@@ -64,8 +64,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BoundEntityTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             IEntity expected = new ProperSingularNoun("Aluan");
             IAggregateEntity actual;
             target.BindAsReferringTo(expected);
@@ -79,8 +79,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void DirectObjectOfTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
             target.BindAsDirectObjectOf(expected);
             var actual = target.DirectObjectOf;
@@ -94,8 +94,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectObjectOfTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             var verbal = new PastTenseVerb("frightened");
 
             target.BindAsIndirectObjectOf(verbal);
@@ -109,8 +109,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectReferencesTest()
         {
-            string text = "he";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "he";
+            var target = new PersonalPronoun(text);
             Pronoun referencer = new PersonalPronoun("himslef");
             target.BindReferencer(referencer);
             Check.That(target.Referencers).Contains(referencer);
@@ -122,8 +122,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void SubjectOfTest()
         {
-            string text = "him";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "him";
+            var target = new PersonalPronoun(text);
             IVerbal expected = new PastTenseVerb("frightened");
             target.BindAsSubjectOf(expected);
             var actual = target.SubjectOf;
@@ -137,8 +137,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void EntityKindTest()
         {
-            string text = "they";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "they";
+            var target = new PersonalPronoun(text);
             EntityKind actual;
             actual = target.EntityKind;
             Check.That(EntityKind.Undefined).IsEqualTo(actual);
@@ -152,8 +152,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PersonalPronounConstructorTest()
         {
-            string text = "her";
-            PersonalPronoun target = new PersonalPronoun(text);
+            var text = "her";
+            var target = new PersonalPronoun(text);
             Check.That(target.Text).IsEqualTo(text);
             Check.That(target.IsFemale()).IsTrue();
             Check.That(target.IsThirdPerson()).IsTrue();

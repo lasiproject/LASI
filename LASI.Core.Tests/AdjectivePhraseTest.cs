@@ -21,7 +21,7 @@ namespace LASI.Core.Tests
         public void AdjectivePhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Adjective("smooth"), new Adjective("silky") };
-            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            var target = new AdjectivePhrase(composedWords);
             Assert.Equal(target.Words, composedWords);
         }
 
@@ -32,7 +32,7 @@ namespace LASI.Core.Tests
         public void AdverbialModifiersTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("soft"), new Conjunction("and"), new Adjective("silky") };
-            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            var target = new AdjectivePhrase(composedWords);
             IEnumerable<IAdverbial> actual;
             actual = target.AdverbialModifiers;
             Assert.False(actual.Any());
@@ -49,7 +49,7 @@ namespace LASI.Core.Tests
         public void DescribesTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Adverb("very"), new Adjective("tall") };
-            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            var target = new AdjectivePhrase(composedWords);
             IEntity expected = new CommonSingularNoun("tree");
             IEntity actual;
             target.Describes = expected;
@@ -64,7 +64,7 @@ namespace LASI.Core.Tests
         public void ModifyWithTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Adjective("tall") };
-            AdjectivePhrase target = new AdjectivePhrase(composedWords);
+            var target = new AdjectivePhrase(composedWords);
             IAdverbial adv = new Adverb("overly");
             target.ModifyWith(adv);
             Assert.True(target.AdverbialModifiers.Contains(adv));
