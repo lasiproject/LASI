@@ -126,7 +126,7 @@ namespace LASI.Core.Analysis.Binding
         public void Display()
         {
 
-            for (int i = 0;
+            for (var i = 0;
             i < stateList.Count;
             i++)
             {

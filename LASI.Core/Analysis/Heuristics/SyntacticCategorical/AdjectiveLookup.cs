@@ -63,7 +63,7 @@ namespace LASI.Core.Heuristics.WordNet
 
             var words = from Match match in Regex.Matches(line, WORD_REGEX)
                                         select match.Value.Replace('_', ' ');
-            int id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
+            var id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
             var lexCategory = (AdjectiveCategory)int.Parse(line.Substring(9, 2));
             return new AdjectiveSynset(id, words, referencedSets, lexCategory);
