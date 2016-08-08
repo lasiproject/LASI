@@ -149,7 +149,7 @@ SystemJS.config({
             },
             "github:frankwallis/plugin-typescript@5.0.9": {
                 "map": {
-                    "typescript": "npm:typescript@2.1.0-dev.20160807"
+                    "typescript": "npm:typescript@2.1.0-dev.20160808"
                 }
             },
             "npm:brace-expansion@1.1.6": {
@@ -418,7 +418,7 @@ SystemJS.config({
         },
         "github:jspm/nodelibs-buffer@0.2.0-alpha": {
             "map": {
-                "buffer-browserify": "npm:buffer@4.7.1"
+                "buffer-browserify": "npm:buffer@4.8.0"
             }
         },
         "npm:miller-rabin@4.0.0": {
@@ -495,13 +495,6 @@ SystemJS.config({
                 "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
             }
         },
-        "npm:buffer@4.7.1": {
-            "map": {
-                "base64-js": "npm:base64-js@1.1.2",
-                "isarray": "npm:isarray@1.0.0",
-                "ieee754": "npm:ieee754@1.1.6"
-            }
-        },
         "github:mobilexag/plugin-sass@0.4.6": {
             "map": {
                 "url": "github:jspm/nodelibs-url@0.1.0",
@@ -548,6 +541,13 @@ SystemJS.config({
                 "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
                 "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
                 "xtend": "npm:xtend@4.0.1"
+            }
+        },
+        "npm:buffer@4.8.0": {
+            "map": {
+                "base64-js": "npm:base64-js@1.1.2",
+                "isarray": "npm:isarray@1.0.0",
+                "ieee754": "npm:ieee754@1.1.6"
             }
         }
     }
