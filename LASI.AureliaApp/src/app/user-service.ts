@@ -21,7 +21,7 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 };
-//@apiClient
+
 @autoinject export class UserService {
     constructor(
         readonly router: Router,
@@ -29,7 +29,7 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         readonly tokenService: TokenService
     ) { }
 
-    async loginGet(): Promise<User> {
+    async loginGet() {
         const response = await this.http.fetch('/api/authenticate', getConfig);
         this.user = await response.json() as User;
         if (!this.user) {
@@ -69,7 +69,7 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         }
     }
 
-    async logoff(): Promise<any> {
+    async logoff() {
         const response = await this.http.fetch('/api/authenticate/logoff', getConfig);
         console.log(response);
         this.tokenService.clearToken();
@@ -78,21 +78,18 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         return await response.json();
     }
 
-
-
-
-    async getDetails(): Promise<any> {
+    async getDetails() {
         const response = await this.http.fetch('/api/manage/account', getConfig);
         return await response.json();
     }
 
-    saveDetails(details: any): Promise<any> {
-        return this.http.fetch('/api/manage/account', postConfig.withBody(details));
+    async saveDetails(details: any) {
+        const response = await this.http.fetch('/api/manage/account', postConfig.withBody(details));
+        return await response.json();
     }
 
     user: User;
     loggedIn = false;
-
 }
 
 function loginSuccess({ user, token }) {

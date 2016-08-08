@@ -11,7 +11,7 @@ export async function configure(aurelia: Aurelia) {
         .developmentLogging()
         // .plugin('aurelia-dialog', configureDialogs)
         // .plugin('aurelia-typeahead', configureTypeahead)
-        .singleton(HttpClient, class extends HttpClient {
+        .transient(HttpClient, class extends HttpClient {
             static inject = [TokenService];
             constructor(private tokenService: TokenService) {
                 super();

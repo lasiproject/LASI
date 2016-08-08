@@ -1,5 +1,5 @@
 import test from 'tape';
 
-export default test(() => {
+export default test(tape => {
     
 });

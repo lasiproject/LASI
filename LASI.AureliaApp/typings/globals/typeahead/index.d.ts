@@ -2,6 +2,25 @@
 // Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7de6c3dd94feaeb21f20054b9f30d5dabc5efabd/typeahead/typeahead.d.ts
 interface JQuery {
     /**
+     * For a given input[type="text"], enables typeahead functionality.
+     *
+     * @constructor
+     * @param options Options hash that's used for configuration
+     * @param datasets Array of datasets
+     */
+    typeahead<T>(options: Twitter.Typeahead.Options, datasets: Twitter.Typeahead.Dataset<T>[]): JQuery;
+
+    /**
+      * For a given input[type="text"], enables typeahead functionality.
+      *
+      * @constructor
+      * @param options Options hash that's used for configuration
+      * @param dataset At least one dataset is required
+      * @param datasets Rest of the datasets.
+      */
+    typeahead<T>(options: Twitter.Typeahead.Options, dataset: Twitter.Typeahead.Dataset<T>, ...datasets: Twitter.Typeahead.Dataset<T>[]): JQuery;
+
+    /**
      * Returns the current value of the typeahead.
      * The value is the text the user has entered into the input element.
      *
@@ -59,26 +78,6 @@ interface JQuery {
      * @param methodName Method 'destroy'
      */
     typeahead(methodName: 'destroy'): JQuery;
-
-    /**
-         * For a given input[type="text"], enables typeahead functionality.
-         *
-         * @constructor
-         * @param options Options hash that's used for configuration
-         * @param datasets Array of datasets
-         */
-    typeahead<T>(options: Twitter.Typeahead.Options, datasets: Twitter.Typeahead.Dataset<T>[]): JQuery;
-
-    /**
-      * For a given input[type="text"], enables typeahead functionality.
-      *
-      * @constructor
-      * @param options Options hash that's used for configuration
-      * @param dataset At least one dataset is required
-      * @param datasets Rest of the datasets.
-      */
-    typeahead<T>(options: Twitter.Typeahead.Options, dataset: Twitter.Typeahead.Dataset<T>, ...datasets: Twitter.Typeahead.Dataset<T>[]): JQuery;
-
 
     /**
      * Attach an event handler function for typeahead:active event to the selected elements.
@@ -751,7 +750,7 @@ declare namespace Twitter.Typeahead {
          * (e.g. suggestions that come for an AJAX request).
          *  source can also be a Bloodhound instance.
          */
-        source?: Bloodhound<T> | ((query: string, syncResults: (result: T[]) => void, asyncResults?: (result: T[]) => void) => void);
+        source: Bloodhound<T> | ((query: string, syncResults: (result: T[]) => void, asyncResults?: (result: T[]) => void) => void);
 
         /**
          * Lets the dataset know if async suggestions should be expected.
@@ -1200,9 +1199,4 @@ declare class Bloodhound<T> {
 
 declare module "bloodhound" {
     export = Bloodhound;
-}
-
-declare module "typeahead" {
-    import bloodhound from "bloodhound";
-    export default bloodhound;
 }
