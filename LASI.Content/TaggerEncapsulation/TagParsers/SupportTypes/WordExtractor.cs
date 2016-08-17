@@ -23,7 +23,7 @@ namespace LASI.Content
         {
             //If there are no forward-slashes, the string contains no word level tags.
             //Although there may be more slashes than word-level-tags, there there are at least as many forward-slashes as word-level-tags
-            int tagBegin = data.LastIndexOf('/');
+            var tagBegin = data.LastIndexOf('/');
             return !data.IsNullOrWhiteSpace() && data.Trim() != "]" && data.Count(c => c == '/') != 0
                 ? new TaggedText(
                         text:
