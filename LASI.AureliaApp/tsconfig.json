@@ -15,6 +15,6 @@
     "jspm_packages/github",
     "!jspm_packages/npm/rxjs@5.0.0-beta.8/src/**/*.d.ts",
     "jspm_packages/npm/rxjs@5.0.0-beta.8/src",
-    "jspm_packages/npm/typescript@2.1.0-dev.20160720"
+    "jspm_packages/npm/typescript@2.1.0-dev.20160819"
   ]
 }

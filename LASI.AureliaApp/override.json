@@ -1,5 +1,5 @@
 {
     "dependencies": {
-        "typescript": "npm:typescript@2.1.0-dev.20160808"
+        "typescript": "npm:typescript@2.1.0-dev.20160819"
     }
 }

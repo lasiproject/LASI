@@ -116,11 +116,6 @@ SystemJS.config({
                     "wrappy": "npm:wrappy@1.0.2"
                 }
             },
-            "npm:minimatch@3.0.2": {
-                "map": {
-                    "brace-expansion": "npm:brace-expansion@1.1.6"
-                }
-            },
             "npm:tape@4.6.0": {
                 "map": {
                     "glob": "npm:glob@7.0.5",
@@ -144,18 +139,23 @@ SystemJS.config({
                     "fs.realpath": "npm:fs.realpath@1.0.0",
                     "path-is-absolute": "npm:path-is-absolute@1.0.0",
                     "once": "npm:once@1.3.3",
-                    "minimatch": "npm:minimatch@3.0.2"
+                    "minimatch": "npm:minimatch@3.0.3"
                 }
             },
             "github:frankwallis/plugin-typescript@5.0.9": {
                 "map": {
-                    "typescript": "npm:typescript@2.1.0-dev.20160808"
+                    "typescript": "npm:typescript@2.1.0-dev.20160819"
                 }
             },
             "npm:brace-expansion@1.1.6": {
                 "map": {
                     "concat-map": "npm:concat-map@0.0.1",
                     "balanced-match": "npm:balanced-match@0.4.2"
+                }
+            },
+            "npm:minimatch@3.0.3": {
+                "map": {
+                    "brace-expansion": "npm:brace-expansion@1.1.6"
                 }
             }
         }
@@ -397,7 +397,7 @@ SystemJS.config({
         "npm:stream-browserify@2.0.1": {
             "map": {
                 "inherits": "npm:inherits@2.0.1",
-                "readable-stream": "npm:readable-stream@2.1.4"
+                "readable-stream": "npm:readable-stream@2.1.5"
             }
         },
         "npm:readable-stream@2.1.4": {
@@ -418,7 +418,7 @@ SystemJS.config({
         },
         "github:jspm/nodelibs-buffer@0.2.0-alpha": {
             "map": {
-                "buffer-browserify": "npm:buffer@4.8.0"
+                "buffer-browserify": "npm:buffer@4.9.1"
             }
         },
         "npm:miller-rabin@4.0.0": {
@@ -500,16 +500,16 @@ SystemJS.config({
                 "url": "github:jspm/nodelibs-url@0.1.0",
                 "fs": "github:jspm/nodelibs-fs@0.1.2",
                 "reqwest": "github:ded/reqwest@2.0.5",
-                "sass.js": "npm:sass.js@0.9.11",
+                "sass.js": "npm:sass.js@0.9.12",
                 "path": "github:jspm/nodelibs-path@0.1.0",
-                "lodash": "npm:lodash@4.14.1",
+                "lodash": "npm:lodash@4.15.0",
                 "autoprefixer": "npm:autoprefixer@6.4.0",
                 "postcss": "npm:postcss@5.1.2"
             }
         },
         "npm:browserslist@1.3.5": {
             "map": {
-                "caniuse-db": "npm:caniuse-db@1.0.30000518"
+                "caniuse-db": "npm:caniuse-db@1.0.30000525"
             }
         },
         "github:twbs/bootstrap@3.3.7": {
@@ -520,7 +520,7 @@ SystemJS.config({
         "npm:autoprefixer@6.4.0": {
             "map": {
                 "postcss": "npm:postcss@5.1.2",
-                "caniuse-db": "npm:caniuse-db@1.0.30000518",
+                "caniuse-db": "npm:caniuse-db@1.0.30000525",
                 "normalize-range": "npm:normalize-range@0.1.2",
                 "browserslist": "npm:browserslist@1.3.5",
                 "num2fraction": "npm:num2fraction@1.2.2",
@@ -537,17 +537,28 @@ SystemJS.config({
         "npm:stream-http@2.3.1": {
             "map": {
                 "inherits": "npm:inherits@2.0.1",
-                "readable-stream": "npm:readable-stream@2.1.4",
+                "readable-stream": "npm:readable-stream@2.1.5",
                 "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
                 "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
                 "xtend": "npm:xtend@4.0.1"
             }
         },
-        "npm:buffer@4.8.0": {
+        "npm:buffer@4.9.1": {
             "map": {
                 "base64-js": "npm:base64-js@1.1.2",
+                "ieee754": "npm:ieee754@1.1.6",
+                "isarray": "npm:isarray@1.0.0"
+            }
+        },
+        "npm:readable-stream@2.1.5": {
+            "map": {
+                "inherits": "npm:inherits@2.0.1",
+                "core-util-is": "npm:core-util-is@1.0.2",
+                "string_decoder": "npm:string_decoder@0.10.31",
+                "process-nextick-args": "npm:process-nextick-args@1.0.7",
                 "isarray": "npm:isarray@1.0.0",
-                "ieee754": "npm:ieee754@1.1.6"
+                "util-deprecate": "npm:util-deprecate@1.0.2",
+                "buffer-shims": "npm:buffer-shims@1.0.0"
             }
         }
     }
