@@ -69,8 +69,21 @@
     <None Include="App.config" />
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
+    <Content Include="testDocs\testDoc1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="LASI.Content">
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Content.dll</HintPath>
+    </Reference>
+    <Reference Include="LASI.Core">
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="LASI.Interop">
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="LASI.Utilities">
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -82,26 +95,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\..\Content\LASI.Content.csproj">
-      <Name>LASI.Content</Name>
-      <Project>{f13d6c6d-a004-45bd-8fb8-e044e20f1204}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\LASI.Core.csproj">
-      <Name>LASI.Core</Name>
-      <Project>{8c562a93-a885-4fe9-8b8c-5ce34ccbaec1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Interop\LASI.Interop.csproj">
-      <Name>LASI.Interop</Name>
-      <Project>{06b96679-9758-4b15-8e75-0f46416e68b7}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\LASI.Utilities.csproj">
-      <Name>LASI.Utilities</Name>
-      <Project>{bc10a8f0-77ff-46d0-9f9a-38e2fda22d21}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
