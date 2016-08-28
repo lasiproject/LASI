@@ -25,7 +25,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void IsPersonalNameTest()
         {
-            foreach (ProperNoun target in CreateProperNouns())
+            foreach (var target in CreateProperNouns())
             {
                 bool actual;
                 actual = target.IsPersonalName;

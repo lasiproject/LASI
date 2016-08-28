@@ -15,8 +15,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ExistentialConstructorTest()
         {
-            string text = "there";
-            Existential target = new Existential(text);
+            var text = "there";
+            var target = new Existential(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 

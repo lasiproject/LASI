@@ -102,7 +102,7 @@ namespace LASI.Core
                     .Skip(paragraphsToSkip)
                     .TakeWhile((paragraph, index) =>
                     {
-                        bool forceOutput = totalLines == 0 && paragraph.LinesUsed > linesPerPage;
+                        var forceOutput = totalLines == 0 && paragraph.LinesUsed > linesPerPage;
                         totalLines += paragraph.LinesUsed;
                         return totalLines <= linesPerPage || forceOutput;
                     })

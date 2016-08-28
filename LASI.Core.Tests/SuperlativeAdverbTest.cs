@@ -16,8 +16,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void SuperlativeAdverbConstructorTest()
         {
-            string text = "worthiest";
-            SuperlativeAdverb target = new SuperlativeAdverb(text);
+            var text = "worthiest";
+            var target = new SuperlativeAdverb(text);
             Assert.Equal(text, target.Text);
             Assert.True(target.Modifies == null);
         }

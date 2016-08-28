@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PastPrtcplVerbConstructorTest()
         {
-            string text = "gone";
-            PastParticiple target = new PastParticiple(text);
+            var text = "gone";
+            var target = new PastParticiple(text);
             Check.That(target.Text).IsEqualTo(text);
         }
     }

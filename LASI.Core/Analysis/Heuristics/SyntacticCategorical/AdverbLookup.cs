@@ -18,6 +18,9 @@ namespace LASI.Core.Heuristics.WordNet
         /// Initializes a new instance of the AdjectiveThesaurus class.
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for adverbs.</param>
+        /// <param name="adjectiveLookup">
+        /// The an instance of <code>WordNetLookup&lt;Adjective&gt;</code> to be queried for related adjectives.
+        /// </param>
         public AdverbLookup(string path, WordNetLookup<Adjective> adjectiveLookup)
         {
             filePath = path;

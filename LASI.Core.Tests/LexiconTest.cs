@@ -117,14 +117,14 @@ namespace LASI.Core.Heuristics.Tests
         [Fact]
         public void GetSynonymsOfAdjectiveIncludesOwnText()
         {
-            Adjective pale = new Adjective("Pale");
+            var pale = new Adjective("Pale");
             Check.That(pale.GetSynonyms().Contains(pale.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
         [Fact]
         public void GetSynonymsOfAdverbIncludesOwnText()
         {
-            Adverb slyly = new Adverb("slyly");
+            var slyly = new Adverb("slyly");
             Check.That(slyly.GetSynonyms().Contains(slyly.Text, StringComparer.OrdinalIgnoreCase)).IsTrue();
         }
 
@@ -151,8 +151,8 @@ namespace LASI.Core.Heuristics.Tests
         [Fact]
         public void GetSynonymsOfAdverbIsReflexive()
         {
-            Adverb furtively = new Adverb("furtively");
-            Adverb stealthily = new Adverb("stealthily");
+            var furtively = new Adverb("furtively");
+            var stealthily = new Adverb("stealthily");
             Check.That(furtively.GetSynonyms()).Contains("stealthily");
             Check.That(stealthily.GetSynonyms()).Contains("furtively");
         }
@@ -160,8 +160,8 @@ namespace LASI.Core.Heuristics.Tests
         [Fact]
         public void GetSynonymsOfAdjectiveIsReflexive()
         {
-            Adjective pale = new Adjective("pale");
-            Adjective pallid = new Adjective("pallid");
+            var pale = new Adjective("pale");
+            var pallid = new Adjective("pallid");
             Check.That(pale.GetSynonyms()).Contains("pallid");
             Check.That(pallid.GetSynonyms()).Contains("pale");
         }

@@ -6,10 +6,11 @@
     <ProjectGuid>95bdf76d-5ba6-433a-b62d-e67bd31f8ee5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>IronPythonExperimentation.py</StartupFile>
-    <SearchPath>..\..\</SearchPath>
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>
     </WorkingDirectory>
-    <InterpreterId>{fcc291aa-427c-498c-a4d7-4502d6449b8c}</InterpreterId>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
     <LaunchProvider>IronPython (.NET) launcher</LaunchProvider>
     <InterpreterVersion>2.7</InterpreterVersion>
     <OutputPath>.</OutputPath>
@@ -44,7 +45,7 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="{fcc291aa-427c-498c-a4d7-4502d6449b8c}\2.7" />
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProgressReporter.py">
@@ -53,6 +54,32 @@
     <Compile Include="TxtFile.py">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="LASI.Content, Version=1.0.6075.41334, Culture=neutral, PublicKeyToken=null">
+      <Name>LASI.Content</Name>
+      <AssemblyName>LASI.Content.dll</AssemblyName>
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Content.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LASI.Core, Version=1.0.6075.41334, Culture=neutral, PublicKeyToken=null">
+      <Name>LASI.Core</Name>
+      <AssemblyName>LASI.Core.dll</AssemblyName>
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LASI.Interop, Version=1.0.6075.41335, Culture=neutral, PublicKeyToken=null">
+      <Name>LASI.Interop</Name>
+      <AssemblyName>LASI.Interop.dll</AssemblyName>
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LASI.Utilities, Version=1.0.6075.41333, Culture=neutral, PublicKeyToken=null">
+      <Name>LASI.Utilities</Name>
+      <AssemblyName>LASI.Utilities.dll</AssemblyName>
+      <HintPath>..\..\LASI.Interop\bin\Debug\LASI.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

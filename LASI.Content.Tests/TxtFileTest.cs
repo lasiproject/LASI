@@ -21,7 +21,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void TextFileConstructorTest()
         {
-            TxtFile target = new TxtFile(ValidTxtFilePath);
+            var target = new TxtFile(ValidTxtFilePath);
             var fileInfo = new FileInfo(ValidTxtFilePath);
             Check.That(fileInfo.FullName).IsEqualTo(target.FullPath);
             Check.That(fileInfo.Name).IsEqualTo(target.FileName);
@@ -30,13 +30,13 @@ namespace LASI.Content.Tests
         [Fact]
         public void TextFileConstructorTest1()
         {
-            string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
+            var invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             Check.ThatCode(() => new TxtFile(invalidPath)).Throws<FileNotFoundException>();
         }
         [Fact]
         public void TxtFileConstructorTest2()
         {
-            string wrongTypePath = new FileInfo(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf").FullName;
+            var wrongTypePath = new FileInfo(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf").FullName;
             Check.That(wrongTypePath).Satisfies(File.Exists);
             Check.ThatCode(() => new TxtFile(wrongTypePath)).Throws<FileTypeWrapperMismatchException<TxtFile>>();
         }
@@ -47,9 +47,9 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            TxtFile target = new TxtFile(ValidTxtFilePath);
-            string expected = new StreamReader(ValidTxtFilePath).ReadToEnd();
-            string actual = target.LoadText();
+            var target = new TxtFile(ValidTxtFilePath);
+            var expected = new StreamReader(ValidTxtFilePath).ReadToEnd();
+            var actual = target.LoadText();
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -60,8 +60,8 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task LoadTextAsyncTest()
         {
-            TxtFile target = new TxtFile(ValidTxtFilePath);
-            string expected = new StreamReader(target.FullPath).ReadToEndAsync().Result;
+            var target = new TxtFile(ValidTxtFilePath);
+            var expected = new StreamReader(target.FullPath).ReadToEndAsync().Result;
             string actual = null;
             actual = await target.LoadTextAsync();
             Check.That(actual).IsEqualTo(expected);

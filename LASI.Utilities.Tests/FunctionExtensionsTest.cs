@@ -25,8 +25,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ComposeCallsGBeforeFTest()
         {
-            bool fCalled = false;
-            bool gCalled = false;
+            var fCalled = false;
+            var gCalled = false;
             Func<double, double> f = x =>
             {
                 Check.That(gCalled).IsTrue();
@@ -48,11 +48,11 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void ComposePropagatesExceptionsThrownByGAndDoesNotCallFTest()
         {
-            bool fCalled = false;
-            bool gCalled = false;
+            var fCalled = false;
+            var gCalled = false;
             Func<double, double> f;
             Func<double, double> g;
-            string failure = $"{nameof(g)} threw";
+            var failure = $"{nameof(g)} threw";
             f = x =>
             {
                 fCalled = true;
@@ -116,8 +116,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void AndThenCallsA1BeforeA2()
         {
-            bool a1Called = false;
-            bool a2Called = false;
+            var a1Called = false;
+            var a2Called = false;
 
             Action<string> a1 = s =>
             {
@@ -140,8 +140,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void AndThenTest5()
         {
-            bool a1Called = false;
-            bool a2Called = false;
+            var a1Called = false;
+            var a2Called = false;
 
             Action<string> a1 = s =>
             {
@@ -164,8 +164,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void AndThenTest6()
         {
-            bool a1Called = false;
-            bool a2Called = false;
+            var a1Called = false;
+            var a2Called = false;
 
             Action a1 = () =>
             {
@@ -385,16 +385,16 @@ namespace LASI.Utilities.Tests
         /// </summary>
         public void IdentityTestHelper<T>() where T : new()
         {
-            T target = new T();
-            T expected = target;
-            T actual = Identity(target);
+            var target = new T();
+            var expected = target;
+            var actual = Identity(target);
             Check.That(expected).IsEqualTo(actual);
         }
         [Fact]
         public void WithTimerOfArity0FunctionStopsAndStartsTimerAppropriately()
         {
-            int synthesizedWaitInMs = 0;
-            Complex result = default(Complex);
+            var synthesizedWaitInMs = 0;
+            var result = default(Complex);
             Func<Complex> compute = () =>
             {
                 Sleep(synthesizedWaitInMs);
@@ -411,7 +411,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithTimerOfArity1FunctionStopsAndStartsTimerAppropriately()
         {
-            int synthesizedWaitInMs = 0;
+            var synthesizedWaitInMs = 0;
             Func<Complex, Complex> compute = data =>
             {
                 Sleep(synthesizedWaitInMs);
@@ -428,8 +428,8 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithTimerOfArity0ActionStopsAndStartsTimerAppropriately()
         {
-            int synthesizedWaitInMs = 0;
-            Complex result = default(Complex);
+            var synthesizedWaitInMs = 0;
+            var result = default(Complex);
             Action compute = () =>
             {
                 Sleep(synthesizedWaitInMs);

@@ -23,7 +23,7 @@ namespace LASI.Content.Tests
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             object obj = null;
-            bool expected = false;
+            var expected = false;
             bool actual;
             actual = target.Equals(obj);
             Check.That(actual).IsEqualTo(expected);
@@ -31,13 +31,13 @@ namespace LASI.Content.Tests
             expected = true;
             actual = target.Equals(obj);
             Check.That(actual).IsEqualTo(expected);
-            TxtFile other = new TxtFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.txt");
+            var other = new TxtFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.txt");
             expected = false;
             actual = target.Equals(other);
             InputFile other1 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = true;
             actual = target.Equals(other1);
-            DocXFile other2 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
+            var other2 = new DocXFile(@"..\..\MockUserFiles\Draft_Environmental_Assessment.docx");
             expected = true;
             actual = target.Equals(other2);
             Check.That(actual).IsEqualTo(expected);
@@ -51,7 +51,7 @@ namespace LASI.Content.Tests
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
-            int expected = new DocXFile(relativePath).GetHashCode();
+            var expected = new DocXFile(relativePath).GetHashCode();
             int actual;
             actual = target.GetHashCode();
             Check.That(actual).IsEqualTo(expected);
@@ -63,8 +63,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            InputFile target = CreateInputFile();
-            string expected = string.Empty;
+            var target = CreateInputFile();
+            var expected = string.Empty;
             using (var reader = new System.IO.StreamReader(target.FullPath))
             {
                 expected = reader.ReadToEnd();
@@ -80,8 +80,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextAsyncTest()
         {
-            InputFile target = CreateInputFile();
-            string expected = string.Empty;
+            var target = CreateInputFile();
+            var expected = string.Empty;
             string actual = null;
             Task.WaitAll(Task.Run(
                 async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
@@ -96,8 +96,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void ToStringTest()
         {
-            InputFile target = CreateInputFile(); // TODO: Initialize to an appropriate value
-            string expected = string.Format("{0}: {1} in: {2}", target.GetType(), target.FileName, target.Directory);
+            var target = CreateInputFile(); // TODO: Initialize to an appropriate value
+            var expected = string.Format("{0}: {1} in: {2}", target.GetType(), target.FileName, target.Directory);
             string actual;
             actual = target.ToString();
             Check.That(actual).IsEqualTo(expected);
@@ -111,7 +111,7 @@ namespace LASI.Content.Tests
         {
             InputFile left = new TxtFile(TestTextFilePath);
             InputFile right = null;
-            bool expected = false;
+            var expected = false;
             bool actual;
             actual = (left == right);
             Check.That(actual).IsEqualTo(expected);
@@ -134,7 +134,7 @@ namespace LASI.Content.Tests
         {
             InputFile left = new TxtFile(TestTextFilePath);
             InputFile right = null;
-            bool expected = true;
+            var expected = true;
             bool actual;
             actual = (left != right);
             Check.That(actual).IsEqualTo(expected);
@@ -157,7 +157,7 @@ namespace LASI.Content.Tests
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
-            string expected = new System.IO.FileInfo(relativePath).Directory.FullName + "\\";
+            var expected = new System.IO.FileInfo(relativePath).Directory.FullName + "\\";
             string actual;
             actual = target.Directory;
             Check.That(actual).IsEqualTo(expected);
@@ -171,7 +171,7 @@ namespace LASI.Content.Tests
         {
             var fullPath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(fullPath);
-            string expected = ".docx";
+            var expected = ".docx";
             string actual;
             actual = target.Extension;
             Check.That(actual).IsEqualTo(expected);
@@ -185,7 +185,7 @@ namespace LASI.Content.Tests
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf";
             InputFile target = new PdfFile(relativePath);
-            string expected = "Draft_Environmental_Assessment.pdf";
+            var expected = "Draft_Environmental_Assessment.pdf";
             string actual;
             actual = target.FileName;
             Check.That(actual).IsEqualTo(expected);
@@ -223,7 +223,7 @@ namespace LASI.Content.Tests
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.doc";
             InputFile target = new DocFile(relativePath);
-            string expected = "Draft_Environmental_Assessment";
+            var expected = "Draft_Environmental_Assessment";
             string actual;
             actual = target.Name;
             Check.That(actual).IsEqualTo(expected);
@@ -237,7 +237,7 @@ namespace LASI.Content.Tests
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             InputFile target = new TxtFile(relativePath);
-            string expected = "Draft_Environmental_Assessment";
+            var expected = "Draft_Environmental_Assessment";
             string actual;
             actual = target.Name;
             Check.That(actual).IsEqualTo(expected);
@@ -251,7 +251,7 @@ namespace LASI.Content.Tests
         {
             var absolutePath = System.IO.Path.GetFullPath(@"..\..\MockUserFiles\Draft_Environmental_Assessment.pdf");
             InputFile target = new PdfFile(absolutePath);
-            string expected = System.IO.Path.GetDirectoryName(absolutePath) + @"\Draft_Environmental_Assessment";
+            var expected = System.IO.Path.GetDirectoryName(absolutePath) + @"\Draft_Environmental_Assessment";
             string actual;
             actual = target.PathSansExt;
             Check.That(actual).IsEqualTo(expected);

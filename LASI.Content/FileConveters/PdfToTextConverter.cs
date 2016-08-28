@@ -70,7 +70,7 @@ namespace LASI.Content
             public void ExtractText(string inFileName, string outFileName)
             {
                 // Create a reader for the given PDF file   
-                PdfReader reader = new PdfReader(new FileStream(inFileName,
+                var reader = new PdfReader(new FileStream(inFileName,
                     FileMode.Open,
                     FileAccess.Read,
                     FileShare.Read, 1024,
@@ -99,22 +99,22 @@ namespace LASI.Content
                 var resultString = string.Empty;
 
                 // Flag showing if we are we currently inside a text object
-                bool inTextObject = false;
+                var inTextObject = false;
 
                 // Flag showing if the next character is key 
                 // e.g. '\\' to get a '\' character or '\(' to get '('
-                bool nextLiteral = false;
+                var nextLiteral = false;
 
                 // () Bracket nesting level. Text appears inside ()
-                int bracketDepth = 0;
+                var bracketDepth = 0;
 
                 // Keep previous chars to get extract numbers etc.: 
-                char[] previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
+                var previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
-                for (int i = 0; i < input.Length; i++)
+                for (var i = 0; i < input.Length; i++)
                 {
-                    char c = (char)input[i];
+                    var c = (char)input[i];
 
                     if (inTextObject)
                     {
@@ -190,7 +190,7 @@ namespace LASI.Content
 
                     // Store the recent characters for 
                     // when we have to go back for a checking
-                    for (int j = 0; j < CHARS_TO_KEEP - 1; j++)
+                    for (var j = 0; j < CHARS_TO_KEEP - 1; j++)
                     {
                         previousCharacters[j] = previousCharacters[j + 1];
                     }
@@ -216,7 +216,7 @@ namespace LASI.Content
             /// <returns></returns>
             private bool CheckToken(string[] tokens, char[] recent, int charsToKeep)
             {
-                foreach (string currentCharacterToken in tokens)
+                foreach (var currentCharacterToken in tokens)
                 {
                     try
                     {

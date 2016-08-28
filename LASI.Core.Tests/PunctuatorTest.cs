@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PunctuatorConstructorTest()
         {
-            char puncChar = '\u0021';
-            Punctuator target = new Punctuator(puncChar);
+            var puncChar = '\u0021';
+            var target = new Punctuator(puncChar);
             Check.That(target.LiteralCharacter).IsEqualTo(puncChar);
         }
 
@@ -29,9 +29,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void TextTest()
         {
-            char puncChar = '\u0021';
-            Punctuator target = new Punctuator(puncChar);
-            string expected = "!";
+            var puncChar = '\u0021';
+            var target = new Punctuator(puncChar);
+            var expected = "!";
             string actual;
             actual = target.Text;
             Check.That(expected).IsEqualTo(actual);
@@ -43,9 +43,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void PunctuatorConstructorTest2()
         {
-            string punctuation = "!";
-            Punctuator target = new Punctuator(punctuation);
-            string expected = "!";
+            var punctuation = "!";
+            var target = new Punctuator(punctuation);
+            var expected = "!";
             string actual;
             actual = target.Text;
             Check.That(expected).IsEqualTo(actual);
@@ -57,10 +57,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void PunctuatorConstructorTest3()
         {
-            char punctuation = '.';
-            Punctuator target = new Punctuator(punctuation);
-            char expected = '.';
-            char actual = target.LiteralCharacter;
+            var punctuation = '.';
+            var target = new Punctuator(punctuation);
+            var expected = '.';
+            var actual = target.LiteralCharacter;
             Check.That(expected).IsEqualTo(actual);
         }
     }

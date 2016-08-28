@@ -345,7 +345,7 @@ namespace LASI.Content
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (PdfFile pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles).Cast<PdfFile>())
             {
                 var converted = await new PdfToTextConverter(pdf).ConvertFileAsync().ConfigureAwait(false);
                 convertedFiles.Add(converted);

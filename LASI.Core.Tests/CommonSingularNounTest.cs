@@ -15,8 +15,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void CommonSingularNounConstructorTest()
         {
-            string text = "cat";
-            CommonSingularNoun target = new CommonSingularNoun(text);
+            var text = "cat";
+            var target = new CommonSingularNoun(text);
             Check.That(target.Text).IsEqualTo(text);
         }
     }
