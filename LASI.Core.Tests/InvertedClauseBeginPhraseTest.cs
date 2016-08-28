@@ -19,7 +19,7 @@ namespace LASI.Core.Tests
         public void InvertedClauseBeginPhraseConstructorTest()
         {
             IEnumerable<Word> composed = null;
-            InvertedClauseBeginPhrase target = new InvertedClauseBeginPhrase(composed);
+            var target = new InvertedClauseBeginPhrase(composed);
             throw new NotImplementedException("TODO: Implement code to verify target");
         }
     }

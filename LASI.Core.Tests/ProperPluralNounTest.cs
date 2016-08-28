@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void ProperPluralNounConstructorTest()
         {
-            string text = "Canadians";
-            ProperPluralNoun target = new ProperPluralNoun(text);
+            var text = "Canadians";
+            var target = new ProperPluralNoun(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 
@@ -28,8 +28,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void QuantifierTest()
         {
-            string text = "Canadians";
-            ProperPluralNoun target = new ProperPluralNoun(text);
+            var text = "Canadians";
+            var target = new ProperPluralNoun(text);
             IQuantifier expected = new Quantifier("5");
             IQuantifier actual;
             target.QuantifiedBy = expected;

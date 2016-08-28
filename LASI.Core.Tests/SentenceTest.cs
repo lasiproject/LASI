@@ -17,10 +17,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void ToStringTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            string expected = "LASI.Core.Sentence \"LASI found TIMIS.\"";
-            string actual = target.ToString();
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var expected = "LASI.Core.Sentence \"LASI found TIMIS.\"";
+            var actual = target.ToString();
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -30,10 +30,10 @@ namespace LASI.Core.Tests
         [Fact]
         public void TextTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            string expected = "LASI found TIMIS.";
-            string actual = target.Text;
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var expected = "LASI found TIMIS.";
+            var actual = target.Text;
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -43,8 +43,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void WordsTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Word> actual;
             actual = target.Words;
             Check.That(actual).ContainsExactly(phrases.SelectMany(p => p.Words));
@@ -57,8 +57,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void PhrasesTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
             IEnumerable<Phrase> actual;
             actual = target.Phrases;
             Check.That(actual).ContainsExactly(phrases);
@@ -70,9 +70,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void IsInvertedTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            bool expected = false;
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var expected = false;
             bool actual;
             target.IsInverted = expected;
             actual = target.IsInverted;
@@ -85,9 +85,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void DocumentTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            Document actual = new Document(new[] { new Paragraph(ParagraphKind.Default, new[] { target }) });
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var actual = new Document(new[] { new Paragraph(ParagraphKind.Default, new[] { target }) });
 
             Check.That(actual).IsEqualTo(target.Document);
             foreach (var p in phrases)
@@ -104,9 +104,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void GetPhrasesAfterTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            Phrase phrase = phrases[1];
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var phrase = phrases[1];
             IEnumerable<Phrase> expected = new[] { phrases[2] };
             IEnumerable<Phrase> actual;
             actual = target.GetPhrasesAfter(phrase);
@@ -119,9 +119,9 @@ namespace LASI.Core.Tests
         [Fact]
         public void EstablishParenthoodTest()
         {
-            Phrase[] phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
-            Sentence target = new Sentence(phrases, SentenceEnding.Period);
-            Paragraph parent = new Paragraph(ParagraphKind.Default, new[] { target });
+            var phrases = new Phrase[] { new NounPhrase(new Word[] { new ProperSingularNoun("LASI") }), new VerbPhrase(new Word[] { new PastTenseVerb("found") }), new NounPhrase(new Word[] { new ProperPluralNoun("TIMIS") }) };
+            var target = new Sentence(phrases, SentenceEnding.Period);
+            var parent = new Paragraph(ParagraphKind.Default, new[] { target });
             target.EstablishTextualLinks(parent);
             Check.That(parent).IsEqualTo(target.Paragraph);
             foreach (var p in phrases)
@@ -151,8 +151,8 @@ namespace LASI.Core.Tests
                                 new CommonSingularNoun("team") }
                                 )}
                             )};
-            SentenceEnding sentenceEnding = SentenceEnding.ExclamationPoint;
-            Sentence target = new Sentence(clauses, sentenceEnding);
+            var sentenceEnding = SentenceEnding.ExclamationPoint;
+            var target = new Sentence(clauses, sentenceEnding);
             Check.That(clauses).ContainsExactly(target.Clauses);
             Check.That(target.Ending).IsEqualTo(sentenceEnding);
             Check.That(target.Text).IsEqualTo(string.Join(" ", clauses.Select(c => c.Text)) + sentenceEnding.Text);

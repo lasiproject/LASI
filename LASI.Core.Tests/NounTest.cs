@@ -20,7 +20,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void AddPossessionTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IEntity possession = new NounPhrase(new[] { new CommonSingularNoun("chew"), new CommonSingularNoun("toy") });
             target.AddPossession(possession);
             Check.That(target.Possessions).Contains(possession);
@@ -33,7 +33,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriberTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IDescriptor adjective = new Adjective("rambunctious");
             target.BindDescriptor(adjective);
             Check.That(target.Descriptors).Contains(adjective);
@@ -46,7 +46,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindPronounTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             Pronoun pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
             Check.That(target.Referencers).Contains(pro);
@@ -59,7 +59,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DescribedByTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
 
             Check.That(target.Descriptors).IsNotNull().And.IsEmpty();
         }
@@ -70,7 +70,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DirectObjectOfTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IVerbal expected = new PastTenseVerb("walked");
             target.BindAsDirectObjectOf(expected);
             var actual = target.DirectObjectOf;
@@ -83,7 +83,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectObjectOfTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IVerbal expected = new PastTenseVerb("gave");
             IVerbal actual;
             target.BindAsIndirectObjectOf(expected);
@@ -97,7 +97,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void IndirectReferencesTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IEnumerable<IReferencer> actual;
             actual = target.Referencers;
             Check.That(actual).IsNotNull().And.IsEmpty();
@@ -109,7 +109,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void PossessedTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IEnumerable<IPossessable> actual;
             actual = target.Possessions;
             Check.That(actual).IsNotNull().And.IsEmpty();
@@ -121,7 +121,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void PossesserTest()
         {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+            var target = CreateNoun(); // TODO: Initialize to an appropriate value
             IEntity expected = new NounPhrase(new Word[] { new Adjective("Red"), new CommonSingularNoun("Team") });
 
             target.Possesser = expected.ToOption<IPossesser>();
@@ -135,7 +135,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SubjectOfTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IVerbal expected = new SingularPresentVerb("runs");
             IVerbal actual;
             target.BindAsSubjectOf(expected);
@@ -149,7 +149,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SuperTaxonomicNounTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             Noun expected = new ProperSingularNoun("Highland");
             Noun actual;
             target.PrecedingAdjunctNoun = expected;
@@ -163,7 +163,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void SubTaxonomicNounTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             Noun expected = new CommonSingularNoun("food");
             Noun actual;
             target.FollowingAdjunctNoun = expected;
@@ -177,7 +177,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void RefereesTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IEnumerable<IReferencer> actual;
             actual = target.Referencers;
             Check.That(actual).IsEmpty();
@@ -193,7 +193,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void QuantifiedByTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IQuantifier expected = new Quantifier("3");
             IQuantifier actual;
             target.QuantifiedBy = expected;
@@ -206,7 +206,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void DescriptorsTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
 
             IEnumerable<IDescriptor> actual;
             actual = target.Descriptors;
@@ -225,7 +225,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindReferencerTest()
         {
-            Noun target = CreateNoun(); // TODO: Initialize to an appropriate value
+            var target = CreateNoun(); // TODO: Initialize to an appropriate value
             IReferencer pro = new PersonalPronoun("it");
             target.BindReferencer(pro);
             Check.That(target.Referencers).Contains(pro);
@@ -238,8 +238,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDeterminerTest()
         {
-            Noun target = CreateNoun();
-            Determiner determiner = new Determiner("the");
+            var target = CreateNoun();
+            var determiner = new Determiner("the");
             target.BindDeterminer(determiner);
             Check.That(target.Determiner).IsEqualTo(determiner);
             Check.That(determiner.Determines).IsEqualTo(target);
@@ -251,7 +251,7 @@ namespace LASI.Core.Tests
         [Fact]
         public void BindDescriptorTest()
         {
-            Noun target = CreateNoun();
+            var target = CreateNoun();
             IDescriptor descriptor = new Adjective("red");
             target.BindDescriptor(descriptor);
             Check.That(target.Descriptors).Contains(descriptor);

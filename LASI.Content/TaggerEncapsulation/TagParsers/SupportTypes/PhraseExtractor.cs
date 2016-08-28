@@ -53,7 +53,7 @@ namespace LASI.Content.Tagging
         }
         public override string ToString()
         {
-            string result = Text;
+            var result = Text;
             foreach (var c in Children)
                 Text += c.ToString();
             return result;

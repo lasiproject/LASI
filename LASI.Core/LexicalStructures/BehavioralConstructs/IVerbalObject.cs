@@ -5,7 +5,7 @@ namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for Action Objects, generally the objects of Verbs or VerbPhrases. </para>
-    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IActionObject interface provides for generalization and abstraction over word and Phrase types. </para>
+    /// <para> Along with the other interfaces in the Syntactic Interfaces Library, the IActionObject interface provides for cross-axial generalization over lexical types. </para>
     /// </summary>
     public interface IVerbalObject
     {

@@ -6,6 +6,8 @@ using NFluent.Extensibility;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Shared.Test.NFluentExtensions
 {
@@ -26,7 +28,7 @@ namespace Shared.Test.NFluentExtensions
             //      the check fails, in the case we were running the negated version.
             //
             // e.g.:
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {
@@ -101,7 +103,7 @@ namespace Shared.Test.NFluentExtensions
         {
             var checker = ExtensibilityHelper.ExtractChecker(check);
 
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {
@@ -186,6 +188,19 @@ namespace Shared.Test.NFluentExtensions
                 }
             },
             FluentMessage.BuildMessage($"The {{0}} ends with:\n[ {string.Join(", ", expectedValues)} ]\nit whereas it must not.").For(typeof(IEnumerable<T>).Name).On(checker.Value).ToString());
+        }
+
+        public static ICheck<TValue> HasMember<T, TValue>(this ICheck<T> check, Expression<Func<T, TValue>> expression)
+        {
+            if (expression.Body.NodeType != ExpressionType.MemberAccess)
+            {
+                throw new FluentCheckException($"Expression given to {nameof(HasMember)} constraint is not a valid property access expression");
+            }
+            var checker = ExtensibilityHelper.ExtractChecker(check);
+            var property = (PropertyInfo)((MemberExpression)expression.Body).Member;
+            var value = (TValue)property.GetValue(checker.Value);
+
+            return Check.That(value);
         }
 
         #region Helpers

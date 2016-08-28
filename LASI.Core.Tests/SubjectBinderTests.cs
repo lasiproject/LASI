@@ -12,13 +12,13 @@ namespace LASI.Core.Analysis.Binding.Tests
         [Fact(Skip = "TODO: Implement code to verify target")]
         public void BindTest()
         {
-            SubjectBinder target = new SubjectBinder();
+            var target = new SubjectBinder();
             throw new NotImplementedException("TODO: Implement code to verify target");
         }
         [Fact]
         public void HasSubjectPronounTest()
         {
-            PronounPhrase phrase = new PronounPhrase(
+            var phrase = new PronounPhrase(
                 new PersonalPronoun("they"),
                 new PersonalPronoun("themselves")
             );
@@ -27,7 +27,7 @@ namespace LASI.Core.Analysis.Binding.Tests
         [Fact]
         public void HasSubjectPronounTest1()
         {
-            PronounPhrase phrase = new PronounPhrase(
+            var phrase = new PronounPhrase(
                 new PersonalPronoun("he"),
                 new Conjunction("and"),
                 new PersonalPronoun("it")
@@ -37,7 +37,7 @@ namespace LASI.Core.Analysis.Binding.Tests
         [Fact]
         public void HasSubjectPronounTest2()
         {
-            PronounPhrase phrase = new PronounPhrase(
+            var phrase = new PronounPhrase(
                 new PersonalPronoun("she"),
                 new Conjunction("and"),
                 new PersonalPronoun("it")
@@ -47,7 +47,7 @@ namespace LASI.Core.Analysis.Binding.Tests
         [Fact]
         public void HasSubjectPronounTest3()
         {
-            PronounPhrase phrase = new PronounPhrase(
+            var phrase = new PronounPhrase(
                 new PersonalPronoun("him"),
                 new Conjunction("and"),
                 new PersonalPronoun("her")

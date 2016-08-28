@@ -23,7 +23,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocFileConstructorTest()
         {
-            DocFile target = new DocFile(DOC_TEST_FILE_PATH);
+            var target = new DocFile(DOC_TEST_FILE_PATH);
             Check.That(DOC_TEST_FILE_PATH).Satisfies(File.Exists);
             Check.That(target.Extension).IsEqualTo(".doc");
             Check.That(target.FullPath).IsEqualTo(Path.GetFullPath(DOC_TEST_FILE_PATH));
@@ -34,7 +34,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocFileConstructorTest1()
         {
-            string wrongFileTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            var wrongFileTypePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             Check.That(wrongFileTypePath).Satisfies(File.Exists);
             Check.ThatCode(() => new DocFile(wrongFileTypePath))
                  .Throws<FileTypeWrapperMismatchException<DocFile>>();
@@ -45,7 +45,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void DocFileConstructorTest2()
         {
-            string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
+            var invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             Check.That(invalidPath).DoesNotSatisfy(File.Exists);
             Check.ThatCode(() => new DocFile(invalidPath))
                  .Throws<FileNotFoundException>();

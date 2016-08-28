@@ -19,7 +19,7 @@ namespace LASI.Core.Tests
         public void InterjectionPhraseConstructorTest()
         {
             IEnumerable<Word> composed = new Word[] { new Preposition("by"), new Interjection("jove") };
-            InterjectionPhrase target = new InterjectionPhrase(composed);
+            var target = new InterjectionPhrase(composed);
             Check.That(target.Text).IsEqualTo("by jove");
             Check.That(target.Words).ContainsExactly(composed);
         }

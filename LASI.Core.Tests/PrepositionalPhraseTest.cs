@@ -19,7 +19,7 @@ namespace LASI.Core.Testss
         [Fact]
         public void BindObjectOfPrepositionTest()
         {
-            PrepositionalPhrase target = CreatePrepositionPhrase();
+            var target = CreatePrepositionPhrase();
             ILexical prepositionalObject = new VerbPhrase(new Word[] { new BaseVerb("have") });
             target.BindObject(prepositionalObject);
             Assert.True(target.BoundObject == prepositionalObject);
@@ -32,7 +32,7 @@ namespace LASI.Core.Testss
         public void BindObjectTest()
         {
             var composedWords = new[] { new Preposition("on") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
             ILexical prepositionalObject = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("table") });
             target.BindObject(prepositionalObject);
             Assert.Equal(prepositionalObject, target.BoundObject);
@@ -48,7 +48,7 @@ namespace LASI.Core.Testss
         public void OnLeftSideTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
             ILexical expected = new NounPhrase(new[] { new PersonalPronoun("it") });
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -63,7 +63,7 @@ namespace LASI.Core.Testss
         public void OnRightSideTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
             ILexical expected = new VerbPhrase(new[] { new PresentParticiple("slamming") });
             ILexical actual;
             target.ToTheRightOf = expected;
@@ -78,7 +78,7 @@ namespace LASI.Core.Testss
         public void PrepositionalPhraseConstructorTest()
         {
             var composedWords = new[] { new Preposition("on") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
 
             Check.That(target.Words).HasSize(composedWords.Count());
             Check.That(target).Satisfies(() =>
@@ -93,8 +93,8 @@ namespace LASI.Core.Testss
         public void PrepositionalRoleTest()
         {
             IEnumerable<Word> composedWords = new Word[] { new Preposition("for") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
-            PrepositionRole expected = PrepositionRole.Undetermined;
+            var target = new PrepositionalPhrase(composedWords);
+            var expected = PrepositionRole.Undetermined;
             PrepositionRole actual;
             actual = target.Role;
             Assert.Equal(expected, actual);
@@ -106,9 +106,9 @@ namespace LASI.Core.Testss
         [Fact]
         public void RoleTest()
         {
-            PrepositionalPhrase target = new PrepositionalPhrase(new Preposition("on"));
+            var target = new PrepositionalPhrase(new Preposition("on"));
 
-            PrepositionRole expected = PrepositionRole.LocationOrScopeSpecifier;
+            var expected = PrepositionRole.LocationOrScopeSpecifier;
             PrepositionRole actual;
             target.Role = expected;
             actual = target.Role;
@@ -123,7 +123,7 @@ namespace LASI.Core.Testss
         {
             Phrase.VerboseOutput = true;
 
-            PrepositionalPhrase target = new PrepositionalPhrase(new Preposition("for"));
+            var target = new PrepositionalPhrase(new Preposition("for"));
             var left = new NounPhrase(new PersonalPronoun("it"));
             var right = new VerbPhrase(new PresentParticiple("slamming"));
             target.ToTheLeftOf = left;
@@ -142,7 +142,7 @@ namespace LASI.Core.Testss
         public void ToTheLeftOfTest()
         {
             var composedWords = new[] { new Preposition("on") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("table") });
             ILexical actual;
             target.ToTheLeftOf = expected;
@@ -157,7 +157,7 @@ namespace LASI.Core.Testss
         public void ToTheRightOfTest()
         {
             var composedWords = new[] { new Preposition("on") };
-            PrepositionalPhrase target = new PrepositionalPhrase(composedWords);
+            var target = new PrepositionalPhrase(composedWords);
             ILexical expected = new ThirdPersonSingularPresentVerb("is");
             ILexical actual;
             target.ToTheRightOf = expected;

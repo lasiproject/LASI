@@ -19,8 +19,8 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void ConjunctionConstructorTest()
         {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
+            var text = "and";
+            var target = new Conjunction(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 
@@ -30,8 +30,8 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void OnLeftTest()
         {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
+            var text = "and";
+            var target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
             ILexical actual;
             target.JoinedLeft = expected;
@@ -46,8 +46,8 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void OnRightTest()
         {
-            string text = "and";
-            Conjunction target = new Conjunction(text);
+            var text = "and";
+            var target = new Conjunction(text);
             ILexical expected = new NounPhrase(new Word[] { new Determiner("the"), new CommonSingularNoun("program") });
             ILexical actual;
             target.JoinedRight = expected;
@@ -61,8 +61,8 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void JoinedLeftTest()
         {
-            string text = "or";
-            Conjunction target = new Conjunction(text);
+            var text = "or";
+            var target = new Conjunction(text);
             ILexical expected = new ProperSingularNoun("Jacob");
             ILexical actual;
             target.JoinedLeft = expected;
@@ -76,7 +76,7 @@ namespace LASI.Core.Tests
         [TestMethod]
         public void JoinedRightTest()
         {
-            Conjunction target = new Conjunction("and");
+            var target = new Conjunction("and");
             ILexical expected = new AggregateEntity(new ProperSingularNoun("Jacob"), new ProperSingularNoun("Jessica"));
             ILexical actual;
             target.JoinedRight = expected;

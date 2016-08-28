@@ -1,15 +1,11 @@
-﻿using LASI.Content.Serialization.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LASI.Core;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using NFluent;
+using Shared.Test.NFluentExtensions;
 using Xunit;
-using TestMethod = Xunit.FactAttribute;
+
 namespace LASI.Content.Serialization.Json.Tests
 {
     public class SerializationExtensionsTest
@@ -19,42 +15,53 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             var target = TestHelper.GetLexicalSequence();
             var actual = target.ToJArray();
-            var result = target.Zip(actual, (source, serialized) => new { Source = source, Serialized = serialized as dynamic });
-            foreach (var r in result)
-            {
-                Assert.Equal(r.Source.Text, (string)r.Serialized.text);
-            }
-            JArray expected = new JArray(target.Select(e => e.ToJObject()));
-            RemoveUniquePropertyValues(actual);
-            RemoveUniquePropertyValues(expected);
+
+            var expected = JArray.FromObject(target.Select(e => e.ToJObject()));
+            TestHelper.RemoveUniquePropertyValues(actual);
+            TestHelper.RemoveUniquePropertyValues(expected);
+
             Assert.True(JToken.DeepEquals(expected, actual));
-
-        }
-
-        private static void RemoveUniquePropertyValues(JContainer test)
-        {
-            test.DescendantsAndSelf().OfType<JObject>().Properties().Where(property => property.Name == "name").ToList().ForEach(t => t.Remove());
         }
 
         [Fact]
-        public void NounPhraseToJObjectTest()
+        public void NounPhraseToJObjectIsNotNull()
         {
             var target = TestHelper.TestNounPhrase;
-            JObject serialized = target.ToJObject();
-            Assert.NotNull(serialized);
-            Assert.Equal(target.Text, serialized["text"]);
-            Assert.Equal(target.Words.Count(), serialized["words"].Count());
-            Assert.True(JToken.DeepEquals(new JArray(target.Words.Select(w => w.ToJObject())), serialized["words"]));
+
+            var serialized = target.ToJObject();
+
+            Check.That(serialized).IsNotNull();
+        }
+        [Fact]
+        public void NounPhraseToJObjectYieldsJObjectHavingTextEqualToSourceText()
+        {
+            var target = TestHelper.TestNounPhrase;
+
+            var serialized = target.ToJObject();
+
+            Check.That(target.Text).IsEqualTo((string)serialized["text"]);
+        }
+
+        [Fact]
+        public void NounPhraseToJObjectHasWordsInSameOrder()
+        {
+            var target = TestHelper.TestNounPhrase;
+
+            var serialized = target.ToJObject();
+
+            Check.That(serialized["words"])
+                .HasSize(target.Words.Count())
+                .And.Satisfies(() => JToken.DeepEquals(JArray.FromObject(target.Words.Select(w => w.ToJObject())), serialized["words"]));
         }
 
         [Fact]
         public void VerbalToJObjectTest()
         {
             var target = TestHelper.TestVerbal;
-            JObject serialized = target.ToJObject();
+            var serialized = target.ToJObject();
             Assert.NotNull(serialized);
             Assert.Equal(target.Text, serialized["text"]);
-            Assert.True(JToken.DeepEquals(new JArray(target.AdverbialModifiers.Select(e => e.ToJObject())), serialized["adverbialModifiers"]));
+            Assert.True(JToken.DeepEquals(JArray.FromObject(target.AdverbialModifiers.Select(e => e.ToJObject())), serialized["adverbialModifiers"]));
         }
 
         private static class TestHelper
@@ -66,13 +73,14 @@ namespace LASI.Content.Serialization.Json.Tests
                 foreach (var lexical in new[] { new NounPhrase(
                         new ProperPluralNoun("Americans"),
                         new Conjunction("and"),
-                        new ProperPluralNoun("Canadians"))
-                })
-                {
-                    yield return lexical;
-                }
+                        new ProperPluralNoun("Canadians")
+                        )}) yield return lexical;
             }
 
+            public static void RemoveUniquePropertyValues(JContainer test)
+            {
+                test.DescendantsAndSelf().OfType<JObject>().Properties().Where(property => property.Name == "name").ToList().ForEach(t => t.Remove());
+            }
         }
     }
 }

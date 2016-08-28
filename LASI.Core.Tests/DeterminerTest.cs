@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void DeterminerConstructorTest()
         {
-            string text = "the";
-            Determiner target = new Determiner(text);
+            var text = "the";
+            var target = new Determiner(text);
             Check.That(target.Text).IsEqualTo(text);
             Check.That(target.Determines).IsNull();
         }
@@ -29,8 +29,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void DeterminesTest()
         {
-            string text = "the";
-            Determiner target = new Determiner(text);
+            var text = "the";
+            var target = new Determiner(text);
             IEntity expected = new CommonSingularNoun("organization");
             IEntity actual;
             target.Determines = expected;

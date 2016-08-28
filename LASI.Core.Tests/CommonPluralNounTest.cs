@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void CommonPluralNounConstructorTest()
         {
-            string text = "clowns";
-            CommonPluralNoun target = new CommonPluralNoun(text);
+            var text = "clowns";
+            var target = new CommonPluralNoun(text);
             Check.That(target.Text).IsEqualTo(text);
         }
 
@@ -28,8 +28,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void QuantifiedByTest()
         {
-            string text = "clowns";
-            CommonPluralNoun target = new CommonPluralNoun(text);
+            var text = "clowns";
+            var target = new CommonPluralNoun(text);
             IQuantifier expected = new Quantifier("all");
             IQuantifier actual;
             target.QuantifiedBy = expected;

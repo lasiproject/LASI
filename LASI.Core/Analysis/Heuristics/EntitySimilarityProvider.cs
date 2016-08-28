@@ -159,6 +159,7 @@ namespace LASI.Core
                                   orderby byGender.Count() descending
                                   select byGender.Key).DefaultIfEmpty().First(), when: e => e.Referencers.Any())
             .Result();
+
         /// <summary>
         /// Returns a NameGender value indicating the likely gender of the Pronoun based on its
         /// referent if known, or else its PronounKind.

@@ -303,7 +303,7 @@ namespace LASI.Core.Analysis.Binding
                     })
                     .Case((VerbPhrase v) =>
                     {
-                        InfinitivePhrase infinitive = new InfinitivePhrase(
+                        var infinitive = new InfinitivePhrase(
                             phrase.Words.Concat(
                             phrase.Sentence.GetPhrasesAfter(phrase).TakeWhile(w => !(w is IConjunctive || w is IPrepositional)).OfWord()));
                         Machine.directObject = infinitive;

@@ -82,7 +82,7 @@ namespace LASI.Content
         {
             DocxToZip();
             XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (XmlReader xmlReader = XmlReader.Create(
+            using (var xmlReader = XmlReader.Create(
                 new FileStream(
                     XmlFile.FullPath,
                     FileMode.Open,

@@ -1,4 +1,3 @@
-/// <binding ProjectOpened='watch' />
 const gulp = require('gulp'),
     debug = require('gulp-debug'),
     concat = require('gulp-concat'),

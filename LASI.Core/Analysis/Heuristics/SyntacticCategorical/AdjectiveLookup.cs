@@ -34,7 +34,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         internal override void Load()
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            using (var reader = new StreamReader(filePath))
             {
                 foreach (var line in reader.ReadToEnd().SplitRemoveEmpty('\n').Skip(LinesInHeader))
                 {
@@ -61,11 +61,11 @@ namespace LASI.Core.Heuristics.WordNet
                                  select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
 
-            IEnumerable<string> words = from Match match in Regex.Matches(line, WORD_REGEX)
+            var words = from Match match in Regex.Matches(line, WORD_REGEX)
                                         select match.Value.Replace('_', ' ');
-            int id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
+            var id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
-            AdjectiveCategory lexCategory = (AdjectiveCategory)int.Parse(line.Substring(9, 2));
+            var lexCategory = (AdjectiveCategory)int.Parse(line.Substring(9, 2));
             return new AdjectiveSynset(id, words, referencedSets, lexCategory);
         }
 

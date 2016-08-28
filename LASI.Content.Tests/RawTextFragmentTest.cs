@@ -23,8 +23,8 @@ namespace LASI.Content.Tests
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." };
-            string name = "test fragment";
-            RawTextFragment target = new RawTextFragment(text, name);
+            var name = "test fragment";
+            var target = new RawTextFragment(text, name);
             Assert.Equal(target.Name, name);
             Assert.Equal(target.LoadText(), string.Join("\n", text));
         }
@@ -38,10 +38,10 @@ namespace LASI.Content.Tests
             IEnumerable<string> text = new[] { "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." };
-            string name = "test fragment";
-            RawTextFragment target = new RawTextFragment(text, name);
-            string expected = string.Join("\n", text);
-            string actual = target.LoadText();
+            var name = "test fragment";
+            var target = new RawTextFragment(text, name);
+            var expected = string.Join("\n", text);
+            var actual = target.LoadText();
             Assert.Equal(expected, actual);
         }
 
@@ -55,10 +55,10 @@ namespace LASI.Content.Tests
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." };
-            string name = "test fragment";
-            RawTextFragment target = new RawTextFragment(text, name);
-            string expected = string.Join("\n", text);
-            string actual = target.LoadTextAsync().Result;
+            var name = "test fragment";
+            var target = new RawTextFragment(text, name);
+            var expected = string.Join("\n", text);
+            var actual = target.LoadTextAsync().Result;
             Assert.Equal(expected, actual);
         }
 
@@ -72,9 +72,9 @@ namespace LASI.Content.Tests
                 "John enjoyed, with his usual lack of humility, consuming the object in question.",
                 "Some may call him a heathen, but they are mistaken.",
                 "Heathens are far less dangerous than he." };
-            string name = "test fragment";
-            RawTextFragment fragment = new RawTextFragment(text, name);
-            string expected = string.Join("\n", text);
+            var name = "test fragment";
+            var fragment = new RawTextFragment(text, name);
+            var expected = string.Join("\n", text);
             string actual;
             actual = fragment;
             Assert.Equal(expected, actual);
