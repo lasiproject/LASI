@@ -99,7 +99,7 @@ namespace LASI.Interop
         {
             lock (initializationLock)
             {
-                Validate.False(alreadyConfigured, () => new SystemAlreadyConfiguredException());
+                Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
                 var config = configFactory();
                 InitializeComponents(config);
                 alreadyConfigured = true;
@@ -108,11 +108,11 @@ namespace LASI.Interop
 
         private static void InitializeImplementation(string raw, ConfigFormat format, string subkey)
         {
-            Validate.ExistsIn(from ConfigFormat cf in Enum.GetValues(typeof(ConfigFormat)) select cf, format, nameof(format));
+            Validate.ExistsIn(from ConfigFormat cf in Enum.GetValues(typeof(ConfigFormat)) select cf, format, nameof(format), $"Invalid config format, specify {typeof(ConfigFormat).Name}{nameof(ConfigFormat.Json)} or {nameof(ConfigFormat.Xml)}");
 
             lock (initializationLock)
             {
-                Validate.False(alreadyConfigured, () => new SystemAlreadyConfiguredException());
+                Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
 
                 Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
 

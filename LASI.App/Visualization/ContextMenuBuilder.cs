@@ -41,7 +41,6 @@ namespace LASI.App.Visualization
         /// Creates a context menu specific to the given IVerbal element with context determined by
         /// the provided labels.
         /// </summary>
-        /// <param name="verbal">The element to create a context menu for.</param>
         /// <param name="neighboringElements">
         /// The labels which determine the context in which the menu is to be created.
         /// </param>
@@ -75,7 +74,6 @@ namespace LASI.App.Visualization
         /// Creates a context menu specific to the given IReferencer element with context
         /// determined by the provided labels.
         /// </summary>
-        /// <param name="referencer">The element to create a context menu for.</param>
         /// <param name="neighboringElements">
         /// The labels which determine the context in which the menu is to be created.
         /// </param>

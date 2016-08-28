@@ -9,8 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		failingtests.playlist = failingtests.playlist
 		Icons\favicon.ico = Icons\favicon.ico
 		global.json = global.json
+		LASI.App\LASI.App.ruleset = LASI.App\LASI.App.ruleset
+		LASI.ruleset = LASI.ruleset
 		README.md = README.md
-		RuleSet1.ruleset = RuleSet1.ruleset
 		Script1.fsx = Script1.fsx
 		TestLocator.config = TestLocator.config
 	EndProjectSection
