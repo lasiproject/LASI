@@ -1,13 +1,10 @@
-﻿import '../../styles/lexical.css!css';
-import {bindable, autoinject, subscriberCollection} from 'aurelia-framework';
-import DocumentModelService from './document-model-service';
-import {DocumentModel} from 'src/models';
-@autoinject export class DocumentViewer {
-  //constructor(private documentModelService: DocumentModelService) { }
+﻿import { bindable, autoinject } from 'aurelia-framework';
+import { DocumentModel } from 'src/models';
+export class DocumentViewer {
 
   @bindable document: DocumentModel;
   bind() {
-    this.typeAheadSource = document && this.document && this.document.paragraphs
+    this.typeAheadSource = this.document && this.document.paragraphs
       .flatMap(p => p.sentences)
       .flatMap(s => s.phrases)
       .flatMap(s => s.words)

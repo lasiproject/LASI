@@ -11,6 +11,7 @@
     "dependencies": {
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0-rc.1.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.0-rc.1.0.1",
+      "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "css": "github:systemjs/plugin-css@^0.1.22",
       "font-awesome": "npm:font-awesome@^4.6.3",
@@ -18,7 +19,7 @@
       "sass": "github:mobilexag/plugin-sass@^0.4.5"
     },
     "devDependencies": {
-      "plugin-typescript": "github:frankwallis/plugin-typescript@^5.0.9",
+      "plugin-typescript": "github:frankwallis/plugin-typescript@^5.0.19",
       "tape": "npm:tape@^4.6.0"
     },
     "peerDependencies": {
@@ -75,9 +76,9 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.0.9": {
+      "github:frankwallis/plugin-typescript@5.0.19": {
         "dependencies": {
-          "typescript": "npm:typescript@2.1.0-dev.20160819"
+          "typescript": "npm:typescript@next"
         }
       },
       "github:twbs/bootstrap@3.3.7": {
@@ -157,7 +158,7 @@
     }
   },
   "devDependencies": {
-    "jspm": "^0.17.0-beta.25",
+    "jspm": "^0.17.0-beta.28",
     "lite-server": "^2.2.2",
     "tslint": "^3.14.0-dev.1",
     "typings": "^1.3.2"

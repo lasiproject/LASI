@@ -1,5 +1,5 @@
-import {Router} from 'aurelia-router';
-import {bindable, customElement} from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { bindable } from 'aurelia-framework';
 export class Navbar {
-    @bindable router: Router; 
+    @bindable router: Router;
 }

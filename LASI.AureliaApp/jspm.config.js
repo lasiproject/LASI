@@ -63,7 +63,7 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "plugin-typescript": "github:frankwallis/plugin-typescript@5.0.9",
+            "plugin-typescript": "github:frankwallis/plugin-typescript@5.0.19",
             "tape": "npm:tape@4.6.0"
         },
         "packages": {
@@ -142,11 +142,6 @@ SystemJS.config({
                     "minimatch": "npm:minimatch@3.0.3"
                 }
             },
-            "github:frankwallis/plugin-typescript@5.0.9": {
-                "map": {
-                    "typescript": "npm:typescript@2.1.0-dev.20160819"
-                }
-            },
             "npm:brace-expansion@1.1.6": {
                 "map": {
                     "concat-map": "npm:concat-map@0.0.1",
@@ -157,6 +152,11 @@ SystemJS.config({
                 "map": {
                     "brace-expansion": "npm:brace-expansion@1.1.6"
                 }
+            },
+            "github:frankwallis/plugin-typescript@5.0.19": {
+                "map": {
+                    "typescript": "npm:typescript@next"
+                }
             }
         }
     },
@@ -164,7 +164,7 @@ SystemJS.config({
     typescriptOptions: {
         "typeCheck": false,
         "tsconfig": true,
-        "target": "es5",
+        "target": "es6",
         "module": "system"
     },
     map: {
@@ -179,6 +179,7 @@ SystemJS.config({
         "npm:*.json"
     ],
     map: {
+        "aurelia-http-client": "npm:aurelia-http-client@1.0.0",
         "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0",
         "aurelia-binding": "npm:aurelia-binding@1.0.1",
         "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",

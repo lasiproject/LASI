@@ -7,7 +7,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "baseUrl": ".",
     "pretty": true
   },

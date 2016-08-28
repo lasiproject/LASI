@@ -1,7 +1,6 @@
-import './shims';
 import { autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
-import { UserService } from './user-service';
+import UserService from './services/user';
 import { User } from 'src/models';
 
 @autoinject export class App {

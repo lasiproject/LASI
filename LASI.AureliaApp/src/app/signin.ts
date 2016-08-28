@@ -4,9 +4,9 @@ import {AppRouter} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
 
 import {User} from 'src/models';
-import {UserService} from './user-service';
+import UserService from './services/user';
 
-@autoinject export class Login {
+@autoinject export class Signin {
     constructor(private userService: UserService, readonly router: AppRouter) { }
 
     async login(): Promise<User> {

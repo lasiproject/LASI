@@ -2,27 +2,11 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 import $ from 'jquery';
-import TokenService from './token-service';
+import TokenService from './token';
+import { getConfig, postConfig } from './http-utilities';
 import { Credentials, User, AuthenticationResult } from 'src/models';
 
-const getConfig: RequestInit = {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-};
-const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body?: B } } = {
-    withBody<B>(this: RequestInit, body: B) {
-        this.body = body;
-        return this;
-    },
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-};
-
-@autoinject export class UserService {
+@autoinject export default class UserService {
     constructor(
         readonly router: Router,
         readonly http: HttpClient,
@@ -31,11 +15,10 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
 
     async loginGet() {
         const response = await this.http.fetch('/api/authenticate', getConfig);
-        this.user = await response.json() as User;
+        this.user = await response.json();
         if (!this.user) {
             throw Error('unable to retrieve user');
         }
-
         return this.user;
     }
 
@@ -52,20 +35,16 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         const response = await this.http.fetch('/api/authenticate', postConfig.withBody($.param(data)));
         return await response.json() as AuthenticationResult;
     }
-    async login({ email, password, rememberMe }: Credentials): Promise<AuthenticationResult> {
+    async login(credentials: Credentials): Promise<AuthenticationResult> {
         const promise = this.loggedIn ? this.getUser() : Promise.resolve({});
 
-        const data = {
-            email,
-            password,
-            rememberMe
-        };
+
         try {
             const user = await this.loginGet();
-            return user || await this.loginPost({ data });
+            return user || await this.loginPost(credentials);
         } catch (e) {
             console.warn('not logged in');
-            return await this.loginPost(data).then(loginSuccess);
+            return await this.loginPost(credentials).then(loginSuccess);
         }
     }
 
@@ -83,7 +62,7 @@ const postConfig: RequestInit & { withBody: <B>(body: B) => RequestInit & { body
         return await response.json();
     }
 
-    async saveDetails(details: any) {
+    async saveDetails(details) {
         const response = await this.http.fetch('/api/manage/account', postConfig.withBody(details));
         return await response.json();
     }
