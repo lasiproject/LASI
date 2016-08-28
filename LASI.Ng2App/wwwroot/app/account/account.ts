@@ -1,11 +1,9 @@
-import { Component, OnInit } from 'angular2/core';
-import UserService  from 'app/user-service';
-import template from  './account.html';
-@Component({
-    selector: 'account',
-    template
-})
-export class AccountComponent implements OnInit {
+import { OnInit } from '@angular/core';
+import { component } from 'ng2-conventions-decorators';
+import { UserService } from 'app/user-service';
+import template from './account.html';
+
+@component(template) export class AccountComponent implements OnInit {
     constructor(private userService: UserService) { }
 
     ngOnInit() {
@@ -13,7 +11,7 @@ export class AccountComponent implements OnInit {
     }
 
     activate() {
-        return this.userService.getDetails().subscribe(details => this.details = details)
+        return this.userService.getDetails().subscribe(details => this.details = details);
     }
 
     saveDetails() {

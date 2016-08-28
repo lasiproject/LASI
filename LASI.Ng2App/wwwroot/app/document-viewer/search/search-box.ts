@@ -1,12 +1,12 @@
-﻿import { Input } from 'app/ng2-utils';
+﻿import { input } from 'ng2-conventions-decorators';
 import template from './search-box.html';
-import { Component, OnInit } from 'angular2/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'search-box',
     template
 })
-export default class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent implements OnInit {
     ngOnInit() { }
 
     static $inject = ['$q'];
@@ -17,8 +17,8 @@ export default class SearchBoxComponent implements OnInit {
     getWords() {
         return (this.phrases || []).flatMap(p => p.words);
     }
-    @Input find: SearchModel;
-    @Input searchContext: models.TextFragmentModel[];
+    @input find: SearchModel;
+    @input searchContext: models.TextFragmentModel[];
 
     search(searchOptions: SearchOptions, searchContext: models.TextFragmentModel[]) {
         const value = searchOptions.value;

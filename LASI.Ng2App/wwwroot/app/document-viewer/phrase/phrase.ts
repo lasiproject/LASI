@@ -1,17 +1,10 @@
-﻿import { Component, OnInit } from 'angular2/core';
+﻿import { OnInit } from '@angular/core';
 import { LexicalMenuBuilder } from 'app/document-viewer/lexical-menu-builder';
-import {Input, Injectable} from 'app/ng2-utils';
+import { component, input } from 'ng2-conventions-decorators';
 import template from './phrase.html';
 
-@Component({
-    selector: 'phrase',
-    template
-})
-@Injectable
-export class PhraseComponent implements OnInit {
-    constructor(private lexicalMenuBuilder: LexicalMenuBuilder) {
-
-    }
+@component(template) export class PhraseComponent implements OnInit {
+    constructor(readonly lexicalMenuBuilder: LexicalMenuBuilder) {}
     ngOnInit() {
         var contextmenu = this.lexicalMenuBuilder.buildAngularMenu(this.phrase.contextmenu);
         this.phrase.hasContextmenuData = !!contextmenu;
@@ -21,6 +14,6 @@ export class PhraseComponent implements OnInit {
         }
 
     }
-    @Input phrase: models.PhraseModel;
-    @Input parentId: string;
+    @input phrase: models.PhraseModel;
+    @input parentId: string;
 }

@@ -1,9 +1,8 @@
-import { Http } from 'angular2/http';
-import { Injectable } from './ng2-utils';
+import { Http } from '@angular/http';
+import { injectable } from 'ng2-conventions-decorators';
 
-@Injectable
-export default class ListService {
-    constructor(private http: Http) { }
+@injectable export class ListService {
+    constructor(readonly http: Http) { }
 
     getById(documentId: string) {
         return this.http

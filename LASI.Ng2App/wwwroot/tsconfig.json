@@ -6,22 +6,45 @@
         "allowSyntheticDefaultImports": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "watch": false,
+        "moduleResolution": "node",
         "allowJs": false,
-        "baseUrl": "",
+        "baseUrl": ".",
         "paths": {
             "rxjs": [
-                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
+                "jspm_packages/npm/rxjs@5.0.0-beta.6/"
             ],
-            "rxjs/Rx/*": [
-                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
+            "rxjs/Rx": [
+                "jspm_packages/npm/rxjs@5.0.0-beta.6/Rx"
             ],
             "rxjs/*": [
-                "jspm_packages/npm/rxjs@5.0.0-beta.7/Rx.d.ts"
+                "jspm_packages/npm/rxjs@5.0.0-beta.6"
             ],
-            "angular2/*": [
-                "jspm_packages/npm/angular2@2.0.0-beta.17/ts/*.ts",
-                "jspm_packages/npm/angular2@2.0.0-beta.17/*"
+            "@angular/core": [
+                "jspm_packages/npm/@angular/core@2.0.0-rc.5"
+            ],
+            "@angular/http": [
+                "jspm_packages/npm/@angular/http@2.0.0-rc.5"
+            ],
+            "@angular/common": [
+                "jspm_packages/npm/@angular/common@2.0.0-rc.5"
+            ],
+            "@angular/platform-browser-dynamic": [
+                "jspm_packages/npm/@angular/platform-browser-dynamic@2.0.0-rc.5"
+            ],
+            "@angular/platform-browser": [
+                "jspm_packages/npm/@angular/platform-browser@2.0.0-rc.5"
+            ],
+            "@angular/forms": [
+                "jspm_packages/npm/@angular/forms@0.3.0"
+            ],
+            "@angular/router": [
+                "jspm_packages/npm/@angular/router@3.0.0-rc.1"
+            ],
+            "@angular/compiler": [
+                "jspm_packages/npm/@angular/compiler@2.0.0-rc.5"
+            ],
+            "ng2-conventions-decorators": [
+                "jspm_packages/npm/ng2-conventions-decorators@0.1.8"
             ]
         }
     },

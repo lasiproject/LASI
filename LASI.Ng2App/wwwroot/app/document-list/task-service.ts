@@ -1,14 +1,13 @@
-import { Injectable } from 'app/ng2-utils';
-import { Http } from 'angular2/http';
+import { injectable } from 'ng2-conventions-decorators';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 
-@Injectable
-export default class TaskService {
+@injectable export class TaskService {
     constructor(private http: Http) { }
 
     getTasksForDocumentById(id: string) {
-        return this.http.get(`api/userdocuments/tasks/${id}`)
-            .bufferTime(1000, 1000)
-            .sampleTime(10)
-            .flatMap(tasks => tasks.map(task => task.json()));
+        return Observable.interval(100)
+            .flatMap(() => this.http.get(`api/userdocuments/tasks/${id}`))
+            .flatMap(tasks => tasks.json() as models.Task[]);
     }
 }

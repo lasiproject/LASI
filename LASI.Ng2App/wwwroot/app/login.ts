@@ -1,6 +1,7 @@
 import $ from 'jquery';
-import { Component, OnInit, Injectable, Inject, Input } from 'angular2/core';
-import { Router, Route, RouteConfig, ROUTER_PROVIDERS } from 'angular2/router';
+import { Component, OnInit, Injectable, Inject, Input } from '@angular/core';
+import { FORM_DIRECTIVES } from '@angular/forms';
+import { Router, Route } from '@angular/router';
 import { UserService } from 'app/user-service';
 import { HomeComponent } from 'app/home';
 import errorModalTemplate from 'app/templates/error-modal.html';
@@ -8,8 +9,7 @@ import template from 'app/login.html';
 
 @Component({
     selector: 'login',
-    template,
-    providers: [ROUTER_PROVIDERS]
+    template, directives: [FORM_DIRECTIVES]
 })
 export class LoginComponent implements OnInit {
     constructor(private userService: UserService, private router: Router) { }

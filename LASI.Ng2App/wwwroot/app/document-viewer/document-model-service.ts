@@ -1,10 +1,10 @@
-﻿import { Injectable } from 'app/ng2-utils';
-import { Http } from 'angular2/http';
+﻿import { injectable } from 'ng2-conventions-decorators';
+import { Http } from '@angular/http';
 
-@Injectable export default class DocumentModelService implements models.DocumentModelService {
-    constructor(private http: Http) { }
+@injectable export class DocumentModelService {
+    constructor(readonly http: Http) { }
 
-    processDocument(documentId) {
+    processDocument(documentId?: number | string) {
         return this.http.get('/test/doc.json').map(response => response.json() as models.DocumentModel);
         // return this.http.get(`Analysis/${documentId}`).map(response => response.json() as models.DocumentModel);
     }

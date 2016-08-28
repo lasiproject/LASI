@@ -1,12 +1,12 @@
 import { Injectable } from './ng2-utils';
 import $ from 'jquery';
 import { Observable } from 'rxjs';
-import { Http, Headers } from 'angular2/http';
-import TokenService from 'app/token-service';
+import { Http, Headers } from '@angular/http';
+import { TokenService } from 'app/token-service';
 
 
 @Injectable
-export default class UserService {
+export class UserService {
     constructor(private http: Http, private tokenService: TokenService) { }
 
     login({ email, password, rememberMe }: models.Credentials) {
@@ -37,7 +37,7 @@ export default class UserService {
 
     getUser() {
         return Observable.from([this.user])
-            .map(x => !x ? Observable.throw('user undefined') : x)
+            .map(x => !x ? Observable.throw('user undefined') : x);
     }
 
     getDetails() {
@@ -67,7 +67,7 @@ export default class UserService {
         }
     };
 }
-const baseUrl = "//localhost:51641";
+const baseUrl = '//localhost:51641';
 function url(path: string) {
     return `${baseUrl}/api/${path}/`;
 }

@@ -1,7 +1,6 @@
-﻿import { Injectable } from 'app/ng2-utils';
-declare type ContextMenu = any;
+﻿import { injectable } from 'ng2-conventions-decorators';
 
-@Injectable export default class LexicalMenuBuilder implements models.LexicalMenuBuilder {
+@injectable export class LexicalMenuBuilder implements models.LexicalMenuBuilder {
     buildForVerbal = createForVerbalMenuBuilder({});
     buildForReferencer = createForReferencerMenuBuilder({});
 
@@ -79,3 +78,4 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
         'View Indirect Objects': 'indirect-object-of-current'
     });
 }
+export declare type ContextMenu = any;

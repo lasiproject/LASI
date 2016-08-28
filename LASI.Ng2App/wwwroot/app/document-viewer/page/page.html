@@ -2,8 +2,6 @@
 
     <div>title: {{page.title}}</div>
     <div>
-        <paragraph paragraph="paragraph"
-                   parent-id="page.document.id"
-                   *ngFor="let paragraph in page.paragraphs"></paragraph>
+        <paragraph *ngFor="let paragraph of page.paragraphs" [paragraph]="paragraph" [parentId]="page.document.id"></paragraph>
     </div>
 </div>

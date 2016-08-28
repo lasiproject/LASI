@@ -23,9 +23,9 @@
                                 <li class="dropdown" id="document-list-item-manage">
                                     <span class="btn" ng-click="openManageDocumentsModal()">Manage</span>
                                 </li>
-                                <document-list-menu-item 
+                                <list-item 
                                 *ngFor="let document of documents" [ngModel]="document" [documentId]="document.id" [documentName]="document.name" [analysisProgress]="document.progress">
-                                </document-list-menu-item>
+                                </list-item>
                                 <li class="dropdown">
                                     <a href="#" id="new-text-editor-item" data-toggle="collapse" data-target="#free-editor" class="nav-justified fa fa-pencil">
                                     </a>

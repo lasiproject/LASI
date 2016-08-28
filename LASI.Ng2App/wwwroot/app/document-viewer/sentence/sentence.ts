@@ -1,13 +1,7 @@
-﻿import { Component} from 'angular2/core';
-import { Input } from 'app/ng2-utils';
+﻿import { component, input } from 'ng2-conventions-decorators';
 import template from './sentence.html';
-import { PhraseComponent } from 'app/document-viewer/components';
-@Component({
-    selector: 'sentence',
-    directives: [PhraseComponent],
-    template
-})
-export class SentenceComponent {
-    @Input sentence;
-    @Input parentId;
+
+@component(template) export class SentenceComponent {
+    @input sentence;
+    @input parentId;
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Injectable } from 'angular2/core';
-import { Router, RouteData, RouterLink, RouteConfig, OnActivate } from 'angular2/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouteData, RouterLink, RouteConfig, OnActivate } from '@angular/router';
 import { Injectable, Input } from 'app/ng2-utils';
 import { UserService } from './user-service';
 import template from './navbar.html';

@@ -1,5 +1,5 @@
-import { Input as InputFactory, Injectable as InjectableFactory } from 'angular2/core';
-// import { makePropDecorator, makeDecorator } from 'angular2/src/core/util/decorators';
+import { Input as InputFactory, Injectable as InjectableFactory } from '@angular/core';
+// import { makePropDecorator, makeDecorator } from '@angular/src/core/util/decorators';
 /**
  * Shorthand decorator function for use when aliasing is not necessary.
  * @param target The property to decorate.

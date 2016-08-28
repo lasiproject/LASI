@@ -1,4 +1,4 @@
-export default   function buildMenus() {
+export default function buildMenus() {
     const contextualElementIdSelectors = [];
     const verbalMenuTextToElementsMap = {
         'View Subjects': 'subjects',

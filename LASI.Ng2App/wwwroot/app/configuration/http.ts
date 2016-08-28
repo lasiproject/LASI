@@ -1,6 +1,6 @@
-import { BaseRequestOptions, BaseResponseOptions } from 'angular2/http';
+import { BaseRequestOptions, BaseResponseOptions } from '@angular/http';
 import { Injectable } from 'app/ng2-utils';
-import TokenService from 'app/token-service';
+import { TokenService } from 'app/token-service';
 
 @Injectable export class RequestOptions extends BaseRequestOptions {
     constructor(tokenService: TokenService) {
