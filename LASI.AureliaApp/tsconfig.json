@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
+    "moduleResolution": "node",
     "baseUrl": ".",
     "pretty": true
   },
