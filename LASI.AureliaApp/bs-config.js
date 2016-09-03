@@ -12,7 +12,7 @@ module.exports = {
         }
     },
     files: [
-        "**/*.{html,ts,js,css}"
+        "**/*.{html,ts,tsx,js,jsx,css}"
     ],
     watchOptions: {
         injectChanges: true,
@@ -25,4 +25,4 @@ module.exports = {
         ]
     },
     injectChanges: true
-};
+}; 
