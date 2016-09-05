@@ -1,21 +1,107 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "noEmit": true,
-    "target": "es2015",
-    "module": "es2015",
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strictNullChecks": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "pretty": true
-  },
-  "exclude": [
-    "jspm_packages/github",
-    "!jspm_packages/npm/rxjs@5.0.0-beta.8/src/**/*.d.ts",
-    "jspm_packages/npm/rxjs@5.0.0-beta.8/src",
-    "jspm_packages/npm/typescript@2.1.0-dev.20160819"
-  ]
+    "compilerOptions": {
+        "jsx": "react",
+        "typeRoots": [
+            "jspm_packages/@types"
+        ],
+        "noEmit": true,
+        "target": "es2015",
+        "module": "es2015",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": true,
+        "moduleResolution": "node",
+        "pretty": true,
+        "baseUrl": ".",
+        "paths": {
+            "jquery":[
+                "jquery@1.10.31"
+            ],
+            "aurelia-binding": [
+                "typings/aurelia-binding@1.0.3"
+            ],
+            "aurelia-bootstrapper": [
+                "typings/aurelia-bootstrapper@1.0.0"
+            ],
+            "aurelia-dependency-injection": [
+                "typings/aurelia-dependency-injection@1.0.0"
+            ],
+            "aurelia-event-aggregator": [
+                "typings/aurelia-event-aggregator@1.0.0"
+            ],
+            "aurelia-framework": [
+                "typings/aurelia-framework@1.0.2"
+            ],
+            "aurelia-history-browser": [
+                "typings/aurelia-history-browser@1.0.0"
+            ],
+            "aurelia-history": [
+                "typings/aurelia-history@1.0.0"
+            ],
+            "aurelia-loader-default": [
+                "typings/aurelia-loader-default@1.0.0"
+            ],
+            "aurelia-loader": [
+                "typings/aurelia-loader@1.0.0"
+            ],
+            "aurelia-logging-console": [
+                "typings/aurelia-logging-console@1.0.0"
+            ],
+            "aurelia-logging": [
+                "typings/aurelia-logging@1.0.0"
+            ],
+            "aurelia-metadata": [
+                "typings/aurelia-metadata@1.0.0"
+            ],
+            "aurelia-pal-browser": [
+                "typings/aurelia-pal-browser@1.0.0"
+            ],
+            "aurelia-pal": [
+                "typings/aurelia-pal@1.0.0"
+            ],
+            "aurelia-path": [
+                "typings/aurelia-path@1.0.0"
+            ],
+            "aurelia-polyfills": [
+                "typings/aurelia-polyfills@1.0.0"
+            ],
+            "aurelia-route-recognizer": [
+                "typings/aurelia-route-recognizer@1.0.0"
+            ],
+            "aurelia-router": [
+                "typings/aurelia-router@1.0.2"
+            ],
+            "aurelia-task-queue": [
+                "typings/aurelia-task-queue@1.0.0"
+            ],
+            "aurelia-templating-binding": [
+                "typings/aurelia-templating-binding@1.0.0"
+            ],
+            "aurelia-templating-resources": [
+                "typings/aurelia-templating-resources@1.0.0"
+            ],
+            "aurelia-templating-router": [
+                "typings/aurelia-templating-router@1.0.0"
+            ],
+            "aurelia-templating": [
+                "typings/aurelia-templating@1.0.1"
+            ],
+            "aurelia-testing": [
+                "typings/aurelia-testing@1.0.0-beta.2.0.0"
+            ],
+            "aurelia-http-client": [
+                "typings/aurelia-http-client@1.0.0"
+            ],
+            "aurelia-fetch-client": [
+                "typings/aurelia-fetch-client@1.0.0"
+            ]
+        }
+    },
+    "exclude": [
+        "jspm_packages/github",
+        "!jspm_packages/npm/rxjs@5.0.0-beta.8/src/**/*.d.ts",
+        "jspm_packages/npm/rxjs@5.0.0-beta.8/src",
+        "jspm_packages/npm/typescript@next"
+    ]
 }

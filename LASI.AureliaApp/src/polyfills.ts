@@ -34,7 +34,7 @@
                 : results;
         },
         sum: function (valueSelector) {
-            // If the a valueSelector was not provided, define a function which will attempt 
+            // If the a valueSelector was not provided, define a function which will attempt
             // to convert its argument to a number.
             const projection = valueSelector || Number;
             return this.length === 0

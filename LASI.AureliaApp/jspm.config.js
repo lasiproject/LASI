@@ -63,8 +63,9 @@ SystemJS.config({
     },
     devConfig: {
         "map": {
-            "plugin-typescript": "github:frankwallis/plugin-typescript@5.0.19",
-            "tape": "npm:tape@4.6.0"
+            "plugin-typescript": "github:frankwallis/plugin-typescript@5.1.1",
+            "tape": "npm:tape@4.6.0",
+            "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0"
         },
         "packages": {
             "npm:resumer@0.0.0": {
@@ -80,16 +81,8 @@ SystemJS.config({
             "npm:string.prototype.trim@1.1.2": {
                 "map": {
                     "function-bind": "npm:function-bind@1.1.0",
-                    "es-abstract": "npm:es-abstract@1.5.1",
+                    "es-abstract": "npm:es-abstract@1.6.1",
                     "define-properties": "npm:define-properties@1.1.2"
-                }
-            },
-            "npm:es-abstract@1.5.1": {
-                "map": {
-                    "function-bind": "npm:function-bind@1.1.0",
-                    "is-callable": "npm:is-callable@1.1.3",
-                    "es-to-primitive": "npm:es-to-primitive@1.1.1",
-                    "is-regex": "npm:is-regex@1.0.3"
                 }
             },
             "npm:es-to-primitive@1.1.1": {
@@ -118,7 +111,7 @@ SystemJS.config({
             },
             "npm:tape@4.6.0": {
                 "map": {
-                    "glob": "npm:glob@7.0.5",
+                    "glob": "npm:glob@7.0.6",
                     "inherits": "npm:inherits@2.0.1",
                     "resumer": "npm:resumer@0.0.0",
                     "has": "npm:has@1.0.1",
@@ -132,16 +125,6 @@ SystemJS.config({
                     "function-bind": "npm:function-bind@1.1.0"
                 }
             },
-            "npm:glob@7.0.5": {
-                "map": {
-                    "inherits": "npm:inherits@2.0.1",
-                    "inflight": "npm:inflight@1.0.5",
-                    "fs.realpath": "npm:fs.realpath@1.0.0",
-                    "path-is-absolute": "npm:path-is-absolute@1.0.0",
-                    "once": "npm:once@1.3.3",
-                    "minimatch": "npm:minimatch@3.0.3"
-                }
-            },
             "npm:brace-expansion@1.1.6": {
                 "map": {
                     "concat-map": "npm:concat-map@0.0.1",
@@ -153,7 +136,25 @@ SystemJS.config({
                     "brace-expansion": "npm:brace-expansion@1.1.6"
                 }
             },
-            "github:frankwallis/plugin-typescript@5.0.19": {
+            "npm:glob@7.0.6": {
+                "map": {
+                    "inherits": "npm:inherits@2.0.1",
+                    "path-is-absolute": "npm:path-is-absolute@1.0.0",
+                    "minimatch": "npm:minimatch@3.0.3",
+                    "fs.realpath": "npm:fs.realpath@1.0.0",
+                    "once": "npm:once@1.3.3",
+                    "inflight": "npm:inflight@1.0.5"
+                }
+            },
+            "npm:es-abstract@1.6.1": {
+                "map": {
+                    "function-bind": "npm:function-bind@1.1.0",
+                    "is-callable": "npm:is-callable@1.1.3",
+                    "is-regex": "npm:is-regex@1.0.3",
+                    "es-to-primitive": "npm:es-to-primitive@1.1.1"
+                }
+            },
+            "github:frankwallis/plugin-typescript@5.1.1": {
                 "map": {
                     "typescript": "npm:typescript@next"
                 }
@@ -179,13 +180,14 @@ SystemJS.config({
         "npm:*.json"
     ],
     map: {
+        "@types/jquery": "npm:@types/jquery@1.10.31",
         "aurelia-http-client": "npm:aurelia-http-client@1.0.0",
         "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0",
-        "aurelia-binding": "npm:aurelia-binding@1.0.1",
+        "aurelia-binding": "npm:aurelia-binding@1.0.3",
         "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
         "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
         "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0",
-        "aurelia-framework": "npm:aurelia-framework@1.0.1",
+        "aurelia-framework": "npm:aurelia-framework@1.0.2",
         "aurelia-history": "npm:aurelia-history@1.0.0",
         "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
         "aurelia-loader": "npm:aurelia-loader@1.0.0",
@@ -200,7 +202,7 @@ SystemJS.config({
         "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.0.0",
         "aurelia-router": "npm:aurelia-router@1.0.2",
         "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
-        "aurelia-templating": "npm:aurelia-templating@1.0.0",
+        "aurelia-templating": "npm:aurelia-templating@1.0.1",
         "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
         "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0",
         "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
@@ -211,7 +213,7 @@ SystemJS.config({
         "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
         "core-js": "npm:core-js@2.4.1",
         "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
-        "css": "github:systemjs/plugin-css@0.1.26",
+        "css": "github:systemjs/plugin-css@0.1.27",
         "dgram": "github:jspm/nodelibs-dgram@0.2.0-alpha",
         "dns": "github:jspm/nodelibs-dns@0.2.0-alpha",
         "events": "github:jspm/nodelibs-events@0.2.0-alpha",
@@ -220,7 +222,7 @@ SystemJS.config({
         "http": "github:jspm/nodelibs-http@0.2.0-alpha",
         "https": "github:jspm/nodelibs-https@0.2.0-alpha",
         "jquery": "npm:jquery@2.2.4",
-        "jquery-contextmenu": "npm:jquery-contextmenu@2.2.3",
+        "jquery-contextmenu": "npm:jquery-contextmenu@2.2.4",
         "module": "github:jspm/nodelibs-module@0.2.0-alpha",
         "net": "github:jspm/nodelibs-net@0.2.0-alpha",
         "os": "github:jspm/nodelibs-os@0.2.0-alpha",
@@ -247,7 +249,7 @@ SystemJS.config({
                 }
             },
             "map": {
-                "css": "github:systemjs/plugin-css@0.1.26"
+                "css": "github:systemjs/plugin-css@0.1.27"
             }
         },
         "github:jspm/nodelibs-os@0.2.0-alpha": {
@@ -401,17 +403,6 @@ SystemJS.config({
                 "readable-stream": "npm:readable-stream@2.1.5"
             }
         },
-        "npm:readable-stream@2.1.4": {
-            "map": {
-                "inherits": "npm:inherits@2.0.1",
-                "isarray": "npm:isarray@1.0.0",
-                "util-deprecate": "npm:util-deprecate@1.0.2",
-                "process-nextick-args": "npm:process-nextick-args@1.0.7",
-                "core-util-is": "npm:core-util-is@1.0.2",
-                "buffer-shims": "npm:buffer-shims@1.0.0",
-                "string_decoder": "npm:string_decoder@0.10.31"
-            }
-        },
         "github:jspm/nodelibs-string_decoder@0.2.0-alpha": {
             "map": {
                 "string_decoder-browserify": "npm:string_decoder@0.10.31"
@@ -456,7 +447,7 @@ SystemJS.config({
         },
         "npm:browserify-zlib@0.1.4": {
             "map": {
-                "readable-stream": "npm:readable-stream@2.1.4",
+                "readable-stream": "npm:readable-stream@2.1.5",
                 "pako": "npm:pako@0.2.9"
             }
         },
@@ -504,28 +495,13 @@ SystemJS.config({
                 "sass.js": "npm:sass.js@0.9.12",
                 "path": "github:jspm/nodelibs-path@0.1.0",
                 "lodash": "npm:lodash@4.15.0",
-                "autoprefixer": "npm:autoprefixer@6.4.0",
+                "autoprefixer": "npm:autoprefixer@6.4.1",
                 "postcss": "npm:postcss@5.1.2"
-            }
-        },
-        "npm:browserslist@1.3.5": {
-            "map": {
-                "caniuse-db": "npm:caniuse-db@1.0.30000525"
             }
         },
         "github:twbs/bootstrap@3.3.7": {
             "map": {
                 "jquery": "npm:jquery@2.2.4"
-            }
-        },
-        "npm:autoprefixer@6.4.0": {
-            "map": {
-                "postcss": "npm:postcss@5.1.2",
-                "caniuse-db": "npm:caniuse-db@1.0.30000525",
-                "normalize-range": "npm:normalize-range@0.1.2",
-                "browserslist": "npm:browserslist@1.3.5",
-                "num2fraction": "npm:num2fraction@1.2.2",
-                "postcss-value-parser": "npm:postcss-value-parser@3.3.0"
             }
         },
         "npm:postcss@5.1.2": {
@@ -560,6 +536,21 @@ SystemJS.config({
                 "isarray": "npm:isarray@1.0.0",
                 "util-deprecate": "npm:util-deprecate@1.0.2",
                 "buffer-shims": "npm:buffer-shims@1.0.0"
+            }
+        },
+        "npm:autoprefixer@6.4.1": {
+            "map": {
+                "postcss": "npm:postcss@5.1.2",
+                "browserslist": "npm:browserslist@1.3.6",
+                "normalize-range": "npm:normalize-range@0.1.2",
+                "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
+                "num2fraction": "npm:num2fraction@1.2.2",
+                "caniuse-db": "npm:caniuse-db@1.0.30000528"
+            }
+        },
+        "npm:browserslist@1.3.6": {
+            "map": {
+                "caniuse-db": "npm:caniuse-db@1.0.30000528"
             }
         }
     }

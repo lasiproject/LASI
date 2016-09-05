@@ -9,6 +9,7 @@
   },
   "jspm": {
     "dependencies": {
+      "@types/jquery": "npm:@types/jquery@^1.10.31",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0-rc.1.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.0-rc.1.0.1",
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
@@ -19,6 +20,7 @@
       "sass": "github:mobilexag/plugin-sass@^0.4.5"
     },
     "devDependencies": {
+      "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^5.0.19",
       "tape": "npm:tape@^4.6.0"
     },
@@ -76,7 +78,7 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.0.19": {
+      "github:frankwallis/plugin-typescript@5.1.1": {
         "dependencies": {
           "typescript": "npm:typescript@next"
         }

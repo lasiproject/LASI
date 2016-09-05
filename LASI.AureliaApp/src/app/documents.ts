@@ -1,14 +1,13 @@
-import {autoinject, bindable} from 'aurelia-framework';
+import { autoinject, bindable } from 'aurelia-framework';
 import DocumentModelService from './document-viewer/document-model-service';
-import {DocumentModel} from 'src/models';
+import { DocumentModel } from 'src/models';
 
-@autoinject
-export class Documents {
-    constructor(private documentModelService: DocumentModelService) { }
+@autoinject export class Documents {
+  constructor(readonly documentModelService: DocumentModelService) { }
 
-    async activate() {
-        this.document = await this.documentModelService.processDocument(4);
-    }
+  async activate() {
+    this.document = await this.documentModelService.processDocument(4);
+  }
 
-    @bindable document: DocumentModel;
+  @bindable document: DocumentModel;
 }

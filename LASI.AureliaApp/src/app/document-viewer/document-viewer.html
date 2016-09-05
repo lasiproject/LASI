@@ -1,25 +1,21 @@
 ﻿<template>
     <require from="./paragraph/paragraph"></require>
-      
-        <aurelia-typeahead typeahead-options.bind="{
-            hint: true,
-            async: true,
-            highlight: true,
-            minLength: 2,
-            display:'text', datasets:{
-        name: 'my-dataset',
-        source: typeAheadSource
-    }
-}" basic-source.bind="typeAheadSource" 
- placeholder="enter lifted search" type="text" value.bind="searchTerm" change.trigger="queryTypeAhead($event, search)"></aurelia-typeahead>
 
-<div class="${document && document.style.cssClass}">
+    <aurelia-typeahead
+        typeahead-options.bind="typeaheadOptions"
+        basic-source.bind="typeAheadSource"
+        placeholder="enter lifted search"
+        value.bind="searchTerm"
+        change.trigger="queryTypeAhead($event, search)">
+      </aurelia-typeahead>
 
-    <div>title: ${document && document.title}</div>
-    <div>
-        <div repeat.for="paragraph of document && document.paragraphs || []">
-            <paragraph parent-id.bind="document.id" paragraph.bind="paragraph"></paragraph>
+    <div class="${document && document.style.cssClass}">
+
+        <div>title: ${document && document.title}</div>
+        <div>
+            <div repeat.for="paragraph of document && document.paragraphs || []">
+                <paragraph parent-id.bind="document.id" paragraph.bind="paragraph"></paragraph>
+            </div>
         </div>
     </div>
-</div>
 </template>

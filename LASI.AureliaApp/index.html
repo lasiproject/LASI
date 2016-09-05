@@ -12,7 +12,7 @@
   <script src="jspm.config.js"></script>
   <script>
     SystemJS.import('aurelia-polyfills')
-      .then(function() { 
+      .then(function() {
         return SystemJS.import('aurelia-bootstrapper');
       })
       .then(function(bootstrapper) {
@@ -21,7 +21,7 @@
             return bootstrapper.bootstrap(main.configure);
           });
       })
-      .catch(function(reason) { 
+      .catch(function(reason) {
         console.error(reason);
       });
   </script>
