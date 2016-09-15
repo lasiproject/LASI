@@ -13,7 +13,7 @@
     "no-internal-module": true,
     "indent": [
       true,
-      4
+      2
     ],
     "interface-name": [
       false,

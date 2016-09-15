@@ -1,3 +1,3 @@
-export function getHostElement() {
-    return document.getElementById('app');
+﻿export function getHostElement() {
+  return document.getElementById('app');
 }

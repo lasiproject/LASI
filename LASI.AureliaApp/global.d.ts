@@ -1,4 +1,4 @@
-declare interface Array<T> {
+﻿declare interface Array<T> {
   flatMap<TArray, TResult>(arraySelector: (element: T) => TArray[], elementSelector: (element: TArray) => TResult): TResult[];
   flatMap<TArray>(arraySelector: (element: T) => TArray[]): TArray[];
   //flatMap<U>(arraySelector: (element: T) => U[], elementSelector?: (element: T) => U): U[];
@@ -45,10 +45,10 @@ declare interface Array<T> {
 interface JQuery {
   tooltip: any;
 }
-// TODO: remove this and fix libs
-interface ObjectConstructor {
-  entries;
-}
+//// TODO: remove this and fix libs
+//interface ObjectConstructor {
+//  entries;
+//}
 // TODO: remove this and fix libs
 interface ReadableStream { }
 interface BufferSource { }
