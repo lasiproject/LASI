@@ -65,7 +65,8 @@ SystemJS.config({
     "map": {
       "plugin-typescript": "github:frankwallis/plugin-typescript@5.1.2",
       "tape": "npm:tape@4.6.0",
-      "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0"
+      "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0",
+      "source-map-support": "npm:source-map-support@0.4.2"
     },
     "packages": {
       "npm:resumer@0.0.0": {
@@ -112,7 +113,7 @@ SystemJS.config({
       "npm:tape@4.6.0": {
         "map": {
           "glob": "npm:glob@7.0.6",
-          "inherits": "npm:inherits@2.0.1",
+          "inherits": "npm:inherits@2.0.3",
           "resumer": "npm:resumer@0.0.0",
           "has": "npm:has@1.0.1",
           "defined": "npm:defined@1.0.0",
@@ -138,7 +139,7 @@ SystemJS.config({
       },
       "npm:glob@7.0.6": {
         "map": {
-          "inherits": "npm:inherits@2.0.1",
+          "inherits": "npm:inherits@2.0.3",
           "path-is-absolute": "npm:path-is-absolute@1.0.0",
           "minimatch": "npm:minimatch@3.0.3",
           "fs.realpath": "npm:fs.realpath@1.0.0",
@@ -157,6 +158,16 @@ SystemJS.config({
       "github:frankwallis/plugin-typescript@5.1.2": {
         "map": {
           "typescript": "npm:typescript@next"
+        }
+      },
+      "npm:source-map-support@0.4.2": {
+        "map": {
+          "source-map": "npm:source-map@0.1.32"
+        }
+      },
+      "npm:source-map@0.1.32": {
+        "map": {
+          "amdefine": "npm:amdefine@1.0.0"
         }
       }
     }
@@ -268,18 +279,13 @@ SystemJS.config({
         "create-ecdh": "npm:create-ecdh@4.0.0",
         "inherits": "npm:inherits@2.0.3",
         "public-encrypt": "npm:public-encrypt@4.0.0",
-        "pbkdf2": "npm:pbkdf2@3.0.4",
+        "pbkdf2": "npm:pbkdf2@3.0.6",
         "browserify-cipher": "npm:browserify-cipher@1.0.0",
         "create-hmac": "npm:create-hmac@1.1.4",
         "diffie-hellman": "npm:diffie-hellman@5.0.2",
         "randombytes": "npm:randombytes@2.0.3",
         "create-hash": "npm:create-hash@1.1.2",
         "browserify-sign": "npm:browserify-sign@4.0.0"
-      }
-    },
-    "npm:pbkdf2@3.0.4": {
-      "map": {
-        "create-hmac": "npm:create-hmac@1.1.4"
       }
     },
     "npm:create-hmac@1.1.4": {
@@ -328,14 +334,14 @@ SystemJS.config({
         "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
         "inherits": "npm:inherits@2.0.3",
         "create-hash": "npm:create-hash@1.1.2",
-        "cipher-base": "npm:cipher-base@1.0.2",
+        "cipher-base": "npm:cipher-base@1.0.3",
         "buffer-xor": "npm:buffer-xor@1.0.3"
       }
     },
     "npm:browserify-des@1.0.0": {
       "map": {
         "inherits": "npm:inherits@2.0.3",
-        "cipher-base": "npm:cipher-base@1.0.2",
+        "cipher-base": "npm:cipher-base@1.0.3",
         "des.js": "npm:des.js@1.0.0"
       }
     },
@@ -352,14 +358,9 @@ SystemJS.config({
     "npm:create-hash@1.1.2": {
       "map": {
         "inherits": "npm:inherits@2.0.3",
-        "cipher-base": "npm:cipher-base@1.0.2",
+        "cipher-base": "npm:cipher-base@1.0.3",
         "ripemd160": "npm:ripemd160@1.0.1",
         "sha.js": "npm:sha.js@2.4.5"
-      }
-    },
-    "npm:cipher-base@1.0.2": {
-      "map": {
-        "inherits": "npm:inherits@2.0.3"
       }
     },
     "npm:des.js@1.0.0": {
@@ -384,7 +385,7 @@ SystemJS.config({
         "browserify-aes": "npm:browserify-aes@1.0.6",
         "create-hash": "npm:create-hash@1.1.2",
         "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
-        "pbkdf2": "npm:pbkdf2@3.0.4",
+        "pbkdf2": "npm:pbkdf2@3.0.6",
         "asn1.js": "npm:asn1.js@4.8.0"
       }
     },
@@ -562,6 +563,16 @@ SystemJS.config({
     "npm:@types/typeahead@0.11.26": {
       "map": {
         "@types/jquery": "npm:@types/jquery@1.10.31"
+      }
+    },
+    "npm:pbkdf2@3.0.6": {
+      "map": {
+        "create-hmac": "npm:create-hmac@1.1.4"
+      }
+    },
+    "npm:cipher-base@1.0.3": {
+      "map": {
+        "inherits": "npm:inherits@2.0.3"
       }
     }
   }

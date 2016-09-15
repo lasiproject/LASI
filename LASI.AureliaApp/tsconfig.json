@@ -2,11 +2,13 @@
     "compilerOptions": {
         "jsx": "preserve",
         "typeRoots": [
-            "jspm_packages/@types"
+            "src",
+            "jspm_packages/@types",
+            "jspm_packages/npm/@types"
         ],
         "noEmit": true,
-        "target": "es6",
-        "module": "es6",
+        "target": "es5",
+        "module": "system",
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
@@ -16,8 +18,8 @@
         "baseUrl": ".",
         "paths": {
             "jquery": [ "jquery@1.10.31" ],
-            "node": [ "node@4.0.30" ],
-            "tape": [ "tape@4.2.27" ],
+            "node": [ "npm/node@4.0.30" ],
+            "tape": [ "npm/tape@4.2.27" ],
             "typeahead": [ "typeahead@0.11.26" ],
             "aurelia-binding": [ "typings/aurelia-binding@1.0.3" ],
             "aurelia-bootstrapper": [ "typings/aurelia-bootstrapper@1.0.0" ],
