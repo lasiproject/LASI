@@ -18,7 +18,7 @@ import UserService from './services/user';
             });
         [this.username, this.rememberMe] = [this.user.email, this.user.rememberMe];
         const nav = await this.router.loadUrl('documents');
-        
+
         return this.user;
 
         // return this.$state.go('app.home', {}, { reload: true });

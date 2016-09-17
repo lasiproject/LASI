@@ -36,7 +36,6 @@ export async function configure(aurelia: Aurelia) {
         });
     });
 
-
   const a = await aurelia.start();
   await a.setRoot('src/app/app', getHostElement());
 }

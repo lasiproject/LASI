@@ -3,14 +3,6 @@
   tasks: Task[];
 }
 
-export interface UserService {
-  login({ email, password, rememberMe }: Credentials): Promise<User>;
-  loginGet(): Promise<User>;
-  loginPost(data: {}): Promise<User>;
-  user: User;
-  loggedIn: boolean;
-}
-
 export interface DocumentListService {
   get(): Promise<DocumentListItem[]>;
   deleteDocument(documentId: string): Promise<DocumentListItem>;

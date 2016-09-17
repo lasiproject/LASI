@@ -33,25 +33,17 @@
     },
     average: function (this: number[], valueSelector: (n) => number = Number) {
       return this.sum(valueSelector) / this.length;
-    },
-    scan: function (this: any[], fold: (x, y) => any, seed: any) {
-      const scanned: any[] = [];
-      this.reduce((s, element) => {
-        const item = fold(s, element);
-        scanned.push(item);
-        return scanned
-      }, seed);
-      return scanned;
     }
   };
+  const {prototype } = Array;
   Object.entries(arrayAgumentations)
-    .filter(([key]) => !Object.prototype.hasOwnProperty.call(Array.prototype, key))
+    .filter(([key]) => !Object.prototype.hasOwnProperty.call(prototype, key))
     .forEach(([key, value]) => {
-      Object.defineProperty(Array.prototype, key, {
+      Object.defineProperty(prototype, key, {
         writable: false,
         enumerable: false,
         configurable: false,
-        value: value
+        value
       });
     });
 })();

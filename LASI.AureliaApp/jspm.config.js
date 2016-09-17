@@ -64,97 +64,10 @@ SystemJS.config({
   devConfig: {
     "map": {
       "plugin-typescript": "github:frankwallis/plugin-typescript@5.1.2",
-      "tape": "npm:tape@4.6.0",
       "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0",
       "source-map-support": "npm:source-map-support@0.4.2"
     },
     "packages": {
-      "npm:resumer@0.0.0": {
-        "map": {
-          "through": "npm:through@2.3.8"
-        }
-      },
-      "npm:has@1.0.1": {
-        "map": {
-          "function-bind": "npm:function-bind@1.1.0"
-        }
-      },
-      "npm:string.prototype.trim@1.1.2": {
-        "map": {
-          "function-bind": "npm:function-bind@1.1.0",
-          "es-abstract": "npm:es-abstract@1.6.1",
-          "define-properties": "npm:define-properties@1.1.2"
-        }
-      },
-      "npm:es-to-primitive@1.1.1": {
-        "map": {
-          "is-callable": "npm:is-callable@1.1.3",
-          "is-symbol": "npm:is-symbol@1.0.1",
-          "is-date-object": "npm:is-date-object@1.0.1"
-        }
-      },
-      "npm:define-properties@1.1.2": {
-        "map": {
-          "foreach": "npm:foreach@2.0.5",
-          "object-keys": "npm:object-keys@1.0.11"
-        }
-      },
-      "npm:inflight@1.0.5": {
-        "map": {
-          "once": "npm:once@1.3.3",
-          "wrappy": "npm:wrappy@1.0.2"
-        }
-      },
-      "npm:once@1.3.3": {
-        "map": {
-          "wrappy": "npm:wrappy@1.0.2"
-        }
-      },
-      "npm:tape@4.6.0": {
-        "map": {
-          "glob": "npm:glob@7.0.6",
-          "inherits": "npm:inherits@2.0.3",
-          "resumer": "npm:resumer@0.0.0",
-          "has": "npm:has@1.0.1",
-          "defined": "npm:defined@1.0.0",
-          "object-inspect": "npm:object-inspect@1.2.1",
-          "deep-equal": "npm:deep-equal@1.0.1",
-          "minimist": "npm:minimist@1.2.0",
-          "resolve": "npm:resolve@1.1.7",
-          "through": "npm:through@2.3.8",
-          "string.prototype.trim": "npm:string.prototype.trim@1.1.2",
-          "function-bind": "npm:function-bind@1.1.0"
-        }
-      },
-      "npm:brace-expansion@1.1.6": {
-        "map": {
-          "concat-map": "npm:concat-map@0.0.1",
-          "balanced-match": "npm:balanced-match@0.4.2"
-        }
-      },
-      "npm:minimatch@3.0.3": {
-        "map": {
-          "brace-expansion": "npm:brace-expansion@1.1.6"
-        }
-      },
-      "npm:glob@7.0.6": {
-        "map": {
-          "inherits": "npm:inherits@2.0.3",
-          "path-is-absolute": "npm:path-is-absolute@1.0.0",
-          "minimatch": "npm:minimatch@3.0.3",
-          "fs.realpath": "npm:fs.realpath@1.0.0",
-          "once": "npm:once@1.3.3",
-          "inflight": "npm:inflight@1.0.5"
-        }
-      },
-      "npm:es-abstract@1.6.1": {
-        "map": {
-          "function-bind": "npm:function-bind@1.1.0",
-          "is-callable": "npm:is-callable@1.1.3",
-          "is-regex": "npm:is-regex@1.0.3",
-          "es-to-primitive": "npm:es-to-primitive@1.1.1"
-        }
-      },
       "github:frankwallis/plugin-typescript@5.1.2": {
         "map": {
           "typescript": "npm:typescript@next"
@@ -190,7 +103,6 @@ SystemJS.config({
   ],
   map: {
     "@types/typeahead": "npm:@types/typeahead@0.11.26",
-    "@types/tape": "npm:@types/tape@4.2.27",
     "@types/core-js": "npm:@types/core-js@0.9.32",
     "@types/jquery": "npm:@types/jquery@1.10.31",
     "aurelia-http-client": "npm:aurelia-http-client@1.0.0",
@@ -553,11 +465,6 @@ SystemJS.config({
         "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
         "readable-stream": "npm:readable-stream@2.1.5",
         "inherits": "npm:inherits@2.0.3"
-      }
-    },
-    "npm:@types/tape@4.2.27": {
-      "map": {
-        "@types/node": "npm:@types/node@4.0.30"
       }
     },
     "npm:@types/typeahead@0.11.26": {
