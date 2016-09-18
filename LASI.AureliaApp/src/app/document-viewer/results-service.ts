@@ -18,9 +18,9 @@ import {DocumentModel, Task} from 'src/models';
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title">
-                      <a href="#${id}" data-toggle="collapse" data-parent="#accordion">${name}</a> 
+                      <a href="#${id}" data-toggle="collapse" data-parent="#accordion">${name}</a>
                     </h4>
-                  </div> 
+                  </div>
                 </div>`);
         const panelMarkup = $(`<div id="${id}" class="panel-collapse collapse in">${json}</div>`);
 

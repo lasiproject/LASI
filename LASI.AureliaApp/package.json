@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "start": "npm run serve",
-    "serve": "lite-server"
+    "serve": "lite-server",
+    "test": "node test",
+    "ati": "ati"
   },
   "jspm": {
     "dependencies": {
@@ -19,12 +21,14 @@
       "css": "github:systemjs/plugin-css@^0.1.22",
       "font-awesome": "npm:font-awesome@^4.6.3",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
+      "reflect-metadata": "npm:reflect-metadata@^0.1.8",
       "sass": "github:mobilexag/plugin-sass@^0.4.5"
     },
     "devDependencies": {
       "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^5.1.2",
-      "source-map-support": "npm:source-map-support@^0.4.2"
+      "source-map-support": "npm:source-map-support@^0.4.2",
+      "tape": "npm:tape@^4.6.0"
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
@@ -149,6 +153,15 @@
           "process": "@empty"
         }
       },
+      "npm:reflect-metadata@0.1.8": {
+        "jspmNodeConversion": false,
+        "map": {
+          "crypto": {
+            "node": "@node/crypto",
+            "default": "@empty"
+          }
+        }
+      },
       "npm:sass.js@0.9.12": {
         "map": {
           "ws": "@empty"
@@ -162,10 +175,10 @@
     }
   },
   "devDependencies": {
-    "tape": "4.6.0",
-    "@types/tape": "*",
-    "ts-node": "^1.3.0",
+    "@types/tape": "4.2.27",
+    "aurelia-types-installer": "0.0.4",
     "jspm": "^0.17.0-beta.28",
     "lite-server": "^2.2.2"
-  }
+  },
+  "dependencies": {}
 }
