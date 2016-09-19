@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for IReferencer elements, generally Pronouns or Pronoun Phrases, which can be bound to indirectly refer to an Entity. </para>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using LASI.Utilities;
 
 namespace LASI.Core
@@ -17,10 +13,7 @@ namespace LASI.Core
         /// Initializes entity new instance of the AdverbPhrase class.
         /// </summary>
         /// <param name="words">The words which compose to form the AdverbPhrase.</param>
-        public AdverbPhrase(IEnumerable<Word> words)
-            : base(words)
-        {
-        }
+        public AdverbPhrase(IEnumerable<Word> words) : base(words) { }
 
         /// <summary>
         /// Initializes a new instance of the AdverbPhrase class.
@@ -31,16 +24,13 @@ namespace LASI.Core
         /// This constructor overload reduces the syntactic overhead associated with the manual construction of Phrases. Thus, its purpose
         /// is to simplify test code.
         /// </remarks>
-        public AdverbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first))
-        {
-        }
+        public AdverbPhrase(Word first, params Word[] rest) : this(rest.Prepend(first)) { }
 
         /// <summary>
         /// Returns a string representation of the <see cref="AdverbPhrase"/>.
         /// </summary>
         /// <returns>A string representation of the <see cref="AdverbPhrase"/>.</returns>
-        public override string ToString() =>
-            base.ToString() + (VerboseOutput && Modifies != null ? $"\nModifies: {Modifies}" : string.Empty);
+        public override string ToString() => base.ToString() + (VerboseOutput && Modifies != null ? $"\nModifies: {Modifies}" : string.Empty);
 
         /// <summary>
         /// Gets the IVerbal the AdverbPhrase modifies.

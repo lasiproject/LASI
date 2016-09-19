@@ -24,7 +24,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the direct object of.
         /// </summary>
-
         Option<IVerbal> DirectObjectOf { get; }
         /// <summary>
         /// Gets the <see cref="IVerbal"/> construct the <see cref="IVerbalObject"/> is the indirect object of.

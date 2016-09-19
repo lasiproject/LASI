@@ -1,11 +1,4 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -18,10 +11,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Adverb class.
         /// </summary>
         /// <param name="text">The text content of the adverb.</param>
-        public Adverb(string text)
-            : base(text)
-        {
-        }
+        public Adverb(string text) : base(text) { }
 
         /// <summary>
         /// Attaches an IAdverbial construct, such as an Adverb or AdverbPhrase, as a modifier of the current Adverb
