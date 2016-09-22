@@ -5,8 +5,9 @@
       id.bind="phrase.id"
       class="phrase ${phrase.style.cssClass}"
       title.bind="phrase.detailText">${phrase.text}
-      <contextmenu items.bind="phrase.contextmenu"></contextmenu></span>
-<span if.bind="!phrase.hasContextmenuData" 
+    <contextmenu click.trigger="alert(items)" items.bind="phrase.contextmenu"></contextmenu>
+</span>
+<span if.bind="!phrase.hasContextmenuData"
       id.bind="phrase.id"
       class="phrase ${phrase.style.cssClass}"
       title.bind="phrase.detailText">${phrase.text}</span>

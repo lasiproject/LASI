@@ -59,7 +59,7 @@ li menuitem {
 
 .project-logo-navbar {
     width: 50px;
-    margin-top:-30px;
+    margin-top: -30px;
 }
 
 /* 
@@ -555,9 +555,9 @@ input[type=text]::-ms-clear {
     font-size: .8em;
 }
 
-.validation-summary-errors ul {
-    margin: 0 !important;
-    padding: 0 !important;
-}
+    .validation-summary-errors ul {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
 /*#endregion */

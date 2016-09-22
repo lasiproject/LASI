@@ -22,6 +22,7 @@
       "font-awesome": "npm:font-awesome@^4.6.3",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
+      "rxjs": "npm:rxjs@^5.0.0-beta.12",
       "sass": "github:mobilexag/plugin-sass@^0.4.5"
     },
     "devDependencies": {

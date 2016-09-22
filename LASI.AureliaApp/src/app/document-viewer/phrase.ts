@@ -1,7 +1,5 @@
-﻿import $ from 'jquery';
-import 'jquery-contextmenu';
-import {autoinject, bindable} from 'aurelia-framework';
-import LexicalMenuBuilder from '../lexical-menu-builder';
+﻿import {autoinject, bindable} from 'aurelia-framework';
+import LexicalMenuBuilder from 'src/app/services/lexical-menu-builder';
 import {Contextmenu, ContextmenuOptions} from 'shared/context-menu/context-menu';
 import {PhraseModel} from 'src/models';
 
@@ -14,6 +12,7 @@ import {PhraseModel} from 'src/models';
         if (this.phrase.hasContextmenuData) {
             this.phrase.contextmenuDataSource = this.phrase.contextmenu;
             this.phrase.contextmenu = contextmenu;
+
         }
 
     }

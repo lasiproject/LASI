@@ -247,6 +247,7 @@ SystemJS.config({
     "querystring": "github:jspm/nodelibs-querystring@0.2.0-alpha",
     "readline": "github:jspm/nodelibs-readline@0.2.0-alpha",
     "reflect-metadata": "npm:reflect-metadata@0.1.8",
+    "rxjs": "npm:rxjs@5.0.0-beta.12",
     "sass": "github:mobilexag/plugin-sass@0.4.6",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
@@ -572,6 +573,11 @@ SystemJS.config({
         "bn.js": "npm:bn.js@4.11.6",
         "brorand": "npm:brorand@1.0.6",
         "hash.js": "npm:hash.js@1.0.3"
+      }
+    },
+    "npm:rxjs@5.0.0-beta.12": {
+      "map": {
+        "symbol-observable": "npm:symbol-observable@1.0.2"
       }
     }
   }

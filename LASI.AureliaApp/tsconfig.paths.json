@@ -3,6 +3,9 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
+      "rxjs/Rx": [
+        "jspm_packages/npm/rxjs@5.0.0-beta.12/Rx"
+      ],
       "aurelia-testing": [
         "types/aurelia-testing@1.0.0-beta.2.0.0/index"
       ],
