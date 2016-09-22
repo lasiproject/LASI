@@ -1,8 +1,8 @@
 ﻿import $ from 'jquery';
-import {ViewCompiler, useView, ViewResources, autoinject, customElement, Container, bindable} from 'aurelia-framework';
-import {TemplateRegistryEntry, Loader} from 'aurelia-loader';
-import {HttpClient} from 'aurelia-fetch-client';
-import {Observable, Subject, Subscription, Observer} from 'rxjs/Rx';
+import { ViewCompiler, useView, ViewResources, autoinject, customElement, Container, bindable } from 'aurelia-framework';
+import { TemplateRegistryEntry, Loader } from 'aurelia-loader';
+import { HttpClient } from 'aurelia-fetch-client';
+import { Observable, Subject, Subscription, Observer } from 'rxjs/Rx';
 import 'typeahead';
 
 @autoinject @customElement('type-ahead') export class TypeAhead {
@@ -133,7 +133,7 @@ function scoreMatch(term, match): number {
 
 declare module 'aurelia-templating' {
   export interface View {
-    fragment: DocumentFragment;
+    fragment: Element | DocumentFragment;
   }
 }
 

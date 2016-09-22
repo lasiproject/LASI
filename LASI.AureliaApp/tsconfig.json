@@ -8,12 +8,15 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
+    "noImplicitThis": true,
     "moduleResolution": "node",
     "rootDirs": [
       "src",
       "shared"
-    ],"typeRoots": [
-      "jspm_packages/npm/"
+    ],
+    "typeRoots": [
+      "jspm_packages/npm/",
+      "jspm_packages/npm/@types/"
     ],
     "types": [
       "tape"

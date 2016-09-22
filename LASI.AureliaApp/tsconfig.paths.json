@@ -3,6 +3,9 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
+      "jquery":[
+        "jspm_packages/npm/@types/jquery@1.10.31/index"
+      ],
       "rxjs/Rx": [
         "jspm_packages/npm/rxjs@5.0.0-beta.12/Rx"
       ],
