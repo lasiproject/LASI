@@ -3,6 +3,11 @@ SystemJS.config({
     "github:": "jspm_packages/github/",
     "npm:": "jspm_packages/npm/"
   },
+  meta: {
+    "*.html": {
+      "loader": "text"
+    }
+  },
   packages: {
     "src": {
       "format": "esm",
@@ -14,6 +19,10 @@ SystemJS.config({
         },
         "*.js": {
           "loader": "plugin-typescript"
+        },
+        "app/*.html": {
+          "defaultExtension": false,
+          "loader": "text"
         }
       }
     },
@@ -63,14 +72,32 @@ SystemJS.config({
     }
   },
   browserConfig: {
-    "baseURL": "/"
+    "baseURL": "/",
+    "bundles": {
+      "build.js": [
+        "src/app/signout.html",
+        "src/app/signin.html",
+        "src/app/navbar.html",
+        "src/app/modal.html",
+        "src/app/documents.html",
+        "src/app/document-viewer/sentence.html",
+        "src/app/document-viewer/search.html",
+        "src/app/document-viewer/phrase.html",
+        "src/app/document-viewer/paragraph.html",
+        "src/app/document-viewer/page.html",
+        "src/app/document-viewer/document-viewer.html",
+        "src/app/app.html",
+        "src/app/account.html"
+      ]
+    }
   },
   devConfig: {
     "map": {
       "plugin-typescript": "github:frankwallis/plugin-typescript@5.1.2",
       "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0",
       "source-map-support": "npm:source-map-support@0.4.2",
-      "tape": "npm:tape@4.6.0"
+      "tape": "npm:tape@4.6.0",
+      "text": "github:systemjs/plugin-text@0.0.9"
     },
     "packages": {
       "github:frankwallis/plugin-typescript@5.1.2": {
@@ -193,16 +220,16 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
-    "@types/typeahead": "npm:@types/typeahead@0.11.26",
-    "@types/core-js": "npm:@types/core-js@0.9.32",
+    "@types/typeahead": "npm:@types/typeahead@0.11.27",
+    "@types/core-js": "npm:@types/core-js@0.9.34",
     "@types/jquery": "npm:@types/jquery@1.10.31",
     "aurelia-http-client": "npm:aurelia-http-client@1.0.0",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0",
-    "aurelia-binding": "npm:aurelia-binding@1.0.3",
+    "aurelia-binding": "npm:aurelia-binding@1.0.4",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0",
-    "aurelia-framework": "npm:aurelia-framework@1.0.2",
+    "aurelia-framework": "npm:aurelia-framework@1.0.4",
     "aurelia-history": "npm:aurelia-history@1.0.0",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
     "aurelia-loader": "npm:aurelia-loader@1.0.0",
@@ -212,12 +239,12 @@ SystemJS.config({
     "aurelia-metadata": "npm:aurelia-metadata@1.0.0",
     "aurelia-pal": "npm:aurelia-pal@1.0.0",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0",
-    "aurelia-path": "npm:aurelia-path@1.0.0",
-    "aurelia-polyfills": "npm:aurelia-polyfills@1.0.0",
-    "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.0.0",
-    "aurelia-router": "npm:aurelia-router@1.0.2",
+    "aurelia-path": "npm:aurelia-path@1.1.0",
+    "aurelia-polyfills": "npm:aurelia-polyfills@1.1.1",
+    "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.1.0",
+    "aurelia-router": "npm:aurelia-router@1.0.4",
     "aurelia-task-queue": "npm:aurelia-task-queue@1.0.0",
-    "aurelia-templating": "npm:aurelia-templating@1.0.1",
+    "aurelia-templating": "npm:aurelia-templating@1.1.0",
     "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.0.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
@@ -284,7 +311,7 @@ SystemJS.config({
         "create-ecdh": "npm:create-ecdh@4.0.0",
         "inherits": "npm:inherits@2.0.3",
         "public-encrypt": "npm:public-encrypt@4.0.0",
-        "pbkdf2": "npm:pbkdf2@3.0.7",
+        "pbkdf2": "npm:pbkdf2@3.0.8",
         "browserify-cipher": "npm:browserify-cipher@1.0.0",
         "create-hmac": "npm:create-hmac@1.1.4",
         "diffie-hellman": "npm:diffie-hellman@5.0.2",
@@ -390,8 +417,8 @@ SystemJS.config({
         "browserify-aes": "npm:browserify-aes@1.0.6",
         "create-hash": "npm:create-hash@1.1.2",
         "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
-        "pbkdf2": "npm:pbkdf2@3.0.7",
-        "asn1.js": "npm:asn1.js@4.8.0"
+        "pbkdf2": "npm:pbkdf2@3.0.8",
+        "asn1.js": "npm:asn1.js@4.8.1"
       }
     },
     "npm:sha.js@2.4.5": {
@@ -479,13 +506,6 @@ SystemJS.config({
         "punycode": "npm:punycode@1.3.2"
       }
     },
-    "npm:asn1.js@4.8.0": {
-      "map": {
-        "bn.js": "npm:bn.js@4.11.6",
-        "inherits": "npm:inherits@2.0.3",
-        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
-      }
-    },
     "github:mobilexag/plugin-sass@0.4.6": {
       "map": {
         "url": "github:jspm/nodelibs-url@0.1.0",
@@ -493,9 +513,9 @@ SystemJS.config({
         "reqwest": "github:ded/reqwest@2.0.5",
         "sass.js": "npm:sass.js@0.9.12",
         "path": "github:jspm/nodelibs-path@0.1.0",
-        "lodash": "npm:lodash@4.15.0",
+        "lodash": "npm:lodash@4.16.1",
         "autoprefixer": "npm:autoprefixer@6.4.1",
-        "postcss": "npm:postcss@5.1.2"
+        "postcss": "npm:postcss@5.2.0"
       }
     },
     "github:twbs/bootstrap@3.3.7": {
@@ -503,16 +523,9 @@ SystemJS.config({
         "jquery": "npm:jquery@2.2.4"
       }
     },
-    "npm:postcss@5.1.2": {
-      "map": {
-        "source-map": "npm:source-map@0.5.6",
-        "js-base64": "npm:js-base64@2.1.9",
-        "supports-color": "npm:supports-color@3.1.2"
-      }
-    },
     "npm:buffer@4.9.1": {
       "map": {
-        "base64-js": "npm:base64-js@1.1.2",
+        "base64-js": "npm:base64-js@1.2.0",
         "ieee754": "npm:ieee754@1.1.6",
         "isarray": "npm:isarray@1.0.0"
       }
@@ -530,17 +543,17 @@ SystemJS.config({
     },
     "npm:autoprefixer@6.4.1": {
       "map": {
-        "postcss": "npm:postcss@5.1.2",
+        "postcss": "npm:postcss@5.2.0",
         "browserslist": "npm:browserslist@1.3.6",
         "normalize-range": "npm:normalize-range@0.1.2",
         "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
         "num2fraction": "npm:num2fraction@1.2.2",
-        "caniuse-db": "npm:caniuse-db@1.0.30000528"
+        "caniuse-db": "npm:caniuse-db@1.0.30000539"
       }
     },
     "npm:browserslist@1.3.6": {
       "map": {
-        "caniuse-db": "npm:caniuse-db@1.0.30000528"
+        "caniuse-db": "npm:caniuse-db@1.0.30000539"
       }
     },
     "npm:stream-http@2.4.0": {
@@ -552,19 +565,9 @@ SystemJS.config({
         "inherits": "npm:inherits@2.0.3"
       }
     },
-    "npm:@types/typeahead@0.11.26": {
-      "map": {
-        "@types/jquery": "npm:@types/jquery@1.10.31"
-      }
-    },
     "npm:cipher-base@1.0.3": {
       "map": {
         "inherits": "npm:inherits@2.0.3"
-      }
-    },
-    "npm:pbkdf2@3.0.7": {
-      "map": {
-        "create-hmac": "npm:create-hmac@1.1.4"
       }
     },
     "npm:elliptic@6.3.2": {
@@ -578,6 +581,30 @@ SystemJS.config({
     "npm:rxjs@5.0.0-beta.12": {
       "map": {
         "symbol-observable": "npm:symbol-observable@1.0.2"
+      }
+    },
+    "npm:@types/typeahead@0.11.27": {
+      "map": {
+        "@types/jquery": "npm:@types/jquery@1.10.31"
+      }
+    },
+    "npm:postcss@5.2.0": {
+      "map": {
+        "source-map": "npm:source-map@0.5.6",
+        "js-base64": "npm:js-base64@2.1.9",
+        "supports-color": "npm:supports-color@3.1.2"
+      }
+    },
+    "npm:pbkdf2@3.0.8": {
+      "map": {
+        "create-hmac": "npm:create-hmac@1.1.4"
+      }
+    },
+    "npm:asn1.js@4.8.1": {
+      "map": {
+        "inherits": "npm:inherits@2.0.3",
+        "bn.js": "npm:bn.js@4.11.6",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     }
   }

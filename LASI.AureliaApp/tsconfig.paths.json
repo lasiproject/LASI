@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
-      "jquery":[
+      "jquery": [
         "jspm_packages/npm/@types/jquery@1.10.31/index"
       ],
       "rxjs/Rx": [
@@ -19,7 +19,7 @@
         "types/aurelia-fetch-client@1.0.0/index"
       ],
       "aurelia-binding": [
-        "types/aurelia-binding@1.0.3/index"
+        "types/aurelia-binding@1.0.4/index"
       ],
       "aurelia-bootstrapper": [
         "types/aurelia-bootstrapper@1.0.0/index"
@@ -31,7 +31,7 @@
         "types/aurelia-event-aggregator@1.0.0/index"
       ],
       "aurelia-framework": [
-        "types/aurelia-framework@1.0.2/index"
+        "types/aurelia-framework@1.0.4/index"
       ],
       "aurelia-history": [
         "types/aurelia-history@1.0.0/index"
@@ -61,22 +61,22 @@
         "types/aurelia-pal-browser@1.0.0/index"
       ],
       "aurelia-path": [
-        "types/aurelia-path@1.0.0/index"
+        "types/aurelia-path@1.1.0/index"
       ],
       "aurelia-polyfills": [
-        "types/aurelia-polyfills@1.0.0/index"
+        "types/aurelia-polyfills@1.1.1/index"
       ],
       "aurelia-route-recognizer": [
-        "types/aurelia-route-recognizer@1.0.0/index"
+        "types/aurelia-route-recognizer@1.1.0/index"
       ],
       "aurelia-router": [
-        "types/aurelia-router@1.0.2/index"
+        "types/aurelia-router@1.0.4/index"
       ],
       "aurelia-task-queue": [
         "types/aurelia-task-queue@1.0.0/index"
       ],
       "aurelia-templating": [
-        "types/aurelia-templating@1.0.1/index"
+        "types/aurelia-templating@1.1.0/index"
       ],
       "aurelia-templating-binding": [
         "types/aurelia-templating-binding@1.0.0/index"
