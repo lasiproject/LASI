@@ -1,4 +1,4 @@
-; EditorConfig helps developers define and maintain consistent
+﻿; EditorConfig helps developers define and maintain consistent
 ; coding styles between different editors and IDEs.
 
 ; For more visit http://editorconfig.org.
@@ -10,6 +10,7 @@ indent_style = space
 end_of_line = crlf
 charset = utf-8
 trim_trailing_whitespace = true
+indent_size = 2
 
 [*.{ts,tsx,jsx,js,css,scss,less,json}]
 indent_size = 2

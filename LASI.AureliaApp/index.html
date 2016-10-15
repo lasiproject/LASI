@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -21,9 +21,7 @@
             return bootstrapper.bootstrap(main.configure);
           });
       })
-      .catch(function(reason) {
-        console.error(reason);
-      });
+      .catch(console.error.bind(console));
   </script>
   <div id="app"></div>
 </body>

@@ -14,8 +14,8 @@
       "@types/core-js": "npm:@types/core-js@^0.9.32",
       "@types/jquery": "npm:@types/jquery@^1.10.31",
       "@types/typeahead": "npm:@types/typeahead@^0.11.26",
-      "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0-rc.1.0.1",
-      "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.0-rc.1.0.1",
+      "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
+      "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.1",
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "css": "github:systemjs/plugin-css@^0.1.22",
@@ -26,36 +26,37 @@
       "sass": "github:mobilexag/plugin-sass@^0.4.5"
     },
     "devDependencies": {
+      "@types/tape": "npm:@types/tape@^4.2.28",
       "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^5.1.2",
-      "source-map-support": "npm:source-map-support@^0.4.2",
-      "tape": "npm:tape@^4.6.0",
+      "source-map-support": "npm:source-map-support@^0.4.3",
+      "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9"
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
-      "aurelia-binding": "npm:aurelia-binding@^1.0.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@^1.0.8",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.1.0",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
-      "aurelia-framework": "npm:aurelia-framework@^1.0.0",
+      "aurelia-framework": "npm:aurelia-framework@^1.0.6",
       "aurelia-history": "npm:aurelia-history@^1.0.0",
-      "aurelia-history-browser": "npm:aurelia-history-browser@^1.0.0-rc.1.0.0",
+      "aurelia-history-browser": "npm:aurelia-history-browser@^1.0.0",
       "aurelia-loader": "npm:aurelia-loader@^1.0.0",
-      "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0-rc.1.0.0",
+      "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0",
       "aurelia-logging": "npm:aurelia-logging@^1.0.0",
-      "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0-rc.1.0.0",
-      "aurelia-metadata": "npm:aurelia-metadata@^1.0.0",
+      "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0",
+      "aurelia-metadata": "npm:aurelia-metadata@^1.0.1",
       "aurelia-pal": "npm:aurelia-pal@^1.0.0",
-      "aurelia-pal-browser": "npm:aurelia-pal-browser@^1.0.0-rc.1.0.0",
-      "aurelia-path": "npm:aurelia-path@^1.0.0",
+      "aurelia-pal-browser": "npm:aurelia-pal-browser@^1.0.0",
+      "aurelia-path": "npm:aurelia-path@^1.1.1",
       "aurelia-polyfills": "npm:aurelia-polyfills@^1.0.0-rc.1.0.0",
-      "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
+      "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.1.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
-      "aurelia-task-queue": "npm:aurelia-task-queue@^1.0.0",
+      "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
       "aurelia-templating": "npm:aurelia-templating@^1.0.0",
-      "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0-rc.1.0.0",
-      "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.0.0-rc.1.0.0",
-      "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0-rc.1.0.0",
+      "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
+      "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.1.1",
+      "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
       "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
       "constants": "github:jspm/nodelibs-constants@^0.2.0-alpha",
@@ -86,7 +87,7 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.1.2": {
+      "github:frankwallis/plugin-typescript@5.2.6": {
         "dependencies": {
           "typescript": "npm:typescript@next"
         }
@@ -149,7 +150,7 @@
       "npm:jquery@2.2.4": {
         "format": "amd"
       },
-      "npm:lodash@4.16.1": {
+      "npm:lodash@4.16.3": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"
@@ -164,7 +165,7 @@
           }
         }
       },
-      "npm:sass.js@0.9.12": {
+      "npm:sass.js@0.9.13": {
         "map": {
           "ws": "@empty"
         },
@@ -177,10 +178,9 @@
     }
   },
   "devDependencies": {
-    "@types/tape": "4.2.27",
-    "aurelia-types-installer": "0.0.4",
-    "jspm": "^0.17.0-beta.28",
+    "aurelia-types-installer": "0.0.7",
+    "jspm": "^0.17.0-beta.29",
     "lite-server": "^2.2.2"
   },
   "dependencies": {}
-}
+}

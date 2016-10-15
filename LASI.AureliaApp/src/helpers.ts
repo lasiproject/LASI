@@ -1,3 +1,4 @@
 ﻿export function getHostElement() {
-  return document.getElementById('app')!;
-}
+    const host = document.getElementById('app');
+    return host as HTMLElement;
+};

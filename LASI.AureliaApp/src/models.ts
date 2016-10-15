@@ -18,17 +18,6 @@ export interface DocumentListServiceConfig {
   setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 
-export interface Credentials {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-export interface AuthenticationResult {
-  user?: User;
-  autenticated?: boolean;
-  token?: string;
-}
 
 export interface Task {
   id: string;
@@ -85,12 +74,11 @@ interface LexicalModelInternal {
   detailText: string;
   id: number;
   style: {
-    cssClass: string;
+      cssClass: string;
   };
   hasContextmenuData: boolean;
   contextmenuDataSource: LexicalContextMenuData;
-  contextmenu: LexicalContextMenuData |
-  VerbalContextMenuData | ReferencerContextmenuData;
+  contextmenu: ContextMenuDataSource;
 }
 
 export interface PhraseModel extends LexicalModelInternal {
@@ -104,6 +92,7 @@ export interface WordModel extends LexicalModelInternal {
 
 export interface ClauseModel extends LexicalModelInternal {
   kind: 'clause';
+  phrases: PhraseModel[];
 }
 
 export type LexicalModel = PhraseModel | WordModel | ClauseModel;
@@ -114,37 +103,50 @@ export interface LexicalMenuBuilder {
 
 export interface LexicalContextMenuData {
   /**
- * The id of the lexical element for which the menu is defined.
- */
+  * The id of the lexical element for which the menu is defined.
+  */
   lexicalId: string | number;
 }
 
 export interface VerbalContextMenuData extends LexicalContextMenuData {
   kind: 'verbal';
   /**
-   * The ids of any subjects.
-   */
+    * The ids of any subjects.
+    */
   subjectIds: number[];
   /**
-   * The ids of any direct objects.
-   */
+    * The ids of any direct objects.
+    */
   directObjectIds: number[];
   /**
-   * The ids of any direct objects.
-   */
+    * The ids of any direct objects.
+    */
   indirectObjectIds: number[];
 }
 
 export interface ReferencerContextmenuData extends LexicalContextMenuData {
   kind: 'referencer';
   /**
-   * The id of the referencer for which the menu is defined.
-   */
+    * The id of the referencer for which the menu is defined.
+    */
   lexicalId: number;
   /**
-   * The ids of any entities the referred to.
-   */
+    * The ids of any entities the referred to.
+    */
   refersToIds: number[];
+}
+export type ContextMenuDataSource = VerbalContextMenuData | ReferencerContextmenuData;
+
+export interface Credentials {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+export interface AuthenticationResult {
+  user?: User;
+  autenticated?: boolean;
+  token?: string;
 }
 
 export interface User extends Credentials {
@@ -154,3 +156,4 @@ export interface User extends Credentials {
   documents: any[];
   id: string;
 }
+

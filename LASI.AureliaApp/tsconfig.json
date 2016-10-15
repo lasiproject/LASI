@@ -9,12 +9,12 @@
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
-    "moduleResolution": "node",
     "rootDirs": [
       "src",
       "shared"
     ],
     "typeRoots": [
+      "types/",
       "jspm_packages/npm/",
       "jspm_packages/npm/@types/"
     ],

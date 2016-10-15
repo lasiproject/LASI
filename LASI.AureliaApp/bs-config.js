@@ -1,4 +1,4 @@
-module.exports = {
+﻿module.exports = {
     server: {
         baseDir: "",
         port: 3000,

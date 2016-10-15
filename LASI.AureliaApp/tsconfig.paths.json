@@ -3,6 +3,9 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
+      "tape": [
+        "jspm_packages/npm/tape@4.2.28/index"
+      ],
       "jquery": [
         "jspm_packages/npm/@types/jquery@1.10.31/index"
       ],
@@ -13,25 +16,25 @@
         "types/aurelia-testing@1.0.0-beta.2.0.0/index"
       ],
       "aurelia-http-client": [
-        "types/aurelia-http-client@1.0.0/index"
+        "types/aurelia-http-client@1.0.1/index"
       ],
       "aurelia-fetch-client": [
-        "types/aurelia-fetch-client@1.0.0/index"
+        "types/aurelia-fetch-client@1.0.1/index"
       ],
       "aurelia-binding": [
-        "types/aurelia-binding@1.0.4/index"
+        "types/aurelia-binding@1.0.8/index"
       ],
       "aurelia-bootstrapper": [
         "types/aurelia-bootstrapper@1.0.0/index"
       ],
       "aurelia-dependency-injection": [
-        "types/aurelia-dependency-injection@1.0.0/index"
+        "types/aurelia-dependency-injection@1.1.0/index"
       ],
       "aurelia-event-aggregator": [
         "types/aurelia-event-aggregator@1.0.0/index"
       ],
       "aurelia-framework": [
-        "types/aurelia-framework@1.0.4/index"
+        "types/aurelia-framework@1.0.6/index"
       ],
       "aurelia-history": [
         "types/aurelia-history@1.0.0/index"
@@ -52,7 +55,7 @@
         "types/aurelia-logging-console@1.0.0/index"
       ],
       "aurelia-metadata": [
-        "types/aurelia-metadata@1.0.0/index"
+        "types/aurelia-metadata@1.0.1/index"
       ],
       "aurelia-pal": [
         "types/aurelia-pal@1.0.0/index"
@@ -61,7 +64,7 @@
         "types/aurelia-pal-browser@1.0.0/index"
       ],
       "aurelia-path": [
-        "types/aurelia-path@1.1.0/index"
+        "types/aurelia-path@1.1.1/index"
       ],
       "aurelia-polyfills": [
         "types/aurelia-polyfills@1.1.1/index"
@@ -70,19 +73,19 @@
         "types/aurelia-route-recognizer@1.1.0/index"
       ],
       "aurelia-router": [
-        "types/aurelia-router@1.0.4/index"
+        "types/aurelia-router@1.0.6/index"
       ],
       "aurelia-task-queue": [
-        "types/aurelia-task-queue@1.0.0/index"
+        "types/aurelia-task-queue@1.1.0/index"
       ],
       "aurelia-templating": [
-        "types/aurelia-templating@1.1.0/index"
+        "types/aurelia-templating@1.1.1/index"
       ],
       "aurelia-templating-binding": [
         "types/aurelia-templating-binding@1.0.0/index"
       ],
       "aurelia-templating-resources": [
-        "types/aurelia-templating-resources@1.0.0/index"
+        "types/aurelia-templating-resources@1.1.1/index"
       ],
       "aurelia-templating-router": [
         "types/aurelia-templating-router@1.0.0/index"
