@@ -8,7 +8,6 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
-    "noImplicitThis": true,
     "rootDirs": [
       "src",
       "shared"

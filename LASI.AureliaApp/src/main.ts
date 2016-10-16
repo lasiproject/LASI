@@ -3,6 +3,7 @@ import 'bootstrap-css!css';
 import 'src/styles/site.css!css';
 import 'src/styles/lexical.css!css';
 import 'bootstrap';
+import 'core-js';
 import 'src/polyfills';
 
 import { Aurelia } from 'aurelia-framework';
