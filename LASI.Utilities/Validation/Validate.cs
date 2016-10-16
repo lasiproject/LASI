@@ -340,6 +340,8 @@ namespace LASI.Utilities.Validation
             }
         }
 
+        #endregion Range Validation
+
         #region Conditional Validation
         /// <summary>
         /// Validates that at least one of the specified conditions holds, raising a <see cref="ArgumentException"/> if both are false.
@@ -354,44 +356,95 @@ namespace LASI.Utilities.Validation
                 FailWithArgumentException(message);
             }
         }
-        public static void False(bool value, string message)
+
+        /// <summary>
+        /// Validates that the specified condition is <c>false</c> throwing an <see cref="ArgumentException"/> exception otherwise.
+        /// </summary>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="message">A message detailing error information.</param>
+        public static void False(bool condition, string message)
         {
-            if (value) FailWithArgumentException(message);
+            if (condition) FailWithArgumentException(message);
         }
-        public static void False<TFailWith>(bool value) where TFailWith : Exception, new()
+
+        /// <summary>
+        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        public static void False<TFailWith>(bool condition) where TFailWith : Exception, new()
         {
-            if (value) throw new TFailWith();
+            if (condition) throw new TFailWith();
         }
-        public static void False<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+
+        /// <summary>
+        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        public static void False<TFailWith>(bool condition, Func<TFailWith> failWith) where TFailWith : Exception
         {
-            if (value) throw failWith();
+            if (condition) throw failWith();
         }
-        public static void False<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+
+        /// <summary>
+        /// Validates that the specified condition is <c>false</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        /// <param name="message">A message detailing error information.</param>
+        public static void False<TFailWith>(bool condition, Func<string, TFailWith> failWith, string message) where TFailWith : Exception
         {
-            if (value) throw failWith(message);
+            if (condition) throw failWith(message);
         }
-        public static void True(bool value, string message)
+
+        /// <summary>
+        /// Validates that the specified condition is <c>true</c> throwing an <see cref="ArgumentException"/> exception otherwise.
+        /// </summary>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="message">A message detailing error information.</param>
+        public static void True(bool condition, string message)
         {
-            if (!value) FailWithArgumentException(message);
+            if (!condition) FailWithArgumentException(message);
         }
-        public static void True<TFailWith>(bool value) where TFailWith : Exception, new()
+
+        /// <summary>
+        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        public static void True<TFailWith>(bool condition) where TFailWith : Exception, new()
         {
-            if (!value) throw new TFailWith();
+            if (!condition) throw new TFailWith();
         }
-        public static void True<TFailWith>(bool value, Func<TFailWith> failWith) where TFailWith : Exception
+
+        /// <summary>
+        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        public static void True<TFailWith>(bool condition, Func<TFailWith> failWith) where TFailWith : Exception
         {
-            if (!value) throw failWith();
+            if (!condition) throw failWith();
         }
-        public static void True<TFailWith>(bool value, string message, Func<string, TFailWith> failWith) where TFailWith : Exception
+
+        /// <summary>
+        /// Validates that the specified condition is <c>true</c> throwing a <typeparamref name="TFailWith"/> exception otherwise.
+        /// </summary>
+        /// <typeparam name="TFailWith">The type of the exception to throw on failure.</typeparam>
+        /// <param name="condition">The condition to validate.</param>
+        /// <param name="failWith">A function which produces creates an exception of <typeparamref name="TFailWith"/> to throw on failure.</param>
+        /// <param name="message">A message detailing error information.</param>
+        public static void True<TFailWith>(bool condition, Func<string, TFailWith> failWith, string message) where TFailWith : Exception
         {
-            if (!value) throw failWith(message);
+            if (!condition) throw failWith(message);
         }
         #endregion Conditional Validation
 
-        #endregion Range Validation
-
         #region Exception Helpers
-
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/>.
         /// </summary>

@@ -55,8 +55,8 @@ namespace LASI.Utilities
 
         private Option(bool hasValue)
         {
-            this.IsNone = !hasValue;
-            this.IsSome = hasValue;
+            IsNone = !hasValue;
+            IsSome = hasValue;
         }
         /// <summary>
         /// Transforms the <see cref="Option"/>&lt;T&gt; into an <see cref="Option"/>&lt; <typeparamref name="TResult"/>&gt; by applying the
