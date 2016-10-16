@@ -178,3 +178,4 @@ jspm_packages/
 /LASI.WebApp/.vscode/launch.json
 .vscode/
 .vs/
+*.vc.db
