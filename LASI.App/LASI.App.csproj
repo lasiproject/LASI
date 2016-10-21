@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.App</RootNamespace>
     <AssemblyName>LASI</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -274,123 +274,357 @@
     <None Include="Resources\StandaloneFileConverters\doc2x.exe.config" />
     <None Include="Resources\StandaloneFileConverters\doc2x.vshost.exe.config" />
     <None Include="Resources\StandaloneFileConverters\libzlibwapi.so" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\acronyms" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.fem" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.mal" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\num.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\sim.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishChunk.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishPOS.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishSD.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishTok.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.fem" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.mal" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\imodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\acronyms" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\date.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.fem" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.mal" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\location.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\money.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\num.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\organization.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\percentage.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\person.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\sim.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\time.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\num.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\build.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\check.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\chunk.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\head_rules" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\percentage.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tag.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tagdict" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\time.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\sim.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel.nbin" />
-    <Resource Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\adj.exc" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\adv.exc" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist.rev" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adj" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adv" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.noun" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\data.verb" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\frames.vrb" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adj" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adv" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.noun" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.sense" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\index.verb" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\log.grind.2.1" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\noun.exc" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\sentidx.vrb" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\sents.vrb" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.exc" />
-    <Resource Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext" />
-    <Resource Include="Resources\WordNetThesaurusData\adj.exc" />
-    <Resource Include="Resources\WordNetThesaurusData\adv.exc" />
-    <Resource Include="Resources\WordNetThesaurusData\data.adj" />
-    <Resource Include="Resources\WordNetThesaurusData\data.adv" />
-    <Resource Include="Resources\WordNetThesaurusData\data.noun" />
-    <Resource Include="Resources\WordNetThesaurusData\data.verb" />
-    <Resource Include="Resources\WordNetThesaurusData\index.adj" />
-    <Resource Include="Resources\WordNetThesaurusData\index.adv" />
-    <Resource Include="Resources\WordNetThesaurusData\index.noun" />
-    <Resource Include="Resources\WordNetThesaurusData\index.sense" />
-    <Resource Include="Resources\WordNetThesaurusData\index.verb" />
-    <Resource Include="Resources\WordNetThesaurusData\noun.exc" />
-    <Resource Include="Resources\WordNetThesaurusData\verb.exc" />
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\cmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\acronyms">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\cmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\defmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\fmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.fem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.mal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\gen.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\imodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\num.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\plmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\sim.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\coref\tmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\defmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishChunk.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishPOS.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishSD.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\EnglishTok.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\fmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.fem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.mal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\gen.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\imodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\acronyms">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\cmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\date.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\defmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\fmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.fem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.mal">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\gen.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\imodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\location.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\money.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\num.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\organization.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\percentage.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\person.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\plmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\sim.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\time.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\namefind\tmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\num.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\build.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\check.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\chunk.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\head_rules">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\percentage.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tag.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\tagdict">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\parser\time.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\plmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\pnmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\sim.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\tmodel_nr.nbin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adj.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\adv.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\cntlist.rev">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\data.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\frames.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.sense">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\index.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\log.grind.2.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\noun.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sentidx.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\sents.vrb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TaggingPackage\WordNet\2.1\dict\verb.Framestext">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\adj.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\adv.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\data.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.adj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.adv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.noun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.sense">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\index.verb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\noun.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\WordNetThesaurusData\verb.exc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -469,11 +703,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LasiLogo.ico" />
-    <Resource Include="Resources\WordNetThesaurusData\dictionary.txt" />
-    <Resource Include="Resources\LASICustom\Binding\KnownSubordinators.txt" />
-    <Resource Include="Resources\LASICustom\NameData\femalefirst.txt" />
-    <Resource Include="Resources\LASICustom\NameData\last.txt" />
-    <Resource Include="Resources\LASICustom\NameData\malefirst.txt" />
+    <None Include="Resources\WordNetThesaurusData\dictionary.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\LASICustom\Binding\KnownSubordinators.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\LASICustom\NameData\femalefirst.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\LASICustom\NameData\last.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\LASICustom\NameData\malefirst.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.CommonTranslatorLib.dll" />
     <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.DocFileFormat.dll" />
     <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OfficeDrawing.dll" />
@@ -489,21 +733,27 @@
   <ItemGroup>
     <None Include="..\Licences\b2xtranslatorLicense.txt">
       <Link>Resources\Licenses\b2xtranslatorLicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\iTextSharpLicense.txt">
       <Link>Resources\Licenses\iTextSharpLicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\LASILicense.txt">
       <Link>Resources\Licenses\LASILicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\SharpNLPLicense.txt">
       <Link>Resources\Licenses\SharpNLPLicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\WordNetLicense.txt">
       <Link>Resources\Licenses\WordNetLicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\Licences\WPFToolkitLicense.txt">
       <Link>Resources\Licenses\WPFToolkitLicense.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

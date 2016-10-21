@@ -257,8 +257,8 @@ namespace LASI.Utilities.Validation
         /// <exception cref="ArgumentOutOfRangeException">The value was less than the specified minimum or greater than the specified maximum.</exception>
         public static void WithinRange<T>(this T value, T minimum, T maximum, string name, string message = null) where T : IComparable<T>, IEquatable<T>
         {
-            NotLessThan(value, minimum, name ?? nameof(value), null);
-            NotGreaterThan(value, maximum, name ?? nameof(value), null);
+            NotLessThan(value, minimum, name ?? nameof(value), message);
+            NotGreaterThan(value, maximum, name ?? nameof(value), message);
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace LASI.Utilities.Validation
         /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
         public static void ExistsIn<T>(IEnumerable<T> collection, T value, string name, string message = null)
         {
-            ExistsIn(collection, value, EqualityComparer<T>.Default, name);
+            ExistsIn(collection, value, EqualityComparer<T>.Default, name ?? nameof(value), message);
         }
 
 
@@ -282,15 +282,16 @@ namespace LASI.Utilities.Validation
         /// <see cref="ArgumentException" /> if it is not.
         /// </summary>
         /// <typeparam name="T">The type of the value to validate.</typeparam>
-        /// <param name="collection">The collection in which must contain the value.</param>      
+        /// <param name="collection">The collection in which must contain the value.</param>
         /// <param name="value">The value to validate.</param>
         /// <param name="comparer">The comparer to use to validate that the value exists.</param>
         /// <param name="name">The name of the value which must exist.</param>
-        public static void ExistsIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name)
+        /// <param name="message">A message that provides additional detail as to why the value failed validation.</param>
+        public static void ExistsIn<T>(IEnumerable<T> collection, T value, IEqualityComparer<T> comparer, string name, string message = null)
         {
             if (!collection.Contains(value, comparer))
             {
-                FailWithArgumentException(name, $"{name} must be a member of the set {collection.Format()}. Actual value: {value}.");
+                FailWithArgumentException(name, message ?? $"{name} must be a member of the set {collection.Format()}. Actual value: {value}.");
             }
         }
 
