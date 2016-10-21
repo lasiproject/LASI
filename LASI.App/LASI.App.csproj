@@ -268,12 +268,22 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\DotLasiFile.xsd">
+    <None Include="Resources\DotLasiFile.xsd">
       <SubType>Designer</SubType>
     </Resource>
     <None Include="Resources\StandaloneFileConverters\doc2x.exe.config" />
     <None Include="Resources\StandaloneFileConverters\doc2x.vshost.exe.config" />
     <None Include="Resources\StandaloneFileConverters\libzlibwapi.so" />
+    </None>
+    <None Include="Resources\StandaloneFileConverters\doc2x.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\doc2x.vshost.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\libzlibwapi.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\TaggingPackage\OpenNLP\OpenNLP\Models\acronyms">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -729,6 +739,39 @@
     <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.ZipUtils.dll" />
     <None Include="Resources\StandaloneFileConverters\doc2x.exe" />
     <None Include="Resources\StandaloneFileConverters\zlibwapi.dll" />
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.CommonTranslatorLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.DocFileFormat.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OfficeDrawing.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.OpenXmlLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Shell.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.StructuredStorage.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.Tools.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.WordprocessingMLMapping.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\DIaLOGIKa.b2xtranslator.ZipUtils.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\doc2x.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\StandaloneFileConverters\zlibwapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Licences\b2xtranslatorLicense.txt">
