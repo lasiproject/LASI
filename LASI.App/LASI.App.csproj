@@ -270,11 +270,10 @@
     <AppDesigner Include="Properties\" />
     <None Include="Resources\DotLasiFile.xsd">
       <SubType>Designer</SubType>
-    </Resource>
+    </None>
     <None Include="Resources\StandaloneFileConverters\doc2x.exe.config" />
     <None Include="Resources\StandaloneFileConverters\doc2x.vshost.exe.config" />
     <None Include="Resources\StandaloneFileConverters\libzlibwapi.so" />
-    </None>
     <None Include="Resources\StandaloneFileConverters\doc2x.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -34,7 +34,7 @@ namespace Shared.Test.NFluentExtensions
                 {
                     if (!requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(T).Name).On(checker.Value).ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }

@@ -302,8 +302,6 @@ namespace LASI.Utilities
             Func<TOther, TKey> otherKeySelector
         ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
 
-        public static IEnumerable<TBase> Except<TBase, TDerived>(this IEnumerable<TBase> first, IEnumerable<TDerived> second, Func<TBase, bool> equals) where TDerived : class, TBase => first.ExceptBy(second, equals);
-
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
         /// <typeparam name="TKey">The result type of projection by which to compare elements.</typeparam>

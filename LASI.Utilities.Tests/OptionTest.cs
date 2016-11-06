@@ -77,7 +77,7 @@ namespace LASI.Utilities.Tests
             const string source = "str";
             var target = source.ToOption();
             var projected = from v in target
-                                        select v.ToUpper();
+                            select v.ToUpper();
             Assert.True(projected.IsSome);
             var value = projected.Value;
             Assert.Equal(value, source.ToUpper());
@@ -126,7 +126,7 @@ namespace LASI.Utilities.Tests
         {
             var target = FromNullFactory<object>();
             var result = from value in target
-                                  select 1;
+                         select 1;
             Assert.False(result.IsSome);
         }
 
@@ -135,7 +135,7 @@ namespace LASI.Utilities.Tests
         {
             var target = FromNullFactory<object>();
             var projected = from value in target
-                                     select 1;
+                            select 1;
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>(); // Must fail
         }
 
@@ -151,8 +151,8 @@ namespace LASI.Utilities.Tests
         {
             var target = FromNullFactory<object>();
             var projected = from value in target
-                                     from x in target
-                                     select 1;
+                            from x in target
+                            select 1;
             Assert.False(projected.IsSome);
         }
         [Fact]
@@ -160,8 +160,8 @@ namespace LASI.Utilities.Tests
         {
             var target = FromNullFactory<object>();
             var projected = from value in target
-                                     from x in target
-                                     select 1;
+                            from x in target
+                            select 1;
             Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>();
         }
         [Fact]
@@ -408,6 +408,19 @@ namespace LASI.Utilities.Tests
             Assert.False(target.IsNone);
             Assert.True(target.IsSome);
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData("a")]
+        [InlineData(null)]
+        [InlineData(typeof(int?))]
+        [InlineData(new[] { 1, 2, 3, 4 })]
+        public void ToStringOfOptionOfXMustBeEqualToToStringOfX(object value)
+        {
+            var option = Option.Create(value);
+            Check.That(option.ToString()).IsEqualTo(value?.ToString() ?? string.Empty);
+        }
+
         private static Option<T> OptionFromNullWhereTestHelper<T>(Func<T, bool> predicate) where T : class
         {
             var target = FromNullFactory<T>();
