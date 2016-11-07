@@ -21,21 +21,14 @@ namespace LASI.Content
         /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document.
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
-        public DocToDocXConverter(DocFile infile)
-            : base(infile)
-        {
-
-        }
+        public DocToDocXConverter(DocFile infile) : base(infile) { }
 
         /// <summary>
         /// Initializes a new instance of DocToDocXConverter which will handle the conversion of the given .doc document
         /// </summary>
         /// <param name="infile">The DocFile instance representing the document to convert.</param>
         /// <param name="DocxFilesDir">The path of the directory in which to store the converted file.</param>
-        public DocToDocXConverter(DocFile infile, string DocxFilesDir)
-            : base(infile, DocxFilesDir)
-        {
-        }
+        public DocToDocXConverter(DocFile infile, string DocxFilesDir) : base(infile, DocxFilesDir) { }
 
         /// <summary>
         /// Converts the document held by this instance from .doc binary format to .docx open XML format
@@ -45,7 +38,7 @@ namespace LASI.Content
         /// Note that both the original and converted document objects can be also be accessed independently via instance properties</returns>
         public override DocXFile ConvertFile()
         {
-            var process = new Process
+            using (var process = new Process
             {
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
@@ -57,14 +50,18 @@ namespace LASI.Content
                     UseShellExecute = false,
 
                 }
-            };
-            process.OutputDataReceived += (sender, e) => Logger.Log(e.Data);
-            var stopWatch = Stopwatch.StartNew();
-            process.Start();
-            process.WaitForExit();
-            Converted = new DocXFile(Original.PathSansExt + ".docx");
-            Logger.Log("Converted {0} to {1} in {2}", Original.FileName, Converted.FileName, stopWatch.Elapsed);
-            return Converted;
+            })
+            {
+                DataReceivedEventHandler log = (sender, e) => Logger.Log(e.Data);
+                process.OutputDataReceived += log;
+                var stopWatch = Stopwatch.StartNew();
+                process.Start();
+                process.WaitForExit();
+                Converted = new DocXFile(Original.PathSansExt + ".docx");
+                Logger.Log($"Converted {Original.FileName} to {Converted.FileName} in {stopWatch.Elapsed}");
+                process.OutputDataReceived -= log;
+                return Converted;
+            }
         }
 
         /// <summary>

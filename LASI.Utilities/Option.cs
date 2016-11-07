@@ -55,8 +55,8 @@ namespace LASI.Utilities
 
         private Option(bool hasValue)
         {
-            this.IsNone = !hasValue;
-            this.IsSome = hasValue;
+            IsNone = !hasValue;
+            IsSome = hasValue;
         }
         /// <summary>
         /// Transforms the <see cref="Option"/>&lt;T&gt; into an <see cref="Option"/>&lt; <typeparamref name="TResult"/>&gt; by applying the
@@ -131,17 +131,24 @@ namespace LASI.Utilities
         /// <returns>The hash code of the Option&lt; <typeparamref name="T"/>&gt;.</returns>
         public abstract override int GetHashCode();
 
+        /// <summary>
+        /// Returns a string representation of the encapsulated <see cref="Option{T}.Value"/>, or the empty string if it does not have a value.
+        /// </summary>
+        /// <returns>A string representation of the encapsulated <see cref="Option{T}.Value"/>, or the empty string if it does not have a value.</returns>
         public sealed override string ToString() => IsSome ? Value.ToString() : string.Empty;
 
         /// <summary>
-        /// Gets the value of the Option&lt; <typeparamref name="T"/>&gt;. An <see cref="InvalidOperationException"/> will be thrown if the
-        /// Option&lt; <typeparamref name="T"/>&gt; does not have a value.
+        /// Gets the value of the Option&lt;<typeparamref name="T"/>&gt;. An <see cref="InvalidOperationException"/> will be thrown if the
+        /// Option&lt;<typeparamref name="T"/>&gt; does not have a value.
         /// </summary>
         public abstract T Value { get; }
         /// <summary>
         /// Gets a value indicating if the Option has a value.
         /// </summary>
         public bool IsSome { get; }
+        /// <summary>
+        /// <c>true</c> if the <see cref="Option{T}"/> <c>is</c> <see cref="None"/>; otherwise, <c>false</c>.  
+        /// </summary>
         public bool IsNone { get; }
         /// <summary>
         /// The None case for Options representing a possible value of type <typeparamref name="T"/>

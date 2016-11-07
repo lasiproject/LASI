@@ -1,4 +1,6 @@
-﻿namespace LASI.Core
+﻿using System.Collections.Generic;
+
+namespace LASI.Core
 {
     /// <summary>
     /// <para>
@@ -14,7 +16,7 @@
     public interface IObjectTaker : IInderectObjectTaker, IDirectObjectTaker
     {
         /// <summary>Gets the all of the Direct and Indirect objects of the IObjectTaker.</summary>
-        System.Collections.Generic.IEnumerable<IEntity> DirectAndIndirectObjects
+        IEnumerable<IEntity> DirectAndIndirectObjects
         {
             get;
         }

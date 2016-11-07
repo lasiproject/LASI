@@ -14,17 +14,11 @@
         /// <summary>
         /// Gets the sequence of IEntity constructs which are direct objects of the IDirectObjectTaker.
         /// </summary>
-        System.Collections.Generic.IEnumerable<IEntity> DirectObjects
-        {
-            get;
-        }
+        System.Collections.Generic.IEnumerable<IEntity> DirectObjects { get; }
         /// <summary>
         /// Gets an IAggregateEntity implementation composed from all of the IDirectObjectTaker's direct objects.
         /// </summary>
-        IAggregateEntity AggregateDirectObject
-        {
-            get;
-        }
+        IAggregateEntity AggregateDirectObject { get; }
 
     }
 

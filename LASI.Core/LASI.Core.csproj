@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LASI.Core</RootNamespace>
     <AssemblyName>LASI.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -343,7 +343,9 @@
     <Compile Include="Analysis\Heuristics\SyntacticCategorical\Support\WordNetLexCategoryInformation.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\ThirdPersonSingularPresentVerb.cs" />
     <Compile Include="LexicalStructures\VerbRelatedConstructs\PhraseExtensions.cs" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="DocumentStructures\TextualEnumerable.cs" />
   </ItemGroup>
   <ItemGroup>

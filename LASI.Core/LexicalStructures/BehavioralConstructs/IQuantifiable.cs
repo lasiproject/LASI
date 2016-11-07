@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Defines the role requirements for Quantifiable constructs, generally Nouns or NounPhrases 
@@ -16,9 +11,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Quantifier instance which quantifies the IQuantifiable.
         /// </summary>
-        IQuantifier QuantifiedBy {
-            get;
-            set;
-        }
+        IQuantifier QuantifiedBy { get; set; }
     }
 }
