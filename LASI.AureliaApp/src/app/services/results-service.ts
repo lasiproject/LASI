@@ -1,8 +1,8 @@
-﻿import { autoinject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
+﻿import {autoinject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
+import {DocumentModel, Task} from 'src/models';
 import enableActiveHighlighting from './result-chart-builder';
 import buildMenus from './build-menus';
-import { DocumentModel, Task } from 'src/models';
 
 @autoinject export default class ResultService {
 

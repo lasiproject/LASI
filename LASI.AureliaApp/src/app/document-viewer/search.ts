@@ -1,4 +1,4 @@
-﻿import {bindable} from 'aurelia-framework';
+﻿import {bindable, observable} from 'aurelia-framework';
 import {LexicalModel, WordModel, PhraseModel, TextFragmentModel} from 'src/models';
 import $ from 'jquery';
 import 'typeahead';

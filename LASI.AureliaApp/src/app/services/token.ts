@@ -1,9 +1,9 @@
 import { autoinject } from 'aurelia-framework';
-import WindowService from './storage';
+import ClientStorage from './storage';
 
 @autoinject export default class TokenService {
 
-  constructor(readonly window: WindowService) { }
+  constructor(readonly window: ClientStorage) { }
 
   get token(): string {
     return this.window.retreive('auth_token');

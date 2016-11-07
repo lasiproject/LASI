@@ -2,12 +2,15 @@
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "noEmit": true,
-    "target": "es6",
     "module": "system",
+    "target": "es2015",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
+    "traceResolution": true,
     "rootDirs": [
       "src",
       "shared"

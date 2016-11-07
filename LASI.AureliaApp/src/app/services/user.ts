@@ -37,14 +37,25 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
     return await response.json() as AuthenticationResult;
   }
   async login(credentials: Credentials): Promise<AuthenticationResult> {
+
+    const loginSuccess = ({user, token}) => {
+      this.user = user;
+      this.loggedIn = true;
+      if (token) {
+        this.tokenService.token = token;
+      }
+      return user;
+    };
     const promise = this.loggedIn ? this.getUser() : Promise.resolve({});
     try {
       const user = await this.loginGet();
       return user || await this.loginPost(credentials);
     } catch (e) {
       console.warn('not logged in');
-      const {user, token} = await this.loginPost(credentials);//.then(loginSuccess);
+      const {user, token} = await this.loginPost(credentials);
       return await loginSuccess({ user, token });
+
+
     }
   }
 
@@ -68,13 +79,4 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
 
   user?: User;
   loggedIn = false;
-}
-
-function loginSuccess({user, token}) {
-  this.user = user;
-  this.loggedIn = true;
-  if (token) {
-    this.tokenService.token = token;
-  }
-  return user;
 }

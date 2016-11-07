@@ -1,21 +1,11 @@
 ﻿import { bindable, autoinject } from 'aurelia-framework';
 import { DocumentModel, LexicalModel } from 'src/models';
+import Observable from 'rxjs/Observable';
 export class DocumentViewer {
 
   @bindable document: DocumentModel;
   @bindable typeAheadSource: LexicalModel[];
   @bindable searchTerm = '';
-
-  typeaheadOptions = {
-    hint: true,
-    async: true,
-    highlight: true,
-    minLength: 2,
-    display: 'text', datasets: {
-      name: 'my-dataset',
-      source: this.typeAheadSource
-    }
-  };
 
   bind() {
     this.typeAheadSource = this.document && this.document.paragraphs
@@ -33,4 +23,16 @@ export class DocumentViewer {
   search = (query) => {
     return this.typeAheadSource.filter(x => x.text === query);
   }
+
+  readonly typeaheadOptions = (viewer => new class {
+    readonly hint = true;
+    readonly async = true;
+    readonly highlight = true;
+    readonly minLength = 2;
+    readonly display = 'text';
+    readonly datasets = {
+      name: 'my-dataset',
+      source: viewer.typeAheadSource
+    }
+  })(this);
 }

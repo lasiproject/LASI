@@ -1,9 +1,9 @@
 ﻿export default function enableActiveHighlighting() {
-  const enableActiveHighlighting = function () {
+  const enableActiveHighlighting = () => {
     const phrasalTextSpans = $('span.phrase');
     const highlightClass = 'active-phrase-highlight';
-    const recolor = function () {
-      phrasalTextSpans.each(function () {
+    const recolor = function (this: HTMLSpanElement) {
+      phrasalTextSpans.each(function (this: HTMLSpanElement) {
         $(this).removeClass(highlightClass);
       });
       $(this).addClass(highlightClass);

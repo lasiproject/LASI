@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+import {autoinject} from 'aurelia-framework';
 
 @autoinject export default class ClientStorage {
 
@@ -14,7 +14,7 @@ import { autoinject } from 'aurelia-framework';
 
   clear(key?: StoreKey) {
     if (key) {
-      this.storage[key] = undefined;
+      delete this.storage[key];
     } else {
       this.storage.clear();
     }

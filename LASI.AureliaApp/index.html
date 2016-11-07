@@ -16,7 +16,7 @@
         return SystemJS.import('aurelia-bootstrapper');
       })
       .then(function(bootstrapper) {
-        return SystemJS.import('src/main')
+        return SystemJS.import('app')
           .then(function(main) {
             return bootstrapper.bootstrap(main.configure);
           });

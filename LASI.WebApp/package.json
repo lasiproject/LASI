@@ -43,7 +43,7 @@
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-validation": "github:jzaefferer/jquery-validation@^1.14.0",
       "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@^3.2.3",
-      "qunit": "github:jquery/qunit@^1.23.0"
+      "qunit": "github:qunitjs/qunit@^1.23.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

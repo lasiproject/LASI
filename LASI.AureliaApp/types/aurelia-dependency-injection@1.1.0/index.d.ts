@@ -1,4 +1,4 @@
-﻿/**
+/**
 * Decorator: Indicates that the decorated class/object is a custom resolver.
 */
 export declare const resolver: Function & {
@@ -454,7 +454,6 @@ export declare class Container {
     * @param key The key that identifies the object to resolve.
     * @return Returns the resolved instance.
     */
-    get<I>(key: new (...args) => I): I;
     get(key: any): any;
     _get(key: any): any;
     /**
