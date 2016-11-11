@@ -21,27 +21,26 @@ test('TokenService.token.get should retreive value specified by TokenService.tok
   end();
 });
 
-
 function createTokenService() {
+  let items: { [key: string]: string | null } = {};
   const storage: typeof window.sessionStorage = {
-    items: {},
     clear() {
-      this.items = {};
+      items = {};
     },
     getItem(key) {
-      return this.items[key];
+      return items[key];
     },
     key(index) {
-      return Object.values(this.items)[index];
+      return Object.values(items)[index];
     },
     get length() {
-      return Object.keys(this.items).length;
+      return Object.keys(items).length;
     },
     removeItem(key) {
-      this.items[key] = undefined;
+      delete items[key];
     },
     setItem(key, value) {
-      this.items[key] = value;
+      items[key] = value;
     }
   };
 

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "node",
+    "traceResolution": true,
     "paths": {
       "shared/type-ahead": [
         "shared/type-ahead/type-ahead"
@@ -10,13 +11,10 @@
         "shared/context-menu/context-menu"
       ],
       "tape": [
-        "jspm_packages/npm/tape@4.2.28/index"
+        "jspm_packages/npm/@types/tape@4.2.28/index"
       ],
       "jquery": [
         "jspm_packages/npm/@types/jquery@1.10.31/index"
-      ],
-      "rxjs/*": [
-        "jspm_packages/npm/rxjs@5.0.0-beta.12/*"
       ],
       "aurelia-testing": [
         "types/aurelia-testing@1.0.0-beta.2.0.0/index"

@@ -1,30 +1,27 @@
 {
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "noEmit": true,
     "module": "system",
     "target": "es2015",
+    "diagnostics": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitThis": true,
-    "traceResolution": true,
-    "rootDirs": [
-      "src",
-      "shared"
+    "pretty": true,
+    "lib": [
+      "es2017",
+      "dom"
     ],
     "typeRoots": [
-      "types/",
-      "jspm_packages/npm/",
-      "jspm_packages/npm/@types/"
-    ],
-    "types": [
-      "tape"
+      "types",
+      "jspm_packages/npm",
+      "jspm_packages/npm/@types"
     ]
   },
   "exclude": [
+    "node_modules",
     "jspm_packages/github",
     "jspm_packages/npm/typescript@next"
   ]
