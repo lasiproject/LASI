@@ -1,54 +1,56 @@
-﻿import {bindable, observable} from 'aurelia-framework';
-import {LexicalModel, WordModel, PhraseModel, TextFragmentModel} from 'src/models';
+﻿import { bindable, observable } from 'aurelia-framework';
+import { LexicalModel, WordModel, PhraseModel, TextFragmentModel } from 'src/models';
 import $ from 'jquery';
 import 'typeahead';
 
-import {TypeAhead} from 'shared/type-ahead';
+import { TypeAhead } from 'shared/type-ahead';
 
 export default class SearchBox {
-    @bindable find: SearchModel;
+  @bindable find: SearchModel;
 
-    @bindable searchContext: TextFragmentModel[];
+  @bindable searchContext: TextFragmentModel[];
 
-    @bindable phrases: PhraseModel[] = [];
+  @bindable phrases: PhraseModel[] = [];
 
-    @bindable get words() {
-        return this.phrases.flatMap(phrase => phrase.words);
-    }
+  @bindable get words() {
+    return this.phrases.flatMap(phrase => phrase.words);
+  }
 
-    *search({ value }: SearchOptions, searchContext: TextFragmentModel[]) {
-        const searchTerm = typeof value === 'string' ? value : value.detailText;
+  idx = x => x * x;
 
-        this.phrases = this.phrases || searchContext
-            .flatMap(m => m.paragraphs)
-            .flatMap(p => p.sentences)
-            .flatMap(s => s.phrases);
+  *search({ value }: SearchOptions, searchContext: TextFragmentModel[]) {
+    const searchTerm = typeof value === 'string' ? value : value.detailText;
 
-        if (!searchTerm) {
-            throw 'search term was undefined';
-        } else if (!searchContext) {
-            this.phrases.forEach(resetStyle);
-            return yield;
+    this.phrases = this.phrases || searchContext
+      .flatMap(m => m.paragraphs)
+      .flatMap(p => p.sentences)
+      .flatMap(s => s.phrases);
+
+    if (!searchTerm) {
+      throw 'search term was undefined';
+    } else if (!searchContext) {
+      this.phrases.forEach(resetStyle);
+      return yield;
+    } else {
+      for (let phrase of this.phrases) {
+        const matched = phrase.words.some(word => word.text === searchTerm);
+        if (!matched) {
+          resetStyle(phrase);
         } else {
-            for (let phrase of this.phrases) {
-                const matched = phrase.words.some(word => word.text === searchTerm);
-                if (!matched) {
-                    resetStyle(phrase);
-                } else {
-                    phrase.style.cssClass += ' matched-by-search';
-                    yield phrase.text;
-                }
-            }
+          phrase.style.cssClass += ' matched-by-search';
+          yield phrase.text;
         }
-        function resetStyle(phrase: PhraseModel) {
-            phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', '');
-        }
+      }
     }
+    function resetStyle(phrase: PhraseModel) {
+      phrase.style.cssClass = phrase.style.cssClass.replace('matched-by-search', '');
+    }
+  }
 }
 
 export type SearchModel = string | LexicalModel;
 
 export interface SearchOptions {
-    value: SearchModel;
-    lifted?: boolean;
+  value: SearchModel;
+  lifted?: boolean;
 }

@@ -16,7 +16,7 @@ export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
     .developmentLogging()
-    .container.get(HttpClient).configure((httpConfig: HttpClientConfiguration) => {
+    .container.get(HttpClient).configure((httpConfig) => {
       const tokenService = aurelia.container.get(TokenService);
       return httpConfig
         .useStandardConfiguration()

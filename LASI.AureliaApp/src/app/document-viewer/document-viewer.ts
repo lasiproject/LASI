@@ -1,6 +1,5 @@
 ﻿import { bindable, autoinject } from 'aurelia-framework';
 import { DocumentModel, LexicalModel } from 'src/models';
-import Observable from 'rxjs/Observable';
 export class DocumentViewer {
 
   @bindable document: DocumentModel;
@@ -14,13 +13,14 @@ export class DocumentViewer {
       .flatMap(s => s.words)
       .map(w => w) || [];
   }
+
   queryTypeAhead(query, callback) {
     console.log(query);
     console.log(callback);
     return callback(query.target.value);
   }
 
-  search = (query) => {
+  search = query => {
     return this.typeAheadSource.filter(x => x.text === query);
   }
 
@@ -33,6 +33,6 @@ export class DocumentViewer {
     readonly datasets = {
       name: 'my-dataset',
       source: viewer.typeAheadSource
-    }
+    };
   })(this);
 }

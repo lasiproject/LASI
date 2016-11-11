@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+﻿import { autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
 import UserService from './services/user';
 import { User } from 'src/models';

@@ -3,17 +3,17 @@ import ClientStorage from './storage';
 
 @autoinject export default class TokenService {
 
-  constructor(readonly window: ClientStorage) { }
+  constructor(readonly storage: ClientStorage) { }
 
   get token(): string {
-    return this.window.retreive('auth_token');
+    return this.storage.retreive('auth_token');
   }
 
   set token(value) {
-    this.window.store('auth_token', value);
+    this.storage.store('auth_token', value);
   }
 
   clearToken() {
-    this.window.clear('auth_token');
+    this.storage.clear('auth_token');
   }
 }

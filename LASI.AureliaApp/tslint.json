@@ -29,6 +29,7 @@
     "no-console": [
       false
     ],
+    "no-consecutive-blank-lines": true,
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -48,6 +49,7 @@
       true,
       "check-open-brace",
       "check-catch",
+      "check-finally",
       "check-else",
       "check-whitespace"
     ],

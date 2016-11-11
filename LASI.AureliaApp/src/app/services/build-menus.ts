@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default function buildMenus() {
   const contextualElementIdSelectors = [];
   const verbalMenuTextToElementsMap = {

@@ -1,6 +1,6 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { LexicalContextMenuData, VerbalContextMenuData, ReferencerContextmenuData } from 'src/models';
-declare type ContextMenu = any;
+import $ from 'jquery';
 
 @autoinject export default class LexicalMenuBuilder {
   buildForVerbal = createForVerbalMenuBuilder({});
@@ -81,3 +81,4 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
     'View Indirect Objects': 'indirect-object-of-current'
   });
 }
+type ContextMenu = any;

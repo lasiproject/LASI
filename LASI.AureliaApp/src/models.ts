@@ -18,7 +18,6 @@ export interface DocumentListServiceConfig {
   setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 
-
 export interface Task {
   id: string;
   name: string;
@@ -156,4 +155,3 @@ export interface User extends Credentials {
   documents: any[];
   id: string;
 }
-
