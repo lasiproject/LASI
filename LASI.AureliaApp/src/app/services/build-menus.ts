@@ -1,4 +1,4 @@
-import $ from 'jquery';
+﻿import $ from 'jquery';
 
 export default function buildMenus() {
   const contextualElementIdSelectors = [];

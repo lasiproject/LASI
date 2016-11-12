@@ -14,9 +14,10 @@ import TokenService from './app/services/token';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
+    .instance(Storage, window.sessionStorage)
     .standardConfiguration()
     .developmentLogging()
-    .container.get(HttpClient).configure((httpConfig) => {
+    .container.get(HttpClient).configure((httpConfig: HttpClientConfiguration) => {
       const tokenService = aurelia.container.get(TokenService);
       return httpConfig
         .useStandardConfiguration()

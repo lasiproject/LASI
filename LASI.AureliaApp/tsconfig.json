@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "module": "system",
+    "module": "es2015",
     "target": "es2015",
     "diagnostics": true,
     "experimentalDecorators": true,
@@ -9,15 +9,16 @@
     "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitThis": true,
+    "traceResolution": true,
     "pretty": true,
+    "watch": true,
     "lib": [
       "es2017",
       "dom"
     ],
     "typeRoots": [
-      "types",
-      "jspm_packages/npm",
-      "jspm_packages/npm/@types"
+      "jspm_packages/npm/@types",
+      "jspm_packages/npm"
     ]
   },
   "exclude": [

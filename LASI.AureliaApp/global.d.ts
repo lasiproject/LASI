@@ -42,14 +42,8 @@
 
 }
 
-interface JQuery {
-  tooltip: any;
-}
 //// TODO: remove this and fix libs
 //interface ObjectConstructor {
 //  entries;
 //}
 // TODO: remove this and fix libs
-interface ReadableStream { }
-interface BufferSource { }
-interface URLSearchParams { }

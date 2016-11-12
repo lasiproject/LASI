@@ -1,4 +1,6 @@
-﻿export default function enableActiveHighlighting() {
+﻿import $ from 'jquery';
+
+export default function enableActiveHighlighting() {
   const enableActiveHighlighting = () => {
     const phrasalTextSpans = $('span.phrase');
     const highlightClass = 'active-phrase-highlight';

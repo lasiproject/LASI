@@ -1,4 +1,4 @@
-import { bindable, DOM, autoinject, customElement, Scope, } from 'aurelia-framework';
+﻿import { bindable, DOM, autoinject, customElement, Scope, } from 'aurelia-framework';
 import $ from 'jquery';
 import 'jquery-contextmenu';
 declare type Element = typeof DOM.Element;
@@ -23,15 +23,3 @@ export interface ContextmenuOptions {
   template: string;
   templateUrl: string | (() => string);
 }
-
-// import {customElement, bindable, autoinject, ElementEvents} from 'aurelia-framework';
-
-// @autoinject
-// @customElement('contextmenu')
-// export class Contextmenu {
-
-//     constructor(private element: Element) { }
-//     @bindable open: boolean;
-//     @bindable template: string;
-//     @bindable templateUrl: string | (() => string);
-// }
