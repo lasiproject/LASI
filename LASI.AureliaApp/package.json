@@ -10,7 +10,7 @@
   },
   "jspm": {
     "dependencies": {
-      "@types/bootstrap": "npm:@types/bootstrap",
+      "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
       "@types/whatwg-fetch": "npm:@types/whatwg-fetch@^0.0.32",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
       "aurelia-dialog": "npm:aurelia-dialog@^1.0.0-beta.3.0.1",
@@ -59,7 +59,7 @@
       "aurelia-polyfills": "npm:aurelia-polyfills@^1.0.0-rc.1.0.0",
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
-      "aurelia-task-queue": "npm:aurelia-task-queue@^1.0.0",
+      "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
       "aurelia-templating": "npm:aurelia-templating@^1.0.0",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.1.1",
@@ -95,7 +95,7 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.2.9": {
+      "github:frankwallis/plugin-typescript@5.3.1": {
         "dependencies": {
           "typescript": "npm:typescript@next"
         }
@@ -175,7 +175,7 @@
           "util": "@node/util"
         }
       },
-      "npm:debug@2.3.2": {
+      "npm:debug@2.3.3": {
         "main": "browser.js",
         "jspmNodeConversion": false,
         "format": "cjs",
@@ -207,12 +207,6 @@
       },
       "npm:jquery@2.2.4": {
         "format": "amd"
-      },
-      "npm:lodash@4.16.6": {
-        "map": {
-          "buffer": "@empty",
-          "process": "@empty"
-        }
       },
       "npm:ms@0.7.1": {
         "jspmNodeConversion": false,
@@ -259,8 +253,8 @@
     }
   },
   "devDependencies": {
-    "aurelia-types-installer": "0.0.7",
-    "jspm": "^0.17.0-beta.31",
+    "aurelia-types-installer": "^0.1.8",
+    "jspm": "0.17.0-beta.32",
     "lite-server": "^2.2.2"
   },
   "dependencies": {}

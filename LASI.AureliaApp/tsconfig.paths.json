@@ -14,82 +14,85 @@
         "jspm_packages/npm/@types/tape@4.2.28/index"
       ],
       "aurelia-testing": [
-        "types/aurelia-testing@1.0.0-beta.2.0.0/index"
+        "jspm_packages/npm/aurelia-testing@1.0.0-beta.2.0.0/index"
       ],
       "aurelia-http-client": [
-        "types/aurelia-http-client@1.0.3/index"
+        "jspm_packages/npm/aurelia-http-client@1.0.3/index"
       ],
       "aurelia-fetch-client": [
-        "types/aurelia-fetch-client@1.0.1/index"
+        "jspm_packages/npm/aurelia-fetch-client@1.1.0/index"
       ],
       "aurelia-binding": [
-        "types/aurelia-binding@1.0.9/index"
+        "jspm_packages/npm/aurelia-binding@1.0.9/index"
       ],
       "aurelia-bootstrapper": [
-        "types/aurelia-bootstrapper@1.0.1/index"
+        "jspm_packages/npm/aurelia-bootstrapper@1.0.1/index"
       ],
       "aurelia-dependency-injection": [
-        "types/aurelia-dependency-injection@1.2.0/index"
+        "jspm_packages/npm/aurelia-dependency-injection@1.2.0/index"
       ],
       "aurelia-event-aggregator": [
-        "types/aurelia-event-aggregator@1.0.0/index"
+        "jspm_packages/npm/aurelia-event-aggregator@1.0.1/index"
       ],
       "aurelia-framework": [
-        "types/aurelia-framework@1.0.7/index"
+        "jspm_packages/npm/aurelia-framework@1.0.7/index"
       ],
       "aurelia-history": [
-        "types/aurelia-history@1.0.0/index"
+        "jspm_packages/npm/aurelia-history@1.0.0/index"
       ],
       "aurelia-history-browser": [
-        "types/aurelia-history-browser@1.0.0/index"
+        "jspm_packages/npm/aurelia-history-browser@1.0.0/index"
       ],
       "aurelia-loader": [
-        "types/aurelia-loader@1.0.0/index"
+        "jspm_packages/npm/aurelia-loader@1.0.0/index"
       ],
       "aurelia-loader-default": [
-        "types/aurelia-loader-default@1.0.0/index"
+        "jspm_packages/npm/aurelia-loader-default@1.0.0/index"
       ],
       "aurelia-logging": [
-        "types/aurelia-logging@1.1.1/index"
+        "jspm_packages/npm/aurelia-logging@1.2.0/index"
       ],
       "aurelia-logging-console": [
-        "types/aurelia-logging-console@1.0.0/index"
+        "jspm_packages/npm/aurelia-logging-console@1.0.0/index"
       ],
       "aurelia-metadata": [
-        "types/aurelia-metadata@1.0.2/index"
+        "jspm_packages/npm/aurelia-metadata@1.0.2/index"
       ],
       "aurelia-pal": [
-        "types/aurelia-pal@1.0.0/index"
+        "jspm_packages/npm/aurelia-pal@1.0.0/index"
       ],
       "aurelia-pal-browser": [
-        "types/aurelia-pal-browser@1.0.0/index"
+        "jspm_packages/npm/aurelia-pal-browser@1.0.0/index"
       ],
       "aurelia-path": [
-        "types/aurelia-path@1.1.1/index"
+        "jspm_packages/npm/aurelia-path@1.1.1/index"
       ],
       "aurelia-polyfills": [
-        "types/aurelia-polyfills@1.1.1/index"
+        "jspm_packages/npm/aurelia-polyfills@1.1.1/index"
       ],
       "aurelia-route-recognizer": [
-        "types/aurelia-route-recognizer@1.1.0/index"
+        "jspm_packages/npm/aurelia-route-recognizer@1.1.0/index"
       ],
       "aurelia-router": [
-        "types/aurelia-router@1.0.7/index"
+        "jspm_packages/npm/aurelia-router@1.1.0/index"
       ],
       "aurelia-task-queue": [
-        "types/aurelia-task-queue@1.1.0/index"
+        "jspm_packages/npm/aurelia-task-queue@1.1.0/index"
       ],
       "aurelia-templating": [
-        "types/aurelia-templating@1.1.2/index"
+        "jspm_packages/npm/aurelia-templating@1.1.4/index"
       ],
       "aurelia-templating-binding": [
-        "types/aurelia-templating-binding@1.0.0/index"
+        "jspm_packages/npm/aurelia-templating-binding@1.0.0/index"
       ],
       "aurelia-templating-resources": [
-        "types/aurelia-templating-resources@1.1.1/index"
+        "jspm_packages/npm/aurelia-templating-resources@1.1.1/index"
       ],
       "aurelia-templating-router": [
-        "types/aurelia-templating-router@1.0.0/index"
+        "jspm_packages/npm/aurelia-templating-router@1.0.1/index"
+      ],
+      "aurelia-dialog": [
+        "jspm_packages/npm/aurelia-dialog@1.0.0-beta.3.0.1/index"
       ]
     }
   }
