@@ -934,9 +934,9 @@ SystemJS.config({
         "autoprefixer": "npm:autoprefixer@6.5.3",
         "css-url-rewriter-ex": "npm:css-url-rewriter-ex@1.0.6",
         "sass.js": "npm:sass.js@0.9.13",
-        "url": "github:jspm/nodelibs-url@0.1.0",
-        "path": "github:jspm/nodelibs-path@0.1.0",
-        "fs": "github:jspm/nodelibs-fs@0.1.2",
+        "url": "npm:jspm-nodelibs-url@0.2.0",
+        "path": "npm:jspm-nodelibs-path@0.2.0",
+        "fs": "npm:jspm-nodelibs-fs@0.2.0",
         "reqwest": "github:ded/reqwest@2.0.5"
       }
     },
@@ -946,22 +946,6 @@ SystemJS.config({
         "supports-color": "npm:supports-color@3.1.2",
         "js-base64": "npm:js-base64@2.1.9",
         "chalk": "npm:chalk@1.1.3"
-      }
-    },
-    "github:jspm/nodelibs-url@0.1.0": {
-      "map": {
-        "url": "npm:url@0.10.3"
-      }
-    },
-    "npm:url@0.10.3": {
-      "map": {
-        "punycode": "npm:punycode@1.3.2",
-        "querystring": "npm:querystring@0.2.0"
-      }
-    },
-    "github:jspm/nodelibs-path@0.1.0": {
-      "map": {
-        "path-browserify": "npm:path-browserify@0.0.0"
       }
     },
     "npm:readable-stream@2.2.2": {
