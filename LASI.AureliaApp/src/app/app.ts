@@ -32,4 +32,3 @@ import {User} from 'src/models';
   user?: User;
   router: Router;
 }
-

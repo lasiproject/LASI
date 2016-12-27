@@ -8,7 +8,7 @@
     "serve": "lite-server",
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
-    "lint": "tslint --project tsconfig.json --config tslint.json --format stylish",
+    "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
     "ati": "ati"
   },
   "jspm": {
