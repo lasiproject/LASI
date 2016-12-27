@@ -70,9 +70,9 @@ SystemJS.config({
   },
   devConfig: {
     "map": {
-      "plugin-typescript": "github:frankwallis/plugin-typescript@5.3.1",
-      "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.0",
-      "source-map-support": "npm:source-map-support@0.4.6",
+      "plugin-typescript": "github:frankwallis/plugin-typescript@5.3.3",
+      "aurelia-testing": "npm:aurelia-testing@1.0.0-beta.2.0.1",
+      "source-map-support": "npm:source-map-support@0.4.8",
       "tape": "npm:tape@4.6.3",
       "text": "github:systemjs/plugin-text@0.0.9",
       "@types/tape": "npm:@types/tape@4.2.28",
@@ -81,8 +81,8 @@ SystemJS.config({
       "jsbn": "npm:jsbn@0.1.0",
       "ecc-jsbn": "npm:ecc-jsbn@0.1.1",
       "jodid25519": "npm:jodid25519@1.0.2",
-      "tweetnacl": "npm:tweetnacl@0.14.4",
-      "debug": "npm:debug@2.3.3",
+      "tweetnacl": "npm:tweetnacl@0.14.5",
+      "debug": "npm:debug@2.5.2",
       "timers": "npm:jspm-nodelibs-timers@0.2.0"
     },
     "packages": {
@@ -126,7 +126,7 @@ SystemJS.config({
       },
       "npm:@types/tape@4.2.28": {
         "map": {
-          "@types/node": "npm:@types/node@0.0.2"
+          "@types/node": "npm:@types/node@6.0.53"
         }
       },
       "npm:pinkie-promise@2.0.1": {
@@ -158,7 +158,7 @@ SystemJS.config({
       },
       "npm:fsevents@1.0.15": {
         "map": {
-          "nan": "npm:nan@2.4.0",
+          "nan": "npm:nan@2.5.0",
           "node-pre-gyp": "npm:node-pre-gyp@0.6.32"
         }
       },
@@ -292,7 +292,7 @@ SystemJS.config({
         "map": {
           "xtend": "npm:xtend@4.0.1",
           "generate-object-property": "npm:generate-object-property@1.2.0",
-          "jsonpointer": "npm:jsonpointer@4.0.0",
+          "jsonpointer": "npm:jsonpointer@4.0.1",
           "generate-function": "npm:generate-function@2.0.0"
         }
       },
@@ -327,7 +327,7 @@ SystemJS.config({
       },
       "npm:bcrypt-pbkdf@1.0.0": {
         "map": {
-          "tweetnacl": "npm:tweetnacl@0.14.4"
+          "tweetnacl": "npm:tweetnacl@0.14.5"
         }
       },
       "npm:jodid25519@1.0.2": {
@@ -372,26 +372,11 @@ SystemJS.config({
           "buffer-shims": "npm:buffer-shims@1.0.0"
         }
       },
-      "npm:source-map-support@0.4.6": {
-        "map": {
-          "source-map": "npm:source-map@0.5.6"
-        }
-      },
       "npm:form-data@2.1.2": {
         "map": {
           "combined-stream": "npm:combined-stream@1.0.5",
           "mime-types": "npm:mime-types@2.1.13",
           "asynckit": "npm:asynckit@0.4.0"
-        }
-      },
-      "npm:debug@2.3.3": {
-        "map": {
-          "ms": "npm:ms@0.7.2"
-        }
-      },
-      "github:frankwallis/plugin-typescript@5.3.1": {
-        "map": {
-          "typescript": "npm:typescript@next"
         }
       },
       "npm:tape@4.6.3": {
@@ -413,7 +398,7 @@ SystemJS.config({
       },
       "npm:node-pre-gyp@0.6.32": {
         "map": {
-          "npmlog": "npm:npmlog@4.0.1",
+          "npmlog": "npm:npmlog@4.0.2",
           "request": "npm:request@2.79.0",
           "tar": "npm:tar@2.2.1",
           "mkdirp": "npm:mkdirp@0.5.1",
@@ -427,14 +412,6 @@ SystemJS.config({
       "npm:for-each@0.3.2": {
         "map": {
           "is-function": "npm:is-function@1.0.1"
-        }
-      },
-      "npm:npmlog@4.0.1": {
-        "map": {
-          "gauge": "npm:gauge@2.7.2",
-          "set-blocking": "npm:set-blocking@2.0.0",
-          "console-control-strings": "npm:console-control-strings@1.1.0",
-          "are-we-there-yet": "npm:are-we-there-yet@1.1.2"
         }
       },
       "npm:gauge@2.7.2": {
@@ -483,6 +460,29 @@ SystemJS.config({
         "map": {
           "assert-plus": "npm:assert-plus@1.0.0"
         }
+      },
+      "github:frankwallis/plugin-typescript@5.3.3": {
+        "map": {
+          "typescript": "npm:typescript@next"
+        }
+      },
+      "npm:debug@2.5.2": {
+        "map": {
+          "ms": "npm:ms@0.7.2"
+        }
+      },
+      "npm:source-map-support@0.4.8": {
+        "map": {
+          "source-map": "npm:source-map@0.5.6"
+        }
+      },
+      "npm:npmlog@4.0.2": {
+        "map": {
+          "set-blocking": "npm:set-blocking@2.0.0",
+          "console-control-strings": "npm:console-control-strings@1.1.0",
+          "are-we-there-yet": "npm:are-we-there-yet@1.1.2",
+          "gauge": "npm:gauge@2.7.2"
+        }
       }
     }
   },
@@ -508,28 +508,28 @@ SystemJS.config({
     "@types/whatwg-fetch": "npm:@types/whatwg-fetch@0.0.32",
     "aurelia-http-client": "npm:aurelia-http-client@1.0.3",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.1.0",
-    "aurelia-binding": "npm:aurelia-binding@1.0.9",
+    "aurelia-binding": "npm:aurelia-binding@1.1.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.1",
-    "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+    "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.1",
-    "aurelia-framework": "npm:aurelia-framework@1.0.7",
+    "aurelia-framework": "npm:aurelia-framework@1.0.8",
     "aurelia-history": "npm:aurelia-history@1.0.0",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
     "aurelia-loader": "npm:aurelia-loader@1.0.0",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
     "aurelia-logging": "npm:aurelia-logging@1.2.0",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
-    "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-    "aurelia-pal": "npm:aurelia-pal@1.0.0",
-    "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0",
+    "aurelia-metadata": "npm:aurelia-metadata@1.0.3",
+    "aurelia-pal": "npm:aurelia-pal@1.2.0",
+    "aurelia-pal-browser": "npm:aurelia-pal-browser@1.1.0",
     "aurelia-path": "npm:aurelia-path@1.1.1",
     "aurelia-polyfills": "npm:aurelia-polyfills@1.1.1",
     "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.1.0",
     "aurelia-router": "npm:aurelia-router@1.1.0",
     "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0",
     "aurelia-templating": "npm:aurelia-templating@1.1.4",
-    "aurelia-templating-binding": "npm:aurelia-templating-binding@1.0.0",
-    "aurelia-templating-resources": "npm:aurelia-templating-resources@1.1.1",
+    "aurelia-templating-binding": "npm:aurelia-templating-binding@1.1.0",
+    "aurelia-templating-resources": "npm:aurelia-templating-resources@1.2.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.1",
     "assert": "npm:jspm-nodelibs-assert@0.2.0",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
@@ -548,7 +548,7 @@ SystemJS.config({
     "http": "npm:jspm-nodelibs-http@0.2.0",
     "https": "npm:jspm-nodelibs-https@0.2.1",
     "jquery": "npm:jquery@2.2.4",
-    "jquery-contextmenu": "npm:jquery-contextmenu@2.3.0",
+    "jquery-contextmenu": "npm:jquery-contextmenu@2.4.1",
     "module": "npm:jspm-nodelibs-module@0.2.0",
     "net": "npm:jspm-nodelibs-net@0.2.0",
     "os": "npm:jspm-nodelibs-os@0.2.0",
@@ -557,7 +557,7 @@ SystemJS.config({
     "punycode": "npm:jspm-nodelibs-punycode@0.2.0",
     "querystring": "npm:jspm-nodelibs-querystring@0.2.0",
     "readline": "npm:jspm-nodelibs-readline@0.2.0",
-    "reflect-metadata": "npm:reflect-metadata@0.1.8",
+    "reflect-metadata": "npm:reflect-metadata@0.1.9",
     "sass": "github:mobilexag/plugin-sass@0.5.1",
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
@@ -739,11 +739,6 @@ SystemJS.config({
         "hash.js": "npm:hash.js@1.0.3"
       }
     },
-    "npm:browserslist@1.4.0": {
-      "map": {
-        "caniuse-db": "npm:caniuse-db@1.0.30000591"
-      }
-    },
     "npm:chalk@1.1.3": {
       "map": {
         "supports-color": "npm:supports-color@2.0.0",
@@ -814,22 +809,12 @@ SystemJS.config({
     },
     "npm:@types/whatwg-fetch@0.0.32": {
       "map": {
-        "@types/whatwg-streams": "npm:@types/whatwg-streams@0.0.1"
+        "@types/whatwg-streams": "npm:@types/whatwg-streams@0.0.2"
       }
     },
     "npm:font-awesome@4.7.0": {
       "map": {
         "css": "github:systemjs/plugin-css@0.1.32"
-      }
-    },
-    "npm:autoprefixer@6.5.3": {
-      "map": {
-        "postcss": "npm:postcss@5.2.6",
-        "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
-        "normalize-range": "npm:normalize-range@0.1.2",
-        "num2fraction": "npm:num2fraction@1.2.2",
-        "browserslist": "npm:browserslist@1.4.0",
-        "caniuse-db": "npm:caniuse-db@1.0.30000591"
       }
     },
     "npm:sha.js@2.4.8": {
@@ -893,19 +878,13 @@ SystemJS.config({
     },
     "npm:css-asset-copier@1.0.2": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.18.0",
+        "babel-runtime": "npm:babel-runtime@6.20.0",
         "fs-extra": "npm:fs-extra@0.30.0"
       }
     },
     "npm:css-url-rewriter-ex@1.0.6": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.18.0"
-      }
-    },
-    "npm:babel-runtime@6.18.0": {
-      "map": {
-        "core-js": "npm:core-js@2.4.1",
-        "regenerator-runtime": "npm:regenerator-runtime@0.9.6"
+        "babel-runtime": "npm:babel-runtime@6.20.0"
       }
     },
     "npm:fs-extra@0.30.0": {
@@ -929,23 +908,15 @@ SystemJS.config({
     },
     "github:mobilexag/plugin-sass@0.5.1": {
       "map": {
-        "postcss": "npm:postcss@5.2.6",
+        "postcss": "npm:postcss@5.2.8",
         "css-asset-copier": "npm:css-asset-copier@1.0.2",
-        "autoprefixer": "npm:autoprefixer@6.5.3",
+        "autoprefixer": "npm:autoprefixer@6.6.0",
         "css-url-rewriter-ex": "npm:css-url-rewriter-ex@1.0.6",
         "sass.js": "npm:sass.js@0.9.13",
         "url": "npm:jspm-nodelibs-url@0.2.0",
         "path": "npm:jspm-nodelibs-path@0.2.0",
         "fs": "npm:jspm-nodelibs-fs@0.2.0",
         "reqwest": "github:ded/reqwest@2.0.5"
-      }
-    },
-    "npm:postcss@5.2.6": {
-      "map": {
-        "source-map": "npm:source-map@0.5.6",
-        "supports-color": "npm:supports-color@3.1.2",
-        "js-base64": "npm:js-base64@2.1.9",
-        "chalk": "npm:chalk@1.1.3"
       }
     },
     "npm:readable-stream@2.2.2": {
@@ -957,6 +928,35 @@ SystemJS.config({
         "process-nextick-args": "npm:process-nextick-args@1.0.7",
         "core-util-is": "npm:core-util-is@1.0.2",
         "util-deprecate": "npm:util-deprecate@1.0.2"
+      }
+    },
+    "npm:babel-runtime@6.20.0": {
+      "map": {
+        "core-js": "npm:core-js@2.4.1",
+        "regenerator-runtime": "npm:regenerator-runtime@0.10.1"
+      }
+    },
+    "npm:postcss@5.2.8": {
+      "map": {
+        "source-map": "npm:source-map@0.5.6",
+        "js-base64": "npm:js-base64@2.1.9",
+        "supports-color": "npm:supports-color@3.1.2",
+        "chalk": "npm:chalk@1.1.3"
+      }
+    },
+    "npm:autoprefixer@6.6.0": {
+      "map": {
+        "postcss": "npm:postcss@5.2.8",
+        "normalize-range": "npm:normalize-range@0.1.2",
+        "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
+        "num2fraction": "npm:num2fraction@1.2.2",
+        "browserslist": "npm:browserslist@1.5.1",
+        "caniuse-db": "npm:caniuse-db@1.0.30000602"
+      }
+    },
+    "npm:browserslist@1.5.1": {
+      "map": {
+        "caniuse-db": "npm:caniuse-db@1.0.30000602"
       }
     }
   }

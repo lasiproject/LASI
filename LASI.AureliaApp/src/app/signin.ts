@@ -2,15 +2,14 @@ import $ from 'jquery';
 import {autoinject, bindable} from 'aurelia-framework';
 import {AppRouter} from 'aurelia-router';
 import {HttpClient} from 'aurelia-fetch-client';
-
 import {User} from 'src/models';
 import UserService from './services/user';
 
 @autoinject export class Signin {
-    constructor(private userService: UserService, readonly router: AppRouter) { }
+    constructor(readonly users: UserService, readonly router: AppRouter) { }
 
-    async login(): Promise<User> {
-        this.user = await this.userService
+    async login() {
+        this.user = await this.users
             .login({
                 email: this.username,
                 password: this.password,
@@ -43,7 +42,7 @@ import UserService from './services/user';
         //     }).result;
         // });
     }
-    user: any;
+    user: User;
     username: string;
     password: string;
     rememberMe: boolean = false;

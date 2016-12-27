@@ -23,7 +23,7 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
     return this.user;
   }
 
-  async getUser(): Promise<AuthenticationResult> {
+  async getUser() {
     if (this.user) {
       return this.user;
     } else if (this.tokenService.token) {
@@ -36,7 +36,7 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
     const response = await this.http.fetch('/api/authenticate', postConfig.withBody($.param(data)));
     return await response.json() as AuthenticationResult;
   }
-  async login(credentials: Credentials): Promise<AuthenticationResult> {
+  async login(credentials: Credentials): Promise<User> {
 
     const loginSuccess = ({user, token}) => {
       this.user = user;
@@ -54,8 +54,6 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
       console.warn('not logged in');
       const {user, token} = await this.loginPost(credentials);
       return await loginSuccess({ user, token });
-
-
     }
   }
 

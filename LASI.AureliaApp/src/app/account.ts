@@ -1,8 +1,9 @@
-import { RouteConfig } from 'aurelia-router';
+import { RouteConfig, NavigationInstruction } from 'aurelia-router';
+
 export class Account {
-  userName;
-  fieldOfStudy;
-  birthDate;
+  userName: string;
+  fieldOfStudy: {};
+  birthDate: Date;
   primaryEmail: string;
   emails = [
     {
@@ -11,14 +12,14 @@ export class Account {
     }
   ];
 
-  activate(params, routeConfig, $navigationInstruction) {
+  activate(params: {}, routeConfig: RouteConfig & { settings: { user: Account } }, $navigation: NavigationInstruction) {
     Object.keys(this)
       .correlate(Object.entries(routeConfig.settings.user), key => key, ([key]) => key)
-      .forEach(({first, second: [key, value]}) => this[key] = value);
+      .forEach(({ first, second: [key, value] }) => this[key as keyof this] = value);
 
-    console.log(params, routeConfig, $navigationInstruction);
+    console.log(params, routeConfig, $navigation);
   }
-  canActivate(params, routeConfig: RouteConfig, $navigationInstruction) {
+  canActivate(params: {}, routeConfig: RouteConfig, $navigation: NavigationInstruction) {
     return !!routeConfig.settings.user;
   }
 }

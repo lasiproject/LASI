@@ -6,6 +6,7 @@
     "diagnostics": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
     "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitThis": true,

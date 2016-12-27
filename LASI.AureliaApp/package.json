@@ -6,6 +6,9 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "lite-server",
+    "test": "jspm run test",
+    "postinstall": "jspm i && ati i",
+    "lint": "tslint --project tsconfig.json --config tslint.json --format stylish",
     "ati": "ati"
   },
   "jspm": {
@@ -42,7 +45,7 @@
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
-      "aurelia-binding": "npm:aurelia-binding@^1.0.0",
+      "aurelia-binding": "npm:aurelia-binding@^1.0.9",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
       "aurelia-framework": "npm:aurelia-framework@^1.0.6",
@@ -95,7 +98,7 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.3.1": {
+      "github:frankwallis/plugin-typescript@5.3.3": {
         "dependencies": {
           "typescript": "npm:typescript@next"
         }
@@ -175,7 +178,7 @@
           "util": "@node/util"
         }
       },
-      "npm:debug@2.3.3": {
+      "npm:debug@2.5.2": {
         "main": "browser.js",
         "jspmNodeConversion": false,
         "format": "cjs",
@@ -231,7 +234,7 @@
           "stream-browserify": "^1.0.0"
         }
       },
-      "npm:reflect-metadata@0.1.8": {
+      "npm:reflect-metadata@0.1.9": {
         "jspmNodeConversion": false,
         "map": {
           "crypto": {
@@ -255,7 +258,9 @@
   "devDependencies": {
     "aurelia-types-installer": "^0.1.8",
     "jspm": "0.17.0-beta.32",
-    "lite-server": "^2.2.2"
+    "lite-server": "^2.2.2",
+    "tslint": "^4.2.0",
+    "tslint-stylish": "^2.1.0-beta"
   },
   "dependencies": {}
 }

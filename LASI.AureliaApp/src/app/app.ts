@@ -1,7 +1,7 @@
-﻿import { autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
+﻿import {autoinject} from 'aurelia-framework';
+import {Router, RouterConfiguration, NavigationInstruction} from 'aurelia-router';
 import UserService from './services/user';
-import { User } from 'src/models';
+import {User} from 'src/models';
 
 @autoinject export class App {
   constructor(private userService: UserService) { }
@@ -30,7 +30,6 @@ import { User } from 'src/models';
   }
 
   user?: User;
-
   router: Router;
 }
 
