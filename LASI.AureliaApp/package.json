@@ -9,6 +9,7 @@
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
     "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
+    "bundle":"jspm bundle app/app/**/*.ts",
     "ati": "ati"
   },
   "jspm": {
@@ -24,7 +25,7 @@
       "font-awesome": "npm:font-awesome@^4.6.3",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
-      "sass": "github:mobilexag/plugin-sass@^0.5.0",
+      "sass": "github:mobilexag/plugin-sass@^0.5.1",
       "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
     "devDependencies": {
@@ -264,3 +265,4 @@
   },
   "dependencies": {}
 }
+
