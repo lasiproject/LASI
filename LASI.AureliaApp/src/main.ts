@@ -1,16 +1,16 @@
-﻿import 'font-awesome';
-import 'bootstrap-css!css';
-import 'src/styles/site.css!css';
-import 'src/styles/lexical.css!css';
+﻿import 'app/polyfills';
+import 'jspm_packages/npm/font-awesome@4.7.0/css/font-awesome.min.css';
+import 'bootstrap-css';
+import 'src/styles/site.css';
+import 'src/styles/lexical.css';
 import 'bootstrap';
 import 'core-js/client/core';
-import 'src/polyfills';
 import { Aurelia } from 'aurelia-framework';
 import { HttpClientConfiguration, HttpClient } from 'aurelia-fetch-client';
 import { getHostElement } from './helpers';
 import TokenService from './app/services/token';
-// import configureDialogs from './configuration/dialog';
-// import configureTypeahead from './configuration/typeahead';
+import configureDialogs from './configuration/dialog';
+import configureTypeahead from './configuration/typeahead';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use

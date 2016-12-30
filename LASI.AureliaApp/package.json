@@ -9,7 +9,7 @@
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
     "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
-    "bundle":"jspm bundle app/app/**/*.ts",
+    "bundle": "jspm bundle app/app/**/*.ts",
     "ati": "ati"
   },
   "jspm": {
@@ -22,7 +22,7 @@
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.7",
       "css": "github:systemjs/plugin-css@^0.1.32",
-      "font-awesome": "npm:font-awesome@^4.6.3",
+      "font-awesome": "npm:font-awesome@^4.7.0",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
       "sass": "github:mobilexag/plugin-sass@^0.5.1",
@@ -38,15 +38,17 @@
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^5.2.9",
+      "request": "npm:request@^2.34",
       "source-map-support": "npm:source-map-support@^0.4.3",
       "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9",
       "timers": "npm:jspm-nodelibs-timers@^0.2.0",
-      "tweetnacl": "npm:tweetnacl@0.14"
+      "tweetnacl": "npm:tweetnacl@0.14",
+      "typescript": "npm:typescript"
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
-      "aurelia-binding": "npm:aurelia-binding@^1.0.9",
+      "aurelia-binding": "npm:aurelia-binding@^1.0.0",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
       "aurelia-framework": "npm:aurelia-framework@^1.0.6",
@@ -260,9 +262,8 @@
     "aurelia-types-installer": "^0.1.8",
     "jspm": "0.17.0-beta.32",
     "lite-server": "^2.2.2",
-    "tslint": "^4.2.0",
+    "tslint": "^4.2.0-dev.0",
     "tslint-stylish": "^2.1.0-beta"
   },
   "dependencies": {}
-}
-
+}

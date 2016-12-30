@@ -1,6 +1,6 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { DocumentModel } from 'src/models';
+import { DocumentModel } from 'app/models';
 
 @autoinject export default class DocumentModelService {
   constructor(readonly http: HttpClient) { }

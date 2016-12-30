@@ -7,6 +7,9 @@ SystemJS.config({
   meta: {
     "*.html": {
       "loader": "text"
+    },
+    "*.css": {
+      "loader": "css"
     }
   },
   packages: {
@@ -21,8 +24,10 @@ SystemJS.config({
         "*.js": {
           "loader": "plugin-typescript"
         },
+        "*.css": {
+          "loader": "css"
+        },
         "app/**/*.html": {
-          "defaultExtension": false,
           "loader": "text"
         }
       }
@@ -41,18 +46,6 @@ SystemJS.config({
       }
     },
     "shared": {
-      "format": "esm",
-      "defaultExtension": "ts",
-      "meta": {
-        "*.ts": {
-          "loader": "plugin-typescript"
-        },
-        "*.js": {
-          "loader": "plugin-typescript"
-        }
-      }
-    },
-    "src/app": {
       "format": "esm",
       "defaultExtension": "ts",
       "meta": {
@@ -83,7 +76,9 @@ SystemJS.config({
       "jodid25519": "npm:jodid25519@1.0.2",
       "tweetnacl": "npm:tweetnacl@0.14.5",
       "debug": "npm:debug@2.5.2",
-      "timers": "npm:jspm-nodelibs-timers@0.2.0"
+      "timers": "npm:jspm-nodelibs-timers@0.2.0",
+      "typescript": "npm:typescript@next",
+      "request": "npm:request@2.79.0"
     },
     "packages": {
       "npm:resumer@0.0.0": {
@@ -503,6 +498,8 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
+    "css": "github:systemjs/plugin-css@0.1.32",
+    "font-awesome": "npm:font-awesome@4.7.0",
     "aurelia-dialog": "npm:aurelia-dialog@1.0.0-beta.3.0.1",
     "@types/bootstrap": "npm:@types/bootstrap@3.3.32",
     "@types/whatwg-fetch": "npm:@types/whatwg-fetch@0.0.32",
@@ -538,11 +535,9 @@ SystemJS.config({
     "constants": "npm:jspm-nodelibs-constants@0.2.0",
     "core-js": "npm:core-js@2.4.1",
     "crypto": "npm:jspm-nodelibs-crypto@0.2.0",
-    "css": "github:systemjs/plugin-css@0.1.32",
     "dgram": "npm:jspm-nodelibs-dgram@0.2.0",
     "dns": "npm:jspm-nodelibs-dns@0.2.0",
     "events": "npm:jspm-nodelibs-events@0.2.0",
-    "font-awesome": "npm:font-awesome@4.7.0",
     "fs": "npm:jspm-nodelibs-fs@0.2.0",
     "graceful-fs": "npm:graceful-fs@4.1.11",
     "http": "npm:jspm-nodelibs-http@0.2.0",
@@ -682,7 +677,7 @@ SystemJS.config({
         "create-hash": "npm:create-hash@1.1.2",
         "evp_bytestokey": "npm:evp_bytestokey@1.0.0",
         "pbkdf2": "npm:pbkdf2@3.0.9",
-        "asn1.js": "npm:asn1.js@4.9.0"
+        "asn1.js": "npm:asn1.js@4.9.1"
       }
     },
     "npm:stream-browserify@2.0.1": {
@@ -709,11 +704,6 @@ SystemJS.config({
         "pako": "npm:pako@0.2.9"
       }
     },
-    "npm:supports-color@3.1.2": {
-      "map": {
-        "has-flag": "npm:has-flag@1.0.0"
-      }
-    },
     "github:twbs/bootstrap@3.3.7": {
       "map": {
         "jquery": "npm:jquery@2.2.4"
@@ -737,25 +727,6 @@ SystemJS.config({
         "bn.js": "npm:bn.js@4.11.6",
         "brorand": "npm:brorand@1.0.6",
         "hash.js": "npm:hash.js@1.0.3"
-      }
-    },
-    "npm:chalk@1.1.3": {
-      "map": {
-        "supports-color": "npm:supports-color@2.0.0",
-        "escape-string-regexp": "npm:escape-string-regexp@1.0.5",
-        "has-ansi": "npm:has-ansi@2.0.0",
-        "ansi-styles": "npm:ansi-styles@2.2.1",
-        "strip-ansi": "npm:strip-ansi@3.0.1"
-      }
-    },
-    "npm:has-ansi@2.0.0": {
-      "map": {
-        "ansi-regex": "npm:ansi-regex@2.0.0"
-      }
-    },
-    "npm:strip-ansi@3.0.1": {
-      "map": {
-        "ansi-regex": "npm:ansi-regex@2.0.0"
       }
     },
     "npm:jspm-nodelibs-stream@0.2.0": {
@@ -822,13 +793,6 @@ SystemJS.config({
         "inherits": "npm:inherits@2.0.3"
       }
     },
-    "npm:asn1.js@4.9.0": {
-      "map": {
-        "bn.js": "npm:bn.js@4.11.6",
-        "inherits": "npm:inherits@2.0.3",
-        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
-      }
-    },
     "npm:@types/bootstrap@3.3.32": {
       "map": {
         "@types/jquery": "npm:@types/jquery@2.0.34"
@@ -837,6 +801,53 @@ SystemJS.config({
     "github:twitter/typeahead.js@0.11.1": {
       "map": {
         "jquery": "npm:jquery@2.2.4"
+      }
+    },
+    "npm:jspm-nodelibs-buffer@0.2.1": {
+      "map": {
+        "buffer": "npm:buffer@4.9.1"
+      }
+    },
+    "npm:jspm-nodelibs-zlib@0.2.2": {
+      "map": {
+        "browserify-zlib": "npm:browserify-zlib@0.1.4"
+      }
+    },
+    "npm:readable-stream@2.2.2": {
+      "map": {
+        "isarray": "npm:isarray@1.0.0",
+        "inherits": "npm:inherits@2.0.3",
+        "string_decoder": "npm:string_decoder@0.10.31",
+        "buffer-shims": "npm:buffer-shims@1.0.0",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7",
+        "core-util-is": "npm:core-util-is@1.0.2",
+        "util-deprecate": "npm:util-deprecate@1.0.2"
+      }
+    },
+    "npm:asn1.js@4.9.1": {
+      "map": {
+        "inherits": "npm:inherits@2.0.3",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0",
+        "bn.js": "npm:bn.js@4.11.6"
+      }
+    },
+    "npm:chalk@1.1.3": {
+      "map": {
+        "supports-color": "npm:supports-color@2.0.0",
+        "escape-string-regexp": "npm:escape-string-regexp@1.0.5",
+        "has-ansi": "npm:has-ansi@2.0.0",
+        "ansi-styles": "npm:ansi-styles@2.2.1",
+        "strip-ansi": "npm:strip-ansi@3.0.1"
+      }
+    },
+    "npm:has-ansi@2.0.0": {
+      "map": {
+        "ansi-regex": "npm:ansi-regex@2.0.0"
+      }
+    },
+    "npm:strip-ansi@3.0.1": {
+      "map": {
+        "ansi-regex": "npm:ansi-regex@2.0.0"
       }
     },
     "npm:once@1.4.0": {
@@ -876,10 +887,17 @@ SystemJS.config({
         "wrappy": "npm:wrappy@1.0.2"
       }
     },
-    "npm:css-asset-copier@1.0.2": {
+    "github:mobilexag/plugin-sass@0.5.1": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
-        "fs-extra": "npm:fs-extra@0.30.0"
+        "css-asset-copier": "npm:css-asset-copier@1.0.2",
+        "css-url-rewriter-ex": "npm:css-url-rewriter-ex@1.0.6",
+        "postcss": "npm:postcss@5.2.8",
+        "sass.js": "npm:sass.js@0.9.13",
+        "autoprefixer": "npm:autoprefixer@6.6.0",
+        "fs": "npm:jspm-nodelibs-fs@0.2.0",
+        "url": "npm:jspm-nodelibs-url@0.2.0",
+        "path": "npm:jspm-nodelibs-path@0.2.0",
+        "reqwest": "github:ded/reqwest@2.0.5"
       }
     },
     "npm:css-url-rewriter-ex@1.0.6": {
@@ -887,71 +905,48 @@ SystemJS.config({
         "babel-runtime": "npm:babel-runtime@6.20.0"
       }
     },
-    "npm:fs-extra@0.30.0": {
+    "npm:css-asset-copier@1.0.2": {
       "map": {
-        "rimraf": "npm:rimraf@2.5.4",
-        "path-is-absolute": "npm:path-is-absolute@1.0.1",
-        "jsonfile": "npm:jsonfile@2.4.0",
-        "klaw": "npm:klaw@1.3.1",
-        "graceful-fs": "npm:graceful-fs@4.1.11"
-      }
-    },
-    "npm:jspm-nodelibs-buffer@0.2.1": {
-      "map": {
-        "buffer": "npm:buffer@4.9.1"
-      }
-    },
-    "npm:jspm-nodelibs-zlib@0.2.2": {
-      "map": {
-        "browserify-zlib": "npm:browserify-zlib@0.1.4"
-      }
-    },
-    "github:mobilexag/plugin-sass@0.5.1": {
-      "map": {
-        "postcss": "npm:postcss@5.2.8",
-        "css-asset-copier": "npm:css-asset-copier@1.0.2",
-        "autoprefixer": "npm:autoprefixer@6.6.0",
-        "css-url-rewriter-ex": "npm:css-url-rewriter-ex@1.0.6",
-        "sass.js": "npm:sass.js@0.9.13",
-        "url": "npm:jspm-nodelibs-url@0.2.0",
-        "path": "npm:jspm-nodelibs-path@0.2.0",
-        "fs": "npm:jspm-nodelibs-fs@0.2.0",
-        "reqwest": "github:ded/reqwest@2.0.5"
-      }
-    },
-    "npm:readable-stream@2.2.2": {
-      "map": {
-        "isarray": "npm:isarray@1.0.0",
-        "inherits": "npm:inherits@2.0.3",
-        "string_decoder": "npm:string_decoder@0.10.31",
-        "buffer-shims": "npm:buffer-shims@1.0.0",
-        "process-nextick-args": "npm:process-nextick-args@1.0.7",
-        "core-util-is": "npm:core-util-is@1.0.2",
-        "util-deprecate": "npm:util-deprecate@1.0.2"
-      }
-    },
-    "npm:babel-runtime@6.20.0": {
-      "map": {
-        "core-js": "npm:core-js@2.4.1",
-        "regenerator-runtime": "npm:regenerator-runtime@0.10.1"
+        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "fs-extra": "npm:fs-extra@0.30.0"
       }
     },
     "npm:postcss@5.2.8": {
       "map": {
-        "source-map": "npm:source-map@0.5.6",
-        "js-base64": "npm:js-base64@2.1.9",
         "supports-color": "npm:supports-color@3.1.2",
-        "chalk": "npm:chalk@1.1.3"
+        "js-base64": "npm:js-base64@2.1.9",
+        "chalk": "npm:chalk@1.1.3",
+        "source-map": "npm:source-map@0.5.6"
       }
     },
     "npm:autoprefixer@6.6.0": {
       "map": {
         "postcss": "npm:postcss@5.2.8",
-        "normalize-range": "npm:normalize-range@0.1.2",
-        "postcss-value-parser": "npm:postcss-value-parser@3.3.0",
-        "num2fraction": "npm:num2fraction@1.2.2",
         "browserslist": "npm:browserslist@1.5.1",
-        "caniuse-db": "npm:caniuse-db@1.0.30000602"
+        "num2fraction": "npm:num2fraction@1.2.2",
+        "normalize-range": "npm:normalize-range@0.1.2",
+        "caniuse-db": "npm:caniuse-db@1.0.30000602",
+        "postcss-value-parser": "npm:postcss-value-parser@3.3.0"
+      }
+    },
+    "npm:babel-runtime@6.20.0": {
+      "map": {
+        "regenerator-runtime": "npm:regenerator-runtime@0.10.1",
+        "core-js": "npm:core-js@2.4.1"
+      }
+    },
+    "npm:supports-color@3.1.2": {
+      "map": {
+        "has-flag": "npm:has-flag@1.0.0"
+      }
+    },
+    "npm:fs-extra@0.30.0": {
+      "map": {
+        "klaw": "npm:klaw@1.3.1",
+        "jsonfile": "npm:jsonfile@2.4.0",
+        "path-is-absolute": "npm:path-is-absolute@1.0.1",
+        "rimraf": "npm:rimraf@2.5.4",
+        "graceful-fs": "npm:graceful-fs@4.1.11"
       }
     },
     "npm:browserslist@1.5.1": {

@@ -12,10 +12,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 indent_size = 2
 
-[*.{ts,tsx,jsx,js,css,scss,less,json}]
-indent_size = 2
-
-[*.html]
+[*.{ts,tsx,jsx,js,css,scss,less,json,html}]
 indent_size = 2
 
 
