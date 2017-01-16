@@ -80,8 +80,10 @@ namespace LASI.App
                 if (notifyIcon == null)
                 {
                     // Initialize NotifyIcon instance "on demand"
-                    notifyIcon = new System.Windows.Forms.NotifyIcon();
-                    notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    notifyIcon = new System.Windows.Forms.NotifyIcon
+                    {
+                        Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location)
+                    };
                     notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
                     notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
                 }
@@ -104,11 +106,9 @@ namespace LASI.App
             /// </summary>
             /// <param name = "sender">Event source.</param>
             /// <param name = "e">Event arguments.</param>
-            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e)
-            {
+            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e) =>
                 // Restore the Window
                 window.WindowState = WindowState.Normal;
-            }
 
             public void Dispose()
             {

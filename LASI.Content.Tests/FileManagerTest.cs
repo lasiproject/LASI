@@ -408,14 +408,12 @@ namespace LASI.Content.Tests
 
         public FileManagerTest()
         {
-            TestOffset += typeof(FileManagerTest).GetMethods().Count(m => m.CustomAttributes.Any(a => a.AttributeType.Name == typeof(FactAttribute).Name));
-            testMethodWorkingDirectory = $@"{nameof(FileManagerTest)}\{TestOffset}";
-            Directory.CreateDirectory(testMethodWorkingDirectory);
+            //TestOffset += typeof(FileManagerTest).GetMethods().Count(m => m.CustomAttributes.Any(a => a.AttributeType.Name == typeof(FactAttribute).Name));
+            testMethodWorkingDirectory = $@"{nameof(FileManagerTest)}";
             testProjectDirectory = $@"{testMethodWorkingDirectory}\NewProject";
             FileManager.Initialize(testProjectDirectory);
         }
 
-        private static int TestOffset;
         private readonly string testMethodWorkingDirectory;
         private const string MockTestFilesDirectory = @"..\..\MockUserFiles";
         private static string testProjectDirectory;

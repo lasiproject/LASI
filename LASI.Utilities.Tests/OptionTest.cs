@@ -130,14 +130,14 @@ namespace LASI.Utilities.Tests
             Assert.False(result.IsSome);
         }
 
-        [Fact]
-        public void OptionFromNullSelectTest4()
-        {
-            var target = FromNullFactory<object>();
-            var projected = from value in target
-                            select 1;
-            Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>(); // Must fail
-        }
+[Fact]
+public void OptionFromNullSelectTest4()
+{
+    var target = FromNullFactory<object>();
+    var projected = from value in target
+                    select 1;
+    Check.ThatCode(() => projected.Value).Throws<InvalidOperationException>(); // Must fail
+}
 
         [Fact]
         public void OptionFromNullSelectManyTest1()
@@ -146,15 +146,15 @@ namespace LASI.Utilities.Tests
             Assert.False(projected.IsSome);
         }
 
-        [Fact]
-        public void OptionFromNullSelectManyTest2()
-        {
-            var target = FromNullFactory<object>();
-            var projected = from value in target
-                            from x in target
-                            select 1;
-            Assert.False(projected.IsSome);
-        }
+[Fact]
+public void OptionFromNullSelectManyTest2()
+{
+    var target = FromNullFactory<object>();
+    var projected = from value in target
+                    from x in target
+                    select 1;
+    Assert.False(projected.IsSome);
+}
         [Fact]
         public void OptionFromNullSelectManyTest3()
         {

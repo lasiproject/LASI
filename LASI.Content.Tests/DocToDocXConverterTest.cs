@@ -60,7 +60,7 @@ namespace LASI.Content.Tests
         ///A test for ConvertFileAsync
         /// </summary>
         [Fact]
-        public async Task ConvertFileAsyncTest()
+        public async Task ConvertFileAsyncCreatesOutputInTheExpectedLocation()
         {
             var infile = SourceFile;
             var target = new DocToDocXConverter(infile);

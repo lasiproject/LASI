@@ -9,7 +9,7 @@
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
     "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
-    "bundle": "jspm bundle app/app/**/*.ts",
+    "bundle": "jspm bundle app/app/**/*.ts --minify --inject --format umd",
     "build": "jspm build app/**/*.ts app/**/*.html app/**/*.css --minify --inject --format umd",
     "ati": "ati"
   },

@@ -135,10 +135,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// The value to match with. 
         /// </param>
         [DebuggerStepThrough]
-        internal Match(T value, bool matched) : base(value)
-        {
-            Matched = matched;
-        }
+        internal Match(T value, bool matched) : base(value) => Matched = matched;
 
         [DebuggerStepThrough]
         internal Match(Utilities.Option<T> optionalValue) : base(optionalValue) { }
@@ -257,8 +254,7 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             if (!UnMatchable && !Matched)
             {
-                var cast = Value as TCase;
-                if (cast != null)
+                if (Value is TCase cast)
                 {
                     result = func(cast);
                     Matched = true;
@@ -453,5 +449,11 @@ namespace LASI.Core.Analysis.PatternMatching
             }
             return from;
         }
+    }
+
+    public static class LexicalPatternProvider
+    {
+        public static bool Deconstruct<TLexical, TOther>(this ILexical value, out TLexical other) where TLexical : class, ILexical where TOther : class, ILexical =>
+            (other = value as TLexical) != null;
     }
 }

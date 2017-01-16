@@ -12,7 +12,7 @@
     [Serializable]
     public class EmptyOrWhiteSpaceStringTaggedAsWordException : PartOfSpeechTagException
     {
-        public EmptyOrWhiteSpaceStringTaggedAsWordException():base("An piece of whitespace was annotated with a Word Tag.") { }
+        public EmptyOrWhiteSpaceStringTaggedAsWordException() : base("An piece of whitespace was annotated with a Word Tag.") { }
         /// <summary>
         /// Initializes a new instance of the BlankWordException class.
         /// </summary>
@@ -59,7 +59,7 @@
     [Serializable]
     public sealed class EmptyPhraseTagException : PartOfSpeechTagException
     {
-        public EmptyPhraseTagException() :base("The tag for the phrase was empty.") { }
+        public EmptyPhraseTagException() : base("The tag for the phrase was empty.") { }
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string
         /// set to message.
@@ -67,9 +67,7 @@
         /// <param name="phraseText">
         /// A description of the error. The content of message is intended to be understood by humans.
         /// </param>
-        public EmptyPhraseTagException(string phraseText) : base($"The tag for phrase: {phraseText} is empty.")
-        {
-        }
+        public EmptyPhraseTagException(string phraseText) : base($"The tag for phrase: {phraseText} is empty.") { }
 
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with its message string
@@ -83,9 +81,7 @@
         /// parameter is not null, the current exception is raised in a catch block that handles the
         /// inner exception.
         /// </param>
-        public EmptyPhraseTagException(string message, Exception inner) : base(message, inner)
-        {
-        }
+        public EmptyPhraseTagException(string message, Exception inner) : base(message, inner) { }
 
         /// <summary>
         /// Initializes a new instance of the EmptyPhraseTagException class with the serialized data.
@@ -96,9 +92,7 @@
         /// <param name="context">
         /// The object that holds the serialized object data about the exception being thrown.
         /// </param>
-        private EmptyPhraseTagException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        private EmptyPhraseTagException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     /// <summary>
@@ -106,7 +100,8 @@
     /// </summary>
     [Serializable]
     public sealed class EmptyWordTagException : PartOfSpeechTagException
-    {public EmptyWordTagException() : base("The tag for the word was empty.") { }
+    {
+        public EmptyWordTagException() : base("The tag for the word was empty.") { }
         /// <summary>
         /// Initializes a new instance of the EmptyTagException class with its message string set to message.
         /// </summary>

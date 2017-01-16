@@ -348,7 +348,7 @@ namespace LASI.Content
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (PdfFile pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            foreach (PdfFile pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles as IEnumerable<InputFile>).Except(taggedFiles))
             {
                 var converted = await new PdfToTextConverter(pdf).ConvertFileAsync();
                 convertedFiles.Add(converted);
@@ -589,10 +589,7 @@ namespace LASI.Content
         /// Initializes a new instance of the ExtensionWrapperMap class.
         /// </summary>
         /// <param name="unsupportedFileHandler">The specifies the manner in which unsupported extensions are handled.</param>
-        public ExtensionWrapperMap(Func<string, InputFile> unsupportedFileHandler)
-        {
-            unsupportedHandler = unsupportedFileHandler;
-        }
+        public ExtensionWrapperMap(Func<string, InputFile> unsupportedFileHandler) => unsupportedHandler = unsupportedFileHandler;
         /// <summary>
         /// Initializes a new instance of the ExtensionWrapperMap class that will throw for unknown extensions.
         /// </summary>

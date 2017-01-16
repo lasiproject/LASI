@@ -68,3 +68,25 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
         private readonly string exceptionsFileRelativePath;
     }
 }
+using System;
+
+class Foo {
+  public ClassVsProp ClassVsProp { get; }
+
+  public void M(object o) {
+    if ((string) o == ClassVsProp.Constant) { } // OK
+  
+    // error CS0176: Member 'ClassVsProp.Constant' cannot be accessed
+    // with an instance reference; qualify it with a type name instead
+    if (o is ClassVsProp.Constant) { }
+
+    switch (o) {
+      case ClassVsProp.Constant: // OK
+        break;
+    }
+  }
+}
+
+class ClassVsProp {
+  public const string Constant = "abc";
+}

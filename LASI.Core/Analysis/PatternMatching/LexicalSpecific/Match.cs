@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using LASI.Utilities;
 
 namespace LASI.Core.Analysis.PatternMatching
@@ -177,6 +178,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action action) where TCase : class, ILexical
         {
+            var task = Task.Run(() => 1).ContinueWith(task => task.Result)
             if (!UnMatchable && Value is TCase && !Matched)
             {
                 Matched = true;
@@ -202,7 +204,7 @@ namespace LASI.Core.Analysis.PatternMatching
             if (!UnMatchable && Value != null && !Matched)
             {
                 var matched = Value as TCase;
-                if (matched != null)
+                if (matched!=null)
                 {
                     Matched = true;
                     action(matched);

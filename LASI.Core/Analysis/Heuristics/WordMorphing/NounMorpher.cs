@@ -14,10 +14,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
     /// <summary>Performs both noun root extraction and noun form generation.</summary>
     public class NounMorpher : IWordMorpher<Noun>
     {
-        static NounMorpher()
-        {
-            ExceptionMapping = Helper.ExcMapping;
-        }
+        static NounMorpher() => ExceptionMapping = Helper.ExcMapping;
 
         /// <summary>Gets all forms of the noun root.</summary>
         /// <param name="noun">The root of a noun as a string.</param>

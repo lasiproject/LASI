@@ -59,7 +59,7 @@ namespace LASI.Content
                 throw CreateFileConversionFailureException("DOCX", e);
             }
         }
-
+        /// <summary><c>".doc"</c></summary>
         public override string CanonicalExtension => ".doc";
     }
 

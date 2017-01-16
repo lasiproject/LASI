@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noEmit": true,
     "module": "es2015",
-    "target": "es5",
+    "target": "esnext",
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

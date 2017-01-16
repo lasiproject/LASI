@@ -27,8 +27,8 @@ namespace LASI.Core
             while (stack.Count > 0) {
                 foreach (var item in stack.Pop()) {
                     yield return item;
-                    var children = item as IEnumerable<T>;
-                    if (children != null) {
+                    if (item is IEnumerable<T> children)
+                    {
                         stack.Push(children.OfType<T>().AsRecursivelyEnumerable());
                     }
                 }

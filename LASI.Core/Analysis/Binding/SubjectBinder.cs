@@ -28,52 +28,60 @@ namespace LASI.Core.Analysis.Binding
             {
                 if (i is AdjectivePhrase)
                 {
-                    var s2 = new State();
-                    s2.StatePhrase = i;
+                    var s2 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s2);
                 }
                 if (i is NounPhrase)
                 {
-                    var s3 = new State();
-                    s3.StatePhrase = i;
+                    var s3 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s3);
                 }
                 if (i is VerbPhrase && i.Words.Any(n => n is PresentParticiple))
                 {
-                    var s4 = new State();
-                    s4.StatePhrase = i;
+                    var s4 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s4);
                     break;
                 }
                 if (i is ConjunctionPhrase)
                 {
-                    var s5 = new State();
-                    s5.StatePhrase = i;
+                    var s5 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s5);
                 }
 
 
-                if (i is VerbPhrase && i.Words.Any(w => w is Verb && !(w is PresentParticiple)))
+                if (i is VerbPhrase vp && vp.Words.Any(w => w is Verb && !(w is PresentParticiple)))
                 {
-                    var s6 = new State();
-                    s6.StatePhrase = i;
-                    s6.S = StateType.Final;
+                    var s6 = new State
+                    {
+                        StatePhrase = i,
+                        S = StateType.Final
+                    };
                     stateList.Add(s6);
                     //subject for normal sentence.
-                    if ((i.Previous is NounPhrase) &&
-                        (i.Previous.Sentence == i.Sentence) &&
-                         (i.Previous as NounPhrase).SubjectOf == null)
+                    if (i.Previous is NounPhrase np &&
+                        np.Previous.Sentence == i.Sentence &&
+                         np.SubjectOf == null)
                     {
-
-                        (i as VerbPhrase).BindSubject(i.Previous as NounPhrase); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
-
+                        vp.BindSubject(np); //(i.PreviousPhrase as NounPhrase).WasSubjectBound = true;
                     }
                     if ((i.Previous.HasSubjectPronoun() || (i.Previous.Previous.HasSubjectPronoun())) || ((i.Previous != null) && (i.Previous.Previous is NounPhrase) &&
                         (i.Previous.Previous.Sentence == i.Sentence) &&
                          (i.Previous.Previous as NounPhrase).SubjectOf == null))
                     {
 
-                        (i as VerbPhrase).BindSubject(i.Previous.Previous as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
+                        vp.BindSubject(i.Previous.Previous as NounPhrase);//(i.PreviousPhrase.PreviousPhrase as NounPhrase).WasSubjectBound = true;
 
                     }
                     //if the last word, you can't find any more subjects
@@ -82,37 +90,44 @@ namespace LASI.Core.Analysis.Binding
                 }
 
                 //handle case of inverted sentence (http://en.wikipedia.org/wiki/Inverted_sentence)
-                if ((i is AdverbPhrase) && (i.Next is VerbPhrase) && (i.Next.Next is NounPhrase)
-                    && (i.Sentence == i.Next.Next.Sentence)
-                    && (i.Next.Next as NounPhrase).SubjectOf == null)
+                if ((i is AdverbPhrase) && i.Next is VerbPhrase nextVp && i.Next.Next is NounPhrase nextNp
+                    && (i.Sentence == i.Next.Next.Sentence) && nextNp.SubjectOf == null)
                 {
-                    (i.Next as VerbPhrase).BindSubject(i.Next.Next as NounPhrase);
+                    nextVp.BindSubject(nextNp);
                     s.IsInverted = true;
 
                 }
 
                 if (i is AdverbPhrase)
                 {
-                    var s7 = new State();
-                    s7.StatePhrase = i;
+                    var s7 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s7);
                 }
                 if (i is PrepositionalPhrase)
                 {
-                    var s8 = new State();
-                    s8.StatePhrase = i;
+                    var s8 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s8);
                 }
                 if (i is ParticlePhrase)
                 {
-                    var s9 = new State();
+                    var s9 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s9);
-                    s9.StatePhrase = i;
                 }
                 if (i is InterjectionPhrase)
                 {
-                    var s10 = new State();
-                    s10.StatePhrase = i;
+                    var s10 = new State
+                    {
+                        StatePhrase = i
+                    };
                     stateList.Add(s10);
                 }
 
@@ -137,15 +152,11 @@ namespace LASI.Core.Analysis.Binding
 
         internal class State
         {
-            public State()
-            {
-                S = StateType.Default;
-            }
             public StateType S
             {
                 get;
                 set;
-            } 
+            } = StateType.Default;
             public Phrase StatePhrase
             {
                 get;

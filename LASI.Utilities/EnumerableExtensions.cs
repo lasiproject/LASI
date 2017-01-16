@@ -265,6 +265,11 @@ namespace LASI.Utilities
                 x => selector(x).GetHashCode())
             );
 
+        //public static IEnumerable<T> Except<T, TBase>(this IEnumerable<T> source, IEnumerable<TBase> other) where T : TBase =>
+        //    source.Except<T, TBase, TBase>(other.OfType<TBase>());
+        //public static IEnumerable<T> Except<T, TOther>(this IEnumerable<T> source, IEnumerable<TOther> other) =>
+        //            source.Except(other.OfType<T>());
+
         /// <summary>Produces the set difference of two sequences under the given projection.</summary>
         /// <typeparam name="TBase">The type of the elements of the first sequence.</typeparam>
         /// <typeparam name="TDerived">The type of the elements of the second sequence.</typeparam>

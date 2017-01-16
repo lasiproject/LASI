@@ -119,13 +119,13 @@ namespace LASI.App
 
         #region Named Event Handlers
 
-        private void progressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
             this.TaskbarItemInfo.ProgressValue = e.NewValue / 100;
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             Application.Current.Shutdown();
@@ -145,11 +145,11 @@ namespace LASI.App
             }
         }
 
-        private void proceedtoResultsButton_Click(object sender, RoutedEventArgs e)
+        private void ProceedtoResultsButton_Click(object sender, RoutedEventArgs e)
         {
             ProceedToResultsView();
         }
-        private void minButton_Click(object sender, RoutedEventArgs e)
+        private void MinButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }

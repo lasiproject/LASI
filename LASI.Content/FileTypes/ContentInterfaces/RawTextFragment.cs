@@ -14,9 +14,9 @@ namespace LASI.Content
         /// <summary>
         /// Initializes a new instance of the RawTextFragment class containing the provided text and having the provided name.
         /// </summary>
-        /// <param name="text">A string containing untagged text.</param>
         /// <param name="name">The desired name of the RawTextFragment. This name does not have to be unique and serves no special purpose. It is simply provided for convenience.</param>
-        public RawTextFragment(string text, string name)
+        /// <param name="text">A string containing untagged text.</param>
+        public RawTextFragment(string name, string text)
         {
             content = text;
             Name = name;
@@ -53,6 +53,10 @@ namespace LASI.Content
         /// <returns>A string containing the content of the RawTextFragment.</returns>
         public static implicit operator string (RawTextFragment fragment) => fragment.LoadText();
 
+        /// <summary>
+        /// Loads the content and returns it as the string representation of <see cref="RawTextFragment"/>.
+        /// </summary>
+        /// <returns>A string representation of <see cref="RawTextFragment"/>.</returns>
         public override string ToString() => LoadText();
         private string content;
 

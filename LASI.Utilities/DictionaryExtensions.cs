@@ -36,8 +36,7 @@ namespace LASI.Utilities
         public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key)
         {
             Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
+            dictionary.TryGetValue(key, out var value);
             return value;
         }
 
@@ -67,9 +66,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -98,9 +96,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -159,8 +156,7 @@ namespace LASI.Utilities
         public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         {
             Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
+            dictionary.TryGetValue(key, out var value);
             return value;
         }
 
@@ -190,9 +186,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -221,9 +216,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -283,8 +277,7 @@ namespace LASI.Utilities
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
+            dictionary.TryGetValue(key, out var value);
             return value;
         }
 
@@ -314,9 +307,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -345,9 +337,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -405,8 +396,7 @@ namespace LASI.Utilities
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
         {
             Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
-            TValue value;
-            dictionary.TryGetValue(key, out value);
+            dictionary.TryGetValue(key, out var value);
             return value;
         }
 
@@ -436,9 +426,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -467,9 +456,8 @@ namespace LASI.Utilities
         /// </returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> defaultValueFactory)
         {
-            Validate.NotNull(dictionary, "dictionary", key, "key");
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValueFactory();
+            Validate.NotNull(dictionary, nameof(dictionary), key, nameof(key));
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValueFactory();
         }
 
         /// <summary>
@@ -521,14 +509,8 @@ namespace LASI.Utilities
 
             TValue IDictionary<TKey, TValue>.this[TKey key]
             {
-                get
-                {
-                    return this[key];
-                }
-                set
-                {
-                    wrapped[key] = value;
-                }
+                get => this[key];
+                set => wrapped[key] = value;
             }
 
             public TValue this[TKey key] => wrapped.GetValueOrDefault(key, defaultValueFactory(key));
@@ -541,29 +523,17 @@ namespace LASI.Utilities
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-            public void Add(TKey key, TValue value)
-            {
-                wrapped.Add(key, value);
-            }
+            public void Add(TKey key, TValue value) => wrapped.Add(key, value);
 
             public bool Remove(TKey key) => wrapped.Remove(key);
 
-            public void Add(KeyValuePair<TKey, TValue> item)
-            {
-                wrapped.Add(item);
-            }
+            public void Add(KeyValuePair<TKey, TValue> item) => wrapped.Add(item);
 
-            public void Clear()
-            {
-                wrapped.Clear();
-            }
+            public void Clear() => wrapped.Clear();
 
             public bool Contains(KeyValuePair<TKey, TValue> item) => wrapped.Contains(item);
 
-            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-            {
-                wrapped.CopyTo(array, arrayIndex);
-            }
+            public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => wrapped.CopyTo(array, arrayIndex);
 
             public bool Remove(KeyValuePair<TKey, TValue> item) => wrapped.Remove(item);
         }

@@ -17,7 +17,7 @@ namespace LASI.Core
             }
         }
         private static IEnumerable<Word> RemainderofSentenceIncludingSubordinator(IEnumerable<Word> words) =>
-            words.SkipWhile(w => isRelativePronounOrSubordinatingConjunction(w));
+            words.SkipWhile(w => IsRelativePronounOrSubordinatingConjunction(w));
         /// <summary>
         /// This is the most common beginning of a subordinating clause. It begins with either a subordinating conjunction or a relative (wh) pronoun. 
         /// Example, "Dennis, who was a huge dick, ate at Wendy's and harassed the management.
@@ -25,10 +25,9 @@ namespace LASI.Core
         /// </summary>
         /// <param name="word">Word</param>
         /// <returns> <c>true</c> or false</returns>
-        private static bool isRelativePronounOrSubordinatingConjunction(Word word)
+        private static bool IsRelativePronounOrSubordinatingConjunction(Word word)
         {
-            var prep = word as Preposition;
-            if (prep != null)
+            if (word is Preposition prep)
                 return !(word is RelativePronoun) || !(prep.Role == PrepositionRole.SubordinatingConjunction);
             return false;
         }

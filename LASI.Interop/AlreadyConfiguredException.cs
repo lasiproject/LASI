@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace LASI.Interop
 {
     [Serializable]
-    public sealed class AlreadyConfiguredException : Exception
+    public class AlreadyConfiguredException : Exception
     {
         public AlreadyConfiguredException() : base(AlreadyConfiguredErrorMessage)
         {

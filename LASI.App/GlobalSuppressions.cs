@@ -17,3 +17,6 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "Incorrect analysis. Handler removes itself after it has been called.", Scope = "member", Target = "~M:LASI.App.StartupWindow.cancelButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0135:Function does not reach its end or a 'return' statement by any of possible execution paths", Justification = "Incorrect analysis. Handler removes itself after it has been called.", Scope = "member", Target = "~M:LASI.App.StartupWindow.expandCreatePanelButton_Click(System.Object,System.Windows.RoutedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0012:Simplify Names", Justification = "<Pending>", Scope = "type", Target = "~T:LASI.App.InProgressWindow.NativeMethods.FLASHWINFO")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0012:Simplify Names", Justification = "<Pending>", Scope = "type", Target = "~T:LASI.App.InProgressWindow.NativeMethods")]
+
