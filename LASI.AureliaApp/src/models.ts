@@ -4,13 +4,11 @@
 }
 export declare namespace TasksListService { }
 
-
 export interface DocumentListService {
   get(): Promise<DocumentListItem[]>;
   deleteDocument(documentId: string): Promise<DocumentListItem>;
 }
 export declare namespace DocumentListService { }
-
 
 export interface DocumentService {
   getbyId(documentId: string): Promise<DocumentListItem>;
@@ -18,13 +16,11 @@ export interface DocumentService {
 }
 export declare namespace DocumentService { }
 
-
 export interface DocumentListServiceConfig {
   setRecentDocumentCount(count: number): DocumentListServiceConfig;
   setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
 export declare namespace DocumentListServiceConfig { }
-
 
 export interface Task {
   id: string;
@@ -71,13 +67,11 @@ export interface PageModel extends TextFragmentModel {
 }
 export declare namespace PageModel { }
 
-
 export interface ParagraphModel {
   kind: 'paragraph';
   sentences: SentenceModel[];
 }
 export declare namespace ParagraphModel { }
-
 
 export interface SentenceModel {
   kind: 'sentence';
@@ -113,7 +107,6 @@ export interface ClauseModel extends LexicalModelInternal {
   phrases: PhraseModel[];
 }
 export declare namespace ClauseModel { }
-
 
 export type LexicalModel = PhraseModel | WordModel | ClauseModel;
 export declare namespace LexicalModel { }
