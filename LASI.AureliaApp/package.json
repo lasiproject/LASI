@@ -10,48 +10,56 @@
     "postinstall": "jspm i && ati i",
     "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
     "bundle": "jspm bundle app/app/**/*.ts",
+    "build": "jspm build app/**/*.ts app/**/*.html app/**/*.css --minify --inject --format umd",
     "ati": "ati"
   },
   "jspm": {
     "dependencies": {
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
-      "@types/whatwg-fetch": "npm:@types/whatwg-fetch@^0.0.32",
+      "@types/typeahead": "npm:@types/typeahead@^0.11.27",
+      "@types/whatwg-fetch": "npm:@types/whatwg-fetch@0.0.33",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
       "aurelia-dialog": "npm:aurelia-dialog@^1.0.0-beta.3.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.1",
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
+      "babel": "npm:babel-core@^6.21.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.7",
       "css": "github:systemjs/plugin-css@^0.1.32",
       "font-awesome": "npm:font-awesome@^4.7.0",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
+      "moment": "npm:moment@^2.17.1",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
+      "rxjs": "npm:rxjs-es@^5.0.0-beta.12",
       "sass": "github:mobilexag/plugin-sass@^0.5.1",
+      "tslib": "npm:tslib@^1.4.0",
       "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
     "devDependencies": {
       "@types/tape": "npm:@types/tape@^4.2.28",
+      "ati": "npm:aurelia-types-installer",
       "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
+      "aurelia-types-installer": "npm:aurelia-types-installer@^0.1.8",
       "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
       "debug": "npm:debug@^2.3.2",
       "ecc-jsbn": "npm:ecc-jsbn@~0.1.1",
       "fsevents": "npm:fsevents@^1.0.0",
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
-      "plugin-typescript": "github:frankwallis/plugin-typescript@^5.2.9",
+      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17",
+      "plugin-typescript": "github:frankwallis/plugin-typescript@^6.0.0",
       "request": "npm:request@^2.34",
       "source-map-support": "npm:source-map-support@^0.4.3",
       "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9",
       "timers": "npm:jspm-nodelibs-timers@^0.2.0",
-      "tweetnacl": "npm:tweetnacl@0.14",
-      "typescript": "npm:typescript"
+      "tweetnacl": "npm:tweetnacl@0.14"
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
       "aurelia-binding": "npm:aurelia-binding@^1.0.0",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
-      "aurelia-framework": "npm:aurelia-framework@^1.0.6",
+      "aurelia-framework": "npm:aurelia-framework@^1.0.8",
       "aurelia-history": "npm:aurelia-history@^1.0.0",
       "aurelia-history-browser": "npm:aurelia-history-browser@^1.0.0",
       "aurelia-loader": "npm:aurelia-loader@^1.0.0",
@@ -66,7 +74,7 @@
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
-      "aurelia-templating": "npm:aurelia-templating@^1.0.0",
+      "aurelia-templating": "npm:aurelia-templating@^1.2.0",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.1.1",
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0",
@@ -77,12 +85,13 @@
       "crypto": "npm:jspm-nodelibs-crypto@^0.2.0",
       "dgram": "npm:jspm-nodelibs-dgram@^0.2.0",
       "dns": "npm:jspm-nodelibs-dns@^0.2.0",
+      "domain": "npm:jspm-nodelibs-domain@^0.2.0",
       "events": "npm:jspm-nodelibs-events@^0.2.0",
       "fs": "npm:jspm-nodelibs-fs@^0.2.0",
       "graceful-fs": "npm:graceful-fs@^4.1.6",
       "http": "npm:jspm-nodelibs-http@^0.2.0",
       "https": "npm:jspm-nodelibs-https@^0.2.0",
-      "jquery": "npm:jquery@2.2.4",
+      "jquery": "npm:jquery@2",
       "module": "npm:jspm-nodelibs-module@^0.2.0",
       "net": "npm:jspm-nodelibs-net@^0.2.0",
       "os": "npm:jspm-nodelibs-os@^0.2.0",
@@ -101,9 +110,10 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@5.3.3": {
+      "github:frankwallis/plugin-typescript@6.0.0": {
+        "$schema": "http://json.schemastore.org/package",
         "dependencies": {
-          "typescript": "npm:typescript@next"
+          "typescript": "next"
         }
       },
       "github:twbs/bootstrap@3.3.7": {
@@ -155,6 +165,31 @@
       "npm:@types/bootstrap@3.3.32": {
         "dependencies": {}
       },
+      "npm:aurelia-dialog@1.0.0-beta.3.0.1": {
+        "main": "dist/es2015/index",
+        "format": "esm",
+        "directories": {
+          "lib": ""
+        }
+      },
+      "npm:aurelia-types-installer@0.1.8": {
+        "main": "dist/es2015/index",
+        "format": "esm",
+        "jspmPackage": true,
+        "directories": {
+          "lib": ""
+        }
+      },
+      "npm:bluebird@3.4.7": {
+        "meta": {
+          "js/browser/bluebird.js": {
+            "format": "global"
+          },
+          "js/browser/bluebird.min.js": {
+            "format": "global"
+          }
+        }
+      },
       "npm:browserify-zlib@0.1.4": {
         "dependencies": {
           "readable-stream": "^2.0.2",
@@ -181,7 +216,7 @@
           "util": "@node/util"
         }
       },
-      "npm:debug@2.5.2": {
+      "npm:debug@2.6.0": {
         "main": "browser.js",
         "jspmNodeConversion": false,
         "format": "cjs",
@@ -213,6 +248,15 @@
       },
       "npm:jquery@2.2.4": {
         "format": "amd"
+      },
+      "npm:lodash@4.17.4": {
+        "map": {
+          "buffer": "@empty",
+          "process": "@empty"
+        }
+      },
+      "npm:moment@2.17.1": {
+        "jspmNodeConversion": false
       },
       "npm:ms@0.7.1": {
         "jspmNodeConversion": false,
@@ -262,8 +306,8 @@
     "aurelia-types-installer": "^0.1.8",
     "jspm": "0.17.0-beta.32",
     "lite-server": "^2.2.2",
-    "tslint": "^4.2.0-dev.0",
+    "tslint": "^4.3.1",
     "tslint-stylish": "^2.1.0-beta"
   },
   "dependencies": {}
-}
+}

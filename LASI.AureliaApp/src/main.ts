@@ -1,23 +1,21 @@
-﻿import 'app/polyfills';
+﻿import 'app/enhance-array';
 import 'jspm_packages/npm/font-awesome@4.7.0/css/font-awesome.min.css';
 import 'bootstrap-css';
-import 'src/styles/site.css';
-import 'src/styles/lexical.css';
+import 'app/styles/site.css';
+import 'app/styles/lexical.css';
 import 'bootstrap';
 import 'core-js/client/core';
 import { Aurelia } from 'aurelia-framework';
 import { HttpClientConfiguration, HttpClient } from 'aurelia-fetch-client';
 import { getHostElement } from './helpers';
 import TokenService from './app/services/token';
-import configureDialogs from './configuration/dialog';
-import configureTypeahead from './configuration/typeahead';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
     .instance(Storage, window.sessionStorage)
     .standardConfiguration()
     .developmentLogging()
-    .container.get(HttpClient).configure((httpConfig: HttpClientConfiguration) => {
+    .container.get(HttpClient).configure(httpConfig => {
       const tokenService = aurelia.container.get(TokenService);
       return httpConfig
         .useStandardConfiguration()
@@ -25,6 +23,7 @@ export async function configure(aurelia: Aurelia) {
         .withDefaults({ credentials: 'include', mode: 'cors' })
         .rejectErrorResponses()
         .withInterceptor({
+
           request(config) {
             if (tokenService.token) {
               config.headers.append('Authorization', `Bearer ${tokenService.token}`);
@@ -32,7 +31,6 @@ export async function configure(aurelia: Aurelia) {
             config.headers.append('Scheme', 'Bearer');
             config.headers.append('WWW-Authenticate', 'Bearer');
             return config;
-
           }
         });
     });

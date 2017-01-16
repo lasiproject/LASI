@@ -1,6 +1,6 @@
-﻿import {autoinject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
-import {DocumentModel, Task} from 'src/models';
+﻿import { autoinject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-fetch-client';
+import { DocumentModel, Task } from 'app/models';
 import enableActiveHighlighting from './result-chart-builder';
 import buildMenus from './build-menus';
 
@@ -8,9 +8,9 @@ import buildMenus from './build-menus';
 
   constructor(private http: HttpClient) { }
 
-  async processDocument({id, name}) {
-    this.tasks[id] = { id, name, percentComplete: 0 };
-
+  async processDocument(document: Task) {
+    const { id, name, percentComplete = 0 } = document;
+    this.tasks[id] = { id, name, percentComplete };
     const response = await this.http.fetch('/analysis/' + id);
     const json = await response.json() as DocumentModel;
 

@@ -1,4 +1,4 @@
-﻿import { bindable, DOM, autoinject, customElement, Scope, } from 'aurelia-framework';
+﻿import { bindable, DOM, autoinject, customElement, Scope } from 'aurelia-framework';
 import $ from 'jquery';
 import 'jquery-contextmenu';
 declare type Element = typeof DOM.Element;

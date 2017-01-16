@@ -1,11 +1,13 @@
 ﻿{
   "ignore": [
-    "jspm_packages/**.*"
+    "jspm_packages"
   ],
   "ecmaFeatures": {
     "classes": true,
     "modules": true,
     "arrowFunctions": true,
+    "impliedStrict": true,
+    "blockBindings": true,
     "spread": true
   }
 }

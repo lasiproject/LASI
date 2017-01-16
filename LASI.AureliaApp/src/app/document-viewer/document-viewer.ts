@@ -1,5 +1,5 @@
 ﻿import { bindable, autoinject } from 'aurelia-framework';
-import { DocumentModel, LexicalModel } from 'src/models';
+import { DocumentModel, LexicalModel } from 'app/models';
 export class DocumentViewer {
 
   @bindable document: DocumentModel;
@@ -14,13 +14,13 @@ export class DocumentViewer {
       .map(w => w) || [];
   }
 
-  queryTypeAhead(query, callback) {
+  queryTypeAhead(query: any, callback: any) {
     console.log(query);
     console.log(callback);
     return callback(query.target.value);
   }
 
-  search = query => {
+  search = (query: {}) => {
     return this.typeAheadSource.filter(x => x.text === query);
   }
 

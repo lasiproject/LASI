@@ -1,5 +1,14 @@
 ﻿{
+  "jsRules": {
+    "semicolon": [
+      "always"
+    ]
+  },
   "rules": {
+    "cyclomatic-complexity": [
+      true,
+      25
+    ],
     "ban": [
       [
         "eval",
@@ -26,7 +35,9 @@
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": [ true ],
+    "no-consecutive-blank-lines": [
+      true
+    ],
     "no-console": [
       false
     ],
@@ -35,7 +46,9 @@
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
-    "no-inferrable-types": [ true ],
+    "no-inferrable-types": [
+      true
+    ],
     "no-internal-module": true,
     "no-require-imports": true,
     "no-string-literal": true,
@@ -70,7 +83,8 @@
     ],
     "variable-name": [
       true,
-      "allow-pascal-case"
+      "allow-pascal-case",
+      "check-format"
     ],
     "whitespace": [
       true

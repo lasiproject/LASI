@@ -2,21 +2,29 @@
   getActiveTasks(): Promise<Task[]>;
   tasks: Task[];
 }
+export declare namespace TasksListService { }
+
 
 export interface DocumentListService {
   get(): Promise<DocumentListItem[]>;
   deleteDocument(documentId: string): Promise<DocumentListItem>;
 }
+export declare namespace DocumentListService { }
+
 
 export interface DocumentService {
   getbyId(documentId: string): Promise<DocumentListItem>;
   deleteById(documentId: string): Promise<any>;
 }
+export declare namespace DocumentService { }
+
 
 export interface DocumentListServiceConfig {
   setRecentDocumentCount(count: number): DocumentListServiceConfig;
   setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
+export declare namespace DocumentListServiceConfig { }
+
 
 export interface Task {
   id: string;
@@ -25,6 +33,7 @@ export interface Task {
   state?: string;
   statusMessage?: string;
 }
+export declare namespace Task { }
 
 export interface DocumentListItem {
   id: string;
@@ -40,10 +49,12 @@ export interface DocumentListItem {
   */
   content?: string;
 }
+export declare namespace DocumentListItem { }
 
 export interface TextFragmentModel {
   paragraphs: ParagraphModel[];
 }
+export declare namespace TextFragmentModel { }
 
 export interface DocumentModel extends TextFragmentModel {
   kind: 'document';
@@ -52,28 +63,34 @@ export interface DocumentModel extends TextFragmentModel {
   progress: number | string;
   percentComplete: number | string;
 }
+export declare namespace DocumentModel { }
 
 export interface PageModel extends TextFragmentModel {
   kind: 'page';
   pageNumber: number;
 }
+export declare namespace PageModel { }
+
 
 export interface ParagraphModel {
   kind: 'paragraph';
   sentences: SentenceModel[];
 }
+export declare namespace ParagraphModel { }
+
 
 export interface SentenceModel {
   kind: 'sentence';
   phrases: PhraseModel[];
 }
+export declare namespace SentenceModel { }
 
 interface LexicalModelInternal {
   text: string;
   detailText: string;
   id: number;
   style: {
-      cssClass: string;
+    cssClass: string;
   };
   hasContextmenuData: boolean;
   contextmenuDataSource: LexicalContextMenuData;
@@ -84,21 +101,27 @@ export interface PhraseModel extends LexicalModelInternal {
   kind: 'phrase';
   words: WordModel[];
 }
+export declare namespace PhraseModel { }
 
 export interface WordModel extends LexicalModelInternal {
   kind: 'word';
 }
+export declare namespace WordModel { }
 
 export interface ClauseModel extends LexicalModelInternal {
   kind: 'clause';
   phrases: PhraseModel[];
 }
+export declare namespace ClauseModel { }
+
 
 export type LexicalModel = PhraseModel | WordModel | ClauseModel;
+export declare namespace LexicalModel { }
 
 export interface LexicalMenuBuilder {
   buildAngularMenu: (source: LexicalContextMenuData) => any;
 }
+export declare namespace LexicalMenuBuilder { }
 
 export interface LexicalContextMenuData {
   /**
@@ -106,6 +129,7 @@ export interface LexicalContextMenuData {
   */
   lexicalId: string | number;
 }
+export declare namespace LexicalContextMenuData { }
 
 export interface VerbalContextMenuData extends LexicalContextMenuData {
   kind: 'verbal';
@@ -122,6 +146,7 @@ export interface VerbalContextMenuData extends LexicalContextMenuData {
     */
   indirectObjectIds: number[];
 }
+export namespace VerbalContextMenuData { }
 
 export interface ReferencerContextmenuData extends LexicalContextMenuData {
   kind: 'referencer';
@@ -134,19 +159,24 @@ export interface ReferencerContextmenuData extends LexicalContextMenuData {
     */
   refersToIds: number[];
 }
+export namespace ReferencerContextmenuData { }
+
 export type ContextMenuDataSource = VerbalContextMenuData | ReferencerContextmenuData;
+export namespace ContextMenuDataSource { }
 
 export interface Credentials {
   email: string;
   password: string;
   rememberMe: boolean;
 }
+export namespace Credentials { }
 
 export interface AuthenticationResult {
   user?: User;
   autenticated?: boolean;
   token?: string;
 }
+export namespace AuthenticationResult { }
 
 export interface User extends Credentials {
   loggedIn?: boolean;
@@ -155,3 +185,4 @@ export interface User extends Credentials {
   documents: any[];
   id: string;
 }
+export namespace User { }

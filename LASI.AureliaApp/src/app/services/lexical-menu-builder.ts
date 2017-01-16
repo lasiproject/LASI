@@ -1,6 +1,6 @@
-﻿import { autoinject } from 'aurelia-framework';
-import { LexicalContextMenuData, VerbalContextMenuData, ReferencerContextmenuData } from 'src/models';
-import $ from 'jquery';
+﻿import $ from 'jquery';
+import { autoinject } from 'aurelia-framework';
+import { LexicalContextMenuData, VerbalContextMenuData, ReferencerContextmenuData } from 'app/models';
 
 @autoinject export default class LexicalMenuBuilder {
   buildForVerbal = createForVerbalMenuBuilder({});

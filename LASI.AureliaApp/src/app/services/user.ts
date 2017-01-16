@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+﻿import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 import $ from 'jquery';
@@ -38,7 +38,7 @@ import { Credentials, User, AuthenticationResult } from 'src/models';
   }
   async login(credentials: Credentials): Promise<User> {
 
-    const loginSuccess = ({user, token}) => {
+    const loginSuccess = ({user, token}: { user: User, token: string }) => {
       this.user = user;
       this.loggedIn = true;
       if (token) {
