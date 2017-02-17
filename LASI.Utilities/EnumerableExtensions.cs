@@ -237,6 +237,14 @@ namespace LASI.Utilities
         }
 
         /// <summary>
+        /// Returns the non <c>null</c> elements of <paramref name="source"/>.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <param name="source">The source sequence.</param>
+        /// <returns>The non <c>null</c> elements of <paramref name="source"/>.</returns>
+        public static IEnumerable<TSource> NonNull<TSource>(this IEnumerable<TSource> source) => source.Where(x => x != null);
+
+        /// <summary>
         /// Transforms a possibly <c>null</c> <see cref="IEnumerable{T}" /> into an empty enumerable.
         /// Return an empty <see cref="IEnumerable{T}" /> if <paramref name="source" /> is
         /// <c>null</c>; otherwise <paramref name="source" />.
