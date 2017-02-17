@@ -1,7 +1,11 @@
 ﻿{
+  "$schema": "http://json.schemastore.org/eslintrc",
   "ignore": [
     "jspm_packages"
   ],
+  "rules": {
+    "prefer-const": 1
+  },
   "ecmaFeatures": {
     "classes": true,
     "modules": true,
@@ -9,5 +13,9 @@
     "impliedStrict": true,
     "blockBindings": true,
     "spread": true
-  }
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "env": {}
 }
