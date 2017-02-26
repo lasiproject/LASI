@@ -225,7 +225,7 @@ namespace LASI.App
                 var previewWindow = WindowManager.ProjectPreviewScreen;
                 previewWindow.SetTitle(Resources["CurrentProjectName"] + " - L.A.S.I.");
                 await InitializeFileManager();
-                JObject lasiFile = new JObject
+                var lasiFile = new JObject
                 {
                     ["name"] = ProjectNameTextBox.Text,
                     ["files"] = JArray.FromObject(from file in FileManager.TxtFiles
@@ -251,7 +251,7 @@ namespace LASI.App
         private void SelectProjFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var locationSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult locationDialogResult = locationSelectDialog.ShowDialog();
+            var locationDialogResult = locationSelectDialog.ShowDialog();
             if (locationDialogResult == System.Windows.Forms.DialogResult.OK)
             {
                 locationTextBox.Text = locationSelectDialog.SelectedPath + Path.DirectorySeparatorChar;
@@ -265,13 +265,13 @@ namespace LASI.App
                 Multiselect = false
             };
 
-            System.Windows.Forms.DialogResult locationDialogResult = locationSelectDialog.ShowDialog();
+            var locationDialogResult = locationSelectDialog.ShowDialog();
             if (locationDialogResult == System.Windows.Forms.DialogResult.OK && locationSelectDialog.FileName != null)
             {
                 var lasiFile = JObject.Parse(File.ReadAllText(locationSelectDialog.FileName));
 
                 Resources["CurrentProjectName"] = ProjectNameTextBox.Text = (string)lasiFile["name"];
-                foreach (dynamic file in lasiFile["files"])
+                foreach (var file in lasiFile["files"].Select(x => x as dynamic))
                 {
                     DocumentManager.AddDocument((string)file.name, (string)file.path);
                 }

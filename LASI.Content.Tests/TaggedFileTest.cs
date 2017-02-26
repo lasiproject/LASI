@@ -23,8 +23,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void TaggedFileConstructorTest1()
         {
-            TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(VALID_TAGGED_FILE_PATH);
+            var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
+            var fileInfo = new System.IO.FileInfo(VALID_TAGGED_FILE_PATH);
             Check.That(target.FullPath).IsEqualTo(fileInfo.FullName);
         }
         [Fact]
@@ -35,7 +35,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void TaggedFileConstructorTest3()
         {
-            string invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
+            var invalidPath = Directory.GetCurrentDirectory();//This should never be valid.
             Check.ThatCode(() => new TaggedFile(invalidPath)).Throws<FileNotFoundException>();
         }
         /// <summary>
@@ -44,8 +44,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
-            string expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
+            var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
+            var expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             string actual;
             actual = target.LoadText();
             Check.That(expected).IsEqualTo(actual);
@@ -57,9 +57,9 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task LoadTextAsyncTest()
         {
-            TaggedFile target = new TaggedFile(VALID_TAGGED_FILE_PATH);
-            Task<string> expected = Task.FromResult(File.ReadAllText(VALID_TAGGED_FILE_PATH));
-            Task<string> actual = target.LoadTextAsync();
+            var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
+            var expected = Task.FromResult(File.ReadAllText(VALID_TAGGED_FILE_PATH));
+            var actual = target.LoadTextAsync();
             Check.That(await expected).IsEqualTo(await actual);
         }
     }

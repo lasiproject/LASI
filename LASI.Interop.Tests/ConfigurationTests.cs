@@ -13,7 +13,7 @@ namespace LASI.Interop.Tests
         {
             Configures[new Random().Next(0, 4)]();
 
-            Check.ThatCode(Configures[new Random().Next(0, 4)]).Throws<SystemAlreadyConfiguredException>();
+            Check.ThatCode(Configures[new Random().Next(0, 4)]).Throws<AlreadyConfiguredException>();
 
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -12,7 +8,7 @@ namespace LASI.Core
     /// elements such as Adverbs and AdverbPhrases.</para>
     /// <para>Along with the other interfaces in the Syntactic Interfaces Library, the IAdverbialModifiable interface provides
     /// for cross-axial generalization over lexical types.
-    /// para>
+    /// </para>
     /// </summary>
     public interface IAdverbialModifiable : ILexical, IAttributable<IAdverbialModifiable, IAdverbial>
     {

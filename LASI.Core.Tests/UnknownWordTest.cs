@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void UnknownWordConstructorTest()
         {
-            string text = "qmilgestroph";
-            UnknownWord target = new UnknownWord(text);
+            var text = "qmilgestroph";
+            var target = new UnknownWord(text);
             Check.That(target.Text).IsEqualTo(text);
         }
     }

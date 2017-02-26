@@ -255,7 +255,7 @@ namespace LASI.App
 
         private async Task StepProgress()
         {
-            for (int i = 0; i < 9; ++i)
+            for (var i = 0; i < 9; ++i)
             {
                 currentOperationProgressBar.Value += 1;
                 await Task.Delay(1);

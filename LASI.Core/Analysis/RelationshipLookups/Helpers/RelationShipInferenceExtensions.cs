@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Core.Heuristics;
-using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Relationships
 {
@@ -22,27 +17,34 @@ namespace LASI.Core.Analysis.Relationships
         /// <returns>An object containing all of the IVerbals on which the two IEntity constructs are related or null if they have no established IVerbal relationships.</returns>
         public static ActionsRelatedOn? IsRelatedTo(this IEntity performer, IEntity receiver)
         {
-            var mapping = entityLookupContexts.ContainsKey(performer) ? entityLookupContexts[performer] : entityLookupContexts.ContainsKey(receiver) ? entityLookupContexts[receiver] : null;
+            var mapping = entityLookupContexts.ContainsKey(performer)
+                ? entityLookupContexts[performer]
+                : entityLookupContexts.ContainsKey(receiver)
+                    ? entityLookupContexts[receiver]
+                    : null;
+
             if (mapping != null)
             {
 
                 var actions = mapping[performer, receiver].Concat(mapping[receiver, performer]);
-                if (actions.Any()) { return new ActionsRelatedOn(actions); } else { return null; }
+                return actions.Any()
+                    ? new ActionsRelatedOn(actions)
+                    : default(ActionsRelatedOn?);
             }
             else
             {
-                throw new InvalidOperationException(
-                    $@"There is no relationship lookup context associated with {performer} or {receiver}.
-                    Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.");
+                throw new InvalidOperationException(BuildAssociationContextMessage(performer, receiver));
             }
         }
+
         /// <summary>
         /// Determines if the Given ActionsRelatedOn object contains the provided IVerbal.
         /// </summary>
         /// <param name="relatorSet">The object whose contents are to be searched. This parameter can be null. If it is null, false is returned.</param>
         /// <param name="relator">The IVerbal for which to search.</param>
         /// <returns> <c>true</c> if the given ActionsRelatedOn set contains the provided IVerbal, false if theActionsRelatedOn set does not contain the provided IVerbal or is null.</returns>
-        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) => relatorSet.HasValue ? relatorSet.Value.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) : false;
+        public static bool On(this ActionsRelatedOn? relatorSet, IVerbal relator) => relatorSet?.RelatedOn.Contains(relator, (l, r) => l.Text == r.Text) == true;
+
         /// <summary>
         /// Associates the given IEntity to the given IRelationshipLookup. All future searches involving the provided entity will be done in the context of the provided lookup.
         /// </summary>
@@ -52,6 +54,11 @@ namespace LASI.Core.Analysis.Relationships
         {
             entityLookupContexts.AddOrUpdate(entity, relationshipLookup, (k, v) => relationshipLookup);
         }
+
+        private static string BuildAssociationContextMessage(IEntity performer, IEntity receiver) =>
+            $@"There is no relationship lookup context associated with {performer} or {receiver}.
+            Please associate a context by calling {performer}.SetRelationshipLookup or {receiver}.SetRelationshipLookup appropriately.";
+
         private static ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>> entityLookupContexts = new ConcurrentDictionary<IEntity, IRelationshipLookup<IEntity, IVerbal>>();
     }
 }

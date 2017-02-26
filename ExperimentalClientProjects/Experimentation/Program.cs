@@ -17,25 +17,29 @@ namespace LASI.Experimentation.CommandLine
 {
     class Program
     {
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
             var fragment = new RawTextFragment(rawText, "Test");
             var percent = 0d;
             var notfier = new ResourceNotifier();
             var setsProcessed = 0;
-            notfier.ResourceLoading += (s, e) => {
-                Output.WriteLine($"Sets Processed {++setsProcessed}");
+            notfier.ResourceLoading += (s, e) =>
+            {
+                Logger.Log($"Sets Processed {++setsProcessed}");
             };
-            notfier.ResourceLoaded += (s, e) => {
+            notfier.ResourceLoaded += (s, e) =>
+            {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine($"Update : {e.Message} Percent : {percent += e.PercentWorkRepresented} MS : {e.ElapsedMiliseconds}");
+                Logger.Log($"Update : {e.Message} Percent : {percent += e.PercentWorkRepresented} MS : {e.ElapsedMiliseconds}");
             };
             var orchestrator =
                 new AnalysisOrchestrator(new RawTextFragment(
-                    File.ReadAllLines(@"C:\Users\Aluan\Desktop\documents\cats - Copy - Copy.txt"), "cats")
+                    File.ReadAllLines(@".\..\..\testDocs\testDoc1.txt"), "testDoc1")
                 );
-            orchestrator.ProgressChanged += (s, e) => {
+            orchestrator.ProgressChanged += (s, e) =>
+            {
                 percent = Math.Min(100, percent + e.PercentWorkRepresented);
-                Output.WriteLine($"Update : {e.Message} Percent : {percent}");
+                Logger.Log($"Update : {e.Message} Percent : {percent}");
             };
 
             var document = orchestrator.ProcessAsync().Result.First();
@@ -44,9 +48,10 @@ namespace LASI.Experimentation.CommandLine
             x.Match()
                 .Case((IReferencer r) => r.Referencers != null ? r.RefersTo.Text : r.Text)
                 .Result(x.Text);
-            Output.WriteLine(document);
-            foreach (var phrase in document.Phrases) {
-                Output.WriteLine(phrase);
+            Logger.Log(document);
+            foreach (var phrase in document.Phrases)
+            {
+                Logger.Log(phrase);
             }
             Input.WaitForKey(ConsoleKey.Escape);
         }

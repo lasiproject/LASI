@@ -177,3 +177,5 @@ jspm_packages/
 /Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 /LASI.WebApp/.vscode/launch.json
 .vscode/
+.vs/
+*.vc.db

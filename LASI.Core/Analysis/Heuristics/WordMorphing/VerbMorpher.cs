@@ -25,7 +25,7 @@ namespace LASI.Core.Analysis.Heuristics.WordMorphing
             var beforeHyphen = hyphenIndex > -1 ? verb.Substring(0, hyphenIndex) : verb;
             var afterHyphen = hyphenIndex > -1 ? verb.Substring(hyphenIndex) : string.Empty;
             var root = FindRoots(beforeHyphen).FirstOrDefault() ?? beforeHyphen;
-            IEnumerable<string> results = GetWithSpecialForms(root);
+            var results = GetWithSpecialForms(root);
             if (!results.Any())
             {
                 results = from ending in sufficesByEnding.Keys

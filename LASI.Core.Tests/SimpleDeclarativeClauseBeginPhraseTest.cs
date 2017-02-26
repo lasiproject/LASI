@@ -18,7 +18,7 @@ namespace LASI.Core.Tests
         public void SimpleDeclarativeClauseBeginPhraseConstructorTest()
         {
             IEnumerable<Word> composed = null; // TODO: Initialize to an appropriate value
-            SimpleDeclarativeClauseBeginPhrase target = new SimpleDeclarativeClauseBeginPhrase(composed);
+            var target = new SimpleDeclarativeClauseBeginPhrase(composed);
             throw new System.NotImplementedException("TODO: Implement code to verify target");
         }
     }

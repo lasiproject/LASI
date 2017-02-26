@@ -22,8 +22,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void PdfFileConstructorTest()
         {
-            PdfFile target = new PdfFile(TestPdfFilePath);
-            FileInfo pdfInfo = new FileInfo(TestPdfFilePath);
+            var target = new PdfFile(TestPdfFilePath);
+            var pdfInfo = new FileInfo(TestPdfFilePath);
             Assert.Equal(pdfInfo.FullName, target.FullPath);
             Assert.Equal(pdfInfo.Name, target.FileName);
             Assert.Equal(pdfInfo.Extension, target.Extension);
@@ -31,7 +31,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void PdfFileConstructorGivenTxtFileThrowsFileTypeMismatchOfPdfFile()
         {
-            string invalidPath = Directory.GetCurrentDirectory();
+            var invalidPath = Directory.GetCurrentDirectory();
             Check.That(invalidPath).DoesNotSatisfy(File.Exists);
             Check.ThatCode(() => new PdfFile(invalidPath))
                  .Throws<FileNotFoundException>();
@@ -39,7 +39,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void PdfFileConstructorTest2()
         {
-            string pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
+            var pathToNonPdfFile = @"..\..\MockUserFiles\Draft_Environmental_Assessment.txt";
             Check.That(pathToNonPdfFile).Satisfies(File.Exists);
             Check.ThatCode(() => new PdfFile(pathToNonPdfFile))
                  .Throws<FileTypeWrapperMismatchException<PdfFile>>();
@@ -50,8 +50,8 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextTest()
         {
-            PdfFile target = new PdfFile(TestPdfFilePath);
-            string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
+            var target = new PdfFile(TestPdfFilePath);
+            var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
             actual = target.LoadText();
             Assert.Equal(expected, actual);
@@ -63,9 +63,9 @@ namespace LASI.Content.Tests
         [Fact]
         public void LoadTextAsyncTest()
         {
-            string path = TestPdfFilePath;
-            PdfFile target = new PdfFile(path);
-            string expected = new PdfToTextConverter(target).ConvertFile().LoadText();
+            var path = TestPdfFilePath;
+            var target = new PdfFile(path);
+            var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             string actual;
             actual = target.LoadTextAsync().Result;
             Assert.Equal(expected, actual);

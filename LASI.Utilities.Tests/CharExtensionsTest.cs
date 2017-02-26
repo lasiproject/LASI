@@ -46,7 +46,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void IsUpperTest()
         {
-            for (char c = MinValue; c < MaxValue; ++c)
+            for (var c = MinValue; c < MaxValue; ++c)
             {
                 Assert.Equal(c.IsUpper(), IsUpper(c));
             }
@@ -54,7 +54,7 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void IsLowerTest()
         {
-            for (char c = MinValue; c < MaxValue; ++c)
+            for (var c = MinValue; c < MaxValue; ++c)
             {
                 Assert.Equal(c.IsLower(), IsLower(c));
             }
@@ -64,9 +64,9 @@ namespace LASI.Utilities.Tests
         public void EqualsIgnoreCaseTest()
         {
             var lowerCaseLetters = Alphabet.Take(26);
-            foreach (char lower in lowerCaseLetters)
+            foreach (var lower in lowerCaseLetters)
             {
-                char upper = ToUpper(lower);
+                var upper = ToUpper(lower);
                 Assert.True(upper.EqualsIgnoreCase(lower));
                 Assert.True(lower.EqualsIgnoreCase(upper));
                 Assert.True(upper.EqualsIgnoreCase(upper));

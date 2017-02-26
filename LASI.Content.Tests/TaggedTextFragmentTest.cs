@@ -30,8 +30,8 @@ namespace LASI.Content.Tests
                 "While it may yield me, in the context of the system at large, only ",
                 "a little confidence, each test makes everything else that much better."
             });
-            string name = "Test Fragment";
-            TaggedTextFragment target = new TaggedTextFragment(lines, name);
+            var name = "Test Fragment";
+            var target = new TaggedTextFragment(lines, name);
             Check.That(target.Name).IsEqualTo(name);
         }
 
@@ -46,9 +46,9 @@ namespace LASI.Content.Tests
                 "While it may yield me, in the context of the system at large, only ",
                 "a little confidence, each test makes everything else that much better."
             });
-            string name = "Test Fragment";
-            TaggedTextFragment target = new TaggedTextFragment(lines, name);
-            string expected = string.Join("\n", lines);
+            var name = "Test Fragment";
+            var target = new TaggedTextFragment(lines, name);
+            var expected = string.Join("\n", lines);
             string actual;
             actual = target.LoadText();
             Check.That(actual).IsEqualTo(expected);
@@ -65,9 +65,9 @@ namespace LASI.Content.Tests
                 "While it may yield me, in the context of the system at large, only ",
                 "a little confidence, each test makes everything else that much better."
             });
-            string name = "Test Fragment";
-            TaggedTextFragment target = new TaggedTextFragment(lines, name);
-            string expected = string.Join("\n", lines);
+            var name = "Test Fragment";
+            var target = new TaggedTextFragment(lines, name);
+            var expected = string.Join("\n", lines);
             string actual = null;
             Task.WaitAll(Task.Run(async () => actual = await target.LoadTextAsync()));
             Check.That(actual).IsEqualTo(expected);

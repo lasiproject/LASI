@@ -132,7 +132,7 @@ namespace TaggerInterop
         }
         protected string ParseViaTaggingMode(TaggerMode taggingMode)
         {
-            switch (TaggingMode)
+            switch (taggingMode)
             {
                 case TaggerMode.TagIndividual:
                 return POSTag();
@@ -151,7 +151,7 @@ namespace TaggerInterop
         }
         private string SplitIntoSentences()
         {
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             var result = string.Join("\r\n\r\n", sentences);
             return result;
@@ -170,13 +170,13 @@ namespace TaggerInterop
 
         private string Tokenize()
         {
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences)
             {
-                string[] tokens = TokenizeSentence(sentence);
+                var tokens = TokenizeSentence(sentence);
                 output.Append(string.Join(" | ", tokens)).Append("\r\n\r\n");
             }
 
@@ -187,14 +187,14 @@ namespace TaggerInterop
 
         private string POSTag()
         {
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences)
             {
-                string[] tokens = TokenizeSentence(sentence);
-                string[] tags = PosTagTokens(tokens);
+                var tokens = TokenizeSentence(sentence);
+                var tags = PosTagTokens(tokens);
                 for (int currentTag = 0; currentTag < tags.Length; currentTag++)
                 {
                     output.Append(tokens[currentTag]).Append("/").Append(tags[currentTag]).Append(" ");
@@ -209,16 +209,16 @@ namespace TaggerInterop
         private string Chunk()
         {
 
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
             var paragraphs = SourceText.Split(new[] { "\r\n\r\n", "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var paragraph in paragraphs.AsParallel().AsOrdered().Select(p => StripParentheticals(p)))
             {
-                string[] sentences = SplitSentences(paragraph);
+                var sentences = SplitSentences(paragraph);
 
                 foreach (var sentence in sentences.Where(s => !string.IsNullOrWhiteSpace(s)))
                 {
-                    string[] tokens = TokenizeSentence(sentence);
-                    string[] tags = PosTagTokens(tokens);
+                    var tokens = TokenizeSentence(sentence);
+                    var tags = PosTagTokens(tokens);
                     output.Append(string.Format("<sentence>{0}</sentence>", ChunkSentence(tokens, tags)));
                 }
                 output.Insert(0, "<paragraph>").Append("</paragraph>");
@@ -237,17 +237,17 @@ namespace TaggerInterop
         }
         private string Gender()
         {
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
             var paragraphs = from p in SourceText.Split(new[] { "<paragraph>", "</paragraph>" }, StringSplitOptions.RemoveEmptyEntries)
                              select p;
             foreach (var p in paragraphs)
             {
-                string[] sentences = SplitSentences(p);
+                var sentences = SplitSentences(p);
 
                 foreach (string sentence in sentences)
                 {
-                    string[] tokens = TokenizeSentence(sentence);
-                    string[] tags = PosTagTokens(tokens);
+                    var tokens = TokenizeSentence(sentence);
+                    var tags = PosTagTokens(tokens);
 
                     string posTaggedSentence = string.Empty;
 
@@ -269,9 +269,9 @@ namespace TaggerInterop
         private string Parse()
         {
             var sentenceID = 0;
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences)
             {
@@ -285,9 +285,9 @@ namespace TaggerInterop
 
         private string NameFind()
         {
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences)
             {
@@ -355,7 +355,7 @@ namespace TaggerInterop
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
 
-            string[] models = new string[] { "date", "location", "money", "organization", "percentage", "person", "time" };
+            var models = new string[] { "date", "location", "money", "organization", "percentage", "person", "time" };
             return mNameFinder.GetNames(models, sentence);
         }
 
@@ -366,7 +366,7 @@ namespace TaggerInterop
                 mNameFinder = new OpenNLP.Tools.NameFind.EnglishNameFinder(mModelPath + "namefind\\");
             }
 
-            string[] models = new string[] { "date", "location", "money", "organization", "percentage", "person", "time" };
+            var models = new string[] { "date", "location", "money", "organization", "percentage", "person", "time" };
             return mNameFinder.GetNames(models, sentenceParse);
         }
 
@@ -377,11 +377,11 @@ namespace TaggerInterop
                 mCoreferenceFinder = new OpenNLP.Tools.Lang.English.TreebankLinker(mModelPath + "coref");
             }
 
-            System.Collections.Generic.List<OpenNLP.Tools.Parser.Parse> parsedSentences = new System.Collections.Generic.List<OpenNLP.Tools.Parser.Parse>();
+            var parsedSentences = new System.Collections.Generic.List<OpenNLP.Tools.Parser.Parse>();
 
             foreach (string sentence in sentences)
             {
-                OpenNLP.Tools.Parser.Parse sentenceParse = ParseSentence(sentence);
+                var sentenceParse = ParseSentence(sentence);
                 string findNames = FindNames(sentenceParse);
                 parsedSentences.Add(sentenceParse);
             }
@@ -391,14 +391,14 @@ namespace TaggerInterop
 
         private string Similarity()
         {
-            StringBuilder output = new StringBuilder();
+            var output = new StringBuilder();
 
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             foreach (string sentence in sentences)
             {
-                string[] tokens = TokenizeSentence(sentence);
-                string[] tags = PosTagTokens(tokens);
+                var tokens = TokenizeSentence(sentence);
+                var tags = PosTagTokens(tokens);
 
                 string posTaggedSentence = string.Empty;
 
@@ -419,7 +419,7 @@ namespace TaggerInterop
 
         private string Coreference()
         {
-            string[] sentences = SplitSentences(SourceText);
+            var sentences = SplitSentences(SourceText);
 
             var result = IdentifyCoreferents(sentences);
             return result;

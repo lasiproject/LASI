@@ -17,8 +17,8 @@ namespace LASI.Core.Tests
         [Fact]
         public void InterjectionConstructorTest()
         {
-            string text = "ha";
-            Interjection target = new Interjection(text);
+            var text = "ha";
+            var target = new Interjection(text);
             Check.That(target.Text).IsEqualTo(text);
         }
     }

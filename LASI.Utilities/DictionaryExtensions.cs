@@ -497,11 +497,6 @@ namespace LASI.Utilities
             }
         }
 
-        public static IReadOnlyDictionary<TKey, Indexed<TValue>> WithIndices<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary) =>
-            dictionary
-                .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
-                .ToDictionary();
-
         private class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
         {
             public DefaultingDictionary(IDictionary<TKey, TValue> wrapped, Func<TKey, TValue> defaultValueFactory)

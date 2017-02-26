@@ -28,13 +28,13 @@ namespace Shared.Test.NFluentExtensions
             //      the check fails, in the case we were running the negated version.
             //
             // e.g.:
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {
                     if (!requirement(checker.Value))
                     {
-                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement{requirementName}.").For(typeof(T).Name).On(checker.Value).ToString();
+                        var errorMessage = FluentMessage.BuildMessage($"The {{0}} does not satisfy the requirement {requirementName}.").For(typeof(T).Name).On(checker.Value).ToString();
 
                         throw new FluentCheckException(errorMessage);
                     }
@@ -103,7 +103,7 @@ namespace Shared.Test.NFluentExtensions
         {
             var checker = ExtensibilityHelper.ExtractChecker(check);
 
-            string requirementName = GetNominalInfo(requirement);
+            var requirementName = GetNominalInfo(requirement);
             return checker.ExecuteCheck(
                 () =>
                 {

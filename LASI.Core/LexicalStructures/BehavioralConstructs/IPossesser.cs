@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LASI.Core
 {
@@ -14,7 +11,8 @@ namespace LASI.Core
         /// <summary>
         /// Gets all of the IEntity constructs which the IPossesser "owns".
         /// </summary>
-        IEnumerable<IPossessable> Possessions {
+        IEnumerable<IPossessable> Possessions
+        {
             get;
         }
         /// <summary>

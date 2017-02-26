@@ -18,7 +18,7 @@ namespace LASI.Core.Tests
         public void ConjunctionPhraseConstructorTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("or") };
-            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            var target = new ConjunctionPhrase(composedWords);
             Check.That(target.Text).IsEqualTo(string.Join(" ", composedWords.Select(w => w.Text)));
         }
 
@@ -29,7 +29,7 @@ namespace LASI.Core.Tests
         public void JoinedLeftTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
-            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            var target = new ConjunctionPhrase(composedWords);
             ILexical expected = new NounPhrase(new[] { new CommonSingularNoun("cake") });
             ILexical actual;
             target.JoinedLeft = expected;
@@ -44,7 +44,7 @@ namespace LASI.Core.Tests
         public void JoinedRightTest()
         {
             IEnumerable<Word> composedWords = new[] { new Conjunction("and") };
-            ConjunctionPhrase target = new ConjunctionPhrase(composedWords);
+            var target = new ConjunctionPhrase(composedWords);
             ILexical expected = new CommonPluralNoun("pies");
             ILexical actual;
             target.JoinedRight = expected;

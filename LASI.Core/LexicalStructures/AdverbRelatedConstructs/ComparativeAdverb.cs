@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Represents an adverb which specifies a verb or adjective in a context presumably relative to some occurrence of the verb or adjective.</para>

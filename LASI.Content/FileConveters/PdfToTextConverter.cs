@@ -1,7 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
- using System.Text;
+using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using LASI.Utilities;
@@ -21,9 +21,8 @@ namespace LASI.Content
         /// </summary>
         /// <param name="infile">The PdfFile instance representing the .pdf document to convert.</param>
         public PdfToTextConverter(PdfFile infile)
-            : base(infile)
-        {
-        }
+            : base(infile) { }
+
         /// <summary>
         /// Converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
@@ -38,7 +37,7 @@ namespace LASI.Content
         /// Asynchronously converts the document governed by this instance from .pdf format to .txt ASCII text format.
         /// </summary>
         /// <returns>A System.Threading.Tasks.Task&lt;InputFile&gt; which, when awaited yields an InputFile object which wraps the newly created .txt file.</returns>
-        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile());
+        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
 
         // Found this on CodeProject.com, no strings attached, it works pretty well but it is not very well written.
 
@@ -69,19 +68,16 @@ namespace LASI.Content
             /// <returns>the extracted text</returns>
             public void ExtractText(string inFileName, string outFileName)
             {
-                // Create a reader for the given PDF file   
-                PdfReader reader = new PdfReader(new FileStream(inFileName,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.Read, 1024,
-                    FileOptions.Asynchronous));
-                Logger.Log("Processing: ");
-                using (var outFile = new StreamWriter(outFileName, false, Encoding.UTF8))
+                // Create a reader for the given PDF file
+                using (var stream = new FileStream(inFileName, FileMode.Open, FileAccess.Read, FileShare.Read, 1024, FileOptions.Asynchronous))
+                using (var outFile = new StreamWriter(outFileName, append: false, encoding: Encoding.UTF8))
                 {
-                    for (int page = 1; page <= reader.NumberOfPages; page++)
+                    var reader = new PdfReader(stream);
+                    for (var pageNumber = 1; pageNumber <= reader.NumberOfPages; pageNumber++)
                     {
-                        outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(page)) + " ");
+                        outFile.Write(ExtractTextFromPDFBytes(reader.GetPageContent(pageNumber)) + " ");
                     }
+
                 }
             }
             #endregion
@@ -99,22 +95,22 @@ namespace LASI.Content
                 var resultString = string.Empty;
 
                 // Flag showing if we are we currently inside a text object
-                bool inTextObject = false;
+                var inTextObject = false;
 
                 // Flag showing if the next character is key 
                 // e.g. '\\' to get a '\' character or '\(' to get '('
-                bool nextLiteral = false;
+                var nextLiteral = false;
 
                 // () Bracket nesting level. Text appears inside ()
-                int bracketDepth = 0;
+                var bracketDepth = 0;
 
                 // Keep previous chars to get extract numbers etc.: 
-                char[] previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
+                var previousCharacters = Repeat(' ', CHARS_TO_KEEP).ToArray();
 
 
-                for (int i = 0; i < input.Length; i++)
+                for (var i = 0; i < input.Length; i++)
                 {
-                    char c = (char)input[i];
+                    var c = (char)input[i];
 
                     if (inTextObject)
                     {
@@ -190,7 +186,7 @@ namespace LASI.Content
 
                     // Store the recent characters for 
                     // when we have to go back for a checking
-                    for (int j = 0; j < CHARS_TO_KEEP - 1; j++)
+                    for (var j = 0; j < CHARS_TO_KEEP - 1; j++)
                     {
                         previousCharacters[j] = previousCharacters[j + 1];
                     }
@@ -216,7 +212,7 @@ namespace LASI.Content
             /// <returns></returns>
             private bool CheckToken(string[] tokens, char[] recent, int charsToKeep)
             {
-                foreach (string currentCharacterToken in tokens)
+                foreach (var currentCharacterToken in tokens)
                 {
                     try
                     {

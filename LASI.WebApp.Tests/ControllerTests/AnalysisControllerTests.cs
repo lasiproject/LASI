@@ -46,7 +46,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         public void GetWithNoArgumentsReturnsAllResults()
         {
             var allUserDocuments = provider.GetService<IDocumentAccessor<UserDocument>>().GetAllForUser(User.Id);
-            IEnumerable<DocumentModel> results = controller.Get().Result;
+            var results = controller.Get().Result;
             Assert.False(allUserDocuments.ExceptBy(results, e => new { e.Id, e.UserId }, e => new { e.Id, UserId = User.Id }).Any());
         }
         private System.IServiceProvider provider;

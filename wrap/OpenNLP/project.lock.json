@@ -1,21 +1,25 @@
 {
   "locked": false,
-  "version": 1,
+  "version": 2,
   "targets": {
-    ".NETFramework,Version=v4.6": {
-      "SharpEntropy/1.0.0": {
-        "type": "project"
-      },
-      "SharpWordNet/1.0.0": {
-        "type": "project"
-      }
-    },
     ".NETFramework,Version=v4.5": {
       "SharpEntropy/1.0.0": {
-        "type": "project"
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5"
       },
       "SharpWordNet/1.0.0": {
-        "type": "project"
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5"
+      }
+    },
+    ".NETFramework,Version=v4.6": {
+      "SharpEntropy/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6"
+      },
+      "SharpWordNet/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6"
       }
     }
   },
@@ -31,13 +35,15 @@
   },
   "projectFileDependencyGroups": {
     "": [],
-    ".NETFramework,Version=v4.6": [
-      "SharpEntropy >= 1.0.0-*",
-      "SharpWordNet >= 1.0.0-*"
-    ],
     ".NETFramework,Version=v4.5": [
       "SharpEntropy >= 1.0.0-*",
       "SharpWordNet >= 1.0.0-*"
+    ],
+    ".NETFramework,Version=v4.6": [
+      "SharpEntropy >= 1.0.0-*",
+      "SharpWordNet >= 1.0.0-*"
     ]
-  }
+  },
+  "tools": {},
+  "projectFileToolGroups": {}
 }

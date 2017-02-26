@@ -180,7 +180,7 @@ namespace LASI.Utilities
             /// <param name="x">The first object to compare.</param>
             /// <param name="y">The second object to compare.</param>
             /// <returns><c>true</c> if the specified objects are equal; otherwise, <c>false</c>.</returns>
-            public override bool Equals(T x, T y) => x == null ? y == null : equals(x, y);
+            public override bool Equals(T x, T y) => ReferenceEquals(x, null) ? ReferenceEquals(y, null) : equals(x, y);
 
             /// <summary>
             /// Serves as a hash function for the specified object for hashing algorithms and data

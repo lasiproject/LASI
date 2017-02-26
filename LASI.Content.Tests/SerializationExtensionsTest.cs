@@ -16,7 +16,7 @@ namespace LASI.Content.Serialization.Json.Tests
             var target = TestHelper.GetLexicalSequence();
             var actual = target.ToJArray();
 
-            JArray expected = JArray.FromObject(target.Select(e => e.ToJObject()));
+            var expected = JArray.FromObject(target.Select(e => e.ToJObject()));
             TestHelper.RemoveUniquePropertyValues(actual);
             TestHelper.RemoveUniquePropertyValues(expected);
 
@@ -28,7 +28,7 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             var target = TestHelper.TestNounPhrase;
 
-            JObject serialized = target.ToJObject();
+            var serialized = target.ToJObject();
 
             Check.That(serialized).IsNotNull();
         }
@@ -37,7 +37,7 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             var target = TestHelper.TestNounPhrase;
 
-            JObject serialized = target.ToJObject();
+            var serialized = target.ToJObject();
 
             Check.That(target.Text).IsEqualTo((string)serialized["text"]);
         }
@@ -47,7 +47,7 @@ namespace LASI.Content.Serialization.Json.Tests
         {
             var target = TestHelper.TestNounPhrase;
 
-            JObject serialized = target.ToJObject();
+            var serialized = target.ToJObject();
 
             Check.That(serialized["words"])
                 .HasSize(target.Words.Count())
@@ -58,7 +58,7 @@ namespace LASI.Content.Serialization.Json.Tests
         public void VerbalToJObjectTest()
         {
             var target = TestHelper.TestVerbal;
-            JObject serialized = target.ToJObject();
+            var serialized = target.ToJObject();
             Assert.NotNull(serialized);
             Assert.Equal(target.Text, serialized["text"]);
             Assert.True(JToken.DeepEquals(JArray.FromObject(target.AdverbialModifiers.Select(e => e.ToJObject())), serialized["adverbialModifiers"]));

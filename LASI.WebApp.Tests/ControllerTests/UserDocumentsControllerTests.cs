@@ -24,7 +24,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         {
             var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
-            UserDocumentsController controller = provider.GetService<UserDocumentsController>();
+            var controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
 
             var allDocuments = controller.Get();
@@ -38,7 +38,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         {
             var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
-            UserDocumentsController controller = provider.GetService<UserDocumentsController>();
+            var controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
         }
 
@@ -47,7 +47,7 @@ namespace LASI.WebApp.Tests.ControllerTests
         {
             var provider = ServiceCollectionHelper.CreateConfiguredServiceCollection(User).BuildServiceProvider();
 
-            UserDocumentsController controller = provider.GetService<UserDocumentsController>();
+            var controller = provider.GetService<UserDocumentsController>();
             controller.ActionContext = provider.GetService<ActionContext>();
             //await controller.HttpContext.Authentication.SignOutAsync("Microsoft.AspNet.Identity.Application");
             //await provider.GetService<SignInManager<ApplicationUser>>().SignOutAsync();
