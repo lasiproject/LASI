@@ -95,9 +95,9 @@ namespace LASI.App
 
             weightedByDocumentTabControl.Items.Add(tab);
             weightedByDocumentTabControl.SelectedItem = tab;
-            await Task.Yield();
-            //await Visualizer.InitChartDisplayAsync(document);
-            //await Visualizer.DisplayKeyRelationshipsAsync(document);
+            //await Task.Yield();
+            await Visualizer.InitChartDisplayAsync(document);
+            await Visualizer.DisplayKeyRelationshipsAsync(document);
         }
 
         private static Label CreateLabelForWeightedView(NounPhrase nounPhrase)
