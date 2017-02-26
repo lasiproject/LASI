@@ -14,6 +14,28 @@ namespace LASI.Utilities
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Applies an accumulator function over a sequence.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <typeparam name="TResult">The type of the resulting value.</typeparam>
+        /// <param name="source">An <see cref="IEnumerable{T}" /> to aggregate over.</param>
+        /// <param name="func">
+        /// An accumulator function to be invoked on each element; the element's index, determined
+        /// by enumeration order, is available as the third argument.
+        /// </param>
+        /// <param name="resultSelector">
+        /// A function to transform the final accumulator value into the result value.
+        /// </param>
+        /// <returns>The transformed final accumulator value.</returns>
+        /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">Source contains no elements.</exception>
+        public static TResult Aggregate<TSource, TResult>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TSource, TSource> func,
+            Func<TSource, TResult> resultSelector
+        ) => resultSelector(source.Aggregate(func));
+
+        /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each elements index
         /// into the calculation.
         /// </summary>
@@ -279,8 +301,6 @@ namespace LASI.Utilities
             Func<TSource, TKey> keySelector,
             Func<TOther, TKey> otherKeySelector
         ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
-
-        public static IEnumerable<TBase> Except<TBase, TDerived>(this IEnumerable<TBase> first, IEnumerable<TDerived> second, Func<TBase, bool> equals) where TDerived : class, TBase => first.ExceptBy(second, equals);
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>

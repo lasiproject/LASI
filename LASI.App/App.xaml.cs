@@ -26,9 +26,13 @@ namespace LASI.App
         public App()
         {
             LoadPerformancePreference();
-            var configPath = File.Exists(@"App.config") ? "App.config" : @"..\..\App.config";
-            Config = ParseConfig(configPath);
-            Interop.Configuration.Initialize(Config);
+            Interop.Configuration.Initialize(new XmlConfig(new XElement(
+                    name: "configuration",
+                    content: from element in XElement.Load(@"..\..\App.config").Element("appSettings").Elements()
+                             let name = element.Attribute("key")
+                             let content = element.Attribute("value")
+                             where name != null && content != null
+                             select new XElement(name: name.Value, content: content.Value))));
         }
 
         private static IConfig ParseConfig(string configPath) => new XmlConfig(new XElement(
@@ -37,8 +41,9 @@ namespace LASI.App
                              let name = element.Attribute("key")
                              let content = element.Attribute("value")
                              where name != null && content != null
-                             select new XElement(name: name.Value,
-                                 content: name.Value == "ResourcesDirectory" || name.Value == "LicencesDirectory" ? Directory.GetCurrentDirectory() + @"\" : content.Value
+                             select new XElement(
+                                 name: name.Value,
+                                 content: content.Value
                              )));
 
         private static void LoadPerformancePreference()

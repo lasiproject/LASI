@@ -16,8 +16,6 @@ namespace LASI.Content
     /// </summary>
     public class DocxToTextConverter : FileConverter<DocXFile, TxtFile>
     {
-        #region Constructors
-
         /// <summary>
         /// Constructs a new instance which will govern the conversion InputFile instance provided.
         /// The converted file will be placed in the same directory as the original.
@@ -28,8 +26,6 @@ namespace LASI.Content
             DestinationInfo = new FileData(DestinationDir + infile.FileName);
         }
 
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -38,7 +34,7 @@ namespace LASI.Content
         protected virtual void DocxToZip()
         {
             var zipName = Path.Combine(DestinationInfo.Directory, DestinationInfo.FileNameSansExt);
-            File.Copy(Original.FullPath, zipName + ".zip", true);
+            File.Copy(Original.FullPath, zipName + ".zip", overwrite: true);
 
             if (Directory.Exists(zipName))
             {
@@ -52,7 +48,11 @@ namespace LASI.Content
                     throw;
                 }
             }
-            using (var ZipArch = new ZipArchive(new FileStream(zipName + ".zip", FileMode.Open), ZipArchiveMode.Read, leaveOpen: false))
+            using (var ZipArch = new ZipArchive(
+                stream: new FileStream(zipName + ".zip", FileMode.Open),
+                mode: ZipArchiveMode.Read,
+                leaveOpen: false)
+            )
             {
 
                 if (Directory.Exists(zipName))
@@ -69,7 +69,6 @@ namespace LASI.Content
                 }
                 ZipArch.ExtractToDirectory(zipName);
                 XmlFile = GetRelevantXMLFile(ZipArch);
-
             }
         }
 
@@ -80,69 +79,27 @@ namespace LASI.Content
         /// Note that both the original and converted document objects can be also be accessed independently via instance properties</returns>
         public override TxtFile ConvertFile()
         {
-            DocxToZip();
-            XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
-            using (var xmlReader = XmlReader.Create(
-                new FileStream(
-                    XmlFile.FullPath,
-                    FileMode.Open,
-                    FileAccess.Read,
-                    FileShare.Read,
-                    1024,
-                    FileOptions.Asynchronous
-                ), new XmlReaderSettings
-                {
-                    Async = true,
-                    IgnoreWhitespace = true
-                }))
+            ExtractAndConfigure();
+
+            using (var xmlReader = XmlReader.Create(CreateInputStream(XmlFile.FullPath), XmlReaderSettings))
+            using (var writer = new StreamWriter(
+                stream: new FileStream(DestinationInfo.FullPathSansExt + ".txt", FileMode.Create),
+                encoding: Encoding.UTF8,
+                bufferSize: 100
+            ))
             {
-                using (var writer = new StreamWriter(
-                    new FileStream(
-                        DestinationInfo.FullPathSansExt + ".txt",
-                        FileMode.Create),
-                        Encoding.UTF8, 100
-                    )
-            )
+                xmlReader.ReadStartElement();
+                while (xmlReader.Read())
                 {
-                    xmlReader.ReadStartElement();
-                    while (xmlReader.Read())
-                    {
-                        if (xmlReader.Name == "w:p")
-                        {
-                            writer.Write("<paragraph>");
-                        }
-                        var value = xmlReader.Value;
-                        if (!string.IsNullOrWhiteSpace(value))
-                        {
-                            writer.Write(value);
-                        }
-                        if (xmlReader.Name.Contains("tbl"))
-                        {
-                            xmlReader.Skip();
-                        }
-                        if (xmlReader.Name == "w:p")
-                        {
-                            writer.Write("</paragraph>\n");
-                        }
-                    }
+                    ProcessNode(xmlReader, writer);
                 }
             }
+
             Converted = new TxtFile(Original.PathSansExt + ".txt");
 
             return Converted;
+        }
 
-        }
-        /// <summary>
-        /// Extracts the XML file containing the significant text of the of the docx file from its corresponding zip file.
-        /// </summary>
-        /// <param name="arch">The object which represents the zip file from which to extract.</param>
-        /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
-        XmlFile GetRelevantXMLFile(ZipArchive arch)
-        {
-            var extractedFile = arch.GetEntry(@"word/document.xml");
-            var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
-            return new XmlFile(absolutePath);
-        }
         /// <summary>
         /// This method invokes the file conversion routine asynchronously, generally in a separate thread.
         /// Use with the await operator in an async method to retrieve the new file object and specify a
@@ -151,8 +108,96 @@ namespace LASI.Content
         /// <returns>A The A Task&lt;TextFile&gt; object which functions as a proxy for the actual InputFile while the conversion routine is in progress.
         /// Access the internal input file encapsulated by the Task by using syntax such as : var file = await myConverter.ConvertFileAsync()
         /// </returns>
-        public override async Task<TxtFile> ConvertFileAsync() => await Task.Run(() => ConvertFile()).ConfigureAwait(false);
+        public override async Task<TxtFile> ConvertFileAsync()
+        {
+            ExtractAndConfigure();
 
+            using (var xmlReader = XmlReader.Create(CreateInputStream(XmlFile.FullPath), XmlReaderSettings))
+            using (var writer = new StreamWriter(
+                stream: new FileStream(DestinationInfo.FullPathSansExt + ".txt", FileMode.Create),
+                encoding: Encoding.UTF8)
+            )
+            {
+                xmlReader.ReadStartElement();
+                while (await xmlReader.ReadAsync())
+                {
+                    await ProcessNodeAsync(xmlReader, writer);
+                }
+            }
+
+            Converted = new TxtFile(Original.PathSansExt + ".txt");
+
+            return Converted;
+        }
+
+        private void ExtractAndConfigure()
+        {
+            DocxToZip();
+            XmlFile = new XmlFile(DestinationInfo.Directory + DestinationInfo.FileNameSansExt + @"\word\document.xml");
+        }
+
+        private static Stream CreateInputStream(string fullPath) => new FileStream(
+                path: fullPath,
+                mode: FileMode.Open,
+                access: FileAccess.Read,
+                share: FileShare.Read,
+                bufferSize: 1024,
+                options: FileOptions.Asynchronous
+            );
+
+        private static async Task ProcessNodeAsync(XmlReader xmlReader, StreamWriter writer)
+        {
+            if (xmlReader.Name == "w:p")
+            {
+                await writer.WriteAsync("<paragraph>");
+            }
+            var value = xmlReader.Value;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                await writer.WriteAsync(value);
+            }
+            if (xmlReader.Name.Contains("tbl"))
+            {
+                await xmlReader.SkipAsync();
+            }
+            if (xmlReader.Name == "w:p")
+            {
+                await writer.WriteAsync("</paragraph>\n");
+            }
+        }
+
+        private static void ProcessNode(XmlReader xmlReader, StreamWriter writer)
+        {
+            if (xmlReader.Name == "w:p")
+            {
+                writer.Write("<paragraph>");
+            }
+            var value = xmlReader.Value;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                writer.Write(value);
+            }
+            if (xmlReader.Name.Contains("tbl"))
+            {
+                xmlReader.Skip();
+            }
+            if (xmlReader.Name == "w:p")
+            {
+                writer.Write("</paragraph>\n");
+            }
+        }
+
+        /// <summary>
+        /// Extracts the XML file containing the significant text of the of the docx file from its corresponding zip file.
+        /// </summary>
+        /// <param name="arch">The object which represents the zip file from which to extract.</param>
+        /// <returns>An Instance of GenericXMLFile which wraps the extracted .xml.</returns>
+        private XmlFile GetRelevantXMLFile(ZipArchive arch)
+        {
+            var extractedFile = arch.GetEntry(@"word/document.xml");
+            var absolutePath = Original.PathSansExt + @"/" + extractedFile.FullName;
+            return new XmlFile(absolutePath);
+        }
         #endregion
 
         #region Properties
@@ -166,6 +211,16 @@ namespace LASI.Content
         /// Gets or sets the XmlFile which contains the significant text of the .docx document.
         /// </summary>
         protected virtual InputFile XmlFile { get; set; }
+
+        /// <summary>
+        /// The <see cref="System.Xml.XmlReaderSettings"/> to use for reading the underlying contents of the docx file.
+        /// </summary>
+        private static XmlReaderSettings XmlReaderSettings => new XmlReaderSettings
+        {
+            CloseInput = true,
+            Async = true,
+            IgnoreWhitespace = true
+        };
 
         #endregion
     }

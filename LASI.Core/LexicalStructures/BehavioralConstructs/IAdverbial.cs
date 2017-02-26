@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para>Defines the role requirements for Adverbial elements, generally Adverbs or AdvebPhrases,</para>
@@ -15,9 +10,6 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the IAdverbialModifiable construct the IAdverbial modifies.
         /// </summary>
-        IAdverbialModifiable Modifies {
-            get;
-            set;
-        }
+        IAdverbialModifiable Modifies { get; set; }
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("L_ContentSystem")]
+[assembly: AssemblyTitle("LASI.Content")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The LASI Project")]
-[assembly: AssemblyProduct("LASI_FileSystem")]
+[assembly: AssemblyCompany("RED")]
+[assembly: AssemblyProduct("LASI")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

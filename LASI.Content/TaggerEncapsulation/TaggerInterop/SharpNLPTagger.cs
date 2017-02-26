@@ -132,7 +132,7 @@ namespace TaggerInterop
         }
         protected string ParseViaTaggingMode(TaggerMode taggingMode)
         {
-            switch (TaggingMode)
+            switch (taggingMode)
             {
                 case TaggerMode.TagIndividual:
                 return POSTag();
