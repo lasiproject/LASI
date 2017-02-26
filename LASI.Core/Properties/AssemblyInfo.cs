@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LASI: Algorithms and Data Structures")]
+[assembly: AssemblyTitle("LASI.Core")]
 [assembly: AssemblyDescription("Provides data structures and heuristics for the representation and analysis of English Textual sources.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Red")]
+[assembly: AssemblyCompany("RED")]
 [assembly: AssemblyProduct("LASI")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]

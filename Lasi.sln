@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25428.1
+VisualStudioVersion = 15.0.25807.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,22 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{B0
 		Licences\WPFToolkitLicense.txt = Licences\WPFToolkitLicense.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wrap", "wrap", "{5E8CB98D-7F60-4D02-A0CA-1B47A497C810}"
-	ProjectSection(SolutionItems) = preProject
-		wrap\SharpWordNet\project.json = wrap\SharpWordNet\project.json
-		wrap\SharpEntropy\project.json = wrap\SharpEntropy\project.json
-		wrap\OpenNLP\project.json = wrap\OpenNLP\project.json
-		wrap\LASI.Utilities\project.json = wrap\LASI.Utilities\project.json
-		wrap\LASI.Shared.Test\project.json = wrap\LASI.Shared.Test\project.json
-		wrap\LASI.Interop\project.json = wrap\LASI.Interop\project.json
-		wrap\LASI.Core\project.json = wrap\LASI.Core\project.json
-		wrap\LASI.Content\project.json = wrap\LASI.Content\project.json
-		wrap\itextsharp\project.json = wrap\itextsharp\project.json
-	EndProjectSection
-	ProjectSection(FolderGlobals) = preProject
-		project_1json__JSONSchema = http://json-schema.org/draft-04/schema
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExperimentalClientProjects", "ExperimentalClientProjects", "{2F5E64C4-89A9-4B41-942F-97BB85044FE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9579A236-F6AE-4C14-95B6-7D35671BF7D9}"
@@ -65,10 +49,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtilities", "TestUtilities", "{AB837D56-33CB-4A49-BAE1-4E36D371BCE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Shared.Test", "Shared.Test.Utilities\LASI.Shared.Test.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LASI.WebApp", "LASI.WebApp\LASI.WebApp.xproj", "{80325732-6509-4DC7-83AF-285D919E7DE7}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LASI.WebApp.Tests", "LASI.WebApp.Tests\LASI.WebApp.Tests.xproj", "{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LASI.Installer", "LASI.Installer\LASI.Installer.vdproj", "{E0FB815A-0136-4471-A929-514A88087797}"
 EndProject
@@ -132,22 +112,6 @@ Global
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|x86.ActiveCfg = Release|x86
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|x86.Build.0 = Release|x86
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Debug|x86.Build.0 = Debug|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Release|x86.ActiveCfg = Release|Any CPU
-		{80325732-6509-4DC7-83AF-285D919E7DE7}.Release|x86.Build.0 = Release|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Debug|x86.Build.0 = Debug|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Release|x86.ActiveCfg = Release|Any CPU
-		{F3AE4D3B-D5B0-4F8F-9B9C-4E7DEC2113A4}.Release|x86.Build.0 = Release|Any CPU
 		{E0FB815A-0136-4471-A929-514A88087797}.Debug|Any CPU.ActiveCfg = Debug
 		{E0FB815A-0136-4471-A929-514A88087797}.Debug|x86.ActiveCfg = Debug
 		{E0FB815A-0136-4471-A929-514A88087797}.Debug|x86.Build.0 = Debug
@@ -209,7 +173,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B012451A-BCB9-423F-8119-BE8027CA8474} = {E61EB5D5-494B-437A-A9ED-20756769E139}
-		{5E8CB98D-7F60-4D02-A0CA-1B47A497C810} = {E61EB5D5-494B-437A-A9ED-20756769E139}
 		{AB837D56-33CB-4A49-BAE1-4E36D371BCE6} = {AB32A172-AF94-4FAF-9655-5E339DDB032C}
 		{1314082A-EB47-44E9-88A0-72C71489035F} = {AB837D56-33CB-4A49-BAE1-4E36D371BCE6}
 	EndGlobalSection

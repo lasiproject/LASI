@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Represents an adverb which 'absolutely' specifies a verb or adjective relative to all comparable occurrences of that verb or adjective. </para>

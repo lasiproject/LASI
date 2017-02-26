@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("LASI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("RED")]
 [assembly: AssemblyProduct("LASI")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
