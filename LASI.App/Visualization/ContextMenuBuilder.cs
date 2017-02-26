@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Media;
-using LASI.Core;
-using LASI.Interop;
+﻿using LASI.Core;
 using LASI.Utilities.Specialized.Enhanced.IList.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Media;
+using static System.Windows.Media.Brushes;
+using Item = System.Windows.Controls.MenuItem;
+using Menu = System.Windows.Controls.ContextMenu;
+using TextElement = System.Windows.Documents.TextElement;
 
 namespace LASI.App.Visualization
 {
-    using System;
-    using WpfDocuments = System.Windows.Documents;
-
     internal static class ContextMenuBuilder
     {
         /// <summary>
@@ -18,22 +18,16 @@ namespace LASI.App.Visualization
         /// the lexical does not have significant information from which to build a menu.
         /// </summary>
         /// <param name="element">The element for which to construct a context menu.</param>
-        /// <param name="neighboringElementDisplayStructures">
+        /// <param name="neighboringElements">
         /// The collection of UI objects representing neighboring elements.
         /// </param>
         /// <returns>
         /// A context menu based on the context of the given lexical or <c>null</c> if the lexical
         /// does not have significant information from which to build a menu.
         /// </returns>
-        public static ContextMenu ForLexical(ILexical element, IReadOnlyList<WpfDocuments.TextElement> neighboringElementDisplayStructures)
-        {
-            var createMenuForVerbal = ForVerbal(neighboringElementDisplayStructures);
-            var createMenuForReferencer = ForReferencer(neighboringElementDisplayStructures);
-            return element.Match()
-                .Case(createMenuForVerbal)
-                .Case(createMenuForReferencer)
-                .Result();
-        }
+        public static Menu ForLexical(ILexical element, IEnumerable<TextElement> neighboringElements) => element.Match()
+            .Case((IReferencer r) => ForReferencer(r, neighboringElements))
+            .Case((IVerbal v) => ForVerbal(v, neighboringElements));
 
         #region Lexical Element Context Menu Construction
 
@@ -41,110 +35,118 @@ namespace LASI.App.Visualization
         /// Creates a context menu specific to the given IVerbal element with context determined by
         /// the provided labels.
         /// </summary>
+        /// <param name="verbal">The <see cref="IVerbal"/> for which to create a menu.</param>
         /// <param name="neighboringElements">
         /// The labels which determine the context in which the menu is to be created.
         /// </param>
         /// <returns>
         /// A context menu based on the provided IVerbal in the context of the provided labels.
         /// </returns>
-        private static Func<IVerbal, ContextMenu> ForVerbal(IReadOnlyList<WpfDocuments.TextElement> neighboringElements) =>
-            verbal =>
+        private static Menu ForVerbal(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
+        {
+            var result = new Menu();
+            if (verbal.Subjects.Any())
             {
-                var result = new ContextMenu();
-                if (verbal.Subjects.Any())
-                {
-                    result.Items.Add(VerbalMenuItemFactory.ForSubject(verbal, neighboringElements));
-                }
-                if (verbal.DirectObjects.Any())
-                {
-                    result.Items.Add(VerbalMenuItemFactory.ForDirectObject(verbal, neighboringElements));
-                }
-                if (verbal.IndirectObjects.Any())
-                {
-                    result.Items.Add(VerbalMenuItemFactory.ForIndirectObject(verbal, neighboringElements));
-                }
-                if (verbal.ObjectOfThePreposition != null)
-                {
-                    result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(verbal, neighboringElements));
-                }
-                return result.Items.Count == 0 ? null : result;
-            };
+                result.Items.Add(VerbalMenuItemFactory.ForSubjects(verbal, neighboringElements));
+            }
+            if (verbal.DirectObjects.Any())
+            {
+                result.Items.Add(VerbalMenuItemFactory.ForDirectObjects(verbal, neighboringElements));
+            }
+            if (verbal.IndirectObjects.Any())
+            {
+                result.Items.Add(VerbalMenuItemFactory.ForIndirectObjects(verbal, neighboringElements));
+            }
+            if (verbal.ObjectOfThePreposition != null)
+            {
+                result.Items.Add(VerbalMenuItemFactory.ForPrepositionalObject(verbal, neighboringElements));
+            }
+            return result.Items.Count == 0 ? null : result;
+        }
 
         /// <summary>
         /// Creates a context menu specific to the given IReferencer element with context
         /// determined by the provided labels.
         /// </summary>
+        /// <param name="referencer">The <see cref="IReferencer"/> for which to create a menu.</param>
         /// <param name="neighboringElements">
         /// The labels which determine the context in which the menu is to be created.
         /// </param>
         /// <returns>
         /// A context menu based on the provided IReferencer in the context of the provided labels.
         /// </returns>
-        private static Func<IReferencer, ContextMenu> ForReferencer(IReadOnlyList<WpfDocuments.TextElement> neighboringElements) =>
-            referencer =>
+        private static Menu ForReferencer(IReferencer referencer, IEnumerable<TextElement> neighboringElements)
+        {
+            if (referencer.RefersTo?.Any() == false)
             {
-                var result = new ContextMenu();
-                if (referencer.RefersTo != null && referencer.RefersTo.Any())
+                return null;
+            }
+            return new Menu
+            {
+                Items =
                 {
-                    result.Items.Add(ReferencerMenuItemFactory.ForReferredTo(neighboringElements, referencer));
+                    ReferencerMenuItemFactory.ForReferredTo(referencer, neighboringElements)
                 }
-                return result.Items.Count == 0 ? null : result;
             };
+        }
 
         private static class VerbalMenuItemFactory
         {
-            public static MenuItem ForPrepositionalObject(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+            public static Item ForPrepositionalObject(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
             {
-                var visitSubjectMI = new MenuItem { Header = Text.ViewObjectOfThePrepositionHeader };
-                visitSubjectMI.Click += delegate
+                var indicatePreopositionalObjects = new Item { Header = Text.ViewObjectOfThePrepositionHeader };
+                indicatePreopositionalObjects.Click += (s, e) =>
                 {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
-                    var associatedElements = from element in neighboringElements
-                                             where element.Tag.Equals(verbal.ObjectOfThePreposition)
-                                             select new { Element = element, Brush = colorMapping[element.Tag is ILexical lexical ? lexical : default(ILexical)] };
-                    foreach (var a in associatedElements)
+                    var associatedElements =
+                        from element in neighboringElements
+                        let lexical = element.Tag as ILexical
+                        where lexical?.Equals(verbal.ObjectOfThePreposition) == true
+                        select (element, new { Background = colorMapping[lexical], Foreground = Red });
+
+                    foreach (var (element, colorization) in associatedElements)
                     {
-                        a.Element.Foreground = a.Brush;
-                        a.Element.Background = Brushes.Red;
+                        element.Foreground = colorization.Foreground;
+                        element.Background = colorization.Background;
                     }
                 };
-                return visitSubjectMI;
+                return indicatePreopositionalObjects;
             }
 
-            public static MenuItem ForIndirectObject(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+            public static Item ForIndirectObjects(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
             {
-                var visitSubjectMI = new MenuItem { Header = Text.ViewIndirectObjectsHeader };
-                visitSubjectMI.Click += delegate
+                var indicateIndirectObjects = new Item { Header = Text.ViewIndirectObjectsHeader };
+                indicateIndirectObjects.Click += (s, e) =>
                 {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     BuildAndExecuteLabelTransformations(neighboringElements, verbal.IndirectObjects);
                 };
-                return visitSubjectMI;
+                return indicateIndirectObjects;
             }
 
-            public static MenuItem ForDirectObject(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+            public static Item ForDirectObjects(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
             {
-                var visitSubjectMI = new MenuItem { Header = Text.ViewDirectObjectsHeader };
-                visitSubjectMI.Click += delegate
+                var indicateDirectObjects = new Item { Header = Text.ViewDirectObjectsHeader };
+                indicateDirectObjects.Click += (s, e) =>
                 {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     BuildAndExecuteLabelTransformations(neighboringElements, verbal.DirectObjects);
                 };
-                return visitSubjectMI;
+                return indicateDirectObjects;
             }
 
-            public static MenuItem ForSubject(IVerbal verbal, IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+            public static Item ForSubjects(IVerbal verbal, IEnumerable<TextElement> neighboringElements)
             {
-                var visitSubjectMI = new MenuItem { Header = Text.ViewSubjectsHeader };
-                visitSubjectMI.Click += delegate
+                var indicateSubjects = new Item { Header = Text.ViewSubjectsHeader };
+                indicateSubjects.Click += (s, e) =>
                 {
                     ResetUnassociatedLabelBrushes(neighboringElements, verbal);
                     BuildAndExecuteLabelTransformations(neighboringElements, verbal.Subjects);
                 };
-                return visitSubjectMI;
+                return indicateSubjects;
             }
 
-            private static void BuildAndExecuteLabelTransformations(IReadOnlyList<WpfDocuments.TextElement> neighboringElements, IEnumerable<ILexical> associatedLexicalElements)
+            private static void BuildAndExecuteLabelTransformations(IEnumerable<TextElement> neighboringElements, IEnumerable<ILexical> associatedLexicalElements)
             {
                 var associatedElements = from lexical in associatedLexicalElements
                                          join element in neighboringElements on lexical equals element.Tag
@@ -152,7 +154,7 @@ namespace LASI.App.Visualization
                 foreach (var a in associatedElements)
                 {
                     a.Element.Foreground = a.NewForegroundColor;
-                    a.Element.Background = Brushes.Red;
+                    a.Element.Background = Red;
                 }
             }
             private static class Text
@@ -166,23 +168,23 @@ namespace LASI.App.Visualization
 
         private static class ReferencerMenuItemFactory
         {
-            public static MenuItem ForReferredTo(IReadOnlyList<WpfDocuments.TextElement> neighboringElements, IReferencer pro)
+            public static Item ForReferredTo(IReferencer referencer, IEnumerable<TextElement> neighboringElements)
             {
-                var visitBoundEntity = new MenuItem { Header = "View Referred To" };
-                visitBoundEntity.Click += delegate
+                var indicateReferredTo = new Item { Header = "View Referred To" };
+                indicateReferredTo.Click += (s, e) =>
                 {
                     ResetLabelBrushes(neighboringElements);
                     var associatedElements = from element in neighboringElements
-                                             where pro.RefersTo == element.Tag || element.Tag is NounPhrase &&
-                                             pro.RefersTo.Intersect((element.Tag as NounPhrase).Words.OfEntity()).Any()
+                                             where referencer.RefersTo == element.Tag || element.Tag is NounPhrase &&
+                                             referencer.RefersTo.Intersect((element.Tag as NounPhrase).Words.OfEntity()).Any()
                                              select element;
                     foreach (var a in associatedElements)
                     {
-                        a.Foreground = Brushes.White;
-                        a.Background = Brushes.Black;
+                        a.Foreground = White;
+                        a.Background = Black;
                     }
                 };
-                return visitBoundEntity;
+                return indicateReferredTo;
             }
         }
 
@@ -190,23 +192,23 @@ namespace LASI.App.Visualization
 
         #region Helper Methods
 
-        private static void ResetLabelBrushes(IReadOnlyList<WpfDocuments.TextElement> neighboringElements)
+        private static void ResetLabelBrushes(IEnumerable<TextElement> neighboringElements)
         {
             foreach (var element in neighboringElements)
             {
                 element.Foreground = colorMapping[element.Tag as ILexical];
-                element.Background = Brushes.White;
+                element.Background = White;
             }
         }
 
-        private static void ResetUnassociatedLabelBrushes(IReadOnlyList<WpfDocuments.TextElement> neighboringElements, IVerbal verbal)
+        private static void ResetUnassociatedLabelBrushes(IEnumerable<TextElement> neighboringElements, IVerbal verbal)
         {
             foreach (var element in from element in neighboringElements
                                     where !verbal.HasSubjectOrObject(i => i == element.Tag)
                                     select element)
             {
                 element.Foreground = MapToColor(element.Tag);
-                element.Background = Brushes.White;
+                element.Background = White;
             }
         }
 
