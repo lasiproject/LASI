@@ -199,7 +199,7 @@ namespace LASI.App
 
         private void OpenLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            var componentsDisplay = new ComponentInfoDialogWindow
+            var componentsDisplay = new ComponentInfoDialog
             {
                 Left = this.Left,
                 Top = this.Top,

@@ -123,7 +123,7 @@ namespace LASI.App
         internal static ILexicalSerializer<Core.ILexical, object> CreateSerializer() => SerializerFactory.Create(Properties.Settings.Default.OutputFormat);
         internal static void DisplayPreferencesWindow(Window source)
         {
-            var preferences = new PreferencesWindow();
+            var preferences = new Preferences();
             preferences.Left = (source.Left - preferences.Left) / 2;
             preferences.Top = (source.Top - preferences.Top) / 2;
             var saved = preferences.ShowDialog();

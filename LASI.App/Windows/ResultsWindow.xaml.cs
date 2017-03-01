@@ -326,7 +326,7 @@ namespace LASI.App
         }
         private void openLicensesMenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            var componentsDisplay = new ComponentInfoDialogWindow
+            var componentsDisplay = new ComponentInfoDialog
             {
 
                 Owner = this
@@ -352,7 +352,7 @@ namespace LASI.App
         }
         private async void documentJoinButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CrossJoinSelectDialogWindow(this)
+            var dialog = new CrossJoinSelectDialog(this)
             {
                 Left = this.Left,
                 Top = this.Top,

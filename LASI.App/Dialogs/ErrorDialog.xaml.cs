@@ -18,14 +18,14 @@ namespace LASI.App.Dialogs
     /// <summary>
     /// Interaction logic for ErrorDialogWindow.xaml
     /// </summary>
-    public partial class ErrorDialogWindow : Window
+    public partial class ErrorDialog : Window
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorDialogWindow"/> class.
+        /// Initializes a new instance of the <see cref="ErrorDialog"/> class.
         /// </summary>
         /// <param name="message">The error message to display.</param>
         /// <param name="kind">The <see cref="ErrorKind"/> of the error.</param>
-        public ErrorDialogWindow(string message, ErrorKind kind = ErrorKind.NonFatal)
+        public ErrorDialog(string message, ErrorKind kind = ErrorKind.NonFatal)
         {
             InitializeComponent();
             Kind = kind;

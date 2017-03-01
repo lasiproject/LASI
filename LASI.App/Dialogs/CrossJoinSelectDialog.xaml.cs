@@ -10,13 +10,13 @@ namespace LASI.App.Dialogs
     /// <summary>
     /// Interaction logic for CrossJoinSelectDialogWindow.xaml
     /// </summary>
-    public partial class CrossJoinSelectDialogWindow : Window
+    public partial class CrossJoinSelectDialog : Window
     {
         /// <summary>
         /// Initializes a new instance of the CrossJoinSelectDialogWindow in the context of the given results screen.
         /// </summary>
         /// <param name="owner">The results screen referencing the Documents to Display and owning the new dialog window.</param>
-        public CrossJoinSelectDialogWindow(ResultsWindow owner)
+        public CrossJoinSelectDialog(ResultsWindow owner)
         {
             InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace LASI.App.Dialogs
                 docCheckBox.Unchecked += delegate { SelectedDocuments.Remove(doc); };
                 docCheckBox.Checked += delegate
                 {
-                    okButton.SetBinding(DependencyProperty.Register(nameof(ValidSelection), typeof(bool), typeof(CrossJoinSelectDialogWindow)), new System.Windows.Data.Binding());
+                    okButton.SetBinding(DependencyProperty.Register(nameof(ValidSelection), typeof(bool), typeof(CrossJoinSelectDialog)), new System.Windows.Data.Binding());
                 };
                 docCheckBox.Unchecked += delegate { okButton.IsEnabled = SelectedDocuments.Count > 1; };
                 documentsPanel.Children.Add(docCheckBox);
