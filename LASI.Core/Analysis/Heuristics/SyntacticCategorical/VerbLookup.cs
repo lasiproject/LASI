@@ -40,17 +40,17 @@ namespace LASI.Core.Heuristics.WordNet
             OnReport(new EventArgs("Mapping Verb Sets", 0));
             foreach (var indexed in LoadData())
             {
-                var set = CreateSet(indexed.First);
+                var set = CreateSet(indexed.line);
                 LinkSynset(set);
-                if (indexed.Second % ProgressModulus == 0)
+                if (indexed.index % ProgressModulus == 0)
                 {
-                    OnReport(new EventArgs(string.Format(ProgressFormat, indexed.Second), ProgressAmmount));
+                    OnReport(new EventArgs(string.Format(ProgressFormat, indexed.index), ProgressAmmount));
                 }
             }
             OnReport(new EventArgs("Mapped Verb Sets", 1));
         }
 
-        private IEnumerable<Pair<string, int>> LoadData()
+        private IEnumerable<(string line, int index)> LoadData()
         {
             using (var reader = new StreamReader(File.Open(path: filePath, mode: FileMode.Open, access: FileAccess.Read)))
             {
@@ -61,7 +61,7 @@ namespace LASI.Core.Heuristics.WordNet
                 var lineNumber = 0;
                 for (var line = reader.ReadLine(); line != null; ++lineNumber, line = reader.ReadLine())
                 {
-                    yield return Pair.Create(line, lineNumber);
+                    yield return (line, lineNumber);
                 }
             }
         }

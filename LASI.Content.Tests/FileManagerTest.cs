@@ -350,7 +350,7 @@ namespace LASI.Content.Tests
         public async Task TagTextFilesAsyncTest()
         {
             var files = TxtFiles;
-            await FileManager.TagTextFilesAsync();
+            await FileManager.TagTextFilesAsync(files);
 
             foreach (var file in files)
             {
@@ -378,10 +378,14 @@ namespace LASI.Content.Tests
         {
             get
             {
-                foreach (var file in DocFiles) yield return file;
-                foreach (var file in DocXFiles) yield return file;
-                foreach (var file in PdfFiles) yield return file;
-                foreach (var file in TxtFiles) yield return file;
+                foreach (var file in DocFiles)
+                    yield return file;
+                foreach (var file in DocXFiles)
+                    yield return file;
+                foreach (var file in PdfFiles)
+                    yield return file;
+                foreach (var file in TxtFiles)
+                    yield return file;
             }
         }
 

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using LASI.Utilities.Validation;
+using static System.Linq.Enumerable;
 
 namespace LASI.Utilities
 {
-    using System.Numerics;
-    using SpecializedResultTypes;
-    using Validation;
-    using static Enumerable;
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
     /// </summary>
@@ -49,12 +48,12 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException">Source contains no elements.</exception>
         public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) =>
-            source.Select(Indexed.Create)
-                  .Aggregate((z, e) => Indexed.Create(
-                      element: func(z.Element, e.Element, e.Index),
+            source.WithIndices()
+                  .Aggregate((z, e) => (
+                      element: func(z.element, e.element, e.index),
                      // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
-                     index: e.Index
-                  )).Element;
+                     index: e.index
+                  )).element;
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -73,7 +72,7 @@ namespace LASI.Utilities
         /// <returns>The final accumulator value.</returns>
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, int, TAccumulate> func) =>
-            source.WithIndices().Aggregate(seed, (z, e) => func(z, e.Element, e.Index));
+            source.WithIndices().Aggregate(seed, (z, e) => func(z, e.element, e.index));
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -295,12 +294,19 @@ namespace LASI.Utilities
         /// A sequence that contains the set difference of the elements of two sequences under the
         /// given projection.
         /// </returns>
-        public static IEnumerable<TKey> ExceptBy<TSource, TOther, TKey>(
+        public static IEnumerable<TSource> ExceptBy<TSource, TOther, TKey>(
             this IEnumerable<TSource> first,
             IEnumerable<TOther> second,
             Func<TSource, TKey> keySelector,
             Func<TOther, TKey> otherKeySelector
-        ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
+        )
+        {
+            var excepted = first
+                .Select(keySelector)
+                .Except(second.Select(otherKeySelector));
+            return first.Where(element =>
+                excepted.Contains(keySelector(element)));
+        }
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -387,14 +393,15 @@ namespace LASI.Utilities
         /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source" /> is null.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> has exactly one element.</exception>
-        public static IEnumerable<Pair<T, T>> PairWise<T>(this IEnumerable<T> source)
+        public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
         {
             Validate.NotNull(source, nameof(source));
-            if (source.Count() == 1) { throw new InvalidOperationException("If source is not empty, it must have have more than 1 element."); }
+            if (source.Count() == 1)
+            { throw new InvalidOperationException("If source is not empty, it must have have more than 1 element."); }
             var first = source.First();
             foreach (var next in source.Skip(1))
             {
-                yield return Pair.Create(first, next);
+                yield return (first, next);
                 first = next;
             }
         }
@@ -668,11 +675,11 @@ namespace LASI.Utilities
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
 
-        public static IEnumerable<ZipHelper.ZipResult<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
-            first.Zip(second, (x, y) => ZipHelper.Create(x, y));
+        public static IEnumerable<(T1 first, T2 second)> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
+            first.Zip(second, (x, y) => (x, y));
 
-        public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<ZipHelper.ZipResult<T1, T2>> zipped, Func<T1, T2, TResult> selector) =>
-            zipped.Select(x => ZipHelper.Apply(x, selector));
+        public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<(T1 first, T2 second)> zipped, Func<T1, T2, TResult> selector) =>
+            zipped.Select(t => selector(t.first, t.second));
 
         /// <summary>
         /// Projects each element of the sequence into a new form incorporating its index.
@@ -682,7 +689,8 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
-        public static IEnumerable<Indexed<T>> WithIndices<T>(this IEnumerable<T> source) => source.Select(Indexed.Create);
+        public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) =>
+            source.Select((element, index) => (element, index));
 
         /// <summary>
         /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.
@@ -696,22 +704,5 @@ namespace LASI.Utilities
             }
         }
 
-        public static class ZipHelper
-        {
-            internal static ZipResult<T1, T2> Create<T1, T2>(T1 x, T2 y) => new ZipResult<T1, T2>
-            {
-                First = x,
-                Second = y
-            };
-
-            public class ZipResult<T1, T2>
-            {
-                internal T1 First { get; set; }
-                internal T2 Second { get; set; }
-
-            }
-            public static TResult Apply<T1, T2, TResult>(ZipResult<T1, T2> zipResult, Func<T1, T2, TResult> f) => f(zipResult.First, zipResult.Second);
-
-        }
     }
 }

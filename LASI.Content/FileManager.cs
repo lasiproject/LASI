@@ -194,9 +194,9 @@ namespace LASI.Content
         public static void ConvertAsNeeded()
         {
             ThrowIfUninitialized();
-            ConvertPdfToText();
-            ConvertDocToText();
-            ConvertDocxToText();
+            ConvertPdfToText(pdfFiles);
+            ConvertDocToText(docFiles);
+            ConvertDocxToText(docXFiles);
         }
 
         /// <summary>
@@ -207,9 +207,9 @@ namespace LASI.Content
             ThrowIfUninitialized();
             await Task.WhenAll(new[]
             {
-                    ConvertPdfToTextAsync(pdfFiles.ToArray()),
-                    ConvertDocToTextAsync(docFiles.ToArray()),
-                    ConvertDocxToTextAsync(docXFiles.ToArray())
+                ConvertPdfToTextAsync(pdfFiles),
+                ConvertDocToTextAsync(docFiles),
+                ConvertDocxToTextAsync(docXFiles)
             });
         }
 
@@ -220,10 +220,10 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static IEnumerable<TxtFile> ConvertDocToText(params DocFile[] files)
+        public static IEnumerable<TxtFile> ConvertDocToText(IEnumerable<DocFile> files)
         {
             ThrowIfUninitialized();
-            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except(taggedFiles, Equality.Create<InputFile>((x, y) => x.NameSansExt == y.NameSansExt)))
+            foreach (var document in files.Except(taggedFiles, Equality.Create<InputFile>((x, y) => x.NameSansExt == y.NameSansExt)))
             {
                 TxtFile converted;
                 try
@@ -253,11 +253,11 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(params DocFile[] files)
+        public static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(IEnumerable<DocFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var document in (files.Length > 0 ? files.AsEnumerable() : docFiles).Except<InputFile>(taggedFiles))
+            foreach (var document in files.Except<InputFile>(taggedFiles))
             {
                 try
                 {
@@ -288,10 +288,10 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static IEnumerable<TxtFile> ConvertDocxToText(params DocXFile[] files)
+        public static IEnumerable<TxtFile> ConvertDocxToText(IEnumerable<DocXFile> files)
         {
             ThrowIfUninitialized();
-            foreach (var docx in (files.Length > 0 ? files.AsEnumerable() : docXFiles).ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
+            foreach (var docx in files.ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
             {
                 var converted = new DocxToTextConverter(docx as DocXFile).ConvertFile();
                 AddFile(converted.FullPath);
@@ -306,11 +306,11 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(params DocXFile[] files)
+        public static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(IEnumerable<DocXFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (var docx in (files.Length > 0 ? files.AsEnumerable() : docXFiles).ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
+            foreach (var docx in files.ExceptBy(taggedFiles, file => file.NameSansExt, file => file.NameSansExt))
             {
                 var converted = await new DocxToTextConverter(docx as DocXFile).ConvertFileAsync();
                 convertedFiles.Add(converted);
@@ -326,10 +326,10 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static IEnumerable<TxtFile> ConvertPdfToText(params PdfFile[] files)
+        public static IEnumerable<TxtFile> ConvertPdfToText(IEnumerable<PdfFile> files)
         {
             ThrowIfUninitialized();
-            foreach (var pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            foreach (var pdf in files.Except<InputFile>(taggedFiles))
             {
                 var converted = new PdfToTextConverter(pdf as PdfFile).ConvertFile();
                 AddFile(converted.FullPath);
@@ -344,13 +344,13 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(params PdfFile[] files)
+        public static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(IEnumerable<PdfFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
-            foreach (PdfFile pdf in (files.Length > 0 ? files.AsEnumerable() : pdfFiles).Except<InputFile>(taggedFiles))
+            foreach (var pdf in files.Except<InputFile>(taggedFiles))
             {
-                var converted = await new PdfToTextConverter(pdf).ConvertFileAsync();
+                var converted = await new PdfToTextConverter(pdf as PdfFile).ConvertFileAsync();
                 convertedFiles.Add(converted);
                 AddFile(converted.FullPath);
                 File.Delete(converted.FullPath);
@@ -364,10 +364,10 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFiles(params TxtFile[] files)
+        public static void TagTextFiles(IEnumerable<TxtFile> files)
         {
             ThrowIfUninitialized();
-            foreach (var doc in (files.Length > 0 ? files.AsEnumerable() : txtFiles).Except<InputFile>(taggedFiles))
+            foreach (var doc in files.Except<InputFile>(taggedFiles))
             {
                 var tagger = new SharpNLPTagger(
                     TaggerMode.TagAndAggregate, doc.FullPath,
@@ -383,11 +383,10 @@ namespace LASI.Content
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static async Task TagTextFilesAsync(params TxtFile[] files)
+        public static async Task TagTextFilesAsync(IEnumerable<TxtFile> files)
         {
             ThrowIfUninitialized();
-            var sources = files.Length > 0 ? files.AsEnumerable() : txtFiles;
-            var tasks = sources.Except<InputFile>(taggedFiles)
+            var tasks = files.Except<InputFile>(taggedFiles)
                 .Select(file => new SharpNLPTagger(
                         taggingMode: TaggerMode.TagAndAggregate,
                         sourcePath: file.FullPath, destinationPath:
@@ -557,10 +556,14 @@ namespace LASI.Content
         {
             get
             {
-                foreach (var txt in TxtFiles) yield return txt;
-                foreach (var pdf in PdfFiles) yield return pdf;
-                foreach (var doc in DocFiles) yield return doc;
-                foreach (var docx in DocXFiles) yield return docx;
+                foreach (var txt in TxtFiles)
+                    yield return txt;
+                foreach (var pdf in PdfFiles)
+                    yield return pdf;
+                foreach (var doc in DocFiles)
+                    yield return doc;
+                foreach (var docx in DocXFiles)
+                    yield return docx;
             }
         }
 

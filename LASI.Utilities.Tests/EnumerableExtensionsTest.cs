@@ -140,7 +140,7 @@ namespace LASI.Utilities.Tests
         public void PairWisePairsAdjacentElements()
         {
             var target = Range(12, 5).PairWise();
-            Check.That(target).ContainsExactly(Pair(12, 13), Pair(13, 14), Pair(14, 15), Pair(15, 16));
+            Check.That(target).ContainsExactly((12, 13), (13, 14), (14, 15), (15, 16));
         }
 
         [Fact]
@@ -369,14 +369,14 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithIndicesUsesZeroBasedIndicies()
         {
-            var indices = Range(10, 20).WithIndices().Select(e => e.Index);
+            var indices = Range(10, 20).WithIndices().Select(e => e.index);
             Check.That(indices.First()).IsEqualTo(0);
         }
 
         [Fact]
         public void WithIndicesStepsUsesStepOfOne()
         {
-            var indices = Range(10, 20).WithIndices().Select(e => e.Index).ToList();
+            var indices = Range(10, 20).WithIndices().Select(e => e.index).ToList();
             Check.That(indices).ContainsExactly(Range(0, indices.Count));
         }
 
@@ -394,7 +394,6 @@ namespace LASI.Utilities.Tests
 
         #region Helper Factories
 
-        private static Pair<T1, T2> Pair<T1, T2>(T1 x, T2 y) => Utilities.Pair.Create(x, y);
         private static Tuple<T1, T2, T3> Tuple<T1, T2, T3>(T1 x, T2 y, T3 z) => System.Tuple.Create(x, y, z);
 
         #endregion

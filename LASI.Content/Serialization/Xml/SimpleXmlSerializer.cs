@@ -22,12 +22,12 @@
                 new XElement("Results",
                     new XAttribute("Name", parentElementTitle),
                     from e in source.WithIndices()
-                    select new XElement(e.Element.GetType().Name,
-                        new XAttribute("Id", e.Index),
-                        new XAttribute("Text", e.Element.Text),
+                    select new XElement(e.element.GetType().Name,
+                        new XAttribute("Id", e.index),
+                        new XAttribute("Text", e.element.Text),
                         new XElement("Weights",
-                            new XElement("Weight", new XAttribute("Level", "Document"), Math.Round(e.Element.Weight, 2)),
-                        new XElement("Weight", new XAttribute("Level", "Crossed"), Math.Round(e.Element.MetaWeight, 2)))
+                            new XElement("Weight", new XAttribute("Level", "Document"), Math.Round(e.element.Weight, 2)),
+                        new XElement("Weight", new XAttribute("Level", "Crossed"), Math.Round(e.element.MetaWeight, 2)))
                         )
                     )
                 );

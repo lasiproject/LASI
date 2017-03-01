@@ -22,7 +22,7 @@ namespace LASI.Core.Analysis.Binding
         /// <summary>
         /// Gets each element in the Lexical sequence which caused the caused the exception. Elements are keyed by index.
         /// </summary>
-        public override IDictionary Data => Sequence?.WithIndices().ToDictionary(e => e.Index, e => e.Element);
+        public override IDictionary Data => Sequence?.WithIndices().ToDictionary(e => e.index, e => e.element);
         /// <summary>
         /// Initializes a new instance of the VerblessPhrasalSequenceException with a default message indicating that the sequence contained no contained no Verb Phrases.
         /// </summary>
