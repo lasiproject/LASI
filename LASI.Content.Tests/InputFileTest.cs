@@ -78,15 +78,14 @@ namespace LASI.Content.Tests
         ///A test for LoadTextAsync
         /// </summary>
         [Fact]
-        public void LoadTextAsyncTest()
+        public async Task LoadTextAsyncTest()
         {
             var target = CreateInputFile();
             var expected = string.Empty;
             string actual = null;
-            Task.WaitAll(Task.Run(
-                async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
-                Task.Run(async () => actual = await target.LoadTextAsync())
-            );
+
+            expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync();
+            actual = await target.LoadTextAsync();
             Check.That(actual).IsEqualTo(expected);
         }
 

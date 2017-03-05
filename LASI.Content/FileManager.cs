@@ -81,7 +81,7 @@ namespace LASI.Content
         /// <summary>
         /// Adds the document indicated by the specified path string to the project
         /// </summary>
-        /// <param name="file">The the document file to add to the project</param>
+        /// <param name="file">The document file to add to the project</param>
         /// 
         /// <returns>An InputFile object which acts as a wrapper around the project relative path of the newly added file.</returns>
         public static TFile AddFile<TFile>(TFile file) where TFile : InputFile => AddFile(file.FullPath) as TFile;
@@ -188,16 +188,6 @@ namespace LASI.Content
         #endregion
 
         #region File Conversion
-        /// <summary>
-        /// Performs the necessary conversions, based on the format of all files within the project.
-        /// </summary>
-        public static void ConvertAsNeeded()
-        {
-            ThrowIfUninitialized();
-            ConvertPdfToText(pdfFiles);
-            ConvertDocToText(docFiles);
-            ConvertDocxToText(docXFiles);
-        }
 
         /// <summary>
         /// Asynchronously performs the necessary conversions, based on the format of all files within the project.
@@ -213,47 +203,13 @@ namespace LASI.Content
             });
         }
 
-
-        /// <summary>
-        /// Converts all of the .doc files it receives into .docx files
-        /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
-        /// Results are stored in corresponding project directory
-        /// </summary>
-        /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static IEnumerable<TxtFile> ConvertDocToText(IEnumerable<DocFile> files)
-        {
-            ThrowIfUninitialized();
-            foreach (var document in files.Except(taggedFiles, Equality.Create<InputFile>((x, y) => x.NameSansExt == y.NameSansExt)))
-            {
-                TxtFile converted;
-                try
-                {
-                    var docx = new DocToDocXConverter(document as DocFile).ConvertFile();
-                    var txt = new DocxToTextConverter(docx).ConvertFile();
-                    AddFile(txt.FullPath);
-                    File.Delete(txt.FullPath);
-                    converted = txt;
-                }
-                catch (IOException e)
-                {
-                    LogConversionFailure(document, e);
-                    throw;
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    LogConversionFailure(document, e);
-                    throw;
-                }
-                yield return converted;
-            }
-        }
         /// <summary>
         /// Asynchronously converts all of the .doc files it receives into .docx files
         /// If no arguments are supplied, it will instead convert all yet unconverted .doc files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocFile class which encapsulate .doc files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(IEnumerable<DocFile> files)
+        private static async Task<IEnumerable<TxtFile>> ConvertDocToTextAsync(IEnumerable<DocFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
@@ -283,30 +239,12 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// Converts all of the .docx files it receives into text files
-        /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory
-        /// Results are stored in corresponding project directory
-        /// </summary>
-        /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static IEnumerable<TxtFile> ConvertDocxToText(IEnumerable<DocXFile> files)
-        {
-            ThrowIfUninitialized();
-            foreach (var docx in files.ExceptBy(taggedFiles, (InputFile file) => file.NameSansExt))
-            {
-                var converted = new DocxToTextConverter(docx as DocXFile).ConvertFile();
-                AddFile(converted.FullPath);
-                File.Delete(converted.FullPath);
-                yield return converted;
-            }
-        }
-
-        /// <summary>
         /// Asynchronously converts all of the .docx files it receives into text files
         /// If no arguments are supplied, it will instead convert all yet unconverted .docx files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the DocXFile class which encapsulate .docx files</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(IEnumerable<DocXFile> files)
+        private static async Task<IEnumerable<TxtFile>> ConvertDocxToTextAsync(IEnumerable<DocXFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
@@ -321,30 +259,12 @@ namespace LASI.Content
         }
 
         /// <summary>
-        /// Converts all of the .pdf files it receives into .txt files
-        /// If no arguments are supplied, it will instead convert all yet unconverted .pdf files in the project directory
-        /// Results are stored in corresponding project directory
-        /// </summary>
-        /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static IEnumerable<TxtFile> ConvertPdfToText(IEnumerable<PdfFile> files)
-        {
-            ThrowIfUninitialized();
-            foreach (var pdf in files.Except<InputFile>(taggedFiles))
-            {
-                var converted = new PdfToTextConverter(pdf as PdfFile).ConvertFile();
-                AddFile(converted.FullPath);
-                File.Delete(converted.FullPath);
-                yield return converted;
-            }
-        }
-
-        /// <summary>
         /// Asynchronously converts all of the .pdf files it receives into .txt files
         /// If no arguments are supplied, it will instead convert all yet unconverted .pdf files in the project directory
         /// Results are stored in corresponding project directory
         /// </summary>
         /// <param name="files">0 or more instances of the PdfFile class which encapsulate .pdf files.</param>
-        public static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(IEnumerable<PdfFile> files)
+        private static async Task<IEnumerable<TxtFile>> ConvertPdfToTextAsync(IEnumerable<PdfFile> files)
         {
             ThrowIfUninitialized();
             var convertedFiles = new System.Collections.Concurrent.ConcurrentBag<TxtFile>();
@@ -356,51 +276,6 @@ namespace LASI.Content
                 File.Delete(converted.FullPath);
             }
             return convertedFiles;
-        }
-
-        /// <summary>
-        /// Invokes the POS tagger on the text files it receives into storing the newly tagged files
-        /// If no arguments are supplied, it will instead convert all yet untagged text files in the project directory
-        /// Results are stored in corresponding project directory
-        /// </summary>
-        /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static void TagTextFiles(IEnumerable<TxtFile> files)
-        {
-            ThrowIfUninitialized();
-            foreach (var doc in files.Except<InputFile>(taggedFiles))
-            {
-                var tagger = new SharpNLPTagger(
-                    TaggerMode.TagAndAggregate, doc.FullPath,
-                    TaggedFilesDirectory + "\\" + doc.NameSansExt + ".tagged");
-                var tagged = new TaggedFile(tagger.ProcessFile());
-                AddFile(tagged.FullPath);
-            }
-        }
-
-        /// <summary>
-        ///Asynchronously Invokes the POS tagger on the text files it receives into storing the newly tagged files
-        /// If no arguments are supplied, it will instead convert all yet untagged text files in the project directory
-        /// Results are stored in corresponding project directory
-        /// </summary>
-        /// <param name="files">0 or more instances of the TextFile class which encapsulate text files</param>
-        public static async Task TagTextFilesAsync(IEnumerable<TxtFile> files)
-        {
-            ThrowIfUninitialized();
-            var tasks = files.Except<InputFile>(taggedFiles)
-                .Select(file => new SharpNLPTagger(
-                        taggingMode: TaggerMode.TagAndAggregate,
-                        sourcePath: file.FullPath, destinationPath:
-                        TaggedFilesDirectory + "\\" + file.NameSansExt + ".tagged"
-                    ).ProcessFileAsync()
-                )
-                .ToList();
-            while (tasks.Any())
-            {
-                var tagged = await Task.WhenAny(tasks);
-                var taggedFile = await tagged;
-                taggedFiles = taggedFiles.Add(new TaggedFile(taggedFile));
-                tasks.Remove(tagged);
-            }
         }
 
         private static void LogConversionFailure(InputFile doc, Exception e)

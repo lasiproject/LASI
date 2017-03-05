@@ -3,6 +3,7 @@ using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
 using LASI.Content.Exceptions;
+using System.Threading.Tasks;
 
 namespace LASI.Content.Tests
 {
@@ -52,8 +53,7 @@ namespace LASI.Content.Tests
         {
             var target = new PdfFile(TestPdfFilePath);
             var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
-            string actual;
-            actual = target.LoadText();
+            var actual = target.LoadText();
             Assert.Equal(expected, actual);
         }
 
@@ -61,13 +61,13 @@ namespace LASI.Content.Tests
         ///A test for LoadTextAsync
         /// </summary>
         [Fact]
-        public void LoadTextAsyncTest()
+        public async Task LoadTextAsyncTest()
         {
             var path = TestPdfFilePath;
             var target = new PdfFile(path);
-            var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
-            string actual;
-            actual = target.LoadTextAsync().Result;
+            var converted = await new PdfToTextConverter(target).ConvertFileAsync();
+            var expected = await converted.LoadTextAsync();
+            var actual = await target.LoadTextAsync();
             Assert.Equal(expected, actual);
         }
     }

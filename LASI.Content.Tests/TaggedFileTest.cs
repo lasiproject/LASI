@@ -46,8 +46,7 @@ namespace LASI.Content.Tests
         {
             var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
             var expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
-            string actual;
-            actual = target.LoadText();
+            var actual = target.LoadText();
             Check.That(expected).IsEqualTo(actual);
         }
 
@@ -58,9 +57,9 @@ namespace LASI.Content.Tests
         public async Task LoadTextAsyncTest()
         {
             var target = new TaggedFile(VALID_TAGGED_FILE_PATH);
-            var expected = Task.FromResult(File.ReadAllText(VALID_TAGGED_FILE_PATH));
+            var expected = File.ReadAllText(VALID_TAGGED_FILE_PATH);
             var actual = target.LoadTextAsync();
-            Check.That(await expected).IsEqualTo(await actual);
+            Check.That(expected).IsEqualTo(await actual);
         }
     }
 }
