@@ -41,7 +41,7 @@ namespace LASI.Core
         /// <summary>
         ///Gets the IVerbal instance, usually a Verb or VerbPhrase, which the InfinitivePhrase is the direct object of.
         /// </summary>
-        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
+        public IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
         ///Gets the IVerbal instance the InfinitivePhrase is the indirect object of.
@@ -83,7 +83,7 @@ namespace LASI.Core
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal.ToOption();
+            DirectObjectOf = verbal;
         }
 
         /// <summary>

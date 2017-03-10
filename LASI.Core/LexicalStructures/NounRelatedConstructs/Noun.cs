@@ -82,10 +82,7 @@ namespace LASI.Core
         /// Binds the <see cref="Noun"/> as a direct object of the <see cref="IVerbal"/>.
         /// </summary>
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
-        public void BindAsDirectObjectOf(IVerbal verbal)
-        {
-            DirectObjectOf = verbal.ToOption();
-        }
+        public void BindAsDirectObjectOf(IVerbal verbal) => DirectObjectOf = verbal;
 
         /// <summary>
         /// Binds the <see cref="Noun"/> as an indirect object of the <see cref="IVerbal"/>.
@@ -108,7 +105,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the ITRansitiveAction instance, usually a Verb or VerbPhrase, which the Noun is the direct object of.
         /// </summary>
-        public virtual Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
+        public virtual IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
         /// Gets or sets the IVerbal instance the Noun is the indirect object of.

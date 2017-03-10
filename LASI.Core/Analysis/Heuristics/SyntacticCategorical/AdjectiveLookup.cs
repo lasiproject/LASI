@@ -57,7 +57,7 @@ namespace LASI.Core.Heuristics.WordNet
 
             var referencedSets = from Match match in Regex.Matches(line, POINTER_REGEX)
                                  let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
+                                 where split.Length > 1 && interSetMap.ContainsKey(split[0])
                                  select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
 

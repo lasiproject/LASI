@@ -186,28 +186,6 @@ namespace LASI.Utilities
             yield return tail;
         }
 
-        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<IEnumerable<T>>> forGroups) where TKey : IComparable
-        {
-            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
-            foreach (var groupAction in forGroups)
-            {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
-                groupAction.Value(enumerable);
-            }
-        }
-        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<T>> forGrouped) where TKey : IComparable
-        {
-            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
-            foreach (var groupAction in forGrouped)
-            {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
-                foreach (var element in enumerable)
-                {
-                    groupAction.Value(element);
-                }
-            }
-        }
-
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given
         /// key selector the given projection.
@@ -385,6 +363,8 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => element != null);
+
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
@@ -397,7 +377,7 @@ namespace LASI.Utilities
         {
             Validate.NotNull(source, nameof(source));
             if (source.Count() == 1)
-            { throw new InvalidOperationException("If source is not empty, it must have have more than 1 element."); }
+            { throw new InvalidOperationException("If source is not empty, it must have more than 1 element."); }
             var first = source.First();
             foreach (var next in source.Skip(1))
             {

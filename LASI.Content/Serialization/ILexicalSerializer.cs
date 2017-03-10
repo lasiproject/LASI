@@ -21,8 +21,8 @@ namespace LASI.Content.Serialization
         /// <summary>
         /// Writes a sequence of elements to the underlying xmlWriter, using the provided title string and Degree of output.
         /// </summary>
-        /// <param name="elements">The sequence S&lt;T&gt; containing the values to serialize.</param>
-        /// <param name="resultSetTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
-        TResult Serialize(IEnumerable<T> elements, string resultSetTitle);
+        /// <param name="lexicals">The sequence S&lt;T&gt; containing the values to serialize.</param>
+        /// <param name="parentElementTitle">The title string which will represent a parent node of which the serialized elements will be child nodes.</param>
+        TResult Serialize(IEnumerable<T> lexicals, string parentElementTitle);
     }
 }

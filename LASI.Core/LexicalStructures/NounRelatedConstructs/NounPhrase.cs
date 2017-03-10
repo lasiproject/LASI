@@ -117,7 +117,7 @@ namespace LASI.Core
                 InnerAttributive != null ? "\nDefines: " + InnerAttributive.Text : empty,
                 aliases.Any() ? "\nClassified as: " + aliases.Format() : empty,
                 SubjectOf != null ? "\nSubject Of: " + SubjectOf.Text : empty,
-                from v in DirectObjectOf select "\nDirect Object Of: " + v.Text,
+                DirectObjectOf != null ? "\nDirect Object Of: " + DirectObjectOf.Text : empty,
                 IndirectObjectOf != null ? "\nIndirect Object Of: " + IndirectObjectOf.Text : empty,
                 gender.IsDetermined() ? "\nPrevailing Gender: " + gender : empty
             );
@@ -199,7 +199,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the DIRECT object of.
         /// </summary>
-        public virtual Option<IVerbal> DirectObjectOf => directObjectOf.ToOption();
+        public virtual IVerbal DirectObjectOf => directObjectOf;
 
         /// <summary>
         /// Gets or sets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the NounPhrase is the INDIRECT object of.

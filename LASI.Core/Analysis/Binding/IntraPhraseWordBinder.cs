@@ -59,7 +59,7 @@ namespace LASI.Core.Binding
                  * Binding Adjectives to last noun
                  */
                 var ListOfAdjectives = np.Words.OfAdjective();
-                if (ListOfAdjectives.Count() > 0)
+                if (ListOfAdjectives.Any())
                 {
                     foreach (var adj in ListOfAdjectives)
                     {
@@ -94,7 +94,7 @@ namespace LASI.Core.Binding
 
                 // Adverb linking to NEXT adverb
                 var adverbList = vp.Words.OfAdverb();
-                if (adverbList.Count() > 0)
+                if (adverbList.Any())
                 {
                     foreach (var advrb in adverbList)
                     {
@@ -112,7 +112,7 @@ namespace LASI.Core.Binding
 
                 // "To" binding
                 var toLinkerList = vp.Words.OfToLinker();
-                if (toLinkerList.Count() > 0)
+                if (toLinkerList.Any())
                 {
                     foreach (var toLink in toLinkerList)
                     {
@@ -139,7 +139,7 @@ namespace LASI.Core.Binding
 
                 //  Binds all Modal Aux's to last adverb
                 var ModalAuxList = vp.Words.OfModal();
-                if (ModalAuxList.Count() > 0)
+                if (ModalAuxList.Any())
                 {
                     foreach (var ma in ModalAuxList)
                     {

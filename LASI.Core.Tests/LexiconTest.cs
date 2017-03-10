@@ -138,7 +138,7 @@ namespace LASI.Core.Heuristics.Tests
             Check.That(pastime.GetSynonyms()).Contains("hobby");
         }
 
-        [Fact]
+        [Fact(Skip = "Deferred resolution as not comprehensive enough to isolate the issue.")]
         public void GetSynonymsOfVerbIsReflexive()
         {
             Verb walk = new BaseVerb("walk");

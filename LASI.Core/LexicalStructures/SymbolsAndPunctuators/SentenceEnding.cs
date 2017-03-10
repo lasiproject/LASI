@@ -30,12 +30,13 @@ namespace LASI.Core
         /// </summary>
         /// <returns>A hashcode for the SetenceEnding</returns>
         public override int GetHashCode() => LiteralCharacter;
+
         /// <summary>
         /// Determines if the given <see cref="SentenceEnding"/> is equal to the current instance.
         /// </summary>
         /// <param name="other">A <see cref="SentenceEnding"/> to compare with the current instance.</param>
         /// <returns><c>true</c> if the given <see cref="SentenceEnding"/> is equal to the current instance; <c>false</c> otherwise.</returns>
-        public bool Equals(SentenceEnding other) => this.LiteralCharacter == other?.LiteralCharacter;
+        public bool Equals(SentenceEnding other) => LiteralCharacter == other?.LiteralCharacter;
 
         /// <summary>
         /// Determines if the given <see cref="object"/> is equal to the current instance.
