@@ -1,6 +1,4 @@
-﻿using LASI.Utilities;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para>
@@ -29,6 +27,6 @@ namespace LASI.Core
         /// <summary>
         /// The possessing Entity which possesses through the Weak Possessor.
         /// </summary>
-        Option<IPossesser> PossessesFor { get; set; }
+        IPossesser PossessesFor { get; set; }
     }
 }

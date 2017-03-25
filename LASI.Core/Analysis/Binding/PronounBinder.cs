@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities;
 
 namespace LASI.Core.Binding
 {
@@ -20,7 +19,7 @@ namespace LASI.Core.Binding
 
 
         /// <summary>
-        /// Binds possessive pronouns located in the sequence of phrases sentence. 
+        /// Binds possessive pronouns located in the sequence of phrases sentence.
         /// Example Sentence that this applies to:
         /// "LASI binds its pronouns."
         /// Pronoun "its" binds to the proper noun "LASI"
@@ -33,7 +32,7 @@ namespace LASI.Core.Binding
                 var pronouns = vp.DirectObjects.Concat(vp.IndirectObjects).OfType<IWeakPossessor>();
                 foreach (var pro in pronouns)
                 {
-                    pro.PossessesFor = new AggregateEntity(vp.Subjects).ToOption<IPossesser>();
+                    pro.PossessesFor = new AggregateEntity(vp.Subjects);
                 }
             }
         }
