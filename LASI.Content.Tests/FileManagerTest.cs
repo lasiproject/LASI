@@ -24,8 +24,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocFileTest()
         {
-            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.doc";
-            var result = FileManager.AddFile(sourcePath);
+            var result = FileManager.AddFile(TestDocFilePath);
 
             Check.That(FileManager.DocFilesDirectory + @"\Test paragraph about house fires.doc").Satisfies(File.Exists);
             Check.That(result).IsInstanceOf<DocFile>();
@@ -37,7 +36,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocXFileTest()
         {
-            var sourcePath = @"..\..\MockUserFiles\Test paragraph about house fires.docx";
+            var sourcePath = TestDocXFilePath;
             var result = FileManager.AddFile(sourcePath);
 
             Check.That(result).IsInstanceOf<DocXFile>()
@@ -50,8 +49,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocFilePathReturnsDocFile()
         {
-            var path = @"..\..\MockUserFiles\Test paragraph about house fires.doc";
-            var actual = FileManager.AddFile(path);
+            var actual = FileManager.AddFile(TestDocFilePath);
 
             Check.That(actual).IsInstanceOf<DocFile>()
                 .And.Satisfies(() => actual.FileName == "Test paragraph about house fires.doc");
@@ -60,7 +58,7 @@ namespace LASI.Content.Tests
         [Fact]
         public void AddDocXFilePathReturnsDocXFile()
         {
-            var path = @"..\..\MockUserFiles\Test paragraph about house fires.docx";
+            var path = TestDocXFilePath;
             var actual = FileManager.AddFile(path);
 
             Check.That(actual.FileName).IsEqualTo("Test paragraph about house fires.docx");
@@ -133,13 +131,16 @@ namespace LASI.Content.Tests
         [Fact]
         public async Task ConvertAsNeededAsyncTest()
         {
-            AllTestFiles.ToList().ForEach(file => FileManager.AddFile(file.FileName));
+            foreach (var fileName in AllTestFiles.Select(file => file.Name))
+            {
+                FileManager.AddFile(fileName);
+            }
             await FileManager.ConvertAsNeededAsync();
 
             var filesUnconverted = FileManager.AllFiles
                 .Except(FileManager.TxtFiles)
                 .Except(FileManager.TaggedFiles)
-                .Where(file => !FileManager.TxtFiles.Any(tf => tf.NameSansExt == file.NameSansExt));
+                .Where(file => FileManager.TxtFiles.All(tf => tf.NameSansExt != file.NameSansExt));
 
             Check.That(filesUnconverted).IsEmpty();
         }
@@ -374,26 +375,28 @@ namespace LASI.Content.Tests
             }
         }
 
-        private IEnumerable<InputFile> AllTestFiles
+        private static IEnumerable<InputFile> AllTestFiles
         {
             get
             {
-                foreach (var file in DocFiles) yield return file;
-                foreach (var file in DocXFiles) yield return file;
-                foreach (var file in PdfFiles) yield return file;
-                foreach (var file in TxtFiles) yield return file;
+                var files = new List<InputFile>();
+                files.AddRange(DocFiles);
+                files.AddRange(DocXFiles);
+                files.AddRange(PdfFiles);
+                files.AddRange(TxtFiles);
+                return files;
             }
         }
 
-        private readonly static Func<FileInfo, FileInfo> CopyToRunningTestDirectory = fileInfo => fileInfo.CopyTo($@"{testProjectDirectory}\{fileInfo.Name}", overwrite: true);
+        private static readonly Func<FileInfo, FileInfo> CopyToRunningTestDirectory = fileInfo => fileInfo.CopyTo($@"{testProjectDirectory}\{fileInfo.Name}", overwrite: true);
 
-        private DocFile[] DocFiles => LoadInputFiles(".doc", path => new DocFile(path));
+        private static DocFile[] DocFiles => LoadInputFiles(".doc", path => new DocFile(path));
 
-        private DocXFile[] DocXFiles => LoadInputFiles(".docx", path => new DocXFile(path));
+        private static DocXFile[] DocXFiles => LoadInputFiles(".docx", path => new DocXFile(path));
 
-        private PdfFile[] PdfFiles => LoadInputFiles(".pdf", path => new PdfFile(path));
+        private static PdfFile[] PdfFiles => LoadInputFiles(".pdf", path => new PdfFile(path));
 
-        private TxtFile[] TxtFiles => LoadInputFiles(".txt", path => new TxtFile(path));
+        private static TxtFile[] TxtFiles => LoadInputFiles(".txt", path => new TxtFile(path));
 
 
         private static TInputFile[] LoadInputFiles<TInputFile>(string extension, Func<string, TInputFile> loadFile) => new DirectoryInfo(MockTestFilesDirectory)
@@ -408,7 +411,6 @@ namespace LASI.Content.Tests
 
         public FileManagerTest()
         {
-            //TestOffset += typeof(FileManagerTest).GetMethods().Count(m => m.CustomAttributes.Any(a => a.AttributeType.Name == typeof(FactAttribute).Name));
             testMethodWorkingDirectory = $@"{nameof(FileManagerTest)}";
             testProjectDirectory = $@"{testMethodWorkingDirectory}\NewProject";
             FileManager.Initialize(testProjectDirectory);
@@ -416,25 +418,25 @@ namespace LASI.Content.Tests
 
         private readonly string testMethodWorkingDirectory;
         private const string MockTestFilesDirectory = @"..\..\MockUserFiles";
+        private const string TestDocFilePath = @"..\..\MockUserFiles\Test paragraph about house fires.doc";
         private static string testProjectDirectory;
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
+        private const string TestDocXFilePath = @"..\..\MockUserFiles\Test paragraph about house fires.docx";
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposedValue) return;
+            if (disposing)
             {
-                if (disposing)
+                if (Directory.Exists(testMethodWorkingDirectory))
                 {
-                    if (Directory.Exists(testMethodWorkingDirectory))
-                    {
-                        //Directory.Delete(testProjectDirectory, recursive: true);
-                    }
+                    //Directory.Delete(testProjectDirectory, recursive: true);
                 }
-
-                disposedValue = true;
             }
+
+            disposedValue = true;
         }
 
         public void Dispose()

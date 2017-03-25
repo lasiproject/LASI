@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Represents a conjunction word which links two clauses together.
@@ -29,7 +22,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Right hand side of Conjunction.
         /// </summary>
-        public virtual ILexical JoinedRight {
+        public ILexical JoinedRight {
             get;
             set;
         }
@@ -37,7 +30,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets or sets the Word, Phrase, or Clause on the Left hand side of Conjunction.
         /// </summary>
-        public virtual ILexical JoinedLeft {
+        public ILexical JoinedLeft {
             get;
             set;
         }

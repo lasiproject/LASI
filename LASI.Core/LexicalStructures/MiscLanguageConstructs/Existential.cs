@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Represents a word which is used to make existential assertions. For example, "there" is an

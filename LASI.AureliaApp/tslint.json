@@ -5,6 +5,7 @@
     ]
   },
   "rules": {
+    "prefer-for-of": true,
     "cyclomatic-complexity": [
       true,
       25
@@ -37,9 +38,6 @@
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": [
       true
-    ],
-    "no-console": [
-      false
     ],
     "no-construct": true,
     "no-debugger": true,
@@ -87,7 +85,14 @@
       "check-format"
     ],
     "whitespace": [
-      true
+      true,
+      "check-branch",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-operator",
+      "check-separator",
+      "check-type"
     ]
   }
 }

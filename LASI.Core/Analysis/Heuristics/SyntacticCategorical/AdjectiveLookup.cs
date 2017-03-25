@@ -45,7 +45,7 @@ namespace LASI.Core.Heuristics.WordNet
                     }
                     catch (KeyNotFoundException e)
                     {
-                        Logger.Log("An error occured when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
+                        Logger.Log("An error occurred when Loading the {0}: {1}\r\n{2}", GetType().Name, e.Message, e.StackTrace);
                     }
                 }
             }
@@ -55,13 +55,13 @@ namespace LASI.Core.Heuristics.WordNet
         {
             var line = fileLine.Substring(0, fileLine.IndexOf('|'));
 
-            var referencedSets = from Match match in Regex.Matches(line, POINTER_REGEX)
+            var referencedSets = from Match match in Regex.Matches(line, PointerRegex)
                                  let split = match.Value.SplitRemoveEmpty(' ')
-                                 where split.Count() > 1 && interSetMap.ContainsKey(split[0])
+                                 where split.Length > 1 && interSetMap.ContainsKey(split[0])
                                  select new SetReference(interSetMap[split[0]], int.Parse(split[1]));
 
 
-            var words = from Match match in Regex.Matches(line, WORD_REGEX)
+            var words = from Match match in Regex.Matches(line, WORD_REGEX1)
                                         select match.Value.Replace('_', ' ');
             var id = int.Parse(line.Substring(0, 8), System.Globalization.CultureInfo.InvariantCulture);
 
@@ -82,8 +82,8 @@ namespace LASI.Core.Heuristics.WordNet
         internal override IImmutableSet<string> this[Adjective search] => this[search.Text];
 
         private string filePath;
-        private const string POINTER_REGEX = @"\D{1,2}\s*\d{8}";
-        private const string WORD_REGEX = @"(?<word>[A-Za-z_\-\']{3,})";
+        private const string PointerRegex = @"\D{1,2}\s*\d{8}";
+        private const string WordRegex = @"(?<word>[A-Za-z_\-\']{3,})";
         //ISet<AdjectiveSynset> allSets = new HashSet<AdjectiveSynset>();
         ConcurrentDictionary<int, AdjectiveSynset> setsById = new ConcurrentDictionary<int, AdjectiveSynset>(concurrencyLevel: 8, capacity: 18154);
         /// <summary>
@@ -102,6 +102,8 @@ namespace LASI.Core.Heuristics.WordNet
             [";u"] = Link.DomainOfSynset_USAGE
         };
         private readonly AdjectiveMorpher formGenerator;
+
+        public static string WORD_REGEX1 => WordRegex;
     }
 
 }

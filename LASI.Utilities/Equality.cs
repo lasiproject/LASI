@@ -26,7 +26,7 @@ namespace LASI.Utilities
         /// <remarks>
         /// <para>
         /// The intent of the functionality provided is to simplify the use of LINQ methods, such as
-        /// <see cref="Enumerable.Contains{TSource}(IEnumerable{TSource}, TSource, IEqualityComparer{TSource})"/> 
+        /// <see cref="Enumerable.Contains{TSource}(IEnumerable{TSource}, TSource, IEqualityComparer{TSource})"/>
         /// and <see cref="Enumerable.Distinct{TSource}(IEnumerable{TSource}, IEqualityComparer{TSource})"/> which require an
         /// IEqualityComparer as opposed to a simple predicate function. Because the custom comparer
         /// created produces identical hashcodes for non null objects, it allows for these methods

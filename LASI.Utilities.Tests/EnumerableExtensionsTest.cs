@@ -369,14 +369,14 @@ namespace LASI.Utilities.Tests
         [Fact]
         public void WithIndicesUsesZeroBasedIndicies()
         {
-            var indices = Range(10, 20).WithIndices().Select(e => e.Index);
+            var indices = Range(10, 20).WithIndices().Select(e => e.index);
             Check.That(indices.First()).IsEqualTo(0);
         }
 
         [Fact]
         public void WithIndicesStepsUsesStepOfOne()
         {
-            var indices = Range(10, 20).WithIndices().Select(e => e.Index).ToList();
+            var indices = Range(10, 20).WithIndices().Select(e => e.index).ToList();
             Check.That(indices).ContainsExactly(Range(0, indices.Count));
         }
 

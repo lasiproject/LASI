@@ -1,6 +1,6 @@
 ﻿namespace LASI.Interop.ContractHelperTypes.Base
 {
-    class SystemResourceLoadingNotifier : SystemResourceNotifierImplementation
+    class SystemResourceLoadingNotifier : SystemResourceNotifierDualizer
     {
         public SystemResourceLoadingNotifier() : base(messageAdjunct: "Loading")
         {

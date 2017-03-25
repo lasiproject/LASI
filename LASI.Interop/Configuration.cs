@@ -97,7 +97,7 @@ namespace LASI.Interop
         public static void Initialize(IConfig config) => Initialize(() => config);
         public static void Initialize(Func<IConfig> configFactory)
         {
-            lock (initializationLock)
+            lock (InitializationLock)
             {
                 Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
                 var config = configFactory();
@@ -110,16 +110,16 @@ namespace LASI.Interop
         {
             Validate.ExistsIn(from ConfigFormat cf in Enum.GetValues(typeof(ConfigFormat)) select cf, format, nameof(format), $"Invalid config format, specify {typeof(ConfigFormat).Name}{nameof(ConfigFormat.Json)} or {nameof(ConfigFormat.Xml)}");
 
-            lock (initializationLock)
+            lock (InitializationLock)
             {
                 Validate.False(alreadyConfigured, () => new AlreadyConfiguredException());
 
-                Func<IConfig> loadXmlConfig = () => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
+                IConfig LoadXmlConfig() => new XmlConfig(subkey.IsNullOrWhiteSpace() ? XElement.Parse(raw) : XElement.Parse(raw).Element(subkey));
 
-                Func<IConfig> loadJsonConfig = () => new JsonConfig((JObject)(subkey.IsNullOrWhiteSpace() ? JToken.Parse(raw) : JToken.Parse(raw).SelectToken(subkey)));
+                IConfig LoadJsonConfig() => new JsonConfig((JObject) (subkey.IsNullOrWhiteSpace() ? JToken.Parse(raw) : JToken.Parse(raw).SelectToken(subkey)));
 
 
-                var config = format == ConfigFormat.Json ? loadJsonConfig() : loadXmlConfig();
+                var config = format == ConfigFormat.Json ? LoadJsonConfig() : LoadXmlConfig();
                 InitializeComponents(config);
                 alreadyConfigured = true;
             }
@@ -132,7 +132,7 @@ namespace LASI.Interop
         }
 
         private static bool alreadyConfigured;
-        private static readonly object initializationLock = new object();
+        private static readonly object InitializationLock = new object();
     }
     /// <summary>
     /// Defines the valid formats for configuration sources.

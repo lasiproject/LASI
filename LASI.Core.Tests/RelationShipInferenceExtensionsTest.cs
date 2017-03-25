@@ -5,7 +5,7 @@ namespace LASI.Core.Analysis.Relationships.Tests
 {
     using NFluent;
     using Fact = Xunit.FactAttribute;
-    public class RelationShipInferenceExtensionsTests
+    public class RelationShipInferenceExtensionsTest
     {
         /// <summary>
         ///A test for SetRelationshipLookup

@@ -216,6 +216,6 @@ namespace LASI.App.Visualization
 
         #endregion Helper Methods
 
-        private static readonly Interop.Visualization.IStyleProvider<ILexical, Brush> colorMapping = new SyntacticColorMap();
+        private static readonly Interop.Visualization.IStyleProvider<ILexical, Brush> colorMapping = new SyntacticColorMapping();
     }
 }

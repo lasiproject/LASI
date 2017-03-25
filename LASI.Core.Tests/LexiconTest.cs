@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using LASI.Utilities;
 using NFluent;
 using Fact = Xunit.FactAttribute;
 
 namespace LASI.Core.Heuristics.Tests
 {
-    public class LexiconTests
+    public class LexiconTest
     {
         [Fact]
         public void GetGenderTest()
@@ -36,18 +35,27 @@ namespace LASI.Core.Heuristics.Tests
             var patrick = new ProperSingularNoun("Patrick");
 
             Check.That(patrickRoberts.GetGender()).IsEqualTo(patrick.GetGender());
-            Check.That((patrickRoberts as IEntity).GetGender()).IsEqualTo(patrick.GetGender());
+            Check.That(((IEntity) patrickRoberts).GetGender()).IsEqualTo(patrick.GetGender());
         }
 
         [Fact]
         public void IsFemaleFullTest()
         {
-            var np = new NounPhrase(new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts"));
-            Check.That(np.IsFullFemaleName()).IsTrue();
-            Check.That(np.IsFullMaleName()).IsFalse();
-            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Julia"), new ProperPluralNoun("Rachels"));
-            Check.That(np1.IsFullFemaleName()).IsTrue();
-            Check.That(np1.IsFullMaleName()).IsFalse();
+            var noun = new NounPhrase(new ProperSingularNoun("Julia"), new ProperPluralNoun("Roberts"));
+            Check.That(noun.IsFullFemaleName()).IsTrue();
+            Check.That(noun.IsFullMaleName()).IsFalse();
+        }
+
+        [Fact]
+        public void IsFullFemaleRespectsTitles()
+        {
+            var drJuliaRachels = new NounPhrase(
+                new ProperSingularNoun("Dr."),
+                new ProperSingularNoun("Julia"),
+                new ProperPluralNoun("Rachels")
+            );
+            Check.That(drJuliaRachels.IsFullFemaleName()).IsTrue();
+            Check.That(drJuliaRachels.IsFullMaleName()).IsFalse();
         }
 
         [Fact]
@@ -56,18 +64,30 @@ namespace LASI.Core.Heuristics.Tests
             var np = new NounPhrase(new ProperSingularNoun("Patrick"), new ProperPluralNoun("Roberts"));
             Check.That(np.IsFullMaleName()).IsTrue();
             Check.That(np.IsFullFemaleName()).IsFalse();
-            var np1 = new NounPhrase(new ProperSingularNoun("Dr."), new ProperSingularNoun("Patrick"), new ProperPluralNoun("Rachels"));
-            Check.That(np1.IsFullMaleName()).IsTrue();
-            Check.That(np1.IsFullFemaleName()).IsFalse();
+        }
+
+        public void IsMaleFullRespectsTitles()
+        {
+            var drPatrickRachels = new NounPhrase(
+                new ProperSingularNoun("Dr."),
+                new ProperSingularNoun("Patrick"),
+                new ProperPluralNoun("Rachels")
+            );
+            Check.That(drPatrickRachels.IsFullMaleName()).IsTrue();
+            Check.That(drPatrickRachels.IsFullFemaleName()).IsFalse();
         }
 
         [Fact]
-        public void IsFirstNameTest()
+        public void IsFirstNameOfKnownFemaleNameBaselineMatches()
         {
-            Check.That(new ProperSingularNoun("Patrick").IsFirstName()).IsTrue();
             Check.That(new ProperSingularNoun("Rachel").IsFirstName()).IsTrue();
         }
 
+        [Fact]
+        public void IsFirstNameOfKnownMaleNameBaselineMatches()
+        {
+            Check.That(new ProperSingularNoun("Patrick").IsFirstName()).IsTrue();
+        }
         [Fact]
         public void IsLastNameTest()
         {

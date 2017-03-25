@@ -23,7 +23,7 @@
         /// <summary>
         /// The maximum number of MBs to which the lookup caches can collectively grow.
         /// </summary>
-        public static MB MinRamThreshold { get; private set; }
+        private static MB MinRamThreshold { get; set; }
 
         static Memory()
         {
@@ -33,15 +33,15 @@
             checkIntervalTimer.Start();
             checkIntervalTimer.Elapsed += delegate
             {
-                //var available = GetAvailableMemory();
-                //if (available < MinRamThreshold)
-                //{
-                //    MemoryCritical(null, new MemoryEventArgs
-                //    {
-                //        RemainingMemory = available,
-                //        TriggeringThreshold = MinRamThreshold
-                //    });
-                //}
+                var available = GetAvailableMemory();
+                if (available < MinRamThreshold)
+                {
+                    MemoryCritical(null, new MemoryThresholdExceededEventArgs
+                    {
+                        RemainingMemory = available,
+                        TriggeringThreshold = MinRamThreshold
+                    });
+                }
             };
         }
 

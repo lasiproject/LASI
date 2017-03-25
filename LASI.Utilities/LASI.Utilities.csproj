@@ -87,6 +87,7 @@
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,7 @@
     <Compile Include="Configuration\JsonConfig.cs" />
     <Compile Include="Configuration\LoadableConfigBase.cs" />
     <Compile Include="Configuration\XmlConfig.cs" />
+    <Compile Include="Equality.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="Action.cs" />
     <Compile Include="CharacterExtensions.cs" />
@@ -107,7 +109,6 @@
     <Compile Include="Option.cs" />
     <Compile Include="TupleExtensions.cs" />
     <Compile Include="Validation\Validate.cs" />
-    <Compile Include="EqualityComparerFactory.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="FunctionExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />

@@ -10,7 +10,7 @@ namespace LASI.Core.Analysis.PatternMatching
    /// Provides for the representation and free-form structuring of a result yielding Match expression which is predicated by an arbitrary condition.
    /// </summary>
    /// <typeparam name="T">The Type of the value which the Pattern Matching expression will match with.</typeparam>
-   /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam> 
+   /// <typeparam name="TResult">The Type of the result to be yielded by the Pattern Matching expression.</typeparam>
     [DebuggerStepThrough]
     public class PredicatedMatch<T, TResult> : PredicatedMatchBase<T> where T : class, ILexical
     {
@@ -48,7 +48,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// </summary>
         /// <typeparam name="TCase">The Type to match with. If the value being matched is of this type, this Case expression will be selected and executed.</typeparam>
         /// <param name="func">The function which, if this Case expression is Matched, will be invoked on the value being matched with to produce the desired result for a Match with TPattern.</param>
-        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns> 
+        /// <returns>The Match&lt;T, R&gt; describing the Match expression so far.</returns>
         public Match<T, TResult> Then<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical => Accepted ? expression.Case(func) : expression;
 
         /// <summary>

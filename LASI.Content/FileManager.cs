@@ -542,7 +542,6 @@ namespace LASI.Content
         /// </summary>
         public static string TxtFilesDirectory => InputFilesDirectory + @"\txt";
         #endregion
-        public static IReadOnlyList<string> AcceptedFileFormats = ImmutableList.Create("TXT", "DOC", "DOCX", "PDF");
 
         /// <summary>
         /// Gets the names of all documents in the current project. Ignoring file extensions.

@@ -148,7 +148,7 @@ namespace LASI.App
                 .Select(page => page.Sentences)
                 .DefaultIfEmpty(document.Sentences)
                 .SelectMany(sentence => sentence.Phrases());
-            var colorizer = new SyntacticColorMap();
+            var colorizer = new SyntacticColorMapping();
             var flowDocument = new FlowDocument();
 
             var documentContents = (from phrase in phrases

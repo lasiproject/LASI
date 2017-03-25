@@ -112,7 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Content\InteropBindings.cs" />
+    <Compile Include="Content\Configuration.cs" />
     <Compile Include="Exceptions\UnmappedLexicalTypeExceptions.cs" />
     <Compile Include="FileConveters\DocToDocXConverter.cs" />
     <Compile Include="FileConveters\DocxToTextConverter.cs" />
@@ -140,9 +140,9 @@
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\PhraseExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagmapBases\PhraseTagsetMap.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPPhraseTagsetMap.cs" />
-    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TaggerInterop\SharpNLPTagger.cs" />
     <Compile Include="TaggerEncapsulation\SNLPTagsetMaps\SharpNLPWordTagsetMap.cs" />
+    <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\TaggedWordExtractor.cs" />
     <Compile Include="TaggerEncapsulation\TagParsers\SupportTypes\WordFactory.cs" />
     <Compile Include="FileTypes\DocXFile.cs" />
     <Compile Include="FileTypes\Support\FileData.cs" />

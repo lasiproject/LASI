@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace LASI.App.Visualization
 {
     using static Brushes;
-    class SyntacticColorMap : Interop.Visualization.IStyleProvider<ILexical, Brush>
+    class SyntacticColorMapping : Interop.Visualization.IStyleProvider<ILexical, Brush>
     {
         /// <summary>
         /// Maps a Lexical element to a syntax highlighting color. The returned value is a System.Windows.Media.Brush enumeration member.

@@ -9,8 +9,8 @@ namespace LASI.Core.Tests
     ///This is A test class for PastPrtcplVerbTest and is intended
     ///to contain all PastPrtcplVerbTest Unit Tests
     /// </summary>
-    public class PastPrtcplVerbTest
-    { 
+    public class PastParticipleTest
+    {
         /// <summary>
         ///A test for PastPrtcplVerb Constructor
         /// </summary>
