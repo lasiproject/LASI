@@ -12,10 +12,10 @@ namespace LASI.Core.Analysis.PatternMatching
     /// matched, the result will be the default value for the Type TResult.
     /// </summary>
     /// <typeparam name="T">
-    /// The Type of the value which the Pattern Matching expression will match with. 
+    /// The Type of the value which the Pattern Matching expression will match with.
     /// </typeparam>
     /// <typeparam name="TResult">
-    /// The Type of the result to be yielded by the Pattern Matching expression. 
+    /// The Type of the result to be yielded by the Pattern Matching expression.
     /// </typeparam>
     /// <remarks>
     /// <para>
@@ -68,21 +68,21 @@ namespace LASI.Core.Analysis.PatternMatching
     /// implementations of visitors will inherently get spread out in both the textual space of the
     /// source code and the conceptions of implementers. The syntax for pattern matching uses a
     /// fluent interface style.
-    /// </para> <example> 
+    /// </para> <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
     ///         .Case((IReferencer r) =&gt; r.ReferredTo.Weight)
     ///     	.Case((IEntity e) =&gt; e.Weight)
     ///     	.Case((IVerbal v) =&gt; v.HasSubject()? v.Subject.Weight : 0)
     /// 	.Result(1);
-    /// </code> </example><example> 
+    /// </code> </example><example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
     /// 		.Case((Phrase p) =&gt; p.Words.Average(w =&gt; w.Weight))
     /// 		.Case((Word w) =&gt; w.Weight)
     /// 	.Result();
-    /// </code> </example> 
-    /// <para> Patterns may be nested arbitrarily as in the following example </para> <example> 
+    /// </code> </example>
+    /// <para> Patterns may be nested arbitrarily as in the following example </para> <example>
     /// <code>
     /// var weight = myLexical.Match().Yield&lt;double&gt;()
     ///         .Case((IReferencer r) =&gt; r.ReferredTo
@@ -91,7 +91,7 @@ namespace LASI.Core.Analysis.PatternMatching
     ///             .Result())
     ///         .Case((Noun n) =&gt; n.Weight)
     ///     .Result();
-    /// </code> </example> 
+    /// </code> </example>
     /// <para>
     /// When a Yield clause is not applied, the Match Expression will not yield a value. Instead it
     /// will behave much as a Type driven switch statement. <example>
@@ -100,7 +100,7 @@ namespace LASI.Core.Analysis.PatternMatching
     ///         .Case((Phrase p) =&gt; Console.Write("Phrase: ", p.Text))
     /// 	    .Case((Word w) =&gt; Console.Write("Word: ", w.Text))
     ///     .Default(() =&gt; Console.Write("Not a Word or Phrase"));
-    /// </code> </example> 
+    /// </code> </example>
     /// </para>
     /// <para>
     /// * a: The visitor pattern provides statically type safe double dispatch, at the cost of
@@ -130,10 +130,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Initializes a new instance of the Case&lt;T,R&gt; which will allow for Pattern Matching
         /// with the provided value.
         /// </summary>
-        /// <param name="value">
-        /// <param name="matched">Indicates if the match is to be initialized as already matched. </param>
-        /// The value to match with. 
-        /// </param>
+        /// <param name="value">The value to match with.</param>
+        /// <param name="matched">Indicates if the match is to be initialized as already matched.</param>
         [DebuggerStepThrough]
         internal Match(T value, bool matched) : base(value)
         {
@@ -153,7 +151,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// predicate returns true.
         /// </summary>
         /// <param name="predicate">
-        /// The predicate to test the value being matched. 
+        /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
@@ -167,7 +165,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// predicate returns true.
         /// </summary>
         /// <param name="when">
-        /// The predicate to test the value being matched. 
+        /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
@@ -185,7 +183,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// for the following then expression to be selected.
         /// </typeparam>
         /// <param name="predicate">
-        /// The predicate to test the value being matched. 
+        /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
@@ -203,7 +201,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// predicate returns true.
         /// </summary>
         /// <param name="when">
-        /// The predicate to test the value being matched. 
+        /// The predicate to test the value being matched.
         /// </param>
         /// <returns>
         /// The PredicatedMatch&lt;T, R&gt; describing the Match expression so far. This must be
@@ -216,7 +214,7 @@ namespace LASI.Core.Analysis.PatternMatching
         #region Case Expressions
 
         /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression. 
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">
         /// The Type to match with. If the value being matched is of this type, this Case expression
@@ -227,7 +225,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// corresponding desired result for a Match Case TPattern.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far. 
+        /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TResult> func) where TCase : class, ILexical
         {
@@ -240,7 +238,7 @@ namespace LASI.Core.Analysis.PatternMatching
         }
 
         /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression. 
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TCase">
         /// The Type to match with. If the value being matched is of this type, this Case expression
@@ -251,7 +249,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// being matched with to produce the desired result for a Match with TPattern.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far. 
+        /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TCase>(Func<TCase, TResult> func) where TCase : class, ILexical
         {
@@ -290,17 +288,17 @@ namespace LASI.Core.Analysis.PatternMatching
         public Match<T, TResult> Case(TResult then, Func<T, bool> when) => When(when).Then(then);
 
         /// <summary>
-        /// Appends a Match with Type expression to the current PatternMatching Expression. 
+        /// Appends a Match with Type expression to the current PatternMatching Expression.
         /// </summary>
         /// <typeparam name="TPattern">
         /// The Type to match with. If the value being matched is of this type, this Case expression
         /// will be selected and executed.
         /// </typeparam>
         /// <param name="result">
-        /// The value which, if this Case expression is Matched, will be the result of the Pattern Match. 
+        /// The value which, if this Case expression is Matched, will be the result of the Pattern Match.
         /// </param>
         /// <returns>
-        /// The Match&lt;T, R&gt; describing the Match expression so far. 
+        /// The Match&lt;T, R&gt; describing the Match expression so far.
         /// </returns>
         public Match<T, TResult> Case<TPattern>(TResult result) where TPattern : class, ILexical
         {
@@ -327,7 +325,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// specified for the first Match expression which succeeded or the default value the type TResult.
         /// </summary>
         /// <returns>
-        /// The result of the Pattern Matching expression. 
+        /// The result of the Pattern Matching expression.
         /// </returns>
         public TResult Result() => result;
 
@@ -336,7 +334,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// to yield when no other patterns have been matched.
         /// </summary>
         /// <param name="defaultValueFactory">
-        /// The factory function returning a desired default value. 
+        /// The factory function returning a desired default value.
         /// </param>
         /// <returns>
         /// The result of the first successful match or the value given by invoking the supplied
@@ -357,7 +355,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// to yield when no other patterns have been matched.
         /// </summary>
         /// <param name="func">
-        /// The factory function returning a desired default value. 
+        /// The factory function returning a desired default value.
         /// </param>
         /// <returns>
         /// The result of the first successful match or the value given by invoking the supplied
@@ -378,10 +376,10 @@ namespace LASI.Core.Analysis.PatternMatching
         /// to yield when no other patterns have been matched.
         /// </summary>
         /// <param name="defaultValue">
-        /// The desired default value. 
+        /// The desired default value.
         /// </param>
         /// <returns>
-        /// The result of the first successful match or supplied default value. 
+        /// The result of the first successful match or supplied default value.
         /// </returns>
         public TResult Result(TResult defaultValue)
         {

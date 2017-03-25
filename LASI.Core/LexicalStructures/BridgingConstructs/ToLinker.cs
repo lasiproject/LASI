@@ -1,10 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// Represents the word "TO", a dynamic prepositional construct which can link Words, Phrases and Clauses together.

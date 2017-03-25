@@ -152,7 +152,7 @@ namespace LASI.Core
 
         #endregion Implcit Conversion Operators
 
-        #region Comparison Operators    
+        #region Comparison Operators
 
         /// <summary>
         /// Returns a value that indicates whether the SimResult on the left is equal to the

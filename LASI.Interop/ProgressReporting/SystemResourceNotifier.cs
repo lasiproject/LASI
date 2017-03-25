@@ -8,7 +8,7 @@ namespace LASI.Interop.ContractHelperTypes.Base
     /// <summary>
     /// Provides for the subscription of events involving the loading of core resources.
     /// </summary>
-    class SystemResourceNotifier : SystemResourceNotifierImplementation
+    class SystemResourceNotifier : SystemResourceNotifierDualizer
     {
         /// <summary>
         /// Initializes a new instance of the SystemResourceNotifier class which provides 

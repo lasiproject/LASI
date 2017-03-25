@@ -95,6 +95,9 @@ namespace LASI.Content
         /// </summary>
         public string Name => NameSansExt;
 
+        /// <summary>
+        /// The canonical file extension for the associated input file format.
+        /// </summary>
         public abstract string CanonicalExtension { get; }
 
         /// <summary>

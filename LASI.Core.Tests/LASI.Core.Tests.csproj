@@ -165,12 +165,12 @@
     <Compile Include="DocumentTest.cs" />
     <Compile Include="DoubleQuoteTest.cs" />
     <Compile Include="ExistentialTest.cs" />
-    <Compile Include="RelationShipInferenceExtensionsTest.cs" />
     <Compile Include="ForeignWordTest.cs" />
     <Compile Include="CommonPluralNounTest.cs" />
     <Compile Include="CommonSingularNounTest.cs" />
     <Compile Include="PatternMatching\MatchTTresultTest.cs" />
     <Compile Include="PatternMatching\MonadOperatorsTest.cs" />
+    <Compile Include="RelationshipInferenceExtensionsTest.cs" />
     <Compile Include="SubjectBinderTests.cs" />
     <Compile Include="IDirectObjectTakerTest.cs" />
     <Compile Include="IEntityTest.cs" />

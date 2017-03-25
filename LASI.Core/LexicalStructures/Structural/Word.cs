@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using LASI.Core.LexicalStructures;
+﻿using LASI.Core.LexicalStructures;
 using LASI.Utilities.Validation;
 
 namespace LASI.Core

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-namespace LASI.Core
+﻿namespace LASI.Core
 {
     /// <summary>
     /// <para> Represents interjection words, such as "by-jove!" </para>

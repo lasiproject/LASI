@@ -96,10 +96,8 @@ namespace LASI.Core.Analysis.PatternMatching
         /// Initializes a new instance of the Match&lt;T&gt; class which will match against the supplied value.
         /// </summary>
         /// <param name="value">The value to match against.</param>
-        [DebuggerStepThrough]
         internal Match(T value) : base(value) { }
 
-        [DebuggerStepThrough]
         internal Match(Option<T> value) : base(value) { }
 
         #endregion Constructors
@@ -115,9 +113,9 @@ namespace LASI.Core.Analysis.PatternMatching
         /// action invoked.
         /// </typeparam>
         /// <typeparam name="TResult">The Type of the result which the match expression may now return.</typeparam>
-        /// <param name="f">The function describing the case.</param>
+        /// <param name="pattern">The function describing the case.</param>
         /// <returns>A Match&lt;T, R&gt; representing the now result yielding Match expression.</returns>
-        public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> f) where TCase : class, ILexical => Yield<TResult>().Case(f);
+        public Match<T, TResult> Case<TCase, TResult>(Func<TCase, TResult> pattern) where TCase : class, ILexical => Yield<TResult>().Case(pattern);
 
         /// <summary>
         /// Promotes the current non result returning expression of type Case&lt;T&gt; into a result returning expression of Case&lt;T,
@@ -199,7 +197,7 @@ namespace LASI.Core.Analysis.PatternMatching
         /// <returns>The Match&lt;T&gt; describing the Match expression so far.</returns>
         public Match<T> Case<TCase>(Action<TCase> action) where TCase : class, ILexical
         {
-            if (!UnMatchable && Value != null && !Matched)
+            if (!UnMatchable && !Matched)
             {
 #pragma warning disable IDE0019 // Use pattern matching : False diagnostic as pattern matching if (Value is TCase matched) {...} causes an error (seems like it should work)
                 var matched = Value as TCase;

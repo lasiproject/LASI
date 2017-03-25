@@ -495,11 +495,11 @@ namespace LASI.Utilities
 
         #endregion Product
         /// <summary> Applies an accumulator over the sequence yielding each intermediate value.
-        /// </summary> 
+        /// </summary>
         /// <typeparam name="T">
         /// The type of the elements in the sequence.
         /// </typeparam>
-        /// <param name="source">A sequence to scan.</param>  
+        /// <param name="source">A sequence to scan.</param>
         /// <param name="func">A function to invoke on each element in source and the
         /// accumulator value.</param>
         ///  <returns>The sequence starting with the first element in <paramref name="source"/> and ending with the final accumulation.</returns>
@@ -516,14 +516,14 @@ namespace LASI.Utilities
 
         /// <summary> Applies an accumulator over the sequence yielding each intermediate value. The
         /// resulting sequence begins with the specified seed and ends with the final aggregate.
-        /// </summary> 
+        /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam> 
+        /// <typeparam name="TAccumulate">The type of the accumulator value.</typeparam>
         /// <param name="source">A sequence to scan.</param> <param name="seed">A an initial seed
         /// value.</param>
         /// <param name="func">A function to invoke on each element in source and the
         /// accumulator value.
-        /// </param> 
+        /// </param>
         /// <returns>The sequence starting with <paramref name="seed"/> and ending with the final accumulation.</returns>
         public static IEnumerable<TAccumulate> Scan<T, TAccumulate>(this IEnumerable<T> source, TAccumulate seed, Func<TAccumulate, T, TAccumulate> func)
         {
@@ -655,7 +655,16 @@ namespace LASI.Utilities
                 .Zip(second, third, (a, b, c) => new { a, b, c })
                 .Zip(fourth, (abc, d) => selector(abc.a, abc.b, abc.c, d));
 
-        public static IEnumerable<(T1 first, T2 second)> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
+        /// <summary>
+        /// Zips two sequences, producing a sequence of tuples from their respective elements.
+        /// </summary>
+        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <returns>An <see cref="System.Collections.Generic.IEnumerable{T}"/> that contains the corresponding pairs of elements of two input sequences.
+        /// </returns>
+        public static IEnumerable<(T1, T2)> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
             first.Zip(second, (x, y) => (x, y));
 
         public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<(T1 first, T2 second)> zipped, Func<T1, T2, TResult> selector) =>
@@ -669,8 +678,7 @@ namespace LASI.Utilities
         /// <returns>
         /// A sequence which pair each element of the source sequence with its index in that sequence.
         /// </returns>
-        public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) =>
-            source.Select((element, index) => (element, index));
+        public static IEnumerable<(T element, int index)> WithIndices<T>(this IEnumerable<T> source) => source.Select((element, index) => (element, index));
 
         /// <summary>
         /// Invokes each action in the IEnumerable&lt;<see cref="Action"/>&gt;.

@@ -15,7 +15,7 @@ namespace LASI.Core.Analysis.Binding
     public class VerblessPhrasalSequenceException : Exception
     {
         /// <summary>
-        /// Gets the verbless sequence which caused the exception. 
+        /// Gets the verbless sequence which caused the exception.
         /// </summary>
         public IEnumerable<ILexical> Sequence { get; }
 
@@ -41,8 +41,8 @@ namespace LASI.Core.Analysis.Binding
         /// <summary>
         /// Do not use this constructor.
         /// </summary>
-        /// <param name="message">Do not use this constructor.</param>  
-        /// <param name="innerException">Do not use this constructor.</param>  
+        /// <param name="message">Do not use this constructor.</param>
+        /// <param name="innerException">Do not use this constructor.</param>
         [Obsolete("Do not instantiate with this constructor.\nPlease use: new VerblessPhrasalSequenceException(IEnumerable<Phrase>)", true)]
         public VerblessPhrasalSequenceException(string message, Exception innerException) : base(message, innerException) { }
 

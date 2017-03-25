@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NFluent;
+using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace LASI.Core.Analysis.Relationships.Tests
 {
-    using NFluent;
-    using Fact = Xunit.FactAttribute;
-    public class RelationShipInferenceExtensionsTests
+    public class RelationshipInferenceExtensionsTest
     {
         /// <summary>
         ///A test for SetRelationshipLookup
