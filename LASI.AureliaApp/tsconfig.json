@@ -1,4 +1,8 @@
 ﻿{
+  "typeAcquisition": {
+    "enable": false
+  },
+  "compileOnSave": false,
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "noEmit": true,
@@ -8,7 +12,6 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
     "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitThis": true,
@@ -19,16 +22,6 @@
     "lib": [
       "es2017",
       "dom"
-    ],
-    "typeRoots": [
-      "jspm_packages/npm/@types"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    "node_modules/@types",
-    "jspm_packages/npm",
-    "jspm_packages/github",
-    "jspm_packages/npm/typescript@next"
-  ]
+  }
 }

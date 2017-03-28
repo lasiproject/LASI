@@ -779,7 +779,6 @@ SystemJS.config({
     "font-awesome": "npm:font-awesome@4.7.0",
     "aurelia-dialog": "npm:aurelia-dialog@1.0.0-beta.3.0.1",
     "@types/bootstrap": "npm:@types/bootstrap@3.3.32",
-    "@types/whatwg-fetch": "npm:@types/whatwg-fetch@0.0.33",
     "aurelia-http-client": "npm:aurelia-http-client@1.0.4",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.1.0",
     "aurelia-binding": "npm:aurelia-binding@1.1.1",
@@ -831,7 +830,7 @@ SystemJS.config({
     "querystring": "npm:jspm-nodelibs-querystring@0.2.0",
     "readline": "npm:jspm-nodelibs-readline@0.2.0",
     "reflect-metadata": "npm:reflect-metadata@0.1.9",
-    "rxjs": "npm:rxjs-es@5.0.0-beta.12",
+    "rxjs": "npm:rxjs@5.2.0",
     "stream": "npm:jspm-nodelibs-stream@0.2.0",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.0",
     "tls": "npm:jspm-nodelibs-tls@0.2.0",
@@ -1233,20 +1232,9 @@ SystemJS.config({
         "@types/jquery": "npm:@types/jquery@2.0.39"
       }
     },
-    "npm:@types/whatwg-fetch@0.0.33": {
-      "map": {
-        "@types/whatwg-streams": "npm:@types/whatwg-streams@0.0.2"
-      }
-    },
     "npm:jspm-nodelibs-domain@0.2.0": {
       "map": {
         "domain-browserify": "npm:domain-browser@1.1.7"
-      }
-    },
-    "npm:rxjs-es@5.0.0-beta.12": {
-      "format": "esm",
-      "map": {
-        "symbol-observable": "npm:symbol-observable@1.0.4"
       }
     },
     "npm:loose-envify@1.3.1": {
@@ -1320,6 +1308,11 @@ SystemJS.config({
     "npm:jspm-nodelibs-buffer@0.2.2": {
       "map": {
         "buffer": "npm:buffer@4.9.1"
+      }
+    },
+    "npm:rxjs@5.2.0": {
+      "map": {
+        "symbol-observable": "npm:symbol-observable@1.0.4"
       }
     }
   }

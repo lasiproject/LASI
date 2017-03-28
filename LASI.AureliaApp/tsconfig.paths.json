@@ -1,11 +1,20 @@
 ﻿{
   "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "",
     "moduleResolution": "node",
     "paths": {
       "tslib": [
-        "jspm-packages/npm/tslib@1.6.0"
+        "jspm_packages/npm/tslib@1.6.0/tslib"
+      ],
+      "jquery": [
+        "jspm_packages/npm/@types/jquery@2.0.39"
+      ],
+      "rxjs": [
+        "jspm_packages/npm/rxjs@5.2.0"
+      ],
+      "rxjs/*": [
+        "jspm_packages/npm/rxjs@5.2.0/*"
       ],
       "moment": [
         "jspm_packages/npm/moment@2.17.1/moment"

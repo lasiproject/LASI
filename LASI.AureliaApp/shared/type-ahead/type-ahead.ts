@@ -2,7 +2,12 @@
 import { ViewCompiler, useView, ViewResources, autoinject, customElement, Container, bindable } from 'aurelia-framework';
 import { TemplateRegistryEntry, Loader } from 'aurelia-loader';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Observable, Subject, Subscription, Observer } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/debounce';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 import 'typeahead';
 
 @autoinject @customElement('type-ahead') export class TypeAhead {
@@ -14,7 +19,7 @@ import 'typeahead';
     readonly viewCompiler: ViewCompiler,
     readonly container: Container) { }
 
-  async searchTerm(term: any): Promise<any> {
+  async searchTerm(term: {}): Promise<{}> {
     const results = this.sourceArray.filter(x => x.text === term);
     /*tslint:disable variable-name*/
     return results;
@@ -38,7 +43,7 @@ import 'typeahead';
 
     this.searcher = searcher;
 
-    return (query: {}, syncResults: ({ }) => any, asyncResults: ({ }) => any) => {
+    return (query: {}, syncResults: ({ }) => {}, asyncResults: ({ }) => {}) => {
       const subscription = this.searcher.subscribe(
         (data) => {
           return asyncResults(data);
@@ -101,7 +106,7 @@ import 'typeahead';
 
   }
 
-  async valueChanged(newValue, oldValue) {
+  async valueChanged(newValue: {}, oldValue: {}) {
     console.log('valueChanged', newValue);
     var results = this.options(newValue, () => this.sourceArray);
     console.log(results);
@@ -114,17 +119,17 @@ import 'typeahead';
   detached() {
     $(this.element).typeahead('destroy');
   }
-  searcher: Observable<{ text }>;
+  searcher: Observable<{ text: string }>;
 
   // (event: string, handler: (event: JQueryEventObject, query, name: string) => void, ...rest) => void | Promise<void>;
   typeAhead: JQuery;
 
   isSearching = false;
-  @bindable value;
-  @bindable sourceArray: any[];
+  @bindable value = '';
+  @bindable sourceArray: { text: string }[];
   @bindable options: TypeAheadOptions<{ text: string }>;
 }
-function scoreMatch(term, match): number {
+function scoreMatch(term: {}, match: {}): number {
   return 1; // Stub
 }
 
@@ -134,6 +139,6 @@ declare module 'aurelia-templating' {
   }
 }
 
-export type TypeAheadOptions<Source> = (query: string, syncResults: (...args) => Source[], asyncResults: (...args) => Source[]) => any;
+export type TypeAheadOptions<Source> = (query: string, syncResults: (...args: {}[]) => Source[], asyncResults: (...args: {}[]) => Source[]) => {};
 
-type Options = Twitter.Typeahead.Options & { async: boolean, minLength: number, display: string, options?: Options, sourceArray?: any[] };
+type Options = Twitter.Typeahead.Options & { async: boolean, minLength: number, display: string, options?: Options, sourceArray?: {}[] };

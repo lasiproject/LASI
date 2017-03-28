@@ -2,10 +2,10 @@
 (function () {
   'use strict';
   const identity = <T>(x: T) => x;
-  const allAre = <T>(args: any[]): args is T[] => args.every(Array.isArray);
+  const allAre = <T>(args: {}[]): args is T[] => args.every(Array.isArray);
 
   let arrayAgumentations = {
-    flatMap(this: any[][], arraySelector: (element: any) => any[], elementSelector: any) {
+    flatMap(this: {}[][], arraySelector: (element: {}) => {}[], elementSelector: () => {}) {
       if (!arraySelector && !allAre(this)) {
         throw TypeError('No arraySelector sepecified and at least one element was not an Array');
       }
@@ -17,7 +17,7 @@
         .map(elementSelector || identity);
     },
 
-    correlate(this: any[], inner: any[], outerKeySelector: (x: {}) => any, innerKeySelector: (x: {}) => {}, resultSelector?: (x: {}, y: {}) => {}) {
+    correlate(this: {}[], inner: {}[], outerKeySelector: (x: {}) => {}, innerKeySelector: (x: {}) => {}, resultSelector?: (x: {}, y: {}) => {}) {
       const outerKeyed = this.map((element) => ({ element, key: outerKeySelector(element) }));
       const innerKeyed = inner.map(element => ({ element, key: innerKeySelector(element) }));
       const results = outerKeyed.flatMap(({ element: first, key }) => {
@@ -29,7 +29,7 @@
       return resultSelector ? results.map(resultSelector) : results;
     },
 
-    sum(this: any[], valueSelector = Number) {
+    sum(this: number[], valueSelector = Number) {
       return this.length === 0
         ? 0
         : this.reduce((total, element) => total + valueSelector(element), 0);
@@ -39,21 +39,19 @@
       return this.sum(valueSelector) / this.length;
     },
 
-    groupBy(this: any[], keySelector: (x: {}) => string | number, valueSelector: (x: {}) => any = identity) {
+    groupBy(this: {}[], keySelector: (x: {}) => string | number, valueSelector: (x: {}) => {} = identity) {
       return this.reduce((groups, element) => {
         const key = keySelector(element);
         const value = valueSelector(element);
-        if (!groups[key]) {
-          groups[key] = [value];
-        } else {
-          groups[key].push(value);
-        }
-        return groups;
+        return { ...groups, [key]: value };
       }, {});
     },
 
-    toMap(this: any[], keySelector: (x: any) => any, valueSelector = identity) {
-      return this.reduce((map, element) => map.set(keySelector(element), valueSelector(element)), new Map<{}, {}>());
+    toMap(this: {}[], keySelector: (x: {}) => {}, valueSelector = identity) {
+      return this.reduce<Map<{}, {}>>((map, element) => {
+        map.set(keySelector(element), valueSelector(element));
+        return map;
+      }, new Map());
     }
   };
   const { prototype } = Array;
@@ -115,8 +113,8 @@ declare global {
     last<U extends T>(predicate?: (e: T) => e is U): U;
     last(predicate?: (e: T) => boolean): T;
 
-    toMap<TKey, TValue>(this: any[], keySelector: (e: T) => TKey, valueSelector: (e: T) => TValue): Map<TKey, TValue>;
-    toMap<TKey, TValue>(this: any[], keySelector: (e: T) => TKey): Map<TKey, T>;
+    toMap<TKey, TValue>(this: {}[], keySelector: (e: T) => TKey, valueSelector: (e: T) => TValue): Map<TKey, TValue>;
+    toMap<TKey, TValue>(this: {}[], keySelector: (e: T) => TKey): Map<TKey, T>;
   }
 
 }

@@ -81,4 +81,4 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
     'View Indirect Objects': 'indirect-object-of-current'
   });
 }
-type ContextMenu = any;
+interface ContextMenu { };

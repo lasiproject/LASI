@@ -12,7 +12,7 @@ export declare namespace DocumentListService { }
 
 export interface DocumentService {
   getbyId(documentId: string): Promise<DocumentListItem>;
-  deleteById(documentId: string): Promise<any>;
+  deleteById(documentId: string): Promise<Response>;
 }
 export declare namespace DocumentService { }
 
@@ -112,7 +112,7 @@ export type LexicalModel = PhraseModel | WordModel | ClauseModel;
 export declare namespace LexicalModel { }
 
 export interface LexicalMenuBuilder {
-  buildAngularMenu: (source: LexicalContextMenuData) => any;
+  buildAngularMenu: (source: LexicalContextMenuData) => LexicalMenuBuilder;
 }
 export declare namespace LexicalMenuBuilder { }
 
@@ -175,7 +175,7 @@ export interface User extends Credentials {
   loggedIn?: boolean;
   email: string;
   password: string;
-  documents: any[];
+  documents: DocumentModel[];
   id: string;
 }
 export namespace User { }

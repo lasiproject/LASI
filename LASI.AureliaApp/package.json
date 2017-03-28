@@ -9,7 +9,7 @@
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
     "ati": "ati",
-    "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
+    "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
     "bundle-dev": "jspm bundle app/**/*.ts + app/**/*.html -wid",
     "bundle-prod": "jspm bundle app/**/*.ts  app/**/*.html --minify --inject --format umd",
     "build-dev": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --inject --format umd",
@@ -19,7 +19,6 @@
     "dependencies": {
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
       "@types/typeahead": "npm:@types/typeahead@^0.11.27",
-      "@types/whatwg-fetch": "npm:@types/whatwg-fetch@0.0.33",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
       "aurelia-dialog": "npm:aurelia-dialog@^1.0.0-beta.3.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.1",
@@ -31,7 +30,7 @@
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
       "moment": "npm:moment@^2.17.1",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
-      "rxjs": "npm:rxjs-es@^5.0.0-beta.12",
+      "rxjs": "npm:rxjs@^5.2.0",
       "tslib": "npm:tslib@^1.6.0",
       "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
@@ -327,7 +326,8 @@
     "concurrently": "^3.4.0",
     "jspm": "0.17.0-beta.32",
     "lite-server": "^2.2.2",
-    "tslint": "latest"
+    "tslint": "latest",
+    "typescript": "next"
   },
   "dependencies": {}
-}
+}
