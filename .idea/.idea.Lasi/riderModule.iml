@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../.gitignore" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../.nuget/packages.config" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../failingtests.playlist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../global.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Icons/favicon.ico" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.App" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.AureliaApp/tsconfig.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Content" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Content.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Core.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Interop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Interop.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.ruleset" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Utilities" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../LASI.Utilities.Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/b2xtranslatorLicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/iTextSharpLicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/LASILicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/SharpNLPLicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/WordNetLicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Licences/WPFToolkitLicense.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/xunit.runner.visualstudio.2.2.0-beta3-build1187/build/_common/xunit.abstractions.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/xunit.runner.visualstudio.2.2.0-beta3-build1187/build/_common/xunit.runner.utility.desktop.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../packages/xunit.runner.visualstudio.2.2.0-beta3-build1187/build/_common/xunit.runner.visualstudio.testadapter.dll" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../README.md" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Script1.fsx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Shared.Test.Utilities" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../TestLocator.config" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.App/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.App/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Content.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Content.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Content/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Content/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Core.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Core.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Core/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Core/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Interop.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Interop.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Interop/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Interop/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Utilities.Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Utilities.Tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Utilities/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../LASI.Utilities/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Shared.Test.Utilities/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Shared.Test.Utilities/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
