@@ -1,6 +1,0 @@
-﻿<input type="text" [(ngModel)]="find" uib-typeahead="word as word.text for word in getWords()"
-       uib-typeahead-on-select="search({ value: find }, [searchContext])"
-       placeholder="find" (keypress)="keyDown($event)">
-<span class="fa fa-search"
-      (click)="search({ value: find }, [searchContext])">
-</span>
