@@ -1,4 +1,4 @@
-import { RouteConfig, NavigationInstruction } from 'aurelia-router';
+﻿import {RouteConfig, NavigationInstruction} from 'aurelia-router';
 
 export class Account {
   userName: string;

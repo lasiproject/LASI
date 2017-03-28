@@ -1,14 +1,14 @@
-import {autoinject} from 'aurelia-framework';
+﻿import { autoinject } from 'aurelia-framework';
 
 @autoinject export default class ClientStorage {
 
   constructor(readonly storage: Storage) { }
 
-  store(key: StoreKey, value) {
+  store(key: StoreKey, value: {}) {
     this.storage[key] = value;
   }
 
-  retreive(key: StoreKey) {
+  retreive(key: StoreKey): string {
     return this.storage[key];
   }
 
@@ -23,4 +23,4 @@ import {autoinject} from 'aurelia-framework';
 
 type StoreKey = 'auth_token';
 
-export type Storage = typeof window.sessionStorage;
+export type Storage = typeof window.sessionStorage | typeof window.localStorage;

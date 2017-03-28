@@ -1,4 +1,20 @@
 "bundle";
+System.register("app/app/account.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n    <div class=\"col-md-10\">\r\n        <form class=\"form form-horizontal\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" value.bind=\"userName\" class=\"form-control\">\r\n                <input type=\"text\" value.bind=\"fieldOfStudy\" class=\"form-control\">\r\n                <input type=\"date\" value.bind=\"birthDate\" class=\"form-control\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <div repeat.for=\"email of emails\">\r\n                    <input type=\"email\" value.bind=\"email.address\" class=\"form-control\">\r\n                    <input type=\"checkbox\" checked.bind=\"email.default\" class=\"form-control\">\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</template>");
+    }
+  };
+});
 System.register("app/app/account.ts", ["npm:systemjs-plugin-babel@0.0.17/babel-helpers/slicedToArray.js", "npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js", "npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js"], function (_export, _context) {
     "use strict";
 
@@ -58,6 +74,22 @@ System.register("app/app/account.ts", ["npm:systemjs-plugin-babel@0.0.17/babel-h
             _export("Account", Account);
         }
     };
+});
+System.register("app/app/app.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n  <require from=\"./navbar.html\"></require>\r\n  <navbar router.bind=\"router\"></navbar>\r\n  <div class=\"page-host\">\r\n    <router-view></router-view>\r\n  </div>\r\n</template>");
+    }
+  };
 });
 System.register('app/app/app.ts', ['npm:systemjs-plugin-babel@0.0.17/regenerator-runtime.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/asyncToGenerator.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js', 'tslib', 'aurelia-framework', './services/user'], function (_export, _context2) {
     "use strict";
@@ -149,6 +181,22 @@ System.register('app/app/app.ts', ['npm:systemjs-plugin-babel@0.0.17/regenerator
         }
     };
 });
+System.register("app/app/document-viewer/document-viewer.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n  <require from=\"./paragraph.html\"></require>\r\n\r\n  <aurelia-typeahead typeahead-options.bind=\"typeaheadOptions\" basic-source.bind=\"typeAheadSource\"\r\n    placeholder=\"enter lifted search\" value.bind=\"searchTerm\" change.trigger=\"queryTypeAhead($event, search)\">\r\n  </aurelia-typeahead>\r\n\r\n  <div class=\"${document && document.style.cssClass}\">\r\n\r\n    <div>title: ${document && document.title}</div>\r\n    <div>\r\n      <div repeat.for=\"paragraph of document && document.paragraphs || []\">\r\n        <paragraph parent-id.bind=\"document.id\" paragraph.bind=\"paragraph\"></paragraph>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</template>");
+    }
+  };
+});
 System.register('app/app/document-viewer/document-viewer.ts', ['npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js', 'tslib', 'aurelia-framework', 'app/models'], function (_export, _context) {
     "use strict";
 
@@ -232,6 +280,54 @@ System.register('app/app/document-viewer/document-viewer.ts', ['npm:systemjs-plu
             tslib_1.__decorate([bindable, tslib_1.__metadata("design:type", Object)], DocumentViewer.prototype, "searchTerm", void 0);
         }
     };
+});
+System.register("app/app/document-viewer/page.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template bindable=\"page, document\">\r\n  <require from=\"./paragraph.html\"></require>\r\n  <div class=\"${page.style.cssClass}\">\r\n    <div>title: ${title}</div>\r\n    <div>\r\n      <paragraph repeat.for=\"paragraph in page.paragraphs\"\r\n        paragraph.bind=\"paragraph\"\r\n        parent-id.bind=\"document.id\"></paragraph>\r\n    </div>\r\n  </div>\r\n</template>");
+    }
+  };
+});
+System.register("app/app/document-viewer/paragraph.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template bindable=\"paragraph, parentId\">\r\n  <require from=\"./sentence.html\"></require>\r\n\r\n  <span class=\"lexical-content-block ${paragraph.style.cssClass}\">\r\n    &nbsp;&nbsp;&nbsp;&nbsp;\r\n    <sentence repeat.for=\"sentence of paragraph.sentences\"\r\n      sentence.bind=\"sentence\" parent-id.bind=\"paragraph.id\">\r\n    </sentence>\r\n  </span>\r\n</template>");
+    }
+  };
+});
+System.register("app/app/document-viewer/phrase.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n      <require from=\"shared/context-menu/context-menu\"></require>\r\n      <!--TODO: Merge tooltip and context menu into a unified, touch capable control-->\r\n<span if.bind=\"phrase.hasContextmenuData\"\r\n      id.bind=\"phrase.id\"\r\n      class=\"phrase ${phrase.style.cssClass}\"\r\n      title.bind=\"phrase.detailText\">${phrase.text}\r\n    <contextmenu click.trigger=\"alert(items)\" items.bind=\"phrase.contextmenu\"></contextmenu>\r\n</span>\r\n<span if.bind=\"!phrase.hasContextmenuData\"\r\n      id.bind=\"phrase.id\"\r\n      class=\"phrase ${phrase.style.cssClass}\"\r\n      title.bind=\"phrase.detailText\">${phrase.text}</span>\r\n</template>");
+    }
+  };
 });
 System.register('app/app/services/lexical-menu-builder.ts', ['npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js', 'tslib', 'jquery', 'aurelia-framework'], function (_export, _context) {
     "use strict";
@@ -389,6 +485,22 @@ System.register('app/app/document-viewer/phrase.ts', ['npm:systemjs-plugin-babel
             _export('Phrase', Phrase);
         }
     };
+});
+System.register("app/app/document-viewer/search.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n  <input type=\"text\" value.bind=\"find & throttle debounce\" uib-typeahead=\"word as word.text for word of words\"\r\n    uib-typeahead-on-select.trigger=\"search({ value: find }, [searchContext])\" placeholder=\"find\"\r\n    onkeypress.trigger=\"keyDown($event)\">\r\n  <span class=\"fa fa-search\" click.trigger=\"search({ value: find }, [searchContext])\">\r\n</span>\r\n</template>");
+    }
+  };
 });
 System.registerDynamic("github:twitter/typeahead.js@0.11.1.json", [], false, function() {
   return {
@@ -3106,6 +3218,38 @@ System.register('app/app/document-viewer/search.ts', ['npm:systemjs-plugin-babel
         }
     };
 });
+System.register("app/app/document-viewer/sentence.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template bindable=\"sentence, parentId\">\r\n  <require from=\"./phrase\"></require>\r\n  <span class.bind=\"sentence.style.cssClass\">\r\n    <span repeat.for=\"phrase of sentence.phrases\">\r\n        <phrase phrase.bind=\"phrase\" parent-id.bind=\"sentence.id\"></phrase>\r\n    </span>\r\n  </span>\r\n</template>");
+    }
+  };
+});
+System.register("app/app/documents.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n    <require from=\"./document-viewer/document-viewer\"></require>\r\n    <document-viewer document.bind=\"document\"></document-viewer>\r\n</template>");
+    }
+  };
+});
 System.register('app/app/services/document-model-service.ts', ['npm:systemjs-plugin-babel@0.0.17/regenerator-runtime.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/asyncToGenerator.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js', 'tslib', 'aurelia-framework', 'aurelia-fetch-client'], function (_export, _context2) {
     "use strict";
 
@@ -3261,6 +3405,22 @@ System.register('app/app/documents.ts', ['npm:systemjs-plugin-babel@0.0.17/regen
             _export('Documents', Documents);
         }
     };
+});
+System.register("app/app/modal.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n    <require from=\"${component}\"></require>\r\n    <ai-dialog>\r\n    <ai-dialog-header>\r\n    </ai-dialog-header>\r\n    <ai-dialog-body>\r\n<div class=\"col-md-10\">\r\n    <form novalidate name=\"login-form\" submit.trigger=\"login()\" method=\"post\" class=\"form\" role=\"form\">\r\n    <div class=\"form-group\">\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Username: </label>\r\n            <input type=\"text\" name=\"email\" id=\"email\" placeholder=\"email\" value.bind=\"username\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Password: </label>\r\n            <input type=\"password\" name=\"password\" id=\"password\" value.bind=\"password\" class=\"form-control\" />\r\n\r\n            <input name=\"__RequestVerificationToken\" type=\"hidden\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Remeber Username?: </label>\r\n            <input type=\"checkbox\" name=\"remember-me\" id=\"remember-me\" value.bind=\"rememberMe\" class=\"form-control\" />\r\n        </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-primary\">Login</button>\r\n</form>\r\n</div>\r\n    </ai-dialog-body>\r\n    <ai-dialog-footer>\r\n\r\n    </ai-dialog-footer>\r\n    </ai-dialog>\r\n</template>");
+    }
+  };
 });
 System.register('npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-renderer.js', ['npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js', 'npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js', 'aurelia-pal', 'aurelia-dependency-injection'], function (_export, _context) {
   "use strict";
@@ -4238,6 +4398,22 @@ System.register('app/app/modal.ts', ['npm:systemjs-plugin-babel@0.0.17/babel-hel
         }
     };
 });
+System.register("app/app/navbar.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template bindable=\"router\">\r\n  <nav class=\"navbar navbar-default navbar-fixed-top navbar-inverse\" role=\"navigation\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\">\r\n        <span class=\"sr-only\">Toggle Navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\" href=\"#\">\r\n        <i class=\"fa fa-home\"></i>\r\n        <span>${router.title}</span>\r\n      </a>\r\n    </div>\r\n\r\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\">\r\n          <a href.bind=\"row.href\">${row.title}</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li class=\"loader\" if.bind=\"router.isNavigating\">\r\n          <i class=\"fa fa-spinner fa-spin fa-2x\"></i>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </nav>\r\n</template>");
+    }
+  };
+});
 System.register('app/app/services/result-chart-builder.ts', ['jquery'], function (_export, _context) {
     "use strict";
 
@@ -4487,6 +4663,22 @@ System.register('app/app/services/results-service.ts', ['npm:systemjs-plugin-bab
             _export('default', ResultService);
         }
     };
+});
+System.register("app/app/signin.html", [], function (_export, _context) {
+  "use strict";
+
+  var __useDefault;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__useDefault", __useDefault = true);
+
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n<div class=\"col-md-10\">\r\n    <form novalidate name=\"login-form\" submit.trigger=\"login()\" method=\"post\" class=\"form\" role=\"form\">\r\n    <div class=\"form-group\">\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Username: </label>\r\n            <input type=\"text\" name=\"email\" id=\"email\" placeholder=\"email\" value.bind=\"username\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Password: </label>\r\n            <input type=\"password\" name=\"password\" id=\"password\" value.bind=\"password\" class=\"form-control\" />\r\n\r\n            <input name=\"__RequestVerificationToken\" type=\"hidden\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Remeber Username?: </label>\r\n            <input type=\"checkbox\" name=\"remember-me\" id=\"remember-me\" value.bind=\"rememberMe\" class=\"form-control\" />\r\n        </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-primary\">Login</button>\r\n</form>\r\n</div>\r\n</template>");
+    }
+  };
 });
 System.registerDynamic("npm:aurelia-route-recognizer@1.1.0.json", [], false, function() {
   return {
@@ -7070,21 +7262,19 @@ System.register('app/app/signin.ts', ['npm:systemjs-plugin-babel@0.0.17/regenera
         }
     };
 });
-System.register("app/app/signout.ts", ["npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js"], function (_export, _context) {
+System.register("app/app/signout.html", [], function (_export, _context) {
   "use strict";
 
-  var _classCallCheck, Signout;
+  var __useDefault;
 
   return {
-    setters: [function (_npmSystemjsPluginBabel0017BabelHelpersClassCallCheckJs) {
-      _classCallCheck = _npmSystemjsPluginBabel0017BabelHelpersClassCallCheckJs.default;
-    }],
+    setters: [],
     execute: function () {
-      _export("Signout", Signout = function Signout() {
-        _classCallCheck(this, Signout);
-      });
+      _export("__useDefault", __useDefault = true);
 
-      _export("Signout", Signout);
+      _export("__useDefault", __useDefault);
+
+      _export("default", "<template>\r\n    <p>Sign out?</p>\r\n    <div class=\"btn-group btn-group-lg btn-group-btn-group-vertical\">\r\n        <button class=\"btn btn-lg btn-primary\">Yes</button>\r\n        <button class=\"btn btn-lgbtn-link\">No</button>\r\n    </div>\r\n</template>");
     }
   };
 });
@@ -25085,22 +25275,19 @@ System.register("npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js",
     }
   };
 });
-System.registerDynamic("npm:tslib@1.5.0.json", [], false, function() {
+System.registerDynamic("npm:tslib@1.6.0.json", [], false, function() {
   return {
     "main": "tslib.js",
     "format": "cjs",
     "meta": {
       "*.json": {
         "format": "json"
-      },
-      "tslib.es6.js": {
-        "format": "esm"
       }
     }
   };
 });
 
-System.registerDynamic("npm:tslib@1.5.0/tslib.js", [], true, function ($__require, exports, module) {
+System.registerDynamic("npm:tslib@1.6.0/tslib.js", [], true, function ($__require, exports, module) {
     var define,
         global = this || self,
         GLOBAL = global;
@@ -25127,6 +25314,13 @@ System.registerDynamic("npm:tslib@1.5.0/tslib.js", [], true, function ($__requir
     var __metadata;
     var __awaiter;
     var __generator;
+    var __exportStar;
+    var __values;
+    var __read;
+    var __spread;
+    var __asyncGenerator;
+    var __asyncDelegator;
+    var __asyncValues;
     (function (factory) {
         var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
         if (typeof define === "function" && define.amd) {
@@ -25222,8 +25416,11 @@ System.registerDynamic("npm:tslib@1.5.0/tslib.js", [], true, function ($__requir
                 }, trys: [], ops: [] },
                 f,
                 y,
-                t;
-            return { next: verb(0), "throw": verb(1), "return": verb(2) };
+                t,
+                g;
+            return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+                return this;
+            }), g;
             function verb(n) {
                 return function (v) {
                     return step([n, v]);
@@ -25269,6 +25466,113 @@ System.registerDynamic("npm:tslib@1.5.0/tslib.js", [], true, function ($__requir
             }
         };
 
+        __exportStar = function (m, exports) {
+            for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+        };
+
+        __values = function (o) {
+            var m = typeof Symbol === "function" && o[Symbol.iterator],
+                i = 0;
+            if (m) return m.call(o);
+            return {
+                next: function () {
+                    if (o && i >= o.length) o = void 0;
+                    return { value: o && o[i++], done: !o };
+                }
+            };
+        };
+
+        __read = function (o, n) {
+            var m = typeof Symbol === "function" && o[Symbol.iterator];
+            if (!m) return o;
+            var i = m.call(o),
+                r,
+                ar = [],
+                e;
+            try {
+                while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+            } catch (error) {
+                e = { error: error };
+            } finally {
+                try {
+                    if (r && !r.done && (m = i["return"])) m.call(i);
+                } finally {
+                    if (e) throw e.error;
+                }
+            }
+            return ar;
+        };
+
+        __spread = function () {
+            for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+            return ar;
+        };
+
+        __asyncGenerator = function (thisArg, _arguments, generator) {
+            if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+            var g = generator.apply(thisArg, _arguments || []),
+                q = [],
+                c,
+                i;
+            return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () {
+                return this;
+            }, i;
+            function verb(n) {
+                return function (v) {
+                    return new Promise(function (a, b) {
+                        q.push([n, v, a, b]), next();
+                    });
+                };
+            }
+            function next() {
+                if (!c && q.length) resume((c = q.shift())[0], c[1]);
+            }
+            function resume(n, v) {
+                try {
+                    step(g[n](v));
+                } catch (e) {
+                    settle(c[3], e);
+                }
+            }
+            function step(r) {
+                r.done ? settle(c[2], r) : r.value[0] === "yield" ? settle(c[2], { value: r.value[1], done: false }) : Promise.resolve(r.value[1]).then(r.value[0] === "delegate" ? delegate : fulfill, reject);
+            }
+            function delegate(r) {
+                step(r.done ? r : { value: ["yield", r.value], done: false });
+            }
+            function fulfill(value) {
+                resume("next", value);
+            }
+            function reject(value) {
+                resume("throw", value);
+            }
+            function settle(f, v) {
+                c = void 0, f(v), next();
+            }
+        };
+
+        __asyncDelegator = function (o) {
+            var i = { next: verb("next"), "throw": verb("throw", function (e) {
+                    throw e;
+                }), "return": verb("return", function (v) {
+                    return { value: v, done: true };
+                }) };
+            return o = __asyncValues(o), i[Symbol.iterator] = function () {
+                return this;
+            }, i;
+            function verb(n, f) {
+                return function (v) {
+                    return { value: ["delegate", (o[n] || f).call(o, v)], done: false };
+                };
+            }
+        };
+
+        __asyncValues = function (o) {
+            if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+            var m = o[Symbol.asyncIterator];
+            return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
+        };
+
         exporter("__extends", __extends);
         exporter("__assign", __assign);
         exporter("__rest", __rest);
@@ -25277,6 +25581,13 @@ System.registerDynamic("npm:tslib@1.5.0/tslib.js", [], true, function ($__requir
         exporter("__metadata", __metadata);
         exporter("__awaiter", __awaiter);
         exporter("__generator", __generator);
+        exporter("__exportStar", __exportStar);
+        exporter("__values", __values);
+        exporter("__read", __read);
+        exporter("__spread", __spread);
+        exporter("__asyncGenerator", __asyncGenerator);
+        exporter("__asyncDelegator", __asyncDelegator);
+        exporter("__asyncValues", __asyncValues);
     });
     return module.exports;
 });
@@ -35645,7 +35956,7 @@ define("npm:aurelia-framework@1.0.8/aurelia-framework.js", ["exports", "aurelia-
 System.register("app/app/services/storage.ts", ["npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js", "npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js", "tslib", "aurelia-framework"], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, tslib_1, autoinject, ClientStorage, _a;
+    var _classCallCheck, _createClass, tslib_1, autoinject, ClientStorage;
 
     return {
         setters: [function (_npmSystemjsPluginBabel0017BabelHelpersClassCallCheckJs) {
@@ -35689,7 +36000,7 @@ System.register("app/app/services/storage.ts", ["npm:systemjs-plugin-babel@0.0.1
                 return ClientStorage;
             }();
 
-            ClientStorage = tslib_1.__decorate([autoinject, tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof Storage !== "undefined" && Storage) === "function" && _a || Object])], ClientStorage);
+            ClientStorage = tslib_1.__decorate([autoinject, tslib_1.__metadata("design:paramtypes", [Object])], ClientStorage);
 
             _export("default", ClientStorage);
         }

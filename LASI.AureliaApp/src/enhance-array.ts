@@ -52,8 +52,8 @@
       }, {});
     },
 
-    toMap(this: any[], keySelector, valueSelector: (x) => any = identity) {
-      return this.reduce((map, element) => map.set(keySelector(element), valueSelector(element)), new Map<any, any>());
+    toMap(this: any[], keySelector: (x: any) => any, valueSelector = identity) {
+      return this.reduce((map, element) => map.set(keySelector(element), valueSelector(element)), new Map<{}, {}>());
     }
   };
   const { prototype } = Array;
@@ -104,8 +104,7 @@ declare global {
       inner: TInner[],
       outerKeySelector: (e: T) => TKey,
       innerKeySelector: (e: TInner) => TKey,
-      resultSelector: (first: T, second: TInner) => TResult,
-      comparer
+      resultSelector: (first: T, second: TInner) => TResult
     ): TResult[];
 
     sum(valueSelector?: (e: T) => number): number;

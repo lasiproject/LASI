@@ -8,10 +8,12 @@
     "serve": "lite-server",
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
+    "ati": "ati",
     "lint": "tslint --config tslint.json \"src/**/*.ts\" -e \"**/__test__/**\" --format stylish",
-    "bundle": "jspm bundle app/app/**/*.ts --minify --inject --format umd",
-    "build": "jspm build app/**/*.ts app/**/*.html app/**/*.css --minify --inject --format umd",
-    "ati": "ati"
+    "bundle-dev": "jspm bundle app/**/*.ts + app/**/*.html -wid",
+    "bundle-prod": "jspm bundle app/**/*.ts  app/**/*.html --minify --inject --format umd",
+    "build-dev": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --inject --format umd",
+    "build-prod": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --minify --inject --format umd"
   },
   "jspm": {
     "dependencies": {
@@ -30,8 +32,7 @@
       "moment": "npm:moment@^2.17.1",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
       "rxjs": "npm:rxjs-es@^5.0.0-beta.12",
-      "sass": "github:mobilexag/plugin-sass@^0.5.1",
-      "tslib": "npm:tslib@^1.4.0",
+      "tslib": "npm:tslib@^1.6.0",
       "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
     "devDependencies": {
@@ -46,13 +47,15 @@
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17",
-      "plugin-typescript": "github:frankwallis/plugin-typescript@^6.0.0",
+      "plugin-typescript": "github:frankwallis/plugin-typescript@^7.0.5",
       "request": "npm:request@^2.34",
+      "sass": "github:dougludlow/plugin-sass@^0.6.0",
       "source-map-support": "npm:source-map-support@^0.4.3",
       "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9",
       "timers": "npm:jspm-nodelibs-timers@^0.2.0",
-      "tweetnacl": "npm:tweetnacl@0.14"
+      "tweetnacl": "npm:tweetnacl@0.14",
+      "typescript": "npm:typescript@next"
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
@@ -110,9 +113,8 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@6.0.0": {
-        "$schema": "http://json.schemastore.org/package",
-        "dependencies": {
+      "github:frankwallis/plugin-typescript@7.0.5": {
+        "peerDependencies": {
           "typescript": "next"
         }
       },
@@ -299,15 +301,33 @@
             "format": "global"
           }
         }
+      },
+      "npm:tslib@1.6.0": {
+        "format": "cjs",
+        "__esModule": true
+      },
+      "npm:typescript@next": {
+        "browser": {},
+        "map": {
+          "buffer": "@empty",
+          "child_process": "@empty",
+          "fs": "@empty",
+          "path": "@empty",
+          "process": "@empty",
+          "readline": "@empty"
+        },
+        "dependencies": {
+          "source-map-support": "*"
+        }
       }
     }
   },
   "devDependencies": {
     "aurelia-types-installer": "^0.1.8",
+    "concurrently": "^3.4.0",
     "jspm": "0.17.0-beta.32",
     "lite-server": "^2.2.2",
-    "tslint": "^4.3.1",
-    "tslint-stylish": "^2.1.0-beta"
+    "tslint": "latest"
   },
   "dependencies": {}
 }

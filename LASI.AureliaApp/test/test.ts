@@ -11,7 +11,7 @@ test('TokenService.token should initially be undefined', ({equal, end}) => {
   end();
 });
 
-test('TokenService.token.get should retreive value specified by TokenService.token.set', ({equal, end}) => {
+test('TokenService.token.get should retrieve value specified by TokenService.token.set', ({equal, end}) => {
   const service = createTokenService();
   const token = 'xyz';
   service.token = token;
@@ -21,9 +21,14 @@ test('TokenService.token.get should retreive value specified by TokenService.tok
   end();
 });
 
+test('Failure must fail', ({doesNotThrow, end}) => {
+  doesNotThrow(() => { throw 'a real failure'; });
+  end();
+});
+
 function createTokenService() {
   let items: { [key: string]: string | null } = {};
-  const storage: typeof window.sessionStorage = {
+  const storage: Storage = {
     clear() {
       items = {};
     },
@@ -43,6 +48,18 @@ function createTokenService() {
       items[key] = value;
     }
   };
+
+  const mockStorageService = new class extends StorageService {
+    constructor(storage) {
+      super(storage);
+    }
+    store(key, value) {
+      super.store(key, value + '123');
+    }
+    retreive(value) {
+      return super.retreive('auth_token');
+    }
+  }(storage);
 
   const storageService = new StorageService(storage);
 
