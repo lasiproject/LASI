@@ -1,7 +1,8 @@
 ﻿import $ from 'jquery';
+import { LexicalModel } from 'app/models';
 
 export default function buildMenus() {
-  const contextualElementIdSelectors = [];
+  const contextualElementIdSelectors: string[] = [];
   const verbalMenuTextToElementsMap = {
     'View Subjects': 'subjects',
     'View Direct Objects': 'directObjects',
@@ -13,45 +14,44 @@ export default function buildMenus() {
     'View Indirect Objects': 'indirect-object-of-current'
   };
   return function () {
-    const forVerbal = function (context) {
+    const forVerbal = (context: { id: number }[]): { [key: string]: {}[] } => {
 
       const menu = JSON.parse($('#context' + context[0].id).text());
-      const subjects = menu.subjects,
-        directObjects = menu.directObjects,
-        indirectObjects = menu.indirectObjects;
-      const temp = {
-        subjects: subjects,
-        directObjects: directObjects,
-        indirectObjects: indirectObjects
-      }, result = {};
-      Object.keys(temp).filter(key => temp[key]).forEach(key => result[key] = temp[key]);
-      return result;
+      const subjects = menu.subjects;
+      const directObjects = menu.directObjects;
+      const indirectObjects = menu.indirectObjects;
+
+      return Object.entries({
+        subjects,
+        directObjects,
+        indirectObjects
+      }).filter(([, value]) => value).reduce((o, [key, value]) => ({ ...o, [key]: value }), {});
     };
 
-    const forReferencer = context => JSON.parse($('#context' + context[0].id).text());
+    const forReferencer = (context: { id: number }[]): { referredTo: {}[] } => JSON.parse($('#context' + context[0].id).text());
 
     $('span.referencer').contextmenu({
       target: '#referencer-context-menu',
-      before: function (event, context) {
-        const data = forReferencer(context);
+      before(event: Event & { target: { lexicalContextMenu: {} } }, context: {}) {
+        const data = forReferencer(context as { id: number }[]);
         event.target.lexicalContextMenu = data;
         return data.referredTo && data.referredTo.length > 0;
       },
-      onItem: function (context) {
+      onItem(context: [{ lexicalContextMenu: { referredTo: { id: number }[] } }]) {
         context[0].lexicalContextMenu.referredTo
-          .map(id => $('#' + id))
+          .map(id => $(`#${id}`))
           .forEach($e => $e.css('background-color', 'red'));
       }
     });
 
     $('span.verbal').contextmenu({
       target: '#verbal-context-menu',
-      before: (e, context) => {
+      before(e: { target: { lexicalContextMenu: { [key: string]: {} } } }, context) {
         let count = 0;
         const menu = forVerbal(context);
         e.target.lexicalContextMenu = {};
-        Object.keys(menu).forEach(function (key) {
-          e.target.lexicalContextMenu[key] = menu[key].map(function (id) {
+        Object.entries(menu).forEach(([key, value = []]) => {
+          e.target.lexicalContextMenu[key] = value.map(id => {
             const idSelector = '#' + id;
             if (!contextualElementIdSelectors.some(e => e === idSelector)) {
               contextualElementIdSelectors.push(idSelector);
@@ -63,34 +63,34 @@ export default function buildMenus() {
           { name: 'subjects', id: '#subjects-item' },
           { name: 'directObjects', id: '#directobjects-item' },
           { name: 'indirectObjects', id: '#indirectobjects-item' }
-        ].forEach(function (x) {
-          if (!menu[x.name]) {
-            $(x.id).hide();
+        ].forEach(item => {
+          if (!menu[item.name]) {
+            $(item.id).hide();
           } else {
             count += 1;
-            $(x.id).show();
+            $(item.id).show();
           }
         });
         return count > 0;
       },
-      onItem: function (context, event) {
+      onItem(context, event: Event & { target: { text: keyof typeof relationshipCssClassNameMap } }) {
         const menu = context[0].lexicalContextMenu;
         contextualElementIdSelectors
           .flatMap(e => $(e).toArray(), $)
-          .forEach(e => {
-            Object.keys(relationshipCssClassNameMap).forEach(key => {
-              e.removeClass(relationshipCssClassNameMap[key]);
+          .forEach($e => {
+            Object.values(relationshipCssClassNameMap).forEach(relationshipCssClassName => {
+              $e.removeClass(relationshipCssClassName);
             });
           });
         menu[verbalMenuTextToElementsMap[event.target.text]]
           .map($)
-          .forEach(function (e) {
-            e.addClass(relationshipCssClassNameMap[event.target.text]);
+          .forEach($e => {
+            $e.addClass(relationshipCssClassNameMap[event.target.text]);
           });
 
       }
     });
-    $(document).on('click', function () {
+    $(document).on('click', () => {
       $('#verbal-context-menu').hide();
       $('#referencer-context-menu').hide();
     });
