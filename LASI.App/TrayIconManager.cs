@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 
 namespace LASI.App
@@ -29,7 +28,7 @@ namespace LASI.App
         public static void Enable(InProgressWindow window)
         {
             // No need to track this instance; its event handlers will keep it alive
-              TrayIconProvider.FromInProgressWindow(window);
+            TrayIconProvider.FromInProgressWindow(window);
         }
 
         /// <summary>
@@ -46,8 +45,8 @@ namespace LASI.App
             /// <summary>
             /// Creates a new instance of the MinimizeToTrayInstance class.
             /// </summary>
-            /// <param name = "inProgressWindow">Window instance to attach to.</param>
-            public static TrayIconProvider FromInProgressWindow(InProgressWindow inProgressWindow) => new TrayIconProvider(inProgressWindow);
+            /// <param name = "window">Window instance to attach to.</param>
+            public static TrayIconProvider FromInProgressWindow(InProgressWindow window) => new TrayIconProvider(window);
 
             /// <summary>
             /// Initializes a new instance of the MinimizeToTrayInstance class.
@@ -59,15 +58,13 @@ namespace LASI.App
                 window.StateChanged += HandleStateChanged;
             }
 
-            TrayIconProvider(InProgressWindow window)
+            TrayIconProvider(InProgressWindow window) : this((Window)window)
             {
-                this.window = window;
                 window.ProcessingCompleted += (s, e) =>
                 {
                     window.Title = "Analysis Complete";
                     HandleStateChanged(s, e);
                 };
-                window.StateChanged += HandleStateChanged;
             }
 
             /// <summary>
@@ -77,26 +74,35 @@ namespace LASI.App
             /// <param name = "e">Event arguments.</param>
             private void HandleStateChanged(object sender, EventArgs e)
             {
-                if (notifyIcon == null)
-                {
-                    // Initialize NotifyIcon instance "on demand"
-                    notifyIcon = new System.Windows.Forms.NotifyIcon();
-                    notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
-                    notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
-                    notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
-                }
+                EnsureIcon();
 
                 // Update copy of Window Title in case it has changed
                 notifyIcon.Text = window.Title;
                 // Show/hide Window and NotifyIcon
-                var minimized = (window.WindowState == WindowState.Minimized);
-                window.ShowInTaskbar = !minimized;
-                notifyIcon.Visible = minimized;
-                if (minimized)
+                window.ShowInTaskbar = !window.Minimized;
+                notifyIcon.Visible = window.Minimized;
+                if (notifyIcon.Visible)
                 {
                     notifyIcon.Visible = true;
                     notifyIcon.ShowBalloonTip(1000, null, window.Title, System.Windows.Forms.ToolTipIcon.None);
                 }
+            }
+
+            private void EnsureIcon()
+            {
+                if (notifyIcon != null)
+                {
+                    return;
+                }
+
+                // Initialize NotifyIcon instance "on demand"
+                notifyIcon = new System.Windows.Forms.NotifyIcon
+                {
+                    Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location)
+                };
+                notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
+                notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
+
             }
 
             /// <summary>
@@ -104,11 +110,8 @@ namespace LASI.App
             /// </summary>
             /// <param name = "sender">Event source.</param>
             /// <param name = "e">Event arguments.</param>
-            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e)
-            {
-                // Restore the Window
-                window.WindowState = WindowState.Normal;
-            }
+            private void HandleNotifyIconOrBalloonClicked(object sender, EventArgs e) => window.Restore();
+
 
             public void Dispose()
             {
@@ -116,18 +119,38 @@ namespace LASI.App
                 GC.SuppressFinalize(this);
             }
 
-            private void Dispose(bool fromDispose)
+            private void Dispose(bool disposing)
             {
-                if (fromDispose)
+                if (disposing)
                 {
                     notifyIcon.Dispose();
                 }
             }
 
             #region Fields
-            private Window window;
+            private WrappedWindow window;
             private System.Windows.Forms.NotifyIcon notifyIcon;
             #endregion
+
+            private struct WrappedWindow
+            {
+                public static implicit operator WrappedWindow(Window window) => new WrappedWindow
+                {
+                    Window = window
+                };
+
+                public bool Minimized => Window.WindowState == WindowState.Minimized;
+                public void Restore() => Window.WindowState = WindowState.Normal;
+                public string Title => Window.Title;
+
+                public bool ShowInTaskbar
+                {
+                    get => Window.ShowInTaskbar;
+                    set => Window.ShowInTaskbar = value;
+                }
+
+                private Window Window { get; set; }
+            }
         }
     }
 }

@@ -1,39 +1,32 @@
-﻿using System;
+﻿using LASI.Utilities;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using LASI.Utilities;
-using LASI.Core.Configuration;
 
 namespace LASI.Core.Heuristics.WordNet
 {
-    using SetReference = KeyValuePair<VerbLink, int>;
-    using LinkType = VerbLink;
-    using Configuration;
-    using System.Reactive.Linq;
-    using System.Collections.Immutable;
-    using EventArgs = ResourceLoadEventArgs;
     using Analysis.Heuristics.WordMorphing;
+    using Configuration;
+    using System.Collections.Immutable;
+    using System.Reactive.Linq;
     using static Enumerable;
-    using LASI.Utilities.Specialized.Enhanced.Universal;
+    using EventArgs = ResourceLoadEventArgs;
+    using LinkType = VerbLink;
+    using SetReference = KeyValuePair<VerbLink, int>;
 
     internal sealed class VerbLookup : WordNetLookup<Verb>
     {
         /// <summary>
-        /// Initializes a new instance of the VerbThesaurus class. 
+        /// Initializes a new instance of the VerbThesaurus class.
         /// </summary>
         /// <param name="path">The path of the WordNet database file containing the synonym data for verbals.</param>
-        public VerbLookup(string path)
-        {
-            filePath = path;
-        }
+        public VerbLookup(string path) => filePath = path;
 
         /// <summary>
         /// Parses the contents of the underlying WordNet database file.
-        /// </summary> 
+        /// </summary>
         internal override void Load()
         {
             OnReport(new EventArgs("Parsing File", 0));
@@ -75,7 +68,7 @@ namespace LASI.Core.Heuristics.WordNet
                 from Match m in RelationshipRegex.Matches(line)
                 let segments = m.Value.SplitRemoveEmpty(' ')
                 where segments.Length > 1
-                select new SetReference(interSetMap[segments[0]], int.Parse(segments[1]));
+                select new SetReference(InterSetMap[segments[0]], int.Parse(segments[1]));
 
             var words = from Match m in WordRegex.Matches(line)
                         select m.Value.Replace('_', ' ');
@@ -166,7 +159,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// </summary>
         private static readonly Regex WordRegex = new Regex(@"\b[A-Za-z-_]{2,}", RegexOptions.Compiled);
         /// <summary>
-        /// The regular expression describes a string which 
+        /// The regular expression describes a string which
         /// starts with at least one but not more than two non-digit characters (matches the pointer symbol): \D{1,2}
         /// followed by 0 or more whitespace characters: \s*
         /// followed by 8 decimal digits (matches the related set id): [\d]{8}
@@ -180,7 +173,7 @@ namespace LASI.Core.Heuristics.WordNet
         /// <summary>
         /// The number of in the WordNet file data.verb which contains the textual Synset data for verbs.
         /// </summary>
-        private const uint SET_COUNT = 13797;
+        private const uint SetCount = 13797;
         private static readonly LinkType[] TraversedLinks =
         {
              LinkType.Hypernym,
@@ -192,8 +185,8 @@ namespace LASI.Core.Heuristics.WordNet
             LinkType.Cause,
             LinkType.DomainOfSynset_USAGE
         };
-        // Provides an indexed lookup between the values of the VerbPointerSymbol enum and their corresponding string representation in WordNet data.verb files.
-        private static readonly IReadOnlyDictionary<string, LinkType> interSetMap = new Dictionary<string, LinkType>
+        // Provides an indexed lookup between the values of the VerbPointerSymbol enumerations and their corresponding string representation in WordNet data.verb files.
+        private static readonly IReadOnlyDictionary<string, LinkType> InterSetMap = new Dictionary<string, LinkType>
         {
             ["!"] = LinkType.Antonym,
             ["@"] = LinkType.Hypernym,
