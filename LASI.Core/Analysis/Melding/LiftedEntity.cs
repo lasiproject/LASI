@@ -109,7 +109,7 @@ namespace LASI.Core.Analysis.Melding
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the direct object of.
         /// </summary>
-        public Option<IVerbal> DirectObjectOf => this.directObjectsOfVerbals.ToOption<IVerbal>();
+        public IVerbal DirectObjectOf => directObjectsOfVerbals;
 
         /// <summary>
         /// Gets the <see cref="IVerbal"/> of which the entity is the indirect object of.
@@ -127,14 +127,14 @@ namespace LASI.Core.Analysis.Melding
 
         public double Weight
         {
-            get { return Represented.Average(w => w.Weight); }
-            set { Represented.ForEach(entity => entity.Weight = value); }
+            get => Represented.Average(w => w.Weight);
+            set => Represented.ForEach(entity => entity.Weight = value);
         }
 
         public double MetaWeight
         {
-            get { return Represented.Average(w => w.MetaWeight); }
-            set { Represented.ForEach(entity => entity.MetaWeight = value); }
+            get => Represented.Average(w => w.MetaWeight);
+            set => Represented.ForEach(entity => entity.MetaWeight = value);
         }
 
         public IEntity Avatar { get; }
@@ -144,14 +144,14 @@ namespace LASI.Core.Analysis.Melding
 
         #region Helper Methods
 
-        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) =>
+        private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, TResult> selector) where TResult : ILexical =>
             from r in Represented
             let result = selector(r)
             where result != null
             select result;
 
         private IEnumerable<TResult> FlattenAbout<TResult>(Func<IEntity, IEnumerable<TResult>> collectionSelector) =>
-            Represented.SelectMany(e => collectionSelector(e).Where(r => r != null));
+            Represented.SelectMany(e => collectionSelector(e).NonNull());
         #endregion Private Helper Methods
 
         #region Fields

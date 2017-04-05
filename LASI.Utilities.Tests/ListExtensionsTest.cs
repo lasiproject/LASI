@@ -5,7 +5,6 @@ using System.Linq;
 namespace LASI.Utilities.Tests
 {
     using Fact = Xunit.FactAttribute;
-    using Shared.Test.Assertions;
     using NFluent;
     public class ListExtensionsTest
     {
@@ -59,8 +58,8 @@ namespace LASI.Utilities.Tests
                                    from x in xs
                                    select x).ToList();
             var actual = from xs in target
-                                from x in xs
-                                select x;
+                         from x in xs
+                         select x;
             Check.That(actual).ContainsExactly(expected);
         }
         [Fact]
@@ -76,13 +75,13 @@ namespace LASI.Utilities.Tests
         {
             var target = List(Enumerable.Repeat(Enumerable.Range(0, 10), 10).ToArray());
             var expected = (from xs in target.AsEnumerable()
-                                  where xs.Any(x => x % 4 == 0)
-                                  from x in xs
-                                  select x).ToList();
+                            where xs.Any(x => x % 4 == 0)
+                            from x in xs
+                            select x).ToList();
             var actual = from xs in target
-                                where xs.Any(x => x % 4 == 0)
-                                from x in xs
-                                select x;
+                         where xs.Any(x => x % 4 == 0)
+                         from x in xs
+                         select x;
             Check.That(actual).ContainsExactly(expected);
         }
         [Fact]

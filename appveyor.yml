@@ -1,0 +1,20 @@
+version: 1.0.0.{build}
+image: Visual Studio 2017
+configuration: Debug
+platform: Any CPU
+shallow_clone: true
+environment:
+  image: Visual Studio 2017
+nuget:
+  project_feed: true
+  disable_publish_on_pr: true
+build_script:
+- ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
+before_test:
+- ps: 
+test:
+  assemblies:
+    except:
+    - LASI.Content.Tests.dll
+after_test:
+- ps: dir -r ./LASI.App/*.dll

@@ -252,7 +252,9 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             if (!UnMatchable && !Matched)
             {
+#pragma warning disable IDE0019 // Use pattern matching : False diagnostic as pattern matching if (Value is TCase matched) {...} causes an error (seems like it should work)
                 var cast = Value as TCase;
+#pragma warning restore IDE0019 // Use pattern matching
                 if (cast != null)
                 {
                     result = func(cast);
@@ -403,13 +405,15 @@ namespace LASI.Core.Analysis.PatternMatching
         #region LINQ Operators
         public IEnumerable<TProjection> Select<TProjection>(Func<TResult, TProjection> selector)
         {
-            if (Matched) yield return selector(result);
+            if (Matched)
+                yield return selector(result);
         }
 
 
         public IEnumerable<TResult> Where(Func<TResult, bool> predicate)
         {
-            if (Matched && predicate(result)) yield return result;
+            if (Matched && predicate(result))
+                yield return result;
         }
         public IEnumerable<TFinalProjection> SelectMany<TFinalProjection>(Func<TResult, IEnumerable<TFinalProjection>> projection)
         {

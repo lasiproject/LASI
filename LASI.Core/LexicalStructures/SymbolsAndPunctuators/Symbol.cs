@@ -17,12 +17,12 @@ namespace LASI.Core
         /// Initializes a new instance of the Symbol class.
         /// </summary>
         /// <param name="literalSymbol">The text of the Symbol.</param>
-        public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol).ToString())
+        public Symbol(string literalSymbol) : base(SymbolAliasMap.FromAlias(literalSymbol))
         {
             LiteralCharacter = Text.Length == 1 ? Text[0] : '\0';
         }
         /// <summary>
-        /// Gets the literal punctuation character of the Punctuator.
+        /// Gets the literal punctuation character of the <see cref="Punctuator"/>.
         /// </summary>
         public char LiteralCharacter { get; }
         /// <summary>
@@ -37,7 +37,7 @@ namespace LASI.Core
         /// </summary>
         /// <param name="obj">An <see cref="object"/> to compare with the current instance.</param>
         /// <returns><c>true</c> if the given <see cref="object"/> is equal to the current instance; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj) => this.Equals(obj as Symbol);
+        public override bool Equals(object obj) => Equals(obj as Symbol);
         /// <summary>
         /// Gets a hash code for the Symbol.
         /// </summary>
@@ -63,7 +63,7 @@ namespace LASI.Core
 
             public static string FromAlias(string alias) => aliasMap.GetValueOrDefault(alias, alias);
 
-            public static string ToAlias(string actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual.ToString();
+            public static string ToAlias(string actual) => aliasMap.FirstOrDefault(kvp => kvp.Value == actual).Key ?? actual;
             public static string ToAlias(char actual) => aliasMap.FirstOrDefault(kvp => kvp.Value.Length == 0 && kvp.Value[0] == actual).Key ?? actual.ToString();
 
         }

@@ -200,7 +200,9 @@ namespace LASI.Core.Analysis.PatternMatching
         {
             if (!UnMatchable && !Matched)
             {
+#pragma warning disable IDE0019 // Use pattern matching : False diagnostic as pattern matching if (Value is TCase matched) {...} causes an error (seems like it should work)
                 var matched = Value as TCase;
+#pragma warning restore IDE0019 // Use pattern matching
                 if (matched != null)
                 {
                     Matched = true;

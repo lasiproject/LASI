@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NFluent;
+using Xunit;
 
 namespace LASI.Content.Tests
 {
@@ -18,7 +19,7 @@ namespace LASI.Content.Tests
             var expected = ExpectedText;
             string actual;
             actual = target.LoadTextAsync().Result;
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace LASI.Content.Tests
             var expected = ExpectedText;
             string actual;
             actual = target.LoadText();
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -41,9 +42,7 @@ namespace LASI.Content.Tests
         public void NameTest()
         {
             var target = CreateITaggedTextSource();
-            string actual;
-            actual = target.Name;
-            Assert.Equal("test fragment", actual);
+            Check.That(target.Name).IsEqualTo("test fragment");
         }
 
         internal virtual ITaggedTextSource CreateITaggedTextSource()

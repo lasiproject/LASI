@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shared.Test.Assertions;
 using NFluent;
 using Xunit;
 
@@ -291,17 +290,17 @@ namespace LASI.Core.Tests
             switch (rand)
             {
                 case -1:
-                target.BindSubject(entity);
-                break;
+                    target.BindSubject(entity);
+                    break;
                 case 0:
-                target.BindDirectObject(entity);
-                break;
+                    target.BindDirectObject(entity);
+                    break;
                 case 1:
-                target.BindDirectObject(entity);
-                break;
+                    target.BindDirectObject(entity);
+                    break;
                 default:
-                Check.That(false).IsTrue();
-                break;
+                    Check.That(false).IsTrue();
+                    break;
             }
             Func<IEntity, bool> predicate = e => e.Text == "monkeys";
             var expected = true;

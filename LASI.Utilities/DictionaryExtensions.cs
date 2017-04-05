@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using LASI.Utilities.SpecializedResultTypes;
 using LASI.Utilities.Validation;
 
 namespace LASI.Utilities
@@ -125,9 +124,9 @@ namespace LASI.Utilities
             }
         }
 
-        public static ConcurrentDictionary<TKey, Indexed<TValue>> WithIndices<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary) =>
-            new ConcurrentDictionary<TKey, Indexed<TValue>>(dictionary
-                .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index))));
+        public static ConcurrentDictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary) =>
+            new ConcurrentDictionary<TKey, (TValue, int)>(dictionary
+                .Select((entry, index) => new KeyValuePair<TKey, (TValue, int)>(entry.Key, (entry.Value, index))));
 
         #endregion IDictionary Extensions
 
@@ -245,10 +244,10 @@ namespace LASI.Utilities
             }
         }
 
-        public static Dictionary<TKey, Indexed<TValue>> WithIndices<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
+        public static Dictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
             dictionary
-                .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
-                .ToDictionary();
+                .Select((entry, index) => (entry.Key, (entry.Value, index)))
+                .ToDictionary(x => x.Item1, x => x.Item2);
 
         #endregion Dictionary Extensions
 
@@ -366,8 +365,8 @@ namespace LASI.Utilities
             }
         }
 
-        public static IDictionary<TKey, Indexed<TValue>> WithIndices<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) => dictionary
-                .Select((entry, index) => new KeyValuePair<TKey, Indexed<TValue>>(entry.Key, Indexed.Create(entry.Value, index)))
+        public static IDictionary<TKey, (TValue value, int index)> WithIndices<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) => dictionary
+                .Select((entry, index) => new KeyValuePair<TKey, (TValue value, int index)>(entry.Key, (entry.Value, index)))
                 .ToDictionary();
 
         #endregion IDictionary Extensions

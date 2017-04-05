@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using LASI.Utilities.SpecializedResultTypes;
-using LASI.Utilities.Validation;
-using System.Diagnostics.Contracts;
 using System.Diagnostics;
+using System.Linq;
+using LASI.Utilities.Validation;
 
 namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
 {
@@ -138,8 +136,10 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         public static List<T> Take<T>(this List<T> list, int count)
         {
             Validate.NotNull(list, nameof(list));
-            if (count < 0) { return new List<T>(); }
-            if (count > list.Count) { return list.GetRange(0, list.Count); }
+            if (count < 0)
+            { return new List<T>(); }
+            if (count > list.Count)
+            { return list.GetRange(0, list.Count); }
             return list.GetRange(0, count);
         }
         [DebuggerStepThrough]
@@ -244,12 +244,12 @@ namespace LASI.Utilities.Specialized.Enhanced.IList.Linq
         #endregion ForEach
 
         [DebuggerHidden]
-        public static IList<Indexed<T>> WithIndices<T>(this IList<T> list)
+        public static IList<(T element, int index)> WithIndices<T>(this IList<T> list)
         {
-            var results = new List<Indexed<T>>(list.Count);
+            var results = new List<(T, int)>(list.Count);
             for (var i = 0; i < list.Count; ++i)
             {
-                results.Add(Indexed.Create(list[i], i));
+                results.Add((list[i], i));
             }
             return results;
         }

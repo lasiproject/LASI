@@ -62,12 +62,23 @@ namespace LASI.Utilities.Tests
             {
                 switch (key)
                 {
-                case "zero": Check.That(value).IsNull(); break;
-                case "one": Check.That(value).IsEqualTo(1); break;
-                case "two": Check.That(value).IsEqualTo(2); break;
-                case "three": Check.That(value).IsEqualTo(3); break;
-                case "four": Check.That(value).IsEqualTo(4); break;
-                default: throw new Exception("test failed");
+                    case "zero":
+                        Check.That(value).IsNull();
+                        break;
+                    case "one":
+                        Check.That(value).IsEqualTo(1);
+                        break;
+                    case "two":
+                        Check.That(value).IsEqualTo(2);
+                        break;
+                    case "three":
+                        Check.That(value).IsEqualTo(3);
+                        break;
+                    case "four":
+                        Check.That(value).IsEqualTo(4);
+                        break;
+                    default:
+                        throw new Exception("test failed");
                 }
             });
         }
@@ -79,7 +90,7 @@ namespace LASI.Utilities.Tests
             var expectedIndex = 0;
             foreach (var indexedKeyValuePair in indexedTarget)
             {
-                Check.That(expectedIndex).IsEqualTo(indexedKeyValuePair.Value.Index);
+                Check.That(expectedIndex).IsEqualTo(indexedKeyValuePair.Value.index);
                 expectedIndex++;
             }
         }

@@ -2,6 +2,6 @@
 {
     public interface IIntraSentenceBinder
     {
-        void Bind(Sentence sentence);
+        void Bind(Sentence s);
     }
 }

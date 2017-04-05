@@ -4,7 +4,7 @@ namespace LASI.Core.Heuristics.WordNet
 {
     internal abstract class WordNetLookup<TWord> : Progress<ResourceLoadEventArgs> where TWord : Word
     {
-        /// <summary> 
+        /// <summary>
         /// Loads relevant synonym data and performs additional initialization.
         /// </summary>
         internal abstract void Load();

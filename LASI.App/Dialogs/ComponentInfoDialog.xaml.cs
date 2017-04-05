@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.Resources;
 using System.Text;
@@ -13,7 +14,7 @@ namespace LASI.App.Dialogs
     /// <summary>
     /// Interaction logic for ComponentInfoDialogWindow.xaml
     /// </summary>
-    public partial class ComponentInfoDialogWindow : Window
+    public partial class ComponentInfoDialog : Window
     {
         private const string ProductHomePage = "http://lasi-product.org";
         private readonly ResourceManager resourceManager;
@@ -21,10 +22,10 @@ namespace LASI.App.Dialogs
         /// <summary>
         /// Initializes a new instance of the ComponentInfoDialogWindow class.
         /// </summary>
-        public ComponentInfoDialogWindow()
+        public ComponentInfoDialog()
         {
             InitializeComponent();
-            this.resourceManager = new ResourceManager(System.Globalization.CultureInfo.CurrentUICulture.Name, assembly: System.Reflection.Assembly.GetExecutingAssembly());
+            resourceManager = new ResourceManager(System.Globalization.CultureInfo.CurrentUICulture.Name, assembly: System.Reflection.Assembly.GetExecutingAssembly());
 
         }
 
@@ -45,12 +46,12 @@ namespace LASI.App.Dialogs
         /// <param name="helpUri">The help URI to Display if an error occurs.</param>
         private void OpenTxtFileInDefaultApp(string filePath, string helpUri)
         {
-            var actualPath = Path.Combine($@"{App.Config["LicencesDirectory"]}\{filePath}");
+            var actualPath = Path.Combine($@"{ConfigurationManager.AppSettings["LicencesDirectory"]}\{filePath}");
             try
             {
                 using (var reader = new StreamReader(actualPath, Encoding.UTF8))
                 {
-                    var licenseViewer = new LicenseDisplayDialogWindow(reader.ReadToEnd());
+                    var licenseViewer = new LicenseDisplayDialog(reader.ReadToEnd());
                     var pos = PointToScreen(new Point(this.Left, this.Top));
                     licenseViewer.Reposition(pos.Y * 0.5, pos.X * 0.5).Show();
                     EventHandler closed = delegate { licenseViewer.Close(); };

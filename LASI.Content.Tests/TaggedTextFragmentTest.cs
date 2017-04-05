@@ -58,7 +58,7 @@ namespace LASI.Content.Tests
         ///A test for LoadTextAsync
         /// </summary>
         [Fact]
-        public void LoadTextAsyncTest()
+        public async Task LoadTextAsyncTest()
         {
             var lines = Tagger.TaggedFromRaw(new[] {
                 "This is a test which i will not regret.",
@@ -68,8 +68,7 @@ namespace LASI.Content.Tests
             var name = "Test Fragment";
             var target = new TaggedTextFragment(lines, name);
             var expected = string.Join("\n", lines);
-            string actual = null;
-            Task.WaitAll(Task.Run(async () => actual = await target.LoadTextAsync()));
+            var actual = await target.LoadTextAsync();
             Check.That(actual).IsEqualTo(expected);
         }
     }

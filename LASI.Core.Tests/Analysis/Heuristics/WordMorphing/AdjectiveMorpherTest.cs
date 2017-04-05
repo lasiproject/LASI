@@ -1,6 +1,5 @@
 ﻿using System;
 using LASI.Core.Analysis.Heuristics.WordMorphing;
-using Shared.Test.Assertions;
 using System.Linq;
 using NFluent;
 using Xunit;

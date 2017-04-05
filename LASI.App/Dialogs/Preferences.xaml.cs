@@ -14,17 +14,15 @@ namespace LASI.App.Dialogs
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
-    public partial class PreferencesWindow : Window
+    public partial class Preferences : Window
     {
         /// <summary>
         /// Initializes a new instance of the PreferencesWindow class.
         /// </summary>
-        public PreferencesWindow()
+        public Preferences()
         {
             InitializeComponent();
             LoadCurrentPreferences();
-            //menu = new PreferencesMenu();
-            //mainFrame.Content = menu;
         }
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {

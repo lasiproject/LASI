@@ -61,9 +61,8 @@ namespace LASI.Content.Tests
         public async Task LoadTextAsyncTest()
         {
             var target = new TxtFile(ValidTxtFilePath);
-            var expected = new StreamReader(target.FullPath).ReadToEndAsync().Result;
-            string actual = null;
-            actual = await target.LoadTextAsync();
+            var expected = await new StreamReader(target.FullPath).ReadToEndAsync();
+            var actual = await target.LoadTextAsync();
             Check.That(actual).IsEqualTo(expected);
         }
     }

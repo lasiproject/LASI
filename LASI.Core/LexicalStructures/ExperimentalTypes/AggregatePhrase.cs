@@ -52,10 +52,7 @@ namespace LASI.Core.Binding.Experimental
         /// Binds the <see cref="AggregateNounPhrase"/> as a direct object of the <see cref="IVerbal"/>.
         /// </summary>
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
-        public void BindAsDirectObjectOf(IVerbal verbal)
-        {
-            DirectObjectOf = verbal.ToOption();
-        }
+        public void BindAsDirectObjectOf(IVerbal verbal) => DirectObjectOf = verbal;
 
         /// <summary>
         /// Binds the <see cref="AggregateNounPhrase"/> as an indirect object of the <see cref="IVerbal"/>.
@@ -76,7 +73,7 @@ namespace LASI.Core.Binding.Experimental
         /// </summary>
         public IVerbal SubjectOf { get; private set; }
 
-        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
+        public IVerbal DirectObjectOf { get; private set; }
 
         public IVerbal IndirectObjectOf { get; private set; }
 

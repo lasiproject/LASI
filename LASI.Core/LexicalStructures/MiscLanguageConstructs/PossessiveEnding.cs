@@ -1,15 +1,12 @@
-﻿using System;
+﻿using LASI.Utilities;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using LASI.Utilities;
 
 
 namespace LASI.Core
 {
     /// <summary>
-    /// Represents a possessive ending such as ('s) which indicates that the Entity preceding it has a possessive relationship with respect to the Entity which follows it. 
+    /// Represents a possessive ending such as ('s) which indicates that the Entity preceding it has a possessive relationship with respect to the Entity which follows it.
     /// </summary>
     public class PossessiveEnding : Word, IWeakPossessor
     {
@@ -32,11 +29,8 @@ namespace LASI.Core
         /// <param name="possession">The possession to add.</param>
         public void AddPossession(IPossessable possession)
         {
-            PossessesFor = PossessesFor ?? (PreviousWord as IEntity).ToOption<IPossesser>();
-            if (PossessesFor.IsSome)
-            {
-                PossessesFor.Match().Case(e => e.AddPossession(possession));
-            }
+            PossessesFor = PossessesFor ?? PreviousWord as IEntity;
+            PossessesFor?.AddPossession(possession);
             possessions = possessions.Add(possession);
         }
         /// <summary>
@@ -51,17 +45,19 @@ namespace LASI.Core
         /// Gets or sets the possessing the Entity the PosssessiveEnding is attached to.
         /// When this property is set, ownership of all possessions associated with the PossessiveEnding is transferred to the target Entity.
         /// </summary>
-        public Option<IPossesser> PossessesFor
+        public IPossesser PossessesFor
         {
-            get
-            {
-                return possessesFor;
-            }
+            get => possessesFor;
             set
             {
                 possessesFor = value;
-                foreach (var possession in possessions)
-                    possessesFor.Match().Case(x => x.AddPossession(possession));
+                if (possessesFor != null)
+                {
+                    foreach (var possession in possessions)
+                    {
+                        possessesFor.AddPossession(possession);
+                    }
+                }
             }
         }
 
@@ -79,7 +75,7 @@ namespace LASI.Core
         #region Fields
 
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
-        private Option<IPossesser> possessesFor;
+        private IPossesser possessesFor;
 
         #endregion
 

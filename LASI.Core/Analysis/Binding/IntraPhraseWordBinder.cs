@@ -38,10 +38,10 @@ namespace LASI.Core.Binding
                  *  if word prior to LastNoun is also a Noun associate them
                  */
 
-                if (LastNoun.PreviousWord is Noun noun)
+                if (LastNoun.PreviousWord is Noun previousAsNoun)
                 {
-                    LastNoun.PrecedingAdjunctNoun = noun;
-                    noun.FollowingAdjunctNoun = LastNoun;
+                    LastNoun.PrecedingAdjunctNoun = previousAsNoun;
+                    previousAsNoun.FollowingAdjunctNoun = LastNoun;
                 }
 
 

@@ -78,15 +78,14 @@ namespace LASI.Content.Tests
         ///A test for LoadTextAsync
         /// </summary>
         [Fact]
-        public void LoadTextAsyncTest()
+        public async Task LoadTextAsyncTest()
         {
             var target = CreateInputFile();
             var expected = string.Empty;
             string actual = null;
-            Task.WaitAll(Task.Run(
-                async () => expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync()),
-                Task.Run(async () => actual = await target.LoadTextAsync())
-            );
+
+            expected = await new System.IO.StreamReader(target.FullPath).ReadToEndAsync();
+            actual = await target.LoadTextAsync();
             Check.That(actual).IsEqualTo(expected);
         }
 
@@ -200,19 +199,22 @@ namespace LASI.Content.Tests
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
+            var expected = System.IO.Path.GetFullPath(relativePath);
             actual = target.FullPath;
-            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
-        }        /// <summary>
-                 ///A test for FullPath
-                 /// </summary>
+            Check.That(actual).IsEqualTo(expected);
+        }
+
+        /// <summary>
+        ///A test for FullPath
+        /// </summary>
         [Fact]
         public void FullPathTest1()
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
-            string actual;
-            actual = target.FullPath;
-            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
+            var expected = System.IO.Path.GetFullPath(relativePath);
+            var actual = target.FullPath;
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>

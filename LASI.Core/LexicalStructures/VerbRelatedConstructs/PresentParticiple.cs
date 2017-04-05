@@ -67,7 +67,7 @@ namespace LASI.Core
 
         public void BindAsDirectObjectOf(IVerbal verbal)
         {
-            DirectObjectOf = verbal.ToOption();
+            DirectObjectOf = verbal;
         }
 
         public void BindAsIndirectObjectOf(IVerbal verbal)
@@ -98,7 +98,7 @@ namespace LASI.Core
         /// <summary>
         /// The Verb construct which the PresentParticiple is the direct object of.
         /// </summary>
-        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
+        public IVerbal DirectObjectOf { get; private set; }
         /// <summary>
         /// The Verb construct which the PresentParticiple is the indirect object of.
         /// </summary>
@@ -115,9 +115,11 @@ namespace LASI.Core
         #endregion
 
         #region Fields
+
         private IImmutableSet<IDescriptor> descriptors = ImmutableHashSet<IDescriptor>.Empty;
         private IImmutableSet<IPossessable> possessions = ImmutableHashSet<IPossessable>.Empty;
         private IImmutableSet<IReferencer> referencers = ImmutableHashSet<IReferencer>.Empty;
+
         #endregion
     }
 }

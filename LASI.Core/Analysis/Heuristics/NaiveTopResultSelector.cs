@@ -16,9 +16,9 @@ namespace LASI.Core.Analysis.Heuristics
     public static class NaiveTopResultSelector
     {
 
-        private static IEnumerable<Pair<string, float>> GetTopResultsByVerbal(IReifiedTextual source) =>
+        private static IEnumerable<(string relationship, float weight)> GetTopResultsByVerbal(IReifiedTextual source) =>
             GetVerbWiseRelationships(source)
-                .Select(relationship => Pair.Create(CreateKey(relationship), (float)Math.Round(relationship.Weight, 2)))
+                .Select(relationship => (CreateKey(relationship), (float)Math.Round(relationship.Weight, 2)))
                 .Distinct();
 
         private static IEnumerable<SvoRelationship> GetVerbWiseRelationships(IReifiedTextual source)
@@ -50,7 +50,7 @@ namespace LASI.Core.Analysis.Heuristics
         /// <param name="source">The Document from which to retrieve results.</param>
         /// <returns>The top results for the given document using a heuristic which emphasizes the occurrence of Entities above
         /// other metrics.</returns>
-        public static IEnumerable<Pair<string, float>> GetTopResultsByEntity(IReifiedTextual source)
+        public static IEnumerable<(string, float)> GetTopResultsByEntity(IReifiedTextual source)
         {
             var results = from entity in source.Phrases.OfEntity()
                          .AsParallel().WithDegreeOfParallelism(Concurrency.Max)
@@ -63,7 +63,7 @@ namespace LASI.Core.Analysis.Heuristics
                           where byText.Any()
                           let top = byText.MaxBy(x => x.Value)
                           orderby top.Value descending
-                          select Pair.Create(top.Name, top.Value);
+                          select (top.Name, top.Value);
             return results;
         }
 

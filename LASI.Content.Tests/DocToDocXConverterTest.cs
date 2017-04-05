@@ -15,7 +15,7 @@ namespace LASI.Content.Tests
     /// </summary>
     public class DocToDocXConverterTest : FileConverterTestBase<DocFile>
     {
-        public DocToDocXConverterTest():base("Draft_Environmental_Assessment.doc") { } 
+        public DocToDocXConverterTest() : base("Draft_Environmental_Assessment.doc") { }
 
         protected sealed override Func<string, DocFile> SourceFactory => path => new DocFile(path);
 
@@ -53,7 +53,7 @@ namespace LASI.Content.Tests
             var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = target.ConvertFile();
-            Assert.True(File.Exists(actual.FullPath));
+            Check.That(File.Exists(actual.FullPath)).IsTrue();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace LASI.Content.Tests
             var target = new DocToDocXConverter(infile);
             InputFile actual;
             actual = await target.ConvertFileAsync();
-            Assert.True(File.Exists(actual.FullPath));
+            Check.That(File.Exists(actual.FullPath)).IsTrue();
         }
     }
 }

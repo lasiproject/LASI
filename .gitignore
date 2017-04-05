@@ -180,3 +180,5 @@ jspm_packages/
 .vscode/
 .vs/
 *.vc.db
+/.idea/.idea.Lasi/.idea
+/.idea/.idea.Lasi/riderModule.iml

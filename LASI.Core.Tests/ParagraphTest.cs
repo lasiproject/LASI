@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Shared.Test.Assertions;
 using NFluent;
 using Fact = Xunit.FactAttribute;
 

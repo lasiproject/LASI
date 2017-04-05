@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using LASI.Utilities.Validation;
+using static System.Linq.Enumerable;
+
 namespace LASI.Utilities
 {
-    using System.Numerics;
-    using SpecializedResultTypes;
-    using Validation;
-    using static Enumerable;
     /// <summary>
     /// Defines various useful methods for working with IEnummerable sequences of any type.
     /// </summary>
@@ -48,12 +48,12 @@ namespace LASI.Utilities
         /// <exception cref="ArgumentNullException">Source or func is <c>null</c>.</exception>
         /// <exception cref="InvalidOperationException">Source contains no elements.</exception>
         public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, int, TSource> func) =>
-            source.Select(Indexed.Create)
-                  .Aggregate((z, e) => Indexed.Create(
-                      element: func(z.Element, e.Element, e.Index),
+            source.WithIndices()
+                  .Aggregate((z, e) => (
+                      element: func(z.element, e.element, e.index),
                      // this value is never used; it is simply present to make the result type align as required by the overload of Aggregate
-                     index: e.Index
-                  )).Element;
+                     index: e.index
+                  )).element;
 
         /// <summary>
         /// Applies an accumulator function over the sequence, incorporating each element's index
@@ -186,28 +186,6 @@ namespace LASI.Utilities
             yield return tail;
         }
 
-        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<IEnumerable<T>>> forGroups) where TKey : IComparable
-        {
-            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
-            foreach (var groupAction in forGroups)
-            {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
-                groupAction.Value(enumerable);
-            }
-        }
-        public static void ForEachGroup<T, TKey>(this IEnumerable<IGrouping<TKey, T>> groups, IDictionary<TKey, Action<T>> forGrouped) where TKey : IComparable
-        {
-            var keyed = groups.ToDictionary(g => g.Key, g => g.AsEnumerable());
-            foreach (var groupAction in forGrouped)
-            {
-                var enumerable = keyed.GetValueOrDefault(groupAction.Key, Empty<T>);
-                foreach (var element in enumerable)
-                {
-                    groupAction.Value(element);
-                }
-            }
-        }
-
         /// <summary>
         /// Returns the distinct elements of the given of the source sequence by applying the given
         /// key selector the given projection.
@@ -235,14 +213,6 @@ namespace LASI.Utilities
                     x => selector(x).GetHashCode())
             );
         }
-
-        /// <summary>
-        /// Returns the non <c>null</c> elements of <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TSource">Type of the source sequence</typeparam>
-        /// <param name="source">The source sequence.</param>
-        /// <returns>The non <c>null</c> elements of <paramref name="source"/>.</returns>
-        public static IEnumerable<TSource> NonNull<TSource>(this IEnumerable<TSource> source) => source.Where(x => x != null);
 
         /// <summary>
         /// Transforms a possibly <c>null</c> <see cref="IEnumerable{T}" /> into an empty enumerable.
@@ -273,11 +243,6 @@ namespace LASI.Utilities
                 x => selector(x).GetHashCode())
             );
 
-        //public static IEnumerable<T> Except<T, TBase>(this IEnumerable<T> source, IEnumerable<TBase> other) where T : TBase =>
-        //    source.Except<T, TBase, TBase>(other.OfType<TBase>());
-        //public static IEnumerable<T> Except<T, TOther>(this IEnumerable<T> source, IEnumerable<TOther> other) =>
-        //            source.Except(other.OfType<T>());
-
         /// <summary>Produces the set difference of two sequences under the given projection.</summary>
         /// <typeparam name="TBase">The type of the elements of the first sequence.</typeparam>
         /// <typeparam name="TDerived">The type of the elements of the second sequence.</typeparam>
@@ -307,12 +272,19 @@ namespace LASI.Utilities
         /// A sequence that contains the set difference of the elements of two sequences under the
         /// given projection.
         /// </returns>
-        public static IEnumerable<TKey> ExceptBy<TSource, TOther, TKey>(
+        public static IEnumerable<TSource> ExceptBy<TSource, TOther, TKey>(
             this IEnumerable<TSource> first,
             IEnumerable<TOther> second,
             Func<TSource, TKey> keySelector,
             Func<TOther, TKey> otherKeySelector
-        ) => first.Select(keySelector).Except(second.Select(otherKeySelector));
+        )
+        {
+            var excepted = first
+                .Select(keySelector)
+                .Except(second.Select(otherKeySelector));
+            return first.Where(element =>
+                excepted.Contains(keySelector(element)));
+        }
 
         /// <summary>Produces the set intersection of two sequences under the given projection.</summary>
         /// <typeparam name="TSource">The type of the elements in the two sequences.</typeparam>
@@ -391,6 +363,8 @@ namespace LASI.Utilities
             return source.OrderBy(selector, comparer).First();
         }
 
+        public static IEnumerable<T> NonNull<T>(this IEnumerable<T> source) => source.Where(element => element != null);
+
         /// <summary>A sequence of Tuple&lt;T, T,&gt; containing pairs of adjacent elements.</summary>
         /// <typeparam name="T">The type of elements in the sequence.</typeparam>
         /// <param name="source">
@@ -399,14 +373,15 @@ namespace LASI.Utilities
         /// <returns>A sequence of Tuple&lt;T, T&gt; containing pairs of adjacent elements.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source" /> is null.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="source" /> has exactly one element.</exception>
-        public static IEnumerable<Pair<T, T>> PairWise<T>(this IEnumerable<T> source)
+        public static IEnumerable<(T, T)> PairWise<T>(this IEnumerable<T> source)
         {
             Validate.NotNull(source, nameof(source));
-            if (source.Count() == 1) { throw new InvalidOperationException("If source is not empty, it must have have more than 1 element."); }
+            if (source.Count() == 1)
+            { throw new InvalidOperationException("If source is not empty, it must have more than 1 element."); }
             var first = source.First();
             foreach (var next in source.Skip(1))
             {
-                yield return Pair.Create(first, next);
+                yield return (first, next);
                 first = next;
             }
         }
@@ -692,8 +667,8 @@ namespace LASI.Utilities
         public static IEnumerable<(T1, T2)> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) =>
             first.Zip(second, (x, y) => (x, y));
 
-        public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<(T1, T2)> zipped, Func<T1, T2, TResult> projection) =>
-            zipped.Select(x => projection(x.Item1, x.Item2));
+        public static IEnumerable<TResult> With<T1, T2, TResult>(this IEnumerable<(T1 first, T2 second)> zipped, Func<T1, T2, TResult> selector) =>
+            zipped.Select(t => selector(t.first, t.second));
 
         /// <summary>
         /// Projects each element of the sequence into a new form incorporating its index.
@@ -716,5 +691,6 @@ namespace LASI.Utilities
                 action();
             }
         }
+
     }
 }

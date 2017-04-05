@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E61EB5D5-494B-437A-A9ED-20756769E139}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		Script1.fsx = Script1.fsx
 		TestLocator.config = TestLocator.config
-		LASI.AureliaApp\tsconfig.json = LASI.AureliaApp\tsconfig.json
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
 		__JSONSchema = 
@@ -39,19 +38,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9579A2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB32A172-AF94-4FAF-9655-5E339DDB032C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtilities", "TestUtilities", "{AB837D56-33CB-4A49-BAE1-4E36D371BCE6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Content.Tests", "LASI.Content.Tests\LASI.Content.Tests.csproj", "{BE2D3C2C-F7CF-4731-BFA8-1876DE7FB757}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28203B35-8232-4B95-82A3-70D510C416CD} = {28203B35-8232-4B95-82A3-70D510C416CD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core.Tests", "LASI.Core.Tests\LASI.Core.Tests.csproj", "{F4ABC10C-0BE9-4195-99E7-DB027757EC6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Interop.Tests", "LASI.Interop.Tests\LASI.Interop.Tests.csproj", "{28203B35-8232-4B95-82A3-70D510C416CD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Utilities.Tests", "LASI.Utilities.Tests\LASI.Utilities.Tests.csproj", "{7C756278-1AA5-4462-A9ED-E4CE2D948E10}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1314082A-EB47-44E9-88A0-72C71489035F} = {1314082A-EB47-44E9-88A0-72C71489035F}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtilities", "TestUtilities", "{AB837D56-33CB-4A49-BAE1-4E36D371BCE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Shared.Test", "Shared.Test.Utilities\LASI.Shared.Test.csproj", "{1314082A-EB47-44E9-88A0-72C71489035F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LASI.Installer", "LASI.Installer\LASI.Installer.vdproj", "{E0FB815A-0136-4471-A929-514A88087797}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.App", "LASI.App\LASI.App.csproj", "{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06B96679-9758-4B15-8E75-0F46416E68B7} = {06B96679-9758-4B15-8E75-0F46416E68B7}
+		{BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21} = {BC10A8F0-77FF-46D0-9F9A-38E2FDA22D21}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LASI.Core", "LASI.Core\LASI.Core.csproj", "{8C562A93-A885-4FE9-8B8C-5CE34CCBAEC1}"
 EndProject
@@ -109,6 +126,13 @@ Global
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|x86.ActiveCfg = Release|x86
 		{1314082A-EB47-44E9-88A0-72C71489035F}.Release|x86.Build.0 = Release|x86
+		{E0FB815A-0136-4471-A929-514A88087797}.Debug|Any CPU.ActiveCfg = Debug
+		{E0FB815A-0136-4471-A929-514A88087797}.Debug|x86.ActiveCfg = Debug
+		{E0FB815A-0136-4471-A929-514A88087797}.Debug|x86.Build.0 = Debug
+		{E0FB815A-0136-4471-A929-514A88087797}.Release|Any CPU.ActiveCfg = Release
+		{E0FB815A-0136-4471-A929-514A88087797}.Release|Any CPU.Build.0 = Release
+		{E0FB815A-0136-4471-A929-514A88087797}.Release|x86.ActiveCfg = Release
+		{E0FB815A-0136-4471-A929-514A88087797}.Release|x86.Build.0 = Release
 		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C8D6DA8-BD8B-48C8-ACB9-8FDE7E3A672E}.Debug|x86.ActiveCfg = Debug|x86

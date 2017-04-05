@@ -18,10 +18,7 @@ namespace LASI.Core
         /// Initializes a new instance of the Pronoun class.
         /// </summary>
         /// <param name="text">The text content of the pronoun.</param>
-        protected Pronoun(string text) : base(text)
-        {
-            PronounKind = DetermineKind(this);
-        }
+        protected Pronoun(string text) : base(text) => PronounKind = DetermineKind(this);
 
         #endregion
 
@@ -105,10 +102,7 @@ namespace LASI.Core
         /// Binds the <see cref="Pronoun"/> as a direct object of the <see cref="IVerbal"/>.
         /// </summary>
         /// <param name="verbal">The <see cref="IVerbal"/> to which to bind.</param>
-        public void BindAsDirectObjectOf(IVerbal verbal)
-        {
-            DirectObjectOf = verbal.ToOption();
-        }
+        public void BindAsDirectObjectOf(IVerbal verbal) => DirectObjectOf = verbal;
 
         /// <summary>
         /// Binds the <see cref="Pronoun"/> as an indirect object of the <see cref="IVerbal"/>.
@@ -146,7 +140,7 @@ namespace LASI.Core
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the object of.
         /// </summary>
-        public Option<IVerbal> DirectObjectOf { get; private set; } = Option.None<IVerbal>();
+        public IVerbal DirectObjectOf { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IVerbal"/> instance, generally a TransitiveVerb or TransitiveVerbPhrase, which the Pronoun is the INDIRECT object of.
@@ -174,9 +168,9 @@ namespace LASI.Core
         #endregion
 
         #region Fields
-        private HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
-        private HashSet<IPossessable> possessions = new HashSet<IPossessable>();
-        private HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
+        private readonly HashSet<IDescriptor> descriptors = new HashSet<IDescriptor>();
+        private readonly HashSet<IPossessable> possessions = new HashSet<IPossessable>();
+        private readonly HashSet<IReferencer> boundPronouns = new HashSet<IReferencer>();
         #endregion
 
         #region Static Members
@@ -228,21 +222,21 @@ namespace LASI.Core
         #region Static Fields
 
         //Common personal Pronouns by gender and plurality 
-        private static readonly HashSet<string> males = new HashSet<string> { "he", "him", "his" };
-        private static readonly HashSet<string> maleReflexives = new HashSet<string> { "himself", "hisself", };
-        private static readonly HashSet<string> females = new HashSet<string> { "she", "her", "hers" };
-        private static readonly HashSet<string> femaleReflexives = new HashSet<string> { "herself" };
-        private static readonly HashSet<string> neutrals = new HashSet<string> { "one", "it", "itself", "its" };
-        private static readonly HashSet<string> neutralReflexives = new HashSet<string> { "itself" };
-        private static readonly HashSet<string> firstPersonSingulars = new HashSet<string> { "i", "me", "mine" };
-        private static readonly HashSet<string> firstPersonSingularReflexives = new HashSet<string> { "myself" };
-        private static readonly HashSet<string> firstPersonPlurals = new HashSet<string> { "we", "us", "ours" };
-        private static readonly HashSet<string> firstPersonPluralReflexives = new HashSet<string> { "ourselves" };
-        private static readonly HashSet<string> secondPersons = new HashSet<string> { "you", "yours" };
-        private static readonly HashSet<string> secondPersonSingularReflexives = new HashSet<string> { "yourself" };
-        private static readonly HashSet<string> secondPersonPluralReflexives = new HashSet<string> { "yourselves" };
-        private static readonly HashSet<string> thirdPersonGenderAmbiguousPlurals = new HashSet<string> { "them", "they", "theirs" };
-        private static readonly HashSet<string> thirdPersonPluralReflexives = new HashSet<string> { "themselves", "theirselves" };
+        private static readonly ISet<string> males = new HashSet<string> { "he", "him", "his" };
+        private static readonly ISet<string> maleReflexives = new HashSet<string> { "himself", "hisself", };
+        private static readonly ISet<string> females = new HashSet<string> { "she", "her", "hers" };
+        private static readonly ISet<string> femaleReflexives = new HashSet<string> { "herself" };
+        private static readonly ISet<string> neutrals = new HashSet<string> { "one", "it", "itself", "its" };
+        private static readonly ISet<string> neutralReflexives = new HashSet<string> { "itself" };
+        private static readonly ISet<string> firstPersonSingulars = new HashSet<string> { "i", "me", "mine" };
+        private static readonly ISet<string> firstPersonSingularReflexives = new HashSet<string> { "myself" };
+        private static readonly ISet<string> firstPersonPlurals = new HashSet<string> { "we", "us", "ours" };
+        private static readonly ISet<string> firstPersonPluralReflexives = new HashSet<string> { "ourselves" };
+        private static readonly ISet<string> secondPersons = new HashSet<string> { "you", "yours" };
+        private static readonly ISet<string> secondPersonSingularReflexives = new HashSet<string> { "yourself" };
+        private static readonly ISet<string> secondPersonPluralReflexives = new HashSet<string> { "yourselves" };
+        private static readonly ISet<string> thirdPersonGenderAmbiguousPlurals = new HashSet<string> { "them", "they", "theirs" };
+        private static readonly ISet<string> thirdPersonPluralReflexives = new HashSet<string> { "themselves", "theirselves" };
 
         #endregion
 

@@ -18,13 +18,13 @@ namespace LASI.App.Dialogs
     /// <summary>   
     /// Interaction logic for LicenseDisplayDialog.xaml
     /// </summary>
-    public partial class LicenseDisplayDialogWindow : Window
+    public partial class LicenseDisplayDialog : Window
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LicenseDisplayDialogWindow"/> class which will display the specified text.
+        /// Initializes a new instance of the <see cref="LicenseDisplayDialog"/> class which will display the specified text.
         /// </summary>
         /// <param name="licenseText">The text of the license to which the window will display.</param>
-        public LicenseDisplayDialogWindow(string licenseText)
+        public LicenseDisplayDialog(string licenseText)
         {
             LicenseText = licenseText;
 
@@ -39,7 +39,7 @@ namespace LASI.App.Dialogs
         {
             if (e.Key == Key.Escape)
             {
-                this.Close();
+                Close();
             }
         }
 

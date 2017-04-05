@@ -1,11 +1,7 @@
+using LASI.Utilities;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LASI.Core.Heuristics;
-using LASI.Utilities;
 
 namespace LASI.Core.Analysis.Relationships
 {
@@ -18,7 +14,8 @@ namespace LASI.Core.Analysis.Relationships
         /// Initializes a new instance of the ActionsRelatedOn structure.
         /// </summary>
         /// <param name="actionsRelatedOn"></param>
-        internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn) { RelatedOn = actionsRelatedOn; }
+        internal ActionsRelatedOn(IEnumerable<IVerbal> actionsRelatedOn) => RelatedOn = actionsRelatedOn;
+
         /// <summary>
         /// Determines if the current ActionsRelatedOn instance is equal to another ActionsRelatedOn instance.
         /// </summary>

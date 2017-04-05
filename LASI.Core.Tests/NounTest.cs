@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using LASI.Utilities;
-using Shared.Test.Assertions;
 using NFluent;
 using Xunit;
 

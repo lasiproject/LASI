@@ -3,6 +3,7 @@ using NFluent;
 using Shared.Test.NFluentExtensions;
 using Xunit;
 using LASI.Content.Exceptions;
+using System.Threading.Tasks;
 
 namespace LASI.Content.Tests
 {
@@ -24,9 +25,9 @@ namespace LASI.Content.Tests
         {
             var target = new PdfFile(TestPdfFilePath);
             var pdfInfo = new FileInfo(TestPdfFilePath);
-            Assert.Equal(pdfInfo.FullName, target.FullPath);
-            Assert.Equal(pdfInfo.Name, target.FileName);
-            Assert.Equal(pdfInfo.Extension, target.Extension);
+            Check.That(pdfInfo.FullName).IsEqualTo(target.FullPath);
+            Check.That(pdfInfo.Name).IsEqualTo(target.FileName);
+            Check.That(pdfInfo.Extension).IsEqualTo(target.Extension);
         }
         [Fact]
         public void PdfFileConstructorGivenTxtFileThrowsFileTypeMismatchOfPdfFile()
@@ -52,23 +53,22 @@ namespace LASI.Content.Tests
         {
             var target = new PdfFile(TestPdfFilePath);
             var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
-            string actual;
-            actual = target.LoadText();
-            Assert.Equal(expected, actual);
+            var actual = target.LoadText();
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
         ///A test for LoadTextAsync
         /// </summary>
         [Fact]
-        public void LoadTextAsyncTest()
+        public async Task LoadTextAsyncTest()
         {
             var path = TestPdfFilePath;
             var target = new PdfFile(path);
-            var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
-            string actual;
-            actual = target.LoadTextAsync().Result;
-            Assert.Equal(expected, actual);
+            var converted = await new PdfToTextConverter(target).ConvertFileAsync();
+            var expected = await converted.LoadTextAsync();
+            var actual = await target.LoadTextAsync();
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }
