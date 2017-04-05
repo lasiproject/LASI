@@ -135,18 +135,18 @@ namespace TaggerInterop
             switch (taggingMode)
             {
                 case TaggerMode.TagIndividual:
-                return POSTag();
+                    return POSTag();
                 case TaggerMode.TagAndAggregate:
-                return Chunk();
+                    return Chunk();
                 case TaggerMode.FullyNestingParse:
-                return Parse();
+                    return Parse();
                 case TaggerMode.GenderFind:
 
-                return Gender();
+                    return Gender();
                 case TaggerMode.NameFind:
-                return NameFind();
+                    return NameFind();
                 default:
-                return POSTag();
+                    return POSTag();
             }
         }
         private string SplitIntoSentences()
