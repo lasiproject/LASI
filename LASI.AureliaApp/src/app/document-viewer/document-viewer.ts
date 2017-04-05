@@ -14,7 +14,7 @@ export class DocumentViewer {
       .map(w => w) || [];
   }
 
-  queryTypeAhead(query: any, callback: any) {
+  queryTypeAhead(query: { target: { value: {} } }, callback: (...args: {}[]) => void) {
     console.log(query);
     console.log(callback);
     return callback(query.target.value);
