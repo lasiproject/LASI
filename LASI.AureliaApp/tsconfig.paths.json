@@ -115,7 +115,7 @@
       "app/*": [
         "src/*"
       ],
-      "models":"src/models"
+      "models": "src/models"
     }
   }
 }
