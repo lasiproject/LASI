@@ -9,7 +9,7 @@ nuget:
   project_feed: true
   disable_publish_on_pr: true
 build_script:
-- ps: MSBuild /verbosity:normal ./Lasi.sln /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
+- ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
 before_test:
 - ps: 
 test:
