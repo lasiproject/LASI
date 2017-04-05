@@ -1,9 +1,11 @@
 ﻿using LASI.Content;
- using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Xunit;
+using NFluent;
+
 namespace LASI.Content.Tests
 {
     /// <summary>
@@ -25,8 +27,8 @@ namespace LASI.Content.Tests
                 "Heathens are far less dangerous than he." };
             var name = "test fragment";
             var target = new RawTextFragment(text, name);
-            Assert.Equal(target.Name, name);
-            Assert.Equal(target.LoadText(), string.Join("\n", text));
+            Check.That(target.Name).IsEqualTo(name);
+            Check.That(target.LoadText()).IsEqualTo(string.Join("\n", text));
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace LASI.Content.Tests
             var target = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);
             var actual = target.LoadText();
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace LASI.Content.Tests
             var target = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);
             var actual = target.LoadTextAsync().Result;
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -75,9 +77,8 @@ namespace LASI.Content.Tests
             var name = "test fragment";
             var fragment = new RawTextFragment(text, name);
             var expected = string.Join("\n", text);
-            string actual;
-            actual = fragment;
-            Assert.Equal(expected, actual);
+            var actual = fragment;
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }

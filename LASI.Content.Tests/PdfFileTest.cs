@@ -25,9 +25,9 @@ namespace LASI.Content.Tests
         {
             var target = new PdfFile(TestPdfFilePath);
             var pdfInfo = new FileInfo(TestPdfFilePath);
-            Assert.Equal(pdfInfo.FullName, target.FullPath);
-            Assert.Equal(pdfInfo.Name, target.FileName);
-            Assert.Equal(pdfInfo.Extension, target.Extension);
+            Check.That(pdfInfo.FullName).IsEqualTo(target.FullPath);
+            Check.That(pdfInfo.Name).IsEqualTo(target.FileName);
+            Check.That(pdfInfo.Extension).IsEqualTo(target.Extension);
         }
         [Fact]
         public void PdfFileConstructorGivenTxtFileThrowsFileTypeMismatchOfPdfFile()
@@ -54,7 +54,7 @@ namespace LASI.Content.Tests
             var target = new PdfFile(TestPdfFilePath);
             var expected = new PdfToTextConverter(target).ConvertFile().LoadText();
             var actual = target.LoadText();
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace LASI.Content.Tests
             var converted = await new PdfToTextConverter(target).ConvertFileAsync();
             var expected = await converted.LoadTextAsync();
             var actual = await target.LoadTextAsync();
-            Assert.Equal(expected, actual);
+            Check.That(expected).IsEqualTo(actual);
         }
     }
 }

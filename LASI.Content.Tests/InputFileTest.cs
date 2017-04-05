@@ -199,19 +199,22 @@ namespace LASI.Content.Tests
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
             string actual;
+            var expected = System.IO.Path.GetFullPath(relativePath);
             actual = target.FullPath;
-            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
-        }        /// <summary>
-                 ///A test for FullPath
-                 /// </summary>
+            Check.That(actual).IsEqualTo(expected);
+        }
+
+        /// <summary>
+        ///A test for FullPath
+        /// </summary>
         [Fact]
         public void FullPathTest1()
         {
             var relativePath = @"..\..\MockUserFiles\Draft_Environmental_Assessment.docx";
             InputFile target = new DocXFile(relativePath);
-            string actual;
-            actual = target.FullPath;
-            Assert.Equal(System.IO.Path.GetFullPath(relativePath), actual);
+            var expected = System.IO.Path.GetFullPath(relativePath);
+            var actual = target.FullPath;
+            Check.That(expected).IsEqualTo(actual);
         }
 
         /// <summary>
