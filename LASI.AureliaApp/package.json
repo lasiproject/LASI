@@ -1,5 +1,5 @@
 {
-  "name": "lasi-aurelia-client",
+  "name": "app",
   "author": "lasi-project",
   "version": "0.0.0",
   "private": true,
@@ -9,13 +9,17 @@
     "test": "jspm run test",
     "postinstall": "jspm i && ati i",
     "ati": "ati",
+    "tsc": "tsc",
+    "tslint": "tslint",
     "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
     "bundle-dev": "jspm bundle app/**/*.ts + app/**/*.html -wid",
-    "bundle-prod": "jspm bundle app/**/*.ts  app/**/*.html --minify --inject --format umd",
+    "bundle-prod": "jspm bundle app/**/*.ts  app/**/*.html --minify",
     "build-dev": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --inject --format umd",
-    "build-prod": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --minify --inject --format umd"
+    "build-prod": "jspm build app/**/*.ts + app/**/*.html app/**/*.css --minify --inject --format umd",
+    "ci": "npm run lint && npm run test npm run bundle-prod"
   },
   "jspm": {
+    "main": "main.ts",
     "dependencies": {
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
       "@types/typeahead": "npm:@types/typeahead@^0.11.27",
@@ -200,23 +204,6 @@
           "_stream_transform": "readable-stream/transform"
         }
       },
-      "npm:debug@2.2.0": {
-        "main": "browser.js",
-        "jspmNodeConversion": false,
-        "format": "cjs",
-        "map": {
-          "./browser.js": {
-            "node": "./node.js"
-          },
-          "./node.js": {
-            "browser": "./browser.js"
-          },
-          "fs": "@node/fs",
-          "net": "@node/net",
-          "tty": "@node/tty",
-          "util": "@node/util"
-        }
-      },
       "npm:debug@2.6.0": {
         "main": "browser.js",
         "jspmNodeConversion": false,
@@ -258,10 +245,6 @@
       },
       "npm:moment@2.17.1": {
         "jspmNodeConversion": false
-      },
-      "npm:ms@0.7.1": {
-        "jspmNodeConversion": false,
-        "format": "cjs"
       },
       "npm:ms@0.7.2": {
         "jspmNodeConversion": false,
@@ -330,4 +313,5 @@
     "typescript": "next"
   },
   "dependencies": {}
-}
+}
+

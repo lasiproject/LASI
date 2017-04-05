@@ -4,14 +4,14 @@ import test from 'tape';
 import TokenService from 'src/app/services/token';
 import StorageService from 'src/app/services/storage';
 
-test('TokenService.token should initially be undefined', ({equal, end}) => {
+test('TokenService.token should initially be undefined', ({ equal, end }) => {
   const service = createTokenService();
   equal(service.token, undefined);
 
   end();
 });
 
-test('TokenService.token.get should retrieve value specified by TokenService.token.set', ({equal, end}) => {
+test('TokenService.token.get should retrieve value specified by TokenService.token.set', ({ equal, end }) => {
   const service = createTokenService();
   const token = 'xyz';
   service.token = token;
@@ -21,8 +21,9 @@ test('TokenService.token.get should retrieve value specified by TokenService.tok
   end();
 });
 
-test('Failure must fail', ({doesNotThrow, end}) => {
-  doesNotThrow(() => { throw 'a real failure'; });
+test('Failure must fail', ({ throws, end }) => {
+  throws(() => { throw 'a real failure'; });
+
   end();
 });
 

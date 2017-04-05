@@ -10,8 +10,12 @@ nuget:
   disable_publish_on_pr: true
 build_script:
 - ps: MSBuild ./Lasi.sln /verbosity:normal /m /ignoreprojectextensions:".sln,.vdproj" /p:Configuration=Debug /p:Platform="Any CPU" /t:Rebuild
+- ps: cd ./LASI.AureliaApp
+- ps: npm install
+- ps: npm run ci
+
 before_test:
-- ps: 
+- ps:
 test:
   assemblies:
     except:

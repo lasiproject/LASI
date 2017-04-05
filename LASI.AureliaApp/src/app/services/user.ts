@@ -4,7 +4,7 @@ import { HttpClient, RequestInit } from 'aurelia-fetch-client';
 import $ from 'jquery';
 import TokenService from './token';
 import { getConfig, postConfig } from './http-utilities';
-import { Credentials, User, AuthenticationResult } from 'src/models';
+import { Credentials, User, AuthenticationResult } from 'models';
 
 @autoinject export default class UserService {
   constructor(

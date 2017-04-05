@@ -1,14 +1,14 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
 import UserService from './services/user';
-import { User } from 'src/models';
+import { User } from 'models';
 
 @autoinject export class App {
   constructor(private userService: UserService) { }
 
   async activate(params: {}, routeConfig: RouterConfiguration, $navigationInstruction: NavigationInstruction) {
     try {
-      console.log(arguments);
+      console.log();
       this.user = await this.userService.loginGet();
       console.log(this.user);
     } catch (e) {

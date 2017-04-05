@@ -5,9 +5,9 @@ SystemJS.config({
     "tsconfig": true
   },
   packages: {
-    "src": {
+    "app": {
       "format": "esm",
-      "main": "main",
+      "main": "main.ts",
       "defaultExtension": "ts",
       "meta": {
         "*.ts": {
@@ -22,6 +22,9 @@ SystemJS.config({
         "**/*.html": {
           "loader": "text"
         }
+      },
+      "map": {
+        "models": "src/models.ts"
       }
     },
     "test": {
@@ -64,120 +67,7 @@ SystemJS.config({
     }
   },
   browserConfig: {
-    "baseURL": "/",
-    "bundles": {
-      "build.js": [
-        "app/main.ts",
-        "app/app/services/token.ts",
-        "app/app/services/storage.ts",
-        "npm:aurelia-framework@1.0.8/aurelia-framework.js",
-        "npm:aurelia-framework@1.0.8.json",
-        "npm:aurelia-logging@1.2.0/aurelia-logging.js",
-        "npm:aurelia-logging@1.2.0.json",
-        "npm:aurelia-pal@1.2.0/aurelia-pal.js",
-        "npm:aurelia-pal@1.2.0.json",
-        "npm:aurelia-path@1.1.1/aurelia-path.js",
-        "npm:aurelia-path@1.1.1.json",
-        "npm:aurelia-task-queue@1.1.0/aurelia-task-queue.js",
-        "npm:aurelia-task-queue@1.1.0.json",
-        "npm:aurelia-loader@1.0.0/aurelia-loader.js",
-        "npm:aurelia-loader@1.0.0.json",
-        "npm:aurelia-metadata@1.0.3/aurelia-metadata.js",
-        "npm:aurelia-metadata@1.0.3.json",
-        "npm:aurelia-templating@1.2.0/aurelia-templating.js",
-        "npm:aurelia-templating@1.2.0.json",
-        "npm:aurelia-binding@1.1.1/aurelia-binding.js",
-        "npm:aurelia-binding@1.1.1.json",
-        "npm:aurelia-dependency-injection@1.3.0/aurelia-dependency-injection.js",
-        "npm:aurelia-dependency-injection@1.3.0.json",
-        "npm:tslib@1.6.0/tslib.js",
-        "npm:tslib@1.6.0.json",
-        "npm:systemjs-plugin-babel@0.0.17/babel-helpers/createClass.js",
-        "npm:systemjs-plugin-babel@0.0.17.json",
-        "npm:systemjs-plugin-babel@0.0.17/babel-helpers/classCallCheck.js",
-        "github:frankwallis/plugin-typescript@6.0.0.json",
-        "app/helpers.ts",
-        "npm:aurelia-fetch-client@1.1.0/aurelia-fetch-client.js",
-        "npm:aurelia-fetch-client@1.1.0.json",
-        "npm:core-js@2.4.1/client/core.js",
-        "npm:core-js@2.4.1.json",
-        "npm:jspm-nodelibs-process@0.2.0/process.js",
-        "npm:jspm-nodelibs-process@0.2.0.json",
-        "github:twbs/bootstrap@3.3.7/dist/js/bootstrap.js",
-        "github:twbs/bootstrap@3.3.7.json",
-        "npm:jquery@2.2.4/dist/jquery.js",
-        "npm:jquery@2.2.4.json",
-        "app/styles/lexical.css",
-        "app/styles/site.css",
-        "github:twbs/bootstrap@3.3.7/dist/css/bootstrap.css",
-        "npm:font-awesome@4.7.0/css/font-awesome.min.css",
-        "npm:font-awesome@4.7.0.json",
-        "app/enhance-array.ts",
-        "npm:jspm-nodelibs-path@0.2.1/path.js",
-        "npm:jspm-nodelibs-path@0.2.1.json",
-        "npm:systemjs-plugin-babel@0.0.17/babel-helpers/slicedToArray.js",
-        "npm:systemjs-plugin-babel@0.0.17/babel-helpers/asyncToGenerator.js",
-        "npm:systemjs-plugin-babel@0.0.17/regenerator-runtime.js",
-        "app/configuration/typeahead.ts",
-        "app/configuration/http.ts",
-        "app/configuration/dialog.ts",
-        "app/app/signout.html",
-        "app/app/signin.ts",
-        "app/app/services/user.ts",
-        "app/app/services/http-utilities.ts",
-        "npm:aurelia-router@1.1.1/aurelia-router.js",
-        "npm:aurelia-router@1.1.1.json",
-        "npm:aurelia-event-aggregator@1.0.1/aurelia-event-aggregator.js",
-        "npm:aurelia-event-aggregator@1.0.1.json",
-        "npm:aurelia-history@1.0.0/aurelia-history.js",
-        "npm:aurelia-history@1.0.0.json",
-        "npm:aurelia-route-recognizer@1.1.0/aurelia-route-recognizer.js",
-        "npm:aurelia-route-recognizer@1.1.0.json",
-        "app/app/signin.html",
-        "app/app/services/results-service.ts",
-        "app/app/services/build-menus.ts",
-        "app/app/services/result-chart-builder.ts",
-        "app/app/navbar.html",
-        "app/app/modal.ts",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/index.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1.json",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/aurelia-dialog.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-result.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-controller.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/lifecycle.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-service.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-options.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/renderer.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/attach-focus.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/ai-dialog-footer.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/ai-dialog-body.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/ai-dialog-header.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/ai-dialog.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-configuration.js",
-        "npm:aurelia-dialog@1.0.0-beta.3.0.1/dist/es2015/dialog-renderer.js",
-        "app/app/modal.html",
-        "app/app/documents.ts",
-        "app/models.ts",
-        "app/app/services/document-model-service.ts",
-        "app/app/documents.html",
-        "app/app/document-viewer/sentence.html",
-        "app/app/document-viewer/search.ts",
-        "github:twitter/typeahead.js@0.11.1/dist/typeahead.bundle.js",
-        "github:twitter/typeahead.js@0.11.1.json",
-        "app/app/document-viewer/search.html",
-        "app/app/document-viewer/phrase.ts",
-        "app/app/services/lexical-menu-builder.ts",
-        "app/app/document-viewer/phrase.html",
-        "app/app/document-viewer/paragraph.html",
-        "app/app/document-viewer/page.html",
-        "app/app/document-viewer/document-viewer.ts",
-        "app/app/document-viewer/document-viewer.html",
-        "app/app/app.ts",
-        "app/app/app.html",
-        "app/app/account.ts",
-        "app/app/account.html"
-      ]
-    }
+    "baseURL": "/"
   },
   devConfig: {
     "map": {
@@ -251,11 +141,6 @@ SystemJS.config({
           "pinkie": "npm:pinkie@2.0.4"
         }
       },
-      "npm:debug@2.2.0": {
-        "map": {
-          "ms": "npm:ms@0.7.1"
-        }
-      },
       "npm:commander@2.9.0": {
         "map": {
           "graceful-readlink": "npm:graceful-readlink@1.0.1"
@@ -290,7 +175,7 @@ SystemJS.config({
         "map": {
           "once": "npm:once@1.3.3",
           "readable-stream": "npm:readable-stream@2.1.5",
-          "debug": "npm:debug@2.2.0",
+          "debug": "npm:debug@2.6.0",
           "rimraf": "npm:rimraf@2.5.4",
           "tar": "npm:tar@2.2.1",
           "uid-number": "npm:uid-number@0.0.6",
@@ -746,12 +631,6 @@ SystemJS.config({
           "electron-to-chromium": "npm:electron-to-chromium@1.2.8"
         }
       },
-      "npm:babel-runtime@6.23.0": {
-        "map": {
-          "regenerator-runtime": "npm:regenerator-runtime@0.10.3",
-          "core-js": "npm:core-js@2.4.1"
-        }
-      },
       "npm:rimraf@2.6.1": {
         "map": {
           "glob": "npm:glob@7.1.1"
@@ -1092,12 +971,6 @@ SystemJS.config({
         "concat-map": "npm:concat-map@0.0.1"
       }
     },
-    "npm:babel-runtime@6.20.0": {
-      "map": {
-        "regenerator-runtime": "npm:regenerator-runtime@0.10.1",
-        "core-js": "npm:core-js@2.4.1"
-      }
-    },
     "npm:mkdirp@0.5.1": {
       "map": {
         "minimist": "npm:minimist@0.0.8"
@@ -1107,7 +980,7 @@ SystemJS.config({
       "map": {
         "babylon": "npm:babylon@6.15.0",
         "path-is-absolute": "npm:path-is-absolute@1.0.1",
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "source-map": "npm:source-map@0.5.6",
         "babel-messages": "npm:babel-messages@6.8.0",
         "babel-template": "npm:babel-template@6.16.0",
@@ -1128,12 +1001,12 @@ SystemJS.config({
     },
     "npm:babel-messages@6.8.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0"
+        "babel-runtime": "npm:babel-runtime@6.23.0"
       }
     },
     "npm:babel-template@6.16.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "babylon": "npm:babylon@6.15.0",
         "babel-traverse": "npm:babel-traverse@6.21.0",
         "babel-types": "npm:babel-types@6.21.0",
@@ -1142,7 +1015,7 @@ SystemJS.config({
     },
     "npm:babel-generator@6.21.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "source-map": "npm:source-map@0.5.6",
         "babel-messages": "npm:babel-messages@6.8.0",
         "babel-types": "npm:babel-types@6.21.0",
@@ -1153,13 +1026,13 @@ SystemJS.config({
     },
     "npm:babel-helpers@6.16.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "babel-template": "npm:babel-template@6.16.0"
       }
     },
     "npm:babel-register@6.18.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "core-js": "npm:core-js@2.4.1",
         "babel-core": "npm:babel-core@6.21.0",
         "home-or-tmp": "npm:home-or-tmp@2.0.0",
@@ -1170,7 +1043,7 @@ SystemJS.config({
     },
     "npm:babel-traverse@6.21.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "babel-code-frame": "npm:babel-code-frame@6.20.0",
         "babel-messages": "npm:babel-messages@6.8.0",
         "babel-types": "npm:babel-types@6.21.0",
@@ -1183,7 +1056,7 @@ SystemJS.config({
     },
     "npm:babel-types@6.21.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@6.20.0",
+        "babel-runtime": "npm:babel-runtime@6.23.0",
         "esutils": "npm:esutils@2.0.2",
         "to-fast-properties": "npm:to-fast-properties@1.0.2",
         "lodash": "npm:lodash@4.17.4"
@@ -1313,6 +1186,12 @@ SystemJS.config({
     "npm:rxjs@5.2.0": {
       "map": {
         "symbol-observable": "npm:symbol-observable@1.0.4"
+      }
+    },
+    "npm:babel-runtime@6.23.0": {
+      "map": {
+        "regenerator-runtime": "npm:regenerator-runtime@0.10.3",
+        "core-js": "npm:core-js@2.4.1"
       }
     }
   }

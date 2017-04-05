@@ -1,6 +1,6 @@
 ﻿import { autoinject, bindable } from 'aurelia-framework';
 import DocumentModelService from './services/document-model-service';
-import { DocumentModel } from 'app/models';
+import { DocumentModel } from 'models';
 
 @autoinject export class Documents {
   constructor(readonly documentModelService: DocumentModelService) { }

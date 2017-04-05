@@ -1,5 +1,5 @@
 ﻿import $ from 'jquery';
-import { LexicalModel } from 'app/models';
+import { LexicalModel } from 'models';
 
 export default function buildMenus() {
   const contextualElementIdSelectors: string[] = [];

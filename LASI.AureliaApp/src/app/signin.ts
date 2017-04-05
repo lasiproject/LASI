@@ -2,7 +2,7 @@ import $ from 'jquery';
 import { autoinject, bindable } from 'aurelia-framework';
 import { AppRouter } from 'aurelia-router';
 import { HttpClient } from 'aurelia-fetch-client';
-import { User } from 'app/models';
+import { User } from 'models';
 import UserService from './services/user';
 
 @autoinject export class Signin {

@@ -1,5 +1,5 @@
 ﻿import { bindable, autoinject } from 'aurelia-framework';
-import { DocumentModel, LexicalModel } from 'app/models';
+import { DocumentModel, LexicalModel } from 'models';
 export class DocumentViewer {
 
   @bindable document: DocumentModel;

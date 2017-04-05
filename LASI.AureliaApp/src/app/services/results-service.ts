@@ -1,6 +1,6 @@
 ﻿import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { DocumentModel, Task } from 'app/models';
+import { DocumentModel, Task } from 'models';
 import enableActiveHighlighting from './result-chart-builder';
 import buildMenus from './build-menus';
 

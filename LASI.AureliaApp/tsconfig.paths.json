@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": "",
@@ -109,9 +109,13 @@
       "aurelia-framework": [
         "jspm_packages/npm/aurelia-framework@1.0.8/index"
       ],
+      "app": [
+        "src"
+      ],
       "app/*": [
         "src/*"
-      ]
+      ],
+      "models":"src/models"
     }
   }
 }
