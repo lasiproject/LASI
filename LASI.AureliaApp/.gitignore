@@ -1,4 +1,4 @@
 ﻿# build artifacts
 
-src/build.js
-src/build.map.js
+/build.js
+/build.js.map
