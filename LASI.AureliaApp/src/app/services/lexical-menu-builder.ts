@@ -1,24 +1,24 @@
 ﻿import $ from 'jquery';
-import { autoinject } from 'aurelia-framework';
-import { LexicalContextMenuData, VerbalContextMenuData, ReferencerContextmenuData } from 'models';
+import { LexicalMenu, VerbalMenu, ReferencerMenu, ContextMenuDataSource } from 'models';
 
-@autoinject export default class LexicalMenuBuilder {
+export default class LexicalMenuBuilder {
   buildForVerbal = createForVerbalMenuBuilder({});
   buildForReferencer = createForReferencerMenuBuilder({});
 
-  buildAngularMenu = source => menuIsReferencerMenu(source)
+  // tslint:disable-next-line:no-any
+  buildMenu = (source: ContextMenuDataSource) => menuIsReferencerMenu(source)
     ? this.buildForReferencer(source)
     : menuIsVerbalMenu(source)
       ? this.buildForVerbal(source)
       : undefined;
 }
 
-function menuIsVerbalMenu(menu: LexicalContextMenuData): menu is VerbalContextMenuData {
-  const verbalMenu = menu as VerbalContextMenuData;
+function menuIsVerbalMenu(menu: LexicalMenu): menu is VerbalMenu {
+  const verbalMenu = menu as VerbalMenu;
   return !!(menu && (verbalMenu.directObjectIds || verbalMenu.indirectObjectIds || verbalMenu.subjectIds));
 }
-function menuIsReferencerMenu(menu: LexicalContextMenuData): menu is ReferencerContextmenuData {
-  const referencerMenu = menu as ReferencerContextmenuData;
+function menuIsReferencerMenu(menu: LexicalMenu): menu is ReferencerMenu {
+  const referencerMenu = menu as ReferencerMenu;
   return !!(menu && referencerMenu.refersToIds);
 }
 
@@ -27,8 +27,8 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
     Object.keys(menuActionTargets)
       .map(key => menuActionTargets[key])
       .forEach($e => $e.removeClass('referred-to-by-current'));
-  return (source: ReferencerContextmenuData): ContextMenu => [
-    ['View Referred To', (itemScope, event) => {
+  return (source: ReferencerMenu) => [
+    ['View Referred To', () => {
       resetReferencerAsssotionCssClasses();
       source.refersToIds.forEach(id => menuActionTargets[id] = $('#' + id)
         .addClass('referred-to-by-current'));
@@ -38,10 +38,10 @@ function createForReferencerMenuBuilder(menuActionTargets: { [id: string]: JQuer
 
 function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery }) {
   return (function (verbalMenuCssClassMap: { [mapping: string]: string }) {
-    return (source: VerbalContextMenuData) => {
-      const menuItems: ContextMenu = [];
+    return (source: VerbalMenu) => {
+      const menuItems = [];
       if (source.subjectIds) {
-        menuItems.push(['View Subjects', (itemScope, event) => {
+        menuItems.push(['View Subjects', () => {
           resetVerbalAssociationCssClasses();
           source.subjectIds
             .forEach(id => {
@@ -50,14 +50,14 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
         }]);
       }
       if (source.directObjectIds) {
-        menuItems.push(['View Direct Objects', (itemScope, event) => {
+        menuItems.push(['View Direct Objects', () => {
           resetVerbalAssociationCssClasses();
           source.directObjectIds
             .forEach(id => menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Direct Objects']));
         }]);
       }
       if (source.indirectObjectIds) {
-        menuItems.push(['View Indirect Objects', (itemScope, event) => {
+        menuItems.push(['View Indirect Objects', () => {
           resetVerbalAssociationCssClasses();
           source.indirectObjectIds.forEach(id => {
             menuActionTargets[id] = $('#' + id).addClass(verbalMenuCssClassMap['View Indirect Objects']);
@@ -81,4 +81,3 @@ function createForVerbalMenuBuilder(menuActionTargets: { [id: string]: JQuery })
     'View Indirect Objects': 'indirect-object-of-current'
   });
 }
-interface ContextMenu { };

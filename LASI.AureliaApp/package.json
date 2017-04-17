@@ -13,52 +13,51 @@
     "tslint": "tslint",
     "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
     "bundle-dev": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html -wid",
-    "bundle-prod": "jspm unbundle && jspm bundle app/**/*.ts  app/**/*.html --minify",
+    "bundle-prod": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html --minify",
     "build-dev": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html app/**/*.css --inject --format umd",
     "build-prod": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html app/**/*.css --minify --inject --format umd",
     "ci": "npm run lint && npm run test npm run bundle-prod"
   },
   "jspm": {
-    "main": "main.ts",
     "dependencies": {
       "@types/bootstrap": "npm:@types/bootstrap@^3.3.32",
-      "@types/typeahead": "npm:@types/typeahead@^0.11.27",
+      "@types/jquery-contextmenu": "npm:@types/jquery.contextmenu@^1.7.31",
+      "@types/typeahead": "npm:@types/typeahead@^0.11.28",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
       "aurelia-dialog": "npm:aurelia-dialog@^1.0.0-beta.3.0.1",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.1",
       "aurelia-http-client": "npm:aurelia-http-client@^1.0.0",
       "babel": "npm:babel-core@^6.21.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.7",
-      "css": "github:systemjs/plugin-css@^0.1.32",
       "font-awesome": "npm:font-awesome@^4.7.0",
       "jquery-contextmenu": "npm:jquery-contextmenu@^2.2.0",
       "moment": "npm:moment@^2.17.1",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
       "rxjs": "npm:rxjs@^5.2.0",
+      "scss": "github:KevCJones/plugin-scss@^0.2.11",
       "tslib": "npm:tslib@^1.6.0",
-      "typeahead": "github:twitter/typeahead.js@^0.11.1"
+      "typeahead": "github:twitter/typeahead.js@^0.11.1",
+      "typescript": "npm:typescript@2.3.0"
     },
     "devDependencies": {
       "@types/tape": "npm:@types/tape@^4.2.28",
-      "ati": "npm:aurelia-types-installer",
       "aurelia-testing": "npm:aurelia-testing@^1.0.0-beta.2.0.0",
-      "aurelia-types-installer": "npm:aurelia-types-installer@^0.1.8",
       "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
+      "css": "github:systemjs/plugin-css@^0.1.33",
       "debug": "npm:debug@^2.3.2",
       "ecc-jsbn": "npm:ecc-jsbn@~0.1.1",
       "fsevents": "npm:fsevents@^1.0.0",
       "jodid25519": "npm:jodid25519@^1.0.0",
       "jsbn": "npm:jsbn@0.1",
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17",
-      "plugin-typescript": "github:frankwallis/plugin-typescript@^7.0.5",
+      "plugin-typescript": "github:frankwallis/plugin-typescript@^7.0.6",
       "request": "npm:request@^2.34",
       "sass": "github:dougludlow/plugin-sass@^0.6.0",
       "source-map-support": "npm:source-map-support@^0.4.3",
       "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9",
       "timers": "npm:jspm-nodelibs-timers@^0.2.0",
-      "tweetnacl": "npm:tweetnacl@0.14",
-      "typescript": "npm:typescript@next"
+      "tweetnacl": "npm:tweetnacl@0.14"
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
@@ -80,7 +79,7 @@
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
-      "aurelia-templating": "npm:aurelia-templating@^1.2.0",
+      "aurelia-templating": "npm:aurelia-templating@^1.0.0",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.1.1",
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0",
@@ -116,7 +115,7 @@
       "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
     },
     "overrides": {
-      "github:frankwallis/plugin-typescript@7.0.5": {
+      "github:frankwallis/plugin-typescript@7.0.6": {
         "peerDependencies": {
           "typescript": "next"
         }
@@ -177,24 +176,6 @@
           "lib": ""
         }
       },
-      "npm:aurelia-types-installer@0.1.8": {
-        "main": "dist/es2015/index",
-        "format": "esm",
-        "jspmPackage": true,
-        "directories": {
-          "lib": ""
-        }
-      },
-      "npm:bluebird@3.4.7": {
-        "meta": {
-          "js/browser/bluebird.js": {
-            "format": "global"
-          },
-          "js/browser/bluebird.min.js": {
-            "format": "global"
-          }
-        }
-      },
       "npm:browserify-zlib@0.1.4": {
         "dependencies": {
           "readable-stream": "^2.0.2",
@@ -204,7 +185,7 @@
           "_stream_transform": "readable-stream/transform"
         }
       },
-      "npm:debug@2.6.0": {
+      "npm:debug@2.6.3": {
         "main": "browser.js",
         "jspmNodeConversion": false,
         "format": "cjs",
@@ -243,7 +224,7 @@
           "process": "@empty"
         }
       },
-      "npm:moment@2.17.1": {
+      "npm:moment@2.18.1": {
         "jspmNodeConversion": false
       },
       "npm:ms@0.7.2": {
@@ -265,7 +246,7 @@
           "stream-browserify": "^1.0.0"
         }
       },
-      "npm:reflect-metadata@0.1.9": {
+      "npm:reflect-metadata@0.1.10": {
         "jspmNodeConversion": false,
         "map": {
           "crypto": {
@@ -285,10 +266,14 @@
         }
       },
       "npm:tslib@1.6.0": {
-        "format": "cjs",
-        "__esModule": true
+  "format": "cjs",
+  "meta": {
+    "tslib.js": {
+      "esModule": true
+    }
+  }
       },
-      "npm:typescript@next": {
+      "npm:typescript@2.3.0": {
         "browser": {},
         "map": {
           "buffer": "@empty",
@@ -307,9 +292,9 @@
   "devDependencies": {
     "aurelia-types-installer": "^0.1.8",
     "concurrently": "^3.4.0",
-    "jspm": "0.17.0-beta.32",
-    "lite-server": "^2.2.2",
-    "tslint": "latest",
+    "jspm": "0.17.0-beta.41",
+    "lite-server": "^2.3.0",
+    "tslint": "^5.0.0",
     "typescript": "next"
   },
   "dependencies": {}

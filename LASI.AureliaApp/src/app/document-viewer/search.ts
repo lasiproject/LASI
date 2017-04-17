@@ -16,8 +16,6 @@ export default class SearchBox {
     return this.phrases.flatMap(phrase => phrase.words);
   }
 
-  idx = x => x * x;
-
   *search({ value }: SearchOptions, searchContext: TextFragmentModel[]) {
     const searchTerm = typeof value === 'string' ? value : value.detailText;
 
@@ -30,9 +28,9 @@ export default class SearchBox {
       throw 'search term was undefined';
     } else if (!searchContext) {
       this.phrases.forEach(resetStyle);
-      return yield;
+      return;
     } else {
-      for (let phrase of this.phrases) {
+      for (const phrase of this.phrases) {
         const matched = phrase.words.some(word => word.text === searchTerm);
         if (!matched) {
           resetStyle(phrase);

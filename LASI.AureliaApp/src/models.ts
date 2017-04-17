@@ -87,7 +87,7 @@ interface LexicalModelInternal {
     cssClass: string;
   };
   hasContextmenuData: boolean;
-  contextmenuDataSource: LexicalContextMenuData;
+  contextmenuDataSource: LexicalMenu;
   contextmenu: ContextMenuDataSource;
 }
 
@@ -112,19 +112,20 @@ export type LexicalModel = PhraseModel | WordModel | ClauseModel;
 export declare namespace LexicalModel { }
 
 export interface LexicalMenuBuilder {
-  buildAngularMenu: (source: LexicalContextMenuData) => LexicalMenuBuilder;
+  build: (source: LexicalMenu) => LexicalMenuBuilder;
 }
 export declare namespace LexicalMenuBuilder { }
 
-export interface LexicalContextMenuData {
+type LexicalMenuCore = {
   /**
   * The id of the lexical element for which the menu is defined.
   */
   lexicalId: string | number;
-}
-export declare namespace LexicalContextMenuData { }
+};
+export type LexicalMenu = VerbalMenu | ReferencerMenu;
+export declare namespace LexicalMenu { }
 
-export interface VerbalContextMenuData extends LexicalContextMenuData {
+export interface VerbalMenu extends LexicalMenuCore {
   kind: 'verbal';
   /**
     * The ids of any subjects.
@@ -139,9 +140,9 @@ export interface VerbalContextMenuData extends LexicalContextMenuData {
     */
   indirectObjectIds: number[];
 }
-export namespace VerbalContextMenuData { }
+export namespace VerbalMenu { }
 
-export interface ReferencerContextmenuData extends LexicalContextMenuData {
+export interface ReferencerMenu extends LexicalMenuCore {
   kind: 'referencer';
   /**
     * The id of the referencer for which the menu is defined.
@@ -152,15 +153,15 @@ export interface ReferencerContextmenuData extends LexicalContextMenuData {
     */
   refersToIds: number[];
 }
-export namespace ReferencerContextmenuData { }
+export namespace ReferencerMenu { }
 
-export type ContextMenuDataSource = VerbalContextMenuData | ReferencerContextmenuData;
+export type ContextMenuDataSource = VerbalMenu | ReferencerMenu;
 export namespace ContextMenuDataSource { }
 
 export interface Credentials {
   email: string;
   password: string;
-  rememberMe: boolean;
+  rememberMe?: boolean;
 }
 export namespace Credentials { }
 

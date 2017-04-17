@@ -1,4 +1,4 @@
-﻿import { bindable, autoinject } from 'aurelia-framework';
+﻿import { bindable } from 'aurelia-framework';
 import { DocumentModel, LexicalModel } from 'models';
 export class DocumentViewer {
 
@@ -34,5 +34,5 @@ export class DocumentViewer {
       name: 'my-dataset',
       source: viewer.typeAheadSource
     };
-  })(this);
+  }())(this);
 }

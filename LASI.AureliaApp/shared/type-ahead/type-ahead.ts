@@ -57,7 +57,7 @@ import 'typeahead';
 
   async attached() {
 
-    let options: Options = {
+    const options: Options = {
       hint: true,
       async: true,
       highlight: true,
@@ -106,13 +106,13 @@ import 'typeahead';
 
   }
 
-  async valueChanged(newValue: {}, oldValue: {}) {
+  async valueChanged(newValue: string, oldValue: {}) {
     console.log('valueChanged', newValue);
-    var results = this.options(newValue, () => this.sourceArray);
+    const results = this.options(newValue, () => this.sourceArray, () => []);
     console.log(results);
   }
 
-  optionsChanged(newValue, oldValue) {
+  optionsChanged(newValue: {}, oldValue: {}) {
     console.log('optionsChanged', newValue);
   }
 

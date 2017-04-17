@@ -1,4 +1,4 @@
-﻿import {DialogConfiguration} from 'aurelia-framework';
+﻿import { DialogConfiguration } from 'aurelia-dialog';
 export default (config: DialogConfiguration) => {
   config.useDefaults().settings;
   config.settings.lock = false;

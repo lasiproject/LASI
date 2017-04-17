@@ -10,15 +10,14 @@
 <body>
   <script src="jspm_packages/system.js"></script>
   <script src="jspm.config.js"></script>
-  <script src="build.js"></script>
   <script>
     SystemJS.import('aurelia-polyfills')
-      .then(function() {
+      .then(function () {
         return SystemJS.import('aurelia-bootstrapper');
       })
-      .then(function(bootstrapper) {
+      .then(function (bootstrapper) {
         return SystemJS.import('app')
-          .then(function(main) {
+          .then(function (main) {
             return bootstrapper.bootstrap(main.configure);
           });
       })

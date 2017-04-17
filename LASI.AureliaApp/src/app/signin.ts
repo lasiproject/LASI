@@ -9,15 +9,18 @@ import UserService from './services/user';
   constructor(readonly users: UserService, readonly router: AppRouter) { }
 
   async login() {
-    this.user = await this.users
+    const user = await this.users
       .login({
         email: this.username,
         password: this.password,
         rememberMe: this.rememberMe || this.user && this.user.rememberMe
       });
-    [this.username, this.rememberMe] = [this.user.email, this.user.rememberMe];
-    const nav = await this.router.loadUrl('documents');
-
+    if (user) {
+      this.username = user.email;
+      this.rememberMe = user.rememberMe;
+      this.user = user;
+      const nav = await this.router.loadUrl('documents');
+    }
     return this.user;
 
     // return this.$state.go('app.home', {}, { reload: true });
@@ -42,8 +45,8 @@ import UserService from './services/user';
     //     }).result;
     // });
   }
-  user: User;
+  user?: User;
   username: string;
   password: string;
-  rememberMe = false;
+  rememberMe?= false;
 }

@@ -1,5 +1,5 @@
 ﻿import 'app/enhance-array';
-import 'jspm_packages/npm/font-awesome@4.7.0/css/font-awesome.min.css';
+import 'font-awesome';
 import 'bootstrap-css';
 import 'app/styles/site.css';
 import 'app/styles/lexical.css';
