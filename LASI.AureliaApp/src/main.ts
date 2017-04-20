@@ -1,14 +1,12 @@
-﻿import 'app/enhance-array';
-import 'font-awesome';
-import 'bootstrap-css';
-import 'app/styles/site.css';
-import 'app/styles/lexical.css';
+﻿import './enhance-array';
+import './styles/styles.scss';
+import './styles/site.css';
+import './styles/lexical.css';
 import 'bootstrap';
 import 'core-js/client/core';
 import { Aurelia } from 'aurelia-framework';
-import { HttpClientConfiguration, HttpClient } from 'aurelia-fetch-client';
-import { getHostElement } from './helpers';
-import TokenService from './app/services/token';
+import { HttpClient } from 'aurelia-fetch-client';
+import TokenService from './services/token';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
@@ -35,6 +33,6 @@ export async function configure(aurelia: Aurelia) {
         });
     });
 
-  const a = await aurelia.start();
-  await a.setRoot('src/app/app', getHostElement());
+  await aurelia.start();
+  aurelia.setRoot('');
 }

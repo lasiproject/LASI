@@ -1,8 +1,4 @@
 {
-  "main": "dist/es2015/index",
-  "format": "esm",
-  "jspmPackage": true,
-  "directories": {
-    "lib": ""
-  }
+  "main": "tslib.es6.js",
+  "format": "esm"
 }

@@ -1,8 +1,8 @@
 ﻿import 'core-js';
 import 'reflect-metadata';
 import test from 'tape';
-import TokenService from 'src/app/services/token';
-import StorageService from 'src/app/services/storage';
+import TokenService from 'app/services/token';
+import StorageService from 'app/services/storage';
 
 test('TokenService.token should initially be undefined', ({ equal, end }) => {
   const service = createTokenService();

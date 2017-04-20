@@ -1,12 +1,12 @@
 ﻿import $ from 'jquery';
-import { LexicalMenu, VerbalMenu, ReferencerMenu, ContextMenuDataSource } from 'models';
+import { LexicalMenu, VerbalMenu, ReferencerMenu, ContextMenuDataSource, LexicalMenuBuilder as LexicalMenuBuilderInterface } from 'models';
 
-export default class LexicalMenuBuilder {
+export default class LexicalMenuBuilder implements LexicalMenuBuilderInterface {
   buildForVerbal = createForVerbalMenuBuilder({});
   buildForReferencer = createForReferencerMenuBuilder({});
 
   // tslint:disable-next-line:no-any
-  buildMenu = (source: ContextMenuDataSource) => menuIsReferencerMenu(source)
+  build = (source: ContextMenuDataSource) => menuIsReferencerMenu(source)
     ? this.buildForReferencer(source)
     : menuIsVerbalMenu(source)
       ? this.buildForVerbal(source)

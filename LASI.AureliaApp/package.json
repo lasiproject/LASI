@@ -14,9 +14,9 @@
     "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
     "bundle-dev": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html -wid",
     "bundle-prod": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html --minify",
-    "build-dev": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html app/**/*.css --inject --format umd",
-    "build-prod": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html app/**/*.css --minify --inject --format umd",
-    "ci": "npm run lint && npm run test npm run bundle-prod"
+    "build-dev": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html --format umd",
+    "build-prod": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html --minify --format umd",
+    "ci": "npm run lint && npm run test && npm run build-prod"
   },
   "jspm": {
     "dependencies": {
@@ -34,10 +34,9 @@
       "moment": "npm:moment@^2.17.1",
       "reflect-metadata": "npm:reflect-metadata@^0.1.8",
       "rxjs": "npm:rxjs@^5.2.0",
-      "scss": "github:KevCJones/plugin-scss@^0.2.11",
-      "tslib": "npm:tslib@^1.6.0",
-      "typeahead": "github:twitter/typeahead.js@^0.11.1",
-      "typescript": "npm:typescript@2.3.0"
+      "sass": "github:dougludlow/plugin-sass@^0.6.0",
+      "tslib": "npm:tslib@^1.6.1",
+      "typeahead": "github:twitter/typeahead.js@^0.11.1"
     },
     "devDependencies": {
       "@types/tape": "npm:@types/tape@^4.2.28",
@@ -52,7 +51,6 @@
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.17",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^7.0.6",
       "request": "npm:request@^2.34",
-      "sass": "github:dougludlow/plugin-sass@^0.6.0",
       "source-map-support": "npm:source-map-support@^0.4.3",
       "tape": "npm:tape@^4.6.2",
       "text": "github:systemjs/plugin-text@^0.0.9",
@@ -79,7 +77,7 @@
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0",
       "aurelia-router": "npm:aurelia-router@^1.0.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@^1.1.0",
-      "aurelia-templating": "npm:aurelia-templating@^1.0.0",
+      "aurelia-templating": "npm:aurelia-templating@^1.3.0",
       "aurelia-templating-binding": "npm:aurelia-templating-binding@^1.0.0",
       "aurelia-templating-resources": "npm:aurelia-templating-resources@^1.1.1",
       "aurelia-templating-router": "npm:aurelia-templating-router@^1.0.0",
@@ -109,6 +107,7 @@
       "string_decoder": "npm:jspm-nodelibs-string_decoder@^0.2.0",
       "tls": "npm:jspm-nodelibs-tls@^0.2.0",
       "tty": "npm:jspm-nodelibs-tty@^0.2.0",
+      "typescript": "npm:typescript@next",
       "url": "npm:jspm-nodelibs-url@^0.2.0",
       "util": "npm:jspm-nodelibs-util@^0.2.0",
       "vm": "npm:jspm-nodelibs-vm@^0.2.0",
@@ -166,7 +165,7 @@
           }
         }
       },
-      "npm:@types/bootstrap@3.3.32": {
+      "npm:@types/bootstrap@3.3.33": {
         "dependencies": {}
       },
       "npm:aurelia-dialog@1.0.0-beta.3.0.1": {
@@ -265,15 +264,16 @@
           }
         }
       },
-      "npm:tslib@1.6.0": {
-  "format": "cjs",
-  "meta": {
-    "tslib.js": {
-      "esModule": true
-    }
-  }
+      "npm:tslib@1.6.1": {
+        "main": "tslib.es6.js",
+        "format": "esm",
+        "meta": {
+          "tslib.js": {
+            "esModule": true
+          }
+        }
       },
-      "npm:typescript@2.3.0": {
+      "npm:typescript@next": {
         "browser": {},
         "map": {
           "buffer": "@empty",
@@ -299,4 +299,3 @@
   },
   "dependencies": {}
 }
-

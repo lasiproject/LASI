@@ -11,12 +11,13 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "traceResolution": false,
+    "allowJs": false,
     "module": "es2015",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "target": "es5",
+    "target": "esnext",
     "lib": [
-      "es2017",
+      "esnext",
       "dom"
     ],
     "downlevelIteration": true,

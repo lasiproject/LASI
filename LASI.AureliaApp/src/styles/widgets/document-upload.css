@@ -6,10 +6,6 @@
 	border: 3px solid red;
 } */
 
-.upload-buttons input[type="file"] {
-	/*width: 6.3em \0/IE9;*/
-}
-
 .upload-button {
     Height: 26px;
     line-height: 30px;
@@ -17,7 +13,7 @@
     background: #CCC;
     -moz-appearance: button; /* Firefox */
     -webkit-appearance: button;
-    appearance: button; /* Safari and Chrome */
+    -moz-appearance: button; /* Safari and Chrome */
     position: relative;
     text-align: center;
     top: 7px;
@@ -47,10 +43,6 @@ fieldset {
 	width: 420px;
 	padding: 10px;
 	line-height: 23px;
-}
-
-fieldset label {
-	/*font-size: smaller;*/
 }
 
 .upload-progress {

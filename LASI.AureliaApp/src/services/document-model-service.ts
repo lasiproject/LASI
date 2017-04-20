@@ -6,8 +6,7 @@ import { DocumentModel } from 'models';
   constructor(readonly http: HttpClient) { }
 
   async processDocument(documentId: number) {
-    const response = await this.http.configure(x => x.withBaseUrl('/')).fetch('src/app/test/doc.json');
+    const response = await this.http.configure(x => x.withBaseUrl('/')).fetch('doc.json');
     return await response.json() as DocumentModel;
-    // return this.http.get(`Analysis/${documentId}`).map(response => response.json() as models.DocumentModel);
   }
 }

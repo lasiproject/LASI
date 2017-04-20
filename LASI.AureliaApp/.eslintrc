@@ -3,7 +3,7 @@
     "jspm_packages",
     "node_modules",
     "**/*.min.*",
-    "build.js"
+    "**/build.js"
   ],
   "rules": {
     "arrow-body-style": "off",

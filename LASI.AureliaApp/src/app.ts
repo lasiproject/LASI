@@ -4,17 +4,18 @@ import UserService from './services/user';
 import { User } from 'models';
 
 @autoinject export class App {
-  constructor(private userService: UserService) { }
+  constructor(readonly userService: UserService) {
+    this.initializeAsync();
+  }
 
-  async activate(params: {}, routeConfig: RouterConfiguration, $navigationInstruction: NavigationInstruction) {
-    try {
-      console.log();
-      this.user = await this.userService.loginGet();
-      console.log(this.user);
-    } catch (e) {
-      console.error(e);
-      this.user = undefined;
-    }
+  async initializeAsync() {
+    // try {
+    //   this.user = await this.userService.loginGet();
+    //   console.log(this.user);
+    // } catch (e) {
+    //   console.error(e);
+    //   this.user = undefined;
+    // }
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {

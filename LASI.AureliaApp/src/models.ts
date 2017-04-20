@@ -2,25 +2,25 @@
   getActiveTasks(): Promise<Task[]>;
   tasks: Task[];
 }
-export declare namespace TasksListService { }
+export namespace TasksListService { }
 
 export interface DocumentListService {
   get(): Promise<DocumentListItem[]>;
   deleteDocument(documentId: string): Promise<DocumentListItem>;
 }
-export declare namespace DocumentListService { }
+export namespace DocumentListService { }
 
 export interface DocumentService {
   getbyId(documentId: string): Promise<DocumentListItem>;
   deleteById(documentId: string): Promise<Response>;
 }
-export declare namespace DocumentService { }
+export namespace DocumentService { }
 
 export interface DocumentListServiceConfig {
   setRecentDocumentCount(count: number): DocumentListServiceConfig;
   setDocumentListUrl(url: string): DocumentListServiceConfig;
 }
-export declare namespace DocumentListServiceConfig { }
+export namespace DocumentListServiceConfig { }
 
 export interface Task {
   id: string;
@@ -29,7 +29,7 @@ export interface Task {
   state?: string;
   statusMessage?: string;
 }
-export declare namespace Task { }
+export namespace Task { }
 
 export interface DocumentListItem {
   id: string;
@@ -45,12 +45,12 @@ export interface DocumentListItem {
   */
   content?: string;
 }
-export declare namespace DocumentListItem { }
+export namespace DocumentListItem { }
 
 export interface TextFragmentModel {
   paragraphs: ParagraphModel[];
 }
-export declare namespace TextFragmentModel { }
+export namespace TextFragmentModel { }
 
 export interface DocumentModel extends TextFragmentModel {
   kind: 'document';
@@ -59,25 +59,25 @@ export interface DocumentModel extends TextFragmentModel {
   progress: number | string;
   percentComplete: number | string;
 }
-export declare namespace DocumentModel { }
+export namespace DocumentModel { }
 
 export interface PageModel extends TextFragmentModel {
   kind: 'page';
   pageNumber: number;
 }
-export declare namespace PageModel { }
+export namespace PageModel { }
 
 export interface ParagraphModel {
   kind: 'paragraph';
   sentences: SentenceModel[];
 }
-export declare namespace ParagraphModel { }
+export namespace ParagraphModel { }
 
 export interface SentenceModel {
   kind: 'sentence';
   phrases: PhraseModel[];
 }
-export declare namespace SentenceModel { }
+export namespace SentenceModel { }
 
 interface LexicalModelInternal {
   text: string;
@@ -87,34 +87,34 @@ interface LexicalModelInternal {
     cssClass: string;
   };
   hasContextmenuData: boolean;
-  contextmenuDataSource: LexicalMenu;
-  contextmenu: ContextMenuDataSource;
+  contextmenuDataSource: ContextMenuDataSource;
+  contextmenu: LexicalMenu;
 }
 
 export interface PhraseModel extends LexicalModelInternal {
   kind: 'phrase';
   words: WordModel[];
 }
-export declare namespace PhraseModel { }
+export namespace PhraseModel { }
 
 export interface WordModel extends LexicalModelInternal {
   kind: 'word';
 }
-export declare namespace WordModel { }
+export namespace WordModel { }
 
 export interface ClauseModel extends LexicalModelInternal {
   kind: 'clause';
   phrases: PhraseModel[];
 }
-export declare namespace ClauseModel { }
+export namespace ClauseModel { }
 
 export type LexicalModel = PhraseModel | WordModel | ClauseModel;
-export declare namespace LexicalModel { }
+export namespace LexicalModel { }
 
 export interface LexicalMenuBuilder {
-  build: (source: LexicalMenu) => LexicalMenuBuilder;
+  build: (source: LexicalMenu) => LexicalMenu;
 }
-export declare namespace LexicalMenuBuilder { }
+export namespace LexicalMenuBuilder { }
 
 type LexicalMenuCore = {
   /**
@@ -123,7 +123,7 @@ type LexicalMenuCore = {
   lexicalId: string | number;
 };
 export type LexicalMenu = VerbalMenu | ReferencerMenu;
-export declare namespace LexicalMenu { }
+export namespace LexicalMenu { }
 
 export interface VerbalMenu extends LexicalMenuCore {
   kind: 'verbal';
