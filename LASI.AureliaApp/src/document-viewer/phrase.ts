@@ -1,5 +1,5 @@
 ﻿import { autoinject, bindable } from 'aurelia-framework';
-import Contextmenu, { ContextMenuOptions } from 'shared/context-menu/context-menu';
+import Contextmenu, { ContextMenuOptions } from 'app/context-menu/context-menu';
 import { PhraseModel } from 'models';
 import LexicalMenuBuilder from 'app/services/lexical-menu-builder';
 

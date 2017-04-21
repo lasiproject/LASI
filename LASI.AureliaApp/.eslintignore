@@ -1,0 +1,4 @@
+**/build.js
+**/dependencies.js
+/node_modules/*
+/jspm_packages/*

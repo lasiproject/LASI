@@ -12,10 +12,10 @@
     "tsc": "tsc",
     "tslint": "tslint",
     "lint": "tslint --force --format stylish -c tslint.json --project tsconfig.json -e \"**/__test__/**\"",
-    "bundle-dev": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html -wid",
-    "bundle-prod": "jspm unbundle && jspm bundle app/**/*.ts + app/**/*.html --minify",
-    "build-dev": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html --format umd",
-    "build-prod": "jspm unbundle && jspm build app/**/*.ts + app/**/*.html --minify --format umd",
+    "bundle-dev": "jspm unbundle && jspm bundle app/** -wid",
+    "bundle-prod": "jspm unbundle && jspm bundle app/** --minify",
+    "build-dev": "jspm unbundle && jspm build app/** --format umd",
+    "build-prod": "jspm unbundle && jspm build app/** --minify --format umd",
     "ci": "npm run lint && npm run test && npm run build-prod"
   },
   "jspm": {

@@ -1,45 +1,43 @@
 ﻿import $ from 'jquery';
-import { ViewCompiler, useView, ViewResources, autoinject, customElement, Container, bindable } from 'aurelia-framework';
+import { ViewCompiler, useView, ViewResources, customElement, Container, bindable } from 'aurelia-framework';
 import { TemplateRegistryEntry, Loader } from 'aurelia-loader';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounce';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import 'typeahead';
 
-@autoinject @customElement('type-ahead') export class TypeAhead {
+@customElement('type-ahead') export class TypeAhead {
   constructor(
     readonly element: Element,
-    readonly http: HttpClient,
-    readonly loader: Loader,
-    readonly viewResources: ViewResources,
-    readonly viewCompiler: ViewCompiler,
-    readonly container: Container) { }
+    readonly loader: Loader) { }
 
-  async searchTerm(term: {}): Promise<{}> {
+  async searchTerm(term: {}) {
     const results = this.sourceArray.filter(x => x.text === term);
-    /*tslint:disable variable-name*/
     return results;
   }
   bind(bindingContext: Object, overrideContext: Object) {
     console.log(bindingContext);
     console.log(overrideContext);
-
   }
 
   async getSuggestions() {
     //var keyup = Rx.Observable.fromEvent($(this.element).find('input'), 'keyup')
-    const keyup = Observable.of(...this.sourceArray)
+    const keyup = Observable.from(this.sourceArray)
       .map(e => {
         return e.text; // Project the text from the input
       })
       .debounce(async () => await 750)
       .distinctUntilChanged(); // Only if the value has changed
 
-    const searcher = keyup.switchMap(this.searchTerm);
+    const searcher = keyup
+      .switchMap(term => this.searchTerm(term))
+      .flatMap(searches => searches);
 
     this.searcher = searcher;
 
@@ -131,12 +129,6 @@ import 'typeahead';
 }
 function scoreMatch(term: {}, match: {}): number {
   return 1; // Stub
-}
-
-declare module 'aurelia-templating' {
-  export interface View {
-    fragment: Element | DocumentFragment;
-  }
 }
 
 export type TypeAheadOptions<Source> = (query: string, syncResults: (...args: {}[]) => Source[], asyncResults: (...args: {}[]) => Source[]) => {};

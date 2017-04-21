@@ -1,4 +1,5 @@
 ﻿import './enhance-array';
+import 'bootstrap-css';
 import './styles/styles.scss';
 import './styles/site.css';
 import './styles/lexical.css';
@@ -19,7 +20,6 @@ export async function configure(aurelia: Aurelia) {
         .useStandardConfiguration()
         .withBaseUrl('//localhost:51641')
         .withDefaults({ credentials: 'include', mode: 'cors' })
-        .rejectErrorResponses()
         .withInterceptor({
 
           request(config) {

@@ -1,10 +1,4 @@
 ﻿{
-  "ignore": [
-    "jspm_packages",
-    "node_modules",
-    "**/*.min.*",
-    "**/build.js"
-  ],
   "rules": {
     "arrow-body-style": "off",
     "dot-notation": "error",
