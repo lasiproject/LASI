@@ -50,11 +50,13 @@ section {
   margin: 0 20px;
 }
 
-.navbar-nav li.loader {
-  margin: 12px 24px 0 6px;
+.navbar-nav {
+  .loader {
+    margin: 12px 24px 0 6px;
+  }
 }
 
-.pictureDetail {
+.picture-detail {
   max-width: 425px;
 }
 
@@ -65,9 +67,11 @@ section.au-enter-active {
   animation: fadeInRight 1s;
 }
 
-div.au-stagger {
-  /* 50ms will be applied between each successive enter operation */
-  animation-delay: 50ms;
+au-stagger {
+  div {
+    // 50ms will be applied between each successive enter operation */
+    animation-delay: 50ms;
+  }
 }
 
 .card-container.au-enter {

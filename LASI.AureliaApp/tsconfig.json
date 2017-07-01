@@ -1,4 +1,4 @@
-﻿{
+{
   "compileOnSave": false,
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
@@ -11,7 +11,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "traceResolution": false,
-    "allowJs": false,
+    "allowJs": true,
     "module": "es2015",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

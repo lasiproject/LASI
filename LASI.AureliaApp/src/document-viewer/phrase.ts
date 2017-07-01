@@ -1,6 +1,6 @@
-﻿import { autoinject, bindable } from 'aurelia-framework';
-import Contextmenu, { ContextMenuOptions } from 'app/context-menu/context-menu';
-import { PhraseModel } from 'models';
+﻿import {autoinject, bindable} from 'aurelia-framework';
+import Contextmenu, {ContextMenuOptions} from 'app/context-menu/context-menu';
+import {PhraseModel} from 'models';
 import LexicalMenuBuilder from 'app/services/lexical-menu-builder';
 
 @autoinject export class Phrase {
@@ -8,7 +8,7 @@ import LexicalMenuBuilder from 'app/services/lexical-menu-builder';
   @bindable phrase: PhraseModel;
   @bindable parentId: string;
 
-  constructor(readonly lexicalMenuBuilder: LexicalMenuBuilder) { }
+  constructor(readonly lexicalMenuBuilder: LexicalMenuBuilder) {}
 
   bind(bindingContext: {}, overrideContext: {}) {
     const contextmenu = this.lexicalMenuBuilder.build(this.phrase.contextmenu)!;

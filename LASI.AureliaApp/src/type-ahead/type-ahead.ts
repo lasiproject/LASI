@@ -1,8 +1,7 @@
-﻿import $ from 'jquery';
-import { ViewCompiler, useView, ViewResources, customElement, Container, bindable } from 'aurelia-framework';
-import { TemplateRegistryEntry, Loader } from 'aurelia-loader';
-import { HttpClient } from 'aurelia-fetch-client';
-import { Observable } from 'rxjs/Observable';
+﻿import {ViewCompiler, useView, customElement, bindable} from 'aurelia-framework';
+import {TemplateRegistryEntry, Loader} from 'aurelia-loader';
+import {HttpClient} from 'aurelia-fetch-client';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounce';
 import 'rxjs/add/observable/from';
@@ -10,14 +9,24 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/throttle';
+import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/buffer';
+import 'rxjs/add/operator/bufferWhen';
+import $ from 'jquery';
 import 'typeahead';
 
-@customElement('type-ahead') export class TypeAhead {
-  constructor(
-    readonly element: Element,
-    readonly loader: Loader) { }
+@customElement('type-ahead') export default class TypeAhead {
+  constructor(readonly element: Element, readonly loader: Loader) {}
+
+  @bindable value = '';
+  @bindable sourceArray: {text: string}[];
+  @bindable options: TypeAheadOptions<{text: string}>;
+
 
   async searchTerm(term: {}) {
+    Observable.of(1, 2, 3).throttle
     const results = this.sourceArray.filter(x => x.text === term);
     return results;
   }
@@ -41,7 +50,7 @@ import 'typeahead';
 
     this.searcher = searcher;
 
-    return (query: {}, syncResults: ({ }) => {}, asyncResults: ({ }) => {}) => {
+    return (query: {}, syncResults: ({}) => {}, asyncResults: ({}) => {}) => {
       const subscription = this.searcher.subscribe(
         (data) => {
           return asyncResults(data);
@@ -65,9 +74,9 @@ import 'typeahead';
 
     let templateRegistryEntry;
     try {
-      templateRegistryEntry = await this.loader.loadTemplate('shared/type-ahead/type-ahead.html');
+      templateRegistryEntry = await this.loader.loadTemplate('./type-ahead.html');
     } catch (e) {
-      templateRegistryEntry = await this.loader.loadTemplate('/type-ahead/type-ahead.html');
+      templateRegistryEntry = await this.loader.loadTemplate('./type-ahead.html');
     }
 
     this.typeAhead = $(this.element).find('input').typeahead(this.options);
@@ -117,15 +126,12 @@ import 'typeahead';
   detached() {
     $(this.element).typeahead('destroy');
   }
-  searcher: Observable<{ text: string }>;
+  searcher: Observable<{text: string}>;
 
   // (event: string, handler: (event: JQueryEventObject, query, name: string) => void, ...rest) => void | Promise<void>;
   typeAhead: JQuery;
 
   isSearching = false;
-  @bindable value = '';
-  @bindable sourceArray: { text: string }[];
-  @bindable options: TypeAheadOptions<{ text: string }>;
 }
 function scoreMatch(term: {}, match: {}): number {
   return 1; // Stub
@@ -133,4 +139,4 @@ function scoreMatch(term: {}, match: {}): number {
 
 export type TypeAheadOptions<Source> = (query: string, syncResults: (...args: {}[]) => Source[], asyncResults: (...args: {}[]) => Source[]) => {};
 
-type Options = Twitter.Typeahead.Options & { async: boolean, minLength: number, display: string, options?: Options, sourceArray?: {}[] };
+type Options = Twitter.Typeahead.Options & {async: boolean, minLength: number, display: string, options?: Options, sourceArray?: {}[]};

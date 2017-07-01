@@ -4,14 +4,14 @@ import test from 'tape';
 import TokenService from 'app/services/token';
 import StorageService from 'app/services/storage';
 
-test('TokenService.token should initially be undefined', ({ equal, end }) => {
+test('TokenService.token should initially be undefined', ({equal, end}) => {
   const service = createTokenService();
   equal(service.token, undefined);
 
   end();
 });
 
-test('TokenService.token.get should retrieve value specified by TokenService.token.set', ({ equal, end }) => {
+test('TokenService.token.get should retrieve value specified by TokenService.token.set', ({equal, end}) => {
   const service = createTokenService();
   const token = 'xyz';
   service.token = token;
@@ -21,14 +21,14 @@ test('TokenService.token.get should retrieve value specified by TokenService.tok
   end();
 });
 
-test('Failure must fail', ({ throws, end }) => {
-  throws(() => { throw 'a real failure'; });
+test('Failure must fail', ({throws, end}) => {
+  throws(() => {throw 'a real failure';});
 
   end();
 });
 
 function createTokenService() {
-  let items: { [key: string]: string | null } = {};
+  let items: {[key: string]: string | null} = {};
   const storage: Storage = {
     clear() {
       items = {};
@@ -51,14 +51,14 @@ function createTokenService() {
   };
 
   const mockStorageService = new class extends StorageService {
-    constructor(storage) {
+    constructor(storage: Storage) {
       super(storage);
     }
-    store(key, value) {
-      super.store(key, value + '123');
+    store(key: string, value: {}) {
+      super.store('auth_token', value + '123');
     }
-    retreive(value) {
-      return super.retreive('auth_token');
+    retreive(key: 'auth_token') {
+      return super.retreive(key);
     }
   }(storage);
 

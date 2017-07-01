@@ -1,4 +1,4 @@
-﻿import {RouteConfig, NavigationInstruction} from 'aurelia-router';
+import {RouteConfig, NavigationInstruction} from 'aurelia-router';
 
 export class Account {
   userName: string;
@@ -12,13 +12,14 @@ export class Account {
     }
   ];
 
-  activate(params: {}, routeConfig: RouteConfig & { settings: { user: Account } }, $navigation: NavigationInstruction) {
-    Object.keys(this)
+  activate(params: {}, routeConfig: RouteConfig & {settings: {user: Account}}, $navigation: NavigationInstruction) {
+    (Object.keys(this) as (keyof this)[])
       .correlate(Object.entries(routeConfig.settings.user), key => key, ([key]) => key)
-      .forEach(({ first, second: [key, value] }) => this[key as keyof this] = value);
+      .forEach(({first: key, second: [, value]}) => this[key] = value);
 
     console.log(params, routeConfig, $navigation);
   }
+
   canActivate(params: {}, routeConfig: RouteConfig, $navigation: NavigationInstruction) {
     return !!routeConfig.settings.user;
   }

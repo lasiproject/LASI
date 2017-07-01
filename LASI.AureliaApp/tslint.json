@@ -1,10 +1,5 @@
-﻿{
-  "jsRules": {
-    "semicolon": [
-      true,
-      "always"
-    ]
-  },
+{
+  "defaultSeverity": "warning",
   "rules": {
     "prefer-const": true,
     "prefer-for-of": true,
@@ -122,7 +117,7 @@
       "check-module",
       "check-operator",
       "check-operator",
-      "check-separator",
+      "check-preblock",
       "check-type"
     ]
   }

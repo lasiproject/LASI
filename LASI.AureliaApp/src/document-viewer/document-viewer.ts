@@ -1,20 +1,21 @@
-﻿import { bindable } from 'aurelia-framework';
-import { DocumentModel, LexicalModel } from 'models';
+﻿import {bindable} from 'aurelia-framework';
+import {DocumentModel, LexicalModel} from 'models';
+import deepFreeze from 'deep-freeze';
+
 export class DocumentViewer {
 
   @bindable document: DocumentModel;
-  @bindable typeAheadSource: LexicalModel[];
+  @bindable typeAheadSource: LexicalModel[] = [];
   @bindable searchTerm = '';
 
   bind() {
     this.typeAheadSource = this.document && this.document.paragraphs
       .flatMap(p => p.sentences)
       .flatMap(s => s.phrases)
-      .flatMap(s => s.words)
-      .map(w => w) || [];
+      .flatMap(s => s.words);
   }
 
-  queryTypeAhead(query: { target: { value: {} } }, callback: (...args: {}[]) => void) {
+  queryTypeAhead(query: {target: {value: {}}}, callback: (...args: {}[]) => void) {
     console.log(query);
     console.log(callback);
     return callback(query.target.value);
@@ -24,15 +25,15 @@ export class DocumentViewer {
     return this.typeAheadSource.filter(x => x.text === query);
   }
 
-  readonly typeaheadOptions = (viewer => new class {
-    readonly hint = true;
-    readonly async = true;
-    readonly highlight = true;
-    readonly minLength = 2;
-    readonly display = 'text';
-    readonly datasets = {
+  readonly typeaheadOptions = deepFreeze({
+    hint: true,
+    async: true,
+    highlight: true,
+    minLength: 2,
+    display: 'text',
+    datasets: {
       name: 'my-dataset',
-      source: viewer.typeAheadSource
-    };
-  }())(this);
+      source: this.typeAheadSource
+    }
+  });
 }

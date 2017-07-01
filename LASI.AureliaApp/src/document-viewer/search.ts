@@ -1,9 +1,7 @@
-﻿import { bindable, observable } from 'aurelia-framework';
-import { LexicalModel, WordModel, PhraseModel, TextFragmentModel } from 'models';
+﻿import {bindable} from 'aurelia-framework';
+import {LexicalModel, PhraseModel, TextFragmentModel} from 'models';
 import $ from 'jquery';
 import 'typeahead';
-
-import { TypeAhead } from 'app/type-ahead/type-ahead';
 
 export default class SearchBox {
   @bindable find: SearchModel;
@@ -16,7 +14,7 @@ export default class SearchBox {
     return this.phrases.flatMap(phrase => phrase.words);
   }
 
-  *search({ value }: SearchOptions, searchContext: TextFragmentModel[]) {
+  *search({value}: SearchOptions, searchContext: TextFragmentModel[]) {
     const searchTerm = typeof value === 'string' ? value : value.detailText;
 
     this.phrases = this.phrases || searchContext
