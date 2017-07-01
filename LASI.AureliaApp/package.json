@@ -302,11 +302,11 @@
     }
   },
   "devDependencies": {
-    "aurelia-types-installer": "^0.1.8",
+    "aurelia-types-installer": "0.2.12",
     "concurrently": "^3.4.0",
     "jspm": "0.17.0-beta.42",
     "lite-server": "^2.3.0",
-    "tslint": "^5.0.0",
+    "tslint": "^5.4.3",
     "typescript": "next"
   },
   "dependencies": {}
